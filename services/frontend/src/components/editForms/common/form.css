@@ -1,0 +1,25 @@
+.unchangeableField .disabled {
+  opacity: 1 !important;
+}
+
+.unchangeableField label {
+  opacity: 1 !important;
+}
+
+.unchangeableField {
+  opacity: 1 !important;
+}
+
+.unchangeableField .input input {
+  color: #27348b !important;
+  border: 1px solid #27348b !important;
+}
+
+.unchangeableField .selection.dropdown {
+  color: #27348b !important;
+  border: 1px solid #27348b !important;
+}
+
+.editTagsDropdown .ui.label {
+  font-size: 13pt !important;
+}

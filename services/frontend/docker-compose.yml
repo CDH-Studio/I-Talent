@@ -1,0 +1,9 @@
+version: "3"
+services:
+  web:
+    container_name: "Upskill-frontend"
+    build: .
+    ports:
+      - "3000:5000"
+    volumes:
+      - .:/upskill-frontend

@@ -1,0 +1,10 @@
+/*******************************
+         Site Overrides
+*******************************/
+.ui.label.disabled {
+    background-image: linear-gradient(to right, #454545, #222222) !important
+}
+
+.ui.multiple.dropdown > .label {
+    border-radius:15px;
+}

@@ -1,0 +1,35 @@
+version: "3"
+services:
+  web:
+    container_name: "Upskill-frontend"
+    build: ./services/frontend
+    ports:
+      - "3000:5000"
+    volumes:
+      - ./services/frontend:/upskill-frontend
+
+  backend:
+    container_name: "Upskill-Backend"
+    build: ./services/backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./services/backend:/upskill-backend
+
+  db-postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: api
+      POSTGRES_USER: api
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db-postgres
+    ports:
+      - "3333:8080"

@@ -1,0 +1,143 @@
+.body {
+  margin: 0px auto;
+  max-width: 1200px;
+  min-width: 500px;
+  padding: 25px;
+}
+
+.boldLabel {
+  font-weight: bold;
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.colorLabel {
+  color: #27348b;
+  padding-right: 0.5em;
+}
+
+.historyList {
+  padding-top: 10pt !important;
+}
+
+.historyList .dateInfo {
+  text-align: right;
+}
+
+.historyList .entryName {
+  font-weight: bold;
+  font-size: 14pt;
+}
+
+.historyList div .row {
+  line-height: 14pt;
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+
+.noGapAbove {
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+}
+
+.noGapBelow {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.blueColoredText {
+  color: #27348b !important;
+}
+
+.profileCard {
+  margin-top: 0em !important;
+  margin-bottom: 0em !important;
+}
+
+.belowGapCard {
+  margin-bottom: 2em !important;
+}
+
+.bodyGrid > .row {
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
+}
+*[tabIndex]:focus {
+  /* border-radius: 10px !important; */
+  color: #fff !important;
+
+  background-color: #596cd9 !important;
+}
+.checkbox:focus {
+  background-color: #596cd9 !important;
+}
+button:focus {
+  /* border-radius: 10px !important; */
+  color: #fff !important;
+
+  background-color: #596cd9 !important;
+}
+
+a:focus {
+  /* border-radius: 10px !important; */
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #fff !important;
+  background-color: #596cd9 !important;
+}
+.compactCard {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+.profileCard .ui.basic.label {
+  border-radius: 15px;
+}
+
+.organizationList .icon {
+  left: 0px;
+  position: relative;
+  top: -5px;
+}
+
+.organizationList .list {
+  padding-bottom: 0px !important;
+}
+
+.phoneNumberArea {
+  display: inline-block !important;
+  width: 200px;
+}
+
+.firstRowLabelCardColumn {
+  padding-bottom: 2em !important;
+}
+
+.basdasd3332423s {
+  padding-bottom: 35px !important;
+}
+
+.secondRow {
+  padding-top: 0px !important;
+  padding-bottom: 0.5em !important;
+  margin-bottom: 1.5em !important;
+}
+
+.profileCard .menu {
+  background-image: linear-gradient(to right, #3548af, #202870) !important;
+}
+
+.profileCard .label {
+  background-image: linear-gradient(to right, #3548a5, #202870) !important;
+  color: #ffffff;
+}
+
+.labeledItemCard > .content {
+  padding: 33px 25px !important;
+}
+
+#proficiencyTableBody td {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
