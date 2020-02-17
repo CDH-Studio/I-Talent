@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node server.js",
-    "deploy": "npm run dbsetup && node server.js",
+    "deploy": "npm i -g sequelize-cli && sequelize db:migrate && sequelize db:seed:all && node server.js",
     "dev": "nodemon server.js",
     "dbsetup": "npm i -g sequelize-cli && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "test": "jest",

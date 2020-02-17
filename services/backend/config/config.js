@@ -1,10 +1,5 @@
 require("dotenv").config();
 
-// const str = process.env.DATABASE_URL;
-
-// let [dialect, host, port] = str.split(":");
-// host = host.replace("//", "");
-
 host = process.env.PGHOST;
 
 module.exports = {
