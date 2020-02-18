@@ -7,6 +7,7 @@ services:
       - "3000:5000"
     volumes:
       - ./services/frontend:/upskill-frontend
+      - ./upskill-frontend/node_modules
     env_file:
       - ./env/web.env
 
@@ -17,6 +18,7 @@ services:
       - "8080:8080"
     volumes:
       - ./services/backend:/upskill-backend
+      - ./upskill-backend/node_modules
     env_file:
       - ./env/backend.env
 
