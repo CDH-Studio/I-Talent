@@ -4,13 +4,11 @@ services:
     container_name: "Upskill-frontend"
     build: ./services/frontend
     ports:
-      - "3000:5000"
+      - "3000:3000"
     volumes:
       - ./services/frontend:/upskill-frontend
       - ./upskill-frontend/node_modules
       - ./upskill-frontend/build
-    env_file:
-      - ./env/web.env
 
   backend:
     container_name: "Upskill-Backend"

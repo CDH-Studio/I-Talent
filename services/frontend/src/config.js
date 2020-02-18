@@ -1,3 +1,3 @@
 export default {
-  backendAddress: process.env.REACT_APP_API_ADDRESS
+  backendAddress: "http://localhost:8080/"
 };
