@@ -8,6 +8,7 @@ services:
     volumes:
       - ./services/frontend:/upskill-frontend
       - ./upskill-frontend/node_modules
+      - ./upskill-frontend/build
     env_file:
       - ./env/web.env
 
