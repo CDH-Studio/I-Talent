@@ -9,7 +9,7 @@ services:
       - ./services/frontend:/upskill-frontend
       - ./upskill-frontend/node_modules
       - ./upskill-frontend/build
-      
+
   # web-ant:
   #   container_name: "Upskill-frontend-v2"
   #   build: ./services/frontend-v2

@@ -1,0 +1,8 @@
+{
+  "realm": "individual",
+  "auth-server-url": "https://sso-dev.ised-isde.canada.ca/auth",
+  "ssl-required": "external",
+  "resource": "upskill-client",
+  "public-client": true,
+  "confidential-port": 0
+}
