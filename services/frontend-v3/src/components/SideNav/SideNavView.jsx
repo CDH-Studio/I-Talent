@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Affix, Layout, Menu, Icon } from "antd";
+import { Affix, Layout, Menu, Icon, Button } from "antd";
 
 const { Header, Sider, Content } = Layout;
 
@@ -41,6 +41,19 @@ export default class SideNavView extends Component {
               <Icon type="upload" />
               <span>nav 3</span>
             </Menu.Item>
+            <div
+              style={{ width: "100%", textAlign: "center", marginTop: "50px" }}
+            >
+              <Button
+                ghost="true"
+                type="primary"
+                shape="circle"
+                size="large"
+                icon={this.state.collapsed ? "menu-unfold" : "menu-fold"}
+                loading={this.state.iconLoading}
+                onClick={this.toggle}
+              ></Button>
+            </div>
           </Menu>
         </Affix>
       </Sider>
