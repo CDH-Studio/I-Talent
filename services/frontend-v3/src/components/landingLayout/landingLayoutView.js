@@ -4,8 +4,6 @@ import { FormattedMessage } from "react-intl";
 import backgroundImage from "../../assets/homeBackground.jpg";
 import LandingNavBarController from "./landingNavBar/landingNavBarController";
 
-import "./landingLayout.css";
-
 /** UI for the landing route layout */
 export default class LandingLayoutView extends Component {
   render() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Row } from "antd";
-import Layout from "../components/layout/Layout";
+import SiderLayout from "../components/layout/SiderLayout";
 import { Button } from "antd";
 import moment from "moment";
 import ChangeLanguage from "../components/changeLanguage/ChangeLanguage";
@@ -17,7 +17,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <SiderLayout>
         <h1>Hi, {localStorage.getItem("name")}</h1>
         <FormattedMessage id="landing.benefit.find.people" />
         <Row>
@@ -36,7 +36,7 @@ class Home extends React.Component {
         </Row>
         <Row>{moment().format("LL")}</Row>
         <ChangeLanguage changeLanguage={this.props.changeLanguage} />
-      </Layout>
+      </SiderLayout>
     );
   }
 }
