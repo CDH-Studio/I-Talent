@@ -59,7 +59,7 @@ class Secured extends Component {
     if (keycloak) {
       if (this.state.authenticated) {
         return (
-          <div>
+          <div id="view">
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
             {/* <div>
               Keycloak Secret
