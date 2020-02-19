@@ -3,9 +3,7 @@ import Keycloak from "keycloak-js";
 import { Route, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
-
 import { Home, Results, Profile, ProfileEdit } from "../pages";
-
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
 // const loginFunc = require("../functions/login");
