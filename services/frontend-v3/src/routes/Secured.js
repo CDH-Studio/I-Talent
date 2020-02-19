@@ -4,7 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
 
-import { Home } from "../pages";
+import { Home, Results } from "../pages";
 
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
@@ -61,7 +61,7 @@ class Secured extends Component {
         return (
           <div>
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-            <div>
+            {/* <div>
               Keycloak Secret
               <form>
                 <textarea
@@ -76,7 +76,7 @@ class Secured extends Component {
                   {this.state.copySuccess}
                 </div>
               )}
-            </div>
+            </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
 
             <Route
@@ -84,6 +84,17 @@ class Secured extends Component {
               path="/secured/home"
               render={routeProps => (
                 <Home
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/secured/results"
+              render={routeProps => (
+                <Results
                   keycloak={keycloak}
                   changeLanguage={this.changeLanguage}
                   {...routeProps}
