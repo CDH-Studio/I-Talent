@@ -29,9 +29,7 @@ class App extends Component {
 
     this.changeLanguage = this.changeLanguage.bind(this);
   }
-  render(a) {
-    console.log(a);
-
+  render() {
     return (
       <IntlProvider
         locale={i18nConfig.locale}

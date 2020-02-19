@@ -67,6 +67,7 @@ class Secured extends Component {
                 <textarea
                   ref={textarea => (this.textArea = textarea)}
                   value={keycloak.token}
+                  readOnly
                 />
               </form>
               {document.queryCommandSupported("copy") && (

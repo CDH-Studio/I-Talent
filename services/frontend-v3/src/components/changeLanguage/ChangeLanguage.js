@@ -28,8 +28,7 @@ class ChangeLanguage extends Component {
         onKeyPress={e => this.handleKeyPress(e, languageCode)}
         onClick={() => this.changeLanguage(languageCode)}
       >
-        <Icon name="world" />
-        <FormattedMessage id="lang" />
+        <Icon type="global" /> <FormattedMessage id="lang" />
       </Button>
     );
   }
