@@ -75,7 +75,13 @@ To run the entire application locally, run the following:
 docker-compose up
 ```
 
-You can then access the frontend at `localhost:3000`.
+You can access different components of the web application:
+
+- The original frontend at `localhost:3001`.
+- The redesigned frontend at `localhost:4000`.
+- The backend at `localhost:8080`.
+- Postgres database at `localhost:5432`.
+- Adminer at `localhost:3333`.
 
 Checkout the `docker-compose.yml` file for information on which ports to use to access all of the other services.
 
