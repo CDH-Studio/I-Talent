@@ -9,6 +9,12 @@ import { FormattedMessage, injectIntl } from "react-intl";
 class Home extends React.Component {
   goto = link => this.props.history.push(link);
 
+  constructor(props) {
+    super(props);
+
+    document.title = "Home | UpSkill";
+  }
+
   render() {
     return (
       <Layout>
