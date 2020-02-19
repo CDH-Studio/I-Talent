@@ -4,7 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
 
-import { Home, Results } from "../pages";
+import { Home, Results, Profile, ProfileEdit } from "../pages";
 
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
@@ -78,7 +78,6 @@ class Secured extends Component {
               )}
             </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-
             <Route
               exact
               path="/secured/home"
@@ -95,6 +94,28 @@ class Secured extends Component {
               path="/secured/results"
               render={routeProps => (
                 <Results
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/secured/profile"
+              render={routeProps => (
+                <Profile
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/secured/profileEdit"
+              render={routeProps => (
+                <ProfileEdit
                   keycloak={keycloak}
                   changeLanguage={this.changeLanguage}
                   {...routeProps}
