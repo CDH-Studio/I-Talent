@@ -1,10 +1,8 @@
 import React from "react";
-import { Row } from "antd";
-import Layout from "../components/layout/Layout";
-import { Button } from "antd";
-import moment from "moment";
-import ChangeLanguage from "../components/changeLanguage/ChangeLanguage";
-import { FormattedMessage, injectIntl } from "react-intl";
+
+import SiderLayout from "../components/layout/SiderLayout";
+
+import { injectIntl } from "react-intl";
 
 class Home extends React.Component {
   goto = link => this.props.history.push(link);
@@ -16,7 +14,7 @@ class Home extends React.Component {
   }
 
   render() {
-    return <Layout>TEST!!!</Layout>;
+    return <SiderLayout>TEST!!!</SiderLayout>;
   }
 }
 
