@@ -2,8 +2,6 @@ import React from "react";
 
 import SiderLayout from "../components/layout/SiderLayout";
 
-import { injectIntl } from "react-intl";
-
 class Results extends React.Component {
   goto = link => this.props.history.push(link);
 
@@ -19,4 +17,4 @@ class Results extends React.Component {
 }
 
 //Needed when using this,props.intl
-export default injectIntl(Results);
+export default Results;
