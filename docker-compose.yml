@@ -9,25 +9,6 @@ services:
       - ./services/frontend:/upskill-frontend
       - ./upskill-frontend/node_modules
       - ./upskill-frontend/build
-      
-  # web-ant:
-  #   container_name: "Upskill-frontend-v2"
-  #   build: ./services/frontend-v2
-  #   ports:
-  #     - "4000:8000"
-  #   volumes:
-  #     - ./services/frontend-v2:/upskill-frontend-v2
-  #     - ./upskill-frontend-v2/node_modules
-  #     - ./upskill-frontend-v2/build
-
-  web-ant:
-    container_name: "Upskill-frontend-v3"
-    build: ./services/frontend-v3
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./services/frontend-v3:/upskill-frontend
-      - ./upskill-frontend/node_modules
 
   # web-ant:
   #   container_name: "Upskill-frontend-v2"
