@@ -4,13 +4,13 @@ import SiderLayout from "../components/layout/SiderLayout";
 
 import { injectIntl } from "react-intl";
 
-class Home extends React.Component {
+class Results extends React.Component {
   goto = link => this.props.history.push(link);
 
   constructor(props) {
     super(props);
 
-    document.title = "Home | UpSkill";
+    document.title = "Results | UpSkill";
   }
 
   render() {
@@ -19,4 +19,4 @@ class Home extends React.Component {
 }
 
 //Needed when using this,props.intl
-export default injectIntl(Home);
+export default injectIntl(Results);
