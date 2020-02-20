@@ -25,17 +25,14 @@ class Profile extends React.Component {
     this.state = { name, data: null, id: id, loading: true };
   }
 
-  componentWillReceiveProps() {
+  componentDidUpdate() {
     const id = this.props.match.params.id;
 
     if (id === undefined) {
       this.goto("/secured/profile/" + localStorage.getItem("userId"));
-      window.location.reload();
+      this.forceUpdate()
     }
-  }
-
-  componentDidMount() {
-    const id = this.state.id;
+  
     this.updateProfileInfo(id).then(data =>
       this.setState({ id, data, loading: false })
     );
@@ -70,5 +67,5 @@ class Profile extends React.Component {
   };
 }
 
-//Needed when using this,props.intl
+//Needed when using this.props.intl
 export default Profile;

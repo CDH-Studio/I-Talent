@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Skeleton } from "antd";
 import ProfileSkeletonView from "./profileSkeletonView";
 
 class ProfileSkeleton extends Component {

@@ -17,7 +17,7 @@ class ErrorResult extends Component {
       subTitle: "Looks like someone is in the wrong place",
       extra: (
         <Button onClick={() => this.handleClick()} type="primary">
-          Go Back
+          Back to Home
         </Button>
       )
     }
