@@ -23,12 +23,13 @@ export default class SiderLayoutView extends Component {
   };
 
   render() {
+    console.log(this.props.changeLanguage);
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <SideNav></SideNav>
 
         <Layout>
-          <TopNav></TopNav>
+          <TopNav changeLanguage={this.props.changeLanguage}></TopNav>
           <Content
             style={{
               margin: "24px 16px",

@@ -17,7 +17,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <SiderLayout>
+      <SiderLayout changeLanguage={this.props.changeLanguage}>
         <h1>Hi, {localStorage.getItem("name")}</h1>
         <FormattedMessage id="landing.benefit.find.people" />
         <Row>
