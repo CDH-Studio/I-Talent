@@ -24,6 +24,7 @@ export default class SideNavView extends Component {
         trigger={null}
         collapsible
         collapsed={this.state.collapsed}
+        width="250"
         style={{ minHeight: "100vh" }}
       >
         <Affix offsetTop={this.state.top}>
