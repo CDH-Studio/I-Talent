@@ -57,7 +57,7 @@ class TopNavView extends Component {
                 style={{ color: "#000", padding: "20px 15px" }}
               >
                 <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
-                Ali Nouri <Icon type="down" />
+                {localStorage.getItem("name")} <Icon type="down" />
               </a>
             </Dropdown>
             <Divider type="vertical" style={styles.divider} />
