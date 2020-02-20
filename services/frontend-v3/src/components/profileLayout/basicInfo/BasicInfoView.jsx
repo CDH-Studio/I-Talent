@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Typography, Avatar, Row, Col, Descriptions, Statistic } from "antd";
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 class BasicInfoView extends Component {
   render() {

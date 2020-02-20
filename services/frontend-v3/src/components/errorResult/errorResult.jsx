@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Button } from "antd";
 import ErrorResultView from "./errorResultView";
 import { Redirect } from "react-router-dom";

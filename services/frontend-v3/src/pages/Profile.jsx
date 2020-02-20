@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from "antd";
 import SideLayout from "../components/layout/SiderLayout";
 import config from "../config";
 import axios from "axios";
@@ -7,8 +6,6 @@ import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
 import ProfileLayout from "../components/profileLayout/ProfileLayout";
 
 const backendAddress = config.backendAddress;
-
-const { Title, Paragraph } = Typography;
 
 class Profile extends React.Component {
   goto = link => this.props.history.push(link);

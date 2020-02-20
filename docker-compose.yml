@@ -28,29 +28,32 @@ services:
     volumes:
       - ./services/frontend-v3:/upskill-frontend
       - ./upskill-frontend/node_modules
-  # backend:
-  #   container_name: "Upskill-Backend"
-  #   build: ./services/backend
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - ./services/backend:/upskill-backend
-  #     - ./upskill-backend/node_modules
-  #   env_file:
-  #     - ./env/backend.env
-  # db-postgres:
-  #   image: postgres
-  #   restart: always
-  #   environment:
-  #     POSTGRES_PASSWORD: api
-  #     POSTGRES_USER: api
-  #     POSTGRES_DB: testdb
-  #   ports:
-  #     - "5432:5432"
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   depends_on:
-  #     - db-postgres
-  #   ports:
-  #     - "3333:8080"
+
+  backend:
+    container_name: "Upskill-Backend"
+    build: ./services/backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./services/backend:/upskill-backend
+      - ./upskill-backend/node_modules
+    env_file:
+      - ./env/backend.env
+
+  db-postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: api
+      POSTGRES_USER: api
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db-postgres
+    ports:
+      - "3333:8080"
