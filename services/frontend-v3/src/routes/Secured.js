@@ -3,9 +3,7 @@ import Keycloak from "keycloak-js";
 import { Route, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
-
-import { Home } from "../pages";
-
+import { Home, Results, Profile, ProfileEdit } from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
 // const loginFunc = require("../functions/login");
@@ -78,12 +76,44 @@ class Secured extends Component {
               )}
             </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-
             <Route
               exact
               path="/secured/home"
               render={routeProps => (
                 <Home
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/secured/results"
+              render={routeProps => (
+                <Results
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/secured/profile"
+              render={routeProps => (
+                <Profile
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/secured/profileEdit"
+              render={routeProps => (
+                <ProfileEdit
                   keycloak={keycloak}
                   changeLanguage={this.changeLanguage}
                   {...routeProps}
