@@ -1,39 +1,29 @@
 import React, { Component } from "react";
-import { Affix, Layout, Divider, Dropdown, Menu, Icon, Avatar } from "antd";
-import ChangeLanguage from "../changeLanguage/ChangeLanguage";
+import { Avatar } from "antd";
 
-const { Header } = Layout;
-
-export default class TopNavView extends Component {
+export default class CustomAvatarView extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    return (
-      <Avatar style={styles.profileAvatar} size="large">
-        AN
-      </Avatar>
-    );
+    // set icon color based on name
+    var iconColor = {
+      backgroundColor: this.props.color,
+      color: "#fff"
+    };
+
+    // merge component style with styles passed through from parent
+    var mergedStyles = {
+      ...this.props.style,
+      ...this.componentStyle,
+      ...iconColor
+    };
+
+    return <Avatar style={mergedStyles}>{this.props.initials}</Avatar>;
   }
 }
 
-const styles = {
-  header: {
-    background: "#fff",
-    padding: 0,
-    boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)"
-  },
-  rightMenu: {
-    float: "right",
-    margin: "0 20px"
-  },
-  profileAvatar: {
-    verticalAlign: "middle",
-    marginRight: "10px"
-  },
-  divider: {
-    verticalAlign: "middle",
-    marginRight: "10px"
-  }
+const componentStyle = {
+  verticalAlign: "middle"
 };

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Affix, Layout, Divider, Dropdown, Menu, Icon, Avatar } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
+import CustomAvatar from "../CustomAvatar/CustomAvatar";
 
 const { Header } = Layout;
 
@@ -22,9 +23,7 @@ export default class TopNavView extends Component {
                 onClick={e => e.preventDefault()}
                 style={{ color: "#000" }}
               >
-                <Avatar style={styles.profileAvatar} size="large">
-                  AN
-                </Avatar>
+                <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
                 Ali Nouri <Icon type="down" />
               </a>
             </Dropdown>
@@ -76,8 +75,7 @@ const styles = {
     margin: "0 20px"
   },
   profileAvatar: {
-    verticalAlign: "middle",
-    marginRight: "10px"
+    marginRight: "8px"
   },
   divider: {
     verticalAlign: "middle",
