@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Affix, Layout, Divider, Dropdown, Menu, Icon, Button } from "antd";
+import { Affix, Layout, Divider, Dropdown, Menu, Icon } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../CustomAvatar/CustomAvatar";
 import { injectIntl } from "react-intl";

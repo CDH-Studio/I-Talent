@@ -5,9 +5,6 @@ import { injectIntl } from "react-intl";
 import TopNavView from "./TopNavView";
 
 class TopNav extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <TopNavView
