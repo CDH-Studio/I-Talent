@@ -1,6 +1,18 @@
 import React, { Component } from "react";
-import { Affix, Layout, Row, Col, Divider, Dropdown, Menu, Icon } from "antd";
+import {
+  Affix,
+  Layout,
+  Row,
+  Col,
+  Divider,
+  Dropdown,
+  Menu,
+  Icon,
+  Avatar
+} from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
+
+const { SubMenu } = Menu;
 
 const { Header } = Layout;
 
@@ -23,21 +35,33 @@ export default class TopNavView extends Component {
     return (
       <Affix offsetTop={this.state.top}>
         <Header style={{ background: "#fff", padding: 0 }}>
-          <Row>
-            <Col span={5} offset={19}>
-              <ChangeLanguage changeLanguage={this.props.changeLanguage} />{" "}
-              <Divider type="vertical" />
-              <Dropdown overlay={menu}>
-                <a
-                  className="ant-dropdown-link"
-                  onClick={e => e.preventDefault()}
+          <div style={{ float: "right", margin: "0 20px" }}>
+            <Dropdown overlay={menu} placement="bottomCenter">
+              <a
+                className="ant-dropdown-link"
+                onClick={e => e.preventDefault()}
+                style={{ color: "#000" }}
+              >
+                <Avatar
+                  style={{
+                    verticalAlign: "middle",
+                    marginRight: "10px"
+                  }}
+                  size="large"
                 >
-                  Hover me <Icon type="down" />
-                </a>
-              </Dropdown>
-              ,
-            </Col>
-          </Row>
+                  AN
+                </Avatar>
+                Ali Nouri <Icon type="down" />
+              </a>
+            </Dropdown>
+            <Divider
+              type="vertical"
+              style={{
+                margin: "0 10px"
+              }}
+            />
+            <ChangeLanguage changeLanguage={this.props.changeLanguage} />
+          </div>
         </Header>
       </Affix>
     );
