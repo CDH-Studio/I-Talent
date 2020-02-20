@@ -28,7 +28,7 @@ export default class CustomAvatar extends React.Component {
   }
 
   // Generate color for avatar
-  // TODO: This must be move somewhere where it is calculated only oncee on sign-in
+  // TODO: This must be move somewhere where it is calculated only once on sign-in
   stringToHslColor(str) {
     var hash = 0;
     var s = 90;
