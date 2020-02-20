@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { IntlProvider } from "react-intl";
 import messages_en from "./i18n/en_CA.json";
@@ -10,8 +10,9 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { Landing } from "./pages";
+import { Landing, NotFound } from "./pages";
 import { Secured } from "./routes";
+import { Result, Button } from "antd";
 
 class App extends Component {
   goto = link => this.props.history.push(link);
@@ -37,19 +38,22 @@ class App extends Component {
         formats={i18nConfig.formats}
       >
         <Router>
-          <Route
-            exact
-            path="/"
-            render={routeProps => (
-              <Landing changeLanguage={this.changeLanguage} {...routeProps} />
-            )}
-          />
-          <Route
-            path="/secured"
-            render={routeProps => (
-              <Secured changeLanguage={this.changeLanguage} {...routeProps} />
-            )}
-          />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={routeProps => (
+                <Landing changeLanguage={this.changeLanguage} {...routeProps} />
+              )}
+            />
+            <Route
+              path="/secured"
+              render={routeProps => (
+                <Secured changeLanguage={this.changeLanguage} {...routeProps} />
+              )}
+            />
+            <Route render={() => <NotFound />} />
+          </Switch>
         </Router>
       </IntlProvider>
     );

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Keycloak from "keycloak-js";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
-import { Home, Results, Profile, ProfileEdit } from "../pages";
+import { Home, Results, Profile, ProfileEdit, NotFound } from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
 const loginFunc = require("../functions/login");
@@ -76,48 +76,51 @@ class Secured extends Component {
               )}
             </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-            <Route
-              exact
-              path="/secured/home"
-              render={routeProps => (
-                <Home
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/secured/results"
-              render={routeProps => (
-                <Results
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              path="/secured/profile/:id?"
-              render={routeProps => (
-                <Profile
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              path="/secured/profileEdit"
-              render={routeProps => (
-                <ProfileEdit
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
+            <Switch>
+              <Route
+                exact
+                path="/secured/home"
+                render={routeProps => (
+                  <Home
+                    keycloak={keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/secured/results"
+                render={routeProps => (
+                  <Results
+                    keycloak={keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              <Route
+                path="/secured/profile/:id?"
+                render={routeProps => (
+                  <Profile
+                    keycloak={keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              <Route
+                path="/secured/profileEdit"
+                render={routeProps => (
+                  <ProfileEdit
+                    keycloak={keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              <Route render={() => <NotFound />} />
+            </Switch>
           </div>
         );
       } else {
