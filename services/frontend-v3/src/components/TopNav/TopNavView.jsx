@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Affix, Layout, Divider, Dropdown, Menu, Icon, Avatar } from "antd";
+import { Affix, Layout, Divider, Dropdown, Menu, Icon, Button } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../CustomAvatar/CustomAvatar";
+import { FormattedMessage, injectIntl } from "react-intl";
 
 const { Header } = Layout;
 
-export default class TopNavView extends Component {
+class TopNavView extends Component {
   constructor(props) {
     super(props);
 
@@ -13,6 +14,47 @@ export default class TopNavView extends Component {
   }
 
   render() {
+    console.log(this.props);
+    const menu = (
+      <Menu style={{ marginTop: "20px", padding: "0" }}>
+        <Menu.Item style={{ padding: "10px 20px" }}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.taobao.com/"
+          >
+            <Icon type="user" style={{ marginRight: "10px" }} />
+            View Profile
+          </a>
+        </Menu.Item>
+        <Menu.Item style={{ padding: "10px 20px" }}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.taobao.com/"
+          >
+            <Icon type="edit" style={{ marginRight: "10px" }} />
+            Edit Profile
+          </a>
+        </Menu.Item>
+        <Menu.Item style={{ padding: "10px 20px" }}>
+          <a
+            rel="noopener noreferrer"
+            onClick={() => {
+              this.props.history.push("/");
+              this.props.keycloak.logout();
+            }}
+          >
+            <Icon type="logout" style={{ marginRight: "10px" }} />
+            {this.props.intl.formatMessage({
+              id: "sign.out",
+              defaultMessage: "Logout"
+            })}
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
       <Affix offsetTop={this.state.top}>
         <Header style={styles.header} className="shadow">
@@ -21,7 +63,7 @@ export default class TopNavView extends Component {
               <a
                 className="ant-dropdown-link"
                 onClick={e => e.preventDefault()}
-                style={{ color: "#000" }}
+                style={{ color: "#000", padding: "0 15px" }}
               >
                 <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
                 Ali Nouri <Icon type="down" />
@@ -35,34 +77,6 @@ export default class TopNavView extends Component {
     );
   }
 }
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="http://www.alipay.com/"
-      >
-        1st menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="http://www.taobao.com/"
-      >
-        2nd menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-      </a>
-    </Menu.Item>
-  </Menu>
-);
 
 const styles = {
   header: {
@@ -79,6 +93,9 @@ const styles = {
   },
   divider: {
     verticalAlign: "middle",
-    marginRight: "10px"
+    marginRight: "25px"
   }
 };
+
+//Needed when using this,props.intl
+export default injectIntl(TopNavView);

@@ -28,7 +28,11 @@ export default class SiderLayoutView extends Component {
         <SideNav></SideNav>
 
         <Layout>
-          <TopNav changeLanguage={this.props.changeLanguage}></TopNav>
+          <TopNav
+            changeLanguage={this.props.changeLanguage}
+            keycloak={this.props.keycloak}
+            history={this.props.history}
+          ></TopNav>
           <Content
             style={{
               margin: "24px 16px",

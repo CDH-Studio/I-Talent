@@ -1,11 +1,23 @@
 import React from "react";
 import {} from "antd";
+import { injectIntl } from "react-intl";
 
 import TopNavView from "./TopNavView";
-import PropTypes from "prop-types";
 
-export default class TopNav extends React.Component {
+class TopNav extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    return <TopNavView changeLanguage={this.props.changeLanguage}></TopNavView>;
+    return (
+      <TopNavView
+        changeLanguage={this.props.changeLanguage}
+        keycloak={this.props.keycloak}
+        history={this.props.history}
+      ></TopNavView>
+    );
   }
 }
+
+//Needed when using this,props.intl
+export default injectIntl(TopNav);
