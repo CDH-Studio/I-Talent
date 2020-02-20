@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Affix, Layout, Menu, Icon } from "antd";
+import { Affix, Layout } from "antd";
 
-const { Header, Sider, Content } = Layout;
+const { Header } = Layout;
 
 export default class TopNavView extends Component {
   constructor(props) {

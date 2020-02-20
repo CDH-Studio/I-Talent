@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 
-import { Affix, Layout, Menu, Icon } from "antd";
+import { Layout } from "antd";
 
 import TopNav from "../TopNav/TopNav";
 import SideNav from "../SideNav/SideNav";
 
-const { Header, Sider, Content } = Layout;
+const { Content } = Layout;
 
 export default class SiderLayoutView extends Component {
   constructor(props) {
@@ -46,18 +46,6 @@ export default class SiderLayoutView extends Component {
 }
 
 const styles = {
-  trigger: {
-    fontSize: "18px",
-    lineHeight: "64px",
-    padding: "0 24px",
-    cursor: "pointer",
-    transition: "color 0.3s"
-  },
-  logo: {
-    height: "32px",
-    background: "rgba(255, 255, 255, 0.2)",
-    margin: "16px"
-  },
   userProfileNav: {
     position: "absolute",
     bottom: "0",
