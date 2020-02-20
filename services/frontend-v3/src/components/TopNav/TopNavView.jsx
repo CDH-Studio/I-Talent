@@ -34,7 +34,7 @@ export default class TopNavView extends Component {
   render() {
     return (
       <Affix offsetTop={this.state.top}>
-        <Header style={{ background: "#fff", padding: 0 }}>
+        <Header style={styles.header} className="shadow">
           <div style={{ float: "right", margin: "0 20px" }}>
             <Dropdown overlay={menu} placement="bottomCenter">
               <a
@@ -95,3 +95,14 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
+
+const styles = {
+  header: {
+    background: "#fff",
+    padding: 0,
+    boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)"
+  },
+  profileAvatar: {
+    margin: "0"
+  }
+};
