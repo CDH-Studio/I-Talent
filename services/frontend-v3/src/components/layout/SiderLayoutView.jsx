@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-]
+
 import { Affix, Layout, Menu, Icon } from "antd";
 
 import TopNav from "../TopNav/TopNav";
