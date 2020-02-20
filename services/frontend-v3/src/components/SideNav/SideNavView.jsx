@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Affix, Layout, Menu, Icon, Button } from "antd";
 
-const { Header, Sider, Content } = Layout;
+const { Sider } = Layout;
 
 export default class SideNavView extends Component {
   constructor(props) {
