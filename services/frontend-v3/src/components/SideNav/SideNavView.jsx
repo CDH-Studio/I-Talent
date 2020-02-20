@@ -25,7 +25,7 @@ export default class SideNavView extends Component {
         collapsible
         collapsed={this.state.collapsed}
         width="250"
-        //style={{ minHeight: "100vh", backgroundColor: "#001C1A" }}
+        style={{ minHeight: "100vh", backgroundColor: "#001C1A" }}
       >
         <Affix offsetTop={this.state.top}>
           <div className="logo" />
