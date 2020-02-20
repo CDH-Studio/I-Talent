@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Affix, Layout, Divider, Dropdown, Menu, Icon, Button } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../CustomAvatar/CustomAvatar";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 
 const { Header } = Layout;
 
@@ -14,30 +14,21 @@ class TopNavView extends Component {
   }
 
   render() {
-    console.log(this.props);
     const menu = (
-      <Menu style={{ marginTop: "20px", padding: "0" }}>
-        <Menu.Item style={{ padding: "10px 20px" }}>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.taobao.com/"
-          >
-            <Icon type="user" style={{ marginRight: "10px" }} />
+      <Menu style={styles.dropDownMenu}>
+        <Menu.Item style={styles.dropDownItem}>
+          <a target="_blank" rel="noopener noreferrer" href="#">
+            <Icon type="user" style={styles.MenuIcon} />
             View Profile
           </a>
         </Menu.Item>
-        <Menu.Item style={{ padding: "10px 20px" }}>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.taobao.com/"
-          >
-            <Icon type="edit" style={{ marginRight: "10px" }} />
+        <Menu.Item style={styles.dropDownItem}>
+          <a target="_blank" rel="noopener noreferrer" href="#">
+            <Icon type="edit" style={styles.MenuIcon} />
             Edit Profile
           </a>
         </Menu.Item>
-        <Menu.Item style={{ padding: "10px 20px" }}>
+        <Menu.Item style={styles.dropDownItem}>
           <a
             rel="noopener noreferrer"
             onClick={() => {
@@ -45,7 +36,7 @@ class TopNavView extends Component {
               this.props.keycloak.logout();
             }}
           >
-            <Icon type="logout" style={{ marginRight: "10px" }} />
+            <Icon type="logout" style={styles.MenuIcon} />
             {this.props.intl.formatMessage({
               id: "sign.out",
               defaultMessage: "Logout"
@@ -63,7 +54,7 @@ class TopNavView extends Component {
               <a
                 className="ant-dropdown-link"
                 onClick={e => e.preventDefault()}
-                style={{ color: "#000", padding: "0 15px" }}
+                style={{ color: "#000", padding: "20px 15px" }}
               >
                 <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
                 Ali Nouri <Icon type="down" />
@@ -94,6 +85,16 @@ const styles = {
   divider: {
     verticalAlign: "middle",
     marginRight: "25px"
+  },
+  dropDownMenu: {
+    marginTop: "0",
+    padding: "0"
+  },
+  dropDownItem: {
+    padding: "10px 20px"
+  },
+  MenuIcon: {
+    marginRight: "10px"
   }
 };
 
