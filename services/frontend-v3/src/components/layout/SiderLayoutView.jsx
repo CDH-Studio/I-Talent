@@ -1,9 +1,13 @@
 import React, { Component } from "react";
-import { Layout, Menu, Icon } from "antd";
+]
+import { Affix, Layout, Menu, Icon } from "antd";
+
+import TopNav from "../TopNav/TopNav";
+import SideNav from "../SideNav/SideNav";
 
 const { Header, Sider, Content } = Layout;
 
-export default class SiderLayoutView extends React.Component {
+export default class SiderLayoutView extends Component {
   constructor(props) {
     super(props);
 
@@ -20,33 +24,11 @@ export default class SiderLayoutView extends React.Component {
 
   render() {
     return (
-      <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-            <Menu.Item key="1">
-              <Icon type="user" />
-              <span>nav 1</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span>nav 2</span>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Icon type="upload" />
-              <span>nav 3</span>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+      <Layout style={{ minHeight: "100vh" }}>
+        <SideNav></SideNav>
+
         <Layout>
-          <Header style={{ background: "#fff", padding: 0 }}>
-            <Icon
-              style={styles.trigger}
-              className="trigger"
-              type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
-              onClick={this.toggle}
-            />
-          </Header>
+          <TopNav></TopNav>
           <Content
             style={{
               margin: "24px 16px",
