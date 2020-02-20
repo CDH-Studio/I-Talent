@@ -4,6 +4,7 @@ import SideLayout from "../components/layout/SiderLayout";
 import config from "../config";
 import axios from "axios";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
+import ProfileLayout from "../components/profileLayout/ProfileLayout";
 
 const backendAddress = config.backendAddress;
 
@@ -17,10 +18,13 @@ class Profile extends React.Component {
 
     const id = this.props.match.params.id;
 
+    if (id === undefined) {
+      this.goto("/secured/profile/" + localStorage.getItem("userId"));
+      this.forceUpdate();
+    }
+
     const name = localStorage.getItem("name");
     document.title = name + " | UpSkill";
-
-    this.updateProfileInfo = this.updateProfileInfo.bind(this);
 
     this.state = { name, data: null, id: id, loading: true };
   }
@@ -28,14 +32,11 @@ class Profile extends React.Component {
   componentDidUpdate() {
     const id = this.props.match.params.id;
 
-    if (id === undefined) {
-      this.goto("/secured/profile/" + localStorage.getItem("userId"));
-      this.forceUpdate()
+    if (this.state.data === null) {
+      this.updateProfileInfo(id).then(data =>
+        this.setState({ id, data, loading: false })
+      );
     }
-  
-    this.updateProfileInfo(id).then(data =>
-      this.setState({ id, data, loading: false })
-    );
   }
 
   render() {
@@ -43,8 +44,7 @@ class Profile extends React.Component {
     if (!loading)
       return (
         <SideLayout>
-          <Title>{name}</Title>
-          <Paragraph>{JSON.stringify(data)}</Paragraph>
+          <ProfileLayout name={name} data={data} />
         </SideLayout>
       );
     else {
