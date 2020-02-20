@@ -35,31 +35,20 @@ export default class TopNavView extends Component {
     return (
       <Affix offsetTop={this.state.top}>
         <Header style={styles.header} className="shadow">
-          <div style={{ float: "right", margin: "0 20px" }}>
+          <div style={styles.rightMenu}>
             <Dropdown overlay={menu} placement="bottomCenter">
               <a
                 className="ant-dropdown-link"
                 onClick={e => e.preventDefault()}
                 style={{ color: "#000" }}
               >
-                <Avatar
-                  style={{
-                    verticalAlign: "middle",
-                    marginRight: "10px"
-                  }}
-                  size="large"
-                >
+                <Avatar style={styles.profileAvatar} size="large">
                   AN
                 </Avatar>
                 Ali Nouri <Icon type="down" />
               </a>
             </Dropdown>
-            <Divider
-              type="vertical"
-              style={{
-                margin: "0 10px"
-              }}
-            />
+            <Divider type="vertical" style={styles.divider} />
             <ChangeLanguage changeLanguage={this.props.changeLanguage} />
           </div>
         </Header>
@@ -102,7 +91,16 @@ const styles = {
     padding: 0,
     boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)"
   },
+  rightMenu: {
+    float: "right",
+    margin: "0 20px"
+  },
   profileAvatar: {
-    margin: "0"
+    verticalAlign: "middle",
+    marginRight: "10px"
+  },
+  divider: {
+    verticalAlign: "middle",
+    marginRight: "10px"
   }
 };
