@@ -6,7 +6,7 @@ import axios from "axios";
 import { Home, Results, Profile, ProfileEdit } from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
-// const loginFunc = require("../functions/login");
+const loginFunc = require("../functions/login");
 
 const history = createBrowserHistory();
 
@@ -99,8 +99,7 @@ class Secured extends Component {
               )}
             />
             <Route
-              exact
-              path="/secured/profile"
+              path="/secured/profile/:id?"
               render={routeProps => (
                 <Profile
                   keycloak={keycloak}
@@ -110,7 +109,6 @@ class Secured extends Component {
               )}
             />
             <Route
-              exact
               path="/secured/profileEdit"
               render={routeProps => (
                 <ProfileEdit
@@ -139,16 +137,12 @@ class Secured extends Component {
 
   profileExist = () => {
     return this.state.keycloak.loadUserInfo().then(async userInfo => {
-      // return loginFunc.createUser(userInfo.email, userInfo.name).then(res => {
-      // console.log("res", res);
-
-      // Add name and email to local storage
-      localStorage.setItem("name", userInfo.name);
-      localStorage.setItem("email", userInfo.email);
-
-      // return res.hasProfile;
-      return true;
-      // });
+      return loginFunc.createUser(userInfo.email, userInfo.name).then(res => {
+        // Add name and email to local storage
+        localStorage.setItem("name", userInfo.name);
+        localStorage.setItem("email", userInfo.email);
+        return true;
+      });
     });
   };
 

@@ -3,7 +3,7 @@ import { Layout, Menu, Icon } from "antd";
 
 const { Header, Sider, Content } = Layout;
 
-export default class SiderLayoutView extends React.Component {
+export default class SiderLayoutView extends Component {
   constructor(props) {
     super(props);
 
