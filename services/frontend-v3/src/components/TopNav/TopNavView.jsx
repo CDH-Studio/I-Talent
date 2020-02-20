@@ -1,18 +1,6 @@
 import React, { Component } from "react";
-import {
-  Affix,
-  Layout,
-  Row,
-  Col,
-  Divider,
-  Dropdown,
-  Menu,
-  Icon,
-  Avatar
-} from "antd";
+import { Affix, Layout, Divider, Dropdown, Menu, Icon, Avatar } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
-
-const { SubMenu } = Menu;
 
 const { Header } = Layout;
 
@@ -20,16 +8,8 @@ export default class TopNavView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      collapsed: false
-    };
+    this.state = {};
   }
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  };
 
   render() {
     return (
