@@ -94,6 +94,3 @@ const styles = {
     marginRight: "10px"
   }
 };
-
-//Needed when using this,props.intl
-//export default injectIntl(TopNavView);

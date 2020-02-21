@@ -15,6 +15,3 @@ export default class TopNav extends React.Component {
     );
   }
 }
-
-//Needed when using this,props.intl
-// injectIntl(TopNav);
