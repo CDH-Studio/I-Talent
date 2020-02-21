@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Affix, Layout, Menu, Icon, Button } from "antd";
+import LogoBig from "./logo_v2.svg"; // Tell webpack this JS file uses this image
+import LogoSmall from "./logo_v2_small.svg"; // Tell webpack this JS file uses this image
 
 const { Sider } = Layout;
 
@@ -18,6 +20,17 @@ export default class SideNavView extends Component {
     });
   };
 
+  // Render small or big Logo by detecting the state of the side nav
+  logoRender() {
+    let logoSelected;
+    if (this.state.collapsed) {
+      logoSelected = LogoSmall;
+    } else {
+      logoSelected = LogoBig;
+    }
+    return <img src={logoSelected} alt="Logo" style={{ height: "40px" }} />;
+  }
+
   render() {
     return (
       <Sider
@@ -25,15 +38,15 @@ export default class SideNavView extends Component {
         collapsible
         collapsed={this.state.collapsed}
         width="250"
-        style={{ minHeight: "100vh", backgroundColor: "#001e1e" }}
+        style={styles.sider}
       >
         <Affix offsetTop={this.state.top}>
-          <div className="logo" />
+          <div style={styles.logoDiv}>{this.logoRender()}</div>
           <Menu
             theme="dark"
             mode="inline"
             defaultSelectedKeys={["1"]}
-            style={{ minHeight: "100vh", backgroundColor: "#001e1e" }}
+            style={styles.siderMenu}
           >
             <Menu.Item key="1">
               <Icon type="user" />
@@ -47,16 +60,13 @@ export default class SideNavView extends Component {
               <Icon type="upload" />
               <span>nav 3</span>
             </Menu.Item>
-            <div
-              style={{ width: "100%", textAlign: "center", marginTop: "50px" }}
-            >
+            <div style={styles.menuToggleBtnDiv}>
               <Button
                 ghost="true"
                 type="primary"
                 shape="circle"
                 size="large"
                 icon={this.state.collapsed ? "menu-unfold" : "menu-fold"}
-                loading={this.state.iconLoading}
                 onClick={this.toggle}
               ></Button>
             </div>
@@ -66,3 +76,27 @@ export default class SideNavView extends Component {
     );
   }
 }
+
+const styles = {
+  sider: {
+    minHeight: "100vh",
+    backgroundColor: "#001e1e"
+  },
+  siderMenu: {
+    minHeight: "100vh",
+    backgroundColor: "#001e1e"
+  },
+  logo: {
+    height: "40px"
+  },
+  logoDiv: {
+    width: "100%",
+    padding: "15px 0",
+    textAlign: "center"
+  },
+  menuToggleBtnDiv: {
+    width: "100%",
+    textAlign: "center",
+    marginTop: "50px"
+  }
+};
