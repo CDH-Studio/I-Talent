@@ -23,12 +23,17 @@ class ChangeLanguage extends Component {
 
     return (
       <Button
-        type="primary"
+        type="default"
         tabIndex="0"
         onKeyPress={e => this.handleKeyPress(e, languageCode)}
         onClick={() => this.changeLanguage(languageCode)}
+        style={{ textTransform: "uppercase" }}
       >
-        <Icon type="global" /> <FormattedMessage id="lang" />
+        <Icon type="global" />{" "}
+        <FormattedMessage
+          style={{ textTransform: "capitalize" }}
+          id="lang.code"
+        />
       </Button>
     );
   }
