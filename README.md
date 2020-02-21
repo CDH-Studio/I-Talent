@@ -2,13 +2,13 @@
 
 An improved directory and employee search tool.
 
-API documentation can be accessed [here](https://documenter.getpostman.com/view/10159635/SzKQz14k?version=latest).
-
 ![Upskill Screenshot](docs/wikiFiles/upskill-splash.png?raw=true)
 
 Upskill can be accessed [here](http://upskill-upskill.apps.dev.openshift.ised-isde.canada.ca/).
 
 [Our promotional website](https://cdh-studio.github.io/UpSkill/)
+
+API documentation can be accessed [here](https://documenter.getpostman.com/view/10159635/SzKQz14k?version=latest).
 
 # Table of Contents
 
@@ -25,7 +25,7 @@ Upskill can be accessed [here](http://upskill-upskill.apps.dev.openshift.ised-is
 
 Upskill is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials.
 
-Any ISED employee will be able to login to Upskill with their windows credentials create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
+Any ISED employee will be able to login to Upskill with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
 
 # Contributors
 
@@ -37,9 +37,9 @@ Any ISED employee will be able to login to Upskill with their windows credential
   - Full Stack Developer
 - [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
   - Full Stack Developer
-- [Sukhsimranpreet Singh Sekhon](www.linkedin.com/in/sukhsimranpreetsekhon)
+- [Sukhsimranpreet Singh Sekhon](https://www.linkedin.com/in/sukhusekhon/)
   - Full Stack Developer
-- [Sagal Maxamud](www.linkedin.com/in/s-glmxmd)
+- [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
   - Full Stack Developer
 
 # Tech Stack
@@ -78,7 +78,7 @@ docker-compose up
 You can access different components of the web application:
 
 - The original frontend at `localhost:3001`.
-- The redesigned frontend at `localhost:4000`.
+- The redesigned frontend at `localhost:3000`.
 - The backend at `localhost:8080`.
 - Postgres database at `localhost:5432`.
 - Adminer at `localhost:3333`.
@@ -89,12 +89,6 @@ Checkout the `docker-compose.yml` file for information on which ports to use to 
 
 You can find more information about the project in our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki).
 
-# License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 # Contact
 
 - [CDH Studio Website](https://cdhstudio.ca/)
-
-- [Our Promotional Website](https://cdh-studio.github.io/UpSkill/)
