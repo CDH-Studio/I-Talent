@@ -20,7 +20,7 @@ export default class SideNavView extends Component {
     });
   };
 
-  // Render small or big Logo by detecting the state of the side nav
+  /* Render small or big Logo by detecting the state of the side nav */
   logoRender() {
     let logoSelected;
     if (this.state.collapsed) {
@@ -41,7 +41,10 @@ export default class SideNavView extends Component {
         style={styles.sider}
       >
         <Affix offsetTop={this.state.top}>
+          {/* Render Logo */}
           <div style={styles.logoDiv}>{this.logoRender()}</div>
+
+          {/* Render Menu Items */}
           <Menu
             theme="dark"
             mode="inline"
@@ -60,6 +63,8 @@ export default class SideNavView extends Component {
               <Icon type="upload" />
               <span>nav 3</span>
             </Menu.Item>
+
+            {/* Render side bar toggle Btn */}
             <div style={styles.menuToggleBtnDiv}>
               <Button
                 ghost="true"
@@ -77,6 +82,7 @@ export default class SideNavView extends Component {
   }
 }
 
+/* Component Styles */
 const styles = {
   sider: {
     minHeight: "100vh",
