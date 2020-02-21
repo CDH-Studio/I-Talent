@@ -4,7 +4,7 @@ import { injectIntl } from "react-intl";
 
 import TopNavView from "./TopNavView";
 
-class TopNav extends React.Component {
+export default class TopNav extends React.Component {
   render() {
     return (
       <TopNavView
@@ -17,4 +17,4 @@ class TopNav extends React.Component {
 }
 
 //Needed when using this,props.intl
-export default injectIntl(TopNav);
+// injectIntl(TopNav);

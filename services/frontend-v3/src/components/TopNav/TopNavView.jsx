@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Affix, Layout, Divider, Dropdown, Menu, Icon } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../CustomAvatar/CustomAvatar";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 const { Header } = Layout;
 
-class TopNavView extends Component {
+export default class TopNavView extends Component {
   constructor(props) {
     super(props);
 
@@ -37,10 +37,7 @@ class TopNavView extends Component {
             }}
           >
             <Icon type="logout" style={styles.MenuIcon} />
-            {this.props.intl.formatMessage({
-              id: "sign.out",
-              defaultMessage: "Logout"
-            })}
+            <FormattedMessage id="sign.out" />
           </a>
         </Menu.Item>
       </Menu>
@@ -99,4 +96,4 @@ const styles = {
 };
 
 //Needed when using this,props.intl
-export default injectIntl(TopNavView);
+//export default injectIntl(TopNavView);
