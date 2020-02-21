@@ -1,6 +1,5 @@
 import React from "react";
 import {} from "antd";
-import { injectIntl } from "react-intl";
 
 import TopNavView from "./TopNavView";
 
