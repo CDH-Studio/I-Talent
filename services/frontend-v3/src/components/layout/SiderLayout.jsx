@@ -4,6 +4,14 @@ import SiderLayoutView from "./SiderLayoutView";
 
 export default class SiderLayout extends React.Component {
   render() {
-    return <SiderLayoutView>{this.props.children}</SiderLayoutView>;
+    return (
+      <SiderLayoutView
+        changeLanguage={this.props.changeLanguage}
+        keycloak={this.props.keycloak}
+        history={this.props.history}
+      >
+        {this.props.children}
+      </SiderLayoutView>
+    );
   }
 }

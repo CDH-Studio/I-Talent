@@ -28,17 +28,12 @@ export default class SiderLayoutView extends Component {
         <SideNav></SideNav>
 
         <Layout>
-          <TopNav></TopNav>
-          <Content
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              background: "#fff",
-              minHeight: 280
-            }}
-          >
-            {this.props.children}
-          </Content>
+          <TopNav
+            changeLanguage={this.props.changeLanguage}
+            keycloak={this.props.keycloak}
+            history={this.props.history}
+          ></TopNav>
+          <Content style={styles.content}>{this.props.children}</Content>
         </Layout>
       </Layout>
     );
@@ -57,5 +52,11 @@ const styles = {
   },
   profileAvatar: {
     margin: "0"
+  },
+  content: {
+    margin: "24px 16px",
+    padding: 24,
+    background: "#fff",
+    minHeight: 280
   }
 };
