@@ -41,8 +41,6 @@ class Home extends React.Component {
         displaySideBar={true}
         sideBarContent={sideBarContent}
       >
-        <h1>Hi, {localStorage.getItem("name")}</h1>
-        <FormattedMessage id="landing.benefit.find.people" />
         <Row>
           <SearchBar />
           <Button
