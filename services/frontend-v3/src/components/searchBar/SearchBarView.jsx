@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Row, Col, Input, Button, Icon } from "antd";
-
-export default class SearchBarView extends React.Component {
+import { injectIntl } from "react-intl";
+class SearchBarView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -10,15 +10,42 @@ export default class SearchBarView extends React.Component {
     };
   }
 
-  getFields() {
-    const count = this.state.expand ? 5 : 0;
+  getFields(data) {
+    const count = this.state.expand ? 6 : 0;
+
     //const { getFieldDecorator } = this.props.form;
     const children = [];
+    const labelArr = [
+      this.props.intl.formatMessage({
+        id: "advanced.search.form.name",
+        defaultMessage: "Name"
+      }),
+      this.props.intl.formatMessage({
+        id: "advanced.search.form.skills",
+        defaultMessage: "Skills"
+      }),
+      this.props.intl.formatMessage({
+        id: "advanced.search.form.branch",
+        defaultMessage: "Branch"
+      }),
+      this.props.intl.formatMessage({
+        id: "advanced.search.form.location",
+        defaultMessage: "Location"
+      }),
+      this.props.intl.formatMessage({
+        id: "advanced.search.form.classification",
+        defaultMessage: "Classification"
+      }),
+      this.props.intl.formatMessage({
+        id: "advanced.search.form.ex.feeder",
+        defaultMessage: "Ex Feeder"
+      })
+    ];
     for (let i = 0; i < 10; i++) {
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
-          <Form.Item label={`Field ${i}`}>
-            <Input placeholder="" />
+          <Form.Item label={labelArr[i]}>
+            <Input placeholder={"Enter a value"} />
           </Form.Item>
         </Col>
       );
@@ -43,6 +70,12 @@ export default class SearchBarView extends React.Component {
   };
 
   render() {
+    const { name, data, avatar, locale } = this.props;
+    const searchLabel = this.props.intl.formatMessage({
+      id: "button.search",
+      defaultMessage: "Search"
+    });
+
     return (
       <Form onSubmit={this.handleSearch}>
         <div
@@ -57,20 +90,26 @@ export default class SearchBarView extends React.Component {
             UPSKILL :)
           </header>
           <div style={{ paddingBottom: "20px" }}>
-            <Input placeholder="Search" />
+            <Input placeholder={searchLabel} />
           </div>
 
-          <Row gutter={24}>{this.getFields()}</Row>
+          <Row gutter={24}>{this.getFields(data)}</Row>
           <Row>
             <Col span={24} style={{ textAlign: "right" }}>
               <Button type="primary" htmlType="submit">
-                Search
+                {searchLabel}
               </Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                Clear
+                {this.props.intl.formatMessage({
+                  id: "button.clear",
+                  defaultMessage: "Clear"
+                })}
               </Button>
               <a style={{ marginLeft: 8, fontSize: 14 }} onClick={this.toggle}>
-                Advanced Search{" "}
+                {this.props.intl.formatMessage({
+                  id: "advanced.search.button.text",
+                  defaultMessage: "Advanced Search"
+                })}{" "}
                 <Icon type={this.state.expand ? "up" : "down"} />
               </a>
             </Col>
@@ -80,3 +119,4 @@ export default class SearchBarView extends React.Component {
     );
   }
 }
+export default injectIntl(SearchBarView);
