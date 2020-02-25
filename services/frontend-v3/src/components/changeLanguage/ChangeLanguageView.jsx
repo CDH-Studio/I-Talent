@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Icon, Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-class ChangeLanguage extends Component {
+class ChangeLanguageView extends Component {
   changeLanguage = lang => {
     this.props.changeLanguage(lang);
   };
@@ -23,6 +23,7 @@ class ChangeLanguage extends Component {
 
     return (
       <Button
+        ghost="true"
         type="default"
         tabIndex="0"
         onKeyPress={e => this.handleKeyPress(e, languageCode)}
@@ -38,4 +39,4 @@ class ChangeLanguage extends Component {
     );
   }
 }
-export default injectIntl(ChangeLanguage);
+export default injectIntl(ChangeLanguageView);
