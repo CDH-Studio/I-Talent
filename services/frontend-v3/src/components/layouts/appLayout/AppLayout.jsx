@@ -1,17 +1,19 @@
 import React from "react";
 import {} from "antd";
-import SiderLayoutView from "./SiderLayoutView";
+import AppLayoutView from "./AppLayoutView";
 
-export default class SiderLayout extends React.Component {
+export default class AppLayout extends React.Component {
   render() {
     return (
-      <SiderLayoutView
+      <AppLayoutView
         changeLanguage={this.props.changeLanguage}
         keycloak={this.props.keycloak}
         history={this.props.history}
+        displaySideBar={this.props.displaySideBar}
+        sideBarContent={this.props.sideBarContent}
       >
         {this.props.children}
-      </SiderLayoutView>
+      </AppLayoutView>
     );
   }
 }
