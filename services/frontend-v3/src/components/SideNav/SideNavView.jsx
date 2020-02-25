@@ -22,7 +22,7 @@ export default class SideNavView extends Component {
   render() {
     const displaySideBar = this.props.displaySideBar;
     return (
-      <div>
+      <div style={styles.siderDiv}>
         {/* render side bar is user sets showSideBar */}
         {displaySideBar ? (
           <Sider
@@ -45,12 +45,15 @@ export default class SideNavView extends Component {
 
 /* Component Styles */
 const styles = {
+  siderDiv: {
+    minHeight: "100vh",
+    background: "#fff"
+  },
   sider: {
     minHeight: "100vh",
     background: "#fff"
   },
   siderMenu: {
-    minHeight: "100vh",
-    backgrounsdColor: "#001e1e"
+    minHeight: "100vh"
   }
 };
