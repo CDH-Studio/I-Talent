@@ -1,15 +1,22 @@
 import React, { Component } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Typography, Avatar, Row, Col, Descriptions, Statistic } from "antd";
+import { Row, Col, Card, Typography, Avatar, List, Form, Icon } from "antd";
 const { Title } = Typography;
 
 class BasicInfoView extends Component {
   render() {
-    const { name, data, avatar, locale } = this.props;
+    const { data, avatar } = this.props;
+
+    const locale = this.props.intl.formatMessage({ id: "language.code" });
+
+    const contactInfo = this.getContactInfo();
+    const locationInfo = this.getLocationInfo(locale);
+
     return (
       <div>
         <Row>
-          <Col span="1">
+          <Col xs={5} sm={4} md={3} lg={2} xl={2}>
             <Avatar
               size="large"
               style={{ backgroundColor: avatar.color, verticalAlign: "middle" }}
@@ -17,39 +24,131 @@ class BasicInfoView extends Component {
               {avatar.acr}
             </Avatar>
           </Col>
-          <Col>
-            <Title>{name}</Title>
-          </Col>
+
+          <Row type="flex" align="bottom">
+            <Col
+              xs={19}
+              sm={20}
+              md={21}
+              lg={22}
+              xl={22}
+              style={{ marginBottom: "10px" }}
+            >
+              <Title style={{ display: "inline" }}>
+                {data.firstName + " " + data.lastName}
+              </Title>
+              <Title level={2} style={{ display: "inline" }}>
+                {"   "}-{"   "}
+              </Title>
+              <Title level={2} style={{ display: "inline" }}>
+                {data.jobTitle[locale]}
+              </Title>
+            </Col>
+          </Row>
         </Row>
-        <Descriptions title="User Info" bordered>
-          <Descriptions.Item label="Job Title">
-            {data.jobTitle[locale]}
-          </Descriptions.Item>
-          <Descriptions.Item label="Branch" span={2}>
-            {data.branch[locale]}
-          </Descriptions.Item>
-          <Descriptions.Item label="Phone Number">
-            {data.telephone}
-          </Descriptions.Item>
-          <Descriptions.Item label="Cellphone Number">
-            {data.cellphone}
-          </Descriptions.Item>
-          <Descriptions.Item label="Email">{data.email}</Descriptions.Item>
-          <Descriptions.Item label="Address" span={3}>
-            {data.location.description[locale]}
-          </Descriptions.Item>
-          <Descriptions.Item label="Usage Time">
-            <Statistic.Countdown
-              title="Cool Countdown"
-              value={Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30}
-              format="HH:mm:ss:SSS"
-            />
-            Cause why not
-          </Descriptions.Item>
-        </Descriptions>
+        <Card>
+          <Row>
+            <Col xs={24} lg={12}>
+              <List
+                itemLayout="horizontal"
+                dataSource={contactInfo}
+                renderItem={item => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          style={{
+                            backgroundColor: avatar.color
+                          }}
+                          size="large"
+                          icon={item.icon}
+                          shape="square"
+                        />
+                      }
+                      title={<a href="https://ant.design">{item.title}</a>}
+                      description={item.description}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Col>
+            <Col xs={24} lg={12}>
+              <List
+                itemLayout="horizontal"
+                dataSource={locationInfo}
+                renderItem={item => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          style={{
+                            backgroundColor: avatar.color
+                          }}
+                          size="large"
+                          icon={item.icon}
+                          shape="square"
+                        />
+                      }
+                      title={<a href="https://ant.design">{item.title}</a>}
+                      description={item.description}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Col>
+          </Row>
+        </Card>
       </div>
     );
   }
+
+  getContactInfo() {
+    const data = this.props.data;
+
+    const email = {
+      icon: "mail",
+      title: <FormattedMessage id="profile.email" />,
+      description: data.email
+    };
+
+    const tel = {
+      icon: "phone",
+      title: <FormattedMessage id="profile.telephone" />,
+      description: data.cellphone
+    };
+
+    const cel = {
+      icon: "mobile",
+      title: <FormattedMessage id="profile.cellphone" />,
+      description: data.cellphone
+    };
+
+    return [email, tel, cel];
+  }
+
+  getLocationInfo(locale) {
+    const data = this.props.data;
+
+    const branch = {
+      icon: "branches",
+      title: <FormattedMessage id="profile.branch" />,
+      description: data.branch[locale]
+    };
+
+    const address = {
+      icon: "environment",
+      title: <FormattedMessage id="profile.address" />,
+      description: data.location.description[locale]
+    };
+
+    const manager = {
+      icon: "user",
+      title: <FormattedMessage id="profile.manager" />,
+      description: data.manager
+    };
+
+    return [branch, address, manager];
+  }
 }
 
-export default BasicInfoView;
+export default injectIntl(BasicInfoView);
