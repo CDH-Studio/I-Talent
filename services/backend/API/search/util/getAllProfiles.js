@@ -182,19 +182,22 @@ _getProf = async (profile, searchValue) => {
   let resData = {
     id: data.id,
     acting: {
-      id: acting ? acting.id : null,
-      description: acting ? acting.description : null
+      //this
+      id: acting && privateInfo.info ? acting.id : null,
+      description: acting && privateInfo.info ? acting.description : null
     },
     branch: data.branchEn,
-    careerSummary,
+    careerSummary: privateInfo.experience ? careerSummary : null,
     classification: {
-      id: groupLevel ? groupLevel.id : null,
-      description: groupLevel ? groupLevel.description : null
+      //this
+      id: groupLevel && privateInfo.info ? groupLevel.id : null,
+      description:
+        groupLevel && privateInfo.info ? groupLevel.description : null
     },
     competencies,
-    education: educArray,
+    education: privateInfo.education ? educArray : null,
     email: data.email,
-    exFeeder: data.exFeeder,
+    exFeeder: privateInfo.talenManagement ? data.exFeeder : null,
     flagged: data.flagged,
     firstName: data.firstName,
     jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
@@ -218,13 +221,13 @@ _getProf = async (profile, searchValue) => {
           : null
       }
     },
-    manager: data.manager,
+    manager: privateInfo.manager ? data.manager : null,
     cellphone: data.cellphone,
     organizationList,
-    skills,
+    skills: privateInfo.skill ? skills : null,
     team: data.team,
     telephone: data.telephone,
-    projects: projects,
+    projects: privateInfo.projects ? projects : null,
     resultSkills
   };
   return resData;
