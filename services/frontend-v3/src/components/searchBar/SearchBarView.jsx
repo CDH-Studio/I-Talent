@@ -1,19 +1,19 @@
 import React from "react";
 import { Form, Row, Col, Input, Button, Icon } from "antd";
+
 import { injectIntl } from "react-intl";
 class SearchBarView extends React.Component {
+  state = {
+    expand: false
+  };
   constructor(props) {
     super(props);
-
-    this.state = {
-      expand: false
-    };
   }
 
   getFields(data) {
     const count = this.state.expand ? 6 : 0;
 
-    //const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const children = [];
     const labelArr = [
       this.props.intl.formatMessage({
@@ -45,7 +45,10 @@ class SearchBarView extends React.Component {
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
           <Form.Item label={labelArr[i]}>
-            <Input placeholder={"Enter a value"} />
+            {getFieldDecorator(
+              "label: " + labelArr[i],
+              {}
+            )(<Input placeholder={"Enter a value"} />)}
           </Form.Item>
         </Col>
       );
@@ -71,6 +74,7 @@ class SearchBarView extends React.Component {
 
   render() {
     const { name, data, avatar, locale } = this.props;
+    const { getFieldDecorator } = this.props.form;
     const searchLabel = this.props.intl.formatMessage({
       id: "button.search",
       defaultMessage: "Search"
@@ -90,7 +94,10 @@ class SearchBarView extends React.Component {
             UPSKILL :)
           </header>
           <div style={{ paddingBottom: "20px" }}>
-            <Input placeholder={searchLabel} />
+            {getFieldDecorator(
+              "label: Search",
+              {}
+            )(<Input placeholder={searchLabel} />)}
           </div>
 
           <Row gutter={24}>{this.getFields(data)}</Row>
@@ -119,4 +126,5 @@ class SearchBarView extends React.Component {
     );
   }
 }
+SearchBarView = Form.create({})(SearchBarView);
 export default injectIntl(SearchBarView);
