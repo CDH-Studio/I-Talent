@@ -8,6 +8,7 @@ const Location = Models.location;
 const School = Models.school;
 const SecurityClearance = Models.securityClearance;
 const Skill = Models.skill;
+const Category = Models.category;
 const TalentMatrixResult = Models.talentMatrixResult;
 const Tenure = Models.tenure;
 
@@ -36,6 +37,7 @@ const mapping = {
   school: School,
   securityClearance: SecurityClearance,
   skill: Skill,
+  category: Category,
   competency: Skill,
   talentManager: TalentMatrixResult,
   tenure: Tenure

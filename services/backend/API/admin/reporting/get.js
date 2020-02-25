@@ -1,5 +1,3 @@
-// const Models = require("../../../models");
-
 const utils = require("./util");
 
 const statistics = async (request, response) => {
@@ -21,4 +19,5 @@ const statistics = async (request, response) => {
     dashboardCount
   });
 };
+
 module.exports = { statistics };

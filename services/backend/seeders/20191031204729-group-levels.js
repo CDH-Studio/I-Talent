@@ -46,7 +46,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "AS 07",
+          description: "AU 03",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -56,37 +56,17 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "CA 01",
+          description: "AU 05",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          description: "CA 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "CA 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "CM 04",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "CM 05",
+          description: "CO 01",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           description: "CO 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "CO 03",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -121,17 +101,17 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          description: "CS 01",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
           description: "CS 02",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           description: "CS 03",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "CS 04",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -176,32 +156,12 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          description: "EC 07",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
           description: "EC 08",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EC 07",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EC 07",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EDEDS02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EG 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EG 03",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -217,11 +177,6 @@ module.exports = {
         },
         {
           description: "EG 06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EG 07",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -286,37 +241,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "ENENG05",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "ENENG06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EX 01",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EX 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EX 03",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EX 04",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "EX 05",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -341,12 +266,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "FI 04",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GLCOI12",
+          description: "GLCOI13",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -361,6 +281,11 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          description: "GLMAM08",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
           description: "GLMAM10",
           createdAt: new Date(),
           updatedAt: new Date()
@@ -371,17 +296,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "GLMAN09",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "GLMDO06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GLPCF06",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -391,47 +306,17 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "GLPIP10",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "GLPIP12",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          description: "GLPRW06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GLWOW09",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GLWOW10",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GSMPS04",
+          description: "GLWOW11",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           description: "GSMPS06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GSPRC05",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GSSTS03",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -447,16 +332,6 @@ module.exports = {
         },
         {
           description: "GSSTS06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GSSTS07",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "GT 01",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -481,22 +356,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "GX 00",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "HP 05",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "HP 08",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "IS 01",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -526,16 +386,6 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "IS 06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "LS 01",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "LS 02",
           createdAt: new Date(),
           updatedAt: new Date()
@@ -551,27 +401,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "MM 01",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "MM 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "MM 03",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "OM 02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "OM 04",
+          description: "LS 05",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -616,11 +446,6 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "PE 06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "PG 01",
           createdAt: new Date(),
           updatedAt: new Date()
@@ -642,11 +467,6 @@ module.exports = {
         },
         {
           description: "PG 05",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "PG 06",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -686,32 +506,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "PM 06",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "PROFO02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "PY 05",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "SEREM01",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "SEREM02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "SERES01",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -731,17 +526,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "SERES04",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "SERES05",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "SGPAT02",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -771,32 +556,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          description: "SGPAT07",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           description: "SGPAT08",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "STOCE03",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "STSCY02",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "STSCY03",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          description: "STSCY04",
           createdAt: new Date(),
           updatedAt: new Date()
         },

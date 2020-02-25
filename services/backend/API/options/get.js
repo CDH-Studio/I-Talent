@@ -2,14 +2,13 @@ const Models = require("../../models");
 const Sequelize = require("sequelize");
 const Profile = Models.profile;
 const CareerMobility = Models.careerMobility;
-const Competency = Models.competency;
+const Category = Models.category;
 const Diploma = Models.diploma;
 const GroupLevel = Models.groupLevel;
 const KeyCompetency = Models.keyCompetency;
 const Location = Models.location;
 const School = Models.school;
 const SecurityClearance = Models.securityClearance;
-const Category = Models.category;
 const Skill = Models.skill;
 const TalentMatrixResult = Models.talentMatrixResult;
 const Tenure = Models.tenure;
@@ -147,13 +146,76 @@ const getSecurityClearance = async (request, response) => {
   response.status(200).json(resBody);
 };
 
-const getCategory = async (request, response) => {
-  let all = await Category.findAll();
+const getCategorySkills = async (request, response) => {
+  let all = await Category.findAll({
+    include: Skill,
+    attributes: ["descriptionEn", "descriptionFr", "id"],
+    require: true
+  });
   let resBody = all.map(one => {
     one = one.dataValues;
+    let skillsCat = one.skills.map(skillCat => {
+      skillCat = skillCat.dataValues;
+      if (skillCat.categoryId == one.id) {
+        return {
+          id: skillCat.id,
+          description: {
+            en: one.descriptionEn + ": " + skillCat.descriptionEn,
+            fr: one.descriptionFr + ": " + skillCat.descriptionFr
+          }
+        };
+      } else {
+        return {
+          id: skillCat.id,
+          description: { descEn: null, descFr: null }
+        };
+      }
+    });
+    return {
+      aCategory: {
+        skill: {
+          catId: one.id,
+          description: { en: one.descriptionEn, fr: one.descriptionFr },
+          skillsCat
+        }
+      }
+    };
+  });
+  response.status(200).json(resBody);
+};
+
+const getCategory = async (request, response) => {
+  let all = await Category.findAll({
+    include: Skill,
+    attributes: ["descriptionEn", "descriptionFr", "id"],
+    require: true
+  });
+  let resBody = all.map(one => {
+    one = one.dataValues;
+    let skillsCat = one.skills.map(skillCat => {
+      skillCat = skillCat.dataValues;
+      if (skillCat.categoryId == one.id) {
+        return {
+          id: skillCat.id,
+          description: {
+            descEn: skillCat.descriptionEn,
+            descFr: skillCat.descriptionFr
+          }
+        };
+      } else {
+        return {
+          id: skillCat.id,
+          description: { descEn: null, descFr: null }
+        };
+      }
+    });
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: {
+        en: one.descriptionEn,
+        fr: one.descriptionFr,
+        skills: skillsCat
+      }
     };
   });
   response.status(200).json(resBody);
@@ -161,33 +223,23 @@ const getCategory = async (request, response) => {
 
 const getSkill = async (request, response) => {
   let all = await Skill.findAll({
+    include: Category,
+    attributes: ["descriptionEn", "descriptionFr", "id"],
+    require: true,
     where: {
       type: "skill"
     }
   });
   let resBody = all.map(one => {
     one = one.dataValues;
-    return {
-      id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr },
-      categoryId: one.categoryId
-    };
-  });
-  response.status(200).json(resBody);
-};
 
-const getMentorshipSkill = async (request, response) => {
-  let all = await Skill.findAll({
-    where: {
-      type: "skill"
-    }
-  });
-  let resBody = all.map(one => {
-    one = one.dataValues;
+    let ascCats = one.category.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr },
-      categoryId: one.categoryId
+      description: {
+        en: ascCats.descriptionEn + ": " + one.descriptionEn,
+        fr: ascCats.descriptionFr + ": " + one.descriptionFr
+      }
     };
   });
   response.status(200).json(resBody);
@@ -272,8 +324,8 @@ module.exports = {
   getSchool,
   getSecurityClearance,
   getCategory,
+  getCategorySkills,
   getSkill,
-  getMentorshipSkill,
   getTalentMatrixResult,
   getTenure,
   getLookingForANewJob,

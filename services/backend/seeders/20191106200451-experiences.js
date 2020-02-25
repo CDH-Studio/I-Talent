@@ -45,38 +45,6 @@ module.exports = {
       ],
       {}
     );
-    // .then(() => {
-    //   return queryInterface.bulkInsert(
-    //     "experiences",
-    //     [
-    //       {
-    //         id: "9060e28e-ffe4-11e9-8d71-362b9e155667",
-    //         organization: "Canada Revenue Agency",
-    //         jobTitle: "Financial Analyst",
-    //         description:
-    //           "Cancelled payments and monitored unauthorized purchases",
-    //         startDate: new Date(),
-    //         endDate: new Date(),
-    //         createdAt: new Date(),
-    //         updatedAt: new Date(),
-    //         profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
-    //       },
-    //       {
-    //         id: "2b7433a2-ffe5-11e9-8d71-362b9e155667",
-    //         organization: "Banque du Canada",
-    //         jobTitle: "Gestionnaire de projet TI",
-    //         description:
-    //           "Livrer les project à temps et maintenir le contact avec les clients",
-    //         startDate: new Date(),
-    //         endDate: new Date(),
-    //         createdAt: new Date(),
-    //         updatedAt: new Date(),
-    //         profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
-    //       }
-    //     ],
-    //     {}
-    //   );
-    // });
   },
 
   down: (queryInterface, Sequelize) => {

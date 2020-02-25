@@ -1,6 +1,9 @@
 require("dotenv").config();
 
-host = process.env.PGHOST;
+const str = process.env.DATABASE_URL;
+
+let [dialect, host, port] = str.split(":");
+host = host.replace("//", "");
 
 module.exports = {
   development: {
@@ -8,16 +11,16 @@ module.exports = {
     password: process.env.PGPASS,
     database: process.env.PGDATABASE,
     host: host,
-    port: 5432,
-    dialect: "postgres"
+    port: port,
+    dialect: dialect
   },
   production: {
     username: process.env.PGUSERNAME,
     password: process.env.PGPASS,
     database: process.env.PGDATABASE,
     host: host,
-    port: 5432,
-    dialect: "postgres"
+    port: port,
+    dialect: dialect
   },
   staging: {
     uri: process.env.DATABASE_URL,

@@ -3,6 +3,7 @@ const admin = require("./index");
 const reporting = require("./reporting");
 const { keycloak } = require("../../util/keycloak");
 
+
 const catchAdminCheck = token => {
   let hasRole = false;
   try {
@@ -20,6 +21,7 @@ adminRouter.get(
   keycloak.protect("view-admin-console"),
   admin.getOption
 );
+
 adminRouter.get(
   "/flagged/:id",
   keycloak.protect("view-admin-console"),

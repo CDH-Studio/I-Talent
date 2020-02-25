@@ -5,9 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node server.js",
-    "deploy": "npm i -g sequelize-cli && sequelize db:migrate && sequelize db:seed:all && node server.js",
     "dev": "nodemon server.js",
-    "dev:docker": "npm i -g sequelize-cli && sequelize db:migrate && sequelize db:seed:all && nodemon server.js",
     "dbsetup": "npm i -g sequelize-cli && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "test": "jest",
     "test:watch": "jest --watch",
