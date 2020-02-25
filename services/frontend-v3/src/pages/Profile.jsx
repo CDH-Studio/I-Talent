@@ -1,5 +1,5 @@
 import React from "react";
-import SideLayout from "../components/layout/SiderLayout";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 import config from "../config";
 import axios from "axios";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
@@ -40,15 +40,15 @@ class Profile extends React.Component {
     const { name, data, loading } = this.state;
     if (!loading)
       return (
-        <SideLayout changeLanguage={this.props.changeLanguage}>
+        <AppLayout changeLanguage={this.props.changeLanguage}>
           <ProfileLayout name={name} data={data} />
-        </SideLayout>
+        </AppLayout>
       );
     else {
       return (
-        <SideLayout>
+        <AppLayout>
           <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
-        </SideLayout>
+        </AppLayout>
       );
     }
   }

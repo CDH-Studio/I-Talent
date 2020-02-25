@@ -38,3 +38,7 @@
     transform: rotate(360deg);
   }
 }
+.ant-layout-sider-trigger {
+  background-color: #a1b3af !important;
+  color: rgb(0, 30, 30) !important;
+}
