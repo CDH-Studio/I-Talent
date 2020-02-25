@@ -37,7 +37,9 @@ export default class SideNavView extends Component {
               {this.props.sideBarContent}
             </Affix>
           </Sider>
-        ) : null}
+        ) : (
+          <Sider width="0" />
+        )}
       </div>
     );
   }
