@@ -17,25 +17,19 @@ export default class TopNavView extends Component {
     const menu = (
       <Menu style={styles.dropDownMenu}>
         <Menu.Item style={styles.dropDownItem}>
-          <a target="_blank" rel="noopener noreferrer" href="#">
+          <a rel="noopener noreferrer" href="/secured/profile/">
             <Icon type="user" style={styles.MenuIcon} />
             View Profile
           </a>
         </Menu.Item>
         <Menu.Item style={styles.dropDownItem}>
-          <a target="_blank" rel="noopener noreferrer" href="#">
+          <a rel="noopener noreferrer" href="/secured/profile/edit">
             <Icon type="edit" style={styles.MenuIcon} />
             Edit Profile
           </a>
         </Menu.Item>
         <Menu.Item style={styles.dropDownItem}>
-          <a
-            rel="noopener noreferrer"
-            onClick={() => {
-              this.props.history.push("/");
-              this.props.keycloak.logout();
-            }}
-          >
+          <a rel="noopener noreferrer" href="/">
             <Icon type="logout" style={styles.MenuIcon} />
             <FormattedMessage id="sign.out" />
           </a>
@@ -52,6 +46,7 @@ export default class TopNavView extends Component {
                 className="ant-dropdown-link"
                 onClick={e => e.preventDefault()}
                 style={{ color: "#000", padding: "20px 15px" }}
+                href="/secured/home"
               >
                 <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
                 {localStorage.getItem("name")} <Icon type="down" />

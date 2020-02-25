@@ -40,14 +40,14 @@ class Profile extends React.Component {
     const { name, data, loading } = this.state;
     if (!loading)
       return (
-        <SideLayout>
+        <SideLayout changeLanguage={this.props.changeLanguage}>
           <ProfileLayout name={name} data={data} />
         </SideLayout>
       );
     else {
       return (
         <SideLayout>
-          <ProfileSkeleton />
+          <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
         </SideLayout>
       );
     }
