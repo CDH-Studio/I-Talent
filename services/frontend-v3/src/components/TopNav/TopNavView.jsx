@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Layout, Dropdown, Menu, Icon } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
-import CustomAvatar from "../CustomAvatar/CustomAvatar";
+import CustomAvatar from "../customAvatar/CustomAvatar";
 import Logo from "../sideNav/logo_v2.svg";
 import { FormattedMessage } from "react-intl";
 
@@ -74,10 +74,6 @@ const styles = {
   navBrand: {
     height: "35px",
     margin: "0 25px"
-  },
-  rightMenu: {
-    float: "right",
-    margin: "0 20px"
   },
   rightMenu: {
     float: "right",

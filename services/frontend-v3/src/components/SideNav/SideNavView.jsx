@@ -52,10 +52,5 @@ const styles = {
   siderMenu: {
     minHeight: "100vh",
     backgrounsdColor: "#001e1e"
-  },
-  menuToggleBtnDiv: {
-    position: "fixed",
-    bottom: 0,
-    zIndex: 1
   }
 };

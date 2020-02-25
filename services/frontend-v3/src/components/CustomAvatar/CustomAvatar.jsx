@@ -1,6 +1,6 @@
 import React from "react";
 import {} from "antd";
-import CustomAvatarView from "../CustomAvatar/CustomAvatarView";
+import CustomAvatarView from "../customAvatar/CustomAvatarView";
 
 export default class CustomAvatar extends React.Component {
   constructor(props) {
