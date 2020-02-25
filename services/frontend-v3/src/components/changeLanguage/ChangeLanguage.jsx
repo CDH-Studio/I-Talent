@@ -5,6 +5,10 @@ import ChangeLanguageView from "./ChangeLanguageView";
 
 export default class SideNav extends React.Component {
   render() {
-    return <ChangeLanguageView></ChangeLanguageView>;
+    return (
+      <ChangeLanguageView
+        changeLanguage={this.props.changeLanguage}
+      ></ChangeLanguageView>
+    );
   }
 }
