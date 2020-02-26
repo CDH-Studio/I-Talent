@@ -6,14 +6,7 @@ import axios from "axios";
 
 // import animatedLogo from "../assets/animatedLogo.gif";
 
-import {
-  AdminSkill,
-  AdminCompetency,
-  AdminDiploma,
-  AdminSchool,
-  AdminUser,
-  AdminDasboard
-} from "../pages/admin";
+import { AdminDasboard } from "../pages/admin";
 
 import config from "../config";
 const { backendAddress } = config;
@@ -141,61 +134,6 @@ class Secured extends Component {
               path="/admin/dashboard"
               render={routeProps => (
                 <AdminDasboard
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/skill"
-              render={routeProps => (
-                <AdminSkill
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/competency"
-              render={routeProps => (
-                <AdminCompetency
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/diploma"
-              render={routeProps => (
-                <AdminDiploma
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/school"
-              render={routeProps => (
-                <AdminSchool
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/user"
-              render={routeProps => (
-                <AdminUser
                   keycloak={keycloak}
                   changeLanguage={this.changeLanguage}
                   {...routeProps}
