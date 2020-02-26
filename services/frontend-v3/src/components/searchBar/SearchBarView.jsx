@@ -1,21 +1,65 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Form, Row, Col, Input, Button, Icon, Switch } from "antd";
+import { Form, Row, Col, Input, Button, Icon, Switch, Card } from "antd";
+import prepareInfo from "../../functions/prepareInfo";
+import axios from "axios";
+import config from "../../config";
 import queryString from "query-string";
 import logo from "../SideNav/logo_v2.svg";
 
 import { injectIntl } from "react-intl";
+const backendAddress = config.backendAddress;
 class SearchBarView extends React.Component {
-  state = {
-    expand: false
-  };
   constructor(props) {
     super(props);
+    this.state = {
+      expand: false
+      //   advancedOptions: null
+    };
+    //this.getAdvancedOptions = this.getAdvancedOptions.bind(this);
   }
+
+  //   async getAdvancedOptions() {
+  //     const lang = localStorage.getItem("lang");
+  //     let advancedOptions = {
+  //       classification: prepareInfo(
+  //         (await axios.get(backendAddress + "api/option/getGroupLevel")).data,
+  //         lang
+  //       ).map(obj => ({
+  //         key: obj.id,
+  //         text: obj.description,
+  //         value: obj.id
+  //       })),
+  //       skills: prepareInfo(
+  //         (await axios.get(backendAddress + "api/option/getDevelopmentalGoals"))
+  //           .data,
+  //         lang
+  //       ).map(obj => ({
+  //         key: obj.id,
+  //         text: obj.description,
+  //         value: obj.id
+  //       })),
+  //       location: prepareInfo(
+  //         (await axios.get(backendAddress + "api/option/getLocation")).data,
+  //         lang
+  //       ).map(obj => ({
+  //         key: obj.id,
+  //         text: obj.description,
+  //         value: obj.id
+  //       })),
+  //       branch: (await axios.get(backendAddress + "api/option/getBranch")).data
+  //         .filter(elem => elem.description && elem.description.en)
+  //         .map(obj => ({
+  //           key: obj.description.en,
+  //           text: obj.description[lang],
+  //           value: obj.description.en
+  //         }))
+  //     };
+  //   }
 
   getFields(data) {
     const count = this.state.expand ? 6 : 0;
-
+    const { advancedOptions } = this.props;
     const { getFieldDecorator } = this.props.form;
     const children = [];
     var fieldCounter = 0;
@@ -54,7 +98,10 @@ class SearchBarView extends React.Component {
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
           {fieldCounter !== 6 ? (
-            <Form.Item label={labelArr[i]}>
+            <Form.Item
+              //options={advancedOptions.classification}
+              label={labelArr[i]}
+            >
               {getFieldDecorator(
                 "" + labelArr[i],
                 {}
@@ -85,12 +132,10 @@ class SearchBarView extends React.Component {
       var searchClassification = values[5];
       var searchSwitch = values[6];
       query = queryString.stringify(values, { arrayFormat: "bracket" });
-      console.log("Received values of form: ", values);
-      console.log(query);
-      let url = "/secured/results?" + encodeURI(query);
-      this.props.history.push(url);
 
-      console.log(url);
+      let url = "/secured/results?" + encodeURI(query);
+
+      this.props.history.push(url);
     });
   };
 
@@ -104,7 +149,7 @@ class SearchBarView extends React.Component {
   };
 
   render() {
-    const { name, data, avatar, locale } = this.props;
+    const { data } = this.props;
     const { getFieldDecorator } = this.props.form;
     const searchLabel = this.props.intl.formatMessage({
       id: "button.search",
@@ -125,10 +170,11 @@ class SearchBarView extends React.Component {
             style={{
               backgroundColor: "#001C1A",
               borderRadius: "5px",
-              paddingTop: "60px",
-              paddingLeft: "60px",
-              paddingRight: "60px",
-              paddingBottom: "40px"
+              paddingTop: "80px",
+              paddingLeft: "80px",
+              paddingRight: "80px",
+              paddingBottom: "80px",
+              boxShadow: "5px 5px 5px #cccccc"
             }}
           >
             <header
@@ -145,33 +191,53 @@ class SearchBarView extends React.Component {
                 {}
               )(<Input placeholder={searchLabel} />)}
             </div>
-          </div>
-
-          <Row gutter={24}>{this.getFields(data)}</Row>
-          <Row>
-            <Col span={24} style={{ textAlign: "right", paddingTop: "10px" }}>
-              <Button type="primary" htmlType="submit">
+            <Col span={24} style={{ textAlign: "right", paddingTop: "0px" }}>
+              <Button
+                shape="round"
+                size="large"
+                type="primary"
+                htmlType="submit"
+              >
                 {searchLabel}
               </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+              <Button
+                ghost
+                shape="round"
+                size="large"
+                style={{ marginLeft: 8 }}
+                onClick={this.handleReset}
+              >
                 {this.props.intl.formatMessage({
                   id: "button.clear",
                   defaultMessage: "Clear"
                 })}
               </Button>
-              <a style={{ marginLeft: 8, fontSize: 14 }} onClick={this.toggle}>
-                {this.props.intl.formatMessage({
-                  id: "advanced.search.button.text",
-                  defaultMessage: "Advanced Search"
-                })}{" "}
-                <Icon type={this.state.expand ? "up" : "down"} />
-              </a>
             </Col>
-          </Row>
+          </div>
+          <Card
+            style={{ boxShadow: "5px 5px 5px #e6e6e6", borderRadius: "5px" }}
+          >
+            <Row gutter={24}>{this.getFields(data)}</Row>
+            <Row>
+              <Col span={24} style={{ textAlign: "right" }}>
+                <a
+                  style={{ marginLeft: 8, fontSize: 14 }}
+                  onClick={this.toggle}
+                >
+                  {this.props.intl.formatMessage({
+                    id: "advanced.search.button.text",
+                    defaultMessage: "Advanced Search"
+                  })}{" "}
+                  <Icon type={this.state.expand ? "up" : "down"} />
+                </a>
+              </Col>
+            </Row>
+          </Card>
         </div>
       </Form>
     );
   }
 }
+
 SearchBarView = Form.create({})(SearchBarView);
 export default injectIntl(SearchBarView);
