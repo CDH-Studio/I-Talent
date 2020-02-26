@@ -17,10 +17,7 @@ class ProfileCreate extends React.Component {
 
   render() {
     const sideBarContent = (
-      <div style={{ margin: "20px 25px" }}>
-        <Title level={3} style={{ fontSize: "1rem", margin: "10px 0px" }}>
-          Steps
-        </Title>
+      <div style={{ margin: "20px 30px" }}>
         <Steps direction="vertical" size="small" current={1}>
           <Step title="Welcome" />
           <Step title={<FormattedMessage id="setup.primary.information" />} />
