@@ -30,7 +30,7 @@ export default class AppLayoutView extends Component {
             displaySideBar={this.props.displaySideBar}
           ></SideNav>
           {/* Render content */}
-          <Layout style={{ padding: "0 24px 24px" }}>
+          <Layout>
             <Content style={styles.content}>{this.props.children}</Content>
           </Layout>
         </Layout>
@@ -42,7 +42,7 @@ export default class AppLayoutView extends Component {
 /* Component Styles */
 const styles = {
   content: {
-    padding: 24,
+    padding: "20px 15px",
     margin: 0,
     minHeight: 280
   }
