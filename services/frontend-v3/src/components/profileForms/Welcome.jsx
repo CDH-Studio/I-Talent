@@ -20,7 +20,13 @@ export default class Welcome extends Component {
         <Paragraph style={styles.subHeading}>
           We just need a few bits of information to set up you profile
         </Paragraph>
-        <Button type="primary" icon="edit" size="large" shape="round">
+        <Button
+          type="primary"
+          icon="edit"
+          size="large"
+          shape="round"
+          href="/secured/profile/create/step/2"
+        >
           Start Profile
         </Button>
       </div>
