@@ -40,6 +40,8 @@ class ProfileCreate extends React.Component {
   render() {
     const { current } = this.state;
     let form = this.profileFormSelect(1);
+    let stepz = this.props.match.params.step;
+    console.log(stepz);
     const sideBarContent = (
       <div style={{ margin: "20px 30px" }}>
         <Steps
