@@ -1,5 +1,8 @@
 import React from "react";
-import { Form, Row, Col, Input, Button, Icon } from "antd";
+import { Link } from "react-router-dom";
+import { Form, Row, Col, Input, Button, Icon, Switch } from "antd";
+import queryString from "query-string";
+import logo from "../SideNav/logo_v2.svg";
 
 import { injectIntl } from "react-intl";
 class SearchBarView extends React.Component {
@@ -15,6 +18,11 @@ class SearchBarView extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
     const children = [];
+    var fieldCounter = 0;
+    const searchLabel = this.props.intl.formatMessage({
+      id: "button.search",
+      defaultMessage: "Search"
+    });
     const labelArr = [
       this.props.intl.formatMessage({
         id: "advanced.search.form.name",
@@ -42,14 +50,23 @@ class SearchBarView extends React.Component {
       })
     ];
     for (let i = 0; i < 10; i++) {
+      fieldCounter++;
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
-          <Form.Item label={labelArr[i]}>
-            {getFieldDecorator(
-              "label: " + labelArr[i],
-              {}
-            )(<Input placeholder={"Enter a value"} />)}
-          </Form.Item>
+          {fieldCounter !== 6 ? (
+            <Form.Item label={labelArr[i]}>
+              {getFieldDecorator(
+                "" + labelArr[i],
+                {}
+              )(<Input placeholder={searchLabel} />)}
+            </Form.Item>
+          ) : (
+            <Form.Item style={{ textAlign: "center" }} label={labelArr[i]}>
+              {getFieldDecorator("Switch", { valuePropName: "checked" })(
+                <Switch />
+              )}
+            </Form.Item>
+          )}
         </Col>
       );
     }
@@ -57,9 +74,23 @@ class SearchBarView extends React.Component {
   }
 
   handleSearch = e => {
+    var query;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      var basicSearch = values[0];
+      var searchName = values[1];
+      var searchSkills = values[2];
+      var searchBranch = values[3];
+      var searchLocation = values[4];
+      var searchClassification = values[5];
+      var searchSwitch = values[6];
+      query = queryString.stringify(values, { arrayFormat: "bracket" });
       console.log("Received values of form: ", values);
+      console.log(query);
+      let url = "/secured/results?" + encodeURI(query);
+      this.props.history.push(url);
+
+      console.log(url);
     });
   };
 
@@ -84,25 +115,41 @@ class SearchBarView extends React.Component {
       <Form onSubmit={this.handleSearch}>
         <div
           style={{
-            paddingTop: "20px",
+            paddingTop: "80px",
             paddingLeft: "20%",
             paddingRight: "20%",
             paddingBottom: "20px"
           }}
         >
-          <header style={{ paddingLeft: "43%", paddingBottom: "20px" }}>
-            UPSKILL :)
-          </header>
-          <div style={{ paddingBottom: "20px" }}>
-            {getFieldDecorator(
-              "label: Search",
-              {}
-            )(<Input placeholder={searchLabel} />)}
+          <div
+            style={{
+              backgroundColor: "#001C1A",
+              borderRadius: "5px",
+              paddingTop: "60px",
+              paddingLeft: "60px",
+              paddingRight: "60px",
+              paddingBottom: "40px"
+            }}
+          >
+            <header
+              style={{
+                paddingBottom: "20px",
+                textAlign: "center"
+              }}
+            >
+              <img src={logo} alt="UpSkill Logo" style={{ height: "80px" }} />;
+            </header>
+            <div style={{ paddingBottom: "20px" }}>
+              {getFieldDecorator(
+                "Search",
+                {}
+              )(<Input placeholder={searchLabel} />)}
+            </div>
           </div>
 
           <Row gutter={24}>{this.getFields(data)}</Row>
           <Row>
-            <Col span={24} style={{ textAlign: "right" }}>
+            <Col span={24} style={{ textAlign: "right", paddingTop: "10px" }}>
               <Button type="primary" htmlType="submit">
                 {searchLabel}
               </Button>
