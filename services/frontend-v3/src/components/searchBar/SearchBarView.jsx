@@ -5,7 +5,7 @@ import prepareInfo from "../../functions/prepareInfo";
 import axios from "axios";
 import config from "../../config";
 import queryString from "query-string";
-import logo from "../SideNav/logo_v2.svg";
+import logo from "../sideNav/logo_v2.svg";
 
 import { injectIntl } from "react-intl";
 const backendAddress = config.backendAddress;
