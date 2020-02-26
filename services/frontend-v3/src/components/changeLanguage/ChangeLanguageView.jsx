@@ -1,41 +1,27 @@
 //PREEXISTING CODE
 
 import React, { Component } from "react";
-import { Icon, Button } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { Icon, Radio, Button } from "antd";
+import { injectIntl } from "react-intl";
 
 class ChangeLanguageView extends Component {
   changeLanguage = lang => {
     this.props.changeLanguage(lang);
   };
 
-  handleKeyPress = (e, lang) => {
-    if (e.charCode === 32 || e.charCode === 13) {
-      // Prevent the default action to stop scrolling when space is pressed
-      e.preventDefault();
-      this.changeLanguage(lang);
-    }
-  };
-
   render() {
     const { intl } = this.props;
-    const languageCode = intl.formatMessage({ id: "lang.code" });
+    const languageCode = intl.formatMessage({ id: "language.code" });
 
     return (
-      <Button
-        ghost="true"
-        type="default"
-        tabIndex="0"
-        onKeyPress={e => this.handleKeyPress(e, languageCode)}
-        onClick={() => this.changeLanguage(languageCode)}
-        style={{ textTransform: "uppercase" }}
-      >
-        <Icon type="global" />{" "}
-        <FormattedMessage
-          style={{ textTransform: "capitalize" }}
-          id="lang.code"
-        />
-      </Button>
+      <Radio.Group defaultValue={languageCode} buttonStyle="solid">
+        <Radio.Button value="en" onClick={() => this.changeLanguage("en")}>
+          EN
+        </Radio.Button>
+        <Radio.Button value="fr" onClick={() => this.changeLanguage("fr")}>
+          FR
+        </Radio.Button>
+      </Radio.Group>
     );
   }
 }
