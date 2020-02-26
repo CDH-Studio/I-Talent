@@ -1,5 +1,5 @@
 import React from "react";
-import SiderLayout from "../../components/layout/SiderLayout";
+import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import axios from "axios";
 import { Typography, Skeleton, Statistic, Card, Row, Col, Icon } from "antd";
 import moment from "moment";
@@ -196,9 +196,9 @@ class AdminDashboard extends React.Component {
     const { data, loading } = this.state;
     if (loading) {
       return (
-        <SiderLayout>
+        <AppLayout>
           <Skeleton active />
-        </SiderLayout>
+        </AppLayout>
       );
     }
 
@@ -325,11 +325,11 @@ class AdminDashboard extends React.Component {
     );
 
     return (
-      <SiderLayout
+      <AppLayout
         changeLanguage={this.props.changeLanguage}
         keycloak={this.props.keycloak}
         history={this.props.history}
-        data={data}
+        displaySideBar={true}
       >
         <Title>Admin Dashboard</Title>
         <Row gutter={[8, 8]}>
@@ -575,7 +575,7 @@ class AdminDashboard extends React.Component {
             </Card>
           </Col>
         </Row>
-      </SiderLayout>
+      </AppLayout>
     );
   }
 }
