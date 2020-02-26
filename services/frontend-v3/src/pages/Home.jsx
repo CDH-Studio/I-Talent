@@ -43,7 +43,7 @@ class Home extends React.Component {
       >
         <Row>
           <SearchBar />
-          <Button
+          {/* <Button
             type="danger"
             onClick={() => {
               this.goto("/");
@@ -54,7 +54,7 @@ class Home extends React.Component {
               id: "sign.out",
               defaultMessage: "Logout"
             })}
-          </Button>
+          </Button> */}
         </Row>
       </AppLayout>
     );
