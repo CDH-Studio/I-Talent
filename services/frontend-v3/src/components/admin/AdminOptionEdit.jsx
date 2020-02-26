@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AdminMenu from "../components/admin/AdminMenu";
+import AdminMenu from "./AdminMenu";
 import {
   Table,
   Modal,
@@ -15,18 +15,16 @@ import _ from "lodash";
 import axios from "axios";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import config from "../config";
+import config from "../../config";
 const { backendAddress } = config;
 
 const ELEMENT_PER_PAGE = 10;
 
-class AdminSchool extends Component {
-  goto = (link, state) => this.props.history.push(link, state);
-
+class AdminOptionEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "school",
+      type: this.props.type,
       column: null,
       allData: null,
       data: null,
@@ -34,9 +32,8 @@ class AdminSchool extends Component {
       id: null,
       modal: null,
       loading: true,
-      description: null,
-      state: null,
-      country: null,
+      english: null,
+      french: null,
       deleteValues: [],
       activePage: 1
     };
@@ -50,9 +47,9 @@ class AdminSchool extends Component {
       .then(res =>
         this.setState({
           allData: res.data,
-          data: _.sortBy(res.data, ["description"]),
+          data: _.sortBy(res.data, ["descriptionEn"]),
           loading: false,
-          column: "name",
+          column: "english",
           direction: "ascending"
         })
       );
@@ -74,11 +71,7 @@ class AdminSchool extends Component {
   handleSort = clickedColumn => () => {
     const { column, data, direction } = this.state;
 
-    const dbAttributes = {
-      name: "description",
-      state: "state",
-      country: "country"
-    };
+    const dbAttributes = { english: "descriptionEn", french: "descriptionFr" };
 
     if (column !== clickedColumn) {
       this.setState({
@@ -108,8 +101,8 @@ class AdminSchool extends Component {
   handleFilter = (e, { value }) => {
     const newData = this.state.allData.filter(
       option =>
-        (option.description &&
-          option.description
+        (option.descriptionEn &&
+          option.descriptionEn
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -119,19 +112,8 @@ class AdminSchool extends Component {
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")
             )) ||
-        (option.state &&
-          option.state
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              value
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-            )) ||
-        (option.country &&
-          option.country
+        (option.descriptionFr &&
+          option.descriptionFr
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -151,24 +133,20 @@ class AdminSchool extends Component {
     });
   };
 
-  handleClick = (type, id, description, state, country) => {
-    this.setState({ id: id, modal: type, description, state, country });
+  handleClick = (type, id, en, fr) => {
+    this.setState({ id: id, modal: type, english: en, french: fr });
   };
 
   handleSubmitEdit = () => {
-    const { type, id, description, state, country } = this.state;
+    const { type, id, english, french } = this.state;
 
     const url = backendAddress + "api/admin/options/" + type + "/" + id;
-    axios.put(url, { description, state, country }).then(() => {
-      this.setState({
-        id: null,
-        description: null,
-        state: null,
-        country: null,
-        modal: null
+    axios
+      .put(url, { descriptionEn: english, descriptionFr: french })
+      .then(() => {
+        this.setState({ id: null, english: null, french: null, modal: null });
+        window.location.reload();
       });
-      window.location.reload();
-    });
   };
 
   handleSubmitDelete = () => {
@@ -187,31 +165,25 @@ class AdminSchool extends Component {
   };
 
   handleSubmitAdd = () => {
-    const { type, description, state, country } = this.state;
+    const { type, english, french } = this.state;
 
     const url = backendAddress + "api/admin/options/" + type;
-    axios.post(url, { description, state, country }).then(() => {
-      this.setState({
-        id: null,
-        description: null,
-        state: null,
-        country: null,
-        modal: null
+    axios
+      .post(url, { descriptionEn: english, descriptionFr: french })
+      .then(() => {
+        this.setState({ id: null, english: null, french: null, modal: null });
+        window.location.reload();
       });
-      window.location.reload();
-    });
   };
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
-  renderEditButton = (id, description, state, country) => {
+  renderEditButton = (id, en, fr) => {
     return (
       <center>
         <Icon
           color="blue"
-          onClick={() =>
-            this.handleClick("edit", id, description, state, country)
-          }
+          onClick={() => this.handleClick("edit", id, en, fr)}
           name="pencil"
         />
       </center>
@@ -219,8 +191,7 @@ class AdminSchool extends Component {
   };
 
   editModal = () => {
-    const { modal, description, state, country } = this.state;
-
+    const { modal, english, french } = this.state;
     return (
       <Modal
         size="small"
@@ -233,29 +204,20 @@ class AdminSchool extends Component {
         <Modal.Content>
           <Form>
             <Form.Field>
-              <label>Name</label>
+              <label>English</label>
               <Input
-                placeholder="Name"
-                name="description"
-                value={description}
+                placeholder="English"
+                name="english"
+                value={english}
                 onChange={this.handleEditChange}
               />
             </Form.Field>
             <Form.Field>
-              <label>Province</label>
+              <label>French</label>
               <Input
-                placeholder="Province"
-                name="state"
-                value={state}
-                onChange={this.handleEditChange}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Country</label>
-              <Input
-                placeholder="Country"
-                name="country"
-                value={country}
+                placeholder="French"
+                name="french"
+                value={french}
                 onChange={this.handleEditChange}
               />
             </Form.Field>
@@ -271,7 +233,7 @@ class AdminSchool extends Component {
             <FormattedMessage id="admin.cancel" />
           </Button>
           <Button color="green" onClick={this.handleSubmitEdit}>
-            <Icon name="checkmark" /> Apply
+            <Icon name="checkmark" /> <FormattedMessage id="admin.apply" />
           </Button>
         </Modal.Actions>
       </Modal>
@@ -319,8 +281,7 @@ class AdminSchool extends Component {
   };
 
   addModal = () => {
-    const { modal, description, state, country } = this.state;
-
+    const { modal, english, french } = this.state;
     return (
       <Modal
         size="small"
@@ -333,35 +294,20 @@ class AdminSchool extends Component {
         <Modal.Content>
           <Form>
             <Form.Field>
-              <label>
-                <FormattedMessage id="admin.name" />
-              </label>
+              <label>English</label>
               <Input
-                placeholder="Name"
-                name="description"
-                value={description}
+                placeholder="English"
+                name="english"
+                value={english}
                 onChange={this.handleEditChange}
               />
             </Form.Field>
             <Form.Field>
-              <label>
-                <FormattedMessage id="admin.province" />
-              </label>
+              <label>French</label>
               <Input
-                placeholder="Province"
-                name="state"
-                value={state}
-                onChange={this.handleEditChange}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>
-                <FormattedMessage id="admin.country" />
-              </label>
-              <Input
-                placeholder="Country"
-                name="country"
-                value={country}
+                placeholder="French"
+                name="french"
+                value={french}
                 onChange={this.handleEditChange}
               />
             </Form.Field>
@@ -392,22 +338,16 @@ class AdminSchool extends Component {
           <Table.Row>
             <Table.HeaderCell width={1} />
             <Table.HeaderCell
-              sorted={column === "name" ? direction : null}
-              onClick={this.handleSort("name")}
+              sorted={column === "english" ? direction : null}
+              onClick={this.handleSort("english")}
             >
-              <FormattedMessage id="admin.name" />
+              <FormattedMessage id="language.english" />
             </Table.HeaderCell>
             <Table.HeaderCell
-              sorted={column === "state" ? direction : null}
-              onClick={this.handleSort("state")}
+              sorted={column === "french" ? direction : null}
+              onClick={this.handleSort("french")}
             >
-              <FormattedMessage id="admin.state" />
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              sorted={column === "country" ? direction : null}
-              onClick={this.handleSort("country")}
-            >
-              <FormattedMessage id="admin.country" />
+              <FormattedMessage id="language.french" />
             </Table.HeaderCell>
             <Table.HeaderCell width={2} textAlign="center">
               <FormattedMessage id="admin.editHeader" />
@@ -415,7 +355,7 @@ class AdminSchool extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {_.map(pageData, ({ id, description, state, country }) => (
+          {_.map(pageData, ({ id, descriptionEn, descriptionFr }) => (
             <Table.Row key={id}>
               <Table.Cell>
                 <center>
@@ -425,11 +365,10 @@ class AdminSchool extends Component {
                   />
                 </center>
               </Table.Cell>
-              <Table.Cell>{description}</Table.Cell>
-              <Table.Cell>{state}</Table.Cell>
-              <Table.Cell>{country}</Table.Cell>
+              <Table.Cell>{descriptionEn}</Table.Cell>
+              <Table.Cell>{descriptionFr}</Table.Cell>
               <Table.Cell>
-                {this.renderEditButton(id, description, state, country)}
+                {this.renderEditButton(id, descriptionEn, descriptionFr)}
               </Table.Cell>
             </Table.Row>
           ))}
@@ -466,7 +405,7 @@ class AdminSchool extends Component {
         changeLanguage={changeLanguage}
         keycloak={keycloak}
         loading={loading}
-        goto={this.goto}
+        goto={this.props.goto}
       >
         {this.editModal()}
         {this.deleteModal()}
@@ -503,19 +442,19 @@ class AdminSchool extends Component {
             boundaryRange="2"
             siblingRange="2"
             firstItem={{
-              content: <Icon name="angle double left" color="blue" />,
+              content: <Icon name="angle double left" />,
               icon: true
             }}
             lastItem={{
-              content: <Icon name="angle double right" color="blue" />,
+              content: <Icon name="angle double right" />,
               icon: true
             }}
             prevItem={{
-              content: <Icon name="angle left" color="blue" />,
+              content: <Icon name="angle left" />,
               icon: true
             }}
             nextItem={{
-              content: <Icon name="angle right" color="blue" />,
+              content: <Icon name="angle right" />,
               icon: true
             }}
           />
@@ -525,4 +464,4 @@ class AdminSchool extends Component {
   }
 }
 
-export default injectIntl(AdminSchool);
+export default injectIntl(AdminOptionEdit);

@@ -10,7 +10,7 @@ import "moment/locale/fr-ca";
 
 import "./App.css";
 import { Landing, NotFound } from "./pages";
-import { Secured } from "./routes";
+import { Secured, Admin } from "./routes";
 
 class App extends Component {
   goto = link => this.props.history.push(link);
@@ -48,6 +48,12 @@ class App extends Component {
               path="/secured"
               render={routeProps => (
                 <Secured changeLanguage={this.changeLanguage} {...routeProps} />
+              )}
+            />
+            <Route
+              path="/admin"
+              render={routeProps => (
+                <Admin changeLanguage={this.changeLanguage} {...routeProps} />
               )}
             />
             <Route render={() => <NotFound />} />
