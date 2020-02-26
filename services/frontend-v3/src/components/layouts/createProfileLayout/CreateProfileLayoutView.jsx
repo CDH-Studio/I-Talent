@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { PageHeader, Button } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
 export default class CreateProfileLayoutView extends Component {
@@ -11,6 +12,12 @@ export default class CreateProfileLayoutView extends Component {
         displaySideBar={true}
         sideBarContent={this.props.sideBarContent}
       >
+        <PageHeader
+          style={{
+            padding: "10px 7px"
+          }}
+          title="Create Profile"
+        />
         {this.props.form}
       </AppLayout>
     );
