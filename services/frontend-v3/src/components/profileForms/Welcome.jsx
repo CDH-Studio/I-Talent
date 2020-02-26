@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import { Affix, Layout, Row, Col, Typography, Button } from "antd";
-
-const { Sider } = Layout;
+import { Typography, Button } from "antd";
 const { Title, Paragraph } = Typography;
 
 export default class Welcome extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      collapsed: false
-    };
   }
 
   render() {
