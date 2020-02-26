@@ -3,6 +3,7 @@ import { Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
 import Welcome from "../../../components/profileForms/Welcome";
+import PrimaryInfoForm from "../../profileForms/primaryInfoForm/PrimaryInfoForm";
 
 const { Step } = Steps;
 
@@ -18,7 +19,7 @@ export default class CreateProfileLayout extends React.Component {
       case 1:
         return <Welcome />;
       case 2:
-        return <div>hello2</div>;
+        return <PrimaryInfoForm />;
       default:
         return <div>hello3</div>;
     }
