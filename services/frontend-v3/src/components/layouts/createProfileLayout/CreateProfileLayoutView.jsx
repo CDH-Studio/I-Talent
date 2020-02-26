@@ -2,14 +2,6 @@ import React, { Component } from "react";
 import AppLayout from "../appLayout/AppLayout";
 
 export default class CreateProfileLayoutView extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      collapsed: false
-    };
-  }
-
   render() {
     return (
       <AppLayout
@@ -24,12 +16,3 @@ export default class CreateProfileLayoutView extends Component {
     );
   }
 }
-
-/* Component Styles */
-const styles = {
-  content: {
-    padding: "20px 15px",
-    margin: 0,
-    minHeight: 280
-  }
-};

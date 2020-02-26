@@ -3,10 +3,6 @@ import { Typography, Button } from "antd";
 const { Title, Paragraph } = Typography;
 
 export default class Welcome extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div style={styles.content}>

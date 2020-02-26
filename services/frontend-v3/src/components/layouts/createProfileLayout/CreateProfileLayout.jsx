@@ -8,10 +8,6 @@ import PrimaryInfoForm from "../../profileForms/primaryInfoForm/PrimaryInfoForm"
 const { Step } = Steps;
 
 export default class CreateProfileLayout extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   // Get correct form for current step
   profileFormSelect(step) {
     const stepInt = parseInt(step);
