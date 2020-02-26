@@ -42,7 +42,8 @@ class Home extends React.Component {
         sideBarContent={sideBarContent}
       >
         <Row>
-          <SearchBar />
+          <SearchBar history={this.props.history} />
+
           {/* <Button
             type="danger"
             onClick={() => {
