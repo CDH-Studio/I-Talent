@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Typography, Avatar, List, Form, Icon } from "antd";
+import { Row, Col, Card, Typography, Avatar, List, Button } from "antd";
 const { Title } = Typography;
 
 class BasicInfoView extends Component {
@@ -46,59 +46,44 @@ class BasicInfoView extends Component {
             </Col>
           </Row>
         </Row>
-        <Card>
+        <Card actions={this.generateActions()}>
           <Row>
             <Col xs={24} lg={12}>
-              <List
-                itemLayout="horizontal"
-                dataSource={contactInfo}
-                renderItem={item => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          style={{
-                            backgroundColor: avatar.color
-                          }}
-                          size="large"
-                          icon={item.icon}
-                          shape="square"
-                        />
-                      }
-                      title={<a href="https://ant.design">{item.title}</a>}
-                      description={item.description}
-                    />
-                  </List.Item>
-                )}
-              />
+              {this.generateContactList(contactInfo)}
             </Col>
             <Col xs={24} lg={12}>
-              <List
-                itemLayout="horizontal"
-                dataSource={locationInfo}
-                renderItem={item => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          style={{
-                            backgroundColor: avatar.color
-                          }}
-                          size="large"
-                          icon={item.icon}
-                          shape="square"
-                        />
-                      }
-                      title={<a href="https://ant.design">{item.title}</a>}
-                      description={item.description}
-                    />
-                  </List.Item>
-                )}
-              />
+              {this.generateContactList(locationInfo)}
             </Col>
           </Row>
         </Card>
       </div>
+    );
+  }
+
+  generateContactList(dataSource) {
+    return (
+      <List
+        itemLayout="horizontal"
+        dataSource={dataSource}
+        renderItem={item => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  style={{
+                    backgroundColor: this.props.avatar.color
+                  }}
+                  size="large"
+                  icon={item.icon}
+                  shape="square"
+                />
+              }
+              title={item.title}
+              description={item.description}
+            />
+          </List.Item>
+        )}
+      />
     );
   }
 
@@ -148,6 +133,22 @@ class BasicInfoView extends Component {
     };
 
     return [branch, address, manager];
+  }
+
+  generateActions() {
+    const { buttonLinks } = this.props;
+
+    const buttons = buttonLinks.buttons.map(buttonName => {
+      const button = buttonLinks[buttonName];
+
+      return (
+        <Button block icon={button.icon} href={button.url}>
+          {this.props.intl.formatMessage({ id: button.textId })}
+        </Button>
+      );
+    });
+
+    return buttons;
   }
 }
 

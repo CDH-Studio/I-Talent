@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import BasicInfoView from "./BasicInfoView";
 
-const colorList = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae"];
-
 class BasicInfo extends Component {
   render() {
     const { data } = this.props;
@@ -13,29 +11,71 @@ class BasicInfo extends Component {
       <BasicInfoView
         data={data}
         avatar={{
-          acr: this.getAcronym(name),
-          color: this.stringToHslColor(this.getAcronym(name))
+          acr: getAcronym(name),
+          color: stringToHslColor(getAcronym(name))
         }}
         locale={localStorage.getItem("lang")}
+        buttonLinks={this.getButtonLinks()}
       />
     );
   }
 
-  stringToHslColor(str) {
-    var hash = 0;
-    var s = 90;
-    var l = 45;
-    for (var i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    var h = hash % 360;
-    return "hsl(" + h + ", " + s + "%, " + l + "%)";
-  }
+  getButtonLinks() {
+    const { linkedinUrl, githubUrl, twitterUrl, email } = this.props.data;
+    let buttonLinks = { buttons: [] };
 
-  getAcronym(name) {
-    const i = name.lastIndexOf(" ") + 1;
-    return name.substring(0, 1) + name.substring(i, i + 1);
+    if (linkedinUrl) {
+      buttonLinks.buttons.push("linkedin");
+      buttonLinks.linkedin = {
+        icon: "linkedin",
+        textId: "profile.linkedin",
+        url: linkedinUrl
+      };
+    }
+
+    if (githubUrl) {
+      buttonLinks.buttons.push("github");
+      buttonLinks.github = {
+        icon: "github",
+        textId: "profile.github",
+        url: githubUrl
+      };
+    }
+
+    if (twitterUrl) {
+      buttonLinks.buttons.push("gcconnex");
+      buttonLinks.gcconnex = {
+        icon: "link",
+        textId: "profile.gcconnex",
+        url: twitterUrl
+      };
+    }
+
+    buttonLinks.buttons.push("email");
+    buttonLinks.email = {
+      icon: "mail",
+      textId: "profile.email",
+      url: "mailto:" + email
+    };
+
+    return buttonLinks;
   }
+}
+
+function stringToHslColor(str) {
+  var hash = 0;
+  var s = 90;
+  var l = 45;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var h = hash % 360;
+  return "hsl(" + h + ", " + s + "%, " + l + "%)";
+}
+
+function getAcronym(name) {
+  const i = name.lastIndexOf(" ") + 1;
+  return name.substring(0, 1) + name.substring(i, i + 1);
 }
 
 export default BasicInfo;
