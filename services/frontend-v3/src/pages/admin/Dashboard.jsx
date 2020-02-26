@@ -3,174 +3,13 @@ import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import axios from "axios";
 import { Typography, Skeleton, Statistic, Card, Row, Col, Icon } from "antd";
 import moment from "moment";
-import {
-  G2,
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util
-} from "bizcharts";
+import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { injectIntl } from "react-intl";
 import config from "../../config";
 
 const backendAddress = config.backendAddress;
 
 const { Title } = Typography;
-
-const popularSkillsColumns = {
-  name: { alias: "Skill Name" },
-  count: { alias: "Number of users" }
-};
-
-const popularCompetenciesColumns = {
-  name: { alias: "Competency Name" },
-  count: { alias: "Number of users" }
-};
-
-const popularDevelopmentGoalsColumns = {
-  name: { alias: "Development Goal Name" },
-  count: { alias: "Number of users" }
-};
-
-const growthRateByMonthColumns = {
-  monthName: { range: [0, 1] },
-  count: { alias: "Number of users" }
-};
-
-const testCities = [
-  {
-    month: "Jan",
-    city: "China",
-    revenue: 7
-  },
-  {
-    month: "Jan",
-    city: "Oversea",
-    revenue: 3.9
-  },
-  {
-    month: "Feb",
-    city: "China",
-    revenue: 6.9
-  },
-  {
-    month: "Feb",
-    city: "Oversea",
-    revenue: 4.2
-  },
-  {
-    month: "Mar",
-    city: "China",
-    revenue: 9.5
-  },
-  {
-    month: "Mar",
-    city: "Oversea",
-    revenue: 5.7
-  },
-  {
-    month: "Apr",
-    city: "China",
-    revenue: 14.5
-  },
-  {
-    month: "Apr",
-    city: "Oversea",
-    revenue: 8.5
-  },
-  {
-    month: "May",
-    city: "China",
-    revenue: 18.4
-  },
-  {
-    month: "May",
-    city: "Oversea",
-    revenue: 11.9
-  },
-  {
-    month: "Jun",
-    city: "China",
-    revenue: 21.5
-  },
-  {
-    month: "Jun",
-    city: "Oversea",
-    revenue: 15.2
-  },
-  {
-    month: "Jul",
-    city: "China",
-    revenue: 25.2
-  },
-  {
-    month: "Jul",
-    city: "Oversea",
-    revenue: 17
-  },
-  {
-    month: "Aug",
-    city: "China",
-    revenue: 26.5
-  },
-  {
-    month: "Aug",
-    city: "Oversea",
-    revenue: 16.6
-  },
-  {
-    month: "Sep",
-    city: "China",
-    revenue: 23.3
-  },
-  {
-    month: "Sep",
-    city: "Oversea",
-    revenue: 14.2
-  },
-  {
-    month: "Oct",
-    city: "China",
-    revenue: 18.3
-  },
-  {
-    month: "Oct",
-    city: "Oversea",
-    revenue: 10.3
-  },
-  {
-    month: "Nov",
-    city: "China",
-    revenue: 13.9
-  },
-  {
-    month: "Nov",
-    city: "Oversea",
-    revenue: 6.6
-  },
-  {
-    month: "Dec",
-    city: "China",
-    revenue: 9.6
-  },
-  {
-    month: "Dec",
-    city: "Oversea",
-    revenue: 4.8
-  }
-];
-
-const cols = {
-  month: { range: [0, 1] }
-};
 
 class AdminDashboard extends React.Component {
   goto = link => this.props.history.push(link);
@@ -272,27 +111,19 @@ class AdminDashboard extends React.Component {
       return entry;
     });
 
-    //console.log(monthlyGrowthRate);
-
-    let testData = [];
+    let graphicalData = [];
 
     monthlyGrowthRate = monthlyGrowthRate.map((entry, index) => {
       for (let i = 0; i < 12; i++) {
-        testData.push({
+        graphicalData.push({
           year: entry.year.toString(),
-          month: i,
+          monthNumber: i,
           monthName: entry.data[i].monthName,
           count: entry.data[i].count
         });
       }
-      entry.data = testData;
       return entry;
     });
-
-    console.log(testData);
-    console.log(monthlyGrowthRate);
-
-    const test = testData;
 
     // Users Added This Month & Growth Rate Percentage:
     const current_year = moment().year();
@@ -323,6 +154,27 @@ class AdminDashboard extends React.Component {
         previous_month_additions.count) *
         100
     );
+
+    // Graph Columns:
+    const popularSkillsColumns = {
+      name: { alias: "Skill Name" },
+      count: { alias: "Number of users" }
+    };
+
+    const popularCompetenciesColumns = {
+      name: { alias: "Competency Name" },
+      count: { alias: "Number of users" }
+    };
+
+    const popularDevelopmentGoalsColumns = {
+      name: { alias: "Development Goal Name" },
+      count: { alias: "Number of users" }
+    };
+
+    const growthRateByMonthColumns = {
+      monthName: { range: [0, 1] },
+      count: { alias: "Number of users" }
+    };
 
     return (
       <AppLayout
@@ -510,7 +362,7 @@ class AdminDashboard extends React.Component {
               })}
             >
               <Chart
-                data={test}
+                data={graphicalData}
                 scale={growthRateByMonthColumns}
                 padding="auto"
                 forceFit
@@ -531,41 +383,6 @@ class AdminDashboard extends React.Component {
                   size={4}
                   shape={"circle"}
                   color={"year"}
-                  style={{
-                    stroke: "#fff",
-                    lineWidth: 1
-                  }}
-                />
-              </Chart>
-            </Card>
-          </Col>
-        </Row>
-        <Row gutter={[8, 8]}>
-          <Col span={24}>
-            <Card
-              hoverable
-              title={this.props.intl.formatMessage({
-                id: "admin.dashboard.growth.rate.by.month",
-                defaultMessage: "Growth Rate By Month"
-              })}
-            >
-              <Chart data={testCities} scale={cols} padding="auto" forceFit>
-                <Legend />
-                <Axis name="month" />
-                <Axis name="revenue" />
-                <Tooltip crosshairs={{ type: "y" }} />
-                <Geom
-                  type="line"
-                  position="month*revenue"
-                  size={2}
-                  color={"city"}
-                />
-                <Geom
-                  type="point"
-                  position="month*revenue"
-                  size={4}
-                  shape={"circle"}
-                  color={"city"}
                   style={{
                     stroke: "#fff",
                     lineWidth: 1
