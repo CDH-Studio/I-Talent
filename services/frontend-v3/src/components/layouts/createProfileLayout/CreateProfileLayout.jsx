@@ -9,12 +9,9 @@ const { Step } = Steps;
 export default class CreateProfileLayout extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      collapsed: false
-    };
   }
 
+  // Get correct form for current step
   profileFormSelect(step) {
     const stepInt = parseInt(step);
     switch (stepInt) {
@@ -29,9 +26,10 @@ export default class CreateProfileLayout extends React.Component {
 
   // return side bar contents
   getSideBarContent(step) {
+    const stepInt = parseInt(step) - 1;
     return (
       <div style={{ margin: "20px 30px" }}>
-        <Steps direction="vertical" size="small" current={step}>
+        <Steps direction="vertical" size="small" current={stepInt}>
           <Step title="Welcome" />
           <Step title={<FormattedMessage id="setup.primary.information" />} />
           <Step title={<FormattedMessage id="setup.manager" />} />
@@ -50,10 +48,10 @@ export default class CreateProfileLayout extends React.Component {
   }
 
   render() {
-    //console.log(this.props.step);
-    //console.log(this.props.match.params.step);
+    // Get Sidebar Content
+    let sideBarContent = this.getSideBarContent(this.props.step);
+    // Get correct form for current step
     let form = this.profileFormSelect(this.props.step);
-    let sideBarContent = this.getSideBarContent();
     return (
       <CreateProfileLayoutView
         changeLanguage={this.props.changeLanguage}
