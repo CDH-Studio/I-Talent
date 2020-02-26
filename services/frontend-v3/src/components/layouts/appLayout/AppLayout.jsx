@@ -1,5 +1,4 @@
 import React from "react";
-import {} from "antd";
 import AppLayoutView from "./AppLayoutView";
 
 export default class AppLayout extends React.Component {

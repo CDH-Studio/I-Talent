@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { Layout } from "antd";
 import TopNav from "../../topNav/TopNav";
 import SideNav from "../../sideNav/SideNav";
-import { Layout, Breadcrumb } from "antd";
 
 const { Content } = Layout;
 
