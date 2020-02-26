@@ -1,7 +1,7 @@
 //PREEXISTING CODE
 
 import React, { Component } from "react";
-import { Icon, Radio, Button } from "antd";
+import { Radio } from "antd";
 import { injectIntl } from "react-intl";
 
 class ChangeLanguageView extends Component {
