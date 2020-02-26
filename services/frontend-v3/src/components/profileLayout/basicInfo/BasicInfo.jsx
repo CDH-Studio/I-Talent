@@ -1,33 +1,81 @@
 import React, { Component } from "react";
 import BasicInfoView from "./BasicInfoView";
 
-const colorList = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae"];
-
 class BasicInfo extends Component {
   render() {
-    const { name, data } = this.props;
+    const { data } = this.props;
+
+    const name = data.firstName + " " + data.lastName;
 
     return (
       <BasicInfoView
-        name={name}
         data={data}
         avatar={{
-          acr: this.getAcronym(name),
-          color: colorList[this.letterMod(name.charAt(0))]
+          acr: getAcronym(name),
+          color: stringToHslColor(getAcronym(name))
         }}
         locale={localStorage.getItem("lang")}
+        buttonLinks={this.getButtonLinks()}
       />
     );
   }
 
-  getAcronym(name) {
-    const i = name.lastIndexOf(" ") + 1;
-    return name.substring(0, 1) + name.substring(i, i + 1);
-  }
+  getButtonLinks() {
+    const { linkedinUrl, githubUrl, twitterUrl, email } = this.props.data;
+    let buttonLinks = { buttons: [] };
 
-  letterMod(char) {
-    return char.charCodeAt(0) % colorList.length;
+    if (linkedinUrl) {
+      buttonLinks.buttons.push("linkedin");
+      buttonLinks.linkedin = {
+        icon: "linkedin",
+        textId: "profile.linkedin",
+        url: linkedinUrl
+      };
+    }
+
+    if (githubUrl) {
+      buttonLinks.buttons.push("github");
+      buttonLinks.github = {
+        icon: "github",
+        textId: "profile.github",
+        url: githubUrl
+      };
+    }
+
+    if (twitterUrl) {
+      buttonLinks.buttons.push("gcconnex");
+      buttonLinks.gcconnex = {
+        icon: "link",
+        textId: "profile.gcconnex",
+        url: twitterUrl
+      };
+    }
+
+    buttonLinks.buttons.push("email");
+    buttonLinks.email = {
+      icon: "mail",
+      textId: "profile.email",
+      url: "mailto:" + email
+    };
+
+    return buttonLinks;
   }
+}
+
+function stringToHslColor(str) {
+  var hash = 0;
+  var s = 90;
+  var l = 45;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var h = hash % 360;
+  return "hsl(" + h + ", " + s + "%, " + l + "%)";
+}
+
+function getAcronym(name) {
+  const i = name.lastIndexOf(" ") + 1;
+  return name.substring(0, 1) + name.substring(i, i + 1);
 }
 
 export default BasicInfo;
