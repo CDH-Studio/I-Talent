@@ -8,8 +8,6 @@ class ProfileHeaderView extends Component {
   render() {
     const { name, jobTitle, avatar } = this.props;
 
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
     return (
       <Row>
         <Col xs={5} sm={4} md={3} lg={2} xl={2}>

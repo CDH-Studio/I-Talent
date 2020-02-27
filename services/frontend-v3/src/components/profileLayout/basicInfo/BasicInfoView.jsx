@@ -11,22 +11,20 @@ class BasicInfoView extends Component {
     const locationInfo = this.getLocationInfo(locale);
 
     return (
-      <div>
-        <Card actions={this.generateActions()}>
-          <Row>
-            <Col xs={24} lg={12}>
-              {this.generateContactList(contactInfo)}
-            </Col>
-            <Col xs={24} lg={12}>
-              {this.generateContactList(locationInfo)}
-            </Col>
-          </Row>
-        </Card>
-      </div>
+      <Card actions={this.generateActions()} style={{ height: "100%" }}>
+        <Row>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(contactInfo)}
+          </Col>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(locationInfo)}
+          </Col>
+        </Row>
+      </Card>
     );
   }
 
-  generateContactList(dataSource) {
+  generateInfoList(dataSource) {
     return (
       <List
         itemLayout="horizontal"
@@ -37,7 +35,7 @@ class BasicInfoView extends Component {
               avatar={
                 <Avatar
                   style={{
-                    backgroundColor: this.props.avatar.color
+                    backgroundColor: this.props.data.color
                   }}
                   size="large"
                   icon={item.icon}
