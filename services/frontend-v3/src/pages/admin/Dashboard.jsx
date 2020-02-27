@@ -131,22 +131,22 @@ class AdminDashboard extends React.Component {
     const current_month = moment().month();
 
     const indexYear = monthlyGrowthRate.findIndex(
-      object => object.year == current_year
+      object => object.year === current_year
     );
 
     const current_month_additions = monthlyGrowthRate[indexYear].data.find(
-      object => object.month == current_month
+      object => object.month === current_month
     );
 
     let previous_month_additions = {};
 
-    if (current_month == 0) {
+    if (current_month === 0) {
       previous_month_additions = monthlyGrowthRate[indexYear - 1].data.find(
-        object => object.month == 11
+        object => object.month === 11
       );
     } else {
       previous_month_additions = monthlyGrowthRate[indexYear - 1].data.find(
-        object => object.month == 11
+        object => object.month === 11
       );
     }
     const growthRate = Math.round(
@@ -184,9 +184,9 @@ class AdminDashboard extends React.Component {
         displaySideBar={true}
       >
         <Title>Admin Dashboard</Title>
-        <Row gutter={[8, 8]}>
+        <Row gutter={[8, 8]} type="flex">
           <Col span={4}>
-            <Card hoverable>
+            <Card hoverable style={{ height: "100%" }}>
               <Statistic
                 title={this.props.intl.formatMessage({
                   id: "admin.dashboard.total.users",
@@ -199,7 +199,7 @@ class AdminDashboard extends React.Component {
             </Card>
           </Col>
           <Col span={4}>
-            <Card hoverable>
+            <Card hoverable style={{ height: "100%" }}>
               <Statistic
                 title={this.props.intl.formatMessage({
                   id: "admin.dashboard.inactive.users",
@@ -212,7 +212,7 @@ class AdminDashboard extends React.Component {
             </Card>
           </Col>
           <Col span={4}>
-            <Card hoverable>
+            <Card hoverable style={{ height: "100%" }}>
               <Statistic
                 title={this.props.intl.formatMessage({
                   id: "admin.dashboard.flagged.profiles",
@@ -225,7 +225,7 @@ class AdminDashboard extends React.Component {
             </Card>
           </Col>
           <Col span={4}>
-            <Card hoverable>
+            <Card hoverable style={{ height: "100%" }}>
               <Statistic
                 title={this.props.intl.formatMessage({
                   id: "admin.dashboard.ex.feeders",
@@ -238,7 +238,7 @@ class AdminDashboard extends React.Component {
             </Card>
           </Col>
           <Col span={4}>
-            <Card hoverable>
+            <Card hoverable style={{ height: "100%" }}>
               <Statistic
                 title={
                   this.props.intl.formatMessage({
@@ -253,7 +253,7 @@ class AdminDashboard extends React.Component {
             </Card>
           </Col>
           <Col span={4}>
-            <Card hoverable>
+            <Card hoverable style={{ height: "100%" }}>
               <Statistic
                 title={
                   this.props.intl.formatMessage({
