@@ -14,7 +14,7 @@ export default class CreateProfileLayoutView extends Component {
       >
         <PageHeader
           style={{
-            padding: "10px 7px"
+            padding: "0 0 15px 7px"
           }}
           title="Create Profile"
         />
