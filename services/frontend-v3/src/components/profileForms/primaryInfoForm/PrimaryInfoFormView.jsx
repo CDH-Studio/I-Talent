@@ -41,6 +41,7 @@ export default class PrimaryInfoFormView extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    console.log(this.props.locationOptions);
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
@@ -161,8 +162,13 @@ export default class PrimaryInfoFormView extends Component {
                     placeholder="choose location"
                     onChange={this.handleSelectChange}
                   >
-                    <Option value="male">male</Option>
-                    <Option value="female">female</Option>
+                    {this.props.locationOptions.map((value, index) => {
+                      return (
+                        <Option key={value.id}>{value.description.en}</Option>
+                      );
+                    })}
+                    {/* <Option value="male">male</Option>
+                    <Option value="female">female</Option> */}
                   </Select>
                 )}
               </Form.Item>
@@ -222,9 +228,9 @@ export default class PrimaryInfoFormView extends Component {
             </Col>
           </Row>
 
-          <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
+          <Form.Item wrapperCol={{ span: 12, offset: 12 }}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Next
             </Button>
           </Form.Item>
         </Form>
