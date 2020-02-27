@@ -1,4 +1,5 @@
 import React from "react";
+import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
 import Skills from "./skills/Skills";
 import { Row, Col } from "antd";
@@ -10,6 +11,7 @@ class Profile extends React.Component {
 
     return (
       <div>
+        <ProfileHeader data={data} />
         <Row>
           <Col xs={24} xl={16}>
             <BasicInfo data={data} />
