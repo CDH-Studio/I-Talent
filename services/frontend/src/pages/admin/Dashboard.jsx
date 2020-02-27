@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AdminMenu from "../../components/admin/AdminMenu";
+import AdminMenu from "../components/admin/AdminMenu";
 import {
   Segment,
   Header,
@@ -29,7 +29,7 @@ import {
   Line
 } from "recharts";
 
-import config from "../../config";
+import config from "../config";
 const { backendAddress } = config;
 
 const skillColours = ["#8C2336", "#6A9BA6", "#F28907", "#BF935E", "#BF3434"];

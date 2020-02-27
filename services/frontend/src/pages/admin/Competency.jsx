@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AdminOptionEdit from "../../components/admin/AdminOptionEdit";
+import AdminOptionEdit from "../components/admin/AdminOptionEdit";
 
 class AdminCompetency extends Component {
   goto = (link, state) => this.props.history.push(link, state);

@@ -41,8 +41,8 @@
   "admin.dashboard.number.of.occurrences": "Number of Users",
   "admin.dashboard.number.of.new.users": "Number of New Users",
   "admin.dashboard.growth.rate.by.month": "Growth Rate By Month",
-  "admin.dashboard.monthly.added": "Users Added This Month",
-  "admin.dashboard.growth.rate.percentage": "Growth Rate From Previous Month",
+  "admin.dashboard.monthly.added": "New Users in ",
+  "admin.dashboard.growth.rate.percentage": "Growth rate in ",
 
   "advanced.search.button.text": "Advanced search",
   "advanced.search.form.name": "Name",
