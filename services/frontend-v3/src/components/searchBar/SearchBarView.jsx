@@ -15,7 +15,6 @@ class SearchBarView extends React.Component {
 
   render() {
     const {
-      advancedOptions,
       getFields,
       getBasicField,
       handleSearch,
@@ -58,6 +57,7 @@ class SearchBarView extends React.Component {
             >
               <img src={logo} alt="UpSkill Logo" style={{ height: "80px" }} />;
             </header>
+            {/* Gets main basic search field and shows buttons beneath */}
             <div style={{ paddingBottom: "20px" }}>{getBasicField(data)}</div>
             <Col span={24} style={{ textAlign: "right", paddingTop: "0px" }}>
               <Button
@@ -85,6 +85,7 @@ class SearchBarView extends React.Component {
           <Card
             style={{ boxShadow: "5px 5px 5px #e6e6e6", borderRadius: "5px" }}
           >
+            {/* Gets fields for Advanced Search in collapse */}
             <Row gutter={24}>{getFields(data)}</Row>
             <Row>
               <Col span={24} style={{ textAlign: "right" }}>
