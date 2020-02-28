@@ -14,9 +14,12 @@ class SearchBar extends React.Component {
     super(props);
     this.state = {
       expand: false,
-      advancedOptions: null
+      skillOptions: [],
+      branchOptions: [],
+      locationOptions: [],
+      classOptions: []
     };
-    this.getAdvancedOptions = this.getAdvancedOptions.bind(this);
+    //this.getAdvancedOptions = this.getAdvancedOptions.bind(this);
     this.getFields = this.getFields.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -28,43 +31,53 @@ class SearchBar extends React.Component {
     this.setState({ expand: !expand });
   };
 
-  async getAdvancedOptions() {
+  async getSkills() {
     const lang = localStorage.getItem("lang");
-    let advancedOptions = {
-      classification: prepareInfo(
-        (await axios.get(backendAddress + "api/option/getGroupLevel")).data,
-        lang
-      ).map(obj => ({
-        key: obj.id,
-        text: obj.description,
-        value: obj.id
-      })),
-      skills: prepareInfo(
-        (await axios.get(backendAddress + "api/option/getDevelopmentalGoals"))
-          .data,
-        lang
-      ).map(obj => ({
-        key: obj.id,
-        text: obj.description,
-        value: obj.id
-      })),
-      location: prepareInfo(
-        (await axios.get(backendAddress + "api/option/getLocation")).data,
-        lang
-      ).map(obj => ({
-        key: obj.id,
-        text: obj.description,
-        value: obj.id
-      })),
-      branch: (await axios.get(backendAddress + "api/option/getBranch")).data
-        .filter(elem => elem.description && elem.description.en)
-        .map(obj => ({
-          key: obj.description.en,
-          text: obj.description[lang],
-          value: obj.description.en
-        }))
-    };
-    this.setState({ advancedOptions: advancedOptions });
+    try {
+      let results = await axios.get(
+        backendAddress + "api/option/getDevelopmentalGoals"
+      );
+
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+
+  async getBranch() {
+    try {
+      let results = await axios
+        .get(backendAddress + "api/option/getBranch")
+        .data.filter(elem => elem.description && elem.description.en);
+      console.log("getBranch(): " + results.data);
+      return results;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+  async getLocation() {
+    try {
+      let results = await axios.get(backendAddress + "api/option/getLocation");
+
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+  async getClassification() {
+    try {
+      let results = await axios.get(
+        backendAddress + "api/option/getGroupLevel"
+      );
+
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
   }
 
   getBasicField(data) {
@@ -84,7 +97,7 @@ class SearchBar extends React.Component {
 
   getFields(data) {
     const count = this.state.expand ? 6 : 0;
-    const { advancedOptions } = this.props;
+
     const { getFieldDecorator } = this.props.form;
     const children = [];
     var fieldCounter = 0;
@@ -135,6 +148,65 @@ class SearchBar extends React.Component {
                 <Switch />
               )}
             </Form.Item>
+          ) : fieldCounter == 2 ? (
+            <Form.Item label={labelArr[i]}>
+              {getFieldDecorator(
+                "" + labelArr[i],
+                {}
+              )(
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder={searchLabel}
+                >
+                  {this.state.skillOptions.map((value, index) => {
+                    return (
+                      <Option key={value.id}>{value.description.en}</Option>
+                    );
+                  })}
+                </Select>
+              )}
+            </Form.Item>
+          ) : fieldCounter == 3 ? (
+            <Form.Item label={labelArr[i]}>
+              {getFieldDecorator(
+                "" + labelArr[i],
+                {}
+              )(
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder={searchLabel}
+                >
+                  {this.state.branchOptions.map((value, index) => {
+                    console.log("Branches: " + value.description.en);
+                    console.log("Branch Values: " + value.id);
+                    return (
+                      <Option key={value.id}>{value.description.en}</Option>
+                    );
+                  })}
+                </Select>
+              )}
+            </Form.Item>
+          ) : fieldCounter == 4 ? (
+            <Form.Item label={labelArr[i]}>
+              {getFieldDecorator(
+                "" + labelArr[i],
+                {}
+              )(
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder={searchLabel}
+                >
+                  {this.state.locationOptions.map((value, index) => {
+                    return (
+                      <Option key={value.id}>{value.description.en}</Option>
+                    );
+                  })}
+                </Select>
+              )}
+            </Form.Item>
           ) : (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
@@ -145,7 +217,11 @@ class SearchBar extends React.Component {
                   mode="multiple"
                   style={{ width: "100%" }}
                   placeholder={searchLabel}
-                ></Select>
+                >
+                  {this.state.classOptions.map((value, index) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
               )}
             </Form.Item>
           )}
@@ -172,13 +248,24 @@ class SearchBar extends React.Component {
     this.props.form.resetFields();
   };
 
+  async componentDidMount() {
+    let skills = await this.getSkills();
+    let branches = await this.getBranch();
+    let locations = await this.getLocation();
+    let classifications = await this.getClassification();
+    this.setState({ skillOptions: skills });
+    //this.setState({ branchOptions: branches });
+    this.setState({ locationOptions: locations });
+    this.setState({ classOptions: classifications });
+  }
+
   render() {
+    console.log(this.state.branchOptions);
     return (
       <SearchBarView
         changeLanguage={this.props.changeLanguage}
         keycloak={this.props.keycloak}
         history={this.props.history}
-        getAdvancedOptions={this.getAdvancedOptions}
         advancedOptions={this.state.advancedOptions}
         getFields={this.getFields}
         handleReset={this.handleReset}
