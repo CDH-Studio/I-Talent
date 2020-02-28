@@ -3,7 +3,14 @@ import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
-import { Home, Results, Profile, ProfileEdit, NotFound } from "../pages";
+import {
+  Logout,
+  Home,
+  Results,
+  Profile,
+  ProfileEdit,
+  NotFound
+} from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
 const loginFunc = require("../functions/login");
@@ -54,6 +61,8 @@ class Secured extends Component {
 
   render() {
     const keycloak = this.state.keycloak;
+
+    console.log(window.location);
     if (keycloak) {
       if (this.state.authenticated) {
         return (
@@ -77,6 +86,13 @@ class Secured extends Component {
             </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
             <Switch>
+              <Route
+                exact
+                path="/secured/logout"
+                render={routeProps => (
+                  <Logout keycloak={keycloak} {...routeProps} />
+                )}
+              />
               <Route
                 exact
                 path="/secured/home"
