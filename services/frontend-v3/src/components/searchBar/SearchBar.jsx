@@ -122,17 +122,30 @@ class SearchBar extends React.Component {
       fieldCounter++;
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
-          {fieldCounter !== 6 ? (
+          {fieldCounter == 1 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
                 "" + labelArr[i],
                 {}
               )(<Input placeholder={searchLabel} />)}
             </Form.Item>
-          ) : (
+          ) : fieldCounter == 6 ? (
             <Form.Item style={{ textAlign: "center" }} label={labelArr[i]}>
               {getFieldDecorator("Switch", { valuePropName: "checked" })(
                 <Switch />
+              )}
+            </Form.Item>
+          ) : (
+            <Form.Item label={labelArr[i]}>
+              {getFieldDecorator(
+                "" + labelArr[i],
+                {}
+              )(
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder={searchLabel}
+                ></Select>
               )}
             </Form.Item>
           )}
