@@ -38,7 +38,7 @@ class Home extends React.Component {
         changeLanguage={this.props.changeLanguage}
         keycloak={this.props.keycloak}
         history={this.props.history}
-        displaySideBar={true}
+        displaySideBar={false}
         sideBarContent={sideBarContent}
       >
         <Row>
