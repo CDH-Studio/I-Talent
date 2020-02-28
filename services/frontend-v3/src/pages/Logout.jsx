@@ -1,12 +1,13 @@
 import React from "react";
 import { Redirect } from "react-router";
 
-class Profile extends React.Component {
+class Logout extends React.Component {
   constructor(props) {
     super(props);
-    document.title = "Loggin out...";
+    document.title = "loggin out...";
   }
 
+  // log out user and redirect home
   logout(keycloak) {
     try {
       keycloak.logout({ redirectUri: window.location.origin });
@@ -19,11 +20,11 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log(this.props.keycloak);
+    // Check if user logged out successfully
     if (!this.logout(this.props.keycloak)) {
       return <Redirect to="/secured/home" />;
     }
   }
 }
 
-export default Profile;
+export default Logout;

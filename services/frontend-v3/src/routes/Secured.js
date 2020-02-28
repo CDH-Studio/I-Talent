@@ -35,14 +35,18 @@ class Secured extends Component {
     keycloak
       .init({ onLoad: "login-required", promiseType: "native" })
       .then(authenticated => {
-        if (keycloak.tokenParsed.resource_access)
+        // check if user is admin
+        if (keycloak.tokenParsed.resource_access) {
           sessionStorage.setItem(
             "admin",
             keycloak.tokenParsed.resource_access[
               "upskill-client"
             ].roles.includes("view-admin-console")
           );
-        else sessionStorage.removeItem("admin");
+        } else {
+          sessionStorage.removeItem("admin");
+        }
+
         axios.interceptors.request.use(config =>
           keycloak.updateToken(5).then(() => {
             config.headers.Authorization = "Bearer " + keycloak.token;
@@ -51,6 +55,7 @@ class Secured extends Component {
         );
 
         this.setState({ keycloak: keycloak, authenticated: authenticated });
+        // store user info in local storage and redirect to create profile if needed
         this.renderRedirect().then(redirect => {
           this.setState({ redirect: redirect });
         });
@@ -61,8 +66,6 @@ class Secured extends Component {
 
   render() {
     const keycloak = this.state.keycloak;
-
-    console.log(window.location);
     if (keycloak) {
       if (this.state.authenticated) {
         return (
