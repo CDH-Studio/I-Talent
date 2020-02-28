@@ -1,5 +1,5 @@
 import React from "react";
-import prepareInfo from "../../functions/prepareInfo";
+
 import { Form, Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import {} from "antd";
@@ -19,7 +19,7 @@ class SearchBar extends React.Component {
       locationOptions: [],
       classOptions: []
     };
-    //this.getAdvancedOptions = this.getAdvancedOptions.bind(this);
+
     this.getFields = this.getFields.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -31,6 +31,7 @@ class SearchBar extends React.Component {
     this.setState({ expand: !expand });
   };
 
+  //Fetches options for skills select field in advanced search
   async getSkills() {
     const lang = localStorage.getItem("lang");
     try {
@@ -45,6 +46,7 @@ class SearchBar extends React.Component {
     }
   }
 
+  //Fetches options for branches select field in advanced search
   async getBranch() {
     try {
       let results = await axios
@@ -57,6 +59,8 @@ class SearchBar extends React.Component {
       return 0;
     }
   }
+
+  //Fetches options for locations select field in advanced search
   async getLocation() {
     try {
       let results = await axios.get(backendAddress + "api/option/getLocation");
@@ -67,6 +71,8 @@ class SearchBar extends React.Component {
       return 0;
     }
   }
+
+  //Fetches options for classifications select field in advanced search
   async getClassification() {
     try {
       let results = await axios.get(
@@ -80,6 +86,7 @@ class SearchBar extends React.Component {
     }
   }
 
+  //Creates the basic inout field for basic search and puts its data into children array
   getBasicField(data) {
     const children = [];
     const searchLabel = this.props.intl.formatMessage({
@@ -95,6 +102,7 @@ class SearchBar extends React.Component {
     return children;
   }
 
+  //Creates the six fields for advanced search, along with their bilingual titles
   getFields(data) {
     const count = this.state.expand ? 6 : 0;
 
@@ -231,6 +239,8 @@ class SearchBar extends React.Component {
     return children;
   }
 
+  //turns search values inputted into children array into query, redirects to results
+  //page with query
   handleSearch = e => {
     console.log("");
     var query;
@@ -244,6 +254,7 @@ class SearchBar extends React.Component {
     });
   };
 
+  //clears all fields
   handleReset = () => {
     this.props.form.resetFields();
   };
