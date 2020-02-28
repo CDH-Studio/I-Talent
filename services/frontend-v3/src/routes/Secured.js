@@ -91,13 +91,6 @@ class Secured extends Component {
             <Switch>
               <Route
                 exact
-                path="/secured/logout"
-                render={routeProps => (
-                  <Logout keycloak={keycloak} {...routeProps} />
-                )}
-              />
-              <Route
-                exact
                 path="/secured/home"
                 render={routeProps => (
                   <Home
@@ -136,6 +129,13 @@ class Secured extends Component {
                     changeLanguage={this.changeLanguage}
                     {...routeProps}
                   />
+                )}
+              />
+              <Route
+                exact
+                path="/secured/logout"
+                render={routeProps => (
+                  <Logout keycloak={keycloak} {...routeProps} />
                 )}
               />
               <Route render={() => <NotFound />} />
