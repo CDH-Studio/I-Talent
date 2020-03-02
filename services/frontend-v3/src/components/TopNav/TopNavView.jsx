@@ -31,7 +31,7 @@ export default class TopNavView extends Component {
           </a>
         </Menu.Item>
         <Menu.Item style={styles.dropDownItem}>
-          <a rel="noopener noreferrer" href="/">
+          <a rel="noopener noreferrer" href="/secured/logout">
             <Icon type="logout" style={styles.MenuIcon} />
             <FormattedMessage id="sign.out" />
           </a>
