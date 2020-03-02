@@ -2,6 +2,7 @@ import React from "react";
 import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
 import Skills from "./skills/Skills";
+import Education from "./education/Education";
 import { Row, Col } from "antd";
 import EmploymentInfo from "./employmentInfo/EmploymentInfo";
 
@@ -23,7 +24,32 @@ class Profile extends React.Component {
             <EmploymentInfo data={data} style={{ height: "100%" }} />
           </Col>
         </Row>
-        <Skills data={data} />
+        {/* <Skills data={data} /> */}
+        <Row>
+          <Col xs={24} xl={16}>
+            Talent management and Career Interest Card Goes Here
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} xl={16}>
+            Skills, Competency, Developmental goals and Mentor Card Goes Here
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} xl={16}>
+            <Education data={data} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} xl={16}>
+            Experience Goes Here
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} xl={16}>
+            Projets Goes Here
+          </Col>
+        </Row>
       </div>
     );
   }
