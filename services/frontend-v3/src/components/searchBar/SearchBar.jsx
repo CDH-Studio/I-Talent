@@ -52,7 +52,7 @@ class SearchBar extends React.Component {
       let results = await axios
         .get(backendAddress + "api/option/getBranch")
         .data.filter(elem => elem.description && elem.description.en);
-      console.log("getBranch(): " + results.data);
+
       return results;
     } catch (error) {
       console.log(error);
@@ -187,8 +187,6 @@ class SearchBar extends React.Component {
                   placeholder={searchLabel}
                 >
                   {this.state.branchOptions.map((value, index) => {
-                    console.log("Branches: " + value.description.en);
-                    console.log("Branch Values: " + value.id);
                     return (
                       <Option key={value.id}>{value.description.en}</Option>
                     );
@@ -271,7 +269,6 @@ class SearchBar extends React.Component {
   }
 
   render() {
-    console.log(this.state.branchOptions);
     return (
       <SearchBarView
         changeLanguage={this.props.changeLanguage}
