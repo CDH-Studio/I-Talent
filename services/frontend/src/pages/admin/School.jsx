@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AdminMenu from "../components/admin/AdminMenu";
+import AdminMenu from "../../components/admin/AdminMenu";
 import {
   Table,
   Modal,
@@ -15,7 +15,7 @@ import _ from "lodash";
 import axios from "axios";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import config from "../config";
+import config from "../../config";
 const { backendAddress } = config;
 
 const ELEMENT_PER_PAGE = 10;
