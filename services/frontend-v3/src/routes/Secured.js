@@ -9,6 +9,7 @@ import {
   Results,
   Profile,
   ProfileEdit,
+  ProfileCreate,
   NotFound
 } from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
@@ -105,6 +106,16 @@ class Secured extends Component {
                 path="/secured/results"
                 render={routeProps => (
                   <Results
+                    keycloak={keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              <Route
+                path="/secured/profile/create/step/:step"
+                render={routeProps => (
+                  <ProfileCreate
                     keycloak={keycloak}
                     changeLanguage={this.changeLanguage}
                     {...routeProps}

@@ -3,7 +3,17 @@ import Home from "./Home";
 import Results from "./Results";
 import Profile from "./Profile";
 import ProfileEdit from "./ProfileEdit";
+import ProfileCreate from "./ProfileCreate";
 import NotFound from "./NotFound";
 import Logout from "./Logout";
 
-export { Logout, Landing, Home, Results, Profile, ProfileEdit, NotFound };
+export {
+  Logout,
+  Landing,
+  Home,
+  Results,
+  Profile,
+  ProfileEdit,
+  ProfileCreate,
+  NotFound
+};
