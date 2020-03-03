@@ -34,7 +34,7 @@ export default class PrimaryInfoForm extends React.Component {
         backendAddress + "api/profile/" + localStorage.getItem("userId");
       let result = await axios.get(url);
       console.log("great:");
-      console.log(result);
+      //console.log(localStorage.getItem("userId"));
       return result;
     } catch (error) {
       console.log("error");
