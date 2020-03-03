@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Form, Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import {} from "antd";
@@ -7,8 +6,10 @@ import config from "../../config";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import SearchBarView from "./SearchBarView";
+
 const backendAddress = config.backendAddress;
 const { Option } = Select;
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
