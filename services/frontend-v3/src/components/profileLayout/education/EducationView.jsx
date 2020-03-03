@@ -5,22 +5,6 @@ import moment from "moment";
 import { Row, Col, Card, Avatar, List } from "antd";
 
 class EducationView extends Component {
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const educationInfo = this.getEducationInfo(locale);
-
-    return (
-      <Card style={{ height: "100%" }}>
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateEducationInfoList(educationInfo)}
-          </Col>
-        </Row>
-      </Card>
-    );
-  }
-
   generateEducationInfoList(dataSource) {
     return (
       <List
@@ -94,6 +78,21 @@ class EducationView extends Component {
     }
 
     return duration;
+  }
+  render() {
+    const locale = this.props.intl.formatMessage({ id: "language.code" });
+
+    const educationInfo = this.getEducationInfo(locale);
+
+    return (
+      <Card style={{ height: "100%" }}>
+        <Row>
+          <Col xs={24} lg={24}>
+            {this.generateEducationInfoList(educationInfo)}
+          </Col>
+        </Row>
+      </Card>
+    );
   }
 }
 
