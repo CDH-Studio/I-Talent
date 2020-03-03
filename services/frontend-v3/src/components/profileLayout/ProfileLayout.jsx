@@ -1,27 +1,48 @@
 import React from "react";
+import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
 import Skills from "./skills/Skills";
 import { Row, Col } from "antd";
+import EmploymentInfo from "./employmentInfo/EmploymentInfo";
 
 class Profile extends React.Component {
   render() {
     const { data } = this.props;
+    data.acronym = getAcronym(data.firstName + " " + data.lastName);
+    data.color = stringToHslColor(data.acronym);
     console.log(data);
 
     return (
       <div>
-        <Row>
+        <ProfileHeader data={data} />
+        <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col xs={24} xl={16}>
-            <BasicInfo data={data} />
+            <BasicInfo data={data} style={{ height: "100%" }} />
           </Col>
           <Col xs={24} xl={8}>
-            Info Card Goes Here
+            <EmploymentInfo data={data} style={{ height: "100%" }} />
           </Col>
         </Row>
         <Skills data={data} />
       </div>
     );
   }
+}
+
+function stringToHslColor(str) {
+  var hash = 0;
+  var s = 90;
+  var l = 45;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var h = hash % 360;
+  return "hsl(" + h + ", " + s + "%, " + l + "%)";
+}
+
+function getAcronym(name) {
+  const i = name.lastIndexOf(" ") + 1;
+  return name.substring(0, 1) + name.substring(i, i + 1);
 }
 
 //Needed when using this.props.intl

@@ -1,66 +1,30 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Typography, Avatar, List, Button } from "antd";
-const { Title } = Typography;
+import { Row, Col, Card, Avatar, List, Button } from "antd";
 
 class BasicInfoView extends Component {
   render() {
-    const { data, avatar } = this.props;
-
     const locale = this.props.intl.formatMessage({ id: "language.code" });
 
     const contactInfo = this.getContactInfo();
     const locationInfo = this.getLocationInfo(locale);
 
     return (
-      <div>
+      <Card actions={this.generateActions()} style={{ height: "100%" }}>
         <Row>
-          <Col xs={5} sm={4} md={3} lg={2} xl={2}>
-            <Avatar
-              size="large"
-              style={{ backgroundColor: avatar.color, verticalAlign: "middle" }}
-            >
-              {avatar.acr}
-            </Avatar>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(contactInfo)}
           </Col>
-
-          <Row type="flex" align="bottom">
-            <Col
-              xs={19}
-              sm={20}
-              md={21}
-              lg={22}
-              xl={22}
-              style={{ marginBottom: "10px" }}
-            >
-              <Title style={{ display: "inline" }}>
-                {data.firstName + " " + data.lastName}
-              </Title>
-              <Title level={2} style={{ display: "inline" }}>
-                {"   "}-{"   "}
-              </Title>
-              <Title level={2} style={{ display: "inline" }}>
-                {data.jobTitle[locale]}
-              </Title>
-            </Col>
-          </Row>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(locationInfo)}
+          </Col>
         </Row>
-        <Card actions={this.generateActions()}>
-          <Row>
-            <Col xs={24} lg={12}>
-              {this.generateContactList(contactInfo)}
-            </Col>
-            <Col xs={24} lg={12}>
-              {this.generateContactList(locationInfo)}
-            </Col>
-          </Row>
-        </Card>
-      </div>
+      </Card>
     );
   }
 
-  generateContactList(dataSource) {
+  generateInfoList(dataSource) {
     return (
       <List
         itemLayout="horizontal"
@@ -71,7 +35,7 @@ class BasicInfoView extends Component {
               avatar={
                 <Avatar
                   style={{
-                    backgroundColor: this.props.avatar.color
+                    backgroundColor: this.props.data.color
                   }}
                   size="large"
                   icon={item.icon}
