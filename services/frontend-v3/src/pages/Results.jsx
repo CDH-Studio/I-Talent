@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Row, Button, Menu, Icon } from "antd";
+import ResultsCard from "../components/resultsCard/ResultsCard";
 import ResultLayout from "../components/resultsLayout/ResultLayout";
 import { injectIntl } from "react-intl";
 class Results extends React.Component {
@@ -19,7 +20,11 @@ class Results extends React.Component {
         history={this.props.history}
         displaySideBar={true}
         //sideBarContent={this.props.sideBarContent}
-      ></ResultLayout>
+      >
+        <Row>
+          <ResultsCard></ResultsCard>
+        </Row>
+      </ResultLayout>
     );
   }
 }
