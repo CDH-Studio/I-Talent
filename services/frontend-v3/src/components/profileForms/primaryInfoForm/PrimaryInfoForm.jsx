@@ -10,7 +10,8 @@ export default class PrimaryInfoForm extends React.Component {
     super(props);
 
     this.state = {
-      locationOptions: []
+      locationOptions: [],
+      profileInfo: []
     };
   }
 
@@ -31,11 +32,12 @@ export default class PrimaryInfoForm extends React.Component {
     try {
       let url =
         backendAddress + "api/profile/" + localStorage.getItem("userId");
-      console.log(url);
       let result = await axios.get(url);
+      console.log("great:");
       console.log(result);
       return result;
     } catch (error) {
+      console.log("error");
       console.log(error);
       return 0;
     }
@@ -43,12 +45,19 @@ export default class PrimaryInfoForm extends React.Component {
 
   // run once component has mounted
   async componentDidMount() {
+    console.log("doit!");
     let locations = await this.getLocations();
     let profile = await this.getProfileInfo();
+    console.log(profile);
     this.setState({ locationOptions: locations, profileInfo: profile });
   }
 
   render() {
-    return <PrimaryInfoFormView locationOptions={this.state.locationOptions} />;
+    return (
+      <PrimaryInfoFormView
+        locationOptions={this.state.locationOptions}
+        profileInfo={this.state.profileInfo}
+      />
+    );
   }
 }

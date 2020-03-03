@@ -8,13 +8,48 @@ const getProfile = async (request, response) => {
   response.status(200).json(await Profile.findAll());
 };
 
+// Get user profile using profile ID
 const getPublicProfileById = async (request, response) => {
   const id = request.params.id;
-  let profile = await Profile.findOne({ where: { id: id } });
-  let user = await profile.getUser();
 
-  if (!profile) response.status(404).send("Profile Not Found");
+  // get user profile
+  let profile = await Profile.findOne({ where: { id: id } });
+  if (!profile) {
+    return response.status(404).json({
+      status: "API Query Error",
+      message: "User profile with the provided ID not found"
+    });
+  }
+
+  // get user info based on profile
+  let user = await profile.getUser({ raw: true });
+  if (!profile) {
+    return response.status(404).json({
+      status: "API Query Error",
+      message: "User with the provided ID not found"
+    });
+  }
+
+  // merge info from profile and user
   let data = { ...profile.dataValues, ...user.dataValues };
+
+  // // Get User Tenure
+  // let tenure = await profile.getTenure();
+  // if (!tenure) {
+  //   return response.status(404).json({
+  //     status: "API Query Error",
+  //     message: "User tenure not found"
+  //   });
+  // }
+
+  // // Get Career Mobility
+  // let careerMobility = await profile.getCareerMobility();
+  // if (!careerMobility) {
+  //   return response.status(404).json({
+  //     status: "API Query Error",
+  //     message: "User career mobility not found"
+  //   });
+  // }
 
   let tenure = await profile.getTenure().then(res => {
     if (res) return res.dataValues;
