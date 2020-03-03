@@ -5,22 +5,6 @@ import moment from "moment";
 import { Row, Col, Card, Avatar, List } from "antd";
 
 class ExperienceView extends Component {
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const experienceInfo = this.getExperienceInfo(locale);
-
-    return (
-      <Card style={{ height: "100%" }}>
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateExperienceInfoList(experienceInfo)}
-          </Col>
-        </Row>
-      </Card>
-    );
-  }
-
   generateExperienceInfoList(dataSource) {
     return (
       <List
@@ -94,6 +78,22 @@ class ExperienceView extends Component {
     }
 
     return duration;
+  }
+
+  render() {
+    const locale = this.props.intl.formatMessage({ id: "language.code" });
+
+    const experienceInfo = this.getExperienceInfo(locale);
+
+    return (
+      <Card style={{ height: "100%" }}>
+        <Row>
+          <Col xs={24} lg={24}>
+            {this.generateExperienceInfoList(experienceInfo)}
+          </Col>
+        </Row>
+      </Card>
+    );
   }
 }
 
