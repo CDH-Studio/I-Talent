@@ -30,35 +30,13 @@ class SearchBarView extends React.Component {
 
     return (
       <Form onSubmit={handleSearch}>
-        <div
-          style={{
-            paddingTop: "80px",
-            paddingLeft: "20%",
-            paddingRight: "20%",
-            paddingBottom: "20px"
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#001C1A",
-              borderRadius: "5px",
-              paddingTop: "80px",
-              paddingLeft: "80px",
-              paddingRight: "80px",
-              paddingBottom: "80px",
-              boxShadow: "5px 5px 5px #cccccc"
-            }}
-          >
-            <header
-              style={{
-                paddingBottom: "20px",
-                textAlign: "center"
-              }}
-            >
+        <div style={styles.outerDiv}>
+          <div style={styles.mainSearchDiv}>
+            <header style={styles.header}>
               <img src={logo} alt="UpSkill Logo" style={{ height: "80px" }} />;
             </header>
             {/* Gets main basic search field and shows buttons beneath */}
-            <div style={{ paddingBottom: "20px" }}>{getBasicField(data)}</div>
+            <div style={styles.advFieldStyles}>{getBasicField(data)}</div>
             <Col span={24} style={{ textAlign: "right", paddingTop: "0px" }}>
               <Button
                 shape="round"
@@ -82,13 +60,11 @@ class SearchBarView extends React.Component {
               </Button>
             </Col>
           </div>
-          <Card
-            style={{ boxShadow: "5px 5px 5px #e6e6e6", borderRadius: "5px" }}
-          >
+          <Card style={styles.advSearchCard}>
             {/* Gets fields for Advanced Search in collapse */}
             <Row gutter={24}>{getFields(data)}</Row>
             <Row>
-              <Col span={24} style={{ textAlign: "right" }}>
+              <Col span={24} style={styles.advFieldPlacement}>
                 <a style={{ marginLeft: 8, fontSize: 14 }} onClick={toggle}>
                   {this.props.intl.formatMessage({
                     id: "advanced.search.button.text",
@@ -104,4 +80,36 @@ class SearchBarView extends React.Component {
     );
   }
 }
+
+const styles = {
+  outerDiv: {
+    paddingTop: "80px",
+    paddingLeft: "20%",
+    paddingRight: "20%",
+    paddingBottom: "20px"
+  },
+  mainSearchDiv: {
+    backgroundColor: "#001C1A",
+    borderRadius: "5px",
+    paddingTop: "80px",
+    paddingLeft: "80px",
+    paddingRight: "80px",
+    paddingBottom: "80px",
+    boxShadow: "5px 5px 5px #cccccc"
+  },
+  header: {
+    paddingBottom: "20px",
+    textAlign: "center"
+  },
+  advFieldStyles: {
+    paddingBottom: "20px"
+  },
+  advSearchCard: {
+    boxShadow: "5px 5px 5px #e6e6e6",
+    borderRadius: "5px"
+  },
+  advFieldPlacement: {
+    textAlign: "right"
+  }
+};
 export default injectIntl(SearchBarView);
