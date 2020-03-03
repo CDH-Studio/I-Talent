@@ -96,8 +96,11 @@ class SearchBar extends React.Component {
     });
     const { getFieldDecorator } = this.props.form;
     children.push(
-      <Form.Item label={"Search"}>
-        {getFieldDecorator("Search", {})(<Input placeholder={searchLabel} />)}
+      <Form.Item label={""}>
+        {getFieldDecorator(
+          "searchValue",
+          {}
+        )(<Input placeholder={searchLabel} />)}
       </Form.Item>
     );
     return children;
@@ -114,6 +117,14 @@ class SearchBar extends React.Component {
       id: "button.search",
       defaultMessage: "Search"
     });
+    const searchTitles = [
+      "name",
+      "skills",
+      "branch",
+      "location",
+      "classification",
+      "exFeeder"
+    ];
     const labelArr = [
       this.props.intl.formatMessage({
         id: "advanced.search.form.name",
@@ -147,20 +158,20 @@ class SearchBar extends React.Component {
           {fieldCounter == 1 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
-                "" + labelArr[i],
+                "" + searchTitles[i],
                 {}
               )(<Input placeholder={searchLabel} />)}
             </Form.Item>
           ) : fieldCounter == 6 ? (
             <Form.Item style={{ textAlign: "center" }} label={labelArr[i]}>
-              {getFieldDecorator("Switch", { valuePropName: "checked" })(
+              {getFieldDecorator(searchTitles[i], { valuePropName: "checked" })(
                 <Switch />
               )}
             </Form.Item>
           ) : fieldCounter == 2 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
-                "" + labelArr[i],
+                "" + searchTitles[i],
                 {}
               )(
                 <Select
@@ -179,7 +190,7 @@ class SearchBar extends React.Component {
           ) : fieldCounter == 3 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
-                "" + labelArr[i],
+                "" + searchTitles[i],
                 {}
               )(
                 <Select
@@ -198,7 +209,7 @@ class SearchBar extends React.Component {
           ) : fieldCounter == 4 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
-                "" + labelArr[i],
+                "" + searchTitles[i],
                 {}
               )(
                 <Select
@@ -217,7 +228,7 @@ class SearchBar extends React.Component {
           ) : (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
-                "" + labelArr[i],
+                "" + searchTitles[i],
                 {}
               )(
                 <Select
