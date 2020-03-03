@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
+import Experience from "./experience/Experience";
 import Education from "./education/Education";
 import { Row, Col } from "antd";
 import EmploymentInfo from "./employmentInfo/EmploymentInfo";
@@ -41,7 +42,7 @@ class Profile extends React.Component {
         </Row>
         <Row style={{ marginTop: 15 }}>
           <Col xs={24} xl={16}>
-            Experience Card Goes Here
+            <Experience data={data} />
           </Col>
         </Row>
         <Row style={{ marginTop: 15 }}>
