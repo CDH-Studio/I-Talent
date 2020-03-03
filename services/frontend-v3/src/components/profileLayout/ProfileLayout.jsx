@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
+import TalentManagement from "./talentManagement/talentManagement";
 import Experience from "./experience/Experience";
 import Education from "./education/Education";
 import Projects from "./projects/Projects";
@@ -29,7 +30,7 @@ class Profile extends React.Component {
         <Skills data={data} />
         <Row style={{ marginTop: 15 }}>
           <Col xs={24} xl={16}>
-            Talent management and Career Interest Card Goes Here
+            <TalentManagement data={data} />
           </Col>
         </Row>
         <Row style={{ marginTop: 15 }}>
@@ -50,6 +51,11 @@ class Profile extends React.Component {
         <Row style={{ marginTop: 15 }}>
           <Col xs={24} xl={16}>
             <Projects data={data} />
+          </Col>
+        </Row>
+        <Row style={{ marginTop: 15 }}>
+          <Col xs={24} xl={16}>
+            Career Interest Card Goes Here
           </Col>
         </Row>
       </div>
