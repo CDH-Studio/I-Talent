@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
 import { Row, Col, Card, Avatar, List, Button } from "antd";
+import moment from "moment";
 
 class EmploymentInfoView extends Component {
   render() {
@@ -10,7 +11,10 @@ class EmploymentInfoView extends Component {
     const info = this.getInfo(locale);
 
     return (
-      <Card style={{ height: "100%" }}>
+      <Card
+        style={{ height: "100%" }}
+        title={this.props.intl.formatMessage({ id: "profile.info" })}
+      >
         <Row>
           <Col xs={24} lg={12}>
             {this.generateInfoList(info)}
@@ -27,20 +31,7 @@ class EmploymentInfoView extends Component {
         dataSource={dataSource}
         renderItem={item => (
           <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  style={{
-                    backgroundColor: this.props.avatar.color
-                  }}
-                  size="large"
-                  icon={item.icon}
-                  shape="square"
-                />
-              }
-              title={item.title}
-              description={item.description}
-            />
+            <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
         )}
       />
@@ -84,11 +75,33 @@ class EmploymentInfoView extends Component {
         title: <FormattedMessage id="profile.acting" />,
         description: data.acting.description
       };
+      actingInfo.push(acting);
 
-      actingInfo = [acting];
+      if (data.actingPeriodStartDate) {
+        let desc =
+          moment(data.actingPeriodStartDate).format("ll") +
+          (data.actingPeriodEndDate
+            ? " - " + moment(data.actingPeriodEndDate).format("ll")
+            : "");
+
+        const actingDate = {
+          icon: "calendar",
+          title: <FormattedMessage id="profile.acting.date" />,
+          description: desc
+        };
+        actingInfo.push(actingDate);
+      }
     }
 
-    return [subs, classi, tempRole, ...actingInfo];
+    const security = {
+      icon: "mail",
+      title: <FormattedMessage id="profile.security" />,
+      description: data.security.description[locale] || (
+        <FormattedMessage id="profile.do.not.specify" />
+      )
+    };
+
+    return [subs, classi, tempRole, ...actingInfo, security];
   }
 }
 
