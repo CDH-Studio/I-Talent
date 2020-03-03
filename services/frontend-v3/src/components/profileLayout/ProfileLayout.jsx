@@ -1,9 +1,7 @@
 import React from "react";
 import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
-import Skills from "./skills/Skills";
 import Education from "./education/Education";
-import Experience from "./experience/Experience";
 import { Row, Col } from "antd";
 import EmploymentInfo from "./employmentInfo/EmploymentInfo";
 

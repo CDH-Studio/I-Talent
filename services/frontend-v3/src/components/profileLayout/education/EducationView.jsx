@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
+import moment from "moment";
 
-import { Row, Col, Card, Typography, Avatar, List, Button } from "antd";
-const { Title } = Typography;
+import { Row, Col, Card, Avatar, List } from "antd";
 
 class EducationView extends Component {
   render() {
-    const { data, avatar } = this.props;
-
     const locale = this.props.intl.formatMessage({ id: "language.code" });
 
     const educationInfo = this.getEducationInfo(locale);
@@ -35,7 +33,7 @@ class EducationView extends Component {
               avatar={
                 <Avatar
                   style={{
-                    backgroundColor: this.props.avatar.color
+                    backgroundColor: this.props.data.color
                   }}
                   size="large"
                   icon={item.icon}
@@ -57,16 +55,14 @@ class EducationView extends Component {
     let educationInfo = [];
     if (data.education != null) {
       data.education.forEach(educElement => {
+        const startDate = educElement.startDate[locale];
+        const endDate = educElement.endDate[locale];
+
         const education = {
           icon: "bank",
           diploma: educElement.diploma.description[locale],
           school: educElement.school.description[locale],
-          duration:
-            educElement.endDate === null
-              ? educElement.startDate[locale] +
-                " - " +
-                educElement.endDate[locale]
-              : educElement.startDate[locale] + " - " + "Present"
+          duration: this.getEducationDuration(startDate, endDate)
         };
 
         educationInfo.push(education);
@@ -74,6 +70,30 @@ class EducationView extends Component {
     }
 
     return [...educationInfo];
+  }
+
+  getEducationDuration(startDate, endDate) {
+    const formatedStartDate = moment(startDate).format("LLL");
+    const formatedEndDate = moment(endDate).format("LLL");
+
+    const dateNotProvided = this.props.intl.formatMessage({
+      id: "profile.date.not.provided"
+    });
+    const present = this.props.intl.formatMessage({
+      id: "profile.end.date.present"
+    });
+
+    let duration = "";
+
+    if (startDate === null && endDate === null) {
+      duration = duration + dateNotProvided;
+    } else if (startDate !== null && endDate === null) {
+      duration = duration + formatedStartDate + " - " + present;
+    } else {
+      duration = duration + formatedStartDate + " - " + formatedEndDate;
+    }
+
+    return duration;
   }
 }
 
