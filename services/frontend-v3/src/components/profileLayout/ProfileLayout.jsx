@@ -1,7 +1,10 @@
 import React from "react";
+import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
 import Experience from "./experience/Experience";
+import Education from "./education/Education";
 import { Row, Col } from "antd";
+import EmploymentInfo from "./employmentInfo/EmploymentInfo";
 
 class Profile extends React.Component {
   render() {
@@ -12,12 +15,13 @@ class Profile extends React.Component {
 
     return (
       <div>
-        <Row>
+        <ProfileHeader data={data} />
+        <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col xs={24} xl={16}>
-            <BasicInfo data={data} />
+            <BasicInfo data={data} style={{ height: "100%" }} />
           </Col>
           <Col xs={24} xl={8}>
-            Info Card Goes Here
+            <EmploymentInfo data={data} style={{ height: "100%" }} />
           </Col>
         </Row>
         {/* <Skills data={data} /> */}
@@ -33,7 +37,7 @@ class Profile extends React.Component {
         </Row>
         <Row style={{ marginTop: 15 }}>
           <Col xs={24} xl={16}>
-            Education Card Goes Here
+            <Education data={data} />
           </Col>
         </Row>
         <Row style={{ marginTop: 15 }}>
