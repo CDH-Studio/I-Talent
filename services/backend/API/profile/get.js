@@ -1,53 +1,56 @@
 const moment = require("moment");
 const Models = require("../../models");
 const Profile = Models.profile;
-const Skill = Models.skill;
-const Category = Models.category;
+// const Skill = Models.skill;
+// const Category = Models.category;
 
-const getProfile = async (request, response) => {
+const getProfile = async response => {
   response.status(200).json(await Profile.findAll());
 };
 
-const getPublicProfileById = async (request, response) => {
-  const id = request.params.id;
-  let profile = await Profile.findOne({ where: { id: id } });
-  let user = await profile.getUser();
-
-  if (!profile) response.status(404).send("Profile Not Found");
-  let data = { ...profile.dataValues, ...user.dataValues };
-
-  let tenure = await profile.getTenure().then(res => {
-    if (res) return res.dataValues;
+// Get the Profile's education history and format the result
+const getEducationHelper = async profile => {
+  let education = await profile.getEducation({
+    order: [["startDate", "DESC"]]
   });
+  return Promise.all(
+    education.map(async educ => {
+      let startDate = moment(educ.startDate);
+      let endDate = moment(educ.endDate);
+      let school = await educ.getSchool().then(res => {
+        if (res) return res.dataValues;
+      });
+      let diploma = await educ.getDiploma().then(res => {
+        if (res) return res.dataValues;
+      });
+      educ = educ.dataValues;
 
-  let careerMobility = await profile.getCareerMobility().then(res => {
-    if (res) return res.dataValues;
-  });
+      return {
+        school: {
+          id: school.id,
+          description: { en: school.description, fr: school.description }
+        },
+        diploma: {
+          id: diploma.id,
+          description: {
+            en: diploma.descriptionEn,
+            fr: diploma.descriptionFr
+          }
+        },
+        content: "",
+        startDate: { en: startDate, fr: startDate },
+        endDate: { en: endDate, fr: endDate }
+      };
+    })
+  );
+};
 
-  let talentMatrixResult = await profile.getTalentMatrixResult().then(res => {
-    if (res) return res.dataValues;
-  });
-
-  let groupLevel = await profile.getGroupLevel().then(res => {
-    if (res) return res.dataValues;
-  });
-
-  let securityClearance = await profile.getSecurityClearance().then(res => {
-    if (res) return res.dataValues;
-  });
-
-  let acting = await profile.getActing().then(res => {
-    if (res) return res.dataValues;
-  });
-
-  let location = await profile.getLocation().then(res => {
-    if (res) return res.dataValues;
-  });
-
+// Get the Profile's experience history and format the result
+const getExperiencesHelper = async profile => {
   let experiences = await profile.getExperiences({
     order: [["startDate", "DESC"]]
   });
-  let careerSummary = experiences.map(experience => {
+  return (careerSummary = experiences.map(experience => {
     let startDate = moment(experience.startDate);
     let endDate = moment(experience.endDate);
 
@@ -58,50 +61,66 @@ const getPublicProfileById = async (request, response) => {
       startDate: startDate,
       endDate: endDate
     };
-  });
+  }));
+};
 
+// Get user profile using profile ID
+const getPublicProfileById = async (request, response) => {
+  const id = request.params.id;
+
+  // get user profile
+  let profile = await Profile.findOne({ where: { id: id } });
+  if (!profile) {
+    return response.status(404).json({
+      status: "API Query Error",
+      message: "User profile with the provided ID not found"
+    });
+  }
+
+  // get user info based on profile
+  let user = await profile.getUser();
+  if (!profile) {
+    return response.status(404).json({
+      status: "API Query Error",
+      message: "User with the provided ID not found"
+    });
+  }
+
+  // merge info from profile and user
+  let data = { ...profile.dataValues, ...user.dataValues };
+
+  // Get User Tenure (may be empty)
+  let tenure = await profile.getTenure({ raw: true });
+
+  // Get Career Mobility (may be empty)
+  let careerMobility = await profile.getCareerMobility({ raw: true });
+
+  // Get Talent Matrix (may be empty)
+  let talentMatrixResult = await profile.getTalentMatrixResult({ raw: true });
+
+  // Get Group Level (may be empty)
+  let groupLevel = await profile.getGroupLevel({ raw: true });
+
+  // Get Security Clearance (may be empty)
+  let securityClearance = await profile.getSecurityClearance({ raw: true });
+
+  // Get Acting Position (may be empty)
+  let acting = await profile.getActing({ raw: true });
+
+  // Get Location (may be empty)
+  let location = await profile.getLocation({ raw: true });
+
+  // Get Experience (may be empty)
+  let careerSummary = await getExperiencesHelper(profile);
+
+  // Get Projects (may be empty)
   let dbProjects = await profile.getProfileProjects();
   let projects = dbProjects.map(project => {
     return { text: project.description };
   });
 
-  let education = await profile.getEducation({
-    order: [["startDate", "DESC"]]
-  });
-  let educations = () => {
-    return Promise.all(
-      education.map(async educ => {
-        let startDate = moment(educ.startDate);
-        let endDate = moment(educ.endDate);
-        let school = await educ.getSchool().then(res => {
-          if (res) return res.dataValues;
-        });
-        let diploma = await educ.getDiploma().then(res => {
-          if (res) return res.dataValues;
-        });
-        educ = educ.dataValues;
-
-        return {
-          school: {
-            id: school.id,
-            description: { en: school.description, fr: school.description }
-          },
-          diploma: {
-            id: diploma.id,
-            description: {
-              en: diploma.descriptionEn,
-              fr: diploma.descriptionFr
-            }
-          },
-          content: "",
-          startDate: { en: startDate, fr: startDate },
-          endDate: { en: endDate, fr: endDate }
-        };
-      })
-    );
-  };
-
-  let educArray = await educations();
+  // Get Education (may be empty)
+  let educArray = await getEducationHelper(profile);
 
   let organizationList = await profile
     .getProfileOrganizations({ order: [["tier", "ASC"]] })
