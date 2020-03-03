@@ -26,18 +26,14 @@ export default class PrimaryInfoForm extends React.Component {
     }
   }
 
-  // get possible locations for form drop down
+  // get user profile for form drop down
   async getProfileInfo() {
-    console.log("helloooo");
     try {
       let url =
         backendAddress + "api/profile/" + localStorage.getItem("userId");
       let result = await axios.get(url);
-      console.log("great:");
-      //console.log(localStorage.getItem("userId"));
-      return result;
+      return result.data;
     } catch (error) {
-      console.log("error");
       console.log(error);
       return 0;
     }
@@ -45,7 +41,6 @@ export default class PrimaryInfoForm extends React.Component {
 
   // run once component has mounted
   async componentDidMount() {
-    console.log("doit!");
     let locations = await this.getLocations();
     let profile = await this.getProfileInfo();
     console.log(profile);

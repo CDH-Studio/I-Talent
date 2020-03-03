@@ -41,6 +41,7 @@ export default class PrimaryInfoFormView extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    console.log(this.props.profileInfo.firstName);
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
@@ -58,7 +59,7 @@ export default class PrimaryInfoFormView extends Component {
               <Form.Item
                 label={<FormattedMessage id="profile.first.name" />}
                 style={styles.formItem}
-                value={this.props.profileInfo}
+                value={this.props.profileInfo.firstName}
               >
                 {getFieldDecorator("firstName", {
                   rules: [
