@@ -1,3 +1,4 @@
 export default {
-  backendAddress: "http://localhost:8080/"
+  backendAddress:
+    "http://upskill-backend-uat-upskill.apps.dev.openshift.ised-isde.canada.ca/"
 };
