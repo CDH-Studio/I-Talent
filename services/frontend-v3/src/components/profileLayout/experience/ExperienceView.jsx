@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
+import moment from "moment";
 
-import { Row, Col, Card, Typography, Avatar, List, Button } from "antd";
-const { Title } = Typography;
+import { Row, Col, Card, Avatar, List } from "antd";
 
 class ExperienceView extends Component {
   render() {
-    const { data, avatar } = this.props;
-
     const locale = this.props.intl.formatMessage({ id: "language.code" });
 
     const experienceInfo = this.getExperienceInfo(locale);
@@ -57,14 +55,14 @@ class ExperienceView extends Component {
     let experienceInfo = [];
     if (data.education != null) {
       data.careerSummary.forEach(expElement => {
+        const startDate = expElement.startDate;
+        const endDate = expElement.endDate;
+
         const experience = {
-          icon: "bank",
+          icon: "solution",
           jobTitle: expElement.header,
           organizationName: expElement.subheader,
-          duration:
-            expElement.endDate === null
-              ? expElement.startDate + " - " + expElement.endDate
-              : expElement.startDate + " - " + "Present"
+          duration: this.getExperienceDuration(startDate, endDate)
         };
 
         experienceInfo.push(experience);
@@ -72,6 +70,30 @@ class ExperienceView extends Component {
     }
 
     return [...experienceInfo];
+  }
+
+  getExperienceDuration(startDate, endDate) {
+    const formatedStartDate = moment(startDate).format("LLL");
+    const formatedEndDate = moment(endDate).format("LLL");
+
+    const dateNotProvided = this.props.intl.formatMessage({
+      id: "profile.date.not.provided"
+    });
+    const present = this.props.intl.formatMessage({
+      id: "profile.end.date.present"
+    });
+
+    let duration = "";
+
+    if (startDate === null && endDate === null) {
+      duration = duration + dateNotProvided;
+    } else if (startDate !== null && endDate === null) {
+      duration = duration + formatedStartDate + " - " + present;
+    } else {
+      duration = duration + formatedStartDate + " - " + formatedEndDate;
+    }
+
+    return duration;
   }
 }
 

@@ -1,6 +1,5 @@
 import React from "react";
 import BasicInfo from "./basicInfo/BasicInfo";
-import Skills from "./skills/Skills";
 import Experience from "./experience/Experience";
 import { Row, Col } from "antd";
 

@@ -218,6 +218,8 @@
   "profile.edit.projects": "Modifier projets",
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Non specifié",
+  "profile.date.not.provided": "Date non specifié",
+  "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transfer à",
   "profile.career.interests": "Objectifs professionnels",
   "profile.gathering.profile.info": "Recueil des informations de votre profil....",

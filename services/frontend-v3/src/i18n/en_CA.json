@@ -214,6 +214,8 @@
   "profile.edit.talent.management": "Edit talent management",
   "profile.undefined": "Undefined",
   "profile.do.not.specify": "Do not specify",
+  "profile.date.not.provided": "Date not specified",
+  "profile.end.date.present": "Present",
   "profile.relocation.locations": "I am willing to relocate to",
   "profile.career.interests": "Career mobility",
   "profile.gathering.profile.info": "Gathering profile info...",
