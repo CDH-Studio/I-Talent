@@ -87,9 +87,9 @@ router.post("/user/", keycloak.protect(), user.createUser);
 router.get("/profile/", keycloak.protect(), profile.getProfile);
 router
   .route("/profile/:id")
-  .get(profile.getPublicProfileById)
-  .post(profile.createProfile)
-  .put(profile.updateProfile);
+  .get(keycloak.protect(), profile.getPublicProfileById)
+  .post(keycloak.protect(), profile.createProfile)
+  .put(keycloak.protect(), profile.updateProfile);
 
 router
   .route("/private/profile/:id")
