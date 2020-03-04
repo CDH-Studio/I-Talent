@@ -54,7 +54,7 @@ class TalentManagementView extends Component {
         })}
       >
         <Row>
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={24}>
             {this.generateTalentManagementInfoList(info)}
           </Col>
         </Row>

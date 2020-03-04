@@ -16,7 +16,7 @@ class EmploymentInfoView extends Component {
         title={this.props.intl.formatMessage({ id: "profile.info" })}
       >
         <Row>
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={24}>
             {this.generateInfoList(info)}
           </Col>
         </Row>
