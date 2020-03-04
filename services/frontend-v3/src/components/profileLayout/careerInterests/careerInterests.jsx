@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import CareerInterestsView from "./careerInterestsView";
+import CareerInterestsView from "./CareerInterestsView";
 
 class CareerInterests extends Component {
   render() {
     const { data } = this.props;
-
-    const name = data.firstName + " " + data.lastName;
 
     return (
       <CareerInterestsView

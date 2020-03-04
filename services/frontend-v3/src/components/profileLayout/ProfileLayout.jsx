@@ -1,8 +1,9 @@
 import React from "react";
 import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
-import TalentManagement from "./talentManagement/talentManagement";
-import CareerInterests from "./careerInterests/careerInterests";
+import TalentManagement from "./talentManagement/TalentManagement";
+import OfficialLanguage from "./officialLanguage/OfficialLanguage";
+import CareerInterests from "./careerInterests/CareerInterests";
 
 import Experience from "./experience/Experience";
 import Education from "./education/Education";
@@ -16,7 +17,6 @@ class Profile extends React.Component {
     const { data } = this.props;
     data.acronym = getAcronym(data.firstName + " " + data.lastName);
     data.color = stringToHslColor(data.acronym);
-    console.log(data);
 
     return (
       <div>
@@ -25,14 +25,19 @@ class Profile extends React.Component {
           <Col xs={24} xl={16}>
             <BasicInfo data={data} style={{ height: "100%" }} />
           </Col>
-          <Col xs={24} xl={8}>
+          <Col xs={16} xl={8}>
             <EmploymentInfo data={data} style={{ height: "100%" }} />
           </Col>
         </Row>
-        <Skills data={data} />
+        {/* <Skills data={data} /> */}
         <Row style={{ marginTop: 15 }}>
           <Col xs={24} xl={16}>
             <TalentManagement data={data} />
+          </Col>
+        </Row>
+        <Row style={{ marginTop: 15 }}>
+          <Col xs={24} xl={16}>
+            <OfficialLanguage data={data} />
           </Col>
         </Row>
         <Row style={{ marginTop: 15 }}>

@@ -5,8 +5,6 @@ class EmploymentInfo extends Component {
   render() {
     const { data } = this.props;
 
-    const name = data.firstName + " " + data.lastName;
-
     return (
       <EmploymentInfoView
         data={data}

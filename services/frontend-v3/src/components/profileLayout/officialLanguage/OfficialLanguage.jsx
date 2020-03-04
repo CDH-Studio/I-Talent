@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import TalentManagementView from "./TalentManagementView";
+import OfficialLanguageView from "./OfficialLanguageView";
 
-class TalentManagement extends Component {
+class OfficialLanguage extends Component {
   render() {
     const { data } = this.props;
 
     return (
-      <TalentManagementView
+      <OfficialLanguageView
         data={data}
         avatar={{
           acr: data.acronym,
@@ -18,4 +18,4 @@ class TalentManagement extends Component {
   }
 }
 
-export default TalentManagement;
+export default OfficialLanguage;
