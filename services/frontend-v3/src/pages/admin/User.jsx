@@ -1,18 +1,7 @@
 import React from "react";
 import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import axios from "axios";
-import {
-  Typography,
-  Skeleton,
-  Icon,
-  Table,
-  Input,
-  Button,
-  Row,
-  Col,
-  Form,
-  Select
-} from "antd";
+import { Typography, Skeleton, Icon, Table, Input, Button, Select } from "antd";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
@@ -54,7 +43,7 @@ class AdminUser extends React.Component {
       .get(backendAddress + "api/admin/user")
       .then(res =>
         this.setState({
-          data: res.data,
+          allData: res.data,
           data: _.sortBy(res.data, ["firstName"]),
           loading: false,
           column: "name",
@@ -145,6 +134,12 @@ class AdminUser extends React.Component {
     this.setState({ searchText: "" });
   };
 
+  handleApply = async () => {
+    await axios
+      .put(backendAddress + "api/admin/profileStatus", this.state.statuses)
+      .then(() => window.location.reload());
+  };
+
   handleDropdownChange = (status, id) => {
     this.setState(({ statuses, allData }) => {
       statuses[id] = status;
@@ -153,17 +148,17 @@ class AdminUser extends React.Component {
 
       changedUser = changedUser[0];
 
-      if (status === "Active") {
+      if (status === "Active" || status === "Actif") {
         changedUser.flagged = false;
         changedUser.user.inactive = false;
       }
 
-      if (status === "Inactive") {
+      if (status === "Inactive" || status === "Inactif") {
         changedUser.flagged = false;
         changedUser.user.inactive = true;
       }
 
-      if (status === "Hidden") {
+      if (status === "Hidden" || status == "Caché") {
         changedUser.flagged = true;
         changedUser.user.inactive = false;
       }
@@ -185,39 +180,53 @@ class AdminUser extends React.Component {
         id: "admin.flagged",
         defaultMessage: "Hidden"
       });
-    return this.props.intl.formatMessage({
-      id: "admin.active",
-      defaultMessage: "Active"
-    });
+    else
+      return this.props.intl.formatMessage({
+        id: "admin.active",
+        defaultMessage: "Active"
+      });
   };
 
   renderStatusDropdown = (id, inactive, flagged) => {
-    const options = [
-      { value: "Active", text: "Active", key: "active" },
-      { value: "Inactive", text: "Inactive", key: "inactive" },
-      { value: "Hidden", text: "Hidden", key: "flagged" }
-    ];
-
     return (
       <div>
         <Select
-          defaultValue={this.profileStatusValue(inactive, flagged)}
+          key={id}
           style={{ width: 120 }}
-          // onChange={}
+          onChange={value => this.handleDropdownChange(value, id)}
+          value={this.profileStatusValue(inactive, flagged)}
         >
-          <Option key="active">
+          <Option
+            key="active"
+            value={this.props.intl.formatMessage({
+              id: "admin.active",
+              defaultMessage: "Active"
+            })}
+          >
             {this.props.intl.formatMessage({
               id: "admin.active",
               defaultMessage: "Active"
             })}
           </Option>
-          <Option key="inactive">
+          <Option
+            key="inactive"
+            value={this.props.intl.formatMessage({
+              id: "admin.inactive",
+              defaultMessage: "Inactive"
+            })}
+          >
             {this.props.intl.formatMessage({
               id: "admin.inactive",
               defaultMessage: "Inactive"
             })}
           </Option>
-          <Option key="hidden">
+          <Option
+            key="hidden"
+            value={this.props.intl.formatMessage({
+              id: "admin.flagged",
+              defaultMessage: "Hidden"
+            })}
+          >
             {this.props.intl.formatMessage({
               id: "admin.flagged",
               defaultMessage: "Hidden"
@@ -229,7 +238,7 @@ class AdminUser extends React.Component {
   };
 
   render() {
-    const { data, loading, size } = this.state;
+    const { data, loading, size, statuses } = this.state;
     if (loading) {
       return (
         <AppLayout>
@@ -262,8 +271,6 @@ class AdminUser extends React.Component {
       this.props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "tenureDescriptionEn"
         : "tenureDescriptionFr";
-
-    console.log(allUsers);
 
     const user_table_columns = [
       {
@@ -361,7 +368,8 @@ class AdminUser extends React.Component {
             type="primary"
             icon="check-circle"
             size={size}
-            //onClick={() => window.open(record.profileLink)}
+            onClick={this.handleApply}
+            disabled={Object.entries(statuses).length === 0}
           >
             {this.props.intl.formatMessage({
               id: "admin.apply",
