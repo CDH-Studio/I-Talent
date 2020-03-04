@@ -1,5 +1,5 @@
 import React from "react";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
+// import AppLayout from "../components/layouts/appLayout/AppLayout";
 import config from "../config";
 import axios from "axios";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
@@ -45,15 +45,15 @@ class Profile extends React.Component {
 
     if (!loading)
       return (
-        <AppLayout changeLanguage={this.props.changeLanguage}>
-          <ProfileLayout name={name} data={data} />
-        </AppLayout>
+        // <AppLayout changeLanguage={this.props.changeLanguage}>
+        <ProfileLayout name={name} data={data} />
+        // </AppLayout>
       );
     else {
       return (
-        <AppLayout>
-          <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
-        </AppLayout>
+        // <AppLayout>
+        <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
+        // </AppLayout>
       );
     }
   }

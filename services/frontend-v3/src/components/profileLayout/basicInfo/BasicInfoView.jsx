@@ -1,29 +1,10 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Avatar, List, Button } from "antd";
+import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+const { Title } = Typography;
 
 class BasicInfoView extends Component {
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const contactInfo = this.getContactInfo();
-    const locationInfo = this.getLocationInfo(locale);
-
-    return (
-      <Card actions={this.generateActions()} style={{ height: "100%" }}>
-        <Row>
-          <Col xs={24} lg={12}>
-            {this.generateInfoList(contactInfo)}
-          </Col>
-          <Col xs={24} lg={12}>
-            {this.generateInfoList(locationInfo)}
-          </Col>
-        </Row>
-      </Card>
-    );
-  }
-
   generateInfoList(dataSource) {
     return (
       <List
@@ -35,7 +16,7 @@ class BasicInfoView extends Component {
               avatar={
                 <Avatar
                   style={{
-                    backgroundColor: this.props.data.color
+                    backgroundColor: "#007471"
                   }}
                   size="large"
                   icon={item.icon}
@@ -113,6 +94,56 @@ class BasicInfoView extends Component {
     });
 
     return buttons;
+  }
+
+  render() {
+    const locale = this.props.intl.formatMessage({ id: "language.code" });
+    const { name, jobTitle, avatar } = this.props;
+
+    const contactInfo = this.getContactInfo();
+    const locationInfo = this.getLocationInfo(locale);
+
+    return (
+      <Card actions={this.generateActions()} style={{ height: "100%" }}>
+        <Row style={{ marginBottom: "20px" }}>
+          <Col xs={5} sm={4} md={3} lg={2} xl={2}>
+            <Avatar
+              size={64}
+              style={{ backgroundColor: avatar.color, verticalAlign: "middle" }}
+            >
+              {avatar.acr}
+            </Avatar>
+          </Col>
+
+          <Row type="flex" align="bottom">
+            <Col
+              xs={19}
+              sm={20}
+              md={21}
+              lg={22}
+              xl={22}
+              style={{ marginBottom: "10px" }}
+            >
+              <Title style={{ display: "inline" }}>{name}</Title>
+              <Title level={2} style={{ display: "inline" }}>
+                {"   "}-{"   "}
+              </Title>
+              <Title level={2} style={{ display: "inline" }}>
+                {jobTitle}
+              </Title>
+            </Col>
+          </Row>
+        </Row>
+        <Row>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(contactInfo)}
+          </Col>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(locationInfo)}
+          </Col>
+        </Row>
+      </Card>
+    );
   }
 }
 

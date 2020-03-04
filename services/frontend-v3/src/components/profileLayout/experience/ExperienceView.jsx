@@ -17,7 +17,7 @@ class ExperienceView extends Component {
               avatar={
                 <Avatar
                   style={{
-                    backgroundColor: this.props.avatar.color
+                    backgroundColor: "#007471"
                   }}
                   size="large"
                   icon={item.icon}

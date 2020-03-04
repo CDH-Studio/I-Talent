@@ -1,90 +1,20 @@
 import React from "react";
-import ProfileHeader from "./profileHeader/ProfileHeader";
-import BasicInfo from "./basicInfo/BasicInfo";
-import TalentManagement from "./talentManagement/TalentManagement";
-import OfficialLanguage from "./officialLanguage/OfficialLanguage";
-import CareerInterests from "./careerInterests/CareerInterests";
+import ProfileLayoutView from "./ProfileLayoutView";
 
-import Experience from "./experience/Experience";
-import Education from "./education/Education";
-import Projects from "./projects/Projects";
-import Skills from "./skills/Skills";
-import { Row, Col } from "antd";
-import EmploymentInfo from "./employmentInfo/EmploymentInfo";
-
-class Profile extends React.Component {
+class ProfileLayout extends React.Component {
   render() {
     const { data } = this.props;
-    data.acronym = getAcronym(data.firstName + " " + data.lastName);
-    data.color = stringToHslColor(data.acronym);
 
     return (
-      <div>
-        <ProfileHeader data={data} />
-        <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
-          <Col xs={24} xl={16}>
-            <BasicInfo data={data} style={{ height: "100%" }} />
-          </Col>
-          <Col xs={16} xl={8}>
-            <EmploymentInfo data={data} style={{ height: "100%" }} />
-          </Col>
-        </Row>
-        {/* <Skills data={data} /> */}
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            <TalentManagement data={data} />
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            <OfficialLanguage data={data} />
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            <CareerInterests data={data} />
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            Skills, Competency, Developmental goals and Mentor Card Goes Here
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            <Education data={data} />
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            <Experience data={data} />
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col xs={24} xl={16}>
-            <Projects data={data} />
-          </Col>
-        </Row>
-      </div>
+      <ProfileLayoutView
+        changeLanguage={this.props.changeLanguage}
+        displaySideBar={this.props.displaySideBar}
+        // sideBarContent={sideBarContent}
+        data={data}
+      ></ProfileLayoutView>
     );
   }
 }
 
-function stringToHslColor(str) {
-  var hash = 0;
-  var s = 90;
-  var l = 45;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  var h = hash % 360;
-  return "hsl(" + h + ", " + s + "%, " + l + "%)";
-}
-
-function getAcronym(name) {
-  const i = name.lastIndexOf(" ") + 1;
-  return name.substring(0, 1) + name.substring(i, i + 1);
-}
-
 //Needed when using this.props.intl
-export default Profile;
+export default ProfileLayout;
