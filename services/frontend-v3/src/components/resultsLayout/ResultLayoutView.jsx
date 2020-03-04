@@ -27,7 +27,10 @@ class ResultLayoutView extends Component {
           displaySideBar={true}
           //sideBarContent={}
         >
-          <ResultsCard />
+          <ResultsCard
+            changeLanguage={this.props.changeLanguage}
+            history={this.props.history}
+          />
         </AppLayout>
       </Layout>
     );
