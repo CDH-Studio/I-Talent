@@ -20,11 +20,7 @@ class Results extends React.Component {
         history={this.props.history}
         displaySideBar={true}
         //sideBarContent={this.props.sideBarContent}
-      >
-        <Row>
-          <ResultsCard></ResultsCard>
-        </Row>
-      </ResultLayout>
+      ></ResultLayout>
     );
   }
 }

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import AppLayoutView from "../layouts/appLayout/AppLayoutView";
-import { Layout } from "antd";
+import AppLayout from "../layouts/appLayout/AppLayout";
+import { Layout, Card } from "antd";
 import { Form, Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import {} from "antd";
 import config from "../../config";
 import { injectIntl } from "react-intl";
+import ResultsCard from "../resultsCard/ResultsCard";
 
 const backendAddress = config.backendAddress;
 
@@ -22,10 +23,12 @@ class ResultLayoutView extends Component {
     const { data } = this.props;
     return (
       <Layout>
-        <AppLayoutView
+        <AppLayout
           displaySideBar={true}
           //sideBarContent={}
-        ></AppLayoutView>
+        >
+          <ResultsCard />
+        </AppLayout>
       </Layout>
     );
   }
