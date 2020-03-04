@@ -1,9 +1,12 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Form, Row, Select, Col, Button, Icon, Card } from "antd";
+import { Form, Row, Select, Col, Icon, Tag, Card, Divider } from "antd";
+
+import ChangeLanguage from "../changeLanguage/ChangeLanguage";
+import CustomAvatar from "../customAvatar/CustomAvatar";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
-
+const { Meta } = Card;
 class ResultsCardView extends React.Component {
   constructor(props) {
     super(props);
@@ -13,8 +16,10 @@ class ResultsCardView extends React.Component {
   render() {
     return (
       <div>
-        <Row gutter={16}>
-          <Col span={8}>{this.renderResultCards()}</Col>
+        <Row>
+          <Col span={6} key={this.renderResultCards}>
+            {this.renderResultCards()}
+          </Col>
         </Row>
       </div>
     );
@@ -44,26 +49,55 @@ class ResultsCardView extends React.Component {
   renderCard(person) {
     return (
       <div
+        style={styles.card}
         onClick={() => this.props.history.push("/secured/profile/" + person.id)}
       >
-        <Card hoverable title={person.firstName}></Card>
-        {/* <Card hoverable title>{person.firstName + " " + person.lastName}>
-          <p>{person.jobTitle}<p>
-          <p>{person.branch}<p>
-        </Card>
-        <Card.Content> */}
-        {/* {person.resultSkills.map(skill => (
-            <Label
+        <Card size="small" hoverable bordered={true}>
+          <Row>
+            <Meta
+              title={person.firstName + " " + person.lastName}
+              description={<p style={styles.smallP}>{person.jobTitle}</p>}
+            ></Meta>
+
+            <p style={styles.smallP}>{person.branch}</p>
+            {person.classification.description !== null ? (
+              <p style={styles.smallP}>
+                {"Classification: " + person.classification.description}
+              </p>
+            ) : (
+              <p></p>
+            )}
+          </Row>
+
+          <Divider style={styles.divider} orientation="left">
+            {this.props.intl.formatMessage({
+              id: "advanced.search.form.skills",
+              defaultMessage: "Skills"
+            })}
+          </Divider>
+          {person.resultSkills.map(skill => (
+            <Tag
+              //color="cyan"
+              color="#007471"
               style={{ marginBottom: "2px", marginTop: "2px" }}
-              color="blue"
             >
               {skill}
-            </Label>
+            </Tag>
           ))}
-        </div></Card.Content> */}
+        </Card>
       </div>
     );
   }
 }
+
+const styles = {
+  card: {
+    paddingBottom: "15px"
+  },
+  smallP: {
+    lineHeight: "4px",
+    marginTop: "10px"
+  }
+};
 
 export default injectIntl(ResultsCardView);
