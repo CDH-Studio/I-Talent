@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Avatar, List, Button } from "antd";
-import moment from "moment";
+import { Row, Col, Card, List } from "antd";
 
 class TalentManagementView extends Component {
   generateTalentManagementInfoList(dataSource) {

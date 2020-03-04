@@ -102,37 +102,38 @@ class BasicInfoView extends Component {
 
     const contactInfo = this.getContactInfo();
     const locationInfo = this.getLocationInfo(locale);
+    const data = [{ name, jobTitle }];
 
     return (
       <Card actions={this.generateActions()} style={{ height: "100%" }}>
-        <Row style={{ marginBottom: "20px" }}>
-          <Col xs={5} sm={4} md={3} lg={2} xl={2}>
-            <Avatar
-              size={64}
-              style={{ backgroundColor: avatar.color, verticalAlign: "middle" }}
-            >
-              {avatar.acr}
-            </Avatar>
-          </Col>
-
-          <Row type="flex" align="bottom">
-            <Col
-              xs={19}
-              sm={20}
-              md={21}
-              lg={22}
-              xl={22}
-              style={{ marginBottom: "10px" }}
-            >
-              <Title style={{ display: "inline" }}>{name}</Title>
-              <Title level={2} style={{ display: "inline" }}>
-                {"   "}-{"   "}
-              </Title>
-              <Title level={2} style={{ display: "inline" }}>
-                {jobTitle}
-              </Title>
-            </Col>
-          </Row>
+        <Row style={{ marginBottom: "30px" }}>
+          <List
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={item => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      size={150}
+                      style={{
+                        backgroundColor: avatar.color,
+                        verticalAlign: "middle"
+                      }}
+                    >
+                      {avatar.acr}
+                    </Avatar>
+                  }
+                  title={<Title>{name}</Title>}
+                  description={
+                    <Title level={2} type="secondary">
+                      {jobTitle}
+                    </Title>
+                  }
+                />
+              </List.Item>
+            )}
+          />
         </Row>
         <Row>
           <Col xs={24} lg={12}>

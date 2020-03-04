@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Avatar, List, Button } from "antd";
+import { Row, Col, Card, List } from "antd";
 import moment from "moment";
 
 class EmploymentInfoView extends Component {

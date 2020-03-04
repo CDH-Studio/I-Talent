@@ -1,8 +1,8 @@
 import React from "react";
-import { PageHeader } from "antd";
+import { PageHeader, Card } from "antd";
 import AppLayout from "../layouts/appLayout/AppLayout";
 
-import ProfileHeader from "./profileHeader/ProfileHeader";
+// import ProfileHeader from "./profileHeader/ProfileHeader";
 import BasicInfo from "./basicInfo/BasicInfo";
 import TalentManagement from "./talentManagement/TalentManagement";
 import OfficialLanguage from "./officialLanguage/OfficialLanguage";
@@ -11,7 +11,6 @@ import CareerInterests from "./careerInterests/CareerInterests";
 import Experience from "./experience/Experience";
 import Education from "./education/Education";
 import Projects from "./projects/Projects";
-import Skills from "./skills/Skills";
 import { Row, Col } from "antd";
 import EmploymentInfo from "./employmentInfo/EmploymentInfo";
 
@@ -23,7 +22,10 @@ class ProfileLayoutView extends React.Component {
 
     return (
       <div>
-        {/* <ProfileHeader data={data} /> */}
+        {/* <ProfileHeader data={data} /> 
+         Note for my future self: Remove line above and delete ProfileHeader and ProfileHeaderView 
+         components.
+         */}
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col span={16}>
             <BasicInfo data={data} style={{ height: "100%" }} />
@@ -32,10 +34,25 @@ class ProfileLayoutView extends React.Component {
             <EmploymentInfo data={data} style={{ height: "100%" }} />
           </Col>
         </Row>
-        {/* <Skills data={data} /> */}
         <Row style={{ marginTop: 15 }}>
           <Col span={24}>
-            Skills, Competency, Developmental goals and Mentor Card Goes Here
+            <Card
+              style={{ height: "100%" }}
+              title={
+                "Skills | Competency | Developmental goals | Mentor Card Goes Here"
+              }
+            >
+              <Row>
+                <Col xs={24} lg={24}>
+                  Skills...
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={24} lg={24}>
+                  Competencies ...
+                </Col>
+              </Row>
+            </Card>
           </Col>
         </Row>
         <Row style={{ marginTop: 15 }} type="flex">

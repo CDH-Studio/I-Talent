@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List, Typography } from "antd";
+import { Row, Col, Card, List } from "antd";
 
 class CareerInterestsView extends Component {
   generateCareerInterestsInfoList(dataSource) {
