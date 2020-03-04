@@ -87,7 +87,7 @@ class SearchBar extends React.Component {
     }
   }
 
-  //Creates the basic inout field for basic search and puts its data into children array
+  //Creates the basic input field for basic search and puts its data into children array
   getBasicField(data) {
     const children = [];
     const searchLabel = this.props.intl.formatMessage({
