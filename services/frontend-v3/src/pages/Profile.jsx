@@ -3,7 +3,7 @@ import React from "react";
 import config from "../config";
 import axios from "axios";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
-import ProfileLayout from "../components/profileLayout/ProfileLayout";
+import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
 const backendAddress = config.backendAddress;
 

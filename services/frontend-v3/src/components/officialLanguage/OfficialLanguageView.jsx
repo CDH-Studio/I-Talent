@@ -122,7 +122,7 @@ class OfficialLanguageView extends Component {
 
     return (
       <Card
-        style={{ height: "100%" }}
+        style={styles.card}
         title={this.props.intl.formatMessage({
           id: "profile.official.language"
         })}
@@ -144,5 +144,15 @@ class OfficialLanguageView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  },
+  avatar: {
+    backgroundColor: "#007471"
+  }
+};
 
 export default injectIntl(OfficialLanguageView);

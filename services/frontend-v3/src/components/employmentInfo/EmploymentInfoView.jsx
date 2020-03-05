@@ -12,7 +12,7 @@ class EmploymentInfoView extends Component {
 
     return (
       <Card
-        style={{ height: "100%" }}
+        style={styles.card}
         title={this.props.intl.formatMessage({ id: "profile.info" })}
       >
         <Row>
@@ -104,5 +104,12 @@ class EmploymentInfoView extends Component {
     return [subs, classi, tempRole, ...actingInfo, security];
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  }
+};
 
 export default injectIntl(EmploymentInfoView);

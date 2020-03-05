@@ -42,7 +42,7 @@ class ProjectsView extends Component {
     const projectsInfo = this.getProjectsInfo(locale);
 
     return (
-      <Card style={{ height: "100%" }}>
+      <Card style={styles.card}>
         <Row>
           <Col xs={24} lg={24}>
             {this.generateProjectsInfoList(projectsInfo)}
@@ -52,5 +52,12 @@ class ProjectsView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  }
+};
 
 export default injectIntl(ProjectsView);

@@ -18,10 +18,7 @@ class BasicInfoView extends Component {
               avatar={
                 <Avatar
                   size={150}
-                  style={{
-                    backgroundColor: avatar.color,
-                    verticalAlign: "middle"
-                  }}
+                  style={(styles.userAvatar, { backgroundColor: avatar.color })}
                 >
                   {avatar.acr}
                 </Avatar>
@@ -49,9 +46,7 @@ class BasicInfoView extends Component {
             <List.Item.Meta
               avatar={
                 <Avatar
-                  style={{
-                    backgroundColor: "#007471"
-                  }}
+                  style={styles.avatar}
                   size="large"
                   icon={item.icon}
                   shape="square"
@@ -139,8 +134,8 @@ class BasicInfoView extends Component {
     const data = [{ name, jobTitle }];
 
     return (
-      <Card actions={this.generateActions()} style={{ height: "100%" }}>
-        <Row style={{ marginBottom: "30px" }}></Row>
+      <Card actions={this.generateActions()} style={styles.card}>
+        <Row style={styles.row}></Row>
         {this.generateProfileHeader(data)}
         <Row>
           <Col xs={24} lg={12}>
@@ -154,5 +149,21 @@ class BasicInfoView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  row: {
+    marginBottom: "30px"
+  },
+  card: {
+    height: "100%"
+  },
+  avatar: {
+    backgroundColor: "#007471"
+  },
+  userAvatar: {
+    verticalAlign: "middle"
+  }
+};
 
 export default injectIntl(BasicInfoView);

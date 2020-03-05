@@ -1,18 +1,17 @@
 import React from "react";
 import { PageHeader, Card } from "antd";
-import AppLayout from "../layouts/appLayout/AppLayout";
+import AppLayout from "../appLayout/AppLayout";
 
-// import ProfileHeader from "./profileHeader/ProfileHeader";
-import BasicInfo from "./basicInfo/BasicInfo";
-import TalentManagement from "./talentManagement/TalentManagement";
-import OfficialLanguage from "./officialLanguage/OfficialLanguage";
-import CareerInterests from "./careerInterests/CareerInterests";
+import BasicInfo from "../../basicInfo/BasicInfo";
+import TalentManagement from "../../talentManagement/TalentManagement";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
+import CareerInterests from "../../careerInterests/CareerInterests";
+import Experience from "../../experience/Experience";
+import Education from "../../education/Education";
+import Projects from "../../projects/Projects";
+import EmploymentInfo from "../../employmentInfo/EmploymentInfo";
 
-import Experience from "./experience/Experience";
-import Education from "./education/Education";
-import Projects from "./projects/Projects";
 import { Row, Col } from "antd";
-import EmploymentInfo from "./employmentInfo/EmploymentInfo";
 
 class ProfileLayoutView extends React.Component {
   displayAllProfileCards() {
@@ -22,22 +21,18 @@ class ProfileLayoutView extends React.Component {
 
     return (
       <div>
-        {/* <ProfileHeader data={data} /> 
-         Note for my future self: Remove line above and delete ProfileHeader and ProfileHeaderView 
-         components.
-         */}
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col span={16}>
-            <BasicInfo data={data} style={{ height: "100%" }} />
+            <BasicInfo data={data} style={styles.card} />
           </Col>
           <Col span={8}>
-            <EmploymentInfo data={data} style={{ height: "100%" }} />
+            <EmploymentInfo data={data} style={styles.card} />
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }}>
+        <Row style={styles.row}>
           <Col span={24}>
             <Card
-              style={{ height: "100%" }}
+              style={styles.card}
               title={
                 "Skills | Competency | Developmental goals | Mentor Card Goes Here"
               }
@@ -55,32 +50,32 @@ class ProfileLayoutView extends React.Component {
             </Card>
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }} type="flex">
+        <Row style={styles.row} type="flex">
           <Col span={24}>
             <TalentManagement data={data} />
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }}>
+        <Row style={styles.row}>
           <Col span={24}>
             <OfficialLanguage data={data} />
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }}>
+        <Row style={styles.row}>
           <Col span={24}>
             <CareerInterests data={data} />
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }}>
+        <Row style={styles.row}>
           <Col span={24}>
             <Education data={data} />
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }}>
+        <Row style={styles.row}>
           <Col span={24}>
             <Experience data={data} />
           </Col>
         </Row>
-        <Row style={{ marginTop: 15 }}>
+        <Row style={styles.row}>
           <Col span={24}>
             <Projects data={data} />
           </Col>
@@ -125,6 +120,16 @@ function getAcronym(name) {
   const i = name.lastIndexOf(" ") + 1;
   return name.substring(0, 1) + name.substring(i, i + 1);
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  },
+  row: {
+    marginTop: 15
+  }
+};
 
 //Needed when using this.props.intl
 export default ProfileLayoutView;

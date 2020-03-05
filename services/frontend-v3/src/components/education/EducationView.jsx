@@ -16,9 +16,7 @@ class EducationView extends Component {
             <List.Item.Meta
               avatar={
                 <Avatar
-                  style={{
-                    backgroundColor: "#007471"
-                  }}
+                  style={styles.avatar}
                   size="large"
                   icon={item.icon}
                   shape="square"
@@ -85,7 +83,7 @@ class EducationView extends Component {
     const educationInfo = this.getEducationInfo(locale);
 
     return (
-      <Card style={{ height: "100%" }}>
+      <Card style={styles.card}>
         <Row>
           <Col xs={24} lg={24}>
             {this.generateEducationInfoList(educationInfo)}
@@ -95,5 +93,15 @@ class EducationView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  },
+  avatar: {
+    backgroundColor: "#007471"
+  }
+};
 
 export default injectIntl(EducationView);

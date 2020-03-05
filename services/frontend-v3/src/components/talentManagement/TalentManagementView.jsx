@@ -47,7 +47,7 @@ class TalentManagementView extends Component {
 
     return (
       <Card
-        style={{ height: "100%" }}
+        style={styles.card}
         title={this.props.intl.formatMessage({
           id: "profile.talent.management"
         })}
@@ -61,5 +61,12 @@ class TalentManagementView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  }
+};
 
 export default injectIntl(TalentManagementView);

@@ -66,14 +66,6 @@ class CareerInterestsView extends Component {
       relocationLocationsInfo.push(locationElement.description[locale])
     );
 
-    // const willingToRelocateTo = {
-    //   icon: "mail",
-    //   title: <FormattedMessage id="profile.willing.to.relocate.to" />,
-    //   cities: data.relocationLocations[1].description[locale] || (
-    //     <FormattedMessage id="profile.do.not.specify" />
-    //   )
-    // };
-
     return [...relocationLocationsInfo];
   }
 
@@ -85,7 +77,7 @@ class CareerInterestsView extends Component {
 
     return (
       <Card
-        style={{ height: "100%" }}
+        style={styles.card}
         title={this.props.intl.formatMessage({
           id: "profile.career.interests"
         })}
@@ -100,5 +92,12 @@ class CareerInterestsView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  }
+};
 
 export default injectIntl(CareerInterestsView);
