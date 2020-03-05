@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "antd";
-import SideLayout from "../components/layout/SiderLayout";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const { Paragraph } = Typography;
 
@@ -21,11 +21,11 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <SideLayout>
+      <AppLayout>
         <Paragraph editable={{ onChange: this.onChange }}>
           {this.state.str}
         </Paragraph>
-      </SideLayout>
+      </AppLayout>
     );
   }
 }

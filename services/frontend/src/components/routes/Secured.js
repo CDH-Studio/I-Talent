@@ -172,8 +172,6 @@ class Secured extends Component {
   profileExist = () => {
     return this.state.keycloak.loadUserInfo().then(async userInfo => {
       return loginFunc.createUser(userInfo.email, userInfo.name).then(res => {
-        // console.log("res", res);
-
         // Add name and email to local storage
         localStorage.setItem("name", userInfo.name);
         localStorage.setItem("email", userInfo.email);

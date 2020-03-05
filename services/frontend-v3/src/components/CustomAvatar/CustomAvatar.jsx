@@ -1,6 +1,6 @@
 import React from "react";
 import {} from "antd";
-import CustomAvatarView from "../CustomAvatar/CustomAvatarView";
+import CustomAvatarView from "./CustomAvatarView";
 
 export default class CustomAvatar extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class CustomAvatar extends React.Component {
 
   // Extract the User's initials from their name
   getUserInitials() {
-    const name = localStorage.getItem("name");
+    const name = localStorage.getItem("name") || "..";
     var initials = name.match(/\b\w/g) || [];
     initials = (
       (initials.shift() || "") + (initials.pop() || "")

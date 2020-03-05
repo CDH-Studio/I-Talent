@@ -1,6 +1,6 @@
 import React from "react";
 
-import SiderLayout from "../components/layout/SiderLayout";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 class Results extends React.Component {
   goto = link => this.props.history.push(link);
@@ -12,7 +12,7 @@ class Results extends React.Component {
   }
 
   render() {
-    return <SiderLayout>TEST!!!</SiderLayout>;
+    return <AppLayout>TEST!!!</AppLayout>;
   }
 }
 

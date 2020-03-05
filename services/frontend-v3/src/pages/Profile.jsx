@@ -1,9 +1,9 @@
 import React from "react";
-import SideLayout from "../components/layout/SiderLayout";
+// import AppLayout from "../components/layouts/appLayout/AppLayout";
 import config from "../config";
 import axios from "axios";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
-import ProfileLayout from "../components/profileLayout/ProfileLayout";
+import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
 const backendAddress = config.backendAddress;
 
@@ -20,10 +20,7 @@ class Profile extends React.Component {
       this.forceUpdate();
     }
 
-    const name = localStorage.getItem("name");
-    document.title = name + " | UpSkill";
-
-    this.state = { name, data: null, id: id, loading: true };
+    this.state = { name: "Loading", data: null, id: id, loading: true };
   }
 
   componentDidUpdate() {
@@ -31,24 +28,32 @@ class Profile extends React.Component {
 
     if (this.state.data === null) {
       this.updateProfileInfo(id).then(data =>
-        this.setState({ id, data, loading: false })
+        this.setState({
+          name: data.firstName + " " + data.lastName,
+          id,
+          data,
+          loading: false
+        })
       );
     }
   }
 
   render() {
     const { name, data, loading } = this.state;
+
+    document.title = name + " | UpSkill";
+
     if (!loading)
       return (
-        <SideLayout changeLanguage={this.props.changeLanguage}>
-          <ProfileLayout name={name} data={data} />
-        </SideLayout>
+        // <AppLayout changeLanguage={this.props.changeLanguage}>
+        <ProfileLayout name={name} data={data} />
+        // </AppLayout>
       );
     else {
       return (
-        <SideLayout>
-          <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
-        </SideLayout>
+        // <AppLayout>
+        <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
+        // </AppLayout>
       );
     }
   }

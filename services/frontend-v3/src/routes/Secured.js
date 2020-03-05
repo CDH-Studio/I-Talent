@@ -3,7 +3,15 @@ import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import axios from "axios";
-import { Home, Results, Profile, ProfileEdit, NotFound } from "../pages";
+import {
+  Logout,
+  Home,
+  Results,
+  Profile,
+  ProfileEdit,
+  ProfileCreate,
+  NotFound
+} from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
 const loginFunc = require("../functions/login");
@@ -28,14 +36,18 @@ class Secured extends Component {
     keycloak
       .init({ onLoad: "login-required", promiseType: "native" })
       .then(authenticated => {
-        if (keycloak.tokenParsed.resource_access)
+        // check if user is admin
+        if (keycloak.tokenParsed.resource_access) {
           sessionStorage.setItem(
             "admin",
             keycloak.tokenParsed.resource_access[
               "upskill-client"
             ].roles.includes("view-admin-console")
           );
-        else sessionStorage.removeItem("admin");
+        } else {
+          sessionStorage.removeItem("admin");
+        }
+
         axios.interceptors.request.use(config =>
           keycloak.updateToken(5).then(() => {
             config.headers.Authorization = "Bearer " + keycloak.token;
@@ -44,6 +56,7 @@ class Secured extends Component {
         );
 
         this.setState({ keycloak: keycloak, authenticated: authenticated });
+        // store user info in local storage and redirect to create profile if needed
         this.renderRedirect().then(redirect => {
           this.setState({ redirect: redirect });
         });
@@ -100,6 +113,16 @@ class Secured extends Component {
                 )}
               />
               <Route
+                path="/secured/profile/create/step/:step"
+                render={routeProps => (
+                  <ProfileCreate
+                    keycloak={keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              <Route
                 path="/secured/profile/:id?"
                 render={routeProps => (
                   <Profile
@@ -117,6 +140,13 @@ class Secured extends Component {
                     changeLanguage={this.changeLanguage}
                     {...routeProps}
                   />
+                )}
+              />
+              <Route
+                exact
+                path="/secured/logout"
+                render={routeProps => (
+                  <Logout keycloak={keycloak} {...routeProps} />
                 )}
               />
               <Route render={() => <NotFound />} />
