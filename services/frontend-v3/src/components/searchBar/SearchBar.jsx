@@ -49,11 +49,12 @@ class SearchBar extends React.Component {
   //Fetches options for branches select field in advanced search
   async getBranch() {
     try {
-      let results = await axios
-        .get(backendAddress + "api/option/getBranch")
-        .data.filter(elem => elem.description && elem.description.en);
-
-      return results;
+      let results = await await axios.get(
+        backendAddress + "api/option/getBranch"
+      );
+      return results.data.filter(
+        elem => elem.description && elem.description.en
+      );
     } catch (error) {
       console.log(error);
       return 0;
@@ -197,9 +198,11 @@ class SearchBar extends React.Component {
                   style={{ width: "100%" }}
                   placeholder={searchLabel}
                 >
-                  {this.state.branchOptions.map((value, index) => {
+                  {this.state.branchOptions.map(value => {
                     return (
-                      <Option key={value.id}>{value.description.en}</Option>
+                      <Option key={value.description.en}>
+                        {value.description.en}
+                      </Option>
                     );
                   })}
                 </Select>
@@ -273,10 +276,13 @@ class SearchBar extends React.Component {
     let branches = await this.getBranch();
     let locations = await this.getLocation();
     let classifications = await this.getClassification();
-    this.setState({ skillOptions: skills });
-    //this.setState({ branchOptions: branches });
-    this.setState({ locationOptions: locations });
-    this.setState({ classOptions: classifications });
+
+    this.setState({
+      skillOptions: skills,
+      branchOptions: branches,
+      locationOptions: locations,
+      classOptions: classifications
+    });
   }
 
   render() {
