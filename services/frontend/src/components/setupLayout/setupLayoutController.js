@@ -4,7 +4,7 @@ import axios from "axios";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-import { formatOptions } from "../../functions/formTools";
+import { formatOptions, formatSkillOptions } from "../../functions/formTools";
 import config from "../../config";
 import prepareInfo from "../../functions/prepareInfo";
 
@@ -169,6 +169,9 @@ class SetupLayoutController extends Component {
     let skillOptions = formatOptions(
       (await axios.get(backendAddress + "api/option/getSkill")).data
     );
+    let categorizedList = formatSkillOptions(
+      (await axios.get(backendAddress + "api/option/getCategorySkills")).data
+    );
     let competencyOptions = formatOptions(
       (await axios.get(backendAddress + "api/option/getCompetency")).data
     );
@@ -178,6 +181,7 @@ class SetupLayoutController extends Component {
       .then(response => response.data);
 
     let epo = {
+      categorized: categorizedList,
       skills: skillOptions,
       careerMobility: formatOptions(
         (await axios.get(backendAddress + "api/option/getCareerMobility")).data
