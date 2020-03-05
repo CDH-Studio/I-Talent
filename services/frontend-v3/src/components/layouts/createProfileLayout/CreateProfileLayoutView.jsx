@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PageHeader, Button } from "antd";
+import { PageHeader } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
 export default class CreateProfileLayoutView extends Component {

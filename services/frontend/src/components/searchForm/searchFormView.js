@@ -241,7 +241,6 @@ class SearchFormView extends Component {
     );
 
     if (navBarLayout) {
-      console.log("NAV BAR LAYOUT DETECTED?", navBarLayout);
       return <Form.Group widths="equal">{fields}</Form.Group>;
     }
     return fields;

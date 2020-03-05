@@ -51,10 +51,6 @@ _getProf = async (profile, searchValue) => {
   let user = await profile.getUser({ attributes: ["email"] });
 
   if (!profile) response.status(404).send("Profile Not Found");
-  let visibleProfInfoList = profile.visibleCards;
-  visibleProfInfoList.map(visProfInfo => {
-    console.log("HEY", visProfInfo);
-  });
 
   let profileData = profile ? profile.dataValues : {};
   let userData = user ? user.dataValues : {};

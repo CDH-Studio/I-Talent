@@ -16,9 +16,7 @@ class ExperienceView extends Component {
             <List.Item.Meta
               avatar={
                 <Avatar
-                  style={{
-                    backgroundColor: this.props.avatar.color
-                  }}
+                  style={styles.avatar}
                   size="large"
                   icon={item.icon}
                   shape="square"
@@ -86,7 +84,7 @@ class ExperienceView extends Component {
     const experienceInfo = this.getExperienceInfo(locale);
 
     return (
-      <Card style={{ height: "100%" }}>
+      <Card style={styles.card}>
         <Row>
           <Col xs={24} lg={24}>
             {this.generateExperienceInfoList(experienceInfo)}
@@ -96,5 +94,15 @@ class ExperienceView extends Component {
     );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  },
+  avatar: {
+    backgroundColor: "#007471"
+  }
+};
 
 export default injectIntl(ExperienceView);

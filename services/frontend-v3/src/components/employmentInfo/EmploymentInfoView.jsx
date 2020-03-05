@@ -1,29 +1,10 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Avatar, List, Button } from "antd";
+import { Row, Col, Card, List } from "antd";
 import moment from "moment";
 
 class EmploymentInfoView extends Component {
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const info = this.getInfo(locale);
-
-    return (
-      <Card
-        style={{ height: "100%" }}
-        title={this.props.intl.formatMessage({ id: "profile.info" })}
-      >
-        <Row>
-          <Col xs={24} lg={12}>
-            {this.generateInfoList(info)}
-          </Col>
-        </Row>
-      </Card>
-    );
-  }
-
   generateInfoList(dataSource) {
     return (
       <List
@@ -41,7 +22,7 @@ class EmploymentInfoView extends Component {
   getInfo(locale) {
     const data = this.props.data;
 
-    const subs = {
+    const substantive = {
       icon: "mail",
       title: <FormattedMessage id="profile.substantive" />,
       description:
@@ -52,19 +33,19 @@ class EmploymentInfoView extends Component {
         )
     };
 
-    const classi = {
+    const classification = {
       icon: "mail",
       title: <FormattedMessage id="profile.classification" />,
       description: data.classification.description || (
-        <FormattedMessage id="profile.do.not.specify" />
+        <FormattedMessage id="profile.not.specified" />
       )
     };
 
-    const tempRole = {
+    const temporaryRole = {
       icon: "mail",
       title: <FormattedMessage id="profile.temporary.role" />,
       description: data.temporaryRole.description[locale] || (
-        <FormattedMessage id="profile.do.not.specify" />
+        <FormattedMessage id="profile.not.specified" />
       )
     };
 
@@ -97,12 +78,43 @@ class EmploymentInfoView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.security" />,
       description: data.security.description[locale] || (
-        <FormattedMessage id="profile.do.not.specify" />
+        <FormattedMessage id="profile.not.specified" />
       )
     };
 
-    return [subs, classi, tempRole, ...actingInfo, security];
+    return [
+      substantive,
+      classification,
+      temporaryRole,
+      ...actingInfo,
+      security
+    ];
+  }
+  render() {
+    const locale = this.props.intl.formatMessage({ id: "language.code" });
+
+    const info = this.getInfo(locale);
+
+    return (
+      <Card
+        style={styles.card}
+        title={this.props.intl.formatMessage({ id: "profile.info" })}
+      >
+        <Row>
+          <Col xs={24} lg={24}>
+            {this.generateInfoList(info)}
+          </Col>
+        </Row>
+      </Card>
+    );
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  }
+};
 
 export default injectIntl(EmploymentInfoView);

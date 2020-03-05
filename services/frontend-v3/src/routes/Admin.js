@@ -6,7 +6,7 @@ import axios from "axios";
 
 // import animatedLogo from "../assets/animatedLogo.gif";
 
-import { AdminDasboard } from "../pages/admin";
+import { AdminDasboard, AdminUser } from "../pages/admin";
 
 import config from "../config";
 const { backendAddress } = config;
@@ -134,6 +134,17 @@ class Secured extends Component {
               path="/admin/dashboard"
               render={routeProps => (
                 <AdminDasboard
+                  keycloak={keycloak}
+                  changeLanguage={this.changeLanguage}
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/admin/user"
+              render={routeProps => (
+                <AdminUser
                   keycloak={keycloak}
                   changeLanguage={this.changeLanguage}
                   {...routeProps}
