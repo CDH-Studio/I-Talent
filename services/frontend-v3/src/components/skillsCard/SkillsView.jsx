@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Typography, Tabs, List, Card, Tag, Row, Col } from "antd";
+import { Tabs, Card, Tag, Row, Col } from "antd";
 const { TabPane } = Tabs;
-const { Paragraph } = Typography;
 
 class SkillsView extends Component {
   render() {
