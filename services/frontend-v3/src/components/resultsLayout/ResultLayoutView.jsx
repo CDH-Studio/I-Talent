@@ -22,6 +22,7 @@ class ResultLayoutView extends Component {
     return (
       <Layout>
         <AppLayout
+          changeLanguage={this.props.changeLanguage}
           displaySideBar={true}
           //sideBarContent={}
         >

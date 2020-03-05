@@ -23,7 +23,6 @@ class ResultsCardView extends React.Component {
     const { results } = this.props;
 
     if (!results) {
-      console.log(results);
       return <ProfileSkeleton />;
     }
     if (results instanceof Error) {
