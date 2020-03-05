@@ -1,9 +1,8 @@
 import React from "react";
-import { Row, Button, Menu, Icon } from "antd";
+import { Row } from "antd";
 import SearchBar from "../components/searchBar/SearchBar";
-import moment from "moment";
-import ChangeLanguage from "../components/changeLanguage/ChangeLanguage";
-import { FormattedMessage, injectIntl } from "react-intl";
+
+import { injectIntl } from "react-intl";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 class Home extends React.Component {

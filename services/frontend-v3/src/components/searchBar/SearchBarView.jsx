@@ -1,10 +1,8 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Form, Row, Select, Col, Button, Icon, Card } from "antd";
-
+import { Form, Row, Col, Button, Icon, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
-const { Option } = Select;
 class SearchBarView extends React.Component {
   constructor(props) {
     super(props);
