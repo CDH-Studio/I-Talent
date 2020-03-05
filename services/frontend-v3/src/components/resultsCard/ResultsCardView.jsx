@@ -10,16 +10,13 @@ const { Meta } = Card;
 class ResultsCardView extends React.Component {
   constructor(props) {
     super(props);
-    //this.renderResultCards = this.renderResultCards.bind(this);
   }
 
   render() {
     return (
       <div>
-        <Row>
-          <Col span={6} key={this.renderResultCards}>
-            {this.renderResultCards()}
-          </Col>
+        <Row gutter={16} type="flex" justify="center" align="top">
+          {this.renderResultCards()}
         </Row>
       </div>
     );
@@ -48,26 +45,29 @@ class ResultsCardView extends React.Component {
 
   renderCard(person) {
     return (
-      <div
-        style={styles.card}
-        onClick={() => this.props.history.push("/secured/profile/" + person.id)}
-      >
-        <Card size="small" hoverable bordered={true}>
-          <Row>
-            <Meta
-              title={person.firstName + " " + person.lastName}
-              description={<p style={styles.smallP}>{person.jobTitle}</p>}
-            ></Meta>
+      <Col span={6} style={{ height: "100%" }}>
+        <Card
+          style={{ height: "100%" }}
+          size="small"
+          hoverable
+          bordered={true}
+          onClick={() =>
+            this.props.history.push("/secured/profile/" + person.id)
+          }
+        >
+          <Meta
+            title={person.firstName + " " + person.lastName}
+            description={<p style={styles.smallP}>{person.jobTitle}</p>}
+          ></Meta>
 
-            <p style={styles.smallP}>{person.branch}</p>
-            {person.classification.description !== null ? (
-              <p style={styles.smallP}>
-                {"Classification: " + person.classification.description}
-              </p>
-            ) : (
-              <p></p>
-            )}
-          </Row>
+          <p style={styles.smallP}>{person.branch}</p>
+          {person.classification.description !== null ? (
+            <p style={styles.smallP}>
+              {"Classification: " + person.classification.description}
+            </p>
+          ) : (
+            <p></p>
+          )}
 
           <Divider style={styles.divider} orientation="left">
             {this.props.intl.formatMessage({
@@ -77,22 +77,21 @@ class ResultsCardView extends React.Component {
           </Divider>
           {person.resultSkills.map(skill => (
             <Tag
-              //color="cyan"
-              color="#007471"
+              color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
             >
               {skill}
             </Tag>
           ))}
         </Card>
-      </div>
+      </Col>
     );
   }
 }
 
 const styles = {
   card: {
-    paddingBottom: "15px"
+    //paddingBottom: "15px"
   },
   smallP: {
     lineHeight: "4px",

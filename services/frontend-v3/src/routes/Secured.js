@@ -72,7 +72,7 @@ class Secured extends Component {
         return (
           <div id="view">
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-            <div>
+            {/* <div>
               Keycloak Secret
               <form>
                 <textarea
@@ -87,7 +87,7 @@ class Secured extends Component {
                   {this.state.copySuccess}
                 </div>
               )}
-            </div>
+            </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
             <Switch>
               <Route
