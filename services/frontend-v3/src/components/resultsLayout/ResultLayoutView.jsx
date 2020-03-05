@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AppLayout from "../layouts/appLayout/AppLayout";
 import { Layout, Card } from "antd";
-import { Form, Col, Input, Switch, Select } from "antd";
+import { Form, PageHeader } from "antd";
 import axios from "axios";
 import {} from "antd";
 import config from "../../config";
@@ -21,12 +21,17 @@ class ResultLayoutView extends Component {
 
   render() {
     const { data } = this.props;
+    const resultsTitle = this.props.intl.formatMessage({
+      id: "results.title",
+      defaultMessage: "Results"
+    });
     return (
       <Layout>
         <AppLayout
           displaySideBar={true}
           //sideBarContent={}
         >
+          <PageHeader title={resultsTitle} />
           <ResultsCard
             changeLanguage={this.props.changeLanguage}
             history={this.props.history}
