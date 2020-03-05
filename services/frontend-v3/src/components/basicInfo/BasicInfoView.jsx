@@ -1,26 +1,38 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Avatar, List, Button } from "antd";
+import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+const { Title } = Typography;
 
 class BasicInfoView extends Component {
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const contactInfo = this.getContactInfo();
-    const locationInfo = this.getLocationInfo(locale);
+  generateProfileHeader(dataSource) {
+    const { name, jobTitle, avatar } = this.props;
 
     return (
-      <Card actions={this.generateActions()} style={{ height: "100%" }}>
-        <Row>
-          <Col xs={24} lg={12}>
-            {this.generateInfoList(contactInfo)}
-          </Col>
-          <Col xs={24} lg={12}>
-            {this.generateInfoList(locationInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <List
+        itemLayout="horizontal"
+        dataSource={dataSource}
+        renderItem={item => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  size={150}
+                  style={(styles.userAvatar, { backgroundColor: avatar.color })}
+                >
+                  {avatar.acr}
+                </Avatar>
+              }
+              title={<Title>{name}</Title>}
+              description={
+                <Title level={2} type="secondary">
+                  {jobTitle}
+                </Title>
+              }
+            />
+          </List.Item>
+        )}
+      />
     );
   }
 
@@ -34,9 +46,7 @@ class BasicInfoView extends Component {
             <List.Item.Meta
               avatar={
                 <Avatar
-                  style={{
-                    backgroundColor: this.props.data.color
-                  }}
+                  style={styles.avatar}
                   size="large"
                   icon={item.icon}
                   shape="square"
@@ -114,6 +124,46 @@ class BasicInfoView extends Component {
 
     return buttons;
   }
+
+  render() {
+    const locale = this.props.intl.formatMessage({ id: "language.code" });
+    const { name, jobTitle } = this.props;
+
+    const contactInfo = this.getContactInfo();
+    const locationInfo = this.getLocationInfo(locale);
+    const data = [{ name, jobTitle }];
+
+    return (
+      <Card actions={this.generateActions()} style={styles.card}>
+        <Row style={styles.row}></Row>
+        {this.generateProfileHeader(data)}
+        <Row>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(contactInfo)}
+          </Col>
+          <Col xs={24} lg={12}>
+            {this.generateInfoList(locationInfo)}
+          </Col>
+        </Row>
+      </Card>
+    );
+  }
 }
+
+/* Component Styles */
+const styles = {
+  row: {
+    marginBottom: "30px"
+  },
+  card: {
+    height: "100%"
+  },
+  avatar: {
+    backgroundColor: "#007471"
+  },
+  userAvatar: {
+    verticalAlign: "middle"
+  }
+};
 
 export default injectIntl(BasicInfoView);

@@ -2,18 +2,6 @@ import React, { Component } from "react";
 import BasicInfoView from "./BasicInfoView";
 
 class BasicInfo extends Component {
-  render() {
-    const { data } = this.props;
-
-    return (
-      <BasicInfoView
-        data={data}
-        locale={localStorage.getItem("lang")}
-        buttonLinks={this.getButtonLinks()}
-      />
-    );
-  }
-
   getButtonLinks() {
     const { linkedinUrl, githubUrl, twitterUrl, email } = this.props.data;
     let buttonLinks = { buttons: [] };
@@ -53,6 +41,25 @@ class BasicInfo extends Component {
     };
 
     return buttonLinks;
+  }
+
+  render() {
+    const { data } = this.props;
+    const name = data.firstName + " " + data.lastName;
+
+    return (
+      <BasicInfoView
+        data={data}
+        name={name}
+        avatar={{
+          acr: data.acronym,
+          color: data.color
+        }}
+        jobTitle={data.jobTitle[localStorage.getItem("lang")]}
+        locale={localStorage.getItem("lang")}
+        buttonLinks={this.getButtonLinks()}
+      />
+    );
   }
 }
 

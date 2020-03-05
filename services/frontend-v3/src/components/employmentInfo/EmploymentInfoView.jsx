@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, Avatar, List, Button } from "antd";
+import { Row, Col, Card, List } from "antd";
 import moment from "moment";
 
 class EmploymentInfoView extends Component {
@@ -12,11 +12,11 @@ class EmploymentInfoView extends Component {
 
     return (
       <Card
-        style={{ height: "100%" }}
+        style={styles.card}
         title={this.props.intl.formatMessage({ id: "profile.info" })}
       >
         <Row>
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={24}>
             {this.generateInfoList(info)}
           </Col>
         </Row>
@@ -104,5 +104,12 @@ class EmploymentInfoView extends Component {
     return [subs, classi, tempRole, ...actingInfo, security];
   }
 }
+
+/* Component Styles */
+const styles = {
+  card: {
+    height: "100%"
+  }
+};
 
 export default injectIntl(EmploymentInfoView);

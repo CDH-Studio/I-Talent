@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import EmploymentInfoView from "./EmploymentInfoView";
+import TalentManagementView from "./TalentManagementView";
 
-class EmploymentInfo extends Component {
+class TalentManagement extends Component {
   render() {
     const { data } = this.props;
 
-    const name = data.firstName + " " + data.lastName;
-
     return (
-      <EmploymentInfoView
+      <TalentManagementView
         data={data}
         avatar={{
           acr: data.acronym,
@@ -20,4 +18,4 @@ class EmploymentInfo extends Component {
   }
 }
 
-export default EmploymentInfo;
+export default TalentManagement;
