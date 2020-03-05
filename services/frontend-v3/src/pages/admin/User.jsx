@@ -55,7 +55,7 @@ class AdminUser extends React.Component {
       });
   }
 
-  getColumnSearchProps = dataIndex => ({
+  getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -67,7 +67,14 @@ class AdminUser extends React.Component {
           ref={node => {
             this.searchInput = node;
           }}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={
+            this.props.intl.formatMessage({
+              id: "admin.search",
+              defaultMessage: "Search for"
+            }) +
+            " " +
+            title
+          }
           value={selectedKeys[0]}
           onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -300,7 +307,13 @@ class AdminUser extends React.Component {
           return a.fullName.localeCompare(b.fullName);
         },
         sortDirections: ["descend"],
-        ...this.getColumnSearchProps("fullName")
+        ...this.getColumnSearchProps(
+          "fullName",
+          this.props.intl.formatMessage({
+            id: "admin.name",
+            defaultMessage: "Name"
+          })
+        )
       },
       {
         title: this.props.intl.formatMessage({
@@ -312,7 +325,13 @@ class AdminUser extends React.Component {
         sorter: (a, b) => {
           return a[jobTitleState].localeCompare(b[jobTitleState]);
         },
-        ...this.getColumnSearchProps(jobTitleState)
+        ...this.getColumnSearchProps(
+          jobTitleState,
+          this.props.intl.formatMessage({
+            id: "admin.job.title",
+            defaultMessage: "Job Title"
+          })
+        )
       },
       {
         title: this.props.intl.formatMessage({
@@ -326,7 +345,13 @@ class AdminUser extends React.Component {
             moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
           );
         },
-        ...this.getColumnSearchProps("formatCreatedAt")
+        ...this.getColumnSearchProps(
+          "formatCreatedAt",
+          this.props.intl.formatMessage({
+            id: "admin.registered",
+            defaultMessage: "Registered"
+          })
+        )
       },
       {
         title: this.props.intl.formatMessage({
@@ -338,7 +363,13 @@ class AdminUser extends React.Component {
         sorter: (a, b) => {
           return a[tenureState].localeCompare(b[tenureState]);
         },
-        ...this.getColumnSearchProps(tenureState)
+        ...this.getColumnSearchProps(
+          tenureState,
+          this.props.intl.formatMessage({
+            id: "admin.tenure",
+            defaultMessage: "Tenure"
+          })
+        )
       },
       {
         title: this.props.intl.formatMessage({

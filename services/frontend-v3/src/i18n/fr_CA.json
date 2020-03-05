@@ -36,6 +36,7 @@
   "admin.active": "Actif",
   "admin.inactive": "Inactif",
   "admin.flagged": "Caché",
+  "admin.search": "Rechercher",
   "admin.dashboard.total.users": "Utilisateurs totals",
   "admin.dashboard.inactive.users": "Utilisateurs inactifs",
   "admin.dashboard.flagged.profiles": "Profils cachés",

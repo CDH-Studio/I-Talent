@@ -34,6 +34,7 @@
   "admin.active": "Active",
   "admin.inactive": "Inactive",
   "admin.flagged": "Hidden",
+  "admin.search": "Search for",
   "admin.dashboard.total.users": "Total users",
   "admin.dashboard.inactive.users": "Inactive users",
   "admin.dashboard.flagged.profiles": "Hidden profiles",
