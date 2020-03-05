@@ -1,54 +1,61 @@
 import React, { Component } from "react";
-import { Typography, Tabs, List, Card, Tag } from "antd";
+import { Typography, Tabs, List, Card, Tag, Row, Col } from "antd";
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
 class SkillsView extends Component {
   render() {
-    const { skills, categories } = this.props;
+    const {
+      skills,
+      mentoring,
+      categoriesSkills,
+      categoriesMentor
+    } = this.props;
 
     return (
       <div>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Skills" key="1">
-            <List
-              grid={{
-                gutter: 18,
-                xs: 3
-                // sm: 2,
-                // md: 4,
-                // lg: 4,
-                // xl: 6,
-                // xxl: 3
-              }}
-              dataSource={categories}
-              renderItem={category => (
-                <List.Item>
-                  <Card title={category.val}>
-                    <div>
-                      {
-                        <List
-                          dataSource={skills[category.index].val}
-                          renderItem={skill => (
-                            <List.Item>
-                              <Tag>{skill}</Tag>
-                            </List.Item>
-                          )}
-                        />
-                      }
-                    </div>
-                  </Card>
-                </List.Item>
-              )}
-            />
-          </TabPane>
-          <TabPane tab="Mentorship Skills" key="2">
-            Content of Tab Pane 2
-          </TabPane>
-          <TabPane tab="Developmental Goals" key="3">
-            Content of Tab Pane 3
-          </TabPane>
-        </Tabs>
+        <Card>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Skills" key="1">
+              <Row type="flex" gutter={[16, 16]}>
+                {categoriesSkills.map(categorySkill => (
+                  <Col span={6}>
+                    <Card title={categorySkill.val}>
+                      {skills[categorySkill.index].val.map(skill => (
+                        <Row
+                          type="flex-wrap"
+                          gutter={[16, 16]}
+                          align={"center"}
+                        >
+                          <Col span={16}>
+                            <Tag>{skill}</Tag>
+                          </Col>
+                        </Row>
+                      ))}
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </TabPane>
+            <TabPane tab="Mentorship Skills" key="2">
+              <Row type="flex" gutter={[16, 16]}>
+                {categoriesMentor.map(categoryMentor => (
+                  <Col span={6}>
+                    <Card title={categoryMentor.val}>
+                      {mentoring[categoryMentor.index].val.map(mentor => (
+                        <Row type="wrap" gutter={[16, 16]} align={"center"}>
+                          <Col span={16}>
+                            <Tag>{mentor}</Tag>
+                          </Col>
+                        </Row>
+                      ))}
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </TabPane>
+          </Tabs>
+        </Card>
       </div>
     );
   }
