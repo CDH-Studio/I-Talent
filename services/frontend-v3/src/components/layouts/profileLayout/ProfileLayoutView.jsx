@@ -1,5 +1,5 @@
 import React from "react";
-import { PageHeader, Card } from "antd";
+import { PageHeader } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
 import BasicInfo from "../../basicInfo/BasicInfo";

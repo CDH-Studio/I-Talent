@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 class BasicInfoView extends Component {
   generateProfileHeader(dataSource) {
@@ -15,7 +15,9 @@ class BasicInfoView extends Component {
             size={150}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
           >
-            {avatar.acr}
+            <Text style={{ fontSize: "80px", color: "white" }}>
+              {avatar.acr}
+            </Text>
           </Avatar>
         </Col>
         <Col xs={24} xl={18}>
