@@ -1,16 +1,13 @@
 import React from "react";
-import { Form, Col, Input, Switch, Select } from "antd";
+import { Form } from "antd";
 import axios from "axios";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import {} from "antd";
 import config from "../../config";
-import queryString from "query-string";
-import prepareInfo from "../../functions/prepareInfo";
 import { injectIntl } from "react-intl";
 import ResultsCardView from "./ResultsCardView";
 
 const backendAddress = config.backendAddress;
-const { Option } = Select;
 
 class ResultsCard extends React.Component {
   constructor(props) {
@@ -35,8 +32,6 @@ class ResultsCard extends React.Component {
     ).data;
 
     this.setState({ results: results1 });
-    console.log("gather results: " + results1);
-    console.log("this.state.results: " + this.state.results);
   }
 
   componentDidMount() {

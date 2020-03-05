@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, Row, Button, Menu, Icon } from "antd";
-import ResultsCard from "../components/resultsCard/ResultsCard";
+import { Form } from "antd";
 import ResultLayout from "../components/resultsLayout/ResultLayout";
 import { injectIntl } from "react-intl";
 class Results extends React.Component {

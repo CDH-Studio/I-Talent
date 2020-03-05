@@ -34,7 +34,6 @@ class SearchBar extends React.Component {
 
   //Fetches options for skills select field in advanced search
   async getSkills() {
-    const lang = localStorage.getItem("lang");
     try {
       let results = await axios.get(
         backendAddress + "api/option/getDevelopmentalGoals"
@@ -155,20 +154,20 @@ class SearchBar extends React.Component {
       fieldCounter++;
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
-          {fieldCounter == 1 ? (
+          {fieldCounter === 1 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
                 "" + searchTitles[i],
                 {}
               )(<Input placeholder={searchLabel} />)}
             </Form.Item>
-          ) : fieldCounter == 6 ? (
+          ) : fieldCounter === 6 ? (
             <Form.Item style={{ textAlign: "center" }} label={labelArr[i]}>
               {getFieldDecorator(searchTitles[i], { valuePropName: "checked" })(
                 <Switch />
               )}
             </Form.Item>
-          ) : fieldCounter == 2 ? (
+          ) : fieldCounter === 2 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
                 "" + searchTitles[i],
@@ -187,7 +186,7 @@ class SearchBar extends React.Component {
                 </Select>
               )}
             </Form.Item>
-          ) : fieldCounter == 3 ? (
+          ) : fieldCounter === 3 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
                 "" + searchTitles[i],
@@ -206,7 +205,7 @@ class SearchBar extends React.Component {
                 </Select>
               )}
             </Form.Item>
-          ) : fieldCounter == 4 ? (
+          ) : fieldCounter === 4 ? (
             <Form.Item label={labelArr[i]}>
               {getFieldDecorator(
                 "" + searchTitles[i],

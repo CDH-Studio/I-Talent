@@ -1,9 +1,6 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Form, Row, Select, Col, Icon, Tag, Card, Divider } from "antd";
-
-import ChangeLanguage from "../changeLanguage/ChangeLanguage";
-import CustomAvatar from "../customAvatar/CustomAvatar";
+import { Row, Col, Tag, Card, Divider } from "antd";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
@@ -15,7 +12,7 @@ class ResultsCardView extends React.Component {
   render() {
     return (
       <div>
-        <Row gutter={16} type="flex" justify="center" align="top">
+        <Row gutter={[16, 16]} type="flex" justify="left" align="top">
           {this.renderResultCards()}
         </Row>
       </div>
