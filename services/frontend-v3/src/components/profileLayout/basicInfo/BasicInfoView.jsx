@@ -5,6 +5,40 @@ import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
 const { Title } = Typography;
 
 class BasicInfoView extends Component {
+  generateProfileHeader(dataSource) {
+    const { name, jobTitle, avatar } = this.props;
+
+    return (
+      <List
+        itemLayout="horizontal"
+        dataSource={dataSource}
+        renderItem={item => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  size={150}
+                  style={{
+                    backgroundColor: avatar.color,
+                    verticalAlign: "middle"
+                  }}
+                >
+                  {avatar.acr}
+                </Avatar>
+              }
+              title={<Title>{name}</Title>}
+              description={
+                <Title level={2} type="secondary">
+                  {jobTitle}
+                </Title>
+              }
+            />
+          </List.Item>
+        )}
+      />
+    );
+  }
+
   generateInfoList(dataSource) {
     return (
       <List
@@ -98,7 +132,7 @@ class BasicInfoView extends Component {
 
   render() {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
-    const { name, jobTitle, avatar } = this.props;
+    const { name, jobTitle } = this.props;
 
     const contactInfo = this.getContactInfo();
     const locationInfo = this.getLocationInfo(locale);
@@ -106,35 +140,8 @@ class BasicInfoView extends Component {
 
     return (
       <Card actions={this.generateActions()} style={{ height: "100%" }}>
-        <Row style={{ marginBottom: "30px" }}>
-          <List
-            itemLayout="horizontal"
-            dataSource={data}
-            renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      size={150}
-                      style={{
-                        backgroundColor: avatar.color,
-                        verticalAlign: "middle"
-                      }}
-                    >
-                      {avatar.acr}
-                    </Avatar>
-                  }
-                  title={<Title>{name}</Title>}
-                  description={
-                    <Title level={2} type="secondary">
-                      {jobTitle}
-                    </Title>
-                  }
-                />
-              </List.Item>
-            )}
-          />
-        </Row>
+        <Row style={{ marginBottom: "30px" }}></Row>
+        {this.generateProfileHeader(data)}
         <Row>
           <Col xs={24} lg={12}>
             {this.generateInfoList(contactInfo)}
