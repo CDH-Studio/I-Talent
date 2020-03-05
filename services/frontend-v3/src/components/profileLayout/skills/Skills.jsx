@@ -4,45 +4,47 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import SkillsView from "./SkillsView";
 
 class Skills extends Component {
-  formatData() {
-    const { data } = this.props;
+  formatData(list) {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
-    let categorizedSkillsList = {};
+    let categorizedList = {};
 
-    data.skills.forEach(skill => {
-      const key = skill.description.categoryId;
-      if (categorizedSkillsList[key] == null) {
-        categorizedSkillsList[key] = [skill.description[locale]];
+    list.forEach(listElement => {
+      const key = listElement.description.categoryId;
+      if (categorizedList[key] == null) {
+        categorizedList[key] = [listElement.description[locale]];
       } else {
-        categorizedSkillsList[key].push(skill.description[locale]);
+        categorizedList[key].push(listElement.description[locale]);
       }
     });
 
-    return categorizedSkillsList;
+    return categorizedList;
   }
 
-  setUpCategories() {
-    const { data } = this.props;
+  setUpCategories(list) {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
-    let categorizedSkillsList = {};
+    let categorizedList = {};
     let categoriesTemp = {};
     let categories = [];
 
     let k = 0;
-    data.skills.forEach(skill => {
-      const key = skill.description.categoryId;
-      if (categorizedSkillsList[key] == null) {
-        categorizedSkillsList[key] = [skill.description[locale]];
+    list.forEach(listElement => {
+      const key = listElement.description.categoryId;
+      if (categorizedList[key] == null) {
+        categorizedList[key] = [listElement.description[locale]];
         if (categoriesTemp[k] == null) {
           if (locale == "en") {
-            categoriesTemp[k] = [skill.description.category["categoryEn"]];
+            categoriesTemp[k] = [
+              listElement.description.category["categoryEn"]
+            ];
           } else {
-            categoriesTemp[k] = [skill.description.category["categoryFr"]];
+            categoriesTemp[k] = [
+              listElement.description.category["categoryFr"]
+            ];
           }
           k++;
         }
       } else {
-        categorizedSkillsList[key].push(skill.description[locale]);
+        categorizedList[key].push(listElement.description[locale]);
       }
     });
 
@@ -54,8 +56,9 @@ class Skills extends Component {
   }
 
   setUpSkills() {
+    const { data } = this.props;
     let skills = [];
-    let categorizedSkillsList = this.formatData();
+    let categorizedSkillsList = this.formatData(data.skills);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       skills.push({ index, val });
@@ -63,15 +66,26 @@ class Skills extends Component {
     return skills;
   }
 
+  setUpMentorshipSkills() {
+    const { data } = this.props;
+    let mentorshipSkills = [];
+    let categorizedSkillsList = this.formatData(data.mentorshipSkills);
+
+    for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
+      mentorshipSkills.push({ index, val });
+    }
+
+    return mentorshipSkills;
+  }
+
   render() {
     const { data } = this.props;
-    let categoryTest = this.setUpCategories();
-    console.log(data);
-
     return (
       <SkillsView
         skills={this.setUpSkills()}
-        categories={this.setUpCategories()}
+        mentoring={this.setUpMentorshipSkills()}
+        categoriesSkills={this.setUpCategories(data.skills)}
+        categoriesMentor={this.setUpCategories(data.mentorshipSkills)}
       />
     );
   }
