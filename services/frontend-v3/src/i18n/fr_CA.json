@@ -61,7 +61,7 @@
   "button.search": "Rechercher",
   "button.basic.search": "Recherche basique",
   "advanced.search.button.text": "Recherche avancée",
-  "advanced.search.form.name": "Name",
+  "advanced.search.form.name": "Nom",
   "advanced.search.form.skills": "Compétences",
   "advanced.search.form.broad.search": "Recherche générale",
   "advanced.search.form.branch": "Branche",
@@ -70,6 +70,7 @@
 
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
+  "button.clear": "Débarrasser",
   "button.close": "Fermer",
   "button.next": "Suivant",
   "button.back": "Précédent",
@@ -119,6 +120,8 @@
   "setup.projects": "Projets",
   "setup.career.interests": "Objectifs professionels",
   "setup.save.and.finish": "Enregistrer et terminer",
+
+  "results.title": "Résultats",
 
   "my.profile": "Mon profil",
   "edit.profile": "Modifier le profil",
