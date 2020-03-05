@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
+import moment from "moment";
 
 import { Row, Col, Card, List } from "antd";
 
 class OfficialLanguageView extends Component {
   generateFirstLanguage(dataSource) {
+    console.log("handling null and undefined", dataSource);
     return (
       <List
         itemLayout="horizontal"
@@ -24,7 +26,12 @@ class OfficialLanguageView extends Component {
     const firstLanguage = {
       icon: "mail",
       title: <FormattedMessage id="profile.first.language" />,
-      description: data.firstLanguage[locale]
+      description:
+        data.firstLanguage === undefined ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.firstLanguage[locale]
+        )
     };
     return [firstLanguage];
   }
@@ -50,27 +57,33 @@ class OfficialLanguageView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.reading" />,
       description:
-        data.secondaryReadingProficiency === null
-          ? "Grade not provided"
-          : data.secondaryReadingProficiency
+        data.secondaryReadingProficiency === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.secondaryReadingProficiency
+        )
     };
 
     const secondaryWritingProficiency = {
       icon: "mail",
       title: <FormattedMessage id="profile.writing" />,
       description:
-        data.secondaryWritingProficiency === null
-          ? "Grade not provided"
-          : data.secondaryWritingProficiency
+        data.secondaryWritingProficiency === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.secondaryWritingProficiency
+        )
     };
 
     const secondaryOralProficiency = {
       icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
-        data.secondaryOralProficiency === null
-          ? "Grade not provided"
-          : data.secondaryOralProficiency
+        data.secondaryOralProficiency === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.secondaryOralProficiency
+        )
     };
 
     return [
@@ -83,31 +96,41 @@ class OfficialLanguageView extends Component {
   getSecondLanguageDateInfo(locale) {
     const data = this.props.data;
 
+    const formatedReadingDate = moment(data.secondaryReadingDate).format("LLL");
+    const formatedWritingDate = moment(data.secondaryWritingDate).format("LLL");
+    const formatedOralDate = moment(data.secondaryOralDate).format("LLL");
+
     const secondaryReadingDate = {
       icon: "mail",
       title: <FormattedMessage id="profile.reading" />,
       description:
-        data.secondaryReadingDate === null
-          ? "Date not provided"
-          : data.secondaryReadingDate
+        data.secondaryReadingDate === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          formatedReadingDate
+        )
     };
 
     const secondaryWritingDate = {
       icon: "mail",
       title: <FormattedMessage id="profile.writing" />,
       description:
-        data.secondaryWritingDate === null
-          ? "Date not provided"
-          : data.secondaryWritingDate
+        data.secondaryWritingDate === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          formatedWritingDate
+        )
     };
 
     const secondaryOralDate = {
       icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
-        data.secondaryOralDate === null
-          ? "Date not provided"
-          : data.secondaryOralDate
+        data.secondaryOralDate === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          formatedOralDate
+        )
     };
 
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, Card, List, Tag, Typography } from "antd";
 
 class CareerInterestsView extends Component {
   generateCareerInterestsInfoList(dataSource) {
@@ -20,17 +20,14 @@ class CareerInterestsView extends Component {
 
   generateRelocationLocationsInfoList(dataSource) {
     return (
-      <List
-        header={<FormattedMessage id="profile.willing.to.relocate.to" />}
-        grid={{ gutter: 16, column: dataSource.length }}
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta title={item} />
-          </List.Item>
-        )}
-      />
+      <div>
+        <Typography.Text strong>
+          <FormattedMessage id="profile.willing.to.relocate.to" />:{" "}
+        </Typography.Text>
+        {dataSource.map(loc => (
+          <Tag>{loc}</Tag>
+        ))}
+      </div>
     );
   }
 
@@ -50,8 +47,9 @@ class CareerInterestsView extends Component {
     const lookingForNewJob = {
       icon: "mail",
       title: <FormattedMessage id="profile.looking.for.new.job" />,
-      description: data.lookingForNewJob.description[locale] || (
-        <FormattedMessage id="profile.do.not.specify" />
+      description: (data.lookingForNewJob &&
+        data.lookingForNewJob.description[locale]) || (
+        <FormattedMessage id="profile.not.specified" />
       )
     };
 
@@ -62,9 +60,11 @@ class CareerInterestsView extends Component {
     const data = this.props.data;
 
     const relocationLocationsInfo = [];
-    data.relocationLocations.forEach(locationElement =>
-      relocationLocationsInfo.push(locationElement.description[locale])
-    );
+    if (data.relocationLocations) {
+      data.relocationLocations.forEach(locationElement =>
+        relocationLocationsInfo.push(locationElement.description[locale])
+      );
+    }
 
     return [...relocationLocationsInfo];
   }
@@ -83,7 +83,7 @@ class CareerInterestsView extends Component {
         })}
       >
         <Row>
-          <Col xs={24} lg={24}>
+          <Col span={24}>
             {this.generateCareerInterestsInfoList(info)}
             {this.generateRelocationLocationsInfoList(relocationLocationsInfo)}
           </Col>

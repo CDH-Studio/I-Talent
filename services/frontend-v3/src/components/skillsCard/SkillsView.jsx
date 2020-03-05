@@ -19,7 +19,7 @@ class SkillsView extends Component {
             <TabPane tab="Skills" key="1">
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesSkills.map(categorySkill => (
-                  <Col span={6}>
+                  <Col xs={24} xl={6}>
                     <Card title={categorySkill.val}>
                       {skills[categorySkill.index].val.map(skill => (
                         <Row
