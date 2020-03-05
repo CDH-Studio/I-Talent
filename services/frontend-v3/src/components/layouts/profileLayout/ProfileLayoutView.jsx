@@ -3,6 +3,7 @@ import { PageHeader, Card } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
+import Skills from "../../skillsCard/Skills";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import CareerInterests from "../../careerInterests/CareerInterests";
@@ -39,7 +40,7 @@ class ProfileLayoutView extends React.Component {
             >
               <Row>
                 <Col xs={24} lg={24}>
-                  Skills...
+                  <Skills data={data}></Skills>
                 </Col>
               </Row>
               <Row>
