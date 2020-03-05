@@ -46,7 +46,13 @@ class Profile extends React.Component {
     if (!loading)
       return (
         // <AppLayout changeLanguage={this.props.changeLanguage}>
-        <ProfileLayout name={name} data={data} />
+        <ProfileLayout
+          changeLanguage={this.props.changeLanguage}
+          keycloak={this.props.keycloak}
+          history={this.props.history}
+          name={name}
+          data={data}
+        />
         // </AppLayout>
       );
     else {

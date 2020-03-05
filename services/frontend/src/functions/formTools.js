@@ -88,3 +88,36 @@ export function formatOptions(options) {
   );
   return newOptions;
 }
+export function formatSkillOptions(options) {
+  let catOp = [];
+  let skillOp = [];
+  let sOptions = [];
+
+  options.forEach(v =>
+    catOp.push({
+      key: v.aCategory.skill.catId,
+      value: v.aCategory.skill.skillsCat,
+      text:
+        v.aCategory.skill["description"][localStorage.getItem("lang")] ||
+        v.aCategory.skill["description"]
+    })
+  );
+
+  for (var i = 0; i < catOp.length; i++) {
+    let temp = catOp[i].value;
+    temp.forEach(v => {
+      skillOp.push({
+        key: v.id,
+        value: v.id,
+        text: v["description"][localStorage.getItem("lang")] || v["description"]
+      });
+    });
+  }
+
+  sOptions.push(
+    { key: "categories", value: catOp },
+    { key: "skills", value: skillOp }
+  );
+
+  return catOp;
+}
