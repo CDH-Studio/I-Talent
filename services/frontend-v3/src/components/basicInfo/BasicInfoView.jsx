@@ -9,30 +9,26 @@ class BasicInfoView extends Component {
     const { name, jobTitle, avatar } = this.props;
 
     return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  size={150}
-                  style={(styles.userAvatar, { backgroundColor: avatar.color })}
-                >
-                  {avatar.acr}
-                </Avatar>
-              }
-              title={<Title>{name}</Title>}
-              description={
-                <Title level={2} type="secondary">
-                  {jobTitle}
-                </Title>
-              }
-            />
-          </List.Item>
-        )}
-      />
+      <Row type="flex" justify="center" align="middle" style={styles.row}>
+        <Col xs={24} xl={6}>
+          <Avatar
+            size={150}
+            style={(styles.userAvatar, { backgroundColor: avatar.color })}
+          >
+            {avatar.acr}
+          </Avatar>
+        </Col>
+        <Col xs={24} xl={18}>
+          <Row>
+            <Title>{name}</Title>
+          </Row>
+          <Row>
+            <Title level={2} type="secondary">
+              {jobTitle}
+            </Title>
+          </Row>
+        </Col>
+      </Row>
     );
   }
 
@@ -67,21 +63,31 @@ class BasicInfoView extends Component {
     const email = {
       icon: "mail",
       title: <FormattedMessage id="profile.email" />,
-      description: data.email === null ? "Email not provided" : data.email
+      description: data.email ? (
+        data.email
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      )
     };
 
     const tel = {
       icon: "phone",
       title: <FormattedMessage id="profile.telephone" />,
-      description:
-        data.telephone === null ? "Telephone not provided" : data.cellphone
+      description: data.telephone ? (
+        data.cellphone
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      )
     };
 
     const cel = {
       icon: "mobile",
       title: <FormattedMessage id="profile.cellphone" />,
-      description:
-        data.cellphone === null ? "Cellphone not provided" : data.cellphone
+      description: data.cellphone ? (
+        data.cellphone
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      )
     };
 
     return [email, tel, cel];
@@ -99,17 +105,21 @@ class BasicInfoView extends Component {
     const address = {
       icon: "environment",
       title: <FormattedMessage id="profile.address" />,
-      description:
-        data.address === undefined
-          ? "Address not provided"
-          : data.location.description[locale]
+      description: data.address ? (
+        data.location.description[locale]
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      )
     };
 
     const manager = {
       icon: "user",
       title: <FormattedMessage id="profile.manager" />,
-      description:
-        data.manager === undefined ? "Manager name not provided" : data.manager
+      description: data.manager ? (
+        data.manager
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      )
     };
 
     return [branch, address, manager];

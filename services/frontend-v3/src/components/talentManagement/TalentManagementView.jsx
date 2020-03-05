@@ -25,7 +25,7 @@ class TalentManagementView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.career.mobility" />,
       description: data.careerMobility.description[locale] || (
-        <FormattedMessage id="profile.do.not.specify" />
+        <FormattedMessage id="profile.not.specified" />
       )
     };
 
@@ -33,7 +33,7 @@ class TalentManagementView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.talent.matrix.result" />,
       description: data.talentMatrixResult.description[locale] || (
-        <FormattedMessage id="profile.do.not.specify" />
+        <FormattedMessage id="profile.not.specified" />
       )
     };
 

@@ -27,9 +27,11 @@ class OfficialLanguageView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.first.language" />,
       description:
-        data.firstLanguage === undefined
-          ? "First language not provided"
-          : data.firstLanguage[locale]
+        data.firstLanguage === undefined ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.firstLanguage[locale]
+        )
     };
     return [firstLanguage];
   }
@@ -55,27 +57,33 @@ class OfficialLanguageView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.reading" />,
       description:
-        data.secondaryReadingProficiency === null
-          ? "Grade not provided"
-          : data.secondaryReadingProficiency
+        data.secondaryReadingProficiency === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.secondaryReadingProficiency
+        )
     };
 
     const secondaryWritingProficiency = {
       icon: "mail",
       title: <FormattedMessage id="profile.writing" />,
       description:
-        data.secondaryWritingProficiency === null
-          ? "Grade not provided"
-          : data.secondaryWritingProficiency
+        data.secondaryWritingProficiency === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.secondaryWritingProficiency
+        )
     };
 
     const secondaryOralProficiency = {
       icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
-        data.secondaryOralProficiency === null
-          ? "Grade not provided"
-          : data.secondaryOralProficiency
+        data.secondaryOralProficiency === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          data.secondaryOralProficiency
+        )
     };
 
     return [
@@ -87,7 +95,6 @@ class OfficialLanguageView extends Component {
 
   getSecondLanguageDateInfo(locale) {
     const data = this.props.data;
-    const haha = moment(null);
 
     const formatedReadingDate = moment(data.secondaryReadingDate).format("LLL");
     const formatedWritingDate = moment(data.secondaryWritingDate).format("LLL");
@@ -97,25 +104,33 @@ class OfficialLanguageView extends Component {
       icon: "mail",
       title: <FormattedMessage id="profile.reading" />,
       description:
-        data.secondaryReadingDate === null
-          ? "Date not provided"
-          : formatedReadingDate
+        data.secondaryReadingDate === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          formatedReadingDate
+        )
     };
 
     const secondaryWritingDate = {
       icon: "mail",
       title: <FormattedMessage id="profile.writing" />,
       description:
-        data.secondaryWritingDate === null
-          ? "Date not provided"
-          : formatedWritingDate
+        data.secondaryWritingDate === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          formatedWritingDate
+        )
     };
 
     const secondaryOralDate = {
       icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
-        data.secondaryOralDate === null ? "Date not provided" : formatedOralDate
+        data.secondaryOralDate === null ? (
+          <FormattedMessage id="profile.not.specified" />
+        ) : (
+          formatedOralDate
+        )
     };
 
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];

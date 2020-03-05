@@ -23,32 +23,16 @@ class ProfileLayoutView extends React.Component {
     return (
       <div>
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
-          <Col span={16}>
+          <Col xs={24} xl={16}>
             <BasicInfo data={data} style={styles.card} />
           </Col>
-          <Col span={8}>
+          <Col xs={24} xl={8}>
             <EmploymentInfo data={data} style={styles.card} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Card
-              style={styles.card}
-              title={
-                "Skills | Competency | Developmental goals | Mentor Card Goes Here"
-              }
-            >
-              <Row>
-                <Col xs={24} lg={24}>
-                  <Skills data={data}></Skills>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24} lg={24}>
-                  Competencies ...
-                </Col>
-              </Row>
-            </Card>
+            <Skills data={data}></Skills>
           </Col>
         </Row>
         <Row style={styles.row} type="flex">
@@ -56,13 +40,15 @@ class ProfileLayoutView extends React.Component {
             <TalentManagement data={data} />
           </Col>
         </Row>
-        <Row style={styles.row}>
-          <Col span={24}>
+        <Row
+          style={styles.row}
+          gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
+          type="flex"
+        >
+          <Col xs={24} xl={12}>
             <OfficialLanguage data={data} />
           </Col>
-        </Row>
-        <Row style={styles.row}>
-          <Col span={24}>
+          <Col xs={24} xl={12}>
             <CareerInterests data={data} />
           </Col>
         </Row>
