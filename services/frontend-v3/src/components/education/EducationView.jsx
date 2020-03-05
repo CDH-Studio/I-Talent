@@ -80,7 +80,8 @@ class EducationView extends Component {
   render() {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
 
-    const educationInfo = this.getEducationInfo(locale);
+    const educationInfo = [];
+    // this.getEducationInfo(locale);
 
     return (
       <Card style={styles.card}>

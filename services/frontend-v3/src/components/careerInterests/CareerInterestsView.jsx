@@ -50,7 +50,8 @@ class CareerInterestsView extends Component {
     const lookingForNewJob = {
       icon: "mail",
       title: <FormattedMessage id="profile.looking.for.new.job" />,
-      description: data.lookingForNewJob.description[locale] || (
+      description: (data.lookingForNewJob &&
+        data.lookingForNewJob.description[locale]) || (
         <FormattedMessage id="profile.do.not.specify" />
       )
     };
@@ -62,9 +63,11 @@ class CareerInterestsView extends Component {
     const data = this.props.data;
 
     const relocationLocationsInfo = [];
-    data.relocationLocations.forEach(locationElement =>
-      relocationLocationsInfo.push(locationElement.description[locale])
-    );
+    if (data.relocationLocations) {
+      data.relocationLocations.forEach(locationElement =>
+        relocationLocationsInfo.push(locationElement.description[locale])
+      );
+    }
 
     return [...relocationLocationsInfo];
   }
@@ -72,8 +75,10 @@ class CareerInterestsView extends Component {
   render() {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
 
-    const info = this.getCareerInterestsInfo(locale);
-    const relocationLocationsInfo = this.getRelocationLocationsInfo(locale);
+    const info = [];
+    // this.getCareerInterestsInfo(locale);
+    const relocationLocationsInfo = [];
+    // this.getRelocationLocationsInfo(locale);
 
     return (
       <Card

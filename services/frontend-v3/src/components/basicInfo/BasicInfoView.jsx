@@ -67,19 +67,21 @@ class BasicInfoView extends Component {
     const email = {
       icon: "mail",
       title: <FormattedMessage id="profile.email" />,
-      description: data.email
+      description: data.email === null ? "Email not provided" : data.email
     };
 
     const tel = {
       icon: "phone",
       title: <FormattedMessage id="profile.telephone" />,
-      description: data.cellphone
+      description:
+        data.telephone === null ? "Telephone not provided" : data.cellphone
     };
 
     const cel = {
       icon: "mobile",
       title: <FormattedMessage id="profile.cellphone" />,
-      description: data.cellphone
+      description:
+        data.cellphone === null ? "Cellphone not provided" : data.cellphone
     };
 
     return [email, tel, cel];
@@ -91,19 +93,23 @@ class BasicInfoView extends Component {
     const branch = {
       icon: "branches",
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch[locale]
+      description: data.branch && data.branch[locale]
     };
 
     const address = {
       icon: "environment",
       title: <FormattedMessage id="profile.address" />,
-      description: data.location.description[locale]
+      description:
+        data.address === undefined
+          ? "Address not provided"
+          : data.location.description[locale]
     };
 
     const manager = {
       icon: "user",
       title: <FormattedMessage id="profile.manager" />,
-      description: data.manager
+      description:
+        data.manager === undefined ? "Manager name not provided" : data.manager
     };
 
     return [branch, address, manager];

@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
+import moment from "moment";
 
 import { Row, Col, Card, List } from "antd";
 
 class OfficialLanguageView extends Component {
   generateFirstLanguage(dataSource) {
+    console.log("handling null and undefined", dataSource);
     return (
       <List
         itemLayout="horizontal"
@@ -24,7 +26,10 @@ class OfficialLanguageView extends Component {
     const firstLanguage = {
       icon: "mail",
       title: <FormattedMessage id="profile.first.language" />,
-      description: data.firstLanguage[locale]
+      description:
+        data.firstLanguage === undefined
+          ? "First language not provided"
+          : data.firstLanguage[locale]
     };
     return [firstLanguage];
   }
@@ -82,6 +87,11 @@ class OfficialLanguageView extends Component {
 
   getSecondLanguageDateInfo(locale) {
     const data = this.props.data;
+    const haha = moment(null);
+
+    const formatedReadingDate = moment(data.secondaryReadingDate).format("LLL");
+    const formatedWritingDate = moment(data.secondaryWritingDate).format("LLL");
+    const formatedOralDate = moment(data.secondaryOralDate).format("LLL");
 
     const secondaryReadingDate = {
       icon: "mail",
@@ -89,7 +99,7 @@ class OfficialLanguageView extends Component {
       description:
         data.secondaryReadingDate === null
           ? "Date not provided"
-          : data.secondaryReadingDate
+          : formatedReadingDate
     };
 
     const secondaryWritingDate = {
@@ -98,16 +108,14 @@ class OfficialLanguageView extends Component {
       description:
         data.secondaryWritingDate === null
           ? "Date not provided"
-          : data.secondaryWritingDate
+          : formatedWritingDate
     };
 
     const secondaryOralDate = {
       icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
-        data.secondaryOralDate === null
-          ? "Date not provided"
-          : data.secondaryOralDate
+        data.secondaryOralDate === null ? "Date not provided" : formatedOralDate
     };
 
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];
