@@ -9,16 +9,6 @@ class ResultsCardView extends React.Component {
     super(props);
   }
 
-  render() {
-    return (
-      <div>
-        <Row gutter={[16, 16]} type="flex" justify="left" align="top">
-          {this.renderResultCards()}
-        </Row>
-      </div>
-    );
-  }
-
   renderResultCards() {
     const { results } = this.props;
 
@@ -83,12 +73,18 @@ class ResultsCardView extends React.Component {
       </Col>
     );
   }
+  render() {
+    return (
+      <div>
+        <Row gutter={[16, 16]} type="flex" justify="left" align="top">
+          {this.renderResultCards()}
+        </Row>
+      </div>
+    );
+  }
 }
 
 const styles = {
-  card: {
-    //paddingBottom: "15px"
-  },
   smallP: {
     lineHeight: "4px",
     marginTop: "10px"

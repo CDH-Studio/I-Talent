@@ -112,10 +112,14 @@ class SearchBar extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
     const children = [];
-    var fieldCounter = 0;
+    let fieldCounter = 0;
     const searchLabel = this.props.intl.formatMessage({
       id: "button.search",
       defaultMessage: "Search"
+    });
+    let locale = this.props.intl.formatMessage({
+      id: "language.code",
+      defaultMessage: "en"
     });
     const searchTitles = [
       "name",
@@ -181,7 +185,9 @@ class SearchBar extends React.Component {
                 >
                   {this.state.skillOptions.map((value, index) => {
                     return (
-                      <Option key={value.id}>{value.description.en}</Option>
+                      <Option key={value.id}>
+                        {value.description[locale]}
+                      </Option>
                     );
                   })}
                 </Select>
@@ -201,7 +207,7 @@ class SearchBar extends React.Component {
                   {this.state.branchOptions.map(value => {
                     return (
                       <Option key={value.description.en}>
-                        {value.description.en}
+                        {value.description[locale]}
                       </Option>
                     );
                   })}
@@ -221,7 +227,9 @@ class SearchBar extends React.Component {
                 >
                   {this.state.locationOptions.map((value, index) => {
                     return (
-                      <Option key={value.id}>{value.description.en}</Option>
+                      <Option key={value.id}>
+                        {value.description[locale]}
+                      </Option>
                     );
                   })}
                 </Select>
