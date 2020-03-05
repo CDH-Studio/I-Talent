@@ -74,7 +74,7 @@ class BasicInfoView extends Component {
       icon: "phone",
       title: <FormattedMessage id="profile.telephone" />,
       description: data.telephone ? (
-        data.cellphone
+        data.telephone
       ) : (
         <FormattedMessage id="profile.not.specified" />
       )
