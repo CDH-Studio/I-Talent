@@ -1,7 +1,8 @@
 import React from "react";
-
-import AppLayout from "../components/layouts/appLayout/AppLayout";
-
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import ResultLayout from "../components/resultsLayout/ResultLayout";
+import { injectIntl } from "react-intl";
 class Results extends React.Component {
   goto = link => this.props.history.push(link);
 
@@ -12,9 +13,18 @@ class Results extends React.Component {
   }
 
   render() {
-    return <AppLayout>TEST!!!</AppLayout>;
+    return (
+      <ResultLayout
+        changeLanguage={this.props.changeLanguage}
+        keycloak={this.props.keycloak}
+        history={this.props.history}
+        displaySideBar={true}
+        //sideBarContent={this.props.sideBarContent}
+      ></ResultLayout>
+    );
   }
 }
 
 //Needed when using this,props.intl
-export default Results;
+Results = Form.create({})(Results);
+export default injectIntl(Results);

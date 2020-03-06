@@ -154,14 +154,14 @@ const getCategorySkills = async (request, response) => {
   });
   let resBody = all.map(one => {
     one = one.dataValues;
-    let skillsCat = one.skills.map(skillCat => {
+    let skillsList = one.skills.map(skillCat => {
       skillCat = skillCat.dataValues;
       if (skillCat.categoryId == one.id) {
         return {
           id: skillCat.id,
           description: {
-            en: one.descriptionEn + ": " + skillCat.descriptionEn,
-            fr: one.descriptionFr + ": " + skillCat.descriptionFr
+            en: skillCat.descriptionEn,
+            fr: skillCat.descriptionFr
           }
         };
       } else {
@@ -173,10 +173,10 @@ const getCategorySkills = async (request, response) => {
     });
     return {
       aCategory: {
-        skill: {
-          catId: one.id,
+        category: {
+          id: one.id,
           description: { en: one.descriptionEn, fr: one.descriptionFr },
-          skillsCat
+          skillsList
         }
       }
     };
@@ -237,8 +237,8 @@ const getSkill = async (request, response) => {
     return {
       id: one.id,
       description: {
-        en: ascCats.descriptionEn + ": " + one.descriptionEn,
-        fr: ascCats.descriptionFr + ": " + one.descriptionFr
+        en: one.descriptionEn,
+        fr: one.descriptionFr
       }
     };
   });

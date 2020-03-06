@@ -1,8 +1,6 @@
 const moment = require("moment");
 const Models = require("../../models");
 const Profile = Models.profile;
-// const Skill = Models.skill;
-// const Category = Models.category;
 
 const getProfile = async response => {
   response.status(200).json(await Profile.findAll());
@@ -143,17 +141,11 @@ const getPublicProfileById = async (request, response) => {
       return {
         id: skill.dataValues.id,
         description: {
-          en:
-            cats.dataValues.descriptionEn +
-            ": " +
-            skill.dataValues.descriptionEn,
-          fr:
-            cats.dataValues.descriptionFr +
-            ": " +
-            skill.dataValues.descriptionFr,
+          en: skill.dataValues.descriptionEn,
+          fr: skill.dataValues.descriptionFr,
           category: {
-            categoryEn: cats.dataValues.descriptionEn,
-            categoryFr: cats.dataValues.descriptionFr
+            en: cats.dataValues.descriptionEn,
+            fr: cats.dataValues.descriptionFr
           },
           categoryId: skill.dataValues.categoryId
         }
@@ -194,17 +186,11 @@ const getPublicProfileById = async (request, response) => {
         return {
           id: mentorshipSkill.dataValues.id,
           description: {
-            en:
-              cats.dataValues.descriptionEn +
-              ": " +
-              mentorshipSkill.dataValues.descriptionEn,
-            fr:
-              cats.dataValues.descriptionFr +
-              ": " +
-              mentorshipSkill.dataValues.descriptionFr,
+            en: mentorshipSkill.dataValues.descriptionEn,
+            fr: mentorshipSkill.dataValues.descriptionFr,
             category: {
-              categoryEn: cats.dataValues.descriptionEn,
-              categoryFr: cats.dataValues.descriptionFr
+              en: cats.dataValues.descriptionEn,
+              fr: cats.dataValues.descriptionFr
             },
             categoryId: mentorshipSkill.dataValues.categoryId
           }
@@ -272,6 +258,7 @@ const getPublicProfileById = async (request, response) => {
           : null
       }
     },
+
     telephone: data.telephone,
     cellphone: data.cellphone,
     jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
@@ -529,26 +516,23 @@ const getPrivateProfileById = async (request, response) => {
         attributes: ["descriptionEn", "descriptionFr", "id"],
         require: true
       });
+
       return {
         id: skill.dataValues.id,
         description: {
-          en:
-            cats.dataValues.descriptionEn +
-            ": " +
-            skill.dataValues.descriptionEn,
-          fr:
-            cats.dataValues.descriptionFr +
-            ": " +
-            skill.dataValues.descriptionFr,
+          en: skill.dataValues.descriptionEn,
+          fr: skill.dataValues.descriptionFr,
           category: {
-            categoryEn: cats.dataValues.descriptionEn,
-            categoryFr: cats.dataValues.descriptionFr
+            en: cats.dataValues.descriptionEn,
+            fr: cats.dataValues.descriptionFr
           },
           categoryId: skill.dataValues.categoryId
         }
       };
     }
   });
+
+  let profileSkills = [];
 
   let competencies = await profile.getCompetencies().map(competency => {
     if (competency)
@@ -584,17 +568,11 @@ const getPrivateProfileById = async (request, response) => {
         return {
           id: mentorshipSkill.dataValues.id,
           description: {
-            en:
-              cats.dataValues.descriptionEn +
-              ": " +
-              mentorshipSkill.dataValues.descriptionEn,
-            fr:
-              cats.dataValues.descriptionFr +
-              ": " +
-              mentorshipSkill.dataValues.descriptionFr,
+            en: mentorshipSkill.dataValues.descriptionEn,
+            fr: mentorshipSkill.dataValues.descriptionFr,
             category: {
-              categoryEn: cats.dataValues.descriptionEn,
-              categoryFr: cats.dataValues.descriptionFr
+              en: cats.dataValues.descriptionEn,
+              fr: cats.dataValues.descriptionFr
             },
             categoryId: mentorshipSkill.dataValues.categoryId
           }
@@ -691,6 +669,7 @@ const getPrivateProfileById = async (request, response) => {
           : null
       }
     },
+
     manager: data.manager,
     cellphone: data.cellphone,
     organizationList,

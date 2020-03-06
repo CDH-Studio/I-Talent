@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { Layout } from "antd";
 import TopNav from "../../topNav/TopNav";
 import SideNav from "../../sideNav/SideNav";
-import { Layout, Breadcrumb } from "antd";
 
 const { Content } = Layout;
 
@@ -29,13 +29,8 @@ export default class AppLayoutView extends Component {
             sideBarContent={this.props.sideBarContent}
             displaySideBar={this.props.displaySideBar}
           ></SideNav>
-          {/* Render content */}{" "}
-          <Layout style={{ padding: "0 24px 24px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+          {/* Render content */}
+          <Layout>
             <Content style={styles.content}>{this.props.children}</Content>
           </Layout>
         </Layout>
@@ -47,8 +42,7 @@ export default class AppLayoutView extends Component {
 /* Component Styles */
 const styles = {
   content: {
-    background: "#fff",
-    padding: 24,
+    padding: "20px 15px",
     margin: 0,
     minHeight: 280
   }
