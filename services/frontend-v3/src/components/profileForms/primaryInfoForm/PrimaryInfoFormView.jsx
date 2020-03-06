@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+//import { Form } from '@ant-design/compatible';
+import "@ant-design/compatible/assets/index.css";
 import { Select, Input, Button, Row, Col, Typography, Divider } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Form } from "antd";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -16,24 +17,12 @@ export default class PrimaryInfoFormView extends Component {
     };
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
-      }
-    });
-  };
-
-  handleSelectChange = value => {
-    console.log(value);
-    this.props.form.setFieldsValue({
-      note: `Hi, ${value === "male" ? "man" : "lady"}!`
-    });
+  handleSubmit = values => {
+    console.log("Received values of form: ", values);
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    // const { getFieldDecorator } = this.props.form;
     console.log(this.props.profileInfo.firstName);
     return (
       <div style={styles.content}>
@@ -41,109 +30,149 @@ export default class PrimaryInfoFormView extends Component {
           1. <FormattedMessage id="setup.primary.information" />
         </Title>
         <Divider style={styles.headerDiv} />
-        <Form
+        <Form name="basicForm" layout="vertical" onFinish={this.handleSubmit}>
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={12}>
+              <Form.Item
+                name="firstName"
+                label={<FormattedMessage id="profile.first.name" />}
+                value={this.props.profileInfo.firstName}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" span={12}>
+              <Form.Item
+                name="lastName"
+                label={<FormattedMessage id="profile.last.name" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* Form Row Two */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={8}>
+              <Form.Item
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                value={this.props.profileInfo.telephone}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" span={8}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                value={this.props.profileInfo.cellphone}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" span={8}>
+              <Form.Item
+                name="email"
+                label={<FormattedMessage id="profile.email" />}
+                value={this.props.profileInfo.email}
+                rules={[Rules.emailFormat, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={12}>
+              <Form.Item
+                name="location"
+                label={<FormattedMessage id="profile.location" />}
+                value={this.props.profileInfo.firstName}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Select
+                  placeholder="choose location"
+                  onChange={this.handleSelectChange}
+                >
+                  {this.props.locationOptions.map((value, index) => {
+                    return (
+                      <Option key={value.id}>{value.description.en}</Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" span={12}>
+              <Form.Item
+                name="team"
+                label={<FormattedMessage id="profile.team" />}
+                rules={[Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* Form Row Four */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={8}>
+              <Form.Item
+                name="lastName"
+                label={<FormattedMessage id="profile.gcconnex.url" />}
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" span={8}>
+              <Form.Item
+                name="lastName"
+                label={<FormattedMessage id="profile.linkedin.url" />}
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" span={8}>
+              <Form.Item
+                name="lastName"
+                label={<FormattedMessage id="profile.github.url" />}
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Next
+            </Button>
+          </Form.Item>
+        </Form>
+
+        {/* <Form
           layout="vertical"
           // labelCol={{ span: 5 }}
           //wrapperCol={{ span: 22 }}
           onSubmit={this.handleSubmit}
         >
-          <Row>
-            <Col span={12}>
-              <Form.Item
-                label={<FormattedMessage id="profile.first.name" />}
-                style={styles.formItem}
-                value={this.props.profileInfo.firstName}
-              >
-                {getFieldDecorator("firstName", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Required"
-                    },
-                    {
-                      max: 50,
-                      message: "Max length 50 characters"
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label={<FormattedMessage id="profile.last.name" />}
-                style={styles.formItem}
-              >
-                {getFieldDecorator("lastName", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Required"
-                    },
-                    {
-                      max: 50,
-                      message: "Max length 50 characters"
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </Col>
-          </Row>
+         
 
           <Row>
-            <Col span={6}>
-              <Form.Item
-                label={<FormattedMessage id="profile.telephone" />}
-                style={styles.formItem}
-              >
-                {getFieldDecorator("telephone", {
-                  rules: [
-                    {
-                      pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
-                      message: "required format: 111-222-3333"
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                label={<FormattedMessage id="profile.cellphone" />}
-                style={styles.formItem}
-              >
-                {getFieldDecorator("cellphone", {
-                  rules: [
-                    {
-                      pattern: /\d{3}-\d{3}-\d{4}/i, // prettier-ignore
-                      message: "required format: 111-222-3333"
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label={<FormattedMessage id="profile.email" />}
-                style={styles.formItem}
-              >
-                {getFieldDecorator("email", {
-                  rules: [
-                    {
-                      pattern: /\S+@\S+\.ca/i, // prettier-ignore
-                      message: "Please Provide a valid Gov. Canada email"
-                    },
-                    {
-                      max: 50,
-                      message: "Max length 50 characters"
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col span={12}>
-              <Form.Item
+            <Col span={12}> */}
+        {/* <Form.Item
                 label={<FormattedMessage id="profile.location" />}
                 style={styles.formItem}
               >
@@ -162,13 +191,13 @@ export default class PrimaryInfoFormView extends Component {
                       );
                     })}
                     {/* <Option value="male">male</Option>
-                    <Option value="female">female</Option> */}
+                    <Option value="female">female</Option>
                   </Select>
                 )}
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
+              </Form.Item> */}
+        {/* </Col>
+            <Col span={12}> */}
+        {/* <Form.Item
                 label={<FormattedMessage id="profile.team" />}
                 style={styles.formItem}
               >
@@ -180,12 +209,12 @@ export default class PrimaryInfoFormView extends Component {
                     }
                   ]
                 })(<Input />)}
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <Form.Item label="LinkedIn URL:" style={styles.formItem}>
+              </Form.Item> */}
+        {/* </Col>
+          </Row> */}
+        {/* <Row>
+            <Col span={8}> */}
+        {/* <Form.Item label="LinkedIn URL:" style={styles.formItem}>
                 {getFieldDecorator("linkedin", {
                   rules: [
                     {
@@ -194,10 +223,10 @@ export default class PrimaryInfoFormView extends Component {
                     }
                   ]
                 })(<Input />)}
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="Github URL:" style={styles.formItem}>
+              </Form.Item> */}
+        {/* </Col>
+            <Col span={8}> */}
+        {/* <Form.Item label="Github URL:" style={styles.formItem}>
                 {getFieldDecorator("github", {
                   rules: [
                     {
@@ -206,10 +235,10 @@ export default class PrimaryInfoFormView extends Component {
                     }
                   ]
                 })(<Input />)}
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="GCconnex URL:" style={styles.formItem}>
+              </Form.Item> */}
+        {/* </Col>
+            <Col span={8}> */}
+        {/* <Form.Item label="GCconnex URL:" style={styles.formItem}>
                 {getFieldDecorator("gcConnect", {
                   rules: [
                     {
@@ -218,21 +247,16 @@ export default class PrimaryInfoFormView extends Component {
                     }
                   ]
                 })(<Input />)}
-              </Form.Item>
-            </Col>
-          </Row>
+              </Form.Item> */}
+        {/* </Col>
+          </Row> */}
+        {/* 
 
-          <Form.Item wrapperCol={{ span: 12, offset: 12 }}>
-            <Button type="primary" htmlType="submit">
-              Next
-            </Button>
-          </Form.Item>
-        </Form>
+        </Form> */}
       </div>
     );
   }
 }
-PrimaryInfoFormView = Form.create({})(PrimaryInfoFormView);
 
 /* Component Styles */
 const styles = {
@@ -257,5 +281,28 @@ const styles = {
   },
   subHeading: {
     fontSize: "1.3em"
+  }
+};
+
+const Rules = {
+  required: {
+    required: true,
+    message: "Required"
+  },
+  maxChar50: {
+    max: 50,
+    message: "Max length 50 characters"
+  },
+  maxChar100: {
+    max: 50,
+    message: "Max length 100 characters"
+  },
+  telephoneFormat: {
+    pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
+    message: "required format: 111-222-3333"
+  },
+  emailFormat: {
+    pattern: /\S+@\S+\.ca/i, // prettier-ignore
+    message: "Please Provide a valid Gov. Canada email"
   }
 };
