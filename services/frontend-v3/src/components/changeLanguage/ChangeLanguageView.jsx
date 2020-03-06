@@ -1,7 +1,8 @@
 //PREEXISTING CODE
 
 import React, { Component } from "react";
-import { Icon, Button } from "antd";
+import { GlobalOutlined } from '@ant-design/icons';
+import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 
 class ChangeLanguageView extends Component {
@@ -30,7 +31,7 @@ class ChangeLanguageView extends Component {
         onClick={() => this.changeLanguage(languageCode)}
         style={{ textTransform: "uppercase" }}
       >
-        <Icon type="global" />{" "}
+        <GlobalOutlined />{" "}
         <FormattedMessage
           style={{ textTransform: "capitalize" }}
           id="lang.code"

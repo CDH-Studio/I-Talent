@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import AppLayout from "../layouts/appLayout/AppLayout";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import { Layout } from "antd";
-import { Form, PageHeader } from "antd";
+import { PageHeader } from "antd";
 import { injectIntl } from "react-intl";
 import ResultsCard from "../resultsCard/ResultsCard";
 

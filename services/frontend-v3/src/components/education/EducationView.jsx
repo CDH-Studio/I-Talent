@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+
 import { Row, Col, Card, Avatar, List } from "antd";
 
 class EducationView extends Component {
@@ -18,7 +20,7 @@ class EducationView extends Component {
                 <Avatar
                   style={styles.avatar}
                   size="large"
-                  icon={item.icon}
+                  icon={<LegacyIcon type={item.icon} />}
                   shape="square"
                 />
               }
