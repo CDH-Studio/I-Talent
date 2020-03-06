@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Select,
-  Input,
-  Button,
-  Row,
-  Col,
-  Typography,
-  Divider
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Select, Input, Button, Row, Col, Typography, Divider } from "antd";
 import { FormattedMessage } from "react-intl";
 
 const { Option } = Select;

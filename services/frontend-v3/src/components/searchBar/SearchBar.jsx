@@ -1,7 +1,8 @@
 import React from "react";
-import { Form, Col, Input, Switch, Select } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Col, Input, Switch, Select } from "antd";
 import axios from "axios";
-import {} from "antd";
 import config from "../../config";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
