@@ -18,15 +18,11 @@ class SkillsView extends Component {
             <TabPane tab="Skills" key="1">
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesSkills.map(categorySkill => (
-                  <Col xs={24} xl={6}>
+                  <Col>
                     <Card title={categorySkill.val}>
                       {skills[categorySkill.index].val.map(skill => (
-                        <Row
-                          type="flex-wrap"
-                          gutter={[16, 16]}
-                          align={"center"}
-                        >
-                          <Col span={16}>
+                        <Row type="flex-wrap" gutter={[16, 16]} align={"left"}>
+                          <Col span={6}>
                             <Tag>{skill}</Tag>
                           </Col>
                         </Row>
@@ -39,11 +35,11 @@ class SkillsView extends Component {
             <TabPane tab="Mentorship Skills" key="2">
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesMentor.map(categoryMentor => (
-                  <Col span={6}>
+                  <Col>
                     <Card title={categoryMentor.val}>
                       {mentoring[categoryMentor.index].val.map(mentor => (
-                        <Row type="wrap" gutter={[16, 16]} align={"center"}>
-                          <Col span={16}>
+                        <Row type="flex-wrap" gutter={[16, 16]} align={"left"}>
+                          <Col span={6}>
                             <Tag>{mentor}</Tag>
                           </Col>
                         </Row>
