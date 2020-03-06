@@ -1,7 +1,8 @@
 import React from "react";
 import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import axios from "axios";
-import { Typography, Skeleton, Icon, Table, Input, Button, Select } from "antd";
+import { CheckCircleOutlined, LinkOutlined, SearchOutlined } from '@ant-design/icons';
+import { Typography, Skeleton, Table, Input, Button, Select } from "antd";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
@@ -87,7 +88,7 @@ class AdminUser extends React.Component {
         <Button
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<Icon type="search" />}
+          icon={<SearchOutlined />}
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
@@ -103,7 +104,7 @@ class AdminUser extends React.Component {
       </div>
     ),
     filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -290,7 +291,7 @@ class AdminUser extends React.Component {
             <Button
               type="primary"
               shape="circle"
-              icon="link"
+              icon={<LinkOutlined />}
               onClick={() => window.open(record.profileLink)}
             />
           </span>
@@ -397,7 +398,7 @@ class AdminUser extends React.Component {
         <div align="right">
           <Button
             type="primary"
-            icon="check-circle"
+            icon={<CheckCircleOutlined />}
             size={size}
             onClick={this.handleApply}
             disabled={Object.entries(statuses).length === 0}

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
 const { Title, Text } = Typography;
 
@@ -46,7 +48,7 @@ class BasicInfoView extends Component {
                 <Avatar
                   style={styles.avatar}
                   size="large"
-                  icon={item.icon}
+                  icon={<LegacyIcon type={item.icon} />}
                   shape="square"
                 />
               }
@@ -134,7 +136,7 @@ class BasicInfoView extends Component {
       const button = buttonLinks[buttonName];
 
       return (
-        <Button block icon={button.icon} href={button.url}>
+        <Button block icon={<LegacyIcon type={button.icon} />} href={button.url}>
           {this.props.intl.formatMessage({ id: button.textId })}
         </Button>
       );

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Layout, Dropdown, Menu, Icon } from "antd";
+import { DownOutlined, EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../customAvatar/CustomAvatar";
 import Logo from "../sideNav/logo_v2.svg";
@@ -20,19 +21,19 @@ export default class TopNavView extends Component {
       <Menu style={styles.dropDownMenu}>
         <Menu.Item style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/secured/profile/">
-            <Icon type="user" style={styles.MenuIcon} />
+            <UserOutlined style={styles.MenuIcon} />
             <FormattedMessage id="my.profile" />
           </a>
         </Menu.Item>
         <Menu.Item style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/secured/profile/edit">
-            <Icon type="edit" style={styles.MenuIcon} />
+            <EditOutlined style={styles.MenuIcon} />
             <FormattedMessage id="edit.profile" />
           </a>
         </Menu.Item>
         <Menu.Item style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/secured/logout">
-            <Icon type="logout" style={styles.MenuIcon} />
+            <LogoutOutlined style={styles.MenuIcon} />
             <FormattedMessage id="sign.out" />
           </a>
         </Menu.Item>
@@ -53,7 +54,7 @@ export default class TopNavView extends Component {
               style={{ color: "#fff", padding: "20px 20px" }}
             >
               <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
-              {localStorage.getItem("name")} <Icon type="down" />
+              {localStorage.getItem("name")} <DownOutlined />
             </a>
           </Dropdown>
           {/* Render change language button */}

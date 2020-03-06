@@ -1,6 +1,8 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Form, Row, Col, Button, Icon, Card } from "antd";
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Row, Col, Button, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
 class SearchBarView extends React.Component {
@@ -68,7 +70,7 @@ class SearchBarView extends React.Component {
                     id: "advanced.search.button.text",
                     defaultMessage: "Advanced Search"
                   })}{" "}
-                  <Icon type={this.state.expand ? "up" : "down"} />
+                  <LegacyIcon type={this.state.expand ? "up" : "down"} />
                 </a>
               </Col>
             </Row>

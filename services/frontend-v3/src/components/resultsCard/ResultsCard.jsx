@@ -1,8 +1,8 @@
 import React from "react";
-import { Form } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import axios from "axios";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
-import {} from "antd";
 import config from "../../config";
 import { injectIntl } from "react-intl";
 import ResultsCardView from "./ResultsCardView";

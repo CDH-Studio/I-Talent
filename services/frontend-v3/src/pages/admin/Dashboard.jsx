@@ -1,7 +1,17 @@
 import React from "react";
 import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import axios from "axios";
-import { Typography, Skeleton, Statistic, Card, Row, Col, Icon } from "antd";
+
+import {
+  EyeInvisibleFilled,
+  RiseOutlined,
+  SolutionOutlined,
+  TeamOutlined,
+  UsergroupAddOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+
+import { Typography, Skeleton, Statistic, Card, Row, Col } from "antd";
 import moment from "moment";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { injectIntl } from "react-intl";
@@ -194,7 +204,7 @@ class AdminDashboard extends React.Component {
                 })}
                 value={data.dashboardCount.user}
                 valueStyle={{ color: "#3f8600" }}
-                prefix={<Icon type="team" />}
+                prefix={<TeamOutlined />}
               />
             </Card>
           </Col>
@@ -207,7 +217,7 @@ class AdminDashboard extends React.Component {
                 })}
                 value={data.dashboardCount.inactive}
                 valueStyle={{ color: "#515052" }}
-                prefix={<Icon type="user" />}
+                prefix={<UserOutlined />}
               />
             </Card>
           </Col>
@@ -220,7 +230,7 @@ class AdminDashboard extends React.Component {
                 })}
                 value={data.dashboardCount.flagged}
                 valueStyle={{ color: "#cf1322" }}
-                prefix={<Icon type="eye-invisible" theme="filled" />}
+                prefix={<EyeInvisibleFilled />}
               />
             </Card>
           </Col>
@@ -233,7 +243,7 @@ class AdminDashboard extends React.Component {
                 })}
                 value={data.dashboardCount.exFeeder}
                 valueStyle={{ color: "#82A7A6" }}
-                prefix={<Icon type="solution" />}
+                prefix={<SolutionOutlined />}
               />
             </Card>
           </Col>
@@ -248,7 +258,7 @@ class AdminDashboard extends React.Component {
                 }
                 value={current_month_additions.count}
                 valueStyle={{ color: "#CD8FD6" }}
-                prefix={<Icon type="usergroup-add" />}
+                prefix={<UsergroupAddOutlined />}
               />
             </Card>
           </Col>
@@ -263,7 +273,7 @@ class AdminDashboard extends React.Component {
                 }
                 value={growthRate}
                 valueStyle={{ color: "#FF934F" }}
-                prefix={<Icon type="rise" />}
+                prefix={<RiseOutlined />}
                 suffix="%"
               />
             </Card>

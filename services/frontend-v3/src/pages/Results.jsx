@@ -1,5 +1,6 @@
 import React from "react";
-import { Form } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import ResultLayout from "../components/resultsLayout/ResultLayout";
 import { injectIntl } from "react-intl";
 class Results extends React.Component {
