@@ -23,6 +23,21 @@ class Profile extends React.Component {
     this.state = { name: "Loading", data: null, id: id, loading: true };
   }
 
+  componentWillMount() {
+    const id = this.props.match.params.id;
+
+    if (this.state.data === null) {
+      this.updateProfileInfo(id).then(data =>
+        this.setState({
+          name: data.firstName + " " + data.lastName,
+          id,
+          data,
+          loading: false
+        })
+      );
+    }
+  }
+
   componentDidUpdate() {
     const id = this.props.match.params.id;
 
