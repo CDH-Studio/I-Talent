@@ -153,28 +153,6 @@ const getPublicProfileById = async (request, response) => {
     }
   });
 
-  let competencies = await profile.getCompetencies().map(competency => {
-    if (competency)
-      return {
-        id: competency.dataValues.id,
-        description: {
-          en: competency.dataValues.descriptionEn,
-          fr: competency.dataValues.descriptionFr
-        }
-      };
-  });
-
-  let developmentalGoals = await profile.getDevelopmentGoals().map(goal => {
-    if (goal)
-      return {
-        id: goal.dataValues.id,
-        description: {
-          en: goal.dataValues.descriptionEn,
-          fr: goal.dataValues.descriptionFr
-        }
-      };
-  });
-
   let mentorshipSkills = await profile
     .getMentorshipSkills()
     .map(async mentorshipSkill => {
@@ -197,6 +175,28 @@ const getPublicProfileById = async (request, response) => {
         };
       }
     });
+
+  let competencies = await profile.getCompetencies().map(competency => {
+    if (competency)
+      return {
+        id: competency.dataValues.id,
+        description: {
+          en: competency.dataValues.descriptionEn,
+          fr: competency.dataValues.descriptionFr
+        }
+      };
+  });
+
+  let developmentalGoals = await profile.getDevelopmentGoals().map(goal => {
+    if (goal)
+      return {
+        id: goal.dataValues.id,
+        description: {
+          en: goal.dataValues.descriptionEn,
+          fr: goal.dataValues.descriptionFr
+        }
+      };
+  });
 
   let secLangProf = await profile.getSecondLanguageProficiency().then(res => {
     if (res) return res.dataValues;
@@ -229,9 +229,20 @@ const getPublicProfileById = async (request, response) => {
     };
   });
 
+  // Format location address to display (Number and street name, Province)
+  const locationDescription = {
+    en: location
+      ? location.addressEn + ", " + location.city + ", " + location.provinceEn
+      : null,
+    fr: location
+      ? location.addressFr + ", " + location.city + ", " + location.provinceFr
+      : null
+  };
+
   //Response Object
   const visibleCards = data.visibleCards;
 
+  // resData that will be sent by default to the Profile view
   let resData = {
     visibleCards,
     firstName: data.firstName,
@@ -241,24 +252,9 @@ const getPublicProfileById = async (request, response) => {
     email: data.email,
     location: {
       id: location ? location.id : null,
-      description: {
-        en: location
-          ? location.addressEn +
-            ", " +
-            location.city +
-            ", " +
-            location.provinceEn
-          : null,
-        fr: location
-          ? location.addressFr +
-            ", " +
-            location.city +
-            ", " +
-            location.provinceFr
-          : null
-      }
+      description: locationDescription
     },
-
+    manager: data.manager,
     telephone: data.telephone,
     cellphone: data.cellphone,
     jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
@@ -269,6 +265,7 @@ const getPublicProfileById = async (request, response) => {
     team: data.team
   };
 
+  // send resData for EmploymentInfo card only if the card is visible
   if (visibleCards.info)
     resData = {
       ...resData,
@@ -298,13 +295,14 @@ const getPublicProfileById = async (request, response) => {
       },
       indeterminate: data.indeterminate
     };
+  // TODO: Remode manager from the visibleCards json object in DB
+  // if (visibleCards.manager)
+  //   resData = {
+  //     ...resData,
+  //     manager: data.manager
+  //   };
 
-  if (visibleCards.manager)
-    resData = {
-      ...resData,
-      manager: data.manager
-    };
-
+  // send resData for TalentManagement card only if the card is visible
   if (visibleCards.talentManagement)
     resData = {
       ...resData,
@@ -326,6 +324,7 @@ const getPublicProfileById = async (request, response) => {
       }
     };
 
+  // send resData for officialLanguage card only if the card is visible
   if (visibleCards.officialLanguage)
     resData = {
       ...resData,
@@ -349,24 +348,14 @@ const getPublicProfileById = async (request, response) => {
       secondLanguage: null
     };
 
+  // send resData for skills card only if the card is visible
   if (visibleCards.skills)
     resData = {
       ...resData,
       skills
     };
 
-  if (visibleCards.competencies)
-    resData = {
-      ...resData,
-      competencies
-    };
-
-  if (visibleCards.developmentalGoals)
-    resData = {
-      ...resData,
-      developmentalGoals
-    };
-
+  // send resData for mentorshipSkills card only if the card is visible
   if (visibleCards.mentorshipSkills)
     resData = {
       ...resData,
@@ -374,24 +363,42 @@ const getPublicProfileById = async (request, response) => {
       isMentor: data.isMentor
     };
 
+  // send resData for competencies card only if the card is visible
+  if (visibleCards.competencies)
+    resData = {
+      ...resData,
+      competencies
+    };
+
+  // send resData for developmentalGoals card only if the card is visible
+  if (visibleCards.developmentalGoals)
+    resData = {
+      ...resData,
+      developmentalGoals
+    };
+
+  // send resData for education card only if the card is visible
   if (visibleCards.education)
     resData = {
       ...resData,
       education: educArray
     };
 
+  // send resData for experience card only if the card is visible
   if (visibleCards.experience)
     resData = {
       ...resData,
       careerSummary
     };
 
+  // send resData for projects card only if the card is visible
   if (visibleCards.projects)
     resData = {
       ...resData,
       projects
     };
 
+  // send resData for careerInterests card only if the card is visible
   if (visibleCards.careerInterests)
     resData = {
       ...resData,

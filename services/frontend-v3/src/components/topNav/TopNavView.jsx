@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { DownOutlined, EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  DownOutlined,
+  EditOutlined,
+  LogoutOutlined,
+  UserOutlined
+} from "@ant-design/icons";
 import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../customAvatar/CustomAvatar";
