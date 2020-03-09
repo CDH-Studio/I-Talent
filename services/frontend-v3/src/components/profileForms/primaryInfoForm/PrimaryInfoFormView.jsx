@@ -1,9 +1,18 @@
 import React, { Component } from "react";
 //import { Form } from '@ant-design/compatible';
 import "@ant-design/compatible/assets/index.css";
-import { Select, Input, Button, Row, Col, Typography, Divider } from "antd";
+import {
+  Select,
+  Input,
+  Button,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  Form
+} from "antd";
+import { LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import { Form } from "antd";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -24,6 +33,7 @@ export default class PrimaryInfoFormView extends Component {
   render() {
     // const { getFieldDecorator } = this.props.form;
     console.log(this.props.profileInfo.firstName);
+    //console.log(@light-primary-color);
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
@@ -125,12 +135,24 @@ export default class PrimaryInfoFormView extends Component {
           </Row>
 
           {/* Form Row Four */}
-          <Row gutter={24}>
+          <Row
+            gutter={24}
+            style={{
+              backgroundColor: "#dfe5e4",
+              paddingTop: "15px",
+              marginBottom: "20px",
+              marginTop: "10px"
+            }}
+          >
+            <Col className="gutter-row" span={24}>
+              <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
+            </Col>
             <Col className="gutter-row" span={8}>
               <Form.Item
                 name="lastName"
                 label={<FormattedMessage id="profile.gcconnex.url" />}
                 rules={[Rules.maxChar100]}
+                style={{ padding: "0px" }}
               >
                 <Input />
               </Form.Item>
