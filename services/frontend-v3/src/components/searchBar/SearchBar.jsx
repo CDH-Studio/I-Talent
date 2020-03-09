@@ -1,6 +1,6 @@
 import React from "react";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from "antd";
+//import "@ant-design/compatible/assets/index.css";
 import { Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import config from "../../config";
@@ -95,14 +95,13 @@ class SearchBar extends React.Component {
       id: "button.search",
       defaultMessage: "Search"
     });
-    const { getFieldDecorator } = this.props.form;
+    //const { getFieldDecorator } = this.props.form;
     children.push(
-      <Form.Item label={""}>
-        {getFieldDecorator(
-          "searchValue",
-          {}
-        )(<Input placeholder={searchLabel} />)}
-      </Form.Item>
+      <Form>
+        <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
+          <Input placeholder={searchLabel} />
+        </Form.Item>
+      </Form>
     );
     return children;
   }
@@ -110,8 +109,6 @@ class SearchBar extends React.Component {
   //Creates the six fields for advanced search, along with their bilingual titles
   getFields(data) {
     const count = this.state.expand ? 6 : 0;
-
-    const { getFieldDecorator } = this.props.form;
     const children = [];
     let fieldCounter = 0;
     const searchLabel = this.props.intl.formatMessage({
@@ -161,98 +158,107 @@ class SearchBar extends React.Component {
       children.push(
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
           {fieldCounter === 1 ? (
-            <Form.Item label={labelArr[i]}>
-              {getFieldDecorator(
-                "" + searchTitles[i],
-                {}
-              )(<Input placeholder={searchLabel} />)}
-            </Form.Item>
-          ) : fieldCounter === 6 ? (
-            <Form.Item style={{ textAlign: "center" }} label={labelArr[i]}>
-              {getFieldDecorator(searchTitles[i], { valuePropName: "checked" })(
+            // <Form>
+            //   <Form.Item >
+            <Input
+              label={labelArr[i]}
+              name={searchTitles[i]}
+              placeholder={searchLabel}
+            />
+          ) : //   </Form.Item>
+          // </Form>
+          fieldCounter === 6 ? (
+            //maybe add in: rules={valuePropName: "checked"}
+            <Form>
+              <Form.Item
+                style={{ textAlign: "center" }}
+                label={labelArr[i]}
+                name={searchTitles[i]}
+              >
                 <Switch />
-              )}
-            </Form.Item>
+              </Form.Item>
+            </Form>
           ) : fieldCounter === 2 ? (
-            <Form.Item label={labelArr[i]}>
-              {getFieldDecorator(
-                "" + searchTitles[i],
-                {}
-              )(
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder={searchLabel}
-                >
-                  {this.state.skillOptions.map((value, index) => {
-                    return (
-                      <Option key={value.id}>
-                        {value.description[locale]}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              )}
-            </Form.Item>
-          ) : fieldCounter === 3 ? (
-            <Form.Item label={labelArr[i]}>
-              {getFieldDecorator(
-                "" + searchTitles[i],
-                {}
-              )(
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder={searchLabel}
-                >
-                  {this.state.branchOptions.map(value => {
-                    return (
-                      <Option key={value.description.en}>
-                        {value.description[locale]}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              )}
-            </Form.Item>
-          ) : fieldCounter === 4 ? (
-            <Form.Item label={labelArr[i]}>
-              {getFieldDecorator(
-                "" + searchTitles[i],
-                {}
-              )(
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder={searchLabel}
-                >
-                  {this.state.locationOptions.map((value, index) => {
-                    return (
-                      <Option key={value.id}>
-                        {value.description[locale]}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              )}
-            </Form.Item>
+            // <Form>
+            //   <Form.Item label={labelArr[i]} name={searchTitles[i]}>
+            <Select
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              label={labelArr[i]}
+              name={searchTitles[i]}
+              mode="multiple"
+              style={{ width: "100%" }}
+              placeholder={searchLabel}
+            >
+              {this.state.skillOptions.map((value, index) => {
+                return (
+                  <Option key={value.id}>{value.description[locale]}</Option>
+                );
+              })}
+            </Select>
+          ) : //   </Form.Item>
+          // </Form>
+          fieldCounter === 3 ? (
+            // <Form.Item label={labelArr[i]} name={searchTitles[i]}>
+            <Select
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              label={labelArr[i]}
+              name={searchTitles[i]}
+              mode="multiple"
+              style={{ width: "100%" }}
+              placeholder={searchLabel}
+            >
+              {this.state.branchOptions.map(value => {
+                return (
+                  <Option key={value.description.en}>
+                    {value.description[locale]}
+                  </Option>
+                );
+              })}
+            </Select>
+          ) : // </Form.Item>
+          fieldCounter === 4 ? (
+            // <Form.Item label={labelArr[i]} name={searchTitles[i]}>
+            <Select
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              label={labelArr[i]}
+              name={searchTitles[i]}
+              mode="multiple"
+              style={{ width: "100%" }}
+              placeholder={searchLabel}
+            >
+              {this.state.locationOptions.map((value, index) => {
+                return (
+                  <Option key={value.id}>{value.description[locale]}</Option>
+                );
+              })}
+            </Select>
           ) : (
-            <Form.Item label={labelArr[i]}>
-              {getFieldDecorator(
-                "" + searchTitles[i],
-                {}
-              )(
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder={searchLabel}
-                >
-                  {this.state.classOptions.map((value, index) => {
-                    return <Option key={value.id}>{value.description}</Option>;
-                  })}
-                </Select>
-              )}
-            </Form.Item>
+            // </Form.Item>
+            <Form>
+              {/* <Form.Item label={labelArr[i]} name={searchTitles[i]}> */}
+              <Select
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                label={labelArr[i]}
+                name={searchTitles[i]}
+                mode="multiple"
+                style={{ width: "100%" }}
+                placeholder={searchLabel}
+              >
+                {this.state.classOptions.map((value, index) => {
+                  return <Option key={value.id}>{value.description}</Option>;
+                })}
+              </Select>
+              {/* </Form.Item> */}
+            </Form>
           )}
         </Col>
       );
@@ -262,21 +268,22 @@ class SearchBar extends React.Component {
 
   //turns search values inputted into children array into query, redirects to results
   //page with query
-  handleSearch = e => {
-    console.log("");
+  handleSearch = values => {
+    console.log("values entered into handleSearch: " + values);
+    // console.log("entered search");
     var query;
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      query = queryString.stringify(values, { arrayFormat: "bracket" });
+    // e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    query = queryString.stringify(values, { arrayFormat: "bracket" });
 
-      let url = "/secured/results?" + encodeURI(query);
+    let url = "/secured/results?" + encodeURI(query);
 
-      this.props.history.push(url);
-    });
+    this.props.history.push(url);
   };
 
   //clears all fields
   handleReset = () => {
+    const [form] = Form.useForm();
     this.props.form.resetFields();
   };
 
@@ -310,5 +317,6 @@ class SearchBar extends React.Component {
     );
   }
 }
-SearchBar = Form.create({})(SearchBar);
+
+//SearchBar = Form.create({})(SearchBar);
 export default injectIntl(SearchBar);

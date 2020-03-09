@@ -1,7 +1,8 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from "antd";
+import { Icon as LegacyIcon } from "@ant-design/compatible";
+import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
@@ -19,9 +20,9 @@ class SearchBarView extends React.Component {
       getBasicField,
       handleSearch,
       handleReset,
-      toggle
+      toggle,
+      data
     } = this.props;
-    const { data } = this.props;
 
     const searchLabel = this.props.intl.formatMessage({
       id: "button.search",
@@ -29,7 +30,16 @@ class SearchBarView extends React.Component {
     });
 
     return (
-      <Form onSubmit={handleSearch}>
+      <Form
+        //form={form}
+        onFinish={handleSearch}
+        style={{
+          width: "100%",
+          paddingLeft: "50px",
+          paddingRight: "50px",
+          paddingTop: "60px"
+        }}
+      >
         <div style={styles.outerDiv}>
           <div style={styles.mainSearchDiv}>
             <header style={styles.header}>
@@ -51,7 +61,9 @@ class SearchBarView extends React.Component {
                 shape="round"
                 size="large"
                 style={{ marginLeft: 8 }}
-                onClick={handleReset}
+                onClick={() => {
+                  handleReset();
+                }}
               >
                 {this.props.intl.formatMessage({
                   id: "button.clear",
@@ -94,7 +106,7 @@ const styles = {
     paddingTop: "80px",
     paddingLeft: "80px",
     paddingRight: "80px",
-    paddingBottom: "80px",
+    paddingBottom: "30px",
     boxShadow: "5px 5px 5px #cccccc"
   },
   header: {
@@ -102,7 +114,8 @@ const styles = {
     textAlign: "center"
   },
   advFieldStyles: {
-    paddingBottom: "20px"
+    paddingBottom: "20px",
+    textAlign: "center"
   },
   advSearchCard: {
     boxShadow: "5px 5px 5px #e6e6e6",
