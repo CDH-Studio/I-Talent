@@ -10,7 +10,14 @@ const getProfile = async (request, response) => {
 
 const getPublicProfileById = async (request, response) => {
   const id = request.params.id;
+  // get user profile
   let profile = await Profile.findOne({ where: { id: id } });
+  if (!profile) {
+    return response.status(404).json({
+      status: "API Query Error",
+      message: "User profile with the provided ID not found"
+    });
+  }
   let user = await profile.getUser();
 
   if (!profile) response.status(404).send("Profile Not Found");

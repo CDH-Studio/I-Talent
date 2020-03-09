@@ -32,7 +32,7 @@ export default class PrimaryInfoFormView extends Component {
 
   render() {
     // const { getFieldDecorator } = this.props.form;
-    console.log(this.props.profileInfo.firstName);
+    //console.log(this.props.locationOptions);
     //console.log(@light-primary-color);
     return (
       <div style={styles.content}>
