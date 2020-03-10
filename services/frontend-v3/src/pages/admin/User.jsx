@@ -1,7 +1,11 @@
 import React from "react";
 import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import axios from "axios";
-import { CheckCircleOutlined, LinkOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  LinkOutlined,
+  SearchOutlined
+} from "@ant-design/icons";
 import { Typography, Skeleton, Table, Input, Button, Select } from "antd";
 import _ from "lodash";
 import moment from "moment";

@@ -96,9 +96,9 @@ class OfficialLanguageView extends Component {
   getSecondLanguageDateInfo(locale) {
     const data = this.props.data;
 
-    const formatedReadingDate = moment(data.secondaryReadingDate).format("LLL");
-    const formatedWritingDate = moment(data.secondaryWritingDate).format("LLL");
-    const formatedOralDate = moment(data.secondaryOralDate).format("LLL");
+    const formatedReadingDate = moment(data.secondaryReadingDate).format("ll");
+    const formatedWritingDate = moment(data.secondaryWritingDate).format("ll");
+    const formatedOralDate = moment(data.secondaryOralDate).format("ll");
 
     const secondaryReadingDate = {
       icon: "mail",
