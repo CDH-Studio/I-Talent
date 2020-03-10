@@ -1,25 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import { Avatar } from "antd";
 
-export default class CustomAvatarView extends Component {
-  render() {
-    // set icon color based on name
-    var iconColor = {
-      backgroundColor: this.props.color,
-      color: "#fff"
-    };
+function CustomAvatarView(props) {
+  // set icon color based on name
+  var iconColor = {
+    backgroundColor: props.color,
+    color: "#fff"
+  };
 
-    // merge component style with styles passed through from parent
-    var mergedStyles = {
-      ...this.props.style,
-      ...componentStyle,
-      ...iconColor
-    };
+  const componentStyle = {
+    verticalAlign: "middle"
+  };
 
-    return <Avatar style={mergedStyles}>{this.props.initials}</Avatar>;
-  }
+  // merge component style with styles passed through from parent
+  var mergedStyles = {
+    ...props.style,
+    ...componentStyle,
+    ...iconColor
+  };
+
+  return <Avatar style={mergedStyles}>{props.initials}</Avatar>;
 }
 
-const componentStyle = {
-  verticalAlign: "middle"
-};
+export default CustomAvatarView;
