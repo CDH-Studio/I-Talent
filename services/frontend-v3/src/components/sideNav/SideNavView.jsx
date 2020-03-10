@@ -5,7 +5,7 @@ const { Sider } = Layout;
 
 function SideNavView(props) {
   const [collapsed, setCollapsed] = useState(false);
-  const [top, setTop] = useState(10);
+  const [top] = useState(0);
   // toggle side nav
   const onCollapse = () => {
     setCollapsed(!collapsed);
