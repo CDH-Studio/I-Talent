@@ -6,18 +6,18 @@ import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 
 function ChangeLanguageView(props) {
-  const { intl } = this.props;
+  const { intl } = props;
   const languageCode = intl.formatMessage({ id: "lang.code" });
 
-  changeLanguage = lang => {
-    this.props.changeLanguage(lang);
+  const changeLanguage = lang => {
+    props.changeLanguage(lang);
   };
 
-  handleKeyPress = (e, lang) => {
+  const handleKeyPress = (e, lang) => {
     if (e.charCode === 32 || e.charCode === 13) {
       // Prevent the default action to stop scrolling when space is pressed
       e.preventDefault();
-      this.changeLanguage(lang);
+      changeLanguage(lang);
     }
   };
 
@@ -38,4 +38,5 @@ function ChangeLanguageView(props) {
     </Button>
   );
 }
+
 export default injectIntl(ChangeLanguageView);
