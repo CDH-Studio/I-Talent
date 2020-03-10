@@ -1,18 +1,18 @@
 import React from "react";
 import AppLayoutView from "./AppLayoutView";
 
-export default class AppLayout extends React.Component {
-  render() {
-    return (
-      <AppLayoutView
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={this.props.displaySideBar}
-        sideBarContent={this.props.sideBarContent}
-      >
-        {this.props.children}
-      </AppLayoutView>
-    );
-  }
+function AppLayout(props) {
+  return (
+    <AppLayoutView
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      history={props.history}
+      displaySideBar={props.displaySideBar}
+      sideBarContent={props.sideBarContent}
+    >
+      {props.children}
+    </AppLayoutView>
+  );
 }
+
+export default AppLayout;
