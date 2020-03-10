@@ -1,11 +1,14 @@
 //PREEXISTING CODE
 
 import React, { Component } from "react";
-import { GlobalOutlined } from '@ant-design/icons';
+import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-class ChangeLanguageView extends Component {
+function ChangeLanguageView(props) {
+  const { intl } = this.props;
+  const languageCode = intl.formatMessage({ id: "lang.code" });
+
   changeLanguage = lang => {
     this.props.changeLanguage(lang);
   };
@@ -18,26 +21,21 @@ class ChangeLanguageView extends Component {
     }
   };
 
-  render() {
-    const { intl } = this.props;
-    const languageCode = intl.formatMessage({ id: "lang.code" });
-
-    return (
-      <Button
-        ghost="true"
-        type="default"
-        tabIndex="0"
-        onKeyPress={e => this.handleKeyPress(e, languageCode)}
-        onClick={() => this.changeLanguage(languageCode)}
-        style={{ textTransform: "uppercase" }}
-      >
-        <GlobalOutlined />{" "}
-        <FormattedMessage
-          style={{ textTransform: "capitalize" }}
-          id="lang.code"
-        />
-      </Button>
-    );
-  }
+  return (
+    <Button
+      ghost="true"
+      type="default"
+      tabIndex="0"
+      onKeyPress={e => this.handleKeyPress(e, languageCode)}
+      onClick={() => this.changeLanguage(languageCode)}
+      style={{ textTransform: "uppercase" }}
+    >
+      <GlobalOutlined />{" "}
+      <FormattedMessage
+        style={{ textTransform: "capitalize" }}
+        id="lang.code"
+      />
+    </Button>
+  );
 }
 export default injectIntl(ChangeLanguageView);

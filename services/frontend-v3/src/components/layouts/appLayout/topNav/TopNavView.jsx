@@ -6,9 +6,9 @@ import {
   UserOutlined
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu } from "antd";
-import ChangeLanguage from "../changeLanguage/ChangeLanguage";
-import CustomAvatar from "../customAvatar/CustomAvatar";
-import Logo from "../sideNav/logo_v2.svg";
+import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
+import CustomAvatar from "../../../customAvatar/CustomAvatar";
+import Logo from "../../../sideNav/logo_v2.svg";
 import { FormattedMessage } from "react-intl";
 
 const { Header } = Layout;
