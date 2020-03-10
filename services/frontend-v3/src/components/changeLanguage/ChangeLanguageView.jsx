@@ -1,6 +1,6 @@
 //PREEXISTING CODE
 
-import React, { Component } from "react";
+import React from "react";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -26,8 +26,8 @@ function ChangeLanguageView(props) {
       ghost="true"
       type="default"
       tabIndex="0"
-      onKeyPress={e => this.handleKeyPress(e, languageCode)}
-      onClick={() => this.changeLanguage(languageCode)}
+      onKeyPress={e => handleKeyPress(e, languageCode)}
+      onClick={() => changeLanguage(languageCode)}
       style={{ textTransform: "uppercase" }}
     >
       <GlobalOutlined />{" "}
