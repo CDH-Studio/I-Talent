@@ -92,7 +92,7 @@ module.exports = {
           github: {
             type: Sequelize.STRING
           },
-          twitter: {
+          gcconnex: {
             type: Sequelize.STRING
           },
           exFeeder: {

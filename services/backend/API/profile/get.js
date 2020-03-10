@@ -261,7 +261,7 @@ const getPublicProfileById = async (request, response) => {
     flagged: data.flagged,
     linkedinUrl: data.linkedin,
     githubUrl: data.github,
-    twitterUrl: data.twitter,
+    gcconnexUrl: data.gcconnex,
     team: data.team
   };
 
@@ -717,7 +717,7 @@ const getPrivateProfileById = async (request, response) => {
     },
     team: data.team,
     telephone: data.telephone,
-    twitterUrl: data.twitter,
+    gcconnexUrl: data.gcconnex,
     projects: projects,
     interestedInRemote: data.interestedInRemote,
     relocationLocations: relocationLocations,
