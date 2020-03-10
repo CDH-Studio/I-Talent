@@ -9,8 +9,8 @@ class Projects extends Component {
       <ProjectsView
         data={data}
         avatar={{
-          acr: data.acronym,
-          color: data.color
+          acr: data.nameInitials,
+          color: data.avatarColor
         }}
         locale={localStorage.getItem("lang")}
       />

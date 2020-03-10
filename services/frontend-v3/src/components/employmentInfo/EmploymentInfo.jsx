@@ -9,8 +9,8 @@ class EmploymentInfo extends Component {
       <EmploymentInfoView
         data={data}
         avatar={{
-          acr: data.acronym,
-          color: data.color
+          acr: data.nameInitials,
+          color: data.avatarColor
         }}
         locale={localStorage.getItem("lang")}
       />

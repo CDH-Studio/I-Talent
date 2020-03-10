@@ -52,8 +52,8 @@ class BasicInfo extends Component {
         data={data}
         name={name}
         avatar={{
-          acr: data.acronym,
-          color: data.color
+          acr: data.nameInitials,
+          color: data.avatarColor
         }}
         jobTitle={data.jobTitle[localStorage.getItem("lang")]}
         locale={localStorage.getItem("lang")}

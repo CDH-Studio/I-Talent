@@ -27,6 +27,12 @@ module.exports = {
           allowNull: false,
           type: Sequelize.BOOLEAN,
           defaultValue: false
+        },
+        avatarColor: {
+          type: Sequelize.STRING
+        },
+        nameInitials: {
+          type: Sequelize.STRING
         }
       })
       .then(() => {

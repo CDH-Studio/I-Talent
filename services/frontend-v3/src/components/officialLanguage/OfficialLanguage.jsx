@@ -9,8 +9,8 @@ class OfficialLanguage extends Component {
       <OfficialLanguageView
         data={data}
         avatar={{
-          acr: data.acronym,
-          color: data.color
+          acr: data.nameInitials,
+          color: data.avatarColor
         }}
         locale={localStorage.getItem("lang")}
       />

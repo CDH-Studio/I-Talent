@@ -247,6 +247,8 @@ const getPublicProfileById = async (request, response) => {
     visibleCards,
     firstName: data.firstName,
     lastName: data.lastName,
+    avatarColor: data.avatarColor,
+    nameInitials: data.nameInitials,
     branch: { en: data.branchEn, fr: data.branchFr },
     organizationList,
     email: data.email,
@@ -648,6 +650,9 @@ const getPrivateProfileById = async (request, response) => {
       en: { en: "English", fr: "Anglais" }
     }[data.firstLanguage],
     firstName: data.firstName,
+    lastName: data.lastName,
+    avatarColor: data.avatarColor,
+    nameInitials: data.nameInitials,
     githubUrl: data.github,
     gradedOnSecondLanguage: true,
     classification: {
@@ -655,7 +660,7 @@ const getPrivateProfileById = async (request, response) => {
       description: groupLevel ? groupLevel.description : null
     },
     jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
-    lastName: data.lastName,
+
     linkedinUrl: data.linkedin,
     location: {
       id: location ? location.id : null,
