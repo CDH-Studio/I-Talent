@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import TextField from "../TextField";
 import "@ant-design/compatible/assets/index.css";
 import {
-  Select,
-  Input,
-  Button,
   Row,
   Col,
+  Skeleton,
   Typography,
   Divider,
   Form,
-  Skeleton
+  Select,
+  Input,
+  Button
 } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
