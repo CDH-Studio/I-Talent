@@ -5,16 +5,7 @@ class Education extends Component {
   render() {
     const { data } = this.props;
 
-    return (
-      <EducationView
-        data={data}
-        avatar={{
-          acr: data.nameInitials,
-          color: data.avatarColor
-        }}
-        locale={localStorage.getItem("lang")}
-      />
-    );
+    return <EducationView data={data} locale={localStorage.getItem("lang")} />;
   }
 }
 

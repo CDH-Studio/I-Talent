@@ -6,14 +6,7 @@ class OfficialLanguage extends Component {
     const { data } = this.props;
 
     return (
-      <OfficialLanguageView
-        data={data}
-        avatar={{
-          acr: data.nameInitials,
-          color: data.avatarColor
-        }}
-        locale={localStorage.getItem("lang")}
-      />
+      <OfficialLanguageView data={data} locale={localStorage.getItem("lang")} />
     );
   }
 }

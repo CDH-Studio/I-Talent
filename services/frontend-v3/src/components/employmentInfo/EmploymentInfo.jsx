@@ -6,14 +6,7 @@ class EmploymentInfo extends Component {
     const { data } = this.props;
 
     return (
-      <EmploymentInfoView
-        data={data}
-        avatar={{
-          acr: data.nameInitials,
-          color: data.avatarColor
-        }}
-        locale={localStorage.getItem("lang")}
-      />
+      <EmploymentInfoView data={data} locale={localStorage.getItem("lang")} />
     );
   }
 }
