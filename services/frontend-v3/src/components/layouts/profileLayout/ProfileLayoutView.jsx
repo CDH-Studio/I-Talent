@@ -4,6 +4,8 @@ import AppLayout from "../appLayout/AppLayout";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import Competencies from "../../competenciesCard/Competencies";
+import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import CareerInterests from "../../careerInterests/CareerInterests";
@@ -35,11 +37,23 @@ class ProfileLayoutView extends React.Component {
             <Skills data={data}></Skills>
           </Col>
         </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Competencies data={data}></Competencies>
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <DevelopmentalGoals data={data}></DevelopmentalGoals>
+          </Col>
+        </Row>
+        {/* add divider here: Employee Growth Interests */}
         <Row style={styles.row} type="flex">
           <Col span={24}>
             <TalentManagement data={data} />
           </Col>
         </Row>
+        {/* Missing Developmental Goals (to be added) and Career Interest (to be moved) */}
         <Row
           style={styles.row}
           gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
