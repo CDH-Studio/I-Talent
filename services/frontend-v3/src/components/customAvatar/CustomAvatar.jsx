@@ -1,5 +1,4 @@
-import React from "react";
-import {} from "antd";
+import React, { useState } from "react";
 import CustomAvatarView from "./CustomAvatarView";
 
 function CustomAvatar(props) {
@@ -8,7 +7,7 @@ function CustomAvatar(props) {
       initials={localStorage.getItem("acronym")}
       color={localStorage.getItem("color")}
       style={props.style}
-    ></CustomAvatarView>
+    />
   );
 }
 
