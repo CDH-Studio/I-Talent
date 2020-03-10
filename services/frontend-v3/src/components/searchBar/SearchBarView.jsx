@@ -29,10 +29,13 @@ class SearchBarView extends React.Component {
       defaultMessage: "Search"
     });
 
+    const onFinish = values => {
+      handleSearch(values);
+    };
+
     return (
       <Form
-        //form={form}
-        onFinish={handleSearch}
+        onFinish={onFinish}
         style={{
           width: "100%",
           paddingLeft: "50px",
@@ -47,7 +50,7 @@ class SearchBarView extends React.Component {
             </header>
             {/* Gets main basic search field and shows buttons beneath */}
             <div style={styles.advFieldStyles}>{getBasicField(data)}</div>
-            <Col span={24} style={{ textAlign: "right", paddingTop: "0px" }}>
+            <Col span={24} style={{ textAlign: "right" }}>
               <Button
                 shape="round"
                 size="large"
@@ -107,18 +110,17 @@ const styles = {
     paddingLeft: "80px",
     paddingRight: "80px",
     paddingBottom: "30px",
-    boxShadow: "5px 5px 5px #cccccc"
+    boxShadow: "10px 10px 10px #cccccc"
   },
   header: {
     paddingBottom: "20px",
     textAlign: "center"
   },
   advFieldStyles: {
-    paddingBottom: "20px",
     textAlign: "center"
   },
   advSearchCard: {
-    boxShadow: "5px 5px 5px #e6e6e6",
+    boxShadow: "10px 10px 10px #cccccc",
     borderRadius: "5px"
   },
   advFieldPlacement: {
