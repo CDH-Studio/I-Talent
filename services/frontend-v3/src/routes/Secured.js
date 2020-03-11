@@ -66,6 +66,13 @@ class Secured extends Component {
   goto = link => history.push(link);
 
   render() {
+    const currentPath = this.props.location.pathname;
+    const regex = /(\/\bprofile\b\/\bcreate\b)/g;
+    let redirectToSetup;
+    if (!currentPath.match(regex)) {
+      redirectToSetup = this.state.redirect;
+    }
+
     const keycloak = this.state.keycloak;
     if (keycloak) {
       if (this.state.authenticated) {
@@ -89,6 +96,7 @@ class Secured extends Component {
               )}
             </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+            {redirectToSetup}
             <Switch>
               <Route
                 exact
@@ -174,15 +182,20 @@ class Secured extends Component {
         // Add name and email to local storage
         localStorage.setItem("name", userInfo.name);
         localStorage.setItem("email", userInfo.email);
-        return true;
+        return res.hasProfile;
       });
     });
   };
 
   renderRedirect = () => {
     return this.profileExist().then(profileExist => {
-      if (!profileExist) return <Redirect to="/secured/setup" />;
-      else return <div />;
+      if (!profileExist) {
+        return (
+          <Redirect from="/old-path" to="/secured/profile/create/step/1" />
+        );
+      } else {
+        return <div />;
+      }
     });
   };
 }

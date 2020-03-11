@@ -65,6 +65,8 @@ class Secured extends Component {
   goto = link => history.push(link);
 
   render() {
+    console.log("helloooo");
+    console.log(this.state);
     //If NOT using some version of Internet Explorer
     if (!/MSIE|Trident/.test(window.navigator.userAgent)) {
       document.body.style = "background-color: #eeeeee";
