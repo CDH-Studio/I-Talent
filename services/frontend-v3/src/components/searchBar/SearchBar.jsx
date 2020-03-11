@@ -245,20 +245,14 @@ class SearchBar extends React.Component {
   //turns search values inputted into children array into query, redirects to results
   //page with query
   handleSearch = values => {
-    console.log("values entered into handleSearch: " + Object.values(values));
     var query;
-
     query = queryString.stringify(values, { arrayFormat: "bracket" });
-    console.log(
-      "query: " + queryString.stringify(values, { arrayFormat: "bracket" })
-    );
     let url = "/secured/results?" + encodeURI(query);
     this.props.history.push(url);
   };
 
   //clears all fields
   handleReset = () => {
-    console.log("this.props.form: " + this.props.form);
     this.props.form.resetFields();
   };
 
