@@ -282,7 +282,7 @@ function PrimaryInfoFormView(props) {
                     type="primary"
                     htmlType="submit"
                   >
-                    Save & Next
+                    {<FormattedMessage id="setup.save.and.next" />}{" "}
                     <RightOutlined />
                   </Button>
                 </Form.Item>
