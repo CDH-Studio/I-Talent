@@ -1,5 +1,6 @@
 const Models = require("../../../../models");
 const sequelize = Models.sequelize;
+const getTopFive = require("./getTopFive");
 
 const countDevelopmentGoals = async () => {
   const profileDevelopmentGoals = await sequelize.query(
@@ -19,14 +20,7 @@ const countDevelopmentGoals = async () => {
             COUNT("profiles"."id") DESC;`
   );
 
-  const topFiveDevelopmentGoals = [];
-
-  profileDevelopmentGoals[0].slice(0, 5).forEach(goal => {
-    topFiveDevelopmentGoals.push({
-      description: { en: goal.descriptionEn, fr: goal.descriptionFr },
-      count: parseInt(goal.countOccurences) ? parseInt(goal.countOccurences) : 0
-    });
-  });
+  const topFiveDevelopmentGoals = getTopFive(profileDevelopmentGoals[0]);
 
   return topFiveDevelopmentGoals;
 };

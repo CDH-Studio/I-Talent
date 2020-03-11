@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "../../components/layouts/appLayout/AppLayout";
 import StatCards from "../../components/statCards/StatCards";
-import DashboardGraphes from "../../components/dashboardGraphes/DashboardGraphes";
+import DashboardGraphs from "../../components/dashboardGraphs/DashboardGraphs";
 import axios from "axios";
 import { Typography, Skeleton } from "antd";
 import { injectIntl } from "react-intl";
@@ -52,7 +52,7 @@ class AdminDashboard extends React.Component {
       >
         <Title>Admin Dashboard</Title>
         <StatCards data={data} />
-        <DashboardGraphes data={data} locale={locale} />
+        <DashboardGraphs data={data} locale={locale} />
       </AppLayout>
     );
   }

@@ -1,5 +1,6 @@
 const Models = require("../../../../models");
 const sequelize = Models.sequelize;
+const getTopFive = require("./getTopFive");
 
 const countCompetencyProfiles = async () => {
   const profileCompetencies = await sequelize.query(
@@ -21,14 +22,7 @@ const countCompetencyProfiles = async () => {
         COUNT("profiles"."id") DESC;`
   );
 
-  const topFiveCompetencies = [];
-
-  profileCompetencies[0].slice(0, 5).forEach(comp => {
-    topFiveCompetencies.push({
-      description: { en: comp.descriptionEn, fr: comp.descriptionFr },
-      count: parseInt(comp.countOccurences) ? parseInt(comp.countOccurences) : 0
-    });
-  });
+  const topFiveCompetencies = getTopFive(profileCompetencies[0]);
 
   return topFiveCompetencies;
 };

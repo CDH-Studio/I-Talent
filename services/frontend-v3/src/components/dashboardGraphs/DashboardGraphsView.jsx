@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 
-class DashboardGraphesView extends Component {
+class DashboardGraphsView extends Component {
   render() {
     const {
       topFiveSkills,
@@ -162,4 +162,4 @@ class DashboardGraphesView extends Component {
   }
 }
 
-export default DashboardGraphesView;
+export default DashboardGraphsView;
