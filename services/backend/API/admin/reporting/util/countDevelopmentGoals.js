@@ -19,7 +19,16 @@ const countDevelopmentGoals = async () => {
             COUNT("profiles"."id") DESC;`
   );
 
-  return profileDevelopmentGoals[0];
+  const topFiveDevelopmentGoals = [];
+
+  profileDevelopmentGoals[0].slice(0, 5).forEach(goal => {
+    topFiveDevelopmentGoals.push({
+      description: { en: goal.descriptionEn, fr: goal.descriptionFr },
+      count: parseInt(goal.countOccurences) ? parseInt(goal.countOccurences) : 0
+    });
+  });
+
+  return topFiveDevelopmentGoals;
 };
 
 module.exports = countDevelopmentGoals;

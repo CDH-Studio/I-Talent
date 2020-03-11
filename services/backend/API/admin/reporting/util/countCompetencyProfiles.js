@@ -21,7 +21,16 @@ const countCompetencyProfiles = async () => {
         COUNT("profiles"."id") DESC;`
   );
 
-  return profileCompetencies[0];
+  const topFiveCompetencies = [];
+
+  profileCompetencies[0].slice(0, 5).forEach(comp => {
+    topFiveCompetencies.push({
+      description: { en: comp.descriptionEn, fr: comp.descriptionFr },
+      count: parseInt(comp.countOccurences) ? parseInt(comp.countOccurences) : 0
+    });
+  });
+
+  return topFiveCompetencies;
 };
 
 module.exports = countCompetencyProfiles;

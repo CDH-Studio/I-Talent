@@ -23,7 +23,19 @@ const countSkillProfiles = async () => {
     ],
     order: [[Sequelize.fn("COUNT", Sequelize.col("profiles.id")), "DESC"]]
   });
-  return profileSkills;
+
+  const topFiveSkills = [];
+
+  profileSkills.slice(0, 5).forEach(skill => {
+    topFiveSkills.push({
+      description: { en: skill.descriptionEn, fr: skill.descriptionFr },
+      count: parseInt(skill.countOccurences)
+        ? parseInt(skill.countOccurences)
+        : 0
+    });
+  });
+
+  return topFiveSkills;
 };
 
 module.exports = countSkillProfiles;
