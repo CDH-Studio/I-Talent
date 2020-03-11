@@ -1,6 +1,5 @@
 import React from "react";
 import { Form } from "antd";
-//import "@ant-design/compaible/assets/index.css";
 import { Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import config from "../../config";
@@ -89,15 +88,11 @@ class SearchBar extends React.Component {
 
   //Creates the basic input field for basic search and puts its data into children array
   getBasicField(data) {
-    // const onFinish = values => {
-    //   this.handleSearch(values);
-    // };
     const children = [];
     const searchLabel = this.props.intl.formatMessage({
       id: "button.search",
       defaultMessage: "Search"
     });
-    //const { getFieldDecorator } = this.props.form;
     children.push(
       <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
         <Input placeholder={searchLabel} />
@@ -165,11 +160,7 @@ class SearchBar extends React.Component {
               <Input style={{ width: 220 }} placeholder={searchLabel} />
             </Form.Item>
           ) : fieldCounter === 6 ? (
-            <Form.Item
-              name={searchTitles[i]}
-              label={labelArr[i]}
-              //rules={(valuePropName = "checked")}
-            >
+            <Form.Item name={searchTitles[i]} label={labelArr[i]}>
               <Switch />
             </Form.Item>
           ) : fieldCounter === 2 ? (
@@ -256,8 +247,7 @@ class SearchBar extends React.Component {
   handleSearch = values => {
     console.log("values entered into handleSearch: " + Object.values(values));
     var query;
-    // e.preventDefault();
-    // this.props.form.validateFields((err, values) => {
+
     query = queryString.stringify(values, { arrayFormat: "bracket" });
     console.log(
       "query: " + queryString.stringify(values, { arrayFormat: "bracket" })
