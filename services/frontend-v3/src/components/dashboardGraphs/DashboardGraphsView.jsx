@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
+import { injectIntl } from "react-intl";
 
 class DashboardGraphsView extends Component {
   render() {
@@ -162,4 +163,4 @@ class DashboardGraphsView extends Component {
   }
 }
 
-export default DashboardGraphsView;
+export default injectIntl(DashboardGraphsView);
