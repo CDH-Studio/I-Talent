@@ -22,6 +22,25 @@ function PrimaryInfoFormView(props) {
     console.log("Received values of form: ", values);
   };
 
+  const getInitialValues = profile => {
+    if (props.profileInfo) {
+      return {
+        firstname: props.profileInfo.firstName,
+        lastname: props.profileInfo.lastName,
+        telephone: props.profileInfo.telephone,
+        cellphone: props.profileInfo.cellphone,
+        email: props.profileInfo.email,
+        location: props.profileInfo.location.id,
+        team: props.profileInfo.team,
+        gcConnex: "ddd",
+        linkedinUrl: props.profileInfo.linkedinUrl,
+        githubUrl: props.profileInfo.githubUrl
+      };
+    } else {
+      return {};
+    }
+  };
+
   /* Component Styles */
   const styles = {
     content: {
@@ -72,6 +91,22 @@ function PrimaryInfoFormView(props) {
     }
   };
 
+  // const initialValues = {};
+  // if (props.profileInfo) {
+  //   initialValues = {
+  //     firstname: props.profileInfo.firstName,
+  //     lastname: props.profileInfo.lastName,
+  //     telephone: props.profileInfo.telephone,
+  //     cellphone: props.profileInfo.cellphone,
+  //     email: props.profileInfo.email,
+  //     location: props.profileInfo.location.id,
+  //     team: props.profileInfo.team,
+  //     gcConnex: "ddd",
+  //     linkedinUrl: props.profileInfo.linkedinUrl,
+  //     githubUrl: props.profileInfo.githubUrl
+  //   };
+  // }
+
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -91,18 +126,7 @@ function PrimaryInfoFormView(props) {
           {/* Create for with initial values */}
           <Form
             name="basicForm"
-            initialValues={{
-              firstname: props.profileInfo.firstName,
-              lastname: props.profileInfo.lastName,
-              telephone: props.profileInfo.telephone,
-              cellphone: props.profileInfo.cellphone,
-              email: props.profileInfo.email,
-              location: props.profileInfo.location.id,
-              team: props.profileInfo.team,
-              gcConnex: "ddd",
-              linkedinUrl: props.profileInfo.linkedinUrl,
-              githubUrl: props.profileInfo.githubUrl
-            }}
+            initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
             onFinish={handleSubmit}
           >
