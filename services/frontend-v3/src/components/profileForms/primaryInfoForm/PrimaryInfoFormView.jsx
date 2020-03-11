@@ -13,13 +13,21 @@ import {
 } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import axios from "axios";
+import config from "../../../config";
+const { backendAddress } = config;
 
 const { Option } = Select;
 const { Title } = Typography;
 
 function PrimaryInfoFormView(props) {
-  const handleSubmit = values => {
+  const handleSubmit = async values => {
     console.log("Received values of form: ", values);
+    let result = await axios.put(
+      backendAddress + "api/profile/" + localStorage.getItem("userId"),
+      values
+    );
+    //let result = await axios.put(backendAddress + "api/option/getLocation");
   };
 
   const getInitialValues = profile => {
@@ -194,7 +202,16 @@ function PrimaryInfoFormView(props) {
                   label={<FormattedMessage id="profile.location" />}
                   rules={[Rules.required, Rules.maxChar50]}
                 >
-                  <Select placeholder="choose location">
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose location"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
                     {props.locationOptions.map((value, index) => {
                       return (
                         <Option key={value.id}>{value.description.en}</Option>
