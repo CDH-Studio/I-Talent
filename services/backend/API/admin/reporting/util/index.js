@@ -5,6 +5,7 @@ const flaggedProfiles = require("./flaggedProfiles");
 const growthRateByMonth = require("./growthRateByMonth");
 const growthRateByWeek = require("./growthRateByWeek");
 const dashboardCount = require("./dashboardCount");
+const getTopFive = require("./getTopFive");
 
 module.exports = {
   countSkillProfiles,
@@ -13,5 +14,6 @@ module.exports = {
   flaggedProfiles,
   growthRateByMonth,
   growthRateByWeek,
-  dashboardCount
+  dashboardCount,
+  getTopFive
 };

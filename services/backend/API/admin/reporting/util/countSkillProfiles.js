@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const Models = require("../../../../models");
 const Skills = Models.skill; // Skills Table
 const Profiles = Models.profile; // Profiles Table
+const getTopFive = require("./getTopFive");
 
 const countSkillProfiles = async () => {
   const profileSkills = await Skills.findAll({
@@ -23,7 +24,10 @@ const countSkillProfiles = async () => {
     ],
     order: [[Sequelize.fn("COUNT", Sequelize.col("profiles.id")), "DESC"]]
   });
-  return profileSkills;
+
+  const topFiveSkills = getTopFive(profileSkills);
+
+  return topFiveSkills;
 };
 
 module.exports = countSkillProfiles;
