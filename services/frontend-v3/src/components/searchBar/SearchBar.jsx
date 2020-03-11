@@ -162,17 +162,12 @@ class SearchBar extends React.Component {
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
           {fieldCounter === 1 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
-              <Input
-                label={labelArr[i]}
-                name={searchTitles[i]}
-                placeholder={searchLabel}
-              />
+              <Input placeholder={searchLabel} />
             </Form.Item>
           ) : fieldCounter === 6 ? (
             <Form.Item
-              style={{ textAlign: "center" }}
-              label={labelArr[i]}
               name={searchTitles[i]}
+              label={labelArr[i]}
               //rules={(valuePropName = "checked")}
             >
               <Switch />
@@ -180,6 +175,7 @@ class SearchBar extends React.Component {
           ) : fieldCounter === 2 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
+                style={{ width: 171 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
@@ -197,14 +193,12 @@ class SearchBar extends React.Component {
           ) : fieldCounter === 3 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
+                style={{ width: 171 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
-                label={labelArr[i]}
-                name={searchTitles[i]}
                 mode="multiple"
-                style={{ width: "100%" }}
                 placeholder={searchLabel}
               >
                 {this.state.branchOptions.map(value => {
@@ -219,14 +213,12 @@ class SearchBar extends React.Component {
           ) : fieldCounter === 4 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
+                style={{ width: 171 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
-                label={labelArr[i]}
-                name={searchTitles[i]}
                 mode="multiple"
-                style={{ width: "100%" }}
                 placeholder={searchLabel}
               >
                 {this.state.locationOptions.map(value => {
@@ -239,14 +231,12 @@ class SearchBar extends React.Component {
           ) : (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
+                style={{ width: 171 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
-                label={labelArr[i]}
-                name={searchTitles[i]}
                 mode="multiple"
-                style={{ width: "100%" }}
                 placeholder={searchLabel}
               >
                 {this.state.classOptions.map(value => {
@@ -258,7 +248,6 @@ class SearchBar extends React.Component {
         </Col>
       );
     }
-
     return children;
   }
 

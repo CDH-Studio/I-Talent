@@ -77,7 +77,9 @@ class SearchBarView extends React.Component {
           </div>
           <Card style={styles.advSearchCard}>
             {/* Gets fields for Advanced Search in collapse */}
-            <Row gutter={24}>{getFields(data)}</Row>
+            <Row gutter={24} type="flex">
+              {getFields(data)}
+            </Row>
             <Row>
               <Col span={24} style={styles.advFieldPlacement}>
                 <a style={{ marginLeft: 8, fontSize: 14 }} onClick={toggle}>
