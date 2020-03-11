@@ -162,7 +162,7 @@ class SearchBar extends React.Component {
         <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
           {fieldCounter === 1 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
-              <Input placeholder={searchLabel} />
+              <Input style={{ width: 220 }} placeholder={searchLabel} />
             </Form.Item>
           ) : fieldCounter === 6 ? (
             <Form.Item
@@ -175,7 +175,7 @@ class SearchBar extends React.Component {
           ) : fieldCounter === 2 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
-                style={{ width: 171 }}
+                style={{ width: 220 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
@@ -193,7 +193,7 @@ class SearchBar extends React.Component {
           ) : fieldCounter === 3 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
-                style={{ width: 171 }}
+                style={{ width: 220 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
@@ -213,7 +213,7 @@ class SearchBar extends React.Component {
           ) : fieldCounter === 4 ? (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
-                style={{ width: 171 }}
+                style={{ width: 220 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
@@ -231,7 +231,7 @@ class SearchBar extends React.Component {
           ) : (
             <Form.Item label={labelArr[i]} name={searchTitles[i]}>
               <Select
-                style={{ width: 171 }}
+                style={{ width: 220 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
