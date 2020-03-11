@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "@ant-design/compatible/assets/index.css";
 import {
   Row,
@@ -11,7 +11,7 @@ import {
   Input,
   Button
 } from "antd";
-import { LinkOutlined } from "@ant-design/icons";
+import { LinkOutlined, RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import config from "../../../config";
@@ -21,28 +21,45 @@ const { Option } = Select;
 const { Title } = Typography;
 
 function PrimaryInfoFormView(props) {
+  /* Handle form submission */
   const handleSubmit = async values => {
-    console.log("Received values of form: ", values);
-    let result = await axios.put(
-      backendAddress + "api/profile/" + localStorage.getItem("userId"),
-      values
-    );
-    //let result = await axios.put(backendAddress + "api/option/getLocation");
+    if (props.profileInfo) {
+      //If profile exists then update profile
+      try {
+        await axios.put(
+          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          values
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      //If profile does not exists then create profile
+      try {
+        await axios.post(
+          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          values
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
+  /* Get the initial values for the form */
   const getInitialValues = profile => {
-    if (props.profileInfo) {
+    if (profile) {
       return {
-        firstname: props.profileInfo.firstName,
-        lastname: props.profileInfo.lastName,
-        telephone: props.profileInfo.telephone,
-        cellphone: props.profileInfo.cellphone,
-        email: props.profileInfo.email,
-        location: props.profileInfo.location.id,
-        team: props.profileInfo.team,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        telephone: profile.telephone,
+        cellphone: profile.cellphone,
+        email: profile.email,
+        location: profile.location.id,
+        team: profile.team,
         gcConnex: "ddd",
-        linkedinUrl: props.profileInfo.linkedinUrl,
-        githubUrl: props.profileInfo.githubUrl
+        linkedinUrl: profile.linkedinUrl,
+        githubUrl: profile.githubUrl
       };
     } else {
       return {};
@@ -99,22 +116,6 @@ function PrimaryInfoFormView(props) {
     }
   };
 
-  // const initialValues = {};
-  // if (props.profileInfo) {
-  //   initialValues = {
-  //     firstname: props.profileInfo.firstName,
-  //     lastname: props.profileInfo.lastName,
-  //     telephone: props.profileInfo.telephone,
-  //     cellphone: props.profileInfo.cellphone,
-  //     email: props.profileInfo.email,
-  //     location: props.profileInfo.location.id,
-  //     team: props.profileInfo.team,
-  //     gcConnex: "ddd",
-  //     linkedinUrl: props.profileInfo.linkedinUrl,
-  //     githubUrl: props.profileInfo.githubUrl
-  //   };
-  // }
-
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -142,7 +143,7 @@ function PrimaryInfoFormView(props) {
             <Row gutter={24}>
               <Col className="gutter-row" span={12}>
                 <Form.Item
-                  name="firstname"
+                  name="firstName"
                   label={<FormattedMessage id="profile.first.name" />}
                   rules={[Rules.required, Rules.maxChar50]}
                 >
@@ -152,7 +153,7 @@ function PrimaryInfoFormView(props) {
 
               <Col className="gutter-row" span={12}>
                 <Form.Item
-                  name="lastname"
+                  name="lastName"
                   label={<FormattedMessage id="profile.last.name" />}
                   rules={[Rules.required, Rules.maxChar50]}
                 >
@@ -273,12 +274,20 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Next
-              </Button>
-            </Form.Item>
+            <Row gutter={24}>
+              <Col span={24}>
+                <Form.Item>
+                  <Button
+                    style={{ float: "right" }}
+                    type="primary"
+                    htmlType="submit"
+                  >
+                    Save & Next
+                    <RightOutlined />
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
           </Form>
         </div>
       </div>
