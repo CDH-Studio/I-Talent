@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       actingEndDate: DataTypes.DATE,
       linkedin: DataTypes.STRING,
       github: DataTypes.STRING,
-      twitter: DataTypes.STRING,
+      gcconnex: DataTypes.STRING,
       exFeeder: DataTypes.BOOLEAN,
       isMentor: DataTypes.BOOLEAN,
       flagged: DataTypes.BOOLEAN,

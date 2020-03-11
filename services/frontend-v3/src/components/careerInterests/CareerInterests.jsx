@@ -6,14 +6,7 @@ class CareerInterests extends Component {
     const { data } = this.props;
 
     return (
-      <CareerInterestsView
-        data={data}
-        avatar={{
-          acr: data.acronym,
-          color: data.color
-        }}
-        locale={localStorage.getItem("lang")}
-      />
+      <CareerInterestsView data={data} locale={localStorage.getItem("lang")} />
     );
   }
 }

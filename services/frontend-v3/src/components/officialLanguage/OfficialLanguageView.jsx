@@ -24,7 +24,6 @@ class OfficialLanguageView extends Component {
     const data = this.props.data;
 
     const firstLanguage = {
-      icon: "mail",
       title: <FormattedMessage id="profile.first.language" />,
       description:
         data.firstLanguage === undefined ? (
@@ -54,7 +53,6 @@ class OfficialLanguageView extends Component {
     const data = this.props.data;
 
     const secondaryReadingProficiency = {
-      icon: "mail",
       title: <FormattedMessage id="profile.reading" />,
       description:
         data.secondaryReadingProficiency === null ? (
@@ -65,7 +63,6 @@ class OfficialLanguageView extends Component {
     };
 
     const secondaryWritingProficiency = {
-      icon: "mail",
       title: <FormattedMessage id="profile.writing" />,
       description:
         data.secondaryWritingProficiency === null ? (
@@ -76,7 +73,6 @@ class OfficialLanguageView extends Component {
     };
 
     const secondaryOralProficiency = {
-      icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
         data.secondaryOralProficiency === null ? (
@@ -96,12 +92,11 @@ class OfficialLanguageView extends Component {
   getSecondLanguageDateInfo(locale) {
     const data = this.props.data;
 
-    const formatedReadingDate = moment(data.secondaryReadingDate).format("LLL");
-    const formatedWritingDate = moment(data.secondaryWritingDate).format("LLL");
-    const formatedOralDate = moment(data.secondaryOralDate).format("LLL");
+    const formatedReadingDate = moment(data.secondaryReadingDate).format("ll");
+    const formatedWritingDate = moment(data.secondaryWritingDate).format("ll");
+    const formatedOralDate = moment(data.secondaryOralDate).format("ll");
 
     const secondaryReadingDate = {
-      icon: "mail",
       title: <FormattedMessage id="profile.reading" />,
       description:
         data.secondaryReadingDate === null ? (
@@ -112,7 +107,6 @@ class OfficialLanguageView extends Component {
     };
 
     const secondaryWritingDate = {
-      icon: "mail",
       title: <FormattedMessage id="profile.writing" />,
       description:
         data.secondaryWritingDate === null ? (
@@ -123,7 +117,6 @@ class OfficialLanguageView extends Component {
     };
 
     const secondaryOralDate = {
-      icon: "mail",
       title: <FormattedMessage id="profile.oral" />,
       description:
         data.secondaryOralDate === null ? (

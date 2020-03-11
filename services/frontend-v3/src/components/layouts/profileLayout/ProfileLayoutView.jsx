@@ -17,8 +17,8 @@ import { Row, Col } from "antd";
 class ProfileLayoutView extends React.Component {
   displayAllProfileCards() {
     const { data } = this.props;
-    data.acronym = getAcronym(data.firstName + " " + data.lastName);
-    data.color = stringToHslColor(data.acronym);
+    // data.nameInitials = getAcronym(data.firstName + " " + data.lastName);
+    // data.avatarColor = stringToHslColor(data.nameInitials);
 
     return (
       <div>
@@ -92,21 +92,21 @@ class ProfileLayoutView extends React.Component {
   }
 }
 
-function stringToHslColor(str) {
-  var hash = 0;
-  var s = 90;
-  var l = 45;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  var h = hash % 360;
-  return "hsl(" + h + ", " + s + "%, " + l + "%)";
-}
+// function stringToHslColor(str) {
+//   var hash = 0;
+//   var s = 90;
+//   var l = 45;
+//   for (var i = 0; i < str.length; i++) {
+//     hash = str.charCodeAt(i) + ((hash << 5) - hash);
+//   }
+//   var h = hash % 360;
+//   return "hsl(" + h + ", " + s + "%, " + l + "%)";
+// }
 
-function getAcronym(name) {
-  const i = name.lastIndexOf(" ") + 1;
-  return name.substring(0, 1) + name.substring(i, i + 1);
-}
+// function getAcronym(name) {
+//   const i = name.lastIndexOf(" ") + 1;
+//   return name.substring(0, 1) + name.substring(i, i + 1);
+// }
 
 /* Component Styles */
 const styles = {

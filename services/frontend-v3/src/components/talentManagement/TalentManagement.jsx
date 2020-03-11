@@ -6,14 +6,7 @@ class TalentManagement extends Component {
     const { data } = this.props;
 
     return (
-      <TalentManagementView
-        data={data}
-        avatar={{
-          acr: data.acronym,
-          color: data.color
-        }}
-        locale={localStorage.getItem("lang")}
-      />
+      <TalentManagementView data={data} locale={localStorage.getItem("lang")} />
     );
   }
 }

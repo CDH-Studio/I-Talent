@@ -27,6 +27,12 @@ module.exports = {
           allowNull: false,
           type: Sequelize.BOOLEAN,
           defaultValue: false
+        },
+        avatarColor: {
+          type: Sequelize.STRING
+        },
+        nameInitials: {
+          type: Sequelize.STRING
         }
       })
       .then(() => {
@@ -92,7 +98,7 @@ module.exports = {
           github: {
             type: Sequelize.STRING
           },
-          twitter: {
+          gcconnex: {
             type: Sequelize.STRING
           },
           exFeeder: {
