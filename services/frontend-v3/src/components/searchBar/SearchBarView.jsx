@@ -1,7 +1,8 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from "antd";
+import { Icon as LegacyIcon } from "@ant-design/compatible";
+import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
@@ -19,17 +20,29 @@ class SearchBarView extends React.Component {
       getBasicField,
       handleSearch,
       handleReset,
-      toggle
+      toggle,
+      data
     } = this.props;
-    const { data } = this.props;
 
     const searchLabel = this.props.intl.formatMessage({
       id: "button.search",
       defaultMessage: "Search"
     });
 
+    const onFinish = values => {
+      handleSearch(values);
+    };
+
     return (
-      <Form onSubmit={handleSearch}>
+      <Form
+        onFinish={onFinish}
+        style={{
+          width: "100%",
+          paddingLeft: "50px",
+          paddingRight: "50px",
+          paddingTop: "60px"
+        }}
+      >
         <div style={styles.outerDiv}>
           <div style={styles.mainSearchDiv}>
             <header style={styles.header}>
@@ -37,7 +50,7 @@ class SearchBarView extends React.Component {
             </header>
             {/* Gets main basic search field and shows buttons beneath */}
             <div style={styles.advFieldStyles}>{getBasicField(data)}</div>
-            <Col span={24} style={{ textAlign: "right", paddingTop: "0px" }}>
+            <Col span={24} style={{ textAlign: "right" }}>
               <Button
                 shape="round"
                 size="large"
@@ -51,7 +64,9 @@ class SearchBarView extends React.Component {
                 shape="round"
                 size="large"
                 style={{ marginLeft: 8 }}
-                onClick={handleReset}
+                onClick={() => {
+                  handleReset();
+                }}
               >
                 {this.props.intl.formatMessage({
                   id: "button.clear",
@@ -62,7 +77,9 @@ class SearchBarView extends React.Component {
           </div>
           <Card style={styles.advSearchCard}>
             {/* Gets fields for Advanced Search in collapse */}
-            <Row gutter={24}>{getFields(data)}</Row>
+            <Row gutter={24} type="flex">
+              {getFields(data)}
+            </Row>
             <Row>
               <Col span={24} style={styles.advFieldPlacement}>
                 <a style={{ marginLeft: 8, fontSize: 14 }} onClick={toggle}>
@@ -94,18 +111,18 @@ const styles = {
     paddingTop: "80px",
     paddingLeft: "80px",
     paddingRight: "80px",
-    paddingBottom: "80px",
-    boxShadow: "5px 5px 5px #cccccc"
+    paddingBottom: "30px",
+    boxShadow: "10px 10px 10px #cccccc"
   },
   header: {
     paddingBottom: "20px",
     textAlign: "center"
   },
   advFieldStyles: {
-    paddingBottom: "20px"
+    textAlign: "center"
   },
   advSearchCard: {
-    boxShadow: "5px 5px 5px #e6e6e6",
+    boxShadow: "10px 10px 10px #cccccc",
     borderRadius: "5px"
   },
   advFieldPlacement: {

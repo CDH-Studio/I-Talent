@@ -1,43 +1,42 @@
 //PREEXISTING CODE
 
-import React, { Component } from "react";
-import { GlobalOutlined } from '@ant-design/icons';
+import React from "react";
+import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-class ChangeLanguageView extends Component {
-  changeLanguage = lang => {
-    this.props.changeLanguage(lang);
+function ChangeLanguageView(props) {
+  const { intl } = props;
+  const languageCode = intl.formatMessage({ id: "lang.code" });
+
+  const changeLanguage = lang => {
+    props.changeLanguage(lang);
   };
 
-  handleKeyPress = (e, lang) => {
+  const handleKeyPress = (e, lang) => {
     if (e.charCode === 32 || e.charCode === 13) {
       // Prevent the default action to stop scrolling when space is pressed
       e.preventDefault();
-      this.changeLanguage(lang);
+      changeLanguage(lang);
     }
   };
 
-  render() {
-    const { intl } = this.props;
-    const languageCode = intl.formatMessage({ id: "lang.code" });
-
-    return (
-      <Button
-        ghost="true"
-        type="default"
-        tabIndex="0"
-        onKeyPress={e => this.handleKeyPress(e, languageCode)}
-        onClick={() => this.changeLanguage(languageCode)}
-        style={{ textTransform: "uppercase" }}
-      >
-        <GlobalOutlined />{" "}
-        <FormattedMessage
-          style={{ textTransform: "capitalize" }}
-          id="lang.code"
-        />
-      </Button>
-    );
-  }
+  return (
+    <Button
+      ghost="true"
+      type="default"
+      tabIndex="0"
+      onKeyPress={e => handleKeyPress(e, languageCode)}
+      onClick={() => changeLanguage(languageCode)}
+      style={{ textTransform: "uppercase" }}
+    >
+      <GlobalOutlined />{" "}
+      <FormattedMessage
+        style={{ textTransform: "capitalize" }}
+        id="lang.code"
+      />
+    </Button>
+  );
 }
+
 export default injectIntl(ChangeLanguageView);

@@ -22,7 +22,6 @@ class TalentManagementView extends Component {
     const data = this.props.data;
 
     const careerMobility = {
-      icon: "mail",
       title: <FormattedMessage id="profile.career.mobility" />,
       description: data.careerMobility.description[locale] || (
         <FormattedMessage id="profile.not.specified" />
@@ -30,7 +29,6 @@ class TalentManagementView extends Component {
     };
 
     const talentMatrixResult = {
-      icon: "mail",
       title: <FormattedMessage id="profile.talent.matrix.result" />,
       description: data.talentMatrixResult.description[locale] || (
         <FormattedMessage id="profile.not.specified" />

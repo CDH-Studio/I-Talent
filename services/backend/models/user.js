@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
-      inactive: DataTypes.BOOLEAN
+      inactive: DataTypes.BOOLEAN,
+      avatarColor: DataTypes.STRING,
+      nameInitials: DataTypes.STRING
     },
     {}
   );

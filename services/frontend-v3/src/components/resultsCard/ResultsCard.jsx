@@ -1,6 +1,6 @@
 import React from "react";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+
+import "@ant-design/compatible/assets/index.css";
 import axios from "axios";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import config from "../../config";
@@ -48,9 +48,7 @@ class ResultsCard extends React.Component {
 
   render() {
     const { results } = this.state;
-    console.log("the results in the render: " + results);
     if (!results) {
-      console.log("results set to !results? " + results);
       return <ProfileSkeleton />;
     }
     if (results instanceof Error) {
@@ -69,5 +67,4 @@ class ResultsCard extends React.Component {
     );
   }
 }
-ResultsCard = Form.create({})(ResultsCard);
 export default injectIntl(ResultsCard);

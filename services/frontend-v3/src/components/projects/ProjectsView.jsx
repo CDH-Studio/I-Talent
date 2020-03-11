@@ -26,7 +26,6 @@ class ProjectsView extends Component {
     if (data.projects != null) {
       data.projects.forEach(projectElement => {
         const projects = {
-          icon: "team",
           projectDescription: projectElement.text
         };
         projectsInfo.push(projects);
