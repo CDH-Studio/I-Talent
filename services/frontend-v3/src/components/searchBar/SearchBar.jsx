@@ -15,6 +15,7 @@ function SearchBar(props) {
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
+  const [classOptions, setClassOptions] = useState([]);
 
   const toggle = () => {
     setExpand(!expand);
