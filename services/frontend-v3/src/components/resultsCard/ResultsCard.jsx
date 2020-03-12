@@ -30,7 +30,6 @@ class ResultsCard extends React.Component {
     const results1 = (
       await axios.get(backendAddress + "api/search/fuzzySearch?" + query)
     ).data;
-
     this.setState({ results: results1 });
   }
 

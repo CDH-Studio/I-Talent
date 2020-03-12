@@ -41,7 +41,6 @@ function SearchBar(props) {
       let results = await axios.get(
         backendAddress + "api/option/getDevelopmentalGoals"
       );
-      // console.log("skills in getSkills: " + Object.values(results.data));
       return results.data;
     } catch (error) {
       console.log(error);
@@ -150,7 +149,6 @@ function SearchBar(props) {
         defaultMessage: "Ex Feeder"
       })
     ];
-    console.log("LOOK AT MEEEEEEEEE: ", typeof skillOptions.map);
     for (let i = 0; i < 10; i++) {
       fieldCounter++;
       children.push(
@@ -269,7 +267,6 @@ function SearchBar(props) {
     };
 
     updateState();
-    console.log("something");
   }, []);
 
   return (
