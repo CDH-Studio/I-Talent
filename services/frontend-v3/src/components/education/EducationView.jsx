@@ -10,7 +10,6 @@ class EducationView extends Component {
   generateEducationInfoList(dataSource) {
     return (
       <List
-        header={<FormattedMessage id="profile.education" />}
         itemLayout="horizontal"
         dataSource={dataSource}
         renderItem={item => (
@@ -85,7 +84,10 @@ class EducationView extends Component {
     const educationInfo = this.getEducationInfo(locale);
 
     return (
-      <Card style={styles.card}>
+      <Card
+        title={<FormattedMessage id="profile.education" />}
+        style={styles.card}
+      >
         <Row>
           <Col xs={24} lg={24}>
             {this.generateEducationInfoList(educationInfo)}

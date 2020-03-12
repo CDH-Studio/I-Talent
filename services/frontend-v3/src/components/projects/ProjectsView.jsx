@@ -7,14 +7,10 @@ class ProjectsView extends Component {
   generateProjectsInfoList(dataSource) {
     return (
       <List
-        header={<FormattedMessage id="profile.projects" />}
+        size="small"
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
-          <List.Item>
-            <Tag>{item.projectDescription}</Tag>
-          </List.Item>
-        )}
+        renderItem={item => <List.Item>{item.projectDescription}</List.Item>}
       />
     );
   }
@@ -41,7 +37,10 @@ class ProjectsView extends Component {
     const projectsInfo = this.getProjectsInfo(locale);
 
     return (
-      <Card style={styles.card}>
+      <Card
+        title={<FormattedMessage id="profile.projects" />}
+        style={styles.card}
+      >
         <Row>
           <Col xs={24} lg={24}>
             {this.generateProjectsInfoList(projectsInfo)}
