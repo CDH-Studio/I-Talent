@@ -32,7 +32,7 @@ class Skills extends Component {
       if (categorizedList[key] == null) {
         categorizedList[key] = [listElement.description[locale]];
         if (categoriesTemp[k] == null) {
-          if (locale == "en") {
+          if (locale === "en") {
             categoriesTemp[k] = [
               listElement.description.category["categoryEn"]
             ];
@@ -80,6 +80,7 @@ class Skills extends Component {
 
   render() {
     const { data } = this.props;
+
     return (
       <SkillsView
         skills={this.setUpSkills()}

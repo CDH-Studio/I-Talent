@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Tabs, Card, Tag, Row, Col } from "antd";
+import { FormattedMessage } from "react-intl";
 const { TabPane } = Tabs;
 
 class SkillsView extends Component {
@@ -15,7 +16,7 @@ class SkillsView extends Component {
       <div>
         <Card>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Skills" key="1">
+            <TabPane tab={<FormattedMessage id="profile.skills" />} key="1">
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesSkills.map(categorySkill => (
                   <Col style={{ marginLeft: "5px" }}>
@@ -36,7 +37,11 @@ class SkillsView extends Component {
                 ))}
               </Row>
             </TabPane>
-            <TabPane tab="Mentorship Skills" key="2">
+
+            <TabPane
+              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              key="2"
+            >
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesMentor.map(categoryMentor => (
                   <Col style={{ marginLeft: "5px" }}>
