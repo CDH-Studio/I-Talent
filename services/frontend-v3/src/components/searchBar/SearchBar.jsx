@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Form } from "antd";
 import { Col, Input, Switch, Select } from "antd";
 import axios from "axios";
@@ -10,47 +10,49 @@ import SearchBarView from "./SearchBarView";
 const backendAddress = config.backendAddress;
 const { Option } = Select;
 
-class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expand: false,
-      skillOptions: [],
-      branchOptions: [],
-      locationOptions: [],
-      classOptions: []
-    };
-    this.getFields = this.getFields.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.getBasicField = this.getBasicField.bind(this);
-  }
+function SearchBar(props) {
+  const [expand, setExpand] = useState(false);
+  const [skillOptions, setSkillOptions] = useState([]);
+  const [branchOptions, setBranchOptions] = useState([]);
+  const [locationOptions, setLocationOptions] = useState([]);
+  const [classOptions, setClassOptions] = useState([]);
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     expand: false,
+  //     skillOptions: [],
+  //     branchOptions: [],
+  //     locationOptions: [],
+  //     classOptions: []
+  //   };
+  //   this.getFields = this.getFields.bind(this);
+  //   this.handleReset = this.handleReset.bind(this);
+  //   this.handleSearch = this.handleSearch.bind(this);
+  //   this.getBasicField = this.getBasicField.bind(this);
+  // }
 
-  toggle = () => {
-    const { expand } = this.state;
-    this.setState({ expand: !expand });
+  const toggle = () => {
+    setExpand(!expand);
   };
 
   //Fetches options for skills select field in advanced search
-  async getSkills() {
+  const getSkills = async () => {
     try {
       let results = await axios.get(
         backendAddress + "api/option/getDevelopmentalGoals"
       );
-
+      // console.log("skills in getSkills: " + Object.values(results.data));
       return results.data;
     } catch (error) {
       console.log(error);
       return 0;
     }
-  }
+  };
 
   //Fetches options for branches select field in advanced search
-  async getBranch() {
+  const getBranch = async () => {
     try {
-      let results = await await axios.get(
-        backendAddress + "api/option/getBranch"
-      );
+      let results = await axios.get(backendAddress + "api/option/getBranch");
       return results.data.filter(
         elem => elem.description && elem.description.en
       );
@@ -58,10 +60,10 @@ class SearchBar extends React.Component {
       console.log(error);
       return 0;
     }
-  }
+  };
 
   //Fetches options for locations select field in advanced search
-  async getLocation() {
+  const getLocation = async () => {
     try {
       let results = await axios.get(backendAddress + "api/option/getLocation");
 
@@ -70,10 +72,10 @@ class SearchBar extends React.Component {
       console.log(error);
       return 0;
     }
-  }
+  };
 
   //Fetches options for classifications select field in advanced search
-  async getClassification() {
+  const getClassification = async () => {
     try {
       let results = await axios.get(
         backendAddress + "api/option/getGroupLevel"
@@ -84,12 +86,12 @@ class SearchBar extends React.Component {
       console.log(error);
       return 0;
     }
-  }
+  };
 
   //Creates the basic input field for basic search and puts its data into children array
-  getBasicField(data) {
+  const getBasicField = data => {
     const children = [];
-    const searchLabel = this.props.intl.formatMessage({
+    const searchLabel = props.intl.formatMessage({
       id: "button.search",
       defaultMessage: "Search"
     });
@@ -99,21 +101,18 @@ class SearchBar extends React.Component {
       </Form.Item>
     );
     return children;
-  }
+  };
 
   //Creates the six fields for advanced search, along with their bilingual titles
-  getFields(data) {
-    const onFinish = values => {
-      this.handleSearch(values);
-    };
-    const count = this.state.expand ? 6 : 0;
+  const getFields = data => {
+    const count = expand ? 6 : 0;
     const children = [];
     let fieldCounter = 0;
-    let locale = this.props.intl.formatMessage({
+    let locale = props.intl.formatMessage({
       id: "language.code",
       defaultMessage: "en"
     });
-    const searchLabel = this.props.intl.formatMessage({
+    const searchLabel = props.intl.formatMessage({
       id: "button.search",
       defaultMessage: "Search"
     });
@@ -126,31 +125,32 @@ class SearchBar extends React.Component {
       "exFeeder"
     ];
     const labelArr = [
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "advanced.search.form.name",
         defaultMessage: "Name"
       }),
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "advanced.search.form.skills",
         defaultMessage: "Skills"
       }),
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "advanced.search.form.branch",
         defaultMessage: "Branch"
       }),
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "advanced.search.form.location",
         defaultMessage: "Location"
       }),
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "advanced.search.form.classification",
         defaultMessage: "Classification"
       }),
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "advanced.search.form.ex.feeder",
         defaultMessage: "Ex Feeder"
       })
     ];
+    console.log("LOOK AT MEEEEEEEEE: ", typeof skillOptions.map);
     for (let i = 0; i < 10; i++) {
       fieldCounter++;
       children.push(
@@ -174,7 +174,7 @@ class SearchBar extends React.Component {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {this.state.skillOptions.map(value => {
+                {skillOptions.map(value => {
                   return (
                     <Option key={value.id}>{value.description[locale]}</Option>
                   );
@@ -192,7 +192,7 @@ class SearchBar extends React.Component {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {this.state.branchOptions.map(value => {
+                {branchOptions.map(value => {
                   return (
                     <Option key={value.description.en}>
                       {value.description[locale]}
@@ -212,7 +212,7 @@ class SearchBar extends React.Component {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {this.state.locationOptions.map(value => {
+                {locationOptions.map(value => {
                   return (
                     <Option key={value.id}>{value.description[locale]}</Option>
                   );
@@ -230,7 +230,7 @@ class SearchBar extends React.Component {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {this.state.classOptions.map(value => {
+                {classOptions.map(value => {
                   return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
@@ -240,50 +240,50 @@ class SearchBar extends React.Component {
       );
     }
     return children;
-  }
+  };
 
   //turns search values inputted into children array into query, redirects to results
   //page with query
-  handleSearch = values => {
+  const handleSearch = values => {
     var query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
     let url = "/secured/results?" + encodeURI(query);
-    this.props.history.push(url);
+    props.history.push(url);
   };
 
   //clears all fields
-  handleReset = () => {
-    this.props.form.resetFields();
+  const handleReset = () => {
+    props.form.resetFields();
   };
 
-  async componentDidMount() {
-    let skills = await this.getSkills();
-    let branches = await this.getBranch();
-    let locations = await this.getLocation();
-    let classifications = await this.getClassification();
+  useEffect(() => {
+    const updateState = async () => {
+      let skills = await getSkills();
+      let branches = await getBranch();
+      let locations = await getLocation();
+      let classifications = await getClassification();
+      setSkillOptions(skills);
+      setBranchOptions(branches);
+      setLocationOptions(locations);
+      setClassOptions(classifications);
+    };
 
-    this.setState({
-      skillOptions: skills,
-      branchOptions: branches,
-      locationOptions: locations,
-      classOptions: classifications
-    });
-  }
-  render() {
-    return (
-      <SearchBarView
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        advancedOptions={this.state.advancedOptions}
-        getFields={this.getFields}
-        handleReset={this.handleReset}
-        handleSearch={this.handleSearch}
-        toggle={this.toggle}
-        getBasicField={this.getBasicField}
-      ></SearchBarView>
-    );
-  }
+    updateState();
+    console.log("something");
+  }, []);
+
+  return (
+    <SearchBarView
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      history={props.history}
+      getFields={getFields}
+      handleReset={handleReset}
+      handleSearch={handleSearch}
+      toggle={toggle}
+      getBasicField={getBasicField}
+    ></SearchBarView>
+  );
 }
 
 export default injectIntl(SearchBar);
