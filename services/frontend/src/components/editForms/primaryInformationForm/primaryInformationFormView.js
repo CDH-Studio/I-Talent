@@ -40,7 +40,7 @@ class PrimaryInformationFormView extends Component {
         <Form.Group fluid widths="equal">
           <Form.Field {...generateProps("linkedinUrl", Input)} />
           <Form.Field {...generateProps("githubUrl", Input)} />
-          <Form.Field {...generateProps("twitterUrl", Input)} />
+          <Form.Field {...generateProps("gcconnexUrl", Input)} />
         </Form.Group>
 
         <FormButtonsController

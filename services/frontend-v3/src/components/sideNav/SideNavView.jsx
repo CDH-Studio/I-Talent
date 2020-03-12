@@ -1,61 +1,52 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Affix, Layout } from "antd";
 
 const { Sider } = Layout;
 
-export default class SideNavView extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      collapsed: false
-    };
-  }
-
+function SideNavView(props) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [top] = useState(0);
   // toggle side nav
-  onCollapse = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+  const onCollapse = () => {
+    setCollapsed(!collapsed);
   };
 
-  render() {
-    const displaySideBar = this.props.displaySideBar;
-    return (
-      <div style={styles.siderDiv}>
-        {/* render side bar is user sets showSideBar */}
-        {displaySideBar ? (
-          <Sider
-            collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.onCollapse}
-            width="250"
-            style={styles.sider}
-          >
-            {/* render content of side bar */}
-            <Affix offsetTop={this.state.top}>
-              {this.props.sideBarContent}
-            </Affix>
-          </Sider>
-        ) : (
-          <Sider width="0" />
-        )}
-      </div>
-    );
-  }
+  const displaySideBar = props.displaySideBar;
+
+  /* Component Styles */
+  const styles = {
+    siderDiv: {
+      minHeight: "100vh",
+      background: "#fff"
+    },
+    sider: {
+      minHeight: "100vh",
+      background: "#fff"
+    },
+    siderMenu: {
+      minHeight: "100vh"
+    }
+  };
+
+  return (
+    <div style={styles.siderDiv}>
+      {/* render side bar is user sets showSideBar */}
+      {displaySideBar ? (
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          width="250"
+          style={styles.sider}
+        >
+          {/* render content of side bar */}
+          <Affix offsetTop={top}>{props.sideBarContent}</Affix>
+        </Sider>
+      ) : (
+        <Sider width="0" />
+      )}
+    </div>
+  );
 }
 
-/* Component Styles */
-const styles = {
-  siderDiv: {
-    minHeight: "100vh",
-    background: "#fff"
-  },
-  sider: {
-    minHeight: "100vh",
-    background: "#fff"
-  },
-  siderMenu: {
-    minHeight: "100vh"
-  }
-};
+export default SideNavView;

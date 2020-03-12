@@ -11,7 +11,7 @@ export default class PrimaryInformationFormController extends FormManagingCompon
       value.toLowerCase().startsWith("http") ? value : "https://" + value;
     this.transformOnChangeValueFuncs["githubUrl"] = fixUrl;
     this.transformOnChangeValueFuncs["linkedinUrl"] = fixUrl;
-    this.transformOnChangeValueFuncs["twitterUrl"] = fixUrl;
+    this.transformOnChangeValueFuncs["gcconnexUrl"] = fixUrl;
   }
 
   render() {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Tabs, Card, Tag, Row, Col } from "antd";
+import { FormattedMessage } from "react-intl";
 const { TabPane } = Tabs;
 
 class SkillsView extends Component {
@@ -15,18 +16,14 @@ class SkillsView extends Component {
       <div>
         <Card>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Skills" key="1">
+            <TabPane tab={<FormattedMessage id="profile.skills" />} key="1">
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesSkills.map(categorySkill => (
-                  <Col xs={24} xl={6}>
+                  <Col>
                     <Card title={categorySkill.val}>
                       {skills[categorySkill.index].val.map(skill => (
-                        <Row
-                          type="flex-wrap"
-                          gutter={[16, 16]}
-                          align={"center"}
-                        >
-                          <Col span={16}>
+                        <Row type="flex-wrap" gutter={[16, 16]} align={"left"}>
+                          <Col span={6}>
                             <Tag>{skill}</Tag>
                           </Col>
                         </Row>
@@ -36,14 +33,18 @@ class SkillsView extends Component {
                 ))}
               </Row>
             </TabPane>
-            <TabPane tab="Mentorship Skills" key="2">
+
+            <TabPane
+              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              key="2"
+            >
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesMentor.map(categoryMentor => (
-                  <Col span={6}>
+                  <Col>
                     <Card title={categoryMentor.val}>
                       {mentoring[categoryMentor.index].val.map(mentor => (
-                        <Row type="wrap" gutter={[16, 16]} align={"center"}>
-                          <Col span={16}>
+                        <Row type="flex-wrap" gutter={[16, 16]} align={"left"}>
+                          <Col span={6}>
                             <Tag>{mentor}</Tag>
                           </Col>
                         </Row>

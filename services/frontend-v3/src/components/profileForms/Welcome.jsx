@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined } from "@ant-design/icons";
 import { Typography, Button } from "antd";
 const { Title, Paragraph } = Typography;
 

@@ -1,9 +1,12 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { PageHeader } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import Competencies from "../../competenciesCard/Competencies";
+import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import CareerInterests from "../../careerInterests/CareerInterests";
@@ -12,13 +15,14 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmploymentInfo from "../../employmentInfo/EmploymentInfo";
 
-import { Row, Col } from "antd";
+import { Row, Col, Typography, Divider } from "antd";
+const { Title } = Typography;
 
 class ProfileLayoutView extends React.Component {
   displayAllProfileCards() {
     const { data } = this.props;
-    data.acronym = getAcronym(data.firstName + " " + data.lastName);
-    data.color = stringToHslColor(data.acronym);
+    // data.nameInitials = getAcronym(data.firstName + " " + data.lastName);
+    // data.avatarColor = stringToHslColor(data.nameInitials);
 
     return (
       <div>
@@ -30,14 +34,31 @@ class ProfileLayoutView extends React.Component {
             <EmploymentInfo data={data} style={styles.card} />
           </Col>
         </Row>
+        <Row style={styles.row} type="flex">
+          <Col span={24}>
+            <OfficialLanguage data={data} />
+          </Col>
+        </Row>
+
+        <Divider orientation="left">
+          {<FormattedMessage id="profile.employee.skills.competencies" />}
+        </Divider>
         <Row style={styles.row}>
           <Col span={24}>
             <Skills data={data}></Skills>
           </Col>
         </Row>
-        <Row style={styles.row} type="flex">
+        <Row style={styles.row}>
           <Col span={24}>
-            <TalentManagement data={data} />
+            <Competencies data={data}></Competencies>
+          </Col>
+        </Row>
+        <Divider orientation="left">
+          {<FormattedMessage id="profile.employee.growth.interests" />}
+        </Divider>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <DevelopmentalGoals data={data}></DevelopmentalGoals>
           </Col>
         </Row>
         <Row
@@ -46,12 +67,17 @@ class ProfileLayoutView extends React.Component {
           type="flex"
         >
           <Col xs={24} xl={12}>
-            <OfficialLanguage data={data} />
+            <TalentManagement data={data} />
           </Col>
           <Col xs={24} xl={12}>
             <CareerInterests data={data} />
           </Col>
         </Row>
+
+        <Divider orientation="left">
+          {<FormattedMessage id="profile.employee.qualifications" />}
+        </Divider>
+
         <Row style={styles.row}>
           <Col span={24}>
             <Education data={data} />
@@ -92,21 +118,21 @@ class ProfileLayoutView extends React.Component {
   }
 }
 
-function stringToHslColor(str) {
-  var hash = 0;
-  var s = 90;
-  var l = 45;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  var h = hash % 360;
-  return "hsl(" + h + ", " + s + "%, " + l + "%)";
-}
+// function stringToHslColor(str) {
+//   var hash = 0;
+//   var s = 90;
+//   var l = 45;
+//   for (var i = 0; i < str.length; i++) {
+//     hash = str.charCodeAt(i) + ((hash << 5) - hash);
+//   }
+//   var h = hash % 360;
+//   return "hsl(" + h + ", " + s + "%, " + l + "%)";
+// }
 
-function getAcronym(name) {
-  const i = name.lastIndexOf(" ") + 1;
-  return name.substring(0, 1) + name.substring(i, i + 1);
-}
+// function getAcronym(name) {
+//   const i = name.lastIndexOf(" ") + 1;
+//   return name.substring(0, 1) + name.substring(i, i + 1);
+// }
 
 /* Component Styles */
 const styles = {

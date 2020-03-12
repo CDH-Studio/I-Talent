@@ -23,7 +23,6 @@ class EmploymentInfoView extends Component {
     const data = this.props.data;
 
     const substantive = {
-      icon: "mail",
       title: <FormattedMessage id="profile.substantive" />,
       description:
         data.indeterminate === true ? (
@@ -34,7 +33,6 @@ class EmploymentInfoView extends Component {
     };
 
     const classification = {
-      icon: "mail",
       title: <FormattedMessage id="profile.classification" />,
       description: data.classification.description || (
         <FormattedMessage id="profile.not.specified" />
@@ -42,7 +40,6 @@ class EmploymentInfoView extends Component {
     };
 
     const temporaryRole = {
-      icon: "mail",
       title: <FormattedMessage id="profile.temporary.role" />,
       description: data.temporaryRole.description[locale] || (
         <FormattedMessage id="profile.not.specified" />
@@ -52,7 +49,6 @@ class EmploymentInfoView extends Component {
     let actingInfo = [];
     if (data.acting.id != null) {
       const acting = {
-        icon: "mail",
         title: <FormattedMessage id="profile.acting" />,
         description: data.acting.description
       };
@@ -66,7 +62,6 @@ class EmploymentInfoView extends Component {
             : "");
 
         const actingDate = {
-          icon: "calendar",
           title: <FormattedMessage id="profile.acting.date" />,
           description: desc
         };
@@ -75,7 +70,6 @@ class EmploymentInfoView extends Component {
     }
 
     const security = {
-      icon: "mail",
       title: <FormattedMessage id="profile.security" />,
       description: data.security.description[locale] || (
         <FormattedMessage id="profile.not.specified" />

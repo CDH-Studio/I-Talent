@@ -1,6 +1,8 @@
 {
   "firstName": "firstName",
   "lastName": "lastName",
+  "avatarColor": "avatarColor",
+  "nameInitiales": "nameInitiales",
   "telephone": "telephone",
   "cellphone": "cellphone",
   "location": "locationId",
@@ -28,7 +30,7 @@
   "organizations": "organizations",
   "linkedinUrl": "linkedin",
   "githubUrl": "github",
-  "twitterUrl": "twitter",
+  "gcconnexUrl": "gcconnex",
   "projects": "projects",
   "jobTitle": "jobTitle",
   "secondaryReadingProficiency": "readingProficiency",

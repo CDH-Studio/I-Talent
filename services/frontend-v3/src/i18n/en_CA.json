@@ -103,6 +103,7 @@
   "landing.contact.us": "Contact us",
 
   "setup.primary.information": "Primary information",
+  "setup.link.profiles": "Link to other profiles",
   "setup.labeled": "Employment data",
   "setup.manager": "Manager",
   "setup.language.proficiency": "Language proficiency",
@@ -117,6 +118,7 @@
   "setup.projects": "Projects",
   "setup.career.interests": "Career interests",
   "setup.save.and.finish": "Save and finish",
+  "setup.save.and.next": "Save and Next",
 
   "lang": "Français",
   "lang.code": "fr",
@@ -199,10 +201,14 @@
   "profile.sector": "Sector",
   "profile.security": "Security",
   "profile.skills": "Skills",
+  "profile.mentorship.skills": "Mentorship Skills",
   "profile.temporary.role": "Temporary role",
   "profile.tenure": "Substantive",
-  "profile.talent.management": "Talent managment",
+  "profile.talent.management": "Talent management",
   "profile.talent.matrix.result": "Talent matrix result",
+  "profile.employee.growth.interests": "Personal growth interests",
+  "profile.employee.qualifications": "Qualifications",
+  "profile.employee.skills.competencies": "Skills and competencies",
   "profile.team": "Team",
   "profile.telephone": "Telephone",
   "profile.gcconnex": "GCconnex",
@@ -232,7 +238,9 @@
   "profile.not.specified": "Not specified",
   "profile.end.date.present": "Present",
   "profile.relocation.locations": "I am willing to relocate to",
-  "profile.career.interests": "Career mobility",
+
+  "profile.career.interests": "Career Interests",
+
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
   "profile.preview.public.view": "Preview public view",

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from "@ant-design/compatible";
 
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
 const { Title, Text } = Typography;
@@ -109,12 +109,13 @@ class BasicInfoView extends Component {
     const address = {
       icon: "environment",
       title: <FormattedMessage id="profile.address" />,
-      description: data.address ? (
+      description: data.location ? (
         data.location.description[locale]
       ) : (
         <FormattedMessage id="profile.not.specified" />
       )
     };
+    console.log("Mamaa", data.address);
 
     const manager = {
       icon: "user",
@@ -136,7 +137,11 @@ class BasicInfoView extends Component {
       const button = buttonLinks[buttonName];
 
       return (
-        <Button block icon={<LegacyIcon type={button.icon} />} href={button.url}>
+        <Button
+          block
+          icon={<LegacyIcon type={button.icon} />}
+          href={button.url}
+        >
           {this.props.intl.formatMessage({ id: button.textId })}
         </Button>
       );
