@@ -58,3 +58,31 @@
   padding: 0px !important;
 
 }
+
+.ant-list-item-meta-title {
+  font-size: 16px !important;
+}
+
+.ant-list-item-meta-description {
+  font-size: 16px !important;
+}
+
+.ant-card-head-title {
+  font-size: 18px !important;
+}
+
+.ant-tabs-tab {
+  font-size: 18px;
+}
+
+.ant-tag.ant-tag-has-color {
+  font-size: 14px !important;
+}
+
+.ant-page-header-heading-title {
+  font-size: 24px !important;
+}
+
+.ant-list-item {
+  font-size: 16px !important;
+}
