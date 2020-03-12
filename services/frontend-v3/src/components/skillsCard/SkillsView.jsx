@@ -20,7 +20,8 @@ class SkillsView extends Component {
                 {categoriesSkills.map(categorySkill => (
                   <Col style={{ marginLeft: "5px" }}>
                     <Card
-                      style={{ boxShadow: "0 0 5px #ccc" }}
+                      size="small"
+                      style={styles.cards}
                       title={categorySkill.val}
                     >
                       {skills[categorySkill.index].val.map(skill => (
@@ -40,7 +41,8 @@ class SkillsView extends Component {
                 {categoriesMentor.map(categoryMentor => (
                   <Col style={{ marginLeft: "5px" }}>
                     <Card
-                      style={{ boxShadow: "0 0 5px #ccc" }}
+                      size="small"
+                      style={styles.cards}
                       title={categoryMentor.val}
                     >
                       {mentoring[categoryMentor.index].val.map(mentor => (
@@ -61,5 +63,10 @@ class SkillsView extends Component {
     );
   }
 }
+const styles = {
+  cards: {
+    borderWidth: "medium"
+  }
+};
 
 export default SkillsView;
