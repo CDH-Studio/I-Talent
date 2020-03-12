@@ -3,6 +3,7 @@ const Models = require("../../models");
 const User = Models.user;
 const Profile = Models.profile;
 const Tenure = Models.tenure;
+const Category = Models.category;
 
 const getOption = async (request, response) => {
   try {
@@ -12,8 +13,13 @@ const getOption = async (request, response) => {
     let options = {
       attributes: { exclude: ["createdAt", "updatedAt"] }
     };
+
     if (type === "skill" || type === "competency") {
       options.where = { type: type };
+    }
+
+    if (type === "skill") {
+      options.include = Category;
     }
 
     const rows = await model.findAll(options);

@@ -121,10 +121,10 @@ it("Profile layout renders expected text strings when on own profile with full p
   //url strings are used as hrefs, not directly rendered
   expect(wrapper.find({ href: visibleProfileData.githubUrl }).length).toBe(2);
   expect(wrapper.find({ href: visibleProfileData.linkedinUrl }).length).toBe(2);
-  expect(wrapper.find({ href: visibleProfileData.twitterUrl }).length).toBe(2);
+  expect(wrapper.find({ href: visibleProfileData.gcconnexUrl }).length).toBe(2);
   delete visibleProfileData.githubUrl;
   delete visibleProfileData.linkedinUrl;
-  delete visibleProfileData.twitterUrl;
+  delete visibleProfileData.gcconnexUrl;
 
   expect(
     wrapper.contains(

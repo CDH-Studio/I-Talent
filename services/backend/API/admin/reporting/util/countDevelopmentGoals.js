@@ -1,5 +1,6 @@
 const Models = require("../../../../models");
 const sequelize = Models.sequelize;
+const getTopFive = require("./getTopFive");
 
 const countDevelopmentGoals = async () => {
   const profileDevelopmentGoals = await sequelize.query(
@@ -19,7 +20,9 @@ const countDevelopmentGoals = async () => {
             COUNT("profiles"."id") DESC;`
   );
 
-  return profileDevelopmentGoals[0];
+  const topFiveDevelopmentGoals = getTopFive(profileDevelopmentGoals[0]);
+
+  return topFiveDevelopmentGoals;
 };
 
 module.exports = countDevelopmentGoals;

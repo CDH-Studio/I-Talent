@@ -3,7 +3,7 @@ import BasicInfoView from "./BasicInfoView";
 
 class BasicInfo extends Component {
   getButtonLinks() {
-    const { linkedinUrl, githubUrl, twitterUrl, email } = this.props.data;
+    const { linkedinUrl, githubUrl, gcconnexUrl, email } = this.props.data;
     let buttonLinks = { buttons: [] };
 
     if (linkedinUrl) {
@@ -24,12 +24,12 @@ class BasicInfo extends Component {
       };
     }
 
-    if (twitterUrl) {
+    if (gcconnexUrl) {
       buttonLinks.buttons.push("gcconnex");
       buttonLinks.gcconnex = {
         icon: "link",
         textId: "profile.gcconnex",
-        url: twitterUrl
+        url: gcconnexUrl
       };
     }
 
@@ -52,8 +52,8 @@ class BasicInfo extends Component {
         data={data}
         name={name}
         avatar={{
-          acr: data.acronym,
-          color: data.color
+          acr: data.nameInitials,
+          color: data.avatarColor
         }}
         jobTitle={data.jobTitle[localStorage.getItem("lang")]}
         locale={localStorage.getItem("lang")}

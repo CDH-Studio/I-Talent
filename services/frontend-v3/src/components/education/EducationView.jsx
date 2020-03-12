@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from "@ant-design/compatible";
 
 import { Row, Col, Card, Avatar, List } from "antd";
 
@@ -57,8 +57,8 @@ class EducationView extends Component {
   }
 
   getEducationDuration(startDate, endDate) {
-    const formatedStartDate = moment(startDate).format("LLL");
-    const formatedEndDate = moment(endDate).format("LLL");
+    const formatedStartDate = moment(startDate).format("ll");
+    const formatedEndDate = moment(endDate).format("ll");
 
     const dateNotProvided = this.props.intl.formatMessage({
       id: "profile.date.not.provided"
