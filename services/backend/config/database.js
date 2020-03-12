@@ -2,15 +2,25 @@
 const Sequelize = require("sequelize");
 
 require("dotenv").config();
-// Option 1: Passing parameters separately
+
+let dialect, host, port;
+if (process.env.PLATFORM == "OPENSHIFT") {
+  [dialect, host, port] = str.split(":");
+  host = host.replace("//", "");
+} else {
+  host = process.env.PGHOST;
+  port = 5432;
+  dialect = "postgres";
+}
+
 module.exports = new Sequelize(
   process.env.PGDATABASE,
   process.env.PGUSERNAME,
   process.env.PGPASS,
   {
-    host: process.env.PGHOST,
-    port: 5432,
-    dialect: "postgres",
+    host: host,
+    port: port,
+    dialect: dialect,
     pool: {
       max: 5,
       min: 0,
