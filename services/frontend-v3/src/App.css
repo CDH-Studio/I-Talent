@@ -49,14 +49,13 @@
 
 .ant-divider.ant-divider-horizontal.ant-divider-with-text-left::after {
   border-top-color: #001c1a !important;
-
+}
 .ant-form-item {
   margin-bottom: 15px !important;
 }
 
 .ant-form-item-label {
   padding: 0px !important;
-
 }
 
 .ant-list-item-meta-title {
