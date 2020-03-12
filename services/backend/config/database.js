@@ -5,7 +5,7 @@ require("dotenv").config();
 
 let dialect, host, port;
 if (process.env.PLATFORM == "OPENSHIFT") {
-  [dialect, host, port] = str.split(":");
+  [dialect, host, port] = process.env.DATABASE_URL.split(":");
   host = host.replace("//", "");
 } else {
   host = process.env.PGHOST;
