@@ -15,21 +15,6 @@ function SearchBar(props) {
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
-  const [classOptions, setClassOptions] = useState([]);
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     expand: false,
-  //     skillOptions: [],
-  //     branchOptions: [],
-  //     locationOptions: [],
-  //     classOptions: []
-  //   };
-  //   this.getFields = this.getFields.bind(this);
-  //   this.handleReset = this.handleReset.bind(this);
-  //   this.handleSearch = this.handleSearch.bind(this);
-  //   this.getBasicField = this.getBasicField.bind(this);
-  // }
 
   const toggle = () => {
     setExpand(!expand);
