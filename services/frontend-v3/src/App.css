@@ -42,3 +42,10 @@
   background-color: #a1b3af !important;
   color: rgb(0, 30, 30) !important;
 }
+.ant-divider.ant-divider-horizontal.ant-divider-with-text-left::before {
+  border-top-color: #001c1a !important;
+}
+
+.ant-divider.ant-divider-horizontal.ant-divider-with-text-left::after {
+  border-top-color: #001c1a !important;
+}
