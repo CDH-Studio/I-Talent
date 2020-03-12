@@ -34,7 +34,7 @@ class DashboardGraphsView extends Component {
     };
 
     return (
-      <Col span={24}>
+      <>
         <Row gutter={[8, 8]}>
           <Col span={8}>
             <Card
@@ -158,7 +158,7 @@ class DashboardGraphsView extends Component {
             </Card>
           </Col>
         </Row>
-      </Col>
+      </>
     );
   }
 }
