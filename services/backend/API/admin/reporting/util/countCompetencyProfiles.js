@@ -1,5 +1,6 @@
 const Models = require("../../../../models");
 const sequelize = Models.sequelize;
+const getTopFive = require("./getTopFive");
 
 const countCompetencyProfiles = async () => {
   const profileCompetencies = await sequelize.query(
@@ -21,7 +22,9 @@ const countCompetencyProfiles = async () => {
         COUNT("profiles"."id") DESC;`
   );
 
-  return profileCompetencies[0];
+  const topFiveCompetencies = getTopFive(profileCompetencies[0]);
+
+  return topFiveCompetencies;
 };
 
 module.exports = countCompetencyProfiles;
