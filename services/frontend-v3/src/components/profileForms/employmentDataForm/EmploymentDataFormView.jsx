@@ -43,23 +43,11 @@ function EmploymentDataFormView(props) {
         <Row gutter={24}>
           <Col className="gutter-row" span={12}>
             <Form.Item
-              name="location"
-              label={<FormattedMessage id="profile.location" />}
-              rules={[Rules.required, Rules.maxChar50]}
+              name="team"
+              label={<FormattedMessage id="profile.team" />}
+              rules={[Rules.maxChar50]}
             >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder="choose location"
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {props.locationOptions.map((value, index) => {
-                  return <Option key={value.id}>{value.description.en}</Option>;
-                })}
-              </Select>
+              <Input />
             </Form.Item>
           </Col>
           <Col className="gutter-row" span={12}>
@@ -174,12 +162,11 @@ function EmploymentDataFormView(props) {
     }
   };
 
-  console.log();
   if (!props.load) {
     return (
       /* If form data is loading then wait */
       <div style={styles.content}>
-        <Skeleton />
+        <Skeleton active />
       </div>
     );
   } else {
@@ -229,7 +216,7 @@ function EmploymentDataFormView(props) {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.locationOptions.map((value, index) => {
+                    {props.substantiveOptions.map((value, index) => {
                       return (
                         <Option key={value.id}>{value.description.en}</Option>
                       );
@@ -254,9 +241,9 @@ function EmploymentDataFormView(props) {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.locationOptions.map((value, index) => {
+                    {props.classificationOptions.map((value, index) => {
                       return (
-                        <Option key={value.id}>{value.description.en}</Option>
+                        <Option key={value.id}>{value.description}</Option>
                       );
                     })}
                   </Select>

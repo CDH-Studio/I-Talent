@@ -120,7 +120,7 @@ function PrimaryInfoFormView(props) {
     return (
       /* If form data is loading then wait */
       <div style={styles.content}>
-        <Skeleton />
+        <Skeleton active />
       </div>
     );
   } else {

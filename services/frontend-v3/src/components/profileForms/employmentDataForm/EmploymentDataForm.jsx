@@ -5,43 +5,41 @@ import config from "../../../config";
 const { backendAddress } = config;
 
 function EmploymentDataForm() {
-  const [locationOptions, setLocationOptions] = useState(null);
-  const [profileInfo, setProfileInfo] = useState(null);
+  const [substantiveOptions, setSubstantiveOptions] = useState(null);
+  const [classificationOptions, setClassificationOptions] = useState(null);
   const [load, setLoad] = useState(false);
 
   // get possible locations for form drop down
-  const getLocations = async () => {
+  const getSubstantiveOptions = async () => {
     try {
-      let result = await axios.get(backendAddress + "api/option/getLocation");
-      await setLocationOptions(result.data);
+      let result = await axios.get(backendAddress + "api/option/getTenure");
+      await setSubstantiveOptions(result.data);
       return 1;
     } catch (error) {
-      console.log(error);
-      return 0;
+      throw new Error(error);
     }
   };
 
   // get user profile for form drop down
-  const getProfileInfo = async () => {
+  const getClassification = async () => {
     try {
-      let url =
-        backendAddress + "api/profile/" + localStorage.getItem("userId");
+      let url = backendAddress + "api/option/getGroupLevel";
       let result = await axios.get(url);
-      return await setProfileInfo(result.data);
+      return await setClassificationOptions(result.data);
     } catch (error) {
-      console.log(error);
-      return 0;
+      throw new Error(error);
     }
   };
 
   // get all required data component
   const getAllData = async () => {
     try {
-      await getProfileInfo();
-      await getLocations();
+      await getClassification();
+      await getSubstantiveOptions();
       setLoad(true);
       return 1;
     } catch (error) {
+      setLoad(false);
       console.log(error);
       return 0;
     }
@@ -54,8 +52,8 @@ function EmploymentDataForm() {
 
   return (
     <EmploymentDataFormView
-      locationOptions={locationOptions}
-      profileInfo={profileInfo}
+      substantiveOptions={substantiveOptions}
+      classificationOptions={classificationOptions}
       load={load}
     />
   );
