@@ -191,7 +191,6 @@ function EmploymentDataFormView(props) {
                 <Form.Item
                   name="substantive"
                   label={<FormattedMessage id="profile.substantive" />}
-                  rules={[Rules.required, Rules.maxChar50]}
                 >
                   <Select
                     showSearch
@@ -216,7 +215,6 @@ function EmploymentDataFormView(props) {
                 <Form.Item
                   name="classification"
                   label={<FormattedMessage id="profile.classification" />}
-                  rules={[Rules.required, Rules.maxChar50]}
                 >
                   <Select
                     showSearch
@@ -243,7 +241,6 @@ function EmploymentDataFormView(props) {
                 <Form.Item
                   name="security"
                   label={<FormattedMessage id="profile.security" />}
-                  rules={[Rules.required, Rules.maxChar50]}
                 >
                   <Select
                     showSearch
@@ -270,7 +267,7 @@ function EmploymentDataFormView(props) {
                 <Form.Item
                   name="manager"
                   label={<FormattedMessage id="profile.manager" />}
-                  rules={[Rules.required, Rules.maxChar50]}
+                  rules={[Rules.maxChar50]}
                 >
                   <Input />
                 </Form.Item>
@@ -295,47 +292,6 @@ function EmploymentDataFormView(props) {
                 <Switch default={false} onChange={toggleTempRoleForm} />
               </Col>
               {getTempRoleForm(displayTempRoleForm)}
-            </Row>
-            {/* Form Row Four */}
-            <Row
-              gutter={24}
-              style={{
-                backgroundColor: "#dfe5e4",
-                paddingTop: "15px",
-                marginBottom: "20px",
-                marginTop: "10px"
-              }}
-            >
-              <Col className="gutter-row" span={24}>
-                <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
-              </Col>
-              <Col className="gutter-row" span={8}>
-                <Form.Item
-                  name="gcConnex"
-                  label={<FormattedMessage id="profile.gcconnex.url" />}
-                  rules={[Rules.maxChar100]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={8}>
-                <Form.Item
-                  name="linkedinUrl"
-                  label={<FormattedMessage id="profile.linkedin.url" />}
-                  rules={[Rules.maxChar100]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" span={8}>
-                <Form.Item
-                  name="githubUrl"
-                  label={<FormattedMessage id="profile.github.url" />}
-                  rules={[Rules.maxChar100]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
             </Row>
             <Row gutter={24}>
               <Col span={24}>
