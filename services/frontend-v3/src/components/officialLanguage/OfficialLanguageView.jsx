@@ -6,7 +6,6 @@ import { Row, Col, Card, List } from "antd";
 
 class OfficialLanguageView extends Component {
   generateFirstLanguage(dataSource) {
-    console.log("handling null and undefined", dataSource);
     return (
       <List
         itemLayout="horizontal"
@@ -89,7 +88,7 @@ class OfficialLanguageView extends Component {
     ];
   }
 
-  getSecondLanguageDateInfo(locale) {
+  getSecondLanguageDateInfo() {
     const data = this.props.data;
 
     const formatedReadingDate = moment(data.secondaryReadingDate).format("ll");
@@ -137,12 +136,7 @@ class OfficialLanguageView extends Component {
     const secondLanguageDateInfo = this.getSecondLanguageDateInfo(locale);
 
     return (
-      <Card
-        style={styles.card}
-        title={this.props.intl.formatMessage({
-          id: "profile.official.language"
-        })}
-      >
+      <div>
         <Row>
           <Col xs={24} lg={12}>
             {this.generateFirstLanguage(firstLanguageInfo)}
@@ -156,7 +150,7 @@ class OfficialLanguageView extends Component {
             {this.generateSecondLanguageProficiency(secondLanguageDateInfo)}
           </Col>
         </Row>
-      </Card>
+      </div>
     );
   }
 }

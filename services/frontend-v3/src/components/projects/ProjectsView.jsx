@@ -7,7 +7,6 @@ class ProjectsView extends Component {
   generateProjectsInfoList(dataSource) {
     return (
       <List
-        header={<FormattedMessage id="profile.projects" />}
         itemLayout="horizontal"
         dataSource={dataSource}
         renderItem={item => (
@@ -41,13 +40,11 @@ class ProjectsView extends Component {
     const projectsInfo = this.getProjectsInfo(locale);
 
     return (
-      <Card style={styles.card}>
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateProjectsInfoList(projectsInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateProjectsInfoList(projectsInfo)}
+        </Col>
+      </Row>
     );
   }
 }

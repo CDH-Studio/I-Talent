@@ -1,7 +1,10 @@
 import React from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+
 import { PageHeader } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
+import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
 import TalentManagement from "../../talentManagement/TalentManagement";
@@ -19,15 +22,23 @@ class ProfileLayoutView extends React.Component {
     const { data } = this.props;
     // data.nameInitials = getAcronym(data.firstName + " " + data.lastName);
     // data.avatarColor = stringToHslColor(data.nameInitials);
-
+    console.log("title", <FormattedMessage id="setup.primary.information" />);
     return (
       <div>
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col xs={24} xl={16}>
             <BasicInfo data={data} style={styles.card} />
+            {/* <ProfileCards
+              title={<FormattedMessage id="profile.info" />}
+              content={<BasicInfo data={data} style={styles.card} />}
+            /> */}
           </Col>
           <Col xs={24} xl={8}>
-            <EmploymentInfo data={data} style={styles.card} />
+            {/* <EmploymentInfo data={data} style={styles.card} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.info" />}
+              content={<EmploymentInfo data={data} style={styles.card} />}
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
@@ -37,7 +48,11 @@ class ProfileLayoutView extends React.Component {
         </Row>
         <Row style={styles.row} type="flex">
           <Col span={24}>
-            <TalentManagement data={data} />
+            {/* <TalentManagement data={data} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.talent.management" />}
+              content={<TalentManagement data={data} style={styles.card} />}
+            />
           </Col>
         </Row>
         <Row
@@ -46,25 +61,45 @@ class ProfileLayoutView extends React.Component {
           type="flex"
         >
           <Col xs={24} xl={12}>
-            <OfficialLanguage data={data} />
+            {/* <OfficialLanguage data={data} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.official.language" />}
+              content={<OfficialLanguage data={data} style={styles.card} />}
+            />
           </Col>
           <Col xs={24} xl={12}>
-            <CareerInterests data={data} />
+            {/* <CareerInterests data={data} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.career.interests" />}
+              content={<CareerInterests data={data} style={styles.card} />}
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Education data={data} />
+            {/* <Education data={data} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.education" />}
+              content={<Education data={data} style={styles.card} />}
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Experience data={data} />
+            {/* <Experience data={data} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.experience" />}
+              content={<Experience data={data} style={styles.card} />}
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Projects data={data} />
+            {/* <Projects data={data} /> */}
+            <ProfileCards
+              title={<FormattedMessage id="profile.projects" />}
+              content={<Projects data={data} style={styles.card} />}
+            />
           </Col>
         </Row>
       </div>
@@ -92,22 +127,6 @@ class ProfileLayoutView extends React.Component {
   }
 }
 
-// function stringToHslColor(str) {
-//   var hash = 0;
-//   var s = 90;
-//   var l = 45;
-//   for (var i = 0; i < str.length; i++) {
-//     hash = str.charCodeAt(i) + ((hash << 5) - hash);
-//   }
-//   var h = hash % 360;
-//   return "hsl(" + h + ", " + s + "%, " + l + "%)";
-// }
-
-// function getAcronym(name) {
-//   const i = name.lastIndexOf(" ") + 1;
-//   return name.substring(0, 1) + name.substring(i, i + 1);
-// }
-
 /* Component Styles */
 const styles = {
   card: {
@@ -119,4 +138,4 @@ const styles = {
 };
 
 //Needed when using this.props.intl
-export default ProfileLayoutView;
+export default injectIntl(ProfileLayoutView);

@@ -10,7 +10,6 @@ class ExperienceView extends Component {
   generateExperienceInfoList(dataSource) {
     return (
       <List
-        header={<FormattedMessage id="profile.experience" />}
         itemLayout="horizontal"
         dataSource={dataSource}
         renderItem={item => (
@@ -86,13 +85,11 @@ class ExperienceView extends Component {
     const experienceInfo = this.getExperienceInfo(locale);
 
     return (
-      <Card style={styles.card}>
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateExperienceInfoList(experienceInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateExperienceInfoList(experienceInfo)}
+        </Col>
+      </Row>
     );
   }
 }

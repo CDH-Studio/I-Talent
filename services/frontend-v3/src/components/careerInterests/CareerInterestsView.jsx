@@ -76,19 +76,12 @@ class CareerInterestsView extends Component {
     const relocationLocationsInfo = this.getRelocationLocationsInfo(locale);
 
     return (
-      <Card
-        style={styles.card}
-        title={this.props.intl.formatMessage({
-          id: "profile.career.interests"
-        })}
-      >
-        <Row>
-          <Col span={24}>
-            {this.generateCareerInterestsInfoList(info)}
-            {this.generateRelocationLocationsInfoList(relocationLocationsInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col span={24}>
+          {this.generateCareerInterestsInfoList(info)}
+          {this.generateRelocationLocationsInfoList(relocationLocationsInfo)}
+        </Col>
+      </Row>
     );
   }
 }

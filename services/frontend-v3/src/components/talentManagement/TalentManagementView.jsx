@@ -44,18 +44,11 @@ class TalentManagementView extends Component {
     const info = this.getTalentManagementInfo(locale);
 
     return (
-      <Card
-        style={styles.card}
-        title={this.props.intl.formatMessage({
-          id: "profile.talent.management"
-        })}
-      >
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateTalentManagementInfoList(info)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateTalentManagementInfoList(info)}
+        </Col>
+      </Row>
     );
   }
 }

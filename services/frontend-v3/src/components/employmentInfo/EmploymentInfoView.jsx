@@ -90,16 +90,11 @@ class EmploymentInfoView extends Component {
     const info = this.getInfo(locale);
 
     return (
-      <Card
-        style={styles.card}
-        title={this.props.intl.formatMessage({ id: "profile.info" })}
-      >
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateInfoList(info)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateInfoList(info)}
+        </Col>
+      </Row>
     );
   }
 }
