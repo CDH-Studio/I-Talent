@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "@ant-design/compatible/assets/index.css";
 import {
   Row,
@@ -9,18 +9,76 @@ import {
   Form,
   Select,
   Input,
+  Switch,
+  Tooltip,
   Button
 } from "antd";
-import { LinkOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  LinkOutlined,
+  RightOutlined,
+  InfoCircleOutlined
+} from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import config from "../../../config";
+import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
+
 const { backendAddress } = config;
 
 const { Option } = Select;
 const { Title } = Typography;
 
 function EmploymentDataFormView(props) {
+  const [displayTempRoleForm, setDisplayTempRoleForm] = useState();
+
+  const toggleTempRoleForm = () => {
+    setDisplayTempRoleForm(!displayTempRoleForm);
+  };
+
+  const getTempRoleForm = expandTempRoleForm => {
+    console.log("yooooooo");
+    if (expandTempRoleForm) {
+      return (
+        // <div style={{ width: "100%" }}>
+        <Row gutter={24}>
+          <Col className="gutter-row" span={12}>
+            <Form.Item
+              name="location"
+              label={<FormattedMessage id="profile.location" />}
+              rules={[Rules.required, Rules.maxChar50]}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder="choose location"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {props.locationOptions.map((value, index) => {
+                  return <Option key={value.id}>{value.description.en}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" span={12}>
+            <Form.Item
+              name="team"
+              label={<FormattedMessage id="profile.team" />}
+              rules={[Rules.maxChar50]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        // </div>
+      );
+    } else {
+      return <div />;
+    }
+  };
+
   /* Handle form submission */
   const handleSubmit = async values => {
     if (props.profileInfo) {
@@ -116,6 +174,7 @@ function EmploymentDataFormView(props) {
     }
   };
 
+  console.log();
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -141,20 +200,10 @@ function EmploymentDataFormView(props) {
           >
             {/* Form Row One */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" span={24}>
                 <Form.Item
-                  name="firstName"
-                  label={<FormattedMessage id="profile.first.name" />}
-                  rules={[Rules.required, Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" span={12}>
-                <Form.Item
-                  name="lastName"
-                  label={<FormattedMessage id="profile.last.name" />}
+                  name="manager"
+                  label={<FormattedMessage id="profile.manager" />}
                   rules={[Rules.required, Rules.maxChar50]}
                 >
                   <Input />
@@ -164,43 +213,10 @@ function EmploymentDataFormView(props) {
 
             {/* Form Row Two */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={8}>
-                <Form.Item
-                  name="telephone"
-                  label={<FormattedMessage id="profile.telephone" />}
-                  rules={[Rules.telephoneFormat]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" span={8}>
-                <Form.Item
-                  name="cellphone"
-                  label={<FormattedMessage id="profile.cellphone" />}
-                  rules={[Rules.telephoneFormat]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" span={8}>
-                <Form.Item
-                  name="email"
-                  label={<FormattedMessage id="profile.email" />}
-                  rules={[Rules.emailFormat, Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            {/* Form Row Three */}
-            <Row gutter={24}>
               <Col className="gutter-row" span={12}>
                 <Form.Item
-                  name="location"
-                  label={<FormattedMessage id="profile.location" />}
+                  name="substantive"
+                  label={<FormattedMessage id="profile.substantive" />}
                   rules={[Rules.required, Rules.maxChar50]}
                 >
                   <Select
@@ -224,13 +240,49 @@ function EmploymentDataFormView(props) {
 
               <Col className="gutter-row" span={12}>
                 <Form.Item
-                  name="team"
-                  label={<FormattedMessage id="profile.team" />}
-                  rules={[Rules.maxChar50]}
+                  name="classification"
+                  label={<FormattedMessage id="profile.classification" />}
+                  rules={[Rules.required, Rules.maxChar50]}
                 >
-                  <Input />
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose location"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {props.locationOptions.map((value, index) => {
+                      return (
+                        <Option key={value.id}>{value.description.en}</Option>
+                      );
+                    })}
+                  </Select>
                 </Form.Item>
               </Col>
+            </Row>
+
+            {/* Form Row Three */}
+            <Row
+              style={{
+                backgroundColor: "#dfe5e4",
+                paddingTop: "15px",
+                paddingBottom: "15px",
+                marginBottom: "20px",
+                marginTop: "10px"
+              }}
+              gutter={24}
+            >
+              <Col className="gutter-row" span={24}>
+                <FormLabelTooltip
+                  labelText={<FormattedMessage id="profile.temporary.role" />}
+                  tooltipText="Extra information"
+                />
+                <Switch default={false} onChange={toggleTempRoleForm} />
+              </Col>
+              {getTempRoleForm(displayTempRoleForm)}
             </Row>
 
             {/* Form Row Four */}
