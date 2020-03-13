@@ -187,19 +187,6 @@ function EmploymentDataFormView(props) {
           >
             {/* Form Row One */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <Form.Item
-                  name="manager"
-                  label={<FormattedMessage id="profile.manager" />}
-                  rules={[Rules.required, Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            {/* Form Row Two */}
-            <Row gutter={24}>
               <Col className="gutter-row" span={12}>
                 <Form.Item
                   name="substantive"
@@ -209,7 +196,7 @@ function EmploymentDataFormView(props) {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose location"
+                    placeholder="choose substantive"
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -234,7 +221,7 @@ function EmploymentDataFormView(props) {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose location"
+                    placeholder="choose classification"
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -250,7 +237,45 @@ function EmploymentDataFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
-
+            {/* Form Row Two */}{" "}
+            <Row gutter={24}>
+              <Col className="gutter-row" span={24}>
+                <Form.Item
+                  name="security"
+                  label={<FormattedMessage id="profile.security" />}
+                  rules={[Rules.required, Rules.maxChar50]}
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose security"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {props.securityOptions.map((value, index) => {
+                      return (
+                        <Option key={value.id}>{value.description.en}</Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+            {/* Form Row Three */}{" "}
+            <Row gutter={24}>
+              <Col className="gutter-row" span={24}>
+                <Form.Item
+                  name="manager"
+                  label={<FormattedMessage id="profile.manager" />}
+                  rules={[Rules.required, Rules.maxChar50]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
             {/* Form Row Three */}
             <Row
               style={{
@@ -271,7 +296,6 @@ function EmploymentDataFormView(props) {
               </Col>
               {getTempRoleForm(displayTempRoleForm)}
             </Row>
-
             {/* Form Row Four */}
             <Row
               gutter={24}

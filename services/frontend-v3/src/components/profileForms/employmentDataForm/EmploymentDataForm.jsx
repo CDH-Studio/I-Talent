@@ -7,9 +7,10 @@ const { backendAddress } = config;
 function EmploymentDataForm() {
   const [substantiveOptions, setSubstantiveOptions] = useState(null);
   const [classificationOptions, setClassificationOptions] = useState(null);
+  const [securityOptions, setSecurityOptions] = useState(null);
   const [load, setLoad] = useState(false);
 
-  // get possible locations for form drop down
+  // get substantive level options
   const getSubstantiveOptions = async () => {
     try {
       let result = await axios.get(backendAddress + "api/option/getTenure");
@@ -20,8 +21,8 @@ function EmploymentDataForm() {
     }
   };
 
-  // get user profile for form drop down
-  const getClassification = async () => {
+  // get classification options
+  const getClassificationOptions = async () => {
     try {
       let url = backendAddress + "api/option/getGroupLevel";
       let result = await axios.get(url);
@@ -31,11 +32,24 @@ function EmploymentDataForm() {
     }
   };
 
+  // get security options
+  const getSecurityOptions = async () => {
+    try {
+      let url = backendAddress + "api/option/getSecurityClearance";
+      let result = await axios.get(url);
+      console.log(result);
+      return await setSecurityOptions(result.data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   // get all required data component
   const getAllData = async () => {
     try {
-      await getClassification();
+      await getClassificationOptions();
       await getSubstantiveOptions();
+      await getSecurityOptions();
       setLoad(true);
       return 1;
     } catch (error) {
@@ -54,6 +68,7 @@ function EmploymentDataForm() {
     <EmploymentDataFormView
       substantiveOptions={substantiveOptions}
       classificationOptions={classificationOptions}
+      securityOptions={securityOptions}
       load={load}
     />
   );
