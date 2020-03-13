@@ -7,20 +7,9 @@ import { Row, Col, Button, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
 function SearchBarView(props) {
-  // constructor(props) {
-  //   super(props);
-
-  // }
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-  const {
-    getFields,
-    getBasicField,
-    handleSearch,
-    handleReset,
-    toggle,
-    data
-  } = props;
+  const { getFields, getBasicField, handleSearch, toggle, data } = props;
 
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
