@@ -235,11 +235,6 @@ function SearchBar(props) {
     props.history.push(url);
   };
 
-  //clears all fields
-  const handleReset = () => {
-    props.form.resetFields();
-  };
-
   useEffect(() => {
     const updateState = async () => {
       let skills = await getSkills();
@@ -261,7 +256,6 @@ function SearchBar(props) {
       keycloak={props.keycloak}
       history={props.history}
       getFields={getFields}
-      handleReset={handleReset}
       handleSearch={handleSearch}
       toggle={toggle}
       getBasicField={getBasicField}
