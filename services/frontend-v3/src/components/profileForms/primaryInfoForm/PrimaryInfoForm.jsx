@@ -16,8 +16,7 @@ function PrimaryInfoForm() {
       await setLocationOptions(result.data);
       return 1;
     } catch (error) {
-      console.log(error);
-      return 0;
+      throw new Error(error);
     }
   };
 
@@ -27,10 +26,10 @@ function PrimaryInfoForm() {
       let url =
         backendAddress + "api/profile/" + localStorage.getItem("userId");
       let result = await axios.get(url);
-      return await setProfileInfo(result.data);
+      await setProfileInfo(result.data);
+      return 1;
     } catch (error) {
-      console.log(error);
-      return 0;
+      throw new Error(error);
     }
   };
 
