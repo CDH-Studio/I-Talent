@@ -10,7 +10,8 @@ import {
   Select,
   Input,
   Switch,
-  Tooltip,
+  DatePicker,
+  Checkbox,
   Button
 } from "antd";
 import {
@@ -30,33 +31,62 @@ const { Title } = Typography;
 
 function EmploymentDataFormView(props) {
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState();
+  const [enableTemEndDate, setEnableTemEndDate] = useState(true);
 
   const toggleTempRoleForm = () => {
     setDisplayTempRoleForm(!displayTempRoleForm);
   };
 
+  const toggleTempEndDate = () => {
+    console.log(enableTemEndDate);
+    setEnableTemEndDate(!enableTemEndDate);
+  };
+
   const getTempRoleForm = expandTempRoleForm => {
-    console.log("yooooooo");
     if (expandTempRoleForm) {
       return (
         // <div style={{ width: "100%" }}>
-        <Row gutter={24}>
+        <Row gutter={24} style={{ marginTop: "10px" }}>
           <Col className="gutter-row" span={12}>
             <Form.Item
-              name="team"
-              label={<FormattedMessage id="profile.team" />}
-              rules={[Rules.maxChar50]}
+              name="actingClassification"
+              label={<FormattedMessage id="profile.acting" />}
             >
-              <Input />
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder="choose classification"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {props.classificationOptions.map((value, index) => {
+                  return <Option key={value.id}>{value.description}</Option>;
+                })}
+              </Select>
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" span={6}>
             <Form.Item
-              name="team"
-              label={<FormattedMessage id="profile.team" />}
-              rules={[Rules.maxChar50]}
+              name="actingClassification"
+              label={<FormattedMessage id="profile.acting.period.start.date" />}
             >
-              <Input />
+              <DatePicker style={{ width: "100%" }} />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" span={6}>
+            <Form.Item
+              name="actingClassification"
+              label={<FormattedMessage id="profile.acting.period.end.date" />}
+            >
+              <DatePicker
+                style={{ width: "100%" }}
+                disabled={enableTemEndDate}
+              />
+              <Checkbox onChange={toggleTempEndDate}>
+                <FormattedMessage id="profile.acting.has.end.date" />
+              </Checkbox>
             </Form.Item>
           </Col>
         </Row>
@@ -290,8 +320,8 @@ function EmploymentDataFormView(props) {
                   tooltipText="Extra information"
                 />
                 <Switch default={false} onChange={toggleTempRoleForm} />
+                {getTempRoleForm(displayTempRoleForm)}
               </Col>
-              {getTempRoleForm(displayTempRoleForm)}
             </Row>
             <Row gutter={24}>
               <Col span={24}>
