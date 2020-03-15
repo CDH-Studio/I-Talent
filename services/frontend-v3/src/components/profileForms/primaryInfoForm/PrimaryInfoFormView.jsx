@@ -144,7 +144,7 @@ function PrimaryInfoFormView(props) {
           >
             {/* Form Row One */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="firstName"
                   label={<FormattedMessage id="profile.first.name" />}
@@ -154,7 +154,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="lastName"
                   label={<FormattedMessage id="profile.last.name" />}
@@ -167,7 +167,7 @@ function PrimaryInfoFormView(props) {
 
             {/* Form Row Two */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
                 <Form.Item
                   name="telephone"
                   label={<FormattedMessage id="profile.telephone" />}
@@ -177,7 +177,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
                 <Form.Item
                   name="cellphone"
                   label={<FormattedMessage id="profile.cellphone" />}
@@ -187,7 +187,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
                 <Form.Item
                   name="email"
                   label={<FormattedMessage id="profile.email" />}
@@ -200,7 +200,7 @@ function PrimaryInfoFormView(props) {
 
             {/* Form Row Three */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" s={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="location"
                   label={<FormattedMessage id="profile.location" />}
@@ -226,7 +226,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="team"
                   label={<FormattedMessage id="profile.team" />}
@@ -250,7 +250,7 @@ function PrimaryInfoFormView(props) {
               <Col className="gutter-row" span={24}>
                 <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="gcConnex"
                   label={<FormattedMessage id="profile.gcconnex.url" />}
@@ -259,7 +259,7 @@ function PrimaryInfoFormView(props) {
                   <Input />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="linkedinUrl"
                   label={<FormattedMessage id="profile.linkedin.url" />}
@@ -268,7 +268,7 @@ function PrimaryInfoFormView(props) {
                   <Input />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="githubUrl"
                   label={<FormattedMessage id="profile.github.url" />}
