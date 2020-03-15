@@ -14,63 +14,64 @@ import {
   Checkbox,
   Button
 } from "antd";
-import {
-  LinkOutlined,
-  RightOutlined,
-  InfoCircleOutlined
-} from "@ant-design/icons";
+import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
-import config from "../../../config";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
+import config from "../../../config";
 
 const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
 
+/**
+ *  EmploymentDataFormView(props)
+ *  this component renders the employment information form.
+ *  It contains a toggle to set the acting role
+ */
 const EmploymentDataFormView = props => {
+  /* define states */
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
   const [enableTemEndDate, setEnableTemEndDate] = useState(true);
   const [temEndDate, setTemEndDate] = useState();
 
+  /* toggle temporary role form */
   const toggleTempRoleForm = () => {
     setDisplayTempRoleForm(!displayTempRoleForm);
   };
 
-  const toggleTempEndDate = (date, dateString) => {
-    setTemEndDate(dateString);
+  /* enable or disable end date field */
+  const toggleTempEndDate = () => {
     setEnableTemEndDate(!enableTemEndDate);
   };
 
-  useEffect(() => {
-    // check if user has acting information to expand acting form
-    setDisplayTempRoleForm(
-      props.profileInfo ? !!props.profileInfo.acting.id : false
-    );
+  /* Handle form submission */
+  const handleSubmit = async values => {
+    if (props.profileInfo) {
+      //If profile exists then update profile
+      try {
+        await axios.put(
+          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          values
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      //If profile does not exists then create profile
+      try {
+        await axios.post(
+          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          values
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-    // check if user has acting information to expand acting form
-    setEnableTemEndDate(
-      props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
-    );
-
-    setTemEndDate(
-      props.profileInfo
-        ? moment(props.profileInfo.actingPeriodEndDate)
-        : undefined
-    );
-    console.log("temEndDate");
-    console.log(props.profileInfo);
-    console.log(temEndDate);
-    console.log(
-      props.profileInfo ? moment(props.profileInfo.actingPeriodEndDate) : false
-    );
-    console.log(temEndDate);
-  }, [props.profileInfo]);
-
-  console.log(enableTemEndDate);
-  console.log(temEndDate);
-
+  /* Get temporary role form based on if the form switch is toggled */
   const getTempRoleForm = expandTempRoleForm => {
     if (expandTempRoleForm) {
       return (
@@ -113,7 +114,7 @@ const EmploymentDataFormView = props => {
               <DatePicker
                 style={{ width: "100%" }}
                 disabled={!enableTemEndDate}
-                //value={enableTemEndDate ? temEndDate : null}
+                value={enableTemEndDate ? temEndDate : undefined}
               />
             </Form.Item>
             <Checkbox
@@ -128,34 +129,6 @@ const EmploymentDataFormView = props => {
       );
     } else {
       return <div />;
-    }
-  };
-
-  /* Handle form submission */
-  const handleSubmit = async values => {
-    console.log(values);
-    //values.actingEndDate = temEndDate;
-    values.zzz = temEndDate;
-    if (props.profileInfo) {
-      //If profile exists then update profile
-      try {
-        await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
-          values
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      //If profile does not exists then create profile
-      try {
-        await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
-          values
-        );
-      } catch (error) {
-        console.log(error);
-      }
     }
   };
 
@@ -187,6 +160,25 @@ const EmploymentDataFormView = props => {
       return {};
     }
   };
+
+  useEffect(() => {
+    /* check if user has acting information in db to expand acting form */
+    setDisplayTempRoleForm(
+      props.profileInfo ? !!props.profileInfo.acting.id : false
+    );
+
+    /* check if user has acting end date to enable the date felid on load */
+    setEnableTemEndDate(
+      props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
+    );
+
+    /* get end date form profile to populate the acting end-date on load */
+    setTemEndDate(
+      props.profileInfo
+        ? moment(props.profileInfo.actingPeriodEndDate)
+        : undefined
+    );
+  }, [props.profileInfo]);
 
   /* Component Styles */
   const styles = {
@@ -313,7 +305,7 @@ const EmploymentDataFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row Two */}{" "}
+            {/* Form Row Two */}
             <Row gutter={24}>
               <Col className="gutter-row" span={24}>
                 <Form.Item
@@ -352,7 +344,7 @@ const EmploymentDataFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row Three */}
+            {/* Form Row Four: Temporary role */}
             <Row
               style={{
                 backgroundColor: "#dfe5e4",
