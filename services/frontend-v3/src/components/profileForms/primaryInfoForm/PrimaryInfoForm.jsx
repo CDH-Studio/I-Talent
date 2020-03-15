@@ -29,7 +29,7 @@ function PrimaryInfoForm() {
       await setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      return 0;
     }
   };
 

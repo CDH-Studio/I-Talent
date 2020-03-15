@@ -32,13 +32,14 @@ const { Title } = Typography;
 function EmploymentDataFormView(props) {
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState();
   const [enableTemEndDate, setEnableTemEndDate] = useState(true);
+  const [temEndDate, setTemEndDate] = useState(true);
 
   const toggleTempRoleForm = () => {
     setDisplayTempRoleForm(!displayTempRoleForm);
   };
 
-  const toggleTempEndDate = () => {
-    console.log(enableTemEndDate);
+  const toggleTempEndDate = (date, dateString) => {
+    setTemEndDate(dateString);
     setEnableTemEndDate(!enableTemEndDate);
   };
 
@@ -83,6 +84,7 @@ function EmploymentDataFormView(props) {
               <DatePicker
                 style={{ width: "100%" }}
                 disabled={enableTemEndDate}
+                value={enableTemEndDate !== true ? temEndDate : null}
               />
               <Checkbox onChange={toggleTempEndDate}>
                 <FormattedMessage id="profile.acting.has.end.date" />
@@ -99,6 +101,7 @@ function EmploymentDataFormView(props) {
 
   /* Handle form submission */
   const handleSubmit = async values => {
+    console.log(values);
     if (props.profileInfo) {
       //If profile exists then update profile
       try {
@@ -124,18 +127,21 @@ function EmploymentDataFormView(props) {
 
   /* Get the initial values for the form */
   const getInitialValues = profile => {
+    console.log(profile);
     if (profile) {
       return {
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        telephone: profile.telephone,
-        cellphone: profile.cellphone,
-        email: profile.email,
-        location: profile.location.id,
-        team: profile.team,
-        gcConnex: "ddd",
         linkedinUrl: profile.linkedinUrl,
-        githubUrl: profile.githubUrl
+        githubUrl: profile.githubUrl,
+        ...(profile.classification.id && {
+          groupLevelId: profile.classification.id
+        }),
+        ...(profile.temporaryRole.id && {
+          tenureId: profile.temporaryRole.id
+        }),
+        ...(profile.security.id && {
+          securityClearanceId: profile.security.id
+        }),
+        manager: profile.manager
       };
     } else {
       return {};
@@ -219,7 +225,7 @@ function EmploymentDataFormView(props) {
             <Row gutter={24}>
               <Col className="gutter-row" span={12}>
                 <Form.Item
-                  name="substantive"
+                  name="tenureId"
                   label={<FormattedMessage id="profile.substantive" />}
                 >
                   <Select
@@ -243,7 +249,7 @@ function EmploymentDataFormView(props) {
 
               <Col className="gutter-row" span={12}>
                 <Form.Item
-                  name="classification"
+                  name="groupLevelId"
                   label={<FormattedMessage id="profile.classification" />}
                 >
                   <Select
@@ -269,7 +275,7 @@ function EmploymentDataFormView(props) {
             <Row gutter={24}>
               <Col className="gutter-row" span={24}>
                 <Form.Item
-                  name="security"
+                  name="securityClearanceId"
                   label={<FormattedMessage id="profile.security" />}
                 >
                   <Select
