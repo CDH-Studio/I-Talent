@@ -200,7 +200,7 @@ function PrimaryInfoFormView(props) {
 
             {/* Form Row Three */}
             <Row gutter={24}>
-              <Col className="gutter-row" s={24} md={12} lg={12} xl={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="location"
                   label={<FormattedMessage id="profile.location" />}
