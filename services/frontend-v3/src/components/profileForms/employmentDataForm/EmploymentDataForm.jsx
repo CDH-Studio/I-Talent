@@ -8,6 +8,7 @@ function EmploymentDataForm() {
   const [substantiveOptions, setSubstantiveOptions] = useState(null);
   const [classificationOptions, setClassificationOptions] = useState(null);
   const [securityOptions, setSecurityOptions] = useState(null);
+  const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
   // get substantive level options
@@ -44,12 +45,26 @@ function EmploymentDataForm() {
     }
   };
 
+  // get user profile for form drop down
+  const getProfileInfo = async () => {
+    try {
+      let url =
+        backendAddress + "api/profile/" + localStorage.getItem("userId");
+      let result = await axios.get(url);
+      await setProfileInfo(result.data);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   // get all required data component
   const getAllData = async () => {
     try {
       await getClassificationOptions();
       await getSubstantiveOptions();
       await getSecurityOptions();
+      await getProfileInfo();
       setLoad(true);
       return 1;
     } catch (error) {
@@ -69,6 +84,7 @@ function EmploymentDataForm() {
       substantiveOptions={substantiveOptions}
       classificationOptions={classificationOptions}
       securityOptions={securityOptions}
+      profileInfo={profileInfo}
       load={load}
     />
   );

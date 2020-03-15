@@ -55,7 +55,10 @@ function PrimaryInfoFormView(props) {
         telephone: profile.telephone,
         cellphone: profile.cellphone,
         email: profile.email,
-        location: profile.location.id,
+        ...(profile.location.id && {
+          location: profile.location.id
+        }),
+
         team: profile.team,
         gcConnex: "ddd",
         linkedinUrl: profile.linkedinUrl,
