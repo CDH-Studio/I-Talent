@@ -77,7 +77,7 @@ const EmploymentDataFormView = props => {
       return (
         // <div style={{ width: "100%" }}>
         <Row gutter={24} style={{ marginTop: "10px" }}>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
             <Form.Item
               name="actingId"
               label={<FormattedMessage id="profile.acting" />}
@@ -98,7 +98,7 @@ const EmploymentDataFormView = props => {
               </Select>
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
             <Form.Item
               name="actingStartDate"
               label={<FormattedMessage id="profile.acting.period.start.date" />}
@@ -106,7 +106,7 @@ const EmploymentDataFormView = props => {
               <DatePicker style={{ width: "100%" }} />
             </Form.Item>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
             <Form.Item
               name="actingEndDate"
               label={<FormattedMessage id="profile.acting.period.end.date" />}
@@ -230,6 +230,7 @@ const EmploymentDataFormView = props => {
     }
   };
 
+  /********* Render Component *********/
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -255,7 +256,7 @@ const EmploymentDataFormView = props => {
           >
             {/* Form Row One */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="tenureId"
                   label={<FormattedMessage id="profile.substantive" />}
@@ -280,7 +281,7 @@ const EmploymentDataFormView = props => {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="groupLevelId"
                   label={<FormattedMessage id="profile.classification" />}
@@ -307,7 +308,7 @@ const EmploymentDataFormView = props => {
             </Row>
             {/* Form Row Two */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={24}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   name="securityClearanceId"
                   label={<FormattedMessage id="profile.security" />}
@@ -367,6 +368,7 @@ const EmploymentDataFormView = props => {
                 {getTempRoleForm(displayTempRoleForm)}
               </Col>
             </Row>
+            {/* Form Row Five: Submit button */}
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item>
