@@ -4,6 +4,11 @@ import axios from "axios";
 import config from "../../../config";
 const { backendAddress } = config;
 
+/**
+ *  EmploymentDataForm(props)
+ *  Controller for the EmploymentDataFormView.
+ *  It gathers the required data for rendering the component
+ */
 function EmploymentDataForm() {
   const [substantiveOptions, setSubstantiveOptions] = useState(null);
   const [classificationOptions, setClassificationOptions] = useState(null);
@@ -11,7 +16,7 @@ function EmploymentDataForm() {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
-  // get substantive level options
+  /* get substantive level options */
   const getSubstantiveOptions = async () => {
     try {
       let result = await axios.get(backendAddress + "api/option/getTenure");
@@ -22,7 +27,7 @@ function EmploymentDataForm() {
     }
   };
 
-  // get classification options
+  /* get classification options */
   const getClassificationOptions = async () => {
     try {
       let url = backendAddress + "api/option/getGroupLevel";
@@ -33,19 +38,18 @@ function EmploymentDataForm() {
     }
   };
 
-  // get security options
+  /* get security options */
   const getSecurityOptions = async () => {
     try {
       let url = backendAddress + "api/option/getSecurityClearance";
       let result = await axios.get(url);
-      console.log(result);
       return await setSecurityOptions(result.data);
     } catch (error) {
       throw new Error(error);
     }
   };
 
-  // get user profile for form drop down
+  /* get user profile for form drop down */
   const getProfileInfo = async () => {
     try {
       let url =
@@ -58,7 +62,7 @@ function EmploymentDataForm() {
     }
   };
 
-  // get all required data component
+  /* get all required data component */
   const getAllData = async () => {
     try {
       await getClassificationOptions();
@@ -74,7 +78,7 @@ function EmploymentDataForm() {
     }
   };
 
-  // useEffect to run once component is mounted
+  /* useEffect to run once component is mounted */
   useEffect(() => {
     getAllData();
   }, []);
@@ -85,7 +89,6 @@ function EmploymentDataForm() {
       classificationOptions={classificationOptions}
       securityOptions={securityOptions}
       profileInfo={profileInfo}
-      isActing={profileInfo ? !!profileInfo.acting.id : true}
       load={load}
     />
   );
