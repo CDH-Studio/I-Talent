@@ -21,18 +21,18 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
+import moment from "moment";
 import config from "../../../config";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 
 const { backendAddress } = config;
-
 const { Option } = Select;
 const { Title } = Typography;
 
-function EmploymentDataFormView(props) {
-  const [displayTempRoleForm, setDisplayTempRoleForm] = useState();
+const EmploymentDataFormView = props => {
+  const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
   const [enableTemEndDate, setEnableTemEndDate] = useState(true);
-  const [temEndDate, setTemEndDate] = useState(true);
+  const [temEndDate, setTemEndDate] = useState();
 
   const toggleTempRoleForm = () => {
     setDisplayTempRoleForm(!displayTempRoleForm);
@@ -43,6 +43,34 @@ function EmploymentDataFormView(props) {
     setEnableTemEndDate(!enableTemEndDate);
   };
 
+  useEffect(() => {
+    // check if user has acting information to expand acting form
+    setDisplayTempRoleForm(
+      props.profileInfo ? !!props.profileInfo.acting.id : false
+    );
+
+    // check if user has acting information to expand acting form
+    setEnableTemEndDate(
+      props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
+    );
+
+    setTemEndDate(
+      props.profileInfo
+        ? moment(props.profileInfo.actingPeriodEndDate)
+        : undefined
+    );
+    console.log("temEndDate");
+    console.log(props.profileInfo);
+    console.log(temEndDate);
+    console.log(
+      props.profileInfo ? moment(props.profileInfo.actingPeriodEndDate) : false
+    );
+    console.log(temEndDate);
+  }, [props.profileInfo]);
+
+  console.log(enableTemEndDate);
+  console.log(temEndDate);
+
   const getTempRoleForm = expandTempRoleForm => {
     if (expandTempRoleForm) {
       return (
@@ -50,13 +78,14 @@ function EmploymentDataFormView(props) {
         <Row gutter={24} style={{ marginTop: "10px" }}>
           <Col className="gutter-row" span={12}>
             <Form.Item
-              name="actingClassification"
+              name="actingId"
               label={<FormattedMessage id="profile.acting" />}
             >
               <Select
                 showSearch
                 optionFilterProp="children"
                 placeholder="choose classification"
+                allowClear={true}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
@@ -70,7 +99,7 @@ function EmploymentDataFormView(props) {
           </Col>
           <Col className="gutter-row" span={6}>
             <Form.Item
-              name="actingClassification"
+              name="actingStartDate"
               label={<FormattedMessage id="profile.acting.period.start.date" />}
             >
               <DatePicker style={{ width: "100%" }} />
@@ -78,18 +107,21 @@ function EmploymentDataFormView(props) {
           </Col>
           <Col className="gutter-row" span={6}>
             <Form.Item
-              name="actingClassification"
+              name="actingEndDate"
               label={<FormattedMessage id="profile.acting.period.end.date" />}
             >
               <DatePicker
                 style={{ width: "100%" }}
-                disabled={enableTemEndDate}
-                value={enableTemEndDate !== true ? temEndDate : null}
+                disabled={!enableTemEndDate}
+                //value={enableTemEndDate ? temEndDate : null}
               />
-              <Checkbox onChange={toggleTempEndDate}>
-                <FormattedMessage id="profile.acting.has.end.date" />
-              </Checkbox>
             </Form.Item>
+            <Checkbox
+              onChange={toggleTempEndDate}
+              defaultChecked={enableTemEndDate}
+            >
+              <FormattedMessage id="profile.acting.has.end.date" />
+            </Checkbox>
           </Col>
         </Row>
         // </div>
@@ -102,6 +134,8 @@ function EmploymentDataFormView(props) {
   /* Handle form submission */
   const handleSubmit = async values => {
     console.log(values);
+    //values.actingEndDate = temEndDate;
+    values.zzz = temEndDate;
     if (props.profileInfo) {
       //If profile exists then update profile
       try {
@@ -127,11 +161,8 @@ function EmploymentDataFormView(props) {
 
   /* Get the initial values for the form */
   const getInitialValues = profile => {
-    console.log(profile);
     if (profile) {
       return {
-        linkedinUrl: profile.linkedinUrl,
-        githubUrl: profile.githubUrl,
         ...(profile.classification.id && {
           groupLevelId: profile.classification.id
         }),
@@ -141,7 +172,16 @@ function EmploymentDataFormView(props) {
         ...(profile.security.id && {
           securityClearanceId: profile.security.id
         }),
-        manager: profile.manager
+        manager: profile.manager,
+        ...(profile.acting.id && {
+          actingId: profile.acting.id
+        }),
+        ...(profile.actingPeriodStartDate && {
+          actingStartDate: moment(profile.actingPeriodStartDate)
+        }),
+        ...(profile.actingPeriodEndDate && {
+          actingEndDate: moment(profile.actingPeriodEndDate)
+        })
       };
     } else {
       return {};
@@ -232,6 +272,7 @@ function EmploymentDataFormView(props) {
                     showSearch
                     optionFilterProp="children"
                     placeholder="choose substantive"
+                    allowClear={true}
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -256,6 +297,7 @@ function EmploymentDataFormView(props) {
                     showSearch
                     optionFilterProp="children"
                     placeholder="choose classification"
+                    allowClear={true}
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -282,6 +324,7 @@ function EmploymentDataFormView(props) {
                     showSearch
                     optionFilterProp="children"
                     placeholder="choose security"
+                    allowClear={true}
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -325,7 +368,10 @@ function EmploymentDataFormView(props) {
                   labelText={<FormattedMessage id="profile.temporary.role" />}
                   tooltipText="Extra information"
                 />
-                <Switch default={false} onChange={toggleTempRoleForm} />
+                <Switch
+                  defaultChecked={displayTempRoleForm}
+                  onChange={toggleTempRoleForm}
+                />
                 {getTempRoleForm(displayTempRoleForm)}
               </Col>
             </Row>
@@ -348,6 +394,6 @@ function EmploymentDataFormView(props) {
       </div>
     );
   }
-}
+};
 
 export default EmploymentDataFormView;

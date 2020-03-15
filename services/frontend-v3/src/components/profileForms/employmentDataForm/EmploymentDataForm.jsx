@@ -85,6 +85,7 @@ function EmploymentDataForm() {
       classificationOptions={classificationOptions}
       securityOptions={securityOptions}
       profileInfo={profileInfo}
+      isActing={profileInfo ? !!profileInfo.acting.id : true}
       load={load}
     />
   );

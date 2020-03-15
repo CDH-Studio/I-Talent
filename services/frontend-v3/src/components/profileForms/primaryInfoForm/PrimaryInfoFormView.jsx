@@ -210,6 +210,7 @@ function PrimaryInfoFormView(props) {
                     showSearch
                     optionFilterProp="children"
                     placeholder="choose location"
+                    allowClear={true}
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
