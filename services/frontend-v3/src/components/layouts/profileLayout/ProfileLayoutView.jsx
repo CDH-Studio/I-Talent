@@ -8,15 +8,13 @@ import Skills from "../../skillsCard/Skills";
 import Competencies from "../../competenciesCard/Competencies";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
-import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
-import EmploymentInfo from "../../employmentInfo/EmploymentInfo";
+import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 
-import { Row, Col, Typography, Divider } from "antd";
-const { Title } = Typography;
+import { Row, Col, Divider } from "antd";
 
 class ProfileLayoutView extends React.Component {
   displayAllProfileCards() {
@@ -27,16 +25,11 @@ class ProfileLayoutView extends React.Component {
     return (
       <div>
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
-          <Col xs={24} xl={16}>
+          <Col xs={24} xl={14}>
             <BasicInfo data={data} style={styles.card} />
           </Col>
-          <Col xs={24} xl={8}>
-            <EmploymentInfo data={data} style={styles.card} />
-          </Col>
-        </Row>
-        <Row style={styles.row} type="flex">
-          <Col span={24}>
-            <OfficialLanguage data={data} />
+          <Col xs={24} xl={10}>
+            <EmployeeSummary data={data} />
           </Col>
         </Row>
 

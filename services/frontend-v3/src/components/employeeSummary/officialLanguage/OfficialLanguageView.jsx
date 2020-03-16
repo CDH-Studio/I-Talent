@@ -137,12 +137,7 @@ class OfficialLanguageView extends Component {
     const secondLanguageDateInfo = this.getSecondLanguageDateInfo(locale);
 
     return (
-      <Card
-        style={styles.card}
-        title={this.props.intl.formatMessage({
-          id: "profile.official.language"
-        })}
-      >
+      <>
         <Row>
           <Col xs={24} lg={12}>
             {this.generateFirstLanguage(firstLanguageInfo)}
@@ -156,7 +151,7 @@ class OfficialLanguageView extends Component {
             {this.generateSecondLanguageProficiency(secondLanguageDateInfo)}
           </Col>
         </Row>
-      </Card>
+      </>
     );
   }
 }
