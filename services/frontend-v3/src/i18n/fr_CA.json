@@ -233,7 +233,7 @@
   "profile.edit.projects": "Modifier projets",
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Ne pas specifié",
-  "profile.not.specified": "N'est pas specifié",
+  "profile.not.specified": "Non specifié",
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transfer à",
   "profile.career.interests": "Objectifs professionnels",
@@ -250,5 +250,5 @@
 
   "profile.is.ongoing": "Courant",
 
-  "sign.out": "Quitter"
+  "sign.out": "Déconnexion"
 }
