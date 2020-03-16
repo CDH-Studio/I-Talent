@@ -90,7 +90,6 @@ const EmploymentDataFormView = props => {
   const getTempRoleForm = expandTempRoleForm => {
     if (expandTempRoleForm) {
       return (
-        // <div style={{ width: "100%" }}>
         <Row gutter={24} style={{ marginTop: "10px" }}>
           <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
             <Form.Item
@@ -146,7 +145,6 @@ const EmploymentDataFormView = props => {
             </div>
           </Col>
         </Row>
-        // </div>
       );
     } else {
       return <div />;
