@@ -52,8 +52,17 @@ const EmploymentDataFormView = props => {
   };
 
   /* Disable all dates before start date */
-  const disabledDate = current => {
-    return current && current < moment(form.getFieldValue("actingStartDate"));
+  const disabledDatesBeforeStart = current => {
+    if (form.getFieldValue("actingStartDate")) {
+      return current && current < moment(form.getFieldValue("actingStartDate"));
+    }
+  };
+
+  /* Disable all dates after end date */
+  const disabledDatesAfterEnd = current => {
+    if (form.getFieldValue("actingEndDate")) {
+      return current && current > moment(form.getFieldValue("actingEndDate"));
+    }
   };
 
   /* Handle form submission */
@@ -133,7 +142,10 @@ const EmploymentDataFormView = props => {
               label={<FormattedMessage id="profile.acting.period.start.date" />}
               rules={[Rules.required]}
             >
-              <DatePicker style={{ width: "100%" }} />
+              <DatePicker
+                disabledDate={disabledDatesAfterEnd}
+                style={{ width: "100%" }}
+              />
             </Form.Item>
           </Col>
           <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
@@ -144,7 +156,7 @@ const EmploymentDataFormView = props => {
             >
               <DatePicker
                 style={{ width: "100%" }}
-                disabledDate={disabledDate}
+                disabledDate={disabledDatesBeforeStart}
                 disabled={!enableTemEndDate}
                 placeholder={"unknown"}
               />
