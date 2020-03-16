@@ -31,10 +31,11 @@ const { Title } = Typography;
  *  It contains a toggle to set the acting role
  */
 const EmploymentDataFormView = props => {
+  const [form] = Form.useForm();
   /* define states */
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
-  const [enableTemEndDate, setEnableTemEndDate] = useState(true);
-  const [temEndDate, setTemEndDate] = useState();
+  const [enableTemEndDate, setEnableTemEndDate] = useState();
+  //const [temEndDate, setTemEndDate] = useState(null);
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
@@ -43,11 +44,50 @@ const EmploymentDataFormView = props => {
 
   /* enable or disable end date field */
   const toggleTempEndDate = () => {
+    console.log(enableTemEndDate);
+
+    if (enableTemEndDate) {
+      form.setFieldsValue({
+        actingEndDate: null
+      });
+    }
+    // setTemEndDate(enableTemEndDate ? temEndDate : null);
     setEnableTemEndDate(!enableTemEndDate);
+  };
+
+  const getEndDatePicker = ll => {
+    console.log(ll);
+    if (ll) {
+      return (
+        <Form.Item
+          name="actingEndDate"
+          label={<FormattedMessage id="profile.acting.period.end.date" />}
+          rules={enableTemEndDate ? [Rules.required] : undefined}
+          value={moment()}
+        >
+          <DatePicker style={{ width: "100%" }} disabled={false} />
+        </Form.Item>
+      );
+    } else {
+      return (
+        <Form.Item
+          name="actingEndDate"
+          label={<FormattedMessage id="profile.acting.period.end.date" />}
+          value={null}
+        >
+          <DatePicker
+            style={{ width: "100%" }}
+            disabled={true}
+            placeholder={"unknown"}
+          />
+        </Form.Item>
+      );
+    }
   };
 
   /* Handle form submission */
   const handleSubmit = async values => {
+    console.log(values);
     if (props.profileInfo) {
       //If profile exists then update profile
       try {
@@ -81,6 +121,7 @@ const EmploymentDataFormView = props => {
             <Form.Item
               name="actingId"
               label={<FormattedMessage id="profile.acting" />}
+              rules={[Rules.required]}
             >
               <Select
                 showSearch
@@ -102,6 +143,7 @@ const EmploymentDataFormView = props => {
             <Form.Item
               name="actingStartDate"
               label={<FormattedMessage id="profile.acting.period.start.date" />}
+              rules={[Rules.required]}
             >
               <DatePicker style={{ width: "100%" }} />
             </Form.Item>
@@ -110,11 +152,12 @@ const EmploymentDataFormView = props => {
             <Form.Item
               name="actingEndDate"
               label={<FormattedMessage id="profile.acting.period.end.date" />}
+              rules={enableTemEndDate ? [Rules.required] : undefined}
             >
               <DatePicker
                 style={{ width: "100%" }}
                 disabled={!enableTemEndDate}
-                value={enableTemEndDate ? temEndDate : undefined}
+                placeholder={"unknown"}
               />
             </Form.Item>
             <Checkbox
@@ -170,13 +213,6 @@ const EmploymentDataFormView = props => {
     /* check if user has acting end date to enable the date felid on load */
     setEnableTemEndDate(
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
-    );
-
-    /* get end date form profile to populate the acting end-date on load */
-    setTemEndDate(
-      props.profileInfo
-        ? moment(props.profileInfo.actingPeriodEndDate)
-        : undefined
     );
   }, [props.profileInfo]);
 
@@ -250,6 +286,7 @@ const EmploymentDataFormView = props => {
           {/* Create for with initial values */}
           <Form
             name="basicForm"
+            form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
             onFinish={handleSubmit}
