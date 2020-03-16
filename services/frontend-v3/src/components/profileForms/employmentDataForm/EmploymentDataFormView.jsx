@@ -13,7 +13,7 @@ import {
   Checkbox,
   Button
 } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { RightOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
@@ -52,7 +52,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Handle form submission */
-  const handleSubmit = async values => {
+  const onFinish = async values => {
     console.log(values);
     if (props.profileInfo) {
       //If profile exists then update profile
@@ -75,6 +75,10 @@ const EmploymentDataFormView = props => {
         console.log(error);
       }
     }
+  };
+
+  const onReset = () => {
+    form.resetFields();
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -257,7 +261,7 @@ const EmploymentDataFormView = props => {
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={handleSubmit}
+            onFinish={onFinish}
           >
             {/* Form Row One */}
             <Row gutter={24}>
@@ -377,6 +381,13 @@ const EmploymentDataFormView = props => {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item>
+                  <Button
+                    style={{ float: "left" }}
+                    htmlType="button"
+                    onClick={onReset}
+                  >
+                    {<FormattedMessage id="button.clear" />}
+                  </Button>
                   <Button
                     style={{ float: "right" }}
                     type="primary"

@@ -20,8 +20,9 @@ const { Option } = Select;
 const { Title } = Typography;
 
 function PrimaryInfoFormView(props) {
+  const [form] = Form.useForm();
   /* Handle form submission */
-  const handleSubmit = async values => {
+  const onFinish = async values => {
     if (props.profileInfo) {
       //If profile exists then update profile
       try {
@@ -43,6 +44,11 @@ function PrimaryInfoFormView(props) {
         console.log(error);
       }
     }
+  };
+
+  /* reset form fields */
+  const onReset = () => {
+    form.resetFields();
   };
 
   /* Get the initial values for the form */
@@ -139,7 +145,8 @@ function PrimaryInfoFormView(props) {
             name="basicForm"
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={handleSubmit}
+            form={form}
+            onFinish={onFinish}
           >
             {/* Form Row One */}
             <Row gutter={24}>
@@ -280,6 +287,13 @@ function PrimaryInfoFormView(props) {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item>
+                  <Button
+                    style={{ float: "left" }}
+                    htmlType="button"
+                    onClick={onReset}
+                  >
+                    {<FormattedMessage id="button.clear" />}
+                  </Button>
                   <Button
                     style={{ float: "right" }}
                     type="primary"
