@@ -35,7 +35,6 @@ const EmploymentDataFormView = props => {
   /* define states */
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
   const [enableTemEndDate, setEnableTemEndDate] = useState();
-  //const [temEndDate, setTemEndDate] = useState(null);
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
@@ -45,44 +44,13 @@ const EmploymentDataFormView = props => {
   /* enable or disable end date field */
   const toggleTempEndDate = () => {
     console.log(enableTemEndDate);
-
+    // reset end date value
     if (enableTemEndDate) {
       form.setFieldsValue({
         actingEndDate: null
       });
     }
-    // setTemEndDate(enableTemEndDate ? temEndDate : null);
     setEnableTemEndDate(!enableTemEndDate);
-  };
-
-  const getEndDatePicker = ll => {
-    console.log(ll);
-    if (ll) {
-      return (
-        <Form.Item
-          name="actingEndDate"
-          label={<FormattedMessage id="profile.acting.period.end.date" />}
-          rules={enableTemEndDate ? [Rules.required] : undefined}
-          value={moment()}
-        >
-          <DatePicker style={{ width: "100%" }} disabled={false} />
-        </Form.Item>
-      );
-    } else {
-      return (
-        <Form.Item
-          name="actingEndDate"
-          label={<FormattedMessage id="profile.acting.period.end.date" />}
-          value={null}
-        >
-          <DatePicker
-            style={{ width: "100%" }}
-            disabled={true}
-            placeholder={"unknown"}
-          />
-        </Form.Item>
-      );
-    }
   };
 
   /* Handle form submission */
