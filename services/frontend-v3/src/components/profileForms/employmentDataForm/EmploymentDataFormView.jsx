@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "@ant-design/compatible/assets/index.css";
 import {
   Row,
   Col,
@@ -32,7 +31,6 @@ const { Title } = Typography;
  */
 const EmploymentDataFormView = props => {
   const [form] = Form.useForm();
-  /* define states */
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
   const [enableTemEndDate, setEnableTemEndDate] = useState();
 
