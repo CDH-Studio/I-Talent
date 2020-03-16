@@ -126,12 +126,14 @@ const EmploymentDataFormView = props => {
                 placeholder={"unknown"}
               />
             </Form.Item>
-            <Checkbox
-              onChange={toggleTempEndDate}
-              defaultChecked={enableTemEndDate}
-            >
-              <FormattedMessage id="profile.acting.has.end.date" />
-            </Checkbox>
+            <div style={{ marginTop: "-10px" }}>
+              <Checkbox
+                onChange={toggleTempEndDate}
+                defaultChecked={enableTemEndDate}
+              >
+                <FormattedMessage id="profile.acting.has.end.date" />
+              </Checkbox>
+            </div>
           </Col>
         </Row>
         // </div>
