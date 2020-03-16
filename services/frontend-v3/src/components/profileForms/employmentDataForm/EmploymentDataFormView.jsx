@@ -51,11 +51,16 @@ const EmploymentDataFormView = props => {
     setEnableTemEndDate(!enableTemEndDate);
   };
 
+  /* Disable all dates before start date */
+  const disabledDate = current => {
+    return current && current < moment(form.getFieldValue("actingStartDate"));
+  };
+
   /* Handle form submission */
   const onFinish = async values => {
     console.log(values);
     if (props.profileInfo) {
-      //If profile exists then update profile
+      // If profile exists then update profile
       try {
         await axios.put(
           backendAddress + "api/profile/" + localStorage.getItem("userId"),
@@ -65,7 +70,7 @@ const EmploymentDataFormView = props => {
         console.log(error);
       }
     } else {
-      //If profile does not exists then create profile
+      // If profile does not exists then create profile
       try {
         await axios.post(
           backendAddress + "api/profile/" + localStorage.getItem("userId"),
@@ -126,6 +131,7 @@ const EmploymentDataFormView = props => {
             >
               <DatePicker
                 style={{ width: "100%" }}
+                disabledDate={disabledDate}
                 disabled={!enableTemEndDate}
                 placeholder={"unknown"}
               />
