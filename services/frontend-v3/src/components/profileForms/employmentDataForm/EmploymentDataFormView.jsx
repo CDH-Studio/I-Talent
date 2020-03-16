@@ -58,16 +58,23 @@ const EmploymentDataFormView = props => {
 
   /* Handle form submission */
   const onFinish = async values => {
-    console.log(values);
+    if (!displayTempRoleForm) {
+      // if temp role toggle isn't active clear data
+      values.actingId = null;
+      values.actingStartDate = null;
+      values.actingEndDate = null;
+    } else {
+      // format dates before submit
+      if (values.actingStartDate) {
+        values.actingStartDate = values.actingStartDate.startOf("day");
+      }
+      if (values.actingEndDate) {
+        values.actingEndDate = values.actingEndDate.endOf("day");
+      }
+    }
+
     if (props.profileInfo) {
       // If profile exists then update profile
-
-      if (!displayTempRoleForm) {
-        values.actingId = null;
-        values.actingStartDate = null;
-        values.actingEndDate = null;
-      }
-
       try {
         await axios.put(
           backendAddress + "api/profile/" + localStorage.getItem("userId"),
