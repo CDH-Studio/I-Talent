@@ -61,6 +61,13 @@ const EmploymentDataFormView = props => {
     console.log(values);
     if (props.profileInfo) {
       // If profile exists then update profile
+
+      if (!displayTempRoleForm) {
+        values.actingId = null;
+        values.actingStartDate = null;
+        values.actingEndDate = null;
+      }
+
       try {
         await axios.put(
           backendAddress + "api/profile/" + localStorage.getItem("userId"),
