@@ -1,5 +1,4 @@
 import React from "react";
-import "@ant-design/compatible/assets/index.css";
 import {
   Row,
   Col,
@@ -15,8 +14,8 @@ import { LinkOutlined, RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import config from "../../../config";
-const { backendAddress } = config;
 
+const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
 
