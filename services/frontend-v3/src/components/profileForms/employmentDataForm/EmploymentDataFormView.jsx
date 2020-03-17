@@ -14,7 +14,7 @@ import {
   Button
 } from "antd";
 import { useHistory } from "react-router-dom";
-import { RightOutlined, SaveOutlined, CheckOutlined } from "@ant-design/icons";
+import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
@@ -128,8 +128,8 @@ const EmploymentDataFormView = props => {
     }
   };
 
-  /* Handle form submission */
-  const onSubmit = async values => {
+  /* Save data */
+  const saveDataToDB = async values => {
     if (!displayTempRoleForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;
@@ -168,16 +168,19 @@ const EmploymentDataFormView = props => {
     }
   };
 
+  /* save and redirect to next step in setup */
   const onSaveAndNext = async values => {
-    await onSubmit(values);
+    await saveDataToDB(values);
     history.push("/secured/profile/create/step/4");
   };
 
+  /* save and redirect to home */
   const onSaveAndFinish = async values => {
-    await onSubmit(values);
+    await saveDataToDB(values);
     history.push("/secured/home");
   };
 
+  /* reset form fields */
   const onReset = () => {
     form.resetFields();
   };

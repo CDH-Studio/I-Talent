@@ -10,7 +10,8 @@ import {
   Input,
   Button
 } from "antd";
-import { LinkOutlined, RightOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import config from "../../../config";
@@ -20,9 +21,72 @@ const { Option } = Select;
 const { Title } = Typography;
 
 function PrimaryInfoFormView(props) {
+  const history = useHistory();
   const [form] = Form.useForm();
-  /* Handle form submission */
-  const onFinish = async values => {
+
+  /* Component Styles */
+  const styles = {
+    content: {
+      textAlign: "left",
+      width: "100%",
+      maxWidth: "900px",
+      minHeight: "400px",
+      background: "#fff",
+      padding: "30px 30px"
+    },
+    formTitle: {
+      fontSize: "1.2em"
+    },
+    headerDiv: {
+      margin: "15px 0 15px 0"
+    },
+    formItem: {
+      margin: "10px 0 10px 0",
+      padding: "0 20px 0 0",
+      textAlign: "left"
+    },
+    subHeading: {
+      fontSize: "1.3em"
+    },
+    finishAndSaveBtn: {
+      float: "left",
+      marginRight: "1rem",
+      marginBottom: "1rem"
+    },
+    clearBtn: { float: "left", marginBottom: "1rem" },
+    finishAndNextBtn: {
+      width: "100%",
+      float: "right",
+      marginBottom: "1rem"
+    }
+  };
+
+  /* Component Rules for form fields */
+  const Rules = {
+    required: {
+      required: true,
+      message: "Required"
+    },
+    maxChar50: {
+      max: 50,
+      message: "Max length 50 characters"
+    },
+    maxChar100: {
+      max: 50,
+      message: "Max length 100 characters"
+    },
+    telephoneFormat: {
+      pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
+      message: "required format: 111-222-3333"
+    },
+    emailFormat: {
+      pattern: /\S+@\S+\.ca/i, // prettier-ignore
+      message: "Please Provide a valid Gov. Canada email"
+    }
+  };
+
+  /* Save data */
+  const saveDataToDB = async values => {
     if (props.profileInfo) {
       //If profile exists then update profile
       try {
@@ -44,6 +108,18 @@ function PrimaryInfoFormView(props) {
         console.log(error);
       }
     }
+  };
+
+  /* save and redirect to next step in setup */
+  const onSaveAndNext = async values => {
+    await saveDataToDB(values);
+    history.push("/secured/profile/create/step/3");
+  };
+
+  /* save and redirect to home */
+  const onSaveAndFinish = async values => {
+    await saveDataToDB(values);
+    history.push("/secured/home");
   };
 
   /* reset form fields */
@@ -74,56 +150,9 @@ function PrimaryInfoFormView(props) {
     }
   };
 
-  /* Component Styles */
-  const styles = {
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px"
-    },
-    formTitle: {
-      fontSize: "1.2em"
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0"
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left"
-    },
-    subHeading: {
-      fontSize: "1.3em"
-    }
-  };
-
-  /* Component Rules for form fields */
-  const Rules = {
-    required: {
-      required: true,
-      message: "Required"
-    },
-    maxChar50: {
-      max: 50,
-      message: "Max length 50 characters"
-    },
-    maxChar100: {
-      max: 50,
-      message: "Max length 100 characters"
-    },
-    telephoneFormat: {
-      pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
-      message: "required format: 111-222-3333"
-    },
-    emailFormat: {
-      pattern: /\S+@\S+\.ca/i, // prettier-ignore
-      message: "Please Provide a valid Gov. Canada email"
-    }
-  };
-
+  /************************************
+   ********* Render Component *********
+   ************************************/
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -146,7 +175,7 @@ function PrimaryInfoFormView(props) {
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
             form={form}
-            onFinish={onFinish}
+            onFinish={onSaveAndNext}
           >
             {/* Form Row One */}
             <Row gutter={24}>
@@ -284,25 +313,35 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
+            {/* Form Row Five: Submit button */}
             <Row gutter={24}>
-              <Col span={24}>
-                <Form.Item>
-                  <Button
-                    style={{ float: "left" }}
-                    htmlType="button"
-                    onClick={onReset}
-                  >
-                    {<FormattedMessage id="button.clear" />}
-                  </Button>
-                  <Button
-                    style={{ float: "right" }}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    {<FormattedMessage id="setup.save.and.next" />}{" "}
-                    <RightOutlined />
-                  </Button>
-                </Form.Item>
+              <Col xs={24} md={24} lg={18} xl={18}>
+                <Button
+                  style={styles.finishAndSaveBtn}
+                  onClick={onSaveAndFinish}
+                  htmlType="submit"
+                >
+                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
+                  {<FormattedMessage id="setup.save.and.finish" />}
+                </Button>
+                <Button
+                  style={styles.clearBtn}
+                  htmlType="button"
+                  onClick={onReset}
+                  danger
+                >
+                  {<FormattedMessage id="button.clear" />}
+                </Button>
+              </Col>
+              <Col xs={24} md={24} lg={6} xl={6}>
+                <Button
+                  style={styles.finishAndNextBtn}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  {<FormattedMessage id="setup.save.and.next" />}{" "}
+                  <RightOutlined />
+                </Button>
               </Col>
             </Row>
           </Form>
