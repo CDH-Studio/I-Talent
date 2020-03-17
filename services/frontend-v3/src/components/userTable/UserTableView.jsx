@@ -12,7 +12,7 @@ import { injectIntl } from "react-intl";
 const { Option } = Select;
 
 class UserTableView extends Component {
-  // Column Search Functions:
+  // Column Search Function:
   getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -88,6 +88,7 @@ class UserTableView extends Component {
       )
   });
 
+  // Dropdown for Profile Status:
   renderStatusDropdown = (id, inactive, flagged) => {
     return (
       <div>

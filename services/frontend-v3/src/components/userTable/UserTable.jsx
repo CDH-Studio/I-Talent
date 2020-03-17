@@ -61,6 +61,7 @@ class UserTable extends Component {
     });
   };
 
+  // Column Search Function(s):
   handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     this.setState({
@@ -74,7 +75,7 @@ class UserTable extends Component {
     this.setState({ searchText: "" });
   };
 
-  // Dropdown Profile Status Change:
+  // Dropdown Profile Status Change (Database):
   handleApply = async () => {
     await axios
       .put(backendAddress + "api/admin/profileStatus", this.state.statuses)
