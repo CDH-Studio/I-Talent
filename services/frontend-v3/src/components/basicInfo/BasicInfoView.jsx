@@ -115,7 +115,6 @@ class BasicInfoView extends Component {
         <FormattedMessage id="profile.not.specified" />
       )
     };
-    console.log("Mamaa", data.address);
 
     const manager = {
       icon: "user",
@@ -159,7 +158,11 @@ class BasicInfoView extends Component {
     const data = [{ name, jobTitle }];
 
     return (
-      <Card actions={this.generateActions()} style={styles.card}>
+      <Card
+        id="card-profile-basic-info"
+        actions={this.generateActions()}
+        style={styles.card}
+      >
         <Row style={styles.row}></Row>
         {this.generateProfileHeader(data)}
         <Row>

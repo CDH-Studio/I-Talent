@@ -14,7 +14,7 @@ class SkillsView extends Component {
 
     return (
       <div>
-        <Card>
+        <Card id="card-profile-skills">
           <Tabs defaultActiveKey="1">
             <TabPane tab={<FormattedMessage id="profile.skills" />} key="1">
               <Row type="flex" gutter={[16, 16]}>

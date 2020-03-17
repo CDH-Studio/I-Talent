@@ -9,6 +9,7 @@ const { TabPane } = Tabs;
 function EmployeeSummaryView(props) {
   return (
     <Card
+      id="card-profile-employee-summary"
       title={<FormattedMessage id="profile.employee.summary" />}
       styles={styles.cards}
     >
