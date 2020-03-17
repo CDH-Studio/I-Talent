@@ -291,7 +291,9 @@ const EmploymentDataFormView = props => {
     );
   }, [props.profileInfo]);
 
-  /********* Render Component *********/
+  /************************************
+   ********* Render Component *********
+   ************************************/
   if (!props.load) {
     return (
       /* If form data is loading then wait */
