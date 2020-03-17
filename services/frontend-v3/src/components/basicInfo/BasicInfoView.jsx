@@ -159,7 +159,11 @@ class BasicInfoView extends Component {
     const data = [{ name, jobTitle }];
 
     return (
-      <Card actions={this.generateActions()} style={styles.card}>
+      <Card
+        actions={this.generateActions()}
+        style={styles.card}
+        id="basic-info"
+      >
         <Row style={styles.row}></Row>
         {this.generateProfileHeader(data)}
         <Row>

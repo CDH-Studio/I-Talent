@@ -49,6 +49,7 @@ class TalentManagementView extends Component {
         title={this.props.intl.formatMessage({
           id: "profile.talent.management"
         })}
+        id="talent-management"
       >
         <Row>
           <Col xs={24} lg={24}>

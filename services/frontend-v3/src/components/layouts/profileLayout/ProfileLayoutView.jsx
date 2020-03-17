@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { PageHeader } from "antd";
+import { PageHeader, Anchor } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
@@ -15,13 +15,11 @@ import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 
 import { Row, Col, Divider } from "antd";
+const { Link } = Anchor;
 
-class ProfileLayoutView extends React.Component {
-  displayAllProfileCards() {
-    const { data } = this.props;
-    // data.nameInitials = getAcronym(data.firstName + " " + data.lastName);
-    // data.avatarColor = stringToHslColor(data.nameInitials);
-
+function ProfileLayoutView(props) {
+  const displayAllProfileCards = () => {
+    const { data } = props;
     return (
       <div>
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
@@ -88,54 +86,46 @@ class ProfileLayoutView extends React.Component {
         </Row>
       </div>
     );
-  }
+  };
 
-  render() {
+  const sider = () => {
     return (
-      <AppLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={true}
-        // sideBarContent={this.props.sideBarContent}
-      >
-        <PageHeader
-          style={{
-            padding: "0 0 15px 7px"
-          }}
-          title="User Profile"
-        />
-        {this.displayAllProfileCards()}
-      </AppLayout>
+      <Anchor>
+        <Link href="#basic-info" title="Talent Management" />
+        <Link href="#talent-management" title="Talent Management" />
+      </Anchor>
     );
-  }
+  };
+
+  const styles = {
+    card: {
+      height: "100%"
+    },
+    row: {
+      marginTop: 15
+    }
+  };
+
+  return (
+    <AppLayout
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      history={props.history}
+      displaySideBar={true}
+      sideBarContent={sider()}
+    >
+      <PageHeader
+        style={{
+          padding: "0 0 15px 7px"
+        }}
+        title="User Profile"
+      />
+      {displayAllProfileCards()}
+    </AppLayout>
+  );
 }
 
-// function stringToHslColor(str) {
-//   var hash = 0;
-//   var s = 90;
-//   var l = 45;
-//   for (var i = 0; i < str.length; i++) {
-//     hash = str.charCodeAt(i) + ((hash << 5) - hash);
-//   }
-//   var h = hash % 360;
-//   return "hsl(" + h + ", " + s + "%, " + l + "%)";
-// }
-
-// function getAcronym(name) {
-//   const i = name.lastIndexOf(" ") + 1;
-//   return name.substring(0, 1) + name.substring(i, i + 1);
-// }
-
 /* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  },
-  row: {
-    marginTop: 15
-  }
-};
 
-//Needed when using this.props.intl
+//Needed when using props.intl
 export default ProfileLayoutView;
