@@ -384,7 +384,7 @@ const EmploymentDataFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row Three */}{" "}
+            {/* Form Row Three */}
             <Row gutter={24}>
               <Col className="gutter-row" span={24}>
                 <Form.Item
@@ -421,33 +421,41 @@ const EmploymentDataFormView = props => {
             </Row>
             {/* Form Row Five: Submit button */}
             <Row gutter={24}>
-              <Col span={24}>
-                <Form.Item>
-                  <Button
-                    style={{ float: "left", marginRight: "1rem" }}
-                    onClick={onSaveAndFinish}
-                    htmlType="submit"
-                  >
-                    <CheckOutlined style={{ marginRight: "0.2rem" }} />
-                    {<FormattedMessage id="setup.save.and.finish" />}
-                  </Button>
-                  <Button
-                    style={{ float: "left" }}
-                    htmlType="button"
-                    onClick={onReset}
-                    danger
-                  >
-                    {<FormattedMessage id="button.clear" />}
-                  </Button>
-                  <Button
-                    style={{ float: "right" }}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    {<FormattedMessage id="setup.save.and.next" />}{" "}
-                    <RightOutlined />
-                  </Button>
-                </Form.Item>
+              <Col xs={24} md={24} lg={18} xl={18}>
+                <Button
+                  style={{
+                    float: "left",
+                    marginRight: "1rem",
+                    marginBottom: "1rem"
+                  }}
+                  onClick={onSaveAndFinish}
+                  htmlType="submit"
+                >
+                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
+                  {<FormattedMessage id="setup.save.and.finish" />}
+                </Button>
+                <Button
+                  style={{ float: "left", marginBottom: "1rem" }}
+                  htmlType="button"
+                  onClick={onReset}
+                  danger
+                >
+                  {<FormattedMessage id="button.clear" />}
+                </Button>
+              </Col>
+              <Col xs={24} md={24} lg={6} xl={6}>
+                <Button
+                  style={{
+                    width: "100%",
+                    float: "right",
+                    marginBottom: "1rem"
+                  }}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  {<FormattedMessage id="setup.save.and.next" />}{" "}
+                  <RightOutlined />
+                </Button>
               </Col>
             </Row>
           </Form>
