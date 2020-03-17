@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List, Tag } from "antd";
+import { Row, Col, Card, List } from "antd";
 
 class ProjectsView extends Component {
   generateProjectsInfoList(dataSource) {
@@ -38,6 +38,7 @@ class ProjectsView extends Component {
 
     return (
       <Card
+        id="card-profile-projects"
         title={<FormattedMessage id="profile.projects" />}
         style={styles.card}
       >

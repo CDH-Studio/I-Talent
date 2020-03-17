@@ -23,37 +23,37 @@ module.exports = {
         },
         {
           descriptionEn: "Future Achiever",
-          descriptionFr: "Futur Fonceur",
+          descriptionFr: "Futur fonceur",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Growth Employee",
-          descriptionFr: "Employé(e) en Croissance",
+          descriptionFr: "Employé(e) en croissance",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Solid Contributor",
-          descriptionFr: "Contributeur Important",
+          descriptionFr: "Contributeur important",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Solid Professional",
-          descriptionFr: "Professionnel Solide",
+          descriptionFr: "Professionnel solide",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Strong Performer",
-          descriptionFr: "Employé(e) au Rendement Elevé",
+          descriptionFr: "Employé(e) au Rendement élevé",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Talent Risk",
-          descriptionFr: "Talent à Risk",
+          descriptionFr: "Talent à risk",
           createdAt: new Date(),
           updatedAt: new Date()
         },

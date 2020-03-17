@@ -45,6 +45,7 @@ class TalentManagementView extends Component {
 
     return (
       <Card
+        id="card-profile-talent-management"
         style={styles.card}
         title={this.props.intl.formatMessage({
           id: "profile.talent.management"

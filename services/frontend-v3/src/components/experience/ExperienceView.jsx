@@ -86,6 +86,7 @@ class ExperienceView extends Component {
 
     return (
       <Card
+        id="card-profile-experience"
         title={<FormattedMessage id="profile.experience" />}
         style={styles.card}
       >

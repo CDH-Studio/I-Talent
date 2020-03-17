@@ -91,8 +91,8 @@ class EmploymentInfoView extends Component {
 
     return (
       <Card
-        style={styles.card}
         title={this.props.intl.formatMessage({ id: "profile.info" })}
+        style={styles.card}
       >
         <Row>
           <Col xs={24} lg={24}>

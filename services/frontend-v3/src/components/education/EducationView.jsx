@@ -85,6 +85,7 @@ class EducationView extends Component {
 
     return (
       <Card
+        id="card-profile-education"
         title={<FormattedMessage id="profile.education" />}
         style={styles.card}
       >

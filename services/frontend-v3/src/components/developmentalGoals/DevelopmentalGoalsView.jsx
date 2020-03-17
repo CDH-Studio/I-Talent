@@ -7,7 +7,10 @@ class DevelopmentalGoalsView extends Component {
     const { devGoals } = this.props;
     return (
       <div>
-        <Card title={<FormattedMessage id="profile.developmental.goals" />}>
+        <Card
+          id="card-profile-dev-goals"
+          title={<FormattedMessage id="profile.developmental.goals" />}
+        >
           <Row>
             <List>
               {Object.values(devGoals).map(devGoal => (
