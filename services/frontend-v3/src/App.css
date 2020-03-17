@@ -85,3 +85,7 @@
 .ant-list-item {
   font-size: 16px !important;
 }
+
+.ant-col {
+  width: 100% !important;
+}
