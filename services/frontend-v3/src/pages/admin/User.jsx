@@ -170,7 +170,7 @@ class AdminUser extends React.Component {
         changedUser.user.inactive = true;
       }
 
-      if (status === "Hidden" || status == "Caché") {
+      if (status === "Hidden" || status === "Caché") {
         changedUser.flagged = true;
         changedUser.user.inactive = false;
       }

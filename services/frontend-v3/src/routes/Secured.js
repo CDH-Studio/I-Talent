@@ -66,8 +66,15 @@ class Secured extends Component {
   goto = link => history.push(link);
 
   render() {
-    const keycloak = this.state.keycloak;
-    if (keycloak) {
+    /* detect if the user is on setup page to stop redirect if profile is not found */
+    const currentPath = this.props.location.pathname;
+    const regex = /(\/\bprofile\b\/\bcreate\b)/g;
+    let redirectToSetup;
+    if (!currentPath.match(regex)) {
+      redirectToSetup = this.state.redirect;
+    }
+
+    if (this.state.keycloak) {
       if (this.state.authenticated) {
         return (
           <div id="view">
@@ -89,66 +96,76 @@ class Secured extends Component {
               )}
             </div> */}
             {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+
+            {/****** redirect to set up page ******/}
+            {redirectToSetup}
             <Switch>
+              {/****** home page with large search bar ******/}
               <Route
                 exact
                 path="/secured/home"
                 render={routeProps => (
                   <Home
-                    keycloak={keycloak}
+                    keycloak={this.state.keycloak}
                     changeLanguage={this.changeLanguage}
                     {...routeProps}
                   />
                 )}
               />
+              {/****** Results of search ******/}
               <Route
                 exact
                 path="/secured/results"
                 render={routeProps => (
                   <Results
-                    keycloak={keycloak}
+                    keycloak={this.state.keycloak}
                     changeLanguage={this.changeLanguage}
                     {...routeProps}
                   />
                 )}
               />
+              {/****** Create profile forms ******/}
               <Route
                 path="/secured/profile/create/step/:step"
                 render={routeProps => (
                   <ProfileCreate
-                    keycloak={keycloak}
+                    keycloak={this.state.keycloak}
                     changeLanguage={this.changeLanguage}
                     {...routeProps}
                   />
                 )}
               />
-              <Route
-                path="/secured/profile/:id?"
-                render={routeProps => (
-                  <Profile
-                    keycloak={keycloak}
-                    changeLanguage={this.changeLanguage}
-                    {...routeProps}
-                  />
-                )}
-              />
+              {/****** Edit profile forms ******/}
               <Route
                 path="/secured/profileEdit"
                 render={routeProps => (
                   <ProfileEdit
-                    keycloak={keycloak}
+                    keycloak={this.state.keycloak}
                     changeLanguage={this.changeLanguage}
                     {...routeProps}
                   />
                 )}
               />
+              {/****** Profile page based on user ID ******/}
+              <Route
+                path="/secured/profile/:id?"
+                render={routeProps => (
+                  <Profile
+                    keycloak={this.state.keycloak}
+                    changeLanguage={this.changeLanguage}
+                    {...routeProps}
+                  />
+                )}
+              />
+              {/****** Logout authorized user ******/}
               <Route
                 exact
                 path="/secured/logout"
                 render={routeProps => (
-                  <Logout keycloak={keycloak} {...routeProps} />
+                  <Logout keycloak={this.state.keycloak} {...routeProps} />
                 )}
               />
+              {/****** 404 Page ******/}
               <Route render={() => <NotFound />} />
             </Switch>
           </div>
@@ -168,21 +185,28 @@ class Secured extends Component {
   };
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  // Check if profile exist for the logged in user
   profileExist = () => {
     return this.state.keycloak.loadUserInfo().then(async userInfo => {
       return loginFunc.createUser(userInfo.email, userInfo.name).then(res => {
         // Add name and email to local storage
         localStorage.setItem("name", userInfo.name);
         localStorage.setItem("email", userInfo.email);
-        return true;
+        return res.hasProfile;
       });
     });
   };
 
+  // Generate redirect if profile does not exist
   renderRedirect = () => {
     return this.profileExist().then(profileExist => {
-      if (!profileExist) return <Redirect to="/secured/setup" />;
-      else return <div />;
+      if (!profileExist) {
+        return (
+          <Redirect from="/old-path" to="/secured/profile/create/step/1" />
+        );
+      } else {
+        return <div />;
+      }
     });
   };
 }
