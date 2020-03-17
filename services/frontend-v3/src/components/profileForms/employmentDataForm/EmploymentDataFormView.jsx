@@ -175,9 +175,16 @@ const EmploymentDataFormView = props => {
   };
 
   /* save and redirect to home */
-  const onSaveAndFinish = async values => {
-    await saveDataToDB(values);
-    history.push("/secured/home");
+  const onSaveAndFinish = async () => {
+    form
+      .validateFields()
+      .then(async values => {
+        await saveDataToDB(values);
+        history.push("/secured/home");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /* reset form fields */
@@ -432,7 +439,7 @@ const EmploymentDataFormView = props => {
                 <Button
                   style={styles.finishAndSaveBtn}
                   onClick={onSaveAndFinish}
-                  htmlType="submit"
+                  htmlType="button"
                 >
                   <CheckOutlined style={{ marginRight: "0.2rem" }} />
                   {<FormattedMessage id="setup.save.and.finish" />}
