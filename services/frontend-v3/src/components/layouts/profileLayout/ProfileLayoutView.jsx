@@ -20,9 +20,7 @@ import { Row, Col } from "antd";
 class ProfileLayoutView extends React.Component {
   displayAllProfileCards() {
     const { data } = this.props;
-    // data.nameInitials = getAcronym(data.firstName + " " + data.lastName);
-    // data.avatarColor = stringToHslColor(data.nameInitials);
-    console.log("title", <FormattedMessage id="setup.primary.information" />);
+
     return (
       <div>
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
@@ -38,6 +36,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.info" />}
               content={<EmploymentInfo data={data} style={styles.card} />}
+              cardName={"info"}
             />
           </Col>
         </Row>
@@ -52,6 +51,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.talent.management" />}
               content={<TalentManagement data={data} style={styles.card} />}
+              cardName={"talentManagement"}
             />
           </Col>
         </Row>
@@ -65,6 +65,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.official.language" />}
               content={<OfficialLanguage data={data} style={styles.card} />}
+              cardName={"officialLanguage"}
             />
           </Col>
           <Col xs={24} xl={12}>
@@ -72,6 +73,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.career.interests" />}
               content={<CareerInterests data={data} style={styles.card} />}
+              cardName={"careerInterests"}
             />
           </Col>
         </Row>
@@ -81,6 +83,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.education" />}
               content={<Education data={data} style={styles.card} />}
+              cardName={"education"}
             />
           </Col>
         </Row>
@@ -90,6 +93,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.experience" />}
               content={<Experience data={data} style={styles.card} />}
+              cardName={"experience"}
             />
           </Col>
         </Row>
@@ -99,6 +103,7 @@ class ProfileLayoutView extends React.Component {
             <ProfileCards
               title={<FormattedMessage id="profile.projects" />}
               content={<Projects data={data} style={styles.card} />}
+              cardName={"projects"}
             />
           </Col>
         </Row>
