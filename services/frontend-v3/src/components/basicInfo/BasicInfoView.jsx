@@ -115,7 +115,6 @@ class BasicInfoView extends Component {
         <FormattedMessage id="profile.not.specified" />
       )
     };
-    console.log("Mamaa", data.address);
 
     const manager = {
       icon: "user",

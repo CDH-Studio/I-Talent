@@ -66,31 +66,15 @@ function ProfileCardsView(props) {
     const cardNameToBeModified = props.cardName;
     setDisabled(toggleValue);
 
-    visibleCards[cardNameToBeModified] = !disabled;
+    visibleCards[cardNameToBeModified] = toggleValue;
 
-    console.log("visibleCards==>Object ", { visibleCards });
+    console.log("card ==>", cardNameToBeModified, "value", toggleValue);
 
     //Update visibleCards state in profile
     try {
       await axios.put(
         backendAddress + "api/profile/" + localStorage.getItem("userId"),
         { visibleCards }
-        // {
-        //   visibleCards: {
-        //     info: false,
-        //     manager: false,
-        //     talentManagement: false,
-        //     officialLanguage: false,
-        //     skills: false,
-        //     competencies: false,
-        //     developmentalGoals: false,
-        //     education: false,
-        //     experience: false,
-        //     projects: false,
-        //     careerInterests: false,
-        //     mentorshipSkills: false
-        //   }
-        // }
       );
     } catch (error) {
       console.log(error);
@@ -100,8 +84,6 @@ function ProfileCardsView(props) {
   // let toogleValue = getToggleValue(cardName);
 
   const generateSwitchButton = cardName => {
-    console.log("toggle ==>", disabled, "Card ==>", cardName);
-
     if (props.load) {
       let toogleValue = getToggleValue(cardName);
       // setDisabled(toogleValue);
@@ -116,7 +98,8 @@ function ProfileCardsView(props) {
                   checkedChildren={"Hide card"}
                   unCheckedChildren={"Show card"}
                   defaultChecked={toogleValue}
-                  onClick={handleToggle}
+                  // onClick={handleToggle}
+                  onChange={handleToggle}
                 />
               </Col>
               <Col>
