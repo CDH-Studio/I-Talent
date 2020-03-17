@@ -6,6 +6,7 @@
   "admin.dashboard.plural": "Dashboard",
   "admin.user.plural": "Users",
   "admin.user.singular": "User",
+  "admin.user.table": "Users Table",
   "admin.skill.plural": "Skills",
   "admin.skill.singular": "Skill",
   "admin.competency.plural": "Competencies",

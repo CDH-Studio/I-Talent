@@ -5,7 +5,6 @@ import { injectIntl } from "react-intl";
 class DashboardGraphs extends Component {
   changeEnFr(data) {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
-
     data = data.map(skill => {
       return {
         name: skill.description[locale],
@@ -17,17 +16,17 @@ class DashboardGraphs extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, locale } = this.props;
 
     return (
       <DashboardGraphsView
-        topFiveSkills={this.changeEnFr(data.skillCount)}
-        topFiveCompetencies={this.changeEnFr(data.compCount)}
-        topFiveDevelopmentGoals={this.changeEnFr(data.developCount)}
+        topFiveSkills={this.changeEnFr(data.skillCount, locale)}
+        topFiveCompetencies={this.changeEnFr(data.compCount, locale)}
+        topFiveDevelopmentGoals={this.changeEnFr(data.developCount, locale)}
         monthlyGrowth={data.graphicalData}
       />
     );
   }
 }
 
-export default injectIntl(DashboardGraphsView);
+export default injectIntl(DashboardGraphs);
