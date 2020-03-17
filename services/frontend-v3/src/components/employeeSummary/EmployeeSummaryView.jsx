@@ -11,6 +11,7 @@ function EmployeeSummaryView(props) {
     <Card
       title={<FormattedMessage id="profile.employee.summary" />}
       styles={styles.cards}
+      id="employee-summary"
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab={<FormattedMessage id="profile.tenure" />} key={1}>

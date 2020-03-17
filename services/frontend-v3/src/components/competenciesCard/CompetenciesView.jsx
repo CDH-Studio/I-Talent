@@ -7,7 +7,10 @@ class CompetenciesView extends Component {
     const { competencies } = this.props;
     return (
       <div>
-        <Card title={<FormattedMessage id="profile.competencies" />}>
+        <Card
+          title={<FormattedMessage id="profile.competencies" />}
+          id="competency"
+        >
           <Row>
             <List>
               {Object.values(competencies).map(competency => (

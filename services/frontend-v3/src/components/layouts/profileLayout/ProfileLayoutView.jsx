@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { PageHeader, Anchor } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
@@ -31,7 +31,7 @@ function ProfileLayoutView(props) {
           </Col>
         </Row>
 
-        <Divider orientation="left">
+        <Divider orientation="left" id="skills-and-comp">
           {<FormattedMessage id="profile.employee.skills.competencies" />}
         </Divider>
         <Row style={styles.row}>
@@ -90,10 +90,49 @@ function ProfileLayoutView(props) {
 
   const sider = () => {
     return (
-      <Anchor>
-        <Link href="#basic-info" title="Talent Management" />
-        <Link href="#talent-management" title="Talent Management" />
-      </Anchor>
+      <Row justify="center">
+        <Col flex={1} offset={1}>
+          <Anchor>
+            <Link
+              href="#basic-info"
+              title={props.intl.formatMessage({
+                id: "profile.employee.skills.competencies"
+              })}
+            />
+            <Link
+              href="#employee-summary"
+              title={props.intl.formatMessage({
+                id: "profile.employee.skills.competencies"
+              })}
+            />
+            <Link
+              href="#skills-and-comp"
+              title={props.intl.formatMessage({
+                id: "profile.employee.skills.competencies"
+              })}
+            >
+              <Link
+                href="#skills"
+                title={props.intl.formatMessage({
+                  id: "profile.skills"
+                })}
+              />
+              <Link
+                href="#competency"
+                title={props.intl.formatMessage({
+                  id: "profile.competencies"
+                })}
+              />
+            </Link>
+            <Link
+              href="#talent-management"
+              title={props.intl.formatMessage({
+                id: "profile.employee.skills.competencies"
+              })}
+            />
+          </Anchor>
+        </Col>
+      </Row>
     );
   };
 
@@ -128,4 +167,4 @@ function ProfileLayoutView(props) {
 /* Component Styles */
 
 //Needed when using props.intl
-export default ProfileLayoutView;
+export default injectIntl(ProfileLayoutView);
