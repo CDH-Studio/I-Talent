@@ -54,7 +54,7 @@
   "advanced.search.form.job.title": "Titre du poste",
   "advanced.search.form.department": "Departement",
   "advanced.search.form.location": "Lieu de travail",
-  "advanced.search.form.security.clearance": "Cote de securité",
+  "advanced.search.form.security.clearance": "Côte de fiabilité",
   "advanced.search.form.first.name": "Prénom",
   "advanced.search.form.last.name": "Nom de famille",
 
@@ -132,7 +132,7 @@
   "profile.edit.dropdown.add.items": "Tapez pour ajouter des éléments.",
   "profile.acting": "Rôle intérimaire",
   "profile.acting.label.only": "R.I. / Classification",
-  "profile.acting.date": "Date de intérimair",
+  "profile.acting.date": "Date de intérimaire",
   "profile.acting.period.end.date": "Date de fin intérimaire",
   "profile.acting.has.end.date": "Je connais la date de fin",
   "profile.acting.period": "Par intérim",
@@ -159,11 +159,11 @@
   "profile.edit": "Modifier",
   "profile.na": "S/O",
   "profile.indeterminate": "Durée indeterminée",
-  "profile.interested.in.remote": "Êtes-vous interessés par le télétravail ?",
+  "profile.interested.in.remote": "Êtes-vous intéressés par le télétravail?",
   "profile.willing.to.relocate.to": "Où désirez-vous travailler pour votre prochain emploi ?",
   "profile.looking.for.new.job": "Où en êtes-vous dans votre recherche d'emploi",
-  "profile.yes": "Yes",
-  "profile.no": "No",
+  "profile.yes": "Oui",
+  "profile.no": "Non",
   "profile.education": "Éducation",
   "profile.education.content.name": "Description",
   "profile.education.header.name": "Diplôme d'études",
@@ -192,7 +192,7 @@
   "profile.secondary.oral.date": "Date de l'évaluation",
   "profile.secondary.oral.proficiency": "Compétence à l'oral",
   "profile.reading": "Lecture",
-  "profile.secondary.reading.date": "Date de l'évaluation",
+  "profile.secondary.reading.date": "Date d'expiration",
   "profile.second.language.proficiency": "Compétence de la langue seconde",
   "profile.sector": "Secteur",
   "profile.security": "Securité",
@@ -236,10 +236,10 @@
   "profile.edit.projects": "Modifier projets",
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Ne pas specifié",
-  "profile.not.specified": "N'est pas specifié",
+  "profile.not.specified": "Non specifié",
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transfer à",
-  "profile.career.interests": "Objectifs professionnels",
+  "profile.career.interests": "Intérêts de carrière",
   "profile.gathering.profile.info": "Recueil des informations de votre profil....",
   "profile.settings.and.privacy": "Préférences et confidentialité",
   "profile.preview.public.view": "Aperçu du profil public",
@@ -253,5 +253,5 @@
 
   "profile.is.ongoing": "Courant",
 
-  "sign.out": "Quitter"
+  "sign.out": "Déconnexion"
 }
