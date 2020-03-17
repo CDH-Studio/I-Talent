@@ -107,7 +107,7 @@
 
   "setup.primary.information": "Informations primaires",
   "setup.link.profiles": "Lien vers d'autres profils",
-  "setup.labeled": "Contexte de l'emploi",
+  "setup.employment": "Contexte de l'emploi",
   "setup.manager": "Gestionnaire",
   "setup.language.proficiency": "Language proficiency",
   "setup.talent.management": "Gestion de talents",
@@ -198,7 +198,7 @@
   "profile.security": "Securité",
   "profile.skills": "Compétences",
   "profile.mentorship.skills": "Compétences de mentorat",
-  "profile.temporary.role": "Rôle temporaire",
+  "profile.temporary.role": "Rôle temporaire?",
   "profile.tenure": "Substantielle",
   "profile.talent.management": "Gestion de talents",
   "profile.talent.matrix.result": "Résultat de la matrice de talents",
