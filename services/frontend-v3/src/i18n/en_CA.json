@@ -98,7 +98,7 @@
 
   "setup.primary.information": "Primary information",
   "setup.link.profiles": "Link to other profiles",
-  "setup.labeled": "Employment data",
+  "setup.employment": "Employment data",
   "setup.manager": "Manager",
   "setup.language.proficiency": "Language proficiency",
   "setup.talent.management": "Talent management",
@@ -196,7 +196,7 @@
   "profile.security": "Security",
   "profile.skills": "Skills",
   "profile.mentorship.skills": "Mentorship Skills",
-  "profile.temporary.role": "Temporary role",
+  "profile.temporary.role": "Temporary role?",
   "profile.tenure": "Substantive",
   "profile.talent.management": "Talent management",
   "profile.talent.matrix.result": "Talent matrix result",

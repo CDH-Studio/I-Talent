@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
 import Welcome from "../../../components/profileForms/Welcome";
 import PrimaryInfoForm from "../../profileForms/primaryInfoForm/PrimaryInfoForm";
+import EmploymentDataForm from "../../profileForms/employmentDataForm/EmploymentDataForm";
 
 const { Step } = Steps;
 
@@ -16,6 +17,8 @@ export default class CreateProfileLayout extends React.Component {
         return <Welcome />;
       case 2:
         return <PrimaryInfoForm />;
+      case 3:
+        return <EmploymentDataForm />;
       default:
         return <div>hello3</div>;
     }
