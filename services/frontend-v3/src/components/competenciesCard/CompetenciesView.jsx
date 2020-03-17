@@ -8,8 +8,8 @@ class CompetenciesView extends Component {
     return (
       <div>
         <Card
+          id="card-profile-competency"
           title={<FormattedMessage id="profile.competencies" />}
-          id="competency"
         >
           <Row>
             <List>

@@ -45,11 +45,11 @@ class TalentManagementView extends Component {
 
     return (
       <Card
+        id="card-profile-talent-management"
         style={styles.card}
         title={this.props.intl.formatMessage({
           id: "profile.talent.management"
         })}
-        id="talent-management"
       >
         <Row>
           <Col xs={24} lg={24}>

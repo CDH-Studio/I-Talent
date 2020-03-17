@@ -31,7 +31,7 @@ function ProfileLayoutView(props) {
           </Col>
         </Row>
 
-        <Divider orientation="left" id="skills-and-comp">
+        <Divider orientation="left" id="divider-skills-and-comp">
           {<FormattedMessage id="profile.employee.skills.competencies" />}
         </Divider>
         <Row style={styles.row}>
@@ -44,7 +44,7 @@ function ProfileLayoutView(props) {
             <Competencies data={data}></Competencies>
           </Col>
         </Row>
-        <Divider orientation="left">
+        <Divider orientation="left" id="divider-employee-growth">
           {<FormattedMessage id="profile.employee.growth.interests" />}
         </Divider>
         <Row style={styles.row}>
@@ -65,7 +65,7 @@ function ProfileLayoutView(props) {
           </Col>
         </Row>
 
-        <Divider orientation="left">
+        <Divider orientation="left" id="divider-qualifications">
           {<FormattedMessage id="profile.employee.qualifications" />}
         </Divider>
 
@@ -94,42 +94,86 @@ function ProfileLayoutView(props) {
         <Col flex={1} offset={1}>
           <Anchor>
             <Link
-              href="#basic-info"
+              href="#card-profile-basic-info"
               title={props.intl.formatMessage({
-                id: "profile.employee.skills.competencies"
+                id: "profile.basic"
               })}
             />
             <Link
-              href="#employee-summary"
+              href="#card-profile-employee-summary"
               title={props.intl.formatMessage({
-                id: "profile.employee.skills.competencies"
+                id: "profile.employee.summary"
               })}
             />
             <Link
-              href="#skills-and-comp"
+              href="#divider-skills-and-comp"
               title={props.intl.formatMessage({
                 id: "profile.employee.skills.competencies"
               })}
             >
               <Link
-                href="#skills"
+                href="#card-profile-skills"
                 title={props.intl.formatMessage({
                   id: "profile.skills"
                 })}
               />
               <Link
-                href="#competency"
+                href="#card-profile-competency"
                 title={props.intl.formatMessage({
                   id: "profile.competencies"
                 })}
               />
             </Link>
             <Link
-              href="#talent-management"
+              href="#divider-employee-growth"
               title={props.intl.formatMessage({
-                id: "profile.employee.skills.competencies"
+                id: "profile.employee.growth.interests"
               })}
-            />
+            >
+              <Link
+                href="#card-profile-dev-goals"
+                title={props.intl.formatMessage({
+                  id: "profile.developmental.goals"
+                })}
+              />
+              <Link
+                href="#card-profile-talent-management"
+                title={props.intl.formatMessage({
+                  id: "profile.talent.management"
+                })}
+              />
+              <Link
+                href="#card-profile-career-interests"
+                title={props.intl.formatMessage({
+                  id: "profile.career.interests"
+                })}
+              />
+            </Link>
+            <Link
+              href="#divider-qualifications"
+              title={props.intl.formatMessage({
+                id: "profile.employee.qualifications"
+              })}
+            >
+              <Link
+                href="#card-profile-education"
+                title={props.intl.formatMessage({
+                  id: "profile.education"
+                })}
+              />
+              <Link
+                href="#card-profile-experience"
+                title={props.intl.formatMessage({
+                  id: "profile.experience"
+                })}
+              />
+              <Link
+                href="#card-profile-projects"
+                title={props.intl.formatMessage({
+                  id: "profile.projects"
+                })}
+              />
+            </Link>
           </Anchor>
         </Col>
       </Row>

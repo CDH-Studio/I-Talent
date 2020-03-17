@@ -77,6 +77,7 @@ class CareerInterestsView extends Component {
 
     return (
       <Card
+        id="card-profile-career-interests"
         style={styles.card}
         title={this.props.intl.formatMessage({
           id: "profile.career.interests"
