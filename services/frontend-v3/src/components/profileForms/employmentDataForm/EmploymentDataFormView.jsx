@@ -36,6 +36,67 @@ const EmploymentDataFormView = props => {
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
   const [enableTemEndDate, setEnableTemEndDate] = useState();
 
+  /* Component Styles */
+  const styles = {
+    content: {
+      textAlign: "left",
+      width: "100%",
+      maxWidth: "900px",
+      minHeight: "400px",
+      background: "#fff",
+      padding: "30px 30px"
+    },
+    formTitle: {
+      fontSize: "1.2em"
+    },
+    headerDiv: {
+      margin: "15px 0 15px 0"
+    },
+    formItem: {
+      margin: "10px 0 10px 0",
+      padding: "0 20px 0 0",
+      textAlign: "left"
+    },
+    subHeading: {
+      fontSize: "1.3em"
+    },
+    tempRoleRow: {
+      backgroundColor: "#dfe5e4",
+      paddingTop: "15px",
+      paddingBottom: "15px",
+      marginBottom: "20px",
+      marginTop: "10px"
+    },
+    finishAndSaveBtn: {
+      float: "left",
+      marginRight: "1rem",
+      marginBottom: "1rem"
+    },
+    clearBtn: { float: "left", marginBottom: "1rem" },
+    finishAndNextBtn: {
+      width: "100%",
+      float: "right",
+      marginBottom: "1rem"
+    },
+    datePicker: { width: "100%" }
+  };
+
+  /* Component Rules for form fields */
+  const Rules = {
+    required: {
+      required: true,
+      message: "Required"
+    },
+    maxChar50: {
+      max: 50,
+      message: "Max length 50 characters"
+    },
+    maxChar100: {
+      max: 50,
+      message: "Max length 100 characters"
+    }
+  };
+
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
     setDisplayTempRoleForm(!displayTempRoleForm);
@@ -156,7 +217,7 @@ const EmploymentDataFormView = props => {
             >
               <DatePicker
                 disabledDate={disabledDatesAfterEnd}
-                style={{ width: "100%" }}
+                style={styles.datePicker}
               />
             </Form.Item>
           </Col>
@@ -167,7 +228,7 @@ const EmploymentDataFormView = props => {
               rules={enableTemEndDate ? [Rules.required] : undefined}
             >
               <DatePicker
-                style={{ width: "100%" }}
+                style={styles.datePicker}
                 disabledDate={disabledDatesBeforeStart}
                 disabled={!enableTemEndDate}
                 placeholder={"unknown"}
@@ -229,56 +290,6 @@ const EmploymentDataFormView = props => {
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
   }, [props.profileInfo]);
-
-  /* Component Styles */
-  const styles = {
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px"
-    },
-    formTitle: {
-      fontSize: "1.2em"
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0"
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left"
-    },
-    subHeading: {
-      fontSize: "1.3em"
-    }
-  };
-
-  /* Component Rules for form fields */
-  const Rules = {
-    required: {
-      required: true,
-      message: "Required"
-    },
-    maxChar50: {
-      max: 50,
-      message: "Max length 50 characters"
-    },
-    maxChar100: {
-      max: 50,
-      message: "Max length 100 characters"
-    },
-    telephoneFormat: {
-      pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
-      message: "required format: 111-222-3333"
-    },
-    emailFormat: {
-      pattern: /\S+@\S+\.ca/i, // prettier-ignore
-      message: "Please Provide a valid Gov. Canada email"
-    }
-  };
 
   /********* Render Component *********/
   if (!props.load) {
@@ -397,16 +408,7 @@ const EmploymentDataFormView = props => {
               </Col>
             </Row>
             {/* Form Row Four: Temporary role */}
-            <Row
-              style={{
-                backgroundColor: "#dfe5e4",
-                paddingTop: "15px",
-                paddingBottom: "15px",
-                marginBottom: "20px",
-                marginTop: "10px"
-              }}
-              gutter={24}
-            >
+            <Row style={styles.tempRoleRow} gutter={24}>
               <Col className="gutter-row" span={24}>
                 <FormLabelTooltip
                   labelText={<FormattedMessage id="profile.temporary.role" />}
@@ -423,11 +425,7 @@ const EmploymentDataFormView = props => {
             <Row gutter={24}>
               <Col xs={24} md={24} lg={18} xl={18}>
                 <Button
-                  style={{
-                    float: "left",
-                    marginRight: "1rem",
-                    marginBottom: "1rem"
-                  }}
+                  style={styles.finishAndSaveBtn}
                   onClick={onSaveAndFinish}
                   htmlType="submit"
                 >
@@ -435,7 +433,7 @@ const EmploymentDataFormView = props => {
                   {<FormattedMessage id="setup.save.and.finish" />}
                 </Button>
                 <Button
-                  style={{ float: "left", marginBottom: "1rem" }}
+                  style={styles.clearBtn}
                   htmlType="button"
                   onClick={onReset}
                   danger
@@ -445,11 +443,7 @@ const EmploymentDataFormView = props => {
               </Col>
               <Col xs={24} md={24} lg={6} xl={6}>
                 <Button
-                  style={{
-                    width: "100%",
-                    float: "right",
-                    marginBottom: "1rem"
-                  }}
+                  style={styles.finishAndNextBtn}
                   type="primary"
                   htmlType="submit"
                 >
