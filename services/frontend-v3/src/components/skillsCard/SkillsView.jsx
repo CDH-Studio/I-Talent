@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Tabs, Card, Tag, Row, Col } from "antd";
+import { FormattedMessage } from "react-intl";
 const { TabPane } = Tabs;
 
 class SkillsView extends Component {
@@ -15,15 +16,19 @@ class SkillsView extends Component {
       <div>
         <Card>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Skills" key="1">
+            <TabPane tab={<FormattedMessage id="profile.skills" />} key="1">
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesSkills.map(categorySkill => (
-                  <Col>
-                    <Card title={categorySkill.val}>
+                  <Col style={{ marginLeft: "5px" }}>
+                    <Card
+                      size="small"
+                      style={styles.cards}
+                      title={categorySkill.val}
+                    >
                       {skills[categorySkill.index].val.map(skill => (
-                        <Row type="flex-wrap" gutter={[16, 16]} align={"left"}>
+                        <Row type="flex-wrap" gutter={[16, 4]} align={"left"}>
                           <Col span={6}>
-                            <Tag>{skill}</Tag>
+                            <Tag color="#007471">{skill}</Tag>
                           </Col>
                         </Row>
                       ))}
@@ -32,15 +37,23 @@ class SkillsView extends Component {
                 ))}
               </Row>
             </TabPane>
-            <TabPane tab="Mentorship Skills" key="2">
+
+            <TabPane
+              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              key="2"
+            >
               <Row type="flex" gutter={[16, 16]}>
                 {categoriesMentor.map(categoryMentor => (
-                  <Col>
-                    <Card title={categoryMentor.val}>
+                  <Col style={{ marginLeft: "5px" }}>
+                    <Card
+                      size="small"
+                      style={styles.cards}
+                      title={categoryMentor.val}
+                    >
                       {mentoring[categoryMentor.index].val.map(mentor => (
-                        <Row type="flex-wrap" gutter={[16, 16]} align={"left"}>
+                        <Row type="flex-wrap" gutter={[16, 4]} align={"left"}>
                           <Col span={6}>
-                            <Tag>{mentor}</Tag>
+                            <Tag color="#007471">{mentor}</Tag>
                           </Col>
                         </Row>
                       ))}
@@ -55,5 +68,10 @@ class SkillsView extends Component {
     );
   }
 }
+const styles = {
+  cards: {
+    borderWidth: "medium"
+  }
+};
 
 export default SkillsView;
