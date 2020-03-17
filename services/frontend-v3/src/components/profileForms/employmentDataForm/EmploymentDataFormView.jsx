@@ -13,7 +13,8 @@ import {
   Checkbox,
   Button
 } from "antd";
-import { RightOutlined, CloseOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import { RightOutlined, SaveOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
@@ -30,6 +31,7 @@ const { Title } = Typography;
  *  It contains a toggle to set the acting role
  */
 const EmploymentDataFormView = props => {
+  const history = useHistory();
   const [form] = Form.useForm();
   const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
   const [enableTemEndDate, setEnableTemEndDate] = useState();
@@ -66,7 +68,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Handle form submission */
-  const onFinish = async values => {
+  const onSubmit = async values => {
     if (!displayTempRoleForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;
@@ -103,6 +105,16 @@ const EmploymentDataFormView = props => {
         console.log(error);
       }
     }
+  };
+
+  const onSaveAndNext = async values => {
+    await onSubmit(values);
+    history.push("/secured/profile/create/step/4");
+  };
+
+  const onSaveAndFinish = async values => {
+    await onSubmit(values);
+    history.push("/secured/home");
   };
 
   const onReset = () => {
@@ -291,7 +303,7 @@ const EmploymentDataFormView = props => {
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={onFinish}
+            onFinish={onSaveAndNext}
           >
             {/* Form Row One */}
             <Row gutter={24}>
@@ -412,9 +424,18 @@ const EmploymentDataFormView = props => {
               <Col span={24}>
                 <Form.Item>
                   <Button
+                    style={{ float: "left", marginRight: "1rem" }}
+                    onClick={onSaveAndFinish}
+                    htmlType="submit"
+                  >
+                    <CheckOutlined style={{ marginRight: "0.2rem" }} />
+                    {<FormattedMessage id="setup.save.and.finish" />}
+                  </Button>
+                  <Button
                     style={{ float: "left" }}
                     htmlType="button"
                     onClick={onReset}
+                    danger
                   >
                     {<FormattedMessage id="button.clear" />}
                   </Button>
