@@ -141,6 +141,10 @@ class UserTable extends Component {
         e.tenureDescriptionEn = e.tenure.descriptionEn;
         e.tenureDescriptionFr = e.tenure.descriptionFr;
       }
+      if (e.jobTitleEn === null && e.jobTitleFr === null) {
+        e.jobTitleEn = "None Specified";
+        e.jobTitleFr = "Aucun spécifié";
+      }
     });
 
     return data;
@@ -165,7 +169,6 @@ class UserTable extends Component {
     return (
       <UserTableView
         data={this.getProfileInformation(data)}
-        columns={this.tableColumns()}
         size={size}
         statuses={statuses}
         searchText={searchText}

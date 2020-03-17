@@ -8,6 +8,7 @@
   "admin.dashboard.plural": "Tableau de bord",
   "admin.user.plural": "Utilisateur",
   "admin.user.singular": "Utilisateurs",
+  "admin.user.table": "Tableau des utilisateurs",
   "admin.skill.plural": "Compétences",
   "admin.skill.singular": "Compétence",
   "admin.competency.plural": "Habiletés",

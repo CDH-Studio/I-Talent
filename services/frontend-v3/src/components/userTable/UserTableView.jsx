@@ -94,8 +94,8 @@ class UserTableView extends Component {
         <Select
           key={id}
           style={{ width: 120 }}
-          onChange={value => this.handleDropdownChange(value, id)}
-          value={this.profileStatusValue(inactive, flagged)}
+          onChange={value => this.props.handleDropdownChange(value, id)}
+          value={this.props.profileStatusValue(inactive, flagged)}
         >
           <Option
             key="active"
@@ -265,7 +265,10 @@ class UserTableView extends Component {
     return (
       <>
         <PageHeader
-          title="User Table"
+          title={this.props.intl.formatMessage({
+            id: "admin.user.table",
+            defaultMessage: "Users Table"
+          })}
           extra={[
             <Button
               type="primary"

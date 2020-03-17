@@ -14,7 +14,7 @@ class AdminUser extends React.Component {
         history={this.props.history}
         displaySideBar={true}
       >
-        <UserTable type="skill" />
+        <UserTable type="user" />
       </AppLayout>
     );
   }
