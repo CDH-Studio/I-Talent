@@ -3,8 +3,11 @@ import { Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
 import Welcome from "../../../components/profileForms/Welcome";
-import PrimaryInfoForm from "../../profileForms/primaryInfoForm/PrimaryInfoForm";
-import EmploymentDataForm from "../../profileForms/employmentDataForm/EmploymentDataForm";
+import {
+  EmploymentDataForm,
+  LangProficiencyForm,
+  PrimaryInfoForm
+} from "../../profileForms";
 
 const { Step } = Steps;
 
@@ -20,7 +23,7 @@ export default class CreateProfileLayout extends React.Component {
       case 3:
         return <EmploymentDataForm />;
       default:
-        return <div>hello3</div>;
+        return <LangProficiencyForm />;
     }
   }
 
@@ -32,7 +35,7 @@ export default class CreateProfileLayout extends React.Component {
         <Steps direction="vertical" size="small" current={stepInt}>
           <Step title="Welcome" />
           <Step title={<FormattedMessage id="setup.primary.information" />} />
-          <Step title={<FormattedMessage id="setup.manager" />} />
+          <Step title={<FormattedMessage id="setup.employment" />} />
           <Step title={<FormattedMessage id="setup.language.proficiency" />} />
           <Step title={<FormattedMessage id="setup.talent.management" />} />
           <Step title={<FormattedMessage id="setup.skills" />} />
