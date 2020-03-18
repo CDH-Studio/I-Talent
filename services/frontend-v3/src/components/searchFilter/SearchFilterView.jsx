@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select } from "antd";
-
-import { Icon as LegacyIcon } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
-import { Row, Menu } from "antd";
+import { Row } from "antd";
 
 function SearchBarView(props) {
   const { Option } = Select;
-  const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
   const {
     handleSearch,
-    data,
     skillOptions,
     branchOptions,
     classOptions,
@@ -66,7 +62,11 @@ function SearchBarView(props) {
     })
   ];
   return (
-    <Form style={{ padding: "10px" }} form={form} onFinish={onFinish}>
+    <Form
+      style={{ padding: "10px", overflow: "hidden" }}
+      form={form}
+      onFinish={onFinish}
+    >
       <Row>
         <Form.Item label={labelArr[0]} name={searchTitles[0]}>
           <Input style={{ width: 230 }} placeholder={searchLabel} />

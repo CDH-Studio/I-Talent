@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AppLayout from "../layouts/appLayout/AppLayout";
-import { Form } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
 import { Layout } from "antd";
 import { PageHeader } from "antd";
@@ -9,8 +8,6 @@ import ResultsCard from "../resultsCard/ResultsCard";
 import SearchFilter from "../searchFilter/SearchFilter";
 
 function ResultLayoutView(props) {
-  const [collapsed, setCollapsed] = useState(false);
-
   const resultsTitle = props.intl.formatMessage({
     id: "results.title",
     defaultMessage: "Results"
@@ -37,5 +34,4 @@ function ResultLayoutView(props) {
   );
 }
 
-//ResultLayoutView = Form.create({})(ResultLayoutView);
 export default injectIntl(ResultLayoutView);
