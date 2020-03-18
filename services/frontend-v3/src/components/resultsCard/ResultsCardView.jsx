@@ -87,6 +87,7 @@ class ResultsCardView extends React.Component {
 const styles = {
   smallP: {
     lineHeight: "4px",
+    zIndex: "-1",
     marginTop: "10px"
   }
 };
