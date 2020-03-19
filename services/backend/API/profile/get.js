@@ -347,7 +347,10 @@ const getPublicProfileById = async (request, response) => {
       secondaryWritingProficiency: secLangProf
         ? secLangProf.writingProficiency
         : null,
-      secondLanguage: null
+      secondLanguage: {
+        fr: { en: "French", fr: "Français" },
+        en: { en: "English", fr: "Anglais" }
+      }[data.secondLanguage]
     };
 
   // send resData for skills card only if the card is visible
