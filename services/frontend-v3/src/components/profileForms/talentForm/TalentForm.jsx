@@ -13,6 +13,7 @@ function TalentForm() {
   const [languageOptions, setLanguageOptions] = useState(null);
   const [proficiencyOptions, setProficiencyOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
+  const [skillOptions, setSkillOptions] = useState(null);
   const [load, setLoad] = useState(false);
 
   /* useEffect to run once component is mounted */
@@ -58,12 +59,56 @@ function TalentForm() {
       }
     };
 
+    /* get user profile for form drop down */
+    const getSkillOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getCategory";
+        let result = await axios.get(url);
+        console.log(result.data);
+        //console.log(result.data);
+        //result.data.foreach(element => console.log(element));
+        let dataTree = [];
+        for (var i = 0; i < result.data.length; i++) {
+          var parent = {
+            title: result.data[i].description.en,
+            value: result.data[i].id,
+            children: []
+          };
+
+          dataTree.push(parent);
+
+          for (var w = 0; w < result.data[i].skills.length; w++) {
+            var child = {
+              title: result.data[i].skills[w].description.descEn,
+              value: result.data[i].skills[w].id,
+              key: result.data[i].skills[w].id
+            };
+            dataTree[i].children.push(child);
+          }
+          // dataTree.push(obj);
+
+          // dataTree[i].value = result.data[i].id;
+          // var obj = arr[i];
+          // for (var key in obj) {
+          //   var attrName = key;
+          //   var attrValue = obj[key];
+          // }
+        }
+
+        await setSkillOptions(dataTree);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* get all required data component */
     const getAllData = async () => {
       try {
         await getLanguageOptions();
         await getProficiencyOptions();
         await getProfileInfo();
+        await getSkillOptions();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -76,11 +121,13 @@ function TalentForm() {
     getAllData();
   }, []);
 
+  console.log(skillOptions);
   return (
     <TalentFormView
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
+      skillOptions={skillOptions}
       load={load}
     />
   );

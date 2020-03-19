@@ -9,7 +9,9 @@ import {
   Select,
   Switch,
   DatePicker,
-  Button
+  Button,
+  Cascader,
+  TreeSelect
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -22,6 +24,7 @@ import config from "../../../config";
 const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
+const { SHOW_CHILD } = TreeSelect;
 
 /**
  *  LangProficiencyFormView(props)
@@ -329,6 +332,15 @@ const TalentFormView = props => {
     }
   };
 
+  const onChange = value => {
+    console.log(value);
+  };
+
+  // Just show the latest item.
+  const displayRender = label => {
+    return label[label.length - 1];
+  };
+
   useEffect(() => {
     /* check if user has a second language */
     setDisplaySecLangForm(
@@ -355,7 +367,18 @@ const TalentFormView = props => {
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>
-          {/* Create for with initial values */}
+          <TreeSelect
+            treeData={props.skillOptions}
+            onChange={onChange}
+            treeCheckable={true}
+            showCheckedStrategy={SHOW_CHILD}
+            placeholder={"Please select"}
+            showSearch={true}
+            style={{
+              width: "100%"
+            }}
+          />
+          ;{/* Create for with initial values */}
           <Form
             name="basicForm"
             form={form}
