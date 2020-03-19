@@ -21,68 +21,61 @@ function SearchFilter(props) {
     setExpand(!expand);
   };
 
-  //Fetches options for skills select field in advanced search
-  const getSkills = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/option/getDevelopmentalGoals"
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  //Fetches options for branches select field in advanced search
-  const getBranch = async () => {
-    try {
-      let results = await axios.get(backendAddress + "api/option/getBranch");
-      return results.data.filter(
-        elem => elem.description && elem.description.en
-      );
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  //Fetches options for locations select field in advanced search
-  const getLocation = async () => {
-    try {
-      let results = await axios.get(backendAddress + "api/option/getLocation");
-
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  //Fetches options for classifications select field in advanced search
-  const getClassification = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/option/getGroupLevel"
-      );
-
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  //page with query
-  const handleSearch = values => {
-    var query;
-    query = queryString.stringify(values, { arrayFormat: "bracket" });
-    let url = "/secured/results?" + encodeURI(query);
-    props.history.push(url);
-    window.location.reload();
-  };
-
   useEffect(() => {
+    //Fetches options for skills select field in advanced search
+    const getSkills = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/option/getDevelopmentalGoals"
+        );
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
+
+    //Fetches options for branches select field in advanced search
+    const getBranch = async () => {
+      try {
+        let results = await axios.get(backendAddress + "api/option/getBranch");
+        return results.data.filter(
+          elem => elem.description && elem.description.en
+        );
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
+
+    //Fetches options for locations select field in advanced search
+    const getLocation = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/option/getLocation"
+        );
+
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
+
+    //Fetches options for classifications select field in advanced search
+    const getClassification = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/option/getGroupLevel"
+        );
+
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
+
     const updateState = async () => {
       let skills = await getSkills();
       let branches = await getBranch();
@@ -96,6 +89,15 @@ function SearchFilter(props) {
 
     updateState();
   }, []);
+
+  //page with query
+  const handleSearch = values => {
+    var query;
+    query = queryString.stringify(values, { arrayFormat: "bracket" });
+    let url = "/secured/results?" + encodeURI(query);
+    props.history.push(url);
+    window.location.reload();
+  };
 
   return (
     <SearchFilterView
