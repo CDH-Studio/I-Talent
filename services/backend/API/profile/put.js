@@ -153,7 +153,7 @@ const updateProfile = async (request, response) => {
           profile.setSecondLanguageProficiency(secLangProf);
         });
     }
-    if (dbObject.gradedOnSecondLanguage === false) {
+    if (!dbObject.secondLanguage) {
       SecLang.destroy({
         where: { id: profile.dataValues.secondLanguageProficiencyId }
       });

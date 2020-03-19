@@ -104,7 +104,21 @@ const LangProficiencyFormView = props => {
   /* Save data */
   const saveDataToDB = async values => {
     console.log(values);
-    if (displaySecLangForm) {
+    if (!displaySecLangForm) {
+      // clear values before submission
+      values.secondLanguage = null;
+      values.readingProficiency = null;
+      values.writingProficiency = null;
+      values.oralProficiency = null;
+      values.secondaryReadingDate = null;
+      values.secondaryWritingDate = null;
+      values.secondaryOralDate = null;
+    } else {
+      values.secondLanguage = values.firstLanguage === "en" ? "fr" : "en";
+      console.log(values.firstLanguage);
+      console.log(values.secondLanguage);
+      // profile.firstLanguage =
+
       // format dates before submit
       if (values.secondaryReadingDate) {
         values.secondaryReadingDate = values.secondaryReadingDate.startOf(
@@ -297,7 +311,7 @@ const LangProficiencyFormView = props => {
   /* Get the initial values for the form */
   const getInitialValues = profile => {
     let firstLanguage = null;
-
+    console.log(profile);
     // Get default language from API and convert to dropdown key
     if (profile) {
       if (profile.firstLanguage) {
@@ -306,21 +320,23 @@ const LangProficiencyFormView = props => {
 
       return {
         firstLanguage: firstLanguage,
-        ...(profile.temporaryRole.id && {
-          tenureId: profile.temporaryRole.id
+        ...(profile.secondaryReadingProficiency && {
+          readingProficiency: profile.secondaryReadingProficiency
         }),
-        ...(profile.security.id && {
-          securityClearanceId: profile.security.id
+        ...(profile.secondaryWritingProficiency && {
+          writingProficiency: profile.secondaryWritingProficiency
         }),
-        manager: profile.manager,
-        ...(profile.acting.id && {
-          actingId: profile.acting.id
+        ...(profile.secondaryOralProficiency && {
+          oralProficiency: profile.secondaryOralProficiency
         }),
-        ...(profile.actingPeriodStartDate && {
-          actingStartDate: moment(profile.actingPeriodStartDate)
+        ...(profile.secondaryReadingDate && {
+          secondaryReadingDate: moment(profile.secondaryReadingDate)
         }),
-        ...(profile.actingPeriodEndDate && {
-          actingEndDate: moment(profile.actingPeriodEndDate)
+        ...(profile.secondaryWritingDate && {
+          secondaryWritingDate: moment(profile.secondaryWritingDate)
+        }),
+        ...(profile.secondaryOralDate && {
+          secondaryOralDate: moment(profile.secondaryOralDate)
         })
       };
     } else {
@@ -329,10 +345,13 @@ const LangProficiencyFormView = props => {
   };
 
   useEffect(() => {
+    console.log("props.profileInfo");
+    // console.log(props.profileInfo.secondLanguage.en);
     /* check if user has acting information in db to expand acting form */
     setDisplaySecLangForm(
-      props.profileInfo ? !!props.profileInfo.acting.id : false
+      props.profileInfo ? Boolean(props.profileInfo.secondLanguage) : false
     );
+    //setDisplaySecLangForm(Boolean(props.profileInfo.secondLanguage));
   }, [props.profileInfo]);
 
   /************************************
