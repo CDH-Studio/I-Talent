@@ -14,6 +14,9 @@ const { backendAddress } = config;
 
 function ProfileCardsView(props) {
   const [disabled, setDisabled] = useState(true);
+  // let [visibleCards, setVisibleCards] = useState(
+  //   props.profileInfo.visibleCards
+  // );
 
   const getToggleValue = () => {
     let toggleValue;
@@ -61,27 +64,34 @@ function ProfileCardsView(props) {
   };
 
   /* Handle card hidden features */
+  // let visibleCards;
   const handleToggle = async toggleValue => {
     let visibleCards = props.profileInfo.visibleCards;
+    console.log("state--initial-->1", visibleCards);
     const cardNameToBeModified = props.cardName;
     setDisabled(toggleValue);
 
     visibleCards[cardNameToBeModified] = toggleValue;
 
-    console.log("card ==>", cardNameToBeModified, "value", toggleValue);
-
     //Update visibleCards state in profile
     try {
-      await axios.put(
-        backendAddress + "api/profile/" + localStorage.getItem("userId"),
-        { visibleCards }
-      );
+      await axios
+        .put(backendAddress + "api/profile/" + localStorage.getItem("userId"), {
+          visibleCards
+        })
+        .then(async () => {
+          let url =
+            backendAddress + "api/profile/" + localStorage.getItem("userId");
+          let result = await axios.get(url);
+          let updatedProfileInfo = result.data;
+          visibleCards = updatedProfileInfo.visibleCards;
+          console.log("state--updated-->69", visibleCards);
+        });
     } catch (error) {
       console.log(error);
     }
+    //Get updated visibleCards state in profile
   };
-
-  // let toogleValue = getToggleValue(cardName);
 
   const generateSwitchButton = cardName => {
     if (props.load) {
