@@ -33,8 +33,8 @@ const { Title } = Typography;
 const EmploymentDataFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
-  const [enableTemEndDate, setEnableTemEndDate] = useState();
+  const [displaySecLangForm, setDisplaySecLangForm] = useState(false);
+  const [enableSecondLang, setEnableSecondLang] = useState();
 
   /* Component Styles */
   const styles = {
@@ -98,20 +98,20 @@ const EmploymentDataFormView = props => {
   };
 
   /* toggle temporary role form */
-  const toggleTempRoleForm = () => {
-    setDisplayTempRoleForm(!displayTempRoleForm);
+  const toggleSecLangForm = () => {
+    setDisplaySecLangForm(!displaySecLangForm);
   };
 
   /* enable or disable end date field */
   const toggleTempEndDate = () => {
-    console.log(enableTemEndDate);
+    console.log(enableSecondLang);
     // reset end date value
-    if (enableTemEndDate) {
+    if (enableSecondLang) {
       form.setFieldsValue({
         actingEndDate: null
       });
     }
-    setEnableTemEndDate(!enableTemEndDate);
+    setEnableSecondLang(!enableSecondLang);
   };
 
   /* Disable all dates before start date */
@@ -130,7 +130,7 @@ const EmploymentDataFormView = props => {
 
   /* Save data */
   const saveDataToDB = async values => {
-    if (!displayTempRoleForm) {
+    if (!displaySecLangForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;
       values.actingStartDate = null;
@@ -175,9 +175,16 @@ const EmploymentDataFormView = props => {
   };
 
   /* save and redirect to home */
-  const onSaveAndFinish = async values => {
-    await saveDataToDB(values);
-    history.push("/secured/home");
+  const onSaveAndFinish = async () => {
+    form
+      .validateFields()
+      .then(async values => {
+        await saveDataToDB(values);
+        history.push("/secured/home");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /* reset form fields */
@@ -228,19 +235,19 @@ const EmploymentDataFormView = props => {
             <Form.Item
               name="actingEndDate"
               label={<FormattedMessage id="profile.acting.period.end.date" />}
-              rules={enableTemEndDate ? [Rules.required] : undefined}
+              rules={enableSecondLang ? [Rules.required] : undefined}
             >
               <DatePicker
                 style={styles.datePicker}
                 disabledDate={disabledDatesBeforeStart}
-                disabled={!enableTemEndDate}
+                disabled={!enableSecondLang}
                 placeholder={"unknown"}
               />
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
                 onChange={toggleTempEndDate}
-                defaultChecked={enableTemEndDate}
+                defaultChecked={enableSecondLang}
               >
                 <FormattedMessage id="profile.acting.has.end.date" />
               </Checkbox>
@@ -284,12 +291,12 @@ const EmploymentDataFormView = props => {
 
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
-    setDisplayTempRoleForm(
+    setDisplaySecLangForm(
       props.profileInfo ? !!props.profileInfo.acting.id : false
     );
 
     /* check if user has acting end date to enable the date felid on load */
-    setEnableTemEndDate(
+    setEnableSecondLang(
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
   }, [props.profileInfo]);
@@ -420,10 +427,10 @@ const EmploymentDataFormView = props => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displayTempRoleForm}
-                  onChange={toggleTempRoleForm}
+                  defaultChecked={displaySecLangForm}
+                  onChange={toggleSecLangForm}
                 />
-                {getTempRoleForm(displayTempRoleForm)}
+                {getTempRoleForm(displaySecLangForm)}
               </Col>
             </Row>
             {/* Form Row Five: Submit button */}
@@ -432,7 +439,7 @@ const EmploymentDataFormView = props => {
                 <Button
                   style={styles.finishAndSaveBtn}
                   onClick={onSaveAndFinish}
-                  htmlType="submit"
+                  htmlType="button"
                 >
                   <CheckOutlined style={{ marginRight: "0.2rem" }} />
                   {<FormattedMessage id="setup.save.and.finish" />}

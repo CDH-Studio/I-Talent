@@ -1,43 +1,37 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import AppLayout from "../layouts/appLayout/AppLayout";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import "@ant-design/compatible/assets/index.css";
 import { Layout } from "antd";
 import { PageHeader } from "antd";
 import { injectIntl } from "react-intl";
 import ResultsCard from "../resultsCard/ResultsCard";
+import SearchFilter from "../searchFilter/SearchFilter";
 
-class ResultLayoutView extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      collapsed: false
-    };
-  }
-
-  render() {
-    const resultsTitle = this.props.intl.formatMessage({
-      id: "results.title",
-      defaultMessage: "Results"
-    });
-    return (
-      <Layout>
-        <AppLayout
-          changeLanguage={this.props.changeLanguage}
-          displaySideBar={true}
-          //sideBarContent={}
-        >
-          <PageHeader title={resultsTitle} />
-          <ResultsCard
-            changeLanguage={this.props.changeLanguage}
-            history={this.props.history}
+function ResultLayoutView(props) {
+  const resultsTitle = props.intl.formatMessage({
+    id: "results.title",
+    defaultMessage: "Results"
+  });
+  return (
+    <Layout>
+      <AppLayout
+        changeLanguage={props.changeLanguage}
+        displaySideBar={true}
+        sideBarContent={
+          <SearchFilter
+            changeLanguage={props.changeLanguage}
+            history={props.history}
           />
-        </AppLayout>
-      </Layout>
-    );
-  }
+        }
+      >
+        <PageHeader title={resultsTitle} />
+        <ResultsCard
+          changeLanguage={props.changeLanguage}
+          history={props.history}
+        />
+      </AppLayout>
+    </Layout>
+  );
 }
 
-ResultLayoutView = Form.create({})(ResultLayoutView);
 export default injectIntl(ResultLayoutView);
