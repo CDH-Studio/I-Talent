@@ -7,10 +7,8 @@ import {
   Divider,
   Form,
   Select,
-  Input,
   Switch,
   DatePicker,
-  Checkbox,
   Button
 } from "antd";
 import { useHistory } from "react-router-dom";
@@ -59,7 +57,7 @@ const LangProficiencyFormView = props => {
     subHeading: {
       fontSize: "1.3em"
     },
-    tempRoleRow: {
+    secondLangRow: {
       backgroundColor: "#dfe5e4",
       paddingTop: "15px",
       paddingBottom: "15px",
@@ -85,14 +83,6 @@ const LangProficiencyFormView = props => {
     required: {
       required: true,
       message: "Required"
-    },
-    maxChar50: {
-      max: 50,
-      message: "Max length 50 characters"
-    },
-    maxChar100: {
-      max: 50,
-      message: "Max length 100 characters"
     }
   };
 
@@ -103,7 +93,6 @@ const LangProficiencyFormView = props => {
 
   /* Save data */
   const saveDataToDB = async values => {
-    console.log(values);
     if (!displaySecLangForm) {
       // clear values before submission
       values.secondLanguage = null;
@@ -114,10 +103,8 @@ const LangProficiencyFormView = props => {
       values.secondaryWritingDate = null;
       values.secondaryOralDate = null;
     } else {
+      // set second language based on first language
       values.secondLanguage = values.firstLanguage === "en" ? "fr" : "en";
-      console.log(values.firstLanguage);
-      console.log(values.secondLanguage);
-      // profile.firstLanguage =
 
       // format dates before submit
       if (values.secondaryReadingDate) {
@@ -184,7 +171,6 @@ const LangProficiencyFormView = props => {
 
   /* Get temporary role form based on if the form switch is toggled */
   const getSecondLanguageForm = expandTempRoleForm => {
-    console.log(props.proficiencyOptions[0].key);
     if (expandTempRoleForm) {
       return (
         <div>
@@ -310,9 +296,8 @@ const LangProficiencyFormView = props => {
 
   /* Get the initial values for the form */
   const getInitialValues = profile => {
-    let firstLanguage = null;
-    console.log(profile);
     // Get default language from API and convert to dropdown key
+    let firstLanguage = null;
     if (profile) {
       if (profile.firstLanguage) {
         firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
@@ -345,13 +330,10 @@ const LangProficiencyFormView = props => {
   };
 
   useEffect(() => {
-    console.log("props.profileInfo");
-    // console.log(props.profileInfo.secondLanguage.en);
-    /* check if user has acting information in db to expand acting form */
+    /* check if user has a second language */
     setDisplaySecLangForm(
       props.profileInfo ? Boolean(props.profileInfo.secondLanguage) : false
     );
-    //setDisplaySecLangForm(Boolean(props.profileInfo.secondLanguage));
   }, [props.profileInfo]);
 
   /************************************
@@ -407,7 +389,7 @@ const LangProficiencyFormView = props => {
               </Col>
             </Row>
             {/* Form Row Four: Temporary role */}
-            <Row style={styles.tempRoleRow} gutter={24}>
+            <Row style={styles.secondLangRow} gutter={24}>
               <Col className="gutter-row" span={24}>
                 <FormLabelTooltip
                   labelText={
