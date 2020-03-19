@@ -117,51 +117,50 @@ function Admin(props) {
                 </div>
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
 
-            {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+          {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
 
-            <Route
-              exact
-              path="/admin/"
-              render={() => <Redirect to="/admin/dashboard" />}
-            />
-            <Route
-              exact
-              path="/admin/dashboard"
-              render={routeProps => (
-                <AdminDasboard
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/user"
-              render={routeProps => (
-                <AdminUser
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/skill"
-              render={routeProps => (
-                <AdminSkill
-                  keycloak={keycloak}
-                  changeLanguage={this.changeLanguage}
-                  {...routeProps}
-                />
-              )}
-            />
-          </div>
-        );
-      } else {
-        return <div>Unable to authenticate!</div>;
-      }
+          <Route
+            exact
+            path="/admin/"
+            render={() => <Redirect to="/admin/dashboard" />}
+          />
+          <Route
+            exact
+            path="/admin/dashboard"
+            render={routeProps => (
+              <AdminDasboard
+                keycloak={keycloak}
+                changeLanguage={changeLanguage}
+                {...routeProps}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/user"
+            render={routeProps => (
+              <AdminUser
+                keycloak={keycloak}
+                changeLanguage={changeLanguage}
+                {...routeProps}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/skill"
+            render={routeProps => (
+              <AdminSkill
+                keycloak={keycloak}
+                changeLanguage={changeLanguage}
+                {...routeProps}
+              />
+            )}
+          />
+        </div>
+      );
+    } else {
+      return <div>Unable to authenticate!</div>;
     }
   }
   return <div></div>;
