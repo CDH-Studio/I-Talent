@@ -24,9 +24,9 @@ const { Option } = Select;
 const { Title } = Typography;
 
 /**
- *  EmploymentDataFormView(props)
- *  this component renders the employment information form.
- *  It contains a toggle to set the acting role
+ *  LangProficiencyFormView(props)
+ *  this component renders the language proficiency form.
+ *  It contains a toggle to set the second language
  */
 const LangProficiencyFormView = props => {
   const history = useHistory();
