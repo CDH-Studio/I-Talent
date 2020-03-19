@@ -1,211 +1,124 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SkillTableView from "./SkillTableView";
 import { Skeleton, message } from "antd";
 import axios from "axios";
-import _ from "lodash";
+// import _ from "lodash";
 import { injectIntl } from "react-intl";
 import config from "../../config";
 
 const backendAddress = config.backendAddress;
 
-class SkillTable extends React.Component {
-  constructor(props) {
-    super(props);
+function SkillTable(props) {
+  const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  // const [allData, setAllData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [size] = useState("large");
+  // const [categories, setCategories] = useState(null);
 
-    this.state = {
-      type: this.props.type,
-      column: null,
-      allData: null,
-      allCategories: null,
-      data: null,
-      direction: null,
-      loading: true,
-      searchText: "",
-      searchedColumn: "",
-      size: "large",
-      selectedRowKeys: [],
-      id: null,
-      confirm: null,
-      english: null,
-      french: null,
-      category: null,
-      visible: false,
-      record: null
-    };
-  }
+  const { type } = props;
 
-  componentDidMount() {
-    document.title = this.getDisplayType(true) + " - Admin | MyTalent";
-    axios
-      .get(backendAddress + "api/admin/options/" + this.state.type)
-      .then(res =>
-        this.setState({
-          allData: res.data,
-          data: _.sortBy(res.data, ["descriptionEn"]),
-          loading: false,
-          column: "english",
-          direction: "ascending"
-        })
-      )
-      .catch(function(error) {
-        console.error(error);
-      });
-    axios
-      .get(backendAddress + "api/admin/options/categories/" + this.state.type)
-      .then(res =>
-        this.setState({
-          allCategories: res.data
-        })
-      )
-      .catch(function(error) {
-        console.error(error);
-      });
-  }
+  const getSkill = async () => {
+    try {
+      let results = await axios.get(
+        backendAddress + "api/admin/options/" + type
+      );
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
 
-  getDisplayType = plural => {
+  const getCategories = async () => {
+    try {
+      let results = await axios.get(
+        backendAddress + "api/admin/options/categories/" + type
+      );
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  const getDisplayType = plural => {
     if (plural)
-      return this.props.intl.formatMessage({
-        id: "admin." + this.state.type + ".plural",
-        defaultMessage: this.state.type
+      return props.intl.formatMessage({
+        id: "admin." + type + ".plural",
+        defaultMessage: type
       });
 
-    return this.props.intl.formatMessage({
-      id: "admin." + this.state.type + ".singular",
-      defaultMessage: this.state.type
+    return props.intl.formatMessage({
+      id: "admin." + type + ".singular",
+      defaultMessage: type
     });
   };
 
-  handleSearch = (selectedKeys, confirm, dataIndex) => {
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    this.setState({
-      searchText: selectedKeys[0],
-      searchedColumn: dataIndex
-    });
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
-  handleReset = clearFilters => {
+  const handleReset = clearFilters => {
     clearFilters();
-    this.setState({ searchText: "" });
+    setSearchText("");
   };
 
-  handleClick = (type, id, en, fr, categoryId) => {
-    this.setState({
-      id: id,
-      confirm: type,
-      english: en,
-      french: fr,
-      category: categoryId
-    });
+  const handleSubmitDelete = async () => {
+    try {
+      console.log("Delete Values: ", selectedRowKeys);
+
+      const url = backendAddress + "api/admin/delete/" + type;
+
+      await axios.post(url, { ids: selectedRowKeys });
+
+      // deleteValues (if needed)
+
+      await getSkill();
+
+      console.log(data);
+      console.log(loading);
+
+      setSelectedRowKeys([]);
+
+      message.success(
+        props.intl.formatMessage({
+          id: "admin.success",
+          defaultMessage: "Successful"
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
   };
 
-  // handleSubmitAdd = () => {
-  //   const { type, english, french } = this.state;
-
-  //   const url = backendAddress + "api/admin/options/" + type;
-  //   axios
-  //   .post(url, )
-  // };
-
-  handleSubmitDelete = () => {
-    const { type, selectedRowKeys } = this.state;
-    console.log("Delete Values: ", selectedRowKeys);
-    const url = backendAddress + "api/admin/delete/" + type;
-    axios.post(url, { ids: selectedRowKeys }).then(() => {
-      this.setState({
-        deleteValues: [],
-        english: null,
-        french: null,
-        confirm: null,
-        category: null
-      });
-
-      axios
-        .get(backendAddress + "api/admin/options/" + this.state.type)
-        .then(res =>
-          this.setState({
-            allData: res.data,
-            data: res.data
-          })
-        )
-        .catch(function(error) {
-          console.error(error);
-        });
-    });
-    this.setState(({ selectedRowKeys }) => {
-      selectedRowKeys = [];
-      return { selectedRowKeys };
-    });
-    message.success(
-      this.props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful"
-      })
-    );
-  };
-
-  handleSubmitCancel = () => {
-    this.setState({ confirm: null, id: null });
+  const handleSubmitCancel = () => {
     message.error(
-      this.props.intl.formatMessage({
+      props.intl.formatMessage({
         id: "admin.cancelled",
         defaultMessage: "Cancelled"
       })
     );
   };
 
-  rowSelection() {
-    const rowSelection = {
-      onChange: selectedRowKeys => {
-        this.onSelectChange(selectedRowKeys);
-      }
-    };
-    return rowSelection;
-  }
+  const rowSelection = {
+    onChange: selectedRowKeys => {
+      onSelectChange(selectedRowKeys);
+    }
+  };
 
-  onSelectChange = selectedRowKeys => {
+  const onSelectChange = selectedRowKeys => {
     console.log("selectedRowKeys changed: ", selectedRowKeys);
-    this.setState({ selectedRowKeys });
+    setSelectedRowKeys(selectedRowKeys);
   };
 
-  showEditModal = record => {
-    this.setState({ record });
-    //console.log(record);
-    this.setState({
-      visible: true
-    });
-  };
-
-  showAddModal = () => {
-    this.setState({
-      visible: true
-    });
-  };
-
-  handleOk = () => {
-    this.setState({
-      visible: false
-    });
-    message.success(
-      this.props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful"
-      })
-    );
-  };
-
-  handleCancel = () => {
-    this.setState({
-      visible: false
-    });
-    message.error(
-      this.props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled"
-      })
-    );
-  };
-
-  getSkillInformation(data) {
+  const getSkillInformation = () => {
     let allSkills = data;
 
     for (let i = 0; i < allSkills.length; i++) {
@@ -217,53 +130,40 @@ class SkillTable extends React.Component {
       e.categoryNameFr = e.category.descriptionFr;
     });
 
-    console.log(allSkills);
-
     return allSkills;
+  };
+
+  useEffect(() => {
+    document.title = getDisplayType(true) + " - Admin | MyTalent ";
+    const updateState = async () => {
+      let skills = await getSkill();
+      let categories = await getCategories();
+      setData(skills);
+      setCategories(categories);
+      setLoading(false);
+    };
+    updateState();
+  }, []);
+
+  if (loading) {
+    return <Skeleton active />;
   }
 
-  render() {
-    const {
-      data,
-      loading,
-      size,
-      selectedRowKeys,
-      visible,
-      searchedColumn,
-      searchText,
-      record,
-      allCategories
-    } = this.state;
-
-    if (loading) {
-      return <Skeleton active />;
-    }
-
-    console.log(allCategories);
-
-    return (
-      <SkillTableView
-        data={this.getSkillInformation(data)}
-        allCategories={allCategories}
-        selectedRowKeys={selectedRowKeys}
-        visible={visible}
-        record={record}
-        handleSearch={this.handleSearch}
-        handleReset={this.handleReset}
-        size={size}
-        handleClick={this.handleClick}
-        handleSubmitDelete={this.handleSubmitDelete}
-        handleSubmitCancel={this.handleSubmitCancel}
-        rowSelection={this.rowSelection()}
-        showEditModal={this.showEditModal}
-        showAddModal={this.showAddModal}
-        handleOk={this.handleOk}
-        handleCancel={this.handleCancel}
-        searchedColumn={searchedColumn}
-        searchText={searchText}
-      />
-    );
-  }
+  return (
+    <SkillTableView
+      handleSearch={handleSearch}
+      handleReset={handleReset}
+      handleSubmitDelete={handleSubmitDelete}
+      handleSubmitCancel={handleSubmitCancel}
+      selectedRowKeys={selectedRowKeys}
+      searchedColumn={searchedColumn}
+      searchText={searchText}
+      size={size}
+      rowSelection={rowSelection}
+      data={getSkillInformation()}
+      categories={categories}
+    />
+  );
 }
 
 export default injectIntl(SkillTable);

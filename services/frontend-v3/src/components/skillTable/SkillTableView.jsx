@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   PageHeader,
   Row,
@@ -9,7 +9,8 @@ import {
   Modal,
   Popconfirm,
   Form,
-  Select
+  Select,
+  message
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -20,15 +21,30 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-const { Option } = Select;
+function SkillTableView(props) {
+  const [form] = Form.useForm();
+  const { Option } = Select;
+  const [modalType, setModalType] = useState("");
+  const [editVisible, setEditVisible] = useState(false);
+  const [addVisible, setAddVisible] = useState(false);
+  const [record, setRecord] = useState({});
+  const [searchInput, setSearchInput] = useState();
 
-class SkillTableView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  const {
+    handleSearch,
+    handleReset,
+    handleSubmitDelete,
+    handleSubmitCancel,
+    selectedRowKeys,
+    searchedColumn,
+    searchText,
+    size,
+    rowSelection,
+    data,
+    categories
+  } = props;
 
-  // Search Function
-  getColumnSearchProps = (dataIndex, title) => ({
+  const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -38,10 +54,10 @@ class SkillTableView extends React.Component {
       <div style={{ padding: 8 }}>
         <Input
           ref={node => {
-            this.searchInput = node;
+            setSearchInput(node);
           }}
           placeholder={
-            this.props.intl.formatMessage({
+            props.intl.formatMessage({
               id: "admin.search",
               defaultMessage: "Search for"
             }) +
@@ -52,28 +68,30 @@ class SkillTableView extends React.Component {
           onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
-          onPressEnter={() =>
-            this.props.handleSearch(selectedKeys, confirm, dataIndex)
-          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{ width: 188, marginBottom: 8, display: "block" }}
         />
         <Button
           type="primary"
-          onClick={() =>
-            this.props.handleSearch(selectedKeys, confirm, dataIndex)
-          }
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          Search
+          {props.intl.formatMessage({
+            id: "admin.search.button",
+            defaultMessage: "Search"
+          })}
         </Button>
         <Button
-          onClick={() => this.props.handleReset(clearFilters)}
+          onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          Reset
+          {props.intl.formatMessage({
+            id: "admin.reset.button",
+            defaultMessage: "Reset"
+          })}
         </Button>
       </div>
     ),
@@ -86,15 +104,17 @@ class SkillTableView extends React.Component {
         .toLowerCase()
         .includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => this.searchInput.select());
-      }
+      try {
+        if (visible) {
+          setTimeout(() => searchInput.select());
+        }
+      } catch (error) {}
     },
     render: text =>
-      this.props.searchedColumn === dataIndex ? (
+      searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[this.props.searchText]}
+          searchWords={[searchText]}
           autoEscape
           textToHighlight={text.toString()}
         />
@@ -103,23 +123,22 @@ class SkillTableView extends React.Component {
       )
   });
 
-  deleteConfirm = () => {
-    const { size, selectedRowKeys } = this.props;
+  const deleteConfirm = () => {
     return (
       <Popconfirm
         placement="left"
-        title={this.props.intl.formatMessage({
+        title={props.intl.formatMessage({
           id: "admin.delete.confirmation",
           defaultMessage:
             "Are you sure you want to delete all the selected values?"
         })}
-        onConfirm={this.props.handleSubmitDelete}
-        onCancel={this.props.handleSubmitCancel}
-        okText={this.props.intl.formatMessage({
+        onConfirm={handleSubmitDelete}
+        onCancel={handleSubmitCancel}
+        okText={props.intl.formatMessage({
           id: "admin.delete",
           defaultMessage: "Delete"
         })}
-        cancelText={this.props.intl.formatMessage({
+        cancelText={props.intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel"
         })}
@@ -128,12 +147,9 @@ class SkillTableView extends React.Component {
           type="primary"
           icon={<DeleteOutlined />}
           size={size}
-          onClick={() => {
-            this.props.handleClick("delete");
-          }}
           disabled={selectedRowKeys.length === 0}
         >
-          {this.props.intl.formatMessage({
+          {props.intl.formatMessage({
             id: "admin.delete",
             defaultMessage: "Delete"
           })}
@@ -141,23 +157,28 @@ class SkillTableView extends React.Component {
       </Popconfirm>
     );
   };
-  /////////////////////
 
-  addSkillButton = () => {
-    const { visible, allCategories } = this.props;
-    const [form] = Form.useForm();
+  const onCreate = values => {
+    if (modalType === "edit") {
+      console.log("(Edit) Received values of form: ", values);
+    } else if (modalType === "add") {
+      console.log("(Add) Received values of form: ", values);
+    }
+  };
+
+  const addSkillButton = () => {
     return (
       <Modal
-        title={this.props.intl.formatMessage({
+        title={props.intl.formatMessage({
           id: "admin.edit.skill",
           defaultMessage: "Edit Skill"
         })}
-        visible={visible}
-        okText={this.props.intl.formatMessage({
+        visible={addVisible}
+        okText={props.intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply"
         })}
-        cancelText={this.props.intl.formatMessage({
+        cancelText={props.intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel"
         })}
@@ -166,18 +187,19 @@ class SkillTableView extends React.Component {
             .validateFields()
             .then(values => {
               form.resetFields();
+              onCreate(values);
             })
             .catch(info => {
               console.log("Validate Failed:", info);
             });
-          this.handleOk();
+          handleOk();
         }}
-        onCancel={this.props.handleCancel}
+        onCancel={handleCancel()}
       >
         <Form name="addSkill" layout="vertical">
           <Form.Item
-            name="skillEn"
-            label={this.props.intl.formatMessage({
+            name="addSkillEn"
+            label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English"
             })}
@@ -191,8 +213,8 @@ class SkillTableView extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
-            name="skillFr"
-            label={this.props.intl.formatMessage({
+            name="addSkillFr"
+            label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French"
             })}
@@ -206,8 +228,8 @@ class SkillTableView extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
-            name="select_category"
-            label={this.props.intl.formatMessage({
+            name="addSkillCategory"
+            label={props.intl.formatMessage({
               id: "admin.category",
               defaultMessage: "Category"
             })}
@@ -215,12 +237,12 @@ class SkillTableView extends React.Component {
             <Select
               showSearch
               placeholder={
-                this.props.intl.formatMessage({
+                props.intl.formatMessage({
                   id: "admin.select",
                   defaultMessage: "Select"
                 }) +
                 " " +
-                this.props.intl.formatMessage({
+                props.intl.formatMessage({
                   id: "admin.category",
                   defaultMessage: "Category"
                 })
@@ -230,11 +252,10 @@ class SkillTableView extends React.Component {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {allCategories.map(category => {
+              {categories.map(category => {
                 return (
                   <Option value={category.id}>
-                    {this.props.intl.formatMessage({ id: "language.code" }) ===
-                    "en"
+                    {props.intl.formatMessage({ id: "language.code" }) === "en"
                       ? category.descriptionEn
                       : category.descriptionFr}
                   </Option>
@@ -247,27 +268,23 @@ class SkillTableView extends React.Component {
     );
   };
 
-  editSkillButton = () => {
-    const { visible, allCategories } = this.props;
-    const [form] = Form.useForm();
-    const record = this.props.record || {};
-    console.log(record);
+  const editSkillButton = () => {
     const categoryName =
-      this.props.intl.formatMessage({ id: "language.code" }) === "en"
+      props.intl.formatMessage({ id: "language.code" }) === "en"
         ? record.categoryNameEn
         : record.categoryNameFr;
     return (
       <Modal
-        title={this.props.intl.formatMessage({
+        visible={editVisible}
+        title={props.intl.formatMessage({
           id: "admin.edit.skill",
           defaultMessage: "Edit Skill"
         })}
-        visible={visible}
-        okText={this.props.intl.formatMessage({
+        okText={props.intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply"
         })}
-        cancelText={this.props.intl.formatMessage({
+        cancelText={props.intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel"
         })}
@@ -276,41 +293,40 @@ class SkillTableView extends React.Component {
             .validateFields()
             .then(values => {
               form.resetFields();
+              onCreate(values);
             })
             .catch(info => {
               console.log("Validate Failed:", info);
             });
-          this.handleOk();
+          handleOk();
         }}
-        onCancel={this.props.handleCancel}
+        onCancel={handleCancel()}
       >
         <Form
-          name={record.descriptionEn + "/" + record.descriptionFr}
+          name="editSkill"
           layout="vertical"
           fields={[
-            { name: [record.descriptionEn], value: record.descriptionEn },
-            { name: [record.descriptionFr], value: record.descriptionFr },
-            { name: ["select_category"], value: categoryName }
+            { name: ["editSkillEn"], value: record.descriptionEn },
+            { name: ["editSkillFr"], value: record.descriptionFr },
+            {
+              name: ["editSkillCategory"],
+              value: categoryName
+            }
           ]}
         >
           <Form.Item
-            name={record.descriptionEn}
-            label={this.props.intl.formatMessage({
+            name="editSkillEn"
+            label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English"
             })}
-            rules={[
-              {
-                required: true,
-                message: "Please fill out!"
-              }
-            ]}
+            rules={[{ required: true, message: "Please fill out!" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={record.descriptionFr}
-            label={this.props.intl.formatMessage({
+            name="editSkillFr"
+            label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French"
             })}
@@ -324,8 +340,8 @@ class SkillTableView extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
-            name="select_category"
-            label={this.props.intl.formatMessage({
+            name="editSkillCategory"
+            label={props.intl.formatMessage({
               id: "admin.category",
               defaultMessage: "Category"
             })}
@@ -333,12 +349,12 @@ class SkillTableView extends React.Component {
             <Select
               showSearch
               placeholder={
-                this.props.intl.formatMessage({
+                props.intl.formatMessage({
                   id: "admin.select",
                   defaultMessage: "Select"
                 }) +
                 " " +
-                this.props.intl.formatMessage({
+                props.intl.formatMessage({
                   id: "admin.category",
                   defaultMessage: "Category"
                 })
@@ -348,11 +364,10 @@ class SkillTableView extends React.Component {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {allCategories.map(category => {
+              {categories.map(category => {
                 return (
                   <Option value={category.id}>
-                    {this.props.intl.formatMessage({ id: "language.code" }) ===
-                    "en"
+                    {props.intl.formatMessage({ id: "language.code" }) === "en"
                       ? category.descriptionEn
                       : category.descriptionFr}
                   </Option>
@@ -365,15 +380,72 @@ class SkillTableView extends React.Component {
     );
   };
 
-  skillTableColumns() {
+  const handleOk = () => {
+    if (modalType === "edit") {
+      setEditVisible(false);
+      setRecord(null);
+      setModalType("");
+      message.success(
+        props.intl.formatMessage({
+          id: "admin.success",
+          defaultMessage: "Successful"
+        })
+      );
+    } else if (modalType === "add") {
+      setAddVisible(false);
+      setModalType("");
+      message.success(
+        props.intl.formatMessage({
+          id: "admin.success",
+          defaultMessage: "Successful"
+        })
+      );
+    }
+  };
+
+  const handleCancel = () => {
+    if (modalType === "edit") {
+      setEditVisible(false);
+      setModalType("");
+      message.error(
+        props.intl.formatMessage({
+          id: "admin.cancelled",
+          defaultMessage: "Cancelled"
+        })
+      );
+    } else if (modalType === "add") {
+      setAddVisible(false);
+      setModalType("");
+      message.error(
+        props.intl.formatMessage({
+          id: "admin.cancelled",
+          defaultMessage: "Cancelled"
+        })
+      );
+    }
+  };
+
+  const handleEditModal = record => {
+    setEditVisible(true);
+    console.log(record);
+    setRecord(record);
+    setModalType("edit");
+  };
+
+  const handleAddModal = () => {
+    setAddVisible(true);
+    setModalType("add");
+  };
+
+  const skillTableColumns = () => {
     const categoryName =
-      this.props.intl.formatMessage({ id: "language.code" }) === "en"
+      props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "categoryNameEn"
         : "categoryNameFr";
 
     const skill_table_columns = [
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "language.english",
           defaultMessage: "English"
         }),
@@ -382,16 +454,16 @@ class SkillTableView extends React.Component {
         sorter: (a, b) => {
           return a.descriptionEn.localeCompare(b.descriptionEn);
         },
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           "descriptionEn",
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "language.english",
             defaultMessage: "English"
           })
         )
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "language.french",
           defaultMessage: "French"
         }),
@@ -400,16 +472,16 @@ class SkillTableView extends React.Component {
         sorter: (a, b) => {
           return a.descriptionFr.localeCompare(b.descriptionFr);
         },
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           "descriptionFr",
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "language.french",
             defaultMessage: "French"
           })
         )
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.category",
           defaultMessage: "Category"
         }),
@@ -418,16 +490,16 @@ class SkillTableView extends React.Component {
         sorter: (a, b) => {
           return a[categoryName].localeCompare(b[categoryName]);
         },
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           categoryName,
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "admin.category",
             defaultMessage: "Category"
           })
         )
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.edit",
           defaultMessage: "Edit"
         }),
@@ -438,53 +510,55 @@ class SkillTableView extends React.Component {
               type="primary"
               shape="circle"
               icon={<EditOutlined />}
-              onClick={() => this.props.showEditModal(record)}
+              onClick={() => {
+                handleEditModal(record);
+              }}
             />
-            {this.editSkillButton()}
           </div>
         )
       }
     ];
 
     return skill_table_columns;
-  }
+  };
 
-  render() {
-    const { data, size, rowSelection } = this.props;
-    return (
-      <>
-        <PageHeader
-          title="Skills Table"
-          extra={[
-            this.deleteConfirm(),
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              size={size}
-              onClick={() => {
-                this.props.showAddModal();
-                this.addSkillButton();
-              }}
-            >
-              {this.props.intl.formatMessage({
-                id: "admin.add",
-                defaultMessage: "Add"
-              })}
-            </Button>
-          ]}
-        />
-        <Row gutter={[0, 8]}>
-          <Col span={24}>
-            <Table
-              rowSelection={rowSelection}
-              columns={this.skillTableColumns()}
-              dataSource={data}
-            />
-          </Col>
-        </Row>
-      </>
-    );
-  }
+  return (
+    <>
+      {addSkillButton()}
+      {editSkillButton()}
+      <PageHeader
+        title={props.intl.formatMessage({
+          id: "admin.skill.table",
+          defaultMessage: "Skills Table"
+        })}
+        extra={[
+          deleteConfirm(),
+          <Button
+            type="primary"
+            icon={<PlusCircleOutlined />}
+            size={size}
+            onClick={() => {
+              handleAddModal();
+            }}
+          >
+            {props.intl.formatMessage({
+              id: "admin.add",
+              defaultMessage: "Add"
+            })}
+          </Button>
+        ]}
+      />
+      <Row gutter={[0, 8]}>
+        <Col span={24}>
+          <Table
+            rowSelection={rowSelection}
+            columns={skillTableColumns()}
+            dataSource={data}
+          />
+        </Col>
+      </Row>
+    </>
+  );
 }
 
 export default injectIntl(SkillTableView);
