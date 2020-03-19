@@ -33,8 +33,7 @@ const { Title } = Typography;
 const LangProficiencyFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displayTempRoleForm, setDisplayTempRoleForm] = useState(false);
-  const [enableTemEndDate, setEnableTemEndDate] = useState();
+  const [displaySecLangForm, setDisplaySecLangForm] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -98,50 +97,27 @@ const LangProficiencyFormView = props => {
   };
 
   /* toggle temporary role form */
-  const toggleTempRoleForm = () => {
-    setDisplayTempRoleForm(!displayTempRoleForm);
-  };
-
-  /* enable or disable end date field */
-  const toggleTempEndDate = () => {
-    console.log(enableTemEndDate);
-    // reset end date value
-    if (enableTemEndDate) {
-      form.setFieldsValue({
-        actingEndDate: null
-      });
-    }
-    setEnableTemEndDate(!enableTemEndDate);
-  };
-
-  /* Disable all dates before start date */
-  const disabledDatesBeforeStart = current => {
-    if (form.getFieldValue("actingStartDate")) {
-      return current && current < moment(form.getFieldValue("actingStartDate"));
-    }
-  };
-
-  /* Disable all dates after end date */
-  const disabledDatesAfterEnd = current => {
-    if (form.getFieldValue("actingEndDate")) {
-      return current && current > moment(form.getFieldValue("actingEndDate"));
-    }
+  const toggleSecLangForm = () => {
+    setDisplaySecLangForm(!displaySecLangForm);
   };
 
   /* Save data */
   const saveDataToDB = async values => {
-    if (!displayTempRoleForm) {
-      // if temp role toggle isn't active clear data
-      values.actingId = null;
-      values.actingStartDate = null;
-      values.actingEndDate = null;
-    } else {
+    console.log(values);
+    if (displaySecLangForm) {
       // format dates before submit
-      if (values.actingStartDate) {
-        values.actingStartDate = values.actingStartDate.startOf("day");
+      if (values.secondaryReadingDate) {
+        values.secondaryReadingDate = values.secondaryReadingDate.startOf(
+          "day"
+        );
       }
-      if (values.actingEndDate) {
-        values.actingEndDate = values.actingEndDate.endOf("day");
+      if (values.secondaryWritingDate) {
+        values.secondaryWritingDate = values.secondaryWritingDate.startOf(
+          "day"
+        );
+      }
+      if (values.secondaryOralDate) {
+        values.secondaryWritingDate = values.secondaryOralDate.startOf("day");
       }
     }
 
@@ -194,13 +170,15 @@ const LangProficiencyFormView = props => {
 
   /* Get temporary role form based on if the form switch is toggled */
   const getSecondLanguageForm = expandTempRoleForm => {
+    console.log(props.proficiencyOptions[0].key);
     if (expandTempRoleForm) {
       return (
         <div>
+          {/* Reading Proficiency */}
           <Row gutter={24} style={{ marginTop: "10px" }}>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
-                name="reading"
+                name="readingProficiency"
                 label={
                   <FormattedMessage id="profile.secondary.reading.proficiency" />
                 }
@@ -225,21 +203,20 @@ const LangProficiencyFormView = props => {
             </Col>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
-                name="actingStartDate"
+                name="secondaryReadingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
                 rules={[Rules.required]}
               >
-                <DatePicker
-                  disabledDate={disabledDatesAfterEnd}
-                  style={styles.datePicker}
-                />
+                <DatePicker style={styles.datePicker} />
               </Form.Item>
             </Col>
           </Row>
+
+          {/* Writing Proficiency */}
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
-                name="reading"
+                name="writingProficiency"
                 label={
                   <FormattedMessage id="profile.secondary.writing.proficiency" />
                 }
@@ -264,7 +241,7 @@ const LangProficiencyFormView = props => {
             </Col>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
-                name="actingStartDate"
+                name="secondaryWritingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
                 rules={[Rules.required]}
               >
@@ -272,10 +249,12 @@ const LangProficiencyFormView = props => {
               </Form.Item>
             </Col>
           </Row>
+
+          {/* Oral Proficiency */}
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
-                name="reading"
+                name="oralProficiency"
                 label={
                   <FormattedMessage id="profile.secondary.oral.proficiency" />
                 }
@@ -300,7 +279,7 @@ const LangProficiencyFormView = props => {
             </Col>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
-                name="actingStartDate"
+                name="secondaryOralDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
                 rules={[Rules.required]}
               >
@@ -317,11 +296,16 @@ const LangProficiencyFormView = props => {
 
   /* Get the initial values for the form */
   const getInitialValues = profile => {
+    let firstLanguage = null;
+
+    // Get default language from API and convert to dropdown key
     if (profile) {
+      if (profile.firstLanguage) {
+        firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
+      }
+
       return {
-        ...(profile.classification.id && {
-          groupLevelId: profile.classification.id
-        }),
+        firstLanguage: firstLanguage,
         ...(profile.temporaryRole.id && {
           tenureId: profile.temporaryRole.id
         }),
@@ -346,13 +330,8 @@ const LangProficiencyFormView = props => {
 
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
-    setDisplayTempRoleForm(
+    setDisplaySecLangForm(
       props.profileInfo ? !!props.profileInfo.acting.id : false
-    );
-
-    /* check if user has acting end date to enable the date felid on load */
-    setEnableTemEndDate(
-      props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
   }, [props.profileInfo]);
 
@@ -418,10 +397,10 @@ const LangProficiencyFormView = props => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displayTempRoleForm}
-                  onChange={toggleTempRoleForm}
+                  defaultChecked={displaySecLangForm}
+                  onChange={toggleSecLangForm}
                 />
-                {getSecondLanguageForm(displayTempRoleForm)}
+                {getSecondLanguageForm(displaySecLangForm)}
               </Col>
             </Row>
             {/* Form Row Five: Submit button */}
