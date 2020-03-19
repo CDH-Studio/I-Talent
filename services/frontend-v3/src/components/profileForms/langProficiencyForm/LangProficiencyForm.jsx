@@ -5,7 +5,7 @@ import config from "../../../config";
 const { backendAddress } = config;
 
 /**
- *  EmploymentDataForm(props)
+ *  LangProficiencyForm(props)
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
