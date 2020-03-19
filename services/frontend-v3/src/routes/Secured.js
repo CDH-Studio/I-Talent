@@ -16,8 +16,6 @@ import {
 
 const loginFunc = require("../functions/login");
 
-const history = createBrowserHistory();
-
 function Secured(props) {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
