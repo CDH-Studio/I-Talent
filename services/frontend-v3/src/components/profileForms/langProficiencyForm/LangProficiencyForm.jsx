@@ -10,45 +10,39 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering the component
  */
 function LangProficiencyForm() {
-  const [substantiveOptions, setSubstantiveOptions] = useState(null);
-  const [classificationOptions, setClassificationOptions] = useState(null);
-  const [securityOptions, setSecurityOptions] = useState(null);
+  const [languageOptions, setLanguageOptions] = useState(null);
+  const [proficiencyOptions, setProficiencyOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
     /* get substantive level options */
-    const getSubstantiveOptions = async () => {
-      try {
-        let result = await axios.get(backendAddress + "api/option/getTenure");
-        await setSubstantiveOptions(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
+    const getLanguageOptions = () => {
+      const languages = [
+        {
+          key: "en",
+          value: "en",
+          text: "English"
+        },
+        {
+          key: "fr",
+          value: "fr",
+          text: "Français"
+        }
+      ];
+      setLanguageOptions(languages);
     };
 
-    /* get classification options */
-    const getClassificationOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getGroupLevel";
-        let result = await axios.get(url);
-        return await setClassificationOptions(result.data);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /* get security options */
-    const getSecurityOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getSecurityClearance";
-        let result = await axios.get(url);
-        return await setSecurityOptions(result.data);
-      } catch (error) {
-        throw new Error(error);
-      }
+    const getProficiencyOptions = () => {
+      const proficiency = [
+        { key: "A", value: "A", text: "A" },
+        { key: "B", value: "B", text: "B" },
+        { key: "C", value: "C", text: "C" },
+        { key: "E", value: "E", text: "E" },
+        { key: "X", value: "X", text: "X" }
+      ];
+      setProficiencyOptions(proficiency);
     };
 
     /* get user profile for form drop down */
@@ -67,9 +61,8 @@ function LangProficiencyForm() {
     /* get all required data component */
     const getAllData = async () => {
       try {
-        await getClassificationOptions();
-        await getSubstantiveOptions();
-        await getSecurityOptions();
+        await getLanguageOptions();
+        await getProficiencyOptions();
         await getProfileInfo();
         setLoad(true);
         return 1;
@@ -85,9 +78,8 @@ function LangProficiencyForm() {
 
   return (
     <LangProficiencyFormView
-      substantiveOptions={substantiveOptions}
-      classificationOptions={classificationOptions}
-      securityOptions={securityOptions}
+      languageOptions={languageOptions}
+      proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
       load={load}
     />

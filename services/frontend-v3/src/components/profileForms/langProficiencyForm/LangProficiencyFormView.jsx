@@ -193,67 +193,122 @@ const LangProficiencyFormView = props => {
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getTempRoleForm = expandTempRoleForm => {
+  const getSecondLanguageForm = expandTempRoleForm => {
     if (expandTempRoleForm) {
       return (
-        <Row gutter={24} style={{ marginTop: "10px" }}>
-          <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-            <Form.Item
-              name="actingId"
-              label={<FormattedMessage id="profile.acting" />}
-              rules={[Rules.required]}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder="choose classification"
-                allowClear={true}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
+        <div>
+          <Row gutter={24} style={{ marginTop: "10px" }}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="reading"
+                label={
+                  <FormattedMessage id="profile.secondary.reading.proficiency" />
                 }
+                rules={[Rules.required]}
               >
-                {props.classificationOptions.map((value, index) => {
-                  return <Option key={value.id}>{value.description}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
-            <Form.Item
-              name="actingStartDate"
-              label={<FormattedMessage id="profile.acting.period.start.date" />}
-              rules={[Rules.required]}
-            >
-              <DatePicker
-                disabledDate={disabledDatesAfterEnd}
-                style={styles.datePicker}
-              />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
-            <Form.Item
-              name="actingEndDate"
-              label={<FormattedMessage id="profile.acting.period.end.date" />}
-              rules={enableTemEndDate ? [Rules.required] : undefined}
-            >
-              <DatePicker
-                style={styles.datePicker}
-                disabledDate={disabledDatesBeforeStart}
-                disabled={!enableTemEndDate}
-                placeholder={"unknown"}
-              />
-            </Form.Item>
-            <div style={{ marginTop: "-10px" }}>
-              <Checkbox
-                onChange={toggleTempEndDate}
-                defaultChecked={enableTemEndDate}
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder="choose proficiency"
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {props.proficiencyOptions.map((value, index) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="actingStartDate"
+                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                rules={[Rules.required]}
               >
-                <FormattedMessage id="profile.acting.has.end.date" />
-              </Checkbox>
-            </div>
-          </Col>
-        </Row>
+                <DatePicker
+                  disabledDate={disabledDatesAfterEnd}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="reading"
+                label={
+                  <FormattedMessage id="profile.secondary.writing.proficiency" />
+                }
+                rules={[Rules.required]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder="choose proficiency"
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {props.proficiencyOptions.map((value, index) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="actingStartDate"
+                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                rules={[Rules.required]}
+              >
+                <DatePicker style={styles.datePicker} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="reading"
+                label={
+                  <FormattedMessage id="profile.secondary.oral.proficiency" />
+                }
+                rules={[Rules.required]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder="choose proficiency"
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {props.proficiencyOptions.map((value, index) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="actingStartDate"
+                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                rules={[Rules.required]}
+              >
+                <DatePicker style={styles.datePicker} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
       );
     } else {
       return <div />;
@@ -330,67 +385,15 @@ const LangProficiencyFormView = props => {
           >
             {/* Form Row One */}
             <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="tenureId"
-                  label={<FormattedMessage id="profile.substantive" />}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="choose substantive"
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.substantiveOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="groupLevelId"
-                  label={<FormattedMessage id="profile.classification" />}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="choose classification"
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.classificationOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description}</Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Two */}
-            <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="securityClearanceId"
-                  label={<FormattedMessage id="profile.security" />}
+                  name="firstLanguage"
+                  label={<FormattedMessage id="profile.first.language" />}
                 >
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose security"
+                    placeholder="choose language"
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
@@ -398,24 +401,10 @@ const LangProficiencyFormView = props => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.securityOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.languageOptions.map((value, index) => {
+                      return <Option key={value.key}>{value.text}</Option>;
                     })}
                   </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Three */}
-            <Row gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <Form.Item
-                  name="manager"
-                  label={<FormattedMessage id="profile.manager" />}
-                  rules={[Rules.maxChar50]}
-                >
-                  <Input />
                 </Form.Item>
               </Col>
             </Row>
@@ -423,14 +412,16 @@ const LangProficiencyFormView = props => {
             <Row style={styles.tempRoleRow} gutter={24}>
               <Col className="gutter-row" span={24}>
                 <FormLabelTooltip
-                  labelText={<FormattedMessage id="profile.temporary.role" />}
+                  labelText={
+                    <FormattedMessage id="profile.graded.on.second.language" />
+                  }
                   tooltipText="Extra information"
                 />
                 <Switch
                   defaultChecked={displayTempRoleForm}
                   onChange={toggleTempRoleForm}
                 />
-                {getTempRoleForm(displayTempRoleForm)}
+                {getSecondLanguageForm(displayTempRoleForm)}
               </Col>
             </Row>
             {/* Form Row Five: Submit button */}
