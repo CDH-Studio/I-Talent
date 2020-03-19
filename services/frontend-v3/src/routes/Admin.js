@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Keycloak from "keycloak-js";
 import { Route, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -11,23 +11,15 @@ import { AdminDasboard, AdminUser, AdminSkill } from "../pages/admin";
 import config from "../config";
 const { backendAddress } = config;
 
-const history = createBrowserHistory();
+function Admin(props) {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [keycloak, setKeycloak] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-class Secured extends Component {
-  constructor(props) {
-    super(props);
+  const changeLanguage = props.changeLanguage;
 
-    this.state = {
-      authenticated: false,
-      keycloak: null,
-      isAdmin: false,
-      loading: true
-    };
-
-    this.changeLanguage = this.props.changeLanguage;
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const keycloak = Keycloak("/keycloak.json");
     keycloak
       .init({
@@ -45,72 +37,71 @@ class Secured extends Component {
 
         axios.get(backendAddress + "api/admin/check").then(
           () => {
-            this.setState({
-              keycloak: keycloak,
-              authenticated: authenticated,
-              isAdmin: true,
-              loading: false
-            });
+            setKeycloak(keycloak);
+            setAuthenticated(authenticated);
+            setIsAdmin(true);
+            setLoading(false);
           },
           () => {
-            this.setState({
-              keycloak: keycloak,
-              authenticated: authenticated,
-              isAdmin: false,
-              loading: false
-            });
+            setKeycloak(keycloak);
+            setAuthenticated(authenticated);
+            setIsAdmin(false);
+            setLoading(false);
           }
         );
       });
+  }, []);
+
+  //If NOT using some version of Internet Explorer
+  if (!/MSIE|Trident/.test(window.navigator.userAgent)) {
+    document.body.style = "background-color: #eeeeee";
   }
+  // if (!isAdmin) {   FORBIDDEN PAGE
+  //   return (
+  //     <div>
+  //       <Modal open basic style={{ height: "40%" }} size="fullscreen">
+  //         <Grid stretched style={{ height: "100%" }}>
+  //           <Grid.Column textAlign="center">
+  //             <Grid.Row stretched>
+  //               <Header inverted as="h1" style={{ fontSize: "100px" }}>
+  //                 403 Forbidden
+  //               </Header>
+  //             </Grid.Row>
 
-  goto = link => history.push(link);
+  //             <Grid.Row stretched>
+  //               <Header inverted as="h4">
+  //                 Looks like someone doesn't belong here
+  //               </Header>
+  //             </Grid.Row>
 
-  render() {
-    //If NOT using some version of Internet Explorer
-    if (!/MSIE|Trident/.test(window.navigator.userAgent)) {
-      document.body.style = "background-color: #eeeeee";
-    }
-    // if (!this.state.isAdmin) {
-    //   return (
-    //     <div>
-    //       <Modal open basic style={{ height: "40%" }} size="fullscreen">
-    //         <Grid stretched style={{ height: "100%" }}>
-    //           <Grid.Column textAlign="center">
-    //             <Grid.Row stretched>
-    //               <Header inverted as="h1" style={{ fontSize: "100px" }}>
-    //                 403 Forbidden
-    //               </Header>
-    //             </Grid.Row>
+  //             <Grid.Row stretched>
+  //               <Button as="a" href="/secured/" color="blue">
+  //                 Go back to Homepage
+  //               </Button>
+  //             </Grid.Row>
+  //           </Grid.Column>
+  //         </Grid>
+  //       </Modal>
+  //     </div>
+  //   );
+  // }
 
-    //             <Grid.Row stretched>
-    //               <Header inverted as="h4">
-    //                 Looks like someone doesn't belong here
-    //               </Header>
-    //             </Grid.Row>
+  //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const copyToClipboard = e => {
+    this.textArea.select();
+    document.execCommand("copy");
+    e.target.focus();
+  };
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //             <Grid.Row stretched>
-    //               <Button as="a" href="/secured/" color="blue">
-    //                 Go back to Homepage
-    //               </Button>
-    //             </Grid.Row>
-    //           </Grid.Column>
-    //         </Grid>
-    //       </Modal>
-    //     </div>
-    //   );
-    // }
-
-    const keycloak = this.state.keycloak;
-    if (keycloak) {
-      if (this.state.authenticated) {
-        return (
-          <div>
-            {this.state.redirect}
-            {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (keycloak) {
+    if (authenticated) {
+      return (
+        <div>
+          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 <div>
                 {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-            {/* <div>
+          {/* <div>
                   <form>
                     <textarea
                       ref={textarea => (this.textArea = textarea)}
@@ -120,7 +111,7 @@ class Secured extends Component {
                   {document.queryCommandSupported("copy") && (
                     <div>
                       <button onClick={this.copyToClipboard}>Copy</button>
-                      {this.state.copySuccess}
+                      {copySuccess}
                     </div>
                   )}
                 </div>
@@ -172,16 +163,8 @@ class Secured extends Component {
         return <div>Unable to authenticate!</div>;
       }
     }
-    return <div></div>;
   }
-  //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  copyToClipboard = e => {
-    this.textArea.select();
-    document.execCommand("copy");
-    e.target.focus();
-    this.setState({ copySuccess: "Copied!" });
-  };
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  return <div></div>;
 }
 
-export default Secured;
+export default Admin;
