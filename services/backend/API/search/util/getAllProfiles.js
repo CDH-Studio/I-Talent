@@ -52,6 +52,8 @@ _getProf = async (profile, searchValue) => {
 
   if (!profile) response.status(404).send("Profile Not Found");
 
+  let privateInfo = profile.visibleCards;
+
   let profileData = profile ? profile.dataValues : {};
   let userData = user ? user.dataValues : {};
 
