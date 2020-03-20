@@ -367,18 +367,6 @@ const TalentFormView = props => {
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>
-          <TreeSelect
-            treeData={props.skillOptions}
-            onChange={onChange}
-            treeCheckable={true}
-            showCheckedStrategy={SHOW_CHILD}
-            placeholder={"Please select"}
-            treeNodeFilterProp="title"
-            showSearch={true}
-            style={{
-              width: "100%"
-            }}
-          />
           {/* Create for with initial values */}
           <Form
             name="basicForm"
@@ -391,24 +379,50 @@ const TalentFormView = props => {
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="firstLanguage"
-                  label={<FormattedMessage id="profile.first.language" />}
+                  name="skills"
+                  label={
+                    <FormLabelTooltip
+                      labelText={<FormattedMessage id="setup.competencies" />}
+                      tooltipText="Extra information"
+                    />
+                  }
                 >
                   <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="choose language"
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
+                    mode="multiple"
+                    style={{ width: "100%" }}
+                    placeholder="Please select"
+                    //onChange={handleChange}
                   >
-                    {props.languageOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.text}</Option>;
+                    {props.competencyOptions.map((value, index) => {
+                      return (
+                        <Option key={value.id}>{value.description.en}</Option>
+                      );
                     })}
                   </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+            {/* Form Row One */}
+            <Row gutter={24}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="skills"
+                  label={
+                    <FormLabelTooltip
+                      labelText={<FormattedMessage id="setup.skills" />}
+                      tooltipText="Extra information"
+                    />
+                  }
+                >
+                  <TreeSelect
+                    treeData={props.skillOptions}
+                    onChange={onChange}
+                    treeCheckable={true}
+                    showCheckedStrategy={SHOW_CHILD}
+                    placeholder={"Please select"}
+                    treeNodeFilterProp="title"
+                    showSearch={true}
+                  />
                 </Form.Item>
               </Col>
             </Row>

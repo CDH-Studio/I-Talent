@@ -14,6 +14,7 @@ function TalentForm() {
   const [proficiencyOptions, setProficiencyOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
   const [skillOptions, setSkillOptions] = useState(null);
+  const [competencyOptions, setCompetencyOptions] = useState(null);
   const [load, setLoad] = useState(false);
 
   /* useEffect to run once component is mounted */
@@ -53,6 +54,19 @@ function TalentForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    /* get user profile for form drop down */
+    const getCompetencyOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getCompetency";
+        let result = await axios.get(url);
+        console.log(result);
+        await setCompetencyOptions(result.data);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -109,6 +123,7 @@ function TalentForm() {
         await getProficiencyOptions();
         await getProfileInfo();
         await getSkillOptions();
+        await getCompetencyOptions();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -128,6 +143,7 @@ function TalentForm() {
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
       skillOptions={skillOptions}
+      competencyOptions={competencyOptions}
       load={load}
     />
   );
