@@ -188,10 +188,12 @@ const TalentFormView = props => {
     let dataTree = [];
     console.log(dataTree);
     setSelectedSkills([]);
+    let numbCategories = 0;
 
     // iterate through all possible skill categories
     for (var i = 0; i < props.skillOptions.length; i++) {
       let itemsFoundInCategory = 0;
+
       // iterate through all possible skills in each categories
       for (var w = 0; w < props.skillOptions[i].children.length; w++) {
         // iterate through selected skills
@@ -201,6 +203,7 @@ const TalentFormView = props => {
             console.log(dataTree);
             itemsFoundInCategory++;
             if (itemsFoundInCategory === 1) {
+              numbCategories++;
               var parent = {
                 title: props.skillOptions[i].title,
                 value: props.skillOptions[i].value,
@@ -219,8 +222,12 @@ const TalentFormView = props => {
               value: props.skillOptions[i].children[w].value,
               key: props.skillOptions[i].children[w].value
             };
-            //console.log(dataTree[i].children);
-            dataTree[i].children.push(child);
+            console.log(numbCategories);
+            console.log(props.skillOptions[i].children[w]);
+            console.log(dataTree);
+            console.log(dataTree[numbCategories - 1]);
+            console.log(dataTree[numbCategories - 1].children);
+            dataTree[numbCategories - 1].children.push(child);
           }
         }
       }
