@@ -8,7 +8,6 @@ import { injectIntl } from "react-intl";
 import SearchFilterView from "./SearchFilterView";
 
 const backendAddress = config.backendAddress;
-const { Option } = Select;
 
 function SearchFilter(props) {
   const [expand, setExpand] = useState(false);

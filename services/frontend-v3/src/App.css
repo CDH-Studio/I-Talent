@@ -85,3 +85,9 @@
 .ant-list-item {
   font-size: 16px !important;
 }
+
+[tabIndex]:focus {
+  color: #fff !important;
+  outline: none !important;
+  background-color: #007471 !important;
+}

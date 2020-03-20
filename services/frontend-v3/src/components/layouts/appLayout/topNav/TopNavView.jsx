@@ -47,19 +47,19 @@ function TopNavView(props) {
   // menu options for profile dropdown
   const menu = (
     <Menu style={styles.dropDownMenu}>
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/profile/">
           <UserOutlined style={styles.MenuIcon} />
           <FormattedMessage id="my.profile" />
         </a>
       </Menu.Item>
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/profile/edit">
           <EditOutlined style={styles.MenuIcon} />
           <FormattedMessage id="edit.profile" />
         </a>
       </Menu.Item>
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/logout">
           <LogoutOutlined style={styles.MenuIcon} />
           <FormattedMessage id="sign.out" />
@@ -72,7 +72,7 @@ function TopNavView(props) {
     <Header style={styles.header}>
       {/* Render logo */}
       <a href="/secured/home">
-        <img src={Logo} alt="Logo" style={styles.navBrand} />
+        <img tabIndex="0" src={Logo} alt="Logo" style={styles.navBrand} />
       </a>
       {/* Render right sigh of top menu */}
       <div style={styles.rightMenu}>
