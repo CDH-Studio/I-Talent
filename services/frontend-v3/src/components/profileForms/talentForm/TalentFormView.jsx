@@ -373,12 +373,13 @@ const TalentFormView = props => {
             treeCheckable={true}
             showCheckedStrategy={SHOW_CHILD}
             placeholder={"Please select"}
+            treeNodeFilterProp="title"
             showSearch={true}
             style={{
               width: "100%"
             }}
           />
-          ;{/* Create for with initial values */}
+          {/* Create for with initial values */}
           <Form
             name="basicForm"
             form={form}
