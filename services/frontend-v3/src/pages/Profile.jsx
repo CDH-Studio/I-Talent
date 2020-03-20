@@ -86,6 +86,7 @@ class Profile extends React.Component {
       .catch(function(error) {
         console.error(error);
       });
+
     return data;
   };
 }

@@ -48,7 +48,10 @@ function TopNavView(props) {
   const menu = (
     <Menu style={styles.dropDownMenu}>
       <Menu.Item style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/profile/">
+        <a
+          rel="noopener noreferrer"
+          href={"/secured/profile/" + localStorage.getItem("userId")}
+        >
           <UserOutlined style={styles.MenuIcon} />
           <FormattedMessage id="my.profile" />
         </a>
