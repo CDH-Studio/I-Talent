@@ -36,6 +36,9 @@ const TalentFormView = props => {
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
+  const [selectedMentorshipSkills, setSelectedMentorshipSkills] = useState(
+    false
+  );
 
   /* Component Styles */
   const styles = {
@@ -98,31 +101,7 @@ const TalentFormView = props => {
   const saveDataToDB = async values => {
     if (!displayMentorshipForm) {
       // clear values before submission
-      values.secondLanguage = null;
-      values.readingProficiency = null;
-      values.writingProficiency = null;
-      values.oralProficiency = null;
-      values.secondaryReadingDate = null;
-      values.secondaryWritingDate = null;
-      values.secondaryOralDate = null;
-    } else {
-      // set second language based on first language
-      values.secondLanguage = values.firstLanguage === "en" ? "fr" : "en";
-
-      // format dates before submit
-      if (values.secondaryReadingDate) {
-        values.secondaryReadingDate = values.secondaryReadingDate.startOf(
-          "day"
-        );
-      }
-      if (values.secondaryWritingDate) {
-        values.secondaryWritingDate = values.secondaryWritingDate.startOf(
-          "day"
-        );
-      }
-      if (values.secondaryOralDate) {
-        values.secondaryWritingDate = values.secondaryOralDate.startOf("day");
-      }
+      values.mentorshipSkills = [];
     }
 
     if (props.profileInfo) {
@@ -207,14 +186,44 @@ const TalentFormView = props => {
     return dataTree;
   };
 
-  const onChange = value => {
-    const selectedSkills = generateMentorshipOptions(props.skillOptions, value);
+  const removeInvalidMentorshipOptions = (skills, mentorshipSkills) => {
+    let validatedMentorshipSkills = [];
+    console.log(skills);
+    console.log(mentorshipSkills);
+    //iterate through all possible skill categories
+    for (var i = 0; i < mentorshipSkills.length; i++) {
+      for (var w = 0; w < skills.length; w++) {
+        if (mentorshipSkills[i] === skills[w]) {
+          validatedMentorshipSkills.push(mentorshipSkills[i]);
+        }
+      }
+    }
+    return validatedMentorshipSkills;
+  };
+
+  const onChange = skillsValues => {
+    const selectedSkills = generateMentorshipOptions(
+      props.skillOptions,
+      skillsValues
+    );
+    let mentorshipValues = form.getFieldValue("mentorshipSkills");
+    const validatedMentorshipSkills = removeInvalidMentorshipOptions(
+      mentorshipValues,
+      skillsValues
+    );
+    console.log(validatedMentorshipSkills);
+
+    form.setFieldsValue({
+      mentorshipSkills: validatedMentorshipSkills
+    });
+    setSelectedMentorshipSkills(validatedMentorshipSkills);
     setSelectedSkills(selectedSkills);
   };
 
   /* Get temporary role form based on if the form switch is toggled */
   const getMentorshipForm = expandMentorshipForm => {
     if (expandMentorshipForm) {
+      console.log(selectedMentorshipSkills);
       return (
         <div>
           {/* Select Mentorship Skills */}
@@ -248,7 +257,6 @@ const TalentFormView = props => {
                   showSearch={true}
                   maxTagCount={15}
                   disabled={!selectedSkills.length > 0}
-                  locale={{ emptyText: "Abc" }}
                 />
               </Form.Item>
             </Col>
@@ -267,10 +275,7 @@ const TalentFormView = props => {
       return {
         competencies: props.savedCompetencies,
         skills: props.savedSkills,
-        mentorshipSkills: props.savedMentorshipSkills,
-        ...(profile.secondaryReadingProficiency && {
-          readingProficiency: profile.secondaryReadingProficiency
-        })
+        mentorshipSkills: props.savedMentorshipSkills
       };
     } else {
       return {};
