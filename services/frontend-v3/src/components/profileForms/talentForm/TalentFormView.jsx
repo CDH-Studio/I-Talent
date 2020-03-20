@@ -224,9 +224,17 @@ const TalentFormView = props => {
                 name="mentorshipSkills"
                 label={
                   <FormLabelTooltip
-                    labelText={<FormattedMessage id="setup.skills" />}
+                    labelText={
+                      <FormattedMessage id="profile.mentorship.skills" />
+                    }
                     tooltipText="Extra information"
                   />
+                }
+                rules={[Rules.required]}
+                extra={
+                  selectedSkills.length === 0
+                    ? "You must first select skills to provide mentorship for them"
+                    : undefined
                 }
               >
                 <TreeSelect
@@ -239,6 +247,8 @@ const TalentFormView = props => {
                   treeNodeFilterProp="title"
                   showSearch={true}
                   maxTagCount={15}
+                  disabled={!selectedSkills.length > 0}
+                  locale={{ emptyText: "Abc" }}
                 />
               </Form.Item>
             </Col>
@@ -271,7 +281,7 @@ const TalentFormView = props => {
     /* check if user has a skills to mentor */
     if (props.savedMentorshipSkills) {
       // toggle mentorship switch if there are mentorship skills saved
-      setDisplayMentorshipForm(props.savedMentorshipSkills.length > 1);
+      setDisplayMentorshipForm(props.savedMentorshipSkills.length > 0);
 
       // generate a treeData to represent the skills chosen
       const selectedSkills = generateMentorshipOptions(
