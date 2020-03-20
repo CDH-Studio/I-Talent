@@ -93,7 +93,10 @@ function TalentForm() {
 
           for (var w = 0; w < result.data[i].skills.length; w++) {
             var child = {
-              title: result.data[i].skills[w].description.descEn,
+              title:
+                result.data[i].description.en +
+                ": " +
+                result.data[i].skills[w].description.descEn,
               value: result.data[i].skills[w].id,
               key: result.data[i].skills[w].id
             };

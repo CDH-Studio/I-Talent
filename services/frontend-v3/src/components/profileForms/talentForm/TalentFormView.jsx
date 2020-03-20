@@ -10,7 +10,7 @@ import {
   Switch,
   DatePicker,
   Button,
-  Cascader,
+  Checkbox,
   TreeSelect
 } from "antd";
 import { useHistory } from "react-router-dom";
@@ -88,6 +88,12 @@ const TalentFormView = props => {
       message: "Required"
     }
   };
+
+  const options = [
+    { label: "Apple", value: "Apple" },
+    { label: "Pear", value: "Pear" },
+    { label: "Orange", value: "Orange" }
+  ];
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
@@ -290,6 +296,24 @@ const TalentFormView = props => {
               </Form.Item>
             </Col>
           </Row>
+          {/* Oral Proficiency */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+              <Form.Item
+                name="oralProficiency"
+                label={
+                  <FormattedMessage id="profile.secondary.oral.proficiency" />
+                }
+                rules={[Rules.required]}
+              >
+                <Checkbox.Group
+                  options={options}
+                  defaultValue={["Apple"]}
+                  onChange={onChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
         </div>
       );
     } else {
@@ -431,7 +455,7 @@ const TalentFormView = props => {
               <Col className="gutter-row" span={24}>
                 <FormLabelTooltip
                   labelText={
-                    <FormattedMessage id="profile.graded.on.second.language" />
+                    <FormattedMessage id="profile.mentorship.available" />
                   }
                   tooltipText="Extra information"
                 />
