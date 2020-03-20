@@ -18,6 +18,7 @@ function TalentForm() {
   const [load, setLoad] = useState(false);
   const [savedCompetencies, setSavedCompetencies] = useState();
   const [savedSkills, setSavedSkills] = useState();
+  const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -96,6 +97,22 @@ function TalentForm() {
       }
     };
 
+    const getSavedMentorshipSkill = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+        for (let i = 0; i < result.data.mentorshipSkills.length; i++) {
+          selected.push(result.data.mentorshipSkills[i].id);
+        }
+        await setSavedMentorshipSkills(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* get user profile for form drop down */
     const getCompetencyOptions = async () => {
       try {
@@ -154,6 +171,7 @@ function TalentForm() {
         await getCompetencyOptions();
         await getSavedCompetencies();
         await getSavedSkills();
+        await getSavedMentorshipSkill();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -175,6 +193,7 @@ function TalentForm() {
       competencyOptions={competencyOptions}
       savedCompetencies={savedCompetencies}
       savedSkills={savedSkills}
+      savedMentorshipSkills={savedMentorshipSkills}
       load={load}
     />
   );

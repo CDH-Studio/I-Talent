@@ -27,9 +27,9 @@ const { Title } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 
 /**
- *  LangProficiencyFormView(props)
- *  this component renders the language proficiency form.
- *  It contains a toggle to set the second language
+ *  TalentFormView(props)
+ *  this component renders the talent form.
+ *  It contains competencies, skills, and mentorship treeselects.
  */
 const TalentFormView = props => {
   const history = useHistory();
@@ -78,8 +78,7 @@ const TalentFormView = props => {
       width: "100%",
       float: "right",
       marginBottom: "1rem"
-    },
-    datePicker: { width: "100%" }
+    }
   };
 
   /* Component Rules for form fields */
@@ -91,7 +90,7 @@ const TalentFormView = props => {
   };
 
   /* toggle temporary role form */
-  const toggleSecLangForm = () => {
+  const toggleMentorshipForm = () => {
     setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
@@ -173,45 +172,44 @@ const TalentFormView = props => {
     form.resetFields();
   };
 
-  const onChange = value => {
-    let kk = [];
+  const generateMentorshipOptions = (fullOptionsList, selectedValues) => {
     let dataTree = [];
-    setSelectedSkills([]);
     let numbCategories = 0;
-
-    // iterate through all possible skill categories
-    for (var i = 0; i < props.skillOptions.length; i++) {
+    //iterate through all possible skill categories
+    for (var i = 0; i < fullOptionsList.length; i++) {
       let itemsFoundInCategory = 0;
-
       // iterate through all possible skills in each categories
-      for (var w = 0; w < props.skillOptions[i].children.length; w++) {
+      for (var w = 0; w < fullOptionsList[i].children.length; w++) {
         // iterate through selected skills
-        for (var k = 0; k < value.length; k++) {
+        for (var k = 0; k < selectedValues.length; k++) {
           // if selected skill matches item in all skills list
-          if (props.skillOptions[i].children[w].value === value[k]) {
+          if (fullOptionsList[i].children[w].value === selectedValues[k]) {
             itemsFoundInCategory++;
             if (itemsFoundInCategory === 1) {
               numbCategories++;
               var parent = {
-                title: props.skillOptions[i].title,
-                value: props.skillOptions[i].value,
+                title: fullOptionsList[i].title,
+                value: fullOptionsList[i].value,
                 children: []
               };
               dataTree.push(parent);
             }
-
             var child = {
-              title: props.skillOptions[i].children[w].title,
-              value: props.skillOptions[i].children[w].value,
-              key: props.skillOptions[i].children[w].value
+              title: fullOptionsList[i].children[w].title,
+              value: fullOptionsList[i].children[w].value,
+              key: fullOptionsList[i].children[w].value
             };
-
             dataTree[numbCategories - 1].children.push(child);
           }
         }
       }
     }
-    setSelectedSkills(dataTree);
+    return dataTree;
+  };
+
+  const onChange = value => {
+    const selectedSkills = generateMentorshipOptions(props.skillOptions, value);
+    setSelectedSkills(selectedSkills);
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -223,7 +221,7 @@ const TalentFormView = props => {
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
-                name="mentorship"
+                name="mentorshipSkills"
                 label={
                   <FormLabelTooltip
                     labelText={<FormattedMessage id="setup.skills" />}
@@ -254,34 +252,14 @@ const TalentFormView = props => {
 
   /* Get the initial values for the form */
   const getInitialValues = profile => {
-    // Get default language from API and convert to dropdown key
-    let firstLanguage = null;
     if (profile) {
-      if (profile.firstLanguage) {
-        firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
-      }
       console.log(props.savedSkills);
       return {
         competencies: props.savedCompetencies,
         skills: props.savedSkills,
-        firstLanguage: firstLanguage,
+        mentorshipSkills: props.savedMentorshipSkills,
         ...(profile.secondaryReadingProficiency && {
           readingProficiency: profile.secondaryReadingProficiency
-        }),
-        ...(profile.secondaryWritingProficiency && {
-          writingProficiency: profile.secondaryWritingProficiency
-        }),
-        ...(profile.secondaryOralProficiency && {
-          oralProficiency: profile.secondaryOralProficiency
-        }),
-        ...(profile.secondaryReadingDate && {
-          secondaryReadingDate: moment(profile.secondaryReadingDate)
-        }),
-        ...(profile.secondaryWritingDate && {
-          secondaryWritingDate: moment(profile.secondaryWritingDate)
-        }),
-        ...(profile.secondaryOralDate && {
-          secondaryOralDate: moment(profile.secondaryOralDate)
         })
       };
     } else {
@@ -289,17 +267,20 @@ const TalentFormView = props => {
     }
   };
 
-  // Just show the latest item.
-  const displayRender = label => {
-    return label[label.length - 1];
-  };
-
   useEffect(() => {
-    /* check if user has a second language */
-    setDisplayMentorshipForm(
-      props.profileInfo ? Boolean(props.profileInfo.secondLanguage) : false
-    );
-  }, [props.profileInfo]);
+    /* check if user has a skills to mentor */
+    if (props.savedMentorshipSkills) {
+      // toggle mentorship switch if there are mentorship skills saved
+      setDisplayMentorshipForm(props.savedMentorshipSkills.length > 1);
+
+      // generate a treeData to represent the skills chosen
+      const selectedSkills = generateMentorshipOptions(
+        props.skillOptions,
+        props.savedSkills
+      );
+      setSelectedSkills(selectedSkills);
+    }
+  }, [props]);
 
   /************************************
    ********* Render Component *********
@@ -393,7 +374,7 @@ const TalentFormView = props => {
                 />
                 <Switch
                   defaultChecked={displayMentorshipForm}
-                  onChange={toggleSecLangForm}
+                  onChange={toggleMentorshipForm}
                 />
                 {getMentorshipForm(displayMentorshipForm)}
               </Col>
