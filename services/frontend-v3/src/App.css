@@ -85,3 +85,12 @@
 .ant-list-item {
   font-size: 16px !important;
 }
+
+.ant-select-selection-item {
+  margin: 3px !important;
+  padding: 1px 10px !important;
+  height: auto !important;
+  border-radius: 15px !important;
+  border-width: 2px !important;
+  border-color: rgb(223, 229, 228) !important;
+}

@@ -201,14 +201,14 @@ const TalentFormView = props => {
             console.log(dataTree);
             itemsFoundInCategory++;
             if (itemsFoundInCategory === 1) {
-              var parentz = {
+              var parent = {
                 title: props.skillOptions[i].title,
                 value: props.skillOptions[i].value,
                 children: []
               };
-              console.log(parentz);
+              console.log(parent);
               console.log(dataTree);
-              dataTree.push(parentz);
+              dataTree.push(parent);
               console.log(dataTree);
             }
 
@@ -219,18 +219,9 @@ const TalentFormView = props => {
               value: props.skillOptions[i].children[w].value,
               key: props.skillOptions[i].children[w].value
             };
+            //console.log(dataTree[i].children);
             dataTree[i].children.push(child);
           }
-
-          // var child = {
-          //   title:
-          //     result.data[i].description.en +
-          //     ": " +
-          //     result.data[i].skills[w].description.descEn,
-          //   value: result.data[i].skills[w].id,
-          //   key: result.data[i].skills[w].id
-          // };
-          // dataTree[i].children.push(child);
         }
       }
     }
@@ -256,22 +247,9 @@ const TalentFormView = props => {
     if (expandMentorshipForm) {
       return (
         <div>
-          {/* Oral Proficiency */}
+          {/* Select Mentorship Skills */}
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              {/* <Form.Item
-                name="oralProficiency"
-                label={
-                  <FormattedMessage id="profile.secondary.oral.proficiency" />
-                }
-                rules={[Rules.required]}
-              >
-                <Checkbox.Group
-                  options={selectedSkills}
-                  defaultValue={["Apple"]}
-                  //onChange={onChange}
-                />
-              </Form.Item> */}
               <Form.Item
                 name="mentorship"
                 label={
@@ -283,7 +261,7 @@ const TalentFormView = props => {
               >
                 <TreeSelect
                   treeData={selectedSkills}
-                  onChange={onChange}
+                  //onChange={onChange}
                   treeCheckable={true}
                   showCheckedStrategy={SHOW_CHILD}
                   placeholder={"Please select"}
@@ -378,7 +356,7 @@ const TalentFormView = props => {
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="skills"
+                  name="compitency"
                   label={
                     <FormLabelTooltip
                       labelText={<FormattedMessage id="setup.competencies" />}
