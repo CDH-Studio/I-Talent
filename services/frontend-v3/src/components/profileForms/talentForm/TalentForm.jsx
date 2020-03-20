@@ -102,14 +102,6 @@ function TalentForm() {
             };
             dataTree[i].children.push(child);
           }
-          // dataTree.push(obj);
-
-          // dataTree[i].value = result.data[i].id;
-          // var obj = arr[i];
-          // for (var key in obj) {
-          //   var attrName = key;
-          //   var attrValue = obj[key];
-          // }
         }
 
         await setSkillOptions(dataTree);

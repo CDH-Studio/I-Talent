@@ -34,7 +34,8 @@ const { SHOW_CHILD } = TreeSelect;
 const TalentFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displaySecLangForm, setDisplaySecLangForm] = useState(false);
+  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
+  const [selectedSkills, setSelectedSkills] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -97,12 +98,12 @@ const TalentFormView = props => {
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplaySecLangForm(!displaySecLangForm);
+    setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
   /* Save data */
   const saveDataToDB = async values => {
-    if (!displaySecLangForm) {
+    if (!displayMentorshipForm) {
       // clear values before submission
       values.secondLanguage = null;
       values.readingProficiency = null;
@@ -178,128 +179,87 @@ const TalentFormView = props => {
     form.resetFields();
   };
 
+  const onChange = value => {
+    console.log(value);
+    var ll;
+    let zz;
+    let kk = [];
+    console.log(props.skillOptions);
+    let dataTree = [];
+    console.log(dataTree);
+    setSelectedSkills([]);
+
+    // iterate through all possible skill categories
+    for (var i = 0; i < props.skillOptions.length; i++) {
+      let itemsFoundInCategory = 0;
+      // iterate through all possible skills in each categories
+      for (var w = 0; w < props.skillOptions[i].children.length; w++) {
+        // iterate through selected skills
+        for (var k = 0; k < value.length; k++) {
+          // if selected skill matches item in all skills list
+          if (props.skillOptions[i].children[w].value === value[k]) {
+            console.log(dataTree);
+            itemsFoundInCategory++;
+            if (itemsFoundInCategory === 1) {
+              var parentz = {
+                title: props.skillOptions[i].title,
+                value: props.skillOptions[i].value,
+                children: []
+              };
+              console.log(parentz);
+              console.log(dataTree);
+              dataTree.push(parentz);
+              console.log(dataTree);
+            }
+
+            console.log(itemsFoundInCategory);
+
+            var child = {
+              title: props.skillOptions[i].children[w].title,
+              value: props.skillOptions[i].children[w].value,
+              key: props.skillOptions[i].children[w].value
+            };
+            dataTree[i].children.push(child);
+          }
+
+          // var child = {
+          //   title:
+          //     result.data[i].description.en +
+          //     ": " +
+          //     result.data[i].skills[w].description.descEn,
+          //   value: result.data[i].skills[w].id,
+          //   key: result.data[i].skills[w].id
+          // };
+          // dataTree[i].children.push(child);
+        }
+      }
+    }
+
+    // for (var i = 0; i < value.length; i++) {
+    //   ll = { label: value[i], value: value[i] };
+    //   kk.push(ll);
+    // }
+    //kk.sort((a, b) => a.label.localeCompare(b.label));
+    console.log(kk);
+    console.log(dataTree);
+    setSelectedSkills(dataTree);
+  };
+
+  // const options = [
+  //   { label: "Apple", value: "Apple" },
+  //   { label: "Pear", value: "Pear" },
+  //   { label: "Orange", value: "Orange" }
+  // ];
+
   /* Get temporary role form based on if the form switch is toggled */
-  const getSecondLanguageForm = expandTempRoleForm => {
-    if (expandTempRoleForm) {
+  const getMentorshipForm = expandMentorshipForm => {
+    if (expandMentorshipForm) {
       return (
         <div>
-          {/* Reading Proficiency */}
-          <Row gutter={24} style={{ marginTop: "10px" }}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="readingProficiency"
-                label={
-                  <FormattedMessage id="profile.secondary.reading.proficiency" />
-                }
-                rules={[Rules.required]}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder="choose proficiency"
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.proficiencyOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="secondaryReadingDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
-                rules={[Rules.required]}
-              >
-                <DatePicker style={styles.datePicker} />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* Writing Proficiency */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="writingProficiency"
-                label={
-                  <FormattedMessage id="profile.secondary.writing.proficiency" />
-                }
-                rules={[Rules.required]}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder="choose proficiency"
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.proficiencyOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="secondaryWritingDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
-                rules={[Rules.required]}
-              >
-                <DatePicker style={styles.datePicker} />
-              </Form.Item>
-            </Col>
-          </Row>
-
           {/* Oral Proficiency */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="oralProficiency"
-                label={
-                  <FormattedMessage id="profile.secondary.oral.proficiency" />
-                }
-                rules={[Rules.required]}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder="choose proficiency"
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.proficiencyOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="secondaryOralDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
-                rules={[Rules.required]}
-              >
-                <DatePicker style={styles.datePicker} />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Oral Proficiency */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              {/* <Form.Item
                 name="oralProficiency"
                 label={
                   <FormattedMessage id="profile.secondary.oral.proficiency" />
@@ -307,9 +267,28 @@ const TalentFormView = props => {
                 rules={[Rules.required]}
               >
                 <Checkbox.Group
-                  options={options}
+                  options={selectedSkills}
                   defaultValue={["Apple"]}
+                  //onChange={onChange}
+                />
+              </Form.Item> */}
+              <Form.Item
+                name="mentorship"
+                label={
+                  <FormLabelTooltip
+                    labelText={<FormattedMessage id="setup.skills" />}
+                    tooltipText="Extra information"
+                  />
+                }
+              >
+                <TreeSelect
+                  treeData={selectedSkills}
                   onChange={onChange}
+                  treeCheckable={true}
+                  showCheckedStrategy={SHOW_CHILD}
+                  placeholder={"Please select"}
+                  treeNodeFilterProp="title"
+                  showSearch={true}
                 />
               </Form.Item>
             </Col>
@@ -356,10 +335,6 @@ const TalentFormView = props => {
     }
   };
 
-  const onChange = value => {
-    console.log(value);
-  };
-
   // Just show the latest item.
   const displayRender = label => {
     return label[label.length - 1];
@@ -367,7 +342,7 @@ const TalentFormView = props => {
 
   useEffect(() => {
     /* check if user has a second language */
-    setDisplaySecLangForm(
+    setDisplayMentorshipForm(
       props.profileInfo ? Boolean(props.profileInfo.secondLanguage) : false
     );
   }, [props.profileInfo]);
@@ -460,10 +435,10 @@ const TalentFormView = props => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displaySecLangForm}
+                  defaultChecked={displayMentorshipForm}
                   onChange={toggleSecLangForm}
                 />
-                {getSecondLanguageForm(displaySecLangForm)}
+                {getMentorshipForm(displayMentorshipForm)}
               </Col>
             </Row>
             {/* Form Row Five: Submit button */}
