@@ -16,6 +16,8 @@ function TalentForm() {
   const [skillOptions, setSkillOptions] = useState(null);
   const [competencyOptions, setCompetencyOptions] = useState(null);
   const [load, setLoad] = useState(false);
+  const [savedCompetencies, setSavedCompetencies] = useState();
+  const [savedSkills, setSavedSkills] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -61,6 +63,40 @@ function TalentForm() {
     };
 
     /* get user profile for form drop down */
+    const getSavedCompetencies = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+        for (let i = 0; i < result.data.competencies.length; i++) {
+          selected.push(result.data.competencies[i].id);
+        }
+        await setSavedCompetencies(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    /* get user profile for form drop down */
+    const getSavedSkills = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+        for (let i = 0; i < result.data.skills.length; i++) {
+          selected.push(result.data.skills[i].id);
+        }
+        await setSavedSkills(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    /* get user profile for form drop down */
     const getCompetencyOptions = async () => {
       try {
         let url = backendAddress + "api/option/getCompetency";
@@ -78,9 +114,6 @@ function TalentForm() {
       try {
         let url = backendAddress + "api/option/getCategory";
         let result = await axios.get(url);
-        console.log(result.data);
-        //console.log(result.data);
-        //result.data.foreach(element => console.log(element));
         let dataTree = [];
         for (var i = 0; i < result.data.length; i++) {
           var parent = {
@@ -119,6 +152,8 @@ function TalentForm() {
         await getProfileInfo();
         await getSkillOptions();
         await getCompetencyOptions();
+        await getSavedCompetencies();
+        await getSavedSkills();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -131,7 +166,6 @@ function TalentForm() {
     getAllData();
   }, []);
 
-  console.log(skillOptions);
   return (
     <TalentFormView
       languageOptions={languageOptions}
@@ -139,6 +173,8 @@ function TalentForm() {
       profileInfo={profileInfo}
       skillOptions={skillOptions}
       competencyOptions={competencyOptions}
+      savedCompetencies={savedCompetencies}
+      savedSkills={savedSkills}
       load={load}
     />
   );

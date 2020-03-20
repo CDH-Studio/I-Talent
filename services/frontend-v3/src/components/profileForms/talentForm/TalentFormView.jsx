@@ -90,12 +90,6 @@ const TalentFormView = props => {
     }
   };
 
-  const options = [
-    { label: "Apple", value: "Apple" },
-    { label: "Pear", value: "Pear" },
-    { label: "Orange", value: "Orange" }
-  ];
-
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
     setDisplayMentorshipForm(!displayMentorshipForm);
@@ -158,7 +152,7 @@ const TalentFormView = props => {
   /* save and redirect to next step in setup */
   const onSaveAndNext = async values => {
     await saveDataToDB(values);
-    history.push("/secured/profile/create/step/4");
+    history.push("/secured/profile/create/step/6");
   };
 
   /* save and redirect to home */
@@ -180,13 +174,8 @@ const TalentFormView = props => {
   };
 
   const onChange = value => {
-    console.log(value);
-    var ll;
-    let zz;
     let kk = [];
-    console.log(props.skillOptions);
     let dataTree = [];
-    console.log(dataTree);
     setSelectedSkills([]);
     let numbCategories = 0;
 
@@ -200,7 +189,6 @@ const TalentFormView = props => {
         for (var k = 0; k < value.length; k++) {
           // if selected skill matches item in all skills list
           if (props.skillOptions[i].children[w].value === value[k]) {
-            console.log(dataTree);
             itemsFoundInCategory++;
             if (itemsFoundInCategory === 1) {
               numbCategories++;
@@ -209,45 +197,22 @@ const TalentFormView = props => {
                 value: props.skillOptions[i].value,
                 children: []
               };
-              console.log(parent);
-              console.log(dataTree);
               dataTree.push(parent);
-              console.log(dataTree);
             }
-
-            console.log(itemsFoundInCategory);
 
             var child = {
               title: props.skillOptions[i].children[w].title,
               value: props.skillOptions[i].children[w].value,
               key: props.skillOptions[i].children[w].value
             };
-            console.log(numbCategories);
-            console.log(props.skillOptions[i].children[w]);
-            console.log(dataTree);
-            console.log(dataTree[numbCategories - 1]);
-            console.log(dataTree[numbCategories - 1].children);
+
             dataTree[numbCategories - 1].children.push(child);
           }
         }
       }
     }
-
-    // for (var i = 0; i < value.length; i++) {
-    //   ll = { label: value[i], value: value[i] };
-    //   kk.push(ll);
-    // }
-    //kk.sort((a, b) => a.label.localeCompare(b.label));
-    console.log(kk);
-    console.log(dataTree);
     setSelectedSkills(dataTree);
   };
-
-  // const options = [
-  //   { label: "Apple", value: "Apple" },
-  //   { label: "Pear", value: "Pear" },
-  //   { label: "Orange", value: "Orange" }
-  // ];
 
   /* Get temporary role form based on if the form switch is toggled */
   const getMentorshipForm = expandMentorshipForm => {
@@ -267,6 +232,7 @@ const TalentFormView = props => {
                 }
               >
                 <TreeSelect
+                  className="talent-skill-select"
                   treeData={selectedSkills}
                   //onChange={onChange}
                   treeCheckable={true}
@@ -274,6 +240,7 @@ const TalentFormView = props => {
                   placeholder={"Please select"}
                   treeNodeFilterProp="title"
                   showSearch={true}
+                  maxTagCount={15}
                 />
               </Form.Item>
             </Col>
@@ -293,8 +260,10 @@ const TalentFormView = props => {
       if (profile.firstLanguage) {
         firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
       }
-
+      console.log(props.savedSkills);
       return {
+        competencies: props.savedCompetencies,
+        skills: props.savedSkills,
         firstLanguage: firstLanguage,
         ...(profile.secondaryReadingProficiency && {
           readingProficiency: profile.secondaryReadingProficiency
@@ -353,6 +322,7 @@ const TalentFormView = props => {
         <div key={props.profileInfo}>
           {/* Create for with initial values */}
           <Form
+            className="talent-skill-select"
             name="basicForm"
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
@@ -363,7 +333,7 @@ const TalentFormView = props => {
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="compitency"
+                  name="competencies"
                   label={
                     <FormLabelTooltip
                       labelText={<FormattedMessage id="setup.competencies" />}
@@ -399,6 +369,7 @@ const TalentFormView = props => {
                   }
                 >
                   <TreeSelect
+                    className="talent-skill-select"
                     treeData={props.skillOptions}
                     onChange={onChange}
                     treeCheckable={true}
@@ -406,6 +377,7 @@ const TalentFormView = props => {
                     placeholder={"Please select"}
                     treeNodeFilterProp="title"
                     showSearch={true}
+                    maxTagCount={15}
                   />
                 </Form.Item>
               </Col>

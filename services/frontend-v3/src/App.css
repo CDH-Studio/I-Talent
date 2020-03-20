@@ -86,7 +86,7 @@
   font-size: 16px !important;
 }
 
-.ant-select-selection-item {
+.talent-skill-select .ant-select-selection-item {
   margin: 3px !important;
   padding: 1px 10px !important;
   height: auto !important;
