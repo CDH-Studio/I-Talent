@@ -8,16 +8,13 @@ import {
   Form,
   Select,
   Switch,
-  DatePicker,
   Button,
-  Checkbox,
   TreeSelect
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
-import moment from "moment";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
 
@@ -29,7 +26,7 @@ const { SHOW_CHILD } = TreeSelect;
 /**
  *  TalentFormView(props)
  *  this component renders the talent form.
- *  It contains competencies, skills, and mentorship treeselects.
+ *  It contains competencies, skills, and mentorship TreeSelects.
  */
 const TalentFormView = props => {
   const history = useHistory();
@@ -92,15 +89,23 @@ const TalentFormView = props => {
     }
   };
 
-  /* toggle temporary role form */
+  /*
+   * toggle mentorship form
+   *
+   * toggle state that controls mentorship form visibility
+   */
   const toggleMentorshipForm = () => {
     setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
-  /* Save data */
+  /*
+   * save data to DB
+   *
+   * update profile in DB or create profile if it is not found
+   */
   const saveDataToDB = async values => {
     if (!displayMentorshipForm) {
-      // clear values before submission
+      // clear mentorship skills before submission
       values.mentorshipSkills = [];
     }
 
@@ -127,13 +132,21 @@ const TalentFormView = props => {
     }
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async values => {
     await saveDataToDB(values);
     history.push("/secured/profile/create/step/6");
   };
 
-  /* save and redirect to home */
+  /*
+   * save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -146,37 +159,55 @@ const TalentFormView = props => {
       });
   };
 
-  /* reset form fields */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
     form.resetFields();
   };
 
-  const generateMentorshipOptions = (fullOptionsList, selectedValues) => {
+  /*
+   * Get Mentorship Options
+   *
+   * generate a list of skills the user can mentor
+   * (limited to the skills the user has chosen)
+   */
+  const generateMentorshipOptions = (
+    fullSkillsOptionsList,
+    selectedSkillValues
+  ) => {
     let dataTree = [];
     let numbCategories = 0;
     //iterate through all possible skill categories
-    for (var i = 0; i < fullOptionsList.length; i++) {
+    for (var i = 0; i < fullSkillsOptionsList.length; i++) {
       let itemsFoundInCategory = 0;
       // iterate through all possible skills in each categories
-      for (var w = 0; w < fullOptionsList[i].children.length; w++) {
+      for (var w = 0; w < fullSkillsOptionsList[i].children.length; w++) {
         // iterate through selected skills
-        for (var k = 0; k < selectedValues.length; k++) {
+        for (var k = 0; k < selectedSkillValues.length; k++) {
           // if selected skill matches item in all skills list
-          if (fullOptionsList[i].children[w].value === selectedValues[k]) {
+          if (
+            fullSkillsOptionsList[i].children[w].value ===
+            selectedSkillValues[k]
+          ) {
             itemsFoundInCategory++;
+            // if first find in skill category save the category as parent
             if (itemsFoundInCategory === 1) {
               numbCategories++;
               var parent = {
-                title: fullOptionsList[i].title,
-                value: fullOptionsList[i].value,
+                title: fullSkillsOptionsList[i].title,
+                value: fullSkillsOptionsList[i].value,
                 children: []
               };
               dataTree.push(parent);
             }
+            // save skill as child in parent
             var child = {
-              title: fullOptionsList[i].children[w].title,
-              value: fullOptionsList[i].children[w].value,
-              key: fullOptionsList[i].children[w].value
+              title: fullSkillsOptionsList[i].children[w].title,
+              value: fullSkillsOptionsList[i].children[w].value,
+              key: fullSkillsOptionsList[i].children[w].value
             };
             dataTree[numbCategories - 1].children.push(child);
           }
@@ -186,12 +217,17 @@ const TalentFormView = props => {
     return dataTree;
   };
 
+  /*
+   * Remove Invalid Mentorship Options
+   *
+   * compares mentorship skills against skills and removes mentorship skills that are not part of skills
+   * this is used when skills are removed and mentorship skills need to be updated
+   */
   const removeInvalidMentorshipOptions = (skills, mentorshipSkills) => {
     let validatedMentorshipSkills = [];
-    console.log(skills);
-    console.log(mentorshipSkills);
-    //iterate through all possible skill categories
+    //iterate through selected mentorship skill
     for (var i = 0; i < mentorshipSkills.length; i++) {
+      //iterate through selected skills
       for (var w = 0; w < skills.length; w++) {
         if (mentorshipSkills[i] === skills[w]) {
           validatedMentorshipSkills.push(mentorshipSkills[i]);
@@ -201,26 +237,38 @@ const TalentFormView = props => {
     return validatedMentorshipSkills;
   };
 
-  const onChange = skillsValues => {
+  /*
+   * On Change Skills
+   *
+   * on change of skills field auto update mentorship options
+   */
+  const onChangeSkills = skillsValues => {
+    // generate options for mentorship based on skills
     const selectedSkills = generateMentorshipOptions(
       props.skillOptions,
       skillsValues
     );
+    // get selected mentorship skills
     let mentorshipValues = form.getFieldValue("mentorshipSkills");
+    // validate selected mentorship against skills incase skills were deleted
     const validatedMentorshipSkills = removeInvalidMentorshipOptions(
       mentorshipValues,
       skillsValues
     );
-    console.log(validatedMentorshipSkills);
-
+    // Update the mentorship field selected values automatically
     form.setFieldsValue({
       mentorshipSkills: validatedMentorshipSkills
     });
+    // Update states
     setSelectedMentorshipSkills(validatedMentorshipSkills);
     setSelectedSkills(selectedSkills);
   };
 
-  /* Get temporary role form based on if the form switch is toggled */
+  /*
+   * Get mentorship form
+   *
+   * Get mentorship role form based on if the form switch is toggled
+   */
   const getMentorshipForm = expandMentorshipForm => {
     if (expandMentorshipForm) {
       console.log(selectedMentorshipSkills);
@@ -249,7 +297,6 @@ const TalentFormView = props => {
                 <TreeSelect
                   className="talent-skill-select"
                   treeData={selectedSkills}
-                  //onChange={onChange}
                   treeCheckable={true}
                   showCheckedStrategy={SHOW_CHILD}
                   placeholder={"Please select"}
@@ -268,10 +315,12 @@ const TalentFormView = props => {
     }
   };
 
-  /* Get the initial values for the form */
+  /*
+   * Get the initial values for the form
+   *
+   */
   const getInitialValues = profile => {
     if (profile) {
-      console.log(props.savedSkills);
       return {
         competencies: props.savedCompetencies,
         skills: props.savedSkills,
@@ -325,7 +374,7 @@ const TalentFormView = props => {
             layout="vertical"
             onFinish={onSaveAndNext}
           >
-            {/* Form Row One */}
+            {/* Form Row One:competencies */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -341,7 +390,6 @@ const TalentFormView = props => {
                     mode="multiple"
                     style={{ width: "100%" }}
                     placeholder="Please select"
-                    //onChange={handleChange}
                   >
                     {props.competencyOptions.map((value, index) => {
                       return (
@@ -352,7 +400,7 @@ const TalentFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row One */}
+            {/* Form Row Two: skills */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -367,7 +415,7 @@ const TalentFormView = props => {
                   <TreeSelect
                     className="talent-skill-select"
                     treeData={props.skillOptions}
-                    onChange={onChange}
+                    onChange={onChangeSkills}
                     treeCheckable={true}
                     showCheckedStrategy={SHOW_CHILD}
                     placeholder={"Please select"}
@@ -378,7 +426,7 @@ const TalentFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row Four: Temporary role */}
+            {/* Form Row Three: mentorship role */}
             <Row style={styles.secondLangRow} gutter={24}>
               <Col className="gutter-row" span={24}>
                 <FormLabelTooltip
@@ -394,7 +442,7 @@ const TalentFormView = props => {
                 {getMentorshipForm(displayMentorshipForm)}
               </Col>
             </Row>
-            {/* Form Row Five: Submit button */}
+            {/* Form Row Four: Submit button */}
             <Row gutter={24}>
               <Col xs={24} md={24} lg={18} xl={18}>
                 <Button
