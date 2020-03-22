@@ -358,6 +358,7 @@ const PersonalGrowthFormView = props => {
       </div>
     );
   } else {
+    console.log(props.interestedInRemoteOptions);
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
@@ -368,7 +369,6 @@ const PersonalGrowthFormView = props => {
         <div key={props.profileInfo}>
           {/* Create for with initial values */}
           <Form
-            className="talent-skill-select"
             name="basicForm"
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
@@ -379,6 +379,7 @@ const PersonalGrowthFormView = props => {
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
+                  className="custom-bubble-select-style"
                   name="developmentalGoals"
                   label={
                     <FormLabelTooltip
@@ -405,32 +406,27 @@ const PersonalGrowthFormView = props => {
             </Row>
 
             <Divider style={styles.headerDiv} />
-            <Title level={2} style={styles.formTitle}>
-              5. <FormattedMessage id="profile.employee.growth.interests" />
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.career.interests" />
             </Title>
             {/* Form Row Two: skills */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="skills"
-                  label={
-                    <FormLabelTooltip
-                      labelText={<FormattedMessage id="setup.skills" />}
-                      tooltipText="Extra information"
-                    />
-                  }
+                  name="interestedInRemote"
+                  label={<FormattedMessage id="profile.interested.in.remote" />}
+                  rules={[Rules.required]}
                 >
-                  <TreeSelect
-                    className="talent-skill-select"
-                    treeData={props.skillOptions}
-                    onChange={onChangeSkills}
-                    treeCheckable={true}
-                    showCheckedStrategy={SHOW_CHILD}
-                    placeholder={"Please select"}
-                    treeNodeFilterProp="title"
-                    showSearch={true}
-                    maxTagCount={15}
-                  />
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose classification"
+                    allowClear={true}
+                  >
+                    {props.interestedInRemoteOptions.map((value, index) => {
+                      return <Option key={value.id}>{value.text}</Option>;
+                    })}
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>

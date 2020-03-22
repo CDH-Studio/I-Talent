@@ -19,6 +19,7 @@ function PersonalGrowthForm() {
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState();
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState();
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -189,7 +190,47 @@ function PersonalGrowthForm() {
       }
     };
 
+    // const getDevelopmentalGoalOptions = async () => {
+    //   try {
+    //     let url = backendAddress + "api/option/getDevelopmentalGoals";
+    //     let result = await axios.get(url);
+    //     await setDevelopmentalGoalOptions(result.data);
+    //     return 1;
+    //   } catch (error) {
+    //     throw new Error(error);
+    //   }
+    // };
+
+    /* get substantive level options */
+    const getInterestedInRemoteOptions = () => {
+      const options = [
+        {
+          key: "yes",
+          value: "yes",
+          text: "Yes"
+        },
+        {
+          key: "no",
+          value: "no",
+          text: "No"
+        }
+      ];
+      setInterestedInRemoteOptions(options);
+    };
+
+    // const getProficiencyOptions = () => {
+    //   const proficiency = [
+    //     { key: "A", value: "A", text: "A" },
+    //     { key: "B", value: "B", text: "B" },
+    //     { key: "C", value: "C", text: "C" },
+    //     { key: "E", value: "E", text: "E" },
+    //     { key: "X", value: "X", text: "X" }
+    //   ];
+    //   setProficiencyOptions(proficiency);
+    // };
+
     /* get all required data component */
+
     const getAllData = async () => {
       try {
         await getProfileInfo();
@@ -200,6 +241,7 @@ function PersonalGrowthForm() {
         await getSavedMentorshipSkill();
         await getDevelopmentalGoalOptions();
         await getSavedDevelopmentalGoals();
+        await getInterestedInRemoteOptions();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -222,6 +264,7 @@ function PersonalGrowthForm() {
       savedMentorshipSkills={savedMentorshipSkills}
       developmentalGoalOptions={developmentalGoalOptions}
       savedDevelopmentalGoals={savedDevelopmentalGoals}
+      interestedInRemoteOptions={interestedInRemoteOptions}
       load={load}
     />
   );
