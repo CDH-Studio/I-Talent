@@ -79,9 +79,9 @@ router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function(
 });
 
 //User endpoints
-router.get(keycloak.protect(), "/user/", user.getUser);
-router.get(keycloak.protect(), "/user/:id", user.getUserById);
-router.post(keycloak.protect(), "/user/", user.createUser);
+router.get("/user/", keycloak.protect(), user.getUser);
+router.get("/user/:id", keycloak.protect(), user.getUserById);
+router.post("/user/", keycloak.protect(), user.createUser);
 
 //Profile endpoints
 router.get("/profile/", keycloak.protect(), profile.getProfile);
