@@ -5,7 +5,7 @@ import {
   EditOutlined
 } from "@ant-design/icons";
 import "@ant-design/compatible/assets/index.css";
-import { Card, Switch, Button, Row, Col } from "antd";
+import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
 
 import axios from "axios";
@@ -102,20 +102,30 @@ function ProfileCardsView(props) {
           <div>
             <Row type="flex" gutter={[16, 16]}>
               <Col>
-                <Switch
-                  // checkedChildren={<EyeOutlined />}
-                  // unCheckedChildren={<EyeInvisibleOutlined />}
-                  checkedChildren={"Hide card"}
-                  unCheckedChildren={"Show card"}
-                  defaultChecked={toogleValue}
-                  // onClick={handleToggle}
-                  onChange={handleToggle}
-                />
+                <Tooltip placement="top" title={"toggle card visibility"}>
+                  <Switch
+                    checkedChildren={<EyeOutlined />}
+                    unCheckedChildren={<EyeInvisibleOutlined />}
+                    //checkedChildren={"Hide card"}
+                    //unCheckedChildren={"Show card"}
+                    defaultChecked={toogleValue}
+                    // onClick={handleToggle}
+                    onChange={handleToggle}
+                    style={{ marginTop: "5px" }}
+                  />
+                </Tooltip>
               </Col>
               <Col>
-                <Button type="primary" icon={<EditOutlined />}>
-                  {<FormattedMessage id="profile.edit" />}
-                </Button>
+                <Tooltip
+                  placement="top"
+                  title={<FormattedMessage id="profile.edit" />}
+                >
+                  <Button
+                    type="default"
+                    shape="circle"
+                    icon={<EditOutlined />}
+                  />
+                </Tooltip>
               </Col>
             </Row>
           </div>
