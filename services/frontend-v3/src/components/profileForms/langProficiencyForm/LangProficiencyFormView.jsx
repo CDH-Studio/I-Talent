@@ -31,7 +31,7 @@ const { Title } = Typography;
 const LangProficiencyFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displaySecLangForm, setDisplaySecLangForm] = useState(false);
+  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -88,12 +88,12 @@ const LangProficiencyFormView = props => {
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplaySecLangForm(!displaySecLangForm);
+    setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
   /* Save data */
   const saveDataToDB = async values => {
-    if (!displaySecLangForm) {
+    if (!displayMentorshipForm) {
       // clear values before submission
       values.secondLanguage = null;
       values.readingProficiency = null;
@@ -170,8 +170,8 @@ const LangProficiencyFormView = props => {
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getSecondLanguageForm = expandTempRoleForm => {
-    if (expandTempRoleForm) {
+  const getSecondLanguageForm = expandMentorshipForm => {
+    if (expandMentorshipForm) {
       return (
         <div>
           {/* Reading Proficiency */}
@@ -331,7 +331,7 @@ const LangProficiencyFormView = props => {
 
   useEffect(() => {
     /* check if user has a second language */
-    setDisplaySecLangForm(
+    setDisplayMentorshipForm(
       props.profileInfo ? Boolean(props.profileInfo.secondLanguage) : false
     );
   }, [props.profileInfo]);
@@ -398,10 +398,10 @@ const LangProficiencyFormView = props => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displaySecLangForm}
+                  defaultChecked={displayMentorshipForm}
                   onChange={toggleSecLangForm}
                 />
-                {getSecondLanguageForm(displaySecLangForm)}
+                {getSecondLanguageForm(displayMentorshipForm)}
               </Col>
             </Row>
             {/* Form Row Five: Submit button */}

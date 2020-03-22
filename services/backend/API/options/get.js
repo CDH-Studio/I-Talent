@@ -213,9 +213,9 @@ const getCategory = async (request, response) => {
       id: one.id,
       description: {
         en: one.descriptionEn,
-        fr: one.descriptionFr,
-        skills: skillsCat
-      }
+        fr: one.descriptionFr
+      },
+      skills: skillsCat
     };
   });
   response.status(200).json(resBody);
