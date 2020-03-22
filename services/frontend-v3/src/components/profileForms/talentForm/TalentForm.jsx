@@ -52,7 +52,12 @@ function TalentForm() {
       }
     };
 
-    /* get saved competencies from profile */
+    /*  */
+    /*
+     * get saved competencies
+     *
+     * get saved competencies from profile
+     */
     const getSavedCompetencies = async () => {
       try {
         let url =
