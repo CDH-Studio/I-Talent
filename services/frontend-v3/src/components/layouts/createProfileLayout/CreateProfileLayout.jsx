@@ -7,7 +7,8 @@ import {
   EmploymentDataForm,
   LangProficiencyForm,
   PrimaryInfoForm,
-  TalentForm
+  TalentForm,
+  PersonalGrowthForm
 } from "../../profileForms";
 
 const { Step } = Steps;
@@ -27,6 +28,8 @@ export default class CreateProfileLayout extends React.Component {
         return <LangProficiencyForm />;
       case 5:
         return <TalentForm />;
+      case 6:
+        return <PersonalGrowthForm />;
       default:
         return <div>Hello</div>;
     }
@@ -43,7 +46,9 @@ export default class CreateProfileLayout extends React.Component {
           <Step title={<FormattedMessage id="setup.employment" />} />
           <Step title={<FormattedMessage id="setup.language.proficiency" />} />
           <Step title={<FormattedMessage id="setup.talent" />} />
-          <Step title={<FormattedMessage id="setup.skills" />} />
+          <Step
+            title={<FormattedMessage id="profile.employee.growth.interests" />}
+          />
           <Step title={<FormattedMessage id="setup.competencies" />} />
           <Step title={<FormattedMessage id="setup.developmental.goals" />} />
           <Step title={<FormattedMessage id="setup.education" />} />
