@@ -95,7 +95,7 @@ function ProfileCardsView(props) {
 
   /* Handle card hidden features */
   // let visibleCards;
-  const onChange = async () => {
+  const handleVisibilityToggle = async () => {
     let url = backendAddress + "api/profile/" + localStorage.getItem("userId");
     let result = await axios.get(url);
     console.log(result);
@@ -120,40 +120,32 @@ function ProfileCardsView(props) {
     //Get updated visibleCards state in profile
   };
 
-  const generateSwitchButton = cardName => {
-    if (props.load) {
-      if (disabled == true || disabled == false) {
-        return (
-          <div>
-            <Row type="flex" gutter={[16, 16]}>
-              <Col>
-                <Tooltip placement="top" title={"toggle card visibility"}>
-                  <Switch
-                    checkedChildren={<EyeOutlined />}
-                    unCheckedChildren={<EyeInvisibleOutlined />}
-                    defaultChecked={disabled}
-                    onChange={onChange}
-                    style={{ marginTop: "5px" }}
-                  />
-                </Tooltip>
-              </Col>
-              <Col>
-                <Tooltip
-                  placement="top"
-                  title={<FormattedMessage id="profile.edit" />}
-                >
-                  <Button
-                    type="default"
-                    shape="circle"
-                    icon={<EditOutlined />}
-                  />
-                </Tooltip>
-              </Col>
-            </Row>
-          </div>
-        );
-      }
-    }
+  const generateSwitchButton = () => {
+    return (
+      <div>
+        <Row type="flex" gutter={[16, 16]}>
+          <Col>
+            <Tooltip placement="top" title={"toggle card visibility"}>
+              <Switch
+                checkedChildren={<EyeOutlined />}
+                unCheckedChildren={<EyeInvisibleOutlined />}
+                defaultChecked={disabled}
+                onChange={handleVisibilityToggle}
+                style={{ marginTop: "5px" }}
+              />
+            </Tooltip>
+          </Col>
+          <Col>
+            <Tooltip
+              placement="top"
+              title={<FormattedMessage id="profile.edit" />}
+            >
+              <Button type="default" shape="circle" icon={<EditOutlined />} />
+            </Tooltip>
+          </Col>
+        </Row>
+      </div>
+    );
   };
 
   useEffect(() => {
