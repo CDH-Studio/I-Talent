@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -93,10 +93,35 @@ function ProfileCardsView(props) {
     //Get updated visibleCards state in profile
   };
 
+  /* Handle card hidden features */
+  // let visibleCards;
+  const onChange = async () => {
+    let url = backendAddress + "api/profile/" + localStorage.getItem("userId");
+    let result = await axios.get(url);
+    console.log(result);
+    let visibleCards = result.data.visibleCards;
+    const cardNameToBeModified = props.cardName;
+    await setDisabled(!disabled);
+    visibleCards[cardNameToBeModified] = !disabled;
+
+    console.log(visibleCards);
+
+    //Update visibleCards state in profile
+    try {
+      await axios.put(
+        backendAddress + "api/profile/" + localStorage.getItem("userId"),
+        {
+          visibleCards
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    //Get updated visibleCards state in profile
+  };
+
   const generateSwitchButton = cardName => {
     if (props.load) {
-      let toogleValue = getToggleValue(cardName);
-      // setDisabled(toogleValue);
       if (disabled == true || disabled == false) {
         return (
           <div>
@@ -106,11 +131,8 @@ function ProfileCardsView(props) {
                   <Switch
                     checkedChildren={<EyeOutlined />}
                     unCheckedChildren={<EyeInvisibleOutlined />}
-                    //checkedChildren={"Hide card"}
-                    //unCheckedChildren={"Show card"}
-                    defaultChecked={toogleValue}
-                    // onClick={handleToggle}
-                    onChange={handleToggle}
+                    defaultChecked={disabled}
+                    onChange={onChange}
                     style={{ marginTop: "5px" }}
                   />
                 </Tooltip>
@@ -134,6 +156,14 @@ function ProfileCardsView(props) {
     }
   };
 
+  useEffect(() => {
+    if (props.profileInfo) {
+      let visibleCards = props.profileInfo.visibleCards;
+      const cardNameToBeModified = props.cardName;
+      setDisabled(visibleCards[cardNameToBeModified]);
+    }
+  }, [props.profileInfo]);
+
   let styles;
   if (disabled === true) {
     styles = {
@@ -153,8 +183,7 @@ function ProfileCardsView(props) {
       <Card
         title={props.title}
         extra={generateSwitchButton(props.cardName)}
-        style={props.style}
-        bodyStyle={styles.grayedOut}
+        style={(props.style, styles.grayedOut)}
       >
         {props.content}
       </Card>
