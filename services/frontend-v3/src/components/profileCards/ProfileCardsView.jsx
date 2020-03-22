@@ -14,112 +14,41 @@ const { backendAddress } = config;
 
 function ProfileCardsView(props) {
   const [disabled, setDisabled] = useState(true);
-  // let [visibleCards, setVisibleCards] = useState(
-  //   props.profileInfo.visibleCards
-  // );
 
-  const getToggleValue = () => {
-    let toggleValue;
-
-    if (props.load && props.profileInfo) {
-      switch (props.cardName) {
-        case "info":
-          toggleValue = props.profileInfo.visibleCards.info;
-          break;
-        case "manager":
-          toggleValue = props.profileInfo.visibleCards.manager;
-          break;
-        case "talentManagement":
-          toggleValue = props.profileInfo.visibleCards.talentManagement;
-          break;
-        case "officialLanguage":
-          toggleValue = props.profileInfo.visibleCards.officialLanguage;
-          break;
-        case "skills":
-          toggleValue = props.profileInfo.visibleCards.skills;
-          break;
-        case "mentorshipSkills":
-          toggleValue = props.profileInfo.visibleCards.mentorshipSkills;
-          break;
-        case "competencies":
-          toggleValue = props.profileInfo.visibleCards.competencies;
-          break;
-        case "developmentalGoals":
-          toggleValue = props.profileInfo.visibleCards.developmentalGoals;
-          break;
-        case "education":
-          toggleValue = props.profileInfo.visibleCards.education;
-          break;
-        case "experience":
-          toggleValue = props.profileInfo.visibleCards.experience;
-          break;
-        case "projects":
-          toggleValue = props.profileInfo.visibleCards.projects;
-          break;
-        case "careerInterests":
-          toggleValue = props.profileInfo.visibleCards.careerInterests;
-      }
-    }
-    return toggleValue;
-  };
-
-  /* Handle card hidden features */
-  // let visibleCards;
-  const handleToggle = async toggleValue => {
-    let visibleCards = props.profileInfo.visibleCards;
-    console.log("state--initial-->1", visibleCards);
-    const cardNameToBeModified = props.cardName;
-    setDisabled(toggleValue);
-
-    visibleCards[cardNameToBeModified] = toggleValue;
-
-    //Update visibleCards state in profile
-    try {
-      await axios
-        .put(backendAddress + "api/profile/" + localStorage.getItem("userId"), {
-          visibleCards
-        })
-        .then(async () => {
-          let url =
-            backendAddress + "api/profile/" + localStorage.getItem("userId");
-          let result = await axios.get(url);
-          let updatedProfileInfo = result.data;
-          visibleCards = updatedProfileInfo.visibleCards;
-          console.log("state--updated-->69", visibleCards);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    //Get updated visibleCards state in profile
-  };
-
-  /* Handle card hidden features */
-  // let visibleCards;
+  /*
+   * Handle Visibility Toggle
+   *
+   * Handle card visibility toggle by updating state and saving state to backend
+   */
   const handleVisibilityToggle = async () => {
-    let url = backendAddress + "api/profile/" + localStorage.getItem("userId");
-    let result = await axios.get(url);
-    console.log(result);
-    let visibleCards = result.data.visibleCards;
-    const cardNameToBeModified = props.cardName;
-    await setDisabled(!disabled);
-    visibleCards[cardNameToBeModified] = !disabled;
-
-    console.log(visibleCards);
-
-    //Update visibleCards state in profile
+    // Update visibleCards state in profile
     try {
+      // Get current card visibility status from db
+      let url =
+        backendAddress + "api/profile/" + localStorage.getItem("userId");
+      let result = await axios.get(url);
+      let visibleCards = result.data.visibleCards;
+
+      // change the stored value
+      const cardNameToBeModified = props.cardName;
+      visibleCards[cardNameToBeModified] = !disabled;
+      setDisabled(visibleCards[cardNameToBeModified]);
+
+      // save toggle value in db
       await axios.put(
         backendAddress + "api/profile/" + localStorage.getItem("userId"),
-        {
-          visibleCards
-        }
+        { visibleCards }
       );
     } catch (error) {
       console.log(error);
     }
-    //Get updated visibleCards state in profile
   };
 
+  /*
+   * Generate Switch Button
+   *
+   * Generate visibility switch and edit button
+   */
   const generateSwitchButton = () => {
     return (
       <div>
@@ -129,7 +58,7 @@ function ProfileCardsView(props) {
               <Switch
                 checkedChildren={<EyeOutlined />}
                 unCheckedChildren={<EyeInvisibleOutlined />}
-                defaultChecked={disabled}
+                checked={disabled}
                 onChange={handleVisibilityToggle}
                 style={{ marginTop: "5px" }}
               />
@@ -149,6 +78,7 @@ function ProfileCardsView(props) {
   };
 
   useEffect(() => {
+    // get default state of card visibility status on load of page
     if (props.profileInfo) {
       let visibleCards = props.profileInfo.visibleCards;
       const cardNameToBeModified = props.cardName;
