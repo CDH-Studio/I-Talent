@@ -17,6 +17,8 @@ function PersonalGrowthForm() {
   const [savedCompetencies, setSavedCompetencies] = useState();
   const [savedSkills, setSavedSkills] = useState();
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
+  const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState();
+  const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -159,6 +161,34 @@ function PersonalGrowthForm() {
       }
     };
 
+    const getDevelopmentalGoalOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getDevelopmentalGoals";
+        let result = await axios.get(url);
+        await setDevelopmentalGoalOptions(result.data);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    const getSavedDevelopmentalGoals = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+        console.log(result.data.developmentalGoals);
+        for (let i = 0; i < result.data.developmentalGoals.length; i++) {
+          selected.push(result.data.developmentalGoals[i].id);
+        }
+        await setSavedDevelopmentalGoals(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* get all required data component */
     const getAllData = async () => {
       try {
@@ -168,6 +198,8 @@ function PersonalGrowthForm() {
         await getSavedCompetencies();
         await getSavedSkills();
         await getSavedMentorshipSkill();
+        await getDevelopmentalGoalOptions();
+        await getSavedDevelopmentalGoals();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -188,6 +220,8 @@ function PersonalGrowthForm() {
       savedCompetencies={savedCompetencies}
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
+      developmentalGoalOptions={developmentalGoalOptions}
+      savedDevelopmentalGoals={savedDevelopmentalGoals}
       load={load}
     />
   );

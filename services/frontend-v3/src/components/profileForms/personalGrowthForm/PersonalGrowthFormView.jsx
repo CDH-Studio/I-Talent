@@ -320,9 +320,10 @@ const PersonalGrowthFormView = props => {
    *
    */
   const getInitialValues = profile => {
+    console.log(props.savedDevelopmentalGoals);
     if (profile) {
       return {
-        competencies: props.savedCompetencies,
+        developmentalGoals: props.savedDevelopmentalGoals,
         skills: props.savedSkills,
         mentorshipSkills: props.savedMentorshipSkills
       };
@@ -361,7 +362,7 @@ const PersonalGrowthFormView = props => {
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
-          5. <FormattedMessage id="setup.talent" />
+          5. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>
@@ -378,10 +379,12 @@ const PersonalGrowthFormView = props => {
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="competencies"
+                  name="developmentalGoals"
                   label={
                     <FormLabelTooltip
-                      labelText={<FormattedMessage id="setup.competencies" />}
+                      labelText={
+                        <FormattedMessage id="setup.developmental.goals" />
+                      }
                       tooltipText="Extra information"
                     />
                   }
@@ -391,7 +394,7 @@ const PersonalGrowthFormView = props => {
                     style={{ width: "100%" }}
                     placeholder="Please select"
                   >
-                    {props.competencyOptions.map((value, index) => {
+                    {props.developmentalGoalOptions.map((value, index) => {
                       return (
                         <Option key={value.id}>{value.description.en}</Option>
                       );
@@ -400,6 +403,11 @@ const PersonalGrowthFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
+
+            <Divider style={styles.headerDiv} />
+            <Title level={2} style={styles.formTitle}>
+              5. <FormattedMessage id="profile.employee.growth.interests" />
+            </Title>
             {/* Form Row Two: skills */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
