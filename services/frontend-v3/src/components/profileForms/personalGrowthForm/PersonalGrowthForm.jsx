@@ -17,9 +17,12 @@ function PersonalGrowthForm() {
   const [savedCompetencies, setSavedCompetencies] = useState();
   const [savedSkills, setSavedSkills] = useState();
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
+  ////////////////////////////////
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState();
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState();
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState();
+  const [relocationOptions, setRelocationOptions] = useState();
+  const [savedRelocationLocations, setSavedRelocationLocations] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -190,17 +193,6 @@ function PersonalGrowthForm() {
       }
     };
 
-    // const getDevelopmentalGoalOptions = async () => {
-    //   try {
-    //     let url = backendAddress + "api/option/getDevelopmentalGoals";
-    //     let result = await axios.get(url);
-    //     await setDevelopmentalGoalOptions(result.data);
-    //     return 1;
-    //   } catch (error) {
-    //     throw new Error(error);
-    //   }
-    // };
-
     /* get substantive level options */
     const getInterestedInRemoteOptions = () => {
       const options = [
@@ -216,16 +208,46 @@ function PersonalGrowthForm() {
       setInterestedInRemoteOptions(options);
     };
 
-    // const getProficiencyOptions = () => {
-    //   const proficiency = [
-    //     { key: "A", value: "A", text: "A" },
-    //     { key: "B", value: "B", text: "B" },
-    //     { key: "C", value: "C", text: "C" },
-    //     { key: "E", value: "E", text: "E" },
-    //     { key: "X", value: "X", text: "X" }
-    //   ];
-    //   setProficiencyOptions(proficiency);
-    // };
+    const getRelocationOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getWillingToRelocateTo";
+        let result = await axios.get(url);
+        let dataTree = [];
+        console.log(result);
+
+        // loop through each relocation option
+        for (var i = 0; i < result.data.length; i++) {
+          var location = {
+            title: result.data[i].description.en,
+            value: result.data[i].id,
+            key: result.data[i].id
+          };
+          dataTree.push(location);
+        }
+
+        await setRelocationOptions(dataTree);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    const getSavedRelocationLocations = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+        console.log(result.data.developmentalGoals);
+        for (let i = 0; i < result.data.relocationLocations.length; i++) {
+          selected.push(result.data.relocationLocations[i].locationId);
+        }
+        await setSavedRelocationLocations(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
 
     /* get all required data component */
 
@@ -240,6 +262,8 @@ function PersonalGrowthForm() {
         await getDevelopmentalGoalOptions();
         await getSavedDevelopmentalGoals();
         await getInterestedInRemoteOptions();
+        await getRelocationOptions();
+        await getSavedRelocationLocations();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -261,8 +285,11 @@ function PersonalGrowthForm() {
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
       developmentalGoalOptions={developmentalGoalOptions}
+      ////////////
       savedDevelopmentalGoals={savedDevelopmentalGoals}
       interestedInRemoteOptions={interestedInRemoteOptions}
+      relocationOptions={relocationOptions}
+      savedRelocationLocations={savedRelocationLocations}
       load={load}
     />
   );

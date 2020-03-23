@@ -329,7 +329,8 @@ const PersonalGrowthFormView = props => {
         developmentalGoals: props.savedDevelopmentalGoals,
         skills: props.savedSkills,
         mentorshipSkills: props.savedMentorshipSkills,
-        interestedInRemote: profile.interestedInRemote.toString()
+        interestedInRemote: profile.interestedInRemote.toString(),
+        relocationLocations: props.savedRelocationLocations
       };
     } else {
       return {};
@@ -379,7 +380,8 @@ const PersonalGrowthFormView = props => {
             layout="vertical"
             onFinish={onSaveAndNext}
           >
-            {/* Form Row One:competencies */}
+            {/* *************** Developmental ************** */}
+            {/* Form Row One: Developmental Goals */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -409,11 +411,12 @@ const PersonalGrowthFormView = props => {
               </Col>
             </Row>
 
+            {/* *************** Career Interest ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
               <FormattedMessage id="setup.career.interests" />
             </Title>
-            {/* Form Row Two: skills */}
+            {/* Form Row Two: Remote Work */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -433,22 +436,38 @@ const PersonalGrowthFormView = props => {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row Three: mentorship role */}
-            <Row style={styles.secondLangRow} gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="profile.mentorship.available" />
+
+            {/* *************** Developmental ************** */}
+            {/* Form Row One: Developmental Goals */}
+            <Row gutter={24}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="relocationLocations"
+                  label={
+                    <FormLabelTooltip
+                      labelText={
+                        <FormattedMessage id="profile.willing.to.relocate.to" />
+                      }
+                      tooltipText="Extra information"
+                    />
                   }
-                  tooltipText="Extra information"
-                />
-                <Switch
-                  defaultChecked={displayMentorshipForm}
-                  onChange={toggleMentorshipForm}
-                />
-                {getMentorshipForm(displayMentorshipForm)}
+                >
+                  <TreeSelect
+                    className="custom-bubble-select-style"
+                    treeData={props.relocationOptions}
+                    onChange={onChangeSkills}
+                    treeCheckable={true}
+                    showCheckedStrategy={SHOW_CHILD}
+                    placeholder={"Please select"}
+                    treeNodeFilterProp="title"
+                    showSearch={true}
+                    maxTagCount={15}
+                  />
+                </Form.Item>
               </Col>
             </Row>
+
+            {/* *************** Control Buttons ************** */}
             {/* Form Row Four: Submit button */}
             <Row gutter={24}>
               <Col xs={24} md={24} lg={18} xl={18}>
