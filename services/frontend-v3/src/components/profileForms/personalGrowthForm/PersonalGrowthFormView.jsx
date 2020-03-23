@@ -320,12 +320,16 @@ const PersonalGrowthFormView = props => {
    *
    */
   const getInitialValues = profile => {
-    console.log(props.savedDevelopmentalGoals);
+    console.log(props.interestedInRemoteOptions[0].key.toString());
+    console.log(profile.interestedInRemote);
+    console.log(props);
     if (profile) {
+      console.log(profile.interestedInRemote);
       return {
         developmentalGoals: props.savedDevelopmentalGoals,
         skills: props.savedSkills,
-        mentorshipSkills: props.savedMentorshipSkills
+        mentorshipSkills: props.savedMentorshipSkills,
+        interestedInRemote: profile.interestedInRemote.toString()
       };
     } else {
       return {};
@@ -358,7 +362,7 @@ const PersonalGrowthFormView = props => {
       </div>
     );
   } else {
-    console.log(props.interestedInRemoteOptions);
+    console.log(getInitialValues(props.profileInfo));
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
@@ -415,16 +419,15 @@ const PersonalGrowthFormView = props => {
                 <Form.Item
                   name="interestedInRemote"
                   label={<FormattedMessage id="profile.interested.in.remote" />}
-                  rules={[Rules.required]}
                 >
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose classification"
+                    placeholder="choose remote work interest"
                     allowClear={true}
                   >
                     {props.interestedInRemoteOptions.map((value, index) => {
-                      return <Option key={value.id}>{value.text}</Option>;
+                      return <Option key={value.key}>{value.text}</Option>;
                     })}
                   </Select>
                 </Form.Item>

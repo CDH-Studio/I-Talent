@@ -205,13 +205,11 @@ function PersonalGrowthForm() {
     const getInterestedInRemoteOptions = () => {
       const options = [
         {
-          key: "yes",
-          value: "yes",
+          key: true,
           text: "Yes"
         },
         {
-          key: "no",
-          value: "no",
+          key: false,
           text: "No"
         }
       ];

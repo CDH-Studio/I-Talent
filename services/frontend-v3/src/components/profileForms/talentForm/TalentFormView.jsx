@@ -319,8 +319,8 @@ const TalentFormView = props => {
    * Get the initial values for the form
    *
    */
-  const getInitialValues = profile => {
-    if (profile) {
+  const getInitialValues = () => {
+    if (props) {
       return {
         competencies: props.savedCompetencies,
         skills: props.savedSkills,
