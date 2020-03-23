@@ -165,17 +165,14 @@ const PersonalGrowthFormView = props => {
    *
    */
   const getInitialValues = profile => {
-    console.log(props.interestedInRemoteOptions[0].key.toString());
-    console.log(profile.interestedInRemote);
-    console.log(props);
-    if (profile) {
-      console.log(profile.interestedInRemote);
+    if (profile && props) {
       return {
         developmentalGoals: props.savedDevelopmentalGoals,
         skills: props.savedSkills,
         mentorshipSkills: props.savedMentorshipSkills,
         interestedInRemote: profile.interestedInRemote.toString(),
-        relocationLocations: props.savedRelocationLocations
+        relocationLocations: props.savedRelocationLocations,
+        lookingForNewJob: props.savedLookingForNewJob
       };
     } else {
       return {};
@@ -248,7 +245,7 @@ const PersonalGrowthFormView = props => {
             <Title level={3} style={styles.formTitle}>
               <FormattedMessage id="setup.career.interests" />
             </Title>
-            {/* Form Row Two: Remote Work */}
+            {/* Form Row One: Remote Work */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -269,8 +266,7 @@ const PersonalGrowthFormView = props => {
               </Col>
             </Row>
 
-            {/* *************** Developmental ************** */}
-            {/* Form Row One: Developmental Goals */}
+            {/* Form Row Two: Relocation */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -291,6 +287,27 @@ const PersonalGrowthFormView = props => {
                     placeholder="Please select"
                   >
                     {props.relocationOptions.map((value, index) => {
+                      return <Option key={value.key}>{value.title}</Option>;
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {/* Form Row Three: new job */}
+            <Row gutter={24}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="lookingForNewJob"
+                  label={<FormattedMessage id="profile.looking.for.new.job" />}
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose remote work interest"
+                    allowClear={true}
+                  >
+                    {props.lookingForNewJobOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>

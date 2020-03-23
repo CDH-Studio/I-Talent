@@ -17,6 +17,8 @@ function PersonalGrowthForm() {
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState();
   const [relocationOptions, setRelocationOptions] = useState();
   const [savedRelocationLocations, setSavedRelocationLocations] = useState();
+  const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState();
+  const [savedLookingForNewJob, setSavedLookingForNewJob] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -138,6 +140,45 @@ function PersonalGrowthForm() {
       }
     };
 
+    /*
+     * get saved competencies
+     *
+     * get saved competencies from profile
+     */
+    const getLookingForNewJobOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getLookingForANewJob";
+        let result = await axios.get(url);
+        console.log(result);
+        let dataTree = [];
+        for (var i = 0; i < result.data.length; i++) {
+          var goal = {
+            title: result.data[i].description.en,
+            key: result.data[i].id
+          };
+          dataTree.push(goal);
+        }
+        console.log(dataTree);
+        await setLookingForNewJobOptions(dataTree);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    const getSavedLookingForNewJob = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        console.log(result);
+        await setSavedLookingForNewJob(result.data.lookingForNewJob.id);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* get all required data component */
 
     const getAllData = async () => {
@@ -149,6 +190,8 @@ function PersonalGrowthForm() {
         await getInterestedInRemoteOptions();
         await getRelocationOptions();
         await getSavedRelocationLocations();
+        await getLookingForNewJobOptions();
+        await getSavedLookingForNewJob();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -169,6 +212,8 @@ function PersonalGrowthForm() {
       interestedInRemoteOptions={interestedInRemoteOptions}
       relocationOptions={relocationOptions}
       savedRelocationLocations={savedRelocationLocations}
+      lookingForNewJobOptions={lookingForNewJobOptions}
+      savedLookingForNewJob={savedLookingForNewJob}
       load={load}
     />
   );
