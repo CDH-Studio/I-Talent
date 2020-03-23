@@ -154,7 +154,8 @@ const PersonalGrowthFormView = props => {
         interestedInRemote: profile.interestedInRemote.toString(),
         relocationLocations: props.savedRelocationLocations,
         lookingForNewJob: props.savedLookingForNewJob,
-        careerMobility: props.savedCareerMobility
+        careerMobility: props.savedCareerMobility,
+        exFeeder: props.savedExFeederBool
       };
     } else {
       return {};
@@ -351,7 +352,7 @@ const PersonalGrowthFormView = props => {
             {/* Form Row Three: new job */}
             <Row gutter={24} style={{ marginBottom: "15px" }}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item name="lookingForNewJob">
+                <Form.Item name="exFeeder" valuePropName="checked">
                   <Checkbox>
                     {<FormattedMessage id="profile.ex.feeder" />}
                   </Checkbox>

@@ -21,6 +21,7 @@ function PersonalGrowthForm() {
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState();
   const [careerMobilityOptions, setCareerMobilityOptions] = useState();
   const [savedCareerMobility, setSavedCareerMobility] = useState();
+  const [savedExFeederBool, setSavedExFeederBool] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -217,6 +218,18 @@ function PersonalGrowthForm() {
       }
     };
 
+    const getExFeederBool = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        await setSavedExFeederBool(result.data.exFeeder);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* get all required data component */
 
     const getAllData = async () => {
@@ -232,6 +245,7 @@ function PersonalGrowthForm() {
         await getSavedLookingForNewJob();
         await getCareerMobilityOptions();
         await getSavedCareerMobility();
+        await getExFeederBool();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -256,6 +270,7 @@ function PersonalGrowthForm() {
       savedLookingForNewJob={savedLookingForNewJob}
       careerMobilityOptions={careerMobilityOptions}
       savedCareerMobility={savedCareerMobility}
+      savedExFeederBool={savedExFeederBool}
       load={load}
     />
   );
