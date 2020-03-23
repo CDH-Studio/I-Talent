@@ -33,7 +33,7 @@ const { Title } = Typography;
 const EmploymentDataFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displaySecLangForm, setDisplaySecLangForm] = useState(false);
+  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [enableSecondLang, setEnableSecondLang] = useState();
 
   /* Component Styles */
@@ -99,7 +99,7 @@ const EmploymentDataFormView = props => {
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplaySecLangForm(!displaySecLangForm);
+    setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
   /* enable or disable end date field */
@@ -130,7 +130,7 @@ const EmploymentDataFormView = props => {
 
   /* Save data */
   const saveDataToDB = async values => {
-    if (!displaySecLangForm) {
+    if (!displayMentorshipForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;
       values.actingStartDate = null;
@@ -193,8 +193,8 @@ const EmploymentDataFormView = props => {
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getTempRoleForm = expandTempRoleForm => {
-    if (expandTempRoleForm) {
+  const getTempRoleForm = expandMentorshipForm => {
+    if (expandMentorshipForm) {
       return (
         <Row gutter={24} style={{ marginTop: "10px" }}>
           <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
@@ -291,7 +291,7 @@ const EmploymentDataFormView = props => {
 
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
-    setDisplaySecLangForm(
+    setDisplayMentorshipForm(
       props.profileInfo ? !!props.profileInfo.acting.id : false
     );
 
@@ -427,10 +427,10 @@ const EmploymentDataFormView = props => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displaySecLangForm}
+                  defaultChecked={displayMentorshipForm}
                   onChange={toggleSecLangForm}
                 />
-                {getTempRoleForm(displaySecLangForm)}
+                {getTempRoleForm(displayMentorshipForm)}
               </Col>
             </Row>
             {/* Form Row Five: Submit button */}
