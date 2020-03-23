@@ -19,6 +19,8 @@ function PersonalGrowthForm() {
   const [savedRelocationLocations, setSavedRelocationLocations] = useState();
   const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState();
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState();
+  const [careerMobilityOptions, setCareerMobilityOptions] = useState();
+  const [savedCareerMobility, setSavedCareerMobility] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -171,8 +173,44 @@ function PersonalGrowthForm() {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
-        console.log(result);
         await setSavedLookingForNewJob(result.data.lookingForNewJob.id);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    /*
+     * get saved competencies
+     *
+     * get saved competencies from profile
+     */
+    const getCareerMobilityOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getCareerMobility";
+        let result = await axios.get(url);
+        let dataTree = [];
+        for (var i = 0; i < result.data.length; i++) {
+          var goal = {
+            title: result.data[i].description.en,
+            key: result.data[i].id
+          };
+          dataTree.push(goal);
+        }
+        console.log(dataTree);
+        await setCareerMobilityOptions(dataTree);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    const getSavedCareerMobility = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        await setSavedCareerMobility(result.data.careerMobility.id);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -192,6 +230,8 @@ function PersonalGrowthForm() {
         await getSavedRelocationLocations();
         await getLookingForNewJobOptions();
         await getSavedLookingForNewJob();
+        await getCareerMobilityOptions();
+        await getSavedCareerMobility();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -214,6 +254,8 @@ function PersonalGrowthForm() {
       savedRelocationLocations={savedRelocationLocations}
       lookingForNewJobOptions={lookingForNewJobOptions}
       savedLookingForNewJob={savedLookingForNewJob}
+      careerMobilityOptions={careerMobilityOptions}
+      savedCareerMobility={savedCareerMobility}
       load={load}
     />
   );

@@ -82,6 +82,7 @@ const PersonalGrowthFormView = props => {
    * update profile in DB or create profile if it is not found
    */
   const saveDataToDB = async values => {
+    console.log(values);
     if (props.profileInfo) {
       // If profile exists then update profile
       try {
@@ -142,38 +143,18 @@ const PersonalGrowthFormView = props => {
   };
 
   /*
-   * Remove Invalid Mentorship Options
-   *
-   * compares mentorship skills against skills and removes mentorship skills that are not part of skills
-   * this is used when skills are removed and mentorship skills need to be updated
-   */
-  const removeInvalidMentorshipOptions = (skills, mentorshipSkills) => {
-    let validatedMentorshipSkills = [];
-    //iterate through selected mentorship skill
-    for (var i = 0; i < mentorshipSkills.length; i++) {
-      //iterate through selected skills
-      for (var w = 0; w < skills.length; w++) {
-        if (mentorshipSkills[i] === skills[w]) {
-          validatedMentorshipSkills.push(mentorshipSkills[i]);
-        }
-      }
-    }
-    return validatedMentorshipSkills;
-  };
-
-  /*
    * Get the initial values for the form
    *
    */
   const getInitialValues = profile => {
+    console.log(props.savedCareerMobility);
     if (profile && props) {
       return {
         developmentalGoals: props.savedDevelopmentalGoals,
-        skills: props.savedSkills,
-        mentorshipSkills: props.savedMentorshipSkills,
         interestedInRemote: profile.interestedInRemote.toString(),
         relocationLocations: props.savedRelocationLocations,
-        lookingForNewJob: props.savedLookingForNewJob
+        lookingForNewJob: props.savedLookingForNewJob,
+        careerMobility: props.savedCareerMobility
       };
     } else {
       return {};
@@ -259,7 +240,7 @@ const PersonalGrowthFormView = props => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose remote work interest"
+                    placeholder="Please select"
                     allowClear={true}
                   >
                     {props.interestedInRemoteOptions.map((value, index) => {
@@ -308,7 +289,7 @@ const PersonalGrowthFormView = props => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose remote work interest"
+                    placeholder="Please select"
                     allowClear={true}
                   >
                     {props.lookingForNewJobOptions.map((value, index) => {
@@ -325,20 +306,20 @@ const PersonalGrowthFormView = props => {
               <FormattedMessage id="setup.talent.management" />
             </Title>
 
-            {/* Form Row Three: new job */}
+            {/* Form Row Three: career mobility */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="lookingForNewJob"
-                  label={<FormattedMessage id="profile.looking.for.new.job" />}
+                  name="careerMobility"
+                  label={<FormattedMessage id="profile.career.mobility" />}
                 >
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose remote work interest"
+                    placeholder="Please select"
                     allowClear={true}
                   >
-                    {props.lookingForNewJobOptions.map((value, index) => {
+                    {props.careerMobilityOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
@@ -351,12 +332,12 @@ const PersonalGrowthFormView = props => {
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   name="lookingForNewJob"
-                  label={<FormattedMessage id="profile.looking.for.new.job" />}
+                  label={<FormattedMessage id="profile.talent.matrix.result" />}
                 >
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose remote work interest"
+                    placeholder="Please select"
                     allowClear={true}
                   >
                     {props.lookingForNewJobOptions.map((value, index) => {
