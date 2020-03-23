@@ -8,7 +8,8 @@ import {
   Form,
   Select,
   Button,
-  TreeSelect
+  TreeSelect,
+  Checkbox
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -213,6 +214,9 @@ const PersonalGrowthFormView = props => {
           >
             {/* *************** Developmental ************** */}
             {/* Form Row One: Developmental Goals */}
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.developmental.goals" />
+            </Title>
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
@@ -311,6 +315,65 @@ const PersonalGrowthFormView = props => {
                       return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {/* *************** Talent Management ************** */}
+            <Divider style={styles.headerDiv} />
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.talent.management" />
+            </Title>
+
+            {/* Form Row Three: new job */}
+            <Row gutter={24}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="lookingForNewJob"
+                  label={<FormattedMessage id="profile.looking.for.new.job" />}
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose remote work interest"
+                    allowClear={true}
+                  >
+                    {props.lookingForNewJobOptions.map((value, index) => {
+                      return <Option key={value.key}>{value.title}</Option>;
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {/* Form Row Three: new job */}
+            <Row gutter={24}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="lookingForNewJob"
+                  label={<FormattedMessage id="profile.looking.for.new.job" />}
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    placeholder="choose remote work interest"
+                    allowClear={true}
+                  >
+                    {props.lookingForNewJobOptions.map((value, index) => {
+                      return <Option key={value.key}>{value.title}</Option>;
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {/* Form Row Three: new job */}
+            <Row gutter={24} style={{ marginBottom: "15px" }}>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item name="lookingForNewJob">
+                  <Checkbox>
+                    {<FormattedMessage id="profile.ex.feeder" />}
+                  </Checkbox>
                 </Form.Item>
               </Col>
             </Row>
