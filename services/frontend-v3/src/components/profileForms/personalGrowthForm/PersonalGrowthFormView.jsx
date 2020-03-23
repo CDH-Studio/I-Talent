@@ -7,7 +7,6 @@ import {
   Divider,
   Form,
   Select,
-  Switch,
   Button,
   TreeSelect
 } from "antd";
@@ -31,11 +30,6 @@ const { SHOW_CHILD } = TreeSelect;
 const PersonalGrowthFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
-  const [selectedSkills, setSelectedSkills] = useState(false);
-  const [selectedMentorshipSkills, setSelectedMentorshipSkills] = useState(
-    false
-  );
 
   /* Component Styles */
   const styles = {
@@ -81,34 +75,12 @@ const PersonalGrowthFormView = props => {
     }
   };
 
-  /* Component Rules for form fields */
-  const Rules = {
-    required: {
-      required: true,
-      message: "Required"
-    }
-  };
-
-  /*
-   * toggle mentorship form
-   *
-   * toggle state that controls mentorship form visibility
-   */
-  const toggleMentorshipForm = () => {
-    setDisplayMentorshipForm(!displayMentorshipForm);
-  };
-
   /*
    * save data to DB
    *
    * update profile in DB or create profile if it is not found
    */
   const saveDataToDB = async values => {
-    if (!displayMentorshipForm) {
-      // clear mentorship skills before submission
-      values.mentorshipSkills = [];
-    }
-
     if (props.profileInfo) {
       // If profile exists then update profile
       try {
@@ -169,55 +141,6 @@ const PersonalGrowthFormView = props => {
   };
 
   /*
-   * Get Mentorship Options
-   *
-   * generate a list of skills the user can mentor
-   * (limited to the skills the user has chosen)
-   */
-  const generateMentorshipOptions = (
-    fullSkillsOptionsList,
-    selectedSkillValues
-  ) => {
-    let dataTree = [];
-    let numbCategories = 0;
-    //iterate through all possible skill categories
-    for (var i = 0; i < fullSkillsOptionsList.length; i++) {
-      let itemsFoundInCategory = 0;
-      // iterate through all possible skills in each categories
-      for (var w = 0; w < fullSkillsOptionsList[i].children.length; w++) {
-        // iterate through selected skills
-        for (var k = 0; k < selectedSkillValues.length; k++) {
-          // if selected skill matches item in all skills list
-          if (
-            fullSkillsOptionsList[i].children[w].value ===
-            selectedSkillValues[k]
-          ) {
-            itemsFoundInCategory++;
-            // if first find in skill category save the category as parent
-            if (itemsFoundInCategory === 1) {
-              numbCategories++;
-              var parent = {
-                title: fullSkillsOptionsList[i].title,
-                value: fullSkillsOptionsList[i].value,
-                children: []
-              };
-              dataTree.push(parent);
-            }
-            // save skill as child in parent
-            var child = {
-              title: fullSkillsOptionsList[i].children[w].title,
-              value: fullSkillsOptionsList[i].children[w].value,
-              key: fullSkillsOptionsList[i].children[w].value
-            };
-            dataTree[numbCategories - 1].children.push(child);
-          }
-        }
-      }
-    }
-    return dataTree;
-  };
-
-  /*
    * Remove Invalid Mentorship Options
    *
    * compares mentorship skills against skills and removes mentorship skills that are not part of skills
@@ -235,84 +158,6 @@ const PersonalGrowthFormView = props => {
       }
     }
     return validatedMentorshipSkills;
-  };
-
-  /*
-   * On Change Skills
-   *
-   * on change of skills field auto update mentorship options
-   */
-  const onChangeSkills = skillsValues => {
-    // generate options for mentorship based on skills
-    const selectedSkills = generateMentorshipOptions(
-      props.skillOptions,
-      skillsValues
-    );
-    // get selected mentorship skills
-    let mentorshipValues = form.getFieldValue("mentorshipSkills");
-    // validate selected mentorship against skills incase skills were deleted
-    const validatedMentorshipSkills = removeInvalidMentorshipOptions(
-      mentorshipValues,
-      skillsValues
-    );
-    // Update the mentorship field selected values automatically
-    form.setFieldsValue({
-      mentorshipSkills: validatedMentorshipSkills
-    });
-    // Update states
-    setSelectedMentorshipSkills(validatedMentorshipSkills);
-    setSelectedSkills(selectedSkills);
-  };
-
-  /*
-   * Get mentorship form
-   *
-   * Get mentorship role form based on if the form switch is toggled
-   */
-  const getMentorshipForm = expandMentorshipForm => {
-    if (expandMentorshipForm) {
-      console.log(selectedMentorshipSkills);
-      return (
-        <div>
-          {/* Select Mentorship Skills */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="mentorshipSkills"
-                label={
-                  <FormLabelTooltip
-                    labelText={
-                      <FormattedMessage id="profile.mentorship.skills" />
-                    }
-                    tooltipText="Extra information"
-                  />
-                }
-                rules={[Rules.required]}
-                extra={
-                  selectedSkills.length === 0
-                    ? "You must first select skills to provide mentorship for them"
-                    : undefined
-                }
-              >
-                <TreeSelect
-                  className="talent-skill-select"
-                  treeData={selectedSkills}
-                  treeCheckable={true}
-                  showCheckedStrategy={SHOW_CHILD}
-                  placeholder={"Please select"}
-                  treeNodeFilterProp="title"
-                  showSearch={true}
-                  maxTagCount={15}
-                  disabled={!selectedSkills.length > 0}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
-      );
-    } else {
-      return <div />;
-    }
   };
 
   /*
@@ -339,17 +184,6 @@ const PersonalGrowthFormView = props => {
 
   useEffect(() => {
     /* check if user has a skills to mentor */
-    if (props.savedMentorshipSkills) {
-      // toggle mentorship switch if there are mentorship skills saved
-      setDisplayMentorshipForm(props.savedMentorshipSkills.length > 0);
-
-      // generate a treeData to represent the skills chosen
-      const selectedSkills = generateMentorshipOptions(
-        props.skillOptions,
-        props.savedSkills
-      );
-      setSelectedSkills(selectedSkills);
-    }
   }, [props]);
 
   /************************************
@@ -455,7 +289,6 @@ const PersonalGrowthFormView = props => {
                   <TreeSelect
                     className="custom-bubble-select-style"
                     treeData={props.relocationOptions}
-                    onChange={onChangeSkills}
                     treeCheckable={true}
                     showCheckedStrategy={SHOW_CHILD}
                     placeholder={"Please select"}
