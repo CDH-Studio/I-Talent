@@ -49,12 +49,9 @@ export default class CreateProfileLayout extends React.Component {
           <Step
             title={<FormattedMessage id="profile.employee.growth.interests" />}
           />
-          <Step title={<FormattedMessage id="setup.competencies" />} />
-          <Step title={<FormattedMessage id="setup.developmental.goals" />} />
-          <Step title={<FormattedMessage id="setup.education" />} />
-          <Step title={<FormattedMessage id="setup.experience" />} />
-          <Step title={<FormattedMessage id="setup.projects" />} />
-          <Step title={<FormattedMessage id="setup.career.interests" />} />
+          <Step
+            title={<FormattedMessage id="profile.employee.qualifications" />}
+          />
         </Steps>
       </div>
     );

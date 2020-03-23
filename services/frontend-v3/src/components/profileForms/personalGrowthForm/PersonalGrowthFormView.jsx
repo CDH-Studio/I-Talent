@@ -113,7 +113,7 @@ const PersonalGrowthFormView = props => {
    */
   const onSaveAndNext = async values => {
     await saveDataToDB(values);
-    history.push("/secured/profile/create/step/6");
+    history.push("/secured/profile/create/step/7");
   };
 
   /*
