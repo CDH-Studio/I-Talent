@@ -45,7 +45,16 @@ function PersonalGrowthForm() {
       try {
         let url = backendAddress + "api/option/getDevelopmentalGoals";
         let result = await axios.get(url);
-        await setDevelopmentalGoalOptions(result.data);
+        console.log(result);
+        let dataTree = [];
+        for (var i = 0; i < result.data.length; i++) {
+          var goal = {
+            title: result.data[i].description.en,
+            key: result.data[i].id
+          };
+          dataTree.push(goal);
+        }
+        await setDevelopmentalGoalOptions(dataTree);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -100,7 +109,6 @@ function PersonalGrowthForm() {
         for (var i = 0; i < result.data.length; i++) {
           var location = {
             title: result.data[i].description.en,
-            value: result.data[i].id,
             key: result.data[i].id
           };
           dataTree.push(location);

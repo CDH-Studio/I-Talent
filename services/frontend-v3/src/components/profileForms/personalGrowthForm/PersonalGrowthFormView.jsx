@@ -236,9 +236,7 @@ const PersonalGrowthFormView = props => {
                     placeholder="Please select"
                   >
                     {props.developmentalGoalOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -276,6 +274,7 @@ const PersonalGrowthFormView = props => {
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
+                  className="custom-bubble-select-style"
                   name="relocationLocations"
                   label={
                     <FormLabelTooltip
@@ -286,16 +285,15 @@ const PersonalGrowthFormView = props => {
                     />
                   }
                 >
-                  <TreeSelect
-                    className="custom-bubble-select-style"
-                    treeData={props.relocationOptions}
-                    treeCheckable={true}
-                    showCheckedStrategy={SHOW_CHILD}
-                    placeholder={"Please select"}
-                    treeNodeFilterProp="title"
-                    showSearch={true}
-                    maxTagCount={15}
-                  />
+                  <Select
+                    mode="multiple"
+                    style={{ width: "100%" }}
+                    placeholder="Please select"
+                  >
+                    {props.relocationOptions.map((value, index) => {
+                      return <Option key={value.key}>{value.title}</Option>;
+                    })}
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
