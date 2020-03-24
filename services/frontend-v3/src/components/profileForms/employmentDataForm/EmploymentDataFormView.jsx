@@ -130,6 +130,13 @@ const EmploymentDataFormView = props => {
 
   /* Save data */
   const saveDataToDB = async values => {
+    // If dropdown value is undefined then clear value in DB
+    values.tenureId = values.tenureId ? values.tenureId : null;
+    values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
+    values.securityClearanceId = values.securityClearanceId
+      ? values.securityClearanceId
+      : null;
+
     if (!displayMentorshipForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;

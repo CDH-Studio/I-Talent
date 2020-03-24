@@ -93,8 +93,11 @@ const LangProficiencyFormView = props => {
 
   /* Save data */
   const saveDataToDB = async values => {
+    // If firstLanguage is undefined then clear value in DB
+    values.firstLanguage = values.firstLanguage ? values.firstLanguage : null;
+
     if (!displayMentorshipForm) {
-      // clear values before submission
+      // if second language tab is not opened clear values before submission
       values.secondLanguage = null;
       values.readingProficiency = null;
       values.writingProficiency = null;
@@ -301,6 +304,8 @@ const LangProficiencyFormView = props => {
     if (profile) {
       if (profile.firstLanguage) {
         firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
+      } else {
+        firstLanguage = undefined;
       }
 
       return {
