@@ -6,7 +6,7 @@ const { backendAddress } = config;
 
 /**
  *  Personal Growth Form(props)
- *  Controller for the EmploymentDataFormView.
+ *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
 function PersonalGrowthForm() {
@@ -46,14 +46,15 @@ function PersonalGrowthForm() {
     /*
      * Get Developmental Goal Options
      *
-     * get a list of developmental goal options for dropdown
+     * get a list of developmental goal options for treeSelect dropdown
      */
     const getDevelopmentalGoalOptions = async () => {
       try {
         let url = backendAddress + "api/option/getDevelopmentalGoals";
         let result = await axios.get(url);
-        console.log(result);
         let dataTree = [];
+
+        // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
@@ -69,9 +70,9 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved competencies
+     * get saved Developmental Goals
      *
-     * get saved competencies from profile
+     * get saved Developmental Goals from profile
      */
     const getSavedDevelopmentalGoals = async () => {
       try {
@@ -79,10 +80,12 @@ function PersonalGrowthForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
-        console.log(result.data.developmentalGoals);
+
+        // generate and array of ID's of save locations
         for (let i = 0; i < result.data.developmentalGoals.length; i++) {
           selected.push(result.data.developmentalGoals[i].id);
         }
+
         await setSavedDevelopmentalGoals(selected);
         return 1;
       } catch (error) {
@@ -90,13 +93,14 @@ function PersonalGrowthForm() {
       }
     };
 
-    /* get substantive level options */
+    /*
+     * get Interested In Remote Options
+     *
+     * get Interested In Remote Options
+     * TODO: Generate this list from API call to back end
+     */
     const getInterestedInRemoteOptions = () => {
       const options = [
-        // {
-        //   key: null,
-        //   text: "Do not specify"
-        // },
         {
           key: true,
           text: "Yes"
@@ -116,7 +120,7 @@ function PersonalGrowthForm() {
         let dataTree = [];
         console.log(result);
 
-        // loop through each relocation option
+        // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {
           var location = {
             title: result.data[i].description.en,
@@ -132,16 +136,23 @@ function PersonalGrowthForm() {
       }
     };
 
+    /*
+     * get saved competencies
+     *
+     * get saved competencies from profile
+     */
     const getSavedRelocationLocations = async () => {
       try {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
-        console.log(result.data.developmentalGoals);
+
+        // generate and array of ID's of save locations
         for (let i = 0; i < result.data.relocationLocations.length; i++) {
           selected.push(result.data.relocationLocations[i].locationId);
         }
+
         await setSavedRelocationLocations(selected);
         return 1;
       } catch (error) {
@@ -150,9 +161,9 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved competencies
+     * Get Looking For New Job Options
      *
-     * get saved competencies from profile
+     * get a list of "Looking For New Job Options" for dropdown
      */
     const getLookingForNewJobOptions = async () => {
       try {
@@ -160,6 +171,8 @@ function PersonalGrowthForm() {
         let result = await axios.get(url);
         console.log(result);
         let dataTree = [];
+
+        // Generate the data format required for dropdown
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
@@ -167,7 +180,7 @@ function PersonalGrowthForm() {
           };
           dataTree.push(goal);
         }
-        console.log(dataTree);
+
         await setLookingForNewJobOptions(dataTree);
         return 1;
       } catch (error) {
@@ -175,14 +188,22 @@ function PersonalGrowthForm() {
       }
     };
 
+    /*
+     * get Saved Looking For New Job
+     *
+     * get Saved Looking For New Job from user profile
+     */
     const getSavedLookingForNewJob = async () => {
       try {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
+
+        // if id is not found set to undefined so dropdown defaults to placeholder
         let savedValue = result.data.lookingForNewJob
           ? result.data.lookingForNewJob.id
           : undefined;
+
         await setSavedLookingForNewJob(savedValue);
         return 1;
       } catch (error) {
@@ -191,15 +212,17 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved competencies
+     * get Career Mobility Options
      *
-     * get saved competencies from profile
+     * get all dropdown options for Career Mobility
      */
     const getCareerMobilityOptions = async () => {
       try {
         let url = backendAddress + "api/option/getCareerMobility";
         let result = await axios.get(url);
         let dataTree = [];
+
+        // Generate the data format required for dropdown
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
@@ -207,7 +230,7 @@ function PersonalGrowthForm() {
           };
           dataTree.push(goal);
         }
-        console.log(dataTree);
+
         await setCareerMobilityOptions(dataTree);
         return 1;
       } catch (error) {
@@ -215,14 +238,22 @@ function PersonalGrowthForm() {
       }
     };
 
+    /*
+     * get Saved Career Mobility
+     *
+     * get saved Saved Career Mobility from user profile
+     */
     const getSavedCareerMobility = async () => {
       try {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
+
+        // if id is not found set to undefined so dropdown defaults to placeholder
         let savedValue = result.data.careerMobility.id
           ? result.data.careerMobility.id
           : undefined;
+
         await setSavedCareerMobility(savedValue);
         return 1;
       } catch (error) {
@@ -231,9 +262,9 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved competencies
+     * get Talent Matrix Result Options
      *
-     * get saved competencies from profile
+     * get all dropdown options for Talent Matrix Results
      */
     const getTalentMatrixResultOptions = async () => {
       try {
@@ -241,6 +272,8 @@ function PersonalGrowthForm() {
         let result = await axios.get(url);
         console.log(result);
         let dataTree = [];
+
+        // Generate the data format required for dropdown
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
@@ -248,6 +281,7 @@ function PersonalGrowthForm() {
           };
           dataTree.push(goal);
         }
+
         await setTalentMatrixResultOptions(dataTree);
         return 1;
       } catch (error) {
@@ -255,15 +289,22 @@ function PersonalGrowthForm() {
       }
     };
 
+    /*
+     * get Saved Talent Matrix Result
+     *
+     * get saved Talent Matrix Result from user profile
+     */
     const getSavedTalentMatrixResult = async () => {
       try {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
+
+        // if id is not found set to undefined so dropdown defaults to placeholder
         let savedValue = result.data.talentMatrixResult.id
           ? result.data.talentMatrixResult.id
           : undefined;
-        console.log(result);
+
         await setSavedTalentMatrixResult(savedValue);
         return 1;
       } catch (error) {
@@ -271,6 +312,11 @@ function PersonalGrowthForm() {
       }
     };
 
+    /*
+     * get Ex Feeder Bool
+     *
+     * get EX-feeder nomination boolean from user profile
+     */
     const getExFeederBool = async () => {
       try {
         let url =
@@ -284,11 +330,9 @@ function PersonalGrowthForm() {
     };
 
     /* get all required data component */
-
     const getAllData = async () => {
       try {
         await getProfileInfo();
-
         await getDevelopmentalGoalOptions();
         await getSavedDevelopmentalGoals();
         await getInterestedInRemoteOptions();
