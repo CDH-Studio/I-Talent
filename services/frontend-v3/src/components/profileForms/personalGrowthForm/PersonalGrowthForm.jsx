@@ -10,6 +10,7 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering the component
  */
 function PersonalGrowthForm() {
+  // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState();
@@ -28,7 +29,7 @@ function PersonalGrowthForm() {
   /* useEffect to run once component is mounted */
   useEffect(() => {
     /*
-     * get user profile
+     * Get User Profile
      *
      */
     const getProfileInfo = async () => {
@@ -70,7 +71,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved Developmental Goals
+     * Get saved Developmental Goals
      *
      * get saved Developmental Goals from profile
      */
@@ -94,7 +95,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Interested In Remote Options
+     * Get Interested In Remote Options
      *
      * get Interested In Remote Options
      * TODO: Generate this list from API call to back end
