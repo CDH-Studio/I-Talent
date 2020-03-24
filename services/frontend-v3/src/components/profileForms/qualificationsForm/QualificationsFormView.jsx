@@ -161,6 +161,126 @@ const QualificationsFormView = props => {
   };
 
   /*
+   * save and finish
+   *
+   * Save form data and redirect home
+   */
+  const getEducationForm = (field, index, remove) => {
+    return (
+      <Row
+        key={field.key}
+        gutter={24}
+        style={{
+          backgroundColor: "#dfe5e4",
+          padding: "15px 10px 15px 10px",
+          marginBottom: "17px"
+        }}
+      >
+        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+          <Title level={4} style={styles.entryTitle}>
+            <FormOutlined style={{ marginRight: "0.5em" }} />
+            <FormattedMessage id="setup.education" />
+            {": " + (index + 1)}
+            {/* <DeleteOutlined
+            onClick={() => {
+              remove(field.name);
+            }}
+            style={{ float: "right" }}
+          /> */}
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                remove(field.name);
+              }}
+              size={"small"}
+              style={{ float: "right" }}
+            />
+          </Title>
+        </Col>
+        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          <Form.Item
+            name={[field.name, "diploma"]}
+            fieldKey={[field.fieldKey, "diploma"]}
+            label={<FormattedMessage id="profile.diploma" />}
+            style={styles.formItem}
+            rules={[Rules.required]}
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              placeholder="Please select"
+              allowClear={true}
+            >
+              {props.diplomaOptions.map((value, index) => {
+                return <Option key={value.key}>{value.title}</Option>;
+              })}
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          <Form.Item
+            name={[field.name, "school"]}
+            fieldKey={[field.fieldKey, "school"]}
+            label={<FormattedMessage id="profile.school" />}
+            rules={[Rules.required]}
+            style={styles.formItem}
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              placeholder="Please select"
+              allowClear={true}
+            >
+              {props.schoolOptions.map((value, index) => {
+                return <Option key={value.key}>{value.title}</Option>;
+              })}
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          <Form.Item
+            name={[field.name, "startDate"]}
+            fieldKey={[field.fieldKey, "startDate"]}
+            label={<FormattedMessage id="profile.history.item.start.date" />}
+            rules={[Rules.required]}
+          >
+            <DatePicker
+              //disabledDate={disabledDatesAfterEnd}
+              style={styles.datePicker}
+            />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          <Form.Item
+            name={[field.name, "endDate"]}
+            fieldKey={[field.fieldKey, "endDate"]}
+            label={<FormattedMessage id="profile.history.item.end.date" />}
+            rules={[Rules.required]}
+            style={styles.formItem}
+          >
+            <DatePicker
+              style={styles.datePicker}
+              //disabledDate={disabledDatesBeforeStart}
+              //disabled={!enableSecondLang}
+              placeholder={"unknown"}
+            />
+          </Form.Item>
+          <div style={{ marginTop: "-10px" }}>
+            <Checkbox
+            //onChange={toggleTempEndDate}
+            //defaultChecked={enableSecondLang}
+            >
+              <FormattedMessage id="profile.acting.has.end.date" />
+            </Checkbox>
+          </div>
+        </Col>
+      </Row>
+    );
+  };
+
+  /*
    * On Reset
    *
    * reset form fields to state when page was loaded
@@ -248,170 +368,12 @@ const QualificationsFormView = props => {
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.List name="education">
                   {(fields, { add, remove }) => {
-                    /**
-                     * `fields` internal fill with `name`, `key`, `fieldKey` props.
-                     * You can extends this into sub field to support multiple dynamic fields.
-                     */
                     return (
                       <div>
-                        {fields.map((field, index) => (
-                          <Row
-                            key={field.key}
-                            gutter={24}
-                            style={{
-                              backgroundColor: "#dfe5e4",
-                              padding: "15px 10px 15px 10px",
-                              marginBottom: "17px"
-                            }}
-                          >
-                            <Col
-                              className="gutter-row"
-                              xs={24}
-                              md={24}
-                              lg={24}
-                              xl={24}
-                            >
-                              <Title level={4} style={styles.entryTitle}>
-                                <FormOutlined
-                                  style={{ marginRight: "0.5em" }}
-                                />
-                                <FormattedMessage id="setup.education" />
-                                {": " + (index + 1)}
-                                {/* <DeleteOutlined
-                                  onClick={() => {
-                                    remove(field.name);
-                                  }}
-                                  style={{ float: "right" }}
-                                /> */}
-                                <Button
-                                  type="primary"
-                                  shape="circle"
-                                  icon={<DeleteOutlined />}
-                                  onClick={() => {
-                                    remove(field.name);
-                                  }}
-                                  size={"small"}
-                                  style={{ float: "right" }}
-                                />
-                              </Title>
-                            </Col>
-                            <Col
-                              className="gutter-row"
-                              xs={24}
-                              md={24}
-                              lg={12}
-                              xl={12}
-                            >
-                              <Form.Item
-                                name={[field.name, "diploma"]}
-                                fieldKey={[field.fieldKey, "diploma"]}
-                                label={
-                                  <FormattedMessage id="profile.diploma" />
-                                }
-                                style={styles.formItem}
-                                rules={[Rules.required]}
-                              >
-                                <Select
-                                  showSearch
-                                  optionFilterProp="children"
-                                  placeholder="Please select"
-                                  allowClear={true}
-                                >
-                                  {props.diplomaOptions.map((value, index) => {
-                                    return (
-                                      <Option key={value.key}>
-                                        {value.title}
-                                      </Option>
-                                    );
-                                  })}
-                                </Select>
-                              </Form.Item>
-                            </Col>
-                            <Col
-                              className="gutter-row"
-                              xs={24}
-                              md={24}
-                              lg={12}
-                              xl={12}
-                            >
-                              <Form.Item
-                                name={[field.name, "school"]}
-                                fieldKey={[field.fieldKey, "school"]}
-                                label={<FormattedMessage id="profile.school" />}
-                                rules={[Rules.required]}
-                                style={styles.formItem}
-                              >
-                                <Select
-                                  showSearch
-                                  optionFilterProp="children"
-                                  placeholder="Please select"
-                                  allowClear={true}
-                                >
-                                  {props.schoolOptions.map((value, index) => {
-                                    return (
-                                      <Option key={value.key}>
-                                        {value.title}
-                                      </Option>
-                                    );
-                                  })}
-                                </Select>
-                              </Form.Item>
-                            </Col>
-                            <Col
-                              className="gutter-row"
-                              xs={24}
-                              md={24}
-                              lg={12}
-                              xl={12}
-                            >
-                              <Form.Item
-                                name={[field.name, "startDate"]}
-                                fieldKey={[field.fieldKey, "startDate"]}
-                                label={
-                                  <FormattedMessage id="profile.history.item.start.date" />
-                                }
-                                rules={[Rules.required]}
-                              >
-                                <DatePicker
-                                  //disabledDate={disabledDatesAfterEnd}
-                                  style={styles.datePicker}
-                                />
-                              </Form.Item>
-                            </Col>
-                            <Col
-                              className="gutter-row"
-                              xs={24}
-                              md={24}
-                              lg={12}
-                              xl={12}
-                            >
-                              <Form.Item
-                                name={[field.name, "endDate"]}
-                                fieldKey={[field.fieldKey, "endDate"]}
-                                label={
-                                  <FormattedMessage id="profile.history.item.end.date" />
-                                }
-                                rules={[Rules.required]}
-                                style={styles.formItem}
-                              >
-                                <DatePicker
-                                  style={styles.datePicker}
-                                  //disabledDate={disabledDatesBeforeStart}
-                                  //disabled={!enableSecondLang}
-                                  placeholder={"unknown"}
-                                />
-                              </Form.Item>
-                              <div style={{ marginTop: "-10px" }}>
-                                <Checkbox
-                                //onChange={toggleTempEndDate}
-                                //defaultChecked={enableSecondLang}
-                                >
-                                  <FormattedMessage id="profile.acting.has.end.date" />
-                                </Checkbox>
-                              </div>
-                            </Col>
-                          </Row>
-                        ))}
+                        {fields.map((field, index) =>
+                          //{fields.map(getEducationForm(field, index, remove))}
+                          getEducationForm(field, index, remove)
+                        )}
                         <Form.Item>
                           <Button
                             type="dashed"
@@ -420,7 +382,7 @@ const QualificationsFormView = props => {
                             }}
                             style={{ width: "100%" }}
                           >
-                            <PlusOutlined /> Add Education
+                            <PlusOutlined /> Add field
                           </Button>
                         </Form.Item>
                       </div>
