@@ -319,8 +319,8 @@ const TalentFormView = props => {
    * Get the initial values for the form
    *
    */
-  const getInitialValues = profile => {
-    if (profile) {
+  const getInitialValues = () => {
+    if (props) {
       return {
         competencies: props.savedCompetencies,
         skills: props.savedSkills,
@@ -367,7 +367,6 @@ const TalentFormView = props => {
         <div key={props.profileInfo}>
           {/* Create for with initial values */}
           <Form
-            className="talent-skill-select"
             name="basicForm"
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
@@ -387,6 +386,7 @@ const TalentFormView = props => {
                   }
                 >
                   <Select
+                    className="custom-bubble-select-style"
                     mode="multiple"
                     style={{ width: "100%" }}
                     placeholder="Please select"
@@ -413,7 +413,7 @@ const TalentFormView = props => {
                   }
                 >
                   <TreeSelect
-                    className="talent-skill-select"
+                    className="custom-bubble-select-style"
                     treeData={props.skillOptions}
                     onChange={onChangeSkills}
                     treeCheckable={true}
