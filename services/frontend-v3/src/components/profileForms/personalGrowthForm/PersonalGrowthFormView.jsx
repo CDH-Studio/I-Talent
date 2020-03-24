@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Row,
   Col,
@@ -8,7 +8,6 @@ import {
   Form,
   Select,
   Button,
-  TreeSelect,
   Checkbox
 } from "antd";
 import { useHistory } from "react-router-dom";
@@ -21,7 +20,6 @@ import config from "../../../config";
 const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
-const { SHOW_CHILD } = TreeSelect;
 
 /**
  *  TalentFormView(props)
@@ -82,6 +80,16 @@ const PersonalGrowthFormView = props => {
    * update profile in DB or create profile if it is not found
    */
   const saveDataToDB = async values => {
+    console.log(values);
+    values.interestedInRemote = values.interestedInRemote
+      ? values.interestedInRemote
+      : null;
+    values.lookingForNewJob = values.lookingForNewJob
+      ? values.lookingForNewJob
+      : null;
+    values.lookingForNewJob = values.lookingForNewJob
+      ? values.lookingForNewJob
+      : null;
     console.log(values);
     if (props.profileInfo) {
       // If profile exists then update profile
@@ -151,10 +159,13 @@ const PersonalGrowthFormView = props => {
     if (profile && props) {
       return {
         developmentalGoals: props.savedDevelopmentalGoals,
-        interestedInRemote: profile.interestedInRemote.toString(),
+        interestedInRemote: profile.interestedInRemote
+          ? profile.interestedInRemote.toString()
+          : undefined,
         relocationLocations: props.savedRelocationLocations,
         lookingForNewJob: props.savedLookingForNewJob,
         careerMobility: props.savedCareerMobility,
+        talentMatrixResult: props.savedTalentMatrixResult,
         exFeeder: props.savedExFeederBool
       };
     } else {
@@ -328,11 +339,11 @@ const PersonalGrowthFormView = props => {
               </Col>
             </Row>
 
-            {/* Form Row Three: new job */}
+            {/* Form Row Three: talent matrix */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="lookingForNewJob"
+                  name="talentMatrixResult"
                   label={<FormattedMessage id="profile.talent.matrix.result" />}
                 >
                   <Select
@@ -341,7 +352,7 @@ const PersonalGrowthFormView = props => {
                     placeholder="Please select"
                     allowClear={true}
                   >
-                    {props.lookingForNewJobOptions.map((value, index) => {
+                    {props.talentMatrixResultOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
@@ -349,7 +360,7 @@ const PersonalGrowthFormView = props => {
               </Col>
             </Row>
 
-            {/* Form Row Three: new job */}
+            {/* Form Row Three: ex feeder */}
             <Row gutter={24} style={{ marginBottom: "15px" }}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item name="exFeeder" valuePropName="checked">

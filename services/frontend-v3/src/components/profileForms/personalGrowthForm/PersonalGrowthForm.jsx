@@ -5,7 +5,7 @@ import config from "../../../config";
 const { backendAddress } = config;
 
 /**
- *  LangProficiencyForm(props)
+ *  Personal Growth Form(props)
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
@@ -21,6 +21,8 @@ function PersonalGrowthForm() {
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState();
   const [careerMobilityOptions, setCareerMobilityOptions] = useState();
   const [savedCareerMobility, setSavedCareerMobility] = useState();
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState();
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState();
   const [savedExFeederBool, setSavedExFeederBool] = useState();
 
   /* useEffect to run once component is mounted */
@@ -42,9 +44,9 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved competencies
+     * Get Developmental Goal Options
      *
-     * get saved competencies from profile
+     * get a list of developmental goal options for dropdown
      */
     const getDevelopmentalGoalOptions = async () => {
       try {
@@ -91,6 +93,10 @@ function PersonalGrowthForm() {
     /* get substantive level options */
     const getInterestedInRemoteOptions = () => {
       const options = [
+        // {
+        //   key: null,
+        //   text: "Do not specify"
+        // },
         {
           key: true,
           text: "Yes"
@@ -174,7 +180,10 @@ function PersonalGrowthForm() {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
-        await setSavedLookingForNewJob(result.data.lookingForNewJob.id);
+        let savedValue = result.data.lookingForNewJob
+          ? result.data.lookingForNewJob.id
+          : undefined;
+        await setSavedLookingForNewJob(savedValue);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -211,7 +220,51 @@ function PersonalGrowthForm() {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
-        await setSavedCareerMobility(result.data.careerMobility.id);
+        let savedValue = result.data.careerMobility
+          ? result.data.careerMobility.id
+          : undefined;
+        await setSavedCareerMobility(savedValue);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    /*
+     * get saved competencies
+     *
+     * get saved competencies from profile
+     */
+    const getTalentMatrixResultOptions = async () => {
+      try {
+        let url = backendAddress + "api/option/getTalentMatrixResult";
+        let result = await axios.get(url);
+        console.log(result);
+        let dataTree = [];
+        for (var i = 0; i < result.data.length; i++) {
+          var goal = {
+            title: result.data[i].description.en,
+            key: result.data[i].id
+          };
+          dataTree.push(goal);
+        }
+        await setTalentMatrixResultOptions(dataTree);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    const getSavedTalentMatrixResult = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let savedValue = result.data.talentMatrixResult
+          ? result.data.talentMatrixResult.id
+          : undefined;
+        console.log(result);
+        await setSavedTalentMatrixResult(savedValue);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -245,6 +298,8 @@ function PersonalGrowthForm() {
         await getSavedLookingForNewJob();
         await getCareerMobilityOptions();
         await getSavedCareerMobility();
+        await getTalentMatrixResultOptions();
+        await getSavedTalentMatrixResult();
         await getExFeederBool();
         setLoad(true);
         return 1;
@@ -270,6 +325,8 @@ function PersonalGrowthForm() {
       savedLookingForNewJob={savedLookingForNewJob}
       careerMobilityOptions={careerMobilityOptions}
       savedCareerMobility={savedCareerMobility}
+      talentMatrixResultOptions={talentMatrixResultOptions}
+      savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
       load={load}
     />
