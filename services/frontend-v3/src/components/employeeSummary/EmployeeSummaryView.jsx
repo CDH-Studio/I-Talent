@@ -8,11 +8,7 @@ const { TabPane } = Tabs;
 
 function EmployeeSummaryView(props) {
   return (
-    <Card
-      id="card-profile-employee-summary"
-      title={<FormattedMessage id="profile.employee.summary" />}
-      styles={styles.cards}
-    >
+    <div>
       <Tabs defaultActiveKey="1">
         <TabPane tab={<FormattedMessage id="profile.tenure" />} key={1}>
           <Substantive data={props.data}></Substantive>
@@ -31,7 +27,7 @@ function EmployeeSummaryView(props) {
           <OfficialLanguage data={props.data}></OfficialLanguage>
         </TabPane>
       </Tabs>
-    </Card>
+    </div>
   );
 }
 

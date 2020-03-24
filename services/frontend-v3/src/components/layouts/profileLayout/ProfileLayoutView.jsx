@@ -28,12 +28,11 @@ function ProfileLayoutView(props) {
             <BasicInfo data={data} style={styles.card} />
           </Col>
           <Col xs={24} xl={10}>
-            {/* <ProfileCards
-              title={<FormattedMessage id="profile.info" />}
-              content={<EmploymentInfo data={data} style={styles.card} />}
+            <ProfileCards
+              title={<FormattedMessage id="profile.employee.summary" />}
+              content={<EmployeeSummary data={data}></EmployeeSummary>}
               cardName={"info"}
-            /> */}
-            <EmployeeSummary data={data}></EmployeeSummary>
+            />
           </Col>
         </Row>
 
@@ -47,7 +46,13 @@ function ProfileLayoutView(props) {
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Competencies data={data}></Competencies>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.competencies" />}
+                content={<Competencies data={data}></Competencies>}
+                cardName={"info"}
+              />
+            </Col>
           </Col>
         </Row>
 
@@ -57,7 +62,13 @@ function ProfileLayoutView(props) {
 
         <Row style={styles.row}>
           <Col span={24}>
-            <DevelopmentalGoals data={data}></DevelopmentalGoals>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.developmental.goals" />}
+                content={<DevelopmentalGoals data={data}></DevelopmentalGoals>}
+                cardName={"info"}
+              />
+            </Col>
           </Col>
         </Row>
         <Row
