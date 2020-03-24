@@ -9,7 +9,7 @@ import {
   Select,
   Button,
   Checkbox,
-  Input
+  DatePicker
 } from "antd";
 import { useHistory } from "react-router-dom";
 import {
@@ -60,20 +60,13 @@ const QualificationsFormView = props => {
       margin: "15px 0 15px 0"
     },
     formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
+      margin: "0px 0px 0px 0px !important",
       textAlign: "left"
     },
     subHeading: {
       fontSize: "1.3em"
     },
-    secondLangRow: {
-      backgroundColor: "#dfe5e4",
-      paddingTop: "15px",
-      paddingBottom: "15px",
-      marginBottom: "20px",
-      marginTop: "10px"
-    },
+    datePicker: { width: "100%" },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
@@ -107,6 +100,15 @@ const QualificationsFormView = props => {
     // values.talentMatrixResult = values.talentMatrixResult
     //   ? values.talentMatrixResult
     //   : null;
+
+    if (values.education) {
+      for (let i = 0; i < values.education.length; i++) {
+        values.education[i].startDate = values.education[i].startDate.startOf(
+          "day"
+        );
+        values.education[i].endDate = values.education[i].endDate.endOf("day");
+      }
+    }
 
     if (props.profileInfo) {
       // If profile exists then update profile
@@ -167,7 +169,20 @@ const QualificationsFormView = props => {
     form.resetFields();
   };
 
-  const rules = [{ required: true }];
+  const Rules = {
+    required: {
+      required: true,
+      message: "Required"
+    },
+    maxChar50: {
+      max: 50,
+      message: "Max length 50 characters"
+    },
+    maxChar100: {
+      max: 50,
+      message: "Max length 100 characters"
+    }
+  };
 
   /*
    * Get the initial values for the form
@@ -175,6 +190,7 @@ const QualificationsFormView = props => {
    */
   const getInitialValues = profile => {
     if (profile && props) {
+      console.log(props.savedEducation);
       return {
         education: props.savedEducation
         // interestedInRemote: profile.interestedInRemote
@@ -244,8 +260,8 @@ const QualificationsFormView = props => {
                             gutter={24}
                             style={{
                               backgroundColor: "#dfe5e4",
-                              padding: "15px 5px 0 5px",
-                              marginBottom: "10px"
+                              padding: "15px 10px 15px 10px",
+                              marginBottom: "17px"
                             }}
                           >
                             <Col
@@ -288,11 +304,12 @@ const QualificationsFormView = props => {
                             >
                               <Form.Item
                                 name={[field.name, "diploma"]}
-                                fieldKey={[field.fieldKey, "lastName"]}
+                                fieldKey={[field.fieldKey, "diploma"]}
                                 label={
                                   <FormattedMessage id="profile.diploma" />
                                 }
-                                rules={rules}
+                                style={styles.formItem}
+                                rules={[Rules.required]}
                               >
                                 <Select
                                   showSearch
@@ -319,9 +336,10 @@ const QualificationsFormView = props => {
                             >
                               <Form.Item
                                 name={[field.name, "school"]}
-                                fieldKey={[field.fieldKey, "firstName"]}
+                                fieldKey={[field.fieldKey, "school"]}
                                 label={<FormattedMessage id="profile.school" />}
-                                rules={rules}
+                                rules={[Rules.required]}
+                                style={styles.formItem}
                               >
                                 <Select
                                   showSearch
@@ -338,6 +356,59 @@ const QualificationsFormView = props => {
                                   })}
                                 </Select>
                               </Form.Item>
+                            </Col>
+                            <Col
+                              className="gutter-row"
+                              xs={24}
+                              md={24}
+                              lg={12}
+                              xl={12}
+                            >
+                              <Form.Item
+                                name={[field.name, "startDate"]}
+                                fieldKey={[field.fieldKey, "startDate"]}
+                                label={
+                                  <FormattedMessage id="profile.history.item.start.date" />
+                                }
+                                rules={[Rules.required]}
+                              >
+                                <DatePicker
+                                  //disabledDate={disabledDatesAfterEnd}
+                                  style={styles.datePicker}
+                                />
+                              </Form.Item>
+                            </Col>
+                            <Col
+                              className="gutter-row"
+                              xs={24}
+                              md={24}
+                              lg={12}
+                              xl={12}
+                            >
+                              <Form.Item
+                                name={[field.name, "endDate"]}
+                                fieldKey={[field.fieldKey, "endDate"]}
+                                label={
+                                  <FormattedMessage id="profile.history.item.end.date" />
+                                }
+                                rules={[Rules.required]}
+                                style={styles.formItem}
+                              >
+                                <DatePicker
+                                  style={styles.datePicker}
+                                  //disabledDate={disabledDatesBeforeStart}
+                                  //disabled={!enableSecondLang}
+                                  placeholder={"unknown"}
+                                />
+                              </Form.Item>
+                              <div style={{ marginTop: "-10px" }}>
+                                <Checkbox
+                                //onChange={toggleTempEndDate}
+                                //defaultChecked={enableSecondLang}
+                                >
+                                  <FormattedMessage id="profile.acting.has.end.date" />
+                                </Checkbox>
+                              </div>
                             </Col>
                           </Row>
                         ))}

@@ -98,7 +98,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* toggle temporary role form */
-  const toggleSecLangForm = () => {
+  const toggleTempRoleForm = () => {
     setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
@@ -435,7 +435,7 @@ const EmploymentDataFormView = props => {
                 />
                 <Switch
                   defaultChecked={displayMentorshipForm}
-                  onChange={toggleSecLangForm}
+                  onChange={toggleTempRoleForm}
                 />
                 {getTempRoleForm(displayMentorshipForm)}
               </Col>

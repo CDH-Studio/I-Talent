@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import QualificationsFormView from "./QualificationsFormView";
 import axios from "axios";
 import config from "../../../config";
+import moment from "moment";
 const { backendAddress } = config;
 
 /**
@@ -119,7 +120,9 @@ function QualificationsForm() {
         for (let i = 0; i < result.data.education.length; i++) {
           let child = {
             school: result.data.education[i].school.id,
-            diploma: result.data.education[i].diploma.id
+            diploma: result.data.education[i].diploma.id,
+            startDate: moment(result.data.education[i].startDate.en),
+            endDate: moment(result.data.education[i].endDate.en)
           };
           selected.push(child);
         }
