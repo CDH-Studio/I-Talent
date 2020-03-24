@@ -203,7 +203,7 @@ function PersonalGrowthForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
 
-        // if id is not found set to undefined so dropdown defaults to placeholder
+        // if id is not found set to "undefined" so dropdown defaults to placeholder
         let savedValue = result.data.lookingForNewJob
           ? result.data.lookingForNewJob.id
           : undefined;
@@ -253,7 +253,7 @@ function PersonalGrowthForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
 
-        // if id is not found set to undefined so dropdown defaults to placeholder
+        // if id is not found set to "undefined" so dropdown defaults to placeholder
         let savedValue = result.data.careerMobility.id
           ? result.data.careerMobility.id
           : undefined;
@@ -303,7 +303,7 @@ function PersonalGrowthForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
 
-        // if id is not found set to undefined so dropdown defaults to placeholder
+        // if id is not found set to "undefined" so dropdown defaults to placeholder
         let savedValue = result.data.talentMatrixResult.id
           ? result.data.talentMatrixResult.id
           : undefined;
