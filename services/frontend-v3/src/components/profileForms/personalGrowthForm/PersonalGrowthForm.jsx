@@ -113,12 +113,16 @@ function PersonalGrowthForm() {
       setInterestedInRemoteOptions(options);
     };
 
+    /*
+     * Get Relocation Options
+     *
+     * get a list of Relocation Options for dropdown treeSelect
+     */
     const getRelocationOptions = async () => {
       try {
         let url = backendAddress + "api/option/getWillingToRelocateTo";
         let result = await axios.get(url);
         let dataTree = [];
-        console.log(result);
 
         // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {
@@ -137,9 +141,9 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get saved competencies
+     * Get Saved Relocation Locations
      *
-     * get saved competencies from profile
+     * get saved Relocation Locations from profile
      */
     const getSavedRelocationLocations = async () => {
       try {
@@ -161,15 +165,14 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * Get Looking For New Job Options
+     * Get Saved Looking For New Job
      *
-     * get a list of "Looking For New Job Options" for dropdown
+     * get Saved Looking For New Job from user profile
      */
     const getLookingForNewJobOptions = async () => {
       try {
         let url = backendAddress + "api/option/getLookingForANewJob";
         let result = await axios.get(url);
-        console.log(result);
         let dataTree = [];
 
         // Generate the data format required for dropdown
@@ -189,7 +192,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Saved Looking For New Job
+     * Get Saved Looking For New Job
      *
      * get Saved Looking For New Job from user profile
      */
@@ -212,7 +215,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Career Mobility Options
+     * Get Career Mobility Options
      *
      * get all dropdown options for Career Mobility
      */
@@ -239,7 +242,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Saved Career Mobility
+     * Get Saved Career Mobility
      *
      * get saved Saved Career Mobility from user profile
      */
@@ -262,7 +265,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Talent Matrix Result Options
+     * Get Talent Matrix Result Options
      *
      * get all dropdown options for Talent Matrix Results
      */
@@ -270,7 +273,6 @@ function PersonalGrowthForm() {
       try {
         let url = backendAddress + "api/option/getTalentMatrixResult";
         let result = await axios.get(url);
-        console.log(result);
         let dataTree = [];
 
         // Generate the data format required for dropdown
@@ -290,7 +292,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Saved Talent Matrix Result
+     * Get Saved Talent Matrix Result
      *
      * get saved Talent Matrix Result from user profile
      */
@@ -313,7 +315,7 @@ function PersonalGrowthForm() {
     };
 
     /*
-     * get Ex Feeder Bool
+     * Get Ex Feeder Bool
      *
      * get EX-feeder nomination boolean from user profile
      */
@@ -329,7 +331,7 @@ function PersonalGrowthForm() {
       }
     };
 
-    /* get all required data component */
+    /* Get all required data component */
     const getAllData = async () => {
       try {
         await getProfileInfo();
