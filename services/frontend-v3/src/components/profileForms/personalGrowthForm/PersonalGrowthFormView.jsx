@@ -80,17 +80,20 @@ const PersonalGrowthFormView = props => {
    * update profile in DB or create profile if it is not found
    */
   const saveDataToDB = async values => {
-    console.log(values);
+    // set cleared field to null to clear DB data
     values.interestedInRemote = values.interestedInRemote
       ? values.interestedInRemote
       : null;
     values.lookingForNewJob = values.lookingForNewJob
       ? values.lookingForNewJob
       : null;
-    values.lookingForNewJob = values.lookingForNewJob
-      ? values.lookingForNewJob
+    values.careerMobility = values.careerMobility
+      ? values.careerMobility
       : null;
-    console.log(values);
+    values.talentMatrixResult = values.talentMatrixResult
+      ? values.talentMatrixResult
+      : null;
+
     if (props.profileInfo) {
       // If profile exists then update profile
       try {

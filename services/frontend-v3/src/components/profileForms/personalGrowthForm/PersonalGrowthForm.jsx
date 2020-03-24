@@ -220,7 +220,7 @@ function PersonalGrowthForm() {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
-        let savedValue = result.data.careerMobility
+        let savedValue = result.data.careerMobility.id
           ? result.data.careerMobility.id
           : undefined;
         await setSavedCareerMobility(savedValue);
@@ -260,7 +260,7 @@ function PersonalGrowthForm() {
         let url =
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
-        let savedValue = result.data.talentMatrixResult
+        let savedValue = result.data.talentMatrixResult.id
           ? result.data.talentMatrixResult.id
           : undefined;
         console.log(result);
