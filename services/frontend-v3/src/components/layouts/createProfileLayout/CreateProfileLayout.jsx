@@ -9,7 +9,8 @@ import {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm
+  PersonalGrowthForm,
+  QualificationsForm
 } from "../../profileForms";
 
 const { Step } = Steps;
@@ -31,6 +32,8 @@ export default class CreateProfileLayout extends React.Component {
         return <TalentForm />;
       case 6:
         return <PersonalGrowthForm />;
+      case 7:
+        return <QualificationsForm />;
       default:
         return <div>Hello</div>;
     }
