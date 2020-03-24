@@ -59,6 +59,8 @@
   "advanced.search.form.classification": "Classification",
   "advanced.search.form.ex.feeder": "Ex Feeder",
 
+  "alert.empty.search": "Please input a value into the search bar below",
+
   "button.advanced.search": "Advanced search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",

@@ -80,7 +80,6 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {console.log(skillOptions)}
             {skillOptions.map(value => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
@@ -141,7 +140,7 @@ function SearchBarView(props) {
         </Form.Item>{" "}
       </Row>
 
-      <Row style={{ justifyContent: "center" }}>
+      <Row style={{ justifyContent: "center", textAlign: "center" }}>
         <Col>
           <Button shape="round" size="large" type="primary" htmlType="submit">
             {searchLabel}

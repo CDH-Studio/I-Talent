@@ -3,6 +3,7 @@
 import React from "react";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { Alert } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 
 function ChangeLanguageView(props) {

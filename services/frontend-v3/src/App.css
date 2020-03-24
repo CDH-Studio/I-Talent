@@ -88,6 +88,5 @@
 
 [tabIndex]:focus {
   color: #fff !important;
-  outline: none !important;
-  background-color: #007471 !important;
+  outline: #007471 !important;
 }

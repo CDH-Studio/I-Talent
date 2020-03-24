@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
-import { Form } from "antd";
+import { Form, Alert } from "antd";
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
@@ -9,7 +9,7 @@ import logo from "../sideNav/logo_v2.svg";
 function SearchBarView(props) {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-  const { getFields, getBasicField, handleSearch, toggle, data } = props;
+  const { getFields, getBasicField, handleSearch, toggle, data, empty } = props;
 
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
@@ -21,16 +21,19 @@ function SearchBarView(props) {
   };
 
   return (
-    <Form
-      form={form}
-      onFinish={onFinish}
-      style={{
-        width: "100%",
-        paddingLeft: "50px",
-        paddingRight: "50px",
-        paddingTop: "60px"
-      }}
-    >
+    <Form form={form} onFinish={onFinish} style={styles.outerForm}>
+      {empty === true ? (
+        <Alert
+          message={props.intl.formatMessage({
+            id: "alert.empty.search",
+            defaultMessage: "Please input a value into the search bar below"
+          })}
+          type="error"
+          style={styles.alert}
+        />
+      ) : (
+        console.log("no alert")
+      )}
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
           <header style={styles.header}>
@@ -81,8 +84,14 @@ function SearchBarView(props) {
 }
 
 const styles = {
+  outerForm: {
+    width: "100%",
+    paddingLeft: "50px",
+    paddingRight: "50px",
+    paddingTop: "60px"
+  },
   outerDiv: {
-    paddingTop: "80px",
+    paddingTop: "60px",
     paddingLeft: "20%",
     paddingRight: "20%",
     paddingBottom: "20px"
@@ -109,6 +118,12 @@ const styles = {
   },
   advFieldPlacement: {
     textAlign: "right"
+  },
+  alert: {
+    fontSize: "14px",
+    textAlign: "center",
+    margin: "0 auto",
+    width: "300px"
   }
 };
 export default injectIntl(SearchBarView);

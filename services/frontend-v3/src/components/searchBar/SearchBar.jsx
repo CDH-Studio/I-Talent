@@ -12,6 +12,7 @@ const { Option } = Select;
 
 function SearchBar(props) {
   const [expand, setExpand] = useState(false);
+  const [empty, setEmpty] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
@@ -232,7 +233,7 @@ function SearchBar(props) {
     var query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
     let url = "/secured/results?" + encodeURI(query);
-    props.history.push(url);
+    query === "" ? setEmpty(true) : props.history.push(url);
   };
 
   useEffect(() => {
@@ -256,6 +257,7 @@ function SearchBar(props) {
       keycloak={props.keycloak}
       history={props.history}
       getFields={getFields}
+      empty={empty}
       handleSearch={handleSearch}
       toggle={toggle}
       getBasicField={getBasicField}
