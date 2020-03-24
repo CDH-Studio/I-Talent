@@ -11,25 +11,25 @@ module.exports = {
       [
         {
           descriptionEn: "Actively applying",
-          descriptionFr: "La actively applying",
+          descriptionFr: "Applique activement",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Casually looking",
-          descriptionFr: "Le casually looking",
+          descriptionFr: "Regarde les opportunités mine de rien",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Not looking but open to offers",
-          descriptionFr: "Le not looking but open to offers",
+          descriptionFr: "Ne cherche pas mais est ouvert aux offres",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           descriptionEn: "Not looking",
-          descriptionFr: "Le not looking",
+          descriptionFr: "Ne cherche pas",
           createdAt: new Date(),
           updatedAt: new Date()
         }

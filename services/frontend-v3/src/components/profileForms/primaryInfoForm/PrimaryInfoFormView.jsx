@@ -1,5 +1,4 @@
 import React from "react";
-import "@ant-design/compatible/assets/index.css";
 import {
   Row,
   Col,
@@ -11,60 +10,19 @@ import {
   Input,
   Button
 } from "antd";
-import { LinkOutlined, RightOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import config from "../../../config";
-const { backendAddress } = config;
 
+const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
 
 function PrimaryInfoFormView(props) {
-  /* Handle form submission */
-  const handleSubmit = async values => {
-    if (props.profileInfo) {
-      //If profile exists then update profile
-      try {
-        await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
-          values
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      //If profile does not exists then create profile
-      try {
-        await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
-          values
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  /* Get the initial values for the form */
-  const getInitialValues = profile => {
-    if (profile) {
-      return {
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        telephone: profile.telephone,
-        cellphone: profile.cellphone,
-        email: profile.email,
-        location: profile.location.id,
-        team: profile.team,
-        gcConnex: "ddd",
-        linkedinUrl: profile.linkedinUrl,
-        githubUrl: profile.githubUrl
-      };
-    } else {
-      return {};
-    }
-  };
+  const history = useHistory();
+  const [form] = Form.useForm();
 
   /* Component Styles */
   const styles = {
@@ -89,6 +47,17 @@ function PrimaryInfoFormView(props) {
     },
     subHeading: {
       fontSize: "1.3em"
+    },
+    finishAndSaveBtn: {
+      float: "left",
+      marginRight: "1rem",
+      marginBottom: "1rem"
+    },
+    clearBtn: { float: "left", marginBottom: "1rem" },
+    finishAndNextBtn: {
+      width: "100%",
+      float: "right",
+      marginBottom: "1rem"
     }
   };
 
@@ -116,11 +85,86 @@ function PrimaryInfoFormView(props) {
     }
   };
 
+  /* Save data */
+  const saveDataToDB = async values => {
+    if (props.profileInfo) {
+      //If profile exists then update profile
+      try {
+        await axios.put(
+          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          values
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      //If profile does not exists then create profile
+      try {
+        await axios.post(
+          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          values
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  /* save and redirect to next step in setup */
+  const onSaveAndNext = async values => {
+    await saveDataToDB(values);
+    history.push("/secured/profile/create/step/3");
+  };
+
+  /* save and redirect to home */
+  const onSaveAndFinish = async () => {
+    form
+      .validateFields()
+      .then(async values => {
+        await saveDataToDB(values);
+        history.push("/secured/home");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
+  };
+
+  /* reset form fields */
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  /* Get the initial values for the form */
+  const getInitialValues = profile => {
+    if (profile) {
+      return {
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        telephone: profile.telephone,
+        cellphone: profile.cellphone,
+        email: profile.email,
+        ...(profile.location.id && {
+          location: profile.location.id
+        }),
+
+        team: profile.team,
+        gcConnex: "ddd",
+        linkedinUrl: profile.linkedinUrl,
+        githubUrl: profile.githubUrl
+      };
+    } else {
+      return {};
+    }
+  };
+
+  /************************************
+   ********* Render Component *********
+   ************************************/
   if (!props.load) {
     return (
       /* If form data is loading then wait */
       <div style={styles.content}>
-        <Skeleton />
+        <Skeleton active />
       </div>
     );
   } else {
@@ -137,11 +181,12 @@ function PrimaryInfoFormView(props) {
             name="basicForm"
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={handleSubmit}
+            form={form}
+            onFinish={onSaveAndNext}
           >
             {/* Form Row One */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="firstName"
                   label={<FormattedMessage id="profile.first.name" />}
@@ -151,7 +196,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="lastName"
                   label={<FormattedMessage id="profile.last.name" />}
@@ -164,7 +209,7 @@ function PrimaryInfoFormView(props) {
 
             {/* Form Row Two */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
                 <Form.Item
                   name="telephone"
                   label={<FormattedMessage id="profile.telephone" />}
@@ -174,7 +219,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
                 <Form.Item
                   name="cellphone"
                   label={<FormattedMessage id="profile.cellphone" />}
@@ -184,7 +229,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
                 <Form.Item
                   name="email"
                   label={<FormattedMessage id="profile.email" />}
@@ -197,7 +242,7 @@ function PrimaryInfoFormView(props) {
 
             {/* Form Row Three */}
             <Row gutter={24}>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="location"
                   label={<FormattedMessage id="profile.location" />}
@@ -207,6 +252,7 @@ function PrimaryInfoFormView(props) {
                     showSearch
                     optionFilterProp="children"
                     placeholder="choose location"
+                    allowClear={true}
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -222,7 +268,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
 
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
                 <Form.Item
                   name="team"
                   label={<FormattedMessage id="profile.team" />}
@@ -246,7 +292,7 @@ function PrimaryInfoFormView(props) {
               <Col className="gutter-row" span={24}>
                 <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="gcConnex"
                   label={<FormattedMessage id="profile.gcconnex.url" />}
@@ -255,7 +301,7 @@ function PrimaryInfoFormView(props) {
                   <Input />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="linkedinUrl"
                   label={<FormattedMessage id="profile.linkedin.url" />}
@@ -264,7 +310,7 @@ function PrimaryInfoFormView(props) {
                   <Input />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="githubUrl"
                   label={<FormattedMessage id="profile.github.url" />}
@@ -274,18 +320,35 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
+            {/* Form Row Five: Submit button */}
             <Row gutter={24}>
-              <Col span={24}>
-                <Form.Item>
-                  <Button
-                    style={{ float: "right" }}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    {<FormattedMessage id="setup.save.and.next" />}{" "}
-                    <RightOutlined />
-                  </Button>
-                </Form.Item>
+              <Col xs={24} md={24} lg={18} xl={18}>
+                <Button
+                  style={styles.finishAndSaveBtn}
+                  onClick={onSaveAndFinish}
+                  htmlType="button"
+                >
+                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
+                  {<FormattedMessage id="setup.save.and.finish" />}
+                </Button>
+                <Button
+                  style={styles.clearBtn}
+                  htmlType="button"
+                  onClick={onReset}
+                  danger
+                >
+                  {<FormattedMessage id="button.clear" />}
+                </Button>
+              </Col>
+              <Col xs={24} md={24} lg={6} xl={6}>
+                <Button
+                  style={styles.finishAndNextBtn}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  {<FormattedMessage id="setup.save.and.next" />}{" "}
+                  <RightOutlined />
+                </Button>
               </Col>
             </Row>
           </Form>

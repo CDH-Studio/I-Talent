@@ -3,7 +3,13 @@ import { Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
 import Welcome from "../../../components/profileForms/Welcome";
-import PrimaryInfoForm from "../../profileForms/primaryInfoForm/PrimaryInfoForm";
+import {
+  EmploymentDataForm,
+  LangProficiencyForm,
+  PrimaryInfoForm,
+  TalentForm,
+  PersonalGrowthForm
+} from "../../profileForms";
 
 const { Step } = Steps;
 
@@ -16,8 +22,16 @@ export default class CreateProfileLayout extends React.Component {
         return <Welcome />;
       case 2:
         return <PrimaryInfoForm />;
+      case 3:
+        return <EmploymentDataForm />;
+      case 4:
+        return <LangProficiencyForm />;
+      case 5:
+        return <TalentForm />;
+      case 6:
+        return <PersonalGrowthForm />;
       default:
-        return <div>hello3</div>;
+        return <div>Hello</div>;
     }
   }
 
@@ -29,16 +43,15 @@ export default class CreateProfileLayout extends React.Component {
         <Steps direction="vertical" size="small" current={stepInt}>
           <Step title="Welcome" />
           <Step title={<FormattedMessage id="setup.primary.information" />} />
-          <Step title={<FormattedMessage id="setup.manager" />} />
+          <Step title={<FormattedMessage id="setup.employment" />} />
           <Step title={<FormattedMessage id="setup.language.proficiency" />} />
-          <Step title={<FormattedMessage id="setup.talent.management" />} />
-          <Step title={<FormattedMessage id="setup.skills" />} />
-          <Step title={<FormattedMessage id="setup.competencies" />} />
-          <Step title={<FormattedMessage id="setup.developmental.goals" />} />
-          <Step title={<FormattedMessage id="setup.education" />} />
-          <Step title={<FormattedMessage id="setup.experience" />} />
-          <Step title={<FormattedMessage id="setup.projects" />} />
-          <Step title={<FormattedMessage id="setup.career.interests" />} />
+          <Step title={<FormattedMessage id="setup.talent" />} />
+          <Step
+            title={<FormattedMessage id="profile.employee.growth.interests" />}
+          />
+          <Step
+            title={<FormattedMessage id="profile.employee.qualifications" />}
+          />
         </Steps>
       </div>
     );

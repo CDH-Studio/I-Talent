@@ -48,7 +48,10 @@ function TopNavView(props) {
   const menu = (
     <Menu style={styles.dropDownMenu}>
       <Menu.Item style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/profile/">
+        <a
+          rel="noopener noreferrer"
+          href={"/secured/profile/" + localStorage.getItem("userId")}
+        >
           <UserOutlined style={styles.MenuIcon} />
           <FormattedMessage id="my.profile" />
         </a>
@@ -71,7 +74,9 @@ function TopNavView(props) {
   return (
     <Header style={styles.header}>
       {/* Render logo */}
-      <img src={Logo} alt="Logo" style={styles.navBrand} />
+      <a href="/secured/home">
+        <img src={Logo} alt="Logo" style={styles.navBrand} />
+      </a>
       {/* Render right sigh of top menu */}
       <div style={styles.rightMenu}>
         {/* Render User Profile Dropdown */}

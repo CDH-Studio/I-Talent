@@ -4,4 +4,5 @@ export default {
     "http://upskill-backend-upskill.apps.dev.openshift.ised-isde.canada.ca/",
   backendAddress: "http://localhost:8080/"
   // "http://upskill-backend-uat-upskill.apps.dev.openshift.ised-isde.canada.ca/"
+  // backendAddress: process.env.REACT_APP_API_ADDRESS -- from dev-merge conflict
 };

@@ -136,7 +136,7 @@ class OfficialLanguageView extends Component {
     const secondLanguageDateInfo = this.getSecondLanguageDateInfo(locale);
 
     return (
-      <div>
+      <>
         <Row>
           <Col xs={24} lg={12}>
             {this.generateFirstLanguage(firstLanguageInfo)}
@@ -150,7 +150,7 @@ class OfficialLanguageView extends Component {
             {this.generateSecondLanguageProficiency(secondLanguageDateInfo)}
           </Col>
         </Row>
-      </div>
+      </>
     );
   }
 }

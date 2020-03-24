@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
+import { injectIntl } from "react-intl";
 
 class DashboardGraphsView extends Component {
   render() {
@@ -33,7 +34,7 @@ class DashboardGraphsView extends Component {
     };
 
     return (
-      <Col span={24}>
+      <>
         <Row gutter={[8, 8]}>
           <Col span={8}>
             <Card
@@ -157,9 +158,9 @@ class DashboardGraphsView extends Component {
             </Card>
           </Col>
         </Row>
-      </Col>
+      </>
     );
   }
 }
 
-export default DashboardGraphsView;
+export default injectIntl(DashboardGraphsView);

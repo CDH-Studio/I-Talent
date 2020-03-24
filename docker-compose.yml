@@ -28,6 +28,8 @@ services:
     volumes:
       - ./services/frontend-v3:/upskill-frontend
       - ./upskill-frontend/node_modules
+    env_file:
+      - ./env/web.env
 
   backend:
     container_name: "Upskill-Backend"

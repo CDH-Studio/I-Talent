@@ -139,7 +139,7 @@ module.exports = {
               experience: true,
               projects: true,
               careerInterests: true,
-              mentorshipSkills: false
+              mentorshipSkills: true
             }
           },
           createdAt: {

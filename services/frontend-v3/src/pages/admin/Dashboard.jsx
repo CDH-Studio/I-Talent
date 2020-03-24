@@ -33,7 +33,6 @@ class AdminDashboard extends React.Component {
 
   render() {
     const { data, loading } = this.state;
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
 
     if (loading) {
       return (
@@ -52,7 +51,7 @@ class AdminDashboard extends React.Component {
       >
         <Title>Admin Dashboard</Title>
         <StatCards data={data} />
-        <DashboardGraphs data={data} locale={locale} />
+        <DashboardGraphs data={data} />
       </AppLayout>
     );
   }

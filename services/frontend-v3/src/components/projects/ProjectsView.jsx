@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List, Tag } from "antd";
+import { Row, Col, Card, List } from "antd";
 
 class ProjectsView extends Component {
   generateProjectsInfoList(dataSource) {
     return (
       <List
+        size="small"
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
-          <List.Item>
-            <Tag>{item.projectDescription}</Tag>
-          </List.Item>
-        )}
+        renderItem={item => <List.Item>{item.projectDescription}</List.Item>}
       />
     );
   }

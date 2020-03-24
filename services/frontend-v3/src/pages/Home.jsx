@@ -25,19 +25,6 @@ class Home extends React.Component {
       >
         <Row>
           <SearchBar history={this.props.history} />
-
-          {/* <Button
-            type="danger"
-            onClick={() => {
-              this.goto("/");
-              this.props.keycloak.logout();
-            }}
-          >
-            {this.props.intl.formatMessage({
-              id: "sign.out",
-              defaultMessage: "Logout"
-            })}
-          </Button> */}
         </Row>
       </AppLayout>
     );
