@@ -69,6 +69,8 @@
   "advanced.search.form.classification": "Classification",
   "advanced.search.form.ex.feeder": "Ex Feeder",
 
+  "alert.empty.search": "Veuillez s'il-vous-plaît insérer une valeur de recherche dans la boîte si-dessous",
+
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
   "button.clear": "Débarrasser",
