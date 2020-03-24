@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SkillTableView from "./SkillTableView";
-import { Skeleton, message } from "antd";
+import { Skeleton } from "antd";
 import axios from "axios";
-// import _ from "lodash";
+import _ from "lodash";
 import { injectIntl } from "react-intl";
 import config from "../../config";
 
@@ -11,13 +11,11 @@ const backendAddress = config.backendAddress;
 function SkillTable(props) {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
-  // const [allData, setAllData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [size] = useState("large");
-  // const [categories, setCategories] = useState(null);
 
   const { type } = props;
 
@@ -69,42 +67,68 @@ function SkillTable(props) {
     setSearchText("");
   };
 
-  const handleSubmitDelete = async () => {
+  const handleSubmitAdd = async values => {
     try {
-      console.log("Delete Values: ", selectedRowKeys);
+      const url = backendAddress + "api/admin/options/" + type;
 
-      const url = backendAddress + "api/admin/delete/" + type;
+      await axios.post(url, {
+        descriptionEn: values.addSkillEn,
+        descriptionFr: values.addSkillFr,
+        categoryId: values.addSkillCategory,
+        category: categories[values.addSkillCategory - 1]
+      });
 
-      await axios.post(url, { ids: selectedRowKeys });
-
-      // deleteValues (if needed)
-
-      await getSkill();
-
-      console.log(data);
-      console.log(loading);
-
-      setSelectedRowKeys([]);
-
-      message.success(
-        props.intl.formatMessage({
-          id: "admin.success",
-          defaultMessage: "Successful"
-        })
-      );
+      updateState();
     } catch (error) {
       console.log(error);
       return 0;
     }
   };
 
-  const handleSubmitCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled"
-      })
-    );
+  const handleSubmitEdit = async (values, id) => {
+    try {
+      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+
+      if (typeof values.editSkillCategory === "string") {
+        const index = categories.findIndex(
+          object =>
+            object.descriptionEn === values.editSkillCategory ||
+            object.descriptionFr === values.editSkillCategory
+        );
+        await axios.put(url, {
+          descriptionEn: values.editSkillEn,
+          descriptionFr: values.editSkillFr,
+          categoryId: index + 1,
+          category: categories[index]
+        });
+      } else {
+        await axios.put(url, {
+          descriptionEn: values.editSkillEn,
+          descriptionFr: values.editSkillFr,
+          categoryId: values.editSkillCategory,
+          category: categories[values.editSkillCategory - 1]
+        });
+      }
+      updateState();
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  const handleSubmitDelete = async () => {
+    try {
+      const url = backendAddress + "api/admin/delete/" + type;
+
+      await axios.post(url, { ids: selectedRowKeys });
+
+      updateState();
+
+      setSelectedRowKeys([]);
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
   };
 
   const rowSelection = {
@@ -114,12 +138,22 @@ function SkillTable(props) {
   };
 
   const onSelectChange = selectedRowKeys => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
+    // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
 
   const getSkillInformation = () => {
-    let allSkills = data;
+    const description =
+      props.intl.formatMessage({ id: "language.code" }) === "en"
+        ? "descriptionEn"
+        : "descriptionFr";
+
+    const category =
+      props.intl.formatMessage({ id: "language.code" }) === "en"
+        ? "categoryNameEn"
+        : "categoryNameFr";
+
+    let allSkills = _.sortBy(data, description);
 
     for (let i = 0; i < allSkills.length; i++) {
       allSkills[i].key = allSkills[i].id;
@@ -130,18 +164,19 @@ function SkillTable(props) {
       e.categoryNameFr = e.category.descriptionFr;
     });
 
-    return allSkills;
+    return _.sortBy(allSkills, category);
+  };
+
+  const updateState = async () => {
+    let skills = await getSkill();
+    let categories = await getCategories();
+    setData(skills);
+    setCategories(categories);
+    setLoading(false);
   };
 
   useEffect(() => {
     document.title = getDisplayType(true) + " - Admin | MyTalent ";
-    const updateState = async () => {
-      let skills = await getSkill();
-      let categories = await getCategories();
-      setData(skills);
-      setCategories(categories);
-      setLoading(false);
-    };
     updateState();
   }, []);
 
@@ -153,8 +188,9 @@ function SkillTable(props) {
     <SkillTableView
       handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSubmitAdd={handleSubmitAdd}
+      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      handleSubmitCancel={handleSubmitCancel}
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}

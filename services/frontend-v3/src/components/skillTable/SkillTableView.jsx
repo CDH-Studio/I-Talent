@@ -22,19 +22,24 @@ import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
 function SkillTableView(props) {
-  const [form] = Form.useForm();
-  const { Option } = Select;
+  const [addForm] = Form.useForm();
+  const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
   const [editVisible, setEditVisible] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
   const [record, setRecord] = useState({});
-  const [searchInput, setSearchInput] = useState();
+  const [fields, setFields] = useState([{}]);
+
+  let searchInput;
+
+  const { Option } = Select;
 
   const {
     handleSearch,
     handleReset,
+    handleSubmitAdd,
+    handleSubmitEdit,
     handleSubmitDelete,
-    handleSubmitCancel,
     selectedRowKeys,
     searchedColumn,
     searchText,
@@ -54,7 +59,7 @@ function SkillTableView(props) {
       <div style={{ padding: 8 }}>
         <Input
           ref={node => {
-            setSearchInput(node);
+            searchInput = node;
           }}
           placeholder={
             props.intl.formatMessage({
@@ -104,11 +109,9 @@ function SkillTableView(props) {
         .toLowerCase()
         .includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: visible => {
-      try {
-        if (visible) {
-          setTimeout(() => searchInput.select());
-        }
-      } catch (error) {}
+      if (visible) {
+        setTimeout(() => searchInput.select());
+      }
     },
     render: text =>
       searchedColumn === dataIndex ? (
@@ -132,8 +135,13 @@ function SkillTableView(props) {
           defaultMessage:
             "Are you sure you want to delete all the selected values?"
         })}
-        onConfirm={handleSubmitDelete}
-        onCancel={handleSubmitCancel}
+        onConfirm={() => {
+          handleSubmitDelete();
+          popUpSuccesss();
+        }}
+        onCancel={() => {
+          popUpCancel();
+        }}
         okText={props.intl.formatMessage({
           id: "admin.delete",
           defaultMessage: "Delete"
@@ -160,20 +168,20 @@ function SkillTableView(props) {
 
   const onCreate = values => {
     if (modalType === "edit") {
-      console.log("(Edit) Received values of form: ", values);
+      handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      console.log("(Add) Received values of form: ", values);
+      handleSubmitAdd(values);
     }
   };
 
   const addSkillButton = () => {
     return (
       <Modal
-        title={props.intl.formatMessage({
-          id: "admin.edit.skill",
-          defaultMessage: "Edit Skill"
-        })}
         visible={addVisible}
+        title={props.intl.formatMessage({
+          id: "admin.add.skill",
+          defaultMessage: "Add Skill"
+        })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply"
@@ -183,20 +191,24 @@ function SkillTableView(props) {
           defaultMessage: "Cancel"
         })}
         onOk={() => {
-          form
+          addForm
             .validateFields()
             .then(values => {
-              form.resetFields();
+              addForm.resetFields();
               onCreate(values);
+              handleOk();
             })
             .catch(info => {
+              handleCancel();
               console.log("Validate Failed:", info);
             });
-          handleOk();
         }}
-        onCancel={handleCancel()}
+        onCancel={() => {
+          addForm.resetFields();
+          handleCancel();
+        }}
       >
-        <Form name="addSkill" layout="vertical">
+        <Form form={addForm} name="addSkill" layout="vertical">
           <Form.Item
             name="addSkillEn"
             label={props.intl.formatMessage({
@@ -206,11 +218,19 @@ function SkillTableView(props) {
             rules={[
               {
                 required: true,
-                message: "Please fill out!"
+                message: props.intl.formatMessage({
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!"
+                })
               }
             ]}
           >
-            <Input />
+            <Input
+              placeholder={props.intl.formatMessage({
+                id: "admin.add.skill.descriptionEn",
+                defaultMessage: "Skill description in English"
+              })}
+            />
           </Form.Item>
           <Form.Item
             name="addSkillFr"
@@ -221,11 +241,19 @@ function SkillTableView(props) {
             rules={[
               {
                 required: true,
-                message: "Please fill out!"
+                message: props.intl.formatMessage({
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!"
+                })
               }
             ]}
           >
-            <Input />
+            <Input
+              placeholder={props.intl.formatMessage({
+                id: "admin.add.skill.descriptionFr",
+                defaultMessage: "Skill description in French"
+              })}
+            />
           </Form.Item>
           <Form.Item
             name="addSkillCategory"
@@ -233,6 +261,15 @@ function SkillTableView(props) {
               id: "admin.category",
               defaultMessage: "Category"
             })}
+            rules={[
+              {
+                required: true,
+                message: props.intl.formatMessage({
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!"
+                })
+              }
+            ]}
           >
             <Select
               showSearch
@@ -269,10 +306,6 @@ function SkillTableView(props) {
   };
 
   const editSkillButton = () => {
-    const categoryName =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
-        ? record.categoryNameEn
-        : record.categoryNameFr;
     return (
       <Modal
         visible={editVisible}
@@ -289,10 +322,10 @@ function SkillTableView(props) {
           defaultMessage: "Cancel"
         })}
         onOk={() => {
-          form
+          editForm
             .validateFields()
             .then(values => {
-              form.resetFields();
+              editForm.resetFields();
               onCreate(values);
             })
             .catch(info => {
@@ -300,19 +333,19 @@ function SkillTableView(props) {
             });
           handleOk();
         }}
-        onCancel={handleCancel()}
+        onCancel={() => {
+          editForm.resetFields();
+          handleCancel();
+        }}
       >
         <Form
+          form={editForm}
           name="editSkill"
           layout="vertical"
-          fields={[
-            { name: ["editSkillEn"], value: record.descriptionEn },
-            { name: ["editSkillFr"], value: record.descriptionFr },
-            {
-              name: ["editSkillCategory"],
-              value: categoryName
-            }
-          ]}
+          fields={fields}
+          onFieldsChange={() => {
+            setFields([{}]);
+          }}
         >
           <Form.Item
             name="editSkillEn"
@@ -320,9 +353,13 @@ function SkillTableView(props) {
               id: "language.english",
               defaultMessage: "English"
             })}
-            rules={[{ required: true, message: "Please fill out!" }]}
           >
-            <Input />
+            <Input
+              placeholder={props.intl.formatMessage({
+                id: "admin.add.skill.descriptionEn",
+                defaultMessage: "Skill description in English"
+              })}
+            />
           </Form.Item>
           <Form.Item
             name="editSkillFr"
@@ -330,14 +367,13 @@ function SkillTableView(props) {
               id: "language.french",
               defaultMessage: "French"
             })}
-            rules={[
-              {
-                required: true,
-                message: "Please fill out!"
-              }
-            ]}
           >
-            <Input />
+            <Input
+              placeholder={props.intl.formatMessage({
+                id: "admin.add.skill.descriptionFr",
+                defaultMessage: "Skill description in French"
+              })}
+            />
           </Form.Item>
           <Form.Item
             name="editSkillCategory"
@@ -380,54 +416,47 @@ function SkillTableView(props) {
     );
   };
 
+  const popUpSuccesss = () => {
+    message.success(
+      props.intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful"
+      })
+    );
+  };
+
+  const popUpCancel = () => {
+    message.error(
+      props.intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled"
+      })
+    );
+  };
+
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
       setRecord(null);
-      setModalType("");
-      message.success(
-        props.intl.formatMessage({
-          id: "admin.success",
-          defaultMessage: "Successful"
-        })
-      );
     } else if (modalType === "add") {
       setAddVisible(false);
-      setModalType("");
-      message.success(
-        props.intl.formatMessage({
-          id: "admin.success",
-          defaultMessage: "Successful"
-        })
-      );
     }
+    setModalType("");
+    popUpSuccesss();
   };
 
   const handleCancel = () => {
     if (modalType === "edit") {
       setEditVisible(false);
-      setModalType("");
-      message.error(
-        props.intl.formatMessage({
-          id: "admin.cancelled",
-          defaultMessage: "Cancelled"
-        })
-      );
     } else if (modalType === "add") {
       setAddVisible(false);
-      setModalType("");
-      message.error(
-        props.intl.formatMessage({
-          id: "admin.cancelled",
-          defaultMessage: "Cancelled"
-        })
-      );
     }
+    setModalType("");
+    popUpCancel();
   };
 
   const handleEditModal = record => {
     setEditVisible(true);
-    console.log(record);
     setRecord(record);
     setModalType("edit");
   };
@@ -444,6 +473,25 @@ function SkillTableView(props) {
         : "categoryNameFr";
 
     const skill_table_columns = [
+      {
+        title: props.intl.formatMessage({
+          id: "admin.category",
+          defaultMessage: "Category"
+        }),
+        dataIndex: categoryName,
+        key: "category",
+        sorter: (a, b) => {
+          return a[categoryName].localeCompare(b[categoryName]);
+        },
+        sortDirections: ["descend"],
+        ...getColumnSearchProps(
+          categoryName,
+          props.intl.formatMessage({
+            id: "admin.category",
+            defaultMessage: "Category"
+          })
+        )
+      },
       {
         title: props.intl.formatMessage({
           id: "language.english",
@@ -482,24 +530,6 @@ function SkillTableView(props) {
       },
       {
         title: props.intl.formatMessage({
-          id: "admin.category",
-          defaultMessage: "Category"
-        }),
-        dataIndex: categoryName,
-        key: "category",
-        sorter: (a, b) => {
-          return a[categoryName].localeCompare(b[categoryName]);
-        },
-        ...getColumnSearchProps(
-          categoryName,
-          props.intl.formatMessage({
-            id: "admin.category",
-            defaultMessage: "Category"
-          })
-        )
-      },
-      {
-        title: props.intl.formatMessage({
           id: "admin.edit",
           defaultMessage: "Edit"
         }),
@@ -511,6 +541,18 @@ function SkillTableView(props) {
               shape="circle"
               icon={<EditOutlined />}
               onClick={() => {
+                const categoryName =
+                  props.intl.formatMessage({ id: "language.code" }) === "en"
+                    ? record.categoryNameEn
+                    : record.categoryNameFr;
+                setFields([
+                  { name: ["editSkillEn"], value: record.descriptionEn },
+                  { name: ["editSkillFr"], value: record.descriptionFr },
+                  {
+                    name: ["editSkillCategory"],
+                    value: categoryName
+                  }
+                ]);
                 handleEditModal(record);
               }}
             />
