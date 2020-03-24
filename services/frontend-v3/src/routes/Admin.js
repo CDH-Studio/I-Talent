@@ -6,7 +6,7 @@ import axios from "axios";
 
 // import animatedLogo from "../assets/animatedLogo.gif";
 
-import { AdminDasboard, AdminUser } from "../pages/admin";
+import { AdminDasboard, AdminUser, AdminSkill } from "../pages/admin";
 
 import config from "../config";
 const { backendAddress } = config;
@@ -140,6 +140,17 @@ function Admin(props) {
             path="/admin/user"
             render={routeProps => (
               <AdminUser
+                keycloak={keycloak}
+                changeLanguage={changeLanguage}
+                {...routeProps}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/skill"
+            render={routeProps => (
+              <AdminSkill
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}
                 {...routeProps}
