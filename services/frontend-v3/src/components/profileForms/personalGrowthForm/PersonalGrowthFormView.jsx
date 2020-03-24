@@ -158,7 +158,6 @@ const PersonalGrowthFormView = props => {
    *
    */
   const getInitialValues = profile => {
-    console.log(props.savedCareerMobility);
     if (profile && props) {
       return {
         developmentalGoals: props.savedDevelopmentalGoals,
@@ -175,7 +174,6 @@ const PersonalGrowthFormView = props => {
       return {};
     }
   };
-
   useEffect(() => {
     /* check if user has a skills to mentor */
   }, [props]);
@@ -191,7 +189,6 @@ const PersonalGrowthFormView = props => {
       </div>
     );
   } else {
-    console.log(getInitialValues(props.profileInfo));
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
