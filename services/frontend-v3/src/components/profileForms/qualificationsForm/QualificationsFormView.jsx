@@ -94,18 +94,19 @@ const QualificationsFormView = props => {
    */
   const saveDataToDB = async values => {
     // set cleared field to null to clear DB data
-    values.interestedInRemote = values.interestedInRemote
-      ? values.interestedInRemote
-      : null;
-    values.lookingForNewJob = values.lookingForNewJob
-      ? values.lookingForNewJob
-      : null;
-    values.careerMobility = values.careerMobility
-      ? values.careerMobility
-      : null;
-    values.talentMatrixResult = values.talentMatrixResult
-      ? values.talentMatrixResult
-      : null;
+    console.log(values);
+    // values.interestedInRemote = values.interestedInRemote
+    //   ? values.interestedInRemote
+    //   : null;
+    // values.lookingForNewJob = values.lookingForNewJob
+    //   ? values.lookingForNewJob
+    //   : null;
+    // values.careerMobility = values.careerMobility
+    //   ? values.careerMobility
+    //   : null;
+    // values.talentMatrixResult = values.talentMatrixResult
+    //   ? values.talentMatrixResult
+    //   : null;
 
     if (props.profileInfo) {
       // If profile exists then update profile
@@ -175,15 +176,15 @@ const QualificationsFormView = props => {
   const getInitialValues = profile => {
     if (profile && props) {
       return {
-        developmentalGoals: props.savedDevelopmentalGoals,
-        interestedInRemote: profile.interestedInRemote
-          ? profile.interestedInRemote.toString()
-          : undefined,
-        relocationLocations: props.savedRelocationLocations,
-        lookingForNewJob: props.savedLookingForNewJob,
-        careerMobility: props.savedCareerMobility,
-        talentMatrixResult: props.savedTalentMatrixResult,
-        exFeeder: props.savedExFeederBool
+        education: props.savedEducation
+        // interestedInRemote: profile.interestedInRemote
+        //   ? profile.interestedInRemote.toString()
+        //   : undefined,
+        // relocationLocations: props.savedRelocationLocations,
+        // lookingForNewJob: props.savedLookingForNewJob,
+        // careerMobility: props.savedCareerMobility,
+        // talentMatrixResult: props.savedTalentMatrixResult,
+        // exFeeder: props.savedExFeederBool
       };
     } else {
       return {};
@@ -260,10 +261,20 @@ const QualificationsFormView = props => {
                                 />
                                 <FormattedMessage id="setup.education" />
                                 {": " + (index + 1)}
-                                <DeleteOutlined
+                                {/* <DeleteOutlined
                                   onClick={() => {
                                     remove(field.name);
                                   }}
+                                  style={{ float: "right" }}
+                                /> */}
+                                <Button
+                                  type="primary"
+                                  shape="circle"
+                                  icon={<DeleteOutlined />}
+                                  onClick={() => {
+                                    remove(field.name);
+                                  }}
+                                  size={"small"}
                                   style={{ float: "right" }}
                                 />
                               </Title>
@@ -354,7 +365,7 @@ const QualificationsFormView = props => {
               <FormattedMessage id="setup.career.interests" />
             </Title>
             {/* Form Row One: Remote Work */}
-            <Row gutter={24}>
+            {/* <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   name="interestedInRemote"
@@ -372,10 +383,10 @@ const QualificationsFormView = props => {
                   </Select>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* Form Row Two: Relocation */}
-            <Row gutter={24}>
+            {/* <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   className="custom-bubble-select-style"
@@ -400,10 +411,10 @@ const QualificationsFormView = props => {
                   </Select>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* Form Row Three: new job */}
-            <Row gutter={24}>
+            {/* <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   name="lookingForNewJob"
@@ -421,7 +432,7 @@ const QualificationsFormView = props => {
                   </Select>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* *************** Talent Management ************** */}
             <Divider style={styles.headerDiv} />
@@ -430,7 +441,7 @@ const QualificationsFormView = props => {
             </Title>
 
             {/* Form Row Three: career mobility */}
-            <Row gutter={24}>
+            {/* <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   name="careerMobility"
@@ -448,10 +459,10 @@ const QualificationsFormView = props => {
                   </Select>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* Form Row Three: talent matrix */}
-            <Row gutter={24}>
+            {/* <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   name="talentMatrixResult"
@@ -469,10 +480,10 @@ const QualificationsFormView = props => {
                   </Select>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* Form Row Three: ex feeder */}
-            <Row gutter={24} style={{ marginBottom: "15px" }}>
+            {/* <Row gutter={24} style={{ marginBottom: "15px" }}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item name="exFeeder" valuePropName="checked">
                   <Checkbox>
@@ -480,7 +491,7 @@ const QualificationsFormView = props => {
                   </Checkbox>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* *************** Control Buttons ************** */}
             {/* Form Row Four: Submit button */}

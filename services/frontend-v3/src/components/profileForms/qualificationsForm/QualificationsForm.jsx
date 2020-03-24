@@ -15,6 +15,7 @@ function QualificationsForm() {
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState();
   const [schoolOptions, setSchoolOptions] = useState();
+  const [savedEducation, setSavedEducation] = useState();
 
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState();
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState();
@@ -96,6 +97,34 @@ function QualificationsForm() {
           dataTree.push(goal);
         }
         await setSchoolOptions(dataTree);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    /*
+     * Get Saved Relocation Locations
+     *
+     * get saved Relocation Locations from profile
+     */
+    const getSavedEducation = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+
+        // generate and array of ID's of save locations
+        for (let i = 0; i < result.data.education.length; i++) {
+          let child = {
+            school: result.data.education[i].school.id,
+            diploma: result.data.education[i].diploma.id
+          };
+          selected.push(child);
+        }
+        console.log(selected);
+        await setSavedEducation(selected);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -356,6 +385,7 @@ function QualificationsForm() {
         await getTalentMatrixResultOptions();
         await getSavedTalentMatrixResult();
         await getExFeederBool();
+        await getSavedEducation();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -373,6 +403,8 @@ function QualificationsForm() {
       profileInfo={profileInfo}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
+      savedEducation={savedEducation}
+      ///////
       interestedInRemoteOptions={interestedInRemoteOptions}
       relocationOptions={relocationOptions}
       savedRelocationLocations={savedRelocationLocations}
