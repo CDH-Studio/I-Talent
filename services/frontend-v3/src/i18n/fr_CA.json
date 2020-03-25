@@ -43,6 +43,8 @@
   "admin.reset.button": "Réinitialiser",
   "admin.select": "Sélectionner",
   "admin.category": "Catégorie",
+  "admin.category.singular": "Catégorie",
+  "admin.category.plural": "Catégories",
   "admin.delete.confirmation": "Voulez-vous supprimer toutes les valeurs sélectionnées?",
   "admin.success": "Réussi",
   "admin.cancelled": "Annulé",

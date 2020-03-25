@@ -1,9 +1,8 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import SkillTable from "../../components/skillTable/SkillTable";
 import { injectIntl } from "react-intl";
 
-class AdminSkill extends React.Component {
+class AdminCompetency extends React.Component {
   goto = link => this.props.history.push(link);
 
   render() {
@@ -13,12 +12,12 @@ class AdminSkill extends React.Component {
         keycloak={this.props.keycloak}
         history={this.props.history}
         displaySideBar={true}
-        type="skill"
+        type="competency"
       >
-        <SkillTable type="skill" />
+        {" "}
       </AdminLayout>
     );
   }
 }
 
-export default injectIntl(AdminSkill);
+export default injectIntl(AdminCompetency);
