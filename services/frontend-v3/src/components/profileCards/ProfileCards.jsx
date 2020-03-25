@@ -48,6 +48,7 @@ function ProfileCards(props) {
       load={load}
       cardName={props.cardName}
       getAllData={getAllData}
+      id={props.id}
     />
   );
 }

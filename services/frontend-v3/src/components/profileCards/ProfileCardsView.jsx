@@ -104,6 +104,7 @@ function ProfileCardsView(props) {
     <div>
       <Card
         title={props.title}
+        id={props.id}
         extra={generateSwitchButton(props.cardName)}
         style={(props.style, styles.grayedOut)}
       >

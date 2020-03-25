@@ -6,6 +6,7 @@ import AppLayout from "../appLayout/AppLayout";
 import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
@@ -32,6 +33,7 @@ function ProfileLayoutView(props) {
               title={<FormattedMessage id="profile.employee.summary" />}
               content={<EmployeeSummary data={data}></EmployeeSummary>}
               cardName={"info"}
+              id="card-profile-employee-summary"
             />
           </Col>
         </Row>
@@ -41,7 +43,22 @@ function ProfileLayoutView(props) {
         </Divider>
         <Row style={styles.row}>
           <Col span={24}>
-            <Skills data={data}></Skills>
+            <ProfileCards
+              title={<FormattedMessage id="profile.skills" />}
+              content={<Skills data={data}></Skills>}
+              cardName={"skills"}
+              id="card-profile-skills"
+            />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <ProfileCards
+              title={<FormattedMessage id="profile.mentorship.skills" />}
+              content={<Mentorship data={data}></Mentorship>}
+              cardName={"mentorshipSkills"}
+              id="card-profile-mentorship-skills"
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
@@ -50,7 +67,8 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.competencies" />}
                 content={<Competencies data={data}></Competencies>}
-                cardName={"info"}
+                cardName={"competencies"}
+                id="card-profile-competency"
               />
             </Col>
           </Col>
@@ -66,7 +84,8 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.developmental.goals" />}
                 content={<DevelopmentalGoals data={data}></DevelopmentalGoals>}
-                cardName={"info"}
+                cardName={"developmentalGoals"}
+                id="card-profile-dev-goals"
               />
             </Col>
           </Col>
@@ -81,6 +100,7 @@ function ProfileLayoutView(props) {
               title={<FormattedMessage id="profile.talent.management" />}
               content={<TalentManagement data={data} style={styles.card} />}
               cardName={"talentManagement"}
+              id="card-profile-talent-management"
             />
           </Col>
           <Col xs={24} xl={12}>
@@ -88,6 +108,7 @@ function ProfileLayoutView(props) {
               title={<FormattedMessage id="profile.career.interests" />}
               content={<CareerInterests data={data} style={styles.card} />}
               cardName={"careerInterests"}
+              id="card-profile-career-interests"
             />
           </Col>
         </Row>
@@ -102,6 +123,7 @@ function ProfileLayoutView(props) {
               title={<FormattedMessage id="profile.education" />}
               content={<Education data={data} style={styles.card} />}
               cardName={"education"}
+              id="card-profile-education"
             />
           </Col>
         </Row>
@@ -111,6 +133,7 @@ function ProfileLayoutView(props) {
               title={<FormattedMessage id="profile.experience" />}
               content={<Experience data={data} style={styles.card} />}
               cardName={"experience"}
+              id="card-profile-experience"
             />
           </Col>
         </Row>
@@ -120,6 +143,7 @@ function ProfileLayoutView(props) {
               title={<FormattedMessage id="profile.projects" />}
               content={<Projects data={data} style={styles.card} />}
               cardName={"projects"}
+              id="card-profile-projects"
             />
           </Col>
         </Row>
@@ -154,6 +178,12 @@ function ProfileLayoutView(props) {
                 href="#card-profile-skills"
                 title={props.intl.formatMessage({
                   id: "profile.skills"
+                })}
+              />
+              <Link
+                href="#card-profile-mentorship-skills"
+                title={props.intl.formatMessage({
+                  id: "profile.mentorship.skills"
                 })}
               />
               <Link
