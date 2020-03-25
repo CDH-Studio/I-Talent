@@ -5,10 +5,7 @@ function AdminLayout(props) {
   return (
     <AdminLayoutView
       changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      history={props.history}
       displaySideBar={props.displaySideBar}
-      sideBarContent={props.sideBarContent}
       type={props.type}
     >
       {props.children}

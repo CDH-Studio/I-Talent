@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Menu } from "antd";
 import {
   DashboardOutlined,
   SolutionOutlined,
@@ -8,24 +8,13 @@ import {
   ToolOutlined,
   FlagOutlined
 } from "@ant-design/icons";
-import TopNav from "../appLayout/topNav/TopNav";
-import SideNav from "../../sideNav/SideNav";
+import AppLayout from "../appLayout/AppLayout";
 import { injectIntl } from "react-intl";
-
-const { Content } = Layout;
 
 function AdminLayoutView(props) {
   const { type } = props;
 
   let history = useHistory();
-
-  const styles = {
-    content: {
-      padding: "20px 15px",
-      margin: 0,
-      minHeight: 280
-    }
-  };
 
   const getPageKey = () => {
     let key = null;
@@ -44,7 +33,6 @@ function AdminLayoutView(props) {
   };
 
   const navigationPages = key => {
-    // Make secured:
     if (key === "1") {
       history.push("/admin/dashboard");
     } else if (key === "2") {
@@ -117,25 +105,15 @@ function AdminLayoutView(props) {
   };
 
   return (
-    <Layout>
-      {/* Render Top Navigation Bar */}
-      <TopNav
-        changeLanguage={props.changeLanguage}
-        keycloak={props.keycloak}
-        history={props.history}
-      ></TopNav>
-      <Layout>
-        {/* Render Side Navigation Bar */}
-        <SideNav
-          sideBarContent={sideBarContent()}
-          displaySideBar={props.displaySideBar}
-        ></SideNav>
-        {/* Render content */}
-        <Layout>
-          <Content style={styles.content}>{props.children}</Content>
-        </Layout>
-      </Layout>
-    </Layout>
+    <AppLayout
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      history={props.history}
+      displaySideBar={props.displaySideBar}
+      sideBarContent={sideBarContent()}
+    >
+      {props.children}
+    </AppLayout>
   );
 }
 export default injectIntl(AdminLayoutView);

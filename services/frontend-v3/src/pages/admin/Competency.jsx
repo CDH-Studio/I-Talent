@@ -9,8 +9,6 @@ class AdminCompetency extends React.Component {
     return (
       <AdminLayout
         changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
         displaySideBar={true}
         type="competency"
       >
