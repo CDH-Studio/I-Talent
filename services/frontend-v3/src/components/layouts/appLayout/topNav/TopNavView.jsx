@@ -63,15 +63,17 @@ function TopNavView(props) {
           <FormattedMessage id="edit.profile" />
         </a>
       </Menu.Item>
-      <Menu.Item
-        disabled={localStorage.getItem("admin")}
-        style={styles.dropDownItem}
-      >
-        <a rel="noopener noreferrer" href="/admin/dashboard">
-          <DashboardOutlined style={styles.MenuIcon} />
-          <FormattedMessage id="admin" />
-        </a>
-      </Menu.Item>
+      {sessionStorage.getItem("admin") == "true" ? (
+        <Menu.Item
+          disabled={localStorage.getItem("admin")}
+          style={styles.dropDownItem}
+        >
+          <a rel="noopener noreferrer" href="/admin/dashboard">
+            <DashboardOutlined style={styles.MenuIcon} />
+            <FormattedMessage id="admin" />
+          </a>
+        </Menu.Item>
+      ) : null}
       <Menu.Item style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/logout">
           <LogoutOutlined style={styles.MenuIcon} />
