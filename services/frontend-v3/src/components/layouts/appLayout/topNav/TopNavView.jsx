@@ -3,7 +3,8 @@ import {
   DownOutlined,
   EditOutlined,
   LogoutOutlined,
-  UserOutlined
+  UserOutlined,
+  DashboardOutlined
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
@@ -60,6 +61,15 @@ function TopNavView(props) {
         <a rel="noopener noreferrer" href="/secured/profile/edit">
           <EditOutlined style={styles.MenuIcon} />
           <FormattedMessage id="edit.profile" />
+        </a>
+      </Menu.Item>
+      <Menu.Item
+        disabled={localStorage.getItem("admin")}
+        style={styles.dropDownItem}
+      >
+        <a rel="noopener noreferrer" href="/admin/dashboard">
+          <DashboardOutlined style={styles.MenuIcon} />
+          <FormattedMessage id="admin" />
         </a>
       </Menu.Item>
       <Menu.Item style={styles.dropDownItem}>

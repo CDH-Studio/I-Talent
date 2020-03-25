@@ -2,6 +2,7 @@
   "admin": "Admin",
   "admin.console": "Admin Console",
   "admin.dashboard": "Dashboard",
+  "admin.dashboard.title": "Admin Dashboard",
   "admin.dashboard.singular": "Dashboard",
   "admin.dashboard.plural": "Dashboard",
   "admin.user.plural": "Users",

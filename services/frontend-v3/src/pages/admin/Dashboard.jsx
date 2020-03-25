@@ -50,7 +50,12 @@ class AdminDashboard extends React.Component {
         displaySideBar={true}
         type={"dashboard"}
       >
-        <Title>Admin Dashboard</Title>
+        <Title>
+          {this.props.intl.formatMessage({
+            id: "admin.dashboard.title",
+            defaultMessage: "Admin Dashboard"
+          })}
+        </Title>
         <StatCards data={data} />
         <DashboardGraphs data={data} />
       </AdminLayout>

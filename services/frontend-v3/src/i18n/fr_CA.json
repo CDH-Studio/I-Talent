@@ -4,6 +4,7 @@
   "admin": "Admin",
   "admin.console": "Console d'admin",
   "admin.dashboard": "Tableau de bord",
+  "admin.dashboard.title": "Tableau de bord administrateur",
   "admin.dashboard.singular": "Tableau de bord",
   "admin.dashboard.plural": "Tableau de bord",
   "admin.user.plural": "Utilisateur",
