@@ -400,7 +400,7 @@ function QualificationsForm() {
 
     getAllData();
   }, []);
-  console.log(diplomaOptions);
+
   return (
     <QualificationsFormView
       profileInfo={profileInfo}

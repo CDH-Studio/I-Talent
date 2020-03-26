@@ -39,7 +39,6 @@ const { RangePicker } = DatePicker;
 const QualificationsFormView = props => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [disableEducationEndDate, setDisableEducationEndDate] = useState();
 
   /* Component Styles */
   const styles = {
@@ -186,23 +185,21 @@ const QualificationsFormView = props => {
    *
    * Save form data and redirect home
    */
-  const getEducationForm = (field, index, remove, dd) => {
-    console.log(dd);
+  const getEducationForm = (field, index, remove) => {
+    const [disableEducationEndDate, setDisableEducationEndDate] = useState();
+
     function onChange() {
-      console.log(dd);
       let gg = disableEducationEndDate;
-      gg[index] = [false, true];
       //   console.log(gg);
       //gg[index] = !gg[index];
       //setDisableEducationEndDate(gg);
-      setDisableEducationEndDate(gg);
+      setDisableEducationEndDate(!disableEducationEndDate);
       console.log(disableEducationEndDate);
-      forceUpdate();
     }
 
-    function getdisbaled() {
-      console.log(disableEducationEndDate[index]);
-      return disableEducationEndDate[index];
+    function getlololo(satee, index) {
+      console.log(satee[index]);
+      return satee[index];
     }
 
     return (
@@ -285,20 +282,12 @@ const QualificationsFormView = props => {
             label={"Dates"}
             rules={[Rules.required]}
           >
-            <div value={disableEducationEndDate}>
-              <RangePicker
-                picker="month"
-                style={styles.datePicker}
-                ranges={{
-                  Today: [moment(), undefined],
-                  "This Month": [moment(), "undefined"]
-                }}
-                //disabled={[false, disableEducationEndDate]}
-                // disabled={disableEducationEndDate}
-                // disabled={true}
-                disabled={getdisbaled()}
-              />
-            </div>
+            <RangePicker
+              picker="month"
+              style={styles.datePicker}
+              disabled={[false, disableEducationEndDate]}
+              //disabled={disableEducationEndDate[index]}
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
@@ -362,10 +351,8 @@ const QualificationsFormView = props => {
     }
   };
   useEffect(() => {
-    let jj = [];
-    jj.push([false, false]);
+    let jj = [false];
     setDisableEducationEndDate(jj);
-    console.log(jj);
     /* check if user has a skills to mentor */
   }, [props]);
 
@@ -410,12 +397,7 @@ const QualificationsFormView = props => {
                       <div>
                         {fields.map((field, index) =>
                           //{fields.map(getEducationForm(field, index, remove))}
-                          getEducationForm(
-                            field,
-                            index,
-                            remove,
-                            disableEducationEndDate
-                          )
+                          getEducationForm(field, index, remove)
                         )}
                         <Form.Item>
                           <Button
