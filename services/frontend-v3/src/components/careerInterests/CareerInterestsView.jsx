@@ -86,11 +86,4 @@ class CareerInterestsView extends Component {
   }
 }
 
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  }
-};
-
 export default injectIntl(CareerInterestsView);

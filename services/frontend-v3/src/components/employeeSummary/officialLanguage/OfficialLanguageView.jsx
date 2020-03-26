@@ -155,14 +155,4 @@ class OfficialLanguageView extends Component {
   }
 }
 
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  },
-  avatar: {
-    backgroundColor: "#007471"
-  }
-};
-
 export default injectIntl(OfficialLanguageView);

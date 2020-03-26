@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 
 class TalentManagementView extends Component {
   generateTalentManagementInfoList(dataSource) {
@@ -52,12 +52,5 @@ class TalentManagementView extends Component {
     );
   }
 }
-
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  }
-};
 
 export default injectIntl(TalentManagementView);

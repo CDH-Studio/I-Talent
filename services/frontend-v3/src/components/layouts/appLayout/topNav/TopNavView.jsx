@@ -63,7 +63,7 @@ function TopNavView(props) {
           <FormattedMessage id="edit.profile" />
         </a>
       </Menu.Item>
-      {sessionStorage.getItem("admin") == "true" ? (
+      {sessionStorage.getItem("admin") === "true" ? (
         <Menu.Item
           disabled={localStorage.getItem("admin")}
           style={styles.dropDownItem}

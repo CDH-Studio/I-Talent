@@ -31,11 +31,4 @@ function EmployeeSummaryView(props) {
   );
 }
 
-const styles = {
-  cards: {
-    // borderWidth: "medium",
-    height: "100%"
-  }
-};
-
 export default EmployeeSummaryView;

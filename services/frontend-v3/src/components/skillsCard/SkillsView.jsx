@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Card, Tag, Row, Col } from "antd";
-import { FormattedMessage } from "react-intl";
 
 class SkillsView extends Component {
   render() {
