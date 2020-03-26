@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 import moment from "moment";
 
 class EmploymentInfoView extends Component {
@@ -90,16 +90,11 @@ class EmploymentInfoView extends Component {
     const info = this.getInfo(locale);
 
     return (
-      <Card
-        title={this.props.intl.formatMessage({ id: "profile.info" })}
-        style={styles.card}
-      >
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateInfoList(info)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateInfoList(info)}
+        </Col>
+      </Row>
     );
   }
 }

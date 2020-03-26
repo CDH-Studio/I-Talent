@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 
 class ProjectsView extends Component {
   generateProjectsInfoList(dataSource) {
@@ -37,26 +37,12 @@ class ProjectsView extends Component {
     const projectsInfo = this.getProjectsInfo(locale);
 
     return (
-      <Card
-        id="card-profile-projects"
-        title={<FormattedMessage id="profile.projects" />}
-        style={styles.card}
-      >
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateProjectsInfoList(projectsInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateProjectsInfoList(projectsInfo)}
+        </Col>
+      </Row>
     );
   }
 }
-
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  }
-};
-
 export default injectIntl(ProjectsView);

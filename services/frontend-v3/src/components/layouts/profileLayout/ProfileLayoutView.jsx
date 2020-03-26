@@ -3,8 +3,10 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import { PageHeader, Anchor } from "antd";
 import AppLayout from "../appLayout/AppLayout";
 
+import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
@@ -27,7 +29,12 @@ function ProfileLayoutView(props) {
             <BasicInfo data={data} style={styles.card} />
           </Col>
           <Col xs={24} xl={10}>
-            <EmployeeSummary data={data} />
+            <ProfileCards
+              title={<FormattedMessage id="profile.employee.summary" />}
+              content={<EmployeeSummary data={data}></EmployeeSummary>}
+              cardName={"info"}
+              id="card-profile-employee-summary"
+            />
           </Col>
         </Row>
 
@@ -36,20 +43,51 @@ function ProfileLayoutView(props) {
         </Divider>
         <Row style={styles.row}>
           <Col span={24}>
-            <Skills data={data}></Skills>
+            <ProfileCards
+              title={<FormattedMessage id="profile.skills" />}
+              content={<Skills data={data}></Skills>}
+              cardName={"skills"}
+              id="card-profile-skills"
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Competencies data={data}></Competencies>
+            <ProfileCards
+              title={<FormattedMessage id="profile.mentorship.skills" />}
+              content={<Mentorship data={data}></Mentorship>}
+              cardName={"mentorshipSkills"}
+              id="card-profile-mentorship-skills"
+            />
           </Col>
         </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.competencies" />}
+                content={<Competencies data={data}></Competencies>}
+                cardName={"competencies"}
+                id="card-profile-competency"
+              />
+            </Col>
+          </Col>
+        </Row>
+
         <Divider orientation="left" id="divider-employee-growth">
           {<FormattedMessage id="profile.employee.growth.interests" />}
         </Divider>
+
         <Row style={styles.row}>
           <Col span={24}>
-            <DevelopmentalGoals data={data}></DevelopmentalGoals>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.developmental.goals" />}
+                content={<DevelopmentalGoals data={data}></DevelopmentalGoals>}
+                cardName={"developmentalGoals"}
+                id="card-profile-dev-goals"
+              />
+            </Col>
           </Col>
         </Row>
         <Row
@@ -58,10 +96,20 @@ function ProfileLayoutView(props) {
           type="flex"
         >
           <Col xs={24} xl={12}>
-            <TalentManagement data={data} />
+            <ProfileCards
+              title={<FormattedMessage id="profile.talent.management" />}
+              content={<TalentManagement data={data} style={styles.card} />}
+              cardName={"talentManagement"}
+              id="card-profile-talent-management"
+            />
           </Col>
           <Col xs={24} xl={12}>
-            <CareerInterests data={data} />
+            <ProfileCards
+              title={<FormattedMessage id="profile.career.interests" />}
+              content={<CareerInterests data={data} style={styles.card} />}
+              cardName={"careerInterests"}
+              id="card-profile-career-interests"
+            />
           </Col>
         </Row>
 
@@ -71,17 +119,32 @@ function ProfileLayoutView(props) {
 
         <Row style={styles.row}>
           <Col span={24}>
-            <Education data={data} />
+            <ProfileCards
+              title={<FormattedMessage id="profile.education" />}
+              content={<Education data={data} style={styles.card} />}
+              cardName={"education"}
+              id="card-profile-education"
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Experience data={data} />
+            <ProfileCards
+              title={<FormattedMessage id="profile.experience" />}
+              content={<Experience data={data} style={styles.card} />}
+              cardName={"experience"}
+              id="card-profile-experience"
+            />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Projects data={data} />
+            <ProfileCards
+              title={<FormattedMessage id="profile.projects" />}
+              content={<Projects data={data} style={styles.card} />}
+              cardName={"projects"}
+              id="card-profile-projects"
+            />
           </Col>
         </Row>
       </div>
@@ -90,7 +153,7 @@ function ProfileLayoutView(props) {
 
   const sider = () => {
     return (
-      <Row justify="center">
+      <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
           <Anchor>
             <Link
@@ -115,6 +178,12 @@ function ProfileLayoutView(props) {
                 href="#card-profile-skills"
                 title={props.intl.formatMessage({
                   id: "profile.skills"
+                })}
+              />
+              <Link
+                href="#card-profile-mentorship-skills"
+                title={props.intl.formatMessage({
+                  id: "profile.mentorship.skills"
                 })}
               />
               <Link
@@ -186,6 +255,10 @@ function ProfileLayoutView(props) {
     },
     row: {
       marginTop: 15
+    },
+    sideBarRow: {
+      marginTop: 20,
+      marginLeft: 10
     }
   };
 

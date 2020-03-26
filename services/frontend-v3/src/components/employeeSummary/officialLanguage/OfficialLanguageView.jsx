@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 
 class OfficialLanguageView extends Component {
   generateFirstLanguage(dataSource) {
-    console.log("handling null and undefined", dataSource);
     return (
       <List
         itemLayout="horizontal"
@@ -89,7 +88,7 @@ class OfficialLanguageView extends Component {
     ];
   }
 
-  getSecondLanguageDateInfo(locale) {
+  getSecondLanguageDateInfo() {
     const data = this.props.data;
 
     const formatedReadingDate = moment(data.secondaryReadingDate).format("ll");
@@ -155,15 +154,5 @@ class OfficialLanguageView extends Component {
     );
   }
 }
-
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  },
-  avatar: {
-    backgroundColor: "#007471"
-  }
-};
 
 export default injectIntl(OfficialLanguageView);

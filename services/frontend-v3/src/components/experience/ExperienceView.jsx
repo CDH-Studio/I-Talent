@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 import moment from "moment";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
-import { Row, Col, Card, Avatar, List } from "antd";
+import { Row, Col, Avatar, List } from "antd";
 
 class ExperienceView extends Component {
   generateExperienceInfoList(dataSource) {
@@ -85,17 +85,11 @@ class ExperienceView extends Component {
     const experienceInfo = this.getExperienceInfo(locale);
 
     return (
-      <Card
-        id="card-profile-experience"
-        title={<FormattedMessage id="profile.experience" />}
-        style={styles.card}
-      >
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateExperienceInfoList(experienceInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateExperienceInfoList(experienceInfo)}
+        </Col>
+      </Row>
     );
   }
 }

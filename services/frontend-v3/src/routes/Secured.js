@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { createBrowserHistory } from "history";
+// import { createBrowserHistory } from "history";
 import axios from "axios";
 import {
   Logout,
@@ -86,11 +86,11 @@ function Secured(props) {
   }, []);
 
   //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const copyToClipboard = e => {
-    this.textArea.select();
-    document.execCommand("copy");
-    e.target.focus();
-  };
+  // const copyToClipboard = e => {
+  //   this.textArea.select();
+  //   document.execCommand("copy");
+  //   e.target.focus();
+  // };
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   /* detect if the user is on setup page to stop redirect if profile is not found */

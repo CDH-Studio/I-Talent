@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Card } from "antd";
+import { Tabs } from "antd";
 import { FormattedMessage } from "react-intl";
 import Substantive from "./substantive/Substantive";
 import Acting from "./acting/Acting";
@@ -8,11 +8,7 @@ const { TabPane } = Tabs;
 
 function EmployeeSummaryView(props) {
   return (
-    <Card
-      id="card-profile-employee-summary"
-      title={<FormattedMessage id="profile.employee.summary" />}
-      styles={styles.cards}
-    >
+    <div>
       <Tabs defaultActiveKey="1">
         <TabPane tab={<FormattedMessage id="profile.tenure" />} key={1}>
           <Substantive data={props.data}></Substantive>
@@ -31,15 +27,8 @@ function EmployeeSummaryView(props) {
           <OfficialLanguage data={props.data}></OfficialLanguage>
         </TabPane>
       </Tabs>
-    </Card>
+    </div>
   );
 }
-
-const styles = {
-  cards: {
-    // borderWidth: "medium",
-    height: "100%"
-  }
-};
 
 export default EmployeeSummaryView;

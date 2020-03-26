@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List, Tag, Typography } from "antd";
+import { Row, Col, List, Tag, Typography } from "antd";
 
 class CareerInterestsView extends Component {
   generateCareerInterestsInfoList(dataSource) {
@@ -76,29 +76,14 @@ class CareerInterestsView extends Component {
     const relocationLocationsInfo = this.getRelocationLocationsInfo(locale);
 
     return (
-      <Card
-        id="card-profile-career-interests"
-        style={styles.card}
-        title={this.props.intl.formatMessage({
-          id: "profile.career.interests"
-        })}
-      >
-        <Row>
-          <Col span={24}>
-            {this.generateCareerInterestsInfoList(info)}
-            {this.generateRelocationLocationsInfoList(relocationLocationsInfo)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col span={24}>
+          {this.generateCareerInterestsInfoList(info)}
+          {this.generateRelocationLocationsInfoList(relocationLocationsInfo)}
+        </Col>
+      </Row>
     );
   }
 }
-
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  }
-};
 
 export default injectIntl(CareerInterestsView);

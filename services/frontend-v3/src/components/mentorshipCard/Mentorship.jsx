@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { injectIntl } from "react-intl";
 
-import SkillsView from "./SkillsView";
+import MentorshipView from "./MentorshipView";
 
-class Skills extends Component {
-  formatData(list) {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
+function Mentorship(props) {
+  const formatData = list => {
+    const locale = props.intl.formatMessage({ id: "language.code" });
     let categorizedList = {};
 
     list.forEach(listElement => {
@@ -18,10 +18,9 @@ class Skills extends Component {
     });
 
     return categorizedList;
-  }
-
-  setUpCategories(list) {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
+  };
+  const setUpCategories = list => {
+    const locale = props.intl.formatMessage({ id: "language.code" });
     let categorizedList = {};
     let categoriesTemp = {};
     let categories = [];
@@ -53,43 +52,26 @@ class Skills extends Component {
     }
 
     return categories;
-  }
+  };
 
-  setUpSkills() {
-    const { data } = this.props;
-    let skills = [];
-    let categorizedSkillsList = this.formatData(data.skills);
-
-    for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
-      skills.push({ index, val });
-    }
-    return skills;
-  }
-
-  setUpMentorshipSkills() {
-    const { data } = this.props;
+  const setUpMentorshipSkills = () => {
+    const { data } = props;
     let mentorshipSkills = [];
-    let categorizedSkillsList = this.formatData(data.mentorshipSkills);
+    let categorizedSkillsList = formatData(data.mentorshipSkills);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       mentorshipSkills.push({ index, val });
     }
 
     return mentorshipSkills;
-  }
+  };
 
-  render() {
-    const { data } = this.props;
-
-    return (
-      <SkillsView
-        skills={this.setUpSkills()}
-        mentoring={this.setUpMentorshipSkills()}
-        categoriesSkills={this.setUpCategories(data.skills)}
-        categoriesMentor={this.setUpCategories(data.mentorshipSkills)}
-      />
-    );
-  }
+  return (
+    <MentorshipView
+      mentoring={setUpMentorshipSkills()}
+      mentoringCategories={setUpCategories(props.data.mentorshipSkills)}
+    />
+  );
 }
 
-export default injectIntl(Skills);
+export default injectIntl(Mentorship);

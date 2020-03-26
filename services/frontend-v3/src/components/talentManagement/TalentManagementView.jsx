@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 
 class TalentManagementView extends Component {
   generateTalentManagementInfoList(dataSource) {
@@ -44,28 +44,13 @@ class TalentManagementView extends Component {
     const info = this.getTalentManagementInfo(locale);
 
     return (
-      <Card
-        id="card-profile-talent-management"
-        style={styles.card}
-        title={this.props.intl.formatMessage({
-          id: "profile.talent.management"
-        })}
-      >
-        <Row>
-          <Col xs={24} lg={24}>
-            {this.generateTalentManagementInfoList(info)}
-          </Col>
-        </Row>
-      </Card>
+      <Row>
+        <Col xs={24} lg={24}>
+          {this.generateTalentManagementInfoList(info)}
+        </Col>
+      </Row>
     );
   }
 }
-
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  }
-};
 
 export default injectIntl(TalentManagementView);
