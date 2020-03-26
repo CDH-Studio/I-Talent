@@ -271,17 +271,17 @@ const EmploymentDataFormView = props => {
   const getInitialValues = profile => {
     if (profile) {
       return {
-        ...(profile.classification.id && {
+        ...(profile.classification && {
           groupLevelId: profile.classification.id
         }),
-        ...(profile.temporaryRole.id && {
+        ...(profile.temporaryRole && {
           tenureId: profile.temporaryRole.id
         }),
-        ...(profile.security.id && {
+        ...(profile.security && {
           securityClearanceId: profile.security.id
         }),
         manager: profile.manager,
-        ...(profile.acting.id && {
+        ...(profile.acting && {
           actingId: profile.acting.id
         }),
         ...(profile.actingPeriodStartDate && {
@@ -299,7 +299,9 @@ const EmploymentDataFormView = props => {
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
     setDisplayMentorshipForm(
-      props.profileInfo ? !!props.profileInfo.acting.id : false
+      props.profileInfo &&
+        props.profileInfo.acting &&
+        !!props.profileInfo.acting.id
     );
 
     /* check if user has acting end date to enable the date felid on load */
