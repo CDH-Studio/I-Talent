@@ -1,5 +1,5 @@
 import React from "react";
-import AppLayout from "../../components/layouts/appLayout/AppLayout";
+import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import UserTable from "../../components/userTable/UserTable";
 import { injectIntl } from "react-intl";
 
@@ -8,14 +8,13 @@ class AdminUser extends React.Component {
 
   render() {
     return (
-      <AppLayout
+      <AdminLayout
         changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
         displaySideBar={true}
+        type="user"
       >
         <UserTable type="user" />
-      </AppLayout>
+      </AdminLayout>
     );
   }
 }
