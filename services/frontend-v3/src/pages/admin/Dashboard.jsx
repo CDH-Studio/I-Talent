@@ -1,5 +1,5 @@
 import React from "react";
-import AppLayout from "../../components/layouts/appLayout/AppLayout";
+import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/statCards/StatCards";
 import DashboardGraphs from "../../components/dashboardGraphs/DashboardGraphs";
 import axios from "axios";
@@ -36,23 +36,27 @@ class AdminDashboard extends React.Component {
 
     if (loading) {
       return (
-        <AppLayout>
+        <AdminLayout>
           <Skeleton active />
-        </AppLayout>
+        </AdminLayout>
       );
     }
 
     return (
-      <AppLayout
+      <AdminLayout
         changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
         displaySideBar={true}
+        type={"dashboard"}
       >
-        <Title>Admin Dashboard</Title>
+        <Title>
+          {this.props.intl.formatMessage({
+            id: "admin.dashboard.title",
+            defaultMessage: "Admin Dashboard"
+          })}
+        </Title>
         <StatCards data={data} />
         <DashboardGraphs data={data} />
-      </AppLayout>
+      </AdminLayout>
     );
   }
 }

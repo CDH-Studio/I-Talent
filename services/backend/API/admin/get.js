@@ -29,6 +29,18 @@ const getOption = async (request, response) => {
   }
 };
 
+const getCategories = async (request, response) => {
+  try {
+    const { type } = request.params;
+    if (type === "skill") {
+      const rows = await Category.findAll();
+      response.status(200).json(rows);
+    }
+  } catch (error) {
+    response.status(500).json(error);
+  }
+};
+
 const getFlagged = async (request, response) => {
   try {
     const { id } = request.params;
@@ -79,6 +91,7 @@ const checkAdmin = (request, response) =>
 
 module.exports = {
   getOption,
+  getCategories,
   getFlagged,
   getInactive,
   getUser,
