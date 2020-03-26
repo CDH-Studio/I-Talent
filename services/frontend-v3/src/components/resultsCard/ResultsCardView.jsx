@@ -1,12 +1,13 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Row, Col, Tag, Card, Divider } from "antd";
+import { Row, Col, Tag, Card, Divider, Alert } from "antd";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
 class ResultsCardView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { isEmpty: false };
   }
 
   renderResultCards() {
@@ -15,17 +16,15 @@ class ResultsCardView extends React.Component {
     if (!results) {
       return <ProfileSkeleton />;
     }
-    if (results instanceof Error) {
-      return (
-        "An error was encountered! Please try again.\n\n" + String(results)
-      );
-    }
 
     const preparedResults = prepareInfo(results, localStorage.getItem("lang"));
     let cards = [];
     preparedResults.forEach(person => {
       cards.push(this.renderCard(person));
     });
+    cards.length === 0
+      ? this.setState({ isEmpty: true })
+      : console.log("not empty");
     return cards;
   }
 
@@ -77,7 +76,21 @@ class ResultsCardView extends React.Component {
     return (
       <div>
         <Row gutter={[16, 16]} type="flex" justify="left" align="top">
-          {this.renderResultCards()}
+          {/* {this.renderResultCards()} */}
+          {this.state.isEmpty === false ? (
+            this.renderResultCards()
+          ) : (
+            <Alert
+              style={styles.emptyAlert}
+              type="warning"
+              message={this.props.intl.formatMessage({
+                id: "results.no.results",
+                defaultMessage:
+                  "There are no results that match your search criteria"
+              })}
+            />
+            // this.renderResultCards()
+          )}
         </Row>
       </div>
     );
@@ -89,6 +102,9 @@ const styles = {
     lineHeight: "4px",
     zIndex: "-1",
     marginTop: "10px"
+  },
+  emptyAlert: {
+    textAlign: "center"
   }
 };
 
