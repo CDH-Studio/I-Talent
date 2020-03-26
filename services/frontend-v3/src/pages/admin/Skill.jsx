@@ -1,9 +1,9 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import UserTable from "../../components/userTable/UserTable";
+import SkillTable from "../../components/skillTable/SkillTable";
 import { injectIntl } from "react-intl";
 
-class AdminUser extends React.Component {
+class AdminSkill extends React.Component {
   goto = link => this.props.history.push(link);
 
   render() {
@@ -11,12 +11,12 @@ class AdminUser extends React.Component {
       <AdminLayout
         changeLanguage={this.props.changeLanguage}
         displaySideBar={true}
-        type="user"
+        type="skill"
       >
-        <UserTable type="user" />
+        <SkillTable type="skill" />
       </AdminLayout>
     );
   }
 }
 
-export default injectIntl(AdminUser);
+export default injectIntl(AdminSkill);

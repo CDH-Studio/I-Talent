@@ -11,6 +11,7 @@ module.exports = {
   deleteOption: del.deleteOption,
   updateOption: put.updateOption,
   getOption: get.getOption,
+  getCategories: get.getCategories,
   updateFlagged: put.updateFlagged,
   updateInactive: put.updateInactive,
   getFlagged: get.getFlagged,

@@ -289,10 +289,18 @@ const getWillingToRelocateTo = async (request, response) => {
   try {
     let all = await Location.findAll({
       attributes: [
-        [Sequelize.fn("DISTINCT", Sequelize.col("city")), "city"],
+        [
+          Sequelize.fn("MIN", Sequelize.cast(Sequelize.col("id"), "varchar")),
+          "id"
+        ],
+        "city",
         "provinceEn",
-        "provinceFr",
-        "id"
+        "provinceFr"
+      ],
+      group: ["city", "provinceEn", "provinceFr"],
+      order: [
+        ["provinceEn", "ASC"],
+        ["city", "ASC"]
       ]
     });
     let resBody = all.map(one => {
