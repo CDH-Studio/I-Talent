@@ -104,6 +104,7 @@ const styles = {
     marginTop: "10px"
   },
   emptyAlert: {
+    marginLeft: "20px",
     textAlign: "center"
   }
 };
