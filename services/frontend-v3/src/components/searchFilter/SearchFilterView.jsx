@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select } from "antd";
 import "@ant-design/compatible/assets/index.css";

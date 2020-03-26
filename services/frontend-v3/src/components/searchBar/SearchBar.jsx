@@ -257,6 +257,7 @@ function SearchBar(props) {
       keycloak={props.keycloak}
       history={props.history}
       getFields={getFields}
+      expand={expand}
       empty={empty}
       handleSearch={handleSearch}
       toggle={toggle}

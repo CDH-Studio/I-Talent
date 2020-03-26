@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form, Alert } from "antd";
-import { Icon as LegacyIcon } from "@ant-design/compatible";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
+//import { Icon as LegacyIcon } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
 function SearchBarView(props) {
-  const [expand, setExpand] = useState(false);
+  const [setDoNothing] = useState(true);
   const [form] = Form.useForm();
-  const { getFields, getBasicField, handleSearch, toggle, data, empty } = props;
+  const {
+    getFields,
+    getBasicField,
+    handleSearch,
+    expand,
+    toggle,
+    data,
+    empty
+  } = props;
 
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
@@ -32,7 +41,7 @@ function SearchBarView(props) {
           style={styles.alert}
         />
       ) : (
-        console.log("no alert")
+        setDoNothing[true]
       )}
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
@@ -73,7 +82,7 @@ function SearchBarView(props) {
                   id: "advanced.search.button.text",
                   defaultMessage: "Advanced Search"
                 })}{" "}
-                <LegacyIcon type={expand ? "up" : "down"} />
+                {expand ? <UpOutlined /> : <DownOutlined />}
               </a>
             </Col>
           </Row>

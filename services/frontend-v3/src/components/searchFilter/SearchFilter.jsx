@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "antd";
-import { Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import config from "../../config";
 import queryString from "query-string";
