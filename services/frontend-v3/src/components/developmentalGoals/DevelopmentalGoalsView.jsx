@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Card, List, Tag, Row } from "antd";
-import { FormattedMessage } from "react-intl";
+import { List, Tag, Row } from "antd";
 
 class DevelopmentalGoalsView extends Component {
   render() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Tag, Row, Col } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 
 function MentorshipView(props) {
   const styles = {

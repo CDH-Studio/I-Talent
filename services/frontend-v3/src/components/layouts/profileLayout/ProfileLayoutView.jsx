@@ -153,7 +153,7 @@ function ProfileLayoutView(props) {
 
   const sider = () => {
     return (
-      <Row justify="center">
+      <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
           <Anchor>
             <Link
@@ -255,6 +255,10 @@ function ProfileLayoutView(props) {
     },
     row: {
       marginTop: 15
+    },
+    sideBarRow: {
+      marginTop: 20,
+      marginLeft: 10
     }
   };
 

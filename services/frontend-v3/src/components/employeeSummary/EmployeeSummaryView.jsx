@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Card } from "antd";
+import { Tabs } from "antd";
 import { FormattedMessage } from "react-intl";
 import Substantive from "./substantive/Substantive";
 import Acting from "./acting/Acting";

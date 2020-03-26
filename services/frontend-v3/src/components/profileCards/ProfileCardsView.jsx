@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -14,6 +15,11 @@ const { backendAddress } = config;
 
 function ProfileCardsView(props) {
   const [disabled, setDisabled] = useState(true);
+
+  //useParams returns an object of key/value pairs from URL parameters
+  const { id } = useParams();
+  const urlID = id;
+  const userID = localStorage.getItem("userId");
 
   /*
    * Handle Visibility Toggle
@@ -50,31 +56,38 @@ function ProfileCardsView(props) {
    * Generate visibility switch and edit button
    */
   const generateSwitchButton = () => {
-    return (
-      <div>
-        <Row type="flex" gutter={[16, 16]}>
-          <Col>
-            <Tooltip placement="top" title={"toggle card visibility"}>
-              <Switch
-                checkedChildren={<EyeOutlined />}
-                unCheckedChildren={<EyeInvisibleOutlined />}
-                checked={disabled}
-                onChange={handleVisibilityToggle}
-                style={{ marginTop: "5px" }}
-              />
-            </Tooltip>
-          </Col>
-          <Col>
-            <Tooltip
-              placement="top"
-              title={<FormattedMessage id="profile.edit" />}
-            >
-              <Button type="default" shape="circle" icon={<EditOutlined />} />
-            </Tooltip>
-          </Col>
-        </Row>
-      </div>
-    );
+    //Check if user is on his own profile (by
+    // comparing the id in storage vs the id in the url)
+    if (userID === urlID) {
+      return (
+        <div>
+          <Row type="flex" gutter={[16, 16]}>
+            <Col>
+              <Tooltip
+                placement="top"
+                title={<FormattedMessage id="profile.toggle.card.visibility" />}
+              >
+                <Switch
+                  checkedChildren={<EyeOutlined />}
+                  unCheckedChildren={<EyeInvisibleOutlined />}
+                  checked={disabled}
+                  onChange={handleVisibilityToggle}
+                  style={{ marginTop: "5px" }}
+                />
+              </Tooltip>
+            </Col>
+            <Col>
+              <Tooltip
+                placement="top"
+                title={<FormattedMessage id="profile.edit" />}
+              >
+                <Button type="default" shape="circle" icon={<EditOutlined />} />
+              </Tooltip>
+            </Col>
+          </Row>
+        </div>
+      );
+    }
   };
 
   useEffect(() => {

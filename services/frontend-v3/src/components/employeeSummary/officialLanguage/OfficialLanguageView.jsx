@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 
 class OfficialLanguageView extends Component {
   generateFirstLanguage(dataSource) {

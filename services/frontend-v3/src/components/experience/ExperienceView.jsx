@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 import moment from "moment";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
-import { Row, Col, Card, Avatar, List } from "antd";
+import { Row, Col, Avatar, List } from "antd";
 
 class ExperienceView extends Component {
   generateExperienceInfoList(dataSource) {

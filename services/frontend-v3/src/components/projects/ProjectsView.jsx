@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 
-import { Row, Col, Card, List } from "antd";
+import { Row, Col, List } from "antd";
 
 class ProjectsView extends Component {
   generateProjectsInfoList(dataSource) {
