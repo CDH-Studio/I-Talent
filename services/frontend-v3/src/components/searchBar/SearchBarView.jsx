@@ -29,6 +29,15 @@ function SearchBarView(props) {
     handleSearch(values);
   };
 
+  const handleKeyPress = e => {
+    console.log("toggled1");
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      console.log("toggled2");
+      toggle();
+    }
+  };
+
   return (
     <Form form={form} onFinish={onFinish} style={styles.outerForm}>
       {empty === true ? (
@@ -77,7 +86,12 @@ function SearchBarView(props) {
           </Row>
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
-              <a style={{ marginLeft: 8, fontSize: 14 }} onClick={toggle}>
+              <a
+                style={{ marginLeft: 8, fontSize: 14 }}
+                tabIndex="0"
+                onClick={toggle}
+                handleKeyPress={e => handleKeyPress(e)}
+              >
                 {props.intl.formatMessage({
                   id: "advanced.search.button.text",
                   defaultMessage: "Advanced Search"

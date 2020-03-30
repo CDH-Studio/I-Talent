@@ -44,6 +44,12 @@ function TopNavView(props) {
     }
   };
 
+  const handleEnterKeyPress = onClick => ({ e, key }) => {
+    if (key === "Enter" || e.charCode === 32 || e.charCode === 13) {
+      onClick(e => e.preventDefault());
+    }
+  };
+
   // menu options for profile dropdown
   const menu = (
     <Menu style={styles.dropDownMenu}>
@@ -72,7 +78,7 @@ function TopNavView(props) {
     <Header style={styles.header}>
       {/* Render logo */}
       <a href="/secured/home">
-        <img tabIndex="0" src={Logo} alt="Logo" style={styles.navBrand} />
+        <img src={Logo} alt="Logo" style={styles.navBrand} />
       </a>
       {/* Render right sigh of top menu */}
       <div style={styles.rightMenu}>
