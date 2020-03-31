@@ -3,10 +3,10 @@ import { injectIntl } from "react-intl";
 
 import CompetenciesView from "./CompetenciesView";
 
-class Competencies extends Component {
-  formatData() {
-    const { data } = this.props;
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
+function Competencies(props) {
+  const formatData = dataSource => {
+    const data = dataSource.data;
+    const locale = dataSource.intl.formatMessage({ id: "language.code" });
 
     let competencies = {};
     let key = 0;
@@ -17,11 +17,9 @@ class Competencies extends Component {
     });
 
     return competencies;
-  }
+  };
 
-  render() {
-    return <CompetenciesView competencies={this.formatData()} />;
-  }
+  return <CompetenciesView competencies={formatData(props)} />;
 }
 
 export default injectIntl(Competencies);
