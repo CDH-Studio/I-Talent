@@ -8,7 +8,7 @@ const createOption = async (request, response) => {
     dbObject = {
       ...request.body
     };
-    if (type === "skill" || type === "competency") {
+    if (type === "skill" || type === "competency" || type === "category") {
       dbObject.type = type;
     }
 
