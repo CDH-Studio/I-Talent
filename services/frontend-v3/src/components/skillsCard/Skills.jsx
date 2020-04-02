@@ -8,14 +8,16 @@ class Skills extends Component {
     const locale = this.props.intl.formatMessage({ id: "language.code" });
     let categorizedList = {};
 
-    list.forEach(listElement => {
-      const key = listElement.description.categoryId;
-      if (categorizedList[key] == null) {
-        categorizedList[key] = [listElement.description[locale]];
-      } else {
-        categorizedList[key].push(listElement.description[locale]);
-      }
-    });
+    if (list) {
+      list.forEach(listElement => {
+        const key = listElement.description.categoryId;
+        if (categorizedList[key] == null) {
+          categorizedList[key] = [listElement.description[locale]];
+        } else {
+          categorizedList[key].push(listElement.description[locale]);
+        }
+      });
+    }
 
     return categorizedList;
   }
@@ -27,26 +29,29 @@ class Skills extends Component {
     let categories = [];
 
     let k = 0;
-    list.forEach(listElement => {
-      const key = listElement.description.categoryId;
-      if (categorizedList[key] == null) {
-        categorizedList[key] = [listElement.description[locale]];
-        if (categoriesTemp[k] == null) {
-          if (locale === "en") {
-            categoriesTemp[k] = [
-              listElement.description.category["categoryEn"]
-            ];
-          } else {
-            categoriesTemp[k] = [
-              listElement.description.category["categoryFr"]
-            ];
+
+    if (list) {
+      list.forEach(listElement => {
+        const key = listElement.description.categoryId;
+        if (categorizedList[key] == null) {
+          categorizedList[key] = [listElement.description[locale]];
+          if (categoriesTemp[k] == null) {
+            if (locale === "en") {
+              categoriesTemp[k] = [
+                listElement.description.category["categoryEn"]
+              ];
+            } else {
+              categoriesTemp[k] = [
+                listElement.description.category["categoryFr"]
+              ];
+            }
+            k++;
           }
-          k++;
+        } else {
+          categorizedList[key].push(listElement.description[locale]);
         }
-      } else {
-        categorizedList[key].push(listElement.description[locale]);
-      }
-    });
+      });
+    }
 
     for (const [index, val] of Object.values(categoriesTemp).entries()) {
       categories.push({ index, val });
