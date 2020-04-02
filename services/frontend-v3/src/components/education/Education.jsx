@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import EducationView from "./EducationView";
+import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 
 function Education(props) {
@@ -7,12 +8,14 @@ function Education(props) {
     const formatedStartDate = moment(startDate).format("ll");
     const formatedEndDate = moment(endDate).format("ll");
 
-    const dateNotProvided = this.props.intl.formatMessage({
-      id: "profile.date.not.provided"
-    });
-    const present = this.props.intl.formatMessage({
-      id: "profile.end.date.present"
-    });
+    const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
+    // props.intl.formatMessage({
+    //   id: "profile.date.not.provided"
+    // });
+    const present = <FormattedMessage id="profile.end.date.present" />;
+    // props.intl.formatMessage({
+    //   id: "profile.end.date.present"
+    // });
 
     let duration = "";
 
