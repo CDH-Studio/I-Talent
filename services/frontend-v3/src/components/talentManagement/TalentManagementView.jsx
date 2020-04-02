@@ -23,16 +23,20 @@ class TalentManagementView extends Component {
 
     const careerMobility = {
       title: <FormattedMessage id="profile.career.mobility" />,
-      description: data.careerMobility.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      )
+      description:
+        data.careerMobility &&
+        (data.careerMobility.description[locale] || (
+          <FormattedMessage id="profile.not.specified" />
+        ))
     };
 
     const talentMatrixResult = {
       title: <FormattedMessage id="profile.talent.matrix.result" />,
-      description: data.talentMatrixResult.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      )
+      description:
+        data.talentMatrixResult &&
+        (data.talentMatrixResult.description[locale] || (
+          <FormattedMessage id="profile.not.specified" />
+        ))
     };
 
     return [careerMobility, talentMatrixResult];

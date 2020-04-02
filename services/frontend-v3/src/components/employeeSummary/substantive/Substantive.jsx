@@ -8,16 +8,20 @@ function Substantive(props) {
 
     const classification = {
       title: <FormattedMessage id="profile.classification" />,
-      description: data.classification.description || (
-        <FormattedMessage id="profile.not.specified" />
-      )
+      description:
+        data.classification &&
+        (data.classification.description || (
+          <FormattedMessage id="profile.not.specified" />
+        ))
     };
 
     const security = {
       title: <FormattedMessage id="profile.security" />,
-      description: data.security.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      )
+      description:
+        data.security &&
+        (data.security.description[locale] || (
+          <FormattedMessage id="profile.not.specified" />
+        ))
     };
 
     const substative = {
