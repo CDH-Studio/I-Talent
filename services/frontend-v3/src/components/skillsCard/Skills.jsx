@@ -3,9 +3,9 @@ import { injectIntl } from "react-intl";
 
 import SkillsView from "./SkillsView";
 
-class Skills extends Component {
-  formatData(list) {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
+function Skills(props) {
+  const formatData = list => {
+    const locale = localStorage.getItem("lang");
     let categorizedList = {};
 
     list.forEach(listElement => {
@@ -16,13 +16,12 @@ class Skills extends Component {
         categorizedList[key].push(listElement.description[locale]);
       }
     });
+
     return categorizedList;
-  }
+  };
 
-  setUpCategories(list) {
-    console.log(list);
-
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
+  const setUpCategories = list => {
+    const locale = localStorage.getItem("lang");
     let categorizedList = {};
     let categoriesTemp = {};
     let categories = [];
@@ -35,7 +34,6 @@ class Skills extends Component {
         if (categoriesTemp[k] == null) {
           if (locale === "en") {
             categoriesTemp[k] = [listElement.description.category["en"]];
-            console.log(listElement.description.category["cen"]);
           } else {
             categoriesTemp[k] = [listElement.description.category["fr"]];
           }
@@ -45,50 +43,30 @@ class Skills extends Component {
         categorizedList[key].push(listElement.description[locale]);
       }
     });
-    console.log(categoriesTemp);
 
     for (const [index, val] of Object.values(categoriesTemp).entries()) {
       categories.push({ index, val });
     }
 
     return categories;
-  }
+  };
 
-  setUpSkills() {
-    const { data } = this.props;
+  const setUpSkills = dataSource => {
     let skills = [];
-    let categorizedSkillsList = this.formatData(data.skills);
+    let categorizedSkillsList = formatData(dataSource);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       skills.push({ index, val });
     }
     return skills;
-  }
+  };
 
-  setUpMentorshipSkills() {
-    const { data } = this.props;
-    let mentorshipSkills = [];
-    let categorizedSkillsList = this.formatData(data.mentorshipSkills);
-
-    for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
-      mentorshipSkills.push({ index, val });
-    }
-
-    return mentorshipSkills;
-  }
-
-  render() {
-    const { data } = this.props;
-
-    return (
-      <SkillsView
-        skills={this.setUpSkills()}
-        mentoring={this.setUpMentorshipSkills()}
-        categoriesSkills={this.setUpCategories(data.skills)}
-        categoriesMentor={this.setUpCategories(data.mentorshipSkills)}
-      />
-    );
-  }
+  return (
+    <SkillsView
+      skills={setUpSkills(props.data.skills)}
+      categoriesSkills={setUpCategories(props.data.skills)}
+    />
+  );
 }
 
 export default injectIntl(Skills);
