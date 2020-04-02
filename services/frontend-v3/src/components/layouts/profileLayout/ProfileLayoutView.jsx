@@ -260,7 +260,7 @@ function ProfileLayoutView(props) {
             </Row>
           )}
 
-          {visibleCards.talentManagement && visibleCards.careerInterests && (
+          {visibleCards.talentManagement && visibleCards.careerInterests ? (
             <Row
               style={styles.row}
               gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
@@ -283,30 +283,39 @@ function ProfileLayoutView(props) {
                 />
               </Col>
             </Row>
-          )}
-          {visibleCards.talentManagement && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.talent.management" />}
-                  content={<TalentManagement data={data} style={styles.card} />}
-                  cardName={"talentManagement"}
-                  id="card-profile-talent-management"
-                />
-              </Col>
-            </Row>
-          )}
-          {visibleCards.careerInterests && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.career.interests" />}
-                  content={<CareerInterests data={data} style={styles.card} />}
-                  cardName={"careerInterests"}
-                  id="card-profile-career-interests"
-                />
-              </Col>
-            </Row>
+          ) : (
+            <>
+              {visibleCards.talentManagement && (
+                <Row style={styles.row}>
+                  <Col span={24}>
+                    <ProfileCards
+                      title={
+                        <FormattedMessage id="profile.talent.management" />
+                      }
+                      content={
+                        <TalentManagement data={data} style={styles.card} />
+                      }
+                      cardName={"talentManagement"}
+                      id="card-profile-talent-management"
+                    />
+                  </Col>
+                </Row>
+              )}
+              {visibleCards.careerInterests && (
+                <Row style={styles.row}>
+                  <Col span={24}>
+                    <ProfileCards
+                      title={<FormattedMessage id="profile.career.interests" />}
+                      content={
+                        <CareerInterests data={data} style={styles.card} />
+                      }
+                      cardName={"careerInterests"}
+                      id="card-profile-career-interests"
+                    />
+                  </Col>
+                </Row>
+              )}
+            </>
           )}
 
           {(visibleCards.education ||
