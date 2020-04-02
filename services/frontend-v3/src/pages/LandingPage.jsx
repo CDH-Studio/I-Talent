@@ -42,7 +42,7 @@ function LandingPage(props) {
             backgroundImage: `url(${backgroundImage})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
-            height: "700px",
+            height: "100%",
             position: "fixed",
             top: "62px",
             width: "100%"
@@ -55,6 +55,7 @@ function LandingPage(props) {
               margin: "250px auto 0px",
               textAlign: "center",
               width: "100%",
+
               fontWeight: "bold"
             }}
           >
