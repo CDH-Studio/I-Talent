@@ -1,57 +1,39 @@
 import React, { useState } from "react";
 import { Button, Row, Menu } from "antd";
-
+import ChangeLanguage from "../components/changeLanguage/ChangeLanguage";
+import Logo from "../assets/myTalentLogoSolo.jpg";
 import backgroundImage from "../assets/myTalentLandingBackground.png";
-import {
-  MailOutlined,
-  AppstoreOutlined,
-  SettingOutlined
-} from "@ant-design/icons";
 import { injectIntl } from "react-intl";
 
-const { SubMenu } = Menu;
 /** UI for the landing route layout */
 function LandingPage(props) {
+  //   const propTypes = {
+  //     changeLanguage: propTypes.func.isRequired
+  //   };
+  const { changeLanguage } = props;
   const handleClick = e => {
     console.log("click ", e);
   };
 
   return (
     <Row>
-      <Menu onClick={handleClick} mode="horizontal">
-        <Menu.Item key="mail">
-          <MailOutlined />
-          Navigation One
+      <Menu
+        style={{ backgroundColor: "#001C1A", width: "100%" }}
+        onClick={handleClick}
+        fixed="top"
+        mode="horizontal"
+      >
+        <Menu.Item style={{ paddingBottom: "8px", paddingTop: "8px" }}>
+          <img src={Logo} style={{ maxWidth: "37px" }} alt="UpSkill Logo" />
         </Menu.Item>
-        <Menu.Item key="app" disabled>
-          <AppstoreOutlined />
-          Navigation Two
-        </Menu.Item>
-        <SubMenu
-          title={
-            <span className="submenu-title-wrapper">
-              <SettingOutlined />
-              Navigation Three - Submenu
-            </span>
-          }
+        <Menu.Item
+          style={{
+            paddingBottom: "6px",
+            paddingTop: "8px",
+            marginLeft: "86%"
+          }}
         >
-          <Menu.ItemGroup title="Item 1">
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
-            <Menu.Item key="setting:2">Option 2</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup title="Item 2">
-            <Menu.Item key="setting:3">Option 3</Menu.Item>
-            <Menu.Item key="setting:4">Option 4</Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
-        <Menu.Item key="alipay">
-          <a
-            href="https://ant.design"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Navigation Four - Link
-          </a>
+          <ChangeLanguage changeLanguage={changeLanguage} />
         </Menu.Item>
       </Menu>
       <React.Fragment>
@@ -60,9 +42,9 @@ function LandingPage(props) {
             backgroundImage: `url(${backgroundImage})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
-            height: "655px",
+            height: "700px",
             position: "fixed",
-            top: "0px",
+            top: "62px",
             width: "100%"
           }}
         >
@@ -87,21 +69,13 @@ function LandingPage(props) {
               textAlign: "center"
             }}
           >
-            <div
-              style={{
-                color: "#ffffff",
-                fontSize: "20pt",
-                marginBottom: "24pt",
-                marginTop: "18pt"
-              }}
-            ></div>
             <Button
+              style={{ margin: "0px", paddingTop: "0px", fontSize: "20px" }}
               as="a"
+              type="primary"
               href="/secured/home"
-              inverted
-              style={{
-                margin: "0 auto"
-              }}
+              shape="round"
+              size="large"
             >
               {props.intl.formatMessage({
                 id: "landing.login.button",
