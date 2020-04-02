@@ -16,11 +16,12 @@ class Skills extends Component {
         categorizedList[key].push(listElement.description[locale]);
       }
     });
-
     return categorizedList;
   }
 
   setUpCategories(list) {
+    console.log(list);
+
     const locale = this.props.intl.formatMessage({ id: "language.code" });
     let categorizedList = {};
     let categoriesTemp = {};
@@ -33,13 +34,10 @@ class Skills extends Component {
         categorizedList[key] = [listElement.description[locale]];
         if (categoriesTemp[k] == null) {
           if (locale === "en") {
-            categoriesTemp[k] = [
-              listElement.description.category["categoryEn"]
-            ];
+            categoriesTemp[k] = [listElement.description.category["en"]];
+            console.log(listElement.description.category["cen"]);
           } else {
-            categoriesTemp[k] = [
-              listElement.description.category["categoryFr"]
-            ];
+            categoriesTemp[k] = [listElement.description.category["fr"]];
           }
           k++;
         }
@@ -47,6 +45,7 @@ class Skills extends Component {
         categorizedList[key].push(listElement.description[locale]);
       }
     });
+    console.log(categoriesTemp);
 
     for (const [index, val] of Object.values(categoriesTemp).entries()) {
       categories.push({ index, val });
