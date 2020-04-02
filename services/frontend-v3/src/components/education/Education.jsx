@@ -9,13 +9,8 @@ function Education(props) {
     const formatedEndDate = moment(endDate).format("ll");
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
-    // props.intl.formatMessage({
-    //   id: "profile.date.not.provided"
-    // });
+
     const present = <FormattedMessage id="profile.end.date.present" />;
-    // props.intl.formatMessage({
-    //   id: "profile.end.date.present"
-    // });
 
     let duration = "";
 

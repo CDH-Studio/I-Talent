@@ -11,14 +11,8 @@ function Experience(props) {
     const formatedEndDate = moment(endDate).format("ll");
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
-    // this.props.intl.formatMessage({
-    //   id: "profile.date.not.provided"
-    // });
 
     const present = <FormattedMessage id="profile.end.date.present" />;
-    // this.props.intl.formatMessage({
-    //   id: "profile.end.date.present"
-    // });
 
     let duration = "";
 
@@ -55,7 +49,9 @@ function Experience(props) {
     return [...experienceInfo];
   };
 
-  return <ExperienceView data={data} locale={localStorage.getItem("lang")} />;
+  return (
+    <ExperienceView data={data} experienceInfo={getExperienceInfo(data)} />
+  );
 }
 
 export default injectIntl(Experience);
