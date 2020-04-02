@@ -1,12 +1,30 @@
 import React, { Component } from "react";
 import ProjectsView from "./ProjectsView";
 
-class Projects extends Component {
-  render() {
-    const { data } = this.props;
+function Projects(props) {
+  const data = props.data;
 
-    return <ProjectsView data={data} locale={localStorage.getItem("lang")} />;
-  }
+  const getProjectsInfo = dataSource => {
+    let projectsInfo = [];
+    if (dataSource.projects != null) {
+      dataSource.projects.forEach(projectElement => {
+        const projects = {
+          projectDescription: projectElement.text
+        };
+        projectsInfo.push(projects);
+      });
+    }
+
+    return [...projectsInfo];
+  };
+
+  return (
+    <ProjectsView
+      data={data}
+      locale={localStorage.getItem("lang")}
+      projectsInfo={getProjectsInfo(data)}
+    />
+  );
 }
 
 export default Projects;
