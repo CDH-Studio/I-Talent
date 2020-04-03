@@ -51,4 +51,4 @@ function EducationView(props) {
   );
 }
 
-export default injectIntl(EducationView);
+export default EducationView;

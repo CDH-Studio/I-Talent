@@ -56,4 +56,4 @@ function OfficialLanguageView(props) {
   );
 }
 
-export default injectIntl(OfficialLanguageView);
+export default OfficialLanguageView;
