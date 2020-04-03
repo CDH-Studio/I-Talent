@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import StatCardsView from "./StatCardsView";
 
 function StatCards(props) {

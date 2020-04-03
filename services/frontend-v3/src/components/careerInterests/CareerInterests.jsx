@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import CareerInterestsView from "./CareerInterestsView";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 function CareerInterests(props) {
   const getCareerInterestsInfo = dataSource => {
@@ -53,4 +53,4 @@ function CareerInterests(props) {
   );
 }
 
-export default injectIntl(CareerInterests);
+export default CareerInterests;

@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
-import moment from "moment";
+import React from "react";
 
 import { Row, Col, List } from "antd";
 

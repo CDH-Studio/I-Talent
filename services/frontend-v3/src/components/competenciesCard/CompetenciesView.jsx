@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { List, Tag, Row } from "antd";
 
 function CompetenciesView(props) {

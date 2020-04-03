@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { injectIntl } from "react-intl";
-import moment from "moment";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
@@ -52,4 +50,4 @@ function ExperienceView(props) {
   );
 }
 
-export default injectIntl(ExperienceView);
+export default ExperienceView;

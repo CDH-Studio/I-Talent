@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { injectIntl } from "react-intl";
+import React from "react";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 

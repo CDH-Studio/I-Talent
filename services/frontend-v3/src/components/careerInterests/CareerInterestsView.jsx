@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import React from "react";
+import { FormattedMessage } from "react-intl";
 
 import { Row, Col, List, Tag, Typography } from "antd";
 
@@ -43,4 +43,4 @@ function CareerInterestsView(props) {
   );
 }
 
-export default injectIntl(CareerInterestsView);
+export default CareerInterestsView;

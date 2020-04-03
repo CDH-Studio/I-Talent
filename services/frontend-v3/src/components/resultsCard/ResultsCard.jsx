@@ -4,7 +4,7 @@ import "@ant-design/compatible/assets/index.css";
 import axios from "axios";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import config from "../../config";
-import { injectIntl } from "react-intl";
+
 import ResultsCardView from "./ResultsCardView";
 
 const backendAddress = config.backendAddress;
@@ -50,4 +50,4 @@ function ResultsCard(props) {
   }
 }
 
-export default injectIntl(ResultsCard);
+export default ResultsCard;

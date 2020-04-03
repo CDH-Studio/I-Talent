@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { injectIntl } from "react-intl";

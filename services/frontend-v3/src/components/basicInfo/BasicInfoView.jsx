@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
@@ -187,4 +187,4 @@ function BasicInfoView(props) {
   );
 }
 
-export default injectIntl(BasicInfoView);
+export default BasicInfoView;

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import ActingView from "./ActingView";
 import moment from "moment";
 
@@ -36,4 +36,4 @@ function Acting(props) {
   return <ActingView values={formatData(props.data)} />;
 }
 
-export default injectIntl(Acting);
+export default Acting;

@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import DashboardGraphsView from "./DashboardGraphsView";
-import { injectIntl } from "react-intl";
 
 function DashboardGraphs(props) {
   const changeEnFr = dataSource => {
@@ -24,4 +23,4 @@ function DashboardGraphs(props) {
   );
 }
 
-export default injectIntl(DashboardGraphs);
+export default DashboardGraphs;

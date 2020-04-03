@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { injectIntl } from "react-intl";
+import React from "react";
 
 import SkillsView from "./SkillsView";
 
@@ -74,4 +73,4 @@ function Skills(props) {
   );
 }
 
-export default injectIntl(Skills);
+export default Skills;

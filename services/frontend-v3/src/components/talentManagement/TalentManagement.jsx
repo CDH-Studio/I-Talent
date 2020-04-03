@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import TalentManagementView from "./TalentManagementView";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 function TalentManagement(props) {
   const data = props.data;
@@ -33,4 +33,4 @@ function TalentManagement(props) {
   );
 }
 
-export default injectIntl(TalentManagement);
+export default TalentManagement;

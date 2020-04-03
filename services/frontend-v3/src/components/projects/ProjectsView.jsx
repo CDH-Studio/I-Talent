@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { injectIntl } from "react-intl";
+import React from "react";
 
 import { Row, Col, List } from "antd";
 
@@ -25,4 +24,4 @@ function ProjectsView(props) {
     </Row>
   );
 }
-export default injectIntl(ProjectsView);
+export default ProjectsView;

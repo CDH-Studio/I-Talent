@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import React from "react";
 
 import { Row, Col, List } from "antd";
 
@@ -29,4 +28,4 @@ function TalentManagementView(props) {
   );
 }
 
-export default injectIntl(TalentManagementView);
+export default TalentManagementView;

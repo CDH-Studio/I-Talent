@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, Tag, Row, Col } from "antd";
 
 function SkillsView(props) {

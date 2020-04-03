@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import OfficialLanguageView from "./OfficialLanguageView";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
 function OfficialLanguage(props) {
@@ -110,4 +110,4 @@ function OfficialLanguage(props) {
   );
 }
 
-export default injectIntl(OfficialLanguage);
+export default OfficialLanguage;
