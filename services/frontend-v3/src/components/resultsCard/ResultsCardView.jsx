@@ -28,10 +28,19 @@ class ResultsCardView extends React.Component {
     return cards;
   }
 
+  handleKeyPress = (e, person) => {
+    if (e.charCode === 32 || e.charCode === 13) {
+      // Prevent the default action to stop scrolling when space is pressed
+      e.preventDefault();
+      this.props.history.push("/secured/profile/" + person.id);
+    }
+  };
+
   renderCard(person) {
     return (
       <Col span={6} style={{ height: "100%" }}>
         <Card
+          tabIndex="0"
           style={{ height: "100%" }}
           size="small"
           hoverable
@@ -39,35 +48,38 @@ class ResultsCardView extends React.Component {
           onClick={() =>
             this.props.history.push("/secured/profile/" + person.id)
           }
+          // onKeyPress={(e, person) => handleKeyPress(e, person)}
         >
-          <Meta
-            title={person.firstName + " " + person.lastName}
-            description={<p style={styles.smallP}>{person.jobTitle}</p>}
-          ></Meta>
+          <a href="/secured/profile/">
+            <Meta
+              title={person.firstName + " " + person.lastName}
+              description={<p style={styles.smallP}>{person.jobTitle}</p>}
+            ></Meta>
 
-          <p style={styles.smallP}>{person.branch}</p>
-          {person.classification.description !== null ? (
-            <p style={styles.smallP}>
-              {"Classification: " + person.classification.description}
-            </p>
-          ) : (
-            <p></p>
-          )}
+            <p style={styles.smallP}>{person.branch}</p>
+            {person.classification.description !== null ? (
+              <p style={styles.smallP}>
+                {"Classification: " + person.classification.description}
+              </p>
+            ) : (
+              <p></p>
+            )}
 
-          <Divider style={styles.divider} orientation="left">
-            {this.props.intl.formatMessage({
-              id: "advanced.search.form.skills",
-              defaultMessage: "Skills"
-            })}
-          </Divider>
-          {person.resultSkills.map(skill => (
-            <Tag
-              color="#004441"
-              style={{ marginBottom: "2px", marginTop: "2px" }}
-            >
-              {skill}
-            </Tag>
-          ))}
+            <Divider style={styles.divider} orientation="left">
+              {this.props.intl.formatMessage({
+                id: "advanced.search.form.skills",
+                defaultMessage: "Skills"
+              })}
+            </Divider>
+            {person.resultSkills.map(skill => (
+              <Tag
+                color="#004441"
+                style={{ marginBottom: "2px", marginTop: "2px" }}
+              >
+                {skill}
+              </Tag>
+            ))}
+          </a>
         </Card>
       </Col>
     );

@@ -87,6 +87,7 @@ function SearchBarView(props) {
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
               <a
+                href="javascript:void(0)"
                 style={{ marginLeft: 8, fontSize: 14 }}
                 tabIndex="0"
                 onClick={toggle}
