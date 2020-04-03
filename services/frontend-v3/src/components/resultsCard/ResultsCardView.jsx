@@ -4,32 +4,36 @@ import { Row, Col, Tag, Card, Divider } from "antd";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
-class ResultsCardView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  renderResultCards() {
-    const { results } = this.props;
-
-    if (!results) {
+function ResultsCardView(props) {
+  const styles = {
+    smallP: {
+      lineHeight: "4px",
+      zIndex: "-1",
+      marginTop: "10px"
+    }
+  };
+  const renderResultCards = dataSource => {
+    if (!dataSource) {
       return <ProfileSkeleton />;
-    }
-    if (results instanceof Error) {
+    } else if (dataSource instanceof Error) {
       return (
-        "An error was encountered! Please try again.\n\n" + String(results)
+        "An error was encountered! Please try again.\n\n" + String(dataSource)
       );
+    } else {
+      const preparedResults = prepareInfo(
+        dataSource,
+        localStorage.getItem("lang")
+      );
+      let cards = [];
+      preparedResults.forEach(person => {
+        cards.push(renderCard(person));
+      });
+      return cards;
     }
+  };
 
-    const preparedResults = prepareInfo(results, localStorage.getItem("lang"));
-    let cards = [];
-    preparedResults.forEach(person => {
-      cards.push(this.renderCard(person));
-    });
-    return cards;
-  }
-
-  renderCard(person) {
+  const renderCard = person => {
     return (
       <Col span={6} style={{ height: "100%" }}>
         <Card
@@ -37,9 +41,7 @@ class ResultsCardView extends React.Component {
           size="small"
           hoverable
           bordered={true}
-          onClick={() =>
-            this.props.history.push("/secured/profile/" + person.id)
-          }
+          onClick={() => props.history.push("/secured/profile/" + person.id)}
         >
           <Meta
             title={person.firstName + " " + person.lastName}
@@ -56,7 +58,7 @@ class ResultsCardView extends React.Component {
           )}
 
           <Divider style={styles.divider} orientation="left">
-            {this.props.intl.formatMessage({
+            {props.intl.formatMessage({
               id: "advanced.search.form.skills",
               defaultMessage: "Skills"
             })}
@@ -72,24 +74,15 @@ class ResultsCardView extends React.Component {
         </Card>
       </Col>
     );
-  }
-  render() {
-    return (
-      <div>
-        <Row gutter={[16, 16]} type="flex" justify="left" align="top">
-          {this.renderResultCards()}
-        </Row>
-      </div>
-    );
-  }
-}
+  };
 
-const styles = {
-  smallP: {
-    lineHeight: "4px",
-    zIndex: "-1",
-    marginTop: "10px"
-  }
-};
+  return (
+    <div>
+      <Row gutter={[16, 16]} type="flex" justify="left" align="top">
+        {renderResultCards(props.results)}
+      </Row>
+    </div>
+  );
+}
 
 export default injectIntl(ResultsCardView);

@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Col, List } from "antd";
-import { injectIntl } from "react-intl";
 
 function ActingView(props) {
   const generateInfoList = dataSource => {
@@ -28,4 +27,4 @@ function ActingView(props) {
   );
 }
 
-export default injectIntl(ActingView);
+export default ActingView;

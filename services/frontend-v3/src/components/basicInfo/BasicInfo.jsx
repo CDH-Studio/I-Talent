@@ -1,9 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import BasicInfoView from "./BasicInfoView";
 
-class BasicInfo extends Component {
-  getButtonLinks() {
-    const { linkedinUrl, githubUrl, gcconnexUrl, email } = this.props.data;
+function BasicInfo(props) {
+  const getButtonLinks = () => {
+    const linkedinUrl = props.data.linkedinUrl;
+    const githubUrl = props.data.githubUrl;
+    const gcconnexUrl = props.data.gcconnexUrl;
+    const email = props.data.email;
     let buttonLinks = { buttons: [] };
 
     if (linkedinUrl) {
@@ -41,26 +44,23 @@ class BasicInfo extends Component {
     };
 
     return buttonLinks;
-  }
+  };
 
-  render() {
-    const { data } = this.props;
-    const name = data.firstName + " " + data.lastName;
+  const name = props.data.firstName + " " + props.data.lastName;
 
-    return (
-      <BasicInfoView
-        data={data}
-        name={name}
-        avatar={{
-          acr: data.nameInitials,
-          color: data.avatarColor
-        }}
-        jobTitle={data.jobTitle[localStorage.getItem("lang")]}
-        locale={localStorage.getItem("lang")}
-        buttonLinks={this.getButtonLinks()}
-      />
-    );
-  }
+  return (
+    <BasicInfoView
+      data={props.data}
+      name={name}
+      avatar={{
+        acr: props.data.nameInitials,
+        color: props.data.avatarColor
+      }}
+      jobTitle={props.data.jobTitle[localStorage.getItem("lang")]}
+      locale={localStorage.getItem("lang")}
+      buttonLinks={getButtonLinks()}
+    />
+  );
 }
 
 export default BasicInfo;

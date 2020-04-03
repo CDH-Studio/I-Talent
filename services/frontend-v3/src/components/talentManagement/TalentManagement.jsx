@@ -1,14 +1,36 @@
-import React, { Component } from "react";
+import React from "react";
 import TalentManagementView from "./TalentManagementView";
+import { FormattedMessage } from "react-intl";
 
-class TalentManagement extends Component {
-  render() {
-    const { data } = this.props;
+function TalentManagement(props) {
+  const data = props.data;
 
-    return (
-      <TalentManagementView data={data} locale={localStorage.getItem("lang")} />
-    );
-  }
+  const getTalentManagementInfo = dataSource => {
+    const locale = localStorage.getItem("lang");
+    const careerMobility = {
+      title: <FormattedMessage id="profile.career.mobility" />,
+      description: dataSource.careerMobility.description[locale] || (
+        <FormattedMessage id="profile.not.specified" />
+      )
+    };
+
+    const talentMatrixResult = {
+      title: <FormattedMessage id="profile.talent.matrix.result" />,
+      description: dataSource.talentMatrixResult.description[locale] || (
+        <FormattedMessage id="profile.not.specified" />
+      )
+    };
+
+    return [careerMobility, talentMatrixResult];
+  };
+
+  return (
+    <TalentManagementView
+      data={data}
+      locale={localStorage.getItem("lang")}
+      info={getTalentManagementInfo(data)}
+    />
+  );
 }
 
 export default TalentManagement;

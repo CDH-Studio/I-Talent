@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import { injectIntl } from "react-intl";
+import React from "react";
 
 import { Row, Col, List } from "antd";
 
-class ProjectsView extends Component {
-  generateProjectsInfoList(dataSource) {
+function ProjectsView(props) {
+  const generateProjectsInfoList = dataSource => {
     return (
       <List
         size="small"
@@ -13,36 +12,16 @@ class ProjectsView extends Component {
         renderItem={item => <List.Item>{item.projectDescription}</List.Item>}
       />
     );
-  }
+  };
 
-  getProjectsInfo(locale) {
-    const data = this.props.data;
+  const projectsInfo = props.projectsInfo;
 
-    let projectsInfo = [];
-    if (data.projects != null) {
-      data.projects.forEach(projectElement => {
-        const projects = {
-          projectDescription: projectElement.text
-        };
-        projectsInfo.push(projects);
-      });
-    }
-
-    return [...projectsInfo];
-  }
-
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const projectsInfo = this.getProjectsInfo(locale);
-
-    return (
-      <Row>
-        <Col xs={24} lg={24}>
-          {this.generateProjectsInfoList(projectsInfo)}
-        </Col>
-      </Row>
-    );
-  }
+  return (
+    <Row>
+      <Col xs={24} lg={24}>
+        {generateProjectsInfoList(projectsInfo)}
+      </Col>
+    </Row>
+  );
 }
-export default injectIntl(ProjectsView);
+export default ProjectsView;

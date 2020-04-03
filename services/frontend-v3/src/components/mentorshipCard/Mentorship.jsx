@@ -36,13 +36,9 @@ function Mentorship(props) {
           categorizedList[key] = [listElement.description[locale]];
           if (categoriesTemp[k] == null) {
             if (locale === "en") {
-              categoriesTemp[k] = [
-                listElement.description.category["categoryEn"]
-              ];
+              categoriesTemp[k] = [listElement.description.category["en"]];
             } else {
-              categoriesTemp[k] = [
-                listElement.description.category["categoryFr"]
-              ];
+              categoriesTemp[k] = [listElement.description.category["fr"]];
             }
             k++;
           }

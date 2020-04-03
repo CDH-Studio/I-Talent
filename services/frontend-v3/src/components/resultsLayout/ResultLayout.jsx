@@ -2,16 +2,16 @@ import React from "react";
 import {} from "antd";
 import ResultLayoutView from "./ResultLayoutView";
 
-export default class ResultLayout extends React.Component {
-  render() {
-    return (
-      <ResultLayoutView
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-      >
-        {this.props.children}
-      </ResultLayoutView>
-    );
-  }
+function ResultLayout(props) {
+  return (
+    <ResultLayoutView
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      history={props.history}
+    >
+      {props.children}
+    </ResultLayoutView>
+  );
 }
+
+export default ResultLayout;
