@@ -87,9 +87,9 @@ router.post("/user/", keycloak.protect(), user.createUser);
 router.get("/profile/", keycloak.protect(), profile.getProfile);
 router
   .route("/profile/:id")
-  .get(keycloak.protect(), profile.getPublicProfileById)
-  .post(keycloak.protect(), profile.createProfile)
-  .put(keycloak.protect(), profile.updateProfile);
+  .get(profile.getPublicProfileById)
+  .post(profile.createProfile)
+  .put(profile.updateProfile);
 
 router
   .route("/private/profile/:id")
@@ -100,7 +100,7 @@ router.use("/admin", admin);
 
 router.use("/option", options);
 
-router.get("/profGen/:id", keycloak.protect(), profileGeneration.getGedsAssist);
+router.get("/profGen/:id", profileGeneration.getGedsAssist);
 
 // Search routes
 router.get("/search/fuzzySearch/", keycloak.protect(), search);
