@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { EditOutlined, LinkOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Typography, Button, Divider } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Typography, Button } from "antd";
 import {
   UserOutlined,
   UserAddOutlined,
   RocketOutlined
 } from "@ant-design/icons";
-import SquareButton from "../../squareButton/SquareButton";
 import axios from "axios";
 import config from "../../../config";
 
@@ -16,7 +15,6 @@ const { backendAddress } = config;
 
 function Welcome(props) {
   const history = useHistory();
-  const [btnLoading, setBtnLoading] = useState(false);
 
   /* Component Styles */
   const styles = {

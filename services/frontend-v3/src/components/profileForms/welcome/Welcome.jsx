@@ -5,34 +5,29 @@ import config from "../../../config";
 const { backendAddress } = config;
 
 /**
- *  LangProficiencyForm(props)
- *  Controller for the EmploymentDataFormView.
- *  It gathers the required data for rendering the component
+ *  Welcome(props)
+ *
+ *  Controller for the welcome form.
+ *  It gathers a list of GEDs profile that matches the registered user
+ *  User can pre-populate profile or start from scratch
  */
 function Welcome() {
-  const [profileInfo, setProfileInfo] = useState(null);
-  const [skillOptions, setSkillOptions] = useState(null);
-  const [competencyOptions, setCompetencyOptions] = useState(null);
   const [load, setLoad] = useState(false);
   const [gedsProfiles, setGedsProfiles] = useState();
-  const [savedCompetencies, setSavedCompetencies] = useState();
-  const [savedSkills, setSavedSkills] = useState();
-  const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
     /*
-     * Geds Get
+     * get Geds Profiles
      *
-     * Generates profile using data collected from GEDS
+     * Get GEDs profile that matches registered user
      */
-    const gedsGet = async () => {
+    const getGedsProfiles = async () => {
       try {
         // Get info from GEDS
         let result = await axios.get(
           backendAddress + "api/profGen/" + localStorage.getItem("userId")
         );
-        console.log(result.data);
         setGedsProfiles(result.data);
         return 1;
       } catch (error) {
@@ -44,7 +39,7 @@ function Welcome() {
     /* get all required data component */
     const getAllData = async () => {
       try {
-        await gedsGet();
+        await getGedsProfiles();
         setLoad(true);
         return 1;
       } catch (error) {
