@@ -5,24 +5,20 @@ import moment from "moment";
 
 function Acting(props) {
   const formatData = data => {
-    const actingId = data.acting.id;
-    const actingPeriodStartDate = data.actingPeriodStartDate;
-    const actingPeriodEndDate = data.actingPeriodEndDate;
-
     let actingInfo = [];
 
-    if (actingId != null) {
+    if (data.acting) {
       const acting = {
         title: <FormattedMessage id="profile.acting" />,
         description: data.acting.description
       };
       actingInfo.push(acting);
 
-      if (actingPeriodStartDate) {
+      if (data.actingPeriodStartDate) {
         let desc =
-          moment(actingPeriodStartDate).format("ll") +
-          (actingPeriodStartDate
-            ? " - " + moment(actingPeriodEndDate).format("ll")
+          moment(data.actingPeriodStartDate).format("ll") +
+          (data.actingPeriodStartDate
+            ? " - " + moment(data.actingPeriodEndDate).format("ll")
             : "");
 
         const actingDate = {

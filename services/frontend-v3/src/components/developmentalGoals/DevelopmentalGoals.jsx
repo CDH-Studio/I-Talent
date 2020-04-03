@@ -11,10 +11,12 @@ function DevelopmentalGoals(props) {
     let devGoals = {};
     let key = 0;
 
-    data.developmentalGoals.forEach(devGoal => {
-      devGoals[key] = devGoal.description[locale];
-      key++;
-    });
+    if (data.developmentalGoals) {
+      data.developmentalGoals.forEach(devGoal => {
+        devGoals[key] = devGoal.description[locale];
+        key++;
+      });
+    }
 
     return devGoals;
   };

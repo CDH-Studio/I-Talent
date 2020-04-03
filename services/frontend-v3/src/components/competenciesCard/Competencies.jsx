@@ -11,10 +11,12 @@ function Competencies(props) {
     let competencies = {};
     let key = 0;
 
-    data.competencies.forEach(element => {
-      competencies[key] = element.description[locale];
-      key++;
-    });
+    if (data.competencies) {
+      data.competencies.forEach(element => {
+        competencies[key] = element.description[locale];
+        key++;
+      });
+    }
 
     return competencies;
   };
