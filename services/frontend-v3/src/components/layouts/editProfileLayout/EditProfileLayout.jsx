@@ -3,7 +3,6 @@ import { Menu } from "antd";
 import { FormattedMessage } from "react-intl";
 import EditProfileLayoutView from "./EditProfileLayoutView";
 import { RightOutlined } from "@ant-design/icons";
-import Welcome from "../../profileForms/Welcome";
 import { useHistory } from "react-router-dom";
 import {
   EmploymentDataForm,
@@ -41,22 +40,6 @@ const EditProfileLayout = props => {
     console.log(data.key);
     let url = "/secured/profile/edit/" + data.key;
     history.push(url);
-    // switch (step) {
-    //   case "primary-info":
-    //     history.push("/secured/profile/edit/step/primary-info");
-    //   case "employment":
-    //     return <EmploymentDataForm />;
-    //   case "language-proficiency":
-    //     return <LangProficiencyForm />;
-    //   case "talent":
-    //     return <TalentForm />;
-    //   case "personal-growth":
-    //     return <PersonalGrowthForm />;
-    //   case "qualifications":
-    //     return <PersonalGrowthForm />;
-    //   default:
-    //     return <div>Hello</div>;
-    // }
   };
 
   // return side bar contents
@@ -89,21 +72,6 @@ const EditProfileLayout = props => {
           <FormattedMessage id="profile.employee.qualifications" />
         </Menu.Item>
       </Menu>
-      // <div style={{ margin: "20px 30px" }}>
-      //   <Steps direction="vertical" size="small" current={stepInt}>
-      //     <Step title="Welcome" />
-      //     <Step title={<FormattedMessage id="setup.primary.information" />} />
-      //     <Step title={<FormattedMessage id="setup.employment" />} />
-      //     <Step title={<FormattedMessage id="setup.language.proficiency" />} />
-      //     <Step title={<FormattedMessage id="setup.talent" />} />
-      //     <Step
-      //       title={<FormattedMessage id="profile.employee.growth.interests" />}
-      //     />
-      //     <Step
-      //       title={<FormattedMessage id="profile.employee.qualifications" />}
-      //     />
-      //   </Steps>
-      // </div>
     );
   };
 

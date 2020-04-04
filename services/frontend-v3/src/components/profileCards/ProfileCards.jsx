@@ -45,6 +45,7 @@ function ProfileCards(props) {
       title={props.title}
       content={props.content}
       profileInfo={profileInfo}
+      editUrl={props.editUrl}
       load={load}
       cardName={props.cardName}
       getAllData={getAllData}
