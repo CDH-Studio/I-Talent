@@ -1,5 +1,4 @@
 import React from "react";
-// import AppLayout from "../components/layouts/appLayout/AppLayout";
 import config from "../config";
 import axios from "axios";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
@@ -60,7 +59,6 @@ class Profile extends React.Component {
 
     if (!loading)
       return (
-        // <AppLayout changeLanguage={this.props.changeLanguage}>
         <ProfileLayout
           changeLanguage={this.props.changeLanguage}
           keycloak={this.props.keycloak}
@@ -68,26 +66,37 @@ class Profile extends React.Component {
           name={name}
           data={data}
         />
-        // </AppLayout>
       );
     else {
-      return (
-        // <AppLayout>
-        <ProfileSkeleton changeLanguage={this.props.changeLanguage} />
-        // </AppLayout>
-      );
+      return <ProfileSkeleton changeLanguage={this.props.changeLanguage} />;
     }
   }
 
   updateProfileInfo = async id => {
-    const data = await axios
-      .get(backendAddress + "api/private/profile/" + id)
-      .then(res => res.data)
-      .catch(function(error) {
-        console.error(error);
-      });
+    const userID = localStorage.getItem("userId");
 
-    return data;
+    //Send private data to ProfileLayout component, when current user
+    //is looking at his own profile
+    if (id === userID) {
+      const data = await axios
+        .get(backendAddress + "api/private/profile/" + id)
+        .then(res => res.data)
+        .catch(function(error) {
+          console.error(error);
+        });
+
+      return data;
+    } else {
+      //Send public data to ProfileLayout component, when current user
+      //is looking at someone else profile
+      const data = await axios
+        .get(backendAddress + "api/profile/" + id)
+        .then(res => res.data)
+        .catch(function(error) {
+          console.error(error);
+        });
+      return data;
+    }
   };
 }
 

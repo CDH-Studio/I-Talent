@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import DashboardGraphsView from "./DashboardGraphsView";
-import { injectIntl } from "react-intl";
 
-class DashboardGraphs extends Component {
-  changeEnFr(data) {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-    data = data.map(skill => {
+function DashboardGraphs(props) {
+  const changeEnFr = dataSource => {
+    const locale = localStorage.getItem("lang");
+    const data = dataSource.map(skill => {
       return {
         name: skill.description[locale],
         count: skill.count
@@ -13,20 +12,15 @@ class DashboardGraphs extends Component {
     });
 
     return data;
-  }
-
-  render() {
-    const { data, locale } = this.props;
-
-    return (
-      <DashboardGraphsView
-        topFiveSkills={this.changeEnFr(data.skillCount, locale)}
-        topFiveCompetencies={this.changeEnFr(data.compCount, locale)}
-        topFiveDevelopmentGoals={this.changeEnFr(data.developCount, locale)}
-        monthlyGrowth={data.graphicalData}
-      />
-    );
-  }
+  };
+  return (
+    <DashboardGraphsView
+      topFiveSkills={changeEnFr(props.data.skillCount)}
+      topFiveCompetencies={changeEnFr(props.data.compCount)}
+      topFiveDevelopmentGoals={changeEnFr(props.data.developCount)}
+      monthlyGrowth={props.data.graphicalData}
+    />
+  );
 }
 
-export default injectIntl(DashboardGraphs);
+export default DashboardGraphs;

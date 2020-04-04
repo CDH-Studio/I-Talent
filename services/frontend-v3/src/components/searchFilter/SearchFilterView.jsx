@@ -80,7 +80,6 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {console.log(skillOptions)}
             {skillOptions.map(value => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>

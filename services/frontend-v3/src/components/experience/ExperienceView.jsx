@@ -1,13 +1,20 @@
 import React, { Component } from "react";
-import { injectIntl } from "react-intl";
-import moment from "moment";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
 import { Row, Col, Avatar, List } from "antd";
 
-class ExperienceView extends Component {
-  generateExperienceInfoList(dataSource) {
+function ExperienceView(props) {
+  /* Component Styles */
+  const styles = {
+    card: {
+      height: "100%"
+    },
+    avatar: {
+      backgroundColor: "#007471"
+    }
+  };
+  const generateExperienceInfoList = dataSource => {
     return (
       <List
         itemLayout="horizontal"
@@ -30,78 +37,17 @@ class ExperienceView extends Component {
         )}
       />
     );
-  }
+  };
 
-  getExperienceInfo(locale) {
-    const data = this.props.data;
+  const experienceInfo = props.experienceInfo;
 
-    let experienceInfo = [];
-    if (data.education != null) {
-      data.careerSummary.forEach(expElement => {
-        const startDate = expElement.startDate;
-        const endDate = expElement.endDate;
-
-        const experience = {
-          icon: "solution",
-          jobTitle: expElement.header,
-          organizationName: expElement.subheader,
-          duration: this.getExperienceDuration(startDate, endDate)
-        };
-
-        experienceInfo.push(experience);
-      });
-    }
-
-    return [...experienceInfo];
-  }
-
-  getExperienceDuration(startDate, endDate) {
-    const formatedStartDate = moment(startDate).format("ll");
-    const formatedEndDate = moment(endDate).format("ll");
-
-    const dateNotProvided = this.props.intl.formatMessage({
-      id: "profile.date.not.provided"
-    });
-    const present = this.props.intl.formatMessage({
-      id: "profile.end.date.present"
-    });
-
-    let duration = "";
-
-    if (startDate === null && endDate === null) {
-      duration = duration + dateNotProvided;
-    } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + present;
-    } else {
-      duration = duration + formatedStartDate + " - " + formatedEndDate;
-    }
-
-    return duration;
-  }
-
-  render() {
-    const locale = this.props.intl.formatMessage({ id: "language.code" });
-
-    const experienceInfo = this.getExperienceInfo(locale);
-
-    return (
-      <Row>
-        <Col xs={24} lg={24}>
-          {this.generateExperienceInfoList(experienceInfo)}
-        </Col>
-      </Row>
-    );
-  }
+  return (
+    <Row>
+      <Col xs={24} lg={24}>
+        {generateExperienceInfoList(experienceInfo)}
+      </Col>
+    </Row>
+  );
 }
 
-/* Component Styles */
-const styles = {
-  card: {
-    height: "100%"
-  },
-  avatar: {
-    backgroundColor: "#007471"
-  }
-};
-
-export default injectIntl(ExperienceView);
+export default ExperienceView;

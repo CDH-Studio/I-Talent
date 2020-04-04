@@ -77,7 +77,7 @@ const getPublicProfileById = async (request, response) => {
 
   // get user info based on profile
   let user = await profile.getUser();
-  if (!profile) {
+  if (!user) {
     return response.status(404).json({
       status: "API Query Error",
       message: "User with the provided ID not found"
@@ -297,12 +297,6 @@ const getPublicProfileById = async (request, response) => {
       },
       indeterminate: data.indeterminate
     };
-  // TODO: Remode manager from the visibleCards json object in DB
-  // if (visibleCards.manager)
-  //   resData = {
-  //     ...resData,
-  //     manager: data.manager
-  //   };
 
   // send resData for TalentManagement card only if the card is visible
   if (visibleCards.talentManagement)
@@ -732,6 +726,7 @@ const getPrivateProfileById = async (request, response) => {
     lookingForNewJob: lookingForNewJob,
     indeterminate: data.indeterminate
   };
+  console.log("private function called", resData);
 
   response.status(200).json(resData);
 };

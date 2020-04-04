@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Tag, Row, Col } from "antd";
-import { injectIntl } from "react-intl";
 
 function MentorshipView(props) {
   const styles = {
@@ -33,4 +32,4 @@ function MentorshipView(props) {
   );
 }
 
-export default injectIntl(MentorshipView);
+export default MentorshipView;

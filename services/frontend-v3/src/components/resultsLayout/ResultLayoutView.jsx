@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AppLayout from "../layouts/appLayout/AppLayout";
 import "@ant-design/compatible/assets/index.css";
 import { Layout } from "antd";
