@@ -164,7 +164,7 @@ function Secured(props) {
             />
             {/****** Edit profile forms ******/}
             <Route
-              path="/secured/profileEdit"
+              path="/secured/profile/edit/:step"
               render={routeProps => (
                 <ProfileEdit
                   keycloak={keycloak}

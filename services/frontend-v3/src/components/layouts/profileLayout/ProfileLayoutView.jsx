@@ -52,6 +52,7 @@ function ProfileLayoutView(props) {
                 content={<EmployeeSummary data={data}></EmployeeSummary>}
                 cardName={"info"}
                 id="card-profile-employee-summary"
+                editUrl="/secured/profile/edit/employment"
               />
             </Col>
           </Row>
@@ -66,6 +67,7 @@ function ProfileLayoutView(props) {
                 content={<Skills data={data}></Skills>}
                 cardName={"skills"}
                 id="card-profile-skills"
+                editUrl="/secured/profile/edit/talent"
               />
             </Col>
           </Row>
@@ -76,6 +78,7 @@ function ProfileLayoutView(props) {
                 content={<Mentorship data={data}></Mentorship>}
                 cardName={"mentorshipSkills"}
                 id="card-profile-mentorship-skills"
+                editUrl="/secured/profile/edit/talent"
               />
             </Col>
           </Row>
@@ -87,6 +90,7 @@ function ProfileLayoutView(props) {
                   content={<Competencies data={data}></Competencies>}
                   cardName={"competencies"}
                   id="card-profile-competency"
+                  editUrl="/secured/profile/edit/talent"
                 />
               </Col>
             </Col>
@@ -103,6 +107,7 @@ function ProfileLayoutView(props) {
                 content={<DevelopmentalGoals data={data}></DevelopmentalGoals>}
                 cardName={"developmentalGoals"}
                 id="card-profile-dev-goals"
+                editUrl="/secured/profile/edit/personal-growth"
               />
             </Col>
           </Row>
@@ -117,6 +122,7 @@ function ProfileLayoutView(props) {
                 content={<TalentManagement data={data} style={styles.card} />}
                 cardName={"talentManagement"}
                 id="card-profile-talent-management"
+                editUrl="/secured/profile/edit/personal-growth"
               />
             </Col>
             <Col xs={24} xl={12}>
@@ -125,6 +131,7 @@ function ProfileLayoutView(props) {
                 content={<CareerInterests data={data} style={styles.card} />}
                 cardName={"careerInterests"}
                 id="card-profile-career-interests"
+                editUrl="/secured/profile/edit/personal-growth"
               />
             </Col>
           </Row>
@@ -140,6 +147,7 @@ function ProfileLayoutView(props) {
                 content={<Education data={data} style={styles.card} />}
                 cardName={"education"}
                 id="card-profile-education"
+                editUrl="/secured/profile/edit/qualifications"
               />
             </Col>
           </Row>
@@ -150,6 +158,7 @@ function ProfileLayoutView(props) {
                 content={<Experience data={data} style={styles.card} />}
                 cardName={"experience"}
                 id="card-profile-experience"
+                editUrl="/secured/profile/edit/qualifications"
               />
             </Col>
           </Row>
@@ -160,6 +169,7 @@ function ProfileLayoutView(props) {
                 content={<Projects data={data} style={styles.card} />}
                 cardName={"projects"}
                 id="card-profile-projects"
+                editUrl="/secured/profile/edit/qualifications"
               />
             </Col>
           </Row>

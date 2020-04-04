@@ -1,34 +1,26 @@
 import React from "react";
-import { Typography } from "antd";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
+import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
-const { Paragraph } = Typography;
-
-class Profile extends React.Component {
+class ProfileCreate extends React.Component {
   goto = link => this.props.history.push(link);
 
   constructor(props) {
     super(props);
 
-    this.state = { str: localStorage.getItem("name") };
-    document.title = this.state.name + " | UpSkill";
+    document.title = "Create Profile | UpSkill";
   }
-
-  onChange = str => {
-    console.log("Content change:", str);
-    this.setState({ str });
-  };
 
   render() {
     return (
-      <AppLayout>
-        <Paragraph editable={{ onChange: this.onChange }}>
-          {this.state.str}
-        </Paragraph>
-      </AppLayout>
+      <EditProfileLayout
+        changeLanguage={this.props.changeLanguage}
+        keycloak={this.props.keycloak}
+        history={this.props.history}
+        displaySideBar={true}
+        step={this.props.match.params.step}
+      ></EditProfileLayout>
     );
   }
 }
 
-//Needed when using this,props.intl
-export default Profile;
+export default ProfileCreate;

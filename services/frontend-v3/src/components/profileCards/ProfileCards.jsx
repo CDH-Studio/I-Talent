@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProfileCardsView from "./ProfileCardsView";
-
 import axios from "axios";
 import config from "../../config";
+
 const { backendAddress } = config;
 
 function ProfileCards(props) {
@@ -45,6 +45,7 @@ function ProfileCards(props) {
       title={props.title}
       content={props.content}
       profileInfo={profileInfo}
+      editUrl={props.editUrl}
       load={load}
       cardName={props.cardName}
       getAllData={getAllData}

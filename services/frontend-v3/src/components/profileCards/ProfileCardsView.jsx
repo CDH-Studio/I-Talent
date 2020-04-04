@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
   EditOutlined
 } from "@ant-design/icons";
-import "@ant-design/compatible/assets/index.css";
 import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
 
@@ -14,6 +13,7 @@ import config from "../../config";
 const { backendAddress } = config;
 
 function ProfileCardsView(props) {
+  const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
   //useParams returns an object of key/value pairs from URL parameters
@@ -51,6 +51,19 @@ function ProfileCardsView(props) {
   };
 
   /*
+   * Handle Visibility Toggle
+   *
+   * Handle card visibility toggle by updating state and saving state to backend
+   */
+  const redirectToEdit = () => {
+    console.log("props.editUrl");
+    console.log(props.editUrl);
+    if (props.editUrl) {
+      history.push(props.editUrl);
+    }
+  };
+
+  /*
    * Generate Switch Button
    *
    * Generate visibility switch and edit button
@@ -60,7 +73,7 @@ function ProfileCardsView(props) {
     // comparing the id in storage vs the id in the url)
     if (userID === urlID) {
       return (
-        <div>
+        <div style={{ marginTop: "15px" }}>
           <Row type="flex" gutter={[16, 16]}>
             <Col>
               <Tooltip
@@ -81,7 +94,12 @@ function ProfileCardsView(props) {
                 placement="top"
                 title={<FormattedMessage id="profile.edit" />}
               >
-                <Button type="default" shape="circle" icon={<EditOutlined />} />
+                <Button
+                  type="default"
+                  shape="circle"
+                  icon={<EditOutlined />}
+                  onClick={redirectToEdit}
+                />
               </Tooltip>
             </Col>
           </Row>
