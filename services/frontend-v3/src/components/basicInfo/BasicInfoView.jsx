@@ -21,10 +21,6 @@ function BasicInfoView(props) {
     profileHeaderRow: {
       margin: "20px 0",
     },
-    profileHeaderDivider: {
-      bafckgroundColor: "#007471",
-      height: "3px",
-    },
     card: {
       borderTopColor: "#007471",
       borderTopWidth: "5px",
