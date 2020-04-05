@@ -3,67 +3,86 @@ import { FormattedMessage, injectIntl } from "react-intl";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
-import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Avatar,
+  List,
+  Typography,
+  Button,
+  Divider,
+} from "antd";
 const { Title, Text } = Typography;
 
 function BasicInfoView(props) {
   /* Component Styles */
   const styles = {
-    row: {
-      marginBottom: "30px"
+    profileHeaderRow: {
+      margin: "20px 0",
+    },
+    profileHeaderDivider: {
+      bafckgroundColor: "#007471",
+      height: "3px",
     },
     card: {
-      height: "100%"
+      borderTopColor: "#007471",
+      borderTopWidth: "5px",
     },
     avatar: {
-      backgroundColor: "#007471"
+      backgroundColor: "#fff",
+      color: "#007471",
+      marginRight: "-10px",
     },
     userAvatar: {
-      verticalAlign: "middle"
-    }
+      verticalAlign: "middle",
+    },
   };
 
   const generateProfileHeader = (name, jobTitle, avatar) => {
     return (
-      <Row type="flex" justify="center" align="middle" style={styles.row}>
-        <Col xs={24} xl={6}>
+      <Row type="flex" style={styles.profileHeaderRow}>
+        <Col xs={24} xl={3} align="right">
           <Avatar
-            size={150}
+            size={90}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
           >
-            <Text style={{ fontSize: "80px", color: "white" }}>
+            <Text style={{ fontSize: "45px", color: "white" }}>
               {avatar.acr}
             </Text>
           </Avatar>
         </Col>
-        <Col xs={24} xl={18}>
-          <Row>
-            <Title>{name}</Title>
-          </Row>
-          <Row>
-            <Title level={2} type="secondary">
-              {jobTitle}
-            </Title>
-          </Row>
+        <Col xs={24} xl={21} style={{ padding: "13px 20px " }}>
+          <Text
+            strong
+            style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
+          >
+            {name}
+          </Text>
+          <Text
+            type="secondary"
+            style={{ display: "block", fontSize: "20px", lineHeight: "32px" }}
+          >
+            {jobTitle}
+          </Text>
         </Col>
       </Row>
     );
   };
 
-  const generateInfoList = dataSource => {
+  const generateInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
               avatar={
                 <Avatar
                   style={styles.avatar}
-                  size="large"
+                  size={50}
                   icon={<LegacyIcon type={item.icon} />}
-                  shape="square"
                 />
               }
               title={item.title}
@@ -75,7 +94,7 @@ function BasicInfoView(props) {
     );
   };
 
-  const getContactInfo = dataSource => {
+  const getContactInfo = (dataSource) => {
     const data = dataSource.data;
 
     const email = {
@@ -85,7 +104,7 @@ function BasicInfoView(props) {
         data.email
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const tel = {
@@ -95,7 +114,7 @@ function BasicInfoView(props) {
         data.telephone
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const cel = {
@@ -105,20 +124,20 @@ function BasicInfoView(props) {
         data.cellphone
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [email, tel, cel];
   };
 
-  const getLocationInfo = dataSource => {
+  const getLocationInfo = (dataSource) => {
     const locale = dataSource.locale;
     const data = dataSource.data;
 
     const branch = {
       icon: "branches",
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch && data.branch[locale]
+      description: data.branch && data.branch[locale],
     };
 
     const address = {
@@ -128,7 +147,7 @@ function BasicInfoView(props) {
         data.location.description[locale]
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const manager = {
@@ -138,20 +157,21 @@ function BasicInfoView(props) {
         data.manager
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [branch, address, manager];
   };
 
-  const generateActions = dataSource => {
+  const generateActions = (dataSource) => {
     const buttonLinks = dataSource.buttonLinks;
-    const buttons = buttonLinks.buttons.map(buttonName => {
+    const buttons = buttonLinks.buttons.map((buttonName) => {
       const button = buttonLinks[buttonName];
 
       return (
         <Button
           block
+          type="link"
           icon={<LegacyIcon type={button.icon} />}
           href={button.url}
         >
@@ -173,7 +193,6 @@ function BasicInfoView(props) {
       actions={generateActions(props)}
       style={styles.card}
     >
-      <Row style={styles.row}></Row>
       {generateProfileHeader(props.name, props.jobTitle, props.avatar)}
       <Row>
         <Col xs={24} lg={12}>
