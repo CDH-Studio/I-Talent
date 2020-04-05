@@ -48,9 +48,8 @@ class ResultsCardView extends React.Component {
           onClick={() =>
             this.props.history.push("/secured/profile/" + person.id)
           }
-          // onKeyPress={(e, person) => handleKeyPress(e, person)}
         >
-          <a href="/secured/profile/">
+          <a href="javascript:void(0)" tabIndex="0">
             <Meta
               title={person.firstName + " " + person.lastName}
               description={<p style={styles.smallP}>{person.jobTitle}</p>}
