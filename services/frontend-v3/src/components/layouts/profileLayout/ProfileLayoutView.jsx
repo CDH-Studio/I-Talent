@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { PageHeader, Anchor } from "antd";
+import { FormattedMessage } from "react-intl";
+import { PageHeader, Anchor, Typography } from "antd";
+import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
 
 import ProfileCards from "../../profileCards/ProfileCards";
@@ -17,8 +18,9 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 
-import { Row, Col, Divider } from "antd";
+import { Row, Col } from "antd";
 const { Link } = Anchor;
+const { Title, Text } = Typography;
 
 function ProfileLayoutView(props) {
   //useParams returns an object of key/value pairs from URL parameters
@@ -29,6 +31,34 @@ function ProfileLayoutView(props) {
   //Visibility values
   const { data } = props;
   const visibleCards = data.visibleCards;
+
+  /* Component Styles */
+  const styles = {
+    card: {
+      height: "100%",
+    },
+    row: {
+      marginTop: 15,
+    },
+    sideBarRow: {
+      marginTop: 20,
+      marginLeft: 10,
+    },
+    sectionHeader: {
+      marginTop: "25px",
+      fontSize: "20px",
+      lineHeight: "38px",
+      color: "#114541",
+    },
+    sectionIcon: {
+      margin: "0 7px",
+      color: "#3CBAB3",
+    },
+    sectionNavIcon: {
+      margin: "0 2px",
+      color: "#3CBAB3",
+    },
+  };
 
   /*
    * Display Cards on Profile Page
@@ -57,9 +87,16 @@ function ProfileLayoutView(props) {
             </Col>
           </Row>
 
-          <Divider orientation="left" id="divider-skills-and-comp">
-            {<FormattedMessage id="profile.employee.skills.competencies" />}
-          </Divider>
+          {/************ Skills and competencies ************/}
+          <Title
+            level={2}
+            style={styles.sectionHeader}
+            id="divider-skills-and-comp"
+          >
+            <TagsTwoTone twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.employee.skills.competencies" />
+          </Title>
+
           <Row style={styles.row}>
             <Col span={24}>
               <ProfileCards
@@ -96,9 +133,15 @@ function ProfileLayoutView(props) {
             </Col>
           </Row>
 
-          <Divider orientation="left" id="divider-employee-growth">
-            {<FormattedMessage id="profile.employee.growth.interests" />}
-          </Divider>
+          {/************ Personal Growth ************/}
+          <Title
+            level={2}
+            style={styles.sectionHeader}
+            id="divider-employee-growth"
+          >
+            <RiseOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.employee.growth.interests" />
+          </Title>
 
           <Row style={styles.row}>
             <Col span={24}>
@@ -136,9 +179,15 @@ function ProfileLayoutView(props) {
             </Col>
           </Row>
 
-          <Divider orientation="left" id="divider-qualifications">
-            {<FormattedMessage id="profile.employee.qualifications" />}
-          </Divider>
+          {/************ Qualifications ************/}
+          <Title
+            level={2}
+            style={styles.sectionHeader}
+            id="divider-qualifications"
+          >
+            <TrophyOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.employee.qualifications" />
+          </Title>
 
           <Row style={styles.row}>
             <Col span={24}>
@@ -206,9 +255,14 @@ function ProfileLayoutView(props) {
           {(visibleCards.skills ||
             visibleCards.mentorshipSkills ||
             visibleCards.competencies) && (
-            <Divider orientation="left" id="divider-skills-and-comp">
-              {<FormattedMessage id="profile.employee.skills.competencies" />}
-            </Divider>
+            <Title
+              level={2}
+              style={styles.sectionHeader}
+              id="divider-skills-and-comp"
+            >
+              <TagsTwoTone twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+              <FormattedMessage id="profile.employee.skills.competencies" />
+            </Title>
           )}
           {visibleCards.skills && (
             <Row style={styles.row}>
@@ -250,9 +304,14 @@ function ProfileLayoutView(props) {
           {(visibleCards.developmentalGoals ||
             visibleCards.talentManagement ||
             visibleCards.careerInterests) && (
-            <Divider orientation="left" id="divider-employee-growth">
-              {<FormattedMessage id="profile.employee.growth.interests" />}
-            </Divider>
+            <Title
+              level={2}
+              style={styles.sectionHeader}
+              id="divider-employee-growth"
+            >
+              <RiseOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+              <FormattedMessage id="profile.employee.growth.interests" />
+            </Title>
           )}
 
           {visibleCards.developmentalGoals && (
@@ -331,9 +390,17 @@ function ProfileLayoutView(props) {
           {(visibleCards.education ||
             visibleCards.experience ||
             visibleCards.projects) && (
-            <Divider orientation="left" id="divider-qualifications">
-              {<FormattedMessage id="profile.employee.qualifications" />}
-            </Divider>
+            <Title
+              level={2}
+              style={styles.sectionHeader}
+              id="divider-qualifications"
+            >
+              <TrophyOutlined
+                twoToneColor="#3CBAB3"
+                style={styles.sectionIcon}
+              />
+              <FormattedMessage id="profile.employee.qualifications" />
+            </Title>
           )}
           {visibleCards.education && (
             <Row style={styles.row}>
@@ -379,7 +446,7 @@ function ProfileLayoutView(props) {
   /*
    * Generate sidebar items on Profile Page Sidebar
    *
-   * Handle displaying/generating sidebar items on Profile Page Sidebar depending on wheter the corresponding
+   * Handle displaying/generating sidebar items on Profile Page Sidebar depending on whether the corresponding
    * card is hidden or not
    */
   const generateProfileSidebarContent = () => {
@@ -389,49 +456,39 @@ function ProfileLayoutView(props) {
           <Anchor>
             <Link
               href="#card-profile-basic-info"
-              title={props.intl.formatMessage({
-                id: "profile.basic"
-              })}
+              title={
+                <Text strong>
+                  <FormattedMessage id="profile.basic" />
+                </Text>
+              }
             />
-            {visibleCards.info && (
-              <Link
-                href="#card-profile-employee-summary"
-                title={props.intl.formatMessage({
-                  id: "profile.employee.summary"
-                })}
-              />
-            )}
             {(visibleCards.skills ||
               visibleCards.mentorshipSkills ||
               visibleCards.competencies) && (
               <Link
                 href="#divider-skills-and-comp"
-                title={props.intl.formatMessage({
-                  id: "profile.employee.skills.competencies"
-                })}
+                title={
+                  <Text strong>
+                    <FormattedMessage id="profile.employee.skills.competencies" />
+                  </Text>
+                }
               >
                 {visibleCards.skills && (
                   <Link
                     href="#card-profile-skills"
-                    title={props.intl.formatMessage({
-                      id: "profile.skills"
-                    })}
+                    title={<FormattedMessage id="profile.skills" />}
                   />
                 )}
                 {visibleCards.mentorshipSkills && (
                   <Link
                     href="#card-profile-mentorship-skills"
-                    title={props.intl.formatMessage({
-                      id: "profile.mentorship.skills"
-                    })}
+                    title={<FormattedMessage id="profile.mentorship.skills" />}
                   />
                 )}
                 {visibleCards.competencies && (
                   <Link
                     href="#card-profile-competency"
-                    title={props.intl.formatMessage({
-                      id: "profile.competencies"
-                    })}
+                    title={<FormattedMessage id="profile.competencies" />}
                   />
                 )}
               </Link>
@@ -441,32 +498,30 @@ function ProfileLayoutView(props) {
               visibleCards.careerInterests) && (
               <Link
                 href="#divider-employee-growth"
-                title={props.intl.formatMessage({
-                  id: "profile.employee.growth.interests"
-                })}
+                title={
+                  <Text strong>
+                    <FormattedMessage id="profile.employee.growth.interests" />
+                  </Text>
+                }
               >
                 {visibleCards.developmentalGoals && (
                   <Link
                     href="#card-profile-dev-goals"
-                    title={props.intl.formatMessage({
-                      id: "profile.developmental.goals"
-                    })}
+                    title={
+                      <FormattedMessage id="profile.developmental.goals" />
+                    }
                   />
                 )}
                 {visibleCards.talentManagement && (
                   <Link
                     href="#card-profile-talent-management"
-                    title={props.intl.formatMessage({
-                      id: "profile.talent.management"
-                    })}
+                    title={<FormattedMessage id="profile.talent.management" />}
                   />
                 )}
                 {visibleCards.careerInterests && (
                   <Link
                     href="#card-profile-career-interests"
-                    title={props.intl.formatMessage({
-                      id: "profile.career.interests"
-                    })}
+                    title={<FormattedMessage id="profile.career.interests" />}
                   />
                 )}
               </Link>
@@ -476,32 +531,28 @@ function ProfileLayoutView(props) {
               visibleCards.projects) && (
               <Link
                 href="#divider-qualifications"
-                title={props.intl.formatMessage({
-                  id: "profile.employee.qualifications"
-                })}
+                title={
+                  <Text strong>
+                    <FormattedMessage id="profile.employee.qualifications" />
+                  </Text>
+                }
               >
                 {visibleCards.education && (
                   <Link
                     href="#card-profile-education"
-                    title={props.intl.formatMessage({
-                      id: "profile.education"
-                    })}
+                    title={<FormattedMessage id="profile.education" />}
                   />
                 )}
                 {visibleCards.experience && (
                   <Link
                     href="#card-profile-experience"
-                    title={props.intl.formatMessage({
-                      id: "profile.experience"
-                    })}
+                    title={<FormattedMessage id="profile.experience" />}
                   />
                 )}
                 {visibleCards.projects && (
                   <Link
                     href="#card-profile-projects"
-                    title={props.intl.formatMessage({
-                      id: "profile.projects"
-                    })}
+                    title={<FormattedMessage id="profile.projects" />}
                   />
                 )}
               </Link>
@@ -510,19 +561,6 @@ function ProfileLayoutView(props) {
         </Col>
       </Row>
     );
-  };
-
-  const styles = {
-    card: {
-      height: "100%"
-    },
-    row: {
-      marginTop: 15
-    },
-    sideBarRow: {
-      marginTop: 20,
-      marginLeft: 10
-    }
   };
 
   return (
@@ -535,7 +573,7 @@ function ProfileLayoutView(props) {
     >
       <PageHeader
         style={{
-          padding: "0 0 15px 7px"
+          padding: "0 0 15px 7px",
         }}
         title="User Profile"
       />
@@ -544,7 +582,4 @@ function ProfileLayoutView(props) {
   );
 }
 
-/* Component Styles */
-
-//Needed when using props.intl
-export default injectIntl(ProfileLayoutView);
+export default ProfileLayoutView;
