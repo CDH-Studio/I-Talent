@@ -1,69 +1,87 @@
 import React from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 function BasicInfoView(props) {
   /* Component Styles */
   const styles = {
-    row: {
-      marginBottom: "30px"
+    profileHeaderRow: {
+      margin: "25px 0",
     },
     card: {
-      height: "100%"
+      borderTopColor: "#007471",
+      borderTopWidth: "5px",
     },
     avatar: {
-      backgroundColor: "#007471"
+      backgroundColor: "#fff",
+      color: "#007471",
+      marginRight: "-10px",
     },
     userAvatar: {
-      verticalAlign: "middle"
-    }
+      verticalAlign: "middle",
+    },
   };
 
+  /*
+   * Generate Profile Header
+   *
+   * Generates basic info card header
+   * This includes: avatar, name, position
+   */
   const generateProfileHeader = (name, jobTitle, avatar) => {
     return (
-      <Row type="flex" justify="center" align="middle" style={styles.row}>
-        <Col xs={24} xl={6}>
+      <Row type="flex" style={styles.profileHeaderRow}>
+        <Col xs={24} xl={3} align="center">
           <Avatar
-            size={150}
+            size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
           >
-            <Text style={{ fontSize: "80px", color: "white" }}>
+            <Text style={{ fontSize: "35px", color: "white" }}>
               {avatar.acr}
             </Text>
           </Avatar>
         </Col>
-        <Col xs={24} xl={18}>
-          <Row>
-            <Title>{name}</Title>
-          </Row>
-          <Row>
-            <Title level={2} type="secondary">
-              {jobTitle}
-            </Title>
-          </Row>
+        <Col xs={24} xl={21} style={{ padding: "11px 10px" }}>
+          <Text
+            strong
+            style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
+          >
+            {name}
+          </Text>
+          <Text
+            type="secondary"
+            style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
+          >
+            {jobTitle}
+          </Text>
         </Col>
       </Row>
     );
   };
 
-  const generateInfoList = dataSource => {
+  /*
+   * Generate Info List
+   *
+   * Generates list of basic info with mall icons
+   * This includes: address, email, etc.
+   */
+  const generateInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
               avatar={
                 <Avatar
                   style={styles.avatar}
-                  size="large"
+                  size={48}
                   icon={<LegacyIcon type={item.icon} />}
-                  shape="square"
                 />
               }
               title={item.title}
@@ -75,7 +93,12 @@ function BasicInfoView(props) {
     );
   };
 
-  const getContactInfo = dataSource => {
+  /*
+   * Get Contact Info
+   *
+   * Generates data for contact info list
+   */
+  const getContactInfo = (dataSource) => {
     const data = dataSource.data;
 
     const email = {
@@ -85,7 +108,7 @@ function BasicInfoView(props) {
         data.email
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const tel = {
@@ -95,7 +118,7 @@ function BasicInfoView(props) {
         data.telephone
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const cel = {
@@ -105,20 +128,25 @@ function BasicInfoView(props) {
         data.cellphone
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [email, tel, cel];
   };
 
-  const getLocationInfo = dataSource => {
+  /*
+   * Get Location Info
+   *
+   * Generates data for user's location
+   */
+  const getLocationInfo = (dataSource) => {
     const locale = dataSource.locale;
     const data = dataSource.data;
 
     const branch = {
       icon: "branches",
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch && data.branch[locale]
+      description: data.branch && data.branch[locale],
     };
 
     const address = {
@@ -128,7 +156,7 @@ function BasicInfoView(props) {
         data.location.description[locale]
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const manager = {
@@ -138,24 +166,33 @@ function BasicInfoView(props) {
         data.manager
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [branch, address, manager];
   };
 
-  const generateActions = dataSource => {
+  /*
+   * Generate Actions
+   *
+   * Generates the list of actions at bottom of info card
+   * This includes links to: email, linkedin, and github
+   */
+  const generateActions = (dataSource) => {
     const buttonLinks = dataSource.buttonLinks;
-    const buttons = buttonLinks.buttons.map(buttonName => {
+    const buttons = buttonLinks.buttons.map((buttonName) => {
       const button = buttonLinks[buttonName];
 
       return (
         <Button
           block
-          icon={<LegacyIcon type={button.icon} />}
+          type="link"
+          icon={
+            <LegacyIcon type={button.icon} style={{ marginRight: "3px" }} />
+          }
           href={button.url}
         >
-          {dataSource.intl.formatMessage({ id: button.textId })}
+          <FormattedMessage id={button.textId} />
         </Button>
       );
     });
@@ -163,28 +200,23 @@ function BasicInfoView(props) {
     return buttons;
   };
 
-  const contactInfo = getContactInfo(props);
-
-  const locationInfo = getLocationInfo(props);
-
   return (
     <Card
       id="card-profile-basic-info"
       actions={generateActions(props)}
       style={styles.card}
     >
-      <Row style={styles.row}></Row>
       {generateProfileHeader(props.name, props.jobTitle, props.avatar)}
       <Row>
         <Col xs={24} lg={12}>
-          {generateInfoList(contactInfo)}
+          {generateInfoList(getContactInfo(props))}
         </Col>
         <Col xs={24} lg={12}>
-          {generateInfoList(locationInfo)}
+          {generateInfoList(getLocationInfo(props))}
         </Col>
       </Row>
     </Card>
   );
 }
 
-export default injectIntl(BasicInfoView);
+export default BasicInfoView;
