@@ -3,17 +3,8 @@ import { FormattedMessage, injectIntl } from "react-intl";
 
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 
-import {
-  Row,
-  Col,
-  Card,
-  Avatar,
-  List,
-  Typography,
-  Button,
-  Divider,
-} from "antd";
-const { Title, Text } = Typography;
+import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+const { Text } = Typography;
 
 function BasicInfoView(props) {
   /* Component Styles */
@@ -35,6 +26,12 @@ function BasicInfoView(props) {
     },
   };
 
+  /*
+   * Generate Profile Header
+   *
+   * Generates basic info card header
+   * This includes: avatar, name, position
+   */
   const generateProfileHeader = (name, jobTitle, avatar) => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
@@ -66,6 +63,12 @@ function BasicInfoView(props) {
     );
   };
 
+  /*
+   * Generate Info List
+   *
+   * Generates list of basic info with mall icons
+   * This includes: address, email, etc.
+   */
   const generateInfoList = (dataSource) => {
     return (
       <List
@@ -90,6 +93,11 @@ function BasicInfoView(props) {
     );
   };
 
+  /*
+   * Get Contact Info
+   *
+   * Generates data for contact info list
+   */
   const getContactInfo = (dataSource) => {
     const data = dataSource.data;
 
@@ -126,6 +134,11 @@ function BasicInfoView(props) {
     return [email, tel, cel];
   };
 
+  /*
+   * Get Location Info
+   *
+   * Generates data for user's location
+   */
   const getLocationInfo = (dataSource) => {
     const locale = dataSource.locale;
     const data = dataSource.data;
@@ -159,6 +172,12 @@ function BasicInfoView(props) {
     return [branch, address, manager];
   };
 
+  /*
+   * Generate Actions
+   *
+   * Generates the list of actions at bottom of info card
+   * This includes links to: email, linkedin, and github
+   */
   const generateActions = (dataSource) => {
     const buttonLinks = dataSource.buttonLinks;
     const buttons = buttonLinks.buttons.map((buttonName) => {
@@ -168,20 +187,18 @@ function BasicInfoView(props) {
         <Button
           block
           type="link"
-          icon={<LegacyIcon type={button.icon} />}
+          icon={
+            <LegacyIcon type={button.icon} style={{ marginRight: "3px" }} />
+          }
           href={button.url}
         >
-          {dataSource.intl.formatMessage({ id: button.textId })}
+          <FormattedMessage id={button.textId} />
         </Button>
       );
     });
 
     return buttons;
   };
-
-  const contactInfo = getContactInfo(props);
-
-  const locationInfo = getLocationInfo(props);
 
   return (
     <Card
@@ -192,14 +209,14 @@ function BasicInfoView(props) {
       {generateProfileHeader(props.name, props.jobTitle, props.avatar)}
       <Row>
         <Col xs={24} lg={12}>
-          {generateInfoList(contactInfo)}
+          {generateInfoList(getContactInfo(props))}
         </Col>
         <Col xs={24} lg={12}>
-          {generateInfoList(locationInfo)}
+          {generateInfoList(getLocationInfo(props))}
         </Col>
       </Row>
     </Card>
   );
 }
 
-export default injectIntl(BasicInfoView);
+export default BasicInfoView;

@@ -18,7 +18,7 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 
-import { Row, Col, Divider } from "antd";
+import { Row, Col } from "antd";
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
