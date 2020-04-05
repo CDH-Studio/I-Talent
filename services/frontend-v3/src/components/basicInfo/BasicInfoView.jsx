@@ -77,7 +77,7 @@ function BasicInfoView(props) {
               avatar={
                 <Avatar
                   style={styles.avatar}
-                  size={50}
+                  size={48}
                   icon={<LegacyIcon type={item.icon} />}
                 />
               }
