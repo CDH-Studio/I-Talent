@@ -38,17 +38,17 @@ function BasicInfoView(props) {
   const generateProfileHeader = (name, jobTitle, avatar) => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
-        <Col xs={24} xl={3} align="right">
+        <Col xs={24} xl={3} align="center">
           <Avatar
-            size={90}
+            size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
           >
-            <Text style={{ fontSize: "45px", color: "white" }}>
+            <Text style={{ fontSize: "35px", color: "white" }}>
               {avatar.acr}
             </Text>
           </Avatar>
         </Col>
-        <Col xs={24} xl={21} style={{ padding: "13px 20px " }}>
+        <Col xs={24} xl={21} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -57,7 +57,7 @@ function BasicInfoView(props) {
           </Text>
           <Text
             type="secondary"
-            style={{ display: "block", fontSize: "20px", lineHeight: "32px" }}
+            style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
           >
             {jobTitle}
           </Text>
