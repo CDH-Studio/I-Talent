@@ -19,7 +19,7 @@ function BasicInfoView(props) {
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
-      margin: "20px 0",
+      margin: "25px 0",
     },
     card: {
       borderTopColor: "#007471",
