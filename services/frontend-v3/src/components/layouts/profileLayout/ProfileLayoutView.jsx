@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { PageHeader, Anchor, Typography } from "antd";
 import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
@@ -32,6 +32,7 @@ function ProfileLayoutView(props) {
   const { data } = props;
   const visibleCards = data.visibleCards;
 
+  /* Component Styles */
   const styles = {
     card: {
       height: "100%",
@@ -581,7 +582,4 @@ function ProfileLayoutView(props) {
   );
 }
 
-/* Component Styles */
-
-//Needed when using props.intl
-export default injectIntl(ProfileLayoutView);
+export default ProfileLayoutView;
