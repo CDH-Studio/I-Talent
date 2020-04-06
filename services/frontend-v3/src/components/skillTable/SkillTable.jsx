@@ -43,16 +43,16 @@ function SkillTable(props) {
     }
   };
 
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
         id: "admin." + type + ".plural",
-        defaultMessage: type
+        defaultMessage: type,
       });
 
     return props.intl.formatMessage({
       id: "admin." + type + ".singular",
-      defaultMessage: type
+      defaultMessage: type,
     });
   };
 
@@ -62,12 +62,12 @@ function SkillTable(props) {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
 
@@ -75,7 +75,6 @@ function SkillTable(props) {
         descriptionEn: values.addSkillEn,
         descriptionFr: values.addSkillFr,
         categoryId: values.addSkillCategory,
-        category: categories[values.addSkillCategory - 1]
       });
 
       updateState();
@@ -91,24 +90,28 @@ function SkillTable(props) {
 
       if (typeof values.editSkillCategory === "string") {
         const index = categories.findIndex(
-          object =>
+          (object) =>
             object.descriptionEn === values.editSkillCategory ||
             object.descriptionFr === values.editSkillCategory
         );
         await axios.put(url, {
           descriptionEn: values.editSkillEn,
           descriptionFr: values.editSkillFr,
-          categoryId: index + 1,
-          category: categories[index]
+          categoryId: categories[index].id,
+          category: categories[index],
         });
       } else {
+        let categoryObject = categories.find(
+          (category) => category.id === values.editSkillCategory
+        );
         await axios.put(url, {
           descriptionEn: values.editSkillEn,
           descriptionFr: values.editSkillFr,
           categoryId: values.editSkillCategory,
-          category: categories[values.editSkillCategory - 1]
+          category: categoryObject,
         });
       }
+
       updateState();
     } catch (error) {
       console.log(error);
@@ -132,12 +135,12 @@ function SkillTable(props) {
   };
 
   const rowSelection = {
-    onChange: selectedRowKeys => {
+    onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
-    }
+    },
   };
 
-  const onSelectChange = selectedRowKeys => {
+  const onSelectChange = (selectedRowKeys) => {
     // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -159,7 +162,7 @@ function SkillTable(props) {
       allSkills[i].key = allSkills[i].id;
     }
 
-    allSkills.map(function(e) {
+    allSkills.map(function (e) {
       e.categoryNameEn = e.category.descriptionEn;
       e.categoryNameFr = e.category.descriptionFr;
     });
