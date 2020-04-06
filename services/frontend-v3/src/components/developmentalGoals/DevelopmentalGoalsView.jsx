@@ -1,21 +1,36 @@
 import React from "react";
-import { List, Tag, Row } from "antd";
+import { List, Tag, Row, Empty } from "antd";
 
 function DevelopmentalGoalsView(props) {
-  const devGoals = props.devGoals;
-  return (
-    <>
-      <Row>
-        <List>
-          {Object.values(devGoals).map(devGoal => (
-            <Tag style={{ marginBottom: "8px", marginTop: "8px" }}>
-              {devGoal}
-            </Tag>
-          ))}
-        </List>
-      </Row>
-    </>
-  );
+  /*
+   * Generate Developmental Goals List
+   *
+   * Generate a list of Developmental Goals
+   * If no competencies are found for the profile then display friendly message
+   */
+  const GenerateDevGoalsList = (devGoals) => {
+    if (devGoals.length > 0) {
+      return (
+        <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
+          <List>
+            {Object.values(devGoals).map((devGoals, index) => (
+              <Tag color="#114541" key={index}>
+                {devGoals}
+              </Tag>
+            ))}
+          </List>
+        </Row>
+      );
+    } else {
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="no developmental goals provided"
+        />
+      );
+    }
+  };
+  return GenerateDevGoalsList(props.devGoals);
 }
 
 export default DevelopmentalGoalsView;

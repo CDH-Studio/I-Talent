@@ -1,41 +1,49 @@
 import React from "react";
-import { Card, Tag, Row, Col } from "antd";
+import { Tag, Collapse, Empty } from "antd";
+import { TagTwoTone } from "@ant-design/icons";
+
+const { Panel } = Collapse;
 
 function SkillsView(props) {
-  const styles = {
-    cards: {
-      borderWidth: "medium"
+  /*
+   * Generate Skills Collapse
+   *
+   * Generate a collapsible menu organized by skill category
+   * If no skills are found for the profile then display friendly message
+   */
+  const generateSkillsCollapse = (categoriesSkills, skills) => {
+    if (skills.length > 0) {
+      return (
+        <Collapse>
+          {categoriesSkills.map(
+            (categorySkill, index) =>
+              categorySkill != null && (
+                <Panel
+                  header={categorySkill.val}
+                  key={index + 1}
+                  extra={<TagTwoTone twoToneColor="#3CBAB3" />}
+                >
+                  {skills[categorySkill.index].val.map((skill, index) => (
+                    <Tag color="#007471" key={index}>
+                      {skill}
+                    </Tag>
+                  ))}
+                </Panel>
+              )
+          )}
+        </Collapse>
+      );
+    } else {
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="no skills provided"
+        />
+      );
     }
   };
-  const skills = props.skills;
-  const categoriesSkills = props.categoriesSkills;
 
-  return (
-    <>
-      <Row type="flex" gutter={[16, 16]}>
-        {categoriesSkills.map(
-          categorySkill =>
-            categorySkill != null && (
-              <Col style={{ marginLeft: "5px" }}>
-                <Card
-                  size="small"
-                  style={styles.cards}
-                  title={categorySkill.val}
-                >
-                  {skills[categorySkill.index].val.map(skill => (
-                    <Row type="flex-wrap" gutter={[16, 4]} align={"left"}>
-                      <Col span={6}>
-                        <Tag color="#007471">{skill}</Tag>
-                      </Col>
-                    </Row>
-                  ))}
-                </Card>
-              </Col>
-            )
-        )}
-      </Row>
-    </>
-  );
+  return generateSkillsCollapse(props.categoriesSkills, props.skills);
 }
 
 export default SkillsView;

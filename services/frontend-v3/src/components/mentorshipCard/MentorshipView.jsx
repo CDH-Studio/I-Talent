@@ -1,35 +1,51 @@
 import React from "react";
-import { Card, Tag, Row, Col } from "antd";
+import { Tag, Collapse, Empty } from "antd";
+import { TagTwoTone } from "@ant-design/icons";
+
+const { Panel } = Collapse;
 
 function MentorshipView(props) {
-  const styles = {
-    cards: {
-      borderWidth: "medium"
+  /*
+   * Generate Mentorship Collapse
+   *
+   * Generate a collapsible menu organized by mentorship skill category
+   * If no skills are found for the profile then display friendly message
+   */
+  const generateMentorshipCollapse = (mentoringCategories, mentoringSkills) => {
+    if (mentoringSkills.length > 0) {
+      return (
+        <Collapse>
+          {mentoringCategories.map(
+            (mentoringCategory, index) =>
+              mentoringCategory != null && (
+                <Panel
+                  header={mentoringCategory.val}
+                  key={index + 1}
+                  extra={<TagTwoTone twoToneColor="#3CBAB3" />}
+                >
+                  {mentoringSkills[mentoringCategory.index].val.map(
+                    (mentor) => (
+                      <Tag color="#005a74" key={index}>
+                        {mentor}
+                      </Tag>
+                    )
+                  )}
+                </Panel>
+              )
+          )}
+        </Collapse>
+      );
+    } else {
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="no mentorship skills provided"
+        />
+      );
     }
   };
-  return (
-    <>
-      <Row type="flex" gutter={[16, 16]}>
-        {props.mentoringCategories.map(mentoringCategory => (
-          <Col style={{ marginLeft: "5px" }}>
-            <Card
-              size="small"
-              style={styles.cards}
-              title={mentoringCategory.val}
-            >
-              {props.mentoring[mentoringCategory.index].val.map(mentor => (
-                <Row type="flex-wrap" gutter={[16, 4]} align={"left"}>
-                  <Col span={6}>
-                    <Tag color="#007471">{mentor}</Tag>
-                  </Col>
-                </Row>
-              ))}
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </>
-  );
+
+  return generateMentorshipCollapse(props.mentoringCategories, props.mentoring);
 }
 
 export default MentorshipView;

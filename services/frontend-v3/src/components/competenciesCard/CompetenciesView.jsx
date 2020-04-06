@@ -1,21 +1,37 @@
 import React from "react";
-import { List, Tag, Row } from "antd";
+import { List, Tag, Row, Empty } from "antd";
 
 function CompetenciesView(props) {
-  const competencies = props.competencies;
-  return (
-    <>
-      <Row>
-        <List>
-          {Object.values(competencies).map(competency => (
-            <Tag style={{ marginBottom: "8px", marginTop: "8px" }}>
-              {competency}
-            </Tag>
-          ))}
-        </List>
-      </Row>
-    </>
-  );
+  /*
+   * Generate Competencies Tag List
+   *
+   * Generate a list of Competency Tags
+   * If no competencies are found for the profile then display friendly message
+   */
+  const generateCompetenciesTagList = (competencies) => {
+    if (competencies.length > 0) {
+      return (
+        <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
+          <List>
+            {Object.values(competencies).map((competency, index) => (
+              <Tag color="#003d74" key={index}>
+                {competency}
+              </Tag>
+            ))}
+          </List>
+        </Row>
+      );
+    } else {
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="no competencies provided"
+        />
+      );
+    }
+  };
+
+  return generateCompetenciesTagList(props.competencies);
 }
 
 export default CompetenciesView;
