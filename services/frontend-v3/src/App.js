@@ -9,7 +9,8 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { Landing, NotFound } from "./pages";
+import LandingPage from "./pages/LandingPage";
+import { NotFound } from "./pages";
 import { Secured, Admin } from "./routes";
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
             exact
             path="/"
             render={routeProps => (
-              <Landing changeLanguage={changeLanguage} {...routeProps} />
+              <LandingPage changeLanguage={changeLanguage} {...routeProps} />
             )}
           />
           <Route

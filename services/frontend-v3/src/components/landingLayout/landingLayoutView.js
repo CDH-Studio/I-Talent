@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "antd";
 import { FormattedMessage } from "react-intl";
-import backgroundImage from "../../assets/homeBackground.jpg";
+import backgroundImage from "../../assets/myTalentLandingBackground.png";
 import LandingNavBarController from "./landingNavBar/landingNavBarController";
 
 /** UI for the landing route layout */
@@ -32,7 +32,7 @@ export default class LandingLayoutView extends Component {
               fontWeight: "bold"
             }}
           >
-            Welcome to UpSkill
+            Welcome to MyTalent
           </div>
           <div
             style={{
@@ -47,9 +47,7 @@ export default class LandingLayoutView extends Component {
                 marginBottom: "24pt",
                 marginTop: "18pt"
               }}
-            >
-              <FormattedMessage id="landing.slogan" />
-            </div>
+            ></div>
             <Button
               as="a"
               href="/secured/home"
