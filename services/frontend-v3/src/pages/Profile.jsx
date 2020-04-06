@@ -7,7 +7,7 @@ import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 const backendAddress = config.backendAddress;
 
 class Profile extends React.Component {
-  goto = link => this.props.history.push(link);
+  goto = (link) => this.props.history.push(link);
 
   constructor(props) {
     super(props);
@@ -22,16 +22,16 @@ class Profile extends React.Component {
     this.state = { name: "Loading", data: null, id: id, loading: true };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const id = this.props.match.params.id;
 
     if (this.state.data === null) {
-      this.updateProfileInfo(id).then(data =>
+      this.updateProfileInfo(id).then((data) =>
         this.setState({
           name: data.firstName + " " + data.lastName,
           id,
           data,
-          loading: false
+          loading: false,
         })
       );
     }
@@ -41,12 +41,12 @@ class Profile extends React.Component {
     const id = this.props.match.params.id;
 
     if (this.state.data === null) {
-      this.updateProfileInfo(id).then(data =>
+      this.updateProfileInfo(id).then((data) =>
         this.setState({
           name: data.firstName + " " + data.lastName,
           id,
           data,
-          loading: false
+          loading: false,
         })
       );
     }
@@ -72,7 +72,7 @@ class Profile extends React.Component {
     }
   }
 
-  updateProfileInfo = async id => {
+  updateProfileInfo = async (id) => {
     const userID = localStorage.getItem("userId");
 
     //Send private data to ProfileLayout component, when current user
@@ -80,8 +80,8 @@ class Profile extends React.Component {
     if (id === userID) {
       const data = await axios
         .get(backendAddress + "api/private/profile/" + id)
-        .then(res => res.data)
-        .catch(function(error) {
+        .then((res) => res.data)
+        .catch(function (error) {
           console.error(error);
         });
 
@@ -91,8 +91,8 @@ class Profile extends React.Component {
       //is looking at someone else profile
       const data = await axios
         .get(backendAddress + "api/profile/" + id)
-        .then(res => res.data)
-        .catch(function(error) {
+        .then((res) => res.data)
+        .catch(function (error) {
           console.error(error);
         });
       return data;

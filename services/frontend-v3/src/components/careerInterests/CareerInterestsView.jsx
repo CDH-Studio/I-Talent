@@ -26,8 +26,10 @@ function CareerInterestsView(props) {
             <FormattedMessage id="profile.willing.to.relocate.to" />:{" "}
           </Typography.Text>
           <div style={{ marginTop: "7px" }}>
-            {dataSource.map((loc) => (
-              <Tag color="#00c15b">{loc}</Tag>
+            {dataSource.map((loc, index) => (
+              <Tag color="#00c15b" key={index}>
+                {loc}
+              </Tag>
             ))}
           </div>
         </div>

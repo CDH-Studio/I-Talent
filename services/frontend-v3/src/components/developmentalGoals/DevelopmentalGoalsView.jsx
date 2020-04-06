@@ -13,8 +13,10 @@ function DevelopmentalGoalsView(props) {
       return (
         <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
           <List>
-            {Object.values(devGoals).map((devGoals) => (
-              <Tag color="#114541">{devGoals}</Tag>
+            {Object.values(devGoals).map((devGoals, index) => (
+              <Tag color="#114541" key={index}>
+                {devGoals}
+              </Tag>
             ))}
           </List>
         </Row>

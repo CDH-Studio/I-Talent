@@ -25,7 +25,9 @@ function MentorshipView(props) {
                 >
                   {mentoringSkills[mentoringCategory.index].val.map(
                     (mentor) => (
-                      <Tag color="#005a74">{mentor}</Tag>
+                      <Tag color="#005a74" key={index}>
+                        {mentor}
+                      </Tag>
                     )
                   )}
                 </Panel>

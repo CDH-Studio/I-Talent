@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
-  EditOutlined
+  EditOutlined,
 } from "@ant-design/icons";
 import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
@@ -115,20 +115,20 @@ function ProfileCardsView(props) {
       const cardNameToBeModified = props.cardName;
       setDisabled(visibleCards[cardNameToBeModified]);
     }
-  }, [props.profileInfo]);
+  }, [props]);
 
   let styles;
   if (disabled === true) {
     styles = {
       grayedOut: {
-        backgroundColor: ""
-      }
+        backgroundColor: "",
+      },
     };
   } else {
     styles = {
       grayedOut: {
-        backgroundColor: "#D3D3D3"
-      }
+        backgroundColor: "#D3D3D3",
+      },
     };
   }
   return (

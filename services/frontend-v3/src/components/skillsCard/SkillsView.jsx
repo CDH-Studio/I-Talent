@@ -1,6 +1,5 @@
 import React from "react";
 import { Tag, Collapse, Empty } from "antd";
-
 import { TagTwoTone } from "@ant-design/icons";
 
 const { Panel } = Collapse;
@@ -24,8 +23,10 @@ function SkillsView(props) {
                   key={index + 1}
                   extra={<TagTwoTone twoToneColor="#3CBAB3" />}
                 >
-                  {skills[categorySkill.index].val.map((skill) => (
-                    <Tag color="#007471">{skill}</Tag>
+                  {skills[categorySkill.index].val.map((skill, index) => (
+                    <Tag color="#007471" key={index}>
+                      {skill}
+                    </Tag>
                   ))}
                 </Panel>
               )
