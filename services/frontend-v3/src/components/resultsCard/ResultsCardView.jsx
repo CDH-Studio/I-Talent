@@ -40,7 +40,6 @@ class ResultsCardView extends React.Component {
     return (
       <Col span={6} style={{ height: "100%" }}>
         <Card
-          tabIndex="0"
           style={{ height: "100%" }}
           size="small"
           hoverable
@@ -48,6 +47,7 @@ class ResultsCardView extends React.Component {
           onClick={() =>
             this.props.history.push("/secured/profile/" + person.id)
           }
+          // onKeyPress={(e, person) => handleKeyPress(e, person)}
         >
           <a href="javascript:void(0)" tabIndex="0">
             <Meta
