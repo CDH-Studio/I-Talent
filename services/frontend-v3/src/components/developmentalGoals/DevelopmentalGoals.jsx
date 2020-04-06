@@ -4,15 +4,15 @@ import { injectIntl } from "react-intl";
 import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
 
 function DevelopmentalGoals(props) {
-  const formatData = dataSource => {
+  const formatData = (dataSource) => {
     const data = dataSource.data;
     const locale = dataSource.intl.formatMessage({ id: "language.code" });
 
-    let devGoals = {};
+    let devGoals = [];
     let key = 0;
 
     if (data.developmentalGoals) {
-      data.developmentalGoals.forEach(devGoal => {
+      data.developmentalGoals.forEach((devGoal) => {
         devGoals[key] = devGoal.description[locale];
         key++;
       });

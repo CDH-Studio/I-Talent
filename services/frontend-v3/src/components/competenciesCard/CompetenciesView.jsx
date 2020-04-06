@@ -9,7 +9,6 @@ function CompetenciesView(props) {
    * If no competencies are found for the profile then display friendly message
    */
   const generateCompetenciesTagList = (competencies) => {
-    console.log(competencies);
     if (competencies.length > 0) {
       return (
         <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
