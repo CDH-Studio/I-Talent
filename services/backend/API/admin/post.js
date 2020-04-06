@@ -25,7 +25,6 @@ const bulkDeleteOption = async (request, response) => {
     const ids = request.body.ids;
     const model = getModel(type);
 
-    let errorCaught = false;
     let result;
 
     await model
@@ -37,12 +36,8 @@ const bulkDeleteOption = async (request, response) => {
       })
       .catch(function () {
         console.log("Delete Error!");
-        errorCaught = true;
+        result = false;
       });
-
-    if (errorCaught === true) {
-      result = false;
-    }
 
     response.status(200).json({ deletePerformed: result });
   } catch (error) {
