@@ -68,7 +68,7 @@ const styles = {
   bttnStyle: {
     paddingBottom: "6px",
     paddingTop: "8px",
-    marginLeft: "86%"
+    float: "right"
   },
   backgroundStyle: {
     backgroundImage: `url(${backgroundImage})`,
