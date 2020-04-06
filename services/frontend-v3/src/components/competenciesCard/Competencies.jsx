@@ -4,15 +4,15 @@ import { injectIntl } from "react-intl";
 import CompetenciesView from "./CompetenciesView";
 
 function Competencies(props) {
-  const formatData = dataSource => {
+  const formatData = (dataSource) => {
     const data = dataSource.data;
     const locale = dataSource.intl.formatMessage({ id: "language.code" });
 
-    let competencies = {};
+    let competencies = [];
     let key = 0;
 
     if (data.competencies) {
-      data.competencies.forEach(element => {
+      data.competencies.forEach((element) => {
         competencies[key] = element.description[locale];
         key++;
       });
