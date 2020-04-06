@@ -5,12 +5,10 @@ function CompetenciesView(props) {
   const competencies = props.competencies;
   return (
     <>
-      <Row>
+      <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
         <List>
-          {Object.values(competencies).map(competency => (
-            <Tag style={{ marginBottom: "8px", marginTop: "8px" }}>
-              {competency}
-            </Tag>
+          {Object.values(competencies).map((competency) => (
+            <Tag color="#003d74">{competency}</Tag>
           ))}
         </List>
       </Row>

@@ -1,39 +1,36 @@
 import React from "react";
-import { Card, Tag, Row, Col } from "antd";
+import { Card, Tag, Row, Col, Collapse } from "antd";
+import { TagTwoTone } from "@ant-design/icons";
+
+const { Panel } = Collapse;
 
 function SkillsView(props) {
   const styles = {
     cards: {
-      borderWidth: "medium"
-    }
+      borderWidth: "medium",
+    },
   };
   const skills = props.skills;
   const categoriesSkills = props.categoriesSkills;
 
   return (
     <>
-      <Row type="flex" gutter={[16, 16]}>
+      <Collapse>
         {categoriesSkills.map(
-          categorySkill =>
+          (categorySkill, index) =>
             categorySkill != null && (
-              <Col style={{ marginLeft: "5px" }}>
-                <Card
-                  size="small"
-                  style={styles.cards}
-                  title={categorySkill.val}
-                >
-                  {skills[categorySkill.index].val.map(skill => (
-                    <Row type="flex-wrap" gutter={[16, 4]} align={"left"}>
-                      <Col span={6}>
-                        <Tag color="#007471">{skill}</Tag>
-                      </Col>
-                    </Row>
-                  ))}
-                </Card>
-              </Col>
+              <Panel
+                header={categorySkill.val}
+                key={index + 1}
+                extra={<TagTwoTone twoToneColor="#3CBAB3" />}
+              >
+                {skills[categorySkill.index].val.map((skill) => (
+                  <Tag color="#007471">{skill}</Tag>
+                ))}
+              </Panel>
             )
         )}
-      </Row>
+      </Collapse>
     </>
   );
 }

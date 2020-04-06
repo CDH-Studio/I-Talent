@@ -1,33 +1,30 @@
 import React from "react";
-import { Card, Tag, Row, Col } from "antd";
+import { Card, Tag, Row, Col, Collapse } from "antd";
+import { TagTwoTone } from "@ant-design/icons";
+
+const { Panel } = Collapse;
 
 function MentorshipView(props) {
   const styles = {
     cards: {
-      borderWidth: "medium"
-    }
+      borderWidth: "medium",
+    },
   };
   return (
     <>
-      <Row type="flex" gutter={[16, 16]}>
-        {props.mentoringCategories.map(mentoringCategory => (
-          <Col style={{ marginLeft: "5px" }}>
-            <Card
-              size="small"
-              style={styles.cards}
-              title={mentoringCategory.val}
-            >
-              {props.mentoring[mentoringCategory.index].val.map(mentor => (
-                <Row type="flex-wrap" gutter={[16, 4]} align={"left"}>
-                  <Col span={6}>
-                    <Tag color="#007471">{mentor}</Tag>
-                  </Col>
-                </Row>
-              ))}
-            </Card>
-          </Col>
+      <Collapse>
+        {props.mentoringCategories.map((mentoringCategory, index) => (
+          <Panel
+            header={mentoringCategory.val}
+            key={index + 1}
+            extra={<TagTwoTone twoToneColor="#3CBAB3" />}
+          >
+            {props.mentoring[mentoringCategory.index].val.map((mentor) => (
+              <Tag color="#005a74">{mentor}</Tag>
+            ))}
+          </Panel>
         ))}
-      </Row>
+      </Collapse>
     </>
   );
 }
