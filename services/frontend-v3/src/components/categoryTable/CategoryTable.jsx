@@ -34,24 +34,31 @@ function CategoryTable(props) {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
 
-      await axios.post(url, { ids: selectedRowKeys });
+      let result;
 
-      updateState();
+      await axios.post(url, { ids: selectedRowKeys }).then(function (response) {
+        result = response.data.deletePerformed;
+      });
 
-      setSelectedRowKeys([]);
+      if (result === false) {
+        return true;
+      } else {
+        updateState();
+        return false;
+      }
     } catch (error) {
       console.log(error);
       return 0;
     }
   };
 
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
 
       await axios.post(url, {
         descriptionEn: values.addCategoryEn,
-        descriptionFr: values.addCategoryFr
+        descriptionFr: values.addCategoryFr,
       });
 
       updateState();
@@ -67,7 +74,7 @@ function CategoryTable(props) {
 
       await axios.put(url, {
         descriptionEn: values.editCategoryEn,
-        descriptionFr: values.editCategoryFr
+        descriptionFr: values.editCategoryFr,
       });
 
       updateState();
@@ -77,16 +84,16 @@ function CategoryTable(props) {
     }
   };
 
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
         id: "admin." + type + ".plural",
-        defaultMessage: type
+        defaultMessage: type,
       });
 
     return props.intl.formatMessage({
       id: "admin." + type + ".singular",
-      defaultMessage: type
+      defaultMessage: type,
     });
   };
 
@@ -96,19 +103,19 @@ function CategoryTable(props) {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   const rowSelection = {
-    onChange: selectedRowKeys => {
+    onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
-    }
+    },
   };
 
-  const onSelectChange = selectedRowKeys => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
+  const onSelectChange = (selectedRowKeys) => {
+    // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
 
@@ -124,8 +131,6 @@ function CategoryTable(props) {
       allCategories[i].key = allCategories[i].id;
     }
 
-    console.log(allCategories);
-
     return allCategories;
   };
 
@@ -133,6 +138,7 @@ function CategoryTable(props) {
     let categories = await getCategories();
     setData(categories);
     setLoading(false);
+    setSelectedRowKeys([]);
   };
 
   useEffect(() => {

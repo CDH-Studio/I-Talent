@@ -6,7 +6,7 @@ const createOption = async (request, response) => {
     const model = getModel(type);
 
     dbObject = {
-      ...request.body
+      ...request.body,
     };
     if (type === "skill" || type === "competency" || type === "category") {
       dbObject.type = type;
@@ -25,13 +25,26 @@ const bulkDeleteOption = async (request, response) => {
     const ids = request.body.ids;
     const model = getModel(type);
 
-    model
+    let errorCaught = false;
+    let result;
+
+    await model
       .destroy({
-        where: { id: ids }
+        where: { id: ids },
       })
-      .then(destroyCount =>
-        response.status(200).json({ deletePerformed: destroyCount > 1 })
-      );
+      .then((destroyCount) => {
+        result = destroyCount > 0;
+      })
+      .catch(function () {
+        console.log("Delete Error!");
+        errorCaught = true;
+      });
+
+    if (errorCaught === true) {
+      result = false;
+    }
+
+    response.status(200).json({ deletePerformed: result });
   } catch (error) {
     response.status(500).json({ deletePerformed: false, error: error });
   }

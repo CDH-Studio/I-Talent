@@ -43,6 +43,8 @@
   "admin.search.button": "Chercher",
   "admin.reset.button": "Réinitialiser",
   "admin.select": "Sélectionner",
+  "admin.category.disclaimer": "Avertissement",
+  "admin.category.disclaimer.message": "Impossible de supprimer une catégorie avec des compétences. Transférez dans une autre catégorie ou supprimez la ou les compétences avant de continuer.",
   "admin.category": "Catégorie",
   "admin.category.singular": "Catégorie",
   "admin.category.plural": "Catégories",

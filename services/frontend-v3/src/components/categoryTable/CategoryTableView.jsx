@@ -9,14 +9,13 @@ import {
   Modal,
   Popconfirm,
   Form,
-  Select,
-  message
+  message,
 } from "antd";
 import {
   PlusCircleOutlined,
   EditOutlined,
   DeleteOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
@@ -43,7 +42,7 @@ function CategoryTableView(props) {
     searchText,
     size,
     rowSelection,
-    data
+    data,
   } = props;
 
   const getColumnSearchProps = (dataIndex, title) => ({
@@ -51,23 +50,23 @@ function CategoryTableView(props) {
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters
+      clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={
             props.intl.formatMessage({
               id: "admin.search",
-              defaultMessage: "Search for"
+              defaultMessage: "Search for",
             }) +
             " " +
             title
           }
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -82,7 +81,7 @@ function CategoryTableView(props) {
         >
           {props.intl.formatMessage({
             id: "admin.search.button",
-            defaultMessage: "Search"
+            defaultMessage: "Search",
           })}
         </Button>
         <Button
@@ -92,25 +91,22 @@ function CategoryTableView(props) {
         >
           {props.intl.formatMessage({
             id: "admin.reset.button",
-            defaultMessage: "Reset"
+            defaultMessage: "Reset",
           })}
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
+    render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -120,7 +116,7 @@ function CategoryTableView(props) {
         />
       ) : (
         text
-      )
+      ),
   });
 
   const deleteConfirm = () => {
@@ -130,22 +126,21 @@ function CategoryTableView(props) {
         title={props.intl.formatMessage({
           id: "admin.delete.confirmation",
           defaultMessage:
-            "Are you sure you want to delete all the selected values?"
+            "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
+          checkDelete();
         }}
         onCancel={() => {
           popUpCancel();
         }}
         okText={props.intl.formatMessage({
           id: "admin.delete",
-          defaultMessage: "Delete"
+          defaultMessage: "Delete",
         })}
         cancelText={props.intl.formatMessage({
           id: "admin.cancel",
-          defaultMessage: "Cancel"
+          defaultMessage: "Cancel",
         })}
       >
         <Button
@@ -156,14 +151,14 @@ function CategoryTableView(props) {
         >
           {props.intl.formatMessage({
             id: "admin.delete",
-            defaultMessage: "Delete"
+            defaultMessage: "Delete",
           })}
         </Button>
       </Popconfirm>
     );
   };
 
-  const onCreate = values => {
+  const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
@@ -177,26 +172,25 @@ function CategoryTableView(props) {
         visible={addVisible}
         title={props.intl.formatMessage({
           id: "admin.add.category",
-          defaultMessage: "Add Category"
+          defaultMessage: "Add Category",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
-          defaultMessage: "Apply"
+          defaultMessage: "Apply",
         })}
         cancelText={props.intl.formatMessage({
           id: "admin.cancel",
-          defaultMessage: "Cancel"
+          defaultMessage: "Cancel",
         })}
         onOk={() => {
           addForm
             .validateFields()
-            .then(values => {
+            .then((values) => {
               addForm.resetFields();
-              console.log(values);
               onCreate(values);
               handleOk();
             })
-            .catch(info => {
+            .catch((info) => {
               handleCancel();
               console.log("Validate Failed:", info);
             });
@@ -211,22 +205,22 @@ function CategoryTableView(props) {
             name="addCategoryEn"
             label={props.intl.formatMessage({
               id: "language.english",
-              defaultMessage: "English"
+              defaultMessage: "English",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
                   id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!"
-                })
-              }
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.category.descriptionEn",
-                defaultMessage: "Category description in English"
+                defaultMessage: "Category description in English",
               })}
             />
           </Form.Item>
@@ -234,22 +228,22 @@ function CategoryTableView(props) {
             name="addCategoryFr"
             label={props.intl.formatMessage({
               id: "language.french",
-              defaultMessage: "French"
+              defaultMessage: "French",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
                   id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!"
-                })
-              }
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.category.descriptionFr",
-                defaultMessage: "Category description in French"
+                defaultMessage: "Category description in French",
               })}
             />
           </Form.Item>
@@ -264,25 +258,24 @@ function CategoryTableView(props) {
         visible={editVisible}
         title={props.intl.formatMessage({
           id: "admin.edit.category",
-          defaultMessage: "Edit Category"
+          defaultMessage: "Edit Category",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
-          defaultMessage: "Apply"
+          defaultMessage: "Apply",
         })}
         cancelText={props.intl.formatMessage({
           id: "admin.cancel",
-          defaultMessage: "Cancel"
+          defaultMessage: "Cancel",
         })}
         onOk={() => {
           editForm
             .validateFields()
-            .then(values => {
+            .then((values) => {
               editForm.resetFields();
-              console.log(values);
               onCreate(values);
             })
-            .catch(info => {
+            .catch((info) => {
               console.log("Validate Failed:", info);
             });
           handleOk();
@@ -305,13 +298,13 @@ function CategoryTableView(props) {
             name="editCategoryEn"
             label={props.intl.formatMessage({
               id: "language.english",
-              defaultMessage: "English"
+              defaultMessage: "English",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.category.descriptionEn",
-                defaultMessage: "Category description in English"
+                defaultMessage: "Category description in English",
               })}
             />
           </Form.Item>
@@ -319,13 +312,13 @@ function CategoryTableView(props) {
             name="editCategoryFr"
             label={props.intl.formatMessage({
               id: "language.french",
-              defaultMessage: "French"
+              defaultMessage: "French",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.category.descriptionFr",
-                defaultMessage: "Category description in French"
+                defaultMessage: "Category description in French",
               })}
             />
           </Form.Item>
@@ -338,7 +331,7 @@ function CategoryTableView(props) {
     message.success(
       props.intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful"
+        defaultMessage: "Successful",
       })
     );
   };
@@ -347,9 +340,27 @@ function CategoryTableView(props) {
     message.error(
       props.intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled"
+        defaultMessage: "Cancelled",
       })
     );
+  };
+
+  const checkDelete = async () => {
+    let result = await handleSubmitDelete();
+    if (result === true) {
+      Modal.error({
+        title: props.intl.formatMessage({
+          id: "admin.category.disclaimer",
+          defaultMessage: "Disclaimer",
+        }),
+        content: props.intl.formatMessage({
+          id: "admin.category.disclaimer.message",
+          defaultMessage: "Cannot delete category with skill associations!",
+        }),
+      });
+    } else {
+      popUpSuccesss();
+    }
   };
 
   const handleOk = () => {
@@ -373,7 +384,7 @@ function CategoryTableView(props) {
     popUpCancel();
   };
 
-  const handleEditModal = record => {
+  const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -384,7 +395,7 @@ function CategoryTableView(props) {
     setModalType("add");
   };
 
-  const getSortDirection = column => {
+  const getSortDirection = (column) => {
     const currentLanguage =
       props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
@@ -399,7 +410,7 @@ function CategoryTableView(props) {
       {
         title: props.intl.formatMessage({
           id: "language.english",
-          defaultMessage: "English"
+          defaultMessage: "English",
         }),
         dataIndex: "descriptionEn",
         key: "categoryEn",
@@ -411,14 +422,14 @@ function CategoryTableView(props) {
           "descriptionEn",
           props.intl.formatMessage({
             id: "language.english",
-            defaultMessage: "English"
+            defaultMessage: "English",
           })
-        )
+        ),
       },
       {
         title: props.intl.formatMessage({
           id: "language.french",
-          defaultMessage: "French"
+          defaultMessage: "French",
         }),
         dataIndex: "descriptionFr",
         key: "categoryFr",
@@ -430,17 +441,17 @@ function CategoryTableView(props) {
           "descriptionFr",
           props.intl.formatMessage({
             id: "language.french",
-            defaultMessage: "French"
+            defaultMessage: "French",
           })
-        )
+        ),
       },
       {
         title: props.intl.formatMessage({
           id: "admin.edit",
-          defaultMessage: "Edit"
+          defaultMessage: "Edit",
         }),
         key: "edit",
-        render: record => (
+        render: (record) => (
           <div>
             <Button
               type="primary"
@@ -449,14 +460,14 @@ function CategoryTableView(props) {
               onClick={() => {
                 setFields([
                   { name: ["editCategoryEn"], value: record.descriptionEn },
-                  { name: ["editCategoryFr"], value: record.descriptionFr }
+                  { name: ["editCategoryFr"], value: record.descriptionFr },
                 ]);
                 handleEditModal(record);
               }}
             />
           </div>
-        )
-      }
+        ),
+      },
     ];
     return category_table_columns;
   };
@@ -468,7 +479,7 @@ function CategoryTableView(props) {
       <PageHeader
         title={props.intl.formatMessage({
           id: "admin.category.table",
-          defaultMessage: "Categories Table"
+          defaultMessage: "Categories Table",
         })}
         extra={[
           deleteConfirm(),
@@ -482,9 +493,9 @@ function CategoryTableView(props) {
           >
             {props.intl.formatMessage({
               id: "admin.add",
-              defaultMessage: "Add"
+              defaultMessage: "Add",
             })}
-          </Button>
+          </Button>,
         ]}
       />
       <Row gutter={[0, 8]}>

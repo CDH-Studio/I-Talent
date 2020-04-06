@@ -41,6 +41,8 @@
   "admin.search.button": "Search",
   "admin.reset.button": "Reset",
   "admin.select": "Select",
+  "admin.category.disclaimer": "Disclaimer",
+  "admin.category.disclaimer.message": "Cannot delete a category with skill(s). Transfer to another category or delete the skill(s) before proceeding.",
   "admin.category": "Category",
   "admin.category.singular": "Category",
   "admin.category.plural": "Categories",
