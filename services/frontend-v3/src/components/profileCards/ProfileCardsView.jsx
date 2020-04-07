@@ -30,8 +30,7 @@ function ProfileCardsView(props) {
     // Update visibleCards state in profile
     try {
       // Get current card visibility status from db
-      let url =
-        backendAddress + "api/profile/" + localStorage.getItem("userId");
+      let url = backendAddress + "api/profile/" + urlID;
       let result = await axios.get(url);
       let visibleCards = result.data.visibleCards;
 
@@ -41,10 +40,9 @@ function ProfileCardsView(props) {
       setDisabled(visibleCards[cardNameToBeModified]);
 
       // save toggle value in db
-      await axios.put(
-        backendAddress + "api/profile/" + localStorage.getItem("userId"),
-        { visibleCards }
-      );
+      await axios.put(backendAddress + "api/profile/" + urlID, {
+        visibleCards,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +129,7 @@ function ProfileCardsView(props) {
       },
     };
   }
+
   return (
     <div>
       <Card
