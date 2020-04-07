@@ -9,7 +9,7 @@ import {
   Select,
   Button,
   Checkbox,
-  DatePicker
+  DatePicker,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import {
@@ -18,12 +18,13 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
   FormOutlined,
-  DeleteOutlined
+  DeleteOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
+import EducationFrom from "./educationForm";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -36,7 +37,7 @@ const { RangePicker } = DatePicker;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const QualificationsFormView = props => {
+const QualificationsFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [disableEducationEndDate, setDisableEducationEndDate] = useState();
@@ -49,38 +50,38 @@ const QualificationsFormView = props => {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
 
     entryTitle: {
-      fontSize: "1em"
+      fontSize: "1em",
     },
 
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "0px 0px 0px 0px !important",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     datePicker: { width: "100%" },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
-    }
+      marginBottom: "1rem",
+    },
   };
 
   /*
@@ -88,7 +89,7 @@ const QualificationsFormView = props => {
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     // set cleared field to null to clear DB data
     console.log(values);
     // values.interestedInRemote = values.interestedInRemote
@@ -103,13 +104,15 @@ const QualificationsFormView = props => {
     // values.talentMatrixResult = values.talentMatrixResult
     //   ? values.talentMatrixResult
     //   : null;
-
+    console.log(values.education[0]);
     if (values.education) {
       for (let i = 0; i < values.education.length; i++) {
-        values.education[i].startDate = values.education[i].startDate.startOf(
+        values.education[i].startDate = values.education[
+          i
+        ].dateRange[0].startOf("day");
+        values.education[i].endDate = values.education[i].dateRange[1].endOf(
           "day"
         );
-        values.education[i].endDate = values.education[i].endDate.endOf("day");
       }
     }
 
@@ -141,7 +144,7 @@ const QualificationsFormView = props => {
    *
    * save and redirect to next step in setup
    */
-  const onSaveAndNext = async values => {
+  const onSaveAndNext = async (values) => {
     await saveDataToDB(values);
     history.push("/secured/profile/create/step/7");
   };
@@ -154,31 +157,13 @@ const QualificationsFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
       .catch(() => {
         console.log("validation failure");
       });
-  };
-
-  /* Disable all dates before start date */
-  const disabledDatesBeforeStart = (current, index) => {
-    console.log(current);
-    let values = form.getFieldsValue("education");
-    // console.log(values.education[index].startDate);
-    // if (values.education[index].startDate) {
-    //   console.log("helloohhhh");
-    //   return current && current < moment(values.education[0].startDate);
-    // }
-  };
-
-  /* Disable all dates after end date */
-  const disabledDatesAfterEnd = current => {
-    if (form.getFieldValue("actingEndDate")) {
-      return current && current > moment(form.getFieldValue("endDate"));
-    }
   };
 
   /*
@@ -212,7 +197,7 @@ const QualificationsFormView = props => {
         style={{
           backgroundColor: "#dfe5e4",
           padding: "15px 10px 15px 10px",
-          marginBottom: "17px"
+          marginBottom: "17px",
         }}
       >
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -291,7 +276,7 @@ const QualificationsFormView = props => {
                 style={styles.datePicker}
                 ranges={{
                   Today: [moment(), undefined],
-                  "This Month": [moment(), "undefined"]
+                  "This Month": [moment(), "undefined"],
                 }}
                 //disabled={[false, disableEducationEndDate]}
                 // disabled={disableEducationEndDate}
@@ -327,27 +312,27 @@ const QualificationsFormView = props => {
   const Rules = {
     required: {
       required: true,
-      message: "Required"
+      message: "Required",
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters"
+      message: "Max length 50 characters",
     },
     maxChar100: {
       max: 50,
-      message: "Max length 100 characters"
-    }
+      message: "Max length 100 characters",
+    },
   };
 
   /*
    * Get the initial values for the form
    *
    */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile && props) {
       console.log(props.savedEducation);
       return {
-        education: props.savedEducation
+        education: props.savedEducation,
         // interestedInRemote: profile.interestedInRemote
         //   ? profile.interestedInRemote.toString()
         //   : undefined,
@@ -408,15 +393,22 @@ const QualificationsFormView = props => {
                   {(fields, { add, remove }) => {
                     return (
                       <div>
-                        {fields.map((field, index) =>
+                        {fields.map((field, index) => (
                           //{fields.map(getEducationForm(field, index, remove))}
-                          getEducationForm(
-                            field,
-                            index,
-                            remove,
-                            disableEducationEndDate
-                          )
-                        )}
+                          // getEducationForm(
+                          //   field,
+                          //   index,
+                          //   remove,
+                          //   disableEducationEndDate
+                          // )
+                          <EducationFrom
+                            field={field}
+                            index={index}
+                            remove={remove}
+                            diplomaOptions={props.diplomaOptions}
+                            schoolOptions={props.schoolOptions}
+                          />
+                        ))}
                         <Form.Item>
                           <Button
                             type="dashed"
