@@ -37,6 +37,8 @@ const { RangePicker } = DatePicker;
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
 const EducationForm = (props) => {
+  const [ll, setLl] = useState([false, false]);
+
   /* Component Styles */
   const styles = {
     content: {
@@ -92,6 +94,39 @@ const EducationForm = (props) => {
       max: 50,
       message: "Max length 100 characters",
     },
+  };
+
+  const onChange = () => {
+    setLl([false, !ll[1]]);
+
+    // let formName = props.form.__INTERNAL__.name;
+    // let feildName = startDate;
+    //console.log(formName);
+    console.log(props.form);
+    console.log(props.field);
+    console.log(
+      props.form.getFieldValue(["education", props.field.fieldKey, "startDate"])
+    );
+    // props.form.setFieldsValue({
+    //   education_0_startDate: moment(),
+    // });
+    // props.form.setFieldsValue(
+    //   ["education", props.field.fieldKey, "startDate"],
+    //   gg.add(7, "days")
+    // );
+    // props.form.setFieldsValue({
+    //   education_0_startDate: moment.add(7, "days"),
+    // });
+
+    console.log(
+      props.form.getFieldValue(["education", props.field.fieldKey, "startDate"])
+    );
+
+    // if (ll[1]) {
+    //   form.setFieldsValue({
+    //     dateRan: null,
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -180,6 +215,7 @@ const EducationForm = (props) => {
         </Form.Item>
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <p>{console.log(ll)}</p>
         <Form.Item
           name={[props.field.name, "dateRange"]}
           fieldKey={[props.field.fieldKey, "dateRange"]}
@@ -196,7 +232,7 @@ const EducationForm = (props) => {
             //disabled={[false, disableEducationEndDate]}
             // disabled={disableEducationEndDate}
             // disabled={true}
-            // disabled={getdisbaled()}
+            disabled={ll}
           />
         </Form.Item>
       </Col>
@@ -205,7 +241,7 @@ const EducationForm = (props) => {
           name={[props.field.name, "dateRangeBool"]}
           //fieldKey={[field.fieldKey, "dateRange"]}
         >
-          <Checkbox style={{ marginTop: "40px" }}>
+          <Checkbox style={{ marginTop: "40px" }} onChange={onChange}>
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </Form.Item>

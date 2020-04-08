@@ -376,7 +376,7 @@ const QualificationsFormView = (props) => {
         <div key={props.profileInfo}>
           {/* Create for with initial values */}
           <Form
-            name="basicForm"
+            name="QualificationForm"
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
@@ -402,6 +402,7 @@ const QualificationsFormView = (props) => {
                           //   disableEducationEndDate
                           // )
                           <EducationFrom
+                            form={form}
                             field={field}
                             index={index}
                             remove={remove}

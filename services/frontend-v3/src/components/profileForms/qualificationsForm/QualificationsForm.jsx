@@ -109,8 +109,8 @@ function QualificationsForm() {
           let child = {
             school: result.data.education[i].school.id,
             diploma: result.data.education[i].diploma.id,
-            startDate: moment(result.data.education[i].startDate.en),
-            endDate: moment(result.data.education[i].endDate.en),
+            // startDate: moment(result.data.education[i].startDate.en),
+            // endDate: moment(result.data.education[i].endDate.en),
           };
           selected.push(child);
         }
