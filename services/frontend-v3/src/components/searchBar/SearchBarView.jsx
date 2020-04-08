@@ -8,7 +8,7 @@ import { Row, Col, Button, Card } from "antd";
 import logo from "../sideNav/logo_v2.svg";
 
 function SearchBarView(props) {
-  const [setDoNothing] = useState(true);
+  const [doNothing, setDoNothing] = useState(true);
   const [form] = Form.useForm();
   const {
     getFields,
