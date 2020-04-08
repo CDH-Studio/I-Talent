@@ -60,7 +60,6 @@ function QualificationsForm() {
           selected.push(child);
           console.log(child);
         }
-        console.log(selected);
         await setSavedEducation(selected);
         return 1;
       } catch (error) {

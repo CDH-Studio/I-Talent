@@ -12,25 +12,14 @@ import {
   DatePicker,
 } from "antd";
 import { useHistory } from "react-router-dom";
-import {
-  RightOutlined,
-  CheckOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
-  FormOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { RightOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
-import moment from "moment";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import EducationFrom from "./educationForm/EducationForm";
 import config from "../../../config";
 
 const { backendAddress } = config;
-const { Option } = Select;
 const { Title } = Typography;
-const { RangePicker } = DatePicker;
 
 /**
  *  QualificationsFormView(props)
@@ -40,7 +29,6 @@ const { RangePicker } = DatePicker;
 const QualificationsFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [disableEducationEndDate, setDisableEducationEndDate] = useState();
 
   /* Component Styles */
   const styles = {
@@ -91,20 +79,8 @@ const QualificationsFormView = (props) => {
    */
   const saveDataToDB = async (values) => {
     // set cleared field to null to clear DB data
-    console.log(values);
-    // values.interestedInRemote = values.interestedInRemote
-    //   ? values.interestedInRemote
-    //   : null;
-    // values.lookingForNewJob = values.lookingForNewJob
-    //   ? values.lookingForNewJob
-    //   : null;
-    // values.careerMobility = values.careerMobility
-    //   ? values.careerMobility
-    //   : null;
-    // values.talentMatrixResult = values.talentMatrixResult
-    //   ? values.talentMatrixResult
-    //   : null;
-    console.log(values.education[0]);
+
+    // format education date for DB storage
     if (values.education) {
       for (let i = 0; i < values.education.length; i++) {
         if (values.education[i].startDate) {
@@ -171,140 +147,6 @@ const QualificationsFormView = (props) => {
   };
 
   /*
-   * save and finish
-   *
-   * Save form data and redirect home
-   */
-  const getEducationForm = (field, index, remove, dd) => {
-    console.log(dd);
-    function onChange() {
-      console.log(dd);
-      let gg = disableEducationEndDate;
-      gg[index] = [false, true];
-      //   console.log(gg);
-      //gg[index] = !gg[index];
-      //setDisableEducationEndDate(gg);
-      setDisableEducationEndDate(gg);
-      console.log(disableEducationEndDate);
-      forceUpdate();
-    }
-
-    function getdisbaled() {
-      console.log(disableEducationEndDate[index]);
-      return disableEducationEndDate[index];
-    }
-
-    return (
-      <Row
-        key={field.key}
-        gutter={24}
-        style={{
-          backgroundColor: "#dfe5e4",
-          padding: "15px 10px 15px 10px",
-          marginBottom: "17px",
-        }}
-      >
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <Title level={4} style={styles.entryTitle}>
-            <FormOutlined style={{ marginRight: "0.5em" }} />
-            <FormattedMessage id="setup.education" />
-            {": " + (index + 1)}
-            {/* <DeleteOutlined
-            onClick={() => {
-              remove(field.name);
-            }}
-            style={{ float: "right" }}
-          /> */}
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                remove(field.name);
-              }}
-              size={"small"}
-              style={{ float: "right" }}
-            />
-          </Title>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          <Form.Item
-            name={[field.name, "diploma"]}
-            fieldKey={[field.fieldKey, "diploma"]}
-            label={<FormattedMessage id="profile.diploma" />}
-            style={styles.formItem}
-            rules={[Rules.required]}
-          >
-            <Select
-              showSearch
-              optionFilterProp="children"
-              placeholder="Please select"
-              allowClear={true}
-            >
-              {props.diplomaOptions.map((value, index) => {
-                return <Option key={value.key}>{value.title}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          <Form.Item
-            name={[field.name, "school"]}
-            fieldKey={[field.fieldKey, "school"]}
-            label={<FormattedMessage id="profile.school" />}
-            rules={[Rules.required]}
-            style={styles.formItem}
-          >
-            <Select
-              showSearch
-              optionFilterProp="children"
-              placeholder="Please select"
-              allowClear={true}
-            >
-              {props.schoolOptions.map((value, index) => {
-                return <Option key={value.key}>{value.title}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          <Form.Item
-            name={[field.name, "dateRange"]}
-            fieldKey={[field.fieldKey, "dateRange"]}
-            label={"Dates"}
-            rules={[Rules.required]}
-          >
-            <div value={disableEducationEndDate}>
-              <RangePicker
-                picker="month"
-                style={styles.datePicker}
-                ranges={{
-                  Today: [moment(), undefined],
-                  "This Month": [moment(), "undefined"],
-                }}
-                //disabled={[false, disableEducationEndDate]}
-                // disabled={disableEducationEndDate}
-                // disabled={true}
-                disabled={getdisbaled()}
-              />
-            </div>
-          </Form.Item>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          <Form.Item
-            name={[field.name, "dateRangeBool"]}
-            //fieldKey={[field.fieldKey, "dateRange"]}
-          >
-            <Checkbox onChange={onChange} style={{ marginTop: "40px" }}>
-              <FormattedMessage id="profile.is.ongoing" />
-            </Checkbox>
-          </Form.Item>
-        </Col>
-      </Row>
-    );
-  };
-
-  /*
    * On Reset
    *
    * reset form fields to state when page was loaded
@@ -334,31 +176,14 @@ const QualificationsFormView = (props) => {
    */
   const getInitialValues = (profile) => {
     if (profile && props) {
-      console.log(props.savedEducation);
       return {
         education: props.savedEducation,
-        // interestedInRemote: profile.interestedInRemote
-        //   ? profile.interestedInRemote.toString()
-        //   : undefined,
-        // relocationLocations: props.savedRelocationLocations,
-        // lookingForNewJob: props.savedLookingForNewJob,
-        // careerMobility: props.savedCareerMobility,
-        // talentMatrixResult: props.savedTalentMatrixResult,
-        // exFeeder: props.savedExFeederBool
       };
     } else {
       return {};
     }
   };
-  useEffect(() => {
-    let jj = [];
-    jj.push([false, false]);
-    setDisableEducationEndDate(jj);
-    console.log(jj);
-    /* check if user has a skills to mentor */
-  }, [props]);
 
-  //alert(disableEducationEndDate);
   /************************************
    ********* Render Component *********
    ************************************/
@@ -398,14 +223,8 @@ const QualificationsFormView = (props) => {
                   {(fields, { add, remove }) => {
                     return (
                       <div>
+                        {/* generate education form for each education item */}
                         {fields.map((field, index) => (
-                          //{fields.map(getEducationForm(field, index, remove))}
-                          // getEducationForm(
-                          //   field,
-                          //   index,
-                          //   remove,
-                          //   disableEducationEndDate
-                          // )
                           <EducationFrom
                             key={field.fieldKey}
                             form={form}
@@ -416,6 +235,7 @@ const QualificationsFormView = (props) => {
                           />
                         ))}
                         <Form.Item>
+                          {/* add education field button */}
                           <Button
                             type="dashed"
                             onClick={() => {
