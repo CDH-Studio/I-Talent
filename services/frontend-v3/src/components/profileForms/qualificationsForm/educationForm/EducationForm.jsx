@@ -2,40 +2,22 @@ import React, { useState, useEffect } from "react";
 import EducationFormView from "./EducationFormView";
 import axios from "axios";
 import config from "../../../../config";
-import moment from "moment";
 const { backendAddress } = config;
 
 /**
- *  QualificationsForm
- *  Controller for the QualificationsFormView.
- *  It gathers the required data for rendering the component
+ *  EducationForm
+ *  Controller for the EducationFormView.
+ *  This component is strongly linked ot Qualifications Form.
+ *  It generated the form fields for each education item the user creates in the qualifications form.
  */
 function EducationForm(props) {
   // Define States
-  const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState();
   const [schoolOptions, setSchoolOptions] = useState();
-  const [savedEducation, setSavedEducation] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
-    /*
-     * Get User Profile
-     *
-     */
-    const getProfileInfo = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        await setProfileInfo(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
     /*
      * Get Diploma Options
      *
@@ -92,40 +74,6 @@ function EducationForm(props) {
       }
     };
 
-    /*
-     * Get Saved Relocation Locations
-     *
-     * get saved Relocation Locations from profile
-     */
-    const getSavedEducation = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        let selected = [];
-
-        // generate and array of ID's of save locations
-        for (let i = 0; i < result.data.education.length; i++) {
-          console.log(result.data.education[i]);
-          let child = {
-            school: result.data.education[i].school.id,
-            diploma: result.data.education[i].diploma.id,
-            startDate: moment(result.data.education[i].startDate.en),
-            endDate: result.data.education[i].endDate.en
-              ? moment(result.data.education[i].endDate.en)
-              : null,
-          };
-          selected.push(child);
-          console.log(child);
-        }
-        console.log(selected);
-        await setSavedEducation(selected);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
     /* Get all required data component */
     const getAllData = async () => {
       try {
@@ -148,11 +96,11 @@ function EducationForm(props) {
       form={props.form}
       field={props.field}
       remove={props.remove}
-      load={load}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
       profileInfo={props.profileInfo}
       style={props.style}
+      load={load}
     />
   );
 }
