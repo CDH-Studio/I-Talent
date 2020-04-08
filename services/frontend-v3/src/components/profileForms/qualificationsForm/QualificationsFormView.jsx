@@ -24,7 +24,7 @@ import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import EducationFrom from "./educationForm";
+import EducationFrom from "./educationForm/EducationForm";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -410,10 +410,7 @@ const QualificationsFormView = (props) => {
                             key={field.fieldKey}
                             form={form}
                             field={field}
-                            index={index}
                             remove={remove}
-                            diplomaOptions={props.diplomaOptions}
-                            schoolOptions={props.schoolOptions}
                             profileInfo={props.profileInfo}
                             style={styles}
                           />
