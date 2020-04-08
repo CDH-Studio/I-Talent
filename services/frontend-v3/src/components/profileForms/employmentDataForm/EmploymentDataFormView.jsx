@@ -11,7 +11,7 @@ import {
   Switch,
   DatePicker,
   Checkbox,
-  Button
+  Button,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -30,7 +30,7 @@ const { Title } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = props => {
+const EmploymentDataFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -44,57 +44,57 @@ const EmploymentDataFormView = props => {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "10px 0 10px 0",
       padding: "0 20px 0 0",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     tempRoleRow: {
       backgroundColor: "#dfe5e4",
       paddingTop: "15px",
       paddingBottom: "15px",
       marginBottom: "20px",
-      marginTop: "10px"
+      marginTop: "10px",
     },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
-    datePicker: { width: "100%" }
+    datePicker: { width: "100%" },
   };
 
   /* Component Rules for form fields */
   const Rules = {
     required: {
       required: true,
-      message: "Required"
+      message: "Required",
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters"
+      message: "Max length 50 characters",
     },
     maxChar100: {
       max: 50,
-      message: "Max length 100 characters"
-    }
+      message: "Max length 100 characters",
+    },
   };
 
   /* toggle temporary role form */
@@ -108,28 +108,28 @@ const EmploymentDataFormView = props => {
     // reset end date value
     if (enableSecondLang) {
       form.setFieldsValue({
-        actingEndDate: null
+        actingEndDate: null,
       });
     }
     setEnableSecondLang(!enableSecondLang);
   };
 
   /* Disable all dates before start date */
-  const disabledDatesBeforeStart = current => {
+  const disabledDatesBeforeStart = (current) => {
     if (form.getFieldValue("actingStartDate")) {
       return current && current < moment(form.getFieldValue("actingStartDate"));
     }
   };
 
   /* Disable all dates after end date */
-  const disabledDatesAfterEnd = current => {
+  const disabledDatesAfterEnd = (current) => {
     if (form.getFieldValue("actingEndDate")) {
       return current && current > moment(form.getFieldValue("actingEndDate"));
     }
   };
 
   /* Save data */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     // If dropdown value is undefined then clear value in DB
     values.tenureId = values.tenureId ? values.tenureId : null;
     values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
@@ -176,7 +176,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* save and redirect to next step in setup */
-  const onSaveAndNext = async values => {
+  const onSaveAndNext = async (values) => {
     await saveDataToDB(values);
     history.push("/secured/profile/create/step/4");
   };
@@ -185,7 +185,7 @@ const EmploymentDataFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
@@ -200,7 +200,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getTempRoleForm = expandMentorshipForm => {
+  const getTempRoleForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <Row gutter={24} style={{ marginTop: "10px" }}>
@@ -268,28 +268,28 @@ const EmploymentDataFormView = props => {
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile) {
       return {
         ...(profile.classification && {
-          groupLevelId: profile.classification.id
+          groupLevelId: profile.classification.id,
         }),
         ...(profile.temporaryRole && {
-          tenureId: profile.temporaryRole.id
+          tenureId: profile.temporaryRole.id,
         }),
         ...(profile.security && {
-          securityClearanceId: profile.security.id
+          securityClearanceId: profile.security.id,
         }),
         manager: profile.manager,
         ...(profile.acting && {
-          actingId: profile.acting.id
+          actingId: profile.acting.id,
         }),
         ...(profile.actingPeriodStartDate && {
-          actingStartDate: moment(profile.actingPeriodStartDate)
+          actingStartDate: moment(profile.actingPeriodStartDate),
         }),
         ...(profile.actingPeriodEndDate && {
-          actingEndDate: moment(profile.actingPeriodEndDate)
-        })
+          actingEndDate: moment(profile.actingPeriodEndDate),
+        }),
       };
     } else {
       return {};

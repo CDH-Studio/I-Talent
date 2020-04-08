@@ -38,6 +38,7 @@ const { RangePicker } = DatePicker;
  */
 const EducationForm = (props) => {
   const [ll, setLl] = useState([false, false]);
+  const [disableEndDate, setDisableEndDate] = useState();
 
   /* Component Styles */
   const styles = {
@@ -129,6 +130,46 @@ const EducationForm = (props) => {
     // }
   };
 
+  /* enable or disable end date field */
+  const toggleEndDate = () => {
+    // reset end date value
+    // if (enableSecondLang) {
+    //   form.setFieldsValue({
+    //     actingEndDate: null,
+    //   });
+    // }
+    console.log(
+      props.form.getFieldValue([
+        "education",
+        props.field.fieldKey,
+        "startDateV2",
+      ])
+    );
+    setDisableEndDate(!disableEndDate);
+  };
+
+  /* Disable all dates before start date */
+  const disabledDatesBeforeStart = (current) => {
+    const fieldPath = ["education", props.field.fieldKey, "startDateV2"];
+    if (props.form.getFieldValue(fieldPath)) {
+      return (
+        current &&
+        current < moment(props.form.getFieldValue(fieldPath).startOf("month"))
+      );
+    }
+  };
+
+  /* Disable all dates after end date */
+  const disabledDatesAfterEnd = (current) => {
+    const fieldPath = ["education", props.field.fieldKey, "endDateV2"];
+    if (props.form.getFieldValue(fieldPath)) {
+      return (
+        current &&
+        current > moment(props.form.getFieldValue(fieldPath).startOf("month"))
+      );
+    }
+  };
+
   useEffect(() => {
     let jj = [];
     jj.push([false, false]);
@@ -214,7 +255,7 @@ const EducationForm = (props) => {
           </Select>
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      {/* <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         <p>{console.log(ll)}</p>
         <Form.Item
           name={[props.field.name, "dateRange"]}
@@ -235,8 +276,8 @@ const EducationForm = (props) => {
             disabled={ll}
           />
         </Form.Item>
-      </Col>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      </Col> */}
+      {/* <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         <Form.Item
           name={[props.field.name, "dateRangeBool"]}
           //fieldKey={[field.fieldKey, "dateRange"]}
@@ -245,6 +286,44 @@ const EducationForm = (props) => {
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </Form.Item>
+      </Col> */}
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Form.Item
+          name={[props.field.name, "startDateV2"]}
+          fieldKey={[props.field.fieldKey, "startDateV2"]}
+          label={<FormattedMessage id="profile.history.item.start.date" />}
+          rules={[Rules.required]}
+        >
+          <DatePicker
+            picker="month"
+            disabledDate={disabledDatesAfterEnd}
+            style={styles.datePicker}
+          />
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Form.Item
+          name={[props.field.name, "endDateV2"]}
+          fieldKey={[props.field.fieldKey, "endDateV2"]}
+          label={<FormattedMessage id="profile.history.item.end.date" />}
+          rules={!disableEndDate ? [Rules.required] : undefined}
+        >
+          <DatePicker
+            picker="month"
+            style={styles.datePicker}
+            disabledDate={disabledDatesBeforeStart}
+            disabled={disableEndDate}
+            placeholder={"unknown"}
+          />
+        </Form.Item>
+        <div style={{ marginTop: "-10px" }}>
+          <Checkbox
+            onChange={toggleEndDate}
+            //defaultChecked={enableEndDate}
+          >
+            <FormattedMessage id="profile.is.ongoing" />
+          </Checkbox>
+        </div>
       </Col>
     </Row>
   );
