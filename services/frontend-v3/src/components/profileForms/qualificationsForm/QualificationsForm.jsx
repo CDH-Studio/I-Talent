@@ -14,8 +14,6 @@ function QualificationsForm() {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [diplomaOptions, setDiplomaOptions] = useState();
-  const [schoolOptions, setSchoolOptions] = useState();
   const [savedEducation, setSavedEducation] = useState();
 
   /* useEffect to run once component is mounted */
@@ -30,62 +28,6 @@ function QualificationsForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Diploma Options
-     *
-     * get a list of diploma options for dropdown
-     */
-    const getDiplomaOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getDiploma";
-        let result = await axios.get(url);
-        let dataTree = [];
-
-        console.log(result);
-
-        // Generate the data format required for treeSelect
-        for (var i = 0; i < result.data.length; i++) {
-          var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id,
-          };
-          dataTree.push(goal);
-        }
-        await setDiplomaOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get School Options
-     *
-     * get a list of diploma options for dropdown
-     */
-    const getSchoolOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getSchool";
-        let result = await axios.get(url);
-        let dataTree = [];
-
-        console.log(result);
-
-        // Generate the data format required for treeSelect
-        for (var i = 0; i < result.data.length; i++) {
-          var goal = {
-            title: result.data[i].description,
-            key: result.data[i].id,
-          };
-          dataTree.push(goal);
-        }
-        await setSchoolOptions(dataTree);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -130,8 +72,6 @@ function QualificationsForm() {
     const getAllData = async () => {
       try {
         await getProfileInfo();
-        await getDiplomaOptions();
-        await getSchoolOptions();
         await getSavedEducation();
         setLoad(true);
         return 1;
@@ -148,8 +88,6 @@ function QualificationsForm() {
   return (
     <QualificationsFormView
       profileInfo={profileInfo}
-      diplomaOptions={diplomaOptions}
-      schoolOptions={schoolOptions}
       savedEducation={savedEducation}
       load={load}
     />
