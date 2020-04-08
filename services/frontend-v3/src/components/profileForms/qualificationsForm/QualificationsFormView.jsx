@@ -107,12 +107,16 @@ const QualificationsFormView = (props) => {
     console.log(values.education[0]);
     if (values.education) {
       for (let i = 0; i < values.education.length; i++) {
-        values.education[i].startDate = values.education[i].startDate.startOf(
-          "month"
-        );
-        values.education[i].endDate = values.education[i].endDate.startOf(
-          "month"
-        );
+        if (values.education[i].startDate) {
+          values.education[i].startDate = values.education[i].startDate.startOf(
+            "month"
+          );
+        }
+        if (values.education[i].endDate) {
+          values.education[i].endDate = values.education[i].endDate.startOf(
+            "month"
+          );
+        }
       }
     }
 
@@ -409,6 +413,8 @@ const QualificationsFormView = (props) => {
                             remove={remove}
                             diplomaOptions={props.diplomaOptions}
                             schoolOptions={props.schoolOptions}
+                            profileInfo={props.profileInfo}
+                            style={styles}
                           />
                         ))}
                         <Form.Item>

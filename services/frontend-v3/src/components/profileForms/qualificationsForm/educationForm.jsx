@@ -1,17 +1,14 @@
-import React, { useState, useEffect, forceUpdate } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
-  Skeleton,
   Typography,
-  Divider,
   Form,
   Select,
   Button,
   Checkbox,
   DatePicker,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import {
   RightOutlined,
   CheckOutlined,
@@ -21,15 +18,10 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import axios from "axios";
 import moment from "moment";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
-const { RangePicker } = DatePicker;
 
 /**
  *  QualificationsFormView(props)
@@ -37,50 +29,7 @@ const { RangePicker } = DatePicker;
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
 const EducationForm = (props) => {
-  const [ll, setLl] = useState([false, false]);
-  const [disableEndDate, setDisableEndDate] = useState();
-
-  /* Component Styles */
-  const styles = {
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-    },
-
-    entryTitle: {
-      fontSize: "1em",
-    },
-
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "0px 0px 0px 0px !important",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    datePicker: { width: "100%" },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: { float: "left", marginBottom: "1rem" },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-  };
+  const [disableEndDate, setDisableEndDate] = useState(true);
 
   const Rules = {
     required: {
@@ -97,64 +46,12 @@ const EducationForm = (props) => {
     },
   };
 
-  const onChange = () => {
-    setLl([false, !ll[1]]);
-
-    // let formName = props.form.__INTERNAL__.name;
-    // let feildName = startDate;
-    //console.log(formName);
-    console.log(props.form);
-    console.log(props.field);
-    console.log(
-      props.form.getFieldValue(["education", props.field.fieldKey, "startDate"])
-    );
-    // props.form.setFieldsValue({
-    //   education_0_startDate: moment(),
-    // });
-    // props.form.setFieldsValue(
-    //   ["education", props.field.fieldKey, "startDate"],
-    //   gg.add(7, "days")
-    // );
-    // props.form.setFieldsValue({
-    //   education_0_startDate: moment.add(7, "days"),
-    // });
-
-    console.log(
-      props.form.getFieldValue(["education", props.field.fieldKey, "startDate"])
-    );
-
-    // if (ll[1]) {
-    //   form.setFieldsValue({
-    //     dateRan: null,
-    //   });
-    // }
-  };
-
   /* enable or disable end date field */
   const toggleEndDate = () => {
-    // reset end date value
-    // if (enableSecondLang) {
-    //   form.setFieldsValue({
-    //     actingEndDate: null,
-    //   });
-    // }
-    // console.log(
-    //   props.form.getFieldValue([
-    //     "education",
-    //     props.field.fieldKey,
-    //     "startDateV2",
-    //   ])
-    // );
     if (!disableEndDate) {
-      const fieldPath = ["education", props.field.fieldKey, "endDate"];
-      try {
-        const kk = props.form.getFieldsValue("education");
-        kk.education[props.field.fieldKey].endDate = null;
-        console.log(props.form.getFieldsValue("education"));
-        props.form.setFieldsValue(kk);
-      } catch (e) {
-        console.log(e);
-      }
+      const educationFieldValues = props.form.getFieldsValue("education");
+      educationFieldValues.education[props.field.fieldKey].endDate = null;
+      props.form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate(!disableEndDate);
   };
@@ -186,6 +83,21 @@ const EducationForm = (props) => {
     let jj = [];
     jj.push([false, false]);
     // setDisableEducationEndDate(jj);
+    console.log(
+      Boolean(props.profileInfo.education[props.field.fieldKey].endDate.en)
+    );
+
+    if (
+      props.profileInfo &&
+      props.profileInfo.education[props.field.fieldKey].endDate.en
+    ) {
+      toggleEndDate();
+    }
+    // setDisableEndDate(
+    //   props.profileInfo
+    //     ? !Boolean(props.profileInfo.education[props.field.fieldKey].endDate.en)
+    //     : false
+    // );
     console.log(jj);
     /* check if user has a skills to mentor */
   }, [props]);
@@ -205,7 +117,7 @@ const EducationForm = (props) => {
       }}
     >
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-        <Title level={4} style={styles.entryTitle}>
+        <Title level={4} style={props.style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.education" />
           {": " + (props.index + 1)}
@@ -232,7 +144,7 @@ const EducationForm = (props) => {
           name={[props.field.name, "diploma"]}
           fieldKey={[props.field.fieldKey, "diploma"]}
           label={<FormattedMessage id="profile.diploma" />}
-          style={styles.formItem}
+          style={props.style.formItem}
           rules={[Rules.required]}
         >
           <Select
@@ -253,7 +165,7 @@ const EducationForm = (props) => {
           fieldKey={[props.field.fieldKey, "school"]}
           label={<FormattedMessage id="profile.school" />}
           rules={[Rules.required]}
-          style={styles.formItem}
+          style={props.style.formItem}
         >
           <Select
             showSearch
@@ -277,7 +189,7 @@ const EducationForm = (props) => {
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
-            style={styles.datePicker}
+            style={props.style.datePicker}
           />
         </Form.Item>
       </Col>
@@ -290,17 +202,14 @@ const EducationForm = (props) => {
         >
           <DatePicker
             picker="month"
-            style={styles.datePicker}
+            style={props.style.datePicker}
             disabledDate={disabledDatesBeforeStart}
             disabled={disableEndDate}
             placeholder={"unknown"}
           />
         </Form.Item>
         <div style={{ marginTop: "-10px" }}>
-          <Checkbox
-            onChange={toggleEndDate}
-            //defaultChecked={enableEndDate}
-          >
+          <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </div>
