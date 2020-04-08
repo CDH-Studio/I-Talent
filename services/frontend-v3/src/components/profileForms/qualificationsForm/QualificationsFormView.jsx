@@ -1,16 +1,5 @@
-import React, { useState, useEffect, forceUpdate } from "react";
-import {
-  Row,
-  Col,
-  Skeleton,
-  Typography,
-  Divider,
-  Form,
-  Select,
-  Button,
-  Checkbox,
-  DatePicker,
-} from "antd";
+import React from "react";
+import { Row, Col, Skeleton, Typography, Divider, Form, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
@@ -43,20 +32,11 @@ const QualificationsFormView = (props) => {
     formTitle: {
       fontSize: "1.2em",
     },
-
     entryTitle: {
       fontSize: "1em",
     },
-
     headerDiv: {
       margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "0px 0px 0px 0px !important",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
     },
     datePicker: { width: "100%" },
     finishAndSaveBtn: {
@@ -195,7 +175,6 @@ const QualificationsFormView = (props) => {
       </div>
     );
   } else {
-    console.log(getInitialValues(props.profileInfo));
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
@@ -204,7 +183,7 @@ const QualificationsFormView = (props) => {
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>
-          {/* Create for with initial values */}
+          {/* Create form with initial values */}
           <Form
             name="QualificationForm"
             form={form}
