@@ -520,7 +520,7 @@ class ProfileLayoutView extends Component {
       organizationList,
       team,
       telephone,
-      twitterUrl,
+      gcconnexUrl,
       manager
     } = profileInfo;
 
@@ -623,8 +623,8 @@ class ProfileLayoutView extends Component {
             color="blue"
             inverted
             widths={
-              [linkedinUrl, githubUrl, twitterUrl].filter(word => word).length +
-              1
+              [linkedinUrl, githubUrl, gcconnexUrl].filter(word => word)
+                .length + 1
             }
           >
             {linkedinUrl && (
@@ -640,10 +640,10 @@ class ProfileLayoutView extends Component {
                 <FormattedMessage id="profile.github" />
               </Menu.Item>
             )}
-            {twitterUrl && (
-              <Menu.Item href={twitterUrl} target="_blank">
+            {gcconnexUrl && (
+              <Menu.Item href={gcconnexUrl} target="_blank">
                 <Icon name="linkify" />
-                <FormattedMessage id="profile.twitter" />
+                <FormattedMessage id="profile.gcconnex" />
               </Menu.Item>
             )}
             <Menu.Item href={"mailto:" + email}>

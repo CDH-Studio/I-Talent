@@ -694,62 +694,6 @@ module.exports = {
       ],
       {}
     );
-    // .then(() => {
-    //   return queryInterface.bulkInsert(
-    //     "locations",
-    //     [
-    //       {
-    //         id: "5888300c-0245-11ea-8d71-362b9e155667",
-    //         addressEn: "9177 Langelier Blvd",
-    //         addressFr: "9177 boul Langelier",
-    //         city: "St-Léonard",
-    //         provinceEn: "Québec",
-    //         provinceFr: "Québec",
-    //         country: "Canada",
-    //         postalCode: "H1P 3K9",
-    //         createdAt: new Date(),
-    //         updatedAt: new Date()
-    //       },
-    //       {
-    //         id: "60fd7bc0-0245-11ea-8d71-362b9e155667",
-    //         addressEn: "5101 50 Ave",
-    //         addressFr: "5101 50 Av",
-    //         city: "Yellowknife",
-    //         provinceEn: "Northwest Territories",
-    //         provinceFr: "Territoires du Nord-Ouest",
-    //         country: "Canada",
-    //         postalCode: "X1A 2P3",
-    //         createdAt: new Date(),
-    //         updatedAt: new Date()
-    //       },
-    //       {
-    //         id: "64f770aa-0245-11ea-8d71-362b9e155667",
-    //         addressEn: "1945 Hamilton St",
-    //         addressFr: "1945 rue Hamilton",
-    //         city: "Regina",
-    //         provinceEn: "Saskatchewan",
-    //         provinceFr: "Saskatchewan",
-    //         country: "Canada",
-    //         postalCode: "S4P 2C7",
-    //         createdAt: new Date(),
-    //         updatedAt: new Date()
-    //       },
-    //       {
-    //         id: "6a91edec-0245-11ea-8d71-362b9e155667",
-    //         addressEn: "232 Yorktech Dr",
-    //         addressFr: "232 prom Yorktech",
-    //         city: "Markham",
-    //         provinceEn: "Ontario",
-    //         provinceFr: "Ontario",
-    //         country: "Canada",
-    //         postalCode: "L6G 1A6",
-    //         createdAt: new Date(),
-    //         updatedAt: new Date()
-    //       }
-    //     ],
-    //     {}
-    //   );
-    // });
   },
 
   down: (queryInterface, Sequelize) => {

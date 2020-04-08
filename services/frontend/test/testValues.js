@@ -58,7 +58,7 @@ export const EMPTY_PROFILE_DATA = {
   talentMatrixResult: { description: { en: null, fr: null }, id: null },
   team: null,
   telephone: null,
-  twitterUrl: null,
+  gcconnexUrl: null,
   projects: [],
   interestedInRemote: null,
   relocationLocations: [],
@@ -129,7 +129,7 @@ export const FULL_PROFILE_DATA = {
   flagged: false,
   linkedinUrl: "linkedinUrlString0",
   githubUrl: "githubUrlString0",
-  twitterUrl: "twitterUrlString0",
+  gcconnexUrl: "gconnexUrlString0",
   team: "teamString0",
   acting: {
     id: "aaaaaaaa-bbbb-cccc-0001-eeeeeeee0000",

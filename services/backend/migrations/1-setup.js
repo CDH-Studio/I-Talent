@@ -8,8 +8,10 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.sequelize.query(
-      'DROP EXTENSION IF EXISTS "uuid-ossp";'
-    );
+    return queryInterface.dropTable("SequlizeSeeder").then(() => {
+      return queryInterface.sequelize.query(
+        'DROP EXTENSION IF EXISTS "uuid-ossp";'
+      );
+    });
   }
 };

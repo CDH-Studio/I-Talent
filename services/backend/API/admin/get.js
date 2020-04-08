@@ -3,6 +3,7 @@ const Models = require("../../models");
 const User = Models.user;
 const Profile = Models.profile;
 const Tenure = Models.tenure;
+const Category = Models.category;
 
 const getOption = async (request, response) => {
   try {
@@ -12,12 +13,29 @@ const getOption = async (request, response) => {
     let options = {
       attributes: { exclude: ["createdAt", "updatedAt"] }
     };
+
     if (type === "skill" || type === "competency") {
       options.where = { type: type };
     }
 
+    if (type === "skill") {
+      options.include = Category;
+    }
+
     const rows = await model.findAll(options);
     response.status(200).json(rows);
+  } catch (error) {
+    response.status(500).json(error);
+  }
+};
+
+const getCategories = async (request, response) => {
+  try {
+    const { type } = request.params;
+    if (type === "skill") {
+      const rows = await Category.findAll();
+      response.status(200).json(rows);
+    }
   } catch (error) {
     response.status(500).json(error);
   }
@@ -73,6 +91,7 @@ const checkAdmin = (request, response) =>
 
 module.exports = {
   getOption,
+  getCategories,
   getFlagged,
   getInactive,
   getUser,

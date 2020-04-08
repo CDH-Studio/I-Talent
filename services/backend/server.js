@@ -91,7 +91,9 @@ router
   .post(keycloak.protect(), profile.createProfile)
   .put(keycloak.protect(), profile.updateProfile);
 
-router.route("/private/profile/:id").get(profile.getPrivateProfileById);
+router
+  .route("/private/profile/:id")
+  .get(keycloak.protect(), profile.getPrivateProfileById);
 
 //Admin endpoints
 router.use("/admin", admin);

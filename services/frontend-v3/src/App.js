@@ -1,69 +1,43 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { IntlProvider } from "react-intl";
 import messages_en from "./i18n/en_CA.json";
 import messages_fr from "./i18n/fr_CA.json";
 import moment from "moment";
-// import "moment/min/moment-with-locales";
 import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { Landing } from "./pages";
-import { Secured } from "./routes";
+import LandingPage from "./pages/LandingPage";
+import { NotFound } from "./pages";
+import { Secured, Admin } from "./routes";
 
-class App extends Component {
-  goto = link => this.props.history.push(link);
+function App() {
+  const [locale, setLocale] = useState(localStorage.getItem("lang") || "en");
 
-  constructor(props) {
-    super(props);
+  const i18nConfig = {
+    messages: locale === "fr" ? messages_fr : messages_en,
+    formats: {
+      number: {
+        CAD: {
+          style: "currency",
+          currency: "USD",
+          currencyDisplay: "symbol"
+        }
+      }
+    }
+  };
 
-    let language = localStorage.getItem("lang");
-    i18nConfig.messages = language === "fr" ? messages_fr : messages_en;
-    moment.locale(language + "-ca");
+  moment.locale(locale + "-ca");
 
-    this.state = {
-      locale: language
-    };
-
-    this.changeLanguage = this.changeLanguage.bind(this);
-  }
-  render() {
-    return (
-      <IntlProvider
-        locale={i18nConfig.locale}
-        messages={i18nConfig.messages}
-        formats={i18nConfig.formats}
-      >
-        <Router>
-          <Route
-            exact
-            path="/"
-            render={routeProps => (
-              <Landing changeLanguage={this.changeLanguage} {...routeProps} />
-            )}
-          />
-          <Route
-            path="/secured"
-            render={routeProps => (
-              <Secured changeLanguage={this.changeLanguage} {...routeProps} />
-            )}
-          />
-        </Router>
-      </IntlProvider>
-    );
-  }
-
-  changeLanguage(lang) {
+  const changeLanguage = lang => {
     localStorage.setItem("lang", lang);
-    switch (lang) {
+    switch (locale) {
       case "fr":
         i18nConfig.messages = messages_fr;
         break;
       case "en":
-        i18nConfig.messages = messages_en;
-        break;
       default:
         i18nConfig.messages = messages_en;
         break;
@@ -71,32 +45,40 @@ class App extends Component {
 
     moment.locale(lang + "-ca");
 
-    i18nConfig.locale = localStorage.getItem("lang");
-    this.setState({ locale: localStorage.getItem("lang") });
-  }
+    setLocale(lang);
+  };
+
+  return (
+    <IntlProvider
+      locale={locale}
+      messages={i18nConfig.messages}
+      formats={i18nConfig.formats}
+    >
+      <Router>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={routeProps => (
+              <LandingPage changeLanguage={changeLanguage} {...routeProps} />
+            )}
+          />
+          <Route
+            path="/secured"
+            render={routeProps => (
+              <Secured changeLanguage={changeLanguage} {...routeProps} />
+            )}
+          />
+          <Route
+            path="/admin"
+            render={routeProps => (
+              <Admin changeLanguage={changeLanguage} {...routeProps} />
+            )}
+          />
+          <Route render={() => <NotFound />} />
+        </Switch>
+      </Router>
+    </IntlProvider>
+  );
 }
-
-let localLang = (() => {
-  const currLang = localStorage.getItem("lang");
-  if (currLang) {
-    return currLang;
-  }
-  localStorage.setItem("lang", "en");
-  return "en";
-})();
-
-let i18nConfig = {
-  locale: localLang,
-  messages: messages_en,
-  formats: {
-    number: {
-      CAD: {
-        style: "currency",
-        currency: "USD",
-        currencyDisplay: "symbol"
-      }
-    }
-  }
-};
-
 export default App;

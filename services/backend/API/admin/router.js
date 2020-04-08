@@ -20,6 +20,13 @@ adminRouter.get(
   keycloak.protect("view-admin-console"),
   admin.getOption
 );
+
+adminRouter.get(
+  "/options/categories/:type",
+  keycloak.protect("view-admin-console"),
+  admin.getCategories
+);
+
 adminRouter.get(
   "/flagged/:id",
   keycloak.protect("view-admin-console"),

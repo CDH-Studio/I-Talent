@@ -24,21 +24,6 @@ module.exports = {
       ],
       {}
     );
-    // .then(() => {
-    //   return queryInterface.bulkInsert(
-    //     "competencies",
-    //     [
-    //       {
-    //         id: "3a57095e-0174-11ea-8d71-362b9e155667",
-    //         descriptionEn: "Humor",
-    //         descriptionFr: "Sens de l'humour",
-    //         createdAt: new Date(),
-    //         updatedAt: new Date()
-    //       }
-    //     ],
-    //     {}
-    //   );
-    // });
   },
 
   down: (queryInterface, Sequelize) => {

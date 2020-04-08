@@ -1,6 +1,14 @@
 require("dotenv").config();
 
-host = process.env.PGHOST;
+let dialect, host, port;
+if (process.env.PLATFORM == "OPENSHIFT") {
+  [dialect, host, port] = process.env.DATABASE_URL.split(":");
+  host = host.replace("//", "");
+} else {
+  host = process.env.PGHOST;
+  port = 5432;
+  dialect = "postgres";
+}
 
 module.exports = {
   development: {
@@ -8,19 +16,9 @@ module.exports = {
     password: process.env.PGPASS,
     database: process.env.PGDATABASE,
     host: host,
-    port: 5432,
-    dialect: "postgres"
-  },
-  production: {
-    username: process.env.PGUSERNAME,
-    password: process.env.PGPASS,
-    database: process.env.PGDATABASE,
-    host: host,
-    port: 5432,
-    dialect: "postgres"
-  },
-  staging: {
-    uri: process.env.DATABASE_URL,
-    dialect: "postgres"
+    port: port,
+    dialect: dialect,
+    seederStorage: "sequelize",
+    seederStorageTableName: "SequlizeSeeder"
   }
 };

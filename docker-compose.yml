@@ -1,14 +1,14 @@
 version: "3"
 services:
-  web:
-    container_name: "Upskill-frontend"
-    build: ./services/frontend
-    ports:
-      - "3001:3000"
-    volumes:
-      - ./services/frontend:/upskill-frontend
-      - ./upskill-frontend/node_modules
-      - ./upskill-frontend/build
+  # web:
+  #   container_name: "Upskill-frontend"
+  #   build: ./services/frontend
+  #   ports:
+  #     - "3001:3000"
+  #   volumes:
+  #     - ./services/frontend:/upskill-frontend
+  #     - ./upskill-frontend/node_modules
+  #     - ./upskill-frontend/build
 
   # web-ant:
   #   container_name: "Upskill-frontend-v2"
@@ -28,6 +28,8 @@ services:
     volumes:
       - ./services/frontend-v3:/upskill-frontend
       - ./upskill-frontend/node_modules
+    env_file:
+      - ./env/web.env
 
   backend:
     container_name: "Upskill-Backend"
