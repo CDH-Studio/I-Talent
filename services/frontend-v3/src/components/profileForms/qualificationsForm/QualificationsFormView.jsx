@@ -407,6 +407,7 @@ const QualificationsFormView = (props) => {
                           //   disableEducationEndDate
                           // )
                           <EducationFrom
+                            key={field.fieldKey}
                             form={form}
                             field={field}
                             index={index}

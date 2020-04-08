@@ -80,26 +80,10 @@ const EducationForm = (props) => {
   };
 
   useEffect(() => {
-    let jj = [];
-    jj.push([false, false]);
-    // setDisableEducationEndDate(jj);
-    console.log(
-      Boolean(props.profileInfo.education[props.field.fieldKey].endDate.en)
-    );
-
-    if (
-      props.profileInfo &&
-      props.profileInfo.education[props.field.fieldKey].endDate.en
-    ) {
+    // set the default status of "ongoing" checkbox
+    if (props.profileInfo.education[props.field.fieldKey].endDate.en) {
       toggleEndDate();
     }
-    // setDisableEndDate(
-    //   props.profileInfo
-    //     ? !Boolean(props.profileInfo.education[props.field.fieldKey].endDate.en)
-    //     : false
-    // );
-    console.log(jj);
-    /* check if user has a skills to mentor */
   }, [props]);
 
   //alert(disableEducationEndDate);
@@ -108,7 +92,6 @@ const EducationForm = (props) => {
    ************************************/
   return (
     <Row
-      key={props.fieldKey}
       gutter={24}
       style={{
         backgroundColor: "#dfe5e4",
