@@ -107,11 +107,11 @@ const QualificationsFormView = (props) => {
     console.log(values.education[0]);
     if (values.education) {
       for (let i = 0; i < values.education.length; i++) {
-        values.education[i].startDate = values.education[
-          i
-        ].dateRange[0].startOf("day");
-        values.education[i].endDate = values.education[i].dateRange[1].endOf(
-          "day"
+        values.education[i].startDate = values.education[i].startDate.startOf(
+          "month"
+        );
+        values.education[i].endDate = values.education[i].endDate.startOf(
+          "month"
         );
       }
     }
@@ -366,6 +366,7 @@ const QualificationsFormView = (props) => {
       </div>
     );
   } else {
+    console.log(getInitialValues(props.profileInfo));
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>

@@ -106,13 +106,15 @@ function QualificationsForm() {
 
         // generate and array of ID's of save locations
         for (let i = 0; i < result.data.education.length; i++) {
+          console.log(result.data.education[i].startDate);
           let child = {
             school: result.data.education[i].school.id,
             diploma: result.data.education[i].diploma.id,
-            // startDate: moment(result.data.education[i].startDate.en),
-            // endDate: moment(result.data.education[i].endDate.en),
+            startDate: moment(result.data.education[i].startDate.en),
+            endDate: moment(result.data.education[i].endDate.en),
           };
           selected.push(child);
+          console.log(child);
         }
         console.log(selected);
         await setSavedEducation(selected);

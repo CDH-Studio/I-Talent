@@ -138,19 +138,31 @@ const EducationForm = (props) => {
     //     actingEndDate: null,
     //   });
     // }
-    console.log(
-      props.form.getFieldValue([
-        "education",
-        props.field.fieldKey,
-        "startDateV2",
-      ])
-    );
+    // console.log(
+    //   props.form.getFieldValue([
+    //     "education",
+    //     props.field.fieldKey,
+    //     "startDateV2",
+    //   ])
+    // );
+    if (!disableEndDate) {
+      const fieldPath = ["education", props.field.fieldKey, "endDate"];
+      try {
+        const kk = props.form.getFieldsValue("education");
+        kk.education[props.field.fieldKey].endDate = null;
+        console.log(props.form.getFieldsValue("education"));
+        props.form.setFieldsValue(kk);
+      } catch (e) {
+        console.log(e);
+      }
+    }
     setDisableEndDate(!disableEndDate);
   };
 
   /* Disable all dates before start date */
   const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["education", props.field.fieldKey, "startDateV2"];
+    const fieldPath = ["education", props.field.fieldKey, "startDate"];
+    console.log(props.form.getFieldValue(fieldPath));
     if (props.form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -161,7 +173,7 @@ const EducationForm = (props) => {
 
   /* Disable all dates after end date */
   const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["education", props.field.fieldKey, "endDateV2"];
+    const fieldPath = ["education", props.field.fieldKey, "endDate"];
     if (props.form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -255,42 +267,10 @@ const EducationForm = (props) => {
           </Select>
         </Form.Item>
       </Col>
-      {/* <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-        <p>{console.log(ll)}</p>
-        <Form.Item
-          name={[props.field.name, "dateRange"]}
-          fieldKey={[props.field.fieldKey, "dateRange"]}
-          label={"Dates"}
-          rules={[Rules.required]}
-        >
-          <RangePicker
-            picker="month"
-            style={styles.datePicker}
-            ranges={{
-              Today: [moment(), undefined],
-              "This Month": [moment(), "undefined"],
-            }}
-            //disabled={[false, disableEducationEndDate]}
-            // disabled={disableEducationEndDate}
-            // disabled={true}
-            disabled={ll}
-          />
-        </Form.Item>
-      </Col> */}
-      {/* <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-        <Form.Item
-          name={[props.field.name, "dateRangeBool"]}
-          //fieldKey={[field.fieldKey, "dateRange"]}
-        >
-          <Checkbox style={{ marginTop: "40px" }} onChange={onChange}>
-            <FormattedMessage id="profile.is.ongoing" />
-          </Checkbox>
-        </Form.Item>
-      </Col> */}
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         <Form.Item
-          name={[props.field.name, "startDateV2"]}
-          fieldKey={[props.field.fieldKey, "startDateV2"]}
+          name={[props.field.name, "startDate"]}
+          fieldKey={[props.field.fieldKey, "startDate"]}
           label={<FormattedMessage id="profile.history.item.start.date" />}
           rules={[Rules.required]}
         >
@@ -303,8 +283,8 @@ const EducationForm = (props) => {
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         <Form.Item
-          name={[props.field.name, "endDateV2"]}
-          fieldKey={[props.field.fieldKey, "endDateV2"]}
+          name={[props.field.name, "endDate"]}
+          fieldKey={[props.field.fieldKey, "endDate"]}
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
