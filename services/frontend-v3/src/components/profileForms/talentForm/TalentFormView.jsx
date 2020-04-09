@@ -9,7 +9,8 @@ import {
   Select,
   Switch,
   Button,
-  TreeSelect
+  TreeSelect,
+  notification,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -28,7 +29,7 @@ const { SHOW_CHILD } = TreeSelect;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const TalentFormView = props => {
+const TalentFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -45,47 +46,123 @@ const TalentFormView = props => {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "10px 0 10px 0",
       padding: "0 20px 0 0",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     secondLangRow: {
       backgroundColor: "#dfe5e4",
       paddingTop: "15px",
       paddingBottom: "15px",
       marginBottom: "20px",
-      marginTop: "10px"
+      marginTop: "10px",
     },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
-    }
+      marginBottom: "1rem",
+    },
+    saveBtn: {
+      float: "right",
+      marginBottom: "1rem",
+    },
   };
 
   /* Component Rules for form fields */
   const Rules = {
     required: {
       required: true,
-      message: "Required"
+      message: "Required",
+    },
+  };
+
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = (formType) => {
+    if (formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.finishAndNextBtn}
+              type="primary"
+              //htmlType="submit"
+              onClick={onSaveAndNext}
+            >
+              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else if (formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              {<FormattedMessage id="setup.save" />}
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else {
+      console.log("Error Getting Action Buttons");
     }
   };
 
@@ -103,7 +180,7 @@ const TalentFormView = props => {
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     if (!displayMentorshipForm) {
       // clear mentorship skills before submission
       values.mentorshipSkills = [];
@@ -132,12 +209,49 @@ const TalentFormView = props => {
     }
   };
 
+  const openNotificationWithIcon = (type) => {
+    switch (type) {
+      case "success":
+        notification["success"]({
+          message: "Successfully Saved",
+          description: "Your changes have been saved",
+        });
+        break;
+      case "error":
+        notification["error"]({
+          message: "Data Not Saved",
+          description: "There seems to be a problem",
+        });
+        break;
+      default:
+        notification["warning"]({
+          message: "Unknown Issue",
+          description: "There may be a problem",
+        });
+        break;
+    }
+  };
+
+  /* save and show success notification */
+  const onSave = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        openNotificationWithIcon("success");
+      })
+      .catch(() => {
+        console.log("validation failure");
+        openNotificationWithIcon("error");
+      });
+  };
+
   /*
    * save and next
    *
    * save and redirect to next step in setup
    */
-  const onSaveAndNext = async values => {
+  const onSaveAndNext = async (values) => {
     await saveDataToDB(values);
     history.push("/secured/profile/create/step/6");
   };
@@ -150,7 +264,7 @@ const TalentFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
@@ -199,7 +313,7 @@ const TalentFormView = props => {
               var parent = {
                 title: fullSkillsOptionsList[i].title,
                 value: fullSkillsOptionsList[i].value,
-                children: []
+                children: [],
               };
               dataTree.push(parent);
             }
@@ -207,7 +321,7 @@ const TalentFormView = props => {
             var child = {
               title: fullSkillsOptionsList[i].children[w].title,
               value: fullSkillsOptionsList[i].children[w].value,
-              key: fullSkillsOptionsList[i].children[w].value
+              key: fullSkillsOptionsList[i].children[w].value,
             };
             dataTree[numbCategories - 1].children.push(child);
           }
@@ -242,7 +356,7 @@ const TalentFormView = props => {
    *
    * on change of skills field auto update mentorship options
    */
-  const onChangeSkills = skillsValues => {
+  const onChangeSkills = (skillsValues) => {
     // generate options for mentorship based on skills
     const selectedSkills = generateMentorshipOptions(
       props.skillOptions,
@@ -257,7 +371,7 @@ const TalentFormView = props => {
     );
     // Update the mentorship field selected values automatically
     form.setFieldsValue({
-      mentorshipSkills: validatedMentorshipSkills
+      mentorshipSkills: validatedMentorshipSkills,
     });
     // Update states
     setSelectedMentorshipSkills(validatedMentorshipSkills);
@@ -269,7 +383,7 @@ const TalentFormView = props => {
    *
    * Get mentorship role form based on if the form switch is toggled
    */
-  const getMentorshipForm = expandMentorshipForm => {
+  const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       console.log(selectedMentorshipSkills);
       return (
@@ -324,7 +438,7 @@ const TalentFormView = props => {
       return {
         competencies: props.savedCompetencies,
         skills: props.savedSkills,
-        mentorshipSkills: props.savedMentorshipSkills
+        mentorshipSkills: props.savedMentorshipSkills,
       };
     } else {
       return {};
@@ -443,36 +557,7 @@ const TalentFormView = props => {
               </Col>
             </Row>
             {/* Form Row Four: Submit button */}
-            <Row gutter={24}>
-              <Col xs={24} md={24} lg={18} xl={18}>
-                <Button
-                  style={styles.finishAndSaveBtn}
-                  onClick={onSaveAndFinish}
-                  htmlType="button"
-                >
-                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
-                  {<FormattedMessage id="setup.save.and.finish" />}
-                </Button>
-                <Button
-                  style={styles.clearBtn}
-                  htmlType="button"
-                  onClick={onReset}
-                  danger
-                >
-                  {<FormattedMessage id="button.clear" />}
-                </Button>
-              </Col>
-              <Col xs={24} md={24} lg={6} xl={6}>
-                <Button
-                  style={styles.finishAndNextBtn}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  {<FormattedMessage id="setup.save.and.next" />}{" "}
-                  <RightOutlined />
-                </Button>
-              </Col>
-            </Row>
+            {getFormControlButtons(props.formType)}
           </Form>
         </div>
       </div>
