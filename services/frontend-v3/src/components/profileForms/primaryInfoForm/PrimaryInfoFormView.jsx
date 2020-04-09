@@ -9,7 +9,7 @@ import {
   Select,
   Input,
   Button,
-  notification,
+  message,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -186,25 +186,17 @@ function PrimaryInfoFormView(props) {
     }
   };
 
+  /* show message */
   const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        notification["success"]({
-          message: "Successfully Saved",
-          description: "Your changes have been saved",
-        });
+        message.success("Changes Saved");
         break;
       case "error":
-        notification["error"]({
-          message: "Data Not Saved",
-          description: "There seems to be a problem",
-        });
+        message.error("Data Not Saved");
         break;
       default:
-        notification["warning"]({
-          message: "Unknown Issue",
-          description: "There may be a problem",
-        });
+        message.warning("There may be a problem");
         break;
     }
   };

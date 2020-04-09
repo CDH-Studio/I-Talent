@@ -8,10 +8,10 @@ import {
   Form,
   Select,
   Button,
-  notification,
+  message,
 } from "antd";
 import { useHistory } from "react-router-dom";
-import { RightOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
+import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import EducationFrom from "./educationForm/EducationForm";
@@ -187,25 +187,17 @@ const QualificationsFormView = (props) => {
     }
   };
 
+  /* show message */
   const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        notification["success"]({
-          message: "Successfully Saved",
-          description: "Your changes have been saved",
-        });
+        message.success("Changes Saved");
         break;
       case "error":
-        notification["error"]({
-          message: "Data Not Saved",
-          description: "There seems to be a problem",
-        });
+        message.error("Data Not Saved");
         break;
       default:
-        notification["warning"]({
-          message: "Unknown Issue",
-          description: "There may be a problem",
-        });
+        message.warning("There may be a problem");
         break;
     }
   };
