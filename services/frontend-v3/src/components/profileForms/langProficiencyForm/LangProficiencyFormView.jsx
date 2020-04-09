@@ -282,6 +282,7 @@ const LangProficiencyFormView = (props) => {
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
+    message.info("Form Cleared");
   };
 
   /* Get temporary role form based on if the form switch is toggled */

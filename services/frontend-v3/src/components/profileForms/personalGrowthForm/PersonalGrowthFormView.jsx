@@ -263,6 +263,7 @@ const PersonalGrowthFormView = (props) => {
    */
   const onReset = () => {
     form.resetFields();
+    message.info("Form Cleared");
   };
 
   /*

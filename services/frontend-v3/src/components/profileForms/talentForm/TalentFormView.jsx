@@ -277,6 +277,7 @@ const TalentFormView = (props) => {
    */
   const onReset = () => {
     form.resetFields();
+    message.info("Form Cleared");
   };
 
   /*

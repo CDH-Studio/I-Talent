@@ -244,6 +244,7 @@ function PrimaryInfoFormView(props) {
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
+    message.info("Form Cleared");
   };
 
   /* Get the initial values for the form */
