@@ -29,7 +29,6 @@ function QualificationsForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
-        console.log(result.data);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -90,10 +89,8 @@ function QualificationsForm() {
               ? moment(result.data.careerSummary[i].endDate)
               : null,
           };
-          console.log(result.data.careerSummary[i].startDate);
           selected.push(child);
         }
-        console.log(selected);
 
         await setSavedExperience(selected);
         return 1;
