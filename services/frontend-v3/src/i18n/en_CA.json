@@ -139,6 +139,7 @@
   "setup.career.interests": "Career interests",
   "setup.save.and.finish": "Save and finish",
   "setup.save.and.next": "Save and Next",
+  "setup.save": "Save",
 
   "lang": "Français",
   "lang.code": "fr",
@@ -205,7 +206,7 @@
   "profile.info": "Info",
   "profile.is.acting": "I am in a temporary role",
   "profile.is.ex.feeder": "I'm nominated in the EX-Feeder Program.",
-  "profile.is.ongoing": "Current",
+  "profile.is.ongoing": "Ongoing",
   "profile.last.name": "Last name",
   "profile.linkedin": "LinkedIn",
   "profile.linkedin.url": "LinkedIn URL",

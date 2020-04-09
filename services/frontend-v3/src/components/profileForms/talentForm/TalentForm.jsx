@@ -9,7 +9,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-function TalentForm() {
+function TalentForm(props) {
   const [profileInfo, setProfileInfo] = useState(null);
   const [skillOptions, setSkillOptions] = useState(null);
   const [competencyOptions, setCompetencyOptions] = useState(null);
@@ -92,7 +92,7 @@ function TalentForm() {
           var parent = {
             title: result.data[i].description.en,
             value: result.data[i].id,
-            children: []
+            children: [],
           };
 
           dataTree.push(parent);
@@ -104,7 +104,7 @@ function TalentForm() {
                 ": " +
                 result.data[i].skills[w].description.descEn,
               value: result.data[i].skills[w].id,
-              key: result.data[i].skills[w].id
+              key: result.data[i].skills[w].id,
             };
             dataTree[i].children.push(child);
           }
@@ -188,6 +188,7 @@ function TalentForm() {
       savedCompetencies={savedCompetencies}
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
+      formType={props.formType}
       load={load}
     />
   );

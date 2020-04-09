@@ -9,7 +9,8 @@ import {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm
+  PersonalGrowthForm,
+  QualificationsForm,
 } from "../../profileForms";
 
 const { Step } = Steps;
@@ -22,15 +23,17 @@ export default class CreateProfileLayout extends React.Component {
       case 1:
         return <Welcome />;
       case 2:
-        return <PrimaryInfoForm />;
+        return <PrimaryInfoForm formType={"create"} />;
       case 3:
-        return <EmploymentDataForm />;
+        return <EmploymentDataForm formType={"create"} />;
       case 4:
-        return <LangProficiencyForm />;
+        return <LangProficiencyForm formType={"create"} />;
       case 5:
-        return <TalentForm />;
+        return <TalentForm formType={"create"} />;
       case 6:
-        return <PersonalGrowthForm />;
+        return <PersonalGrowthForm formType={"create"} />;
+      case 7:
+        return <QualificationsForm formType={"create"} />;
       default:
         return <div>Hello</div>;
     }

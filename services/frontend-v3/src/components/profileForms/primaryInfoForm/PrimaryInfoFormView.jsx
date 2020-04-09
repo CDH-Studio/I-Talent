@@ -8,7 +8,8 @@ import {
   Form,
   Select,
   Input,
-  Button
+  Button,
+  message,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -32,61 +33,136 @@ function PrimaryInfoFormView(props) {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "10px 0 10px 0",
       padding: "0 20px 0 0",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
-    }
+      marginBottom: "1rem",
+    },
+    saveBtn: {
+      float: "right",
+      marginBottom: "1rem",
+    },
   };
 
   /* Component Rules for form fields */
   const Rules = {
     required: {
       required: true,
-      message: "Required"
+      message: "Required",
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters"
+      message: "Max length 50 characters",
     },
     maxChar100: {
       max: 50,
-      message: "Max length 100 characters"
+      message: "Max length 100 characters",
     },
     telephoneFormat: {
       pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
-      message: "required format: 111-222-3333"
+      message: "required format: 111-222-3333",
     },
     emailFormat: {
       pattern: /\S+@\S+\.ca/i, // prettier-ignore
-      message: "Please Provide a valid Gov. Canada email"
+      message: "Please Provide a valid Gov. Canada email",
+    },
+  };
+
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = (formType) => {
+    if (formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.finishAndNextBtn}
+              type="primary"
+              onClick={onSaveAndNext}
+            >
+              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else if (formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              {<FormattedMessage id="setup.save" />}
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else {
+      console.log("Error Getting Action Buttons");
     }
   };
 
   /* Save data */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     if (props.profileInfo) {
       //If profile exists then update profile
       try {
@@ -110,17 +186,53 @@ function PrimaryInfoFormView(props) {
     }
   };
 
+  /* show message */
+  const openNotificationWithIcon = (type) => {
+    switch (type) {
+      case "success":
+        message.success("Changes Saved");
+        break;
+      case "error":
+        message.error("Data Not Saved");
+        break;
+      default:
+        message.warning("There may be a problem");
+        break;
+    }
+  };
+
+  /* save and show success notification */
+  const onSave = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        openNotificationWithIcon("success");
+      })
+      .catch(() => {
+        console.log("validation failure");
+        openNotificationWithIcon("error");
+      });
+  };
+
   /* save and redirect to next step in setup */
-  const onSaveAndNext = async values => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/3");
+  const onSaveAndNext = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        history.push("/secured/profile/create/step/3");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /* save and redirect to home */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
@@ -132,10 +244,11 @@ function PrimaryInfoFormView(props) {
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
+    message.info("Form Cleared");
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile) {
       return {
         firstName: profile.firstName,
@@ -144,13 +257,13 @@ function PrimaryInfoFormView(props) {
         cellphone: profile.cellphone,
         email: profile.email,
         ...(profile.location.id && {
-          location: profile.location.id
+          location: profile.location.id,
         }),
 
         team: profile.team,
         gcConnex: "ddd",
         linkedinUrl: profile.linkedinUrl,
-        githubUrl: profile.githubUrl
+        githubUrl: profile.githubUrl,
       };
     } else {
       return {};
@@ -182,7 +295,6 @@ function PrimaryInfoFormView(props) {
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
             form={form}
-            onFinish={onSaveAndNext}
           >
             {/* Form Row One */}
             <Row gutter={24}>
@@ -206,7 +318,6 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
-
             {/* Form Row Two */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
@@ -239,7 +350,6 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
-
             {/* Form Row Three */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
@@ -278,7 +388,6 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
-
             {/* Form Row Four */}
             <Row
               gutter={24}
@@ -286,7 +395,7 @@ function PrimaryInfoFormView(props) {
                 backgroundColor: "#dfe5e4",
                 paddingTop: "15px",
                 marginBottom: "20px",
-                marginTop: "10px"
+                marginTop: "10px",
               }}
             >
               <Col className="gutter-row" span={24}>
@@ -320,37 +429,7 @@ function PrimaryInfoFormView(props) {
                 </Form.Item>
               </Col>
             </Row>
-            {/* Form Row Five: Submit button */}
-            <Row gutter={24}>
-              <Col xs={24} md={24} lg={18} xl={18}>
-                <Button
-                  style={styles.finishAndSaveBtn}
-                  onClick={onSaveAndFinish}
-                  htmlType="button"
-                >
-                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
-                  {<FormattedMessage id="setup.save.and.finish" />}
-                </Button>
-                <Button
-                  style={styles.clearBtn}
-                  htmlType="button"
-                  onClick={onReset}
-                  danger
-                >
-                  {<FormattedMessage id="button.clear" />}
-                </Button>
-              </Col>
-              <Col xs={24} md={24} lg={6} xl={6}>
-                <Button
-                  style={styles.finishAndNextBtn}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  {<FormattedMessage id="setup.save.and.next" />}{" "}
-                  <RightOutlined />
-                </Button>
-              </Col>
-            </Row>
+            {getFormControlButtons(props.formType)}
           </Form>
         </div>
       </div>

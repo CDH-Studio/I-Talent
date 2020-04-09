@@ -9,7 +9,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-function EmploymentDataForm() {
+function EmploymentDataForm(props) {
   const [substantiveOptions, setSubstantiveOptions] = useState(null);
   const [classificationOptions, setClassificationOptions] = useState(null);
   const [securityOptions, setSecurityOptions] = useState(null);
@@ -89,6 +89,7 @@ function EmploymentDataForm() {
       classificationOptions={classificationOptions}
       securityOptions={securityOptions}
       profileInfo={profileInfo}
+      formType={props.formType}
       load={load}
     />
   );

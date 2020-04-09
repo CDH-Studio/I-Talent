@@ -11,7 +11,8 @@ import {
   Switch,
   DatePicker,
   Checkbox,
-  Button
+  Button,
+  message,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -30,7 +31,7 @@ const { Title } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = props => {
+const EmploymentDataFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -44,61 +45,65 @@ const EmploymentDataFormView = props => {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "10px 0 10px 0",
       padding: "0 20px 0 0",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     tempRoleRow: {
       backgroundColor: "#dfe5e4",
       paddingTop: "15px",
       paddingBottom: "15px",
       marginBottom: "20px",
-      marginTop: "10px"
+      marginTop: "10px",
     },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
-    datePicker: { width: "100%" }
+    datePicker: { width: "100%" },
+    saveBtn: {
+      float: "right",
+      marginBottom: "1rem",
+    },
   };
 
   /* Component Rules for form fields */
   const Rules = {
     required: {
       required: true,
-      message: "Required"
+      message: "Required",
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters"
+      message: "Max length 50 characters",
     },
     maxChar100: {
       max: 50,
-      message: "Max length 100 characters"
-    }
+      message: "Max length 100 characters",
+    },
   };
 
   /* toggle temporary role form */
-  const toggleSecLangForm = () => {
+  const toggleTempRoleForm = () => {
     setDisplayMentorshipForm(!displayMentorshipForm);
   };
 
@@ -108,28 +113,99 @@ const EmploymentDataFormView = props => {
     // reset end date value
     if (enableSecondLang) {
       form.setFieldsValue({
-        actingEndDate: null
+        actingEndDate: null,
       });
     }
     setEnableSecondLang(!enableSecondLang);
   };
 
   /* Disable all dates before start date */
-  const disabledDatesBeforeStart = current => {
+  const disabledDatesBeforeStart = (current) => {
     if (form.getFieldValue("actingStartDate")) {
       return current && current < moment(form.getFieldValue("actingStartDate"));
     }
   };
 
   /* Disable all dates after end date */
-  const disabledDatesAfterEnd = current => {
+  const disabledDatesAfterEnd = (current) => {
     if (form.getFieldValue("actingEndDate")) {
       return current && current > moment(form.getFieldValue("actingEndDate"));
     }
   };
 
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = (formType) => {
+    if (formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.finishAndNextBtn}
+              type="primary"
+              onClick={onSaveAndNext}
+            >
+              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else if (formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              {<FormattedMessage id="setup.save" />}
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else {
+      console.log("Error Getting Action Buttons");
+    }
+  };
+
   /* Save data */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     // If dropdown value is undefined then clear value in DB
     values.tenureId = values.tenureId ? values.tenureId : null;
     values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
@@ -175,17 +251,53 @@ const EmploymentDataFormView = props => {
     }
   };
 
+  /* show message */
+  const openNotificationWithIcon = (type) => {
+    switch (type) {
+      case "success":
+        message.success("Changes Saved");
+        break;
+      case "error":
+        message.error("Data Not Saved");
+        break;
+      default:
+        message.warning("There may be a problem");
+        break;
+    }
+  };
+
+  /* save and show success notification */
+  const onSave = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        openNotificationWithIcon("success");
+      })
+      .catch(() => {
+        console.log("validation failure");
+        openNotificationWithIcon("error");
+      });
+  };
+
   /* save and redirect to next step in setup */
-  const onSaveAndNext = async values => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/4");
+  const onSaveAndNext = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        history.push("/secured/profile/create/step/4");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /* save and redirect to home */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
@@ -197,10 +309,11 @@ const EmploymentDataFormView = props => {
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
+    message.info("Form Cleared");
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getTempRoleForm = expandMentorshipForm => {
+  const getTempRoleForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <Row gutter={24} style={{ marginTop: "10px" }}>
@@ -268,28 +381,28 @@ const EmploymentDataFormView = props => {
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile) {
       return {
-        ...(profile.classification.id && {
-          groupLevelId: profile.classification.id
+        ...(profile.classification && {
+          groupLevelId: profile.classification.id,
         }),
-        ...(profile.temporaryRole.id && {
-          tenureId: profile.temporaryRole.id
+        ...(profile.temporaryRole && {
+          tenureId: profile.temporaryRole.id,
         }),
-        ...(profile.security.id && {
-          securityClearanceId: profile.security.id
+        ...(profile.security && {
+          securityClearanceId: profile.security.id,
         }),
         manager: profile.manager,
-        ...(profile.acting.id && {
-          actingId: profile.acting.id
+        ...(profile.acting && {
+          actingId: profile.acting.id,
         }),
         ...(profile.actingPeriodStartDate && {
-          actingStartDate: moment(profile.actingPeriodStartDate)
+          actingStartDate: moment(profile.actingPeriodStartDate),
         }),
         ...(profile.actingPeriodEndDate && {
-          actingEndDate: moment(profile.actingPeriodEndDate)
-        })
+          actingEndDate: moment(profile.actingPeriodEndDate),
+        }),
       };
     } else {
       return {};
@@ -299,7 +412,9 @@ const EmploymentDataFormView = props => {
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
     setDisplayMentorshipForm(
-      props.profileInfo ? !!props.profileInfo.acting.id : false
+      props.profileInfo &&
+        props.profileInfo.acting &&
+        !!props.profileInfo.acting.id
     );
 
     /* check if user has acting end date to enable the date felid on load */
@@ -333,7 +448,6 @@ const EmploymentDataFormView = props => {
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={onSaveAndNext}
           >
             {/* Form Row One */}
             <Row gutter={24}>
@@ -435,42 +549,12 @@ const EmploymentDataFormView = props => {
                 />
                 <Switch
                   defaultChecked={displayMentorshipForm}
-                  onChange={toggleSecLangForm}
+                  onChange={toggleTempRoleForm}
                 />
                 {getTempRoleForm(displayMentorshipForm)}
               </Col>
             </Row>
-            {/* Form Row Five: Submit button */}
-            <Row gutter={24}>
-              <Col xs={24} md={24} lg={18} xl={18}>
-                <Button
-                  style={styles.finishAndSaveBtn}
-                  onClick={onSaveAndFinish}
-                  htmlType="button"
-                >
-                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
-                  {<FormattedMessage id="setup.save.and.finish" />}
-                </Button>
-                <Button
-                  style={styles.clearBtn}
-                  htmlType="button"
-                  onClick={onReset}
-                  danger
-                >
-                  {<FormattedMessage id="button.clear" />}
-                </Button>
-              </Col>
-              <Col xs={24} md={24} lg={6} xl={6}>
-                <Button
-                  style={styles.finishAndNextBtn}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  {<FormattedMessage id="setup.save.and.next" />}{" "}
-                  <RightOutlined />
-                </Button>
-              </Col>
-            </Row>
+            {getFormControlButtons(props.formType)}
           </Form>
         </div>
       </div>
