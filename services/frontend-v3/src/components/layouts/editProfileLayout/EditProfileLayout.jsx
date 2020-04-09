@@ -20,17 +20,17 @@ const EditProfileLayout = (props) => {
   const profileFormSelect = (step) => {
     switch (step) {
       case "primary-info":
-        return <PrimaryInfoForm />;
+        return <PrimaryInfoForm formType="edit" />;
       case "employment":
-        return <EmploymentDataForm />;
+        return <EmploymentDataForm formType="edit" />;
       case "language-proficiency":
-        return <LangProficiencyForm />;
+        return <LangProficiencyForm formType="edit" />;
       case "talent":
-        return <TalentForm />;
+        return <TalentForm formType="edit" />;
       case "personal-growth":
-        return <PersonalGrowthForm />;
+        return <PersonalGrowthForm formType="edit" />;
       case "qualifications":
-        return <QualificationsForm />;
+        return <QualificationsForm formType="edit" />;
       default:
         return <div>Hello</div>;
     }

@@ -9,7 +9,7 @@ import {
   Select,
   Switch,
   DatePicker,
-  Button
+  Button,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -28,7 +28,7 @@ const { Title } = Typography;
  *  this component renders the language proficiency form.
  *  It contains a toggle to set the second language
  */
-const LangProficiencyFormView = props => {
+const LangProficiencyFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -41,49 +41,49 @@ const LangProficiencyFormView = props => {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "10px 0 10px 0",
       padding: "0 20px 0 0",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     secondLangRow: {
       backgroundColor: "#dfe5e4",
       paddingTop: "15px",
       paddingBottom: "15px",
       marginBottom: "20px",
-      marginTop: "10px"
+      marginTop: "10px",
     },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
-    datePicker: { width: "100%" }
+    datePicker: { width: "100%" },
   };
 
   /* Component Rules for form fields */
   const Rules = {
     required: {
       required: true,
-      message: "Required"
-    }
+      message: "Required",
+    },
   };
 
   /* toggle temporary role form */
@@ -92,7 +92,7 @@ const LangProficiencyFormView = props => {
   };
 
   /* Save data */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     // If firstLanguage is undefined then clear value in DB
     values.firstLanguage = values.firstLanguage ? values.firstLanguage : null;
 
@@ -149,16 +149,16 @@ const LangProficiencyFormView = props => {
   };
 
   /* save and redirect to next step in setup */
-  const onSaveAndNext = async values => {
+  const onSaveAndNext = async (values) => {
     await saveDataToDB(values);
-    history.push("/secured/profile/create/step/4");
+    history.push("/secured/profile/create/step/5");
   };
 
   /* save and redirect to home */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
@@ -173,7 +173,7 @@ const LangProficiencyFormView = props => {
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getSecondLanguageForm = expandMentorshipForm => {
+  const getSecondLanguageForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <div>
@@ -298,7 +298,7 @@ const LangProficiencyFormView = props => {
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     // Get default language from API and convert to dropdown key
     let firstLanguage = null;
     if (profile) {
@@ -311,23 +311,23 @@ const LangProficiencyFormView = props => {
       return {
         firstLanguage: firstLanguage,
         ...(profile.secondaryReadingProficiency && {
-          readingProficiency: profile.secondaryReadingProficiency
+          readingProficiency: profile.secondaryReadingProficiency,
         }),
         ...(profile.secondaryWritingProficiency && {
-          writingProficiency: profile.secondaryWritingProficiency
+          writingProficiency: profile.secondaryWritingProficiency,
         }),
         ...(profile.secondaryOralProficiency && {
-          oralProficiency: profile.secondaryOralProficiency
+          oralProficiency: profile.secondaryOralProficiency,
         }),
         ...(profile.secondaryReadingDate && {
-          secondaryReadingDate: moment(profile.secondaryReadingDate)
+          secondaryReadingDate: moment(profile.secondaryReadingDate),
         }),
         ...(profile.secondaryWritingDate && {
-          secondaryWritingDate: moment(profile.secondaryWritingDate)
+          secondaryWritingDate: moment(profile.secondaryWritingDate),
         }),
         ...(profile.secondaryOralDate && {
-          secondaryOralDate: moment(profile.secondaryOralDate)
-        })
+          secondaryOralDate: moment(profile.secondaryOralDate),
+        }),
       };
     } else {
       return {};

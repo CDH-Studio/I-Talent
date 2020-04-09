@@ -8,6 +8,7 @@ import {
   Form,
   Select,
   Button,
+  notification,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
@@ -19,7 +20,6 @@ import config from "../../../config";
 
 const { backendAddress } = config;
 const { Title } = Typography;
-const { Option } = Select;
 
 /**
  *  QualificationsFormView(props)
@@ -61,6 +61,70 @@ const QualificationsFormView = (props) => {
       float: "right",
       marginBottom: "1rem",
     },
+    saveBtn: {
+      float: "right",
+      marginBottom: "1rem",
+    },
+  };
+
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = (formType) => {
+    if (formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.saveBtn}
+              onClick={onSaveAndFinish}
+              type="primary"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else if (formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button style={styles.finishAndSaveBtn} onClick={onSaveAndFinish}>
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              {<FormattedMessage id="setup.save" />}
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else {
+      console.log("Error Getting Action Buttons");
+    }
   };
 
   /*
@@ -121,6 +185,47 @@ const QualificationsFormView = (props) => {
         console.log(error);
       }
     }
+  };
+
+  const openNotificationWithIcon = (type) => {
+    switch (type) {
+      case "success":
+        notification["success"]({
+          message: "Successfully Saved",
+          description: "Your changes have been saved",
+        });
+        break;
+      case "error":
+        notification["error"]({
+          message: "Data Not Saved",
+          description: "There seems to be a problem",
+        });
+        break;
+      default:
+        notification["warning"]({
+          message: "Unknown Issue",
+          description: "There may be a problem",
+        });
+        break;
+    }
+  };
+
+  /*
+   * save
+   *
+   * save and show success notification
+   */
+  const onSave = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        openNotificationWithIcon("success");
+      })
+      .catch(() => {
+        console.log("validation failure");
+        openNotificationWithIcon("error");
+      });
   };
 
   /*
@@ -200,7 +305,6 @@ const QualificationsFormView = (props) => {
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={onSaveAndNext}
           >
             {/* *************** Education ************** */}
             <Title level={3} style={styles.formTitle}>
@@ -241,7 +345,6 @@ const QualificationsFormView = (props) => {
                 </Form.List>
               </Col>
             </Row>
-
             {/* *************** Work Experience ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
@@ -283,13 +386,11 @@ const QualificationsFormView = (props) => {
                 </Form.List>
               </Col>
             </Row>
-
             {/* *************** Projects ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
               <FormattedMessage id="setup.projects" />
             </Title>
-
             {/* Form Row Three: career mobility */}
             <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -306,39 +407,9 @@ const QualificationsFormView = (props) => {
                 </Form.Item>
               </Col>
             </Row>
-
             {/* *************** Control Buttons ************** */}
             {/* Form Row Four: Submit button */}
-            <Row gutter={24}>
-              <Col xs={24} md={24} lg={18} xl={18}>
-                <Button
-                  style={styles.finishAndSaveBtn}
-                  onClick={onSaveAndFinish}
-                  htmlType="button"
-                >
-                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
-                  {<FormattedMessage id="setup.save.and.finish" />}
-                </Button>
-                <Button
-                  style={styles.clearBtn}
-                  htmlType="button"
-                  onClick={onReset}
-                  danger
-                >
-                  {<FormattedMessage id="button.clear" />}
-                </Button>
-              </Col>
-              <Col xs={24} md={24} lg={6} xl={6}>
-                <Button
-                  style={styles.finishAndNextBtn}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  {<FormattedMessage id="setup.save.and.next" />}{" "}
-                  <RightOutlined />
-                </Button>
-              </Col>
-            </Row>
+            {getFormControlButtons(props.formType)}
           </Form>
         </div>
       </div>

@@ -10,7 +10,7 @@ const { backendAddress } = config;
  *  Controller for the QualificationsFormView.
  *  It gathers the required data for rendering the component
  */
-function QualificationsForm() {
+function QualificationsForm(props) {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -147,6 +147,7 @@ function QualificationsForm() {
       savedEducation={savedEducation}
       savedExperience={savedExperience}
       savedProjects={savedProjects}
+      formType={props.formType}
       load={load}
     />
   );
