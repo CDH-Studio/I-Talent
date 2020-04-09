@@ -29,8 +29,6 @@ function EducationForm(props) {
         let result = await axios.get(url);
         let dataTree = [];
 
-        console.log(result);
-
         // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
@@ -56,8 +54,6 @@ function EducationForm(props) {
         let url = backendAddress + "api/option/getSchool";
         let result = await axios.get(url);
         let dataTree = [];
-
-        console.log(result);
 
         // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {

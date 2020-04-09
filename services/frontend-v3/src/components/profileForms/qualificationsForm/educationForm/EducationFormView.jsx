@@ -9,14 +9,7 @@ import {
   Checkbox,
   DatePicker,
 } from "antd";
-import {
-  RightOutlined,
-  CheckOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
-  FormOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
@@ -24,9 +17,10 @@ const { Option } = Select;
 const { Title } = Typography;
 
 /**
- *  QualificationsFormView(props)
- *  this component renders the talent form.
- *  It contains competencies, skills, and mentorship TreeSelects.
+ *  EducationFormView(props)
+ *  This component renders the educations form.
+ *  It is rendered when a user generates an education item
+ *  It contains diploma, school, start date, and end date.
  */
 const EducationForm = (props) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
@@ -46,7 +40,11 @@ const EducationForm = (props) => {
     },
   };
 
-  /* enable or disable end date field */
+  /*
+   * Toggle End Date
+   *
+   * Enable or disable end date field if education is on going
+   */
   const toggleEndDate = () => {
     if (!disableEndDate) {
       const educationFieldValues = props.form.getFieldsValue("education");
@@ -56,7 +54,12 @@ const EducationForm = (props) => {
     setDisableEndDate(!disableEndDate);
   };
 
-  /* Disable all dates before start date */
+  /*
+   * Disabled Dates Before Start
+   *
+   * Generates a list of invalid dates before the start date
+   * This is used for the end date field
+   */
   const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["education", props.field.fieldKey, "startDate"];
     console.log(props.form.getFieldValue(fieldPath));
@@ -68,7 +71,12 @@ const EducationForm = (props) => {
     }
   };
 
-  /* Disable all dates after end date */
+  /*
+   * Disabled Dates After End
+   *
+   * Generates a list of invalid dates after the end date
+   * This is used for the start date field
+   */
   const disabledDatesAfterEnd = (current) => {
     const fieldPath = ["education", props.field.fieldKey, "endDate"];
     if (props.form.getFieldValue(fieldPath)) {
@@ -89,12 +97,11 @@ const EducationForm = (props) => {
     }
   }, [props.profileInfo]);
 
-  //alert(disableEducationEndDate);
   /************************************
    ********* Render Component *********
    ************************************/
   if (!props.load) {
-    return <div></div>;
+    return <div />;
   } else {
     return (
       <Row
@@ -110,12 +117,6 @@ const EducationForm = (props) => {
             <FormOutlined style={{ marginRight: "0.5em" }} />
             <FormattedMessage id="setup.education" />
             {": " + (props.field.fieldKey + 1)}
-            {/* <DeleteOutlined
-                onClick={() => {
-                  remove(field.name);
-                }}
-                style={{ float: "right" }}
-              /> */}
             <Button
               type="primary"
               shape="circle"
@@ -129,6 +130,7 @@ const EducationForm = (props) => {
           </Title>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          {/* Diploma Dropdown */}
           <Form.Item
             name={[props.field.name, "diploma"]}
             fieldKey={[props.field.fieldKey, "diploma"]}
@@ -149,6 +151,7 @@ const EducationForm = (props) => {
           </Form.Item>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          {/* School Dropdown */}
           <Form.Item
             name={[props.field.name, "school"]}
             fieldKey={[props.field.fieldKey, "school"]}
@@ -169,6 +172,7 @@ const EducationForm = (props) => {
           </Form.Item>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          {/* Start Date */}
           <Form.Item
             name={[props.field.name, "startDate"]}
             fieldKey={[props.field.fieldKey, "startDate"]}
@@ -183,6 +187,7 @@ const EducationForm = (props) => {
           </Form.Item>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+          {/* End Date */}
           <Form.Item
             name={[props.field.name, "endDate"]}
             fieldKey={[props.field.fieldKey, "endDate"]}
@@ -198,6 +203,7 @@ const EducationForm = (props) => {
             />
           </Form.Item>
           <div style={{ marginTop: "-10px" }}>
+            {/* Checkbox if event is on-going */}
             <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
               <FormattedMessage id="profile.is.ongoing" />
             </Checkbox>
