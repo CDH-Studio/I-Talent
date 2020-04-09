@@ -5,6 +5,7 @@ import { RightOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import EducationFrom from "./educationForm/EducationForm";
+import ExperienceFrom from "./experienceForm/ExperienceForm";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -68,6 +69,21 @@ const QualificationsFormView = (props) => {
         }
         if (values.education[i].endDate) {
           values.education[i].endDate = values.education[i].endDate.startOf(
+            "month"
+          );
+        }
+      }
+    }
+
+    if (values.experience) {
+      for (let i = 0; i < values.experience.length; i++) {
+        if (values.experience[i].startDate) {
+          values.experience[i].startDate = values.experience[
+            i
+          ].startDate.startOf("month");
+        }
+        if (values.experience[i].endDate) {
+          values.experience[i].endDate = values.experience[i].endDate.startOf(
             "month"
           );
         }
@@ -141,6 +157,7 @@ const QualificationsFormView = (props) => {
     if (profile && props) {
       return {
         education: props.savedEducation,
+        experience: props.savedExperience,
       };
     } else {
       return {};
@@ -221,25 +238,41 @@ const QualificationsFormView = (props) => {
               <FormattedMessage id="setup.career.interests" />
             </Title>
             {/* Form Row One: Remote Work */}
-            {/* <Row gutter={24}>
+            <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="interestedInRemote"
-                  label={<FormattedMessage id="profile.interested.in.remote" />}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="Please select"
-                    allowClear={true}
-                  >
-                    {props.interestedInRemoteOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.text}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
+                <Form.List name="experience">
+                  {(fields, { add, remove }) => {
+                    return (
+                      <div>
+                        {/* generate education form for each education item */}
+                        {fields.map((field, index) => (
+                          <ExperienceFrom
+                            key={field.fieldKey}
+                            form={form}
+                            field={field}
+                            remove={remove}
+                            profileInfo={props.profileInfo}
+                            style={styles}
+                          />
+                        ))}
+                        <Form.Item>
+                          {/* add education field button */}
+                          <Button
+                            type="dashed"
+                            onClick={() => {
+                              add();
+                            }}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined /> Add field
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    );
+                  }}
+                </Form.List>
               </Col>
-            </Row> */}
+            </Row>
 
             {/* Form Row Two: Relocation */}
             {/* <Row gutter={24}>

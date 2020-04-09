@@ -15,6 +15,7 @@ function QualificationsForm() {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [savedEducation, setSavedEducation] = useState();
+  const [savedExperience, setSavedExperience] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -28,6 +29,7 @@ function QualificationsForm() {
           backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
+        console.log(result.data);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -65,11 +67,47 @@ function QualificationsForm() {
       }
     };
 
+    /*
+     * Get Saved Experience Information
+     *
+     * get saved experience items
+     */
+    const getSavedExperience = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        let selected = [];
+
+        // generate an array of education items
+        for (let i = 0; i < result.data.careerSummary.length; i++) {
+          let child = {
+            header: result.data.careerSummary[i].header,
+            subheader: result.data.careerSummary[i].subheader,
+            content: result.data.careerSummary[i].content,
+            startDate: moment(result.data.careerSummary[i].startDate),
+            endDate: result.data.careerSummary[i].endDate
+              ? moment(result.data.careerSummary[i].endDate)
+              : null,
+          };
+          console.log(result.data.careerSummary[i].startDate);
+          selected.push(child);
+        }
+        console.log(selected);
+
+        await setSavedExperience(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* Get all required data component */
     const getAllData = async () => {
       try {
         await getProfileInfo();
         await getSavedEducation();
+        await getSavedExperience();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -86,6 +124,7 @@ function QualificationsForm() {
     <QualificationsFormView
       profileInfo={profileInfo}
       savedEducation={savedEducation}
+      savedExperience={savedExperience}
       load={load}
     />
   );

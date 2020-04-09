@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EducationFormView from "./ExperienceFormView";
+import ExperienceFormView from "./ExperienceFormView";
 import axios from "axios";
 import config from "../../../../config";
 const { backendAddress } = config;
@@ -88,7 +88,7 @@ function ExperienceForm(props) {
   }, []);
 
   return (
-    <EducationFormView
+    <ExperienceFormView
       form={props.form}
       field={props.field}
       remove={props.remove}

@@ -8,13 +8,14 @@ import {
   Button,
   Checkbox,
   DatePicker,
+  Input,
 } from "antd";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
-const { Option } = Select;
 const { Title } = Typography;
+const { TextArea } = Input;
 
 /**
  *  EducationFormView(props)
@@ -22,7 +23,7 @@ const { Title } = Typography;
  *  It is rendered when a user generates an education item
  *  It contains diploma, school, start date, and end date.
  */
-const EducationFormView = (props) => {
+const ExperienceFormView = (props) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
   const Rules = {
@@ -43,13 +44,13 @@ const EducationFormView = (props) => {
   /*
    * Toggle End Date
    *
-   * Enable or disable end date field if education is on going
+   * Enable or disable end date field if experience is on going
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = props.form.getFieldsValue("education");
-      educationFieldValues.education[props.field.fieldKey].endDate = null;
-      props.form.setFieldsValue(educationFieldValues);
+      const experienceFieldValues = props.form.getFieldsValue("experience");
+      experienceFieldValues.experience[props.field.fieldKey].endDate = null;
+      props.form.setFieldsValue(experienceFieldValues);
     }
     setDisableEndDate(!disableEndDate);
   };
@@ -90,8 +91,8 @@ const EducationFormView = (props) => {
   useEffect(() => {
     // set the default status of "ongoing" checkbox
     if (
-      props.profileInfo.education[props.field.fieldKey] &&
-      props.profileInfo.education[props.field.fieldKey].endDate.en
+      props.profileInfo.careerSummary[props.field.fieldKey] &&
+      props.profileInfo.careerSummary[props.field.fieldKey].endDate
     ) {
       toggleEndDate();
     }
@@ -115,7 +116,7 @@ const EducationFormView = (props) => {
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} style={props.style.entryTitle}>
             <FormOutlined style={{ marginRight: "0.5em" }} />
-            <FormattedMessage id="setup.education" />
+            <FormattedMessage id="setup.experience" />
             {": " + (props.field.fieldKey + 1)}
             <Button
               type="primary"
@@ -132,43 +133,25 @@ const EducationFormView = (props) => {
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
           {/* Diploma Dropdown */}
           <Form.Item
-            name={[props.field.name, "diploma"]}
-            fieldKey={[props.field.fieldKey, "diploma"]}
-            label={<FormattedMessage id="profile.diploma" />}
+            name={[props.field.name, "header"]}
+            fieldKey={[props.field.fieldKey, "header"]}
+            label={<FormattedMessage id="admin.job.title" />}
             style={props.style.formItem}
-            rules={[Rules.required]}
+            rules={[Rules.required, Rules.maxChar50]}
           >
-            <Select
-              showSearch
-              optionFilterProp="children"
-              placeholder="Please select"
-              allowClear={true}
-            >
-              {props.diplomaOptions.map((value, index) => {
-                return <Option key={value.key}>{value.title}</Option>;
-              })}
-            </Select>
+            <Input />
           </Form.Item>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
           {/* School Dropdown */}
           <Form.Item
-            name={[props.field.name, "school"]}
-            fieldKey={[props.field.fieldKey, "school"]}
-            label={<FormattedMessage id="profile.school" />}
+            name={[props.field.name, "subheader"]}
+            fieldKey={[props.field.fieldKey, "subheader"]}
+            label={<FormattedMessage id="profile.career.subheader.name" />}
             rules={[Rules.required]}
-            style={props.style.formItem}
+            rules={[Rules.required, Rules.maxChar50]}
           >
-            <Select
-              showSearch
-              optionFilterProp="children"
-              placeholder="Please select"
-              allowClear={true}
-            >
-              {props.schoolOptions.map((value) => {
-                return <Option key={value.key}>{value.title}</Option>;
-              })}
-            </Select>
+            <Input />
           </Form.Item>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
@@ -209,9 +192,19 @@ const EducationFormView = (props) => {
             </Checkbox>
           </div>
         </Col>
+        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+          {/* End Date */}
+          <Form.Item
+            name={[props.field.name, "content"]}
+            fieldKey={[props.field.fieldKey, "content"]}
+            label={<FormattedMessage id="profile.career.content.name" />}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
+        </Col>
       </Row>
     );
   }
 };
 
-export default EducationFormView;
+export default ExperienceFormView;
