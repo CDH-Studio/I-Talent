@@ -10,14 +10,12 @@ function Education(props) {
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
 
-    const present = <FormattedMessage id="profile.end.date.present" />;
-
     let duration = "";
 
     if (startDate === null && endDate === null) {
       duration = duration + dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + present;
+      duration = duration + formatedStartDate + " - " + "present";
     } else {
       duration = duration + formatedStartDate + " - " + formatedEndDate;
     }
