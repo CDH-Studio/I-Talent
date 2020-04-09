@@ -12,7 +12,10 @@ import {
   DatePicker,
   Checkbox,
   Button,
+<<<<<<< HEAD
   message,
+=======
+>>>>>>> fixed inccorrect variable names
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -35,7 +38,7 @@ const EmploymentDataFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
-  const [enableSecondLang, setEnableSecondLang] = useState();
+  const [enableEndDate, setEnableEndDate] = useState();
 
   /* Component Styles */
   const styles = {
@@ -78,12 +81,17 @@ const EmploymentDataFormView = (props) => {
       width: "100%",
       float: "right",
       marginBottom: "1rem",
+<<<<<<< HEAD
     },
     datePicker: { width: "100%" },
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
     },
+=======
+    },
+    datePicker: { width: "100%" },
+>>>>>>> fixed inccorrect variable names
   };
 
   /* Component Rules for form fields */
@@ -109,14 +117,13 @@ const EmploymentDataFormView = (props) => {
 
   /* enable or disable end date field */
   const toggleTempEndDate = () => {
-    console.log(enableSecondLang);
     // reset end date value
-    if (enableSecondLang) {
+    if (enableEndDate) {
       form.setFieldsValue({
         actingEndDate: null,
       });
     }
-    setEnableSecondLang(!enableSecondLang);
+    setEnableEndDate(!enableEndDate);
   };
 
   /* Disable all dates before start date */
@@ -282,6 +289,7 @@ const EmploymentDataFormView = (props) => {
 
   /* save and redirect to next step in setup */
   const onSaveAndNext = async (values) => {
+<<<<<<< HEAD
     form
       .validateFields()
       .then(async (values) => {
@@ -291,6 +299,10 @@ const EmploymentDataFormView = (props) => {
       .catch(() => {
         console.log("validation failure");
       });
+=======
+    await saveDataToDB(values);
+    history.push("/secured/profile/create/step/4");
+>>>>>>> fixed inccorrect variable names
   };
 
   /* save and redirect to home */
@@ -355,19 +367,19 @@ const EmploymentDataFormView = (props) => {
             <Form.Item
               name="actingEndDate"
               label={<FormattedMessage id="profile.acting.period.end.date" />}
-              rules={enableSecondLang ? [Rules.required] : undefined}
+              rules={enableEndDate ? [Rules.required] : undefined}
             >
               <DatePicker
                 style={styles.datePicker}
                 disabledDate={disabledDatesBeforeStart}
-                disabled={!enableSecondLang}
+                disabled={!enableEndDate}
                 placeholder={"unknown"}
               />
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
                 onChange={toggleTempEndDate}
-                defaultChecked={enableSecondLang}
+                defaultChecked={enableEndDate}
               >
                 <FormattedMessage id="profile.acting.has.end.date" />
               </Checkbox>
@@ -384,6 +396,7 @@ const EmploymentDataFormView = (props) => {
   const getInitialValues = (profile) => {
     if (profile) {
       return {
+<<<<<<< HEAD
         ...(profile.classification && {
           groupLevelId: profile.classification.id,
         }),
@@ -395,6 +408,19 @@ const EmploymentDataFormView = (props) => {
         }),
         manager: profile.manager,
         ...(profile.acting && {
+=======
+        ...(profile.classification.id && {
+          groupLevelId: profile.classification.id,
+        }),
+        ...(profile.temporaryRole.id && {
+          tenureId: profile.temporaryRole.id,
+        }),
+        ...(profile.security.id && {
+          securityClearanceId: profile.security.id,
+        }),
+        manager: profile.manager,
+        ...(profile.acting.id && {
+>>>>>>> fixed inccorrect variable names
           actingId: profile.acting.id,
         }),
         ...(profile.actingPeriodStartDate && {
@@ -418,7 +444,7 @@ const EmploymentDataFormView = (props) => {
     );
 
     /* check if user has acting end date to enable the date felid on load */
-    setEnableSecondLang(
+    setEnableEndDate(
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
   }, [props.profileInfo]);
