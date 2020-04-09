@@ -58,8 +58,6 @@ const QualificationsFormView = (props) => {
    * update profile in DB or create profile if it is not found
    */
   const saveDataToDB = async (values) => {
-    // set cleared field to null to clear DB data
-
     // format education date for DB storage
     if (values.education) {
       for (let i = 0; i < values.education.length; i++) {
@@ -133,21 +131,6 @@ const QualificationsFormView = (props) => {
    */
   const onReset = () => {
     form.resetFields();
-  };
-
-  const Rules = {
-    required: {
-      required: true,
-      message: "Required",
-    },
-    maxChar50: {
-      max: 50,
-      message: "Max length 50 characters",
-    },
-    maxChar100: {
-      max: 50,
-      message: "Max length 100 characters",
-    },
   };
 
   /*

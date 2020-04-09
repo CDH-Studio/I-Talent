@@ -35,9 +35,9 @@ function QualificationsForm() {
     };
 
     /*
-     * Get Saved Relocation Locations
+     * Get Saved Education Information
      *
-     * get saved Relocation Locations from profile
+     * get saved education items
      */
     const getSavedEducation = async () => {
       try {
@@ -46,9 +46,8 @@ function QualificationsForm() {
         let result = await axios.get(url);
         let selected = [];
 
-        // generate and array of ID's of save locations
+        // generate an array of education items
         for (let i = 0; i < result.data.education.length; i++) {
-          console.log(result.data.education[i]);
           let child = {
             school: result.data.education[i].school.id,
             diploma: result.data.education[i].diploma.id,
@@ -58,7 +57,6 @@ function QualificationsForm() {
               : null,
           };
           selected.push(child);
-          console.log(child);
         }
         await setSavedEducation(selected);
         return 1;
