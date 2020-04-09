@@ -35,7 +35,7 @@ const EmploymentDataFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
-  const [enableSecondLang, setEnableSecondLang] = useState();
+  const [enableEndDate, setEnableEndDate] = useState();
 
   /* Component Styles */
   const styles = {
@@ -109,14 +109,13 @@ const EmploymentDataFormView = (props) => {
 
   /* enable or disable end date field */
   const toggleTempEndDate = () => {
-    console.log(enableSecondLang);
     // reset end date value
-    if (enableSecondLang) {
+    if (enableEndDate) {
       form.setFieldsValue({
         actingEndDate: null,
       });
     }
-    setEnableSecondLang(!enableSecondLang);
+    setEnableEndDate(!enableEndDate);
   };
 
   /* Disable all dates before start date */
@@ -355,19 +354,19 @@ const EmploymentDataFormView = (props) => {
             <Form.Item
               name="actingEndDate"
               label={<FormattedMessage id="profile.acting.period.end.date" />}
-              rules={enableSecondLang ? [Rules.required] : undefined}
+              rules={enableEndDate ? [Rules.required] : undefined}
             >
               <DatePicker
                 style={styles.datePicker}
                 disabledDate={disabledDatesBeforeStart}
-                disabled={!enableSecondLang}
+                disabled={!enableEndDate}
                 placeholder={"unknown"}
               />
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
                 onChange={toggleTempEndDate}
-                defaultChecked={enableSecondLang}
+                defaultChecked={enableEndDate}
               >
                 <FormattedMessage id="profile.acting.has.end.date" />
               </Checkbox>
@@ -418,7 +417,7 @@ const EmploymentDataFormView = (props) => {
     );
 
     /* check if user has acting end date to enable the date felid on load */
-    setEnableSecondLang(
+    setEnableEndDate(
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
   }, [props.profileInfo]);
