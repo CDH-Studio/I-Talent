@@ -9,14 +9,15 @@ import {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm
+  PersonalGrowthForm,
+  QualificationsForm,
 } from "../../profileForms";
 
-const EditProfileLayout = props => {
+const EditProfileLayout = (props) => {
   const history = useHistory();
 
   // Get correct form for current step
-  const profileFormSelect = step => {
+  const profileFormSelect = (step) => {
     switch (step) {
       case "primary-info":
         return <PrimaryInfoForm />;
@@ -29,24 +30,23 @@ const EditProfileLayout = props => {
       case "personal-growth":
         return <PersonalGrowthForm />;
       case "qualifications":
-        return <PersonalGrowthForm />;
+        return <QualificationsForm />;
       default:
         return <div>Hello</div>;
     }
   };
 
   // Get correct form for current step
-  const redirectToForm = data => {
+  const redirectToForm = (data) => {
     console.log(data.key);
     let url = "/secured/profile/edit/" + data.key;
     history.push(url);
   };
 
   // return side bar contents
-  const getSideBarContent = step => {
-    const stepInt = parseInt(step) - 1;
+  const getSideBarContent = (step) => {
     return (
-      <Menu onClick={redirectToForm}>
+      <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item key="primary-info">
           <RightOutlined />
           <FormattedMessage id="setup.primary.information" />
