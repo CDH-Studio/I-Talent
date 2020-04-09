@@ -16,6 +16,7 @@ function QualificationsForm() {
   const [load, setLoad] = useState(false);
   const [savedEducation, setSavedEducation] = useState();
   const [savedExperience, setSavedExperience] = useState();
+  const [savedProjects, setSavedProjects] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -99,12 +100,35 @@ function QualificationsForm() {
       }
     };
 
+    /*
+     * Get Saved Projects
+     *
+     * get saved projects
+     */
+    const getSavedProjects = async () => {
+      try {
+        let url =
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
+        let result = await axios.get(url);
+        const selected = [];
+
+        for (let i = 0; i < result.data.projects.length; i++) {
+          selected.push(result.data.projects[i].text);
+        }
+        await setSavedProjects(selected);
+        return 1;
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
     /* Get all required data component */
     const getAllData = async () => {
       try {
         await getProfileInfo();
         await getSavedEducation();
         await getSavedExperience();
+        await getSavedProjects();
         setLoad(true);
         return 1;
       } catch (error) {
@@ -122,6 +146,7 @@ function QualificationsForm() {
       profileInfo={profileInfo}
       savedEducation={savedEducation}
       savedExperience={savedExperience}
+      savedProjects={savedProjects}
       load={load}
     />
   );

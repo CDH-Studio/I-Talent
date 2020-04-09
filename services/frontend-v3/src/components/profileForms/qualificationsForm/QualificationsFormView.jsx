@@ -1,5 +1,14 @@
 import React from "react";
-import { Row, Col, Skeleton, Typography, Divider, Form, Button } from "antd";
+import {
+  Row,
+  Col,
+  Skeleton,
+  Typography,
+  Divider,
+  Form,
+  Select,
+  Button,
+} from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
@@ -10,6 +19,7 @@ import config from "../../../config";
 
 const { backendAddress } = config;
 const { Title } = Typography;
+const { Option } = Select;
 
 /**
  *  QualificationsFormView(props)
@@ -158,6 +168,7 @@ const QualificationsFormView = (props) => {
       return {
         education: props.savedEducation,
         experience: props.savedExperience,
+        projects: props.savedProjects,
       };
     } else {
       return {};
@@ -191,8 +202,7 @@ const QualificationsFormView = (props) => {
             layout="vertical"
             onFinish={onSaveAndNext}
           >
-            {/* *************** Developmental ************** */}
-            {/* Form Row One: Developmental Goals */}
+            {/* *************** Education ************** */}
             <Title level={3} style={styles.formTitle}>
               <FormattedMessage id="setup.education" />
             </Title>
@@ -232,7 +242,7 @@ const QualificationsFormView = (props) => {
               </Col>
             </Row>
 
-            {/* *************** Career Interest ************** */}
+            {/* *************** Work Experience ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
               <FormattedMessage id="setup.career.interests" />
@@ -274,113 +284,28 @@ const QualificationsFormView = (props) => {
               </Col>
             </Row>
 
-            {/* Form Row Two: Relocation */}
-            {/* <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  className="custom-bubble-select-style"
-                  name="relocationLocations"
-                  label={
-                    <FormLabelTooltip
-                      labelText={
-                        <FormattedMessage id="profile.willing.to.relocate.to" />
-                      }
-                      tooltipText="Extra information"
-                    />
-                  }
-                >
-                  <Select
-                    mode="multiple"
-                    style={{ width: "100%" }}
-                    placeholder="Please select"
-                  >
-                    {props.relocationOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row> */}
-
-            {/* Form Row Three: new job */}
-            {/* <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="lookingForNewJob"
-                  label={<FormattedMessage id="profile.looking.for.new.job" />}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="Please select"
-                    allowClear={true}
-                  >
-                    {props.lookingForNewJobOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row> */}
-
-            {/* *************** Talent Management ************** */}
+            {/* *************** Projects ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.talent.management" />
+              <FormattedMessage id="setup.projects" />
             </Title>
 
             {/* Form Row Three: career mobility */}
-            {/* <Row gutter={24}>
+            <Row gutter={24}>
               <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                 <Form.Item
-                  name="careerMobility"
-                  label={<FormattedMessage id="profile.career.mobility" />}
+                  name="projects"
+                  label={<FormattedMessage id="setup.projects" />}
+                  className="custom-bubble-select-style"
                 >
                   <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="Please select"
-                    allowClear={true}
-                  >
-                    {props.careerMobilityOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
+                    mode="tags"
+                    style={{ width: "100%" }}
+                    notFoundContent={"click enter to add"}
+                  />
                 </Form.Item>
               </Col>
-            </Row> */}
-
-            {/* Form Row Three: talent matrix */}
-            {/* <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="talentMatrixResult"
-                  label={<FormattedMessage id="profile.talent.matrix.result" />}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder="Please select"
-                    allowClear={true}
-                  >
-                    {props.talentMatrixResultOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row> */}
-
-            {/* Form Row Three: ex feeder */}
-            {/* <Row gutter={24} style={{ marginBottom: "15px" }}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item name="exFeeder" valuePropName="checked">
-                  <Checkbox>
-                    {<FormattedMessage id="profile.ex.feeder" />}
-                  </Checkbox>
-                </Form.Item>
-              </Col>
-            </Row> */}
+            </Row>
 
             {/* *************** Control Buttons ************** */}
             {/* Form Row Four: Submit button */}

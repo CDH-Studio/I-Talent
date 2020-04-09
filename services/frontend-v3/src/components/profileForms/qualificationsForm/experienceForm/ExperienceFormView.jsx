@@ -34,9 +34,9 @@ const ExperienceFormView = (props) => {
       max: 60,
       message: "Max length 60 characters",
     },
-    maxChar100: {
-      max: 50,
-      message: "Max length 300 characters",
+    maxChar250: {
+      max: 250,
+      message: "Max length 250 characters",
     },
   };
 
