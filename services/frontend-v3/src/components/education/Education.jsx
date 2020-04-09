@@ -25,20 +25,19 @@ function Education(props) {
     return duration;
   };
 
-  const getEducationInfo = dataSource => {
+  const getEducationInfo = (dataSource) => {
     const locale = localStorage.getItem("lang");
 
     let educationInfo = [];
     if (dataSource.education != null) {
-      dataSource.education.forEach(educElement => {
+      dataSource.education.forEach((educElement) => {
         const startDate = educElement.startDate[locale];
         const endDate = educElement.endDate[locale];
 
         const education = {
-          icon: "bank",
           diploma: educElement.diploma.description[locale],
           school: educElement.school.description[locale],
-          duration: getEducationDuration(startDate, endDate)
+          duration: getEducationDuration(startDate, endDate),
         };
 
         educationInfo.push(education);

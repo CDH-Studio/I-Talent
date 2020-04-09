@@ -1,8 +1,6 @@
 import React from "react";
-
-import { Icon as LegacyIcon } from "@ant-design/compatible";
-
 import { Row, Col, Avatar, List } from "antd";
+import { ContainerOutlined } from "@ant-design/icons";
 
 function ExperienceView(props) {
   /* Component Styles */
@@ -26,7 +24,7 @@ function ExperienceView(props) {
                 <Avatar
                   style={styles.avatar}
                   size="large"
-                  icon={<LegacyIcon type={item.icon} />}
+                  icon={<ContainerOutlined />}
                   shape="square"
                 />
               }

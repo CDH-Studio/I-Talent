@@ -1,33 +1,31 @@
 import React from "react";
-
-import { Icon as LegacyIcon } from "@ant-design/compatible";
-
 import { Row, Col, Avatar, List } from "antd";
+import { BankOutlined } from "@ant-design/icons";
 
 function EducationView(props) {
   /* Component Styles */
   const styles = {
     card: {
-      height: "100%"
+      height: "100%",
     },
     avatar: {
-      backgroundColor: "#007471"
-    }
+      backgroundColor: "#007471",
+    },
   };
 
-  const generateEducationInfoList = dataSource => {
+  const generateEducationInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item extra={item.duration}>
             <List.Item.Meta
               avatar={
                 <Avatar
                   style={styles.avatar}
                   size="large"
-                  icon={<LegacyIcon type={item.icon} />}
+                  icon={<BankOutlined />}
                   shape="square"
                 />
               }
