@@ -25,7 +25,7 @@ sequelizedb
   .then(() => {
     console.log("Connection has been established successfully.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
 
@@ -35,14 +35,14 @@ app.engine(
   expressHbs({
     extname: "hbs",
     defaultLayout: "layout.hbs",
-    relativeTo: __dirname
+    relativeTo: __dirname,
   })
 );
 app.set("view engine", "hbs");
 //session
 app.use(sessionInstance);
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
@@ -65,11 +65,11 @@ const port = process.env.PORT || 8080; // set our port
 const router = express.Router(); // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api/)
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   res.json({ message: "hooray! welcome to our api!" });
 });
 
-router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function(
+router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function (
   req,
   res
 ) {
@@ -87,9 +87,9 @@ router.post("/user/", keycloak.protect(), user.createUser);
 router.get("/profile/", keycloak.protect(), profile.getProfile);
 router
   .route("/profile/:id")
-  .get(profile.getPublicProfileById)
-  .post(profile.createProfile)
-  .put(profile.updateProfile);
+  .get(keycloak.protect(), profile.getPublicProfileById)
+  .post(keycloak.protect(), profile.createProfile)
+  .put(keycloak.protect(), profile.updateProfile);
 
 router
   .route("/private/profile/:id")
