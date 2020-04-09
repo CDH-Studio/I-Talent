@@ -9,7 +9,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-function LangProficiencyForm() {
+function LangProficiencyForm(props) {
   const [languageOptions, setLanguageOptions] = useState(null);
   const [proficiencyOptions, setProficiencyOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
@@ -23,13 +23,13 @@ function LangProficiencyForm() {
         {
           key: "en",
           value: "en",
-          text: "English"
+          text: "English",
         },
         {
           key: "fr",
           value: "fr",
-          text: "Français"
-        }
+          text: "Français",
+        },
       ];
       setLanguageOptions(languages);
     };
@@ -40,7 +40,7 @@ function LangProficiencyForm() {
         { key: "B", value: "B", text: "B" },
         { key: "C", value: "C", text: "C" },
         { key: "E", value: "E", text: "E" },
-        { key: "X", value: "X", text: "X" }
+        { key: "X", value: "X", text: "X" },
       ];
       setProficiencyOptions(proficiency);
     };
@@ -81,6 +81,7 @@ function LangProficiencyForm() {
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
+      formType={props.formType}
       load={load}
     />
   );
