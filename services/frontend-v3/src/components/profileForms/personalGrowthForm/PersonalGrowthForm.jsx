@@ -9,7 +9,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-function PersonalGrowthForm() {
+function PersonalGrowthForm(props) {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -59,7 +59,7 @@ function PersonalGrowthForm() {
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
-            key: result.data[i].id
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -104,12 +104,12 @@ function PersonalGrowthForm() {
       const options = [
         {
           key: true,
-          text: "Yes"
+          text: "Yes",
         },
         {
           key: false,
-          text: "No"
-        }
+          text: "No",
+        },
       ];
       setInterestedInRemoteOptions(options);
     };
@@ -129,7 +129,7 @@ function PersonalGrowthForm() {
         for (var i = 0; i < result.data.length; i++) {
           var location = {
             title: result.data[i].description.en,
-            key: result.data[i].id
+            key: result.data[i].id,
           };
           dataTree.push(location);
         }
@@ -180,7 +180,7 @@ function PersonalGrowthForm() {
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
-            key: result.data[i].id
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -230,7 +230,7 @@ function PersonalGrowthForm() {
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
-            key: result.data[i].id
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -280,7 +280,7 @@ function PersonalGrowthForm() {
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
             title: result.data[i].description.en,
-            key: result.data[i].id
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -375,6 +375,7 @@ function PersonalGrowthForm() {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
+      formType={props.formType}
       load={load}
     />
   );

@@ -8,7 +8,8 @@ import {
   Form,
   Select,
   Button,
-  Checkbox
+  Checkbox,
+  notification,
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
@@ -26,7 +27,7 @@ const { Title } = Typography;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const PersonalGrowthFormView = props => {
+const PersonalGrowthFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
 
@@ -38,39 +39,115 @@ const PersonalGrowthFormView = props => {
       maxWidth: "900px",
       minHeight: "400px",
       background: "#fff",
-      padding: "30px 30px"
+      padding: "30px 30px",
     },
     formTitle: {
-      fontSize: "1.2em"
+      fontSize: "1.2em",
     },
     headerDiv: {
-      margin: "15px 0 15px 0"
+      margin: "15px 0 15px 0",
     },
     formItem: {
       margin: "10px 0 10px 0",
       padding: "0 20px 0 0",
-      textAlign: "left"
+      textAlign: "left",
     },
     subHeading: {
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     },
     secondLangRow: {
       backgroundColor: "#dfe5e4",
       paddingTop: "15px",
       paddingBottom: "15px",
       marginBottom: "20px",
-      marginTop: "10px"
+      marginTop: "10px",
     },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
     },
     clearBtn: { float: "left", marginBottom: "1rem" },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
-      marginBottom: "1rem"
+      marginBottom: "1rem",
+    },
+    saveBtn: {
+      float: "right",
+      marginBottom: "1rem",
+    },
+  };
+
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = (formType) => {
+    if (formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.finishAndNextBtn}
+              type="primary"
+              //htmlType="submit"
+              onClick={onSaveAndNext}
+            >
+              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else if (formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {<FormattedMessage id="setup.save.and.finish" />}
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              {<FormattedMessage id="button.clear" />}
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              {<FormattedMessage id="setup.save" />}
+            </Button>
+          </Col>
+        </Row>
+      );
+    } else {
+      console.log("Error Getting Action Buttons");
     }
   };
 
@@ -79,7 +156,7 @@ const PersonalGrowthFormView = props => {
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     // set cleared field to null to clear DB data
     values.interestedInRemote = values.interestedInRemote
       ? values.interestedInRemote
@@ -117,12 +194,49 @@ const PersonalGrowthFormView = props => {
     }
   };
 
+  const openNotificationWithIcon = (type) => {
+    switch (type) {
+      case "success":
+        notification["success"]({
+          message: "Successfully Saved",
+          description: "Your changes have been saved",
+        });
+        break;
+      case "error":
+        notification["error"]({
+          message: "Data Not Saved",
+          description: "There seems to be a problem",
+        });
+        break;
+      default:
+        notification["warning"]({
+          message: "Unknown Issue",
+          description: "There may be a problem",
+        });
+        break;
+    }
+  };
+
+  /* save and show success notification */
+  const onSave = async (values) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        openNotificationWithIcon("success");
+      })
+      .catch(() => {
+        console.log("validation failure");
+        openNotificationWithIcon("error");
+      });
+  };
+
   /*
    * save and next
    *
    * save and redirect to next step in setup
    */
-  const onSaveAndNext = async values => {
+  const onSaveAndNext = async (values) => {
     await saveDataToDB(values);
     history.push("/secured/profile/create/step/7");
   };
@@ -135,7 +249,7 @@ const PersonalGrowthFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/home");
       })
@@ -157,7 +271,7 @@ const PersonalGrowthFormView = props => {
    * Get the initial values for the form
    *
    */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile && props) {
       return {
         developmentalGoals: props.savedDevelopmentalGoals,
@@ -168,7 +282,7 @@ const PersonalGrowthFormView = props => {
         lookingForNewJob: props.savedLookingForNewJob,
         careerMobility: props.savedCareerMobility,
         talentMatrixResult: props.savedTalentMatrixResult,
-        exFeeder: props.savedExFeederBool
+        exFeeder: props.savedExFeederBool,
       };
     } else {
       return {};
@@ -373,36 +487,7 @@ const PersonalGrowthFormView = props => {
 
             {/* *************** Control Buttons ************** */}
             {/* Form Row Four: Submit button */}
-            <Row gutter={24}>
-              <Col xs={24} md={24} lg={18} xl={18}>
-                <Button
-                  style={styles.finishAndSaveBtn}
-                  onClick={onSaveAndFinish}
-                  htmlType="button"
-                >
-                  <CheckOutlined style={{ marginRight: "0.2rem" }} />
-                  {<FormattedMessage id="setup.save.and.finish" />}
-                </Button>
-                <Button
-                  style={styles.clearBtn}
-                  htmlType="button"
-                  onClick={onReset}
-                  danger
-                >
-                  {<FormattedMessage id="button.clear" />}
-                </Button>
-              </Col>
-              <Col xs={24} md={24} lg={6} xl={6}>
-                <Button
-                  style={styles.finishAndNextBtn}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  {<FormattedMessage id="setup.save.and.next" />}{" "}
-                  <RightOutlined />
-                </Button>
-              </Col>
-            </Row>
+            {getFormControlButtons(props.formType)}
           </Form>
         </div>
       </div>
