@@ -121,7 +121,6 @@ function PrimaryInfoFormView(props) {
             <Button
               style={styles.finishAndNextBtn}
               type="primary"
-              //htmlType="submit"
               onClick={onSaveAndNext}
             >
               {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
@@ -303,7 +302,6 @@ function PrimaryInfoFormView(props) {
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
             form={form}
-            //onFinish={onSaveAndNext}
           >
             {/* Form Row One */}
             <Row gutter={24}>

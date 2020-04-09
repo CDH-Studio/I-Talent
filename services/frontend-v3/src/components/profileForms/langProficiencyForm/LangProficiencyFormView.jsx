@@ -264,8 +264,15 @@ const LangProficiencyFormView = (props) => {
 
   /* save and redirect to next step in setup */
   const onSaveAndNext = async (values) => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/5");
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        history.push("/secured/profile/create/step/5");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /* save and redirect to home */

@@ -125,7 +125,6 @@ const TalentFormView = (props) => {
             <Button
               style={styles.finishAndNextBtn}
               type="primary"
-              //htmlType="submit"
               onClick={onSaveAndNext}
             >
               {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
@@ -252,10 +251,16 @@ const TalentFormView = (props) => {
    * save and redirect to next step in setup
    */
   const onSaveAndNext = async (values) => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/6");
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        history.push("/secured/profile/create/step/6");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
-
   /*
    * save and finish
    *
@@ -485,7 +490,6 @@ const TalentFormView = (props) => {
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={onSaveAndNext}
           >
             {/* Form Row One:competencies */}
             <Row gutter={24}>

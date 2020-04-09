@@ -164,7 +164,6 @@ const EmploymentDataFormView = (props) => {
             <Button
               style={styles.finishAndNextBtn}
               type="primary"
-              //htmlType="submit"
               onClick={onSaveAndNext}
             >
               {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
@@ -291,8 +290,15 @@ const EmploymentDataFormView = (props) => {
 
   /* save and redirect to next step in setup */
   const onSaveAndNext = async (values) => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/4");
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        history.push("/secured/profile/create/step/4");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /* save and redirect to home */

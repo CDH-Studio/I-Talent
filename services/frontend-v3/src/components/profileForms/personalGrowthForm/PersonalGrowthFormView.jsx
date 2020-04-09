@@ -110,7 +110,6 @@ const PersonalGrowthFormView = (props) => {
             <Button
               style={styles.finishAndNextBtn}
               type="primary"
-              //htmlType="submit"
               onClick={onSaveAndNext}
             >
               {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
@@ -237,8 +236,15 @@ const PersonalGrowthFormView = (props) => {
    * save and redirect to next step in setup
    */
   const onSaveAndNext = async (values) => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/7");
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        history.push("/secured/profile/create/step/7");
+      })
+      .catch(() => {
+        console.log("validation failure");
+      });
   };
 
   /*
@@ -317,7 +323,6 @@ const PersonalGrowthFormView = (props) => {
             form={form}
             initialValues={getInitialValues(props.profileInfo)}
             layout="vertical"
-            onFinish={onSaveAndNext}
           >
             {/* *************** Developmental ************** */}
             {/* Form Row One: Developmental Goals */}
