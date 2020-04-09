@@ -122,7 +122,6 @@ const LangProficiencyFormView = (props) => {
             <Button
               style={styles.finishAndNextBtn}
               type="primary"
-              //htmlType="submit"
               onClick={onSaveAndNext}
             >
               {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
