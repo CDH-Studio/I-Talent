@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ExperienceFormView from "./ExperienceFormView";
-import axios from "axios";
-import config from "../../../../config";
-const { backendAddress } = config;
 
 /**
  *  ExperienceForm(props)
