@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DownOutlined,
   EditOutlined,
@@ -86,6 +86,8 @@ function TopNavView(props) {
     </Menu>
   );
 
+  const onVisibleChange = () => {};
+
   return (
     <Header style={styles.header}>
       {/* Render logo */}
@@ -95,14 +97,16 @@ function TopNavView(props) {
       {/* Render right sigh of top menu */}
       <div style={styles.rightMenu}>
         {/* Render User Profile Dropdown */}
-        <Dropdown overlay={menu} placement="bottomCenter">
+        <Dropdown overlay={menu} placement="bottomCenter" trigger="click">
           <a
             className="ant-dropdown-link"
             onClick={(e) => e.preventDefault()}
             style={{ color: "#fff", padding: "20px 20px" }}
           >
             <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
-            {localStorage.getItem("name")} <DownOutlined />
+            <div className={"navProfileName"}>
+              {localStorage.getItem("name")} <DownOutlined />
+            </div>
           </a>
         </Dropdown>
         {/* Render change language button */}

@@ -38,6 +38,17 @@
     transform: rotate(360deg);
   }
 }
+
+.navProfileName {
+  display: inline;
+}
+
+@media (max-width: 500px) {
+  .navProfileName {
+    display: none;
+  }
+}
+
 .ant-layout-sider-trigger {
   background-color: #dfe5e4 !important;
   color: rgb(0, 30, 30) !important;
