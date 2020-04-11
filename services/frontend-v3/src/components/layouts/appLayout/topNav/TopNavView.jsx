@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   DownOutlined,
   EditOutlined,
@@ -38,7 +38,7 @@ function TopNavView(props) {
     },
     dropDownMenu: {
       marginTop: "0",
-      padding: "0",
+      padding: "0px",
     },
     dropDownItem: {
       padding: "10px 20px",
@@ -85,8 +85,6 @@ function TopNavView(props) {
       </Menu.Item>
     </Menu>
   );
-
-  const onVisibleChange = () => {};
 
   return (
     <Header style={styles.header}>
