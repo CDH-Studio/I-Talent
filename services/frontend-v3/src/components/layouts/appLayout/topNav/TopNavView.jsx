@@ -4,7 +4,7 @@ import {
   EditOutlined,
   LogoutOutlined,
   UserOutlined,
-  DashboardOutlined
+  DashboardOutlined,
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
@@ -20,29 +20,32 @@ function TopNavView(props) {
     header: {
       backgroundColor: "#001e1e",
       padding: 0,
-      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)"
+      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
+      position: "fixed",
+      zIndex: 1,
+      width: "100%",
     },
     navBrand: {
       height: "35px",
-      margin: "0 25px"
+      margin: "0 25px",
     },
     rightMenu: {
       float: "right",
-      margin: "0 20px"
+      margin: "0 20px",
     },
     profileAvatar: {
-      marginRight: "8px"
+      marginRight: "8px",
     },
     dropDownMenu: {
       marginTop: "0",
-      padding: "0"
+      padding: "0",
     },
     dropDownItem: {
-      padding: "10px 20px"
+      padding: "10px 20px",
     },
     MenuIcon: {
-      marginRight: "10px"
-    }
+      marginRight: "10px",
+    },
   };
 
   // menu options for profile dropdown
@@ -95,7 +98,7 @@ function TopNavView(props) {
         <Dropdown overlay={menu} placement="bottomCenter">
           <a
             className="ant-dropdown-link"
-            onClick={e => e.preventDefault()}
+            onClick={(e) => e.preventDefault()}
             style={{ color: "#fff", padding: "20px 20px" }}
           >
             <CustomAvatar style={styles.profileAvatar}></CustomAvatar>

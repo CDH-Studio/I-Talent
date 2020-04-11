@@ -4,49 +4,40 @@ import { Affix, Layout } from "antd";
 const { Sider } = Layout;
 
 function SideNavView(props) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [top] = useState(0);
-  // toggle side nav
-  const onCollapse = () => {
-    setCollapsed(!collapsed);
-  };
-
   const displaySideBar = props.displaySideBar;
 
   /* Component Styles */
   const styles = {
     siderDiv: {
       minHeight: "100vh",
-      background: "#fff"
+      background: "#fff",
     },
     sider: {
-      minHeight: "100vh",
-      background: "#fff"
+      background: "#fff",
+      height: "100vh",
     },
     siderMenu: {
-      minHeight: "100vh"
-    }
+      minHeight: "100vh",
+    },
   };
 
-  return (
-    <div style={styles.siderDiv}>
-      {/* render side bar is user sets showSideBar */}
-      {displaySideBar ? (
+  if (displaySideBar) {
+    return (
+      <Affix offsetTop={64}>
         <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={onCollapse}
           width="250"
           style={styles.sider}
+          breakpoint="lg"
+          collapsedWidth="0"
         >
           {/* render content of side bar */}
-          <Affix offsetTop={top}>{props.sideBarContent}</Affix>
+          {props.sideBarContent}
         </Sider>
-      ) : (
-        <Sider width="0" />
-      )}
-    </div>
-  );
+      </Affix>
+    );
+  } else {
+    return <Sider width="0" />;
+  }
 }
 
 export default SideNavView;
