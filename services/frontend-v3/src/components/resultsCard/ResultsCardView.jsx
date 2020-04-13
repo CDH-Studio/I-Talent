@@ -1,9 +1,10 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Row, Col, Tag, Card, Divider } from "antd";
+import { Row, Col, Tag, Card, Divider, Avatar, Typography } from "antd";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
+const { Text } = Typography;
 
 function ResultsCardView(props) {
   const styles = {
@@ -44,6 +45,18 @@ function ResultsCardView(props) {
           onClick={() => props.history.push("/secured/profile/" + person.id)}
         >
           <Meta
+            avatar={
+              <Avatar
+                size={48}
+                style={{
+                  backgroundColor: person.avatarColor
+                }}
+              >
+                <Text style={{ fontSize: "25px", color: "white" }}>
+                  {person.nameInitials}
+                </Text>
+              </Avatar>
+            }
             title={person.firstName + " " + person.lastName}
             description={<p style={styles.smallP}>{person.jobTitle}</p>}
           ></Meta>

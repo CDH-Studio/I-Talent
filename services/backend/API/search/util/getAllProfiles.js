@@ -48,7 +48,9 @@ _getProfs = (profiles, searchValue) => {
 };
 
 _getProf = async (profile, searchValue) => {
-  let user = await profile.getUser({ attributes: ["email"] });
+  let user = await profile.getUser({
+    attributes: ["email", "avatarColor", "nameInitials"]
+  });
 
   if (!profile) response.status(404).send("Profile Not Found");
 
@@ -195,6 +197,8 @@ _getProf = async (profile, searchValue) => {
     competencies,
     education: privateInfo.education ? educArray : null,
     email: data.email,
+    avatarColor: data.avatarColor,
+    nameInitials: data.nameInitials,
     exFeeder: privateInfo.talenManagement ? data.exFeeder : null,
     flagged: data.flagged,
     firstName: data.firstName,
