@@ -10,20 +10,20 @@ function BasicInfoView(props) {
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
-      margin: "25px 0"
+      margin: "25px 0",
     },
     card: {
       borderTopColor: "#007471",
-      borderTopWidth: "5px"
+      borderTopWidth: "5px",
     },
     avatar: {
       backgroundColor: "#fff",
       color: "#007471",
-      marginRight: "-10px"
+      marginRight: "-10px",
     },
     userAvatar: {
-      verticalAlign: "middle"
-    }
+      verticalAlign: "middle",
+    },
   };
 
   /*
@@ -69,12 +69,12 @@ function BasicInfoView(props) {
    * Generates list of basic info with mall icons
    * This includes: address, email, etc.
    */
-  const generateInfoList = dataSource => {
+  const generateInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
               avatar={
@@ -98,7 +98,7 @@ function BasicInfoView(props) {
    *
    * Generates data for contact info list
    */
-  const getContactInfo = dataSource => {
+  const getContactInfo = (dataSource) => {
     const data = dataSource.data;
 
     const email = {
@@ -108,7 +108,7 @@ function BasicInfoView(props) {
         data.email
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const tel = {
@@ -118,7 +118,7 @@ function BasicInfoView(props) {
         data.telephone
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const cel = {
@@ -128,7 +128,7 @@ function BasicInfoView(props) {
         data.cellphone
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [email, tel, cel];
@@ -139,14 +139,14 @@ function BasicInfoView(props) {
    *
    * Generates data for user's location
    */
-  const getLocationInfo = dataSource => {
+  const getLocationInfo = (dataSource) => {
     const locale = dataSource.locale;
     const data = dataSource.data;
 
     const branch = {
       icon: "branches",
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch && data.branch[locale]
+      description: data.branch && data.branch[locale],
     };
 
     const address = {
@@ -156,7 +156,7 @@ function BasicInfoView(props) {
         data.location.description[locale]
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     const manager = {
@@ -166,7 +166,7 @@ function BasicInfoView(props) {
         data.manager
       ) : (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [branch, address, manager];
@@ -178,9 +178,9 @@ function BasicInfoView(props) {
    * Generates the list of actions at bottom of info card
    * This includes links to: email, linkedin, and github
    */
-  const generateActions = dataSource => {
+  const generateActions = (dataSource) => {
     const buttonLinks = dataSource.buttonLinks;
-    const buttons = buttonLinks.buttons.map(buttonName => {
+    const buttons = buttonLinks.buttons.map((buttonName) => {
       const button = buttonLinks[buttonName];
 
       return (
