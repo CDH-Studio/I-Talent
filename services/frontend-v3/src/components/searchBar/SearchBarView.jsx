@@ -17,19 +17,19 @@ function SearchBarView(props) {
     expand,
     toggle,
     data,
-    empty
+    empty,
   } = props;
 
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
-    defaultMessage: "Search"
+    defaultMessage: "Search",
   });
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     handleSearch(values);
   };
 
-  const handleKeyPress = e => {
+  const handleKeyPress = (e) => {
     console.log("toggled1");
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
@@ -44,7 +44,7 @@ function SearchBarView(props) {
         <Alert
           message={props.intl.formatMessage({
             id: "alert.empty.search",
-            defaultMessage: "Please input a value into the search bar below"
+            defaultMessage: "Please input a value into the search bar below",
           })}
           type="error"
           style={styles.alert}
@@ -74,7 +74,7 @@ function SearchBarView(props) {
             >
               {props.intl.formatMessage({
                 id: "button.clear",
-                defaultMessage: "Clear"
+                defaultMessage: "Clear",
               })}
             </Button>
           </Col>
@@ -91,11 +91,11 @@ function SearchBarView(props) {
                 style={{ marginLeft: 8, fontSize: 14 }}
                 tabIndex="0"
                 onClick={toggle}
-                handleKeyPress={e => handleKeyPress(e)}
+                // handleKeyPress={e => handleKeyPress(e)} --keeping in incase of future need
               >
                 {props.intl.formatMessage({
                   id: "advanced.search.button.text",
-                  defaultMessage: "Advanced Search"
+                  defaultMessage: "Advanced Search",
                 })}{" "}
                 {expand ? <UpOutlined /> : <DownOutlined />}
               </a>
@@ -112,13 +112,13 @@ const styles = {
     width: "100%",
     paddingLeft: "50px",
     paddingRight: "50px",
-    paddingTop: "60px"
+    paddingTop: "60px",
   },
   outerDiv: {
     paddingTop: "60px",
     paddingLeft: "20%",
     paddingRight: "20%",
-    paddingBottom: "20px"
+    paddingBottom: "20px",
   },
   mainSearchDiv: {
     backgroundColor: "#001C1A",
@@ -127,27 +127,27 @@ const styles = {
     paddingLeft: "80px",
     paddingRight: "80px",
     paddingBottom: "30px",
-    boxShadow: "10px 10px 10px #cccccc"
+    boxShadow: "10px 10px 10px #cccccc",
   },
   header: {
     paddingBottom: "20px",
-    textAlign: "center"
+    textAlign: "center",
   },
   advFieldStyles: {
-    textAlign: "center"
+    textAlign: "center",
   },
   advSearchCard: {
     boxShadow: "10px 10px 10px #cccccc",
-    borderRadius: "5px"
+    borderRadius: "5px",
   },
   advFieldPlacement: {
-    textAlign: "right"
+    textAlign: "right",
   },
   alert: {
     fontSize: "14px",
     textAlign: "center",
     margin: "0 auto",
-    width: "300px"
-  }
+    width: "300px",
+  },
 };
 export default injectIntl(SearchBarView);

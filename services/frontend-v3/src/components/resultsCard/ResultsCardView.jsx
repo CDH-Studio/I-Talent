@@ -19,7 +19,7 @@ class ResultsCardView extends React.Component {
 
     const preparedResults = prepareInfo(results, localStorage.getItem("lang"));
     let cards = [];
-    preparedResults.forEach(person => {
+    preparedResults.forEach((person) => {
       cards.push(this.renderCard(person));
     });
     cards.length === 0
@@ -47,7 +47,6 @@ class ResultsCardView extends React.Component {
           onClick={() =>
             this.props.history.push("/secured/profile/" + person.id)
           }
-          // onKeyPress={(e, person) => handleKeyPress(e, person)}
         >
           <a href="javascript:void(0)" tabIndex="0">
             <Meta
@@ -67,10 +66,10 @@ class ResultsCardView extends React.Component {
             <Divider style={styles.divider} orientation="left">
               {this.props.intl.formatMessage({
                 id: "advanced.search.form.skills",
-                defaultMessage: "Skills"
+                defaultMessage: "Skills",
               })}
             </Divider>
-            {person.resultSkills.map(skill => (
+            {person.resultSkills.map((skill) => (
               <Tag
                 color="#004441"
                 style={{ marginBottom: "2px", marginTop: "2px" }}
@@ -97,7 +96,7 @@ class ResultsCardView extends React.Component {
               message={this.props.intl.formatMessage({
                 id: "results.no.results",
                 defaultMessage:
-                  "There are no results that match your search criteria"
+                  "There are no results that match your search criteria",
               })}
             />
             // this.renderResultCards()
@@ -112,12 +111,12 @@ const styles = {
   smallP: {
     lineHeight: "4px",
     zIndex: "-1",
-    marginTop: "10px"
+    marginTop: "10px",
   },
   emptyAlert: {
     marginLeft: "20px",
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 };
 
 export default injectIntl(ResultsCardView);

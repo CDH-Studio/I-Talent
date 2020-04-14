@@ -1,5 +1,4 @@
 import React from "react";
-
 import "@ant-design/compatible/assets/index.css";
 import axios from "axios";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
