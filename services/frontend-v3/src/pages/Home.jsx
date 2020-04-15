@@ -6,12 +6,12 @@ import { injectIntl } from "react-intl";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 class Home extends React.Component {
-  goto = link => this.props.history.push(link);
+  goto = (link) => this.props.history.push(link);
 
   constructor(props) {
     super(props);
 
-    document.title = "Home | UpSkill";
+    document.title = "Home | I-Talent";
   }
 
   render() {

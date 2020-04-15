@@ -24,40 +24,40 @@ class UserTable extends Component {
       activePage: 1,
       searchText: "",
       searchedColumn: "",
-      size: "large"
+      size: "large",
     };
   }
 
   // Gets all user information
   componentDidMount() {
-    document.title = this.getDisplayType(true) + " - Admin | MyTalent";
+    document.title = this.getDisplayType(true) + " - Admin | I-Talent";
     axios
       .get(backendAddress + "api/admin/user")
-      .then(res =>
+      .then((res) =>
         this.setState({
           allData: res.data,
           data: _.sortBy(res.data, ["firstName"]),
           loading: false,
           column: "name",
-          direction: "ascending"
+          direction: "ascending",
         })
       )
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   }
 
   // Page Title Translation:
-  getDisplayType = plural => {
+  getDisplayType = (plural) => {
     if (plural)
       return this.props.intl.formatMessage({
         id: "admin." + this.state.type + ".plural",
-        defaultMessage: this.state.type
+        defaultMessage: this.state.type,
       });
 
     return this.props.intl.formatMessage({
       id: "admin." + this.state.type + ".singular",
-      defaultMessage: this.state.type
+      defaultMessage: this.state.type,
     });
   };
 
@@ -66,11 +66,11 @@ class UserTable extends Component {
     confirm();
     this.setState({
       searchText: selectedKeys[0],
-      searchedColumn: dataIndex
+      searchedColumn: dataIndex,
     });
   };
 
-  handleReset = clearFilters => {
+  handleReset = (clearFilters) => {
     clearFilters();
     this.setState({ searchText: "" });
   };
@@ -86,7 +86,7 @@ class UserTable extends Component {
     this.setState(({ statuses, allData }) => {
       statuses[id] = status;
 
-      let changedUser = _.remove(allData, user => user.id === id);
+      let changedUser = _.remove(allData, (user) => user.id === id);
 
       changedUser = changedUser[0];
 
@@ -115,23 +115,23 @@ class UserTable extends Component {
     if (inactive)
       return this.props.intl.formatMessage({
         id: "admin.inactive",
-        defaultMessage: "Inactive"
+        defaultMessage: "Inactive",
       });
     else if (flagged)
       return this.props.intl.formatMessage({
         id: "admin.flagged",
-        defaultMessage: "Hidden"
+        defaultMessage: "Hidden",
       });
     else
       return this.props.intl.formatMessage({
         id: "admin.active",
-        defaultMessage: "Active"
+        defaultMessage: "Active",
       });
   };
 
   // Get Profile Information for table rows:
   getProfileInformation(data) {
-    data.map(function(e) {
+    data.map(function (e) {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = "/secured/profile/" + e.id;
@@ -158,7 +158,7 @@ class UserTable extends Component {
       size,
       statuses,
       searchText,
-      searchedColumn
+      searchedColumn,
     } = this.state;
 
     console.log(loading, data);
