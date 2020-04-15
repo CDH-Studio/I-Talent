@@ -1,36 +1,57 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
-import { Form } from "antd";
-import { Icon as LegacyIcon } from "@ant-design/compatible";
+import { Form, Alert } from "antd";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
+//import { Icon as LegacyIcon } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
-import logo from "../sideNav/logo_v2.svg";
+import logo from "../../assets/MyTalent-Logo-Full.png";
 
 function SearchBarView(props) {
-  const [expand, setExpand] = useState(false);
+  const [doNothing, setDoNothing] = useState(true);
   const [form] = Form.useForm();
-  const { getFields, getBasicField, handleSearch, toggle, data } = props;
+  const {
+    getFields,
+    getBasicField,
+    handleSearch,
+    expand,
+    toggle,
+    data,
+    empty,
+  } = props;
 
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
-    defaultMessage: "Search"
+    defaultMessage: "Search",
   });
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     handleSearch(values);
   };
 
+  const handleKeyPress = (e) => {
+    console.log("toggled1");
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      console.log("toggled2");
+      toggle();
+    }
+  };
+
   return (
-    <Form
-      form={form}
-      onFinish={onFinish}
-      style={{
-        width: "100%",
-        paddingLeft: "50px",
-        paddingRight: "50px",
-        paddingTop: "60px"
-      }}
-    >
+    <Form form={form} onFinish={onFinish} style={styles.outerForm}>
+      {empty === true ? (
+        <Alert
+          message={props.intl.formatMessage({
+            id: "alert.empty.search",
+            defaultMessage: "Please input a value into the search bar below",
+          })}
+          type="error"
+          style={styles.alert}
+        />
+      ) : (
+        setDoNothing[true]
+      )}
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
           <header style={styles.header}>
@@ -53,7 +74,7 @@ function SearchBarView(props) {
             >
               {props.intl.formatMessage({
                 id: "button.clear",
-                defaultMessage: "Clear"
+                defaultMessage: "Clear",
               })}
             </Button>
           </Col>
@@ -65,12 +86,18 @@ function SearchBarView(props) {
           </Row>
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
-              <a style={{ marginLeft: 8, fontSize: 14 }} onClick={toggle}>
+              <a
+                href="javascript:void(0)"
+                style={{ marginLeft: 8, fontSize: 14 }}
+                tabIndex="0"
+                onClick={toggle}
+                // handleKeyPress={e => handleKeyPress(e)} --keeping in incase of future need
+              >
                 {props.intl.formatMessage({
                   id: "advanced.search.button.text",
-                  defaultMessage: "Advanced Search"
+                  defaultMessage: "Advanced Search",
                 })}{" "}
-                <LegacyIcon type={expand ? "up" : "down"} />
+                {expand ? <UpOutlined /> : <DownOutlined />}
               </a>
             </Col>
           </Row>
@@ -81,11 +108,17 @@ function SearchBarView(props) {
 }
 
 const styles = {
+  outerForm: {
+    width: "100%",
+    paddingLeft: "50px",
+    paddingRight: "50px",
+    paddingTop: "60px",
+  },
   outerDiv: {
-    paddingTop: "80px",
+    paddingTop: "60px",
     paddingLeft: "20%",
     paddingRight: "20%",
-    paddingBottom: "20px"
+    paddingBottom: "20px",
   },
   mainSearchDiv: {
     backgroundColor: "#001C1A",
@@ -94,21 +127,27 @@ const styles = {
     paddingLeft: "80px",
     paddingRight: "80px",
     paddingBottom: "30px",
-    boxShadow: "10px 10px 10px #cccccc"
+    boxShadow: "10px 10px 10px #cccccc",
   },
   header: {
     paddingBottom: "20px",
-    textAlign: "center"
+    textAlign: "center",
   },
   advFieldStyles: {
-    textAlign: "center"
+    textAlign: "center",
   },
   advSearchCard: {
     boxShadow: "10px 10px 10px #cccccc",
-    borderRadius: "5px"
+    borderRadius: "5px",
   },
   advFieldPlacement: {
-    textAlign: "right"
-  }
+    textAlign: "right",
+  },
+  alert: {
+    fontSize: "14px",
+    textAlign: "center",
+    margin: "0 auto",
+    width: "300px",
+  },
 };
 export default injectIntl(SearchBarView);
