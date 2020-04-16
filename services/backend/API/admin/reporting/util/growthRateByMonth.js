@@ -7,10 +7,10 @@ const growthRateByMonth = async () => {
   let monthlyGrowthRate = [];
 
   const profiles = await Profiles.findAll({
-    attributes: ["id", "createdAt"]
+    attributes: ["id", "createdAt"],
   });
 
-  profiles.forEach(profile => {
+  profiles.forEach((profile) => {
     const profileCreatedAt = moment(profile.createdAt);
 
     const profileMonth = profileCreatedAt.month();
@@ -18,12 +18,12 @@ const growthRateByMonth = async () => {
     const profileYear = profileCreatedAt.year();
 
     const indexYear = monthlyGrowthRate.findIndex(
-      object => object.year == profileYear
+      (object) => object.year == profileYear
     );
 
     if (indexYear != -1) {
       const indexMonth = monthlyGrowthRate[indexYear].data.findIndex(
-        object => object.month == profileMonth
+        (object) => object.month == profileMonth
       );
 
       if (indexMonth != -1) {
@@ -32,7 +32,7 @@ const growthRateByMonth = async () => {
       } else {
         monthlyGrowthRate[indexYear].data.push({
           month: profileMonth,
-          count: 1
+          count: 1,
         });
       }
     } else {
@@ -41,9 +41,9 @@ const growthRateByMonth = async () => {
         data: [
           {
             month: profileMonth,
-            count: 1
-          }
-        ]
+            count: 1,
+          },
+        ],
       });
     }
   });
@@ -52,18 +52,18 @@ const growthRateByMonth = async () => {
     monthlyGrowthRate[i].data.sort((a, b) => a.month - b.month);
   }
 
-  monthlyGrowthRate = monthlyGrowthRate.map(entry => {
+  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
     let newData = [];
     let newMonth = [];
 
-    entry.data.forEach(month => {
+    entry.data.forEach((month) => {
       newMonth[month.month] = month.count;
     });
 
     for (let i = 0; i < 12; i++) {
       newData.push({
         month: i,
-        count: newMonth[i] || 0
+        count: newMonth[i] || 0,
       });
     }
     entry.data = newData;
@@ -72,14 +72,14 @@ const growthRateByMonth = async () => {
 
   const months = moment.monthsShort();
 
-  monthlyGrowthRate = monthlyGrowthRate.map(entry => {
+  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
     let addData = [];
 
     for (let i = 0; i < 12; i++) {
       addData.push({
         month: i,
         monthName: months[i],
-        count: entry.data[i].count
+        count: entry.data[i].count,
       });
     }
     entry.data = addData;
@@ -89,13 +89,13 @@ const growthRateByMonth = async () => {
   // Growth Rate By Month Graph Data:
   let graphicalData = [];
 
-  monthlyGrowthRate = monthlyGrowthRate.map(entry => {
+  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
     for (let i = 0; i < 12; i++) {
       graphicalData.push({
         year: entry.year.toString(),
         monthNumber: i,
         monthName: entry.data[i].monthName,
-        count: entry.data[i].count
+        count: entry.data[i].count,
       });
     }
     return entry;
@@ -107,22 +107,22 @@ const growthRateByMonth = async () => {
   const current_month = moment().month();
 
   const indexYear = monthlyGrowthRate.findIndex(
-    object => object.year === current_year
+    (object) => object.year === current_year
   );
 
   const current_month_additions = monthlyGrowthRate[indexYear].data.find(
-    object => object.month === current_month
+    (object) => object.month === current_month
   );
 
   let previous_month_additions = {};
 
   if (current_month === 0) {
     previous_month_additions = monthlyGrowthRate[indexYear - 1].data.find(
-      object => object.month === 11
+      (object) => object.month === 11
     );
   } else {
     previous_month_additions = monthlyGrowthRate[indexYear].data.find(
-      object => object.month === current_month - 1
+      (object) => object.month === current_month - 1
     );
   }
   let growthRateFromPreviousMonth = Math.round(
@@ -138,7 +138,7 @@ const growthRateByMonth = async () => {
   return {
     graphicalData,
     current_month_additions,
-    growthRateFromPreviousMonth
+    growthRateFromPreviousMonth,
   };
 };
 

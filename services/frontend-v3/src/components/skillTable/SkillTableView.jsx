@@ -10,13 +10,13 @@ import {
   Popconfirm,
   Form,
   Select,
-  message
+  message,
 } from "antd";
 import {
   PlusCircleOutlined,
   EditOutlined,
   DeleteOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
@@ -46,7 +46,7 @@ function SkillTableView(props) {
     size,
     rowSelection,
     data,
-    categories
+    categories,
   } = props;
 
   const getColumnSearchProps = (dataIndex, title) => ({
@@ -54,23 +54,23 @@ function SkillTableView(props) {
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters
+      clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={
             props.intl.formatMessage({
               id: "admin.search",
-              defaultMessage: "Search for"
+              defaultMessage: "Search for",
             }) +
             " " +
             title
           }
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -85,7 +85,7 @@ function SkillTableView(props) {
         >
           {props.intl.formatMessage({
             id: "admin.search.button",
-            defaultMessage: "Search"
+            defaultMessage: "Search",
           })}
         </Button>
         <Button
@@ -95,25 +95,22 @@ function SkillTableView(props) {
         >
           {props.intl.formatMessage({
             id: "admin.reset.button",
-            defaultMessage: "Reset"
+            defaultMessage: "Reset",
           })}
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
+    render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -123,7 +120,7 @@ function SkillTableView(props) {
         />
       ) : (
         text
-      )
+      ),
   });
 
   const deleteConfirm = () => {
@@ -131,9 +128,9 @@ function SkillTableView(props) {
       <Popconfirm
         placement="left"
         title={props.intl.formatMessage({
-          id: "admin.delete.confirmation",
+          id: "admin.delete.confirm",
           defaultMessage:
-            "Are you sure you want to delete all the selected values?"
+            "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
           handleSubmitDelete();
@@ -144,11 +141,11 @@ function SkillTableView(props) {
         }}
         okText={props.intl.formatMessage({
           id: "admin.delete",
-          defaultMessage: "Delete"
+          defaultMessage: "Delete",
         })}
         cancelText={props.intl.formatMessage({
           id: "admin.cancel",
-          defaultMessage: "Cancel"
+          defaultMessage: "Cancel",
         })}
       >
         <Button
@@ -159,14 +156,14 @@ function SkillTableView(props) {
         >
           {props.intl.formatMessage({
             id: "admin.delete",
-            defaultMessage: "Delete"
+            defaultMessage: "Delete",
           })}
         </Button>
       </Popconfirm>
     );
   };
 
-  const onCreate = values => {
+  const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
@@ -180,25 +177,25 @@ function SkillTableView(props) {
         visible={addVisible}
         title={props.intl.formatMessage({
           id: "admin.add.skill",
-          defaultMessage: "Add Skill"
+          defaultMessage: "Add Skill",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
-          defaultMessage: "Apply"
+          defaultMessage: "Apply",
         })}
         cancelText={props.intl.formatMessage({
           id: "admin.cancel",
-          defaultMessage: "Cancel"
+          defaultMessage: "Cancel",
         })}
         onOk={() => {
           addForm
             .validateFields()
-            .then(values => {
+            .then((values) => {
               addForm.resetFields();
               onCreate(values);
               handleOk();
             })
-            .catch(info => {
+            .catch((info) => {
               handleCancel();
               console.log("Validate Failed:", info);
             });
@@ -213,22 +210,22 @@ function SkillTableView(props) {
             name="addSkillEn"
             label={props.intl.formatMessage({
               id: "language.english",
-              defaultMessage: "English"
+              defaultMessage: "English",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
                   id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!"
-                })
-              }
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.skill.descriptionEn",
-                defaultMessage: "Skill description in English"
+                defaultMessage: "Skill description in English",
               })}
             />
           </Form.Item>
@@ -236,22 +233,22 @@ function SkillTableView(props) {
             name="addSkillFr"
             label={props.intl.formatMessage({
               id: "language.french",
-              defaultMessage: "French"
+              defaultMessage: "French",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
                   id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!"
-                })
-              }
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.skill.descriptionFr",
-                defaultMessage: "Skill description in French"
+                defaultMessage: "Skill description in French",
               })}
             />
           </Form.Item>
@@ -259,16 +256,16 @@ function SkillTableView(props) {
             name="addSkillCategory"
             label={props.intl.formatMessage({
               id: "admin.category",
-              defaultMessage: "Category"
+              defaultMessage: "Category",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
                   id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!"
-                })
-              }
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
             ]}
           >
             <Select
@@ -276,12 +273,12 @@ function SkillTableView(props) {
               placeholder={
                 props.intl.formatMessage({
                   id: "admin.select",
-                  defaultMessage: "Select"
+                  defaultMessage: "Select",
                 }) +
                 " " +
                 props.intl.formatMessage({
                   id: "admin.category",
-                  defaultMessage: "Category"
+                  defaultMessage: "Category",
                 })
               }
               optionFilterProp="children"
@@ -289,7 +286,7 @@ function SkillTableView(props) {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories.map(category => {
+              {categories.map((category) => {
                 return (
                   <Option value={category.id}>
                     {props.intl.formatMessage({ id: "language.code" }) === "en"
@@ -311,24 +308,24 @@ function SkillTableView(props) {
         visible={editVisible}
         title={props.intl.formatMessage({
           id: "admin.edit.skill",
-          defaultMessage: "Edit Skill"
+          defaultMessage: "Edit Skill",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
-          defaultMessage: "Apply"
+          defaultMessage: "Apply",
         })}
         cancelText={props.intl.formatMessage({
           id: "admin.cancel",
-          defaultMessage: "Cancel"
+          defaultMessage: "Cancel",
         })}
         onOk={() => {
           editForm
             .validateFields()
-            .then(values => {
+            .then((values) => {
               editForm.resetFields();
               onCreate(values);
             })
-            .catch(info => {
+            .catch((info) => {
               console.log("Validate Failed:", info);
             });
           handleOk();
@@ -351,13 +348,13 @@ function SkillTableView(props) {
             name="editSkillEn"
             label={props.intl.formatMessage({
               id: "language.english",
-              defaultMessage: "English"
+              defaultMessage: "English",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.skill.descriptionEn",
-                defaultMessage: "Skill description in English"
+                defaultMessage: "Skill description in English",
               })}
             />
           </Form.Item>
@@ -365,13 +362,13 @@ function SkillTableView(props) {
             name="editSkillFr"
             label={props.intl.formatMessage({
               id: "language.french",
-              defaultMessage: "French"
+              defaultMessage: "French",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
                 id: "admin.add.skill.descriptionFr",
-                defaultMessage: "Skill description in French"
+                defaultMessage: "Skill description in French",
               })}
             />
           </Form.Item>
@@ -379,7 +376,7 @@ function SkillTableView(props) {
             name="editSkillCategory"
             label={props.intl.formatMessage({
               id: "admin.category",
-              defaultMessage: "Category"
+              defaultMessage: "Category",
             })}
           >
             <Select
@@ -387,12 +384,12 @@ function SkillTableView(props) {
               placeholder={
                 props.intl.formatMessage({
                   id: "admin.select",
-                  defaultMessage: "Select"
+                  defaultMessage: "Select",
                 }) +
                 " " +
                 props.intl.formatMessage({
                   id: "admin.category",
-                  defaultMessage: "Category"
+                  defaultMessage: "Category",
                 })
               }
               optionFilterProp="children"
@@ -400,7 +397,7 @@ function SkillTableView(props) {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories.map(category => {
+              {categories.map((category) => {
                 return (
                   <Option value={category.id}>
                     {props.intl.formatMessage({ id: "language.code" }) === "en"
@@ -420,7 +417,7 @@ function SkillTableView(props) {
     message.success(
       props.intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful"
+        defaultMessage: "Successful",
       })
     );
   };
@@ -429,7 +426,7 @@ function SkillTableView(props) {
     message.error(
       props.intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled"
+        defaultMessage: "Cancelled",
       })
     );
   };
@@ -455,7 +452,7 @@ function SkillTableView(props) {
     popUpCancel();
   };
 
-  const handleEditModal = record => {
+  const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -476,7 +473,7 @@ function SkillTableView(props) {
       {
         title: props.intl.formatMessage({
           id: "admin.category",
-          defaultMessage: "Category"
+          defaultMessage: "Category",
         }),
         dataIndex: categoryName,
         key: "category",
@@ -488,14 +485,14 @@ function SkillTableView(props) {
           categoryName,
           props.intl.formatMessage({
             id: "admin.category",
-            defaultMessage: "Category"
+            defaultMessage: "Category",
           })
-        )
+        ),
       },
       {
         title: props.intl.formatMessage({
           id: "language.english",
-          defaultMessage: "English"
+          defaultMessage: "English",
         }),
         dataIndex: "descriptionEn",
         key: "skillEn",
@@ -506,14 +503,14 @@ function SkillTableView(props) {
           "descriptionEn",
           props.intl.formatMessage({
             id: "language.english",
-            defaultMessage: "English"
+            defaultMessage: "English",
           })
-        )
+        ),
       },
       {
         title: props.intl.formatMessage({
           id: "language.french",
-          defaultMessage: "French"
+          defaultMessage: "French",
         }),
         dataIndex: "descriptionFr",
         key: "skillFr",
@@ -524,17 +521,17 @@ function SkillTableView(props) {
           "descriptionFr",
           props.intl.formatMessage({
             id: "language.french",
-            defaultMessage: "French"
+            defaultMessage: "French",
           })
-        )
+        ),
       },
       {
         title: props.intl.formatMessage({
           id: "admin.edit",
-          defaultMessage: "Edit"
+          defaultMessage: "Edit",
         }),
         key: "edit",
-        render: record => (
+        render: (record) => (
           <div>
             <Button
               type="primary"
@@ -550,15 +547,15 @@ function SkillTableView(props) {
                   { name: ["editSkillFr"], value: record.descriptionFr },
                   {
                     name: ["editSkillCategory"],
-                    value: categoryName
-                  }
+                    value: categoryName,
+                  },
                 ]);
                 handleEditModal(record);
               }}
             />
           </div>
-        )
-      }
+        ),
+      },
     ];
 
     return skill_table_columns;
@@ -571,7 +568,7 @@ function SkillTableView(props) {
       <PageHeader
         title={props.intl.formatMessage({
           id: "admin.skill.table",
-          defaultMessage: "Skills Table"
+          defaultMessage: "Skills Table",
         })}
         extra={[
           deleteConfirm(),
@@ -585,9 +582,9 @@ function SkillTableView(props) {
           >
             {props.intl.formatMessage({
               id: "admin.add",
-              defaultMessage: "Add"
+              defaultMessage: "Add",
             })}
-          </Button>
+          </Button>,
         ]}
       />
       <Row gutter={[0, 8]}>

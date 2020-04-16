@@ -1,137 +1,159 @@
-import React, { Component } from "react";
-import { Table, Button, PageHeader, Row, Col, Input, Select } from "antd";
+import React from "react";
+import {
+  Table,
+  Button,
+  PageHeader,
+  Row,
+  Col,
+  Input,
+  Select,
+  message,
+  Popconfirm,
+} from "antd";
 import {
   CheckCircleOutlined,
   LinkOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-const { Option } = Select;
+function UserTableView(props) {
+  let searchInput;
 
-class UserTableView extends Component {
-  // Column Search Function:
-  getColumnSearchProps = (dataIndex, title) => ({
+  const { Option } = Select;
+
+  const {
+    data,
+    size,
+    searchText,
+    searchedColumn,
+    handleApply,
+    handleDropdownChange,
+    profileStatusValue,
+    handleSearch,
+    handleReset,
+  } = props;
+
+  const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters
+      clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
-            this.searchInput = node;
+          ref={(node) => {
+            searchInput = node;
           }}
           placeholder={
-            this.props.intl.formatMessage({
+            props.intl.formatMessage({
               id: "admin.search",
-              defaultMessage: "Search for"
+              defaultMessage: "Search for",
             }) +
             " " +
             title
           }
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
-          onPressEnter={() =>
-            this.props.handleSearch(selectedKeys, confirm, dataIndex)
-          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{ width: 188, marginBottom: 8, display: "block" }}
         />
         <Button
           type="primary"
-          onClick={() =>
-            this.props.handleSearch(selectedKeys, confirm, dataIndex)
-          }
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          Search
+          {props.intl.formatMessage({
+            id: "admin.search.button",
+            defaultMessage: "Search",
+          })}
         </Button>
         <Button
-          onClick={() => this.props.handleReset(clearFilters)}
+          onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          Reset
+          {props.intl.formatMessage({
+            id: "admin.reset.button",
+            defaultMessage: "Reset",
+          })}
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
-        setTimeout(() => this.searchInput.select());
+        setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
-      this.props.searchedColumn === dataIndex ? (
+    render: (text) =>
+      searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[this.props.searchText]}
+          searchWords={[searchText]}
           autoEscape
           textToHighlight={text.toString()}
         />
       ) : (
         text
-      )
+      ),
   });
 
-  // Dropdown for Profile Status:
-  renderStatusDropdown = (id, inactive, flagged) => {
+  const renderStatusDropdown = (id, inactive, flagged) => {
     return (
       <div>
         <Select
-          key={id}
+          defaultValue={profileStatusValue(inactive, flagged)}
           style={{ width: 120 }}
-          onChange={value => this.props.handleDropdownChange(value, id)}
-          value={this.props.profileStatusValue(inactive, flagged)}
+          onChange={(value) => {
+            handleDropdownChange(value, id);
+          }}
         >
           <Option
             key="active"
-            value={this.props.intl.formatMessage({
+            value={props.intl.formatMessage({
               id: "admin.active",
-              defaultMessage: "Active"
+              defaultMessage: "Active",
             })}
           >
-            {this.props.intl.formatMessage({
+            {props.intl.formatMessage({
               id: "admin.active",
-              defaultMessage: "Active"
+              defaultMessage: "Active",
             })}
           </Option>
           <Option
             key="inactive"
-            value={this.props.intl.formatMessage({
+            value={props.intl.formatMessage({
               id: "admin.inactive",
-              defaultMessage: "Inactive"
+              defaultMessage: "Inactive",
             })}
           >
-            {this.props.intl.formatMessage({
+            {props.intl.formatMessage({
               id: "admin.inactive",
-              defaultMessage: "Inactive"
+              defaultMessage: "Inactive",
             })}
           </Option>
           <Option
             key="hidden"
-            value={this.props.intl.formatMessage({
+            value={props.intl.formatMessage({
               id: "admin.flagged",
-              defaultMessage: "Hidden"
+              defaultMessage: "Hidden",
             })}
           >
-            {this.props.intl.formatMessage({
+            {props.intl.formatMessage({
               id: "admin.flagged",
-              defaultMessage: "Hidden"
+              defaultMessage: "Hidden",
             })}
           </Option>
         </Select>
@@ -139,25 +161,76 @@ class UserTableView extends Component {
     );
   };
 
-  // Table Column Details:
-  tableColumns = () => {
+  const applyButton = () => {
+    return (
+      <Popconfirm
+        placement="left"
+        title={props.intl.formatMessage({
+          id: "admin.update.confirm",
+          defaultMessage: "Are you sure that you want to update?",
+        })}
+        okText={props.intl.formatMessage({
+          id: "admin.update",
+          defaultMessage: "Update",
+        })}
+        cancelText={props.intl.formatMessage({
+          id: "admin.cancel",
+          defaultMessage: "Cancel",
+        })}
+        onConfirm={() => {
+          handleApply();
+          popUpSuccesss();
+        }}
+        onCancel={() => {
+          popUpCancel();
+        }}
+      >
+        <Button type="primary" icon={<CheckCircleOutlined />} size={size}>
+          {props.intl.formatMessage({
+            id: "admin.apply",
+            defaultMessage: "Apply",
+          })}
+        </Button>
+      </Popconfirm>
+    );
+  };
+
+  const popUpCancel = () => {
+    message.error(
+      props.intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
+
+  const popUpSuccesss = () => {
+    message.success(
+      props.intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  const userTableColumns = () => {
     const jobTitleState =
-      this.props.intl.formatMessage({ id: "language.code" }) === "en"
+      props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "jobTitleEn"
         : "jobTitleFr";
 
     const tenureState =
-      this.props.intl.formatMessage({ id: "language.code" }) === "en"
+      props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "tenureDescriptionEn"
         : "tenureDescriptionFr";
 
-    const user_table_columns = [
+    const tableColumns = [
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.view",
-          defaultMessage: "View"
+          defaultMessage: "View",
         }),
-        render: record => (
+        render: (record) => (
           <span>
             <Button
               type="primary"
@@ -166,12 +239,12 @@ class UserTableView extends Component {
               onClick={() => window.open(record.profileLink)}
             />
           </span>
-        )
+        ),
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.name",
-          defaultMessage: "Name"
+          defaultMessage: "Name",
         }),
         dataIndex: "fullName",
         key: "name",
@@ -179,36 +252,36 @@ class UserTableView extends Component {
           return a.fullName.localeCompare(b.fullName);
         },
         sortDirections: ["descend"],
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           "fullName",
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "admin.name",
-            defaultMessage: "Name"
+            defaultMessage: "Name",
           })
-        )
+        ),
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.job.title",
-          defaultMessage: "Job Title"
+          defaultMessage: "Job Title",
         }),
         dataIndex: jobTitleState,
         key: "jobTitle",
         sorter: (a, b) => {
           return a[jobTitleState].localeCompare(b[jobTitleState]);
         },
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           jobTitleState,
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "admin.job.title",
-            defaultMessage: "Job Title"
+            defaultMessage: "Job Title",
           })
-        )
+        ),
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.registered",
-          defaultMessage: "Registered"
+          defaultMessage: "Registered",
         }),
         dataIndex: "formatCreatedAt",
         key: "registered",
@@ -217,82 +290,66 @@ class UserTableView extends Component {
             moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
           );
         },
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           "formatCreatedAt",
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "admin.registered",
-            defaultMessage: "Registered"
+            defaultMessage: "Registered",
           })
-        )
+        ),
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.tenure",
-          defaultMessage: "Tenure"
+          defaultMessage: "Tenure",
         }),
         dataIndex: tenureState,
         key: "tenure",
         sorter: (a, b) => {
           return a[tenureState].localeCompare(b[tenureState]);
         },
-        ...this.getColumnSearchProps(
+        ...getColumnSearchProps(
           tenureState,
-          this.props.intl.formatMessage({
+          props.intl.formatMessage({
             id: "admin.tenure",
-            defaultMessage: "Tenure"
+            defaultMessage: "Tenure",
           })
-        )
+        ),
       },
       {
-        title: this.props.intl.formatMessage({
+        title: props.intl.formatMessage({
           id: "admin.profileStatus",
-          defaultMessage: "Profile Status"
+          defaultMessage: "Profile Status",
         }),
-        render: record => {
-          return this.renderStatusDropdown(
+        render: (record) => {
+          return renderStatusDropdown(
             record.id,
             record.user.inactive,
             record.flagged
           );
-        }
-      }
+        },
+      },
     ];
 
-    return user_table_columns;
+    return tableColumns;
   };
 
-  render() {
-    const { data, size, statuses, handleApply } = this.props;
-    return (
-      <>
-        <PageHeader
-          title={this.props.intl.formatMessage({
-            id: "admin.user.table",
-            defaultMessage: "Users Table"
-          })}
-          extra={[
-            <Button
-              type="primary"
-              icon={<CheckCircleOutlined />}
-              size={size}
-              onClick={handleApply}
-              disabled={Object.entries(statuses).length === 0}
-            >
-              {this.props.intl.formatMessage({
-                id: "admin.apply",
-                defaultMessage: "Apply"
-              })}
-            </Button>
-          ]}
-        />
-        <Row gutter={[0, 8]}>
-          <Col span={24}>
-            <Table columns={this.tableColumns()} dataSource={data} />
-          </Col>
-        </Row>
-      </>
-    );
-  }
+  return (
+    <>
+      <PageHeader
+        title={props.intl.formatMessage({
+          id: "admin.user.table",
+          defaultMessage: "Users Table",
+        })}
+        extra={[applyButton()]}
+      />
+      <Row gutter={[0, 8]}>
+        <Col span={24}>
+          <Table columns={userTableColumns()} dataSource={data} />
+        </Col>
+      </Row>
+    </>
+  );
 }
 
 export default injectIntl(UserTableView);
