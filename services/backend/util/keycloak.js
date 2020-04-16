@@ -8,10 +8,10 @@ const keycloak = new Keycloak({ store: memoryStore });
 require("dotenv").config();
 
 const sessionInstance = session({
-  secret: process.env.KEYCLOAK_SECRET,
+  secret: process.env.DEV_KEYCLOAK_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: memoryStore
+  store: memoryStore,
 });
 
 module.exports = { keycloak, sessionInstance };
