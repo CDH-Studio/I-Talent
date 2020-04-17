@@ -11,13 +11,12 @@ const keycloak = new Keycloak(
   {
     realm: "individual",
     "bearer-only": true,
-    "auth-server-url": process.env.KEYCLAOK_AUTH_SERVER_URL,
+    "auth-server-url": process.env.KEYCLOAK_AUTH_SERVER_URL,
     "ssl-required": "external",
     resource: "upskill-api",
     "confidential-port": 0,
   }
 );
-
 
 const sessionInstance = session({
   secret: process.env.KEYCLOAK_SECRET,
