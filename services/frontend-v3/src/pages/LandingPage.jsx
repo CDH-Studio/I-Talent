@@ -8,7 +8,7 @@ import { injectIntl } from "react-intl";
 /** UI for the landing route layout */
 function LandingPage(props) {
   const { changeLanguage } = props;
-  const handleClick = e => {
+  const handleClick = (e) => {
     console.log("click ", e);
   };
 
@@ -32,7 +32,7 @@ function LandingPage(props) {
           <div style={styles.mainMessage}>
             {props.intl.formatMessage({
               id: "landing.welcome",
-              defaultMessage: "Welcome to MyTalent"
+              defaultMessage: "Welcome to I-Talent",
             })}
           </div>
           <div style={styles.signIn}>
@@ -46,7 +46,7 @@ function LandingPage(props) {
             >
               {props.intl.formatMessage({
                 id: "landing.login.button",
-                defaultMessage: "Login"
+                defaultMessage: "Login",
               })}
             </Button>
           </div>
@@ -58,17 +58,17 @@ function LandingPage(props) {
 const styles = {
   menuStyle: {
     backgroundColor: "#001C1A",
-    width: "100%"
+    width: "100%",
   },
   logoStyle: {
     paddingBottom: "8px",
-    paddingTop: "8px"
+    paddingTop: "8px",
   },
   imgStyle: { maxWidth: "37px" },
   bttnStyle: {
     paddingBottom: "6px",
     paddingTop: "8px",
-    float: "right"
+    float: "right",
   },
   backgroundStyle: {
     backgroundImage: `url(${backgroundImage})`,
@@ -77,7 +77,7 @@ const styles = {
     height: "100%",
     position: "fixed",
     top: "62px",
-    width: "100%"
+    width: "100%",
   },
   mainMessage: {
     color: "#EFEEEE",
@@ -85,11 +85,11 @@ const styles = {
     margin: "250px auto 0px",
     textAlign: "center",
     width: "100%",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   signIn: {
     width: "100%",
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 };
 export default injectIntl(LandingPage);

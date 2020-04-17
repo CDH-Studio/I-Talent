@@ -179,7 +179,7 @@ function SkillTable(props) {
   };
 
   useEffect(() => {
-    document.title = getDisplayType(true) + " - Admin | MyTalent ";
+    document.title = getDisplayType(true) + " - Admin | I-Talent ";
     updateState();
   }, []);
 

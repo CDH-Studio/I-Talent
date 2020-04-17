@@ -12,12 +12,12 @@ const backendAddress = config.backendAddress;
 const { Title } = Typography;
 
 class AdminDashboard extends React.Component {
-  goto = link => this.props.history.push(link);
+  goto = (link) => this.props.history.push(link);
 
   constructor(props) {
     super(props);
 
-    document.title = "Admin | UpSkill";
+    document.title = "Admin | I-Talent";
 
     this.state = { data: null, loading: true };
   }
@@ -25,8 +25,8 @@ class AdminDashboard extends React.Component {
   componentDidMount() {
     axios
       .get(backendAddress + "api/admin/dashboard/")
-      .then(res => this.setState({ data: res.data, loading: false }))
-      .catch(function(error) {
+      .then((res) => this.setState({ data: res.data, loading: false }))
+      .catch(function (error) {
         console.error(error);
       });
   }
@@ -51,7 +51,7 @@ class AdminDashboard extends React.Component {
         <Title>
           {this.props.intl.formatMessage({
             id: "admin.dashboard.title",
-            defaultMessage: "Admin Dashboard"
+            defaultMessage: "Admin Dashboard",
           })}
         </Title>
         <StatCards data={data} />
