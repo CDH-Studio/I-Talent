@@ -1,7 +1,6 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import UserTable from "../../components/userTable/UserTable";
-import { injectIntl } from "react-intl";
 
 function AdminUser(props) {
   return (
@@ -15,4 +14,4 @@ function AdminUser(props) {
   );
 }
 
-export default injectIntl(AdminUser);
+export default AdminUser;

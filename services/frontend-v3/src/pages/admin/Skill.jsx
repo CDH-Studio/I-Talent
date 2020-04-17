@@ -1,7 +1,6 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import SkillTable from "../../components/skillTable/SkillTable";
-import { injectIntl } from "react-intl";
 
 function AdminSkill(props) {
   return (
@@ -15,4 +14,4 @@ function AdminSkill(props) {
   );
 }
 
-export default injectIntl(AdminSkill);
+export default AdminSkill;

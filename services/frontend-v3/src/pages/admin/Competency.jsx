@@ -1,6 +1,5 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import { injectIntl } from "react-intl";
 
 function AdminCompetency(props) {
   return (
@@ -14,4 +13,4 @@ function AdminCompetency(props) {
   );
 }
 
-export default injectIntl(AdminCompetency);
+export default AdminCompetency;
