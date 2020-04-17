@@ -11,11 +11,14 @@ import {
   AdminUser,
   AdminSkill,
   AdminCategory,
-  AdminCompetency
+  AdminCompetency,
 } from "../pages/admin";
 
 import config from "../config";
+import keycloakConfig from "../keycloak";
+
 const { backendAddress } = config;
+const { keycloakJSONConfig } = keycloakConfig;
 
 function Admin(props) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -26,15 +29,15 @@ function Admin(props) {
   const changeLanguage = props.changeLanguage;
 
   useEffect(() => {
-    const keycloak = Keycloak("/keycloak.json");
+    const keycloak = Keycloak(keycloakJSONConfig);
     keycloak
       .init({
         onLoad: "login-required",
         promiseType: "native",
-        checkLoginIframe: false
+        checkLoginIframe: false,
       })
-      .then(authenticated => {
-        axios.interceptors.request.use(config =>
+      .then((authenticated) => {
+        axios.interceptors.request.use((config) =>
           keycloak.updateToken(300).then(() => {
             config.headers.Authorization = "Bearer " + keycloak.token;
             return Promise.resolve(config).catch(keycloak.login);
@@ -93,7 +96,7 @@ function Admin(props) {
   // }
 
   //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const copyToClipboard = e => {
+  const copyToClipboard = (e) => {
     this.textArea.select();
     document.execCommand("copy");
     e.target.focus();
@@ -133,7 +136,7 @@ function Admin(props) {
           <Route
             exact
             path="/admin/dashboard"
-            render={routeProps => (
+            render={(routeProps) => (
               <AdminDasboard
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}
@@ -144,7 +147,7 @@ function Admin(props) {
           <Route
             exact
             path="/admin/users"
-            render={routeProps => (
+            render={(routeProps) => (
               <AdminUser
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}
@@ -155,7 +158,7 @@ function Admin(props) {
           <Route
             exact
             path="/admin/skills"
-            render={routeProps => (
+            render={(routeProps) => (
               <AdminSkill
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}
@@ -166,7 +169,7 @@ function Admin(props) {
           <Route
             exact
             path="/admin/categories"
-            render={routeProps => (
+            render={(routeProps) => (
               <AdminCategory
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}
@@ -177,7 +180,7 @@ function Admin(props) {
           <Route
             exact
             path="/admin/competencies"
-            render={routeProps => (
+            render={(routeProps) => (
               <AdminCompetency
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}

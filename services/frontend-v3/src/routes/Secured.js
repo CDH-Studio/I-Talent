@@ -14,7 +14,11 @@ import {
 } from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
+import keycloakConfig from "../keycloak";
+
 const loginFunc = require("../functions/login");
+
+const { keycloakJSONConfig } = keycloakConfig;
 
 function Secured(props) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -51,7 +55,7 @@ function Secured(props) {
       });
     };
 
-    const keycloak = Keycloak("/keycloak.json");
+    const keycloak = Keycloak(keycloakJSONConfig);
     keycloak
       .init({
         onLoad: "login-required",
@@ -60,7 +64,7 @@ function Secured(props) {
       })
       .then((authenticated) => {
         // check if user is admin
-        if (keycloak.tokenParsed.resource_access["upskill-client"].roles) {
+        if (keycloak.tokenParsed.resource_access["upskill-client"]) {
           sessionStorage.setItem(
             "admin",
             keycloak.tokenParsed.resource_access[
