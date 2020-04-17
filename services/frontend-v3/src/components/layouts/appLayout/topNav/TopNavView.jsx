@@ -9,7 +9,7 @@ import {
 import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
-import Logo from "../../../sideNav/logo_v2.svg";
+import Logo from "../../../../assets/MyTalent-Logo-Full.png";
 import { FormattedMessage } from "react-intl";
 
 const { Header } = Layout;
