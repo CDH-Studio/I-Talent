@@ -20,8 +20,8 @@ const { backendAddress } = config;
 function Admin(props) {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [isAdmin, setIsAdmin] = useState(false);
+  // const [loading, setLoading] = useState(true);
 
   const changeLanguage = props.changeLanguage;
 
@@ -45,14 +45,14 @@ function Admin(props) {
           () => {
             setKeycloak(keycloak);
             setAuthenticated(authenticated);
-            setIsAdmin(true);
-            setLoading(false);
+            // setIsAdmin(true);
+            // setLoading(false);
           },
           () => {
             setKeycloak(keycloak);
             setAuthenticated(authenticated);
-            setIsAdmin(false);
-            setLoading(false);
+            // setIsAdmin(false);
+            // setLoading(false);
           }
         );
       });
