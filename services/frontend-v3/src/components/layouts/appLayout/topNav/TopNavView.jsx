@@ -18,7 +18,7 @@ function TopNavView(props) {
   /* Component Styles */
   const styles = {
     header: {
-      backgroundColor: "#001e1e",
+      backgroundColor: "#192e2f",
       padding: 0,
       boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
       position: "fixed",
