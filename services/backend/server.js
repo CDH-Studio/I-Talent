@@ -79,21 +79,21 @@ router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function (
 });
 
 //User endpoints
-router.get("/user/",  user.getUser);
-router.get("/user/:id",  user.getUserById);
-router.post("/user/",  user.createUser);
+router.get("/user/", keycloak.protect(), user.getUser);
+router.get("/user/:id", keycloak.protect(), user.getUserById);
+router.post("/user/", keycloak.protect(), user.createUser);
 
 //Profile endpoints
-router.get("/profile/", profile.getProfile);
+router.get("/profile/", keycloak.protect(), profile.getProfile);
 router
   .route("/profile/:id")
-  .get(profile.getPublicProfileById)
-  .post( profile.createProfile)
-  .put( profile.updateProfile);
+  .get(keycloak.protect(), profile.getPublicProfileById)
+  .post(keycloak.protect(), profile.createProfile)
+  .put(keycloak.protect(), profile.updateProfile);
 
 router
   .route("/private/profile/:id")
-  .get( profile.getPrivateProfileById);
+  .get(keycloak.protect(), profile.getPrivateProfileById);
 
 //Admin endpoints
 router.use("/admin", admin);
