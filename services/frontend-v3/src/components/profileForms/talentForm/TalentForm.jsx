@@ -63,7 +63,9 @@ function TalentForm(props) {
     const getSavedCompetencies = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
         for (let i = 0; i < result.data.competencies.length; i++) {
@@ -127,7 +129,9 @@ function TalentForm(props) {
     const getSavedSkills = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
         for (let i = 0; i < result.data.skills.length; i++) {
@@ -148,7 +152,9 @@ function TalentForm(props) {
     const getSavedMentorshipSkill = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
         for (let i = 0; i < result.data.mentorshipSkills.length; i++) {
