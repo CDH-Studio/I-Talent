@@ -332,8 +332,8 @@ const EmploymentDataFormView = (props) => {
                   0
                 }
               >
-                {props.classificationOptions.map((value, index) => {
-                  return <Option key={value.id}>{value.description}</Option>;
+                {props.classificationOptions.map((value) => {
+                  return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -466,10 +466,8 @@ const EmploymentDataFormView = (props) => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.substantiveOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.substantiveOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -491,10 +489,8 @@ const EmploymentDataFormView = (props) => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.classificationOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description}</Option>
-                      );
+                    {props.classificationOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -518,10 +514,8 @@ const EmploymentDataFormView = (props) => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.securityOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.securityOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>

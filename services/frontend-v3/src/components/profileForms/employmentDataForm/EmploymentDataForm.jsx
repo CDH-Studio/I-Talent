@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import EmploymentDataFormView from "../../profileForms/employmentDataForm/EmploymentDataFormView";
 import axios from "axios";
 import config from "../../../config";
+import { injectIntl } from "react-intl";
 const { backendAddress } = config;
 
 /**
@@ -16,13 +17,29 @@ function EmploymentDataForm(props) {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  // get current language code
+  let locale = props.intl.formatMessage({
+    id: "language.code",
+    defaultMessage: "en",
+  });
+
   /* useEffect to run once component is mounted */
   useEffect(() => {
     /* get substantive level options */
     const getSubstantiveOptions = async () => {
       try {
         let result = await axios.get(backendAddress + "api/option/getTenure");
-        await setSubstantiveOptions(result.data);
+
+        let options = [];
+        // Generate the data for dropdown
+        for (var i = 0; i < result.data.length; i++) {
+          var option = {
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
+          };
+          options.push(option);
+        }
+        await setSubstantiveOptions(options);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -34,7 +51,18 @@ function EmploymentDataForm(props) {
       try {
         let url = backendAddress + "api/option/getGroupLevel";
         let result = await axios.get(url);
-        return await setClassificationOptions(result.data);
+        let options = [];
+
+        // Generate the data for dropdown
+        for (var i = 0; i < result.data.length; i++) {
+          var option = {
+            title: result.data[i].description,
+            key: result.data[i].id,
+          };
+          options.push(option);
+        }
+        await setClassificationOptions(options);
+        return 1;
       } catch (error) {
         throw new Error(error);
       }
@@ -45,7 +73,17 @@ function EmploymentDataForm(props) {
       try {
         let url = backendAddress + "api/option/getSecurityClearance";
         let result = await axios.get(url);
-        return await setSecurityOptions(result.data);
+        let options = [];
+
+        // Generate the data for dropdown
+        for (var i = 0; i < result.data.length; i++) {
+          var option = {
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
+          };
+          options.push(option);
+        }
+        return await setSecurityOptions(options);
       } catch (error) {
         throw new Error(error);
       }
@@ -83,7 +121,7 @@ function EmploymentDataForm(props) {
     };
 
     getAllData();
-  }, []);
+  }, [locale]);
 
   return (
     <EmploymentDataFormView
@@ -97,4 +135,4 @@ function EmploymentDataForm(props) {
   );
 }
 
-export default EmploymentDataForm;
+export default injectIntl(EmploymentDataForm);
