@@ -33,7 +33,6 @@ function PrimaryInfoForm(props) {
         await setProfileInfo(result.data);
         return 1;
       } catch (error) {
-        console.log(error);
         return 0;
       }
     };
