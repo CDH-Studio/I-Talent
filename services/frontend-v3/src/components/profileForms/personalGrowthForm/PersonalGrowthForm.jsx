@@ -35,7 +35,9 @@ function PersonalGrowthForm(props) {
     const getProfileInfo = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
         return 1;
@@ -78,7 +80,9 @@ function PersonalGrowthForm(props) {
     const getSavedDevelopmentalGoals = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
 
@@ -149,7 +153,9 @@ function PersonalGrowthForm(props) {
     const getSavedRelocationLocations = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
 
@@ -200,7 +206,9 @@ function PersonalGrowthForm(props) {
     const getSavedLookingForNewJob = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
 
         // if id is not found set to "undefined" so dropdown defaults to placeholder
@@ -250,7 +258,9 @@ function PersonalGrowthForm(props) {
     const getSavedCareerMobility = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
 
         // if id is not found set to "undefined" so dropdown defaults to placeholder
@@ -300,7 +310,9 @@ function PersonalGrowthForm(props) {
     const getSavedTalentMatrixResult = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
 
         // if id is not found set to "undefined" so dropdown defaults to placeholder
@@ -323,7 +335,9 @@ function PersonalGrowthForm(props) {
     const getExFeederBool = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setSavedExFeederBool(result.data.exFeeder);
         return 1;

@@ -266,7 +266,7 @@ function PrimaryInfoFormView(props) {
         githubUrl: profile.githubUrl,
       };
     } else {
-      return {};
+      return { email: localStorage.getItem("email") };
     }
   };
 
@@ -346,7 +346,7 @@ function PrimaryInfoFormView(props) {
                   label={<FormattedMessage id="profile.email" />}
                   rules={[Rules.emailFormat, Rules.maxChar50]}
                 >
-                  <Input />
+                  <Input disabled={true} />
                 </Form.Item>
               </Col>
             </Row>
