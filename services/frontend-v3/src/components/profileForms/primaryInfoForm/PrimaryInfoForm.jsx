@@ -26,12 +26,14 @@ function PrimaryInfoForm(props) {
     const getProfileInfo = async () => {
       try {
         let url =
-          backendAddress + "api/private/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
         return 1;
       } catch (error) {
-        console.log(error)
+        console.log(error);
         return 0;
       }
     };
