@@ -9,7 +9,7 @@ import {
 import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
-import Logo from "../../../../assets/MyTalent-Logo-Full.png";
+import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
 import { FormattedMessage } from "react-intl";
 
 const { Header } = Layout;
@@ -26,7 +26,7 @@ function TopNavView(props) {
       width: "100%",
     },
     navBrand: {
-      height: "35px",
+      height: "25px",
       margin: "0 25px",
     },
     rightMenu: {
