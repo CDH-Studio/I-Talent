@@ -61,7 +61,7 @@ function TopNavView(props) {
         </a>
       </Menu.Item>
       <Menu.Item style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/profile/edit">
+        <a rel="noopener noreferrer" href="/secured/profile/edit/primary-info">
           <EditOutlined style={styles.MenuIcon} />
           <FormattedMessage id="edit.profile" />
         </a>
