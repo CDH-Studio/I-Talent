@@ -34,7 +34,7 @@ const { Title } = Typography;
 const EmploymentDataFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
+  const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
 
   /* Component Styles */
@@ -104,7 +104,7 @@ const EmploymentDataFormView = (props) => {
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
-    setDisplayMentorshipForm(!displayMentorshipForm);
+    setDisplayActingRoleForm(!displayActingRoleForm);
   };
 
   /* enable or disable end date field */
@@ -212,7 +212,7 @@ const EmploymentDataFormView = (props) => {
       ? values.securityClearanceId
       : null;
 
-    if (!displayMentorshipForm) {
+    if (!displayActingRoleForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;
       values.actingStartDate = null;
@@ -315,7 +315,7 @@ const EmploymentDataFormView = (props) => {
     form.resetFields();
 
     // check if user has acting information in db to expand acting form
-    setDisplayMentorshipForm(
+    setDisplayActingRoleForm(
       props.profileInfo &&
         props.profileInfo.acting &&
         !!props.profileInfo.acting.id
@@ -423,7 +423,7 @@ const EmploymentDataFormView = (props) => {
 
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
-    setDisplayMentorshipForm(
+    setDisplayActingRoleForm(
       props.profileInfo &&
         props.profileInfo.acting &&
         !!props.profileInfo.acting.id
@@ -559,10 +559,10 @@ const EmploymentDataFormView = (props) => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  checked={displayMentorshipForm}
+                  checked={displayActingRoleForm}
                   onChange={toggleTempRoleForm}
                 />
-                {getTempRoleForm(displayMentorshipForm)}
+                {getTempRoleForm(displayActingRoleForm)}
               </Col>
             </Row>
             {getFormControlButtons(props.formType)}
