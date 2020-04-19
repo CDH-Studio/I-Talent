@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { PageHeader } from "antd";
+import { FormattedMessage } from "react-intl";
 import AppLayout from "../appLayout/AppLayout";
 
 export default class CreateProfileLayoutView extends Component {
@@ -14,9 +15,10 @@ export default class CreateProfileLayoutView extends Component {
       >
         <PageHeader
           style={{
-            padding: "0 0 15px 7px"
+            padding: "0 0 15px 7px",
+            textTransform: "capitalize",
           }}
-          title="Create Profile"
+          title={<FormattedMessage id="create.profile" />}
         />
         {this.props.form}
       </AppLayout>
