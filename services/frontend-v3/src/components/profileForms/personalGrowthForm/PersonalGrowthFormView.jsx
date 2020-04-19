@@ -339,7 +339,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                   >
                     {props.developmentalGoalOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
@@ -364,7 +364,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                   >
                     {props.interestedInRemoteOptions.map((value, index) => {
@@ -393,7 +393,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                   >
                     {props.relocationOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
@@ -413,7 +413,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                   >
                     {props.lookingForNewJobOptions.map((value, index) => {
@@ -440,7 +440,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                   >
                     {props.careerMobilityOptions.map((value, index) => {
@@ -461,7 +461,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                   >
                     {props.talentMatrixResultOptions.map((value, index) => {
