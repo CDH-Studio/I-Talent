@@ -8,6 +8,7 @@ import {
   Button,
   Checkbox,
   DatePicker,
+  Tooltip,
 } from "antd";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
@@ -117,16 +118,21 @@ const EducationFormView = (props) => {
             <FormOutlined style={{ marginRight: "0.5em" }} />
             <FormattedMessage id="setup.education" />
             {": " + (props.field.fieldKey + 1)}
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                props.remove(props.field.name);
-              }}
-              size={"small"}
-              style={{ float: "right" }}
-            />
+            <Tooltip
+              placement="top"
+              title={<FormattedMessage id="admin.delete" />}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  props.remove(props.field.name);
+                }}
+                size={"small"}
+                style={{ float: "right" }}
+              />
+            </Tooltip>
           </Title>
         </Col>
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
