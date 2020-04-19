@@ -12,6 +12,7 @@ function SkillTable(props) {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -24,6 +25,7 @@ function SkillTable(props) {
       let results = await axios.get(
         backendAddress + "api/admin/options/" + type
       );
+
       return results.data;
     } catch (error) {
       console.log(error);
@@ -77,7 +79,7 @@ function SkillTable(props) {
         categoryId: values.addSkillCategory,
       });
 
-      updateState();
+      setReset(true);
     } catch (error) {
       console.log(error);
       return 0;
@@ -112,7 +114,7 @@ function SkillTable(props) {
         });
       }
 
-      updateState();
+      setReset(true);
     } catch (error) {
       console.log(error);
       return 0;
@@ -125,9 +127,8 @@ function SkillTable(props) {
 
       await axios.post(url, { ids: selectedRowKeys });
 
-      updateState();
-
       setSelectedRowKeys([]);
+      setReset(true);
     } catch (error) {
       console.log(error);
       return 0;
@@ -162,7 +163,7 @@ function SkillTable(props) {
       allSkills[i].key = allSkills[i].id;
     }
 
-    allSkills.map(function (e) {
+    allSkills.forEach((e) => {
       e.categoryNameEn = e.category.descriptionEn;
       e.categoryNameFr = e.category.descriptionFr;
     });
@@ -170,18 +171,29 @@ function SkillTable(props) {
     return _.sortBy(allSkills, category);
   };
 
-  const updateState = async () => {
-    let skills = await getSkill();
-    let categories = await getCategories();
-    setData(skills);
-    setCategories(categories);
-    setLoading(false);
-  };
-
   useEffect(() => {
-    document.title = getDisplayType(true) + " - Admin | I-Talent ";
-    updateState();
-  }, []);
+    let skills = [];
+    let categories = [];
+    if (loading) {
+      const setState = async () => {
+        skills = await getSkill();
+        categories = await getCategories();
+        setData(skills);
+        setCategories(categories);
+        setLoading(false);
+      };
+      setState();
+    } else {
+      const updateState = async () => {
+        skills = await getSkill();
+        setData(skills);
+        setReset(false);
+      };
+      updateState();
+    }
+  }, [loading, reset]);
+
+  document.title = getDisplayType(true) + " - Admin | I-Talent";
 
   if (loading) {
     return <Skeleton active />;

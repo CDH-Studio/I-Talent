@@ -11,6 +11,7 @@ const backendAddress = config.backendAddress;
 function CategoryTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -43,7 +44,7 @@ function CategoryTable(props) {
       if (result === false) {
         return true;
       } else {
-        updateState();
+        setReset(true);
         return false;
       }
     } catch (error) {
@@ -61,7 +62,7 @@ function CategoryTable(props) {
         descriptionFr: values.addCategoryFr,
       });
 
-      updateState();
+      setReset(true);
     } catch (error) {
       console.log(error);
       return 0;
@@ -77,7 +78,7 @@ function CategoryTable(props) {
         descriptionFr: values.editCategoryFr,
       });
 
-      updateState();
+      setReset(true);
     } catch (error) {
       console.log(error);
       return 0;
@@ -134,17 +135,27 @@ function CategoryTable(props) {
     return allCategories;
   };
 
-  const updateState = async () => {
-    let categories = await getCategories();
-    setData(categories);
-    setLoading(false);
-    setSelectedRowKeys([]);
-  };
-
   useEffect(() => {
-    document.title = getDisplayType(true) + " - Admin | I-Talent ";
-    updateState();
-  }, []);
+    let categories = [];
+    if (loading) {
+      const setState = async () => {
+        categories = await getCategories();
+        setData(categories);
+        setLoading(false);
+      };
+      setState();
+    } else {
+      const updateState = async () => {
+        categories = await getCategories();
+        setData(categories);
+        setReset(false);
+        setSelectedRowKeys([]);
+      };
+      updateState();
+    }
+  }, [loading, reset]);
+
+  document.title = getDisplayType(true) + " - Admin | I-Talent";
 
   if (loading) {
     return <Skeleton active />;

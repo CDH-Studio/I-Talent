@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import UserTableView from "./UserTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
@@ -9,129 +9,102 @@ import config from "../../config";
 
 const backendAddress = config.backendAddress;
 
-class UserTable extends Component {
-  constructor(props) {
-    super(props);
+function UserTable(props) {
+  const [data, setData] = useState([]);
+  const [statuses, setStatuses] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [reset, setReset] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [size] = useState("large");
 
-    this.state = {
-      type: this.props.type,
-      column: null,
-      allData: null,
-      data: null,
-      direction: null,
-      statuses: {},
-      loading: true,
-      activePage: 1,
-      searchText: "",
-      searchedColumn: "",
-      size: "large",
-    };
-  }
+  const { type } = props;
 
-  // Gets all user information
-  componentDidMount() {
-    document.title = this.getDisplayType(true) + " - Admin | I-Talent";
-    axios
-      .get(backendAddress + "api/admin/user")
-      .then((res) =>
-        this.setState({
-          allData: res.data,
-          data: _.sortBy(res.data, ["firstName"]),
-          loading: false,
-          column: "name",
-          direction: "ascending",
-        })
-      )
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
+  const getUserInformation = async () => {
+    try {
+      let results = await axios.get(backendAddress + "api/admin/user");
 
-  // Page Title Translation:
-  getDisplayType = (plural) => {
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  // Profile Status Change:
+  const handleApply = async () => {
+    try {
+      const url = backendAddress + "api/admin/profileStatus";
+
+      await axios.put(url, statuses);
+
+      setStatuses({});
+      setReset(true);
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  const getDisplayType = (plural) => {
     if (plural)
-      return this.props.intl.formatMessage({
-        id: "admin." + this.state.type + ".plural",
-        defaultMessage: this.state.type,
+      return props.intl.formatMessage({
+        id: "admin." + type + ".plural",
+        defaultMessage: type,
       });
 
-    return this.props.intl.formatMessage({
-      id: "admin." + this.state.type + ".singular",
-      defaultMessage: this.state.type,
+    return props.intl.formatMessage({
+      id: "admin." + type + ".singular",
+      defaultMessage: type,
     });
   };
 
   // Column Search Function(s):
-  handleSearch = (selectedKeys, confirm, dataIndex) => {
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    this.setState({
-      searchText: selectedKeys[0],
-      searchedColumn: dataIndex,
-    });
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
-  handleReset = (clearFilters) => {
+  const handleReset = (clearFilters) => {
     clearFilters();
-    this.setState({ searchText: "" });
+    setSearchText("");
   };
 
-  // Dropdown Profile Status Change (Database):
-  handleApply = async () => {
-    await axios
-      .put(backendAddress + "api/admin/profileStatus", this.state.statuses)
-      .then(() => window.location.reload());
+  const handleDropdownChange = (status, id) => {
+    let addStatus = statuses;
+
+    addStatus[id] = status;
+
+    setStatuses(addStatus);
   };
 
-  handleDropdownChange = (status, id) => {
-    this.setState(({ statuses, allData }) => {
-      statuses[id] = status;
-
-      let changedUser = _.remove(allData, (user) => user.id === id);
-
-      changedUser = changedUser[0];
-
-      if (status === "Active" || status === "Actif") {
-        changedUser.flagged = false;
-        changedUser.user.inactive = false;
-      }
-
-      if (status === "Inactive" || status === "Inactif") {
-        changedUser.flagged = false;
-        changedUser.user.inactive = true;
-      }
-
-      if (status === "Hidden" || status === "Caché") {
-        changedUser.flagged = true;
-        changedUser.user.inactive = false;
-      }
-
-      allData.push(changedUser);
-
-      return { statuses, allData };
-    });
-  };
-
-  profileStatusValue = (inactive, flagged) => {
+  const profileStatusValue = (inactive, flagged) => {
     if (inactive)
-      return this.props.intl.formatMessage({
+      return props.intl.formatMessage({
         id: "admin.inactive",
         defaultMessage: "Inactive",
       });
     else if (flagged)
-      return this.props.intl.formatMessage({
+      return props.intl.formatMessage({
         id: "admin.flagged",
         defaultMessage: "Hidden",
       });
     else
-      return this.props.intl.formatMessage({
+      return props.intl.formatMessage({
         id: "admin.active",
         defaultMessage: "Active",
       });
   };
 
-  // Get Profile Information for table rows:
-  getProfileInformation(data) {
-    data.map(function (e) {
+  const convertToViewableInformation = () => {
+    let convertData = _.sortBy(data, "user.name");
+
+    for (let i = 0; i < convertData.length; i++) {
+      convertData[i].key = convertData[i].id;
+    }
+
+    convertData.forEach((e) => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = "/secured/profile/" + e.id;
@@ -148,40 +121,47 @@ class UserTable extends Component {
       }
     });
 
-    return data;
-  }
+    return convertData;
+  };
 
-  render() {
-    const {
-      data,
-      loading,
-      size,
-      statuses,
-      searchText,
-      searchedColumn,
-    } = this.state;
-
-    console.log(loading, data);
-
+  useEffect(() => {
+    let users = [];
     if (loading) {
-      return <Skeleton active />;
+      const setState = async () => {
+        users = await getUserInformation();
+        setData(users);
+        setLoading(false);
+      };
+      setState();
+    } else {
+      const updateState = async () => {
+        users = await getUserInformation();
+        setData(users);
+        setReset(false);
+      };
+      updateState();
     }
+  }, [loading, reset]);
 
-    return (
-      <UserTableView
-        data={this.getProfileInformation(data)}
-        size={size}
-        statuses={statuses}
-        searchText={searchText}
-        searchedColumn={searchedColumn}
-        handleApply={this.handleApply}
-        handleDropdownChange={this.handleDropdownChange}
-        profileStatusValue={this.profileStatusValue}
-        handleSearch={this.handleSearch}
-        handleReset={this.handleReset}
-      />
-    );
+  document.title = getDisplayType(true) + " - Admin | I-Talent";
+
+  if (loading) {
+    return <Skeleton active />;
   }
+
+  return (
+    <UserTableView
+      data={convertToViewableInformation()}
+      size={size}
+      searchText={searchText}
+      searchedColumn={searchedColumn}
+      handleApply={handleApply}
+      handleDropdownChange={handleDropdownChange}
+      profileStatusValue={profileStatusValue}
+      handleSearch={handleSearch}
+      handleReset={handleReset}
+    />
+  );
 }
 
 export default injectIntl(UserTable);
