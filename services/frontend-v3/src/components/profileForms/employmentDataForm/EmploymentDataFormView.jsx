@@ -338,7 +338,7 @@ const EmploymentDataFormView = (props) => {
               <Select
                 showSearch
                 optionFilterProp="children"
-                placeholder="choose classification"
+                placeholder={<FormattedMessage id="admin.select" />}
                 allowClear={true}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
@@ -476,7 +476,7 @@ const EmploymentDataFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose substantive"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
@@ -499,7 +499,7 @@ const EmploymentDataFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose classification"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
@@ -524,7 +524,7 @@ const EmploymentDataFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose security"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children

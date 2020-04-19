@@ -409,7 +409,7 @@ const TalentFormView = (props) => {
                   treeData={selectedSkills}
                   treeCheckable={true}
                   showCheckedStrategy={SHOW_CHILD}
-                  placeholder={"Please select"}
+                  placeholder={<FormattedMessage id="admin.select" />}
                   treeNodeFilterProp="title"
                   showSearch={true}
                   maxTagCount={15}
@@ -504,7 +504,7 @@ const TalentFormView = (props) => {
                     className="custom-bubble-select-style"
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="admin.select" />}
                   >
                     {props.competencyOptions.map((value) => {
                       return <Option key={value.key}>{value.title}</Option>;
@@ -531,7 +531,7 @@ const TalentFormView = (props) => {
                     onChange={onChangeSkills}
                     treeCheckable={true}
                     showCheckedStrategy={SHOW_CHILD}
-                    placeholder={"Please select"}
+                    placeholder={<FormattedMessage id="admin.select" />}
                     treeNodeFilterProp="title"
                     showSearch={true}
                     maxTagCount={15}

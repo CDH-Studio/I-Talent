@@ -361,7 +361,7 @@ function PrimaryInfoFormView(props) {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose location"
+                    placeholder={<FormattedMessage id="admin.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
