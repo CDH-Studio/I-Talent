@@ -221,16 +221,6 @@ const QualificationsFormView = (props) => {
   };
 
   /*
-   * save and next
-   *
-   * save and redirect to next step in setup
-   */
-  const onSaveAndNext = async (values) => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/7");
-  };
-
-  /*
    * save and finish
    *
    * Save form data and redirect home

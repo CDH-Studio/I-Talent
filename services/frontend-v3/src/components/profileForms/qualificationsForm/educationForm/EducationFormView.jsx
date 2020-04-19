@@ -96,7 +96,7 @@ const EducationFormView = (props) => {
     ) {
       toggleEndDate();
     }
-  }, [props.profileInfo]);
+  }, [props.profileInfo, props.field]);
 
   /************************************
    ********* Render Component *********

@@ -460,7 +460,7 @@ const TalentFormView = (props) => {
     if (props.load) {
       form.resetFields();
     }
-  }, [props]);
+  }, [props, form]);
 
   /************************************
    ********* Render Component *********

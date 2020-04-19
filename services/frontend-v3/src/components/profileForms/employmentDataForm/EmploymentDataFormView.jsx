@@ -438,7 +438,7 @@ const EmploymentDataFormView = (props) => {
     if (props.load) {
       form.resetFields();
     }
-  }, [props]);
+  }, [props, form]);
 
   /************************************
    ********* Render Component *********

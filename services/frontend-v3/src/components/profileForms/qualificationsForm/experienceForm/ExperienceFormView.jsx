@@ -95,7 +95,7 @@ const ExperienceFormView = (props) => {
     ) {
       toggleEndDate();
     }
-  }, [props.profileInfo]);
+  }, [props.profileInfo, props.field]);
 
   /************************************
    ********* Render Component *********
@@ -151,7 +151,6 @@ const ExperienceFormView = (props) => {
           name={[props.field.name, "subheader"]}
           fieldKey={[props.field.fieldKey, "subheader"]}
           label={<FormattedMessage id="profile.career.subheader.name" />}
-          rules={[Rules.required]}
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
