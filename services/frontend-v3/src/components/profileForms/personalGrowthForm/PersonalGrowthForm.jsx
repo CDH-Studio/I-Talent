@@ -115,11 +115,11 @@ function PersonalGrowthForm(props) {
       const options = [
         {
           key: true,
-          text: "Yes",
+          text: locale === "fr" ? "Oui" : "Yes",
         },
         {
           key: false,
-          text: "No",
+          text: locale === "fr" ? "Non" : "No",
         },
       ];
       setInterestedInRemoteOptions(options);
