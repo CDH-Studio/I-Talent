@@ -305,9 +305,22 @@ const EmploymentDataFormView = (props) => {
       });
   };
 
-  /* reset form fields */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
+    // reset form fields
     form.resetFields();
+
+    // check if user has acting information in db to expand acting form
+    setDisplayMentorshipForm(
+      props.profileInfo &&
+        props.profileInfo.acting &&
+        !!props.profileInfo.acting.id
+    );
+
     message.info("Form Cleared");
   };
 
@@ -420,7 +433,12 @@ const EmploymentDataFormView = (props) => {
     setEnableEndDate(
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
-  }, [props.profileInfo]);
+
+    // if props change then reset form fields
+    if (props.load) {
+      form.resetFields();
+    }
+  }, [props]);
 
   /************************************
    ********* Render Component *********
@@ -541,7 +559,7 @@ const EmploymentDataFormView = (props) => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displayMentorshipForm}
+                  checked={displayMentorshipForm}
                   onChange={toggleTempRoleForm}
                 />
                 {getTempRoleForm(displayMentorshipForm)}

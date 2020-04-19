@@ -130,6 +130,7 @@ function EmploymentDataForm(props) {
       securityOptions={securityOptions}
       profileInfo={profileInfo}
       formType={props.formType}
+      locale={locale}
       load={load}
     />
   );
