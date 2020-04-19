@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TalentFormView from "./TalentFormView";
 import axios from "axios";
+import { injectIntl } from "react-intl";
 import config from "../../../config";
 const { backendAddress } = config;
 
@@ -17,6 +18,12 @@ function TalentForm(props) {
   const [savedCompetencies, setSavedCompetencies] = useState();
   const [savedSkills, setSavedSkills] = useState();
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
+
+  // get current language code
+  let locale = props.intl.formatMessage({
+    id: "language.code",
+    defaultMessage: "en",
+  });
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -47,7 +54,18 @@ function TalentForm(props) {
       try {
         let url = backendAddress + "api/option/getCompetency";
         let result = await axios.get(url);
-        await setCompetencyOptions(result.data);
+        let options = [];
+
+        // Generate the data for dropdown
+        for (var i = 0; i < result.data.length; i++) {
+          var option = {
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
+          };
+          options.push(option);
+        }
+
+        await setCompetencyOptions(options);
         return 1;
       } catch (error) {
         throw new Error(error);
@@ -94,7 +112,7 @@ function TalentForm(props) {
         // loop through all skill categories
         for (var i = 0; i < result.data.length; i++) {
           var parent = {
-            title: result.data[i].description.en,
+            title: result.data[i].description[locale],
             value: result.data[i].id,
             children: [],
           };
@@ -106,7 +124,7 @@ function TalentForm(props) {
               title:
                 result.data[i].description.en +
                 ": " +
-                result.data[i].skills[w].description.descEn,
+                result.data[i].skills[w].description[locale],
               value: result.data[i].skills[w].id,
               key: result.data[i].skills[w].id,
             };
@@ -186,7 +204,7 @@ function TalentForm(props) {
     };
 
     getAllData();
-  }, []);
+  }, [locale]);
 
   return (
     <TalentFormView
@@ -197,9 +215,10 @@ function TalentForm(props) {
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
       formType={props.formType}
+      locale={locale}
       load={load}
     />
   );
 }
 
-export default TalentForm;
+export default injectIntl(TalentForm);

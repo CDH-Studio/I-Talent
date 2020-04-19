@@ -34,9 +34,6 @@ const TalentFormView = (props) => {
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
-  const [selectedMentorshipSkills, setSelectedMentorshipSkills] = useState(
-    false
-  );
 
   /* Component Styles */
   const styles = {
@@ -276,7 +273,10 @@ const TalentFormView = (props) => {
    * reset form fields to state when page was loaded
    */
   const onReset = () => {
+    // reset form fields
     form.resetFields();
+    // reset mentorship toggle switch
+    setDisplayMentorshipForm(props.savedMentorshipSkills.length > 0);
     message.info("Form Cleared");
   };
 
@@ -372,7 +372,6 @@ const TalentFormView = (props) => {
       mentorshipSkills: validatedMentorshipSkills,
     });
     // Update states
-    setSelectedMentorshipSkills(validatedMentorshipSkills);
     setSelectedSkills(selectedSkills);
   };
 
@@ -383,7 +382,6 @@ const TalentFormView = (props) => {
    */
   const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
-      console.log(selectedMentorshipSkills);
       return (
         <div>
           {/* Select Mentorship Skills */}
@@ -454,7 +452,13 @@ const TalentFormView = (props) => {
         props.skillOptions,
         props.savedSkills
       );
+
       setSelectedSkills(selectedSkills);
+    }
+
+    // if props change then reset form fields
+    if (props.load) {
+      form.resetFields();
     }
   }, [props]);
 
@@ -502,10 +506,8 @@ const TalentFormView = (props) => {
                     style={{ width: "100%" }}
                     placeholder="Please select"
                   >
-                    {props.competencyOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.competencyOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -547,7 +549,7 @@ const TalentFormView = (props) => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displayMentorshipForm}
+                  checked={displayMentorshipForm}
                   onChange={toggleMentorshipForm}
                 />
                 {getMentorshipForm(displayMentorshipForm)}
