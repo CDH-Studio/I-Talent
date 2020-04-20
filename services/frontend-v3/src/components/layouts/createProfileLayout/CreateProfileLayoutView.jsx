@@ -35,11 +35,21 @@ const CreateProfileLayoutView = (props) => {
     },
   };
 
+  /*
+   * On change
+   *
+   * action to take if sidebar steps are clicked
+   */
   const onChange = (current) => {
     let url = "/secured/profile/create/step/" + (current + 1);
     history.push(url);
   };
 
+  /*
+   * Check For Profile
+   *
+   * Check if profile exists
+   */
   const checkForProfile = async () => {
     try {
       let url =
@@ -184,7 +194,11 @@ const CreateProfileLayoutView = (props) => {
     );
   };
 
-  /* useEffect to run once component is mounted */
+  /*
+   * Get Side Bar Content
+   *
+   * Run every time props are changed
+   */
   useEffect(() => {
     checkForProfile();
   }, [props]);
