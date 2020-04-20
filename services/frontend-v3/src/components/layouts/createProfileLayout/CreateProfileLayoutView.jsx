@@ -49,7 +49,6 @@ const CreateProfileLayoutView = (props) => {
       await axios.get(url);
       setProfileExists(true);
     } catch (error) {
-      console.log("yppp");
       setProfileExists(false);
     }
   };
