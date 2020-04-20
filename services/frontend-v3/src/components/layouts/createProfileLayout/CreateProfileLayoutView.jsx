@@ -57,15 +57,35 @@ function CreateProfileLayoutView(props) {
       <div style={{ margin: "20px 30px" }}>
         <Steps direction="vertical" size="small" current={stepInt}>
           <Step title="Welcome" />
-          <Step title={<FormattedMessage id="setup.primary.information" />} />
-          <Step title={<FormattedMessage id="setup.employment" />} />
-          <Step title={<FormattedMessage id="setup.language.proficiency" />} />
-          <Step title={<FormattedMessage id="setup.talent" />} />
           <Step
-            title={<FormattedMessage id="profile.employee.growth.interests" />}
+            title={<FormattedMessage id="setup.primary.information" />}
+            description={"General Profile Info"}
           />
           <Step
-            title={<FormattedMessage id="profile.employee.qualifications" />}
+            title={<FormattedMessage id="setup.employment" />}
+            description={"Current Position"}
+          />
+          <Step
+            title={<FormattedMessage id="setup.language.proficiency" />}
+            description={"First & Second Lang."}
+          />
+          <Step
+            title={<FormattedMessage id="setup.talent" />}
+            description={"Skills & Competencies"}
+          />
+          <Step
+            title={<FormattedMessage id="profile.employee.growth.interests" />}
+            description={
+              "Developmental Goals, Career Interests, & Talent Management"
+            }
+          />
+          <Step
+            title={
+              <FormattedMessage
+                id="profile.employee.qualifications"
+                description={"Education, Experience, & Projects"}
+              />
+            }
           />
         </Steps>
       </div>
