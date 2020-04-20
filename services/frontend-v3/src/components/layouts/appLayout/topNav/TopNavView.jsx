@@ -6,7 +6,7 @@ import {
   UserOutlined,
   DashboardOutlined,
 } from "@ant-design/icons";
-import { Layout, Dropdown, Menu } from "antd";
+import { Layout, Dropdown, Menu, Button } from "antd";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
@@ -37,7 +37,7 @@ function TopNavView(props) {
       marginRight: "8px",
     },
     dropDownMenu: {
-      marginTop: "0",
+      marginTop: "23px",
       padding: "0px",
     },
     dropDownItem: {
@@ -45,6 +45,9 @@ function TopNavView(props) {
     },
     MenuIcon: {
       marginRight: "10px",
+    },
+    signInBtn: {
+      marginRight: "20px",
     },
   };
 
@@ -86,6 +89,31 @@ function TopNavView(props) {
     </Menu>
   );
 
+  const getAvatarDropdown = (userName) => {
+    if (userName) {
+      return (
+        <Dropdown overlay={menu} placement="bottomCenter" trigger="click">
+          <Button
+            type="link"
+            className="ant-dropdown-link"
+            style={{ color: "#fff", padding: "10px 20px" }}
+          >
+            <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
+            <div className={"navProfileName"}>
+              {userName} <DownOutlined />
+            </div>
+          </Button>
+        </Dropdown>
+      );
+    } else {
+      return (
+        <Button type="primary" href={"/secured/home"} style={styles.signInBtn}>
+          <FormattedMessage id="landing.login.button" />
+        </Button>
+      );
+    }
+  };
+
   return (
     <Header style={styles.header}>
       {/* Render logo */}
@@ -95,18 +123,7 @@ function TopNavView(props) {
       {/* Render right sigh of top menu */}
       <div style={styles.rightMenu}>
         {/* Render User Profile Dropdown */}
-        <Dropdown overlay={menu} placement="bottomCenter" trigger="click">
-          <a
-            className="ant-dropdown-link"
-            onClick={(e) => e.preventDefault()}
-            style={{ color: "#fff", padding: "20px 20px" }}
-          >
-            <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
-            <div className={"navProfileName"}>
-              {localStorage.getItem("name")} <DownOutlined />
-            </div>
-          </a>
-        </Dropdown>
+        {getAvatarDropdown(localStorage.getItem("name"))}
         {/* Render change language button */}
         <ChangeLanguage changeLanguage={props.changeLanguage} />
       </div>

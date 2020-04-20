@@ -2,7 +2,6 @@ import React from "react";
 import { Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
-//import Welcome from "../../../components/profileForms/Welcome";
 import {
   Welcome,
   EmploymentDataForm,

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Row, Menu } from "antd";
 import ChangeLanguage from "../components/changeLanguage/ChangeLanguage";
 import Logo from "../assets/myTalentLogoSolo.jpg";
+import LandingLayout from "../components/layouts/landingLayout/LandingLayout";
 import backgroundImage from "../assets/myTalentLandingBackground.png";
 import { injectIntl } from "react-intl";
 
@@ -13,46 +14,47 @@ function LandingPage(props) {
   };
 
   return (
-    <Row>
-      <Menu
-        style={styles.menuStyle}
-        onClick={handleClick}
-        fixed="top"
-        mode="horizontal"
-      >
-        <Menu.Item style={styles.logoStyle}>
-          <img src={Logo} style={styles.imgStyle} alt="UpSkill Logo" />
-        </Menu.Item>
-        <Menu.Item style={styles.bttnStyle}>
-          <ChangeLanguage changeLanguage={changeLanguage} />
-        </Menu.Item>
-      </Menu>
-      <React.Fragment>
-        <div style={styles.backgroundStyle}>
-          <div style={styles.mainMessage}>
-            {props.intl.formatMessage({
-              id: "landing.welcome",
-              defaultMessage: "Welcome to I-Talent",
-            })}
-          </div>
-          <div style={styles.signIn}>
-            <Button
-              style={{ margin: "0px", paddingTop: "0px", fontSize: "20px" }}
-              as="a"
-              type="primary"
-              href="/secured/home"
-              shape="round"
-              size="large"
-            >
-              {props.intl.formatMessage({
-                id: "landing.login.button",
-                defaultMessage: "Login",
-              })}
-            </Button>
-          </div>
-        </div>
-      </React.Fragment>
-    </Row>
+    <LandingLayout changeLanguage={props.changeLanguage} />
+    // <Row>
+    //   <Menu
+    //     style={styles.menuStyle}
+    //     onClick={handleClick}
+    //     fixed="top"
+    //     mode="horizontal"
+    //   >
+    //     <Menu.Item style={styles.logoStyle}>
+    //       <img src={Logo} style={styles.imgStyle} alt="UpSkill Logo" />
+    //     </Menu.Item>
+    //     <Menu.Item style={styles.bttnStyle}>
+    //       <ChangeLanguage changeLanguage={changeLanguage} />
+    //     </Menu.Item>
+    //   </Menu>
+    //   <React.Fragment>
+    //     <div style={styles.backgroundStyle}>
+    //       <div style={styles.mainMessage}>
+    //         {props.intl.formatMessage({
+    //           id: "landing.welcome",
+    //           defaultMessage: "Welcome to I-Talent",
+    //         })}
+    //       </div>
+    //       <div style={styles.signIn}>
+    //         <Button
+    //           style={{ margin: "0px", paddingTop: "0px", fontSize: "20px" }}
+    //           as="a"
+    //           type="primary"
+    //           href="/secured/home"
+    //           shape="round"
+    //           size="large"
+    //         >
+    //           {props.intl.formatMessage({
+    //             id: "landing.login.button",
+    //             defaultMessage: "Login",
+    //           })}
+    //         </Button>
+    //       </div>
+    //     </div>
+    //   </React.Fragment>
+    // </Row>
   );
 }
 const styles = {
