@@ -303,7 +303,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder={<FormattedMessage id="admin.select" />}
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -341,7 +341,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder={<FormattedMessage id="admin.select" />}
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -379,7 +379,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder={<FormattedMessage id="admin.select" />}
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -490,7 +490,7 @@ const LangProficiencyFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder={<FormattedMessage id="admin.select" />}
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children

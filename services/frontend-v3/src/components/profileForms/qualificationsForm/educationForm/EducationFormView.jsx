@@ -147,7 +147,7 @@ const EducationFormView = (props) => {
             <Select
               showSearch
               optionFilterProp="children"
-              placeholder={<FormattedMessage id="admin.select" />}
+              placeholder={<FormattedMessage id="setup.select" />}
               allowClear={true}
             >
               {props.diplomaOptions.map((value, index) => {
@@ -168,7 +168,7 @@ const EducationFormView = (props) => {
             <Select
               showSearch
               optionFilterProp="children"
-              placeholder={<FormattedMessage id="admin.select" />}
+              placeholder={<FormattedMessage id="setup.select" />}
               allowClear={true}
             >
               {props.schoolOptions.map((value) => {
