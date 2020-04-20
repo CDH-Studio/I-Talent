@@ -205,6 +205,7 @@ const EmploymentDataFormView = (props) => {
 
   /* Save data */
   const saveDataToDB = async (values) => {
+    console.log(values);
     // If dropdown value is undefined then clear value in DB
     values.tenureId = values.tenureId ? values.tenureId : null;
     values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
@@ -394,27 +395,26 @@ const EmploymentDataFormView = (props) => {
 
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
+    console.log(profile.classification);
     if (profile) {
       return {
-        ...(profile.classification && {
-          groupLevelId: profile.classification.id,
-        }),
-        ...(profile.temporaryRole && {
-          tenureId: profile.temporaryRole.id,
-        }),
-        ...(profile.security && {
-          securityClearanceId: profile.security.id,
-        }),
+        groupLevelId: profile.classification.id
+          ? profile.classification.id
+          : undefined,
+        tenureId: profile.temporaryRole.id
+          ? profile.temporaryRole.id
+          : undefined,
+        securityClearanceId: profile.security.id
+          ? profile.security.id
+          : undefined,
         manager: profile.manager,
-        ...(profile.acting && {
-          actingId: profile.acting.id,
-        }),
-        ...(profile.actingPeriodStartDate && {
-          actingStartDate: moment(profile.actingPeriodStartDate),
-        }),
-        ...(profile.actingPeriodEndDate && {
-          actingEndDate: moment(profile.actingPeriodEndDate),
-        }),
+        actingId: profile.acting.id ? profile.acting.id : undefined,
+        actingStartDate: profile.actingPeriodStartDate
+          ? moment(profile.actingPeriodStartDate)
+          : undefined,
+        actingEndDate: profile.actingPeriodEndDate
+          ? moment(profile.actingPeriodEndDate)
+          : undefined,
       };
     } else {
       return {};
@@ -451,6 +451,7 @@ const EmploymentDataFormView = (props) => {
       </div>
     );
   } else {
+    console.log(getInitialValues(props.profileInfo));
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
