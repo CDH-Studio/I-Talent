@@ -19,6 +19,15 @@ const { Step } = Steps;
  *  Render the layout for the create profile forms
  */
 function CreateProfileLayoutView(props) {
+  /* Component Styles */
+  const styles = {
+    stepList: {
+      paddingLeft: "0px",
+      listStyle: "none",
+      marginBottom: "0px",
+    },
+  };
+
   /*
    * Profile Form Select
    *
@@ -59,29 +68,81 @@ function CreateProfileLayoutView(props) {
           <Step title="Welcome" />
           <Step
             title={<FormattedMessage id="setup.primary.information" />}
-            description={"General Profile Info"}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.step.2.description" />
+                </li>
+              </ul>
+            }
           />
           <Step
             title={<FormattedMessage id="setup.employment" />}
-            description={"Current Position"}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.step.3.description" />
+                </li>
+              </ul>
+            }
           />
           <Step
             title={<FormattedMessage id="setup.language.proficiency" />}
-            description={"First & Second Lang."}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.step.4.description" />
+                </li>
+              </ul>
+            }
           />
           <Step
             title={<FormattedMessage id="setup.talent" />}
-            description={"Skills & Competencies"}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.skills" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.competencies" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.mentorship.skills" />
+                </li>
+              </ul>
+            }
           />
           <Step
             title={<FormattedMessage id="profile.employee.growth.interests" />}
             description={
-              "Developmental Goals, Career Interests, & Talent Management"
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="profile.developmental.goals" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.career.interests" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.talent.management" />
+                </li>
+              </ul>
             }
           />
           <Step
             title={<FormattedMessage id="profile.employee.qualifications" />}
-            description={"Education, Experience, & Projects"}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.education" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.experience" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.projects" />
+                </li>
+              </ul>
+            }
           />
         </Steps>
       </div>

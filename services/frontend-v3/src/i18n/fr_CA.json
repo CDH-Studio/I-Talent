@@ -135,7 +135,7 @@
   "setup.link.profiles": "Lien vers d'autres profils",
   "setup.employment": "Contexte de l'emploi",
   "setup.manager": "Gestionnaire",
-  "setup.language.proficiency": "Language proficiency",
+  "setup.language.proficiency": "Compétence linguistique",
   "setup.talent": "Talent",
   "setup.talent.management": "Gestion de talents",
   "setup.skills": "Compétences",
@@ -151,6 +151,9 @@
   "setup.save.and.finish": "Enregistrer et terminer",
   "setup.save.and.next": "Enregistrer et suivant",
   "setup.save": "Enregistrer",
+  "setup.step.2.description": "Informations générales",
+  "setup.step.3.description": "Informations sur le poste",
+  "setup.step.4.description": "Premier et deuxième Lang",
 
   "results.title": "Résultats",
 
