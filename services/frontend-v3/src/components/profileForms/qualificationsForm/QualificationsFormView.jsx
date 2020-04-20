@@ -333,7 +333,7 @@ const QualificationsFormView = (props) => {
             {/* *************** Work Experience ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.career.interests" />
+              <FormattedMessage id="setup.experience" />
             </Title>
             {/* Form Row One: Remote Work */}
             <Row gutter={24}>
