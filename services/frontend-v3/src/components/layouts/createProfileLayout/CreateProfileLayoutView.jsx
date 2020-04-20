@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageHeader, Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 import AppLayout from "../appLayout/AppLayout";
+import config from "../../../config";
 import {
   Welcome,
   EmploymentDataForm,
@@ -13,6 +15,7 @@ import {
   QualificationsForm,
 } from "../../profileForms";
 
+const { backendAddress } = config;
 const { Step } = Steps;
 
 /**
@@ -21,7 +24,7 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = (props) => {
   const history = useHistory();
-  const [currentStep, setCurrentStep] = useState(props.formStep);
+  const [profileExists, setProfileExists] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -35,6 +38,20 @@ const CreateProfileLayoutView = (props) => {
   const onChange = (current) => {
     let url = "/secured/profile/create/step/" + (current + 1);
     history.push(url);
+  };
+
+  const checkForProfile = async () => {
+    try {
+      let url =
+        backendAddress +
+        "api/private/profile/" +
+        localStorage.getItem("userId");
+      await axios.get(url);
+      setProfileExists(true);
+    } catch (error) {
+      console.log("yppp");
+      setProfileExists(false);
+    }
   };
 
   /*
@@ -92,6 +109,7 @@ const CreateProfileLayoutView = (props) => {
           />
           <Step
             title={<FormattedMessage id="setup.employment" />}
+            disabled={!profileExists}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -102,6 +120,7 @@ const CreateProfileLayoutView = (props) => {
           />
           <Step
             title={<FormattedMessage id="setup.language.proficiency" />}
+            disabled={!profileExists}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -112,6 +131,7 @@ const CreateProfileLayoutView = (props) => {
           />
           <Step
             title={<FormattedMessage id="setup.talent" />}
+            disabled={!profileExists}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -128,6 +148,7 @@ const CreateProfileLayoutView = (props) => {
           />
           <Step
             title={<FormattedMessage id="profile.employee.growth.interests" />}
+            disabled={!profileExists}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -144,6 +165,7 @@ const CreateProfileLayoutView = (props) => {
           />
           <Step
             title={<FormattedMessage id="profile.employee.qualifications" />}
+            disabled={!profileExists}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -162,6 +184,11 @@ const CreateProfileLayoutView = (props) => {
       </div>
     );
   };
+
+  /* useEffect to run once component is mounted */
+  useEffect(() => {
+    checkForProfile();
+  }, [props]);
 
   // Get Sidebar Content
   let sideBarContent = getSideBarContent(props.formStep);
