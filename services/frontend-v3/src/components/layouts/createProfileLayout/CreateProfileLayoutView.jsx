@@ -195,7 +195,7 @@ const CreateProfileLayoutView = (props) => {
   };
 
   /*
-   * Get Side Bar Content
+   * UseEffect
    *
    * Run every time props are changed
    */
