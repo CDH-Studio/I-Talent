@@ -19,6 +19,25 @@ function CompetencyTable(props) {
 
   const { type } = props;
 
+  useEffect(() => {
+    let competencies = [];
+    if (loading) {
+      const setState = async () => {
+        competencies = await getCompetencies();
+        setData(competencies);
+        setLoading(false);
+      };
+      setState();
+    } else {
+      const updateState = async () => {
+        competencies = await getCompetencies();
+        setData(competencies);
+        setReset(false);
+      };
+      updateState();
+    }
+  }, [loading, reset]);
+
   const getCompetencies = async () => {
     try {
       let results = await axios.get(
@@ -127,25 +146,6 @@ function CompetencyTable(props) {
 
     return allCompetencies;
   };
-
-  useEffect(() => {
-    let competencies = [];
-    if (loading) {
-      const setState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
-        setReset(false);
-      };
-      updateState();
-    }
-  }, [loading, reset]);
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
 
