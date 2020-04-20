@@ -50,7 +50,6 @@ const EditProfileLayoutView = (props) => {
    * Redirect to form based on sidebar selection
    */
   const redirectToForm = (data) => {
-    console.log(data.key);
     let url = "/secured/profile/edit/" + data.key;
     history.push(url);
   };

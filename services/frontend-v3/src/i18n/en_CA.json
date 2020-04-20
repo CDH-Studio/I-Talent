@@ -142,6 +142,9 @@
   "setup.save.and.finish": "Save and finish",
   "setup.save.and.next": "Save and Next",
   "setup.save": "Save",
+  "setup.step.2.description": "General Profile Info",
+  "setup.step.3.description": "Current Position",
+  "setup.step.4.description": "First & Second Lang",
 
   "lang": "Français",
   "lang.code": "fr",

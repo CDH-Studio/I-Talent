@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PageHeader, Steps } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import AppLayout from "../appLayout/AppLayout";
+import config from "../../../config";
 import {
   Welcome,
   EmploymentDataForm,
@@ -12,13 +15,44 @@ import {
   QualificationsForm,
 } from "../../profileForms";
 
+const { backendAddress } = config;
 const { Step } = Steps;
 
 /**
  *  CreateProfileLayoutView(props)
  *  Render the layout for the create profile forms
  */
-function CreateProfileLayoutView(props) {
+const CreateProfileLayoutView = (props) => {
+  const history = useHistory();
+  const [profileExists, setProfileExists] = useState(false);
+
+  /* Component Styles */
+  const styles = {
+    stepList: {
+      paddingLeft: "0px",
+      listStyle: "none",
+      marginBottom: "0px",
+    },
+  };
+
+  const onChange = (current) => {
+    let url = "/secured/profile/create/step/" + (current + 1);
+    history.push(url);
+  };
+
+  const checkForProfile = async () => {
+    try {
+      let url =
+        backendAddress +
+        "api/private/profile/" +
+        localStorage.getItem("userId");
+      await axios.get(url);
+      setProfileExists(true);
+    } catch (error) {
+      setProfileExists(false);
+    }
+  };
+
   /*
    * Profile Form Select
    *
@@ -54,23 +88,106 @@ function CreateProfileLayoutView(props) {
   const getSideBarContent = (step) => {
     const stepInt = parseInt(step) - 1;
     return (
-      <div style={{ margin: "20px 30px" }}>
-        <Steps direction="vertical" size="small" current={stepInt}>
+      <div style={{ margin: "20px 25px" }}>
+        <Steps
+          direction="vertical"
+          size="small"
+          current={stepInt}
+          onChange={onChange}
+        >
           <Step title="Welcome" />
-          <Step title={<FormattedMessage id="setup.primary.information" />} />
-          <Step title={<FormattedMessage id="setup.employment" />} />
-          <Step title={<FormattedMessage id="setup.language.proficiency" />} />
-          <Step title={<FormattedMessage id="setup.talent" />} />
+          <Step
+            title={<FormattedMessage id="setup.primary.information" />}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.step.2.description" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            title={<FormattedMessage id="setup.employment" />}
+            disabled={!profileExists}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.step.3.description" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            title={<FormattedMessage id="setup.language.proficiency" />}
+            disabled={!profileExists}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.step.4.description" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            title={<FormattedMessage id="setup.talent" />}
+            disabled={!profileExists}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.skills" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.competencies" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.mentorship.skills" />
+                </li>
+              </ul>
+            }
+          />
           <Step
             title={<FormattedMessage id="profile.employee.growth.interests" />}
+            disabled={!profileExists}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="profile.developmental.goals" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.career.interests" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.talent.management" />
+                </li>
+              </ul>
+            }
           />
           <Step
             title={<FormattedMessage id="profile.employee.qualifications" />}
+            disabled={!profileExists}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.education" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.experience" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.projects" />
+                </li>
+              </ul>
+            }
           />
         </Steps>
       </div>
     );
   };
+
+  /* useEffect to run once component is mounted */
+  useEffect(() => {
+    checkForProfile();
+  }, [props]);
 
   // Get Sidebar Content
   let sideBarContent = getSideBarContent(props.formStep);
@@ -94,6 +211,6 @@ function CreateProfileLayoutView(props) {
       {form}
     </AppLayout>
   );
-}
+};
 
 export default CreateProfileLayoutView;
