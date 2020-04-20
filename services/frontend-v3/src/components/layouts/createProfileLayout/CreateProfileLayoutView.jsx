@@ -179,6 +179,10 @@ const CreateProfileLayoutView = (props) => {
               </ul>
             }
           />
+          <Step
+            title={<FormattedMessage id="setup.done" />}
+            disabled={!profileExists}
+          />
         </Steps>
       </div>
     );
