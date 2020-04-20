@@ -206,7 +206,6 @@ const EmploymentDataFormView = (props) => {
 
   /* Save data */
   const saveDataToDB = async (values) => {
-    console.log(values);
     // If dropdown value is undefined then clear value in DB
     values.tenureId = values.tenureId ? values.tenureId : null;
     values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
@@ -396,7 +395,6 @@ const EmploymentDataFormView = (props) => {
 
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
-    console.log(profile.classification);
     if (profile) {
       return {
         groupLevelId: profile.classification.id
@@ -452,7 +450,6 @@ const EmploymentDataFormView = (props) => {
       </div>
     );
   } else {
-    console.log(getInitialValues(props.profileInfo));
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
