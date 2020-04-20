@@ -25,7 +25,7 @@ function SideNavView(props) {
     return (
       <Affix offsetTop={64}>
         <Sider
-          width="250"
+          width="270"
           style={styles.sider}
           breakpoint="lg"
           collapsedWidth="0"
