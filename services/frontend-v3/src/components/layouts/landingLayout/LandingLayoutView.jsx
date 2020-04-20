@@ -1,7 +1,6 @@
 import React from "react";
 import AppLayout from "../appLayout/AppLayout";
 import { Row, Col, Typography, Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
