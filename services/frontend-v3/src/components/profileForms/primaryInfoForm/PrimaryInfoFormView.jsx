@@ -63,6 +63,7 @@ function PrimaryInfoFormView(props) {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -256,10 +257,7 @@ function PrimaryInfoFormView(props) {
         telephone: profile.telephone,
         cellphone: profile.cellphone,
         email: profile.email,
-        ...(profile.location.id && {
-          location: profile.location.id,
-        }),
-
+        location: profile.location.id ? profile.location.id : undefined,
         team: profile.team,
         gcConnex: "ddd",
         linkedinUrl: profile.linkedinUrl,
@@ -361,7 +359,7 @@ function PrimaryInfoFormView(props) {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose location"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children

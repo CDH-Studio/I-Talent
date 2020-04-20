@@ -137,6 +137,7 @@
   "setup.add.item": "Add Item",
   "setup.select.geds.card": "Select your Goverment Employee Database information",
   "setup.projects": "Projects",
+  "setup.select": "Select",
   "setup.career.interests": "Career interests",
   "setup.save.and.finish": "Save and finish",
   "setup.save.and.next": "Save and Next",
@@ -152,6 +153,7 @@
 
   "my.profile": "My profile",
   "edit.profile": "Edit profile",
+  "create.profile": "Create profile",
   "profile.edit.primary.information": "Edit primary information",
   "profile.edit.dropdown.no.results.found": "No results found.",
   "profile.edit.dropdown.add.items": "Type to add items.",

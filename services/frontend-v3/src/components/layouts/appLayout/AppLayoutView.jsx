@@ -23,7 +23,6 @@ function AppLayoutView(props) {
       <TopNav
         changeLanguage={props.changeLanguage}
         keycloak={props.keycloak}
-        history={props.history}
       ></TopNav>
       <Layout style={{ marginTop: 64 }}>
         {/* Render Side Navigation Bar */}

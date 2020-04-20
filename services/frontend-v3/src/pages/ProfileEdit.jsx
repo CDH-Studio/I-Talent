@@ -15,7 +15,6 @@ class ProfileCreate extends React.Component {
       <EditProfileLayout
         changeLanguage={this.props.changeLanguage}
         keycloak={this.props.keycloak}
-        history={this.props.history}
         displaySideBar={true}
         step={this.props.match.params.step}
       ></EditProfileLayout>

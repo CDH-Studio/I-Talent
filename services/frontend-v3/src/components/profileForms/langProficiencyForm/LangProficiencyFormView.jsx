@@ -80,6 +80,7 @@ const LangProficiencyFormView = (props) => {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -303,7 +304,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="choose proficiency"
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -341,7 +342,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="choose proficiency"
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -379,7 +380,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="choose proficiency"
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -490,7 +491,7 @@ const LangProficiencyFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose language"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
