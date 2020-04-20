@@ -49,6 +49,12 @@
   }
 }
 
+@media (max-width: 767px) {
+  .landingPicture {
+    display: none !important;
+  }
+}
+
 .ant-layout-sider-trigger {
   background-color: #dfe5e4 !important;
   color: rgb(0, 30, 30) !important;

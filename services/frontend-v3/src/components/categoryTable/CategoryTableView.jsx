@@ -124,7 +124,7 @@ function CategoryTableView(props) {
       <Popconfirm
         placement="left"
         title={props.intl.formatMessage({
-          id: "admin.delete.confirmation",
+          id: "admin.delete.confirm",
           defaultMessage:
             "Are you sure you want to delete all the selected values?",
         })}
