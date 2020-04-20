@@ -27,7 +27,7 @@ const LandingLayoutView = (props) => {
       displaySideBar={false}
     >
       <Row justify="center" style={{ marginTop: "150px" }}>
-        <Col span={6} style={{ baddingTop: "60px" }}>
+        <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
           <img
             src={require("../../../assets/MyTalent-Logo-Full-v2-dark.svg")}
             alt="Logo"
@@ -61,11 +61,16 @@ const LandingLayoutView = (props) => {
             <FormattedMessage id="landing.login.button" />
           </Button>
         </Col>
-        <Col span={10} style={{ textAlign: "right" }}>
+        <Col
+          sm={24}
+          md={10}
+          style={{ textAlign: "center" }}
+          className={"landingPicture"}
+        >
           <img
             src={randomPictureSelect()}
             alt="Logo"
-            style={{ maxWidth: "70%", maxHeight: "400px" }}
+            style={{ maxWidth: "70%", maxHeight: "400px", marginTop: "20px" }}
           />
         </Col>
       </Row>
