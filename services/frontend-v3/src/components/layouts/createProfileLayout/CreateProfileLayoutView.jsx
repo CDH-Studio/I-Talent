@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { PageHeader, Steps } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router-dom";
 import AppLayout from "../appLayout/AppLayout";
 import {
   Welcome,
@@ -18,7 +19,10 @@ const { Step } = Steps;
  *  CreateProfileLayoutView(props)
  *  Render the layout for the create profile forms
  */
-function CreateProfileLayoutView(props) {
+const CreateProfileLayoutView = (props) => {
+  const history = useHistory();
+  const [currentStep, setCurrentStep] = useState(props.formStep);
+
   /* Component Styles */
   const styles = {
     stepList: {
@@ -26,6 +30,11 @@ function CreateProfileLayoutView(props) {
       listStyle: "none",
       marginBottom: "0px",
     },
+  };
+
+  const onChange = (current) => {
+    let url = "/secured/profile/create/step/" + (current + 1);
+    history.push(url);
   };
 
   /*
@@ -63,8 +72,13 @@ function CreateProfileLayoutView(props) {
   const getSideBarContent = (step) => {
     const stepInt = parseInt(step) - 1;
     return (
-      <div style={{ margin: "20px 30px" }}>
-        <Steps direction="vertical" size="small" current={stepInt}>
+      <div style={{ margin: "20px 25px" }}>
+        <Steps
+          direction="vertical"
+          size="small"
+          current={stepInt}
+          onChange={onChange}
+        >
           <Step title="Welcome" />
           <Step
             title={<FormattedMessage id="setup.primary.information" />}
@@ -171,6 +185,6 @@ function CreateProfileLayoutView(props) {
       {form}
     </AppLayout>
   );
-}
+};
 
 export default CreateProfileLayoutView;
