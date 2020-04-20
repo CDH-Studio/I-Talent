@@ -47,8 +47,8 @@ const LandingLayoutView = (props) => {
             strong
           >
             I-Talent is a platform to showcase your skills and talent within
-            ISED! Connect with other talented individuals to learn and grow
-            together.
+            ISED! It is a secure and easy way for you to create a and maintain
+            your profile.
           </Text>
           <Text
             style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
