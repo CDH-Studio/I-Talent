@@ -27,7 +27,9 @@ function QualificationsForm(props) {
     const getProfileInfo = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
         return 1;
@@ -44,7 +46,9 @@ function QualificationsForm(props) {
     const getSavedEducation = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
 
@@ -75,7 +79,9 @@ function QualificationsForm(props) {
     const getSavedExperience = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
 
@@ -108,7 +114,9 @@ function QualificationsForm(props) {
     const getSavedProjects = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         const selected = [];
 

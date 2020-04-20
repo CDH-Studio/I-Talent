@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Keycloak from "keycloak-js";
 import { Route, Redirect } from "react-router-dom";
-import { createBrowserHistory } from "history";
+// import { createBrowserHistory } from "history";
 import axios from "axios";
 
 // import animatedLogo from "../assets/animatedLogo.gif";
@@ -23,8 +23,8 @@ const { keycloakJSONConfig } = keycloakConfig;
 function Admin(props) {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [isAdmin, setIsAdmin] = useState(false);
+  // const [loading, setLoading] = useState(true);
 
   const changeLanguage = props.changeLanguage;
 
@@ -48,14 +48,14 @@ function Admin(props) {
           () => {
             setKeycloak(keycloak);
             setAuthenticated(authenticated);
-            setIsAdmin(true);
-            setLoading(false);
+            // setIsAdmin(true);
+            // setLoading(false);
           },
           () => {
             setKeycloak(keycloak);
             setAuthenticated(authenticated);
-            setIsAdmin(false);
-            setLoading(false);
+            // setIsAdmin(false);
+            // setLoading(false);
           }
         );
       });
@@ -96,6 +96,7 @@ function Admin(props) {
   // }
 
   //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   const copyToClipboard = (e) => {
     this.textArea.select();
     document.execCommand("copy");

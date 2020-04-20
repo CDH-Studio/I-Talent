@@ -9,7 +9,7 @@ import {
   Input,
   Form,
   Pagination,
-  Checkbox
+  Checkbox,
 } from "semantic-ui-react";
 import _ from "lodash";
 import axios from "axios";
@@ -35,40 +35,40 @@ class AdminOptionEdit extends Component {
       english: null,
       french: null,
       deleteValues: [],
-      activePage: 1
+      activePage: 1,
     };
   }
 
   componentDidMount() {
-    document.title = this.getDisplayType(true) + " - Admin | UpSkill";
+    document.title = this.getDisplayType(true) + " - Admin | I-Talent";
     this.setState({ loading: true });
     axios
       .get(backendAddress + "api/admin/options/" + this.state.type)
-      .then(res =>
+      .then((res) =>
         this.setState({
           allData: res.data,
           data: _.sortBy(res.data, ["descriptionEn"]),
           loading: false,
           column: "english",
-          direction: "ascending"
+          direction: "ascending",
         })
       );
   }
 
-  getDisplayType = plural => {
+  getDisplayType = (plural) => {
     if (plural)
       return this.props.intl.formatMessage({
         id: "admin." + this.state.type + ".plural",
-        defaultMessage: this.state.type
+        defaultMessage: this.state.type,
       });
 
     return this.props.intl.formatMessage({
       id: "admin." + this.state.type + ".singular",
-      defaultMessage: this.state.type
+      defaultMessage: this.state.type,
     });
   };
 
-  handleSort = clickedColumn => () => {
+  handleSort = (clickedColumn) => () => {
     const { column, data, direction } = this.state;
 
     const dbAttributes = { english: "descriptionEn", french: "descriptionFr" };
@@ -77,7 +77,7 @@ class AdminOptionEdit extends Component {
       this.setState({
         column: clickedColumn,
         data: _.sortBy(data, [dbAttributes[clickedColumn]]),
-        direction: "ascending"
+        direction: "ascending",
       });
 
       return;
@@ -85,13 +85,13 @@ class AdminOptionEdit extends Component {
 
     this.setState({
       data: data.reverse(),
-      direction: direction === "ascending" ? "descending" : "ascending"
+      direction: direction === "ascending" ? "descending" : "ascending",
     });
   };
 
   handleEditChange = (e, { name, value }) => this.setState({ [name]: value });
 
-  handleCheckbox = id => {
+  handleCheckbox = (id) => {
     this.setState(({ deleteValues }) => {
       deleteValues = _.xor(deleteValues, [id]);
       return { deleteValues };
@@ -100,7 +100,7 @@ class AdminOptionEdit extends Component {
 
   handleFilter = (e, { value }) => {
     const newData = this.state.allData.filter(
-      option =>
+      (option) =>
         (option.descriptionEn &&
           option.descriptionEn
             .toLowerCase()
@@ -129,7 +129,7 @@ class AdminOptionEdit extends Component {
 
     this.setState({
       data: _.sortBy(newData, [dbAttributes[this.state.column]]),
-      activePage: 1
+      activePage: 1,
     });
   };
 
@@ -158,7 +158,7 @@ class AdminOptionEdit extends Component {
         deleteValues: [],
         english: null,
         french: null,
-        modal: null
+        modal: null,
       });
       window.location.reload();
     });
@@ -387,7 +387,7 @@ class AdminOptionEdit extends Component {
       direction,
       loading,
       activePage,
-      deleteValues
+      deleteValues,
     } = this.state;
     const { changeLanguage, keycloak } = this.props;
 
@@ -443,19 +443,19 @@ class AdminOptionEdit extends Component {
             siblingRange="2"
             firstItem={{
               content: <Icon name="angle double left" />,
-              icon: true
+              icon: true,
             }}
             lastItem={{
               content: <Icon name="angle double right" />,
-              icon: true
+              icon: true,
             }}
             prevItem={{
               content: <Icon name="angle left" />,
-              icon: true
+              icon: true,
             }}
             nextItem={{
               content: <Icon name="angle right" />,
-              icon: true
+              icon: true,
             }}
           />
         </center>

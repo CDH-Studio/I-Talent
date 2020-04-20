@@ -64,6 +64,7 @@ const QualificationsFormView = (props) => {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -221,16 +222,6 @@ const QualificationsFormView = (props) => {
   };
 
   /*
-   * save and next
-   *
-   * save and redirect to next step in setup
-   */
-  const onSaveAndNext = async (values) => {
-    await saveDataToDB(values);
-    history.push("/secured/profile/create/step/7");
-  };
-
-  /*
    * save and finish
    *
    * Save form data and redirect home
@@ -329,7 +320,8 @@ const QualificationsFormView = (props) => {
                             }}
                             style={{ width: "100%" }}
                           >
-                            <PlusOutlined /> Add field
+                            <PlusOutlined />
+                            <FormattedMessage id="setup.add.item" />
                           </Button>
                         </Form.Item>
                       </div>
@@ -341,7 +333,7 @@ const QualificationsFormView = (props) => {
             {/* *************** Work Experience ************** */}
             <Divider style={styles.headerDiv} />
             <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.career.interests" />
+              <FormattedMessage id="setup.experience" />
             </Title>
             {/* Form Row One: Remote Work */}
             <Row gutter={24}>
@@ -370,7 +362,8 @@ const QualificationsFormView = (props) => {
                             }}
                             style={{ width: "100%" }}
                           >
-                            <PlusOutlined /> Add field
+                            <PlusOutlined />
+                            <FormattedMessage id="setup.add.item" />
                           </Button>
                         </Form.Item>
                       </div>

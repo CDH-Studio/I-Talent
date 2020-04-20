@@ -3,62 +3,74 @@ import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/statCards/StatCards";
 import DashboardGraphs from "../../components/dashboardGraphs/DashboardGraphs";
 import axios from "axios";
-import { Typography, Skeleton } from "antd";
+import { Skeleton, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
 import config from "../../config";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const backendAddress = config.backendAddress;
 
-const { Title } = Typography;
+function AdminDashboard(props) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-class AdminDashboard extends React.Component {
-  goto = link => this.props.history.push(link);
+  const getDashboardData = async () => {
+    try {
+      const url = backendAddress + "api/admin/dashboard/";
 
-  constructor(props) {
-    super(props);
+      const results = await axios.get(url);
 
-    document.title = "Admin | UpSkill";
-
-    this.state = { data: null, loading: true };
-  }
-
-  componentDidMount() {
-    axios
-      .get(backendAddress + "api/admin/dashboard/")
-      .then(res => this.setState({ data: res.data, loading: false }))
-      .catch(function(error) {
-        console.error(error);
-      });
-  }
-
-  render() {
-    const { data, loading } = this.state;
-
-    if (loading) {
-      return (
-        <AdminLayout>
-          <Skeleton active />
-        </AdminLayout>
-      );
+      return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
     }
+  };
 
+  const updateState = async () => {
+    const dashboardData = await getDashboardData();
+    setData(dashboardData);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    document.title =
+      props.intl.formatMessage({
+        id: "admin.dashboard.singular",
+        defaultMessage: "Dashboard",
+      }) + " - Admin | I-Talent";
+    updateState();
+  });
+
+  if (loading) {
     return (
       <AdminLayout
-        changeLanguage={this.props.changeLanguage}
+        changeLanguage={props.changeLanguage}
         displaySideBar={true}
-        type={"dashboard"}
+        type="dashboard"
       >
-        <Title>
-          {this.props.intl.formatMessage({
-            id: "admin.dashboard.title",
-            defaultMessage: "Admin Dashboard"
-          })}
-        </Title>
-        <StatCards data={data} />
-        <DashboardGraphs data={data} />
+        <Skeleton active />
       </AdminLayout>
     );
   }
+
+  return (
+    <AdminLayout
+      changeLanguage={props.changeLanguage}
+      displaySideBar={true}
+      type="dashboard"
+    >
+      <PageHeader
+        title={props.intl.formatMessage({
+          id: "admin.dashboard.title",
+          defaultMessage: "Admin Dashboard",
+        })}
+      />
+      <StatCards data={data} />
+      <DashboardGraphs data={data} />
+    </AdminLayout>
+  );
 }
 
 export default injectIntl(AdminDashboard);

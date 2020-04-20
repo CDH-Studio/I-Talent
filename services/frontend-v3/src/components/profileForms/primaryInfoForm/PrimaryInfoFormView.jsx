@@ -63,6 +63,7 @@ function PrimaryInfoFormView(props) {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -256,17 +257,14 @@ function PrimaryInfoFormView(props) {
         telephone: profile.telephone,
         cellphone: profile.cellphone,
         email: profile.email,
-        ...(profile.location.id && {
-          location: profile.location.id,
-        }),
-
+        location: profile.location.id ? profile.location.id : undefined,
         team: profile.team,
         gcConnex: "ddd",
         linkedinUrl: profile.linkedinUrl,
         githubUrl: profile.githubUrl,
       };
     } else {
-      return {};
+      return { email: localStorage.getItem("email") };
     }
   };
 
@@ -346,7 +344,7 @@ function PrimaryInfoFormView(props) {
                   label={<FormattedMessage id="profile.email" />}
                   rules={[Rules.emailFormat, Rules.maxChar50]}
                 >
-                  <Input />
+                  <Input disabled={true} />
                 </Form.Item>
               </Col>
             </Row>
@@ -361,7 +359,7 @@ function PrimaryInfoFormView(props) {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose location"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
