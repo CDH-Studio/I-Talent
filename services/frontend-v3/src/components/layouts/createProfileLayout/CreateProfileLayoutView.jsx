@@ -80,12 +80,8 @@ function CreateProfileLayoutView(props) {
             }
           />
           <Step
-            title={
-              <FormattedMessage
-                id="profile.employee.qualifications"
-                description={"Education, Experience, & Projects"}
-              />
-            }
+            title={<FormattedMessage id="profile.employee.qualifications" />}
+            description={"Education, Experience, & Projects"}
           />
         </Steps>
       </div>
