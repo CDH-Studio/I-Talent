@@ -29,6 +29,7 @@ function SideNavView(props) {
           style={styles.sider}
           breakpoint="lg"
           collapsedWidth="0"
+          zeroWidthTriggerStyle={{ backgroundColor: "#192e2f" }}
         >
           {/* render content of side bar */}
           {props.sideBarContent}
