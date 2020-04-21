@@ -13,6 +13,7 @@ import {
   TalentForm,
   PersonalGrowthForm,
   QualificationsForm,
+  DoneSetup,
 } from "../../profileForms";
 
 const { backendAddress } = config;
@@ -85,6 +86,8 @@ const CreateProfileLayoutView = (props) => {
         return <PersonalGrowthForm formType={"create"} />;
       case 7:
         return <QualificationsForm formType={"create"} />;
+      case 8:
+        return <DoneSetup formType={"create"} />;
       default:
         return <div>Hello</div>;
     }
@@ -188,6 +191,10 @@ const CreateProfileLayoutView = (props) => {
                 </li>
               </ul>
             }
+          />
+          <Step
+            title={<FormattedMessage id="setup.done" />}
+            disabled={!profileExists}
           />
         </Steps>
       </div>
