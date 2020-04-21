@@ -34,7 +34,7 @@ const { Title } = Typography;
 const EmploymentDataFormView = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
-  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
+  const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
 
   /* Component Styles */
@@ -83,6 +83,7 @@ const EmploymentDataFormView = (props) => {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -104,7 +105,7 @@ const EmploymentDataFormView = (props) => {
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
-    setDisplayMentorshipForm(!displayMentorshipForm);
+    setDisplayActingRoleForm(!displayActingRoleForm);
   };
 
   /* enable or disable end date field */
@@ -175,14 +176,6 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
             <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
-            <Button
               style={styles.clearBtn}
               htmlType="button"
               onClick={onReset}
@@ -212,7 +205,7 @@ const EmploymentDataFormView = (props) => {
       ? values.securityClearanceId
       : null;
 
-    if (!displayMentorshipForm) {
+    if (!displayActingRoleForm) {
       // if temp role toggle isn't active clear data
       values.actingId = null;
       values.actingStartDate = null;
@@ -298,16 +291,29 @@ const EmploymentDataFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/home");
+        history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
         console.log("validation failure");
       });
   };
 
-  /* reset form fields */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
+    // reset form fields
     form.resetFields();
+
+    // check if user has acting information in db to expand acting form
+    setDisplayActingRoleForm(
+      props.profileInfo &&
+        props.profileInfo.acting &&
+        !!props.profileInfo.acting.id
+    );
+
     message.info("Form Cleared");
   };
 
@@ -325,15 +331,15 @@ const EmploymentDataFormView = (props) => {
               <Select
                 showSearch
                 optionFilterProp="children"
-                placeholder="choose classification"
+                placeholder={<FormattedMessage id="setup.select" />}
                 allowClear={true}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
               >
-                {props.classificationOptions.map((value, index) => {
-                  return <Option key={value.id}>{value.description}</Option>;
+                {props.classificationOptions.map((value) => {
+                  return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -383,25 +389,23 @@ const EmploymentDataFormView = (props) => {
   const getInitialValues = (profile) => {
     if (profile) {
       return {
-        ...(profile.classification && {
-          groupLevelId: profile.classification.id,
-        }),
-        ...(profile.temporaryRole && {
-          tenureId: profile.temporaryRole.id,
-        }),
-        ...(profile.security && {
-          securityClearanceId: profile.security.id,
-        }),
+        groupLevelId: profile.classification.id
+          ? profile.classification.id
+          : undefined,
+        tenureId: profile.temporaryRole.id
+          ? profile.temporaryRole.id
+          : undefined,
+        securityClearanceId: profile.security.id
+          ? profile.security.id
+          : undefined,
         manager: profile.manager,
-        ...(profile.acting && {
-          actingId: profile.acting.id,
-        }),
-        ...(profile.actingPeriodStartDate && {
-          actingStartDate: moment(profile.actingPeriodStartDate),
-        }),
-        ...(profile.actingPeriodEndDate && {
-          actingEndDate: moment(profile.actingPeriodEndDate),
-        }),
+        actingId: profile.acting.id ? profile.acting.id : undefined,
+        actingStartDate: profile.actingPeriodStartDate
+          ? moment(profile.actingPeriodStartDate)
+          : undefined,
+        actingEndDate: profile.actingPeriodEndDate
+          ? moment(profile.actingPeriodEndDate)
+          : undefined,
       };
     } else {
       return {};
@@ -410,7 +414,7 @@ const EmploymentDataFormView = (props) => {
 
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
-    setDisplayMentorshipForm(
+    setDisplayActingRoleForm(
       props.profileInfo &&
         props.profileInfo.acting &&
         !!props.profileInfo.acting.id
@@ -420,7 +424,12 @@ const EmploymentDataFormView = (props) => {
     setEnableEndDate(
       props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
     );
-  }, [props.profileInfo]);
+
+    // if props change then reset form fields
+    if (props.load) {
+      form.resetFields();
+    }
+  }, [props, form]);
 
   /************************************
    ********* Render Component *********
@@ -458,7 +467,7 @@ const EmploymentDataFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose substantive"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
@@ -466,10 +475,8 @@ const EmploymentDataFormView = (props) => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.substantiveOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.substantiveOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -483,7 +490,7 @@ const EmploymentDataFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose classification"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
@@ -491,10 +498,8 @@ const EmploymentDataFormView = (props) => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.classificationOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description}</Option>
-                      );
+                    {props.classificationOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -510,7 +515,7 @@ const EmploymentDataFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose security"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children
@@ -518,10 +523,8 @@ const EmploymentDataFormView = (props) => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {props.securityOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.securityOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -547,10 +550,10 @@ const EmploymentDataFormView = (props) => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displayMentorshipForm}
+                  checked={displayActingRoleForm}
                   onChange={toggleTempRoleForm}
                 />
-                {getTempRoleForm(displayMentorshipForm)}
+                {getTempRoleForm(displayActingRoleForm)}
               </Col>
             </Row>
             {getFormControlButtons(props.formType)}

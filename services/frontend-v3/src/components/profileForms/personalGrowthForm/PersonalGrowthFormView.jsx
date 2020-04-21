@@ -76,6 +76,7 @@ const PersonalGrowthFormView = (props) => {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -121,14 +122,6 @@ const PersonalGrowthFormView = (props) => {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -249,7 +242,7 @@ const PersonalGrowthFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/home");
+        history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
         console.log("validation failure");
@@ -339,7 +332,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                   >
                     {props.developmentalGoalOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
@@ -364,7 +357,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                   >
                     {props.interestedInRemoteOptions.map((value, index) => {
@@ -393,7 +386,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                   >
                     {props.relocationOptions.map((value, index) => {
                       return <Option key={value.key}>{value.title}</Option>;
@@ -413,7 +406,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                   >
                     {props.lookingForNewJobOptions.map((value, index) => {
@@ -440,7 +433,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                   >
                     {props.careerMobilityOptions.map((value, index) => {
@@ -461,7 +454,7 @@ const PersonalGrowthFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                   >
                     {props.talentMatrixResultOptions.map((value, index) => {

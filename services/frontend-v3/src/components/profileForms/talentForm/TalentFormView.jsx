@@ -34,9 +34,6 @@ const TalentFormView = (props) => {
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
-  const [selectedMentorshipSkills, setSelectedMentorshipSkills] = useState(
-    false
-  );
 
   /* Component Styles */
   const styles = {
@@ -136,14 +133,6 @@ const TalentFormView = (props) => {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -263,7 +252,7 @@ const TalentFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/home");
+        history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
         console.log("validation failure");
@@ -276,7 +265,10 @@ const TalentFormView = (props) => {
    * reset form fields to state when page was loaded
    */
   const onReset = () => {
+    // reset form fields
     form.resetFields();
+    // reset mentorship toggle switch
+    setDisplayMentorshipForm(props.savedMentorshipSkills.length > 0);
     message.info("Form Cleared");
   };
 
@@ -372,7 +364,6 @@ const TalentFormView = (props) => {
       mentorshipSkills: validatedMentorshipSkills,
     });
     // Update states
-    setSelectedMentorshipSkills(validatedMentorshipSkills);
     setSelectedSkills(selectedSkills);
   };
 
@@ -383,7 +374,6 @@ const TalentFormView = (props) => {
    */
   const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
-      console.log(selectedMentorshipSkills);
       return (
         <div>
           {/* Select Mentorship Skills */}
@@ -411,7 +401,7 @@ const TalentFormView = (props) => {
                   treeData={selectedSkills}
                   treeCheckable={true}
                   showCheckedStrategy={SHOW_CHILD}
-                  placeholder={"Please select"}
+                  placeholder={<FormattedMessage id="setup.select" />}
                   treeNodeFilterProp="title"
                   showSearch={true}
                   maxTagCount={15}
@@ -454,9 +444,15 @@ const TalentFormView = (props) => {
         props.skillOptions,
         props.savedSkills
       );
+
       setSelectedSkills(selectedSkills);
     }
-  }, [props]);
+
+    // if props change then reset form fields
+    if (props.load) {
+      form.resetFields();
+    }
+  }, [props, form]);
 
   /************************************
    ********* Render Component *********
@@ -500,12 +496,10 @@ const TalentFormView = (props) => {
                     className="custom-bubble-select-style"
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
+                    placeholder={<FormattedMessage id="setup.select" />}
                   >
-                    {props.competencyOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
+                    {props.competencyOptions.map((value) => {
+                      return <Option key={value.key}>{value.title}</Option>;
                     })}
                   </Select>
                 </Form.Item>
@@ -529,7 +523,7 @@ const TalentFormView = (props) => {
                     onChange={onChangeSkills}
                     treeCheckable={true}
                     showCheckedStrategy={SHOW_CHILD}
-                    placeholder={"Please select"}
+                    placeholder={<FormattedMessage id="setup.select" />}
                     treeNodeFilterProp="title"
                     showSearch={true}
                     maxTagCount={15}
@@ -547,7 +541,7 @@ const TalentFormView = (props) => {
                   tooltipText="Extra information"
                 />
                 <Switch
-                  defaultChecked={displayMentorshipForm}
+                  checked={displayMentorshipForm}
                   onChange={toggleMentorshipForm}
                 />
                 {getMentorshipForm(displayMentorshipForm)}

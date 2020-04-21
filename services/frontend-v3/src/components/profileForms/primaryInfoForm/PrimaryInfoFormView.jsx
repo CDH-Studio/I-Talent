@@ -63,6 +63,7 @@ function PrimaryInfoFormView(props) {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -132,14 +133,6 @@ function PrimaryInfoFormView(props) {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -234,7 +227,7 @@ function PrimaryInfoFormView(props) {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/home");
+        history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
         console.log("validation failure");
@@ -256,10 +249,7 @@ function PrimaryInfoFormView(props) {
         telephone: profile.telephone,
         cellphone: profile.cellphone,
         email: profile.email,
-        ...(profile.location.id && {
-          location: profile.location.id,
-        }),
-
+        location: profile.location.id ? profile.location.id : undefined,
         team: profile.team,
         gcConnex: "ddd",
         linkedinUrl: profile.linkedinUrl,
@@ -361,7 +351,7 @@ function PrimaryInfoFormView(props) {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose location"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children

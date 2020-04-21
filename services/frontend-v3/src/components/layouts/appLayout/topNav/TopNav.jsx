@@ -8,7 +8,6 @@ function TopNav(props) {
     <TopNavView
       changeLanguage={props.changeLanguage}
       keycloak={props.keycloak}
-      history={props.history}
     ></TopNavView>
   );
 }

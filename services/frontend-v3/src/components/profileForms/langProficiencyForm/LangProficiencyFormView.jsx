@@ -80,6 +80,7 @@ const LangProficiencyFormView = (props) => {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      width: "100%",
     },
   };
 
@@ -133,14 +134,6 @@ const LangProficiencyFormView = (props) => {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -272,7 +265,7 @@ const LangProficiencyFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/home");
+        history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
         console.log("validation failure");
@@ -303,7 +296,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="choose proficiency"
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -341,7 +334,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="choose proficiency"
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -379,7 +372,7 @@ const LangProficiencyFormView = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="choose proficiency"
+                  placeholder={<FormattedMessage id="setup.select" />}
                   allowClear={true}
                   filterOption={(input, option) =>
                     option.children
@@ -490,7 +483,7 @@ const LangProficiencyFormView = (props) => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    placeholder="choose language"
+                    placeholder={<FormattedMessage id="setup.select" />}
                     allowClear={true}
                     filterOption={(input, option) =>
                       option.children

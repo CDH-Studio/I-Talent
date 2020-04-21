@@ -5,7 +5,7 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 //import { Icon as LegacyIcon } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
-import logo from "../../assets/MyTalent-Logo-Full.png";
+import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 
 function SearchBarView(props) {
   const [doNothing, setDoNothing] = useState(true);
@@ -55,7 +55,7 @@ function SearchBarView(props) {
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
           <header style={styles.header}>
-            <img src={logo} alt="UpSkill Logo" style={{ height: "80px" }} />;
+            <img src={logo} alt="UpSkill Logo" style={{ height: "60px" }} />;
           </header>
           {/* Gets main basic search field and shows buttons beneath */}
           <div style={styles.advFieldStyles}>{getBasicField(data)}</div>

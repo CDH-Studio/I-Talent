@@ -18,14 +18,14 @@ const getBranch = async (request, response) => {
   let all = await Profile.findAll({
     attributes: [
       [Sequelize.fn("DISTINCT", Sequelize.col("branchEn")), "branchEn"],
-      "branchFr"
-    ]
+      "branchFr",
+    ],
   });
 
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
-      description: { en: one.branchEn, fr: one.branchFr }
+      description: { en: one.branchEn, fr: one.branchFr },
     };
   });
   response.status(200).json(resBody);
@@ -33,11 +33,11 @@ const getBranch = async (request, response) => {
 
 const getCareerMobility = async (request, response) => {
   let all = await CareerMobility.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -46,14 +46,14 @@ const getCareerMobility = async (request, response) => {
 const getCompetency = async (request, response) => {
   let all = await Skill.findAll({
     where: {
-      type: "competency"
-    }
+      type: "competency",
+    },
   });
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -61,11 +61,11 @@ const getCompetency = async (request, response) => {
 
 const getDevelopmentalGoals = async (request, response) => {
   let all = await Skill.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -73,11 +73,11 @@ const getDevelopmentalGoals = async (request, response) => {
 
 const getDiploma = async (request, response) => {
   let all = await Diploma.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -85,11 +85,11 @@ const getDiploma = async (request, response) => {
 
 const getGroupLevel = async (request, response) => {
   let all = await GroupLevel.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: one.description
+      description: one.description,
     };
   });
   response.status(200).json(resBody);
@@ -97,11 +97,11 @@ const getGroupLevel = async (request, response) => {
 
 const getKeyCompetency = async (request, response) => {
   let all = await KeyCompetency.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -109,14 +109,14 @@ const getKeyCompetency = async (request, response) => {
 
 const getLocation = async (request, response) => {
   let all = await Location.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
       description: {
         en: one.addressEn + ", " + one.city + ", " + one.provinceEn,
-        fr: one.addressFr + ", " + one.city + ", " + one.provinceFr
-      }
+        fr: one.addressFr + ", " + one.city + ", " + one.provinceFr,
+      },
     };
   });
   response.status(200).json(resBody);
@@ -124,11 +124,11 @@ const getLocation = async (request, response) => {
 
 const getSchool = async (request, response) => {
   let all = await School.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: one.description
+      description: one.description,
     };
   });
   response.status(200).json(resBody);
@@ -136,11 +136,11 @@ const getSchool = async (request, response) => {
 
 const getSecurityClearance = async (request, response) => {
   let all = await SecurityClearance.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -150,24 +150,24 @@ const getCategorySkills = async (request, response) => {
   let all = await Category.findAll({
     include: Skill,
     attributes: ["descriptionEn", "descriptionFr", "id"],
-    require: true
+    require: true,
   });
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
-    let skillsList = one.skills.map(skillCat => {
+    let skillsList = one.skills.map((skillCat) => {
       skillCat = skillCat.dataValues;
       if (skillCat.categoryId == one.id) {
         return {
           id: skillCat.id,
           description: {
-            en: skillCat.descriptionEn,
-            fr: skillCat.descriptionFr
-          }
+            en: skillCat.en,
+            fr: skillCat.fr,
+          },
         };
       } else {
         return {
           id: skillCat.id,
-          description: { descEn: null, descFr: null }
+          description: { en: null, fr: null },
         };
       }
     });
@@ -176,9 +176,9 @@ const getCategorySkills = async (request, response) => {
         category: {
           id: one.id,
           description: { en: one.descriptionEn, fr: one.descriptionFr },
-          skillsList
-        }
-      }
+          skillsList,
+        },
+      },
     };
   });
   response.status(200).json(resBody);
@@ -188,24 +188,24 @@ const getCategory = async (request, response) => {
   let all = await Category.findAll({
     include: Skill,
     attributes: ["descriptionEn", "descriptionFr", "id"],
-    require: true
+    require: true,
   });
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
-    let skillsCat = one.skills.map(skillCat => {
+    let skillsCat = one.skills.map((skillCat) => {
       skillCat = skillCat.dataValues;
       if (skillCat.categoryId == one.id) {
         return {
           id: skillCat.id,
           description: {
-            descEn: skillCat.descriptionEn,
-            descFr: skillCat.descriptionFr
-          }
+            en: skillCat.descriptionEn,
+            fr: skillCat.descriptionFr,
+          },
         };
       } else {
         return {
           id: skillCat.id,
-          description: { descEn: null, descFr: null }
+          description: { en: null, fr: null },
         };
       }
     });
@@ -213,9 +213,9 @@ const getCategory = async (request, response) => {
       id: one.id,
       description: {
         en: one.descriptionEn,
-        fr: one.descriptionFr
+        fr: one.descriptionFr,
       },
-      skills: skillsCat
+      skills: skillsCat,
     };
   });
   response.status(200).json(resBody);
@@ -227,10 +227,10 @@ const getSkill = async (request, response) => {
     attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
     where: {
-      type: "skill"
-    }
+      type: "skill",
+    },
   });
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
 
     let ascCats = one.category.dataValues;
@@ -238,8 +238,8 @@ const getSkill = async (request, response) => {
       id: one.id,
       description: {
         en: one.descriptionEn,
-        fr: one.descriptionFr
-      }
+        fr: one.descriptionFr,
+      },
     };
   });
   response.status(200).json(resBody);
@@ -247,11 +247,11 @@ const getSkill = async (request, response) => {
 
 const getTalentMatrixResult = async (request, response) => {
   let all = await TalentMatrixResult.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -259,11 +259,11 @@ const getTalentMatrixResult = async (request, response) => {
 
 const getTenure = async (request, response) => {
   let all = await Tenure.findAll();
-  let resBody = all.map(one => {
+  let resBody = all.map((one) => {
     one = one.dataValues;
     return {
       id: one.id,
-      description: { en: one.descriptionEn, fr: one.descriptionFr }
+      description: { en: one.descriptionEn, fr: one.descriptionFr },
     };
   });
   response.status(200).json(resBody);
@@ -272,12 +272,12 @@ const getTenure = async (request, response) => {
 const getLookingForANewJob = async (request, response) => {
   try {
     let all = await LookingForANewJob.findAll();
-    let resBody = all.map(element => ({
+    let resBody = all.map((element) => ({
       id: element.id,
       description: {
         en: element.descriptionEn,
-        fr: element.descriptionFr
-      }
+        fr: element.descriptionFr,
+      },
     }));
     response.status(200).json(resBody);
   } catch (error) {
@@ -291,26 +291,26 @@ const getWillingToRelocateTo = async (request, response) => {
       attributes: [
         [
           Sequelize.fn("MIN", Sequelize.cast(Sequelize.col("id"), "varchar")),
-          "id"
+          "id",
         ],
         "city",
         "provinceEn",
-        "provinceFr"
+        "provinceFr",
       ],
       group: ["city", "provinceEn", "provinceFr"],
       order: [
         ["provinceEn", "ASC"],
-        ["city", "ASC"]
-      ]
+        ["city", "ASC"],
+      ],
     });
-    let resBody = all.map(one => {
+    let resBody = all.map((one) => {
       one = one.dataValues;
       return {
         id: one.id,
         description: {
           en: one.city + ", " + one.provinceEn,
-          fr: one.city + ", " + one.provinceFr
-        }
+          fr: one.city + ", " + one.provinceFr,
+        },
       };
     });
     response.status(200).json(resBody);
@@ -337,5 +337,5 @@ module.exports = {
   getTalentMatrixResult,
   getTenure,
   getLookingForANewJob,
-  getWillingToRelocateTo
+  getWillingToRelocateTo,
 };
