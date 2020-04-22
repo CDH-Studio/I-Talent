@@ -15,8 +15,8 @@ function DiplomaTable(props) {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [size] = useState("large");
 
+  const size = "large";
   const { type } = props;
 
   useEffect(() => {
@@ -127,7 +127,6 @@ function DiplomaTable(props) {
   };
 
   const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
 
