@@ -65,7 +65,6 @@ function ResultsCardView(props) {
           </Divider>
           {person.resultSkills.map((skill) => (
             <Tag
-              style={{ overflowX: "hidden" }}
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
             >
