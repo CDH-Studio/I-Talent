@@ -10,11 +10,15 @@ import {
   Profile,
   ProfileEdit,
   ProfileCreate,
-  NotFound
+  NotFound,
 } from "../pages";
 // import animatedLogo from "../../assets/animatedLogo.gif";
 
+import keycloakConfig from "../keycloak";
+
 const loginFunc = require("../functions/login");
+
+const { keycloakJSONConfig } = keycloakConfig;
 
 function Secured(props) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -26,19 +30,21 @@ function Secured(props) {
   useEffect(() => {
     // Check if profile exist for the logged in user
     const profileExist = () => {
-      return keycloak.loadUserInfo().then(async userInfo => {
-        return loginFunc.createUser(userInfo.email, userInfo.name).then(res => {
-          // Add name and email to local storage
-          localStorage.setItem("name", userInfo.name);
-          localStorage.setItem("email", userInfo.email);
-          return res.hasProfile;
-        });
+      return keycloak.loadUserInfo().then(async (userInfo) => {
+        return loginFunc
+          .createUser(userInfo.email, userInfo.name)
+          .then((res) => {
+            // Add name and email to local storage
+            localStorage.setItem("name", userInfo.name);
+            localStorage.setItem("email", userInfo.email);
+            return res.hasProfile;
+          });
       });
     };
 
     // Generate redirect if profile does not exist
     const renderRedirect = () => {
-      return profileExist().then(profileExist => {
+      return profileExist().then((profileExist) => {
         if (!profileExist) {
           return (
             <Redirect from="/old-path" to="/secured/profile/create/step/1" />
@@ -49,16 +55,16 @@ function Secured(props) {
       });
     };
 
-    const keycloak = Keycloak("/keycloak.json");
+    const keycloak = Keycloak(keycloakJSONConfig);
     keycloak
       .init({
         onLoad: "login-required",
         promiseType: "native",
-        checkLoginIframe: false
+        checkLoginIframe: false,
       })
-      .then(authenticated => {
+      .then((authenticated) => {
         // check if user is admin
-        if (keycloak.tokenParsed.resource_access) {
+        if (keycloak.tokenParsed.resource_access["upskill-client"]) {
           sessionStorage.setItem(
             "admin",
             keycloak.tokenParsed.resource_access[
@@ -69,7 +75,7 @@ function Secured(props) {
           sessionStorage.removeItem("admin");
         }
 
-        axios.interceptors.request.use(config =>
+        axios.interceptors.request.use((config) =>
           keycloak.updateToken(5).then(() => {
             config.headers.Authorization = "Bearer " + keycloak.token;
             return Promise.resolve(config).catch(keycloak.login);
@@ -79,7 +85,7 @@ function Secured(props) {
         setKeycloak(keycloak);
         setAuthenticated(authenticated);
         // store user info in local storage and redirect to create profile if needed
-        renderRedirect().then(redirect => {
+        renderRedirect().then((redirect) => {
           setRedirect(redirect);
         });
       });
@@ -131,7 +137,7 @@ function Secured(props) {
             <Route
               exact
               path="/secured/home"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Home
                   keycloak={keycloak}
                   changeLanguage={changeLanguage}
@@ -143,7 +149,7 @@ function Secured(props) {
             <Route
               exact
               path="/secured/results"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Results
                   keycloak={keycloak}
                   changeLanguage={changeLanguage}
@@ -154,7 +160,7 @@ function Secured(props) {
             {/****** Create profile forms ******/}
             <Route
               path="/secured/profile/create/step/:step"
-              render={routeProps => (
+              render={(routeProps) => (
                 <ProfileCreate
                   keycloak={keycloak}
                   changeLanguage={changeLanguage}
@@ -165,7 +171,7 @@ function Secured(props) {
             {/****** Edit profile forms ******/}
             <Route
               path="/secured/profile/edit/:step"
-              render={routeProps => (
+              render={(routeProps) => (
                 <ProfileEdit
                   keycloak={keycloak}
                   changeLanguage={changeLanguage}
@@ -176,7 +182,7 @@ function Secured(props) {
             {/****** Profile page based on user ID ******/}
             <Route
               path="/secured/profile/:id?"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Profile
                   keycloak={keycloak}
                   changeLanguage={changeLanguage}
@@ -188,7 +194,7 @@ function Secured(props) {
             <Route
               exact
               path="/secured/logout"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Logout keycloak={keycloak} {...routeProps} />
               )}
             />

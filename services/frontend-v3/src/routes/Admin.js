@@ -15,7 +15,10 @@ import {
 } from "../pages/admin";
 
 import config from "../config";
+import keycloakConfig from "../keycloak";
+
 const { backendAddress } = config;
+const { keycloakJSONConfig } = keycloakConfig;
 
 function Admin(props) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -26,7 +29,7 @@ function Admin(props) {
   const changeLanguage = props.changeLanguage;
 
   useEffect(() => {
-    const keycloak = Keycloak("/keycloak.json");
+    const keycloak = Keycloak(keycloakJSONConfig);
     keycloak
       .init({
         onLoad: "login-required",
@@ -93,11 +96,12 @@ function Admin(props) {
   // }
 
   //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // const copyToClipboard = e => {
-  //   this.textArea.select();
-  //   document.execCommand("copy");
-  //   e.target.focus();
-  // };
+
+  const copyToClipboard = (e) => {
+    this.textArea.select();
+    document.execCommand("copy");
+    e.target.focus();
+  };
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   if (keycloak) {
