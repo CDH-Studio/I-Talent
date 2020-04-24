@@ -6,7 +6,8 @@ import {
   SolutionOutlined,
   AppstoreAddOutlined,
   ToolOutlined,
-  FlagOutlined
+  FlagOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
 import { injectIntl } from "react-intl";
@@ -28,11 +29,13 @@ function AdminLayoutView(props) {
       key = ["4"];
     } else if (type === "competency") {
       key = ["5"];
+    } else if (type === "diploma") {
+      key = ["6"];
     }
     return key;
   };
 
-  const navigationPages = key => {
+  const navigationPages = (key) => {
     if (key === "1") {
       history.push("/admin/dashboard");
     } else if (key === "2") {
@@ -43,6 +46,8 @@ function AdminLayoutView(props) {
       history.push("/admin/skills");
     } else if (key === "5") {
       history.push("/admin/competencies");
+    } else if (key === "6") {
+      history.push("/admin/diploma");
     }
   };
 
@@ -60,7 +65,7 @@ function AdminLayoutView(props) {
           <span>
             {props.intl.formatMessage({
               id: "admin.dashboard",
-              defaultMessage: "Dashboard"
+              defaultMessage: "Dashboard",
             })}
           </span>
         </Menu.Item>
@@ -69,7 +74,7 @@ function AdminLayoutView(props) {
           <span>
             {props.intl.formatMessage({
               id: "admin.user.plural",
-              defaultMessage: "Users"
+              defaultMessage: "Users",
             })}
           </span>
         </Menu.Item>
@@ -78,7 +83,7 @@ function AdminLayoutView(props) {
           <span>
             {props.intl.formatMessage({
               id: "admin.category.plural",
-              defaultMessage: "Categories"
+              defaultMessage: "Categories",
             })}
           </span>
         </Menu.Item>
@@ -87,7 +92,7 @@ function AdminLayoutView(props) {
           <span>
             {props.intl.formatMessage({
               id: "admin.skill.plural",
-              defaultMessage: "Skills"
+              defaultMessage: "Skills",
             })}
           </span>
         </Menu.Item>
@@ -96,7 +101,16 @@ function AdminLayoutView(props) {
           <span>
             {props.intl.formatMessage({
               id: "admin.competency.plural",
-              defaultMessage: "Competencies"
+              defaultMessage: "Competencies",
+            })}
+          </span>
+        </Menu.Item>
+        <Menu.Item key="6">
+          <TrophyOutlined />
+          <span>
+            {props.intl.formatMessage({
+              id: "admin.diploma.plural",
+              defaultMessage: "Diplomas",
             })}
           </span>
         </Menu.Item>

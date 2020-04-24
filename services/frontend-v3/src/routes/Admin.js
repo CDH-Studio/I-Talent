@@ -12,6 +12,7 @@ import {
   AdminSkill,
   AdminCategory,
   AdminCompetency,
+  AdminDiploma,
 } from "../pages/admin";
 
 import config from "../config";
@@ -183,6 +184,17 @@ function Admin(props) {
             path="/admin/competencies"
             render={(routeProps) => (
               <AdminCompetency
+                keycloak={keycloak}
+                changeLanguage={changeLanguage}
+                {...routeProps}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/diploma"
+            render={(routeProps) => (
+              <AdminDiploma
                 keycloak={keycloak}
                 changeLanguage={changeLanguage}
                 {...routeProps}
