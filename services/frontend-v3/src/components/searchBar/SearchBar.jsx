@@ -243,27 +243,13 @@ function SearchBar(props) {
       let branches = await getBranch();
       let locations = await getLocation();
       let classifications = await getClassification();
-      {
-        skills != null ? (skills = await getSkills()) : setSkillOptions(skills);
-      }
-      {
-        branches != null
-          ? (branches = await getBranch())
-          : setBranchOptions(branches);
-      }
-      {
-        locations != null
-          ? (locations = await getLocation())
-          : setLocationOptions(locations);
-      }
-      {
-        classifications != null
-          ? (branches = await getClassification())
-          : setClassOptions(classifications);
-      }
+      setSkillOptions(skills);
+      setBranchOptions(branches);
+      setLocationOptions(locations);
+      setClassOptions(classifications);
     };
     updateState();
-  }, [props]);
+  }, []);
 
   return (
     <SearchBarView
