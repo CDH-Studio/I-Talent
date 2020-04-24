@@ -20,7 +20,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-function CategoryTableView(props) {
+function DiplomaTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -217,13 +217,13 @@ function CategoryTableView(props) {
     setModalType("add");
   };
 
-  const addCompetencyModal = () => {
+  const addDiplomaModal = () => {
     return (
       <Modal
         visible={addVisible}
         title={props.intl.formatMessage({
-          id: "admin.add.competency",
-          defaultMessage: "Add Competency",
+          id: "admin.add.diploma",
+          defaultMessage: "Add Diploma",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -251,9 +251,9 @@ function CategoryTableView(props) {
           handleCancel();
         }}
       >
-        <Form form={addForm} name="addCompetency" layout="vertical">
+        <Form form={addForm} name="addDiploma" layout="vertical">
           <Form.Item
-            name="addCompetencyEn"
+            name="addDiplomaEn"
             label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
@@ -270,13 +270,13 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionEn",
-                defaultMessage: "Competency description in English",
+                id: "admin.add.diploma.descriptionEn",
+                defaultMessage: "Diploma description in English",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="addCompetencyFr"
+            name="addDiplomaFr"
             label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
@@ -293,8 +293,8 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionFr",
-                defaultMessage: "Competency description in French",
+                id: "admin.add.diploma.descriptionFr",
+                defaultMessage: "Diploma description in French",
               })}
             />
           </Form.Item>
@@ -303,13 +303,13 @@ function CategoryTableView(props) {
     );
   };
 
-  const editCompetencyModal = () => {
+  const editDiplomaModal = () => {
     return (
       <Modal
         visible={editVisible}
         title={props.intl.formatMessage({
-          id: "admin.edit.competency",
-          defaultMessage: "Edit Competency",
+          id: "admin.edit.diploma",
+          defaultMessage: "Edit Diploma",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -338,7 +338,7 @@ function CategoryTableView(props) {
       >
         <Form
           form={editForm}
-          name="editCompetency"
+          name="editDiploma"
           layout="vertical"
           fields={fields}
           onFieldsChange={() => {
@@ -346,7 +346,7 @@ function CategoryTableView(props) {
           }}
         >
           <Form.Item
-            name="editCompetencyEn"
+            name="editDiplomaEn"
             label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
@@ -354,13 +354,13 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionEn",
-                defaultMessage: "Competency description in English",
+                id: "admin.add.diploma.descriptionEn",
+                defaultMessage: "Diploma description in English",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="editCompetencyFr"
+            name="editDiplomaFr"
             label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
@@ -368,8 +368,8 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionFr",
-                defaultMessage: "Competency description in French",
+                id: "admin.add.diploma.descriptionFr",
+                defaultMessage: "Diploma description in French",
               })}
             />
           </Form.Item>
@@ -388,15 +388,15 @@ function CategoryTableView(props) {
     }
   };
 
-  const competencyTableColumns = () => {
-    const competency_table_columns = [
+  const diplomaTableColumns = () => {
+    const diploma_table_columns = [
       {
         title: props.intl.formatMessage({
           id: "language.english",
           defaultMessage: "English",
         }),
         dataIndex: "descriptionEn",
-        key: "competencyEn",
+        key: "diplomaEn",
         sorter: (a, b) => {
           return a.descriptionEn.localeCompare(b.descriptionEn);
         },
@@ -415,7 +415,7 @@ function CategoryTableView(props) {
           defaultMessage: "French",
         }),
         dataIndex: "descriptionFr",
-        key: "competencyFr",
+        key: "diplomaFr",
         sorter: (a, b) => {
           return a.descriptionFr.localeCompare(b.descriptionFr);
         },
@@ -442,8 +442,8 @@ function CategoryTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editCompetencyEn"], value: record.descriptionEn },
-                  { name: ["editCompetencyFr"], value: record.descriptionFr },
+                  { name: ["editDiplomaEn"], value: record.descriptionEn },
+                  { name: ["editDiplomaFr"], value: record.descriptionFr },
                 ]);
                 handleEditModal(record);
               }}
@@ -452,17 +452,17 @@ function CategoryTableView(props) {
         ),
       },
     ];
-    return competency_table_columns;
+    return diploma_table_columns;
   };
 
   return (
     <>
-      {addCompetencyModal()}
-      {editCompetencyModal()}
+      {addDiplomaModal()}
+      {editDiplomaModal()}
       <PageHeader
         title={props.intl.formatMessage({
-          id: "admin.competency.table",
-          defaultMessage: "Competencies Table",
+          id: "admin.diploma.table",
+          defaultMessage: "Diplomas Table",
         })}
         extra={[
           deleteConfirm(),
@@ -485,7 +485,7 @@ function CategoryTableView(props) {
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={competencyTableColumns()}
+            columns={diplomaTableColumns()}
             dataSource={data}
           />
         </Col>
@@ -494,4 +494,4 @@ function CategoryTableView(props) {
   );
 }
 
-export default injectIntl(CategoryTableView);
+export default injectIntl(DiplomaTableView);
