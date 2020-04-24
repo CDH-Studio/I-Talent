@@ -11,10 +11,10 @@ function ResultsCardView(props) {
     smallP: {
       lineHeight: "4px",
       zIndex: "-1",
-      marginTop: "10px"
-    }
+      marginTop: "10px",
+    },
   };
-  const renderResultCards = dataSource => {
+  const renderResultCards = (dataSource) => {
     if (!dataSource) {
       return <ProfileSkeleton />;
     } else if (dataSource instanceof Error) {
@@ -27,18 +27,18 @@ function ResultsCardView(props) {
         localStorage.getItem("lang")
       );
       let cards = [];
-      preparedResults.forEach(person => {
+      preparedResults.forEach((person) => {
         cards.push(renderCard(person));
       });
       return cards;
     }
   };
 
-  const renderCard = person => {
+  const renderCard = (person) => {
     return (
       <Col span={6} style={{ height: "100%" }}>
         <Card
-          style={{ height: "100%" }}
+          style={{ height: "100%", overflowX: "hidden" }}
           size="small"
           hoverable
           bordered={true}
@@ -73,10 +73,10 @@ function ResultsCardView(props) {
           <Divider style={styles.divider} orientation="left">
             {props.intl.formatMessage({
               id: "advanced.search.form.skills",
-              defaultMessage: "Skills"
+              defaultMessage: "Skills",
             })}
           </Divider>
-          {person.resultSkills.map(skill => (
+          {person.resultSkills.map((skill) => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
