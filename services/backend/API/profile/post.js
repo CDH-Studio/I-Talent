@@ -7,6 +7,8 @@ const ProfileOrganization = Models.profileOrganization;
 const Project = Models.profileProject;
 const SecLang = Models.secondLanguageProficiency;
 
+/*This objects stores the names of the db attributes 
+in relation to the object keys sent from the frontend*/
 const mappedValues = require("./mappedValues.json");
 
 const createProfile = async (request, response) => {
@@ -30,7 +32,7 @@ const createProfile = async (request, response) => {
       { id, ...dbObject },
       { returning: true }
     );
-    
+
     if (dbObject.skills) profile.setSkills(dbObject.skills);
     if (dbObject.competencies) profile.setCompetencies(dbObject.competencies);
     if (dbObject.developmentGoals)
@@ -46,8 +48,8 @@ const createProfile = async (request, response) => {
               schoolId: school.id ? school.id : school,
               diplomaId: diploma.id ? diploma.id : diploma,
               startDate,
-              endDate
-            }).then(education => {
+              endDate,
+            }).then((education) => {
               profile.addEducation(education);
             });
           }
@@ -57,7 +59,7 @@ const createProfile = async (request, response) => {
 
     if (dbObject.experience) {
       Experience.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.experience.forEach(exp => {
+        dbObject.experience.forEach((exp) => {
           let startDate = moment(exp.startDate);
           let endDate = moment(exp.endDate);
           let content;
@@ -71,8 +73,8 @@ const createProfile = async (request, response) => {
             jobTitle: exp.header,
             description: content,
             startDate: startDate,
-            endDate: endDate
-          }).then(experience => {
+            endDate: endDate,
+          }).then((experience) => {
             profile.addExperience(experience);
           });
         });
@@ -81,10 +83,10 @@ const createProfile = async (request, response) => {
 
     if (dbObject.projects) {
       Project.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.projects.forEach(project => {
+        dbObject.projects.forEach((project) => {
           Project.create({
-            description: project
-          }).then(project => {
+            description: project,
+          }).then((project) => {
             profile.addProfileProject(project);
           });
         });
@@ -99,8 +101,8 @@ const createProfile = async (request, response) => {
               ProfileOrganization.create({
                 descriptionEn: en,
                 descriptionFr: fr,
-                tier
-              }).then(organization => {
+                tier,
+              }).then((organization) => {
                 profile.addProfileOrganization(organization);
               });
             }
@@ -129,7 +131,7 @@ const createProfile = async (request, response) => {
         writingDate,
         readingDate,
         oralDate,
-        readingProficiency
+        readingProficiency,
       } = dbObject;
 
       secLangProf
@@ -140,17 +142,17 @@ const createProfile = async (request, response) => {
             writingDate,
             readingDate,
             oralDate,
-            readingProficiency
+            readingProficiency,
           },
           { returning: true }
         )
-        .then(secLangProf => {
+        .then((secLangProf) => {
           profile.setSecondLanguageProficiency(secLangProf);
         });
     }
     if (!dbObject.gradedOnSecondLanguage) {
       SecLang.destroy({
-        where: { id: profile.dataValues.secondLanguageProficiencyId }
+        where: { id: profile.dataValues.secondLanguageProficiencyId },
       });
     }
 
@@ -164,5 +166,5 @@ const createProfile = async (request, response) => {
 };
 
 module.exports = {
-  createProfile
+  createProfile,
 };

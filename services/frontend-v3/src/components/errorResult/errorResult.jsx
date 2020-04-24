@@ -19,8 +19,18 @@ class ErrorResult extends Component {
         <Button onClick={() => this.handleClick()} type="primary">
           Back to Home
         </Button>
-      )
-    }
+      ),
+    },
+    403: {
+      status: "403",
+      title: "403",
+      subTitle: "Looks like someone doesn't belong",
+      extra: (
+        <Button onClick={() => this.handleClick()} type="primary">
+          Back to Home
+        </Button>
+      ),
+    },
   };
 
   render() {

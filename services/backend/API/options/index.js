@@ -15,7 +15,7 @@ let {
   getTalentMatrixResult,
   getTenure,
   getLookingForANewJob,
-  getWillingToRelocateTo
+  getWillingToRelocateTo,
 } = require("./get");
 
 const optionRouter = require("./router");
@@ -36,7 +36,7 @@ module.exports = {
   getSkill,
   getTalentMatrixResult,
   getTenure,
-  optionRouter,
   getLookingForANewJob,
-  getWillingToRelocateTo
+  getWillingToRelocateTo,
+  optionRouter,
 };
