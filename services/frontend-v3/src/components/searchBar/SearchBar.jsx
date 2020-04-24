@@ -159,10 +159,9 @@ function SearchBar(props) {
                 placeholder={searchLabel}
               >
                 {skillOptions.map((value) => {
-                  return console.log(
-                    "here's what skillOptions returns: " + value.id
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
                   );
-                  // <Option key={value.id}>{value.description[locale]}</Option>
                 })}
               </Select>
             </Form.Item>
