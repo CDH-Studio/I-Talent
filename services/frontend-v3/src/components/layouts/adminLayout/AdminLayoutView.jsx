@@ -8,6 +8,7 @@ import {
   ToolOutlined,
   FlagOutlined,
   TrophyOutlined,
+  BankFilled,
 } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
 import { injectIntl } from "react-intl";
@@ -31,6 +32,8 @@ function AdminLayoutView(props) {
       key = ["5"];
     } else if (type === "diploma") {
       key = ["6"];
+    } else if (type === "school") {
+      key = ["7"];
     }
     return key;
   };
@@ -48,6 +51,8 @@ function AdminLayoutView(props) {
       history.push("/admin/competencies");
     } else if (key === "6") {
       history.push("/admin/diploma");
+    } else if (key === "7") {
+      history.push("/admin/school");
     }
   };
 
@@ -111,6 +116,15 @@ function AdminLayoutView(props) {
             {props.intl.formatMessage({
               id: "admin.diploma.plural",
               defaultMessage: "Diplomas",
+            })}
+          </span>
+        </Menu.Item>
+        <Menu.Item key="7">
+          <BankFilled />
+          <span>
+            {props.intl.formatMessage({
+              id: "admin.school.plural",
+              defaultMessage: "Schools",
             })}
           </span>
         </Menu.Item>
