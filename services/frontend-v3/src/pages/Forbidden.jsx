@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import ErrorResult from "../components/errorResult/errorResult";
 
-class NotFound extends Component {
+class Forbidden extends Component {
   render() {
-    return <ErrorResult errorCode={404} />;
+    return <ErrorResult errorCode={403} />;
   }
 }
 
-export default NotFound;
+export default Forbidden;

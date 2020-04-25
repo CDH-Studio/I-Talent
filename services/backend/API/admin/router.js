@@ -3,7 +3,8 @@ const admin = require("./index");
 const reporting = require("./reporting");
 const { keycloak } = require("../../util/keycloak");
 
-const catchAdminCheck = token => {
+//Would throw errors if user had no role therefore the role checking was replaced
+const catchAdminCheck = (token) => {
   let hasRole = false;
   try {
     hasRole = token.hasRole("view-admin-console");

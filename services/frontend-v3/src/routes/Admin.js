@@ -18,6 +18,7 @@ import {
 
 import config from "../config";
 import keycloakConfig from "../keycloak";
+import Forbidden from "../pages/Forbidden";
 
 const { backendAddress } = config;
 const { keycloakJSONConfig } = keycloakConfig;
@@ -67,34 +68,15 @@ function Admin(props) {
   if (!/MSIE|Trident/.test(window.navigator.userAgent)) {
     document.body.style = "background-color: #eeeeee";
   }
-  // if (!isAdmin) {   FORBIDDEN PAGE
-  //   return (
-  //     <div>
-  //       <Modal open basic style={{ height: "40%" }} size="fullscreen">
-  //         <Grid stretched style={{ height: "100%" }}>
-  //           <Grid.Column textAlign="center">
-  //             <Grid.Row stretched>
-  //               <Header inverted as="h1" style={{ fontSize: "100px" }}>
-  //                 403 Forbidden
-  //               </Header>
-  //             </Grid.Row>
 
-  //             <Grid.Row stretched>
-  //               <Header inverted as="h4">
-  //                 Looks like someone doesn't belong here
-  //               </Header>
-  //             </Grid.Row>
+  /*********
+   * Once admin protection has been implemented,
+   * uncomment this
+   ******************/
 
-  //             <Grid.Row stretched>
-  //               <Button as="a" href="/secured/" color="blue">
-  //                 Go back to Homepage
-  //               </Button>
-  //             </Grid.Row>
-  //           </Grid.Column>
-  //         </Grid>
-  //       </Modal>
-  //     </div>
-  //   );
+  //FORBIDDEN PAGE
+  // if (!isAdmin) {
+  //   return <Forbidden />;
   // }
 
   //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
