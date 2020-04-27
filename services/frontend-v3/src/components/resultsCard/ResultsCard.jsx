@@ -12,13 +12,6 @@ const backendAddress = config.backendAddress;
 function ResultsCard(props) {
   const [results, setResults] = useState(null);
 
-  const gatherResults = async (query) => {
-    const results1 = (
-      await axios.get(backendAddress + "api/search/fuzzySearch?" + query)
-    ).data;
-    setResults(results1);
-  };
-
   const urlSections = window.location.toString().split("?");
   useEffect(() => {
     const fetchdata = async () => {
@@ -27,14 +20,12 @@ function ResultsCard(props) {
         axios
           .get(backendAddress + "api/search/fuzzySearch?" + queryString)
           .then((result) => setResults(result.data));
-        // gatherResults(queryString);
       } else {
         setResults(new Error("invalid query"));
       }
     };
     fetchdata();
   });
-  console.log(results);
 
   if (!results) {
     return <ProfileSkeleton />;
