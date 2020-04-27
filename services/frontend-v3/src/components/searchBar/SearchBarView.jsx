@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { Form, Alert } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-//import { Icon as LegacyIcon } from "@ant-design/compatible";
+
 import "@ant-design/compatible/assets/index.css";
 import { Row, Col, Button, Card } from "antd";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";

@@ -1,7 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
+import Icon from "@ant-design/icons";
 
-import { Icon as LegacyIcon } from "@ant-design/compatible";
 import {
   MailOutlined,
   PhoneOutlined,
@@ -190,9 +190,7 @@ function BasicInfoView(props) {
         <Button
           block
           type="link"
-          icon={
-            <LegacyIcon type={button.icon} style={{ marginRight: "3px" }} />
-          }
+          icon={<Icon type={button.icon} style={{ marginRight: "3px" }} />}
           href={button.url}
         >
           <FormattedMessage id={button.textId} />
