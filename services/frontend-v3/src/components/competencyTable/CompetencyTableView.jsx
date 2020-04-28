@@ -20,7 +20,11 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-function CategoryTableView(props) {
+/**
+ *  CompetencyTableView(props)
+ *  This component renders the competency table for the Admin Competency Page.
+ */
+function CompetencyTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -45,6 +49,8 @@ function CategoryTableView(props) {
     data,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -119,6 +125,7 @@ function CategoryTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -159,6 +166,7 @@ function CategoryTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
       props.intl.formatMessage({
@@ -168,6 +176,7 @@ function CategoryTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
       props.intl.formatMessage({
@@ -177,6 +186,8 @@ function CategoryTableView(props) {
     );
   };
 
+  /* handles the transfer of new or update/edited competency information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -185,6 +196,8 @@ function CategoryTableView(props) {
     }
   };
 
+  /* handles closure of add or edit competency modal */
+  // occurs if "Ok" option is hit
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -196,6 +209,8 @@ function CategoryTableView(props) {
     popUpSuccesss();
   };
 
+  /* handles closure of add or edit competency modal */
+  // occurs if "Cancel" option is hit
   const handleCancel = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -206,17 +221,20 @@ function CategoryTableView(props) {
     popUpCancel();
   };
 
+  /* handles render of "Edit Competency" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
   };
 
+  /* handles render of "Add Competency" modal */
   const handleAddModal = () => {
     setAddVisible(true);
     setModalType("add");
   };
 
+  /* Renders "Add Competency" modal */
   const addCompetencyModal = () => {
     return (
       <Modal
@@ -303,6 +321,7 @@ function CategoryTableView(props) {
     );
   };
 
+  /* Renders "Edit Competency" modal */
   const editCompetencyModal = () => {
     return (
       <Modal
@@ -378,6 +397,9 @@ function CategoryTableView(props) {
     );
   };
 
+  /* gets sort direction for a table column */
+  // Use for tables that need a French and English column
+  // Will change sort capability of column based on current language of page
   const getSortDirection = (column) => {
     const currentLanguage =
       props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
@@ -388,7 +410,10 @@ function CategoryTableView(props) {
     }
   };
 
+  /* Sets up the columns for the competency table */
+  // Consult: Ant Design table components for further clarification
   const competencyTableColumns = () => {
+    // Table columns data structure: array of objects
     const competency_table_columns = [
       {
         title: props.intl.formatMessage({
@@ -494,4 +519,4 @@ function CategoryTableView(props) {
   );
 }
 
-export default injectIntl(CategoryTableView);
+export default injectIntl(CompetencyTableView);

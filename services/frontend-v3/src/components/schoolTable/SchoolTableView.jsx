@@ -20,6 +20,10 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
+/**
+ *  SchoolTableView(props)
+ *  This component renders the school table for the Admin School Page.
+ */
 function SchoolTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -45,6 +49,8 @@ function SchoolTableView(props) {
     data,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -119,6 +125,7 @@ function SchoolTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -159,6 +166,7 @@ function SchoolTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
       props.intl.formatMessage({
@@ -168,6 +176,7 @@ function SchoolTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
       props.intl.formatMessage({
@@ -177,6 +186,8 @@ function SchoolTableView(props) {
     );
   };
 
+  /* handles the transfer of new or update/edited school information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -185,6 +196,8 @@ function SchoolTableView(props) {
     }
   };
 
+  /* handles closure of add or edit school modal */
+  // occurs if "Ok" option is hit
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -196,6 +209,8 @@ function SchoolTableView(props) {
     popUpSuccesss();
   };
 
+  /* handles closure of add or edit school modal */
+  // occurs if "Cancel" option is hit
   const handleCancel = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -206,17 +221,20 @@ function SchoolTableView(props) {
     popUpCancel();
   };
 
+  /* handles render of "Edit School" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
   };
 
+  /* handles render of "Add School" modal */
   const handleAddModal = () => {
     setAddVisible(true);
     setModalType("add");
   };
 
+  /* Renders "Add School" modal */
   const addSchoolModal = () => {
     return (
       <Modal
@@ -331,6 +349,7 @@ function SchoolTableView(props) {
     );
   };
 
+  /* Renders "Edit School" modal */
   const editSchoolModal = () => {
     return (
       <Modal
@@ -420,7 +439,10 @@ function SchoolTableView(props) {
     );
   };
 
+  /* Sets up the columns for the school table */
+  // Consult: Ant Design table components for further clarification
   const schoolsTableColumns = () => {
+    // Table columns data structure: array of objects
     const schools_table_columns = [
       {
         title: props.intl.formatMessage({

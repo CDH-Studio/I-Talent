@@ -8,6 +8,11 @@ import config from "../../config";
 
 const backendAddress = config.backendAddress;
 
+/**
+ *  DiplomaTable(props)
+ *  Controller for the DiplomaTableView.
+ *  It gathers the required data for rendering the component.
+ */
 function DiplomaTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +24,8 @@ function DiplomaTable(props) {
   const size = "large";
   const { type } = props;
 
+  /* useEffect will run if statement, when the component is mounted */
+  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
     let diplomas = [];
     if (loading) {
@@ -38,6 +45,7 @@ function DiplomaTable(props) {
     }
   }, [loading, reset]);
 
+  /* get diploma information */
   const getDiplomas = async () => {
     try {
       let results = await axios.get(
@@ -50,6 +58,7 @@ function DiplomaTable(props) {
     }
   };
 
+  /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
@@ -63,17 +72,22 @@ function DiplomaTable(props) {
     });
   };
 
+  /* handles the search part of the column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
+  /* handles reset of column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
+  /* handles addition of a diploma */
   const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
@@ -90,6 +104,7 @@ function DiplomaTable(props) {
     }
   };
 
+  /* handles the update/edit of a diploma */
   const handleSubmitEdit = async (values, id) => {
     try {
       const url = backendAddress + "api/admin/options/" + type + "/" + id;
@@ -106,6 +121,7 @@ function DiplomaTable(props) {
     }
   };
 
+  /* handles the deletion of a diploma */
   const handleSubmitDelete = async () => {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
@@ -120,17 +136,24 @@ function DiplomaTable(props) {
     }
   };
 
+  /* handles row selection in the table */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };
 
+  /* helper function to rowSelection */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
+    // Can access the keys of each diploma selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
+  /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
+    // Allows for sorting of data between French/English in terms of description:
     const description =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "descriptionEn"
