@@ -232,6 +232,7 @@ function CategoryTableView(props) {
                 id: "admin.add.category.descriptionEn",
                 defaultMessage: "Category description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
@@ -255,6 +256,7 @@ function CategoryTableView(props) {
                 id: "admin.add.category.descriptionFr",
                 defaultMessage: "Category description in French",
               })}
+              allowClear
             />
           </Form.Item>
         </Form>

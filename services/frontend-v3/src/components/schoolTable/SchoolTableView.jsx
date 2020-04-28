@@ -418,6 +418,7 @@ function SchoolTableView(props) {
                 id: "admin.add.school.state",
                 defaultMessage: "Input the location information",
               })}
+              maxLength={2}
             />
           </Form.Item>
           <Form.Item
@@ -432,6 +433,7 @@ function SchoolTableView(props) {
                 id: "admin.add.school.state",
                 defaultMessage: "Input the location information",
               })}
+              maxLength={3}
             />
           </Form.Item>
         </Form>

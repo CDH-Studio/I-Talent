@@ -291,6 +291,7 @@ function CompetencyTableView(props) {
                 id: "admin.add.competency.descriptionEn",
                 defaultMessage: "Competency description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
@@ -314,6 +315,7 @@ function CompetencyTableView(props) {
                 id: "admin.add.competency.descriptionFr",
                 defaultMessage: "Competency description in French",
               })}
+              allowClear
             />
           </Form.Item>
         </Form>

@@ -237,6 +237,7 @@ function SkillTableView(props) {
                 id: "admin.add.skill.descriptionEn",
                 defaultMessage: "Skill description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
@@ -260,6 +261,7 @@ function SkillTableView(props) {
                 id: "admin.add.skill.descriptionFr",
                 defaultMessage: "Skill description in French",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item

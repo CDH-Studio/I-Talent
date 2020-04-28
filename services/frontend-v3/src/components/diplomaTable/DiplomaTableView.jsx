@@ -291,6 +291,7 @@ function DiplomaTableView(props) {
                 id: "admin.add.diploma.descriptionEn",
                 defaultMessage: "Diploma description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
@@ -314,6 +315,7 @@ function DiplomaTableView(props) {
                 id: "admin.add.diploma.descriptionFr",
                 defaultMessage: "Diploma description in French",
               })}
+              allowClear
             />
           </Form.Item>
         </Form>
