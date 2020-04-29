@@ -1,10 +1,10 @@
-# UpSkill
+# I-Talent
 
 An improved directory and employee search tool.
 
-![Upskill Screenshot](docs/wikiFiles/upskill-splash.png?raw=true)
+![I-Talent Screenshot](docs\wikiFiles\I-Talent-page.jpg?raw=true)
 
-Upskill can be accessed [here](http://upskill-upskill.apps.dev.openshift.ised-isde.canada.ca/).
+I-Talent can be accessed [here](http://mytalent-frontend-dev-mytalent.apps.dev.openshift.ised-isde.canada.ca/).
 
 [Our promotional website](https://cdh-studio.github.io/UpSkill/)
 
@@ -12,7 +12,7 @@ API documentation can be accessed [here](https://documenter.getpostman.com/view/
 
 # Table of Contents
 
-- [What is UpSkill?](#what-is-upskill)
+- [What is I-Talent?](#what-is-I-Talent)
 - [Contributors](#contributors)
 - [Tech Stack](#tech-stack)
 - [Repo Structure](#repo-structure)
@@ -21,25 +21,27 @@ API documentation can be accessed [here](https://documenter.getpostman.com/view/
 - [License](#license)
 - [Contact](#contact)
 
-# What is UpSkill?
+# What is I-Talent?
 
-Upskill is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials.
+I-Talent is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials.
 
-Any ISED employee will be able to login to Upskill with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
+Any ISED employee will be able to login to I-Talent with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
 
 # Contributors
 
-- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
-  - Full Stack Developer
-- [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
-  - Full Stack Developer
-- [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
+- [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
   - Full Stack Developer
 - [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
   - Full Stack Developer
-- [Sukhsimranpreet Singh Sekhon](https://www.linkedin.com/in/sukhusekhon/)
+- [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
+  - Full Stack Developer
+- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
   - Full Stack Developer
 - [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
+  - Full Stack Developer
+- [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
+  - Full Stack Developer
+- [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
   - Full Stack Developer
 
 # Tech Stack
@@ -52,9 +54,9 @@ Any ISED employee will be able to login to Upskill with their windows credential
 
 # Architecture Overview
 
-Upskill is broken down into two different services: Frontend and Backend.
+I-Talent is broken down into two different services: Frontend and Backend.
 
-- Frontend: Serves the React app that is the web interface for Upskill.
+- Frontend: Serves the React app that is the web interface for I-Talent.
 - Backend: Manages data coming into and out of the database.
 
 # Local Development
