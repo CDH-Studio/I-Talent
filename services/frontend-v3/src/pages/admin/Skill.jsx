@@ -1,6 +1,6 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import SkillTable from "../../components/skillTable/SkillTable";
+import SkillTable from "../../components/admin/skillTable/SkillTable";
 
 function AdminSkill(props) {
   return (

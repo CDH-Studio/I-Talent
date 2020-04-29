@@ -20,6 +20,10 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
+/**
+ *  CategoryTableView(props)
+ *  This component renders the category table for the Admin Category Page.
+ */
 function CategoryTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -45,6 +49,8 @@ function CategoryTableView(props) {
     data,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -119,6 +125,7 @@ function CategoryTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -129,8 +136,7 @@ function CategoryTableView(props) {
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
+          checkDelete();
         }}
         onCancel={() => {
           popUpCancel();
@@ -159,24 +165,8 @@ function CategoryTableView(props) {
     );
   };
 
-  const popUpSuccesss = () => {
-    message.success(
-      props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
-  const popUpCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
-    );
-  };
-
+  /* handles the transfer of new or update/edited category information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -185,45 +175,14 @@ function CategoryTableView(props) {
     }
   };
 
-  const handleOk = () => {
-    if (modalType === "edit") {
-      setEditVisible(false);
-      setRecord(null);
-    } else if (modalType === "add") {
-      setAddVisible(false);
-    }
-    setModalType("");
-    popUpSuccesss();
-  };
-
-  const handleCancel = () => {
-    if (modalType === "edit") {
-      setEditVisible(false);
-    } else if (modalType === "add") {
-      setAddVisible(false);
-    }
-    setModalType("");
-    popUpCancel();
-  };
-
-  const handleEditModal = (record) => {
-    setEditVisible(true);
-    setRecord(record);
-    setModalType("edit");
-  };
-
-  const handleAddModal = () => {
-    setAddVisible(true);
-    setModalType("add");
-  };
-
-  const addCompetencyModal = () => {
+  /* Renders "Add Category" modal */
+  const addCategoryButton = () => {
     return (
       <Modal
         visible={addVisible}
         title={props.intl.formatMessage({
-          id: "admin.add.competency",
-          defaultMessage: "Add Competency",
+          id: "admin.add.category",
+          defaultMessage: "Add Category",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -251,9 +210,9 @@ function CategoryTableView(props) {
           handleCancel();
         }}
       >
-        <Form form={addForm} name="addCompetency" layout="vertical">
+        <Form form={addForm} name="addCategory" layout="vertical">
           <Form.Item
-            name="addCompetencyEn"
+            name="addCategoryEn"
             label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
@@ -270,13 +229,14 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionEn",
-                defaultMessage: "Competency description in English",
+                id: "admin.add.category.descriptionEn",
+                defaultMessage: "Category description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
-            name="addCompetencyFr"
+            name="addCategoryFr"
             label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
@@ -293,9 +253,10 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionFr",
-                defaultMessage: "Competency description in French",
+                id: "admin.add.category.descriptionFr",
+                defaultMessage: "Category description in French",
               })}
+              allowClear
             />
           </Form.Item>
         </Form>
@@ -303,13 +264,14 @@ function CategoryTableView(props) {
     );
   };
 
-  const editCompetencyModal = () => {
+  /* Renders "Edit Category" modal */
+  const editCategoryButton = () => {
     return (
       <Modal
         visible={editVisible}
         title={props.intl.formatMessage({
-          id: "admin.edit.competency",
-          defaultMessage: "Edit Competency",
+          id: "admin.edit.category",
+          defaultMessage: "Edit Category",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -338,7 +300,7 @@ function CategoryTableView(props) {
       >
         <Form
           form={editForm}
-          name="editCompetency"
+          name="editCategory"
           layout="vertical"
           fields={fields}
           onFieldsChange={() => {
@@ -346,7 +308,7 @@ function CategoryTableView(props) {
           }}
         >
           <Form.Item
-            name="editCompetencyEn"
+            name="editCategoryEn"
             label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
@@ -354,13 +316,13 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionEn",
-                defaultMessage: "Competency description in English",
+                id: "admin.add.category.descriptionEn",
+                defaultMessage: "Category description in English",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="editCompetencyFr"
+            name="editCategoryFr"
             label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
@@ -368,8 +330,8 @@ function CategoryTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.competency.descriptionFr",
-                defaultMessage: "Competency description in French",
+                id: "admin.add.category.descriptionFr",
+                defaultMessage: "Category description in French",
               })}
             />
           </Form.Item>
@@ -378,6 +340,88 @@ function CategoryTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      props.intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      props.intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
+
+  /* checks if deletion of category can occur */
+  // Gives error prompt if deletion cannot occur
+  // Backend: checks if category does not have any associated skills
+  const checkDelete = async () => {
+    let result = await handleSubmitDelete();
+    if (result === true) {
+      Modal.error({
+        title: props.intl.formatMessage({
+          id: "admin.category.disclaimer",
+          defaultMessage: "Disclaimer",
+        }),
+        content: props.intl.formatMessage({
+          id: "admin.category.disclaimer.message",
+          defaultMessage: "Cannot delete category with skill associations!",
+        }),
+      });
+    } else {
+      popUpSuccesss();
+    }
+  };
+
+  /* handles closure of add or edit category modal */
+  // occurs if "Ok" option is hit
+  const handleOk = () => {
+    if (modalType === "edit") {
+      setEditVisible(false);
+      setRecord(null);
+    } else if (modalType === "add") {
+      setAddVisible(false);
+    }
+    setModalType("");
+    popUpSuccesss();
+  };
+
+  /* handles closure of add or edit category modal */
+  // occurs if "Cancel" option is hit
+  const handleCancel = () => {
+    if (modalType === "edit") {
+      setEditVisible(false);
+    } else if (modalType === "add") {
+      setAddVisible(false);
+    }
+    setModalType("");
+    popUpCancel();
+  };
+
+  /* handles render of "Edit Category" modal */
+  const handleEditModal = (record) => {
+    setEditVisible(true);
+    setRecord(record);
+    setModalType("edit");
+  };
+
+  /* handles render of "Add Category" modal */
+  const handleAddModal = () => {
+    setAddVisible(true);
+    setModalType("add");
+  };
+
+  /* gets sort direction for a table column */
+  // Use for tables that need a French and English column
+  // Will change sort capability of column based on current language of page
   const getSortDirection = (column) => {
     const currentLanguage =
       props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
@@ -388,15 +432,18 @@ function CategoryTableView(props) {
     }
   };
 
-  const competencyTableColumns = () => {
-    const competency_table_columns = [
+  /* Sets up the columns for the category table */
+  // Consult: Ant Design table components for further clarification
+  const categoryTableColumns = () => {
+    // Table columns data structure: array of objects
+    const category_table_columns = [
       {
         title: props.intl.formatMessage({
           id: "language.english",
           defaultMessage: "English",
         }),
         dataIndex: "descriptionEn",
-        key: "competencyEn",
+        key: "categoryEn",
         sorter: (a, b) => {
           return a.descriptionEn.localeCompare(b.descriptionEn);
         },
@@ -415,7 +462,7 @@ function CategoryTableView(props) {
           defaultMessage: "French",
         }),
         dataIndex: "descriptionFr",
-        key: "competencyFr",
+        key: "categoryFr",
         sorter: (a, b) => {
           return a.descriptionFr.localeCompare(b.descriptionFr);
         },
@@ -442,8 +489,8 @@ function CategoryTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editCompetencyEn"], value: record.descriptionEn },
-                  { name: ["editCompetencyFr"], value: record.descriptionFr },
+                  { name: ["editCategoryEn"], value: record.descriptionEn },
+                  { name: ["editCategoryFr"], value: record.descriptionFr },
                 ]);
                 handleEditModal(record);
               }}
@@ -452,17 +499,17 @@ function CategoryTableView(props) {
         ),
       },
     ];
-    return competency_table_columns;
+    return category_table_columns;
   };
 
   return (
     <>
-      {addCompetencyModal()}
-      {editCompetencyModal()}
+      {addCategoryButton()}
+      {editCategoryButton()}
       <PageHeader
         title={props.intl.formatMessage({
-          id: "admin.competency.table",
-          defaultMessage: "Competencies Table",
+          id: "admin.category.table",
+          defaultMessage: "Categories Table",
         })}
         extra={[
           deleteConfirm(),
@@ -485,7 +532,7 @@ function CategoryTableView(props) {
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={competencyTableColumns()}
+            columns={categoryTableColumns()}
             dataSource={data}
           />
         </Col>

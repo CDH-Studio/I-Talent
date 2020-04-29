@@ -19,6 +19,10 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
+/**
+ *  UserTableView(props)
+ *  This component renders the user table for the Admin User Page.
+ */
 function UserTableView(props) {
   let searchInput;
 
@@ -36,6 +40,8 @@ function UserTableView(props) {
     handleReset,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -110,6 +116,7 @@ function UserTableView(props) {
       ),
   });
 
+  /* Renders the dropdown for profile status options */
   const renderStatusDropdown = (id, inactive, flagged) => {
     return (
       <div>
@@ -161,6 +168,7 @@ function UserTableView(props) {
     );
   };
 
+  /* Renders the apply button and confirmation prompt */
   const applyButton = () => {
     return (
       <Popconfirm
@@ -195,6 +203,7 @@ function UserTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
       props.intl.formatMessage({
@@ -204,6 +213,7 @@ function UserTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
       props.intl.formatMessage({
@@ -213,7 +223,10 @@ function UserTableView(props) {
     );
   };
 
+  /* Sets up the columns for the user table */
+  // Consult: Ant Design table components for further clarification
   const userTableColumns = () => {
+    // Allows for switch between French/English in job title and tenure columns:
     const jobTitleState =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "jobTitleEn"
@@ -224,6 +237,7 @@ function UserTableView(props) {
         ? "tenureDescriptionEn"
         : "tenureDescriptionFr";
 
+    // Table columns data structure: array of objects
     const tableColumns = [
       {
         title: props.intl.formatMessage({
