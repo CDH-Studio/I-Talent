@@ -5,7 +5,7 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 

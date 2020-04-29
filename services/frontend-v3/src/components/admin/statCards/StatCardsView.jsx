@@ -5,13 +5,16 @@ import {
   SolutionOutlined,
   TeamOutlined,
   UsergroupAddOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import { Card, Row, Col, Statistic } from "antd";
-
 import { FormattedMessage, injectIntl } from "react-intl";
 
+/**
+ *  StatCardsView(props)
+ *  This component renders the statistic cards for the Admin Dashboard page.
+ */
 function StatCardsView(props) {
   const dashboardCount = props.dashboardCount;
   const monthGrowthRate = props.monthGrowthRate;
@@ -84,7 +87,7 @@ function StatCardsView(props) {
             title={
               props.intl.formatMessage({
                 id: "admin.dashboard.monthly.added",
-                defaultMessage: "New Users"
+                defaultMessage: "New Users",
               }) +
               " - " +
               moment().format("MMMM")
@@ -101,7 +104,7 @@ function StatCardsView(props) {
             title={
               props.intl.formatMessage({
                 id: "admin.dashboard.growth.rate.percentage",
-                defaultMessage: "New Users"
+                defaultMessage: "New Users",
               }) +
               " - " +
               moment().format("MMMM")

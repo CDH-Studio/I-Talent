@@ -5,7 +5,7 @@ import { injectIntl } from "react-intl";
 
 /**
  *  DashboardGraphsView(props)
- *  this component renders the graphes for the Admin Dashbord page.
+ *  This component renders the graphes for the Admin Dashbord page.
  *  (1st Level) Three graphes: Popular Skills, Competencies & Development Goals
  *  (2nd Level) This graph shows the monthly growth rate for the web application
  *  Disclaimer: Please look at Bizcharts documentation for further help with graphes

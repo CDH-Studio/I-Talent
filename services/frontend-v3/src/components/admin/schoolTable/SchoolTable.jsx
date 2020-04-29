@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import DiplomaTableView from "./DiplomaTableView";
+import SchoolTableView from "./SchoolTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
 /**
- *  DiplomaTable(props)
- *  Controller for the DiplomaTableView.
+ *  SchoolTable(props)
+ *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-function DiplomaTable(props) {
+function SchoolTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -27,26 +27,28 @@ function DiplomaTable(props) {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let diplomas = [];
+    let schools = [];
     if (loading) {
       const setState = async () => {
-        diplomas = await getDiplomas();
-        setData(diplomas);
+        schools = await getSchools();
+        setData(schools);
+        console.log("Before: ", schools);
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        diplomas = await getDiplomas();
-        setData(diplomas);
+        schools = await getSchools();
+        setData(schools);
+        console.log("After: ", schools);
         setReset(false);
       };
       updateState();
     }
   }, [loading, reset]);
 
-  /* get diploma information */
-  const getDiplomas = async () => {
+  /* get school information */
+  const getSchools = async () => {
     try {
       let results = await axios.get(
         backendAddress + "api/admin/options/" + type
@@ -87,14 +89,15 @@ function DiplomaTable(props) {
     setSearchText("");
   };
 
-  /* handles addition of a diploma */
+  /* handles addition of a school */
   const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
 
       await axios.post(url, {
-        descriptionEn: values.addDiplomaEn,
-        descriptionFr: values.addDiplomaFr,
+        country: values.addSchoolCountry.toUpperCase(),
+        description: values.addSchoolName,
+        state: values.addSchoolState.toUpperCase(),
       });
 
       setReset(true);
@@ -104,14 +107,15 @@ function DiplomaTable(props) {
     }
   };
 
-  /* handles the update/edit of a diploma */
+  /* handles the update/edit of a school */
   const handleSubmitEdit = async (values, id) => {
     try {
       const url = backendAddress + "api/admin/options/" + type + "/" + id;
 
       await axios.put(url, {
-        descriptionEn: values.editDiplomaEn,
-        descriptionFr: values.editDiplomaFr,
+        country: values.editSchoolCountry.toUpperCase(),
+        description: values.editSchoolName,
+        state: values.editSchoolState.toUpperCase(),
       });
 
       setReset(true);
@@ -121,7 +125,7 @@ function DiplomaTable(props) {
     }
   };
 
-  /* handles the deletion of a diploma */
+  /* handles the deletion of a school */
   const handleSubmitDelete = async () => {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
@@ -147,25 +151,19 @@ function DiplomaTable(props) {
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
-    // Can access the keys of each diploma selected in the table
+    // Can access the keys of each school selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
   /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
-    // Allows for sorting of data between French/English in terms of description:
-    const description =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
-        ? "descriptionEn"
-        : "descriptionFr";
+    let allSchools = _.sortBy(data, "description");
 
-    let allDiplomas = _.sortBy(data, description);
-
-    for (let i = 0; i < allDiplomas.length; i++) {
-      allDiplomas[i].key = allDiplomas[i].id;
+    for (let i = 0; i < allSchools.length; i++) {
+      allSchools[i].key = allSchools[i].id;
     }
 
-    return allDiplomas;
+    return allSchools;
   };
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
@@ -175,7 +173,7 @@ function DiplomaTable(props) {
   }
 
   return (
-    <DiplomaTableView
+    <SchoolTableView
       handleSearch={handleSearch}
       handleReset={handleReset}
       handleSubmitAdd={handleSubmitAdd}
@@ -191,4 +189,4 @@ function DiplomaTable(props) {
   );
 }
 
-export default injectIntl(DiplomaTable);
+export default injectIntl(SchoolTable);

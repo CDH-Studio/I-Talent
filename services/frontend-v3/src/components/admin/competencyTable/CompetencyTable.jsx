@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import SkillTableView from "./SkillTableView";
+import CompetencyTableView from "./CompetencyTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
 /**
- *  SkillTable(props)
- *  Controller for the SkillTableView.
+ *  CompetencyTable(props)
+ *  Controller for the CompetencyTableView.
  *  It gathers the required data for rendering the component.
  */
-function SkillTable(props) {
+function CompetencyTable(props) {
   const [data, setData] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -28,46 +27,29 @@ function SkillTable(props) {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let skills = [];
-    let categories = [];
+    let competencies = [];
     if (loading) {
       const setState = async () => {
-        skills = await getSkill();
-        categories = await getCategories();
-        setData(skills);
-        setCategories(categories);
+        competencies = await getCompetencies();
+        setData(competencies);
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        skills = await getSkill();
-        setData(skills);
+        competencies = await getCompetencies();
+        setData(competencies);
         setReset(false);
       };
       updateState();
     }
   }, [loading, reset]);
 
-  /* get skill information */
-  const getSkill = async () => {
+  /* get competency information */
+  const getCompetencies = async () => {
     try {
       let results = await axios.get(
         backendAddress + "api/admin/options/" + type
-      );
-
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  /* get category information */
-  const getCategories = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/categories/" + type
       );
       return results.data;
     } catch (error) {
@@ -105,15 +87,15 @@ function SkillTable(props) {
     setSearchText("");
   };
 
-  /* handles addition of a skill */
+  /* handles addition of a competency */
   const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
 
       await axios.post(url, {
-        descriptionEn: values.addSkillEn,
-        descriptionFr: values.addSkillFr,
-        categoryId: values.addSkillCategory,
+        descriptionEn: values.addCompetencyEn,
+        descriptionFr: values.addCompetencyFr,
+        categoryId: 22,
       });
 
       setReset(true);
@@ -123,34 +105,15 @@ function SkillTable(props) {
     }
   };
 
-  /* handles the update/edit of a skill */
+  /* handles the update/edit of a competency */
   const handleSubmitEdit = async (values, id) => {
     try {
       const url = backendAddress + "api/admin/options/" + type + "/" + id;
 
-      if (typeof values.editSkillCategory === "string") {
-        const index = categories.findIndex(
-          (object) =>
-            object.descriptionEn === values.editSkillCategory ||
-            object.descriptionFr === values.editSkillCategory
-        );
-        await axios.put(url, {
-          descriptionEn: values.editSkillEn,
-          descriptionFr: values.editSkillFr,
-          categoryId: categories[index].id,
-          category: categories[index],
-        });
-      } else {
-        let categoryObject = categories.find(
-          (category) => category.id === values.editSkillCategory
-        );
-        await axios.put(url, {
-          descriptionEn: values.editSkillEn,
-          descriptionFr: values.editSkillFr,
-          categoryId: values.editSkillCategory,
-          category: categoryObject,
-        });
-      }
+      await axios.put(url, {
+        descriptionEn: values.editCompetencyEn,
+        descriptionFr: values.editCompetencyFr,
+      });
 
       setReset(true);
     } catch (error) {
@@ -159,7 +122,7 @@ function SkillTable(props) {
     }
   };
 
-  /* handles the deletion of a skill */
+  /* handles the deletion of a competency */
   const handleSubmitDelete = async () => {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
@@ -185,35 +148,25 @@ function SkillTable(props) {
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
-    // Can access the keys of each skill selected in the table
+    // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
   /* configures data from backend into viewable data for the table */
-  const getSkillInformation = () => {
-    // Allows for sorting of data between French/English in terms of description and category:
+  const convertToViewableInformation = () => {
+    // Allows for sorting of data between French/English in terms of description:
     const description =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "descriptionEn"
         : "descriptionFr";
 
-    const category =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
-        ? "categoryNameEn"
-        : "categoryNameFr";
+    let allCompetencies = _.sortBy(data, description);
 
-    let allSkills = _.sortBy(data, description);
-
-    for (let i = 0; i < allSkills.length; i++) {
-      allSkills[i].key = allSkills[i].id;
+    for (let i = 0; i < allCompetencies.length; i++) {
+      allCompetencies[i].key = allCompetencies[i].id;
     }
 
-    allSkills.forEach((e) => {
-      e.categoryNameEn = e.category.descriptionEn;
-      e.categoryNameFr = e.category.descriptionFr;
-    });
-
-    return _.sortBy(allSkills, category);
+    return allCompetencies;
   };
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
@@ -223,7 +176,7 @@ function SkillTable(props) {
   }
 
   return (
-    <SkillTableView
+    <CompetencyTableView
       handleSearch={handleSearch}
       handleReset={handleReset}
       handleSubmitAdd={handleSubmitAdd}
@@ -234,10 +187,9 @@ function SkillTable(props) {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={getSkillInformation()}
-      categories={categories}
+      data={convertToViewableInformation()}
     />
   );
 }
 
-export default injectIntl(SkillTable);
+export default injectIntl(CompetencyTable);

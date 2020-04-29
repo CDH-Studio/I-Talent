@@ -1,7 +1,7 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import StatCards from "../../components/statCards/StatCards";
-import DashboardGraphs from "../../components/dashboardGraphs/DashboardGraphs";
+import StatCards from "../../components/admin/statCards/StatCards";
+import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import axios from "axios";
 import { Skeleton, PageHeader } from "antd";
 import { injectIntl } from "react-intl";

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import CompetencyTableView from "./CompetencyTableView";
+import CategoryTableView from "./CategoryTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
 /**
- *  CompetencyTable(props)
- *  Controller for the CompetencyTableView.
+ *  CategoryTable(props)
+ *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-function CompetencyTable(props) {
+function CategoryTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -27,31 +27,89 @@ function CompetencyTable(props) {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let competencies = [];
+    let categories = [];
     if (loading) {
       const setState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
+        categories = await getCategories();
+        setData(categories);
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
+        categories = await getCategories();
+        setData(categories);
         setReset(false);
+        setSelectedRowKeys([]);
       };
       updateState();
     }
   }, [loading, reset]);
 
-  /* get competency information */
-  const getCompetencies = async () => {
+  /* get category information */
+  const getCategories = async () => {
     try {
       let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
+        backendAddress + "api/admin/options/categories/skill"
       );
       return results.data;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  /* handles the deletion of a category */
+  const handleSubmitDelete = async () => {
+    try {
+      const url = backendAddress + "api/admin/delete/" + type;
+
+      let result;
+
+      await axios.post(url, { ids: selectedRowKeys }).then(function (response) {
+        result = response.data.deletePerformed;
+      });
+
+      if (result === false) {
+        return true;
+      } else {
+        setReset(true);
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  /* handles addition of a category */
+  const handleSubmitAdd = async (values) => {
+    try {
+      const url = backendAddress + "api/admin/options/" + type;
+
+      await axios.post(url, {
+        descriptionEn: values.addCategoryEn,
+        descriptionFr: values.addCategoryFr,
+      });
+
+      setReset(true);
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
+  /* handles the update/edit of a category */
+  const handleSubmitEdit = async (values, id) => {
+    try {
+      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+
+      await axios.put(url, {
+        descriptionEn: values.editCategoryEn,
+        descriptionFr: values.editCategoryFr,
+      });
+
+      setReset(true);
     } catch (error) {
       console.log(error);
       return 0;
@@ -87,56 +145,6 @@ function CompetencyTable(props) {
     setSearchText("");
   };
 
-  /* handles addition of a competency */
-  const handleSubmitAdd = async (values) => {
-    try {
-      const url = backendAddress + "api/admin/options/" + type;
-
-      await axios.post(url, {
-        descriptionEn: values.addCompetencyEn,
-        descriptionFr: values.addCompetencyFr,
-        categoryId: 22,
-      });
-
-      setReset(true);
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  /* handles the update/edit of a competency */
-  const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
-
-      await axios.put(url, {
-        descriptionEn: values.editCompetencyEn,
-        descriptionFr: values.editCompetencyFr,
-      });
-
-      setReset(true);
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  /* handles the deletion of a competency */
-  const handleSubmitDelete = async () => {
-    try {
-      const url = backendAddress + "api/admin/delete/" + type;
-
-      await axios.post(url, { ids: selectedRowKeys });
-
-      setSelectedRowKeys([]);
-      setReset(true);
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
@@ -148,25 +156,25 @@ function CompetencyTable(props) {
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
-    // Can access the keys of each competency selected in the table
+    // Can access the keys of each category selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
   /* configures data from backend into viewable data for the table */
-  const convertToViewableInformation = () => {
+  const getCategoryInformation = () => {
     // Allows for sorting of data between French/English in terms of description:
     const description =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "descriptionEn"
         : "descriptionFr";
 
-    let allCompetencies = _.sortBy(data, description);
+    let allCategories = _.sortBy(data, description);
 
-    for (let i = 0; i < allCompetencies.length; i++) {
-      allCompetencies[i].key = allCompetencies[i].id;
+    for (let i = 0; i < allCategories.length; i++) {
+      allCategories[i].key = allCategories[i].id;
     }
 
-    return allCompetencies;
+    return allCategories;
   };
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
@@ -176,7 +184,7 @@ function CompetencyTable(props) {
   }
 
   return (
-    <CompetencyTableView
+    <CategoryTableView
       handleSearch={handleSearch}
       handleReset={handleReset}
       handleSubmitAdd={handleSubmitAdd}
@@ -187,9 +195,9 @@ function CompetencyTable(props) {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={convertToViewableInformation()}
+      data={getCategoryInformation()}
     />
   );
 }
 
-export default injectIntl(CompetencyTable);
+export default injectIntl(CategoryTable);
