@@ -13,11 +13,16 @@ import {
 import AppLayout from "../appLayout/AppLayout";
 import { injectIntl } from "react-intl";
 
+/**
+ *  AdminLayoutView(props)
+ *  Render the layout for the Admin Side.
+ */
 function AdminLayoutView(props) {
   const { type } = props;
 
   let history = useHistory();
 
+  /* get corresponding page key based on table type */
   const getPageKey = () => {
     let key = null;
     if (type === "dashboard") {
@@ -38,6 +43,7 @@ function AdminLayoutView(props) {
     return key;
   };
 
+  /* send to corresponding page based on page key */
   const navigationPages = (key) => {
     if (key === "1") {
       history.push("/admin/dashboard");
@@ -56,6 +62,7 @@ function AdminLayoutView(props) {
     }
   };
 
+  /* Sets up the side bar for the Admin Side */
   const sideBarContent = () => {
     return (
       <Menu
@@ -132,6 +139,7 @@ function AdminLayoutView(props) {
     );
   };
 
+  /* Uses the AppLayout */
   return (
     <AppLayout
       changeLanguage={props.changeLanguage}

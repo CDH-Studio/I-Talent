@@ -1,6 +1,6 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import UserTable from "../../components/userTable/UserTable";
+import UserTable from "../../components/admin/userTable/UserTable";
 
 function AdminUser(props) {
   return (

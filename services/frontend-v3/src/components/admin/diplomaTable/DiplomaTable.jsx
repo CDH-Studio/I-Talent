@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import SchoolTableView from "./SchoolTableView";
+import DiplomaTableView from "./DiplomaTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
-function SchoolTable(props) {
+/**
+ *  DiplomaTable(props)
+ *  Controller for the DiplomaTableView.
+ *  It gathers the required data for rendering the component.
+ */
+function DiplomaTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -19,28 +24,29 @@ function SchoolTable(props) {
   const size = "large";
   const { type } = props;
 
+  /* useEffect will run if statement, when the component is mounted */
+  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let schools = [];
+    let diplomas = [];
     if (loading) {
       const setState = async () => {
-        schools = await getSchools();
-        setData(schools);
-        console.log("Before: ", schools);
+        diplomas = await getDiplomas();
+        setData(diplomas);
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        schools = await getSchools();
-        setData(schools);
-        console.log("After: ", schools);
+        diplomas = await getDiplomas();
+        setData(diplomas);
         setReset(false);
       };
       updateState();
     }
   }, [loading, reset]);
 
-  const getSchools = async () => {
+  /* get diploma information */
+  const getDiplomas = async () => {
     try {
       let results = await axios.get(
         backendAddress + "api/admin/options/" + type
@@ -52,6 +58,7 @@ function SchoolTable(props) {
     }
   };
 
+  /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
@@ -65,27 +72,29 @@ function SchoolTable(props) {
     });
   };
 
+  /* handles the search part of the column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
+  /* handles reset of column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  // const handleSubmitEdit = async (values, id) => {};
-
+  /* handles addition of a diploma */
   const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
 
       await axios.post(url, {
-        country: values.addSchoolCountry.toUpperCase(),
-        description: values.addSchoolName,
-        state: values.addSchoolState.toUpperCase(),
+        descriptionEn: values.addDiplomaEn,
+        descriptionFr: values.addDiplomaFr,
       });
 
       setReset(true);
@@ -95,14 +104,14 @@ function SchoolTable(props) {
     }
   };
 
+  /* handles the update/edit of a diploma */
   const handleSubmitEdit = async (values, id) => {
     try {
       const url = backendAddress + "api/admin/options/" + type + "/" + id;
 
       await axios.put(url, {
-        country: values.editSchoolCountry.toUpperCase(),
-        description: values.editSchoolName,
-        state: values.editSchoolState.toUpperCase(),
+        descriptionEn: values.editDiplomaEn,
+        descriptionFr: values.editDiplomaFr,
       });
 
       setReset(true);
@@ -112,6 +121,7 @@ function SchoolTable(props) {
     }
   };
 
+  /* handles the deletion of a diploma */
   const handleSubmitDelete = async () => {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
@@ -126,25 +136,36 @@ function SchoolTable(props) {
     }
   };
 
+  /* handles row selection in the table */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };
 
+  /* helper function to rowSelection */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
+    // Can access the keys of each diploma selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
+  /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
-    let allSchools = _.sortBy(data, "description");
+    // Allows for sorting of data between French/English in terms of description:
+    const description =
+      props.intl.formatMessage({ id: "language.code" }) === "en"
+        ? "descriptionEn"
+        : "descriptionFr";
 
-    for (let i = 0; i < allSchools.length; i++) {
-      allSchools[i].key = allSchools[i].id;
+    let allDiplomas = _.sortBy(data, description);
+
+    for (let i = 0; i < allDiplomas.length; i++) {
+      allDiplomas[i].key = allDiplomas[i].id;
     }
 
-    return allSchools;
+    return allDiplomas;
   };
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
@@ -154,7 +175,7 @@ function SchoolTable(props) {
   }
 
   return (
-    <SchoolTableView
+    <DiplomaTableView
       handleSearch={handleSearch}
       handleReset={handleReset}
       handleSubmitAdd={handleSubmitAdd}
@@ -170,4 +191,4 @@ function SchoolTable(props) {
   );
 }
 
-export default injectIntl(SchoolTable);
+export default injectIntl(DiplomaTable);

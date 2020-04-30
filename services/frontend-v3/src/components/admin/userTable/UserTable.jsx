@@ -5,10 +5,15 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
+/**
+ *  UserTable(props)
+ *  Controller for the UserTableView.
+ *  It gathers the required data for rendering the component.
+ */
 function UserTable(props) {
   const [data, setData] = useState([]);
   const [statuses, setStatuses] = useState({});
@@ -16,10 +21,32 @@ function UserTable(props) {
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [size] = useState("large");
 
+  const size = "large";
   const { type } = props;
 
+  /* useEffect will run if statement, when the component is mounted */
+  /* useEffect will run else statement, if profile status changes */
+  useEffect(() => {
+    let users = [];
+    if (loading) {
+      const setState = async () => {
+        users = await getUserInformation();
+        setData(users);
+        setLoading(false);
+      };
+      setState();
+    } else {
+      const updateState = async () => {
+        users = await getUserInformation();
+        setData(users);
+        setReset(false);
+      };
+      updateState();
+    }
+  }, [loading, reset]);
+
+  /* get user information */
   const getUserInformation = async () => {
     try {
       let results = await axios.get(backendAddress + "api/admin/user");
@@ -31,7 +58,7 @@ function UserTable(props) {
     }
   };
 
-  // Profile Status Change:
+  /* handles profile status change */
   const handleApply = async () => {
     try {
       const url = backendAddress + "api/admin/profileStatus";
@@ -46,6 +73,7 @@ function UserTable(props) {
     }
   };
 
+  /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
@@ -59,18 +87,23 @@ function UserTable(props) {
     });
   };
 
-  // Column Search Function(s):
+  /* handles the search part of the column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
+  /* handles reset of column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
+  /* handles dropdown option change */
+  // Takes note of change in statuses through id, so it can update user(s) when "Apply" is hit.
   const handleDropdownChange = (status, id) => {
     let addStatus = statuses;
 
@@ -79,6 +112,7 @@ function UserTable(props) {
     setStatuses(addStatus);
   };
 
+  /* gets user's profile status value to display in dropdown */
   const profileStatusValue = (inactive, flagged) => {
     if (inactive)
       return props.intl.formatMessage({
@@ -97,6 +131,7 @@ function UserTable(props) {
       });
   };
 
+  /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
     let convertData = _.sortBy(data, "user.name");
 
@@ -123,25 +158,6 @@ function UserTable(props) {
 
     return convertData;
   };
-
-  useEffect(() => {
-    let users = [];
-    if (loading) {
-      const setState = async () => {
-        users = await getUserInformation();
-        setData(users);
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        users = await getUserInformation();
-        setData(users);
-        setReset(false);
-      };
-      updateState();
-    }
-  }, [loading, reset]);
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
 

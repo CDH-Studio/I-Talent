@@ -21,6 +21,10 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
+/**
+ *  SkillTableView(props)
+ *  This component renders the skill table for the Admin Skill Page.
+ */
 function SkillTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -49,6 +53,8 @@ function SkillTableView(props) {
     categories,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -123,6 +129,7 @@ function SkillTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -163,6 +170,8 @@ function SkillTableView(props) {
     );
   };
 
+  /* handles the transfer of new or update/edited skill information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -171,6 +180,7 @@ function SkillTableView(props) {
     }
   };
 
+  /* Renders "Add Skill" modal */
   const addSkillButton = () => {
     return (
       <Modal
@@ -227,6 +237,7 @@ function SkillTableView(props) {
                 id: "admin.add.skill.descriptionEn",
                 defaultMessage: "Skill description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
@@ -250,6 +261,7 @@ function SkillTableView(props) {
                 id: "admin.add.skill.descriptionFr",
                 defaultMessage: "Skill description in French",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
@@ -302,6 +314,7 @@ function SkillTableView(props) {
     );
   };
 
+  /* Renders "Edit Skill" modal */
   const editSkillButton = () => {
     return (
       <Modal
@@ -413,6 +426,7 @@ function SkillTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
       props.intl.formatMessage({
@@ -422,6 +436,7 @@ function SkillTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
       props.intl.formatMessage({
@@ -431,6 +446,8 @@ function SkillTableView(props) {
     );
   };
 
+  /* handles closure of add or edit skill modal */
+  // occurs if "Ok" option is hit
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -442,6 +459,8 @@ function SkillTableView(props) {
     popUpSuccesss();
   };
 
+  /* handles closure of add or edit skill modal */
+  // occurs if "Cancel" option is hit
   const handleCancel = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -452,23 +471,29 @@ function SkillTableView(props) {
     popUpCancel();
   };
 
+  /* handles render of "Edit Skill" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
   };
 
+  /* handles render of "Add Skill" modal */
   const handleAddModal = () => {
     setAddVisible(true);
     setModalType("add");
   };
 
+  /* Sets up the columns for the skill table */
+  // Consult: Ant Design table components for further clarification
   const skillTableColumns = () => {
+    // Allows for switch between French/English in category column:
     const categoryName =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "categoryNameEn"
         : "categoryNameFr";
 
+    // Table columns data structure: array of objects
     const skill_table_columns = [
       {
         title: props.intl.formatMessage({
