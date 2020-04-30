@@ -20,6 +20,17 @@ function DiplomaTable(props) {
   const { type } = props;
 
   useEffect(() => {
+    const getDiplomas = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/admin/options/" + type
+        );
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
     let diplomas = [];
     if (loading) {
       const setState = async () => {
@@ -37,18 +48,6 @@ function DiplomaTable(props) {
       updateState();
     }
   }, [loading, reset]);
-
-  const getDiplomas = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
 
   const getDisplayType = (plural) => {
     if (plural)
