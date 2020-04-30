@@ -20,6 +20,17 @@ function CompetencyTable(props) {
   const { type } = props;
 
   useEffect(() => {
+    const getCompetencies = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/admin/options/" + type
+        );
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
     let competencies = [];
     if (loading) {
       const setState = async () => {
@@ -37,18 +48,6 @@ function CompetencyTable(props) {
       updateState();
     }
   }, [loading, reset]);
-
-  const getCompetencies = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
 
   const getDisplayType = (plural) => {
     if (plural)
