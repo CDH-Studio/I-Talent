@@ -20,31 +20,6 @@ function SkillTable(props) {
 
   const { type } = props;
 
-  const getSkill = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
-      );
-
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
-  const getCategories = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/categories/" + type
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
@@ -174,6 +149,32 @@ function SkillTable(props) {
   useEffect(() => {
     let skills = [];
     let categories = [];
+
+    const getSkill = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/admin/options/" + type
+        );
+
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
+
+    const getCategories = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/admin/options/categories/" + type
+        );
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
+
     if (loading) {
       const setState = async () => {
         skills = await getSkill();
