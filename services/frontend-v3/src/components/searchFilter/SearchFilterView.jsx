@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select } from "antd";
 import "@ant-design/compatible/assets/index.css";
@@ -12,20 +12,20 @@ function SearchBarView(props) {
     skillOptions,
     branchOptions,
     classOptions,
-    locationOptions
+    locationOptions,
   } = props;
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     handleSearch(values);
   };
 
   let locale = props.intl.formatMessage({
     id: "language.code",
-    defaultMessage: "en"
+    defaultMessage: "en",
   });
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
-    defaultMessage: "Search"
+    defaultMessage: "Search",
   });
   const searchTitles = [
     "name",
@@ -33,33 +33,33 @@ function SearchBarView(props) {
     "branch",
     "location",
     "classification",
-    "exFeeder"
+    "exFeeder",
   ];
   const labelArr = [
     props.intl.formatMessage({
       id: "advanced.search.form.name",
-      defaultMessage: "Name"
+      defaultMessage: "Name",
     }),
     props.intl.formatMessage({
       id: "advanced.search.form.skills",
-      defaultMessage: "Skills"
+      defaultMessage: "Skills",
     }),
     props.intl.formatMessage({
       id: "advanced.search.form.branch",
-      defaultMessage: "Branch"
+      defaultMessage: "Branch",
     }),
     props.intl.formatMessage({
       id: "advanced.search.form.location",
-      defaultMessage: "Location"
+      defaultMessage: "Location",
     }),
     props.intl.formatMessage({
       id: "advanced.search.form.classification",
-      defaultMessage: "Classification"
+      defaultMessage: "Classification",
     }),
     props.intl.formatMessage({
       id: "advanced.search.form.ex.feeder",
-      defaultMessage: "Ex Feeder"
-    })
+      defaultMessage: "Ex Feeder",
+    }),
   ];
   return (
     <Form
@@ -80,7 +80,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {skillOptions.map(value => {
+            {skillOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -96,7 +96,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {branchOptions.map(value => {
+            {branchOptions.map((value) => {
               return (
                 <Option key={value.description.en}>
                   {value.description[locale]}
@@ -114,7 +114,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {locationOptions.map(value => {
+            {locationOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -130,7 +130,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {classOptions.map(value => {
+            {classOptions.map((value) => {
               return <Option key={value.id}>{value.description}</Option>;
             })}
           </Select>

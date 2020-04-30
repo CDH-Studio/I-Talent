@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "antd";
-import { Col, Input, Switch, Select } from "antd";
+
 import axios from "axios";
 import config from "../../config";
 import queryString from "query-string";
@@ -8,7 +7,6 @@ import { injectIntl } from "react-intl";
 import SearchFilterView from "./SearchFilterView";
 
 const backendAddress = config.backendAddress;
-const { Option } = Select;
 
 function SearchFilter(props) {
   const [expand, setExpand] = useState(false);
@@ -40,7 +38,7 @@ function SearchFilter(props) {
       try {
         let results = await axios.get(backendAddress + "api/option/getBranch");
         return results.data.filter(
-          elem => elem.description && elem.description.en
+          (elem) => elem.description && elem.description.en
         );
       } catch (error) {
         console.log(error);
@@ -91,7 +89,7 @@ function SearchFilter(props) {
   }, []);
 
   //page with query
-  const handleSearch = values => {
+  const handleSearch = (values) => {
     var query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
     let url = "/secured/results?" + encodeURI(query);
