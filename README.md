@@ -2,7 +2,7 @@
 
 An improved directory and employee search tool.
 
-![I-Talent Screenshot](docs\wikiFiles\I-Talent-page.jpg?raw=true)
+![I-Talent Screenshot](docs\wikiFiles\I-Talent-page.jpg)
 
 I-Talent can be accessed [here](http://mytalent-frontend-dev-mytalent.apps.dev.openshift.ised-isde.canada.ca/).
 
