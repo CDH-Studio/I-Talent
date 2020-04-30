@@ -37,7 +37,7 @@ Any ISED employee will be able to login to I-Talent with their windows credentia
   - Full Stack Developer
 - [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
   - Full Stack Developer
-- [Sukhsimranpreet Sekhon](www.linkedin.com/in/sukhsimranpreetsekhon/)
+- [Sukhsimranpreet Sekhon](www.linkedin.com/in/sukhusekhon/)
   - Full Stack Developer
 - [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
   - Full Stack Developer
