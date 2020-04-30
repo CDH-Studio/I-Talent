@@ -29,19 +29,19 @@ Any ISED employee will be able to login to I-Talent with their windows credentia
 
 # Contributors
 
-- [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
-  - Full Stack Developer
-- [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
+- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
   - Full Stack Developer
 - [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
   - Full Stack Developer
-- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
+- [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
   - Full Stack Developer
-- [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
+- [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
   - Full Stack Developer
 - [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
   - Full Stack Developer
-- [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
+- [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
+  - Full Stack Developer
+- [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
   - Full Stack Developer
 
 # Tech Stack
@@ -79,8 +79,7 @@ docker-compose up
 
 You can access different components of the web application:
 
-- The original frontend at `localhost:3001`.
-- The redesigned frontend at `localhost:3000`.
+- The frontend at `localhost:3000`.
 - The backend at `localhost:8080`.
 - Postgres database at `localhost:5432`.
 - Adminer at `localhost:3333`.
