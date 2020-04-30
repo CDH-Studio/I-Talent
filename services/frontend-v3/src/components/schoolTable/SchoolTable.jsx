@@ -20,12 +20,23 @@ function SchoolTable(props) {
   const { type } = props;
 
   useEffect(() => {
+    const getSchools = async () => {
+      try {
+        let results = await axios.get(
+          backendAddress + "api/admin/options/" + type
+        );
+        return results.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
     let schools = [];
     if (loading) {
       const setState = async () => {
         schools = await getSchools();
         setData(schools);
-        console.log("Before: ", schools);
+
         setLoading(false);
       };
       setState();
@@ -33,24 +44,12 @@ function SchoolTable(props) {
       const updateState = async () => {
         schools = await getSchools();
         setData(schools);
-        console.log("After: ", schools);
+
         setReset(false);
       };
       updateState();
     }
   }, [loading, reset]);
-
-  const getSchools = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
 
   const getDisplayType = (plural) => {
     if (plural)
