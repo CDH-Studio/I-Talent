@@ -46,14 +46,14 @@ const EducationFormView = (props) => {
    *
    * Enable or disable end date field if education is on going
    */
-  const toggleEndDate = useCallback(() => {
+  const toggleEndDate = () => {
     if (!disableEndDate) {
       const educationFieldValues = props.form.getFieldsValue("education");
       educationFieldValues.education[props.field.fieldKey].endDate = null;
       props.form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate(!disableEndDate);
-  });
+  };
 
   /*
    * Disabled Dates Before Start
