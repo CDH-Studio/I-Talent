@@ -192,7 +192,7 @@ function SkillTable(props) {
       };
       updateState();
     }
-  }, [loading, reset]);
+  }, [loading, reset, type]);
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
 

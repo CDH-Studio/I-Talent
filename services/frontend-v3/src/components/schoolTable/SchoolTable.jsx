@@ -49,7 +49,7 @@ function SchoolTable(props) {
       };
       updateState();
     }
-  }, [loading, reset]);
+  }, [loading, reset, type]);
 
   const getDisplayType = (plural) => {
     if (plural)
