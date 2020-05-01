@@ -26,22 +26,21 @@ function ProfileCards(props) {
     }
   };
 
-  // get all required data component
-  const getAllData = async () => {
-    try {
-      await getProfileInfo();
-      setLoad(true);
-      return 1;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
   // useEffect to run once component is mounted
   useEffect(() => {
+    // get all required data component
+    const getAllData = async () => {
+      try {
+        await getProfileInfo();
+        setLoad(true);
+        return 1;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
+    };
     getAllData();
-  }, []);
+  });
 
   return (
     <ProfileCardsView
@@ -52,7 +51,6 @@ function ProfileCards(props) {
       editUrl={props.editUrl}
       load={load}
       cardName={props.cardName}
-      getAllData={getAllData}
       id={props.id}
     />
   );
