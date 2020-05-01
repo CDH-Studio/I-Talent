@@ -20,7 +20,11 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-function SchoolTableView(props) {
+/**
+ *  DiplomaTableView(props)
+ *  This component renders the diploma table for the Admin Diploma Page.
+ */
+function DiplomaTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -45,6 +49,8 @@ function SchoolTableView(props) {
     data,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -119,6 +125,7 @@ function SchoolTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -159,6 +166,7 @@ function SchoolTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
       props.intl.formatMessage({
@@ -168,6 +176,7 @@ function SchoolTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
       props.intl.formatMessage({
@@ -177,6 +186,8 @@ function SchoolTableView(props) {
     );
   };
 
+  /* handles the transfer of new or update/edited diploma information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -185,6 +196,8 @@ function SchoolTableView(props) {
     }
   };
 
+  /* handles closure of add or edit diploma modal */
+  // occurs if "Ok" option is hit
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -196,6 +209,8 @@ function SchoolTableView(props) {
     popUpSuccesss();
   };
 
+  /* handles closure of add or edit diploma modal */
+  // occurs if "Cancel" option is hit
   const handleCancel = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -206,24 +221,27 @@ function SchoolTableView(props) {
     popUpCancel();
   };
 
+  /* handles render of "Edit Diploma" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
   };
 
+  /* handles render of "Add Diploma" modal */
   const handleAddModal = () => {
     setAddVisible(true);
     setModalType("add");
   };
 
-  const addSchoolModal = () => {
+  /* Renders "Add Diploma" modal */
+  const addDiplomaModal = () => {
     return (
       <Modal
         visible={addVisible}
         title={props.intl.formatMessage({
-          id: "admin.add.school",
-          defaultMessage: "Add School",
+          id: "admin.add.diploma",
+          defaultMessage: "Add Diploma",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -251,78 +269,52 @@ function SchoolTableView(props) {
           handleCancel();
         }}
       >
-        <Form form={addForm} name="addSchool" layout="vertical">
+        <Form form={addForm} name="addDiploma" layout="vertical">
           <Form.Item
-            name="addSchoolName"
+            name="addDiplomaEn"
             label={props.intl.formatMessage({
-              id: "admin.name",
-              defaultMessage: "Name",
+              id: "language.english",
+              defaultMessage: "English",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
-                  id: "admin.validate.name",
-                  defaultMessage: "Please complete the school name!",
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!",
                 }),
               },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.school.name",
-                defaultMessage: "Input the school name",
+                id: "admin.add.diploma.descriptionEn",
+                defaultMessage: "Diploma description in English",
               })}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="addSchoolState"
+            name="addDiplomaFr"
             label={props.intl.formatMessage({
-              id: "admin.state.limit",
-              defaultMessage: "Province/State (2-Letter Abbreviation)",
+              id: "language.french",
+              defaultMessage: "French",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
-                  id: "admin.validate.location",
-                  defaultMessage: "Please complete the location information!",
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!",
                 }),
               },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.school.state",
-                defaultMessage: "Input the location information",
+                id: "admin.add.diploma.descriptionFr",
+                defaultMessage: "Diploma description in French",
               })}
-              maxLength={2}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSchoolCountry"
-            label={props.intl.formatMessage({
-              id: "admin.country.limit",
-              defaultMessage: "Country (3-Letter Abbreviation)",
-            })}
-            rules={[
-              {
-                required: true,
-                message: props.intl.formatMessage({
-                  id: "admin.validate.country",
-                  defaultMessage: "Please complete the country name!",
-                }),
-              },
-            ]}
-          >
-            <Input
-              placeholder={props.intl.formatMessage({
-                id: "admin.add.school.country",
-                defaultMessage: "Input the country name",
-              })}
-              maxLength={3}
               allowClear
             />
           </Form.Item>
@@ -331,13 +323,14 @@ function SchoolTableView(props) {
     );
   };
 
-  const editSchoolModal = () => {
+  /* Renders "Edit Diploma" modal */
+  const editDiplomaModal = () => {
     return (
       <Modal
         visible={editVisible}
         title={props.intl.formatMessage({
-          id: "admin.edit.school",
-          defaultMessage: "Edit School",
+          id: "admin.edit.diploma",
+          defaultMessage: "Edit Diploma",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -366,7 +359,7 @@ function SchoolTableView(props) {
       >
         <Form
           form={editForm}
-          name="editSchool"
+          name="editDiploma"
           layout="vertical"
           fields={fields}
           onFieldsChange={() => {
@@ -374,44 +367,30 @@ function SchoolTableView(props) {
           }}
         >
           <Form.Item
-            name="editSchoolName"
+            name="editDiplomaEn"
             label={props.intl.formatMessage({
-              id: "admin.name",
-              defaultMessage: "Name",
+              id: "language.english",
+              defaultMessage: "English",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.school.name",
-                defaultMessage: "Input the school name",
+                id: "admin.add.diploma.descriptionEn",
+                defaultMessage: "Diploma description in English",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="editSchoolState"
+            name="editDiplomaFr"
             label={props.intl.formatMessage({
-              id: "admin.state.limit",
-              defaultMessage: "Province/State (2-Letter Abbreviation)",
+              id: "language.french",
+              defaultMessage: "French",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.school.state",
-                defaultMessage: "Input the location information",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSchoolCountry"
-            label={props.intl.formatMessage({
-              id: "admin.country.limit",
-              defaultMessage: "Country (3-Letter Abbreviation)",
-            })}
-          >
-            <Input
-              placeholder={props.intl.formatMessage({
-                id: "admin.add.school.state",
-                defaultMessage: "Input the location information",
+                id: "admin.add.diploma.descriptionFr",
+                defaultMessage: "Diploma description in French",
               })}
             />
           </Form.Item>
@@ -420,62 +399,59 @@ function SchoolTableView(props) {
     );
   };
 
-  const schoolsTableColumns = () => {
-    const schools_table_columns = [
+  /* gets sort direction for a table column */
+  // Use for tables that need a French and English column
+  // Will change sort capability of column based on current language of page
+  const getSortDirection = (column) => {
+    const currentLanguage =
+      props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
+    if (column === currentLanguage) {
+      return ["descend"];
+    } else {
+      return ["ascend", "descend"];
+    }
+  };
+
+  /* Sets up the columns for the diploma table */
+  // Consult: Ant Design table components for further clarification
+  const diplomaTableColumns = () => {
+    // Table columns data structure: array of objects
+    const diploma_table_columns = [
       {
         title: props.intl.formatMessage({
-          id: "admin.name",
-          defaultMessage: "Name",
+          id: "language.english",
+          defaultMessage: "English",
         }),
-        dataIndex: "description",
-        key: "schoolName",
+        dataIndex: "descriptionEn",
+        key: "diplomaEn",
         sorter: (a, b) => {
-          return a.description.localeCompare(b.description);
+          return a.descriptionEn.localeCompare(b.descriptionEn);
         },
-        sortDirections: ["descend"],
+        sortDirections: getSortDirection("en"),
         ...getColumnSearchProps(
-          "description",
+          "descriptionEn",
           props.intl.formatMessage({
-            id: "admin.school.singular",
-            defaultMessage: "School",
+            id: "language.english",
+            defaultMessage: "English",
           })
         ),
       },
       {
         title: props.intl.formatMessage({
-          id: "admin.state",
-          defaultMessage: "Province/State",
+          id: "language.french",
+          defaultMessage: "French",
         }),
-        dataIndex: "state",
-        key: "schoolState",
+        dataIndex: "descriptionFr",
+        key: "diplomaFr",
         sorter: (a, b) => {
-          return a.state.localeCompare(b.state);
+          return a.descriptionFr.localeCompare(b.descriptionFr);
         },
-        sortDirections: ["ascend", "descend"],
+        sortDirections: getSortDirection("fr"),
         ...getColumnSearchProps(
-          "state",
+          "descriptionFr",
           props.intl.formatMessage({
-            id: "admin.state",
-            defaultMessage: "Province/State",
-          })
-        ),
-      },
-      {
-        title: props.intl.formatMessage({
-          id: "admin.country",
-          defaultMessage: "Country",
-        }),
-        dataIndex: "country",
-        key: "schoolCountry",
-        sorter: (a, b) => {
-          return a.country.localeCompare(b.country);
-        },
-        sortDirections: ["ascend", "descend"],
-        ...getColumnSearchProps(
-          "country",
-          props.intl.formatMessage({
-            id: "admin.country",
-            defaultMessage: "Country",
+            id: "language.french",
+            defaultMessage: "French",
           })
         ),
       },
@@ -493,9 +469,8 @@ function SchoolTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editSchoolName"], value: record.description },
-                  { name: ["editSchoolState"], value: record.state },
-                  { name: ["editSchoolCountry"], value: record.country },
+                  { name: ["editDiplomaEn"], value: record.descriptionEn },
+                  { name: ["editDiplomaFr"], value: record.descriptionFr },
                 ]);
                 handleEditModal(record);
               }}
@@ -504,17 +479,17 @@ function SchoolTableView(props) {
         ),
       },
     ];
-    return schools_table_columns;
+    return diploma_table_columns;
   };
 
   return (
     <>
-      {addSchoolModal()}
-      {editSchoolModal()}
+      {addDiplomaModal()}
+      {editDiplomaModal()}
       <PageHeader
         title={props.intl.formatMessage({
-          id: "admin.school.table",
-          defaultMessage: "Schools Table",
+          id: "admin.diploma.table",
+          defaultMessage: "Diplomas Table",
         })}
         extra={[
           deleteConfirm(),
@@ -537,7 +512,7 @@ function SchoolTableView(props) {
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={schoolsTableColumns()}
+            columns={diplomaTableColumns()}
             dataSource={data}
           />
         </Col>
@@ -546,4 +521,4 @@ function SchoolTableView(props) {
   );
 }
 
-export default injectIntl(SchoolTableView);
+export default injectIntl(DiplomaTableView);

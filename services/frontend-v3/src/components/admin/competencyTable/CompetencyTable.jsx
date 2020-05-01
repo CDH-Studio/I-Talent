@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import DiplomaTableView from "./DiplomaTableView";
+import CompetencyTableView from "./CompetencyTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
-function DiplomaTable(props) {
+/**
+ *  CompetencyTable(props)
+ *  Controller for the CompetencyTableView.
+ *  It gathers the required data for rendering the component.
+ */
+function CompetencyTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -19,8 +24,10 @@ function DiplomaTable(props) {
   const size = "large";
   const { type } = props;
 
+  /* useEffect will run if statement, when the component is mounted */
+  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    const getDiplomas = async () => {
+    const getCompetencies = async () => {
       try {
         let results = await axios.get(
           backendAddress + "api/admin/options/" + type
@@ -31,24 +38,25 @@ function DiplomaTable(props) {
         return 0;
       }
     };
-    let diplomas = [];
+    let competencies = [];
     if (loading) {
       const setState = async () => {
-        diplomas = await getDiplomas();
-        setData(diplomas);
+        competencies = await getCompetencies();
+        setData(competencies);
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        diplomas = await getDiplomas();
-        setData(diplomas);
+        competencies = await getCompetencies();
+        setData(competencies);
         setReset(false);
       };
       updateState();
     }
   }, [loading, reset, type]);
 
+  /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
@@ -62,24 +70,30 @@ function DiplomaTable(props) {
     });
   };
 
+  /* handles the search part of the column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
+  /* handles reset of column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
+  /* handles addition of a competency */
   const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
 
       await axios.post(url, {
-        descriptionEn: values.addDiplomaEn,
-        descriptionFr: values.addDiplomaFr,
+        descriptionEn: values.addCompetencyEn,
+        descriptionFr: values.addCompetencyFr,
+        categoryId: 22,
       });
 
       setReset(true);
@@ -89,13 +103,14 @@ function DiplomaTable(props) {
     }
   };
 
+  /* handles the update/edit of a competency */
   const handleSubmitEdit = async (values, id) => {
     try {
       const url = backendAddress + "api/admin/options/" + type + "/" + id;
 
       await axios.put(url, {
-        descriptionEn: values.editDiplomaEn,
-        descriptionFr: values.editDiplomaFr,
+        descriptionEn: values.editCompetencyEn,
+        descriptionFr: values.editCompetencyFr,
       });
 
       setReset(true);
@@ -105,6 +120,7 @@ function DiplomaTable(props) {
     }
   };
 
+  /* handles the deletion of a competency */
   const handleSubmitDelete = async () => {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
@@ -119,29 +135,36 @@ function DiplomaTable(props) {
     }
   };
 
+  /* handles row selection in the table */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };
 
+  /* helper function to rowSelection */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
+    // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
+  /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
+    // Allows for sorting of data between French/English in terms of description:
     const description =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "descriptionEn"
         : "descriptionFr";
 
-    let allDiplomas = _.sortBy(data, description);
+    let allCompetencies = _.sortBy(data, description);
 
-    for (let i = 0; i < allDiplomas.length; i++) {
-      allDiplomas[i].key = allDiplomas[i].id;
+    for (let i = 0; i < allCompetencies.length; i++) {
+      allCompetencies[i].key = allCompetencies[i].id;
     }
 
-    return allDiplomas;
+    return allCompetencies;
   };
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
@@ -151,7 +174,7 @@ function DiplomaTable(props) {
   }
 
   return (
-    <DiplomaTableView
+    <CompetencyTableView
       handleSearch={handleSearch}
       handleReset={handleReset}
       handleSubmitAdd={handleSubmitAdd}
@@ -167,4 +190,4 @@ function DiplomaTable(props) {
   );
 }
 
-export default injectIntl(DiplomaTable);
+export default injectIntl(CompetencyTable);

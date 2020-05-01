@@ -20,7 +20,11 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-function DiplomaTableView(props) {
+/**
+ *  CompetencyTableView(props)
+ *  This component renders the competency table for the Admin Competency Page.
+ */
+function CompetencyTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -45,6 +49,8 @@ function DiplomaTableView(props) {
     data,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -119,6 +125,7 @@ function DiplomaTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -159,6 +166,7 @@ function DiplomaTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
       props.intl.formatMessage({
@@ -168,6 +176,7 @@ function DiplomaTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
       props.intl.formatMessage({
@@ -177,6 +186,8 @@ function DiplomaTableView(props) {
     );
   };
 
+  /* handles the transfer of new or update/edited competency information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -185,6 +196,8 @@ function DiplomaTableView(props) {
     }
   };
 
+  /* handles closure of add or edit competency modal */
+  // occurs if "Ok" option is hit
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -196,6 +209,8 @@ function DiplomaTableView(props) {
     popUpSuccesss();
   };
 
+  /* handles closure of add or edit competency modal */
+  // occurs if "Cancel" option is hit
   const handleCancel = () => {
     if (modalType === "edit") {
       setEditVisible(false);
@@ -206,24 +221,27 @@ function DiplomaTableView(props) {
     popUpCancel();
   };
 
+  /* handles render of "Edit Competency" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
   };
 
+  /* handles render of "Add Competency" modal */
   const handleAddModal = () => {
     setAddVisible(true);
     setModalType("add");
   };
 
-  const addDiplomaModal = () => {
+  /* Renders "Add Competency" modal */
+  const addCompetencyModal = () => {
     return (
       <Modal
         visible={addVisible}
         title={props.intl.formatMessage({
-          id: "admin.add.diploma",
-          defaultMessage: "Add Diploma",
+          id: "admin.add.competency",
+          defaultMessage: "Add Competency",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -251,9 +269,9 @@ function DiplomaTableView(props) {
           handleCancel();
         }}
       >
-        <Form form={addForm} name="addDiploma" layout="vertical">
+        <Form form={addForm} name="addCompetency" layout="vertical">
           <Form.Item
-            name="addDiplomaEn"
+            name="addCompetencyEn"
             label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
@@ -270,13 +288,14 @@ function DiplomaTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.diploma.descriptionEn",
-                defaultMessage: "Diploma description in English",
+                id: "admin.add.competency.descriptionEn",
+                defaultMessage: "Competency description in English",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
-            name="addDiplomaFr"
+            name="addCompetencyFr"
             label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
@@ -293,9 +312,10 @@ function DiplomaTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.diploma.descriptionFr",
-                defaultMessage: "Diploma description in French",
+                id: "admin.add.competency.descriptionFr",
+                defaultMessage: "Competency description in French",
               })}
+              allowClear
             />
           </Form.Item>
         </Form>
@@ -303,13 +323,14 @@ function DiplomaTableView(props) {
     );
   };
 
-  const editDiplomaModal = () => {
+  /* Renders "Edit Competency" modal */
+  const editCompetencyModal = () => {
     return (
       <Modal
         visible={editVisible}
         title={props.intl.formatMessage({
-          id: "admin.edit.diploma",
-          defaultMessage: "Edit Diploma",
+          id: "admin.edit.competency",
+          defaultMessage: "Edit Competency",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -338,7 +359,7 @@ function DiplomaTableView(props) {
       >
         <Form
           form={editForm}
-          name="editDiploma"
+          name="editCompetency"
           layout="vertical"
           fields={fields}
           onFieldsChange={() => {
@@ -346,7 +367,7 @@ function DiplomaTableView(props) {
           }}
         >
           <Form.Item
-            name="editDiplomaEn"
+            name="editCompetencyEn"
             label={props.intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
@@ -354,13 +375,13 @@ function DiplomaTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.diploma.descriptionEn",
-                defaultMessage: "Diploma description in English",
+                id: "admin.add.competency.descriptionEn",
+                defaultMessage: "Competency description in English",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="editDiplomaFr"
+            name="editCompetencyFr"
             label={props.intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
@@ -368,8 +389,8 @@ function DiplomaTableView(props) {
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.diploma.descriptionFr",
-                defaultMessage: "Diploma description in French",
+                id: "admin.add.competency.descriptionFr",
+                defaultMessage: "Competency description in French",
               })}
             />
           </Form.Item>
@@ -378,6 +399,9 @@ function DiplomaTableView(props) {
     );
   };
 
+  /* gets sort direction for a table column */
+  // Use for tables that need a French and English column
+  // Will change sort capability of column based on current language of page
   const getSortDirection = (column) => {
     const currentLanguage =
       props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
@@ -388,15 +412,18 @@ function DiplomaTableView(props) {
     }
   };
 
-  const diplomaTableColumns = () => {
-    const diploma_table_columns = [
+  /* Sets up the columns for the competency table */
+  // Consult: Ant Design table components for further clarification
+  const competencyTableColumns = () => {
+    // Table columns data structure: array of objects
+    const competency_table_columns = [
       {
         title: props.intl.formatMessage({
           id: "language.english",
           defaultMessage: "English",
         }),
         dataIndex: "descriptionEn",
-        key: "diplomaEn",
+        key: "competencyEn",
         sorter: (a, b) => {
           return a.descriptionEn.localeCompare(b.descriptionEn);
         },
@@ -415,7 +442,7 @@ function DiplomaTableView(props) {
           defaultMessage: "French",
         }),
         dataIndex: "descriptionFr",
-        key: "diplomaFr",
+        key: "competencyFr",
         sorter: (a, b) => {
           return a.descriptionFr.localeCompare(b.descriptionFr);
         },
@@ -442,8 +469,8 @@ function DiplomaTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editDiplomaEn"], value: record.descriptionEn },
-                  { name: ["editDiplomaFr"], value: record.descriptionFr },
+                  { name: ["editCompetencyEn"], value: record.descriptionEn },
+                  { name: ["editCompetencyFr"], value: record.descriptionFr },
                 ]);
                 handleEditModal(record);
               }}
@@ -452,17 +479,17 @@ function DiplomaTableView(props) {
         ),
       },
     ];
-    return diploma_table_columns;
+    return competency_table_columns;
   };
 
   return (
     <>
-      {addDiplomaModal()}
-      {editDiplomaModal()}
+      {addCompetencyModal()}
+      {editCompetencyModal()}
       <PageHeader
         title={props.intl.formatMessage({
-          id: "admin.diploma.table",
-          defaultMessage: "Diplomas Table",
+          id: "admin.competency.table",
+          defaultMessage: "Competencies Table",
         })}
         extra={[
           deleteConfirm(),
@@ -485,7 +512,7 @@ function DiplomaTableView(props) {
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={diplomaTableColumns()}
+            columns={competencyTableColumns()}
             dataSource={data}
           />
         </Col>
@@ -494,4 +521,4 @@ function DiplomaTableView(props) {
   );
 }
 
-export default injectIntl(DiplomaTableView);
+export default injectIntl(CompetencyTableView);

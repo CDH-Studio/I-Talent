@@ -4,10 +4,15 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import config from "../../../config";
 
 const backendAddress = config.backendAddress;
 
+/**
+ *  CategoryTable(props)
+ *  Controller for the CategoryTableView.
+ *  It gathers the required data for rendering the component.
+ */
 function CategoryTable(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,10 +20,33 @@ function CategoryTable(props) {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [size] = useState("large");
 
+  const size = "large";
   const { type } = props;
 
+  /* useEffect will run if statement, when the component is mounted */
+  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
+  useEffect(() => {
+    let categories = [];
+    if (loading) {
+      const setState = async () => {
+        categories = await getCategories();
+        setData(categories);
+        setLoading(false);
+      };
+      setState();
+    } else {
+      const updateState = async () => {
+        categories = await getCategories();
+        setData(categories);
+        setReset(false);
+        setSelectedRowKeys([]);
+      };
+      updateState();
+    }
+  }, [loading, reset]);
+
+  /* get category information */
   const getCategories = async () => {
     try {
       let results = await axios.get(
@@ -31,6 +59,7 @@ function CategoryTable(props) {
     }
   };
 
+  /* handles the deletion of a category */
   const handleSubmitDelete = async () => {
     try {
       const url = backendAddress + "api/admin/delete/" + type;
@@ -53,6 +82,7 @@ function CategoryTable(props) {
     }
   };
 
+  /* handles addition of a category */
   const handleSubmitAdd = async (values) => {
     try {
       const url = backendAddress + "api/admin/options/" + type;
@@ -69,6 +99,7 @@ function CategoryTable(props) {
     }
   };
 
+  /* handles the update/edit of a category */
   const handleSubmitEdit = async (values, id) => {
     try {
       const url = backendAddress + "api/admin/options/" + type + "/" + id;
@@ -85,6 +116,7 @@ function CategoryTable(props) {
     }
   };
 
+  /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
@@ -98,29 +130,39 @@ function CategoryTable(props) {
     });
   };
 
+  /* handles the search part of the column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
+  /* handles reset of column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
+  /* handles row selection in the table */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };
 
+  /* helper function to rowSelection */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
-    // console.log("selectedRowKeys changed: ", selectedRowKeys);
+    // Can access the keys of each category selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
+  /* configures data from backend into viewable data for the table */
   const getCategoryInformation = () => {
+    // Allows for sorting of data between French/English in terms of description:
     const description =
       props.intl.formatMessage({ id: "language.code" }) === "en"
         ? "descriptionEn"
@@ -134,26 +176,6 @@ function CategoryTable(props) {
 
     return allCategories;
   };
-
-  useEffect(() => {
-    let categories = [];
-    if (loading) {
-      const setState = async () => {
-        categories = await getCategories();
-        setData(categories);
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        categories = await getCategories();
-        setData(categories);
-        setReset(false);
-        setSelectedRowKeys([]);
-      };
-      updateState();
-    }
-  }, [loading, reset]);
 
   document.title = getDisplayType(true) + " - Admin | I-Talent";
 

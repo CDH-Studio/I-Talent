@@ -3,6 +3,13 @@ import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { injectIntl } from "react-intl";
 
+/**
+ *  DashboardGraphsView(props)
+ *  This component renders the graphes for the Admin Dashbord page.
+ *  (1st Level) Three graphes: Popular Skills, Competencies & Development Goals
+ *  (2nd Level) This graph shows the monthly growth rate for the web application
+ *  Disclaimer: Please look at Bizcharts documentation for further help with graphes
+ */
 function DashboardGraphsView(props) {
   const topFiveSkills = props.topFiveSkills;
   const topFiveCompetencies = props.topFiveCompetencies;
@@ -11,22 +18,22 @@ function DashboardGraphsView(props) {
 
   const popularSkillsColumns = {
     name: { alias: "Skill Name" },
-    count: { alias: "Number of users" }
+    count: { alias: "Number of users" },
   };
 
   const popularCompetenciesColumns = {
     name: { alias: "Competency Name" },
-    count: { alias: "Number of users" }
+    count: { alias: "Number of users" },
   };
 
   const popularDevelopmentGoalsColumns = {
     name: { alias: "Development Goal Name" },
-    count: { alias: "Number of users" }
+    count: { alias: "Number of users" },
   };
 
   const growthRateByMonthColumns = {
     monthName: { range: [0, 1] },
-    count: { alias: "Number of users" }
+    count: { alias: "Number of users" },
   };
 
   return (
@@ -37,7 +44,7 @@ function DashboardGraphsView(props) {
             hoverable
             title={props.intl.formatMessage({
               id: "admin.dashboard.popular.skills",
-              defaultMessage: "Popular Skills"
+              defaultMessage: "Popular Skills",
             })}
           >
             <Chart
@@ -60,7 +67,7 @@ function DashboardGraphsView(props) {
             hoverable
             title={props.intl.formatMessage({
               id: "admin.dashboard.popular.competencies",
-              defaultMessage: "Popular Competencies"
+              defaultMessage: "Popular Competencies",
             })}
           >
             <Chart
@@ -83,7 +90,7 @@ function DashboardGraphsView(props) {
             hoverable
             title={props.intl.formatMessage({
               id: "admin.dashboard.popular.development.goals",
-              defaultMessage: "Popular Development Goals"
+              defaultMessage: "Popular Development Goals",
             })}
           >
             <Chart
@@ -108,7 +115,7 @@ function DashboardGraphsView(props) {
             hoverable
             title={props.intl.formatMessage({
               id: "admin.dashboard.growth.rate.by.month",
-              defaultMessage: "Growth Rate By Month"
+              defaultMessage: "Growth Rate By Month",
             })}
           >
             <Chart
@@ -135,7 +142,7 @@ function DashboardGraphsView(props) {
                 color={"year"}
                 style={{
                   stroke: "#fff",
-                  lineWidth: 1
+                  lineWidth: 1,
                 }}
               />
             </Chart>

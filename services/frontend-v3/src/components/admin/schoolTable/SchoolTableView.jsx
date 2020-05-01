@@ -20,7 +20,11 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 
-function CategoryTableView(props) {
+/**
+ *  SchoolTableView(props)
+ *  This component renders the school table for the Admin School Page.
+ */
+function SchoolTableView(props) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -45,6 +49,8 @@ function CategoryTableView(props) {
     data,
   } = props;
 
+  /* Allows for column search functionality */
+  // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -119,6 +125,7 @@ function CategoryTableView(props) {
       ),
   });
 
+  /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
@@ -129,7 +136,8 @@ function CategoryTableView(props) {
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          checkDelete();
+          handleSubmitDelete();
+          popUpSuccesss();
         }}
         onCancel={() => {
           popUpCancel();
@@ -158,6 +166,28 @@ function CategoryTableView(props) {
     );
   };
 
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      props.intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      props.intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
+
+  /* handles the transfer of new or update/edited school information to function */
+  // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
@@ -166,13 +196,52 @@ function CategoryTableView(props) {
     }
   };
 
-  const addCategoryButton = () => {
+  /* handles closure of add or edit school modal */
+  // occurs if "Ok" option is hit
+  const handleOk = () => {
+    if (modalType === "edit") {
+      setEditVisible(false);
+      setRecord(null);
+    } else if (modalType === "add") {
+      setAddVisible(false);
+    }
+    setModalType("");
+    popUpSuccesss();
+  };
+
+  /* handles closure of add or edit school modal */
+  // occurs if "Cancel" option is hit
+  const handleCancel = () => {
+    if (modalType === "edit") {
+      setEditVisible(false);
+    } else if (modalType === "add") {
+      setAddVisible(false);
+    }
+    setModalType("");
+    popUpCancel();
+  };
+
+  /* handles render of "Edit School" modal */
+  const handleEditModal = (record) => {
+    setEditVisible(true);
+    setRecord(record);
+    setModalType("edit");
+  };
+
+  /* handles render of "Add School" modal */
+  const handleAddModal = () => {
+    setAddVisible(true);
+    setModalType("add");
+  };
+
+  /* Renders "Add School" modal */
+  const addSchoolModal = () => {
     return (
       <Modal
         visible={addVisible}
         title={props.intl.formatMessage({
-          id: "admin.add.category",
-          defaultMessage: "Add Category",
+          id: "admin.add.school",
+          defaultMessage: "Add School",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -200,51 +269,79 @@ function CategoryTableView(props) {
           handleCancel();
         }}
       >
-        <Form form={addForm} name="addCategory" layout="vertical">
+        <Form form={addForm} name="addSchool" layout="vertical">
           <Form.Item
-            name="addCategoryEn"
+            name="addSchoolName"
             label={props.intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
+              id: "admin.name",
+              defaultMessage: "Name",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
+                  id: "admin.validate.name",
+                  defaultMessage: "Please complete the school name!",
                 }),
               },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.category.descriptionEn",
-                defaultMessage: "Category description in English",
+                id: "admin.add.school.name",
+                defaultMessage: "Input the school name",
               })}
+              allowClear
             />
           </Form.Item>
           <Form.Item
-            name="addCategoryFr"
+            name="addSchoolState"
             label={props.intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
+              id: "admin.state.limit",
+              defaultMessage: "Province/State (2-Letter Abbreviation)",
             })}
             rules={[
               {
                 required: true,
                 message: props.intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
+                  id: "admin.validate.location",
+                  defaultMessage: "Please complete the location information!",
                 }),
               },
             ]}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.category.descriptionFr",
-                defaultMessage: "Category description in French",
+                id: "admin.add.school.state",
+                defaultMessage: "Input the location information",
               })}
+              maxLength={2}
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item
+            name="addSchoolCountry"
+            label={props.intl.formatMessage({
+              id: "admin.country.limit",
+              defaultMessage: "Country (3-Letter Abbreviation)",
+            })}
+            rules={[
+              {
+                required: true,
+                message: props.intl.formatMessage({
+                  id: "admin.validate.country",
+                  defaultMessage: "Please complete the country name!",
+                }),
+              },
+            ]}
+          >
+            <Input
+              placeholder={props.intl.formatMessage({
+                id: "admin.add.school.country",
+                defaultMessage: "Input the country name",
+              })}
+              maxLength={3}
+              allowClear
             />
           </Form.Item>
         </Form>
@@ -252,13 +349,14 @@ function CategoryTableView(props) {
     );
   };
 
-  const editCategoryButton = () => {
+  /* Renders "Edit School" modal */
+  const editSchoolModal = () => {
     return (
       <Modal
         visible={editVisible}
         title={props.intl.formatMessage({
-          id: "admin.edit.category",
-          defaultMessage: "Edit Category",
+          id: "admin.edit.school",
+          defaultMessage: "Edit School",
         })}
         okText={props.intl.formatMessage({
           id: "admin.apply",
@@ -287,7 +385,7 @@ function CategoryTableView(props) {
       >
         <Form
           form={editForm}
-          name="editCategory"
+          name="editSchool"
           layout="vertical"
           fields={fields}
           onFieldsChange={() => {
@@ -295,31 +393,47 @@ function CategoryTableView(props) {
           }}
         >
           <Form.Item
-            name="editCategoryEn"
+            name="editSchoolName"
             label={props.intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
+              id: "admin.name",
+              defaultMessage: "Name",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.category.descriptionEn",
-                defaultMessage: "Category description in English",
+                id: "admin.add.school.name",
+                defaultMessage: "Input the school name",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="editCategoryFr"
+            name="editSchoolState"
             label={props.intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
+              id: "admin.state.limit",
+              defaultMessage: "Province/State (2-Letter Abbreviation)",
             })}
           >
             <Input
               placeholder={props.intl.formatMessage({
-                id: "admin.add.category.descriptionFr",
-                defaultMessage: "Category description in French",
+                id: "admin.add.school.state",
+                defaultMessage: "Input the location information",
               })}
+              maxLength={2}
+            />
+          </Form.Item>
+          <Form.Item
+            name="editSchoolCountry"
+            label={props.intl.formatMessage({
+              id: "admin.country.limit",
+              defaultMessage: "Country (3-Letter Abbreviation)",
+            })}
+          >
+            <Input
+              placeholder={props.intl.formatMessage({
+                id: "admin.add.school.state",
+                defaultMessage: "Input the location information",
+              })}
+              maxLength={3}
             />
           </Form.Item>
         </Form>
@@ -327,121 +441,65 @@ function CategoryTableView(props) {
     );
   };
 
-  const popUpSuccesss = () => {
-    message.success(
-      props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
-  const popUpCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
-    );
-  };
-
-  const checkDelete = async () => {
-    let result = await handleSubmitDelete();
-    if (result === true) {
-      Modal.error({
-        title: props.intl.formatMessage({
-          id: "admin.category.disclaimer",
-          defaultMessage: "Disclaimer",
-        }),
-        content: props.intl.formatMessage({
-          id: "admin.category.disclaimer.message",
-          defaultMessage: "Cannot delete category with skill associations!",
-        }),
-      });
-    } else {
-      popUpSuccesss();
-    }
-  };
-
-  const handleOk = () => {
-    if (modalType === "edit") {
-      setEditVisible(false);
-      setRecord(null);
-    } else if (modalType === "add") {
-      setAddVisible(false);
-    }
-    setModalType("");
-    popUpSuccesss();
-  };
-
-  const handleCancel = () => {
-    if (modalType === "edit") {
-      setEditVisible(false);
-    } else if (modalType === "add") {
-      setAddVisible(false);
-    }
-    setModalType("");
-    popUpCancel();
-  };
-
-  const handleEditModal = (record) => {
-    setEditVisible(true);
-    setRecord(record);
-    setModalType("edit");
-  };
-
-  const handleAddModal = () => {
-    setAddVisible(true);
-    setModalType("add");
-  };
-
-  const getSortDirection = (column) => {
-    const currentLanguage =
-      props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
-    if (column === currentLanguage) {
-      return ["descend"];
-    } else {
-      return ["ascend", "descend"];
-    }
-  };
-
-  const categoryTableColumns = () => {
-    const category_table_columns = [
+  /* Sets up the columns for the school table */
+  // Consult: Ant Design table components for further clarification
+  const schoolsTableColumns = () => {
+    // Table columns data structure: array of objects
+    const schools_table_columns = [
       {
         title: props.intl.formatMessage({
-          id: "language.english",
-          defaultMessage: "English",
+          id: "admin.name",
+          defaultMessage: "Name",
         }),
-        dataIndex: "descriptionEn",
-        key: "categoryEn",
+        dataIndex: "description",
+        key: "schoolName",
         sorter: (a, b) => {
-          return a.descriptionEn.localeCompare(b.descriptionEn);
+          return a.description.localeCompare(b.description);
         },
-        sortDirections: getSortDirection("en"),
+        sortDirections: ["descend"],
         ...getColumnSearchProps(
-          "descriptionEn",
+          "description",
           props.intl.formatMessage({
-            id: "language.english",
-            defaultMessage: "English",
+            id: "admin.school.singular",
+            defaultMessage: "School",
           })
         ),
       },
       {
         title: props.intl.formatMessage({
-          id: "language.french",
-          defaultMessage: "French",
+          id: "admin.state",
+          defaultMessage: "Province/State",
         }),
-        dataIndex: "descriptionFr",
-        key: "categoryFr",
+        dataIndex: "state",
+        key: "schoolState",
         sorter: (a, b) => {
-          return a.descriptionFr.localeCompare(b.descriptionFr);
+          return a.state.localeCompare(b.state);
         },
-        sortDirections: getSortDirection("fr"),
+        sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
-          "descriptionFr",
+          "state",
           props.intl.formatMessage({
-            id: "language.french",
-            defaultMessage: "French",
+            id: "admin.state",
+            defaultMessage: "Province/State",
+          })
+        ),
+      },
+      {
+        title: props.intl.formatMessage({
+          id: "admin.country",
+          defaultMessage: "Country",
+        }),
+        dataIndex: "country",
+        key: "schoolCountry",
+        sorter: (a, b) => {
+          return a.country.localeCompare(b.country);
+        },
+        sortDirections: ["ascend", "descend"],
+        ...getColumnSearchProps(
+          "country",
+          props.intl.formatMessage({
+            id: "admin.country",
+            defaultMessage: "Country",
           })
         ),
       },
@@ -459,8 +517,9 @@ function CategoryTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editCategoryEn"], value: record.descriptionEn },
-                  { name: ["editCategoryFr"], value: record.descriptionFr },
+                  { name: ["editSchoolName"], value: record.description },
+                  { name: ["editSchoolState"], value: record.state },
+                  { name: ["editSchoolCountry"], value: record.country },
                 ]);
                 handleEditModal(record);
               }}
@@ -469,17 +528,17 @@ function CategoryTableView(props) {
         ),
       },
     ];
-    return category_table_columns;
+    return schools_table_columns;
   };
 
   return (
     <>
-      {addCategoryButton()}
-      {editCategoryButton()}
+      {addSchoolModal()}
+      {editSchoolModal()}
       <PageHeader
         title={props.intl.formatMessage({
-          id: "admin.category.table",
-          defaultMessage: "Categories Table",
+          id: "admin.school.table",
+          defaultMessage: "Schools Table",
         })}
         extra={[
           deleteConfirm(),
@@ -502,7 +561,7 @@ function CategoryTableView(props) {
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={categoryTableColumns()}
+            columns={schoolsTableColumns()}
             dataSource={data}
           />
         </Col>
@@ -511,4 +570,4 @@ function CategoryTableView(props) {
   );
 }
 
-export default injectIntl(CategoryTableView);
+export default injectIntl(SchoolTableView);

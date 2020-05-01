@@ -1,6 +1,6 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import DiplomaTable from "../../components/diplomaTable/DiplomaTable";
+import DiplomaTable from "../../components/admin/diplomaTable/DiplomaTable";
 
 function AdminDiploma(props) {
   return (
