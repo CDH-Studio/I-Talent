@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Row,
   Col,
@@ -46,14 +46,14 @@ const EducationFormView = (props) => {
    *
    * Enable or disable end date field if education is on going
    */
-  const toggleEndDate = () => {
+  const toggleEndDate = useCallback(() => {
     if (!disableEndDate) {
       const educationFieldValues = props.form.getFieldsValue("education");
       educationFieldValues.education[props.field.fieldKey].endDate = null;
       props.form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate(!disableEndDate);
-  };
+  });
 
   /*
    * Disabled Dates Before Start
@@ -89,14 +89,17 @@ const EducationFormView = (props) => {
   };
 
   useEffect(() => {
-    // set the default status of "ongoing" checkbox
-    if (
-      props.profileInfo.education[props.field.fieldKey] &&
-      props.profileInfo.education[props.field.fieldKey].endDate.en
-    ) {
-      toggleEndDate();
-    }
-  }, [props.profileInfo, props.field]);
+    const fetchData = () => {
+      // set the default status of "ongoing" checkbox
+      if (
+        props.profileInfo.education[props.field.fieldKey] &&
+        props.profileInfo.education[props.field.fieldKey].endDate.en
+      ) {
+        // toggleEndDate();
+      }
+    };
+    fetchData();
+  });
 
   /************************************
    ********* Render Component *********
