@@ -88,14 +88,16 @@ const ExperienceFormView = (props) => {
   };
 
   useEffect(() => {
-    // set the default status of "ongoing" checkbox
-    if (
-      props.profileInfo.careerSummary[props.field.fieldKey] &&
-      props.profileInfo.careerSummary[props.field.fieldKey].endDate
-    ) {
-      toggleEndDate();
-    }
-  }, [props.profileInfo, props.field]);
+    const fetchData = () => {
+      // set the default status of "ongoing" checkbox
+      if (
+        props.profileInfo.careerSummary[props.field.fieldKey] &&
+        props.profileInfo.careerSummary[props.field.fieldKey].endDate
+      ) {
+      }
+    };
+    fetchData();
+  });
 
   /************************************
    ********* Render Component *********
