@@ -64,7 +64,10 @@ function Secured(props) {
       })
       .then((authenticated) => {
         // check if user is admin
-        if (keycloak.tokenParsed.resource_access["upskill-client"]) {
+        if (
+          keycloak.tokenParsed.resource_access &&
+          keycloak.tokenParsed.resource_access["upskill-client"]
+        ) {
           sessionStorage.setItem(
             "admin",
             keycloak.tokenParsed.resource_access[
