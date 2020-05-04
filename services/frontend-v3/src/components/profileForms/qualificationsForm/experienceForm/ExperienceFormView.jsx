@@ -204,7 +204,7 @@ const ExperienceFormView = (props) => {
           fieldKey={[props.field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[Rules.required, Rules.maxChar250]}
-          extra="Max 250 characters"
+          extra={<FormattedMessage id="profile.career.content.rule" />}
         >
           <TextArea rows={4} />
         </Form.Item>

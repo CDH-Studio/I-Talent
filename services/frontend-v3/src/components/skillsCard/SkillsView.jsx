@@ -1,6 +1,7 @@
 import React from "react";
 import { Tag, Collapse, Empty } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
+import { injectIntl } from "react-intl";
 
 const { Panel } = Collapse;
 
@@ -37,7 +38,7 @@ function SkillsView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description="no skills provided"
+          description={props.intl.formatMessage({ id: "profile.mentorship.empty" })}
         />
       );
     }
@@ -46,4 +47,4 @@ function SkillsView(props) {
   return generateSkillsCollapse(props.categoriesSkills, props.skills);
 }
 
-export default SkillsView;
+export default injectIntl(SkillsView);

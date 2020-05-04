@@ -392,7 +392,7 @@ const TalentFormView = (props) => {
                 rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0
-                    ? "You must first select skills to provide mentorship for them"
+                    ? <FormattedMessage id="profile.mentorship.skills.empty" />
                     : undefined
                 }
               >

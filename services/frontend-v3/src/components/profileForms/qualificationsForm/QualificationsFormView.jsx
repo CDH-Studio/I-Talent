@@ -388,7 +388,7 @@ const QualificationsFormView = (props) => {
                   <Select
                     mode="tags"
                     style={{ width: "100%" }}
-                    notFoundContent={"click enter to add"}
+                    notFoundContent={<FormattedMessage id="setup.projects.placeholder" />}
                   />
                 </Form.Item>
               </Col>

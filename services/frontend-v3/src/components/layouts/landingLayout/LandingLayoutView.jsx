@@ -50,21 +50,19 @@ const LandingLayoutView = (props) => {
               color: "#404040",
             }}
           >
-            Welcome
+            <FormattedMessage id="landing.welcome" />
           </Title>
           <Text
             style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
             strong
           >
-            I-Talent is a platform to showcase your skills and talent within
-            ISED! It is a secure and easy way for you to create a and maintain
-            your profile.
+            <FormattedMessage id="landing.description"/>
           </Text>
           <Text
             style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
             strong
           >
-            Connect with other talented individuals to learn and grow together.
+            <FormattedMessage id="landing.call.to.action"/>
           </Text>
           <Button type="primary" href={"/secured/home"} size={"large"}>
             <FormattedMessage id="landing.login.button" />

@@ -122,7 +122,7 @@ function TalentForm(props) {
           for (var w = 0; w < result.data[i].skills.length; w++) {
             var child = {
               title:
-                result.data[i].description.en +
+                result.data[i].description[locale] +
                 ": " +
                 result.data[i].skills[w].description[locale],
               value: result.data[i].skills[w].id,
