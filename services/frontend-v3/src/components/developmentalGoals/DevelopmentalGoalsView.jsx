@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Tag, Row, Empty } from "antd";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 function DevelopmentalGoalsView(props) {
   /*
@@ -26,7 +26,7 @@ function DevelopmentalGoalsView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={props.intl.formatMessage({ id: "profile.developmental.goals.empty" })}
+          description={<FormattedMessage id="profile.developmental.goals.empty" />}
         />
       );
     }
@@ -34,4 +34,4 @@ function DevelopmentalGoalsView(props) {
   return GenerateDevGoalsList(props.devGoals);
 }
 
-export default injectIntl(DevelopmentalGoalsView);
+export default DevelopmentalGoalsView;

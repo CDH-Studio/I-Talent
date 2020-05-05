@@ -1,7 +1,7 @@
 import React from "react";
 import { Tag, Collapse, Empty } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 const { Panel } = Collapse;
 
@@ -40,7 +40,7 @@ function MentorshipView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={props.intl.formatMessage({ id: "profile.mentorship.empty" })}
+          description={<FormattedMessage id="profile.mentorship.empty" />}
         />
       );
     }
@@ -49,4 +49,4 @@ function MentorshipView(props) {
   return generateMentorshipCollapse(props.mentoringCategories, props.mentoring);
 }
 
-export default injectIntl(MentorshipView);
+export default MentorshipView;

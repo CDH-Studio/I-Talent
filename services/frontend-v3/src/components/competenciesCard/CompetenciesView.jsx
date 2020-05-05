@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Tag, Row, Empty } from "antd";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 function CompetenciesView(props) {
   /*
@@ -26,7 +26,7 @@ function CompetenciesView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={props.intl.formatMessage({ id: "profile.competencies.empty" })}
+          description={<FormattedMessage id="profile.competencies.empty"/>}
         />
       );
     }
@@ -35,4 +35,4 @@ function CompetenciesView(props) {
   return generateCompetenciesTagList(props.competencies);
 }
 
-export default injectIntl(CompetenciesView);
+export default CompetenciesView;
