@@ -251,7 +251,7 @@ function PrimaryInfoFormView(props) {
         email: profile.email,
         location: profile.location.id ? profile.location.id : undefined,
         team: profile.team,
-        gcConnex: "ddd",
+        gcconnexUrl: profile.gcconnexUrl,
         linkedinUrl: profile.linkedinUrl,
         githubUrl: profile.githubUrl,
       };
@@ -393,7 +393,7 @@ function PrimaryInfoFormView(props) {
               </Col>
               <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
-                  name="gcConnex"
+                  name="gcconnexUrl"
                   label={<FormattedMessage id="profile.gcconnex.url" />}
                   rules={[Rules.maxChar100]}
                 >
