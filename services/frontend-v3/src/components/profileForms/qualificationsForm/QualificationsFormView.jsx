@@ -279,7 +279,7 @@ const QualificationsFormView = (props) => {
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
-          5. <FormattedMessage id="profile.employee.growth.interests" />
+          6. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>

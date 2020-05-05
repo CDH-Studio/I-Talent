@@ -469,7 +469,7 @@ const TalentFormView = (props) => {
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
-          5. <FormattedMessage id="setup.talent" />
+          4. <FormattedMessage id="setup.talent" />
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>

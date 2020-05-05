@@ -462,7 +462,7 @@ const LangProficiencyFormView = (props) => {
     return (
       <div style={styles.content}>
         <Title level={2} style={styles.formTitle}>
-          4. <FormattedMessage id="setup.language.proficiency" />
+          3. <FormattedMessage id="setup.language.proficiency" />
         </Title>
         <Divider style={styles.headerDiv} />
         <div key={props.profileInfo}>
