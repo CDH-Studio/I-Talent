@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import AppLayout from "../appLayout/AppLayout";
 import {
   EmploymentDataForm,
@@ -95,6 +95,12 @@ const EditProfileLayoutView = (props) => {
   // Get correct form for current step
   let form = profileFormSelect(props.formStep);
 
+  // get current language code
+  let locale = props.intl.formatMessage({
+    id: "language.code",
+    defaultMessage: "en",
+  });
+
   return (
     <AppLayout
       changeLanguage={props.changeLanguage}
@@ -105,7 +111,7 @@ const EditProfileLayoutView = (props) => {
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
-          textTransform: "capitalize",
+          textTransform: locale === "en" ? "capitalize" : "",
         }}
         title={<FormattedMessage id="edit.profile" />}
       />
@@ -113,4 +119,4 @@ const EditProfileLayoutView = (props) => {
     </AppLayout>
   );
 };
-export default EditProfileLayoutView;
+export default injectIntl(EditProfileLayoutView);
