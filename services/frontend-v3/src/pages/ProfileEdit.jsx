@@ -2,7 +2,7 @@ import React from "react";
 import { injectIntl } from "react-intl";
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
-const ProfileCreate = (props) => {
+const ProfileEdit = (props) => {
   document.title =
     props.intl.formatMessage({ id: "edit.profile" }) + " | I-Talent";
 
@@ -16,4 +16,4 @@ const ProfileCreate = (props) => {
   );
 };
 
-export default injectIntl(ProfileCreate);
+export default injectIntl(ProfileEdit);
