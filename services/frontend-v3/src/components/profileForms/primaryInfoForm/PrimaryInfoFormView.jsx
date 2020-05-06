@@ -27,6 +27,12 @@ function PrimaryInfoFormView(props) {
 
   /* Component Styles */
   const styles = {
+    skeleton: {
+      minHeight: "400px",
+      maxWidth: "900px",
+      background: "#fff",
+      padding: "30px 30px",
+    },
     content: {
       textAlign: "left",
       width: "100%",
@@ -240,6 +246,23 @@ function PrimaryInfoFormView(props) {
     message.info("Form Cleared");
   };
 
+  /* Generate form header based on form type */
+  const getFormHeader = (formType) => {
+    if (formType == "create") {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          2. <FormattedMessage id="setup.primary.information" />
+        </Title>
+      );
+    } else {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          <FormattedMessage id="setup.primary.information" />
+        </Title>
+      );
+    }
+  };
+
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     if (profile) {
@@ -266,7 +289,7 @@ function PrimaryInfoFormView(props) {
   if (!props.load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.content}>
+      <div style={styles.skeleton}>
         <Skeleton active />
       </div>
     );
@@ -274,154 +297,151 @@ function PrimaryInfoFormView(props) {
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
-        <Title level={2} style={styles.formTitle}>
-          1. <FormattedMessage id="setup.primary.information" />
-        </Title>
+        {/* get form title */}
+        {getFormHeader(props.formType)}
         <Divider style={styles.headerDiv} />
-        <div key={props.profileInfo}>
-          {/* Create for with initial values */}
-          <Form
-            name="basicForm"
-            initialValues={getInitialValues(props.profileInfo)}
-            layout="vertical"
-            form={form}
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          initialValues={getInitialValues(props.profileInfo)}
+          layout="vertical"
+          form={form}
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="firstName"
+                label={<FormattedMessage id="profile.first.name" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="lastName"
+                label={<FormattedMessage id="profile.last.name" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="email"
+                label={<FormattedMessage id="profile.email" />}
+                rules={[Rules.emailFormat, Rules.maxChar50]}
+              >
+                <Input disabled={true} />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="location"
+                label={<FormattedMessage id="profile.location" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {props.locationOptions.map((value, index) => {
+                    return (
+                      <Option key={value.id}>{value.description.en}</Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="team"
+                label={<FormattedMessage id="profile.team" />}
+                rules={[Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four */}
+          <Row
+            gutter={24}
+            style={{
+              backgroundColor: "#dfe5e4",
+              paddingTop: "15px",
+              marginBottom: "20px",
+              marginTop: "10px",
+            }}
           >
-            {/* Form Row One */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="firstName"
-                  label={<FormattedMessage id="profile.first.name" />}
-                  rules={[Rules.required, Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="lastName"
-                  label={<FormattedMessage id="profile.last.name" />}
-                  rules={[Rules.required, Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Two */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-                <Form.Item
-                  name="telephone"
-                  label={<FormattedMessage id="profile.telephone" />}
-                  rules={[Rules.telephoneFormat]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-                <Form.Item
-                  name="cellphone"
-                  label={<FormattedMessage id="profile.cellphone" />}
-                  rules={[Rules.telephoneFormat]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-                <Form.Item
-                  name="email"
-                  label={<FormattedMessage id="profile.email" />}
-                  rules={[Rules.emailFormat, Rules.maxChar50]}
-                >
-                  <Input disabled={true} />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Three */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="location"
-                  label={<FormattedMessage id="profile.location" />}
-                  rules={[Rules.required, Rules.maxChar50]}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder={<FormattedMessage id="setup.select" />}
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.locationOptions.map((value, index) => {
-                      return (
-                        <Option key={value.id}>{value.description.en}</Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="team"
-                  label={<FormattedMessage id="profile.team" />}
-                  rules={[Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Four */}
-            <Row
-              gutter={24}
-              style={{
-                backgroundColor: "#dfe5e4",
-                paddingTop: "15px",
-                marginBottom: "20px",
-                marginTop: "10px",
-              }}
-            >
-              <Col className="gutter-row" span={24}>
-                <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
-              </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-                <Form.Item
-                  name="gcconnexUrl"
-                  label={<FormattedMessage id="profile.gcconnex.url" />}
-                  rules={[Rules.maxChar100]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-                <Form.Item
-                  name="linkedinUrl"
-                  label={<FormattedMessage id="profile.linkedin.url" />}
-                  rules={[Rules.maxChar100]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-                <Form.Item
-                  name="githubUrl"
-                  label={<FormattedMessage id="profile.github.url" />}
-                  rules={[Rules.maxChar100]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            {getFormControlButtons(props.formType)}
-          </Form>
-        </div>
+            <Col className="gutter-row" span={24}>
+              <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="gcconnexUrl"
+                label={<FormattedMessage id="profile.gcconnex.url" />}
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="linkedinUrl"
+                label={<FormattedMessage id="profile.linkedin.url" />}
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="githubUrl"
+                label={<FormattedMessage id="profile.github.url" />}
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {getFormControlButtons(props.formType)}
+        </Form>
       </div>
     );
   }
