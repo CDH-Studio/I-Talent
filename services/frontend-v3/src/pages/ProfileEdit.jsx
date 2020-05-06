@@ -1,25 +1,17 @@
 import React from "react";
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
-class ProfileCreate extends React.Component {
-  goto = (link) => this.props.history.push(link);
+const ProfileCreate = (props) => {
+  document.title = "Edit Profile | I-Talent";
 
-  constructor(props) {
-    super(props);
-
-    document.title = "Create Profile | I-Talent";
-  }
-
-  render() {
-    return (
-      <EditProfileLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        displaySideBar={true}
-        step={this.props.match.params.step}
-      ></EditProfileLayout>
-    );
-  }
-}
+  return (
+    <EditProfileLayout
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      displaySideBar={true}
+      step={props.match.params.step}
+    ></EditProfileLayout>
+  );
+};
 
 export default ProfileCreate;
