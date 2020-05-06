@@ -196,13 +196,13 @@ const PersonalGrowthFormView = (props) => {
   const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success("Changes Saved");
+        message.success(<FormattedMessage id="profile.edit.save.success"/>);
         break;
       case "error":
-        message.error("Data Not Saved");
+        message.error(<FormattedMessage id="profile.edit.save.success"/>);
         break;
       default:
-        message.warning("There may be a problem");
+        message.warning(<FormattedMessage id="profile.edit.save.success"/>);
         break;
     }
   };
