@@ -4,16 +4,12 @@ import SkillsView from "./SkillsView";
 
 function Skills(props) {
   const formatData = (list) => {
-    const locale = localStorage.getItem("lang")
-      ? localStorage.getItem("lang")
-      : "en";
-
+    const locale = localStorage.getItem("lang");
     let categorizedList = {};
 
     if (list) {
       list.forEach((listElement) => {
         const key = listElement.description.categoryId;
-
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
         } else {
@@ -61,7 +57,6 @@ function Skills(props) {
 
   const setUpSkills = (dataSource) => {
     let skills = [];
-
     let categorizedSkillsList = formatData(dataSource);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
