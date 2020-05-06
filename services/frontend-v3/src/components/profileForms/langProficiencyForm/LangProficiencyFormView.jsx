@@ -403,6 +403,23 @@ const LangProficiencyFormView = (props) => {
     }
   };
 
+  /* Generate form header based on form type */
+  const getFormHeader = (formType) => {
+    if (formType == "create") {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          4. <FormattedMessage id="setup.language.proficiency" />
+        </Title>
+      );
+    } else {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          <FormattedMessage id="setup.language.proficiency" />
+        </Title>
+      );
+    }
+  };
+
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     // Get default language from API and convert to dropdown key
@@ -461,63 +478,59 @@ const LangProficiencyFormView = (props) => {
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
-        <Title level={2} style={styles.formTitle}>
-          3. <FormattedMessage id="setup.language.proficiency" />
-        </Title>
+        {getFormHeader(props.formType)}
         <Divider style={styles.headerDiv} />
-        <div key={props.profileInfo}>
-          {/* Create for with initial values */}
-          <Form
-            name="basicForm"
-            form={form}
-            initialValues={getInitialValues(props.profileInfo)}
-            layout="vertical"
-          >
-            {/* Form Row One */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="firstLanguage"
-                  label={<FormattedMessage id="profile.first.language" />}
-                >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder={<FormattedMessage id="setup.select" />}
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.languageOptions.map((value, index) => {
-                      return <Option key={value.key}>{value.text}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Four: Temporary role */}
-            <Row style={styles.secondLangRow} gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="profile.graded.on.second.language" />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={getInitialValues(props.profileInfo)}
+          layout="vertical"
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="firstLanguage"
+                label={<FormattedMessage id="profile.first.language" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
                   }
-                  tooltipText="Extra information"
-                />
-                <Switch
-                  defaultChecked={displayMentorshipForm}
-                  onChange={toggleSecLangForm}
-                />
-                {getSecondLanguageForm(displayMentorshipForm)}
-              </Col>
-            </Row>
-            {/* Form Row Five: Submit button */}
-            {getFormControlButtons(props.formType)}
-          </Form>
-        </div>
+                >
+                  {props.languageOptions.map((value, index) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.secondLangRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <FormLabelTooltip
+                labelText={
+                  <FormattedMessage id="profile.graded.on.second.language" />
+                }
+                tooltipText="Extra information"
+              />
+              <Switch
+                defaultChecked={displayMentorshipForm}
+                onChange={toggleSecLangForm}
+              />
+              {getSecondLanguageForm(displayMentorshipForm)}
+            </Col>
+          </Row>
+          {/* Form Row Five: Submit button */}
+          {getFormControlButtons(props.formType)}
+        </Form>
       </div>
     );
   }
