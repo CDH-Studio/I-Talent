@@ -49,7 +49,7 @@ function ResultsCardView(props) {
               <Avatar
                 size={48}
                 style={{
-                  backgroundColor: person.avatarColor
+                  backgroundColor: person.avatarColor,
                 }}
               >
                 <Text style={{ fontSize: "25px", color: "white" }}>
@@ -76,6 +76,7 @@ function ResultsCardView(props) {
               defaultMessage: "Skills",
             })}
           </Divider>
+
           {person.resultSkills.map((skill) => (
             <Tag
               color="#004441"
