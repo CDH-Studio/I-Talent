@@ -1,24 +1,18 @@
 import React from "react";
+import { injectIntl } from "react-intl";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 
-class ProfileCreate extends React.Component {
-  goto = (link) => this.props.history.push(link);
+const ProfileCreate = (props) => {
+  document.title =
+    props.intl.formatMessage({ id: "create.profile" }) + " | I-Talent";
 
-  constructor(props) {
-    super(props);
+  return (
+    <CreateProfileLayout
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      step={props.match.params.step}
+    ></CreateProfileLayout>
+  );
+};
 
-    document.title = "Create Profile | I-Talent";
-  }
-
-  render() {
-    return (
-      <CreateProfileLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        step={this.props.match.params.step}
-      ></CreateProfileLayout>
-    );
-  }
-}
-
-export default ProfileCreate;
+export default injectIntl(ProfileCreate);
