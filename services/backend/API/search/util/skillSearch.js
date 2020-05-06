@@ -1,5 +1,4 @@
 const skillSearch = async (profiles, skillarray) => {
-  console.log("AHHHHHHHHHHH");
   let skillProf = [];
   profiles.forEach((profile) => {
     if (!profile.skills) return;

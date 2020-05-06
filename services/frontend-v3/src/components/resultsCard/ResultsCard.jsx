@@ -26,7 +26,6 @@ function ResultsCard(props) {
       axios
         .get(backendAddress + "api/search/fuzzySearch?" + queryString)
         .then((result) => setResults(result.data));
-      //gatherResults(queryString);
     } else {
       setResults(new Error("invalid query"));
     }
