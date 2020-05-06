@@ -53,14 +53,16 @@ const CreateProfileLayoutView = (props) => {
    */
   const checkForProfile = async () => {
     try {
-      let url =
+      const url =
         backendAddress +
-        "api/private/profile/" +
+        "api/private/profile/status/" +
         localStorage.getItem("userId");
-      await axios.get(url);
-      setProfileExists(true);
+      const response = await axios.get(url);
+      let exists = response.data.profile.exists;
+      if (exists) setProfileExists(exists);
+      else setProfileExists(false);
     } catch (error) {
-      setProfileExists(false);
+      console.log(error);
     }
   };
 
