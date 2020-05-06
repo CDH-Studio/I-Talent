@@ -478,6 +478,7 @@ const LangProficiencyFormView = (props) => {
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
+        {/* get form title */}
         {getFormHeader(props.formType)}
         <Divider style={styles.headerDiv} />
         {/* Create for with initial values */}
