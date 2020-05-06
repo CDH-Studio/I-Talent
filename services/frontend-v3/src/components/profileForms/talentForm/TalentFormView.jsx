@@ -418,6 +418,27 @@ const TalentFormView = (props) => {
   };
 
   /*
+   * Get form header
+   *
+   * Generates the form header (title)
+   */
+  const getFormHeader = (formType) => {
+    if (formType == "create") {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          5. <FormattedMessage id="setup.talent" />
+        </Title>
+      );
+    } else {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          <FormattedMessage id="setup.talent" />
+        </Title>
+      );
+    }
+  };
+
+  /*
    * Get the initial values for the form
    *
    */
@@ -468,89 +489,85 @@ const TalentFormView = (props) => {
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
-        <Title level={2} style={styles.formTitle}>
-          4. <FormattedMessage id="setup.talent" />
-        </Title>
+        {getFormHeader(props.formType)}
         <Divider style={styles.headerDiv} />
-        <div key={props.profileInfo}>
-          {/* Create for with initial values */}
-          <Form
-            name="basicForm"
-            form={form}
-            initialValues={getInitialValues(props.profileInfo)}
-            layout="vertical"
-          >
-            {/* Form Row One:competencies */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="competencies"
-                  label={
-                    <FormLabelTooltip
-                      labelText={<FormattedMessage id="setup.competencies" />}
-                      tooltipText="Extra information"
-                    />
-                  }
-                >
-                  <Select
-                    className="custom-bubble-select-style"
-                    mode="multiple"
-                    style={{ width: "100%" }}
-                    placeholder={<FormattedMessage id="setup.select" />}
-                  >
-                    {props.competencyOptions.map((value) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Two: skills */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="skills"
-                  label={
-                    <FormLabelTooltip
-                      labelText={<FormattedMessage id="setup.skills" />}
-                      tooltipText="Extra information"
-                    />
-                  }
-                >
-                  <TreeSelect
-                    className="custom-bubble-select-style"
-                    treeData={props.skillOptions}
-                    onChange={onChangeSkills}
-                    treeCheckable={true}
-                    showCheckedStrategy={SHOW_CHILD}
-                    placeholder={<FormattedMessage id="setup.select" />}
-                    treeNodeFilterProp="title"
-                    showSearch={true}
-                    maxTagCount={15}
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={getInitialValues(props.profileInfo)}
+          layout="vertical"
+        >
+          {/* Form Row One:competencies */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="competencies"
+                label={
+                  <FormLabelTooltip
+                    labelText={<FormattedMessage id="setup.competencies" />}
+                    tooltipText="Extra information"
                   />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Three: mentorship role */}
-            <Row style={styles.secondLangRow} gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="profile.mentorship.available" />
-                  }
-                  tooltipText="Extra information"
+                }
+              >
+                <Select
+                  className="custom-bubble-select-style"
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder={<FormattedMessage id="setup.select" />}
+                >
+                  {props.competencyOptions.map((value) => {
+                    return <Option key={value.key}>{value.title}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two: skills */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="skills"
+                label={
+                  <FormLabelTooltip
+                    labelText={<FormattedMessage id="setup.skills" />}
+                    tooltipText="Extra information"
+                  />
+                }
+              >
+                <TreeSelect
+                  className="custom-bubble-select-style"
+                  treeData={props.skillOptions}
+                  onChange={onChangeSkills}
+                  treeCheckable={true}
+                  showCheckedStrategy={SHOW_CHILD}
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  treeNodeFilterProp="title"
+                  showSearch={true}
+                  maxTagCount={15}
                 />
-                <Switch
-                  checked={displayMentorshipForm}
-                  onChange={toggleMentorshipForm}
-                />
-                {getMentorshipForm(displayMentorshipForm)}
-              </Col>
-            </Row>
-            {/* Form Row Four: Submit button */}
-            {getFormControlButtons(props.formType)}
-          </Form>
-        </div>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three: mentorship role */}
+          <Row style={styles.secondLangRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <FormLabelTooltip
+                labelText={
+                  <FormattedMessage id="profile.mentorship.available" />
+                }
+                tooltipText="Extra information"
+              />
+              <Switch
+                checked={displayMentorshipForm}
+                onChange={toggleMentorshipForm}
+              />
+              {getMentorshipForm(displayMentorshipForm)}
+            </Col>
+          </Row>
+          {/* Form Row Four: Submit button */}
+          {getFormControlButtons(props.formType)}
+        </Form>
       </div>
     );
   }
