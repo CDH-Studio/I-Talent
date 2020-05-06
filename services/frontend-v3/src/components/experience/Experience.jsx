@@ -34,10 +34,11 @@ function Experience(props) {
         const endDate = expElement.endDate;
 
         const experience = {
+          description: expElement.content,
+          duration: getExperienceDuration(startDate, endDate),
           icon: "solution",
           jobTitle: expElement.header,
           organizationName: expElement.subheader,
-          duration: getExperienceDuration(startDate, endDate),
         };
 
         experienceInfo.push(experience);
