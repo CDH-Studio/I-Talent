@@ -39,11 +39,16 @@ const EmploymentDataFormView = (props) => {
 
   /* Component Styles */
   const styles = {
+    skeleton: {
+      minHeight: "400px",
+      maxWidth: "900px",
+      background: "#fff",
+      padding: "30px 30px",
+    },
     content: {
       textAlign: "left",
       width: "100%",
       maxWidth: "900px",
-      minHeight: "400px",
       background: "#fff",
       padding: "30px 30px",
     },
@@ -298,11 +303,7 @@ const EmploymentDataFormView = (props) => {
       });
   };
 
-  /*
-   * On Reset
-   *
-   * reset form fields to state when page was loaded
-   */
+  /* on form reset */
   const onReset = () => {
     // reset form fields
     form.resetFields();
@@ -385,6 +386,23 @@ const EmploymentDataFormView = (props) => {
     }
   };
 
+  /* Generate form header based on form type */
+  const getFormHeader = (formType) => {
+    if (formType == "create") {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          3. <FormattedMessage id="setup.employment" />
+        </Title>
+      );
+    } else {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          <FormattedMessage id="setup.employment" />
+        </Title>
+      );
+    }
+  };
+
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     if (profile) {
@@ -437,7 +455,7 @@ const EmploymentDataFormView = (props) => {
   if (!props.load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.content}>
+      <div style={styles.skeleton}>
         <Skeleton active />
       </div>
     );
@@ -445,120 +463,117 @@ const EmploymentDataFormView = (props) => {
     /* Once data had loaded display form */
     return (
       <div style={styles.content}>
-        <Title level={2} style={styles.formTitle}>
-          3. <FormattedMessage id="setup.employment" />
-        </Title>
+        {/* get form title */}
+        {getFormHeader(props.formType)}
         <Divider style={styles.headerDiv} />
-        <div key={props.profileInfo}>
-          {/* Create for with initial values */}
-          <Form
-            name="basicForm"
-            form={form}
-            initialValues={getInitialValues(props.profileInfo)}
-            layout="vertical"
-          >
-            {/* Form Row One */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="tenureId"
-                  label={<FormattedMessage id="profile.substantive" />}
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={getInitialValues(props.profileInfo)}
+          layout="vertical"
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="tenureId"
+                label={<FormattedMessage id="profile.substantive" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                 >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder={<FormattedMessage id="setup.select" />}
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.substantiveOptions.map((value) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
+                  {props.substantiveOptions.map((value) => {
+                    return <Option key={value.key}>{value.title}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
 
-              <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-                <Form.Item
-                  name="groupLevelId"
-                  label={<FormattedMessage id="profile.classification" />}
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="groupLevelId"
+                label={<FormattedMessage id="profile.classification" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                 >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder={<FormattedMessage id="setup.select" />}
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.classificationOptions.map((value) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Two */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="securityClearanceId"
-                  label={<FormattedMessage id="profile.security" />}
+                  {props.classificationOptions.map((value) => {
+                    return <Option key={value.key}>{value.title}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="securityClearanceId"
+                label={<FormattedMessage id="profile.security" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear={true}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                 >
-                  <Select
-                    showSearch
-                    optionFilterProp="children"
-                    placeholder={<FormattedMessage id="setup.select" />}
-                    allowClear={true}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {props.securityOptions.map((value) => {
-                      return <Option key={value.key}>{value.title}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Three */}
-            <Row gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <Form.Item
-                  name="manager"
-                  label={<FormattedMessage id="profile.manager" />}
-                  rules={[Rules.maxChar50]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Form Row Four: Temporary role */}
-            <Row style={styles.tempRoleRow} gutter={24}>
-              <Col className="gutter-row" span={24}>
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="profile.temporary.role" />}
-                  tooltipText="Extra information"
-                />
-                <Switch
-                  checked={displayActingRoleForm}
-                  onChange={toggleTempRoleForm}
-                />
-                {getTempRoleForm(displayActingRoleForm)}
-              </Col>
-            </Row>
-            {getFormControlButtons(props.formType)}
-          </Form>
-        </div>
+                  {props.securityOptions.map((value) => {
+                    return <Option key={value.key}>{value.title}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item
+                name="manager"
+                label={<FormattedMessage id="profile.manager" />}
+                rules={[Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.tempRoleRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <FormLabelTooltip
+                labelText={<FormattedMessage id="profile.temporary.role" />}
+                tooltipText="Extra information"
+              />
+              <Switch
+                checked={displayActingRoleForm}
+                onChange={toggleTempRoleForm}
+              />
+              {getTempRoleForm(displayActingRoleForm)}
+            </Col>
+          </Row>
+          {getFormControlButtons(props.formType)}
+        </Form>
       </div>
     );
   }
