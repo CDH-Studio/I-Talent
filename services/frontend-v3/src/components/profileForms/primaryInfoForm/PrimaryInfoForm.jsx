@@ -4,7 +4,7 @@ import axios from "axios";
 import config from "../../../config";
 const { backendAddress } = config;
 
-function PrimaryInfoForm() {
+function PrimaryInfoForm(props) {
   const [locationOptions, setLocationOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -26,7 +26,9 @@ function PrimaryInfoForm() {
     const getProfileInfo = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
         return 1;
@@ -56,6 +58,7 @@ function PrimaryInfoForm() {
       locationOptions={locationOptions}
       profileInfo={profileInfo}
       load={load}
+      formType={props.formType}
     />
   );
 }

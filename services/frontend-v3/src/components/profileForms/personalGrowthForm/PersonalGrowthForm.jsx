@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import axios from "axios";
+import { injectIntl } from "react-intl";
 import config from "../../../config";
 const { backendAddress } = config;
 
@@ -9,7 +10,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-function PersonalGrowthForm() {
+function PersonalGrowthForm(props) {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -26,6 +27,12 @@ function PersonalGrowthForm() {
   const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState();
   const [savedExFeederBool, setSavedExFeederBool] = useState();
 
+  // get current language code
+  let locale = props.intl.formatMessage({
+    id: "language.code",
+    defaultMessage: "en",
+  });
+
   /* useEffect to run once component is mounted */
   useEffect(() => {
     /*
@@ -35,7 +42,9 @@ function PersonalGrowthForm() {
     const getProfileInfo = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
         return 1;
@@ -58,8 +67,8 @@ function PersonalGrowthForm() {
         // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -78,7 +87,9 @@ function PersonalGrowthForm() {
     const getSavedDevelopmentalGoals = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
 
@@ -104,12 +115,12 @@ function PersonalGrowthForm() {
       const options = [
         {
           key: true,
-          text: "Yes"
+          text: locale === "fr" ? "Oui" : "Yes",
         },
         {
           key: false,
-          text: "No"
-        }
+          text: locale === "fr" ? "Non" : "No",
+        },
       ];
       setInterestedInRemoteOptions(options);
     };
@@ -128,8 +139,8 @@ function PersonalGrowthForm() {
         // Generate the data format required for treeSelect
         for (var i = 0; i < result.data.length; i++) {
           var location = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
           };
           dataTree.push(location);
         }
@@ -149,7 +160,9 @@ function PersonalGrowthForm() {
     const getSavedRelocationLocations = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         let selected = [];
 
@@ -179,8 +192,8 @@ function PersonalGrowthForm() {
         // Generate the data format required for dropdown
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -200,7 +213,9 @@ function PersonalGrowthForm() {
     const getSavedLookingForNewJob = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
 
         // if id is not found set to "undefined" so dropdown defaults to placeholder
@@ -229,8 +244,8 @@ function PersonalGrowthForm() {
         // Generate the data format required for dropdown
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -250,7 +265,9 @@ function PersonalGrowthForm() {
     const getSavedCareerMobility = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
 
         // if id is not found set to "undefined" so dropdown defaults to placeholder
@@ -279,8 +296,8 @@ function PersonalGrowthForm() {
         // Generate the data format required for dropdown
         for (var i = 0; i < result.data.length; i++) {
           var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
+            title: result.data[i].description[locale],
+            key: result.data[i].id,
           };
           dataTree.push(goal);
         }
@@ -300,7 +317,9 @@ function PersonalGrowthForm() {
     const getSavedTalentMatrixResult = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
 
         // if id is not found set to "undefined" so dropdown defaults to placeholder
@@ -323,7 +342,9 @@ function PersonalGrowthForm() {
     const getExFeederBool = async () => {
       try {
         let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
+          backendAddress +
+          "api/private/profile/" +
+          localStorage.getItem("userId");
         let result = await axios.get(url);
         await setSavedExFeederBool(result.data.exFeeder);
         return 1;
@@ -358,7 +379,7 @@ function PersonalGrowthForm() {
     };
 
     getAllData();
-  }, []);
+  }, [locale]);
 
   return (
     <PersonalGrowthFormView
@@ -375,9 +396,10 @@ function PersonalGrowthForm() {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
+      formType={props.formType}
       load={load}
     />
   );
 }
 
-export default PersonalGrowthForm;
+export default injectIntl(PersonalGrowthForm);

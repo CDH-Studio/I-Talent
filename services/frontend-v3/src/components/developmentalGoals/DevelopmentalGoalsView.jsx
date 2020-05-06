@@ -1,5 +1,6 @@
 import React from "react";
 import { List, Tag, Row, Empty } from "antd";
+import { FormattedMessage } from "react-intl";
 
 function DevelopmentalGoalsView(props) {
   /*
@@ -25,7 +26,7 @@ function DevelopmentalGoalsView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description="no developmental goals provided"
+          description={<FormattedMessage id="profile.developmental.goals.empty" />}
         />
       );
     }

@@ -14,7 +14,7 @@ const search = async (request, response) => {
     skillSearchValue = await getSkillNames(searchSkill, skillSearchValue);
   }
 
-  let results = await utils.getAllProfiles(skillSearchValue).then(res => res);
+  let results = await utils.getAllProfiles(skillSearchValue).then((res) => res);
 
   if (query.searchValue)
     results = await utils.fuzzySearch(results, query.searchValue);
@@ -38,9 +38,9 @@ const search = async (request, response) => {
 module.exports = search;
 
 async function getSkillNames(searchSkill, skillSearchValue) {
-  await asyncForEach(searchSkill, async skillId => {
+  await asyncForEach(searchSkill, async (skillId) => {
     let skill = await Skill.findOne({ where: { id: skillId } }).then(
-      data => data.dataValues
+      (data) => data.dataValues
     );
     skill = skill.descriptionEn;
     skillSearchValue = skillSearchValue.concat(" " + skill);

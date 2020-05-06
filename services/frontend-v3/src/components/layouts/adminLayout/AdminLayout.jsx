@@ -1,6 +1,10 @@
 import React from "react";
 import AdminLayoutView from "./AdminLayoutView";
 
+/**
+ *  AdminLayout(props)
+ *  Controller for the Admin Layout.
+ */
 function AdminLayout(props) {
   return (
     <AdminLayoutView

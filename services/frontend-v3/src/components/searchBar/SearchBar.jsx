@@ -39,7 +39,7 @@ function SearchBar(props) {
     try {
       let results = await axios.get(backendAddress + "api/option/getBranch");
       return results.data.filter(
-        elem => elem.description && elem.description.en
+        (elem) => elem.description && elem.description.en
       );
     } catch (error) {
       console.log(error);
@@ -74,11 +74,11 @@ function SearchBar(props) {
   };
 
   //Creates the basic input field for basic search and puts its data into children array
-  const getBasicField = data => {
+  const getBasicField = (data) => {
     const children = [];
     const searchLabel = props.intl.formatMessage({
       id: "button.search",
-      defaultMessage: "Search"
+      defaultMessage: "Search",
     });
     children.push(
       <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
@@ -89,17 +89,17 @@ function SearchBar(props) {
   };
 
   //Creates the six fields for advanced search, along with their bilingual titles
-  const getFields = data => {
+  const getFields = (data) => {
     const count = expand ? 6 : 0;
     const children = [];
     let fieldCounter = 0;
     let locale = props.intl.formatMessage({
       id: "language.code",
-      defaultMessage: "en"
+      defaultMessage: "en",
     });
     const searchLabel = props.intl.formatMessage({
       id: "button.search",
-      defaultMessage: "Search"
+      defaultMessage: "Search",
     });
     const searchTitles = [
       "name",
@@ -107,33 +107,33 @@ function SearchBar(props) {
       "branch",
       "location",
       "classification",
-      "exFeeder"
+      "exFeeder",
     ];
     const labelArr = [
       props.intl.formatMessage({
         id: "advanced.search.form.name",
-        defaultMessage: "Name"
+        defaultMessage: "Name",
       }),
       props.intl.formatMessage({
         id: "advanced.search.form.skills",
-        defaultMessage: "Skills"
+        defaultMessage: "Skills",
       }),
       props.intl.formatMessage({
         id: "advanced.search.form.branch",
-        defaultMessage: "Branch"
+        defaultMessage: "Branch",
       }),
       props.intl.formatMessage({
         id: "advanced.search.form.location",
-        defaultMessage: "Location"
+        defaultMessage: "Location",
       }),
       props.intl.formatMessage({
         id: "advanced.search.form.classification",
-        defaultMessage: "Classification"
+        defaultMessage: "Classification",
       }),
       props.intl.formatMessage({
         id: "advanced.search.form.ex.feeder",
-        defaultMessage: "Ex Feeder"
-      })
+        defaultMessage: "Ex Feeder",
+      }),
     ];
     for (let i = 0; i < 10; i++) {
       fieldCounter++;
@@ -158,7 +158,7 @@ function SearchBar(props) {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {skillOptions.map(value => {
+                {skillOptions.map((value) => {
                   return (
                     <Option key={value.id}>{value.description[locale]}</Option>
                   );
@@ -176,7 +176,7 @@ function SearchBar(props) {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {branchOptions.map(value => {
+                {branchOptions.map((value) => {
                   return (
                     <Option key={value.description.en}>
                       {value.description[locale]}
@@ -196,7 +196,7 @@ function SearchBar(props) {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {locationOptions.map(value => {
+                {locationOptions.map((value) => {
                   return (
                     <Option key={value.id}>{value.description[locale]}</Option>
                   );
@@ -214,7 +214,7 @@ function SearchBar(props) {
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {classOptions.map(value => {
+                {classOptions.map((value) => {
                   return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
@@ -223,12 +223,13 @@ function SearchBar(props) {
         </Col>
       );
     }
+
     return children;
   };
 
   //turns search values inputted into children array into query, redirects to results
   //page with query
-  const handleSearch = values => {
+  const handleSearch = (values) => {
     var query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
     let url = "/secured/results?" + encodeURI(query);
@@ -246,7 +247,6 @@ function SearchBar(props) {
       setLocationOptions(locations);
       setClassOptions(classifications);
     };
-
     updateState();
   }, []);
 

@@ -38,6 +38,23 @@
     transform: rotate(360deg);
   }
 }
+
+.navProfileName {
+  display: inline;
+}
+
+@media (max-width: 500px) {
+  .navProfileName {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .landingPicture {
+    display: none !important;
+  }
+}
+
 .ant-layout-sider-trigger {
   background-color: #dfe5e4 !important;
   color: rgb(0, 30, 30) !important;
@@ -51,7 +68,7 @@
   border-top-color: #001c1a !important;
 }
 .ant-form-item {
-  margin-bottom: 15px !important;
+  margin-bottom: 13px !important;
 }
 
 .ant-form-item-label {
