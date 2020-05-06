@@ -36,11 +36,17 @@ const LangProficiencyFormView = (props) => {
 
   /* Component Styles */
   const styles = {
+    skeleton: {
+      width: "100%",
+      maxWidth: "900px",
+      minHeight: "400px",
+      background: "#fff",
+      padding: "30px 30px",
+    },
     content: {
       textAlign: "left",
       width: "100%",
       maxWidth: "900px",
-      minHeight: "400px",
       background: "#fff",
       padding: "30px 30px",
     },
@@ -470,7 +476,7 @@ const LangProficiencyFormView = (props) => {
   if (!props.load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.content}>
+      <div style={styles.skeleton}>
         <Skeleton active />
       </div>
     );

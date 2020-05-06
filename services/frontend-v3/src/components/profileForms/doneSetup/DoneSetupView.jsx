@@ -26,7 +26,6 @@ function DoneSetupView(props) {
     content: {
       textAlign: "center",
       width: "100%",
-      minHeight: "400px",
       background: "#fff",
       padding: "80px 10px",
     },
