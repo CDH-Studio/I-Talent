@@ -1,10 +1,11 @@
 const skillSearch = async (profiles, skillarray) => {
+  console.log("AHHHHHHHHHHH");
   let skillProf = [];
-  profiles.forEach(profile => {
+  profiles.forEach((profile) => {
     if (!profile.skills) return;
 
-    const skillIds = profile.skills.map(skill => skill.id);
-    if (skillIds.some(id => skillarray.includes(id))) skillProf.push(profile);
+    const skillIds = profile.skills.map((skill) => skill.id);
+    if (skillIds.some((id) => skillarray.includes(id))) skillProf.push(profile);
   });
   return skillProf;
 };

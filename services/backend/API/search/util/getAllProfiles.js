@@ -7,7 +7,7 @@ const User = Models.user;
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-const getAllProfiles = async searchValue => {
+const getAllProfiles = async (searchValue) => {
   const profiles = await Profile.findAll({
     attributes: [
       "id",
@@ -25,23 +25,23 @@ const getAllProfiles = async searchValue => {
       "actingId",
       "exFeeder",
       "flagged",
-      "visibleCards"
+      "visibleCards",
     ],
     include: [
-      { model: User, attributes: ["inactive"], where: { inactive: false } }
+      { model: User, attributes: ["inactive"], where: { inactive: false } },
     ],
     where: {
-      flagged: false
-    }
+      flagged: false,
+    },
   });
-  const allProf = await _getProfs(profiles, searchValue).then(profs => profs);
+  const allProf = await _getProfs(profiles, searchValue).then((profs) => profs);
 
   return allProf;
 };
 
 _getProfs = (profiles, searchValue) => {
   return Promise.all(
-    profiles.map(profile => {
+    profiles.map((profile) => {
       return _getProf(profile, searchValue);
     })
   );
@@ -49,7 +49,7 @@ _getProfs = (profiles, searchValue) => {
 
 _getProf = async (profile, searchValue) => {
   let user = await profile.getUser({
-    attributes: ["email", "avatarColor", "nameInitials"]
+    attributes: ["email", "avatarColor", "nameInitials"],
   });
 
   if (!profile) response.status(404).send("Profile Not Found");
@@ -61,20 +61,20 @@ _getProf = async (profile, searchValue) => {
 
   let data = { ...profileData, ...userData };
 
-  let groupLevel = await profile.getGroupLevel().then(res => {
+  let groupLevel = await profile.getGroupLevel().then((res) => {
     if (res) return res.dataValues;
   });
 
-  let acting = await profile.getActing().then(res => {
+  let acting = await profile.getActing().then((res) => {
     if (res) return res.dataValues;
   });
 
-  let location = await profile.getLocation().then(res => {
+  let location = await profile.getLocation().then((res) => {
     if (res) return res.dataValues;
   });
 
   let experiences = await profile.getExperiences();
-  let careerSummary = experiences.map(experience => {
+  let careerSummary = experiences.map((experience) => {
     let startDate = moment(experience.startDate);
     let endDate = moment(experience.endDate);
 
@@ -83,25 +83,25 @@ _getProf = async (profile, searchValue) => {
       subheader: experience.jobTitle,
       content: experience.description,
       startDate: startDate,
-      endDate: endDate
+      endDate: endDate,
     };
   });
 
   let dbProjects = await profile.getProfileProjects();
-  let projects = dbProjects.map(project => {
+  let projects = dbProjects.map((project) => {
     return { text: project.description };
   });
 
   let education = await profile.getEducation();
   let educations = () => {
     return Promise.all(
-      education.map(async educ => {
+      education.map(async (educ) => {
         let startDate = moment(educ.startDate);
         let endDate = moment(educ.endDate);
-        let school = await educ.getSchool().then(res => {
+        let school = await educ.getSchool().then((res) => {
           if (res) return res.dataValues;
         });
-        let diploma = await educ.getDiploma().then(res => {
+        let diploma = await educ.getDiploma().then((res) => {
           if (res) return res.dataValues;
         });
         educ = educ.dataValues;
@@ -109,18 +109,18 @@ _getProf = async (profile, searchValue) => {
         return {
           school: {
             id: school.id,
-            description: { en: school.description, fr: school.description }
+            description: { en: school.description, fr: school.description },
           },
           diploma: {
             id: diploma.id,
             description: {
               en: diploma.descriptionEn,
-              fr: diploma.descriptionFr
-            }
+              fr: diploma.descriptionFr,
+            },
           },
           content: "",
           startDate: { en: startDate, fr: startDate },
-          endDate: { en: endDate, fr: endDate }
+          endDate: { en: endDate, fr: endDate },
         };
       })
     );
@@ -130,46 +130,47 @@ _getProf = async (profile, searchValue) => {
 
   let organizationList = await profile
     .getProfileOrganizations({ order: [["tier", "DESC"]] })
-    .then(organizations => {
-      let orgList = organizations.map(organization => {
+    .then((organizations) => {
+      let orgList = organizations.map((organization) => {
         return {
           en: organization.descriptionEn,
-          fr: organization.descriptionFr
+          fr: organization.descriptionFr,
         };
       });
       return orgList;
     });
 
-  let skills = await profile.getSkills().map(skill => {
-    if (skill)
+  let skills = await profile.getSkills().map(async (skill) => {
+    if (skill) {
       return {
         id: skill.dataValues.id,
         description: {
           en: skill.dataValues.descriptionEn,
-          fr: skill.dataValues.descriptionFr
-        }
+          fr: skill.dataValues.descriptionFr,
+        },
       };
+    }
   });
 
-  let competencies = await profile.getCompetencies().map(competencies => {
+  let competencies = await profile.getCompetencies().map((competencies) => {
     if (competencies)
       return {
         id: competencies.dataValues.id,
         description: {
           en: competencies.dataValues.descriptionEn,
-          fr: competencies.dataValues.descriptionFr
-        }
+          fr: competencies.dataValues.descriptionFr,
+        },
       };
   });
 
   let allSkill = skills.concat(competencies);
 
-  allSkill = allSkill.map(skill => skill.description);
+  allSkill = allSkill.map((skill) => skill.description);
 
   const options = {
     shouldSort: true,
     keys: ["en", "fr"],
-    threshold: 0.2
+    threshold: 0.2,
   };
 
   const fuse = new Fuse(allSkill, options);
@@ -184,7 +185,7 @@ _getProf = async (profile, searchValue) => {
     acting: {
       //this
       id: acting && privateInfo.info ? acting.id : null,
-      description: acting && privateInfo.info ? acting.description : null
+      description: acting && privateInfo.info ? acting.description : null,
     },
     branch: data.branchEn,
     careerSummary: privateInfo.experience ? careerSummary : null,
@@ -192,7 +193,7 @@ _getProf = async (profile, searchValue) => {
       //this
       id: groupLevel && privateInfo.info ? groupLevel.id : null,
       description:
-        groupLevel && privateInfo.info ? groupLevel.description : null
+        groupLevel && privateInfo.info ? groupLevel.description : null,
     },
     competencies,
     education: privateInfo.education ? educArray : null,
@@ -220,17 +221,17 @@ _getProf = async (profile, searchValue) => {
             location.city +
             ", " +
             location.provinceFr
-          : null
-      }
+          : null,
+      },
     },
     manager: privateInfo.manager ? data.manager : null,
     cellphone: data.cellphone,
     organizationList,
-    skills: privateInfo.skill ? skills : null,
+    skills: privateInfo.skills ? skills : null,
     team: data.team,
     telephone: data.telephone,
     projects: privateInfo.projects ? projects : null,
-    resultSkills
+    resultSkills,
   };
   return resData;
 };
