@@ -288,15 +288,16 @@ function SearchBarView(props) {
           {/* expand advance search btn */}
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
-              <a
-                href="javascript:void(0)"
-                style={{ marginLeft: 8, fontSize: 14 }}
-                tabIndex="0"
+              <Button
+                type="link"
                 onClick={toggle}
+                style={{ fontSize: 14 }}
+                tabIndex="0"
+                size={"small"}
               >
                 <SettingOutlined style={{ marginRight: "3px" }} />
                 <FormattedMessage id={"advanced.search.button.text"} />
-              </a>
+              </Button>
             </Col>
           </Row>
         </div>
