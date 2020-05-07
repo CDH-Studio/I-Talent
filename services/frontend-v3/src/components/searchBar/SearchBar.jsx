@@ -238,8 +238,10 @@ function SearchBar(props) {
   return (
     <SearchBarView
       changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      history={props.history}
+      locationOptions={locationOptions}
+      skillOptions={skillOptions}
+      classOptions={classOptions}
+      branchOptions={branchOptions}
       getFields={getFields}
       handleSearch={handleSearch}
       toggle={toggle}
