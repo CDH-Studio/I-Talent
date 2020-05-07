@@ -33,7 +33,6 @@ function SearchBarView(props) {
       width: "90%",
       maxWidth: "1100px",
       margin: "auto",
-      // padding: "60px 20% 20px 20%",
     },
     mainSearchDiv: {
       backgroundColor: "#001C1A",
@@ -81,8 +80,14 @@ function SearchBarView(props) {
     defaultMessage: "Search",
   });
 
+  // Toggle expandable advanced search form
   const toggle = () => {
     setExpand(!expand);
+  };
+
+  // Handle form submission
+  const onFinish = (values) => {
+    handleSearch(values);
   };
 
   // Generate the basic input field for basic search
@@ -95,14 +100,14 @@ function SearchBarView(props) {
   };
 
   // Generate the advanced search fields
-  const getAdvancedSearchForm = () => {
+  const getAdvancedSearchForm = (displayForm) => {
     // detect language
     let locale = props.intl.formatMessage({
       id: "language.code",
       defaultMessage: "en",
     });
 
-    if (!expand) {
+    if (!displayForm) {
       return <div />;
     } else {
       return (
@@ -236,10 +241,6 @@ function SearchBarView(props) {
     }
   };
 
-  const onFinish = (values) => {
-    handleSearch(values);
-  };
-
   return (
     <Form
       form={form}
@@ -247,18 +248,6 @@ function SearchBarView(props) {
       style={styles.outerForm}
       layout={"vertical"}
     >
-      {empty === true ? (
-        <Alert
-          message={props.intl.formatMessage({
-            id: "alert.empty.search",
-            defaultMessage: "Please input a value into the search bar below",
-          })}
-          type="error"
-          style={styles.alert}
-        />
-      ) : (
-        setDoNothing[true]
-      )}
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
           <img
@@ -266,7 +255,7 @@ function SearchBarView(props) {
             alt="UpSkill Logo"
             style={{ width: "80%", maxWidth: "300px" }}
           />
-          ;{/* Gets main basic search field and shows buttons beneath */}
+          {/* Gets main basic search field and shows buttons beneath */}
           <div style={styles.mainSearchField}>{getBasicField(data)}</div>
           <Button
             shape="round"
@@ -295,7 +284,8 @@ function SearchBarView(props) {
         </div>
         <div style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
-          {getAdvancedSearchForm()}
+          {getAdvancedSearchForm(expand)}
+          {/* expand advance search btn */}
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
               <a
