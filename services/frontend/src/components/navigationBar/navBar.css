@@ -1,9 +1,0 @@
-.gradientBack {
-  background-image: linear-gradient(to right, #3548af, #202870) !important;
-}
-
-*[tabIndex]:focus {
-  /* border-radius: 10px !important; */
-  color: #fff !important;
-  background-color: #596cd9 !important;
-}
