@@ -2,10 +2,10 @@
 
 // Import the packages we need
 const express = require("express"); // call express
-const expressHbs = require('express-handlebars');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-const { keycloak, sessionInstance } = require('./util/keycloak');
+const expressHbs = require("express-handlebars");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const { keycloak, sessionInstance } = require("./util/keycloak");
 const sequelizedb = require("./config/database");
 
 const app = express(); // define our app using express
@@ -15,7 +15,7 @@ const user = require("./API/user");
 const profileGeneration = require("./API/profileGeneration");
 const options = require("./API/options").optionRouter;
 const admin = require("./API/admin/router");
-const search = require('./API/search');
+const search = require("./API/search");
 
 dotenv.config(); // Config() function reads the .env file and sets the environment variables
 

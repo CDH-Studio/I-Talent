@@ -1,0 +1,8 @@
+{
+  "eslint.workingDirectories": [
+    "./services/backend/",
+    "./services/frontend-v3"
+  ],
+  "editor.formatOnSave": true,
+  "prettier.trailingComma": "es5"
+}
