@@ -9,7 +9,7 @@ import DashboardGraphsView from "./DashboardGraphsView";
 function DashboardGraphs(props) {
   /* only access data for graphes that uses corresponding language on page */
   const changeEnFr = (dataSource) => {
-    const locale = localStorage.getItem("lang");
+    const locale = localStorage.getItem("lang") || "en";
     const data = dataSource.map((skill) => {
       return {
         name: skill.description[locale],

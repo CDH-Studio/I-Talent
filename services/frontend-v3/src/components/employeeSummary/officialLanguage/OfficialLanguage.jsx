@@ -6,9 +6,8 @@ import moment from "moment";
 function OfficialLanguage(props) {
   const data = props.data;
 
-  const getFirstLanguageInfo = dataSource => {
-    const locale = localStorage.getItem("lang");
-
+  const getFirstLanguageInfo = (dataSource) => {
+    const locale = localStorage.getItem("lang") || "en";
     const firstLanguage = {
       title: <FormattedMessage id="profile.first.language" />,
       description:
@@ -16,12 +15,12 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.firstLanguage[locale]
-        )
+        ),
     };
     return [firstLanguage];
   };
 
-  const getSecondLanguageGradeInfo = dataSource => {
+  const getSecondLanguageGradeInfo = (dataSource) => {
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
       description:
@@ -29,7 +28,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryReadingProficiency
-        )
+        ),
     };
 
     const secondaryWritingProficiency = {
@@ -39,7 +38,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryWritingProficiency
-        )
+        ),
     };
 
     const secondaryOralProficiency = {
@@ -49,17 +48,17 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryOralProficiency
-        )
+        ),
     };
 
     return [
       secondaryReadingProficiency,
       secondaryWritingProficiency,
-      secondaryOralProficiency
+      secondaryOralProficiency,
     ];
   };
 
-  const getSecondLanguageDateInfo = dataSource => {
+  const getSecondLanguageDateInfo = (dataSource) => {
     const formatedReadingDate = moment(dataSource.secondaryReadingDate).format(
       "ll"
     );
@@ -75,7 +74,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           formatedReadingDate
-        )
+        ),
     };
 
     const secondaryWritingDate = {
@@ -85,7 +84,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           formatedWritingDate
-        )
+        ),
     };
 
     const secondaryOralDate = {
@@ -95,7 +94,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           formatedOralDate
-        )
+        ),
     };
 
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];

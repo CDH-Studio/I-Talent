@@ -18,7 +18,7 @@ export const generateCommonFormProps = (
     onTempFieldChange,
     profileInfo,
     tempFields,
-    unchangeableInfo
+    unchangeableInfo,
   } = props;
 
   //convert camelcase to `.` seperated and add `profile.` to beginning
@@ -32,7 +32,7 @@ export const generateCommonFormProps = (
     fluid: true,
     label: intl.formatMessage({ id: intlId }),
     name: name,
-    onChange: tempField ? onTempFieldChange : onFieldChange
+    onChange: tempField ? onTempFieldChange : onFieldChange,
   };
 
   if (control === Checkbox) {
@@ -48,9 +48,9 @@ export const generateCommonFormProps = (
         {
           key: null,
           value: null,
-          text: props.intl.formatMessage({ id: "profile.do.not.specify" })
+          text: props.intl.formatMessage({ id: "profile.do.not.specify" }),
         },
-        ...editProfileOptions[name]
+        ...editProfileOptions[name],
       ];
     }
     commonProps.defaultValue =
@@ -77,13 +77,13 @@ export const generateCommonFormProps = (
 /** translate descriptions that  */
 export function formatOptions(options) {
   let newOptions = [];
-  options.forEach(value =>
+  options.forEach((value) =>
     newOptions.push({
       key: value["id"],
       value: value["id"],
       text:
-        value["description"][localStorage.getItem("lang")] ||
-        value["description"]
+        value["description"][localStorage.getItem("lang") || "en"] ||
+        value["description"],
     })
   );
   return newOptions;
@@ -93,23 +93,26 @@ export function formatSkillOptions(options) {
   let skillOp = [];
   let sOptions = [];
 
-  options.forEach(v =>
+  options.forEach((v) =>
     catOp.push({
       key: v.aCategory.skill.catId,
       value: v.aCategory.skill.skillsCat,
       text:
-        v.aCategory.skill["description"][localStorage.getItem("lang")] ||
-        v.aCategory.skill["description"]
+        v.aCategory.skill["description"][
+          localStorage.getItem("lang") || "en"
+        ] || v.aCategory.skill["description"],
     })
   );
 
   for (var i = 0; i < catOp.length; i++) {
     let temp = catOp[i].value;
-    temp.forEach(v => {
+    temp.forEach((v) => {
       skillOp.push({
         key: v.id,
         value: v.id,
-        text: v["description"][localStorage.getItem("lang")] || v["description"]
+        text:
+          v["description"][localStorage.getItem("lang") || "en"] ||
+          v["description"],
       });
     });
   }

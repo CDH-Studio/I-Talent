@@ -31,22 +31,22 @@ let i18nConfig = {
       CAD: {
         style: "currency",
         currency: "USD",
-        currencyDisplay: "symbol"
-      }
-    }
-  }
+        currencyDisplay: "symbol",
+      },
+    },
+  },
 };
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    let language = localStorage.getItem("lang");
+    let language = localStorage.getItem("lang") || "en";
     i18nConfig.messages = language === "fr" ? messages_fr : messages_en;
     moment.locale(language + "-ca");
 
     this.state = {
-      locale: language
+      locale: language,
     };
 
     this.changeLanguage = this.changeLanguage.bind(this);
@@ -70,19 +70,19 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Landing changeLanguage={this.changeLanguage} {...routeProps} />
               )}
             />
             <Route
               path="/secured"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Secured changeLanguage={this.changeLanguage} {...routeProps} />
               )}
             />
             <Route
               path="/admin"
-              render={routeProps => (
+              render={(routeProps) => (
                 <Admin changeLanguage={this.changeLanguage} {...routeProps} />
               )}
             />
@@ -108,8 +108,8 @@ class App extends Component {
 
     moment.locale(lang + "-ca");
 
-    i18nConfig.locale = localStorage.getItem("lang");
-    this.setState({ locale: localStorage.getItem("lang") });
+    i18nConfig.locale = localStorage.getItem("lang") || "en";
+    this.setState({ locale: localStorage.getItem("lang") || "en" });
   }
 }
 

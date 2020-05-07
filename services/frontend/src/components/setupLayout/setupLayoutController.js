@@ -28,49 +28,49 @@ const { backendAddress } = config;
 const formList = [
   {
     name: <FormattedMessage id="setup.primary.information" />,
-    form: PrimaryInformationFormController
+    form: PrimaryInformationFormController,
   },
   {
     name: <FormattedMessage id="setup.labeled" />,
-    form: LabelCardFormController
+    form: LabelCardFormController,
   },
   {
     name: <FormattedMessage id="setup.manager" />,
-    form: ManagerFormController
+    form: ManagerFormController,
   },
   {
     name: <FormattedMessage id="setup.language.proficiency" />,
-    form: LanguageProficiencyFormController
+    form: LanguageProficiencyFormController,
   },
   {
     name: <FormattedMessage id="setup.talent.management" />,
-    form: TalentManagmentController
+    form: TalentManagmentController,
   },
   { name: <FormattedMessage id="setup.skills" />, form: SkillsFormController },
   {
     name: <FormattedMessage id="setup.competencies" />,
-    form: CompetenciesFormController
+    form: CompetenciesFormController,
   },
   {
     name: <FormattedMessage id="setup.developmental.goals" />,
-    form: DevelopmentalGoalsFormController
+    form: DevelopmentalGoalsFormController,
   },
   {
     name: <FormattedMessage id="setup.education" />,
-    form: EducationFormController
+    form: EducationFormController,
   },
   {
     name: <FormattedMessage id="setup.experience" />,
-    form: CareerOverviewFormController
+    form: CareerOverviewFormController,
   },
   {
     name: <FormattedMessage id="setup.projects" />,
-    form: ProjectsFormController
+    form: ProjectsFormController,
   },
   {
     name: <FormattedMessage id="setup.career.interests" />,
-    form: CareerInterestsFormController
-  }
+    form: CareerInterestsFormController,
+  },
 ];
 
 /** Logic for the /setup route */
@@ -83,7 +83,7 @@ class SetupLayoutController extends Component {
     /** keycloak autherization object */
     keycloak: PropTypes.object,
     /** Function to change route */
-    redirectFunction: PropTypes.func
+    redirectFunction: PropTypes.func,
   };
 
   constructor(props) {
@@ -93,13 +93,13 @@ class SetupLayoutController extends Component {
 
     keycloak
       .loadUserInfo()
-      .then(async userInfo => this.setState({ email: userInfo.email }));
+      .then(async (userInfo) => this.setState({ email: userInfo.email }));
 
     this.state = {
       editProfileOptions: null, //object with key value parts of <field name>:<array of field options>
       formIndex: 0, //Which form the user is being displayed
       gedsIndex: null, //The index the user selects to be their information from gedsInfoList
-      gedsInfoList: null //The list of potential matches for user in GEDS
+      gedsInfoList: null, //The list of potential matches for user in GEDS
     };
 
     this.changes = {};
@@ -111,7 +111,7 @@ class SetupLayoutController extends Component {
     formList.forEach((element, index) =>
       this.formList.push({
         ...element,
-        name: intl.formatMessage({ id: element.name })
+        name: intl.formatMessage({ id: element.name }),
       })
     );
 
@@ -121,7 +121,7 @@ class SetupLayoutController extends Component {
   render() {
     const gedsInfoList = prepareInfo(
       this.state.gedsInfoList,
-      localStorage.getItem("lang")
+      localStorage.getItem("lang") || "en"
     );
     const { changeLanguage } = this.props;
 
@@ -155,8 +155,9 @@ class SetupLayoutController extends Component {
       ...gedsInfo,
       location: {
         ...gedsInfo.location,
-        description: gedsInfo.location.description[localStorage.getItem("lang")]
-      }
+        description:
+          gedsInfo.location.description[localStorage.getItem("lang") || "en"],
+      },
     };
 
     this.setState({ gedsIndex: index });
@@ -178,7 +179,7 @@ class SetupLayoutController extends Component {
 
     let gedsInfoList = await axios
       .get(backendAddress + "api/profGen/" + localStorage.getItem("userId"))
-      .then(response => response.data);
+      .then((response) => response.data);
 
     let epo = {
       categorized: categorizedList,
@@ -221,12 +222,12 @@ class SetupLayoutController extends Component {
       lookingForNewJob: formatOptions(
         (await axios.get(backendAddress + "api/option/getLookingForANewJob"))
           .data
-      )
+      ),
     };
 
     this.setState({
       editProfileOptions: epo,
-      gedsInfoList
+      gedsInfoList,
     });
   }
 
@@ -240,10 +241,10 @@ class SetupLayoutController extends Component {
         backendAddress + "api/profile/" + localStorage.getItem("userId"),
         this.changes
       )
-      .then(response => {
+      .then((response) => {
         redirectFunction("/secured/home");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   }

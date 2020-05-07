@@ -24,8 +24,7 @@ function Education(props) {
   };
 
   const getEducationInfo = (dataSource) => {
-    const locale = localStorage.getItem("lang");
-
+    const locale = localStorage.getItem("lang") || "en";
     let educationInfo = [];
     if (dataSource.education != null) {
       dataSource.education.forEach((educElement) => {
@@ -47,7 +46,7 @@ function Education(props) {
 
   return (
     <EducationView
-      locale={localStorage.getItem("lang")}
+      locale={localStorage.getItem("lang") || "en"}
       educationInfo={getEducationInfo(props.data)}
     />
   );

@@ -28,7 +28,7 @@ class ProfileLayoutController extends Component {
     publicLayout: PropTypes.bool,
     /** List of publicly visible cards
      * ( This will NOT include unapplied changes when on your own profile, unlike the visbleProfileCards prop this component passes to the view) */
-    visibleProfileCards: PropTypes.objectOf(PropTypes.bool)
+    visibleProfileCards: PropTypes.objectOf(PropTypes.bool),
   };
 
   constructor(props) {
@@ -41,7 +41,7 @@ class ProfileLayoutController extends Component {
       confirmItem: null, // The confirmation item to display in a Confirm modal
       previewPublic: false, // Whether the profile is private and being previewed as public or not
       settingsSidebar: editable ? false : null, // Whether the settings sidebar is visible or not
-      windowWidth: window.innerWidth // Tracks the width of the browser window
+      windowWidth: window.innerWidth, // Tracks the width of the browser window
     };
 
     this.applyVisibleProfileCards = this.applyVisibleProfileCards.bind(this);
@@ -71,7 +71,7 @@ class ProfileLayoutController extends Component {
       keycloak,
       profileInfo,
       updateProfileInfo,
-      visibleProfileCards
+      visibleProfileCards,
     } = this.props;
 
     if (profileInfo)
@@ -92,17 +92,21 @@ class ProfileLayoutController extends Component {
         handleClickDelete={this.handleClickDelete}
         keycloak={keycloak}
         previewPublic={this.state.previewPublic}
-        profileInfo={prepareInfo(profileInfo, localStorage.getItem("lang"), {
-          acting: undefined,
-          actingPeriodStartDate: undefined,
-          developmentalGoals: [],
-          careerSummary: [],
-          competencies: [],
-          education: [],
-          organizationList: [],
-          projects: [],
-          skills: []
-        })}
+        profileInfo={prepareInfo(
+          profileInfo,
+          localStorage.getItem("lang") || "en",
+          {
+            acting: undefined,
+            actingPeriodStartDate: undefined,
+            developmentalGoals: [],
+            careerSummary: [],
+            competencies: [],
+            education: [],
+            organizationList: [],
+            projects: [],
+            skills: [],
+          }
+        )}
         publicLayout={!editable} // note: will probably need to change when special roles work
         setPreviewPublicState={this.setPreviewPublic}
         setSidebarOpenState={this.setSidebarOpenState}
@@ -111,7 +115,7 @@ class ProfileLayoutController extends Component {
         updateProfileInfo={updateProfileInfo}
         visibleProfileCards={{
           ...visibleProfileCards,
-          ...this.state.changedCardVisibilities
+          ...this.state.changedCardVisibilities,
         }}
         windowWidth={this.state.windowWidth}
       />
@@ -127,18 +131,18 @@ class ProfileLayoutController extends Component {
     const { visibleProfileCards } = this.props;
 
     if (visibleProfileCards[visibilityKey] === value) {
-      this.setState(oldState => ({
+      this.setState((oldState) => ({
         changedCardVisibilities: omit(
           oldState.changedCardVisibilities,
           visibilityKey
-        )
+        ),
       }));
     } else {
-      this.setState(oldState => ({
+      this.setState((oldState) => ({
         changedCardVisibilities: {
           ...oldState.changedCardVisibilities,
-          [visibilityKey]: value
-        }
+          [visibilityKey]: value,
+        },
       }));
     }
   }
@@ -151,16 +155,16 @@ class ProfileLayoutController extends Component {
       .put(url, {
         visibleProfileCards: {
           ...visibleProfileCards,
-          ...this.state.changedCardVisibilities
-        }
+          ...this.state.changedCardVisibilities,
+        },
       })
-      .then(response => window.location.reload())
-      .catch(function(error) {
+      .then((response) => window.location.reload())
+      .catch(function (error) {
         console.log(error);
       });
 
     this.setState({
-      changedCardVisibilities: []
+      changedCardVisibilities: [],
     });
   }
 

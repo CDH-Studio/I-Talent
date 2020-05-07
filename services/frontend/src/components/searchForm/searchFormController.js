@@ -21,7 +21,7 @@ class SearchFormController extends Component {
     /** Whether the search bar is using the navigation bar layout. NOTE: the way I wrote the code you still need to specify advancedSearch to get advanced fields */
     navBarLayout: PropTypes.bool,
     /** Whether to display a toggle button or not */
-    toggleButton: PropTypes.bool
+    toggleButton: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ class SearchFormController extends Component {
 
     if (windowLocation.includes("/results")) {
       this.fields = queryString.parseUrl(decodeURI(windowLocation), {
-        arrayFormat: "bracket"
+        arrayFormat: "bracket",
       }).query;
     } else {
       this.fields = {};
@@ -40,7 +40,7 @@ class SearchFormController extends Component {
     this.state = {
       advancedOptions: null,
       advancedSearch: defaultAdvanced,
-      disableSearch: Object.entries(this.fields).length === 0
+      disableSearch: Object.entries(this.fields).length === 0,
     };
 
     this.checkDisabled = this.checkDisabled.bind(this);
@@ -52,40 +52,40 @@ class SearchFormController extends Component {
 
   /** Gathers the options for advanced search fields */
   async getAdvancedOptions() {
-    const lang = localStorage.getItem("lang");
+    const lang = localStorage.getItem("lang") || "en";
     let advancedOptions = {
       classification: prepareInfo(
         (await axios.get(backendAddress + "api/option/getGroupLevel")).data,
         lang
-      ).map(obj => ({
+      ).map((obj) => ({
         key: obj.id, //obj.description,
         text: obj.description,
-        value: obj.id
+        value: obj.id,
       })),
       developmentalGoals: prepareInfo(
         (await axios.get(backendAddress + "api/option/getDevelopmentalGoals"))
           .data,
         lang
-      ).map(obj => ({
+      ).map((obj) => ({
         key: obj.id, //obj.description,
         text: obj.description,
-        value: obj.id
+        value: obj.id,
       })),
       location: prepareInfo(
         (await axios.get(backendAddress + "api/option/getLocation")).data,
         lang
-      ).map(obj => ({
+      ).map((obj) => ({
         key: obj.id, //obj.description,
         text: obj.description,
-        value: obj.id
+        value: obj.id,
       })),
       branch: (await axios.get(backendAddress + "api/option/getBranch")).data
-        .filter(elem => elem.description && elem.description.en)
-        .map(obj => ({
+        .filter((elem) => elem.description && elem.description.en)
+        .map((obj) => ({
           key: obj.description.en,
           text: obj.description[lang],
-          value: obj.description.en
-        }))
+          value: obj.description.en,
+        })),
     };
 
     this.setState({ advancedOptions: advancedOptions });
@@ -109,7 +109,7 @@ class SearchFormController extends Component {
       navBarEmpty || basicHomeEmpty || advancedHomeEmpty
     );
     this.setState({
-      disableSearch: isDisabled
+      disableSearch: isDisabled,
     });
   }
 
@@ -128,7 +128,7 @@ class SearchFormController extends Component {
     } else {
       this.fields[name] = newVal;
       this.setState({
-        disableSearch: false
+        disableSearch: false,
       });
     }
   }
@@ -166,7 +166,7 @@ class SearchFormController extends Component {
     } else {
       query = queryString.stringify(
         {
-          searchValue: this.fields.searchValue
+          searchValue: this.fields.searchValue,
         },
         { arrayFormat: "bracket" }
       );
@@ -184,8 +184,8 @@ class SearchFormController extends Component {
    */
   handleToggle() {
     this.setState(
-      oldState => ({
-        advancedSearch: !oldState.advancedSearch
+      (oldState) => ({
+        advancedSearch: !oldState.advancedSearch,
       }),
       () => this.checkDisabled()
     );
@@ -218,19 +218,19 @@ SearchFormController.defaultProps = {
   invertLabels: false,
   departments: [
     { key: "department1", text: "department1", value: "department1" },
-    { key: "department2", text: "department2", value: "department2" }
+    { key: "department2", text: "department2", value: "department2" },
   ],
   invertLabels: true,
   jobTitles: [
     { key: "Job1", text: "Job1", value: "Job1" },
-    { key: "Job2", text: "Job2", value: "Job2" }
+    { key: "Job2", text: "Job2", value: "Job2" },
   ],
   locations: [
     { key: "locations1", text: "locations1", value: "locations1" },
-    { key: "locations2", text: "locations2", value: "locations2" }
+    { key: "locations2", text: "locations2", value: "locations2" },
   ],
   primaryFieldWidth: "800px",
-  showAdvancedFields: true
+  showAdvancedFields: true,
 };
 
 export default injectIntl(SearchFormController);

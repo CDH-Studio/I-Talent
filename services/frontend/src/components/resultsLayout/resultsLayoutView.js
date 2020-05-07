@@ -19,7 +19,7 @@ export default class ResultsLayoutView extends Component {
     /** Function to change route */
     redirectFunction: PropTypes.func.isRequired,
     /** Array of information on people who showed up on search query */
-    results: PropTypes.object
+    results: PropTypes.object,
   };
 
   constructor(props) {
@@ -62,9 +62,12 @@ export default class ResultsLayoutView extends Component {
       );
     }
 
-    const preparedResults = prepareInfo(results, localStorage.getItem("lang"));
+    const preparedResults = prepareInfo(
+      results,
+      localStorage.getItem("lang") || "en"
+    );
     let cards = [];
-    preparedResults.forEach(person => {
+    preparedResults.forEach((person) => {
       cards.push(this.renderCard(person));
     });
     return <Card.Group fluid>{cards}</Card.Group>;
@@ -86,7 +89,7 @@ export default class ResultsLayoutView extends Component {
           <Card.Meta>{person.branch}</Card.Meta>
         </Card.Content>
         <Card.Content>
-          {person.resultSkills.map(skill => (
+          {person.resultSkills.map((skill) => (
             <Label
               style={{ marginBottom: "2px", marginTop: "2px" }}
               color="blue"
