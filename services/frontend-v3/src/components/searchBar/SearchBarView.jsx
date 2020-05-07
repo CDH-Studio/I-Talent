@@ -6,13 +6,11 @@ import {
   Col,
   Button,
   Form,
-  Alert,
   Input,
   Switch,
   Select,
 } from "antd";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
-import "@ant-design/compatible/assets/index.css";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 
 const { Option } = Select;
@@ -20,9 +18,8 @@ const { Title } = Typography;
 
 function SearchBarView(props) {
   const [expand, setExpand] = useState(false);
-  const [doNothing, setDoNothing] = useState(true);
   const [form] = Form.useForm();
-  const { handleSearch, data, empty } = props;
+  const { handleSearch, data } = props;
 
   const styles = {
     outerForm: {
@@ -204,7 +201,9 @@ function SearchBarView(props) {
                 </Select>
               </Form.Item>
             </Col>
+            {/* form column three */}
             <Col span={8}>
+              {/* branch field */}
               <Form.Item
                 label={<FormattedMessage id="advanced.search.form.branch" />}
                 name={"branch"}
@@ -228,6 +227,7 @@ function SearchBarView(props) {
                   })}
                 </Select>
               </Form.Item>
+              {/* exFeeder field */}
               <Form.Item
                 name={<FormattedMessage id="advanced.search.form.ex.feeder" />}
                 label={"exFeeder"}

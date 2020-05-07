@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "antd";
-import { Col, Input, Switch, Select } from "antd";
 import axios from "axios";
 import config from "../../config";
 import queryString from "query-string";
@@ -8,7 +6,6 @@ import { injectIntl } from "react-intl";
 import SearchBarView from "./SearchBarView";
 
 const backendAddress = config.backendAddress;
-const { Option } = Select;
 
 function SearchBar(props) {
   const [skillOptions, setSkillOptions] = useState([]);
@@ -42,11 +39,10 @@ function SearchBar(props) {
     }
   };
 
-  //Fetches options for locations select field in advanced search
+  // Fetches options for locations select field in advanced search
   const getLocation = async () => {
     try {
       let results = await axios.get(backendAddress + "api/option/getLocation");
-
       return results.data;
     } catch (error) {
       console.log(error);
@@ -54,13 +50,12 @@ function SearchBar(props) {
     }
   };
 
-  //Fetches options for classifications select field in advanced search
+  // Fetches options for classifications select field in advanced search
   const getClassification = async () => {
     try {
       let results = await axios.get(
         backendAddress + "api/option/getGroupLevel"
       );
-
       return results.data;
     } catch (error) {
       console.log(error);
@@ -68,7 +63,7 @@ function SearchBar(props) {
     }
   };
 
-  //turns search values into query, redirects to results page with query
+  // turns search values into query, redirects to results page with query
   const handleSearch = (values) => {
     var query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
@@ -93,7 +88,6 @@ function SearchBar(props) {
 
   return (
     <SearchBarView
-      changeLanguage={props.changeLanguage}
       locationOptions={locationOptions}
       skillOptions={skillOptions}
       classOptions={classOptions}
