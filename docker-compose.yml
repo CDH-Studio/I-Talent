@@ -21,7 +21,7 @@ services:
   #     - ./upskill-frontend-v2/build
 
   web-ant:
-    container_name: "Upskill-frontend-v3"
+    container_name: "upskill-frontend-v3"
     build: ./services/frontend-v3
     ports:
       - "3000:3000"
@@ -32,7 +32,7 @@ services:
       - ./env/web.env
 
   backend:
-    container_name: "Upskill-Backend"
+    container_name: "upskill-backend"
     build: ./services/backend
     ports:
       - "8080:8080"
@@ -43,6 +43,7 @@ services:
       - ./env/backend.env
 
   db-postgres:
+    container_name: "upskill-database"
     image: postgres
     restart: always
     environment:
@@ -53,6 +54,7 @@ services:
       - "5432:5432"
 
   adminer:
+    container_name: "upskill-adminer"
     image: adminer
     restart: always
     depends_on:

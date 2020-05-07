@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Typography, Button } from "antd";
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
   UserOutlined,
   UserAddOutlined,
@@ -15,6 +16,12 @@ const { backendAddress } = config;
 
 function Welcome(props) {
   const history = useHistory();
+
+  // get current language code
+  let locale = props.intl.formatMessage({
+    id: "language.code",
+    defaultMessage: "en",
+  });
 
   /* Component Styles */
   const styles = {
@@ -144,15 +151,15 @@ function Welcome(props) {
           {/* loading button */}
           {generateProfileBtn({
             icon: <LoadingOutlined />,
-            firstTitle: "Fetching Profiles",
-            secondTitle: "From Geds",
+            firstTitle: props.intl.formatMessage({id : "setup.welcome.geds.title"}),
+            secondTitle: props.intl.formatMessage({id : "setup.welcome.geds.description"}),
             type: "default",
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
-            firstTitle: "New User",
-            secondTitle: "start fresh",
+            firstTitle: props.intl.formatMessage({id : "setup.welcome.new.title"}),
+            secondTitle: props.intl.formatMessage({id : "setup.welcome.new.description"}),
           })}
         </div>
       );
@@ -164,7 +171,7 @@ function Welcome(props) {
             return generateProfileBtn({
               icon: <UserOutlined />,
               firstTitle: item.firstName + " " + item.lastName,
-              secondTitle: item.jobTitle.en,
+              secondTitle: item.jobTitle[locale],
               thirdTitle: item.email,
               value: item,
             });
@@ -172,8 +179,8 @@ function Welcome(props) {
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
-            firstTitle: "New User",
-            secondTitle: "start fresh",
+            firstTitle: props.intl.formatMessage({id : "setup.welcome.new.title"}),
+            secondTitle: props.intl.formatMessage({id : "setup.welcome.new.description"}),
           })}
         </div>
       );
@@ -183,18 +190,17 @@ function Welcome(props) {
   return (
     <div style={styles.content}>
       <Title level={1} style={styles.welcome}>
-        <RocketOutlined rotate={"45"} /> Welcome
+        <RocketOutlined rotate={"45"} /> <FormattedMessage id="setup.welcome" />
       </Title>
       <Paragraph style={styles.subHeading}>
-        We just need a few bits of information to set up your profile
+        <FormattedMessage id="setup.welcome.description" />
       </Paragraph>
       <Paragraph style={styles.subHeading} strong>
-        Please select a GEDS profile to pre-populate your information or start
-        from scratch
+        <FormattedMessage id="setup.welcome.action" />
       </Paragraph>
       {generateGedsProfileList()}
     </div>
   );
 }
 
-export default Welcome;
+export default injectIntl(Welcome);
