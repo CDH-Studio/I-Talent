@@ -68,6 +68,9 @@ The following is a guide on how to bring up the pieces of the application for de
 You must have the following already installed:
 
 - Docker
+- Vscode
+  - Prettier (plugin)
+  - Eslint (plugin)
 
 ## Running the Entire Application
 
