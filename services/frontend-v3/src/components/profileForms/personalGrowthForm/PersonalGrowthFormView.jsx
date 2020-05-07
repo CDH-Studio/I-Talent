@@ -16,6 +16,7 @@ import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
+
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -448,6 +449,11 @@ const PersonalGrowthFormView = (props) => {
           <Divider style={styles.headerDiv} />
           <Title level={3} style={styles.formTitle}>
             <FormattedMessage id="setup.talent.management" />
+            <FormLabelTooltip
+              tooltipText={
+                <FormattedMessage id="profile.talent.management.tooltip" />
+              }
+            />
           </Title>
 
           {/* Form Row Three: career mobility */}
