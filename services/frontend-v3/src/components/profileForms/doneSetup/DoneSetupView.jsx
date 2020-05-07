@@ -5,6 +5,7 @@ import {
   UserOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
+import { FormattedMessage } from "react-intl";
 
 const { Title, Paragraph } = Typography;
 
@@ -31,6 +32,9 @@ function DoneSetupView(props) {
     },
     subHeading: {
       fontSize: "1.3em",
+    },
+    buttonText: {
+      marginLeft: "10px",
     },
   };
 
@@ -59,13 +63,13 @@ function DoneSetupView(props) {
             marginTop: "15px",
           }}
         >
-          All Done
+          <FormattedMessage id="setup.done.title" />
         </Title>
         <Paragraph style={styles.subHeading}>
-          Your profile is now set up!
+          <FormattedMessage id="setup.done.description" />
         </Paragraph>
         <Paragraph style={styles.subHeading} strong>
-          Feel free to view your profile and make sure to keep it up-to-date!
+          <FormattedMessage id="setup.done.action" />
         </Paragraph>
         <Button
           icon={<SearchOutlined />}
@@ -73,7 +77,9 @@ function DoneSetupView(props) {
           style={{ marginRight: "25px" }}
           href={"/secured/home"}
         >
-          Search Profiles
+          <span>
+            <FormattedMessage id="setup.done.search" />
+          </span>
         </Button>
         <Button
           icon={<UserOutlined />}
@@ -81,7 +87,9 @@ function DoneSetupView(props) {
           type="primary"
           href={"/secured/profile/" + localStorage.getItem("userId")}
         >
-          View Profile
+          <span>
+            <FormattedMessage id="setup.done.view.profile" />
+          </span>
         </Button>
       </div>
     );

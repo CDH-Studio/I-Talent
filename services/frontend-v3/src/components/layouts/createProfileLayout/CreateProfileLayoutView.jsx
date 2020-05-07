@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PageHeader, Steps } from "antd";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import AppLayout from "../appLayout/AppLayout";
@@ -110,7 +110,7 @@ const CreateProfileLayoutView = (props) => {
           current={stepInt}
           onChange={onChange}
         >
-          <Step title="Welcome" />
+          <Step title={props.intl.formatMessage({ id: "setup.welcome" })} />
           <Step
             title={<FormattedMessage id="setup.primary.information" />}
             description={
@@ -217,6 +217,12 @@ const CreateProfileLayoutView = (props) => {
   // Get correct form for current step
   let form = profileFormSelect(props.formStep);
 
+  // get current language code
+  let locale = props.intl.formatMessage({
+    id: "language.code",
+    defaultMessage: "en",
+  });
+
   return (
     <AppLayout
       changeLanguage={props.changeLanguage}
@@ -227,7 +233,7 @@ const CreateProfileLayoutView = (props) => {
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
-          textTransform: "capitalize",
+          textTransform: locale === "en" ? "capitalize" : "",
         }}
         title={<FormattedMessage id="create.profile" />}
       />
@@ -236,4 +242,4 @@ const CreateProfileLayoutView = (props) => {
   );
 };
 
-export default CreateProfileLayoutView;
+export default injectIntl(CreateProfileLayoutView);
