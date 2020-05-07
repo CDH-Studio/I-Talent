@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { Row, Col, Button, Card, Form, Alert, Input } from "antd";
 import { SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-//import { Icon as LegacyIcon } from "@ant-design/compatible";
 import "@ant-design/compatible/assets/index.css";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 
