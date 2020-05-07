@@ -66,57 +66,6 @@ function PersonalGrowthForm(props) {
   };
 
   /*
-   * Get Saved Looking For New Job
-   *
-   * get Saved Looking For New Job from user profile
-   */
-  const getSavedLookingForNewJob = () => {
-    // if id is not found set to "undefined" so dropdown defaults to placeholder
-    let savedValue = profileInfo.lookingForNewJob
-      ? profileInfo.lookingForNewJob.id
-      : undefined;
-
-    setSavedLookingForNewJob(savedValue);
-  };
-
-  /*
-   * Get Saved Career Mobility
-   *
-   * get saved Saved Career Mobility from user profile
-   */
-  const getSavedCareerMobility = () => {
-    // if id is not found set to "undefined" so dropdown defaults to placeholder
-    let savedValue = profileInfo.careerMobility
-      ? profileInfo.careerMobility.id
-      : undefined;
-
-    setSavedCareerMobility(savedValue);
-  };
-
-  /*
-   * Get Saved Talent Matrix Result
-   *
-   * get saved Talent Matrix Result from user profile
-   */
-  const getSavedTalentMatrixResult = () => {
-    // if id is not found set to "undefined" so dropdown defaults to placeholder
-    let savedValue = profileInfo.talentMatrixResult
-      ? profileInfo.talentMatrixResult.id
-      : undefined;
-
-    setSavedTalentMatrixResult(savedValue);
-  };
-
-  /*
-   * Get Ex Feeder Bool
-   *
-   * get EX-feeder nomination boolean from user profile
-   */
-  const getExFeederBool = () => {
-    setSavedExFeederBool(result.data.exFeeder);
-  };
-
-  /*
    * Get User Profile
    *
    */
@@ -291,12 +240,23 @@ function PersonalGrowthForm(props) {
   /* useEffect when profileInfo changes */
   useEffect(() => {
     if (profileInfo) {
+      const {
+        lookingForNewJob,
+        talentMatrixResult,
+        careerMobility,
+        exFeeder,
+      } = profileInfo;
+
       getSavedDevelopmentalGoals();
       getSavedRelocationLocations();
-      getSavedLookingForNewJob();
-      getSavedCareerMobility();
-      getSavedTalentMatrixResult();
-      getExFeederBool();
+      setSavedLookingForNewJob(
+        lookingForNewJob ? lookingForNewJob.id : undefined
+      );
+      setSavedTalentMatrixResult(
+        talentMatrixResult ? talentMatrixResult.id : undefined
+      );
+      setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
+      setSavedExFeederBool(exFeeder);
     }
   }, [profileInfo]);
 
