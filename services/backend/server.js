@@ -25,7 +25,7 @@ sequelizedb
   .then(() => {
     console.log("Connection has been established successfully.");
   })
-  .catch((err) => {
+  .catch(err => {
     console.error("Unable to connect to the database:", err);
   });
 
@@ -35,7 +35,7 @@ app.engine(
   expressHbs({
     extname: "hbs",
     defaultLayout: "layout.hbs",
-    relativeTo: __dirname,
+    relativeTo: __dirname
   })
 );
 app.set("view engine", "hbs");
@@ -94,10 +94,6 @@ router
 router
   .route("/private/profile/:id")
   .get(keycloak.protect(), profile.getPrivateProfileById);
-
-router
-  .route("/private/profile/status/:id")
-  .get(keycloak.protect(), profile.getProfileStatusById);
 
 //Admin endpoints
 router.use("/admin", admin);

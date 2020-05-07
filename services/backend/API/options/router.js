@@ -16,9 +16,8 @@ const {
   getTalentMatrixResult,
   getTenure,
   getLookingForANewJob,
-  getWillingToRelocateTo,
+  getWillingToRelocateTo
 } = require("./get");
-
 const optionRouter = Router();
 
 optionRouter.get("/getBranch", getBranch);

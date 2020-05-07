@@ -6,7 +6,6 @@ module.exports = {
   getProfile: get.getProfile,
   getPrivateProfileById: get.getPrivateProfileById,
   getPublicProfileById: get.getPublicProfileById,
-  getProfileStatusById: get.getProfileStatusById,
   createProfile: post.createProfile,
-  updateProfile: put.updateProfile,
+  updateProfile: put.updateProfile
 };

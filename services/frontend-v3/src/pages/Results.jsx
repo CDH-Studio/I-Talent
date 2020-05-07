@@ -1,15 +1,15 @@
 import React from "react";
-import { Form } from "@ant-design/compatible";
-import "@ant-design/compatible/assets/index.css";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import ResultLayout from "../components/resultsLayout/ResultLayout";
 import { injectIntl } from "react-intl";
 class Results extends React.Component {
-  goto = (link) => this.props.history.push(link);
+  goto = link => this.props.history.push(link);
 
   constructor(props) {
     super(props);
 
-    document.title = "Results | I-Talent";
+    document.title = "Results | UpSkill";
   }
 
   render() {

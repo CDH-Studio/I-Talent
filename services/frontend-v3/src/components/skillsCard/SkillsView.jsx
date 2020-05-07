@@ -1,7 +1,6 @@
 import React from "react";
 import { Tag, Collapse, Empty } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
 
 const { Panel } = Collapse;
 
@@ -38,7 +37,7 @@ function SkillsView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.mentorship.empty" />}
+          description="no skills provided"
         />
       );
     }

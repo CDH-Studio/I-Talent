@@ -10,23 +10,23 @@ module.exports = {
       "tenures",
       [
         {
-          descriptionEn: "Term",
-          descriptionFr: "Période",
+          descriptionEn: "Acting",
+          descriptionFr: "Par intérim",
           createdAt: new Date(),
-          updatedAt: new Date(),
+          updatedAt: new Date()
         },
         {
-          descriptionEn: "Casual",
-          descriptionFr: "Temporaire",
+          descriptionEn: "Assignment",
+          descriptionFr: "Affectation",
           createdAt: new Date(),
-          updatedAt: new Date(),
+          updatedAt: new Date()
         },
         {
-          descriptionEn: "Indeterminate",
-          descriptionFr: "Indéterminé",
+          descriptionEn: "Secondment-in",
+          descriptionFr: "Détachement",
           createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+          updatedAt: new Date()
+        }
       ],
       {}
     );
@@ -38,5 +38,5 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkDelete("tenures", null, {});
-  },
+  }
 };

@@ -6,6 +6,7 @@ function AppLayout(props) {
     <AppLayoutView
       changeLanguage={props.changeLanguage}
       keycloak={props.keycloak}
+      history={props.history}
       displaySideBar={props.displaySideBar}
       sideBarContent={props.sideBarContent}
     >

@@ -9,7 +9,8 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { NotFound, LandingPage } from "./pages";
+import LandingPage from "./pages/LandingPage";
+import { NotFound } from "./pages";
 import { Secured, Admin } from "./routes";
 
 function App() {
@@ -22,15 +23,15 @@ function App() {
         CAD: {
           style: "currency",
           currency: "USD",
-          currencyDisplay: "symbol",
-        },
-      },
-    },
+          currencyDisplay: "symbol"
+        }
+      }
+    }
   };
 
   moment.locale(locale + "-ca");
 
-  const changeLanguage = (lang) => {
+  const changeLanguage = lang => {
     localStorage.setItem("lang", lang);
     switch (locale) {
       case "fr":
@@ -58,19 +59,19 @@ function App() {
           <Route
             exact
             path="/"
-            render={(routeProps) => (
+            render={routeProps => (
               <LandingPage changeLanguage={changeLanguage} {...routeProps} />
             )}
           />
           <Route
             path="/secured"
-            render={(routeProps) => (
+            render={routeProps => (
               <Secured changeLanguage={changeLanguage} {...routeProps} />
             )}
           />
           <Route
             path="/admin"
-            render={(routeProps) => (
+            render={routeProps => (
               <Admin changeLanguage={changeLanguage} {...routeProps} />
             )}
           />
