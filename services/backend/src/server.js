@@ -42,7 +42,7 @@ app.set("view engine", "hbs");
 //session
 app.use(sessionInstance);
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
@@ -65,11 +65,11 @@ const port = process.env.PORT || 8080; // set our port
 const router = express.Router(); // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api/)
-router.get("/", function(req, res) {
+router.get("/", (req, res) => {
   res.json({ message: "hooray! welcome to our api!" });
 });
 
-router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function(
+router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function (
   req,
   res
 ) {
