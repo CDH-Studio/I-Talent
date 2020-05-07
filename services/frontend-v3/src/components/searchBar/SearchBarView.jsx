@@ -1,41 +1,78 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
-import { Form, Alert } from "antd";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
-//import { Icon as LegacyIcon } from "@ant-design/compatible";
+import { Row, Col, Button, Card, Form, Alert, Input } from "antd";
+import { SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 import "@ant-design/compatible/assets/index.css";
-import { Row, Col, Button, Card } from "antd";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 
 function SearchBarView(props) {
   const [doNothing, setDoNothing] = useState(true);
   const [form] = Form.useForm();
-  const {
-    getFields,
-    getBasicField,
-    handleSearch,
-    expand,
-    toggle,
-    data,
-    empty,
-  } = props;
+  const { getFields, handleSearch, expand, toggle, data, empty } = props;
+
+  const styles = {
+    outerForm: {
+      width: "100%",
+      padding: "40px 50px",
+    },
+    outerDiv: {
+      padding: "60px 20% 20px 20%",
+    },
+    mainSearchDiv: {
+      backgroundColor: "#001C1A",
+      borderRadius: "5px",
+      padding: "50px 80px",
+      boxShadow: "10px 10px 10px #cccccc",
+      textAlign: "center",
+    },
+    mainSearchField: {
+      margin: "30px 10px 10px 10px",
+    },
+    submitBtn: {
+      marginLeft: 8,
+      width: "100%",
+      maxWidth: "200px",
+      marginTop: "10px",
+    },
+    clearBtn: {
+      marginLeft: 8,
+      marginTop: "10px",
+    },
+    advFieldStyles: {
+      textAlign: "center",
+      marginTop: "10px",
+    },
+    advSearchCard: {
+      boxShadow: "10px 10px 10px #cccccc",
+      borderRadius: "5px",
+    },
+    advFieldPlacement: {
+      textAlign: "right",
+    },
+    alert: {
+      fontSize: "14px",
+      textAlign: "center",
+      margin: "0 auto",
+      width: "300px",
+    },
+  };
 
   const searchLabel = props.intl.formatMessage({
     id: "button.search",
     defaultMessage: "Search",
   });
 
-  const onFinish = (values) => {
-    handleSearch(values);
+  //Creates the basic input field for basic search and puts its data into children array
+  const getBasicField = () => {
+    return (
+      <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
+        <Input placeholder={searchLabel} size="large" />
+      </Form.Item>
+    );
   };
 
-  const handleKeyPress = (e) => {
-    console.log("toggled1");
-    if (e.charCode === 32 || e.charCode === 13) {
-      e.preventDefault();
-      console.log("toggled2");
-      toggle();
-    }
+  const onFinish = (values) => {
+    handleSearch(values);
   };
 
   return (
@@ -54,30 +91,33 @@ function SearchBarView(props) {
       )}
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
-          <header style={styles.header}>
-            <img src={logo} alt="UpSkill Logo" style={{ height: "60px" }} />;
-          </header>
+          <img src={logo} alt="UpSkill Logo" style={{ height: "60px" }} />;
           {/* Gets main basic search field and shows buttons beneath */}
-          <div style={styles.advFieldStyles}>{getBasicField(data)}</div>
-          <Col span={24} style={{ textAlign: "right" }}>
-            <Button shape="round" size="large" type="primary" htmlType="submit">
-              {searchLabel}
-            </Button>
-            <Button
-              ghost
-              shape="round"
-              size="large"
-              style={{ marginLeft: 8 }}
-              onClick={() => {
-                form.resetFields();
-              }}
-            >
-              {props.intl.formatMessage({
-                id: "button.clear",
-                defaultMessage: "Clear",
-              })}
-            </Button>
-          </Col>
+          <div style={styles.mainSearchField}>{getBasicField(data)}</div>
+          <Button
+            shape="round"
+            size="large"
+            type="primary"
+            htmlType="submit"
+            icon={<SearchOutlined />}
+            style={styles.submitBtn}
+          >
+            {searchLabel}
+          </Button>
+          <Button
+            ghost
+            shape="round"
+            size="large"
+            style={styles.clearBtn}
+            onClick={() => {
+              form.resetFields();
+            }}
+          >
+            {props.intl.formatMessage({
+              id: "button.clear",
+              defaultMessage: "Clear",
+            })}
+          </Button>
         </div>
         <Card style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
@@ -91,7 +131,6 @@ function SearchBarView(props) {
                 style={{ marginLeft: 8, fontSize: 14 }}
                 tabIndex="0"
                 onClick={toggle}
-                // handleKeyPress={e => handleKeyPress(e)} --keeping in incase of future need
               >
                 {props.intl.formatMessage({
                   id: "advanced.search.button.text",
@@ -107,47 +146,4 @@ function SearchBarView(props) {
   );
 }
 
-const styles = {
-  outerForm: {
-    width: "100%",
-    paddingLeft: "50px",
-    paddingRight: "50px",
-    paddingTop: "60px",
-  },
-  outerDiv: {
-    paddingTop: "60px",
-    paddingLeft: "20%",
-    paddingRight: "20%",
-    paddingBottom: "20px",
-  },
-  mainSearchDiv: {
-    backgroundColor: "#001C1A",
-    borderRadius: "5px",
-    paddingTop: "80px",
-    paddingLeft: "80px",
-    paddingRight: "80px",
-    paddingBottom: "30px",
-    boxShadow: "10px 10px 10px #cccccc",
-  },
-  header: {
-    paddingBottom: "20px",
-    textAlign: "center",
-  },
-  advFieldStyles: {
-    textAlign: "center",
-  },
-  advSearchCard: {
-    boxShadow: "10px 10px 10px #cccccc",
-    borderRadius: "5px",
-  },
-  advFieldPlacement: {
-    textAlign: "right",
-  },
-  alert: {
-    fontSize: "14px",
-    textAlign: "center",
-    margin: "0 auto",
-    width: "300px",
-  },
-};
 export default injectIntl(SearchBarView);
