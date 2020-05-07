@@ -10,7 +10,8 @@ function ExperienceItem(props){
         },
         experienceDescription: {
             color: "rgba(0, 0, 0, 0.85)",
-            maxWidth:"525px"
+            maxWidth:"525px",
+            paddingTop:"6px"
         },
         experienceDescriptionToggleTag: {
             color: "rgba(0, 0, 0, 0.85)",
@@ -19,9 +20,6 @@ function ExperienceItem(props){
         expandDescriptionToggleTagText:{
             paddingLeft:"5px"
         },
-        experienceDescriptionDivider:{
-            fontSize:"14px"
-        }
       };
     const {expand, item, toggleExpand} = props;
     
@@ -29,12 +27,6 @@ function ExperienceItem(props){
             if (expand) {
                 return (
                     <Row>
-                        <Divider plain style={styles.experienceDescriptionDivider} className="experienceDescriptionDivider" orientation="left">
-                        {props.intl.formatMessage({
-                                id: "profile.career.content.title",
-                                    defaultMessage: "Job Description",
-                                })}
-                        </Divider>
                         <p style={styles.experienceDescription}>{item.description}</p>
                     </Row>);
             } else {
