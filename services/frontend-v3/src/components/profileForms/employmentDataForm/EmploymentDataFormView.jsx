@@ -13,14 +13,20 @@ import {
   Checkbox,
   Button,
   message,
+  Modal,
 } from "antd";
 import { useHistory } from "react-router-dom";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import {
+  RightOutlined,
+  CheckOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import moment from "moment";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+import EditProfileHeader from "../../editProfileHeader/EditProfileHeader";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -252,13 +258,19 @@ const EmploymentDataFormView = (props) => {
   const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success(<FormattedMessage id="profile.edit.save.success"/>);
+        message.success(
+          props.intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        message.error(<FormattedMessage id="profile.edit.save.success"/>);
+        message.error(
+          props.intl.formatMessage({ id: "profile.edit.save.error" })
+        );
         break;
       default:
-        message.warning(<FormattedMessage id="profile.edit.save.success"/>);
+        message.warning(
+          props.intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -430,6 +442,56 @@ const EmploymentDataFormView = (props) => {
     }
   };
 
+  /* Returns true if the values in the form have changed based on its initial values */
+  const checkIfFormValuesChanged = () => {
+    const formValues = form.getFieldsValue();
+    const initialValues = getInitialValues(props.profileInfo);
+
+    return Object.keys(formValues).some(
+      (key) => formValues[key] !== initialValues[key]
+    );
+  };
+
+  /* Redirect to profile view */
+  const redirectToProfile = () => {
+    history.push("/secured/profile/" + localStorage.getItem("userId"));
+  };
+
+  /* Returns to profile view all while taking into account the new content in the form  */
+  const returnToProfile = () => {
+    if (checkIfFormValuesChanged()) {
+      Modal.confirm({
+        title: props.intl.formatMessage({
+          id: "profile.edit.changes.modal.title",
+        }),
+        icon: <ExclamationCircleOutlined />,
+        content: props.intl.formatMessage({
+          id: "profile.edit.changes.modal.content",
+        }),
+        okText: props.intl.formatMessage({ id: "setup.save" }),
+        cancelText: props.intl.formatMessage({
+          id: "profile.edit.changes.modal.cancel",
+        }),
+        onOk() {
+          form
+            .validateFields()
+            .then(async (values) => {
+              await saveDataToDB(values);
+              redirectToProfile();
+            })
+            .catch(() => {
+              console.log("validation failure");
+              openNotificationWithIcon("error");
+              Modal.destroyAll();
+            });
+        },
+        onCancel: redirectToProfile,
+      });
+    } else {
+      redirectToProfile();
+    }
+  };
+
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
     setDisplayActingRoleForm(
@@ -452,16 +514,16 @@ const EmploymentDataFormView = (props) => {
   /************************************
    ********* Render Component *********
    ************************************/
-  if (!props.load) {
-    return (
-      /* If form data is loading then wait */
-      <div style={styles.skeleton}>
-        <Skeleton active />
-      </div>
-    );
-  } else {
+  let content = (
+    /* If form data is loading then wait */
+    <div style={styles.content}>
+      <Skeleton active />
+    </div>
+  );
+
+  if (props.load) {
     /* Once data had loaded display form */
-    return (
+    content = (
       <div style={styles.content}>
         {/* get form title */}
         {getFormHeader(props.formType)}
@@ -577,6 +639,15 @@ const EmploymentDataFormView = (props) => {
       </div>
     );
   }
+
+  return (
+    <>
+      {props.formType === "edit" && (
+        <EditProfileHeader returnToProfile={returnToProfile} />
+      )}
+      {content}
+    </>
+  );
 };
 
-export default EmploymentDataFormView;
+export default injectIntl(EmploymentDataFormView);
