@@ -357,12 +357,12 @@ const QualificationsFormView = (props) => {
    ********* Render Component *********
    ************************************/
   let content = (
-      /* If form data is loading then wait */
-      <div style={styles.skeleton}>
-        <Skeleton active />
-      </div>
-    );
-  
+    /* If form data is loading then wait */
+    <div style={styles.skeleton}>
+      <Skeleton active />
+    </div>
+  );
+
   if (props.load) {
     /* Once data had loaded display form */
     content = (
@@ -370,124 +370,122 @@ const QualificationsFormView = (props) => {
         {/* get form title */}
         {getFormHeader(props.formType)}
         <Divider style={styles.headerDiv} />
-        <div key={props.profileInfo}>
-          {/* Create form with initial values */}
-          <Form
-            name="QualificationForm"
-            form={form}
-            initialValues={getInitialValues(props.profileInfo)}
-            layout="vertical"
-          >
-            {/* *************** Education ************** */}
-            <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.education" />
-            </Title>
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.List name="education">
-                  {(fields, { add, remove }) => {
-                    return (
-                      <div>
-                        {/* generate education form for each education item */}
-                        {fields.map((field, index) => (
-                          <EducationFrom
-                            key={field.fieldKey}
-                            form={form}
-                            field={field}
-                            remove={remove}
-                            profileInfo={props.profileInfo}
-                            style={styles}
-                          />
-                        ))}
-                        <Form.Item>
-                          {/* add education field button */}
-                          <Button
-                            type="dashed"
-                            onClick={() => {
-                              add();
-                            }}
-                            style={{ width: "100%" }}
-                          >
-                            <PlusOutlined />
-                            <FormattedMessage id="setup.add.item" />
-                          </Button>
-                        </Form.Item>
-                      </div>
-                    );
-                  }}
-                </Form.List>
-              </Col>
-            </Row>
-            {/* *************** Work Experience ************** */}
-            <Divider style={styles.headerDiv} />
-            <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.experience" />
-            </Title>
-            {/* Form Row One: Remote Work */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.List name="experience">
-                  {(fields, { add, remove }) => {
-                    return (
-                      <div>
-                        {/* generate education form for each education item */}
-                        {fields.map((field, index) => (
-                          <ExperienceFrom
-                            key={field.fieldKey}
-                            form={form}
-                            field={field}
-                            remove={remove}
-                            profileInfo={props.profileInfo}
-                            style={styles}
-                          />
-                        ))}
-                        <Form.Item>
-                          {/* add education field button */}
-                          <Button
-                            type="dashed"
-                            onClick={() => {
-                              add();
-                            }}
-                            style={{ width: "100%" }}
-                          >
-                            <PlusOutlined />
-                            <FormattedMessage id="setup.add.item" />
-                          </Button>
-                        </Form.Item>
-                      </div>
-                    );
-                  }}
-                </Form.List>
-              </Col>
-            </Row>
-            {/* *************** Projects ************** */}
-            <Divider style={styles.headerDiv} />
-            <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.projects" />
-            </Title>
-            {/* Form Row Three: career mobility */}
-            <Row gutter={24}>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="projects"
-                  label={<FormattedMessage id="setup.projects" />}
-                  className="custom-bubble-select-style"
-                >
-                  <Select
-                    mode="tags"
-                    style={{ width: "100%" }}
-                    notFoundContent={
-                      <FormattedMessage id="setup.projects.placeholder" />
-                    }
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* *************** Control Buttons ************** */}
-            {/* Form Row Four: Submit button */}
-            {getFormControlButtons(props.formType)}
-          </Form>
-        </div>
+        {/* Create form with initial values */}
+        <Form
+          name="QualificationForm"
+          form={form}
+          initialValues={getInitialValues(props.profileInfo)}
+          layout="vertical"
+        >
+          {/* *************** Education ************** */}
+          <Title level={3} style={styles.formTitle}>
+            <FormattedMessage id="setup.education" />
+          </Title>
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.List name="education">
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {/* generate education form for each education item */}
+                      {fields.map((field, index) => (
+                        <EducationFrom
+                          key={field.fieldKey}
+                          form={form}
+                          field={field}
+                          remove={remove}
+                          profileInfo={props.profileInfo}
+                          style={styles}
+                        />
+                      ))}
+                      <Form.Item>
+                        {/* add education field button */}
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <PlusOutlined />
+                          <FormattedMessage id="setup.add.item" />
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+          </Row>
+          {/* *************** Work Experience ************** */}
+          <Divider style={styles.headerDiv} />
+          <Title level={3} style={styles.formTitle}>
+            <FormattedMessage id="setup.experience" />
+          </Title>
+          {/* Form Row One: Remote Work */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.List name="experience">
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {/* generate education form for each education item */}
+                      {fields.map((field, index) => (
+                        <ExperienceFrom
+                          key={field.fieldKey}
+                          form={form}
+                          field={field}
+                          remove={remove}
+                          profileInfo={props.profileInfo}
+                          style={styles}
+                        />
+                      ))}
+                      <Form.Item>
+                        {/* add education field button */}
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <PlusOutlined />
+                          <FormattedMessage id="setup.add.item" />
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+          </Row>
+          {/* *************** Projects ************** */}
+          <Divider style={styles.headerDiv} />
+          <Title level={3} style={styles.formTitle}>
+            <FormattedMessage id="setup.projects" />
+          </Title>
+          {/* Form Row Three: career mobility */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="projects"
+                label={<FormattedMessage id="setup.projects" />}
+                className="custom-bubble-select-style"
+              >
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={
+                    <FormattedMessage id="setup.projects.placeholder" />
+                  }
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* *************** Control Buttons ************** */}
+          {/* Form Row Four: Submit button */}
+          {getFormControlButtons(props.formType)}
+        </Form>
       </div>
     );
   }
