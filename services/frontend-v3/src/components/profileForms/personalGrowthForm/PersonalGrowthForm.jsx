@@ -10,7 +10,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-function PersonalGrowthForm(props) {
+const PersonalGrowthForm = (props) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -27,13 +27,13 @@ function PersonalGrowthForm(props) {
   const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState();
   const [savedExFeederBool, setSavedExFeederBool] = useState();
 
-  // get current language code
+  // Get current language code
   let locale = props.intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
 
-  /*
+  /**
    * Get saved Developmental Goals
    *
    * get saved Developmental Goals from profile
@@ -41,7 +41,7 @@ function PersonalGrowthForm(props) {
   const getSavedDevelopmentalGoals = () => {
     let selected = [];
 
-    // generate and array of ID's of save locations
+    // Generate and array of ID's of save locations
     for (let i = 0; i < profileInfo.developmentalGoals.length; i++) {
       selected.push(profileInfo.developmentalGoals[i].id);
     }
@@ -49,7 +49,7 @@ function PersonalGrowthForm(props) {
     setSavedDevelopmentalGoals(selected);
   };
 
-  /*
+  /**
    * Get Saved Relocation Locations
    *
    * get saved Relocation Locations from profile
@@ -57,7 +57,7 @@ function PersonalGrowthForm(props) {
   const getSavedRelocationLocations = () => {
     let selected = [];
 
-    // generate and array of ID's of save locations
+    // Generate and array of ID's of save locations
     for (let i = 0; i < profileInfo.relocationLocations.length; i++) {
       selected.push(profileInfo.relocationLocations[i].locationId);
     }
@@ -65,9 +65,8 @@ function PersonalGrowthForm(props) {
     setSavedRelocationLocations(selected);
   };
 
-  /*
+  /**
    * Get User Profile
-   *
    */
   const getProfileInfo = async () => {
     try {
@@ -83,7 +82,7 @@ function PersonalGrowthForm(props) {
     }
   };
 
-  /*
+  /**
    * Get Developmental Goal Options
    *
    * get a list of developmental goal options for treeSelect dropdown
@@ -109,7 +108,7 @@ function PersonalGrowthForm(props) {
     }
   };
 
-  /*
+  /**
    * Get Interested In Remote Options
    *
    * get Interested In Remote Options
@@ -129,7 +128,7 @@ function PersonalGrowthForm(props) {
     setInterestedInRemoteOptions(options);
   };
 
-  /*
+  /**
    * Get Relocation Options
    *
    * get a list of Relocation Options for dropdown treeSelect
@@ -156,7 +155,7 @@ function PersonalGrowthForm(props) {
     }
   };
 
-  /*
+  /**
    * Get Saved Looking For New Job
    *
    * get Saved Looking For New Job from user profile
@@ -183,7 +182,7 @@ function PersonalGrowthForm(props) {
     }
   };
 
-  /*
+  /**
    * Get Career Mobility Options
    *
    * get all dropdown options for Career Mobility
@@ -210,7 +209,7 @@ function PersonalGrowthForm(props) {
     }
   };
 
-  /*
+  /**
    * Get Talent Matrix Result Options
    *
    * get all dropdown options for Talent Matrix Results
@@ -237,7 +236,7 @@ function PersonalGrowthForm(props) {
     }
   };
 
-  /* useEffect when profileInfo changes */
+  // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
     if (profileInfo) {
       const {
@@ -260,11 +259,11 @@ function PersonalGrowthForm(props) {
     }
   }, [profileInfo]);
 
-  /* useEffect when locale changes */
+  // useEffect when locale changes
   useEffect(() => {
     getInterestedInRemoteOptions();
 
-    /* Get all required data component */
+    // Get all required data component
     Promise.all([
       getProfileInfo(),
       getDevelopmentalGoalOptions(),
