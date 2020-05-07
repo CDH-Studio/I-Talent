@@ -27,7 +27,7 @@ function SearchBarView(props) {
   const styles = {
     outerForm: {
       width: "100%",
-      paddingTop: "40px",
+      paddingTop: "80px",
     },
     outerDiv: {
       width: "90%",
@@ -38,7 +38,7 @@ function SearchBarView(props) {
     mainSearchDiv: {
       backgroundColor: "#001C1A",
       borderRadius: "5px 5px 0 0",
-      padding: "50px 80px",
+      padding: "50px 80px 40px 80px",
       boxShadow: "10px 10px 10px #cccccc",
       textAlign: "center",
     },
@@ -66,7 +66,7 @@ function SearchBarView(props) {
       borderRadius: "0 0 5px 5px",
     },
     advFieldPlacement: {
-      textAlign: "right",
+      textAlign: "center",
     },
     alert: {
       fontSize: "14px",
@@ -303,7 +303,6 @@ function SearchBarView(props) {
                 style={{ marginLeft: 8, fontSize: 14 }}
                 tabIndex="0"
                 onClick={toggle}
-                // handleKeyPress={e => handleKeyPress(e)} --keeping in incase of future need
               >
                 <SettingOutlined style={{ marginRight: "3px" }} />
                 <FormattedMessage id={"advanced.search.button.text"} />
