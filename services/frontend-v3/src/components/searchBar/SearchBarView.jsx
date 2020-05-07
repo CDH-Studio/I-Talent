@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { Row, Col, Button, Form, Alert, Input } from "antd";
 import {
   SearchOutlined,
@@ -141,10 +141,7 @@ function SearchBarView(props) {
                 // handleKeyPress={e => handleKeyPress(e)} --keeping in incase of future need
               >
                 <SettingOutlined style={{ marginRight: "3px" }} />
-                {props.intl.formatMessage({
-                  id: "advanced.search.button.text",
-                  defaultMessage: "Advanced Search",
-                })}
+                <FormattedMessage id={"advanced.search.button.text"} />
               </a>
             </Col>
           </Row>
