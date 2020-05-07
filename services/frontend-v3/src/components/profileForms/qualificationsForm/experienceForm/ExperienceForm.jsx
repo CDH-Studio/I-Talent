@@ -7,7 +7,7 @@ import ExperienceFormView from "./ExperienceFormView";
  *  This component is strongly linked ot Qualifications Form.
  *  It generated the form fields for each experience item the user creates in the qualifications form.
  */
-function ExperienceForm(props) {
+const ExperienceForm = (props) => {
   return (
     <ExperienceFormView
       form={props.form}
@@ -17,6 +17,6 @@ function ExperienceForm(props) {
       style={props.style}
     />
   );
-}
+};
 
 export default ExperienceForm;

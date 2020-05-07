@@ -1,6 +1,6 @@
 import React from "react";
-import { Row, Col, Avatar, List } from "antd";
-import { ContainerOutlined } from "@ant-design/icons";
+import { Row, Col, List } from "antd";
+import ExperienceItem from "./experienceItem/ExperienceItem";
 
 function ExperienceView(props) {
   /* Component Styles */
@@ -8,30 +8,14 @@ function ExperienceView(props) {
     card: {
       height: "100%",
     },
-    avatar: {
-      backgroundColor: "#007471",
-    },
   };
   const generateExperienceInfoList = (dataSource) => {
     return (
       <List
-        itemLayout="horizontal"
+        itemLayout="vertical"
         dataSource={dataSource}
         renderItem={(item) => (
-          <List.Item extra={item.duration}>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  style={styles.avatar}
-                  size="large"
-                  icon={<ContainerOutlined />}
-                  shape="square"
-                />
-              }
-              title={item.jobTitle}
-              description={item.organizationName}
-            />
-          </List.Item>
+          <ExperienceItem item={item}/>
         )}
       />
     );

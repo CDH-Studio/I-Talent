@@ -22,7 +22,7 @@ function TopNavView(props) {
       padding: 0,
       boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
       position: "fixed",
-      zIndex: 1,
+      zIndex: 2,
       width: "100%",
     },
     navBrand: {

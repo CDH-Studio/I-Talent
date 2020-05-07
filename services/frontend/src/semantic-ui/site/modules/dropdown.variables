@@ -1,6 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-
- @itemFontSize: 13pt;
- @menuHeaderFontSize: 13pt;
