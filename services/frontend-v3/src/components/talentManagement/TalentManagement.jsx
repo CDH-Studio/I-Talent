@@ -7,7 +7,7 @@ function TalentManagement(props) {
   return (
     <TalentManagementView
       data={data}
-      locale={localStorage.getItem("lang")}
+      locale={localStorage.getItem("lang") || "en"}
     />
   );
 }

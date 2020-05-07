@@ -4,9 +4,7 @@ import SkillsView from "./SkillsView";
 
 function Skills(props) {
   const formatData = (list) => {
-    const locale = localStorage.getItem("lang")
-      ? localStorage.getItem("lang")
-      : "en";
+    const locale = localStorage.getItem("lang") || "en";
 
     let categorizedList = {};
 
@@ -26,7 +24,7 @@ function Skills(props) {
   };
 
   const setUpCategories = (list) => {
-    const locale = localStorage.getItem("lang");
+    const locale = localStorage.getItem("lang") || "en";
     let categorizedList = {};
     let categoriesTemp = {};
     let categories = [];

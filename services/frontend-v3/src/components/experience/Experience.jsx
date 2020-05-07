@@ -26,7 +26,6 @@ function Experience(props) {
   };
 
   const getExperienceInfo = (dataSource) => {
-    const locale = localStorage.getItem("lang");
     let experienceInfo = [];
     if (dataSource.education != null) {
       dataSource.careerSummary.forEach((expElement) => {

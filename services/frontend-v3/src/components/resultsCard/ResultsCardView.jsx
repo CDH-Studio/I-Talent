@@ -24,7 +24,7 @@ function ResultsCardView(props) {
     } else {
       const preparedResults = prepareInfo(
         dataSource,
-        localStorage.getItem("lang")
+        localStorage.getItem("lang") || "en"
       );
       let cards = [];
       preparedResults.forEach((person) => {
