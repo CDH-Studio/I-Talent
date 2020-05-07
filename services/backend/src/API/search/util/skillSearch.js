@@ -1,5 +1,5 @@
 const skillSearch = async (profiles, skillarray) => {
-  let skillProf = [];
+  const skillProf = [];
   profiles.forEach((profile) => {
     if (!profile.skills) return;
 

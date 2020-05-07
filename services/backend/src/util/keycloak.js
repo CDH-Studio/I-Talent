@@ -4,7 +4,7 @@ const Keycloak = require("keycloak-connect");
 const session = require("express-session");
 
 // Configure session to use memoryStore and Setup keycloak middleware to
-//use the session memoryStore.
+// use the session memoryStore.
 const memoryStore = new session.MemoryStore();
 const keycloak = new Keycloak(
   { store: memoryStore },

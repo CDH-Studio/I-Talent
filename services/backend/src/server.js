@@ -120,4 +120,4 @@ app.use(keycloak.middleware({ logout: "/" }));
 
 // START THE SERVER ==================================================
 app.listen(port);
-console.log("Magic happens on port " + port);
+console.log(`Magic happens on port ${port}`);

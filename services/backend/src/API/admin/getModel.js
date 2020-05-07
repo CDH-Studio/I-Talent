@@ -1,4 +1,5 @@
 const Models = require("../../models");
+
 const CareerMobility = Models.careerMobility;
 const Competency = Models.competency;
 const Diploma = Models.diploma;
@@ -40,7 +41,7 @@ const mapping = {
   category: Category,
   competency: Skill,
   talentManager: TalentMatrixResult,
-  tenure: Tenure
+  tenure: Tenure,
 };
 
 function getModel(type) {

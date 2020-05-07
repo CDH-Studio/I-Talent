@@ -17,7 +17,7 @@ module.exports = {
           writingDate: new Date(),
           oralDate: new Date(),
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           readingProficiency: "A",
@@ -27,8 +27,8 @@ module.exports = {
           writingDate: new Date(),
           oralDate: new Date(),
           createdAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
@@ -43,5 +43,5 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
     return queryInterface.bulkDelete("secondLanguageProficiencies", null, {});
-  }
+  },
 };

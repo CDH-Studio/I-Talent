@@ -1,4 +1,4 @@
-let {
+const {
   getBranch,
   getCareerMobility,
   getCompetency,

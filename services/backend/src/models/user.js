@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define(
     "user",
@@ -7,13 +8,13 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       inactive: DataTypes.BOOLEAN,
       avatarColor: DataTypes.STRING,
-      nameInitials: DataTypes.STRING
+      nameInitials: DataTypes.STRING,
     },
     {}
   );
-  user.associate = function(models) {
+  user.associate = function (models) {
     user.belongsTo(models.profile, {
-      foreignKey: { fieldName: "id" }
+      foreignKey: { fieldName: "id" },
     });
   };
   return user;

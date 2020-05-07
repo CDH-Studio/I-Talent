@@ -1,5 +1,6 @@
 const moment = require("moment");
 const Models = require("../../../../models");
+
 const Profiles = Models.profile; // Profiles Table
 
 const growthRateByMonth = async () => {
@@ -53,8 +54,8 @@ const growthRateByMonth = async () => {
   }
 
   monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
-    let newData = [];
-    let newMonth = [];
+    const newData = [];
+    const newMonth = [];
 
     entry.data.forEach((month) => {
       newMonth[month.month] = month.count;
@@ -73,7 +74,7 @@ const growthRateByMonth = async () => {
   const months = moment.monthsShort();
 
   monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
-    let addData = [];
+    const addData = [];
 
     for (let i = 0; i < 12; i++) {
       addData.push({
@@ -87,7 +88,7 @@ const growthRateByMonth = async () => {
   });
 
   // Growth Rate By Month Graph Data:
-  let graphicalData = [];
+  const graphicalData = [];
 
   monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
     for (let i = 0; i < 12; i++) {

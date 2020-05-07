@@ -1,4 +1,4 @@
-const getModel = require("./getModel.js").getModel;
+const { getModel } = require("./getModel.js");
 
 const deleteOption = async (request, response) => {
   try {
@@ -7,9 +7,9 @@ const deleteOption = async (request, response) => {
 
     model
       .destroy({
-        where: { id: id }
+        where: { id: id },
       })
-      .then(destroyCount =>
+      .then((destroyCount) =>
         response
           .status(200)
           .json({ deletePerformed: destroyCount === 1, error: null })

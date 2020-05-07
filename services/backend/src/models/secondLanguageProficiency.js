@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const secondLanguageProficiency = sequelize.define(
     "secondLanguageProficiency",
@@ -8,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       oralProficiency: DataTypes.STRING,
       readingDate: DataTypes.DATE,
       writingDate: DataTypes.DATE,
-      oralDate: DataTypes.DATE
+      oralDate: DataTypes.DATE,
     },
     {}
   );
-  secondLanguageProficiency.associate = function(models) {
+  secondLanguageProficiency.associate = function (models) {
     secondLanguageProficiency.hasOne(models.profile);
   };
   return secondLanguageProficiency;

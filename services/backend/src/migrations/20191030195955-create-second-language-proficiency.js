@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("secondLanguageProficiencies", {
@@ -6,37 +7,37 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.literal("uuid_generate_v1()")
+        defaultValue: Sequelize.literal("uuid_generate_v1()"),
       },
       readingProficiency: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       writingProficiency: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       oralProficiency: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       readingDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       writingDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       oralDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("secondLanguageProficiencies");
-  }
+  },
 };

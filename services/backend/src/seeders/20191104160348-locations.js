@@ -18,7 +18,7 @@ module.exports = {
           country: "Canada",
           postalCode: "C1A 4L2",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "50 Brown Ave",
@@ -29,7 +29,7 @@ module.exports = {
           country: "Canada",
           postalCode: "B3B 1X8",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1344 Summer St",
@@ -40,7 +40,7 @@ module.exports = {
           country: "Canada",
           postalCode: "B3H 0A8",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1505 Barrington St",
@@ -51,7 +51,7 @@ module.exports = {
           country: "Canada",
           postalCode: "B3J 3K5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1045 Main St",
@@ -62,7 +62,7 @@ module.exports = {
           country: "Canada",
           postalCode: "E1C 1H1",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "189 Prince William St",
@@ -73,7 +73,7 @@ module.exports = {
           country: "Canada",
           postalCode: "E2L 2B9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "10 Barters Hill",
@@ -84,7 +84,7 @@ module.exports = {
           country: "Canada",
           postalCode: "A1B 3R9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "196 George St",
@@ -95,7 +95,7 @@ module.exports = {
           country: "Canada",
           postalCode: "B1P 6W4",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "50 Victoria St",
@@ -106,7 +106,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1A 0C9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "56 Sparks St",
@@ -117,7 +117,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1A 0C9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "7 Bayview Rd",
@@ -128,7 +128,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1Y 3B5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "3701 Carling Ave",
@@ -139,7 +139,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K2H 8S2",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "161 Goldenrod Drwy",
@@ -150,7 +150,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1A 0C9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "235 Queen St",
@@ -161,7 +161,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1A 0H5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "410 Laurier Ave W",
@@ -172,7 +172,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1A 0R1",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "180 Kent St",
@@ -183,7 +183,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1P 0B6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "151 Tunneys Pasture Drwy",
@@ -194,7 +194,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K1A 0C9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "8948 Erin Halton TLine",
@@ -205,7 +205,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L7J 2L8",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "274 Mackenzie Ave",
@@ -216,7 +216,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L1S 2E9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "126 Wellington St W",
@@ -227,7 +227,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L4G 2N9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "328 Sidney St",
@@ -238,7 +238,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K8P 3Z3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "4475 Service Rd North",
@@ -249,7 +249,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L7L 4X7",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "251 Arvin Ave",
@@ -260,7 +260,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L8E 2L9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "55 Bay St N",
@@ -271,7 +271,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L8R 3P7",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "100 Park St, 2nd Fl",
@@ -282,7 +282,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P9N 3W9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "30 Duke St W",
@@ -293,7 +293,7 @@ module.exports = {
           country: "Canada",
           postalCode: "N2H 3W5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "78 Meg Dr",
@@ -304,7 +304,7 @@ module.exports = {
           country: "Canada",
           postalCode: "N6E 3T6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "451 Talbot St",
@@ -315,7 +315,7 @@ module.exports = {
           country: "Canada",
           postalCode: "N6A 5C9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "232 Yorktech Dr",
@@ -326,7 +326,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L6G 1A6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "175A Admiral Blvd",
@@ -337,7 +337,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L5T 2T3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "345 Harry Walker Pky S",
@@ -348,7 +348,7 @@ module.exports = {
           country: "Canada",
           postalCode: "L3Y 8P6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "107 Shirreff Ave",
@@ -359,7 +359,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P1B 7K8",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "160 Elgin St",
@@ -370,7 +370,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K2P 2P7",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1161 Crawford Dr",
@@ -381,7 +381,7 @@ module.exports = {
           country: "Canada",
           postalCode: "K9J 6X6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "2 Queen St E",
@@ -392,7 +392,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P6A 1Y3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "19 Lisgar St",
@@ -403,7 +403,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P3E 3L4",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "875 Notre Dame Ave",
@@ -414,7 +414,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P3A 2T2",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "201 May St N",
@@ -425,7 +425,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P7C 3P4",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "886 Alloy Pl",
@@ -436,7 +436,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P7B 6E6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "120 Cedar St S",
@@ -447,7 +447,7 @@ module.exports = {
           country: "Canada",
           postalCode: "P4N 2G8",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "151 Yonge St",
@@ -458,7 +458,7 @@ module.exports = {
           country: "Canada",
           postalCode: "M5C 2W7",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "139 Northfield Dr W",
@@ -469,7 +469,7 @@ module.exports = {
           country: "Canada",
           postalCode: "N2L 5A6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1500 Ouellette Ave",
@@ -480,7 +480,7 @@ module.exports = {
           country: "Canada",
           postalCode: "N8X 1K7",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1726 Dolphin Ave",
@@ -491,7 +491,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V1Y 9R9",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "277 Winnipeg St",
@@ -502,7 +502,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V2A 5M2",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "280 Victoria St",
@@ -513,7 +513,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V2L 4X3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "13401 108 Ave",
@@ -524,7 +524,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V3T 5V6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "300 Georgia St W",
@@ -535,7 +535,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V6B 6E1",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "3625 Lougheed Hwy",
@@ -546,7 +546,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V5M 2A6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1230 Government St",
@@ -557,7 +557,7 @@ module.exports = {
           country: "Canada",
           postalCode: "V8W 3M4",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "300 Main St",
@@ -568,7 +568,7 @@ module.exports = {
           country: "Canada",
           postalCode: "Y1A 2B5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "220 4 Ave SE",
@@ -579,7 +579,7 @@ module.exports = {
           country: "Canada",
           postalCode: "T2G 4X3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "9305 50 St NW",
@@ -590,7 +590,7 @@ module.exports = {
           country: "Canada",
           postalCode: "T6B 2L5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "9700 Jasper Ave NW",
@@ -601,7 +601,7 @@ module.exports = {
           country: "Canada",
           postalCode: "T5J 4C3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1945 Hamilton St",
@@ -612,7 +612,7 @@ module.exports = {
           country: "Canada",
           postalCode: "S4P 2C7",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "123 2nd Ave S",
@@ -623,7 +623,7 @@ module.exports = {
           country: "Canada",
           postalCode: "S7K 7E6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "400 St Mary Ave",
@@ -634,7 +634,7 @@ module.exports = {
           country: "Canada",
           postalCode: "R3C 4K5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "5101 50 Ave",
@@ -645,7 +645,7 @@ module.exports = {
           country: "Canada",
           postalCode: "X1A 2P3",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1155 Metcalfe St",
@@ -656,7 +656,7 @@ module.exports = {
           country: "Canada",
           postalCode: "H3B 2V6",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "1550 d'Estimauville Ave",
@@ -667,7 +667,7 @@ module.exports = {
           country: "Canada",
           postalCode: "G1J 0C4",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "2665 King St W",
@@ -678,7 +678,7 @@ module.exports = {
           country: "Canada",
           postalCode: "J1L 2G5",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           addressEn: "9177 Langelier Blvd",
@@ -689,8 +689,8 @@ module.exports = {
           country: "Canada",
           postalCode: "H1P 3K9",
           createdAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
@@ -702,5 +702,5 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkDelete("locations", null, {});
-  }
+  },
 };

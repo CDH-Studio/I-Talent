@@ -3,7 +3,9 @@ const Sequelize = require("sequelize");
 
 require("dotenv").config();
 
-let dialect, host, port;
+let dialect;
+let host;
+let port;
 if (process.env.PLATFORM == "OPENSHIFT") {
   [dialect, host, port] = process.env.DATABASE_URL.split(":");
   host = host.replace("//", "");
@@ -25,8 +27,8 @@ module.exports = new Sequelize(
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000
+      idle: 10000,
     },
-    logging: false
+    logging: false,
   }
 );

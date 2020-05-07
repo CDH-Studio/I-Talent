@@ -13,8 +13,8 @@ module.exports = {
           startDate: new Date(),
           endDate: new Date(),
           createdAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
@@ -29,5 +29,5 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
     return queryInterface.bulkDelete("education", null, {});
-  }
+  },
 };

@@ -10,10 +10,10 @@ module.exports = {
           type: Sequelize.UUID,
           references: {
             model: "profiles", // name of Target model
-            key: "id" // key in Target model that we're referencing
+            key: "id", // key in Target model that we're referencing
           },
           onUpdate: "CASCADE",
-          onDelete: "SET NULL"
+          onDelete: "SET NULL",
         }
       )
       .then(() => {
@@ -25,10 +25,10 @@ module.exports = {
               type: Sequelize.UUID,
               references: {
                 model: "profiles", // name of Target model
-                key: "id" // key in Target model that we're referencing
+                key: "id", // key in Target model that we're referencing
               },
               onUpdate: "CASCADE",
-              onDelete: "SET NULL"
+              onDelete: "SET NULL",
             }
           )
           .then(() => {
@@ -40,10 +40,10 @@ module.exports = {
                   type: Sequelize.UUID,
                   references: {
                     model: "profiles", // name of Target model
-                    key: "id" // key in Target model that we're referencing
+                    key: "id", // key in Target model that we're referencing
                   },
                   onUpdate: "CASCADE",
-                  onDelete: "SET NULL"
+                  onDelete: "SET NULL",
                 }
               )
               .then(() => {
@@ -55,10 +55,10 @@ module.exports = {
                       type: Sequelize.UUID,
                       references: {
                         model: "profiles", // name of Target model
-                        key: "id" // key in Target model that we're referencing
+                        key: "id", // key in Target model that we're referencing
                       },
                       onUpdate: "CASCADE",
-                      onDelete: "SET NULL"
+                      onDelete: "SET NULL",
                     }
                   )
                   .then(() => {
@@ -69,10 +69,10 @@ module.exports = {
                         type: Sequelize.UUID,
                         references: {
                           model: "locations", // name of Target model
-                          key: "id" // key in Target model that we're referencing
+                          key: "id", // key in Target model that we're referencing
                         },
                         onUpdate: "CASCADE",
-                        onDelete: "SET NULL"
+                        onDelete: "SET NULL",
                       }
                     );
                   });
@@ -112,5 +112,5 @@ module.exports = {
             );
           });
       });
-  }
+  },
 };

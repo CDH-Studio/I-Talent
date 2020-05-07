@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const experience = sequelize.define(
     "experience",
@@ -7,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       jobTitle: DataTypes.STRING,
       description: DataTypes.TEXT,
       startDate: DataTypes.DATE,
-      endDate: DataTypes.DATE
+      endDate: DataTypes.DATE,
     },
     {}
   );
-  experience.associate = function(models) {
+  experience.associate = function (models) {
     experience.belongsTo(models.profile);
   };
   return experience;

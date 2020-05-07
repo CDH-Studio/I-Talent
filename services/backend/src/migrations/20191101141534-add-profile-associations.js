@@ -10,10 +10,10 @@ module.exports = {
           type: Sequelize.UUID,
           references: {
             model: "tenures", // name of Target model
-            key: "id" // key in Target model that we're referencing
+            key: "id", // key in Target model that we're referencing
           },
           onUpdate: "CASCADE",
-          onDelete: "SET NULL"
+          onDelete: "SET NULL",
         }
       )
       .then(() => {
@@ -25,10 +25,10 @@ module.exports = {
               type: Sequelize.UUID,
               references: {
                 model: "groupLevels", // name of Target model
-                key: "id" // key in Target model that we're referencing
+                key: "id", // key in Target model that we're referencing
               },
               onUpdate: "CASCADE",
-              onDelete: "SET NULL"
+              onDelete: "SET NULL",
             }
           )
           .then(() => {
@@ -40,10 +40,10 @@ module.exports = {
                   type: Sequelize.UUID,
                   references: {
                     model: "groupLevels", // name of Target model
-                    key: "id" // key in Target model that we're referencing
+                    key: "id", // key in Target model that we're referencing
                   },
                   onUpdate: "CASCADE",
-                  onDelete: "SET NULL"
+                  onDelete: "SET NULL",
                 }
               )
               .then(() => {
@@ -55,10 +55,10 @@ module.exports = {
                       type: Sequelize.UUID,
                       references: {
                         model: "securityClearances", // name of Target model
-                        key: "id" // key in Target model that we're referencing
+                        key: "id", // key in Target model that we're referencing
                       },
                       onUpdate: "CASCADE",
-                      onDelete: "SET NULL"
+                      onDelete: "SET NULL",
                     }
                   )
                   .then(() => {
@@ -69,10 +69,10 @@ module.exports = {
                         type: Sequelize.UUID,
                         references: {
                           model: "locations", // name of Target model
-                          key: "id" // key in Target model that we're referencing
+                          key: "id", // key in Target model that we're referencing
                         },
                         onUpdate: "CASCADE",
-                        onDelete: "SET NULL"
+                        onDelete: "SET NULL",
                       }
                     );
                   })
@@ -85,10 +85,10 @@ module.exports = {
                           type: Sequelize.UUID,
                           references: {
                             model: "careerMobilities", // name of Target model
-                            key: "id" // key in Target model that we're referencing
+                            key: "id", // key in Target model that we're referencing
                           },
                           onUpdate: "CASCADE",
-                          onDelete: "SET NULL"
+                          onDelete: "SET NULL",
                         }
                       )
                       .then(() => {
@@ -100,10 +100,10 @@ module.exports = {
                               type: Sequelize.UUID,
                               references: {
                                 model: "talentMatrixResults", // name of Target model
-                                key: "id" // key in Target model that we're referencing
+                                key: "id", // key in Target model that we're referencing
                               },
                               onUpdate: "CASCADE",
-                              onDelete: "SET NULL"
+                              onDelete: "SET NULL",
                             }
                           )
                           .then(() => {
@@ -115,10 +115,10 @@ module.exports = {
                                   type: Sequelize.UUID,
                                   references: {
                                     model: "keyCompetencies", // name of Target model
-                                    key: "id" // key in Target model that we're referencing
+                                    key: "id", // key in Target model that we're referencing
                                   },
                                   onUpdate: "CASCADE",
-                                  onDelete: "SET NULL"
+                                  onDelete: "SET NULL",
                                 }
                               )
                               .then(() => {
@@ -130,10 +130,10 @@ module.exports = {
                                       type: Sequelize.UUID,
                                       references: {
                                         model: "secondLanguageProficiencies", // name of Target model
-                                        key: "id" // key in Target model that we're referencing
+                                        key: "id", // key in Target model that we're referencing
                                       },
                                       onUpdate: "CASCADE",
-                                      onDelete: "SET NULL"
+                                      onDelete: "SET NULL",
                                     }
                                   )
                                   .then(() => {
@@ -144,10 +144,10 @@ module.exports = {
                                         type: Sequelize.UUID,
                                         references: {
                                           model: "lookingForANewJobs", // name of Target model
-                                          key: "id" // key in Target model that we're referencing
+                                          key: "id", // key in Target model that we're referencing
                                         },
                                         onUpdate: "CASCADE",
-                                        onDelete: "SET NULL"
+                                        onDelete: "SET NULL",
                                       }
                                     );
                                   });
@@ -228,7 +228,7 @@ module.exports = {
               });
           });
       });
-  }
+  },
 };
 /*
 

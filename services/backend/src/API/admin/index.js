@@ -20,5 +20,5 @@ module.exports = {
   checkAdmin: get.checkAdmin,
   updateProfileStatus: put.updateProfileStatus,
   getStatistics: report.get.statistics,
-  getSkillsReport: report.skillsReport
+  getSkillsReport: report.skillsReport,
 };

@@ -18,7 +18,7 @@ module.exports = {
           endDate: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           organization: "Canada Revenue Agency",
@@ -29,7 +29,7 @@ module.exports = {
           endDate: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           organization: "Banque du Canada",
@@ -40,8 +40,8 @@ module.exports = {
           endDate: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
-        }
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
+        },
       ],
       {}
     );
@@ -56,5 +56,5 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
     return queryInterface.bulkDelete("experiences", null, {});
-  }
+  },
 };

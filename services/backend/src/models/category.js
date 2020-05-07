@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const category = sequelize.define(
-    'category', 
+    "category",
     {
-        descriptionEn: DataTypes.STRING,
-        descriptionFr: DataTypes.STRING
-    }
-  , 
-  {}
+      descriptionEn: DataTypes.STRING,
+      descriptionFr: DataTypes.STRING,
+    },
+    {}
   );
-  category.associate = function(models) {
+  category.associate = function (models) {
     // associations can be defined here
     category.hasMany(models.skill); // allows us to get all skills for one category
   };

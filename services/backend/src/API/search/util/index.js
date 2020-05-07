@@ -15,5 +15,5 @@ module.exports = {
   locationSearch,
   classificationSearch,
   skillSearch,
-  branchSearch
+  branchSearch,
 };

@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const location = sequelize.define(
     "location",
@@ -9,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       provinceEn: DataTypes.STRING,
       provinceFr: DataTypes.STRING,
       postalCode: DataTypes.STRING,
-      country: DataTypes.STRING
+      country: DataTypes.STRING,
     },
     {}
   );
-  location.associate = function(models) {
+  location.associate = function (models) {
     location.hasMany(models.profile);
     location.hasMany(models.relocationLocation);
   };

@@ -1,5 +1,6 @@
-const getModel = require("./getModel.js").getModel;
+const { getModel } = require("./getModel.js");
 const Models = require("../../models");
+
 const User = Models.user;
 const Profile = Models.profile;
 const Tenure = Models.tenure;
@@ -10,8 +11,8 @@ const getOption = async (request, response) => {
     const { type } = request.params;
     const model = getModel(type);
 
-    let options = {
-      attributes: { exclude: ["createdAt", "updatedAt"] }
+    const options = {
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     };
 
     if (type === "skill" || type === "competency") {
@@ -45,7 +46,7 @@ const getFlagged = async (request, response) => {
   try {
     const { id } = request.params;
 
-    await Profile.findOne({ where: { id: id } }).then(row =>
+    await Profile.findOne({ where: { id: id } }).then((row) =>
       response.status(200).json({ value: row.flagged })
     );
   } catch (error) {
@@ -57,7 +58,7 @@ const getInactive = async (request, response) => {
   try {
     const { id } = request.params;
 
-    await User.findOne({ where: { id: id } }).then(row =>
+    await User.findOne({ where: { id: id } }).then((row) =>
       response.status(200).json({ value: row.inactive })
     );
 
@@ -74,13 +75,13 @@ const getUser = async (request, response) => {
       "id",
       "firstName",
       "lastName",
-      //"branchEn",
-      //"branchFr",
+      // "branchEn",
+      // "branchFr",
       "flagged",
       "createdAt",
       "jobTitleEn",
-      "jobTitleFr"
-    ]
+      "jobTitleFr",
+    ],
   });
 
   response.status(200).json(values);
@@ -95,5 +96,5 @@ module.exports = {
   getFlagged,
   getInactive,
   getUser,
-  checkAdmin
+  checkAdmin,
 };

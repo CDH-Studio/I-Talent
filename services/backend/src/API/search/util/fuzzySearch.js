@@ -34,8 +34,8 @@ const fuzzySearch = async (profiles, searchValue) => {
       "team",
       "telephone",
       "projects.text",
-      "exFeeder"
-    ]
+      "exFeeder",
+    ],
   };
 
   const fuse = new Fuse(profiles, options);

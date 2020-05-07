@@ -14,8 +14,8 @@ module.exports = {
             name: "John Doe",
             email: "john.doe@canada.ca",
             createdAt: new Date(),
-            updatedAt: new Date()
-          }
+            updatedAt: new Date(),
+          },
         ],
         {}
       )
@@ -28,8 +28,8 @@ module.exports = {
               name: "Mary Doe",
               email: "mary.doe@canada.ca",
               createdAt: new Date(),
-              updatedAt: new Date()
-            }
+              updatedAt: new Date(),
+            },
           ],
           {}
         );
@@ -45,5 +45,5 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
     return queryInterface.bulkDelete("users", null, {});
-  }
+  },
 };
