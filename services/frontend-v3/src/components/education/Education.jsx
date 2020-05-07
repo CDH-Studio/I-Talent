@@ -10,14 +10,12 @@ function Education(props) {
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
 
-    const present = <FormattedMessage id="profile.end.date.present" />;
-
     let duration = "";
 
     if (startDate === null && endDate === null) {
       duration = duration + dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + present;
+      duration = duration + formatedStartDate + " - " + "present";
     } else {
       duration = duration + formatedStartDate + " - " + formatedEndDate;
     }
@@ -25,20 +23,18 @@ function Education(props) {
     return duration;
   };
 
-  const getEducationInfo = dataSource => {
-    const locale = localStorage.getItem("lang");
-
+  const getEducationInfo = (dataSource) => {
+    const locale = localStorage.getItem("lang") || "en";
     let educationInfo = [];
     if (dataSource.education != null) {
-      dataSource.education.forEach(educElement => {
+      dataSource.education.forEach((educElement) => {
         const startDate = educElement.startDate[locale];
         const endDate = educElement.endDate[locale];
 
         const education = {
-          icon: "bank",
           diploma: educElement.diploma.description[locale],
           school: educElement.school.description[locale],
-          duration: getEducationDuration(startDate, endDate)
+          duration: getEducationDuration(startDate, endDate),
         };
 
         educationInfo.push(education);
@@ -50,7 +46,7 @@ function Education(props) {
 
   return (
     <EducationView
-      locale={localStorage.getItem("lang")}
+      locale={localStorage.getItem("lang") || "en"}
       educationInfo={getEducationInfo(props.data)}
     />
   );

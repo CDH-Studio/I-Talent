@@ -3,13 +3,15 @@ import React from "react";
 import SkillsView from "./SkillsView";
 
 function Skills(props) {
-  const formatData = list => {
-    const locale = localStorage.getItem("lang");
+  const formatData = (list) => {
+    const locale = localStorage.getItem("lang") || "en";
+
     let categorizedList = {};
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
+
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
         } else {
@@ -21,8 +23,8 @@ function Skills(props) {
     return categorizedList;
   };
 
-  const setUpCategories = list => {
-    const locale = localStorage.getItem("lang");
+  const setUpCategories = (list) => {
+    const locale = localStorage.getItem("lang") || "en";
     let categorizedList = {};
     let categoriesTemp = {};
     let categories = [];
@@ -30,7 +32,7 @@ function Skills(props) {
     let k = 0;
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
@@ -55,8 +57,9 @@ function Skills(props) {
     return categories;
   };
 
-  const setUpSkills = dataSource => {
+  const setUpSkills = (dataSource) => {
     let skills = [];
+
     let categorizedSkillsList = formatData(dataSource);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {

@@ -1,21 +1,17 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import { injectIntl } from "react-intl";
+import CompetencyTable from "../../components/admin/competencyTable/CompetencyTable";
 
-class AdminCompetency extends React.Component {
-  goto = link => this.props.history.push(link);
-
-  render() {
-    return (
-      <AdminLayout
-        changeLanguage={this.props.changeLanguage}
-        displaySideBar={true}
-        type="competency"
-      >
-        {" "}
-      </AdminLayout>
-    );
-  }
+function AdminCompetency(props) {
+  return (
+    <AdminLayout
+      changeLanguage={props.changeLanguage}
+      displaySideBar={true}
+      type="competency"
+    >
+      <CompetencyTable type="competency" />
+    </AdminLayout>
+  );
 }
 
-export default injectIntl(AdminCompetency);
+export default AdminCompetency;

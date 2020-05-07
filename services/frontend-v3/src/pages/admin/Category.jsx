@@ -1,7 +1,6 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import CategoryTable from "../../components/categoryTable/CategoryTable";
-import { injectIntl } from "react-intl";
+import CategoryTable from "../../components/admin/categoryTable/CategoryTable";
 
 function AdminCategory(props) {
   return (
@@ -14,4 +13,4 @@ function AdminCategory(props) {
     </AdminLayout>
   );
 }
-export default injectIntl(AdminCategory);
+export default AdminCategory;
