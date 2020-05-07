@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface
@@ -7,33 +8,33 @@ module.exports = {
           allowNull: false,
           primaryKey: true,
           type: Sequelize.UUID,
-          defaultValue: Sequelize.literal("uuid_generate_v1()")
+          defaultValue: Sequelize.literal("uuid_generate_v1()"),
         },
         name: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
         },
         email: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         inactive: {
           allowNull: false,
           type: Sequelize.BOOLEAN,
-          defaultValue: false
+          defaultValue: false,
         },
         avatarColor: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
         },
         nameInitials: {
-          type: Sequelize.STRING
-        }
+          type: Sequelize.STRING,
+        },
       })
       .then(() => {
         return queryInterface.createTable("profiles", {
@@ -43,86 +44,86 @@ module.exports = {
             type: Sequelize.UUID,
             references: {
               model: "users", // name of Target model
-              key: "id" // key in Target model that we're referencing
+              key: "id", // key in Target model that we're referencing
             },
-            defaultValue: Sequelize.literal("uuid_generate_v1()")
+            defaultValue: Sequelize.literal("uuid_generate_v1()"),
           },
           firstName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           lastName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           jobTitleEn: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           jobTitleFr: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           telephone: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           cellphone: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           manager: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           team: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           branchEn: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           branchFr: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           firstLanguage: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           secondLanguage: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           yearService: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
           },
           actingStartDate: {
-            type: Sequelize.DATE
+            type: Sequelize.DATE,
           },
           actingEndDate: {
-            type: Sequelize.DATE
+            type: Sequelize.DATE,
           },
           linkedin: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           github: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           gcconnex: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           exFeeder: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
           },
           isMentor: {
             allowNull: true,
             type: Sequelize.BOOLEAN,
-            defaultValue: false
+            defaultValue: false,
           },
           flagged: {
             allowNull: false,
             type: Sequelize.BOOLEAN,
-            defaultValue: false
+            defaultValue: false,
           },
           interestedInRemote: {
             allowNull: true,
             type: Sequelize.BOOLEAN,
-            defaultValue: null
+            defaultValue: null,
           },
           indeterminate: {
             allowNull: true,
             type: Sequelize.BOOLEAN,
-            defaultValue: false
+            defaultValue: false,
           },
           visibleCards: {
             allowNull: false,
@@ -139,17 +140,17 @@ module.exports = {
               experience: true,
               projects: true,
               careerInterests: true,
-              mentorshipSkills: true
-            }
+              mentorshipSkills: true,
+            },
           },
           createdAt: {
             allowNull: false,
-            type: Sequelize.DATE
+            type: Sequelize.DATE,
           },
           updatedAt: {
             allowNull: false,
-            type: Sequelize.DATE
-          }
+            type: Sequelize.DATE,
+          },
         });
       });
   },
@@ -157,5 +158,5 @@ module.exports = {
     return queryInterface.dropTable("profiles").then(() => {
       return queryInterface.dropTable("users");
     });
-  }
+  },
 };

@@ -1,12 +1,13 @@
 const Models = require("../../models");
+
 const Skill = Models.skill;
 
 const utils = require("./util");
 
 const search = async (request, response) => {
-  const query = request.query;
+  const { query } = request;
 
-  let searchSkill = query.skills;
+  const searchSkill = query.skills;
 
   let skillSearchValue = query.searchValue || "";
 
@@ -43,7 +44,7 @@ async function getSkillNames(searchSkill, skillSearchValue) {
       (data) => data.dataValues
     );
     skill = skill.descriptionEn;
-    skillSearchValue = skillSearchValue.concat(" " + skill);
+    skillSearchValue = skillSearchValue.concat(` ${skill}`);
   });
   return skillSearchValue;
 }

@@ -15,5 +15,5 @@ module.exports = {
   growthRateByMonth,
   growthRateByWeek,
   dashboardCount,
-  getTopFive
+  getTopFive,
 };

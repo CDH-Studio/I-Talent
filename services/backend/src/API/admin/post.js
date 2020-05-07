@@ -1,4 +1,4 @@
-const getModel = require("./getModel.js").getModel;
+const { getModel } = require("./getModel.js");
 
 const createOption = async (request, response) => {
   try {
@@ -22,7 +22,7 @@ const createOption = async (request, response) => {
 const bulkDeleteOption = async (request, response) => {
   try {
     const { type } = request.params;
-    const ids = request.body.ids;
+    const { ids } = request.body;
     const model = getModel(type);
 
     let result;

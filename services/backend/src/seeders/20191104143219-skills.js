@@ -1,6 +1,8 @@
 // category = require('../models/category');
-//categoriesSeeded = category.findAll({attributes:['id'], raw:true});
+// categoriesSeeded = category.findAll({attributes:['id'], raw:true});
+
 "use strict";
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*

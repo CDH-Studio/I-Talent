@@ -16,7 +16,7 @@ module.exports = {
           tier: "0",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "DIGITAL TRANSFORMATION SERVICE SECTOR",
@@ -24,7 +24,7 @@ module.exports = {
           tier: "1",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Chief Information Office",
@@ -32,7 +32,7 @@ module.exports = {
           tier: "2",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Digital Services Division",
@@ -40,7 +40,7 @@ module.exports = {
           tier: "3",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Business Line Solutions Directorate",
@@ -48,7 +48,7 @@ module.exports = {
           tier: "4",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Innovation, Science and Economic Development Canada",
@@ -57,7 +57,7 @@ module.exports = {
           tier: "0",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "DIGITAL TRANSFORMATION SERVICE SECTOR",
@@ -65,7 +65,7 @@ module.exports = {
           tier: "1",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Chief Information Office",
@@ -73,7 +73,7 @@ module.exports = {
           tier: "2",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Digital Services Division",
@@ -81,7 +81,7 @@ module.exports = {
           tier: "3",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
           descriptionEn: "Director General's Office",
@@ -89,8 +89,8 @@ module.exports = {
           tier: "4",
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667"
-        }
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
+        },
       ],
       {}
     );
@@ -102,5 +102,5 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkDelete("profileOrganizations", null, {});
-  }
+  },
 };

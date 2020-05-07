@@ -1,7 +1,7 @@
 const classificationSearch = async (profiles, classificationArray) => {
-  let classificationProf = [];
+  const classificationProf = [];
 
-  profiles.forEach(profile => {
+  profiles.forEach((profile) => {
     if (!profile.classification) return;
     const classificationId = profile.classification.id;
 

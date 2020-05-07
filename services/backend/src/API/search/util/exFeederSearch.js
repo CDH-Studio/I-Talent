@@ -1,5 +1,5 @@
-const exFeederSearch = profiles => {
-  let results = profiles.filter(profile => profile.exFeeder === true);
+const exFeederSearch = (profiles) => {
+  const results = profiles.filter((profile) => profile.exFeeder === true);
   return results;
 };
 

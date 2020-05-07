@@ -1,6 +1,7 @@
 const moment = require("moment");
 
 const Models = require("../../models");
+
 const Profile = Models.profile;
 const Education = Models.education;
 const Experience = Models.experience;
@@ -13,11 +14,11 @@ const Location = Models.location;
 const mappedValues = require("./mappedValues.json");
 
 const updateProfile = async (request, response) => {
-  const id = request.params.id;
-  const body = request.body;
-  let dbObject = {};
+  const { id } = request.params;
+  const { body } = request;
+  const dbObject = {};
 
-  for (let [key, value] of Object.entries(body)) {
+  for (const [key, value] of Object.entries(body)) {
     dbObject[mappedValues[key] ? mappedValues[key] : key] = value;
   }
 
@@ -28,10 +29,10 @@ const updateProfile = async (request, response) => {
 
   try {
     let [updated] = await Profile.update(dbObject, {
-      where: { id: id }
+      where: { id: id },
     });
 
-    const profile = await Profile.findOne({ where: { id: id } }).then(res => {
+    const profile = await Profile.findOne({ where: { id: id } }).then((res) => {
       updated = true;
       return res;
     });
@@ -51,8 +52,8 @@ const updateProfile = async (request, response) => {
               schoolId: school.id ? school.id : school,
               diplomaId: diploma.id ? diploma.id : diploma,
               startDate,
-              endDate
-            }).then(education => {
+              endDate,
+            }).then((education) => {
               profile.addEducation(education);
             });
           }
@@ -62,10 +63,10 @@ const updateProfile = async (request, response) => {
 
     if (dbObject.experience) {
       Experience.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.experience.forEach(exp => {
+        dbObject.experience.forEach((exp) => {
           let startDate = moment(exp.startDate);
           let endDate = moment(exp.endDate);
-          let content = exp.content;
+          let { content } = exp;
           if (!startDate.isValid()) startDate = null;
           else startDate = startDate.format();
           if (!endDate.isValid()) endDate = null;
@@ -76,8 +77,8 @@ const updateProfile = async (request, response) => {
             jobTitle: exp.header,
             description: content,
             startDate: startDate,
-            endDate: endDate
-          }).then(experience => {
+            endDate: endDate,
+          }).then((experience) => {
             profile.addExperience(experience);
           });
         });
@@ -86,10 +87,10 @@ const updateProfile = async (request, response) => {
 
     if (dbObject.projects) {
       Project.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.projects.forEach(project => {
+        dbObject.projects.forEach((project) => {
           Project.create({
-            description: project
-          }).then(project => {
+            description: project,
+          }).then((project) => {
             profile.addProfileProject(project);
           });
         });
@@ -104,8 +105,8 @@ const updateProfile = async (request, response) => {
               ProfileOrganization.create({
                 descriptionEn: en,
                 descriptionFr: fr,
-                tier
-              }).then(organization => {
+                tier,
+              }).then((organization) => {
                 profile.addProfileOrganization(organization);
               });
             }
@@ -134,7 +135,7 @@ const updateProfile = async (request, response) => {
         writingDate,
         readingDate,
         oralDate,
-        readingProficiency
+        readingProficiency,
       } = dbObject;
 
       secLangProf
@@ -145,28 +146,28 @@ const updateProfile = async (request, response) => {
             writingDate,
             readingDate,
             oralDate,
-            readingProficiency
+            readingProficiency,
           },
           { returning: true }
         )
-        .then(secLangProf => {
+        .then((secLangProf) => {
           profile.setSecondLanguageProficiency(secLangProf);
         });
     }
     if (!dbObject.secondLanguage) {
       SecLang.destroy({
-        where: { id: profile.dataValues.secondLanguageProficiencyId }
+        where: { id: profile.dataValues.secondLanguageProficiencyId },
       });
     }
 
     if (dbObject.relocationLocations) {
       await RelocationLocation.destroy({
-        where: { profileId: id }
+        where: { profileId: id },
       }).then(() =>
-        dbObject.relocationLocations.forEach(element => {
-          RelocationLocation.create({}).then(relocationLocation => {
+        dbObject.relocationLocations.forEach((element) => {
+          RelocationLocation.create({}).then((relocationLocation) => {
             profile.addRelocationLocation(relocationLocation).then(() => {
-              Location.findOne({ where: { id: element } }).then(location => {
+              Location.findOne({ where: { id: element } }).then((location) => {
                 location.addRelocationLocation(relocationLocation);
               });
             });
@@ -175,7 +176,7 @@ const updateProfile = async (request, response) => {
       );
     }
 
-    //End of logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // End of logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     if (updated) {
       return response.status(200).json(profile);
@@ -189,5 +190,5 @@ const updateProfile = async (request, response) => {
 };
 
 module.exports = {
-  updateProfile
+  updateProfile,
 };

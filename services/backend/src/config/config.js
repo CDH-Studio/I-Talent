@@ -1,6 +1,8 @@
 require("dotenv").config();
 
-let dialect, host, port;
+let dialect;
+let host;
+let port;
 if (process.env.PLATFORM == "OPENSHIFT") {
   [dialect, host, port] = process.env.DATABASE_URL.split(":");
   host = host.replace("//", "");
@@ -19,6 +21,6 @@ module.exports = {
     port: port,
     dialect: dialect,
     seederStorage: "sequelize",
-    seederStorageTableName: "SequlizeSeeder"
-  }
+    seederStorageTableName: "SequlizeSeeder",
+  },
 };

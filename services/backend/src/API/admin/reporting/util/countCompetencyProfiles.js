@@ -1,5 +1,6 @@
 const Models = require("../../../../models");
-const sequelize = Models.sequelize;
+
+const { sequelize } = Models;
 const getTopFive = require("./getTopFive");
 
 const countCompetencyProfiles = async () => {

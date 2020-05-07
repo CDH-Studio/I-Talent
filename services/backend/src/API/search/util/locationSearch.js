@@ -1,7 +1,7 @@
 const locationSearch = async (profiles, locationArray) => {
-  let locationProf = [];
+  const locationProf = [];
 
-  profiles.forEach(profile => {
+  profiles.forEach((profile) => {
     if (!profile.location) return;
     const locationId = profile.location.id;
 

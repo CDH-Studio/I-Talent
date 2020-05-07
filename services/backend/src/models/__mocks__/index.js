@@ -48,14 +48,14 @@ UserMock.$queueResult([
     id: "012345",
     name: "John Doe",
     email: "john.doe@canada.ca",
-    inactive: false
+    inactive: false,
   }),
   UserMock.build({
     id: "054321",
     name: "Clarence Decatur Howe",
     email: "clarencedecatur.howe@canada.ca",
-    inactive: false
-  })
+    inactive: false,
+  }),
 ]);
 
 // getAllUserInfo Test
@@ -64,14 +64,14 @@ UserMock.$queueResult([
     id: "012345",
     name: "John Doe",
     email: "john.doe@canada.ca",
-    inactive: false
+    inactive: false,
   }),
   UserMock.build({
     id: "054321",
     name: "Clarence Decatur Howe",
     email: "clarencedecatur.howe@canada.ca",
-    inactive: false
-  })
+    inactive: false,
+  }),
 ]);
 
 // admin.get:
@@ -82,7 +82,7 @@ UserMock.$queueResult(
     id: "012345",
     name: "John Doe",
     email: "john.doe@canada.ca",
-    inactive: true
+    inactive: true,
   })
 );
 
@@ -92,7 +92,7 @@ ProfileMock.$queueResult(
     id: "06789",
     name: "Mary Doe",
     email: "mary.doe@canada.ca",
-    flagged: true
+    flagged: true,
   })
 );
 
@@ -128,5 +128,5 @@ ProfileMock.$queueResult(
 // Allow UserMock to be used outside module:
 module.exports = {
   user: UserMock,
-  profile: ProfileMock
+  profile: ProfileMock,
 };

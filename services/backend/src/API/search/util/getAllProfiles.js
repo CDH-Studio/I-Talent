@@ -2,6 +2,7 @@ const moment = require("moment");
 const Fuse = require("fuse.js");
 
 const Models = require("../../../models");
+
 const Profile = Models.profile;
 const User = Models.user;
 
@@ -48,35 +49,35 @@ _getProfs = (profiles, searchValue) => {
 };
 
 _getProf = async (profile, searchValue) => {
-  let user = await profile.getUser({
+  const user = await profile.getUser({
     attributes: ["email", "avatarColor", "nameInitials"],
   });
 
   if (!profile) response.status(404).send("Profile Not Found");
 
-  let privateInfo = profile.visibleCards;
+  const privateInfo = profile.visibleCards;
 
-  let profileData = profile ? profile.dataValues : {};
-  let userData = user ? user.dataValues : {};
+  const profileData = profile ? profile.dataValues : {};
+  const userData = user ? user.dataValues : {};
 
-  let data = { ...profileData, ...userData };
+  const data = { ...profileData, ...userData };
 
-  let groupLevel = await profile.getGroupLevel().then((res) => {
+  const groupLevel = await profile.getGroupLevel().then((res) => {
     if (res) return res.dataValues;
   });
 
-  let acting = await profile.getActing().then((res) => {
+  const acting = await profile.getActing().then((res) => {
     if (res) return res.dataValues;
   });
 
-  let location = await profile.getLocation().then((res) => {
+  const location = await profile.getLocation().then((res) => {
     if (res) return res.dataValues;
   });
 
-  let experiences = await profile.getExperiences();
-  let careerSummary = experiences.map((experience) => {
-    let startDate = moment(experience.startDate);
-    let endDate = moment(experience.endDate);
+  const experiences = await profile.getExperiences();
+  const careerSummary = experiences.map((experience) => {
+    const startDate = moment(experience.startDate);
+    const endDate = moment(experience.endDate);
 
     return {
       header: experience.organization,
@@ -87,21 +88,21 @@ _getProf = async (profile, searchValue) => {
     };
   });
 
-  let dbProjects = await profile.getProfileProjects();
-  let projects = dbProjects.map((project) => {
+  const dbProjects = await profile.getProfileProjects();
+  const projects = dbProjects.map((project) => {
     return { text: project.description };
   });
 
-  let education = await profile.getEducation();
-  let educations = () => {
+  const education = await profile.getEducation();
+  const educations = () => {
     return Promise.all(
       education.map(async (educ) => {
-        let startDate = moment(educ.startDate);
-        let endDate = moment(educ.endDate);
-        let school = await educ.getSchool().then((res) => {
+        const startDate = moment(educ.startDate);
+        const endDate = moment(educ.endDate);
+        const school = await educ.getSchool().then((res) => {
           if (res) return res.dataValues;
         });
-        let diploma = await educ.getDiploma().then((res) => {
+        const diploma = await educ.getDiploma().then((res) => {
           if (res) return res.dataValues;
         });
         educ = educ.dataValues;
@@ -126,12 +127,12 @@ _getProf = async (profile, searchValue) => {
     );
   };
 
-  let educArray = await educations();
+  const educArray = await educations();
 
-  let organizationList = await profile
+  const organizationList = await profile
     .getProfileOrganizations({ order: [["tier", "DESC"]] })
     .then((organizations) => {
-      let orgList = organizations.map((organization) => {
+      const orgList = organizations.map((organization) => {
         return {
           en: organization.descriptionEn,
           fr: organization.descriptionFr,
@@ -140,7 +141,7 @@ _getProf = async (profile, searchValue) => {
       return orgList;
     });
 
-  let skills = await profile.getSkills().map(async (skill) => {
+  const skills = await profile.getSkills().map(async (skill) => {
     if (skill) {
       return {
         id: skill.dataValues.id,
@@ -152,7 +153,7 @@ _getProf = async (profile, searchValue) => {
     }
   });
 
-  let competencies = await profile.getCompetencies().map((competencies) => {
+  const competencies = await profile.getCompetencies().map((competencies) => {
     if (competencies)
       return {
         id: competencies.dataValues.id,
@@ -179,18 +180,18 @@ _getProf = async (profile, searchValue) => {
     .search(searchValue)
     .slice(0, NUMBER_OF_SKILL_RESULT);
 
-  //Response Object
-  let resData = {
+  // Response Object
+  const resData = {
     id: data.id,
     acting: {
-      //this
+      // this
       id: acting && privateInfo.info ? acting.id : null,
       description: acting && privateInfo.info ? acting.description : null,
     },
     branch: data.branchEn,
     careerSummary: privateInfo.experience ? careerSummary : null,
     classification: {
-      //this
+      // this
       id: groupLevel && privateInfo.info ? groupLevel.id : null,
       description:
         groupLevel && privateInfo.info ? groupLevel.description : null,
@@ -209,18 +210,10 @@ _getProf = async (profile, searchValue) => {
       id: location ? location.id : null,
       description: {
         en: location
-          ? location.addressEn +
-            ", " +
-            location.city +
-            ", " +
-            location.provinceEn
+          ? `${location.addressEn}, ${location.city}, ${location.provinceEn}`
           : null,
         fr: location
-          ? location.addressFr +
-            ", " +
-            location.city +
-            ", " +
-            location.provinceFr
+          ? `${location.addressFr}, ${location.city}, ${location.provinceFr}`
           : null,
       },
     },

@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const Models = require("../../../../models");
+
 const Skills = Models.skill; // Skills Table
 const Profiles = Models.profile; // Profiles Table
 const getTopFive = require("./getTopFive");
@@ -13,16 +14,16 @@ const countSkillProfiles = async () => {
     include: [
       {
         model: Profiles,
-        attributes: ["id"]
-      }
+        attributes: ["id"],
+      },
     ],
     attributes: [
       "id",
       "descriptionEn",
       "descriptionFr",
-      [Sequelize.fn("COUNT", Sequelize.col("profiles.id")), "countOccurences"]
+      [Sequelize.fn("COUNT", Sequelize.col("profiles.id")), "countOccurences"],
     ],
-    order: [[Sequelize.fn("COUNT", Sequelize.col("profiles.id")), "DESC"]]
+    order: [[Sequelize.fn("COUNT", Sequelize.col("profiles.id")), "DESC"]],
   });
 
   const topFiveSkills = getTopFive(profileSkills);

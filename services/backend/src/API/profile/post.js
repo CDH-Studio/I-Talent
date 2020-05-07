@@ -1,5 +1,6 @@
 const moment = require("moment");
 const Models = require("../../models");
+
 const Profile = Models.profile;
 const Education = Models.education;
 const Experience = Models.experience;
@@ -7,16 +8,16 @@ const ProfileOrganization = Models.profileOrganization;
 const Project = Models.profileProject;
 const SecLang = Models.secondLanguageProficiency;
 
-/*This objects stores the names of the db attributes 
-in relation to the object keys sent from the frontend*/
+/* This objects stores the names of the db attributes 
+in relation to the object keys sent from the frontend */
 const mappedValues = require("./mappedValues.json");
 
 const createProfile = async (request, response) => {
-  const id = request.params.id;
-  const body = request.body;
-  let dbObject = {};
+  const { id } = request.params;
+  const { body } = request;
+  const dbObject = {};
 
-  for (let [key, value] of Object.entries(body)) {
+  for (const [key, value] of Object.entries(body)) {
     dbObject[mappedValues[key] ? mappedValues[key] : key] = value;
   }
 
@@ -156,7 +157,7 @@ const createProfile = async (request, response) => {
       });
     }
 
-    //End of logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // End of logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     response.status(200).send("OK");
   } catch (error) {

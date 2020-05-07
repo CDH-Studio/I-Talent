@@ -6,119 +6,119 @@ module.exports = {
       .createTable("profileSkills", {
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         profileId: {
           type: Sequelize.UUID,
           primaryKey: true,
           references: {
             model: "profiles", // name of Target model
-            key: "id" // key in Target model that we're referencing
+            key: "id", // key in Target model that we're referencing
           },
           onUpdate: "CASCADE",
-          onDelete: "CASCADE"
+          onDelete: "CASCADE",
         },
         skillId: {
           type: Sequelize.UUID,
           primaryKey: true,
           references: {
             model: "skills", // name of Target model
-            key: "id" // key in Target model that we're referencing
-          }
-        }
+            key: "id", // key in Target model that we're referencing
+          },
+        },
       })
       .then(() => {
         return queryInterface
           .createTable("profileCompetencies", {
             createdAt: {
               allowNull: false,
-              type: Sequelize.DATE
+              type: Sequelize.DATE,
             },
             updatedAt: {
               allowNull: false,
-              type: Sequelize.DATE
+              type: Sequelize.DATE,
             },
             profileId: {
               type: Sequelize.UUID,
               primaryKey: true,
               references: {
                 model: "profiles", // name of Target model
-                key: "id" // key in Target model that we're referencing
+                key: "id", // key in Target model that we're referencing
               },
               onUpdate: "CASCADE",
-              onDelete: "CASCADE"
+              onDelete: "CASCADE",
             },
             skillId: {
               type: Sequelize.UUID,
               primaryKey: true,
               references: {
                 model: "skills", // name of Target model
-                key: "id" // key in Target model that we're referencing
-              }
-            }
+                key: "id", // key in Target model that we're referencing
+              },
+            },
           })
           .then(() => {
             return queryInterface.createTable("profileDevelopmentGoals", {
               createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
               },
               updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
               },
               profileId: {
                 type: Sequelize.UUID,
                 primaryKey: true,
                 references: {
                   model: "profiles", // name of Target model
-                  key: "id" // key in Target model that we're referencing
+                  key: "id", // key in Target model that we're referencing
                 },
                 onUpdate: "CASCADE",
-                onDelete: "CASCADE"
+                onDelete: "CASCADE",
               },
               skillId: {
                 type: Sequelize.UUID,
                 primaryKey: true,
                 references: {
                   model: "skills", // name of Target model
-                  key: "id" // key in Target model that we're referencing
-                }
-              }
+                  key: "id", // key in Target model that we're referencing
+                },
+              },
             });
           })
           .then(() => {
             return queryInterface.createTable("profileMentorshipSkills", {
               createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
               },
               updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
               },
               profileId: {
                 type: Sequelize.UUID,
                 primaryKey: true,
                 references: {
                   model: "profiles", // name of Target model
-                  key: "id" // key in Target model that we're referencing
+                  key: "id", // key in Target model that we're referencing
                 },
                 onUpdate: "CASCADE",
-                onDelete: "CASCADE"
+                onDelete: "CASCADE",
               },
               skillId: {
                 type: Sequelize.UUID,
                 primaryKey: true,
                 references: {
                   model: "skills", // name of Target model
-                  key: "id" // key in Target model that we're referencing
-                }
-              }
+                  key: "id", // key in Target model that we're referencing
+                },
+              },
             });
           });
       });
@@ -133,5 +133,5 @@ module.exports = {
         });
       });
     });
-  }
+  },
 };

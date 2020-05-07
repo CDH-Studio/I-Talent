@@ -1,5 +1,6 @@
-const getModel = require("./getModel.js").getModel;
+const { getModel } = require("./getModel.js");
 const Models = require("../../models");
+
 const User = Models.user;
 const Profile = Models.profile;
 
@@ -70,8 +71,8 @@ const updateProfileStatus = async (request, response) => {
   const statuses = Object.entries(request.body);
   try {
     statuses.forEach(async ([id, status]) => {
-      let flagged = false,
-        inactive = false;
+      let flagged = false;
+      let inactive = false;
       if (status === "Inactive" || status === "Inactif") {
         inactive = true;
       }

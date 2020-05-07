@@ -13,14 +13,14 @@ module.exports = {
           descriptionEn: "Thinking things through",
           descriptionFr: "Réflexion approfondie",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           descriptionEn: "Achieve results",
           descriptionFr: "Obtenir des résultats",
           createdAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
@@ -35,5 +35,5 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
     return queryInterface.bulkDelete("competencies", null, {});
-  }
+  },
 };
