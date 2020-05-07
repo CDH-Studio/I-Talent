@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -10,9 +10,14 @@ import {
   Button,
   Checkbox,
   message,
+  Popover,
 } from "antd";
 import { useHistory } from "react-router-dom";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
@@ -85,6 +90,7 @@ const PersonalGrowthFormView = (props) => {
       marginBottom: "1rem",
       width: "100%",
     },
+    TMTooltip: { paddingLeft: "5px" },
   };
 
   /*
@@ -449,11 +455,19 @@ const PersonalGrowthFormView = (props) => {
           <Divider style={styles.headerDiv} />
           <Title level={3} style={styles.formTitle}>
             <FormattedMessage id="setup.talent.management" />
-            <FormLabelTooltip
-              tooltipText={
-                <FormattedMessage id="profile.talent.management.tooltip" />
+            <Popover
+              content={
+                <div>
+                  <FormattedMessage id="profile.talent.management.tooltip" />
+                  <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
+                    Talent Management Tool
+                  </a>
+                </div>
               }
-            />
+              trigger="hover"
+            >
+              <ExclamationCircleOutlined style={styles.TMTooltip} />
+            </Popover>
           </Title>
 
           {/* Form Row Three: career mobility */}
