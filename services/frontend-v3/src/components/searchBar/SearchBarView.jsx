@@ -19,7 +19,6 @@ const { Title } = Typography;
 function SearchBarView(props) {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-  const { handleSearch, data } = props;
 
   const styles = {
     outerForm: {
@@ -84,7 +83,7 @@ function SearchBarView(props) {
 
   // Handle form submission
   const onFinish = (values) => {
-    handleSearch(values);
+    props.handleSearch(values);
   };
 
   // Generate the basic input field for basic search
@@ -229,8 +228,9 @@ function SearchBarView(props) {
               </Form.Item>
               {/* exFeeder field */}
               <Form.Item
-                name={<FormattedMessage id="advanced.search.form.ex.feeder" />}
-                label={"exFeeder"}
+                label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+                name={"exFeeder"}
+                valuePropName="checked"
               >
                 <Switch />
               </Form.Item>
@@ -256,7 +256,7 @@ function SearchBarView(props) {
             style={{ width: "80%", maxWidth: "300px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
-          <div style={styles.mainSearchField}>{getBasicField(data)}</div>
+          <div style={styles.mainSearchField}>{getBasicField()}</div>
           <Button
             shape="round"
             size="large"
