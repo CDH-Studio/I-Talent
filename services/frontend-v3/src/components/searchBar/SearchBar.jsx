@@ -73,21 +73,6 @@ function SearchBar(props) {
     }
   };
 
-  // //Creates the basic input field for basic search and puts its data into children array
-  // const getBasicField = (data) => {
-  //   const children = [];
-  //   const searchLabel = props.intl.formatMessage({
-  //     id: "button.search",
-  //     defaultMessage: "Search",
-  //   });
-  //   children.push(
-  //     <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
-  //       <Input placeholder={searchLabel} />
-  //     </Form.Item>
-  //   );
-  //   return children;
-  // };
-
   //Creates the six fields for advanced search, along with their bilingual titles
   const getFields = (data) => {
     const count = expand ? 6 : 0;
