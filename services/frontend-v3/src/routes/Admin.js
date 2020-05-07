@@ -29,7 +29,7 @@ function Admin(props) {
   // const [isAdmin, setIsAdmin] = useState(false);
   // const [loading, setLoading] = useState(true);
 
-  const changeLanguage = props.changeLanguage;
+  const { changeLanguage } = props;
 
   useEffect(() => {
     const keycloak = Keycloak(keycloakJSONConfig);
@@ -42,12 +42,12 @@ function Admin(props) {
       .then((authenticated) => {
         axios.interceptors.request.use((config) =>
           keycloak.updateToken(300).then(() => {
-            config.headers.Authorization = "Bearer " + keycloak.token;
+            config.headers.Authorization = `Bearer ${keycloak.token}`;
             return Promise.resolve(config).catch(keycloak.login);
           })
         );
 
-        axios.get(backendAddress + "api/admin/check").then(
+        axios.get(`${backendAddress}api/admin/check`).then(
           () => {
             setKeycloak(keycloak);
             setAuthenticated(authenticated);
@@ -64,22 +64,22 @@ function Admin(props) {
       });
   }, []);
 
-  //If NOT using some version of Internet Explorer
+  // If NOT using some version of Internet Explorer
   if (!/MSIE|Trident/.test(window.navigator.userAgent)) {
     document.body.style = "background-color: #eeeeee";
   }
 
-  /*********
+  /** *******
    * Once admin protection has been implemented,
    * uncomment this
-   ******************/
+   ***************** */
 
-  //FORBIDDEN PAGE
+  // FORBIDDEN PAGE
   // if (!isAdmin) {
   //   return <Forbidden />;
   // }
 
-  //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   const copyToClipboard = (e) => {
     this.textArea.select();
@@ -94,7 +94,7 @@ function Admin(props) {
         <div>
           {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 <div>
-                {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+                {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
           {/* <div>
                   <form>
                     <textarea
@@ -109,9 +109,9 @@ function Admin(props) {
                     </div>
                   )}
                 </div>
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
 
-          {/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
 
           <Route
             exact
@@ -197,11 +197,10 @@ function Admin(props) {
           />
         </div>
       );
-    } else {
-      return <div>Unable to authenticate!</div>;
     }
+    return <div>Unable to authenticate!</div>;
   }
-  return <div></div>;
+  return <div />;
 }
 
 export default Admin;

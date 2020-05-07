@@ -10,7 +10,7 @@ export default class LandingLayoutView extends Component {
     const { changeLanguage } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <div
           style={{
             backgroundImage: `url(${backgroundImage})`,
@@ -47,7 +47,7 @@ export default class LandingLayoutView extends Component {
                 marginBottom: "24pt",
                 marginTop: "18pt",
               }}
-            ></div>
+            />
             <Button
               as="a"
               href="/secured/home"
@@ -66,7 +66,7 @@ export default class LandingLayoutView extends Component {
         <div style={{ paddingTop: "0px" }}>
           <LandingNavBarController changeLanguage={changeLanguage} />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

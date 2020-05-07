@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
-import LandingLayoutView from "./landingLayoutView";
-
 import PropTypes from "prop-types";
+import LandingLayoutView from "./landingLayoutView";
 
 /** Logic for the landing route layout */
 function LandingLayout(props) {

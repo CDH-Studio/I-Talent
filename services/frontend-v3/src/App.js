@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { IntlProvider } from "react-intl";
+import moment from "moment";
 import messages_en from "./i18n/en_CA.json";
 import messages_fr from "./i18n/fr_CA.json";
-import moment from "moment";
 import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
@@ -28,7 +28,7 @@ function App() {
     },
   };
 
-  moment.locale(locale + "-ca");
+  moment.locale(`${locale}-ca`);
 
   const changeLanguage = (lang) => {
     localStorage.setItem("lang", lang);
@@ -42,7 +42,7 @@ function App() {
         break;
     }
 
-    moment.locale(lang + "-ca");
+    moment.locale(`${lang}-ca`);
 
     setLocale(lang);
   };

@@ -25,7 +25,7 @@ function Secured(props) {
   const [keycloak, setKeycloak] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
-  const changeLanguage = props.changeLanguage;
+  const { changeLanguage } = props;
 
   useEffect(() => {
     // Check if profile exist for the logged in user
@@ -49,9 +49,8 @@ function Secured(props) {
           return (
             <Redirect from="/old-path" to="/secured/profile/create/step/1" />
           );
-        } else {
-          return <div />;
         }
+        return <div />;
       });
     };
 
@@ -80,7 +79,7 @@ function Secured(props) {
 
         axios.interceptors.request.use((config) =>
           keycloak.updateToken(5).then(() => {
-            config.headers.Authorization = "Bearer " + keycloak.token;
+            config.headers.Authorization = `Bearer ${keycloak.token}`;
             return Promise.resolve(config).catch(keycloak.login);
           })
         );
@@ -94,7 +93,7 @@ function Secured(props) {
       });
   }, []);
 
-  //Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // const copyToClipboard = e => {
   //   this.textArea.select();
   //   document.execCommand("copy");
@@ -114,7 +113,7 @@ function Secured(props) {
     if (authenticated) {
       return (
         <div id="view">
-          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
           {/* <div>
               Keycloak Secret
               <form>
@@ -131,12 +130,12 @@ function Secured(props) {
                 </div>
               )}
             </div> */}
-          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
+          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
 
-          {/****** redirect to set up page ******/}
+          {/** **** redirect to set up page ***** */}
           {redirectToSetup}
           <Switch>
-            {/****** home page with large search bar ******/}
+            {/** **** home page with large search bar ***** */}
             <Route
               exact
               path="/secured/home"
@@ -148,7 +147,7 @@ function Secured(props) {
                 />
               )}
             />
-            {/****** Results of search ******/}
+            {/** **** Results of search ***** */}
             <Route
               exact
               path="/secured/results"
@@ -160,7 +159,7 @@ function Secured(props) {
                 />
               )}
             />
-            {/****** Create profile forms ******/}
+            {/** **** Create profile forms ***** */}
             <Route
               path="/secured/profile/create/step/:step"
               render={(routeProps) => (
@@ -171,7 +170,7 @@ function Secured(props) {
                 />
               )}
             />
-            {/****** Edit profile forms ******/}
+            {/** **** Edit profile forms ***** */}
             <Route
               path="/secured/profile/edit/:step"
               render={(routeProps) => (
@@ -182,7 +181,7 @@ function Secured(props) {
                 />
               )}
             />
-            {/****** Profile page based on user ID ******/}
+            {/** **** Profile page based on user ID ***** */}
             <Route
               path="/secured/profile/:id?"
               render={(routeProps) => (
@@ -193,7 +192,7 @@ function Secured(props) {
                 />
               )}
             />
-            {/****** Logout authorized user ******/}
+            {/** **** Logout authorized user ***** */}
             <Route
               exact
               path="/secured/logout"
@@ -201,15 +200,14 @@ function Secured(props) {
                 <Logout keycloak={keycloak} {...routeProps} />
               )}
             />
-            {/****** 404 Page ******/}
+            {/** **** 404 Page ***** */}
             <Route render={() => <NotFound />} />
           </Switch>
         </div>
       );
-    } else {
-      return <div>Unable to authenticate!</div>;
     }
+    return <div>Unable to authenticate!</div>;
   }
-  return <div></div>;
+  return <div />;
 }
 export default Secured;

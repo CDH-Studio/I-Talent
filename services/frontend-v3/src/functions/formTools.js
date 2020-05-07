@@ -21,17 +21,17 @@ export const generateCommonFormProps = (
     unchangeableInfo,
   } = props;
 
-  //convert camelcase to `.` seperated and add `profile.` to beginning
-  let intlId = "profile." + name.replace(/([A-Z])/g, ".$1").toLowerCase();
+  // convert camelcase to `.` seperated and add `profile.` to beginning
+  const intlId = `profile.${name.replace(/([A-Z])/g, ".$1").toLowerCase()}`;
   const hasUnchangableValue = unchangeableInfo && unchangeableInfo[name]; // && unchangeableInfo !== "";
 
-  let commonProps = {
+  const commonProps = {
     className: hasUnchangableValue ? "unchangeableField" : "",
-    control: control,
+    control,
     disabled: hasUnchangableValue,
     fluid: true,
     label: intl.formatMessage({ id: intlId }),
-    name: name,
+    name,
     onChange: tempField ? onTempFieldChange : onFieldChange,
   };
 
@@ -56,14 +56,14 @@ export const generateCommonFormProps = (
     commonProps.defaultValue =
       profileInfo[name] && (profileInfo[name].id || profileInfo[name]);
 
-    //commonProps.disabled = false;
+    // commonProps.disabled = false;
   } else if (control === Input) {
     commonProps.placeholder = profileInfo[name];
     commonProps.defaultValue = hasUnchangableValue
       ? unchangeableInfo[name]
       : profileInfo[name];
   } else if (control === DateInput) {
-    let currentValue = getCurrentValue(name);
+    const currentValue = getCurrentValue(name);
     commonProps.value = currentValue
       ? moment(currentValue).format("MMM DD YYYY")
       : null;
@@ -76,14 +76,14 @@ export const generateCommonFormProps = (
 
 /** translate descriptions that  */
 export function formatOptions(options) {
-  let newOptions = [];
+  const newOptions = [];
   options.forEach((value) =>
     newOptions.push({
-      key: value["id"],
-      value: value["id"],
+      key: value.id,
+      value: value.id,
       text:
-        value["description"][localStorage.getItem("lang") || "en"] ||
-        value["description"],
+        value.description[localStorage.getItem("lang") || "en"] ||
+        value.description,
     })
   );
   return newOptions;
