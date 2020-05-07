@@ -33,9 +33,10 @@ function ExperienceItem(props){
                 return null;
             }
     }
-    
+
     const generateDescription = () => {
-        return <>
+        return (
+            <>
                 <Row>{item.organizationName}</Row>
                 {generateDescriptionContent()}
                 <Row>
@@ -49,7 +50,7 @@ function ExperienceItem(props){
                         </span>
                     </a>
                 </Row>
-            </>;
+            </>);
     }
 
     return (
@@ -66,8 +67,6 @@ function ExperienceItem(props){
                 title={item.jobTitle}
                 description={generateDescription()}
             />
-            
-
         </List.Item>
     );
 }
