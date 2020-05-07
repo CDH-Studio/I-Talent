@@ -11,7 +11,7 @@ function TalentManagementView(props) {
   }
 
   const getTalentManagementDatasource = data => {
-    const locale = localStorage.getItem("lang");
+    const locale = props.locale;
     const careerMobility = {
       title: <FormattedMessage id="profile.career.mobility" />,
       description: data.careerMobility.description[locale] || (
