@@ -2,10 +2,10 @@
 
 // Import the packages we need
 const express = require("express"); // call express
-const { keycloak, sessionInstance } = require("./util/keycloak");
 const expressHbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const { keycloak, sessionInstance } = require("./util/keycloak");
 const sequelizedb = require("./config/database");
 
 const app = express(); // define our app using express
@@ -15,7 +15,7 @@ const user = require("./API/user");
 const profileGeneration = require("./API/profileGeneration");
 const options = require("./API/options").optionRouter;
 const admin = require("./API/admin/router");
-const search = require("./API/search/");
+const search = require("./API/search");
 
 dotenv.config(); // Config() function reads the .env file and sets the environment variables
 
@@ -39,10 +39,10 @@ app.engine(
   })
 );
 app.set("view engine", "hbs");
-//session
+// session
 app.use(sessionInstance);
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
@@ -65,25 +65,26 @@ const port = process.env.PORT || 8080; // set our port
 const router = express.Router(); // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api/)
-router.get("/", function(req, res) {
+router.get("/", (req, res) => {
   res.json({ message: "hooray! welcome to our api!" });
 });
 
-router.get("/getEmployeeInfo/:searchValue", keycloak.protect(), async function(
-  req,
-  res
-) {
-  let searchValue = req.params.searchValue;
-  const data = await geds.getEmployeeInfo(searchValue);
-  res.json(JSON.parse(data.body));
-});
+router.get(
+  "/getEmployeeInfo/:searchValue",
+  keycloak.protect(),
+  async (req, res) => {
+    const { searchValue } = req.params;
+    const data = await geds.getEmployeeInfo(searchValue);
+    res.json(JSON.parse(data.body));
+  }
+);
 
-//User endpoints
+// User endpoints
 router.get("/user/", keycloak.protect(), user.getUser);
 router.get("/user/:id", keycloak.protect(), user.getUserById);
 router.post("/user/", keycloak.protect(), user.createUser);
 
-//Profile endpoints
+// Profile endpoints
 router.get("/profile/", keycloak.protect(), profile.getProfile);
 router
   .route("/profile/:id")
@@ -99,7 +100,7 @@ router
   .route("/private/profile/status/:id")
   .get(keycloak.protect(), profile.getProfileStatusById);
 
-//Admin endpoints
+// Admin endpoints
 router.use("/admin", admin);
 
 router.use("/option", options);
