@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
-import { Row, Col, Button, Card, Form, Alert, Input } from "antd";
-import { SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Form, Alert, Input } from "antd";
+import {
+  SearchOutlined,
+  SettingOutlined,
+  DownOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import "@ant-design/compatible/assets/index.css";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 
@@ -20,7 +25,7 @@ function SearchBarView(props) {
     },
     mainSearchDiv: {
       backgroundColor: "#001C1A",
-      borderRadius: "5px",
+      borderRadius: "5px 5px 0 0",
       padding: "50px 80px",
       boxShadow: "10px 10px 10px #cccccc",
       textAlign: "center",
@@ -43,8 +48,10 @@ function SearchBarView(props) {
       marginTop: "10px",
     },
     advSearchCard: {
+      padding: "15px",
+      backgroundColor: "#fff",
       boxShadow: "10px 10px 10px #cccccc",
-      borderRadius: "5px",
+      borderRadius: "0 0 5px 5px",
     },
     advFieldPlacement: {
       textAlign: "right",
@@ -119,7 +126,7 @@ function SearchBarView(props) {
             })}
           </Button>
         </div>
-        <Card style={styles.advSearchCard}>
+        <div style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
           <Row gutter={24} type="flex">
             {getFields(data)}
@@ -131,16 +138,17 @@ function SearchBarView(props) {
                 style={{ marginLeft: 8, fontSize: 14 }}
                 tabIndex="0"
                 onClick={toggle}
+                // handleKeyPress={e => handleKeyPress(e)} --keeping in incase of future need
               >
+                <SettingOutlined style={{ marginRight: "3px" }} />
                 {props.intl.formatMessage({
                   id: "advanced.search.button.text",
                   defaultMessage: "Advanced Search",
-                })}{" "}
-                {expand ? <UpOutlined /> : <DownOutlined />}
+                })}
               </a>
             </Col>
           </Row>
-        </Card>
+        </div>
       </div>
     </Form>
   );
