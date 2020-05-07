@@ -70,7 +70,7 @@ function ResultsCardView(props) {
             <p></p>
           )}
 
-          <Divider style={styles.divider} orientation="left">
+          <Divider className="results-card-divider" style={styles.divider} orientation="left">
             {props.intl.formatMessage({
               id: "advanced.search.form.skills",
               defaultMessage: "Skills",

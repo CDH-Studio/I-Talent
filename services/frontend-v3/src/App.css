@@ -60,13 +60,14 @@
   color: rgb(0, 30, 30) !important;
 }
 
-.ant-divider.ant-divider-horizontal.ant-divider-with-text-left::before {
+.results-card-divider.ant-divider.ant-divider-horizontal.ant-divider-with-text-left::before {
   border-top-color: #001c1a !important;
 }
 
-.ant-divider.ant-divider-horizontal.ant-divider-with-text-left::after {
+.results-card-divider.ant-divider.ant-divider-horizontal.ant-divider-with-text-left::after {
   border-top-color: #001c1a !important;
 }
+
 .ant-form-item {
   margin-bottom: 13px !important;
 }
