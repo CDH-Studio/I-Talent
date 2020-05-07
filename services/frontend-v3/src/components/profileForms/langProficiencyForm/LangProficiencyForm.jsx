@@ -9,7 +9,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-function LangProficiencyForm(props) {
+function LangProficiencyForm() {
   const [languageOptions, setLanguageOptions] = useState(null);
   const [proficiencyOptions, setProficiencyOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
@@ -23,13 +23,13 @@ function LangProficiencyForm(props) {
         {
           key: "en",
           value: "en",
-          text: "English",
+          text: "English"
         },
         {
           key: "fr",
           value: "fr",
-          text: "Français",
-        },
+          text: "Français"
+        }
       ];
       setLanguageOptions(languages);
     };
@@ -40,7 +40,7 @@ function LangProficiencyForm(props) {
         { key: "B", value: "B", text: "B" },
         { key: "C", value: "C", text: "C" },
         { key: "E", value: "E", text: "E" },
-        { key: "X", value: "X", text: "X" },
+        { key: "X", value: "X", text: "X" }
       ];
       setProficiencyOptions(proficiency);
     };
@@ -49,9 +49,7 @@ function LangProficiencyForm(props) {
     const getProfileInfo = async () => {
       try {
         let url =
-          backendAddress +
-          "api/private/profile/" +
-          localStorage.getItem("userId");
+          backendAddress + "api/profile/" + localStorage.getItem("userId");
         let result = await axios.get(url);
         await setProfileInfo(result.data);
         return 1;
@@ -83,7 +81,6 @@ function LangProficiencyForm(props) {
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
-      formType={props.formType}
       load={load}
     />
   );

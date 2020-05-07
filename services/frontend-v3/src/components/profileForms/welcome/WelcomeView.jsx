@@ -1,11 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Typography, Button } from "antd";
 import {
   UserOutlined,
   UserAddOutlined,
-  RocketOutlined,
-  LoadingOutlined,
+  RocketOutlined
 } from "@ant-design/icons";
 import axios from "axios";
 import config from "../../../config";
@@ -23,45 +23,45 @@ function Welcome(props) {
       width: "100%",
       minHeight: "400px",
       background: "#fff",
-      padding: "80px 10px",
+      padding: "80px 10px"
     },
     welcome: {
       color: "#001529",
-      opacity: 0.7,
+      opacity: 0.7
     },
     subHeading: {
-      fontSize: "1.3em",
+      fontSize: "1.3em"
     },
     divider: {
       width: "20px !important",
-      color: "red",
+      color: "red"
     },
     btn: { width: "180px", height: "180px", margin: "10px" },
     btnIcon: {
       opacity: 0.7,
       fontSize: "65px",
       display: "block",
-      marginTop: "-15px",
+      marginTop: "-15px"
     },
     btnFirstTitle: {
       opacity: 0.7,
       fontSize: "17px",
       display: "block",
-      marginTop: "-13px",
+      marginTop: "-13px"
     },
     btnSecondTitle: {
       opacity: 0.7,
       fontSize: "15px",
       display: "block",
-      marginTop: "-4px",
+      marginTop: "-4px"
     },
     btnThirdTitle: {
       opacity: 0.7,
       fontSize: "15px",
       display: "block",
       fontStyle: "italic",
-      marginTop: "-4px",
-    },
+      marginTop: "-4px"
+    }
   };
 
   /*
@@ -74,7 +74,7 @@ function Welcome(props) {
     firstTitle,
     secondTitle,
     thirdTitle,
-    value,
+    value
   }) => {
     // truncate text to not overflow card
     const truncateString = (text, length) => {
@@ -146,13 +146,13 @@ function Welcome(props) {
             icon: <LoadingOutlined />,
             firstTitle: "Fetching Profiles",
             secondTitle: "From Geds",
-            type: "default",
+            type: "default"
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
             firstTitle: "New User",
-            secondTitle: "start fresh",
+            secondTitle: "start fresh"
           })}
         </div>
       );
@@ -166,14 +166,14 @@ function Welcome(props) {
               firstTitle: item.firstName + " " + item.lastName,
               secondTitle: item.jobTitle.en,
               thirdTitle: item.email,
-              value: item,
+              value: item
             });
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
             firstTitle: "New User",
-            secondTitle: "start fresh",
+            secondTitle: "start fresh"
           })}
         </div>
       );

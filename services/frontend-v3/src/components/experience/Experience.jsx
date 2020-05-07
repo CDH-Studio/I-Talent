@@ -12,12 +12,14 @@ function Experience(props) {
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
 
+    const present = <FormattedMessage id="profile.end.date.present" />;
+
     let duration = "";
 
     if (startDate === null && endDate === null) {
       duration = duration + dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + "present";
+      duration = duration + formatedStartDate + " - " + present;
     } else {
       duration = duration + formatedStartDate + " - " + formatedEndDate;
     }
@@ -25,11 +27,11 @@ function Experience(props) {
     return duration;
   };
 
-  const getExperienceInfo = (dataSource) => {
+  const getExperienceInfo = dataSource => {
     const locale = localStorage.getItem("lang");
     let experienceInfo = [];
     if (dataSource.education != null) {
-      dataSource.careerSummary.forEach((expElement) => {
+      dataSource.careerSummary.forEach(expElement => {
         const startDate = expElement.startDate;
         const endDate = expElement.endDate;
 
@@ -37,7 +39,7 @@ function Experience(props) {
           icon: "solution",
           jobTitle: expElement.header,
           organizationName: expElement.subheader,
-          duration: getExperienceDuration(startDate, endDate),
+          duration: getExperienceDuration(startDate, endDate)
         };
 
         experienceInfo.push(experience);

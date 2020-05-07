@@ -10,7 +10,7 @@ const updateOption = async (request, response) => {
 
     dbObject = {
       id: id,
-      ...request.body,
+      ...request.body
     };
     if (type === "skill" || type === "competency") {
       dbObject.type = type;
@@ -18,7 +18,7 @@ const updateOption = async (request, response) => {
 
     await model
       .update(dbObject, { where: { id: id } })
-      .then((updateInfo) =>
+      .then(updateInfo =>
         response
           .status(200)
           .json({ updatePerformed: updateInfo[0] === 1, error: null })
@@ -72,15 +72,15 @@ const updateProfileStatus = async (request, response) => {
     statuses.forEach(async ([id, status]) => {
       let flagged = false,
         inactive = false;
-      if (status === "Inactive" || status === "Inactif") {
+      if (status === "Inactive") {
         inactive = true;
       }
-      if (status === "Hidden" || status === "Caché") {
+      if (status === "Hidden") {
         flagged = true;
       }
-      await User.findOne({ where: { id } }).then((user) =>
+      await User.findOne({ where: { id } }).then(user =>
         user.update({ inactive }).then(() => {
-          user.getProfile().then((profile) => profile.update({ flagged }));
+          user.getProfile().then(profile => profile.update({ flagged }));
         })
       );
     });
@@ -94,5 +94,5 @@ module.exports = {
   updateOption,
   updateFlagged,
   updateInactive,
-  updateProfileStatus,
+  updateProfileStatus
 };

@@ -13,7 +13,7 @@ const { backendAddress } = config;
  */
 function Welcome() {
   const [load, setLoad] = useState(false);
-  const [gedsProfiles, setGedsProfiles] = useState([]);
+  const [gedsProfiles, setGedsProfiles] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {

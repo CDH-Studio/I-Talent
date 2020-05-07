@@ -7,24 +7,22 @@ const { Content } = Layout;
 
 function AppLayoutView(props) {
   const styles = {
-    contentLayout: {
-      marginTop: "64px",
-    },
     content: {
       padding: "20px 15px",
       margin: 0,
-      minHeight: "100%",
-    },
+      minHeight: 280
+    }
   };
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout>
       {/* Render Top Navigation Bar */}
       <TopNav
         changeLanguage={props.changeLanguage}
         keycloak={props.keycloak}
+        history={props.history}
       ></TopNav>
-      <Layout style={{ marginTop: 64 }}>
+      <Layout>
         {/* Render Side Navigation Bar */}
         <SideNav
           sideBarContent={props.sideBarContent}
