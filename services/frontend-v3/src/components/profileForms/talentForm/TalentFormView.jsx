@@ -520,8 +520,9 @@ const TalentFormView = (props) => {
                 <Select
                   className="custom-bubble-select-style"
                   mode="multiple"
-                  style={{ width: "100%" }}
+                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
+                  style={{ width: "100%" }}
                 >
                   {props.competencyOptions.map((value) => {
                     return <Option key={value.key}>{value.title}</Option>;

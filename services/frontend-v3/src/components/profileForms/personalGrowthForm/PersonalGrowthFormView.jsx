@@ -356,8 +356,9 @@ const PersonalGrowthFormView = (props) => {
               >
                 <Select
                   mode="multiple"
-                  style={{ width: "100%" }}
+                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
+                  style={{ width: "100%" }}
                 >
                   {props.developmentalGoalOptions.map((value, index) => {
                     return <Option key={value.key}>{value.title}</Option>;
@@ -412,6 +413,7 @@ const PersonalGrowthFormView = (props) => {
                   mode="multiple"
                   style={{ width: "100%" }}
                   placeholder={<FormattedMessage id="setup.select" />}
+                  optionFilterProp={"children"}
                 >
                   {props.relocationOptions.map((value, index) => {
                     return <Option key={value.key}>{value.title}</Option>;
