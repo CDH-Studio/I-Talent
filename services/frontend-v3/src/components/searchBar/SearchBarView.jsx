@@ -1,27 +1,39 @@
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
-import { Row, Col, Button, Card, Form, Alert, Input } from "antd";
-import { SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import "@ant-design/compatible/assets/index.css";
+import { injectIntl, FormattedMessage } from "react-intl";
+import {
+  Typography,
+  Row,
+  Col,
+  Button,
+  Form,
+  Input,
+  Switch,
+  Select,
+} from "antd";
+import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 
+const { Option } = Select;
+const { Title } = Typography;
+
 function SearchBarView(props) {
-  const [doNothing, setDoNothing] = useState(true);
+  const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-  const { getFields, handleSearch, expand, toggle, data, empty } = props;
 
   const styles = {
     outerForm: {
       width: "100%",
-      padding: "40px 50px",
+      paddingTop: "80px",
     },
     outerDiv: {
-      padding: "60px 20% 20px 20%",
+      width: "90%",
+      maxWidth: "1100px",
+      margin: "auto",
     },
     mainSearchDiv: {
       backgroundColor: "#001C1A",
-      borderRadius: "5px",
-      padding: "50px 80px",
+      borderRadius: "5px 5px 0 0",
+      padding: "50px 80px 40px 80px",
       boxShadow: "10px 10px 10px #cccccc",
       textAlign: "center",
     },
@@ -43,11 +55,13 @@ function SearchBarView(props) {
       marginTop: "10px",
     },
     advSearchCard: {
+      padding: "15px",
+      backgroundColor: "#fff",
       boxShadow: "10px 10px 10px #cccccc",
-      borderRadius: "5px",
+      borderRadius: "0 0 5px 5px",
     },
     advFieldPlacement: {
-      textAlign: "right",
+      textAlign: "center",
     },
     alert: {
       fontSize: "14px",
@@ -62,7 +76,17 @@ function SearchBarView(props) {
     defaultMessage: "Search",
   });
 
-  //Creates the basic input field for basic search and puts its data into children array
+  // Toggle expandable advanced search form
+  const toggle = () => {
+    setExpand(!expand);
+  };
+
+  // Handle form submission
+  const onFinish = (values) => {
+    props.handleSearch(values);
+  };
+
+  // Generate the basic input field for basic search
   const getBasicField = () => {
     return (
       <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
@@ -71,29 +95,168 @@ function SearchBarView(props) {
     );
   };
 
-  const onFinish = (values) => {
-    handleSearch(values);
+  // Generate the advanced search fields
+  const getAdvancedSearchForm = (displayForm) => {
+    // detect language
+    let locale = props.intl.formatMessage({
+      id: "language.code",
+      defaultMessage: "en",
+    });
+
+    if (!displayForm) {
+      return <div />;
+    } else {
+      return (
+        <div style={{ marginBottom: "0" }}>
+          <Row style={{ padding: "20px 5% 5px 5%" }}>
+            <Col span={24} style={{ padding: "0px 0" }}>
+              <Title level={2} style={{ fontSize: "1.3em" }}>
+                <FormattedMessage id={"advanced.search.button.text"} />
+              </Title>
+            </Col>
+          </Row>
+
+          <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
+            {/* form column one */}
+            <Col span={8}>
+              {/* name field */}
+              <Form.Item
+                label={<FormattedMessage id="advanced.search.form.name" />}
+                name="name"
+              >
+                <Input style={{ width: "100%" }} placeholder={searchLabel} />
+              </Form.Item>
+              {/* Location field */}
+              <Form.Item
+                label={<FormattedMessage id="advanced.search.form.location" />}
+                name={"location"}
+              >
+                <Select
+                  style={{ width: "100% " }}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  mode="multiple"
+                  placeholder={searchLabel}
+                >
+                  {props.locationOptions.map((value) => {
+                    return (
+                      <Option key={value.id}>
+                        {value.description[locale]}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            {/* form column two */}
+            <Col span={8}>
+              {/* Skills field */}
+              <Form.Item
+                label={<FormattedMessage id="advanced.search.form.skills" />}
+                name={"skills"}
+              >
+                <Select
+                  style={{ width: "100%" }}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  mode="multiple"
+                  placeholder={searchLabel}
+                >
+                  {props.skillOptions.map((value) => {
+                    return (
+                      <Option key={value.id}>
+                        {value.description[locale]}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              {/* classification field */}
+              <Form.Item
+                label={
+                  <FormattedMessage id="advanced.search.form.classification" />
+                }
+                name={"classification"}
+              >
+                <Select
+                  style={{ width: "100%" }}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  mode="multiple"
+                  placeholder={searchLabel}
+                >
+                  {props.classOptions.map((value) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            {/* form column three */}
+            <Col span={8}>
+              {/* branch field */}
+              <Form.Item
+                label={<FormattedMessage id="advanced.search.form.branch" />}
+                name={"branch"}
+              >
+                <Select
+                  style={{ width: "100%" }}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  mode="multiple"
+                  placeholder={searchLabel}
+                >
+                  {props.branchOptions.map((value) => {
+                    return (
+                      <Option key={value.description.en}>
+                        {value.description[locale]}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              {/* exFeeder field */}
+              <Form.Item
+                label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+                name={"exFeeder"}
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+      );
+    }
   };
 
   return (
-    <Form form={form} onFinish={onFinish} style={styles.outerForm}>
-      {empty === true ? (
-        <Alert
-          message={props.intl.formatMessage({
-            id: "alert.empty.search",
-            defaultMessage: "Please input a value into the search bar below",
-          })}
-          type="error"
-          style={styles.alert}
-        />
-      ) : (
-        setDoNothing[true]
-      )}
+    <Form
+      form={form}
+      onFinish={onFinish}
+      style={styles.outerForm}
+      layout={"vertical"}
+    >
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
-          <img src={logo} alt="UpSkill Logo" style={{ height: "60px" }} />;
+          <img
+            src={logo}
+            alt="UpSkill Logo"
+            style={{ width: "80%", maxWidth: "300px" }}
+          />
           {/* Gets main basic search field and shows buttons beneath */}
-          <div style={styles.mainSearchField}>{getBasicField(data)}</div>
+          <div style={styles.mainSearchField}>{getBasicField()}</div>
           <Button
             shape="round"
             size="large"
@@ -119,28 +282,25 @@ function SearchBarView(props) {
             })}
           </Button>
         </div>
-        <Card style={styles.advSearchCard}>
+        <div style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
-          <Row gutter={24} type="flex">
-            {getFields(data)}
-          </Row>
+          {getAdvancedSearchForm(expand)}
+          {/* expand advance search btn */}
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
-              <a
-                href="javascript:void(0)"
-                style={{ marginLeft: 8, fontSize: 14 }}
-                tabIndex="0"
+              <Button
+                type="link"
                 onClick={toggle}
+                style={{ fontSize: 14 }}
+                tabIndex="0"
+                size={"small"}
               >
-                {props.intl.formatMessage({
-                  id: "advanced.search.button.text",
-                  defaultMessage: "Advanced Search",
-                })}{" "}
-                {expand ? <UpOutlined /> : <DownOutlined />}
-              </a>
+                <SettingOutlined style={{ marginRight: "3px" }} />
+                <FormattedMessage id={"advanced.search.button.text"} />
+              </Button>
             </Col>
           </Row>
-        </Card>
+        </div>
       </div>
     </Form>
   );
