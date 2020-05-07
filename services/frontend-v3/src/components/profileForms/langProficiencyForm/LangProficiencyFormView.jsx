@@ -19,7 +19,6 @@ import axios from "axios";
 import moment from "moment";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
-
 const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
@@ -163,7 +162,7 @@ const LangProficiencyFormView = (props) => {
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm(!displayMentorshipForm);
+    setDisplayMentorshipForm(prev => !prev);
   };
 
   /* Save data */
@@ -466,7 +465,7 @@ const LangProficiencyFormView = (props) => {
   useEffect(() => {
     /* check if user has a second language */
     setDisplayMentorshipForm(
-      props.profileInfo ? Boolean(props.profileInfo.secondLanguage) : false
+      props.profileInfo ? !!props.profileInfo.secondaryOralProficiency : false
     );
   }, [props.profileInfo]);
 
