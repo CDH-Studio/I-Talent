@@ -33,9 +33,7 @@ function ExperienceItem(props){
                 return null;
             }
     }
-
-
-
+    
     const generateDescription = () => {
         return <>
                 <Row>{item.organizationName}</Row>
