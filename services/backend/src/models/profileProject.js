@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = (sequelize, DataTypes) => {
   const profileProject = sequelize.define(
     "profileProject",

@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = (sequelize, DataTypes) => {
   const lookingForANewJob = sequelize.define(
     "lookingForANewJob",

@@ -90,8 +90,8 @@ const updateProfile = async (request, response) => {
         dbObject.projects.forEach((project) => {
           Project.create({
             description: project,
-          }).then((project) => {
-            profile.addProfileProject(project);
+          }).then((projectData) => {
+            profile.addProfileProject(projectData);
           });
         });
       });
@@ -150,8 +150,8 @@ const updateProfile = async (request, response) => {
           },
           { returning: true }
         )
-        .then((secLangProf) => {
-          profile.setSecondLanguageProficiency(secLangProf);
+        .then((selectLangProf) => {
+          profile.setSecondLanguageProficiency(selectLangProf);
         });
     }
     if (!dbObject.secondLanguage) {

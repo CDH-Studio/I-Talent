@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 const Models = require("../../models");
 
 const User = Models.user;
@@ -19,62 +17,58 @@ const getGedsAssist = async (request, response) => {
       lastSpaceIndex
     )}`;
 
-    try {
-      const gedsData = await getGedsProfile(name);
+    const gedsData = await getGedsProfile(name);
 
-      const promise = gedsData.map(async (gedsProfile) => {
-        const profile = {};
+    const promise = gedsData.map(async (gedsProfile) => {
+      const profile = {};
 
-        profile.firstName = gedsProfile.givenName;
-        profile.lastName = gedsProfile.surname;
-        profile.jobTitle = {
-          en: gedsProfile.title.en,
-          fr: gedsProfile.title.fr,
-        };
-        profile.telephone = gedsProfile.phoneNumber;
-        profile.cellphone = gedsProfile.altPhoneNumber;
+      profile.firstName = gedsProfile.givenName;
+      profile.lastName = gedsProfile.surname;
+      profile.jobTitle = {
+        en: gedsProfile.title.en,
+        fr: gedsProfile.title.fr,
+      };
+      profile.telephone = gedsProfile.phoneNumber;
+      profile.cellphone = gedsProfile.altPhoneNumber;
 
-        const organizations = gedsProfile.organizations.map(
-          ({ organization }, i) => {
-            return { description: organization.description, tier: i };
-          }
-        );
+      const organizations = gedsProfile.organizations.map(
+        ({ organization }, i) => {
+          return { description: organization.description, tier: i };
+        }
+      );
 
-        const branchOrg = organizations[Math.min(2, organizations.length - 1)];
+      const branchOrg = organizations[Math.min(2, organizations.length - 1)];
 
-        profile.branchEn = branchOrg.description.en;
-        profile.branchFr = branchOrg.description.fr;
+      profile.branchEn = branchOrg.description.en;
+      profile.branchFr = branchOrg.description.fr;
 
-        profile.organizations = organizations;
+      profile.organizations = organizations;
 
-        const location = await Location.findOne({
-          where: {
-            postalCode:
-              gedsProfile.organizations[gedsProfile.organizations.length - 1]
-                .organization.addressInformation.pc,
-          },
-        }).then((res) => {
-          if (res) return res.dataValues;
-          return {};
-        });
-
-        profile.location = {
-          id: location.id,
-          description: {
-            en: `${location.addressEn}, ${location.city}, ${location.provinceEn}`,
-            fr: `${location.addressFr}, ${location.city}, ${location.provinceFr}`,
-          },
-        };
-
-        profile.email = user.email;
-
-        return profile;
+      const location = await Location.findOne({
+        where: {
+          postalCode:
+            gedsProfile.organizations[gedsProfile.organizations.length - 1]
+              .organization.addressInformation.pc,
+        },
+      }).then((res) => {
+        if (res) return res.dataValues;
+        return {};
       });
-      const profiles = await Promise.all(promise);
-      response.status(200).send(profiles);
-    } catch (err) {
-      throw err;
-    }
+
+      profile.location = {
+        id: location.id,
+        description: {
+          en: `${location.addressEn}, ${location.city}, ${location.provinceEn}`,
+          fr: `${location.addressFr}, ${location.city}, ${location.provinceFr}`,
+        },
+      };
+
+      profile.email = user.email;
+
+      return profile;
+    });
+    const profiles = await Promise.all(promise);
+    response.status(200).send(profiles);
   });
 };
 

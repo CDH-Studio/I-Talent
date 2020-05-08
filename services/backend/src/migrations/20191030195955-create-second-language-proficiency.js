@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("secondLanguageProficiencies", {
@@ -37,7 +35,7 @@ module.exports = {
       },
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable("secondLanguageProficiencies");
   },
 };

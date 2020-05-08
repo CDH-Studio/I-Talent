@@ -19,12 +19,12 @@ const growthRateByMonth = async () => {
     const profileYear = profileCreatedAt.year();
 
     const indexYear = monthlyGrowthRate.findIndex(
-      (object) => object.year == profileYear
+      (object) => object.year === profileYear
     );
 
     if (indexYear != -1) {
       const indexMonth = monthlyGrowthRate[indexYear].data.findIndex(
-        (object) => object.month == profileMonth
+        (object) => object.month === profileMonth
       );
 
       if (indexMonth != -1) {

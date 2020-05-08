@@ -1,10 +1,5 @@
-// category = require('../models/category');
-// categoriesSeeded = category.findAll({attributes:['id'], raw:true});
-
-"use strict";
-
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface) => {
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
@@ -2472,7 +2467,7 @@ module.exports = {
     );
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.

@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface
@@ -154,7 +152,7 @@ module.exports = {
         });
       });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable("profiles").then(() => {
       return queryInterface.dropTable("users");
     });

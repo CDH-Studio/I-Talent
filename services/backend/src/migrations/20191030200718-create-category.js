@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface.sequelize.transaction(async (transaction) => {
@@ -42,7 +40,7 @@ module.exports = {
       );
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable("categories");
   },
 };

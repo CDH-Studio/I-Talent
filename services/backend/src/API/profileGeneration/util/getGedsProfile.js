@@ -1,5 +1,3 @@
-"use strict";
-
 const axios = require("axios");
 require("dotenv").config();
 
@@ -18,7 +16,7 @@ async function getGedsProfile(searchValue) {
       },
     })
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           res.data.forEach((employee) => {
             let currentBranch = employee;
             let organizations = [];
@@ -58,7 +56,7 @@ async function getGedsProfile(searchValue) {
             };
             info.push(empInfo);
           });
-          if (info.length == 0) {
+          if (info.length === 0) {
             reject({ status: 204, statusText: "No content" });
           }
           resolve(info);
@@ -68,7 +66,7 @@ async function getGedsProfile(searchValue) {
       })
       .catch((err) => {
         console.error(err);
-        if (err.response.status == 429) {
+        if (err.response.status === 429) {
           reject({ status: 429, statusText: "Limit Exceeded" });
         }
       });

@@ -1,5 +1,3 @@
-// BASE SETUP ==========================================================================
-
 // Import the packages we need
 const express = require("express"); // call express
 const expressHbs = require("express-handlebars");

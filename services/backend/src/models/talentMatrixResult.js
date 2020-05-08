@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = (sequelize, DataTypes) => {
   const talentMatrixResult = sequelize.define(
     "talentMatrixResult",

@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = (sequelize, DataTypes) => {
   const keyCompetency = sequelize.define(
     "keyCompetency",

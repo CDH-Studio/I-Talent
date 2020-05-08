@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = (sequelize, DataTypes) => {
   const securityClearance = sequelize.define(
     "securityClearance",

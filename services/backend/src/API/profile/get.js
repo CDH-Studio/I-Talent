@@ -49,7 +49,7 @@ const getExperiencesHelper = async (profile) => {
   const experiences = await profile.getExperiences({
     order: [["startDate", "DESC"]],
   });
-  return (careerSummary = experiences.map((experience) => {
+  return experiences.map((experience) => {
     const startDate = moment(experience.startDate);
     const endDate = moment(experience.endDate);
 
@@ -60,7 +60,7 @@ const getExperiencesHelper = async (profile) => {
       startDate: startDate,
       endDate: endDate,
     };
-  }));
+  });
 };
 
 // Get user profile using profile ID
@@ -613,6 +613,7 @@ const getPrivateProfileById = async (request, response) => {
     .getSecondLanguageProficiency()
     .then((res) => {
       if (res) return res.dataValues;
+      return null;
     });
 
   const relocationLocations = await profile

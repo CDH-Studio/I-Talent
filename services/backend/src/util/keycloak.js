@@ -1,12 +1,13 @@
 require("dotenv").config();
 
-const Keycloak = require("keycloak-connect");
+const KeycloakConnect = require("keycloak-connect");
 const session = require("express-session");
 
 // Configure session to use memoryStore and Setup keycloak middleware to
 // use the session memoryStore.
 const memoryStore = new session.MemoryStore();
-const keycloak = new Keycloak(
+
+const keycloak = new KeycloakConnect(
   { store: memoryStore },
   {
     realm: "individual",

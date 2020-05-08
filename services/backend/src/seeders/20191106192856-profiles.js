@@ -1,7 +1,5 @@
-"use strict";
-
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface) => {
     return queryInterface.bulkInsert(
       "profiles",
       [
@@ -37,7 +35,7 @@ module.exports = {
     );
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.

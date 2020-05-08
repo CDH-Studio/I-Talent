@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface
@@ -49,7 +47,7 @@ module.exports = {
       });
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface
       .removeColumn(
         "education", // name of Source model

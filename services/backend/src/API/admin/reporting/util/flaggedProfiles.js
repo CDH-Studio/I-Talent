@@ -1,4 +1,3 @@
-const Sequelize = require("sequelize");
 const Models = require("../../../../models");
 
 const Profiles = Models.profile; // Profiles Table
