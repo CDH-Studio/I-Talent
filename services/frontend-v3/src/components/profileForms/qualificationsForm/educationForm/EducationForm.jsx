@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import EducationFormView from "./EducationFormView";
 import axios from "axios";
 import { injectIntl } from "react-intl";
+import EducationFormView from "./EducationFormView";
 import config from "../../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -18,7 +19,7 @@ const EducationForm = (props) => {
   const [schoolOptions, setSchoolOptions] = useState();
 
   // get current language code
-  let locale = props.intl.formatMessage({
+  const locale = props.intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -30,13 +31,13 @@ const EducationForm = (props) => {
    */
   const getDiplomaOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getDiploma";
-      let result = await axios.get(url);
-      let options = [];
+      const url = `${backendAddress}api/option/getDiploma`;
+      const result = await axios.get(url);
+      const options = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var option = {
+      for (let i = 0; i < result.data.length; i++) {
+        const option = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -56,13 +57,13 @@ const EducationForm = (props) => {
    */
   const getSchoolOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getSchool";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getSchool`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i++) {
+        const goal = {
           title: result.data[i].description,
           key: result.data[i].id,
         };

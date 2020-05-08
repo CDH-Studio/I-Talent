@@ -5,10 +5,10 @@ import CompetenciesView from "./CompetenciesView";
 
 function Competencies(props) {
   const formatData = (dataSource) => {
-    const data = dataSource.data;
+    const { data } = dataSource;
     const locale = dataSource.intl.formatMessage({ id: "language.code" });
 
-    let competencies = [];
+    const competencies = [];
     let key = 0;
 
     if (data.competencies) {

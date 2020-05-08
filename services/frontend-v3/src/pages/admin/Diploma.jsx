@@ -6,7 +6,7 @@ function AdminDiploma(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type="diploma"
     >
       <DiplomaTable type="diploma" />

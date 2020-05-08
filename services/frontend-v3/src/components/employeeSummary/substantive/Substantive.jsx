@@ -3,7 +3,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import SubstativeView from "./SubstantiveView";
 
 function Substantive(props) {
-  const formatData = data => {
+  const formatData = (data) => {
     const locale = props.intl.formatMessage({ id: "language.code" });
 
     const classification = {
@@ -12,7 +12,7 @@ function Substantive(props) {
         data.classification &&
         (data.classification.description || (
           <FormattedMessage id="profile.not.specified" />
-        ))
+        )),
     };
 
     const security = {
@@ -21,7 +21,7 @@ function Substantive(props) {
         data.security &&
         (data.security.description[locale] || (
           <FormattedMessage id="profile.not.specified" />
-        ))
+        )),
     };
 
     const substative = {
@@ -31,7 +31,7 @@ function Substantive(props) {
           <FormattedMessage id="profile.indeterminate" />
         ) : (
           <FormattedMessage id="profile.term" />
-        )
+        ),
     };
 
     return [substative, classification, security];

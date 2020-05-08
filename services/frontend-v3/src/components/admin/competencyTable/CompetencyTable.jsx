@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import CompetencyTableView from "./CompetencyTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  CompetencyTable(props)
@@ -48,8 +48,8 @@ function CompetencyTable(props) {
   /* get competency information */
   const getCompetencies = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/${type}`
       );
       return results.data;
     } catch (error) {
@@ -62,12 +62,12 @@ function CompetencyTable(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -90,7 +90,7 @@ function CompetencyTable(props) {
   /* handles addition of a competency */
   const handleSubmitAdd = async (values) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         descriptionEn: values.addCompetencyEn,
@@ -108,7 +108,7 @@ function CompetencyTable(props) {
   /* handles the update/edit of a competency */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       await axios.put(url, {
         descriptionEn: values.editCompetencyEn,
@@ -125,7 +125,7 @@ function CompetencyTable(props) {
   /* handles the deletion of a competency */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       await axios.post(url, { ids: selectedRowKeys });
 
@@ -160,7 +160,7 @@ function CompetencyTable(props) {
         ? "descriptionEn"
         : "descriptionFr";
 
-    let allCompetencies = _.sortBy(data, description);
+    const allCompetencies = _.sortBy(data, description);
 
     for (let i = 0; i < allCompetencies.length; i++) {
       allCompetencies[i].key = allCompetencies[i].id;
@@ -169,7 +169,7 @@ function CompetencyTable(props) {
     return allCompetencies;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;

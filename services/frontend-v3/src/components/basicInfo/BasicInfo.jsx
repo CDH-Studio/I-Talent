@@ -3,11 +3,11 @@ import BasicInfoView from "./BasicInfoView";
 
 function BasicInfo(props) {
   const getButtonLinks = () => {
-    const linkedinUrl = props.data.linkedinUrl;
-    const githubUrl = props.data.githubUrl;
-    const gcconnexUrl = props.data.gcconnexUrl;
-    const email = props.data.email;
-    let buttonLinks = { buttons: [] };
+    const { linkedinUrl } = props.data;
+    const { githubUrl } = props.data;
+    const { gcconnexUrl } = props.data;
+    const { email } = props.data;
+    const buttonLinks = { buttons: [] };
 
     if (linkedinUrl) {
       buttonLinks.buttons.push("linkedin");
@@ -40,13 +40,13 @@ function BasicInfo(props) {
     buttonLinks.email = {
       icon: "mail",
       textId: "profile.email",
-      url: "mailto:" + email,
+      url: `mailto:${email}`,
     };
 
     return buttonLinks;
   };
 
-  const name = props.data.firstName + " " + props.data.lastName;
+  const name = `${props.data.firstName} ${props.data.lastName}`;
 
   return (
     <BasicInfoView

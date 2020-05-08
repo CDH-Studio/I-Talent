@@ -109,7 +109,7 @@ const PersonalGrowthFormView = (props) => {
               htmlType="button"
             >
               <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
+              <FormattedMessage id="setup.save.and.finish" />
             </Button>
             <Button
               style={styles.clearBtn}
@@ -117,7 +117,7 @@ const PersonalGrowthFormView = (props) => {
               onClick={onReset}
               danger
             >
-              {<FormattedMessage id="button.clear" />}
+              <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
@@ -126,12 +126,15 @@ const PersonalGrowthFormView = (props) => {
               type="primary"
               onClick={onSaveAndNext}
             >
-              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+              <FormattedMessage id="setup.save.and.next" /> 
+{' '}
+<RightOutlined />
             </Button>
           </Col>
         </Row>
       );
-    } else if (formType === "edit") {
+    }
+    if (formType === "edit") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
@@ -141,19 +144,18 @@ const PersonalGrowthFormView = (props) => {
               onClick={onReset}
               danger
             >
-              {<FormattedMessage id="button.clear" />}
+              <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
             <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              {<FormattedMessage id="setup.save" />}
+              <FormattedMessage id="setup.save" />
             </Button>
           </Col>
         </Row>
       );
-    } else {
-      console.log("Error Getting Action Buttons");
     }
+    console.log("Error Getting Action Buttons");
   };
 
   /*
@@ -180,7 +182,7 @@ const PersonalGrowthFormView = (props) => {
       // If profile exists then update profile
       try {
         await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
@@ -190,7 +192,7 @@ const PersonalGrowthFormView = (props) => {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
@@ -284,13 +286,12 @@ const PersonalGrowthFormView = (props) => {
           6. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
       );
-    } else {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          <FormattedMessage id="profile.employee.growth.interests" />
-        </Title>
-      );
     }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="profile.employee.growth.interests" />
+      </Title>
+    );
   };
 
   /*
@@ -310,17 +311,16 @@ const PersonalGrowthFormView = (props) => {
         talentMatrixResult: props.savedTalentMatrixResult,
         exFeeder: props.savedExFeederBool,
       };
-    } else {
-      return {};
     }
+    return {};
   };
   useEffect(() => {
     /* check if user has a skills to mentor */
   }, [props]);
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
+   *********************************** */
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -328,208 +328,207 @@ const PersonalGrowthFormView = (props) => {
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        {/* get form title */}
-        {getFormHeader(props.formType)}
-        <Divider style={styles.headerDiv} />
-        {/* Create for with initial values */}
-        <Form
-          name="basicForm"
-          form={form}
-          initialValues={getInitialValues(props.profileInfo)}
-          layout="vertical"
-        >
-          {/* *************** Developmental ************** */}
-          {/* Form Row One: Developmental Goals */}
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.developmental.goals" />
-          </Title>
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                className="custom-bubble-select-style"
-                name="developmentalGoals"
-                label={
-                  <FormLabelTooltip
-                    labelText={
-                      <FormattedMessage id="setup.developmental.goals" />
-                    }
-                    tooltipText="Extra information"
-                  />
-                }
-              >
-                <Select
-                  mode="multiple"
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  style={{ width: "100%" }}
-                >
-                  {props.developmentalGoalOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* *************** Career Interest ************** */}
-          <Divider style={styles.headerDiv} />
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.career.interests" />
-          </Title>
-          {/* Form Row One: Remote Work */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="interestedInRemote"
-                label={<FormattedMessage id="profile.interested.in.remote" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                >
-                  {props.interestedInRemoteOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* Form Row Two: Relocation */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                className="custom-bubble-select-style"
-                name="relocationLocations"
-                label={
-                  <FormLabelTooltip
-                    labelText={
-                      <FormattedMessage id="profile.willing.to.relocate.to" />
-                    }
-                    tooltipText="Extra information"
-                  />
-                }
-              >
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  optionFilterProp={"children"}
-                >
-                  {props.relocationOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* Form Row Three: new job */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="lookingForNewJob"
-                label={<FormattedMessage id="profile.looking.for.new.job" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                >
-                  {props.lookingForNewJobOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* *************** Talent Management ************** */}
-          <Divider style={styles.headerDiv} />
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.talent.management" />
-            <Popover
-              content={
-                <div>
-                  <FormattedMessage id="profile.talent.management.tooltip" />
-                  <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
-                    Talent Management Tool
-                  </a>
-                </div>
-              }
-              trigger="hover"
-            >
-              <ExclamationCircleOutlined style={styles.TMTooltip} />
-            </Popover>
-          </Title>
-
-          {/* Form Row Three: career mobility */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="careerMobility"
-                label={<FormattedMessage id="profile.career.mobility" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                >
-                  {props.careerMobilityOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* Form Row Three: talent matrix */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="talentMatrixResult"
-                label={<FormattedMessage id="profile.talent.matrix.result" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                >
-                  {props.talentMatrixResultOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* Form Row Three: ex feeder */}
-          <Row gutter={24} style={{ marginBottom: "15px" }}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item name="exFeeder" valuePropName="checked">
-                <Checkbox>
-                  {<FormattedMessage id="profile.ex.feeder" />}
-                </Checkbox>
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {/* *************** Control Buttons ************** */}
-          {/* Form Row Four: Submit button */}
-          {getFormControlButtons(props.formType)}
-        </Form>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      {/* get form title */}
+      {getFormHeader(props.formType)}
+      <Divider style={styles.headerDiv} />
+      {/* Create for with initial values */}
+      <Form
+        name="basicForm"
+        form={form}
+        initialValues={getInitialValues(props.profileInfo)}
+        layout="vertical"
+      >
+        {/* *************** Developmental ************** */}
+        {/* Form Row One: Developmental Goals */}
+        <Title level={3} style={styles.formTitle}>
+          <FormattedMessage id="setup.developmental.goals" />
+        </Title>
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              className="custom-bubble-select-style"
+              name="developmentalGoals"
+              label={(
+                <FormLabelTooltip
+                  labelText={
+                    <FormattedMessage id="setup.developmental.goals" />
+                  }
+                  tooltipText="Extra information"
+                />
+              )}
+            >
+              <Select
+                mode="multiple"
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                style={{ width: "100%" }}
+              >
+                {props.developmentalGoalOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* *************** Career Interest ************** */}
+        <Divider style={styles.headerDiv} />
+        <Title level={3} style={styles.formTitle}>
+          <FormattedMessage id="setup.career.interests" />
+        </Title>
+        {/* Form Row One: Remote Work */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="interestedInRemote"
+              label={<FormattedMessage id="profile.interested.in.remote" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+              >
+                {props.interestedInRemoteOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.text}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* Form Row Two: Relocation */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              className="custom-bubble-select-style"
+              name="relocationLocations"
+              label={(
+                <FormLabelTooltip
+                  labelText={
+                    <FormattedMessage id="profile.willing.to.relocate.to" />
+                  }
+                  tooltipText="Extra information"
+                />
+              )}
+            >
+              <Select
+                mode="multiple"
+                style={{ width: "100%" }}
+                placeholder={<FormattedMessage id="setup.select" />}
+                optionFilterProp="children"
+              >
+                {props.relocationOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* Form Row Three: new job */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="lookingForNewJob"
+              label={<FormattedMessage id="profile.looking.for.new.job" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+              >
+                {props.lookingForNewJobOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* *************** Talent Management ************** */}
+        <Divider style={styles.headerDiv} />
+        <Title level={3} style={styles.formTitle}>
+          <FormattedMessage id="setup.talent.management" />
+          <Popover
+            content={(
+              <div>
+                <FormattedMessage id="profile.talent.management.tooltip" />
+                <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
+                  Talent Management Tool
+                </a>
+              </div>
+            )}
+            trigger="hover"
+          >
+            <ExclamationCircleOutlined style={styles.TMTooltip} />
+          </Popover>
+        </Title>
+
+        {/* Form Row Three: career mobility */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="careerMobility"
+              label={<FormattedMessage id="profile.career.mobility" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+              >
+                {props.careerMobilityOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* Form Row Three: talent matrix */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="talentMatrixResult"
+              label={<FormattedMessage id="profile.talent.matrix.result" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+              >
+                {props.talentMatrixResultOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* Form Row Three: ex feeder */}
+        <Row gutter={24} style={{ marginBottom: "15px" }}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item name="exFeeder" valuePropName="checked">
+              <Checkbox>
+                <FormattedMessage id="profile.ex.feeder" />
+              </Checkbox>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* *************** Control Buttons ************** */}
+        {/* Form Row Four: Submit button */}
+        {getFormControlButtons(props.formType)}
+      </Form>
+    </div>
+  );
 };
 
 export default PersonalGrowthFormView;

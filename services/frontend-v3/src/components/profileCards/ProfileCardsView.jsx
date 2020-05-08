@@ -10,13 +10,14 @@ import { FormattedMessage } from "react-intl";
 
 import axios from "axios";
 import config from "../../config";
+
 const { backendAddress } = config;
 
 function ProfileCardsView(props) {
   const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
-  //useParams returns an object of key/value pairs from URL parameters
+  // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
   const userID = localStorage.getItem("userId");
@@ -30,9 +31,9 @@ function ProfileCardsView(props) {
     // Update visibleCards state in profile
     try {
       // Get current card visibility status from db
-      let url = backendAddress + "api/profile/" + urlID;
-      let result = await axios.get(url);
-      let visibleCards = result.data.visibleCards;
+      const url = `${backendAddress}api/profile/${urlID}`;
+      const result = await axios.get(url);
+      const { visibleCards } = result.data;
 
       // change the stored value
       const cardNameToBeModified = props.cardName;
@@ -40,7 +41,7 @@ function ProfileCardsView(props) {
       setDisabled(visibleCards[cardNameToBeModified]);
 
       // save toggle value in db
-      await axios.put(backendAddress + "api/profile/" + urlID, {
+      await axios.put(`${backendAddress}api/profile/${urlID}`, {
         visibleCards,
       });
     } catch (error) {
@@ -67,7 +68,7 @@ function ProfileCardsView(props) {
    * Generate visibility switch and edit button
    */
   const generateSwitchButton = () => {
-    //Check if user is on his own profile (by
+    // Check if user is on his own profile (by
     // comparing the id in storage vs the id in the url)
     if (userID === urlID) {
       return (
@@ -109,7 +110,7 @@ function ProfileCardsView(props) {
   useEffect(() => {
     // get default state of card visibility status on load of page
     if (props.profileInfo) {
-      let visibleCards = props.profileInfo.visibleCards;
+      const { visibleCards } = props.profileInfo;
       const cardNameToBeModified = props.cardName;
       setDisabled(visibleCards[cardNameToBeModified]);
     }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import QualificationsFormView from "./QualificationsFormView";
 import axios from "axios";
-import config from "../../../config";
 import moment from "moment";
+import QualificationsFormView from "./QualificationsFormView";
+import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -23,11 +24,10 @@ const QualificationsForm = (props) => {
    */
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       setLoad(true);
       return 1;
@@ -43,11 +43,11 @@ const QualificationsForm = (props) => {
    * get saved education items
    */
   const getSavedEducation = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate an array of education items
     for (let i = 0; i < profileInfo.education.length; i++) {
-      let child = {
+      const child = {
         school: profileInfo.education[i].school.id,
         diploma: profileInfo.education[i].diploma.id,
         startDate: moment(profileInfo.education[i].startDate.en),
@@ -67,11 +67,11 @@ const QualificationsForm = (props) => {
    * get saved experience items
    */
   const getSavedExperience = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate an array of education items
-    for (let i = 0; i < profileInfo. careerSummary.length; i++) {
-      let child = {
+    for (let i = 0; i < profileInfo.careerSummary.length; i++) {
+      const child = {
         header: profileInfo.careerSummary[i].header,
         subheader: profileInfo.careerSummary[i].subheader,
         content: profileInfo.careerSummary[i].content,

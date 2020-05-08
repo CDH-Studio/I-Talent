@@ -6,7 +6,7 @@ function AdminCompetency(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type="competency"
     >
       <CompetencyTable type="competency" />

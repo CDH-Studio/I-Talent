@@ -45,55 +45,54 @@ function DoneSetupView(props) {
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        <CheckCircleOutlined
-          style={{
-            color: "#087472",
-            fontSize: "85px",
-          }}
-        />
-        <Title
-          level={1}
-          style={{
-            color: "#001529",
-            opacity: 0.7,
-            marginTop: "15px",
-          }}
-        >
-          <FormattedMessage id="setup.done.title" />
-        </Title>
-        <Paragraph style={styles.subHeading}>
-          <FormattedMessage id="setup.done.description" />
-        </Paragraph>
-        <Paragraph style={styles.subHeading} strong>
-          <FormattedMessage id="setup.done.action" />
-        </Paragraph>
-        <Button
-          icon={<SearchOutlined />}
-          size={"large"}
-          style={{ marginRight: "25px" }}
-          href={"/secured/home"}
-        >
-          <span>
-            <FormattedMessage id="setup.done.search" />
-          </span>
-        </Button>
-        <Button
-          icon={<UserOutlined />}
-          size={"large"}
-          type="primary"
-          href={"/secured/profile/" + localStorage.getItem("userId")}
-        >
-          <span>
-            <FormattedMessage id="setup.done.view.profile" />
-          </span>
-        </Button>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      <CheckCircleOutlined
+        style={{
+          color: "#087472",
+          fontSize: "85px",
+        }}
+      />
+      <Title
+        level={1}
+        style={{
+          color: "#001529",
+          opacity: 0.7,
+          marginTop: "15px",
+        }}
+      >
+        <FormattedMessage id="setup.done.title" />
+      </Title>
+      <Paragraph style={styles.subHeading}>
+        <FormattedMessage id="setup.done.description" />
+      </Paragraph>
+      <Paragraph style={styles.subHeading} strong>
+        <FormattedMessage id="setup.done.action" />
+      </Paragraph>
+      <Button
+        icon={<SearchOutlined />}
+        size="large"
+        style={{ marginRight: "25px" }}
+        href="/secured/home"
+      >
+        <span>
+          <FormattedMessage id="setup.done.search" />
+        </span>
+      </Button>
+      <Button
+        icon={<UserOutlined />}
+        size="large"
+        type="primary"
+        href={`/secured/profile/${localStorage.getItem("userId")}`}
+      >
+        <span>
+          <FormattedMessage id="setup.done.view.profile" />
+        </span>
+      </Button>
+    </div>
+  );
 }
 
 export default DoneSetupView;

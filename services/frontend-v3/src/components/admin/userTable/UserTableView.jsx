@@ -54,14 +54,10 @@ function UserTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${props.intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])

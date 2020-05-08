@@ -4,6 +4,7 @@ import { CheckOutlined } from "@ant-design/icons";
 import { Row, Col, List } from "antd";
 
 import FormLabelTooltip from "../formLabelTooltip/FormLabelTooltip";
+
 function TalentManagementView(props) {
   const styles = {
     exFeederTitleSpan: {
@@ -12,7 +13,7 @@ function TalentManagementView(props) {
   };
 
   const getTalentManagementDatasource = (data) => {
-    const locale = props.locale;
+    const { locale } = props;
     const careerMobility = {
       title: <FormattedMessage id="profile.career.mobility" />,
       description: data.careerMobility.description[locale] || (
@@ -30,18 +31,17 @@ function TalentManagementView(props) {
     if (data.exFeeder == true) {
       const exFeederResult = {
         title: (
-          <React.Fragment>
+          <>
             <CheckOutlined />
             <span style={styles.exFeederTitleSpan}>
               <FormattedMessage id="profile.ex.feeder" />
             </span>
-          </React.Fragment>
+          </>
         ),
       };
       return [careerMobility, talentMatrixResult, exFeederResult];
-    } else {
-      return [careerMobility, talentMatrixResult];
     }
+    return [careerMobility, talentMatrixResult];
   };
 
   const generateTalentManagementInfoList = (dataSource) => {

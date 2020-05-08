@@ -1,7 +1,7 @@
 import React from "react";
-import EducationView from "./EducationView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import EducationView from "./EducationView";
 
 function Education(props) {
   const getEducationDuration = (startDate, endDate) => {
@@ -13,11 +13,11 @@ function Education(props) {
     let duration = "";
 
     if (startDate === null && endDate === null) {
-      duration = duration + dateNotProvided;
+      duration += dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + "present";
+      duration = `${duration + formatedStartDate} - ` + `present`;
     } else {
-      duration = duration + formatedStartDate + " - " + formatedEndDate;
+      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
     }
 
     return duration;
@@ -25,7 +25,7 @@ function Education(props) {
 
   const getEducationInfo = (dataSource) => {
     const locale = localStorage.getItem("lang") || "en";
-    let educationInfo = [];
+    const educationInfo = [];
     if (dataSource.education != null) {
       dataSource.education.forEach((educElement) => {
         const startDate = educElement.startDate[locale];

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-import { PageHeader, Anchor, Typography } from "antd";
+import { PageHeader, Anchor, Typography, Row, Col } from "antd";
 import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
 
@@ -18,19 +18,18 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 
-import { Row, Col } from "antd";
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
 function ProfileLayoutView(props) {
-  //useParams returns an object of key/value pairs from URL parameters
+  // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
   const userID = localStorage.getItem("userId");
 
-  //Visibility values
+  // Visibility values
   const { data } = props;
-  const visibleCards = data.visibleCards;
+  const { visibleCards } = data;
 
   /* Component Styles */
   const styles = {
@@ -79,15 +78,15 @@ function ProfileLayoutView(props) {
             <Col xs={24} xl={10}>
               <ProfileCards
                 title={<FormattedMessage id="profile.employee.summary" />}
-                content={<EmployeeSummary data={data}></EmployeeSummary>}
-                cardName={"info"}
+                content={<EmployeeSummary data={data} />}
+                cardName="info"
                 id="card-profile-employee-summary"
                 editUrl="/secured/profile/edit/employment"
               />
             </Col>
           </Row>
 
-          {/************ Skills and competencies ************/}
+          {/** ********** Skills and competencies *********** */}
           <Title
             level={2}
             style={styles.sectionHeader}
@@ -101,8 +100,8 @@ function ProfileLayoutView(props) {
             <Col span={24}>
               <ProfileCards
                 title={<FormattedMessage id="profile.skills" />}
-                content={<Skills data={data}></Skills>}
-                cardName={"skills"}
+                content={<Skills data={data} />}
+                cardName="skills"
                 id="card-profile-skills"
                 editUrl="/secured/profile/edit/talent"
               />
@@ -112,8 +111,8 @@ function ProfileLayoutView(props) {
             <Col span={24}>
               <ProfileCards
                 title={<FormattedMessage id="profile.mentorship.skills" />}
-                content={<Mentorship data={data}></Mentorship>}
-                cardName={"mentorshipSkills"}
+                content={<Mentorship data={data} />}
+                cardName="mentorshipSkills"
                 id="card-profile-mentorship-skills"
                 editUrl="/secured/profile/edit/talent"
               />
@@ -124,8 +123,8 @@ function ProfileLayoutView(props) {
               <Col span={24}>
                 <ProfileCards
                   title={<FormattedMessage id="profile.competencies" />}
-                  content={<Competencies data={data}></Competencies>}
-                  cardName={"competencies"}
+                  content={<Competencies data={data} />}
+                  cardName="competencies"
                   id="card-profile-competency"
                   editUrl="/secured/profile/edit/talent"
                 />
@@ -133,7 +132,7 @@ function ProfileLayoutView(props) {
             </Col>
           </Row>
 
-          {/************ Personal Growth ************/}
+          {/** ********** Personal Growth *********** */}
           <Title
             level={2}
             style={styles.sectionHeader}
@@ -147,8 +146,8 @@ function ProfileLayoutView(props) {
             <Col span={24}>
               <ProfileCards
                 title={<FormattedMessage id="profile.developmental.goals" />}
-                content={<DevelopmentalGoals data={data}></DevelopmentalGoals>}
-                cardName={"developmentalGoals"}
+                content={<DevelopmentalGoals data={data} />}
+                cardName="developmentalGoals"
                 id="card-profile-dev-goals"
                 editUrl="/secured/profile/edit/personal-growth"
               />
@@ -163,7 +162,7 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.talent.management" />}
                 content={<TalentManagement data={data} style={styles.card} />}
-                cardName={"talentManagement"}
+                cardName="talentManagement"
                 id="card-profile-talent-management"
                 editUrl="/secured/profile/edit/personal-growth"
               />
@@ -172,14 +171,14 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.career.interests" />}
                 content={<CareerInterests data={data} style={styles.card} />}
-                cardName={"careerInterests"}
+                cardName="careerInterests"
                 id="card-profile-career-interests"
                 editUrl="/secured/profile/edit/personal-growth"
               />
             </Col>
           </Row>
 
-          {/************ Qualifications ************/}
+          {/** ********** Qualifications *********** */}
           <Title
             level={2}
             style={styles.sectionHeader}
@@ -194,7 +193,7 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.education" />}
                 content={<Education data={data} style={styles.card} />}
-                cardName={"education"}
+                cardName="education"
                 id="card-profile-education"
                 editUrl="/secured/profile/edit/qualifications"
               />
@@ -205,7 +204,7 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.experience" />}
                 content={<Experience data={data} style={styles.card} />}
-                cardName={"experience"}
+                cardName="experience"
                 id="card-profile-experience"
                 editUrl="/secured/profile/edit/qualifications"
               />
@@ -216,7 +215,7 @@ function ProfileLayoutView(props) {
               <ProfileCards
                 title={<FormattedMessage id="profile.projects" />}
                 content={<Projects data={data} style={styles.card} />}
-                cardName={"projects"}
+                cardName="projects"
                 id="card-profile-projects"
                 editUrl="/secured/profile/edit/qualifications"
               />
@@ -224,223 +223,215 @@ function ProfileLayoutView(props) {
           </Row>
         </div>
       );
-    } else {
-      // Display profile cards when current user looking at other users profiles
-      //This only display cards that are visible
-      return (
-        <div>
-          {!visibleCards.info && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <BasicInfo data={data} style={styles.card} />
-              </Col>
-            </Row>
-          )}
-          {visibleCards.info && (
-            <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
-              <Col xs={24} xl={14}>
-                <BasicInfo data={data} style={styles.card} />
-              </Col>
-              <Col xs={24} xl={10}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.employee.summary" />}
-                  content={<EmployeeSummary data={data}></EmployeeSummary>}
-                  cardName={"info"}
-                  id="card-profile-employee-summary"
-                />
-              </Col>
-            </Row>
-          )}
-
-          {(visibleCards.skills ||
-            visibleCards.mentorshipSkills ||
-            visibleCards.competencies) && (
-            <Title
-              level={2}
-              style={styles.sectionHeader}
-              id="divider-skills-and-comp"
-            >
-              <TagsTwoTone twoToneColor="#3CBAB3" style={styles.sectionIcon} />
-              <FormattedMessage id="profile.employee.skills.competencies" />
-            </Title>
-          )}
-          {visibleCards.skills && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.skills" />}
-                  content={<Skills data={data}></Skills>}
-                  cardName={"skills"}
-                  id="card-profile-skills"
-                />
-              </Col>
-            </Row>
-          )}
-          {visibleCards.mentorshipSkills && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.mentorship.skills" />}
-                  content={<Mentorship data={data}></Mentorship>}
-                  cardName={"mentorshipSkills"}
-                  id="card-profile-mentorship-skills"
-                />
-              </Col>
-            </Row>
-          )}
-          {visibleCards.competencies && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.competencies" />}
-                  content={<Competencies data={data}></Competencies>}
-                  cardName={"competencies"}
-                  id="card-profile-competency"
-                />
-              </Col>
-            </Row>
-          )}
-
-          {(visibleCards.developmentalGoals ||
-            visibleCards.talentManagement ||
-            visibleCards.careerInterests) && (
-            <Title
-              level={2}
-              style={styles.sectionHeader}
-              id="divider-employee-growth"
-            >
-              <RiseOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
-              <FormattedMessage id="profile.employee.growth.interests" />
-            </Title>
-          )}
-
-          {visibleCards.developmentalGoals && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.developmental.goals" />}
-                  content={
-                    <DevelopmentalGoals data={data}></DevelopmentalGoals>
-                  }
-                  cardName={"developmentalGoals"}
-                  id="card-profile-dev-goals"
-                />
-              </Col>
-            </Row>
-          )}
-
-          {visibleCards.talentManagement && visibleCards.careerInterests ? (
-            <Row
-              style={styles.row}
-              gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
-              type="flex"
-            >
-              <Col xs={24} xl={12}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.talent.management" />}
-                  content={<TalentManagement data={data} style={styles.card} />}
-                  cardName={"talentManagement"}
-                  id="card-profile-talent-management"
-                />
-              </Col>
-              <Col xs={24} xl={12}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.career.interests" />}
-                  content={<CareerInterests data={data} style={styles.card} />}
-                  cardName={"careerInterests"}
-                  id="card-profile-career-interests"
-                />
-              </Col>
-            </Row>
-          ) : (
-            <>
-              {visibleCards.talentManagement && (
-                <Row style={styles.row}>
-                  <Col span={24}>
-                    <ProfileCards
-                      title={
-                        <FormattedMessage id="profile.talent.management" />
-                      }
-                      content={
-                        <TalentManagement data={data} style={styles.card} />
-                      }
-                      cardName={"talentManagement"}
-                      id="card-profile-talent-management"
-                    />
-                  </Col>
-                </Row>
-              )}
-              {visibleCards.careerInterests && (
-                <Row style={styles.row}>
-                  <Col span={24}>
-                    <ProfileCards
-                      title={<FormattedMessage id="profile.career.interests" />}
-                      content={
-                        <CareerInterests data={data} style={styles.card} />
-                      }
-                      cardName={"careerInterests"}
-                      id="card-profile-career-interests"
-                    />
-                  </Col>
-                </Row>
-              )}
-            </>
-          )}
-
-          {(visibleCards.education ||
-            visibleCards.experience ||
-            visibleCards.projects) && (
-            <Title
-              level={2}
-              style={styles.sectionHeader}
-              id="divider-qualifications"
-            >
-              <TrophyOutlined
-                twoToneColor="#3CBAB3"
-                style={styles.sectionIcon}
-              />
-              <FormattedMessage id="profile.employee.qualifications" />
-            </Title>
-          )}
-          {visibleCards.education && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.education" />}
-                  content={<Education data={data} style={styles.card} />}
-                  cardName={"education"}
-                  id="card-profile-education"
-                />
-              </Col>
-            </Row>
-          )}
-          {visibleCards.experience && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.experience" />}
-                  content={<Experience data={data} style={styles.card} />}
-                  cardName={"experience"}
-                  id="card-profile-experience"
-                />
-              </Col>
-            </Row>
-          )}
-          {visibleCards.projects && (
-            <Row style={styles.row}>
-              <Col span={24}>
-                <ProfileCards
-                  title={<FormattedMessage id="profile.projects" />}
-                  content={<Projects data={data} style={styles.card} />}
-                  cardName={"projects"}
-                  id="card-profile-projects"
-                />
-              </Col>
-            </Row>
-          )}
-        </div>
-      );
     }
+    // Display profile cards when current user looking at other users profiles
+    // This only display cards that are visible
+    return (
+      <div>
+        {!visibleCards.info && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <BasicInfo data={data} style={styles.card} />
+            </Col>
+          </Row>
+        )}
+        {visibleCards.info && (
+          <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
+            <Col xs={24} xl={14}>
+              <BasicInfo data={data} style={styles.card} />
+            </Col>
+            <Col xs={24} xl={10}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.employee.summary" />}
+                content={<EmployeeSummary data={data} />}
+                cardName="info"
+                id="card-profile-employee-summary"
+              />
+            </Col>
+          </Row>
+        )}
+
+        {(visibleCards.skills ||
+          visibleCards.mentorshipSkills ||
+          visibleCards.competencies) && (
+          <Title
+            level={2}
+            style={styles.sectionHeader}
+            id="divider-skills-and-comp"
+          >
+            <TagsTwoTone twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.employee.skills.competencies" />
+          </Title>
+        )}
+        {visibleCards.skills && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.skills" />}
+                content={<Skills data={data} />}
+                cardName="skills"
+                id="card-profile-skills"
+              />
+            </Col>
+          </Row>
+        )}
+        {visibleCards.mentorshipSkills && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.mentorship.skills" />}
+                content={<Mentorship data={data} />}
+                cardName="mentorshipSkills"
+                id="card-profile-mentorship-skills"
+              />
+            </Col>
+          </Row>
+        )}
+        {visibleCards.competencies && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.competencies" />}
+                content={<Competencies data={data} />}
+                cardName="competencies"
+                id="card-profile-competency"
+              />
+            </Col>
+          </Row>
+        )}
+
+        {(visibleCards.developmentalGoals ||
+          visibleCards.talentManagement ||
+          visibleCards.careerInterests) && (
+          <Title
+            level={2}
+            style={styles.sectionHeader}
+            id="divider-employee-growth"
+          >
+            <RiseOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.employee.growth.interests" />
+          </Title>
+        )}
+
+        {visibleCards.developmentalGoals && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.developmental.goals" />}
+                content={<DevelopmentalGoals data={data} />}
+                cardName="developmentalGoals"
+                id="card-profile-dev-goals"
+              />
+            </Col>
+          </Row>
+        )}
+
+        {visibleCards.talentManagement && visibleCards.careerInterests ? (
+          <Row
+            style={styles.row}
+            gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
+            type="flex"
+          >
+            <Col xs={24} xl={12}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.talent.management" />}
+                content={<TalentManagement data={data} style={styles.card} />}
+                cardName="talentManagement"
+                id="card-profile-talent-management"
+              />
+            </Col>
+            <Col xs={24} xl={12}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.career.interests" />}
+                content={<CareerInterests data={data} style={styles.card} />}
+                cardName="careerInterests"
+                id="card-profile-career-interests"
+              />
+            </Col>
+          </Row>
+        ) : (
+          <>
+            {visibleCards.talentManagement && (
+              <Row style={styles.row}>
+                <Col span={24}>
+                  <ProfileCards
+                    title={<FormattedMessage id="profile.talent.management" />}
+                    content={
+                      <TalentManagement data={data} style={styles.card} />
+                    }
+                    cardName="talentManagement"
+                    id="card-profile-talent-management"
+                  />
+                </Col>
+              </Row>
+            )}
+            {visibleCards.careerInterests && (
+              <Row style={styles.row}>
+                <Col span={24}>
+                  <ProfileCards
+                    title={<FormattedMessage id="profile.career.interests" />}
+                    content={
+                      <CareerInterests data={data} style={styles.card} />
+                    }
+                    cardName="careerInterests"
+                    id="card-profile-career-interests"
+                  />
+                </Col>
+              </Row>
+            )}
+          </>
+        )}
+
+        {(visibleCards.education ||
+          visibleCards.experience ||
+          visibleCards.projects) && (
+          <Title
+            level={2}
+            style={styles.sectionHeader}
+            id="divider-qualifications"
+          >
+            <TrophyOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.employee.qualifications" />
+          </Title>
+        )}
+        {visibleCards.education && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.education" />}
+                content={<Education data={data} style={styles.card} />}
+                cardName="education"
+                id="card-profile-education"
+              />
+            </Col>
+          </Row>
+        )}
+        {visibleCards.experience && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.experience" />}
+                content={<Experience data={data} style={styles.card} />}
+                cardName="experience"
+                id="card-profile-experience"
+              />
+            </Col>
+          </Row>
+        )}
+        {visibleCards.projects && (
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.projects" />}
+                content={<Projects data={data} style={styles.card} />}
+                cardName="projects"
+                id="card-profile-projects"
+              />
+            </Col>
+          </Row>
+        )}
+      </div>
+    );
   };
 
   /*
@@ -568,14 +559,14 @@ function ProfileLayoutView(props) {
       changeLanguage={props.changeLanguage}
       keycloak={props.keycloak}
       history={props.history}
-      displaySideBar={true}
+      displaySideBar
       sideBarContent={generateProfileSidebarContent()}
     >
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
         }}
-        title={<FormattedMessage id="my.profile"/>}
+        title={<FormattedMessage id="my.profile" />}
       />
       {displayAllProfileCards()}
     </AppLayout>

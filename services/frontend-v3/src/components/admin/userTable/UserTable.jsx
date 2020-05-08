@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import UserTableView from "./UserTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
+import UserTableView from "./UserTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  UserTable(props)
@@ -49,7 +49,7 @@ function UserTable(props) {
   /* get user information */
   const getUserInformation = async () => {
     try {
-      let results = await axios.get(backendAddress + "api/admin/user");
+      const results = await axios.get(`${backendAddress}api/admin/user`);
 
       return results.data;
     } catch (error) {
@@ -61,7 +61,7 @@ function UserTable(props) {
   /* handles profile status change */
   const handleApply = async () => {
     try {
-      const url = backendAddress + "api/admin/profileStatus";
+      const url = `${backendAddress}api/admin/profileStatus`;
 
       await axios.put(url, statuses);
 
@@ -77,12 +77,12 @@ function UserTable(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -105,7 +105,7 @@ function UserTable(props) {
   /* handles dropdown option change */
   // Takes note of change in statuses through id, so it can update user(s) when "Apply" is hit.
   const handleDropdownChange = (status, id) => {
-    let addStatus = statuses;
+    const addStatus = statuses;
 
     addStatus[id] = status;
 
@@ -119,21 +119,20 @@ function UserTable(props) {
         id: "admin.inactive",
         defaultMessage: "Inactive",
       });
-    else if (flagged)
+    if (flagged)
       return props.intl.formatMessage({
         id: "admin.flagged",
         defaultMessage: "Hidden",
       });
-    else
-      return props.intl.formatMessage({
-        id: "admin.active",
-        defaultMessage: "Active",
-      });
+    return props.intl.formatMessage({
+      id: "admin.active",
+      defaultMessage: "Active",
+    });
   };
 
   /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
-    let convertData = _.sortBy(data, "user.name");
+    const convertData = _.sortBy(data, "user.name");
 
     for (let i = 0; i < convertData.length; i++) {
       convertData[i].key = convertData[i].id;
@@ -142,7 +141,7 @@ function UserTable(props) {
     convertData.forEach((e) => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
-      e.profileLink = "/secured/profile/" + e.id;
+      e.profileLink = `/secured/profile/${e.id}`;
       if (e.tenure === null) {
         e.tenureDescriptionEn = "None Specified";
         e.tenureDescriptionFr = "Aucun spécifié";
@@ -159,7 +158,7 @@ function UserTable(props) {
     return convertData;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;

@@ -3,6 +3,7 @@ import { injectIntl } from "react-intl";
 import { Row, Col, Tag, Card, Divider, Avatar, Typography } from "antd";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
+
 const { Meta } = Card;
 const { Text } = Typography;
 
@@ -17,21 +18,21 @@ function ResultsCardView(props) {
   const renderResultCards = (dataSource) => {
     if (!dataSource) {
       return <ProfileSkeleton />;
-    } else if (dataSource instanceof Error) {
-      return (
-        "An error was encountered! Please try again.\n\n" + String(dataSource)
-      );
-    } else {
-      const preparedResults = prepareInfo(
-        dataSource,
-        localStorage.getItem("lang") || "en"
-      );
-      let cards = [];
-      preparedResults.forEach((person) => {
-        cards.push(renderCard(person));
-      });
-      return cards;
     }
+    if (dataSource instanceof Error) {
+      return `An error was encountered! Please try again.\n\n${String(
+        dataSource
+      )}`;
+    }
+    const preparedResults = prepareInfo(
+      dataSource,
+      localStorage.getItem("lang") || "en"
+    );
+    const cards = [];
+    preparedResults.forEach((person) => {
+      cards.push(renderCard(person));
+    });
+    return cards;
   };
 
   const renderCard = (person) => {
@@ -41,8 +42,8 @@ function ResultsCardView(props) {
           style={{ height: "100%", overflowX: "hidden" }}
           size="small"
           hoverable
-          bordered={true}
-          onClick={() => props.history.push("/secured/profile/" + person.id)}
+          bordered
+          onClick={() => props.history.push(`/secured/profile/${person.id}`)}
         >
           <Meta
             avatar={
@@ -57,20 +58,24 @@ function ResultsCardView(props) {
                 </Text>
               </Avatar>
             }
-            title={person.firstName + " " + person.lastName}
+            title={`${person.firstName} ${person.lastName}`}
             description={<p style={styles.smallP}>{person.jobTitle}</p>}
-          ></Meta>
+          />
 
           <p style={styles.smallP}>{person.branch}</p>
           {person.classification.description !== null ? (
             <p style={styles.smallP}>
-              {"Classification: " + person.classification.description}
+              {`Classification: ${person.classification.description}`}
             </p>
           ) : (
-            <p></p>
+            <p />
           )}
 
-          <Divider className="results-card-divider" style={styles.divider} orientation="left">
+          <Divider
+            className="results-card-divider"
+            style={styles.divider}
+            orientation="left"
+          >
             {props.intl.formatMessage({
               id: "advanced.search.form.skills",
               defaultMessage: "Skills",

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import axios from "axios";
+import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 const PrimaryInfoForm = (props) => {
@@ -12,7 +13,7 @@ const PrimaryInfoForm = (props) => {
   // Get possible locations for form drop down
   const getLocations = async () => {
     try {
-      let result = await axios.get(backendAddress + "api/option/getLocation");
+      const result = await axios.get(`${backendAddress}api/option/getLocation`);
       setLocationOptions(result.data);
       return 1;
     } catch (error) {
@@ -23,11 +24,10 @@ const PrimaryInfoForm = (props) => {
   // Get user profile for form drop down
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {

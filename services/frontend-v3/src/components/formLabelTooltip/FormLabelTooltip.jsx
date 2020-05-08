@@ -7,7 +7,7 @@ function FormLabelTooltip(props) {
     <FormLabelTooltipView
       labelText={props.labelText}
       tooltipText={props.tooltipText}
-    ></FormLabelTooltipView>
+    />
   );
 }
 

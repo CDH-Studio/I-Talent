@@ -1,4 +1,4 @@
-//PREEXISTING CODE
+// PREEXISTING CODE
 
 import React from "react";
 import { GlobalOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ function ChangeLanguageView(props) {
   const { intl } = props;
   const languageCode = intl.formatMessage({ id: "lang.code" });
 
-  const changeLanguage = lang => {
+  const changeLanguage = (lang) => {
     props.changeLanguage(lang);
   };
 
@@ -26,7 +26,7 @@ function ChangeLanguageView(props) {
       ghost="true"
       type="default"
       tabIndex="0"
-      onKeyPress={e => handleKeyPress(e, languageCode)}
+      onKeyPress={(e) => handleKeyPress(e, languageCode)}
       onClick={() => changeLanguage(languageCode)}
       style={{ textTransform: "uppercase" }}
     >

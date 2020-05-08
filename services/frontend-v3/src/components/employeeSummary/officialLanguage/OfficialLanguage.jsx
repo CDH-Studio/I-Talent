@@ -1,10 +1,10 @@
 import React from "react";
-import OfficialLanguageView from "./OfficialLanguageView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import OfficialLanguageView from "./OfficialLanguageView";
 
 function OfficialLanguage(props) {
-  const data = props.data;
+  const { data } = props;
 
   const getFirstLanguageInfo = (dataSource) => {
     const locale = localStorage.getItem("lang") || "en";

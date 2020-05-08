@@ -63,14 +63,10 @@ function CategoryTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${props.intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -364,7 +360,7 @@ function CategoryTableView(props) {
   // Gives error prompt if deletion cannot occur
   // Backend: checks if category does not have any associated skills
   const checkDelete = async () => {
-    let result = await handleSubmitDelete();
+    const result = await handleSubmitDelete();
     if (result === true) {
       Modal.error({
         title: props.intl.formatMessage({
@@ -427,9 +423,8 @@ function CategoryTableView(props) {
       props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
       return ["descend"];
-    } else {
-      return ["ascend", "descend"];
     }
+    return ["ascend", "descend"];
   };
 
   /* Sets up the columns for the category table */

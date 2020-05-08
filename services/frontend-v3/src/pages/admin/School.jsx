@@ -6,7 +6,7 @@ function AdminSchool(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type="school"
     >
       <SchoolTable type="school" />

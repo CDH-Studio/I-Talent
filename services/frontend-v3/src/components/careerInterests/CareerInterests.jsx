@@ -1,10 +1,10 @@
 import React from "react";
-import CareerInterestsView from "./CareerInterestsView";
 import { FormattedMessage } from "react-intl";
+import CareerInterestsView from "./CareerInterestsView";
 
 function CareerInterests(props) {
   const getCareerInterestsInfo = (dataSource) => {
-    const data = dataSource.data;
+    const { data } = dataSource;
     const locale = localStorage.getItem("lang") || "en";
 
     const interestedInRemote = {
@@ -30,7 +30,7 @@ function CareerInterests(props) {
   };
 
   const getRelocationLocationsInfo = (dataSource) => {
-    const data = dataSource.data;
+    const { data } = dataSource;
     const locale = localStorage.getItem("lang") || "en";
 
     const relocationLocationsInfo = [];

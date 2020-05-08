@@ -10,8 +10,8 @@ import {
   TrophyOutlined,
   BankFilled,
 } from "@ant-design/icons";
-import AppLayout from "../appLayout/AppLayout";
 import { injectIntl } from "react-intl";
+import AppLayout from "../appLayout/AppLayout";
 
 /**
  *  AdminLayoutView(props)
@@ -20,7 +20,7 @@ import { injectIntl } from "react-intl";
 function AdminLayoutView(props) {
   const { type } = props;
 
-  let history = useHistory();
+  const history = useHistory();
 
   /* get corresponding page key based on table type */
   const getPageKey = () => {

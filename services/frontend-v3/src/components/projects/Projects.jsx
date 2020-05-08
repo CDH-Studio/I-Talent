@@ -2,10 +2,10 @@ import React from "react";
 import ProjectsView from "./ProjectsView";
 
 function Projects(props) {
-  const data = props.data;
+  const { data } = props;
 
   const getProjectsInfo = (dataSource) => {
-    let projectsInfo = [];
+    const projectsInfo = [];
     if (dataSource.projects != null) {
       dataSource.projects.forEach((projectElement) => {
         const projects = {

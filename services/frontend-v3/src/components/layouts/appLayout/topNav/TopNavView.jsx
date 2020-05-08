@@ -7,10 +7,10 @@ import {
   DashboardOutlined,
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu, Button } from "antd";
+import { FormattedMessage } from "react-intl";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
-import { FormattedMessage } from "react-intl";
 
 const { Header } = Layout;
 
@@ -57,7 +57,7 @@ function TopNavView(props) {
       <Menu.Item style={styles.dropDownItem}>
         <a
           rel="noopener noreferrer"
-          href={"/secured/profile/" + localStorage.getItem("userId")}
+          href={`/secured/profile/${localStorage.getItem("userId")}`}
         >
           <UserOutlined style={styles.MenuIcon} />
           <FormattedMessage id="my.profile" />
@@ -98,20 +98,21 @@ function TopNavView(props) {
             className="ant-dropdown-link"
             style={{ color: "#fff", padding: "10px 20px" }}
           >
-            <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
-            <div className={"navProfileName"}>
-              {userName} <DownOutlined />
+            <CustomAvatar style={styles.profileAvatar} />
+            <div className="navProfileName">
+              {userName} 
+{' '}
+<DownOutlined />
             </div>
           </Button>
         </Dropdown>
       );
-    } else {
-      return (
-        <Button type="primary" href={"/secured/home"} style={styles.signInBtn}>
-          <FormattedMessage id="landing.login.button" />
-        </Button>
-      );
     }
+    return (
+      <Button type="primary" href="/secured/home" style={styles.signInBtn}>
+        <FormattedMessage id="landing.login.button" />
+      </Button>
+    );
   };
 
   return (

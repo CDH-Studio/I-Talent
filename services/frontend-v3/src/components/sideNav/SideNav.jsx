@@ -6,7 +6,7 @@ function SideNav(props) {
     <SideNavView
       sideBarContent={props.sideBarContent}
       displaySideBar={props.displaySideBar}
-    ></SideNavView>
+    />
   );
 }
 

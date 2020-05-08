@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "antd";
-import { Col, Input, Switch, Select } from "antd";
+import { Form, Col, Input, Switch, Select } from "antd";
+
 import axios from "axios";
-import config from "../../config";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
+import config from "../../config";
 import SearchFilterView from "./SearchFilterView";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 const { Option } = Select;
 
 function SearchFilter(props) {
@@ -22,11 +22,11 @@ function SearchFilter(props) {
   };
 
   useEffect(() => {
-    //Fetches options for skills select field in advanced search
+    // Fetches options for skills select field in advanced search
     const getSkills = async () => {
       try {
-        let results = await axios.get(
-          backendAddress + "api/option/getDevelopmentalGoals"
+        const results = await axios.get(
+          `${backendAddress}api/option/getDevelopmentalGoals`
         );
         return results.data;
       } catch (error) {
@@ -35,12 +35,14 @@ function SearchFilter(props) {
       }
     };
 
-    //Fetches options for branches select field in advanced search
+    // Fetches options for branches select field in advanced search
     const getBranch = async () => {
       try {
-        let results = await axios.get(backendAddress + "api/option/getBranch");
+        const results = await axios.get(
+          `${backendAddress}api/option/getBranch`
+        );
         return results.data.filter(
-          elem => elem.description && elem.description.en
+          (elem) => elem.description && elem.description.en
         );
       } catch (error) {
         console.log(error);
@@ -48,11 +50,11 @@ function SearchFilter(props) {
       }
     };
 
-    //Fetches options for locations select field in advanced search
+    // Fetches options for locations select field in advanced search
     const getLocation = async () => {
       try {
-        let results = await axios.get(
-          backendAddress + "api/option/getLocation"
+        const results = await axios.get(
+          `${backendAddress}api/option/getLocation`
         );
 
         return results.data;
@@ -62,11 +64,11 @@ function SearchFilter(props) {
       }
     };
 
-    //Fetches options for classifications select field in advanced search
+    // Fetches options for classifications select field in advanced search
     const getClassification = async () => {
       try {
-        let results = await axios.get(
-          backendAddress + "api/option/getGroupLevel"
+        const results = await axios.get(
+          `${backendAddress}api/option/getGroupLevel`
         );
 
         return results.data;
@@ -77,10 +79,10 @@ function SearchFilter(props) {
     };
 
     const updateState = async () => {
-      let skills = await getSkills();
-      let branches = await getBranch();
-      let locations = await getLocation();
-      let classifications = await getClassification();
+      const skills = await getSkills();
+      const branches = await getBranch();
+      const locations = await getLocation();
+      const classifications = await getClassification();
       setSkillOptions(skills);
       setBranchOptions(branches);
       setLocationOptions(locations);
@@ -90,11 +92,11 @@ function SearchFilter(props) {
     updateState();
   }, []);
 
-  //page with query
-  const handleSearch = values => {
-    var query;
+  // page with query
+  const handleSearch = (values) => {
+    let query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
-    let url = "/secured/results?" + encodeURI(query);
+    const url = `/secured/results?${encodeURI(query)}`;
     props.history.push(url);
     window.location.reload();
   };
@@ -110,7 +112,7 @@ function SearchFilter(props) {
       classOptions={classOptions}
       handleSearch={handleSearch}
       toggle={toggle}
-    ></SearchFilterView>
+    />
   );
 }
 

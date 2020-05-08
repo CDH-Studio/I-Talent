@@ -23,7 +23,9 @@ function CareerInterestsView(props) {
       return (
         <div style={{ marginBottom: "10px" }}>
           <Typography.Text strong>
-            <FormattedMessage id="profile.willing.to.relocate.to" />:{" "}
+            <FormattedMessage id="profile.willing.to.relocate.to" />
+:
+{" "}
           </Typography.Text>
           <div style={{ marginTop: "7px" }}>
             {dataSource.map((loc, index) => (
@@ -34,9 +36,8 @@ function CareerInterestsView(props) {
           </div>
         </div>
       );
-    } else {
-      return <div />;
     }
+    return <div />;
   };
 
   return (

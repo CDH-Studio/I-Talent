@@ -4,12 +4,12 @@ import { injectIntl } from "react-intl";
 import MentorshipView from "./MentorshipView";
 
 function Mentorship(props) {
-  const formatData = list => {
+  const formatData = (list) => {
     const locale = props.intl.formatMessage({ id: "language.code" });
-    let categorizedList = {};
+    const categorizedList = {};
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
@@ -21,24 +21,24 @@ function Mentorship(props) {
 
     return categorizedList;
   };
-  const setUpCategories = list => {
+  const setUpCategories = (list) => {
     const locale = props.intl.formatMessage({ id: "language.code" });
-    let categorizedList = {};
-    let categoriesTemp = {};
-    let categories = [];
+    const categorizedList = {};
+    const categoriesTemp = {};
+    const categories = [];
 
     let k = 0;
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
           if (categoriesTemp[k] == null) {
             if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category["en"]];
+              categoriesTemp[k] = [listElement.description.category.en];
             } else {
-              categoriesTemp[k] = [listElement.description.category["fr"]];
+              categoriesTemp[k] = [listElement.description.category.fr];
             }
             k++;
           }
@@ -57,8 +57,8 @@ function Mentorship(props) {
 
   const setUpMentorshipSkills = () => {
     const { data } = props;
-    let mentorshipSkills = [];
-    let categorizedSkillsList = formatData(data.mentorshipSkills);
+    const mentorshipSkills = [];
+    const categorizedSkillsList = formatData(data.mentorshipSkills);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       mentorshipSkills.push({ index, val });

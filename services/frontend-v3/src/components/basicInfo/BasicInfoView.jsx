@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+
 const { Text } = Typography;
 
 function BasicInfoView(props) {
@@ -103,7 +104,7 @@ function BasicInfoView(props) {
    * Generates data for contact info list
    */
   const getContactInfo = (dataSource) => {
-    const data = dataSource.data;
+    const { data } = dataSource;
 
     const email = {
       icon: <MailOutlined />,
@@ -144,8 +145,8 @@ function BasicInfoView(props) {
    * Generates data for user's location
    */
   const getLocationInfo = (dataSource) => {
-    const locale = dataSource.locale;
-    const data = dataSource.data;
+    const { locale } = dataSource;
+    const { data } = dataSource;
 
     const branch = {
       icon: <BranchesOutlined />,

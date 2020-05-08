@@ -98,126 +98,125 @@ const EducationFormView = (props) => {
     }
   }, [props.profileInfo, props.field]);
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
+   *********************************** */
   if (!props.load) {
     return <div />;
-  } else {
-    return (
-      <Row
-        gutter={24}
-        style={{
-          backgroundColor: "#dfe5e4",
-          padding: "15px 10px 15px 10px",
-          marginBottom: "17px",
-        }}
-      >
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <Title level={4} style={props.style.entryTitle}>
-            <FormOutlined style={{ marginRight: "0.5em" }} />
-            <FormattedMessage id="setup.education" />
-            {": " + (props.field.fieldKey + 1)}
-            <Tooltip
-              placement="top"
-              title={<FormattedMessage id="admin.delete" />}
-            >
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<DeleteOutlined />}
-                onClick={() => {
-                  props.remove(props.field.name);
-                }}
-                size={"small"}
-                style={{ float: "right" }}
-              />
-            </Tooltip>
-          </Title>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          {/* Diploma Dropdown */}
-          <Form.Item
-            name={[props.field.name, "diploma"]}
-            fieldKey={[props.field.fieldKey, "diploma"]}
-            label={<FormattedMessage id="profile.diploma" />}
-            style={props.style.formItem}
-            rules={[Rules.required]}
-          >
-            <Select
-              showSearch
-              optionFilterProp="children"
-              placeholder={<FormattedMessage id="setup.select" />}
-              allowClear={true}
-            >
-              {props.diplomaOptions.map((value, index) => {
-                return <Option key={value.key}>{value.title}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          {/* School Dropdown */}
-          <Form.Item
-            name={[props.field.name, "school"]}
-            fieldKey={[props.field.fieldKey, "school"]}
-            label={<FormattedMessage id="profile.school" />}
-            rules={[Rules.required]}
-            style={props.style.formItem}
-          >
-            <Select
-              showSearch
-              optionFilterProp="children"
-              placeholder={<FormattedMessage id="setup.select" />}
-              allowClear={true}
-            >
-              {props.schoolOptions.map((value) => {
-                return <Option key={value.key}>{value.title}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          {/* Start Date */}
-          <Form.Item
-            name={[props.field.name, "startDate"]}
-            fieldKey={[props.field.fieldKey, "startDate"]}
-            label={<FormattedMessage id="profile.history.item.start.date" />}
-            rules={[Rules.required]}
-          >
-            <DatePicker
-              picker="month"
-              disabledDate={disabledDatesAfterEnd}
-              style={props.style.datePicker}
-            />
-          </Form.Item>
-        </Col>
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          {/* End Date */}
-          <Form.Item
-            name={[props.field.name, "endDate"]}
-            fieldKey={[props.field.fieldKey, "endDate"]}
-            label={<FormattedMessage id="profile.history.item.end.date" />}
-            rules={!disableEndDate ? [Rules.required] : undefined}
-          >
-            <DatePicker
-              picker="month"
-              style={props.style.datePicker}
-              disabledDate={disabledDatesBeforeStart}
-              disabled={disableEndDate}
-              placeholder={"unknown"}
-            />
-          </Form.Item>
-          <div style={{ marginTop: "-10px" }}>
-            {/* Checkbox if event is on-going */}
-            <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
-              <FormattedMessage id="profile.is.ongoing" />
-            </Checkbox>
-          </div>
-        </Col>
-      </Row>
-    );
   }
+  return (
+    <Row
+      gutter={24}
+      style={{
+        backgroundColor: "#dfe5e4",
+        padding: "15px 10px 15px 10px",
+        marginBottom: "17px",
+      }}
+    >
+      <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Title level={4} style={props.style.entryTitle}>
+          <FormOutlined style={{ marginRight: "0.5em" }} />
+          <FormattedMessage id="setup.education" />
+          {`: ${props.field.fieldKey + 1}`}
+          <Tooltip
+            placement="top"
+            title={<FormattedMessage id="admin.delete" />}
+          >
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                props.remove(props.field.name);
+              }}
+              size="small"
+              style={{ float: "right" }}
+            />
+          </Tooltip>
+        </Title>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        {/* Diploma Dropdown */}
+        <Form.Item
+          name={[props.field.name, "diploma"]}
+          fieldKey={[props.field.fieldKey, "diploma"]}
+          label={<FormattedMessage id="profile.diploma" />}
+          style={props.style.formItem}
+          rules={[Rules.required]}
+        >
+          <Select
+            showSearch
+            optionFilterProp="children"
+            placeholder={<FormattedMessage id="setup.select" />}
+            allowClear
+          >
+            {props.diplomaOptions.map((value, index) => {
+              return <Option key={value.key}>{value.title}</Option>;
+            })}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        {/* School Dropdown */}
+        <Form.Item
+          name={[props.field.name, "school"]}
+          fieldKey={[props.field.fieldKey, "school"]}
+          label={<FormattedMessage id="profile.school" />}
+          rules={[Rules.required]}
+          style={props.style.formItem}
+        >
+          <Select
+            showSearch
+            optionFilterProp="children"
+            placeholder={<FormattedMessage id="setup.select" />}
+            allowClear
+          >
+            {props.schoolOptions.map((value) => {
+              return <Option key={value.key}>{value.title}</Option>;
+            })}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        {/* Start Date */}
+        <Form.Item
+          name={[props.field.name, "startDate"]}
+          fieldKey={[props.field.fieldKey, "startDate"]}
+          label={<FormattedMessage id="profile.history.item.start.date" />}
+          rules={[Rules.required]}
+        >
+          <DatePicker
+            picker="month"
+            disabledDate={disabledDatesAfterEnd}
+            style={props.style.datePicker}
+          />
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        {/* End Date */}
+        <Form.Item
+          name={[props.field.name, "endDate"]}
+          fieldKey={[props.field.fieldKey, "endDate"]}
+          label={<FormattedMessage id="profile.history.item.end.date" />}
+          rules={!disableEndDate ? [Rules.required] : undefined}
+        >
+          <DatePicker
+            picker="month"
+            style={props.style.datePicker}
+            disabledDate={disabledDatesBeforeStart}
+            disabled={disableEndDate}
+            placeholder="unknown"
+          />
+        </Form.Item>
+        <div style={{ marginTop: "-10px" }}>
+          {/* Checkbox if event is on-going */}
+          <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
+            <FormattedMessage id="profile.is.ongoing" />
+          </Checkbox>
+        </div>
+      </Col>
+    </Row>
+  );
 };
 
 export default EducationFormView;

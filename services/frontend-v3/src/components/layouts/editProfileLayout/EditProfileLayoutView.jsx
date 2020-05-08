@@ -18,7 +18,7 @@ import {
  *  Render the layout for the edit profile forms
  */
 const EditProfileLayoutView = (props) => {
-  let history = useHistory();
+  const history = useHistory();
 
   /*
    * Profile Form Select
@@ -50,7 +50,7 @@ const EditProfileLayoutView = (props) => {
    * Redirect to form based on sidebar selection
    */
   const redirectToForm = (data) => {
-    let url = "/secured/profile/edit/" + data.key;
+    const url = `/secured/profile/edit/${data.key}`;
     history.push(url);
   };
 
@@ -91,12 +91,12 @@ const EditProfileLayoutView = (props) => {
   };
 
   // Get Sidebar Content
-  let sideBarContent = getSideBarContent(props.formStep);
+  const sideBarContent = getSideBarContent(props.formStep);
   // Get correct form for current step
-  let form = profileFormSelect(props.formStep);
+  const form = profileFormSelect(props.formStep);
 
   // get current language code
-  let locale = props.intl.formatMessage({
+  const locale = props.intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -105,7 +105,7 @@ const EditProfileLayoutView = (props) => {
     <AppLayout
       changeLanguage={props.changeLanguage}
       keycloak={props.keycloak}
-      displaySideBar={true}
+      displaySideBar
       sideBarContent={sideBarContent}
     >
       <PageHeader

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import SkillTableView from "./SkillTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import SkillTableView from "./SkillTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  SkillTable(props)
@@ -52,8 +52,8 @@ function SkillTable(props) {
   /* get skill information */
   const getSkill = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/${type}`
       );
 
       return results.data;
@@ -66,8 +66,8 @@ function SkillTable(props) {
   /* get category information */
   const getCategories = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/categories/" + type
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/categories/${type}`
       );
       return results.data;
     } catch (error) {
@@ -80,12 +80,12 @@ function SkillTable(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -108,7 +108,7 @@ function SkillTable(props) {
   /* handles addition of a skill */
   const handleSubmitAdd = async (values) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         descriptionEn: values.addSkillEn,
@@ -126,7 +126,7 @@ function SkillTable(props) {
   /* handles the update/edit of a skill */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       if (typeof values.editSkillCategory === "string") {
         const index = categories.findIndex(
@@ -141,7 +141,7 @@ function SkillTable(props) {
           category: categories[index],
         });
       } else {
-        let categoryObject = categories.find(
+        const categoryObject = categories.find(
           (category) => category.id === values.editSkillCategory
         );
         await axios.put(url, {
@@ -162,7 +162,7 @@ function SkillTable(props) {
   /* handles the deletion of a skill */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       await axios.post(url, { ids: selectedRowKeys });
 
@@ -202,7 +202,7 @@ function SkillTable(props) {
         ? "categoryNameEn"
         : "categoryNameFr";
 
-    let allSkills = _.sortBy(data, description);
+    const allSkills = _.sortBy(data, description);
 
     for (let i = 0; i < allSkills.length; i++) {
       allSkills[i].key = allSkills[i].id;
@@ -216,7 +216,7 @@ function SkillTable(props) {
     return _.sortBy(allSkills, category);
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;

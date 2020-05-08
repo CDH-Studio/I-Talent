@@ -1,29 +1,29 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import ActingView from "./ActingView";
 import moment from "moment";
+import ActingView from "./ActingView";
 
 function Acting(props) {
-  const formatData = data => {
-    let actingInfo = [];
+  const formatData = (data) => {
+    const actingInfo = [];
 
     if (data.acting) {
       const acting = {
         title: <FormattedMessage id="profile.acting" />,
-        description: data.acting.description
+        description: data.acting.description,
       };
       actingInfo.push(acting);
 
       if (data.actingPeriodStartDate) {
-        let desc =
+        const desc =
           moment(data.actingPeriodStartDate).format("ll") +
           (data.actingPeriodStartDate
-            ? " - " + moment(data.actingPeriodEndDate).format("ll")
+            ? ` - ${moment(data.actingPeriodEndDate).format("ll")}`
             : "");
 
         const actingDate = {
           title: <FormattedMessage id="profile.acting.date" />,
-          description: desc
+          description: desc,
         };
 
         actingInfo.push(actingDate);

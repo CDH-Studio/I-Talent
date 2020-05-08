@@ -14,14 +14,12 @@ function ExperienceView(props) {
       <List
         itemLayout="vertical"
         dataSource={dataSource}
-        renderItem={(item) => (
-          <ExperienceItem item={item}/>
-        )}
+        renderItem={(item) => <ExperienceItem item={item} />}
       />
     );
   };
 
-  const experienceInfo = props.experienceInfo;
+  const { experienceInfo } = props;
 
   return (
     <Row>

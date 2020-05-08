@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import DiplomaTableView from "./DiplomaTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import DiplomaTableView from "./DiplomaTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  DiplomaTable(props)
@@ -48,8 +48,8 @@ function DiplomaTable(props) {
   /* get diploma information */
   const getDiplomas = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/${type}`
       );
       return results.data;
     } catch (error) {
@@ -62,12 +62,12 @@ function DiplomaTable(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -90,7 +90,7 @@ function DiplomaTable(props) {
   /* handles addition of a diploma */
   const handleSubmitAdd = async (values) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         descriptionEn: values.addDiplomaEn,
@@ -107,7 +107,7 @@ function DiplomaTable(props) {
   /* handles the update/edit of a diploma */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       await axios.put(url, {
         descriptionEn: values.editDiplomaEn,
@@ -124,7 +124,7 @@ function DiplomaTable(props) {
   /* handles the deletion of a diploma */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       await axios.post(url, { ids: selectedRowKeys });
 
@@ -159,7 +159,7 @@ function DiplomaTable(props) {
         ? "descriptionEn"
         : "descriptionFr";
 
-    let allDiplomas = _.sortBy(data, description);
+    const allDiplomas = _.sortBy(data, description);
 
     for (let i = 0; i < allDiplomas.length; i++) {
       allDiplomas[i].key = allDiplomas[i].id;
@@ -168,7 +168,7 @@ function DiplomaTable(props) {
     return allDiplomas;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;

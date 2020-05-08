@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import config from "../../config";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
+import config from "../../config";
 import SearchBarView from "./SearchBarView";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 function SearchBar(props) {
   const [skillOptions, setSkillOptions] = useState([]);
@@ -16,8 +16,8 @@ function SearchBar(props) {
   // Fetches options for skills select field in advanced search
   const getSkills = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/option/getDevelopmentalGoals"
+      const results = await axios.get(
+        `${backendAddress}api/option/getDevelopmentalGoals`
       );
       return results.data;
     } catch (error) {
@@ -29,7 +29,7 @@ function SearchBar(props) {
   // Fetches options for branches select field in advanced search
   const getBranch = async () => {
     try {
-      let results = await axios.get(backendAddress + "api/option/getBranch");
+      const results = await axios.get(`${backendAddress}api/option/getBranch`);
       return results.data.filter(
         (elem) => elem.description && elem.description.en
       );
@@ -42,7 +42,9 @@ function SearchBar(props) {
   // Fetches options for locations select field in advanced search
   const getLocation = async () => {
     try {
-      let results = await axios.get(backendAddress + "api/option/getLocation");
+      const results = await axios.get(
+        `${backendAddress}api/option/getLocation`
+      );
       return results.data;
     } catch (error) {
       console.log(error);
@@ -53,8 +55,8 @@ function SearchBar(props) {
   // Fetches options for classifications select field in advanced search
   const getClassification = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/option/getGroupLevel"
+      const results = await axios.get(
+        `${backendAddress}api/option/getGroupLevel`
       );
       return results.data;
     } catch (error) {
@@ -65,18 +67,18 @@ function SearchBar(props) {
 
   // turns search values into query, redirects to results page with query
   const handleSearch = (values) => {
-    var query;
+    let query;
     query = queryString.stringify(values, { arrayFormat: "bracket" });
-    let url = "/secured/results?" + encodeURI(query);
+    const url = `/secured/results?${encodeURI(query)}`;
     props.history.push(url);
   };
 
   useEffect(() => {
     const updateState = async () => {
-      let skills = await getSkills();
-      let branches = await getBranch();
-      let locations = await getLocation();
-      let classifications = await getClassification();
+      const skills = await getSkills();
+      const branches = await getBranch();
+      const locations = await getLocation();
+      const classifications = await getClassification();
       setSkillOptions(skills);
       setBranchOptions(branches);
       setLocationOptions(locations);
@@ -93,7 +95,7 @@ function SearchBar(props) {
       classOptions={classOptions}
       branchOptions={branchOptions}
       handleSearch={handleSearch}
-    ></SearchBarView>
+    />
   );
 }
 

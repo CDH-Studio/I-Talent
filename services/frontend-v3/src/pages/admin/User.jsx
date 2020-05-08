@@ -6,7 +6,7 @@ function AdminUser(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type="user"
     >
       <UserTable type="user" />

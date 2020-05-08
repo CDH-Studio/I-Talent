@@ -2,12 +2,12 @@ import React from "react";
 import { Row, Col, List } from "antd";
 
 function ActingView(props) {
-  const generateInfoList = dataSource => {
+  const generateInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>

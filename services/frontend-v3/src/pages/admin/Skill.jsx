@@ -6,7 +6,7 @@ function AdminSkill(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type="skill"
     >
       <SkillTable type="skill" />

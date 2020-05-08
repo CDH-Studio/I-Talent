@@ -42,7 +42,7 @@ const CreateProfileLayoutView = (props) => {
    * action to take if sidebar steps are clicked
    */
   const onChange = (current) => {
-    let url = "/secured/profile/create/step/" + (current + 1);
+    const url = `/secured/profile/create/step/${current + 1}`;
     history.push(url);
   };
 
@@ -53,12 +53,11 @@ const CreateProfileLayoutView = (props) => {
    */
   const checkForProfile = async () => {
     try {
-      const url =
-        backendAddress +
-        "api/private/profile/status/" +
-        localStorage.getItem("userId");
+      const url = `${backendAddress}api/private/profile/status/${localStorage.getItem(
+        "userId"
+      )}`;
       const response = await axios.get(url);
-      let exists = response.data.profile.exists;
+      const { exists } = response.data.profile;
       if (exists) setProfileExists(exists);
       else setProfileExists(false);
     } catch (error) {
@@ -77,19 +76,19 @@ const CreateProfileLayoutView = (props) => {
       case 1:
         return <Welcome />;
       case 2:
-        return <PrimaryInfoForm formType={"create"} />;
+        return <PrimaryInfoForm formType="create" />;
       case 3:
-        return <EmploymentDataForm formType={"create"} />;
+        return <EmploymentDataForm formType="create" />;
       case 4:
-        return <LangProficiencyForm formType={"create"} />;
+        return <LangProficiencyForm formType="create" />;
       case 5:
-        return <TalentForm formType={"create"} />;
+        return <TalentForm formType="create" />;
       case 6:
-        return <PersonalGrowthForm formType={"create"} />;
+        return <PersonalGrowthForm formType="create" />;
       case 7:
-        return <QualificationsForm formType={"create"} />;
+        return <QualificationsForm formType="create" />;
       case 8:
-        return <DoneSetup formType={"create"} />;
+        return <DoneSetup formType="create" />;
       default:
         return <div>Hello</div>;
     }
@@ -213,12 +212,12 @@ const CreateProfileLayoutView = (props) => {
   }, [props]);
 
   // Get Sidebar Content
-  let sideBarContent = getSideBarContent(props.formStep);
+  const sideBarContent = getSideBarContent(props.formStep);
   // Get correct form for current step
-  let form = profileFormSelect(props.formStep);
+  const form = profileFormSelect(props.formStep);
 
   // get current language code
-  let locale = props.intl.formatMessage({
+  const locale = props.intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -227,7 +226,7 @@ const CreateProfileLayoutView = (props) => {
     <AppLayout
       changeLanguage={props.changeLanguage}
       keycloak={props.keycloak}
-      displaySideBar={true}
+      displaySideBar
       sideBarContent={sideBarContent}
     >
       <PageHeader

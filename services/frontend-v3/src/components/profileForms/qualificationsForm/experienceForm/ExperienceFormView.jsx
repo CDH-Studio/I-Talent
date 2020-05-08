@@ -97,9 +97,9 @@ const ExperienceFormView = (props) => {
     }
   }, [props.profileInfo, props.field]);
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
+   *********************************** */
   return (
     <Row
       gutter={24}
@@ -113,7 +113,7 @@ const ExperienceFormView = (props) => {
         <Title level={4} style={props.style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.experience" />
-          {": " + (props.field.fieldKey + 1)}
+          {`: ${props.field.fieldKey + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -125,7 +125,7 @@ const ExperienceFormView = (props) => {
               onClick={() => {
                 props.remove(props.field.name);
               }}
-              size={"small"}
+              size="small"
               style={{ float: "right" }}
             />
           </Tooltip>
@@ -186,7 +186,7 @@ const ExperienceFormView = (props) => {
             style={props.style.datePicker}
             disabledDate={disabledDatesBeforeStart}
             disabled={disableEndDate}
-            placeholder={"unknown"}
+            placeholder="unknown"
           />
         </Form.Item>
         <div style={{ marginTop: "-10px" }}>

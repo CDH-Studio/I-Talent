@@ -113,7 +113,7 @@ function PrimaryInfoFormView(props) {
               htmlType="button"
             >
               <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
+              <FormattedMessage id="setup.save.and.finish" />
             </Button>
             <Button
               style={styles.clearBtn}
@@ -121,7 +121,7 @@ function PrimaryInfoFormView(props) {
               onClick={onReset}
               danger
             >
-              {<FormattedMessage id="button.clear" />}
+              <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
@@ -130,12 +130,15 @@ function PrimaryInfoFormView(props) {
               type="primary"
               onClick={onSaveAndNext}
             >
-              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+              <FormattedMessage id="setup.save.and.next" /> 
+{' '}
+<RightOutlined />
             </Button>
           </Col>
         </Row>
       );
-    } else if (formType === "edit") {
+    }
+    if (formType === "edit") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
@@ -145,38 +148,37 @@ function PrimaryInfoFormView(props) {
               onClick={onReset}
               danger
             >
-              {<FormattedMessage id="button.clear" />}
+              <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
             <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              {<FormattedMessage id="setup.save" />}
+              <FormattedMessage id="setup.save" />
             </Button>
           </Col>
         </Row>
       );
-    } else {
-      console.log("Error Getting Action Buttons");
     }
+    console.log("Error Getting Action Buttons");
   };
 
   /* Save data */
   const saveDataToDB = async (values) => {
     if (props.profileInfo) {
-      //If profile exists then update profile
+      // If profile exists then update profile
       try {
         await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
         console.log(error);
       }
     } else {
-      //If profile does not exists then create profile
+      // If profile does not exists then create profile
       try {
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
@@ -254,13 +256,12 @@ function PrimaryInfoFormView(props) {
           2. <FormattedMessage id="setup.primary.information" />
         </Title>
       );
-    } else {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          <FormattedMessage id="setup.primary.information" />
-        </Title>
-      );
     }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="setup.primary.information" />
+      </Title>
+    );
   };
 
   /* Get the initial values for the form */
@@ -278,14 +279,13 @@ function PrimaryInfoFormView(props) {
         linkedinUrl: profile.linkedinUrl,
         githubUrl: profile.githubUrl,
       };
-    } else {
-      return { email: localStorage.getItem("email") };
     }
+    return { email: localStorage.getItem("email") };
   };
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
+   *********************************** */
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -293,158 +293,156 @@ function PrimaryInfoFormView(props) {
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        {/* get form title */}
-        {getFormHeader(props.formType)}
-        <Divider style={styles.headerDiv} />
-        {/* Create for with initial values */}
-        <Form
-          name="basicForm"
-          initialValues={getInitialValues(props.profileInfo)}
-          layout="vertical"
-          form={form}
-        >
-          {/* Form Row One */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="firstName"
-                label={<FormattedMessage id="profile.first.name" />}
-                rules={[Rules.required, Rules.maxChar50]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="lastName"
-                label={<FormattedMessage id="profile.last.name" />}
-                rules={[Rules.required, Rules.maxChar50]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Two */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="telephone"
-                label={<FormattedMessage id="profile.telephone" />}
-                rules={[Rules.telephoneFormat]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="cellphone"
-                label={<FormattedMessage id="profile.cellphone" />}
-                rules={[Rules.telephoneFormat]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="email"
-                label={<FormattedMessage id="profile.email" />}
-                rules={[Rules.emailFormat, Rules.maxChar50]}
-              >
-                <Input disabled={true} />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Three */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="location"
-                label={<FormattedMessage id="profile.location" />}
-                rules={[Rules.required, Rules.maxChar50]}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.locationOptions.map((value, index) => {
-                    return (
-                      <Option key={value.id}>{value.description.en}</Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="team"
-                label={<FormattedMessage id="profile.team" />}
-                rules={[Rules.maxChar50]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Four */}
-          <Row
-            gutter={24}
-            style={{
-              backgroundColor: "#dfe5e4",
-              paddingTop: "15px",
-              marginBottom: "20px",
-              marginTop: "10px",
-            }}
-          >
-            <Col className="gutter-row" span={24}>
-              <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-              <Form.Item
-                name="gcconnexUrl"
-                label={<FormattedMessage id="profile.gcconnex.url" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-              <Form.Item
-                name="linkedinUrl"
-                label={<FormattedMessage id="profile.linkedin.url" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-              <Form.Item
-                name="githubUrl"
-                label={<FormattedMessage id="profile.github.url" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {getFormControlButtons(props.formType)}
-        </Form>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      {/* get form title */}
+      {getFormHeader(props.formType)}
+      <Divider style={styles.headerDiv} />
+      {/* Create for with initial values */}
+      <Form
+        name="basicForm"
+        initialValues={getInitialValues(props.profileInfo)}
+        layout="vertical"
+        form={form}
+      >
+        {/* Form Row One */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              name="firstName"
+              label={<FormattedMessage id="profile.first.name" />}
+              rules={[Rules.required, Rules.maxChar50]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              name="lastName"
+              label={<FormattedMessage id="profile.last.name" />}
+              rules={[Rules.required, Rules.maxChar50]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Two */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Form.Item
+              name="telephone"
+              label={<FormattedMessage id="profile.telephone" />}
+              rules={[Rules.telephoneFormat]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Form.Item
+              name="cellphone"
+              label={<FormattedMessage id="profile.cellphone" />}
+              rules={[Rules.telephoneFormat]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Form.Item
+              name="email"
+              label={<FormattedMessage id="profile.email" />}
+              rules={[Rules.emailFormat, Rules.maxChar50]}
+            >
+              <Input disabled />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Three */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              name="location"
+              label={<FormattedMessage id="profile.location" />}
+              rules={[Rules.required, Rules.maxChar50]}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {props.locationOptions.map((value, index) => {
+                  return <Option key={value.id}>{value.description.en}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              name="team"
+              label={<FormattedMessage id="profile.team" />}
+              rules={[Rules.maxChar50]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Four */}
+        <Row
+          gutter={24}
+          style={{
+            backgroundColor: "#dfe5e4",
+            paddingTop: "15px",
+            marginBottom: "20px",
+            marginTop: "10px",
+          }}
+        >
+          <Col className="gutter-row" span={24}>
+            <LinkOutlined /> 
+{' '}
+<FormattedMessage id="setup.link.profiles" />
+          </Col>
+          <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Form.Item
+              name="gcconnexUrl"
+              label={<FormattedMessage id="profile.gcconnex.url" />}
+              rules={[Rules.maxChar100]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Form.Item
+              name="linkedinUrl"
+              label={<FormattedMessage id="profile.linkedin.url" />}
+              rules={[Rules.maxChar100]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Form.Item
+              name="githubUrl"
+              label={<FormattedMessage id="profile.github.url" />}
+              rules={[Rules.maxChar100]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        {getFormControlButtons(props.formType)}
+      </Form>
+    </div>
+  );
 }
 
 export default PrimaryInfoFormView;

@@ -67,14 +67,10 @@ function SkillTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${props.intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -282,17 +278,13 @@ function SkillTableView(props) {
           >
             <Select
               showSearch
-              placeholder={
-                props.intl.formatMessage({
-                  id: "admin.select",
-                  defaultMessage: "Select",
-                }) +
-                " " +
-                props.intl.formatMessage({
-                  id: "admin.category",
-                  defaultMessage: "Category",
-                })
-              }
+              placeholder={`${props.intl.formatMessage({
+                id: "admin.select",
+                defaultMessage: "Select",
+              })} ${props.intl.formatMessage({
+                id: "admin.category",
+                defaultMessage: "Category",
+              })}`}
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -394,17 +386,13 @@ function SkillTableView(props) {
           >
             <Select
               showSearch
-              placeholder={
-                props.intl.formatMessage({
-                  id: "admin.select",
-                  defaultMessage: "Select",
-                }) +
-                " " +
-                props.intl.formatMessage({
-                  id: "admin.category",
-                  defaultMessage: "Category",
-                })
-              }
+              placeholder={`${props.intl.formatMessage({
+                id: "admin.select",
+                defaultMessage: "Select",
+              })} ${props.intl.formatMessage({
+                id: "admin.category",
+                defaultMessage: "Category",
+              })}`}
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0

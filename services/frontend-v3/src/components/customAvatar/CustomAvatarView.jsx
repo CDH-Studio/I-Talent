@@ -3,20 +3,20 @@ import { Avatar } from "antd";
 
 function CustomAvatarView(props) {
   // set icon color based on name
-  var iconColor = {
+  const iconColor = {
     backgroundColor: props.color,
-    color: "#fff"
+    color: "#fff",
   };
 
   const componentStyle = {
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   };
 
   // merge component style with styles passed through from parent
-  var mergedStyles = {
+  const mergedStyles = {
     ...props.style,
     ...componentStyle,
-    ...iconColor
+    ...iconColor,
   };
 
   return <Avatar style={mergedStyles}>{props.initials}</Avatar>;

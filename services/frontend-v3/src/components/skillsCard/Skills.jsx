@@ -6,7 +6,7 @@ function Skills(props) {
   const formatData = (list) => {
     const locale = localStorage.getItem("lang") || "en";
 
-    let categorizedList = {};
+    const categorizedList = {};
 
     if (list) {
       list.forEach((listElement) => {
@@ -25,9 +25,9 @@ function Skills(props) {
 
   const setUpCategories = (list) => {
     const locale = localStorage.getItem("lang") || "en";
-    let categorizedList = {};
-    let categoriesTemp = {};
-    let categories = [];
+    const categorizedList = {};
+    const categoriesTemp = {};
+    const categories = [];
 
     let k = 0;
 
@@ -38,9 +38,9 @@ function Skills(props) {
           categorizedList[key] = [listElement.description[locale]];
           if (categoriesTemp[k] == null) {
             if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category["en"]];
+              categoriesTemp[k] = [listElement.description.category.en];
             } else {
-              categoriesTemp[k] = [listElement.description.category["fr"]];
+              categoriesTemp[k] = [listElement.description.category.fr];
             }
             k++;
           }
@@ -58,9 +58,9 @@ function Skills(props) {
   };
 
   const setUpSkills = (dataSource) => {
-    let skills = [];
+    const skills = [];
 
-    let categorizedSkillsList = formatData(dataSource);
+    const categorizedSkillsList = formatData(dataSource);
 
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       skills.push({ index, val });

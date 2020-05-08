@@ -34,14 +34,13 @@ function SkillsView(props) {
           )}
         </Collapse>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.mentorship.empty" />}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={<FormattedMessage id="profile.mentorship.empty" />}
+      />
+    );
   };
 
   return generateSkillsCollapse(props.categoriesSkills, props.skills);

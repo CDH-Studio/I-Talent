@@ -4,7 +4,7 @@ import { Affix, Layout } from "antd";
 const { Sider } = Layout;
 
 function SideNavView(props) {
-  const displaySideBar = props.displaySideBar;
+  const { displaySideBar } = props;
 
   /* Component Styles */
   const styles = {
@@ -36,9 +36,8 @@ function SideNavView(props) {
         </Sider>
       </Affix>
     );
-  } else {
-    return <Sider width="0" />;
   }
+  return <Sider width="0" />;
 }
 
 export default SideNavView;

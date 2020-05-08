@@ -19,6 +19,7 @@ import axios from "axios";
 import moment from "moment";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+
 const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
@@ -113,7 +114,7 @@ const LangProficiencyFormView = (props) => {
               htmlType="button"
             >
               <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
+              <FormattedMessage id="setup.save.and.finish" />
             </Button>
             <Button
               style={styles.clearBtn}
@@ -121,7 +122,7 @@ const LangProficiencyFormView = (props) => {
               onClick={onReset}
               danger
             >
-              {<FormattedMessage id="button.clear" />}
+              <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
@@ -130,12 +131,15 @@ const LangProficiencyFormView = (props) => {
               type="primary"
               onClick={onSaveAndNext}
             >
-              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
+              <FormattedMessage id="setup.save.and.next" /> 
+{' '}
+<RightOutlined />
             </Button>
           </Col>
         </Row>
       );
-    } else if (formType === "edit") {
+    }
+    if (formType === "edit") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
@@ -145,24 +149,23 @@ const LangProficiencyFormView = (props) => {
               onClick={onReset}
               danger
             >
-              {<FormattedMessage id="button.clear" />}
+              <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
             <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              {<FormattedMessage id="setup.save" />}
+              <FormattedMessage id="setup.save" />
             </Button>
           </Col>
         </Row>
       );
-    } else {
-      console.log("Error Getting Action Buttons");
     }
+    console.log("Error Getting Action Buttons");
   };
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm(prev => !prev);
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /* Save data */
@@ -203,7 +206,7 @@ const LangProficiencyFormView = (props) => {
       // If profile exists then update profile
       try {
         await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
@@ -213,7 +216,7 @@ const LangProficiencyFormView = (props) => {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
@@ -302,7 +305,7 @@ const LangProficiencyFormView = (props) => {
                   showSearch
                   optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
+                  allowClear
                   filterOption={(input, option) =>
                     option.children
                       .toLowerCase()
@@ -340,7 +343,7 @@ const LangProficiencyFormView = (props) => {
                   showSearch
                   optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
+                  allowClear
                   filterOption={(input, option) =>
                     option.children
                       .toLowerCase()
@@ -378,7 +381,7 @@ const LangProficiencyFormView = (props) => {
                   showSearch
                   optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
+                  allowClear
                   filterOption={(input, option) =>
                     option.children
                       .toLowerCase()
@@ -403,9 +406,8 @@ const LangProficiencyFormView = (props) => {
           </Row>
         </div>
       );
-    } else {
-      return <div />;
     }
+    return <div />;
   };
 
   /* Generate form header based on form type */
@@ -416,13 +418,12 @@ const LangProficiencyFormView = (props) => {
           4. <FormattedMessage id="setup.language.proficiency" />
         </Title>
       );
-    } else {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          <FormattedMessage id="setup.language.proficiency" />
-        </Title>
-      );
     }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="setup.language.proficiency" />
+      </Title>
+    );
   };
 
   /* Get the initial values for the form */
@@ -437,7 +438,7 @@ const LangProficiencyFormView = (props) => {
       }
 
       return {
-        firstLanguage: firstLanguage,
+        firstLanguage,
         ...(profile.secondaryReadingProficiency && {
           readingProficiency: profile.secondaryReadingProficiency,
         }),
@@ -457,9 +458,8 @@ const LangProficiencyFormView = (props) => {
           secondaryOralDate: moment(profile.secondaryOralDate),
         }),
       };
-    } else {
-      return {};
     }
+    return {};
   };
 
   useEffect(() => {
@@ -469,9 +469,9 @@ const LangProficiencyFormView = (props) => {
     );
   }, [props.profileInfo]);
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
+   *********************************** */
   if (!props.load) {
     return (
       /* If form data is loading then wait */
@@ -479,67 +479,65 @@ const LangProficiencyFormView = (props) => {
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        {/* get form title */}
-        {getFormHeader(props.formType)}
-        <Divider style={styles.headerDiv} />
-        {/* Create for with initial values */}
-        <Form
-          name="basicForm"
-          form={form}
-          initialValues={getInitialValues(props.profileInfo)}
-          layout="vertical"
-        >
-          {/* Form Row One */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="firstLanguage"
-                label={<FormattedMessage id="profile.first.language" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.languageOptions.map((value, index) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Four: Temporary role */}
-          <Row style={styles.secondLangRow} gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <FormLabelTooltip
-                labelText={
-                  <FormattedMessage id="profile.graded.on.second.language" />
-                }
-                tooltipText="Extra information"
-              />
-              <Switch
-                defaultChecked={displayMentorshipForm}
-                onChange={toggleSecLangForm}
-              />
-              {getSecondLanguageForm(displayMentorshipForm)}
-            </Col>
-          </Row>
-          {/* Form Row Five: Submit button */}
-          {getFormControlButtons(props.formType)}
-        </Form>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      {/* get form title */}
+      {getFormHeader(props.formType)}
+      <Divider style={styles.headerDiv} />
+      {/* Create for with initial values */}
+      <Form
+        name="basicForm"
+        form={form}
+        initialValues={getInitialValues(props.profileInfo)}
+        layout="vertical"
+      >
+        {/* Form Row One */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="firstLanguage"
+              label={<FormattedMessage id="profile.first.language" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {props.languageOptions.map((value, index) => {
+                  return <Option key={value.key}>{value.text}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Four: Temporary role */}
+        <Row style={styles.secondLangRow} gutter={24}>
+          <Col className="gutter-row" span={24}>
+            <FormLabelTooltip
+              labelText={
+                <FormattedMessage id="profile.graded.on.second.language" />
+              }
+              tooltipText="Extra information"
+            />
+            <Switch
+              defaultChecked={displayMentorshipForm}
+              onChange={toggleSecLangForm}
+            />
+            {getSecondLanguageForm(displayMentorshipForm)}
+          </Col>
+        </Row>
+        {/* Form Row Five: Submit button */}
+        {getFormControlButtons(props.formType)}
+      </Form>
+    </div>
+  );
 };
 
 export default LangProficiencyFormView;

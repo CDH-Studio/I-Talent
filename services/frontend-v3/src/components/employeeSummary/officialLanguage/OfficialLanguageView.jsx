@@ -3,12 +3,12 @@ import React from "react";
 import { Row, Col, List } from "antd";
 
 function OfficialLanguageView(props) {
-  const generateFirstLanguage = dataSource => {
+  const generateFirstLanguage = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
@@ -17,12 +17,12 @@ function OfficialLanguageView(props) {
     );
   };
 
-  const generateSecondLanguageProficiency = dataSource => {
+  const generateSecondLanguageProficiency = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
@@ -31,11 +31,11 @@ function OfficialLanguageView(props) {
     );
   };
 
-  const firstLanguageInfo = props.firstLanguageInfo;
+  const { firstLanguageInfo } = props;
 
-  const secondLanguageGradeInfo = props.secondLanguageGradeInfo;
+  const { secondLanguageGradeInfo } = props;
 
-  const secondLanguageDateInfo = props.secondLanguageDateInfo;
+  const { secondLanguageDateInfo } = props;
 
   return (
     <>

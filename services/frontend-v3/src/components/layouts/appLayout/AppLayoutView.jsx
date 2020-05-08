@@ -20,16 +20,13 @@ function AppLayoutView(props) {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Render Top Navigation Bar */}
-      <TopNav
-        changeLanguage={props.changeLanguage}
-        keycloak={props.keycloak}
-      ></TopNav>
+      <TopNav changeLanguage={props.changeLanguage} keycloak={props.keycloak} />
       <Layout style={{ marginTop: 64 }}>
         {/* Render Side Navigation Bar */}
         <SideNav
           sideBarContent={props.sideBarContent}
           displaySideBar={props.displaySideBar}
-        ></SideNav>
+        />
         {/* Render content */}
         <Layout>
           <Content style={styles.content}>{props.children}</Content>

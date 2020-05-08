@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import CategoryTableView from "./CategoryTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import CategoryTableView from "./CategoryTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  CategoryTable(props)
@@ -49,8 +49,8 @@ function CategoryTable(props) {
   /* get category information */
   const getCategories = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/categories/skill"
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/categories/skill`
       );
       return results.data;
     } catch (error) {
@@ -62,7 +62,7 @@ function CategoryTable(props) {
   /* handles the deletion of a category */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       let result;
 
@@ -72,10 +72,9 @@ function CategoryTable(props) {
 
       if (result === false) {
         return true;
-      } else {
-        setReset(true);
-        return false;
       }
+      setReset(true);
+      return false;
     } catch (error) {
       console.log(error);
       return 0;
@@ -85,7 +84,7 @@ function CategoryTable(props) {
   /* handles addition of a category */
   const handleSubmitAdd = async (values) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         descriptionEn: values.addCategoryEn,
@@ -102,7 +101,7 @@ function CategoryTable(props) {
   /* handles the update/edit of a category */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       await axios.put(url, {
         descriptionEn: values.editCategoryEn,
@@ -120,12 +119,12 @@ function CategoryTable(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -168,7 +167,7 @@ function CategoryTable(props) {
         ? "descriptionEn"
         : "descriptionFr";
 
-    let allCategories = _.sortBy(data, description);
+    const allCategories = _.sortBy(data, description);
 
     for (let i = 0; i < allCategories.length; i++) {
       allCategories[i].key = allCategories[i].id;
@@ -177,7 +176,7 @@ function CategoryTable(props) {
     return allCategories;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;

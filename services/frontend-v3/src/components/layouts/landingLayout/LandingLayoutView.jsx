@@ -25,7 +25,7 @@ const LandingLayoutView = (props) => {
       backgroundOptionTwo,
       backgroundOptionThree,
     ];
-    let randomIndex = Math.floor(Math.random() * imageOptions.length);
+    const randomIndex = Math.floor(Math.random() * imageOptions.length);
     return imageOptions[randomIndex];
   };
 
@@ -56,15 +56,15 @@ const LandingLayoutView = (props) => {
             style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
             strong
           >
-            <FormattedMessage id="landing.description"/>
+            <FormattedMessage id="landing.description" />
           </Text>
           <Text
             style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
             strong
           >
-            <FormattedMessage id="landing.call.to.action"/>
+            <FormattedMessage id="landing.call.to.action" />
           </Text>
-          <Button type="primary" href={"/secured/home"} size={"large"}>
+          <Button type="primary" href="/secured/home" size="large">
             <FormattedMessage id="landing.login.button" />
           </Button>
         </Col>
@@ -72,7 +72,7 @@ const LandingLayoutView = (props) => {
           sm={24}
           md={10}
           style={{ textAlign: "center" }}
-          className={"landingPicture"}
+          className="landingPicture"
         >
           <img
             src={randomPictureSelect()}

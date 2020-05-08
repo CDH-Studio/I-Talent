@@ -7,7 +7,7 @@ import StatCardsView from "./StatCardsView";
  *  It setups the data (bridge) for rendering the component in the view.
  */
 function StatCards(props) {
-  const data = props.data;
+  const { data } = props;
   /* gets data for the stat cards on dashboard */
   // Gets data for Total users, Inactive users, Hidden profiles, and Total Ex Feeders
   const dashboardCount = (data) => {

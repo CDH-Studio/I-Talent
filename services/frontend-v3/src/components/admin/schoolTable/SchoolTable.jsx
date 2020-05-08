@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import SchoolTableView from "./SchoolTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import SchoolTableView from "./SchoolTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  SchoolTable(props)
@@ -50,8 +50,8 @@ function SchoolTable(props) {
   /* get school information */
   const getSchools = async () => {
     try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/${type}`
       );
       return results.data;
     } catch (error) {
@@ -64,12 +64,12 @@ function SchoolTable(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -92,7 +92,7 @@ function SchoolTable(props) {
   /* handles addition of a school */
   const handleSubmitAdd = async (values) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         country: values.addSchoolCountry.toUpperCase(),
@@ -110,7 +110,7 @@ function SchoolTable(props) {
   /* handles the update/edit of a school */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       await axios.put(url, {
         country: values.editSchoolCountry.toUpperCase(),
@@ -128,7 +128,7 @@ function SchoolTable(props) {
   /* handles the deletion of a school */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       await axios.post(url, { ids: selectedRowKeys });
 
@@ -157,7 +157,7 @@ function SchoolTable(props) {
 
   /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
-    let allSchools = _.sortBy(data, "description");
+    const allSchools = _.sortBy(data, "description");
 
     for (let i = 0; i < allSchools.length; i++) {
       allSchools[i].key = allSchools[i].id;
@@ -166,7 +166,7 @@ function SchoolTable(props) {
     return allSchools;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ProfileCardsView from "./ProfileCardsView";
 import axios from "axios";
+import ProfileCardsView from "./ProfileCardsView";
 import config from "../../config";
 
 const { backendAddress } = config;
@@ -10,15 +10,15 @@ function ProfileCards(props) {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
-  //useParams returns an object of key/value pairs from URL parameters
+  // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
 
   // get user profile for hidden cards value
   const getProfileInfo = async () => {
     try {
-      let url = backendAddress + "api/profile/" + urlID;
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/profile/${urlID}`;
+      const result = await axios.get(url);
       return await setProfileInfo(result.data);
     } catch (error) {
       console.log(error);

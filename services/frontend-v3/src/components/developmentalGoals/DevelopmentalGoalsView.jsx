@@ -22,14 +22,15 @@ function DevelopmentalGoalsView(props) {
           </List>
         </Row>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.developmental.goals.empty" />}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={
+          <FormattedMessage id="profile.developmental.goals.empty" />
+        }
+      />
+    );
   };
   return GenerateDevGoalsList(props.devGoals);
 }

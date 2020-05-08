@@ -7,14 +7,14 @@ import config from "../../config";
 
 import ResultsCardView from "./ResultsCardView";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 function ResultsCard(props) {
   const [results, setResults] = useState(null);
 
   const gatherResults = async (query) => {
     const results1 = (
-      await axios.get(backendAddress + "api/search/fuzzySearch?" + query)
+      await axios.get(`${backendAddress}api/search/fuzzySearch?${query}`)
     ).data;
     setResults(results1);
   };
@@ -22,9 +22,9 @@ function ResultsCard(props) {
   const urlSections = window.location.toString().split("?");
   useEffect(() => {
     if (urlSections.length === 2) {
-      let queryString = urlSections[1];
+      const queryString = urlSections[1];
       axios
-        .get(backendAddress + "api/search/fuzzySearch?" + queryString)
+        .get(`${backendAddress}api/search/fuzzySearch?${queryString}`)
         .then((result) => setResults(result.data));
     } else {
       setResults(new Error("invalid query"));
@@ -33,18 +33,18 @@ function ResultsCard(props) {
 
   if (!results) {
     return <ProfileSkeleton />;
-  } else if (results instanceof Error) {
-    return "An error was encountered! Please try again.\n\n" + String(results);
-  } else {
-    return (
-      <ResultsCardView
-        changeLanguage={props.changeLanguage}
-        keycloak={props.keycloak}
-        history={props.history}
-        results={results}
-      ></ResultsCardView>
-    );
   }
+  if (results instanceof Error) {
+    return `An error was encountered! Please try again.\n\n${String(results)}`;
+  }
+  return (
+    <ResultsCardView
+      changeLanguage={props.changeLanguage}
+      keycloak={props.keycloak}
+      history={props.history}
+      results={results}
+    />
+  );
 }
 
 export default ResultsCard;

@@ -11,7 +11,7 @@ function CreateProfileLayout(props) {
       changeLanguage={props.changeLanguage}
       keycloak={props.keycloak}
       formStep={props.step}
-    ></CreateProfileLayoutView>
+    />
   );
 }
 

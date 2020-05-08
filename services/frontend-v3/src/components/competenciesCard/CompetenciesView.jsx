@@ -22,14 +22,13 @@ function CompetenciesView(props) {
           </List>
         </Row>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.competencies.empty"/>}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={<FormattedMessage id="profile.competencies.empty" />}
+      />
+    );
   };
 
   return generateCompetenciesTagList(props.competencies);

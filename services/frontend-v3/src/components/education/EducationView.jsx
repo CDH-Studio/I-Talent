@@ -38,7 +38,7 @@ function EducationView(props) {
     );
   };
 
-  const educationInfo = props.educationInfo;
+  const { educationInfo } = props;
 
   return (
     <Row>

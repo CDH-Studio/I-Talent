@@ -3,12 +3,12 @@ import { Row, Col, List } from "antd";
 import { injectIntl } from "react-intl";
 
 function SubstantiveView(props) {
-  const generateInfoList = dataSource => {
+  const generateInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>

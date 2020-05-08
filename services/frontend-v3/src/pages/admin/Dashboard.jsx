@@ -1,4 +1,4 @@
-import React from "react";
+import { useState , useEffect } from React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
@@ -6,10 +6,10 @@ import axios from "axios";
 import { Skeleton, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
 import config from "../../config";
-import { useState } from "react";
-import { useEffect } from "react";
 
-const backendAddress = config.backendAddress;
+
+
+const {backendAddress} = config;
 
 /**
  *  AdminDashboard(props)
@@ -36,7 +36,7 @@ function AdminDashboard(props) {
   /* get dashboard data for statistic cards and graphes */
   const getDashboardData = async () => {
     try {
-      const url = backendAddress + "api/admin/dashboard/";
+      const url = `${backendAddress  }api/admin/dashboard/`;
 
       const results = await axios.get(url);
 
@@ -51,23 +51,23 @@ function AdminDashboard(props) {
   const getDisplayType = (plural) => {
     if (plural)
       return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+        id: `admin.${  type  }.plural`,
         defaultMessage: type,
       });
 
     return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+      id: `admin.${  type  }.singular`,
       defaultMessage: type,
     });
   };
 
-  document.title = getDisplayType(false) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(false)  } - Admin | I-Talent`;
 
   if (loading) {
     return (
       <AdminLayout
         changeLanguage={props.changeLanguage}
-        displaySideBar={true}
+        displaySideBar
         type={type}
       >
         <Skeleton active />
@@ -78,7 +78,7 @@ function AdminDashboard(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type={type}
     >
       <PageHeader

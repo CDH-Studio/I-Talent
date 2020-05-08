@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import WelcomeView from "./WelcomeView";
 import axios from "axios";
+import WelcomeView from "./WelcomeView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -25,8 +26,8 @@ function Welcome() {
     const getGedsProfiles = async () => {
       try {
         // Get info from GEDS
-        let result = await axios.get(
-          backendAddress + "api/profGen/" + localStorage.getItem("userId")
+        const result = await axios.get(
+          `${backendAddress}api/profGen/${localStorage.getItem("userId")}`
         );
         setGedsProfiles(result.data);
         return 1;

@@ -11,10 +11,10 @@ import { injectIntl } from "react-intl";
  *  Disclaimer: Please look at Bizcharts documentation for further help with graphes
  */
 function DashboardGraphsView(props) {
-  const topFiveSkills = props.topFiveSkills;
-  const topFiveCompetencies = props.topFiveCompetencies;
-  const topFiveDevelopmentGoals = props.topFiveDevelopmentGoals;
-  const monthlyGrowth = props.monthlyGrowth;
+  const { topFiveSkills } = props;
+  const { topFiveCompetencies } = props;
+  const { topFiveDevelopmentGoals } = props;
+  const { monthlyGrowth } = props;
 
   const popularSkillsColumns = {
     name: { alias: "Skill Name" },
@@ -132,14 +132,14 @@ function DashboardGraphsView(props) {
                 type="line"
                 position="monthName*count"
                 size={2}
-                color={"year"}
+                color="year"
               />
               <Geom
                 type="point"
                 position="monthName*count"
                 size={4}
-                shape={"circle"}
-                color={"year"}
+                shape="circle"
+                color="year"
                 style={{
                   stroke: "#fff",
                   lineWidth: 1,

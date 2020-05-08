@@ -2,7 +2,7 @@ import React from "react";
 import TalentManagementView from "./TalentManagementView";
 
 function TalentManagement(props) {
-  const data = props.data;
+  const { data } = props;
 
   return (
     <TalentManagementView

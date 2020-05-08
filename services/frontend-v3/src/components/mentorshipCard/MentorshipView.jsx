@@ -36,14 +36,13 @@ function MentorshipView(props) {
           )}
         </Collapse>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.mentorship.empty" />}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={<FormattedMessage id="profile.mentorship.empty" />}
+      />
+    );
   };
 
   return generateMentorshipCollapse(props.mentoringCategories, props.mentoring);

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import LangProficiencyFormView from "./LangProficiencyFormView";
 import axios from "axios";
+import LangProficiencyFormView from "./LangProficiencyFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -18,11 +19,10 @@ const LangProficiencyForm = (props) => {
   // Get user profile for form drop down
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {

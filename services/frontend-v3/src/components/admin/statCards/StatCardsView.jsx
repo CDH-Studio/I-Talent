@@ -16,8 +16,8 @@ import { FormattedMessage, injectIntl } from "react-intl";
  *  This component renders the statistic cards for the Admin Dashboard page.
  */
 function StatCardsView(props) {
-  const dashboardCount = props.dashboardCount;
-  const monthGrowthRate = props.monthGrowthRate;
+  const { dashboardCount } = props;
+  const { monthGrowthRate } = props;
 
   return (
     <Row gutter={[8, 8]} type="flex">
@@ -26,8 +26,8 @@ function StatCardsView(props) {
           <Statistic
             title={
               <FormattedMessage
-                id={"admin.dashboard.total.users"}
-                defaultMessage={"Total Users"}
+                id="admin.dashboard.total.users"
+                defaultMessage="Total Users"
               />
             }
             value={dashboardCount.total_users}
@@ -41,8 +41,8 @@ function StatCardsView(props) {
           <Statistic
             title={
               <FormattedMessage
-                id={"admin.dashboard.inactive.users"}
-                defaultMessage={"Inactive Users"}
+                id="admin.dashboard.inactive.users"
+                defaultMessage="Inactive Users"
               />
             }
             value={dashboardCount.inactive_users}
@@ -56,8 +56,8 @@ function StatCardsView(props) {
           <Statistic
             title={
               <FormattedMessage
-                id={"admin.dashboard.flagged.profiles"}
-                defaultMessage={"Hidden Profiles"}
+                id="admin.dashboard.flagged.profiles"
+                defaultMessage="Hidden Profiles"
               />
             }
             value={dashboardCount.hiddenProfiles}
@@ -71,8 +71,8 @@ function StatCardsView(props) {
           <Statistic
             title={
               <FormattedMessage
-                id={"admin.dashboard.ex.feeders"}
-                defaultMessage={"Total Ex Feeders"}
+                id="admin.dashboard.ex.feeders"
+                defaultMessage="Total Ex Feeders"
               />
             }
             value={dashboardCount.exFeeders}
@@ -84,14 +84,10 @@ function StatCardsView(props) {
       <Col span={4}>
         <Card hoverable style={{ height: "100%" }}>
           <Statistic
-            title={
-              props.intl.formatMessage({
-                id: "admin.dashboard.monthly.added",
-                defaultMessage: "New Users",
-              }) +
-              " - " +
-              moment().format("MMMM")
-            }
+            title={`${props.intl.formatMessage({
+              id: "admin.dashboard.monthly.added",
+              defaultMessage: "New Users",
+            })} - ${moment().format("MMMM")}`}
             value={monthGrowthRate.current_month_additions}
             valueStyle={{ color: "#CD8FD6" }}
             prefix={<UsergroupAddOutlined />}
@@ -101,14 +97,10 @@ function StatCardsView(props) {
       <Col span={4}>
         <Card hoverable style={{ height: "100%" }}>
           <Statistic
-            title={
-              props.intl.formatMessage({
-                id: "admin.dashboard.growth.rate.percentage",
-                defaultMessage: "New Users",
-              }) +
-              " - " +
-              moment().format("MMMM")
-            }
+            title={`${props.intl.formatMessage({
+              id: "admin.dashboard.growth.rate.percentage",
+              defaultMessage: "New Users",
+            })} - ${moment().format("MMMM")}`}
             value={monthGrowthRate.growthRate}
             valueStyle={{ color: "#FF934F" }}
             prefix={<RiseOutlined />}

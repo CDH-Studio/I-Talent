@@ -6,7 +6,7 @@ function AdminCategory(props) {
   return (
     <AdminLayout
       changeLanguage={props.changeLanguage}
-      displaySideBar={true}
+      displaySideBar
       type="category"
     >
       <CategoryTable type="category" />

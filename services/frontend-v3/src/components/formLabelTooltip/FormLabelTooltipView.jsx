@@ -9,8 +9,8 @@ function FormLabelTooltipView(props) {
   const styles = {
     tooltipIcon: {
       color: "rgba(0,0,0,.45)",
-      marginLeft: "5px"
-    }
+      marginLeft: "5px",
+    },
   };
 
   return (

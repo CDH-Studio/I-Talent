@@ -5,10 +5,10 @@ import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
 
 function DevelopmentalGoals(props) {
   const formatData = (dataSource) => {
-    const data = dataSource.data;
+    const { data } = dataSource;
     const locale = dataSource.intl.formatMessage({ id: "language.code" });
 
-    let devGoals = [];
+    const devGoals = [];
     let key = 0;
 
     if (data.developmentalGoals) {
