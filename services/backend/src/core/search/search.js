@@ -34,7 +34,6 @@ const search = async (request, response) => {
 
   response.status(200).json(results);
 };
-module.exports = search;
 
 async function getSkillNames(searchSkill, skillSearchValue) {
   await asyncForEach(searchSkill, async (skillId) => {
@@ -52,3 +51,5 @@ async function asyncForEach(array, callback) {
     await callback(array[index]);
   }
 }
+
+module.exports = search;
