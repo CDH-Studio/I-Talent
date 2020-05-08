@@ -1,22 +1,22 @@
 const Sequelize = require("sequelize");
-const Models = require("../../models");
+const {
+  profile,
+  careerMobility,
+  category,
+  diploma,
+  groupLevel,
+  keyCompetency,
+  location,
+  school,
+  securityClearance,
+  skill,
+  talentMatrixResult,
+  tenure,
+  lookingForANewJob,
+} = require("../../database/models");
 
-const Profile = Models.profile;
-const CareerMobility = Models.careerMobility;
-const Category = Models.category;
-const Diploma = Models.diploma;
-const GroupLevel = Models.groupLevel;
-const KeyCompetency = Models.keyCompetency;
-const Location = Models.location;
-const School = Models.school;
-const SecurityClearance = Models.securityClearance;
-const Skill = Models.skill;
-const TalentMatrixResult = Models.talentMatrixResult;
-const Tenure = Models.tenure;
-const LookingForANewJob = Models.lookingForANewJob;
-
-const getBranch = async (request, response) => {
-  const all = await Profile.findAll({
+async function getBranch(request, response) {
+  const all = await profile.findAll({
     attributes: [
       [Sequelize.fn("DISTINCT", Sequelize.col("branchEn")), "branchEn"],
       "branchFr",
@@ -29,10 +29,10 @@ const getBranch = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getCareerMobility = async (request, response) => {
-  const all = await CareerMobility.findAll();
+async function getCareerMobility(request, response) {
+  const all = await careerMobility.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.id,
@@ -43,10 +43,10 @@ const getCareerMobility = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getCompetency = async (request, response) => {
-  const all = await Skill.findAll({
+async function getCompetency(request, response) {
+  const all = await skill.findAll({
     where: {
       type: "competency",
     },
@@ -61,10 +61,10 @@ const getCompetency = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getDevelopmentalGoals = async (request, response) => {
-  const all = await Skill.findAll();
+async function getDevelopmentalGoals(request, response) {
+  const all = await skill.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.id,
@@ -75,10 +75,10 @@ const getDevelopmentalGoals = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getDiploma = async (request, response) => {
-  const all = await Diploma.findAll();
+async function getDiploma(request, response) {
+  const all = await diploma.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.id,
@@ -89,10 +89,10 @@ const getDiploma = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getGroupLevel = async (request, response) => {
-  const all = await GroupLevel.findAll();
+async function getGroupLevel(request, response) {
+  const all = await groupLevel.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.dataValues.id,
@@ -100,10 +100,10 @@ const getGroupLevel = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getKeyCompetency = async (request, response) => {
-  const all = await KeyCompetency.findAll();
+async function getKeyCompetency(request, response) {
+  const all = await keyCompetency.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.id,
@@ -114,10 +114,10 @@ const getKeyCompetency = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getLocation = async (request, response) => {
-  const all = await Location.findAll();
+async function getLocation(request, response) {
+  const all = await location.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.id,
@@ -128,10 +128,10 @@ const getLocation = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getSchool = async (request, response) => {
-  const all = await School.findAll();
+async function getSchool(request, response) {
+  const all = await school.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.dataValues.id,
@@ -139,10 +139,10 @@ const getSchool = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getSecurityClearance = async (request, response) => {
-  const all = await SecurityClearance.findAll();
+async function getSecurityClearance(request, response) {
+  const all = await securityClearance.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.dataValues.id,
@@ -153,11 +153,11 @@ const getSecurityClearance = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getCategorySkills = async (request, response) => {
-  const all = await Category.findAll({
-    include: Skill,
+async function getCategorySkills(request, response) {
+  const all = await category.findAll({
+    include: skill,
     attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
   });
@@ -188,11 +188,11 @@ const getCategorySkills = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getCategory = async (request, response) => {
-  const all = await Category.findAll({
-    include: Skill,
+async function getCategory(request, response) {
+  const all = await category.findAll({
+    include: skill,
     attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
   });
@@ -222,11 +222,11 @@ const getCategory = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getSkill = async (request, response) => {
-  const all = await Skill.findAll({
-    include: Category,
+async function getSkill(request, response) {
+  const all = await skill.findAll({
+    include: category,
     attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
     where: {
@@ -243,10 +243,10 @@ const getSkill = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getTalentMatrixResult = async (request, response) => {
-  const all = await TalentMatrixResult.findAll();
+async function getTalentMatrixResult(request, response) {
+  const all = await talentMatrixResult.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.dataValues.id,
@@ -257,10 +257,10 @@ const getTalentMatrixResult = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getTenure = async (request, response) => {
-  const all = await Tenure.findAll();
+async function getTenure(request, response) {
+  const all = await tenure.findAll();
   const resBody = all.map((one) => {
     return {
       id: one.dataValues.id,
@@ -271,11 +271,11 @@ const getTenure = async (request, response) => {
     };
   });
   response.status(200).json(resBody);
-};
+}
 
-const getLookingForANewJob = async (request, response) => {
+async function getLookingForANewJob(request, response) {
   try {
-    const all = await LookingForANewJob.findAll();
+    const all = await lookingForANewJob.findAll();
     const resBody = all.map((element) => ({
       id: element.id,
       description: {
@@ -287,11 +287,11 @@ const getLookingForANewJob = async (request, response) => {
   } catch (error) {
     response.status(500).json(error.message);
   }
-};
+}
 
-const getWillingToRelocateTo = async (request, response) => {
+async function getWillingToRelocateTo(request, response) {
   try {
-    const all = await Location.findAll({
+    const all = await location.findAll({
       attributes: [
         [
           Sequelize.fn("MIN", Sequelize.cast(Sequelize.col("id"), "varchar")),
@@ -320,7 +320,7 @@ const getWillingToRelocateTo = async (request, response) => {
   } catch (error) {
     response.status(500).json(error.message);
   }
-};
+}
 
 module.exports = {
   getBranch,

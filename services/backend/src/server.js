@@ -77,11 +77,6 @@ router.get(
   }
 );
 
-// User endpoints
-router.get("/user/", keycloak.protect(), user.getUser);
-router.get("/user/:id", keycloak.protect(), user.getUserById);
-router.post("/user/", keycloak.protect(), user.createUser);
-
 // Profile endpoints
 router.get("/profile/", keycloak.protect(), profile.getProfile);
 router
