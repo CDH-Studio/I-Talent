@@ -1,6 +1,4 @@
-const Models = require("../../models");
-
-const Skill = Models.skill;
+const { skill } = require("../../database/models");
 
 const utils = require("./util");
 
@@ -40,9 +38,9 @@ module.exports = search;
 
 async function getSkillNames(searchSkill, skillSearchValue) {
   await asyncForEach(searchSkill, async (skillId) => {
-    let skill = await Skill.findOne({ where: { id: skillId } }).then(
-      (data) => data.dataValues
-    );
+    let skill = await skill
+      .findOne({ where: { id: skillId } })
+      .then((data) => data.dataValues);
     skill = skill.descriptionEn;
     skillSearchValue = skillSearchValue.concat(` ${skill}`);
   });

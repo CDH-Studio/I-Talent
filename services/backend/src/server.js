@@ -3,7 +3,7 @@ const express = require("express"); // call express
 const expressHbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const { keycloak, sessionInstance } = require("./util/keycloak");
+const { keycloak, sessionInstance } = require("./auth/keycloak");
 const sequelizedb = require("./config/database");
 
 const app = express(); // define our app using express
