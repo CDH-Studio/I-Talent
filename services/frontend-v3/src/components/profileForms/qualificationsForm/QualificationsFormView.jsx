@@ -14,8 +14,10 @@ import { useHistory } from "react-router-dom";
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
-import EducationFrom from "./educationForm/EducationForm";
-import ExperienceFrom from "./experienceForm/ExperienceForm";
+import PropTypes from "prop-types";
+import EducationForm from "./educationForm/EducationForm";
+import ExperienceForm from "./experienceForm/ExperienceForm";
+import { ProfileInfoPropType } from "../../../customPropTypes";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -26,7 +28,14 @@ const { Title } = Typography;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const QualificationsFormView = (props) => {
+const QualificationsFormView = ({
+  profileInfo,
+  savedEducation,
+  savedExperience,
+  savedProjects,
+  formType,
+  load,
+}) => {
   const history = useHistory();
   const [form] = Form.useForm();
 
@@ -75,74 +84,15 @@ const QualificationsFormView = (props) => {
   };
 
   /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (formType) => {
-    if (formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              {<FormattedMessage id="button.clear" />}
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              onClick={onSaveAndFinish}
-              type="primary"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
-          </Col>
-        </Row>
-      );
-    } else if (formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button style={styles.finishAndSaveBtn} onClick={onSaveAndFinish}>
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              {<FormattedMessage id="button.clear" />}
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              {<FormattedMessage id="setup.save" />}
-            </Button>
-          </Col>
-        </Row>
-      );
-    } else {
-      console.log("Error Getting Action Buttons");
-    }
-  };
-
-  /*
    * save data to DB
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async (values) => {
+  const saveDataToDB = async unalteredValues => {
+    const values = { ...unalteredValues };
     // format education date for DB storage
     if (values.education) {
-      for (let i = 0; i < values.education.length; i++) {
+      for (let i = 0; i < values.education.length; i += 1) {
         if (values.education[i].startDate) {
           values.education[i].startDate = values.education[i].startDate.startOf(
             "month"
@@ -157,7 +107,7 @@ const QualificationsFormView = (props) => {
     }
 
     if (values.experience) {
-      for (let i = 0; i < values.experience.length; i++) {
+      for (let i = 0; i < values.experience.length; i += 1) {
         if (values.experience[i].startDate) {
           values.experience[i].startDate = values.experience[
             i
@@ -171,31 +121,33 @@ const QualificationsFormView = (props) => {
       }
     }
 
-    if (props.profileInfo) {
+    if (profileInfo) {
       // If profile exists then update profile
       try {
         await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     } else {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     }
   };
 
   /* show message */
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = type => {
     switch (type) {
       case "success":
         message.success("Changes Saved");
@@ -214,14 +166,15 @@ const QualificationsFormView = (props) => {
    *
    * save and show success notification
    */
-  const onSave = async (values) => {
+  const onSave = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
         openNotificationWithIcon("error");
       });
@@ -235,11 +188,12 @@ const QualificationsFormView = (props) => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
       });
   };
@@ -255,179 +209,275 @@ const QualificationsFormView = (props) => {
   };
 
   /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = _formType => {
+    if (_formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              <FormattedMessage id="button.clear" />
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.saveBtn}
+              onClick={onSaveAndFinish}
+              type="primary"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+    if (_formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button style={styles.finishAndSaveBtn} onClick={onSaveAndFinish}>
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              <FormattedMessage id="button.clear" />
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              <FormattedMessage id="setup.save" />
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+    // eslint-disable-next-line no-console
+    console.log("Error Getting Action Buttons");
+    return undefined;
+  };
+
+  /*
    * Get form header
    *
    * Generates the form header (title)
    */
-  const getFormHeader = (formType) => {
-    if (formType == "create") {
+  const getFormHeader = _formType => {
+    if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
           7. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
       );
-    } else {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          <FormattedMessage id="profile.employee.growth.interests" />
-        </Title>
-      );
     }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="profile.employee.growth.interests" />
+      </Title>
+    );
   };
 
   /*
    * Get the initial values for the form
    *
    */
-  const getInitialValues = (profile) => {
-    if (profile && props) {
+  const getInitialValues = profile => {
+    const hasRequiredProps = () => {
+      return savedEducation && savedExperience && savedProjects;
+    };
+    if (profile && hasRequiredProps()) {
       return {
-        education: props.savedEducation,
-        experience: props.savedExperience,
-        projects: props.savedProjects,
+        education: savedEducation,
+        experience: savedExperience,
+        projects: savedProjects,
       };
-    } else {
-      return {};
     }
+    return {};
   };
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
-  if (!props.load) {
+   *********************************** */
+  if (!load) {
     return (
       /* If form data is loading then wait */
       <div style={styles.skeleton}>
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        {/* get form title */}
-        {getFormHeader(props.formType)}
-        <Divider style={styles.headerDiv} />
-
-        {/* Create form with initial values */}
-        <Form
-          name="QualificationForm"
-          form={form}
-          initialValues={getInitialValues(props.profileInfo)}
-          layout="vertical"
-        >
-          {/* *************** Education ************** */}
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.education" />
-          </Title>
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.List name="education">
-                {(fields, { add, remove }) => {
-                  return (
-                    <div>
-                      {/* generate education form for each education item */}
-                      {fields.map((field, index) => (
-                        <EducationFrom
-                          key={field.fieldKey}
-                          form={form}
-                          field={field}
-                          remove={remove}
-                          profileInfo={props.profileInfo}
-                          style={styles}
-                        />
-                      ))}
-                      <Form.Item>
-                        {/* add education field button */}
-                        <Button
-                          type="dashed"
-                          onClick={() => {
-                            add();
-                          }}
-                          style={{ width: "100%" }}
-                        >
-                          <PlusOutlined />
-                          <FormattedMessage id="setup.add.item" />
-                        </Button>
-                      </Form.Item>
-                    </div>
-                  );
-                }}
-              </Form.List>
-            </Col>
-          </Row>
-          {/* *************** Work Experience ************** */}
-          <Divider style={styles.headerDiv} />
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.experience" />
-          </Title>
-          {/* Form Row One: Remote Work */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.List name="experience">
-                {(fields, { add, remove }) => {
-                  return (
-                    <div>
-                      {/* generate education form for each education item */}
-                      {fields.map((field, index) => (
-                        <ExperienceFrom
-                          key={field.fieldKey}
-                          form={form}
-                          field={field}
-                          remove={remove}
-                          profileInfo={props.profileInfo}
-                          style={styles}
-                        />
-                      ))}
-                      <Form.Item>
-                        {/* add education field button */}
-                        <Button
-                          type="dashed"
-                          onClick={() => {
-                            add();
-                          }}
-                          style={{ width: "100%" }}
-                        >
-                          <PlusOutlined />
-                          <FormattedMessage id="setup.add.item" />
-                        </Button>
-                      </Form.Item>
-                    </div>
-                  );
-                }}
-              </Form.List>
-            </Col>
-          </Row>
-          {/* *************** Projects ************** */}
-          <Divider style={styles.headerDiv} />
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.projects" />
-          </Title>
-          {/* Form Row Three: career mobility */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="projects"
-                label={<FormattedMessage id="setup.projects" />}
-                className="custom-bubble-select-style"
-              >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={
-                    <FormattedMessage id="setup.projects.placeholder" />
-                  }
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* *************** Control Buttons ************** */}
-          {/* Form Row Four: Submit button */}
-          {getFormControlButtons(props.formType)}
-        </Form>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      {/* get form title */}
+      {getFormHeader(formType)}
+      <Divider style={styles.headerDiv} />
+
+      {/* Create form with initial values */}
+      <Form
+        name="QualificationForm"
+        form={form}
+        initialValues={getInitialValues(profileInfo)}
+        layout="vertical"
+      >
+        {/* *************** Education ************** */}
+        <Title level={3} style={styles.formTitle}>
+          <FormattedMessage id="setup.education" />
+        </Title>
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.List name="education">
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    {/* generate education form for each education item */}
+                    {fields.map(field => (
+                      <EducationForm
+                        key={field.fieldKey}
+                        form={form}
+                        field={field}
+                        remove={remove}
+                        profileInfo={profileInfo}
+                        style={styles}
+                      />
+                    ))}
+                    <Form.Item>
+                      {/* add education field button */}
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                        }}
+                        style={{ width: "100%" }}
+                      >
+                        <PlusOutlined />
+                        <FormattedMessage id="setup.add.item" />
+                      </Button>
+                    </Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
+          </Col>
+        </Row>
+        {/* *************** Work Experience ************** */}
+        <Divider style={styles.headerDiv} />
+        <Title level={3} style={styles.formTitle}>
+          <FormattedMessage id="setup.experience" />
+        </Title>
+        {/* Form Row One: Remote Work */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.List name="experience">
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    {/* generate education form for each education item */}
+                    {fields.map(field => (
+                      <ExperienceForm
+                        key={field.fieldKey}
+                        form={form}
+                        field={field}
+                        remove={remove}
+                        profileInfo={profileInfo}
+                        style={styles}
+                      />
+                    ))}
+                    <Form.Item>
+                      {/* add education field button */}
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                        }}
+                        style={{ width: "100%" }}
+                      >
+                        <PlusOutlined />
+                        <FormattedMessage id="setup.add.item" />
+                      </Button>
+                    </Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
+          </Col>
+        </Row>
+        {/* *************** Projects ************** */}
+        <Divider style={styles.headerDiv} />
+        <Title level={3} style={styles.formTitle}>
+          <FormattedMessage id="setup.projects" />
+        </Title>
+        {/* Form Row Three: career mobility */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="projects"
+              label={<FormattedMessage id="setup.projects" />}
+              className="custom-bubble-select-style"
+            >
+              <Select
+                mode="tags"
+                style={{ width: "100%" }}
+                notFoundContent={
+                  <FormattedMessage id="setup.projects.placeholder" />
+                }
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* *************** Control Buttons ************** */}
+        {/* Form Row Four: Submit button */}
+        {getFormControlButtons(formType)}
+      </Form>
+    </div>
+  );
+};
+
+QualificationsFormView.propTypes = {
+  profileInfo: ProfileInfoPropType,
+  savedEducation: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      endDate: PropTypes.PropTypes.object,
+      school: PropTypes.string,
+      startDate: PropTypes.object,
+    })
+  ),
+  savedExperience: PropTypes.arrayOf(
+    PropTypes.shape({
+      content: PropTypes.string,
+
+      // Note: PropTypes doesn't have a good way to specify null, you have to use number instead
+      endDate: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+
+      header: PropTypes.string,
+      startDate: PropTypes.object,
+      subheader: PropTypes.string,
+    })
+  ),
+  savedProjects: PropTypes.arrayOf(PropTypes.string),
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  load: PropTypes.bool.isRequired,
+};
+
+QualificationsFormView.defaultProps = {
+  profileInfo: null,
+  savedEducation: undefined,
+  savedExperience: undefined,
+  savedProjects: undefined,
 };
 
 export default QualificationsFormView;

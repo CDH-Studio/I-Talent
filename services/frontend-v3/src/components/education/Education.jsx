@@ -1,9 +1,10 @@
 import React from "react";
-import EducationView from "./EducationView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import { ProfileInfoPropType } from "../../customPropTypes";
+import EducationView from "./EducationView";
 
-function Education(props) {
+function Education({ data }) {
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("ll");
     const formatedEndDate = moment(endDate).format("ll");
@@ -13,21 +14,21 @@ function Education(props) {
     let duration = "";
 
     if (startDate === null && endDate === null) {
-      duration = duration + dateNotProvided;
+      duration += dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + "present";
+      duration = `${duration + formatedStartDate} - present`;
     } else {
-      duration = duration + formatedStartDate + " - " + formatedEndDate;
+      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
     }
 
     return duration;
   };
 
-  const getEducationInfo = (dataSource) => {
+  const getEducationInfo = dataSource => {
     const locale = localStorage.getItem("lang") || "en";
-    let educationInfo = [];
+    const educationInfo = [];
     if (dataSource.education != null) {
-      dataSource.education.forEach((educElement) => {
+      dataSource.education.forEach(educElement => {
         const startDate = educElement.startDate[locale];
         const endDate = educElement.endDate[locale];
 
@@ -47,9 +48,11 @@ function Education(props) {
   return (
     <EducationView
       locale={localStorage.getItem("lang") || "en"}
-      educationInfo={getEducationInfo(props.data)}
+      educationInfo={getEducationInfo(data)}
     />
   );
 }
+
+Education.propTypes = { data: ProfileInfoPropType.isRequired };
 
 export default Education;

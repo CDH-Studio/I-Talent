@@ -16,6 +16,11 @@ import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
+import PropTypes from "prop-types";
+import {
+  KeyTitleOptionsPropType,
+  ProfileInfoPropType,
+} from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
 
@@ -29,7 +34,18 @@ const { SHOW_CHILD } = TreeSelect;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const TalentFormView = (props) => {
+const TalentFormView = props => {
+  const {
+    profileInfo,
+    skillOptions,
+    competencyOptions,
+    savedCompetencies,
+    savedSkills,
+    savedMentorshipSkills,
+    formType,
+    load,
+  } = props;
+
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -98,69 +114,6 @@ const TalentFormView = (props) => {
   };
 
   /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (formType) => {
-    if (formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              {<FormattedMessage id="button.clear" />}
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    } else if (formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              {<FormattedMessage id="button.clear" />}
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              {<FormattedMessage id="setup.save" />}
-            </Button>
-          </Col>
-        </Row>
-      );
-    } else {
-      console.log("Error Getting Action Buttons");
-    }
-  };
-
-  /*
    * toggle mentorship form
    *
    * toggle state that controls mentorship form visibility
@@ -174,37 +127,40 @@ const TalentFormView = (props) => {
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async (values) => {
+  const saveDataToDB = async unalteredValues => {
+    const values = { ...unalteredValues };
     if (!displayMentorshipForm) {
       // clear mentorship skills before submission
       values.mentorshipSkills = [];
     }
 
-    if (props.profileInfo) {
+    if (profileInfo) {
       // If profile exists then update profile
       try {
         await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     } else {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     }
   };
 
   /* show message */
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = type => {
     switch (type) {
       case "success":
         message.success("Changes Saved");
@@ -219,14 +175,15 @@ const TalentFormView = (props) => {
   };
 
   /* save and show success notification */
-  const onSave = async (values) => {
+  const onSave = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
         openNotificationWithIcon("error");
       });
@@ -237,14 +194,15 @@ const TalentFormView = (props) => {
    *
    * save and redirect to next step in setup
    */
-  const onSaveAndNext = async (values) => {
+  const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/6");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
       });
   };
@@ -256,11 +214,12 @@ const TalentFormView = (props) => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
       });
   };
@@ -274,7 +233,7 @@ const TalentFormView = (props) => {
     // reset form fields
     form.resetFields();
     // reset mentorship toggle switch
-    setDisplayMentorshipForm(props.savedMentorshipSkills.length > 0);
+    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
     message.info("Form Cleared");
   };
 
@@ -288,25 +247,25 @@ const TalentFormView = (props) => {
     fullSkillsOptionsList,
     selectedSkillValues
   ) => {
-    let dataTree = [];
+    const dataTree = [];
     let numbCategories = 0;
-    //iterate through all possible skill categories
-    for (var i = 0; i < fullSkillsOptionsList.length; i++) {
+    // iterate through all possible skill categories
+    for (let i = 0; i < fullSkillsOptionsList.length; i += 1) {
       let itemsFoundInCategory = 0;
       // iterate through all possible skills in each categories
-      for (var w = 0; w < fullSkillsOptionsList[i].children.length; w++) {
+      for (let w = 0; w < fullSkillsOptionsList[i].children.length; w += 1) {
         // iterate through selected skills
-        for (var k = 0; k < selectedSkillValues.length; k++) {
+        for (let k = 0; k < selectedSkillValues.length; k += 1) {
           // if selected skill matches item in all skills list
           if (
             fullSkillsOptionsList[i].children[w].value ===
             selectedSkillValues[k]
           ) {
-            itemsFoundInCategory++;
+            itemsFoundInCategory += 1;
             // if first find in skill category save the category as parent
             if (itemsFoundInCategory === 1) {
-              numbCategories++;
-              var parent = {
+              numbCategories += 1;
+              const parent = {
                 title: fullSkillsOptionsList[i].title,
                 value: fullSkillsOptionsList[i].value,
                 children: [],
@@ -314,7 +273,7 @@ const TalentFormView = (props) => {
               dataTree.push(parent);
             }
             // save skill as child in parent
-            var child = {
+            const child = {
               title: fullSkillsOptionsList[i].children[w].title,
               value: fullSkillsOptionsList[i].children[w].value,
               key: fullSkillsOptionsList[i].children[w].value,
@@ -334,11 +293,11 @@ const TalentFormView = (props) => {
    * this is used when skills are removed and mentorship skills need to be updated
    */
   const removeInvalidMentorshipOptions = (skills, mentorshipSkills) => {
-    let validatedMentorshipSkills = [];
-    //iterate through selected mentorship skill
-    for (var i = 0; i < mentorshipSkills.length; i++) {
-      //iterate through selected skills
-      for (var w = 0; w < skills.length; w++) {
+    const validatedMentorshipSkills = [];
+    // iterate through selected mentorship skill
+    for (let i = 0; i < mentorshipSkills.length; i += 1) {
+      // iterate through selected skills
+      for (let w = 0; w < skills.length; w += 1) {
         if (mentorshipSkills[i] === skills[w]) {
           validatedMentorshipSkills.push(mentorshipSkills[i]);
         }
@@ -352,14 +311,14 @@ const TalentFormView = (props) => {
    *
    * on change of skills field auto update mentorship options
    */
-  const onChangeSkills = (skillsValues) => {
+  const onChangeSkills = skillsValues => {
     // generate options for mentorship based on skills
-    const selectedSkills = generateMentorshipOptions(
-      props.skillOptions,
+    const selectedSkillsOnChangeSkills = generateMentorshipOptions(
+      skillOptions,
       skillsValues
     );
     // get selected mentorship skills
-    let mentorshipValues = form.getFieldValue("mentorshipSkills");
+    const mentorshipValues = form.getFieldValue("mentorshipSkills");
     // validate selected mentorship against skills incase skills were deleted
     const validatedMentorshipSkills = removeInvalidMentorshipOptions(
       mentorshipValues,
@@ -370,7 +329,7 @@ const TalentFormView = (props) => {
       mentorshipSkills: validatedMentorshipSkills,
     });
     // Update states
-    setSelectedSkills(selectedSkills);
+    setSelectedSkills(selectedSkillsOnChangeSkills);
   };
 
   /*
@@ -378,7 +337,7 @@ const TalentFormView = (props) => {
    *
    * Get mentorship role form based on if the form switch is toggled
    */
-  const getMentorshipForm = (expandMentorshipForm) => {
+  const getMentorshipForm = expandMentorshipForm => {
     if (expandMentorshipForm) {
       return (
         <div>
@@ -397,19 +356,19 @@ const TalentFormView = (props) => {
                 }
                 rules={[Rules.required]}
                 extra={
-                  selectedSkills.length === 0
-                    ? <FormattedMessage id="profile.mentorship.skills.empty" />
-                    : undefined
+                  selectedSkills.length === 0 ? (
+                    <FormattedMessage id="profile.mentorship.skills.empty" />
+                  ) : undefined
                 }
               >
                 <TreeSelect
                   className="talent-skill-select"
                   treeData={selectedSkills}
-                  treeCheckable={true}
+                  treeCheckable
                   showCheckedStrategy={SHOW_CHILD}
                   placeholder={<FormattedMessage id="setup.select" />}
                   treeNodeFilterProp="title"
-                  showSearch={true}
+                  showSearch
                   maxTagCount={15}
                   disabled={!selectedSkills.length > 0}
                 />
@@ -418,9 +377,8 @@ const TalentFormView = (props) => {
           </Row>
         </div>
       );
-    } else {
-      return <div />;
     }
+    return <div />;
   };
 
   /*
@@ -428,20 +386,19 @@ const TalentFormView = (props) => {
    *
    * Generates the form header (title)
    */
-  const getFormHeader = (formType) => {
-    if (formType == "create") {
+  const getFormHeader = _formType => {
+    if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
           5. <FormattedMessage id="setup.talent" />
         </Title>
       );
-    } else {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          <FormattedMessage id="setup.talent" />
-        </Title>
-      );
     }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="setup.talent" />
+      </Title>
+    );
   };
 
   /*
@@ -449,136 +406,236 @@ const TalentFormView = (props) => {
    *
    */
   const getInitialValues = () => {
-    if (props) {
+    const hasRequiredProps = () => {
+      return (
+        savedCompetencies !== undefined &&
+        savedSkills !== undefined &&
+        savedMentorshipSkills !== undefined
+      );
+    };
+    if (hasRequiredProps()) {
       return {
-        competencies: props.savedCompetencies,
-        skills: props.savedSkills,
-        mentorshipSkills: props.savedMentorshipSkills,
+        competencies: savedCompetencies,
+        skills: savedSkills,
+        mentorshipSkills: savedMentorshipSkills,
       };
-    } else {
-      return {};
     }
+    return {};
   };
 
   useEffect(() => {
     /* check if user has a skills to mentor */
-    if (props.savedMentorshipSkills) {
+    if (savedMentorshipSkills) {
       // toggle mentorship switch if there are mentorship skills saved
-      setDisplayMentorshipForm(props.savedMentorshipSkills.length > 0);
+      setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
 
       // generate a treeData to represent the skills chosen
-      const selectedSkills = generateMentorshipOptions(
-        props.skillOptions,
-        props.savedSkills
+      const generatedSelectedSkills = generateMentorshipOptions(
+        skillOptions,
+        savedSkills
       );
 
-      setSelectedSkills(selectedSkills);
+      setSelectedSkills(generatedSelectedSkills);
     }
 
     // if props change then reset form fields
-    if (props.load) {
+    if (load) {
       form.resetFields();
     }
   }, [props, form]);
 
-  /************************************
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = _formType => {
+    if (_formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              <FormattedMessage id="button.clear" />
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.finishAndNextBtn}
+              type="primary"
+              onClick={onSaveAndNext}
+            >
+              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+    if (_formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              <FormattedMessage id="button.clear" />
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              <FormattedMessage id="setup.save" />
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+    // eslint-disable-next-line no-console
+    console.log("Error Getting Action Buttons");
+    return undefined;
+  };
+
+  /** **********************************
    ********* Render Component *********
-   ************************************/
-  if (!props.load) {
+   *********************************** */
+  if (!load) {
     return (
       /* If form data is loading then wait */
       <div style={styles.skeleton}>
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        {/* get form title */}
-        {getFormHeader(props.formType)}
-        <Divider style={styles.headerDiv} />
-        {/* Create for with initial values */}
-        <Form
-          name="basicForm"
-          form={form}
-          initialValues={getInitialValues(props.profileInfo)}
-          layout="vertical"
-        >
-          {/* Form Row One:competencies */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="competencies"
-                label={
-                  <FormLabelTooltip
-                    labelText={<FormattedMessage id="setup.competencies" />}
-                    tooltipText="Extra information"
-                  />
-                }
-              >
-                <Select
-                  className="custom-bubble-select-style"
-                  mode="multiple"
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  style={{ width: "100%" }}
-                >
-                  {props.competencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Two: skills */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="skills"
-                label={
-                  <FormLabelTooltip
-                    labelText={<FormattedMessage id="setup.skills" />}
-                    tooltipText="Extra information"
-                  />
-                }
-              >
-                <TreeSelect
-                  className="custom-bubble-select-style"
-                  treeData={props.skillOptions}
-                  onChange={onChangeSkills}
-                  treeCheckable={true}
-                  showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  treeNodeFilterProp="title"
-                  showSearch={true}
-                  maxTagCount={15}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Three: mentorship role */}
-          <Row style={styles.secondLangRow} gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <FormLabelTooltip
-                labelText={
-                  <FormattedMessage id="profile.mentorship.available" />
-                }
-                tooltipText="Extra information"
-              />
-              <Switch
-                checked={displayMentorshipForm}
-                onChange={toggleMentorshipForm}
-              />
-              {getMentorshipForm(displayMentorshipForm)}
-            </Col>
-          </Row>
-          {/* Form Row Four: Submit button */}
-          {getFormControlButtons(props.formType)}
-        </Form>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      {/* get form title */}
+      {getFormHeader(formType)}
+      <Divider style={styles.headerDiv} />
+      {/* Create for with initial values */}
+      <Form
+        name="basicForm"
+        form={form}
+        initialValues={getInitialValues(profileInfo)}
+        layout="vertical"
+      >
+        {/* Form Row One:competencies */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="competencies"
+              label={
+                <FormLabelTooltip
+                  labelText={<FormattedMessage id="setup.competencies" />}
+                  tooltipText="Extra information"
+                />
+              }
+            >
+              <Select
+                className="custom-bubble-select-style"
+                mode="multiple"
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                style={{ width: "100%" }}
+              >
+                {competencyOptions.map(value => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Two: skills */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="skills"
+              label={
+                <FormLabelTooltip
+                  labelText={<FormattedMessage id="setup.skills" />}
+                  tooltipText="Extra information"
+                />
+              }
+            >
+              <TreeSelect
+                className="custom-bubble-select-style"
+                treeData={skillOptions}
+                onChange={onChangeSkills}
+                treeCheckable
+                showCheckedStrategy={SHOW_CHILD}
+                placeholder={<FormattedMessage id="setup.select" />}
+                treeNodeFilterProp="title"
+                showSearch
+                maxTagCount={15}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Three: mentorship role */}
+        <Row style={styles.secondLangRow} gutter={24}>
+          <Col className="gutter-row" span={24}>
+            <FormLabelTooltip
+              labelText={<FormattedMessage id="profile.mentorship.available" />}
+              tooltipText="Extra information"
+            />
+            <Switch
+              checked={displayMentorshipForm}
+              onChange={toggleMentorshipForm}
+            />
+            {getMentorshipForm(displayMentorshipForm)}
+          </Col>
+        </Row>
+        {/* Form Row Four: Submit button */}
+        {getFormControlButtons(formType)}
+      </Form>
+    </div>
+  );
+};
+
+TalentFormView.propTypes = {
+  profileInfo: ProfileInfoPropType,
+  skillOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      children: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string,
+          value: PropTypes.string,
+          key: PropTypes.string,
+        })
+      ),
+      title: PropTypes.string,
+      value: PropTypes.number,
+    })
+  ),
+  competencyOptions: KeyTitleOptionsPropType,
+  savedCompetencies: PropTypes.arrayOf(PropTypes.string),
+  savedSkills: PropTypes.arrayOf(PropTypes.string),
+  savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  load: PropTypes.bool.isRequired,
+};
+
+TalentFormView.defaultProps = {
+  profileInfo: null,
+  skillOptions: null,
+  competencyOptions: null,
+  savedCompetencies: undefined,
+  savedSkills: undefined,
+  savedMentorshipSkills: undefined,
 };
 
 export default TalentFormView;

@@ -1,5 +1,8 @@
 {
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
   "plugins": ["react"],
-  "rules": {}
+  "rules": {},
+  "env": {
+    "browser": true
+  }
 }
