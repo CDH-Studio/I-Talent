@@ -1,14 +1,16 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import FormLabelTooltipView from "./FormLabelTooltipView";
 
-function FormLabelTooltip(props) {
+const FormLabelTooltip = ({ labelText, tooltipText }) => {
   return (
-    <FormLabelTooltipView
-      labelText={props.labelText}
-      tooltipText={props.tooltipText}
-    ></FormLabelTooltipView>
+    <FormLabelTooltipView labelText={labelText} tooltipText={tooltipText} />
   );
-}
+};
+
+FormLabelTooltip.propTypes = {
+  labelText: PropTypes.string.isRequired,
+  tooltipText: PropTypes.string.isRequired,
+};
 
 export default FormLabelTooltip;
