@@ -1,17 +1,22 @@
+import PropTypes from "prop-types";
 import React from "react";
-import {} from "antd";
 import ResultLayoutView from "./ResultLayoutView";
 
-function ResultLayout(props) {
+const ResultLayout = ({ changeLanguage, history, children }) => {
   return (
     <ResultLayoutView
-      changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      history={props.history}
+      changeLanguage={changeLanguage}
+      history={history}
     >
-      {props.children}
+      {children}
     </ResultLayoutView>
   );
+};
+
+ResultLayout.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  history: PropTypes.isRequired,
 }
 
 export default ResultLayout;
