@@ -1,8 +1,23 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 
-const admin = require("./index");
-const reporting = require("./reporting");
+const {
+  getOption,
+  getCategories,
+  getFlagged,
+  getInactive,
+  getUser,
+  checkAdmin,
+  deleteOption,
+  createOption,
+  bulkDeleteOption,
+  updateOption,
+  updateFlagged,
+  updateInactive,
+  updateProfileStatus,
+} = require("../../core/admin/admin");
+
+const reporting = require("../../core/admin/reporting/index");
 
 // FIXME fix this error
 const catchAdminCheck = (token) => {
@@ -21,56 +36,53 @@ const adminRouter = Router();
 adminRouter.get(
   "/options/:type",
   keycloak.protect("view-admin-console"),
-  admin.getOption
+  getOption
 );
 
 adminRouter.get(
   "/options/categories/:type",
   keycloak.protect("view-admin-console"),
-  admin.getCategories
+  getCategories
 );
 
 adminRouter.get(
   "/flagged/:id",
   keycloak.protect("view-admin-console"),
-  admin.getFlagged
+  getFlagged
 );
+
 adminRouter.get(
   "/inactive/:id",
   keycloak.protect("view-admin-console"),
-  admin.getInactive
+  getInactive
 );
-adminRouter.get("/user", keycloak.protect("view-admin-console"), admin.getUser);
-adminRouter.get("/check", keycloak.protect(catchAdminCheck), admin.checkAdmin);
+
+adminRouter.get("/user", keycloak.protect("view-admin-console"), getUser);
+
+adminRouter.get("/check", keycloak.protect(catchAdminCheck), checkAdmin);
+
 adminRouter.post(
   "/options/:type",
   keycloak.protect("manage-options"),
-  admin.createOption
+  createOption
 );
+
 adminRouter.post(
   "/delete/:type",
   keycloak.protect("manage-options"),
-  admin.bulkDeleteOption
+  bulkDeleteOption
 );
-adminRouter.put(
-  "/profileStatus",
-  keycloak.protect(),
-  admin.updateProfileStatus
-);
+
+adminRouter.put("/profileStatus", keycloak.protect(), updateProfileStatus);
+
 adminRouter
   .route("/options/:type/:id")
-  .put(keycloak.protect("manage-options"), admin.updateOption)
-  .delete(keycloak.protect("manage-options"), admin.deleteOption);
-adminRouter.put(
-  "/flagged",
-  keycloak.protect("manage-users"),
-  admin.updateFlagged
-);
-adminRouter.put(
-  "/inactive",
-  keycloak.protect("manage-users"),
-  admin.updateInactive
-);
+  .put(keycloak.protect("manage-options"), updateOption)
+  .delete(keycloak.protect("manage-options"), deleteOption);
+
+adminRouter.put("/flagged", keycloak.protect("manage-users"), updateFlagged);
+
+adminRouter.put("/inactive", keycloak.protect("manage-users"), updateInactive);
 
 adminRouter.get("/dashboard", reporting.get.statistics);
 

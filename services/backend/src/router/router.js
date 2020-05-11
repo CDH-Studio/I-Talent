@@ -15,9 +15,9 @@ router.get("/", (req, res) => {
 
 router.use("/admin/", adminRouter);
 router.use("/option/", optionsRouter);
-router.get("/profile/", profileRouter);
-router.get("/profGen/", profileGenRouter);
-router.get("/search/", searchRouter);
-router.get("/user/", userRouter);
+router.use("/profile/", profileRouter);
+router.use("/profGen/", profileGenRouter);
+router.use("/search/", searchRouter);
+router.use("/user/", userRouter);
 
 module.exports = router;

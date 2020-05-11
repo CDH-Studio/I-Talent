@@ -2,6 +2,27 @@ const { skill } = require("../../database/models");
 
 const utils = require("./util");
 
+// FIXME remove the await from inside the loop
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index]);
+  }
+}
+
+// FIXME refactor this form
+async function getSkillNames(searchSkill, skillSearchValue) {
+  await asyncForEach(searchSkill, async (skillId) => {
+    let findSkills = await skill
+      .findOne({ where: { id: skillId } })
+      .then((data) => data.dataValues);
+
+    findSkills = findSkills.descriptionEn;
+
+    skillSearchValue = skillSearchValue.concat(` ${skill}`);
+  });
+  return skillSearchValue;
+}
+
 async function search(request, response) {
   const { query } = request;
 
@@ -35,24 +56,6 @@ async function search(request, response) {
   response.status(200).json(results);
 }
 
-async function getSkillNames(searchSkill, skillSearchValue) {
-  await asyncForEach(searchSkill, async (skillId) => {
-    let skill = await skill
-      .findOne({ where: { id: skillId } })
-      .then((data) => data.dataValues);
-    skill = skill.descriptionEn;
-    skillSearchValue = skillSearchValue.concat(` ${skill}`);
-  });
-  return skillSearchValue;
-}
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index]);
-  }
-}
-
 module.exports = {
   search,
-  getSkillNames,
 };

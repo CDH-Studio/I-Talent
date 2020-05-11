@@ -4,6 +4,7 @@ const getGedsProfile = require("./util/getGedsProfile");
 const User = Models.user;
 const Location = Models.location;
 
+// FIXME fix the errors and refactor.
 async function getGedsAssist(request, response) {
   id = request.params.id;
   user = await User.findOne({ where: { id } }).then(async (user) => {

@@ -1,5 +1,4 @@
-// Import the packages we need
-const express = require("express"); // call express
+const express = require("express");
 const expressHbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
@@ -46,18 +45,18 @@ app.use(bodyParser.json());
 
 const port = process.env.PORT || 8080;
 
-router.get(
-  "/getEmployeeInfo/:searchValue",
-  keycloak.protect(),
-  async (req, res) => {
-    const { searchValue } = req.params;
-    const data = await geds.getEmployeeInfo(searchValue);
-    res.json(JSON.parse(data.body));
-  }
-);
+// FIXME: create the get employee info function
+// router.get(
+//   "/getEmployeeInfo/:searchValue",
+//   keycloak.protect(),
+//   async (req, res) => {
+//     const { searchValue } = req.params;
+//     const data = await geds.getEmployeeInfo(searchValue);
+//     res.json(JSON.parse(data.body));
+//   }
+// );
 
 app.use("/api", router);
-
 app.use(keycloak.middleware({ logout: "/" }));
 app.listen(port);
 console.log(`Magic happens on port ${port}`);
