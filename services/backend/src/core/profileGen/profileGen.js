@@ -1,10 +1,10 @@
-const Models = require("../../models");
+const Models = require("../../database/models");
+const getGedsProfile = require("./util/getGedsProfile");
 
 const User = Models.user;
 const Location = Models.location;
-const getGedsProfile = require("./util/getGedsProfile");
 
-const getGedsAssist = async (request, response) => {
+async function getGedsAssist(request, response) {
   id = request.params.id;
   user = await User.findOne({ where: { id } }).then(async (user) => {
     user = user.dataValues;
@@ -70,7 +70,7 @@ const getGedsAssist = async (request, response) => {
     const profiles = await Promise.all(promise);
     response.status(200).send(profiles);
   });
-};
+}
 
 module.exports = {
   getGedsAssist,

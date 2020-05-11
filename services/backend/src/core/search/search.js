@@ -2,7 +2,7 @@ const { skill } = require("../../database/models");
 
 const utils = require("./util");
 
-const search = async (request, response) => {
+async function search(request, response) {
   const { query } = request;
 
   const searchSkill = query.skills;
@@ -33,7 +33,7 @@ const search = async (request, response) => {
   if (query.exFeeder === "true") results = utils.exFeederSearch(results);
 
   response.status(200).json(results);
-};
+}
 
 async function getSkillNames(searchSkill, skillSearchValue) {
   await asyncForEach(searchSkill, async (skillId) => {
@@ -52,4 +52,7 @@ async function asyncForEach(array, callback) {
   }
 }
 
-module.exports = search;
+module.exports = {
+  search,
+  getSkillNames,
+};

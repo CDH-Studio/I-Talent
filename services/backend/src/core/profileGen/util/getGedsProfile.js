@@ -73,4 +73,4 @@ async function getGedsProfile(searchValue) {
   });
 }
 
-module.exports = getGedsProfile;
+module.exports = { getGedsProfile };

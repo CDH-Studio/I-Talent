@@ -7,6 +7,7 @@ function generateNameInitials(name) {
   return name.substring(0, 1) + name.substring(i, i + 1);
 }
 
+// FIXME: Refactor
 function generateAvatarColor(userAcronym) {
   let hash = 0;
   const s = 90;
