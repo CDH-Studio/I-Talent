@@ -10,17 +10,26 @@ import {
   TrophyOutlined,
   BankFilled,
 } from "@ant-design/icons";
-import AppLayout from "../appLayout/AppLayout";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import Keycloak from "keycloak-js";
+import AppLayout from "../appLayout/AppLayout";
 
 /**
  *  AdminLayoutView(props)
  *  Render the layout for the Admin Side.
  */
-function AdminLayoutView(props) {
-  const { type } = props;
+const AdminLayoutView = (props) => {
+  const {
+    type,
+    changeLanguage,
+    intl,
+    keycloak,
+    displaySideBar,
+    children,
+  } = props;
 
-  let history = useHistory();
+  const history = useHistory();
 
   /* get corresponding page key based on table type */
   const getPageKey = () => {
@@ -75,7 +84,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="1">
           <DashboardOutlined />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.dashboard",
               defaultMessage: "Dashboard",
             })}
@@ -84,7 +93,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="2">
           <SolutionOutlined />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.user.plural",
               defaultMessage: "Users",
             })}
@@ -93,7 +102,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="3">
           <AppstoreAddOutlined />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.category.plural",
               defaultMessage: "Categories",
             })}
@@ -102,7 +111,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="4">
           <ToolOutlined />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.skill.plural",
               defaultMessage: "Skills",
             })}
@@ -111,7 +120,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="5">
           <FlagOutlined />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.competency.plural",
               defaultMessage: "Competencies",
             })}
@@ -120,7 +129,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="6">
           <TrophyOutlined />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.diploma.plural",
               defaultMessage: "Diplomas",
             })}
@@ -129,7 +138,7 @@ function AdminLayoutView(props) {
         <Menu.Item key="7">
           <BankFilled />
           <span>
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.school.plural",
               defaultMessage: "Schools",
             })}
@@ -142,14 +151,32 @@ function AdminLayoutView(props) {
   /* Uses the AppLayout */
   return (
     <AppLayout
-      changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      history={props.history}
-      displaySideBar={props.displaySideBar}
+      changeLanguage={changeLanguage}
+      keycloak={keycloak}
+      history={history}
+      displaySideBar={displaySideBar}
       sideBarContent={sideBarContent()}
     >
-      {props.children}
+      {children}
     </AppLayout>
   );
-}
+};
+
+AdminLayoutView.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+  displaySideBar: PropTypes.bool.isRequired,
+  type: PropTypes.oneOf([
+    "dashboard",
+    "user",
+    "category",
+    "skill",
+    "competency",
+    "diploma",
+    "school",
+  ]).isRequired,
+  children: PropTypes.node.isRequired,
+  intl: PropTypes.isRequired,
+  keycloak: PropTypes.instanceOf(Keycloak).isRequired,
+};
+
 export default injectIntl(AdminLayoutView);

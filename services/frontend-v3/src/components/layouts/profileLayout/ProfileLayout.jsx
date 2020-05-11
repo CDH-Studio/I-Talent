@@ -1,17 +1,21 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ProfileLayoutView from "./ProfileLayoutView";
 
-function ProfileLayout(props) {
-  const data = props.data;
+const ProfileLayout = ({ data, displaySideBar, changeLanguage }) => {
   return (
     <ProfileLayoutView
-      changeLanguage={props.changeLanguage}
-      displaySideBar={props.displaySideBar}
-      // sideBarContent={sideBarContent}
+      changeLanguage={changeLanguage}
+      displaySideBar={displaySideBar}
       data={data}
-    ></ProfileLayoutView>
+    />
   );
-}
+};
 
-//Needed when using this.props.intl
+ProfileLayout.propTypes = {
+  data: PropTypes.isRequired,
+  displaySideBar: PropTypes.bool.isRequired,
+  changeLanguage: PropTypes.func.isRequired,
+};
+
 export default ProfileLayout;
