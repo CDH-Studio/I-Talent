@@ -1,30 +1,29 @@
-import React from "react";
-import { Form } from "@ant-design/compatible";
-import "@ant-design/compatible/assets/index.css";
-import ResultLayout from "../components/resultsLayout/ResultLayout";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
-class Results extends React.Component {
-  goto = (link) => this.props.history.push(link);
+import Keycloak from "keycloak-js";
+import ResultLayout from "../components/resultsLayout/ResultLayout";
 
-  constructor(props) {
-    super(props);
-
+const Results = ({ changeLanguage, keycloak, history }) => {
+  useEffect(() => {
     document.title = "Results | I-Talent";
-  }
+  }, []);
 
-  render() {
-    return (
-      <ResultLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={true}
-        //sideBarContent={this.props.sideBarContent}
-      ></ResultLayout>
-    );
-  }
-}
+  return (
+    <ResultLayout
+      changeLanguage={changeLanguage}
+      keycloak={keycloak}
+      history={history}
+      displaySideBar
+    />
+  );
+};
 
-//Needed when using this,props.intl
-Results = Form.create({})(Results);
+// TODO: Remove keycloak once ResultLayout is cleaned up
+Results.propTypes = {
+  keycloak: PropTypes.instanceOf(Keycloak).isRequired,
+  changeLanguage: PropTypes.func.isRequired,
+  history: PropTypes.isRequired,
+};
+
 export default injectIntl(Results);
