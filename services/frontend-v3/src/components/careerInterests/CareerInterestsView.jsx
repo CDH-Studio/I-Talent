@@ -1,9 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-
+import PropTypes from "prop-types";
 import { Row, Col, List, Tag, Typography } from "antd";
 
-function CareerInterestsView(props) {
+const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
   const generateCareerInterestsInfoList = (dataSource) => {
     return (
       <List
@@ -27,6 +27,7 @@ function CareerInterestsView(props) {
           </Typography.Text>
           <div style={{ marginTop: "7px" }}>
             {dataSource.map((loc, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <Tag color="#00c15b" key={index}>
                 {loc}
               </Tag>
@@ -34,19 +35,23 @@ function CareerInterestsView(props) {
           </div>
         </div>
       );
-    } else {
-      return <div />;
     }
+    return <div />;
   };
 
   return (
     <Row>
       <Col span={24}>
-        {generateCareerInterestsInfoList(props.info)}
-        {generateRelocationLocationsInfoList(props.relocationLocationsInfo)}
+        {generateCareerInterestsInfoList(info)}
+        {generateRelocationLocationsInfoList(relocationLocationsInfo)}
       </Col>
     </Row>
   );
-}
+};
+
+CareerInterestsView.propTypes = {
+  info: PropTypes.isRequired,
+  relocationLocationsInfo: PropTypes.isRequired,
+};
 
 export default CareerInterestsView;
