@@ -3,15 +3,16 @@ const { keycloak } = require("../../auth/keycloak");
 
 const {
   getProfile,
-  getPrivateProfileById,
-  getPublicProfileById,
   getProfileStatusById,
-  createProfile,
   updateProfile,
+  createProfile,
 } = require("../../core/profile/profile");
+const { getPublicProfileById } = require("../../core/profile/publicProfile");
+const { getPrivateProfileById } = require("../../core/profile/privateProfile");
 
 const profileRouter = Router();
 
+// Profile endpoints
 profileRouter.get("/", keycloak.protect(), getProfile);
 
 profileRouter
@@ -20,7 +21,7 @@ profileRouter
   .post(keycloak.protect(), createProfile)
   .put(keycloak.protect(), updateProfile);
 
-// FIXME: Change frontend api to profile/private instead of private/profile
+// TODO: Change frontend api to profile/private instead of private/profile
 profileRouter
   .route("/private/:id")
   .get(keycloak.protect(), getPrivateProfileById);

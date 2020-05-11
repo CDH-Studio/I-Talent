@@ -344,6 +344,9 @@ async function updateProfile(request, response) {
     return response.status(500).send(error.message);
   }
 }
+async function getProfile(response) {
+  response.status(200).json(await Profile.findAll());
+}
 
 async function getProfileStatusById(request, response) {
   const { id } = request.params;
@@ -357,4 +360,5 @@ module.exports = {
   createProfile,
   getProfileStatusById,
   updateProfile,
+  getProfile,
 };
