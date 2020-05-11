@@ -18,6 +18,7 @@
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
+    "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.13.1",

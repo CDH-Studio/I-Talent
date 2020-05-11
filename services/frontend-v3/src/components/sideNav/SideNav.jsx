@@ -1,13 +1,19 @@
 import React from "react";
+import PropTypes from "prop-types";
 import SideNavView from "./SideNavView";
 
-function SideNav(props) {
+const SideNav = ({ sideBarContent, displaySideBar }) => {
   return (
     <SideNavView
-      sideBarContent={props.sideBarContent}
-      displaySideBar={props.displaySideBar}
-    ></SideNavView>
+      sideBarContent={sideBarContent}
+      displaySideBar={displaySideBar}
+    />
   );
-}
+};
+
+SideNav.propTypes = {
+  displaySideBar: PropTypes.bool.isRequired,
+  sideBarContent: PropTypes.node.isRequired,
+};
 
 export default SideNav;
