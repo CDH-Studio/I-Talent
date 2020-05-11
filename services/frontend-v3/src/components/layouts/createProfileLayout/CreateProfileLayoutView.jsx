@@ -25,7 +25,7 @@ const { Step } = Steps;
  *  Render the layout for the create profile forms
  */
 const CreateProfileLayoutView = (props) => {
-  const { keycloak, changeLanguage, formStep, intl } = props;
+  const { changeLanguage, formStep, intl } = props;
   const history = useHistory();
   const [profileExists, setProfileExists] = useState(false);
 
@@ -228,8 +228,6 @@ const CreateProfileLayoutView = (props) => {
   return (
     <AppLayout
       changeLanguage={changeLanguage}
-      keycloak={keycloak}
-      displaySideBar
       sideBarContent={sideBarContent}
       displaySideBar
     >
@@ -246,7 +244,6 @@ const CreateProfileLayoutView = (props) => {
 };
 
 CreateProfileLayoutView.propTypes = {
-  keycloak: PropTypes.isRequired,
   changeLanguage: PropTypes.isRequired,
   formStep: PropTypes.isRequired,
   intl: PropTypes.isRequired,

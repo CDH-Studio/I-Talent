@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Keycloak from "keycloak-js";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
 
 /**
@@ -8,12 +7,11 @@ import CreateProfileLayoutView from "./CreateProfileLayoutView";
  *  Controller for the Create Profile Layout.
  */
 const CreateProfileLayout = (props) => {
-  const { keycloak, changeLanguage, step } = props;
+  const { changeLanguage, step } = props;
 
   return (
     <CreateProfileLayoutView
       changeLanguage={changeLanguage}
-      keycloak={keycloak}
       formStep={step}
     />
   );
@@ -21,7 +19,6 @@ const CreateProfileLayout = (props) => {
 
 CreateProfileLayout.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  keycloak: PropTypes.instanceOf(Keycloak).isRequired,
   step: PropTypes.isRequired,
 };
 
