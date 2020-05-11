@@ -1,11 +1,10 @@
 import React from "react";
-import ExperienceView from "./ExperienceView";
+import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import ExperienceView from "./ExperienceView";
 
-function Experience(props) {
-  const data = props.data;
-
+const Experience = ({ data }) => {
   const getExperienceDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("ll");
     const formatedEndDate = moment(endDate).format("ll");
@@ -15,22 +14,22 @@ function Experience(props) {
     let duration = "";
 
     if (startDate === null && endDate === null) {
-      duration = duration + dateNotProvided;
+      duration += dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + "present";
+      duration = `${duration + formatedStartDate} - present`;
     } else {
-      duration = duration + formatedStartDate + " - " + formatedEndDate;
+      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
     }
 
     return duration;
   };
 
   const getExperienceInfo = (dataSource) => {
-    let experienceInfo = [];
+    const experienceInfo = [];
     if (dataSource.education != null) {
       dataSource.careerSummary.forEach((expElement) => {
-        const startDate = expElement.startDate;
-        const endDate = expElement.endDate;
+        const { startDate } = expElement;
+        const { endDate } = expElement;
 
         const experience = {
           description: expElement.content,
@@ -47,9 +46,11 @@ function Experience(props) {
     return [...experienceInfo];
   };
 
-  return (
-    <ExperienceView data={data} experienceInfo={getExperienceInfo(data)} />
-  );
-}
+  return <ExperienceView experienceInfo={getExperienceInfo(data)} />;
+};
+
+Experience.propTypes = {
+  data: PropTypes.isRequired,
+};
 
 export default Experience;

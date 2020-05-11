@@ -1,35 +1,24 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
 import ExperienceItem from "./experienceItem/ExperienceItem";
 
-function ExperienceView(props) {
-  /* Component Styles */
-  const styles = {
-    card: {
-      height: "100%",
-    },
-  };
-  const generateExperienceInfoList = (dataSource) => {
-    return (
-      <List
-        itemLayout="vertical"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <ExperienceItem item={item}/>
-        )}
-      />
-    );
-  };
-
-  const experienceInfo = props.experienceInfo;
-
+const ExperienceView = ({ experienceInfo }) => {
   return (
     <Row>
       <Col xs={24} lg={24}>
-        {generateExperienceInfoList(experienceInfo)}
+        <List
+          itemLayout="vertical"
+          dataSource={experienceInfo}
+          renderItem={(item) => <ExperienceItem item={item} />}
+        />
       </Col>
     </Row>
   );
-}
+};
+
+ExperienceView.propTypes = {
+  experienceInfo: PropTypes.isRequired,
+};
 
 export default ExperienceView;
