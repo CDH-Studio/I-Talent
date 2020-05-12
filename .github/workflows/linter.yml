@@ -2,69 +2,72 @@ name: Linter
 
 on:
   push:
-    branches: [ master ]
+    branches: [master, development]
   pull_request:
-    branches: [ master ]
+    branches: [master, development]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-
-    - name: Cache NPM
-      uses: actions/cache@v1
-      id: npm-cache
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('services/backend/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
-    - name: Get Yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - name: Cache Yarn
-      uses: actions/cache@v1
-      id: yarn-cache
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('services/frontend-v3/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-
   frontend:
-    needs: setup
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: services/frontend-v3
-    steps:        
-    - name: Installing Yarn dependencies
-      run: yarn
-    
-    - name: Run linter
-      run: yarn lint
+        working-directory: ./services/frontend-v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Get Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache Yarn
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('services/frontend-v3/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Installing Yarn dependencies
+        run: yarn
+
+      - name: Run linter
+        run: yarn lint
 
   backend:
-    needs: setup
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: services/frontend-v3
-    steps:        
-    - name: Installing NPM dependencies
-      run: npm install
-    
-    - name: Run linter
-      run: npm run lint
+        working-directory: ./services/backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Cache NPM
+        uses: actions/cache@v1
+        id: npm-cache
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('services/backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Installing NPM dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
