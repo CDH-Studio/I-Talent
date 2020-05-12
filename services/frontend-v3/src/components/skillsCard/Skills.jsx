@@ -8,10 +8,6 @@ const Skills = ({ data }) => {
 
     const categorizedList = {};
 
-    Skills.propTypes = {
-      data: PropTypes.isRequired,
-    };
-
     if (list) {
       list.forEach((listElement) => {
         const key = listElement.description.categoryId;
@@ -79,6 +75,10 @@ const Skills = ({ data }) => {
       categoriesSkills={setUpCategories(data.skills)}
     />
   );
+};
+
+Skills.propTypes = {
+  data: PropTypes.isRequired,
 };
 
 export default Skills;

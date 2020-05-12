@@ -1,11 +1,13 @@
+/* eslint-disable no-shadow */
 import React from "react";
+import PropTypes from "prop-types";
 import { Tag, Collapse, Empty } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 
 const { Panel } = Collapse;
 
-function SkillsView(props) {
+function SkillsView({ categoriesSkills, skills }) {
   /*
    * Generate Skills Collapse
    *
@@ -45,7 +47,11 @@ function SkillsView(props) {
     );
   };
 
-  return generateSkillsCollapse(props.categoriesSkills, props.skills);
+  return generateSkillsCollapse(categoriesSkills, skills);
 }
 
+SkillsView.propTypes = {
+  categoriesSkills: PropTypes.arrayOf(PropTypes.string).isRequired,
+  skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 export default SkillsView;
