@@ -1,9 +1,9 @@
 const moment = require("moment");
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
 const Profiles = Models.profile; // Profiles Table
 
-const growthRateByWeek = async () => {
+async function growthRateByWeek() {
   let countNewUsers = [];
 
   const profiles = await Profiles.findAll({
@@ -23,6 +23,6 @@ const growthRateByWeek = async () => {
   countNewUsers = Array.from(countNewUsers, (item) => item || 0);
 
   return countNewUsers;
-};
+}
 
 module.exports = growthRateByWeek;

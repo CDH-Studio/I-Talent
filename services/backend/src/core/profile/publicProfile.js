@@ -4,7 +4,7 @@ const { profile } = require("../../database/models");
 
 // Get the Profile's education history and format the result
 const getEducationHelper = async (getProfile) => {
-  const education = await profile.getEducation({
+  const education = await getProfile.getEducation({
     order: [["startDate", "DESC"]],
   });
   return Promise.all(
@@ -41,7 +41,7 @@ const getEducationHelper = async (getProfile) => {
 
 // Get the Profile's experience history and format the result
 const getExperiencesHelper = async (getProfile) => {
-  const experiences = await profile.getExperiences({
+  const experiences = await getProfile.getExperiences({
     order: [["startDate", "DESC"]],
   });
   return experiences.map((experience) => {

@@ -1,9 +1,9 @@
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
 const { sequelize } = Models;
 const getTopFive = require("./getTopFive");
 
-const countCompetencyProfiles = async () => {
+async function countCompetencyProfiles() {
   const profileCompetencies = await sequelize.query(
     `SELECT
         "skill"."id",
@@ -26,6 +26,6 @@ const countCompetencyProfiles = async () => {
   const topFiveCompetencies = getTopFive(profileCompetencies[0]);
 
   return topFiveCompetencies;
-};
+}
 
 module.exports = countCompetencyProfiles;

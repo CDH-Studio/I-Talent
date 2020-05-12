@@ -1,17 +1,4 @@
-const {
-  careerMobility,
-  competency,
-  diploma,
-  groupLevel,
-  keyCompetency,
-  location,
-  school,
-  securityClearance,
-  skill,
-  category,
-  talentManager,
-  tenure,
-} = require("../../database/models");
+const { category, tenure } = require("../../database/models");
 
 async function deleteOption(request, response) {
   try {

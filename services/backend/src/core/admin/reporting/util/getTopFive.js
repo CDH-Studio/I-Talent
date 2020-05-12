@@ -1,4 +1,4 @@
-const getTopFive = (talents) => {
+function getTopFive(talents) {
   const topFive = [];
 
   talents.slice(0, 5).forEach((talent) => {
@@ -11,6 +11,6 @@ const getTopFive = (talents) => {
   });
 
   return topFive;
-};
+}
 
 module.exports = getTopFive;

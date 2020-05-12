@@ -1,11 +1,11 @@
 const Sequelize = require("sequelize");
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
 const Skills = Models.skill; // Skills Table
 const Profiles = Models.profile; // Profiles Table
 const getTopFive = require("./getTopFive");
 
-const countSkillProfiles = async () => {
+async function countSkillProfiles() {
   const profileSkills = await Skills.findAll({
     // {Skill ID (id) , descriptionEn, descriptionFr, Count Profile Occurences (countOccurences)}
     group: ["skill.id"],
@@ -29,6 +29,6 @@ const countSkillProfiles = async () => {
   const topFiveSkills = getTopFive(profileSkills);
 
   return topFiveSkills;
-};
+}
 
 module.exports = countSkillProfiles;

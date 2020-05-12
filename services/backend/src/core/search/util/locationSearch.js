@@ -1,4 +1,4 @@
-const locationSearch = async (profiles, locationArray) => {
+async function locationSearch(profiles, locationArray) {
   const locationProf = [];
 
   profiles.forEach((profile) => {
@@ -8,6 +8,6 @@ const locationSearch = async (profiles, locationArray) => {
     if (locationArray.includes(locationId)) locationProf.push(profile);
   });
   return locationProf;
-};
+}
 
 module.exports = locationSearch;

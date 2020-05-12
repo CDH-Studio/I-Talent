@@ -1,9 +1,10 @@
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
 const { sequelize } = Models;
 const getTopFive = require("./getTopFive");
 
-const countDevelopmentGoals = async () => {
+// FIXME: Dont run inline query
+async function countDevelopmentGoals() {
   const profileDevelopmentGoals = await sequelize.query(
     `SELECT 
           "skill"."id",
@@ -24,6 +25,6 @@ const countDevelopmentGoals = async () => {
   const topFiveDevelopmentGoals = getTopFive(profileDevelopmentGoals[0]);
 
   return topFiveDevelopmentGoals;
-};
+}
 
 module.exports = countDevelopmentGoals;

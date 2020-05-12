@@ -1,13 +1,12 @@
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
-const Profiles = Models.profile; // Profiles Table
-
-const flaggedProfiles = async () => {
+const Profiles = Models.profile;
+async function flaggedProfiles() {
   const flag = await Profiles.findAll({
     where: { flagged: true },
     attributes: ["id", "firstName", "lastName"],
   });
   return flag;
-};
+}
 
 module.exports = flaggedProfiles;

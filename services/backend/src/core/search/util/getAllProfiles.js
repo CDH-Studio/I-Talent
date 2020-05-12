@@ -1,54 +1,15 @@
 const moment = require("moment");
 const Fuse = require("fuse.js");
 
-const Models = require("../../../models");
+const Models = require("../../../database/models");
 
 const Profile = Models.profile;
 const User = Models.user;
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-const getAllProfiles = async (searchValue) => {
-  const profiles = await Profile.findAll({
-    attributes: [
-      "id",
-      "branchEn",
-      "firstName",
-      "lastName",
-      "jobTitleEn",
-      "jobTitleFr",
-      "telephone",
-      "cellphone",
-      "manager",
-      "team",
-      "groupLevelId",
-      "locationId",
-      "actingId",
-      "exFeeder",
-      "flagged",
-      "visibleCards",
-    ],
-    include: [
-      { model: User, attributes: ["inactive"], where: { inactive: false } },
-    ],
-    where: {
-      flagged: false,
-    },
-  });
-  const allProf = await _getProfs(profiles, searchValue).then((profs) => profs);
 
-  return allProf;
-};
-
-_getProfs = (profiles, searchValue) => {
-  return Promise.all(
-    profiles.map((profile) => {
-      return _getProf(profile, searchValue);
-    })
-  );
-};
-
-_getProf = async (profile, searchValue) => {
+function getProf(profile, searchValue){
   const user = await profile.getUser({
     attributes: ["email", "avatarColor", "nameInitials"],
   });
@@ -228,5 +189,45 @@ _getProf = async (profile, searchValue) => {
   };
   return resData;
 };
+
+function getProfs(profiles, searchValue) {
+  return Promise.all(
+    profiles.map((profile) => {
+      return getProf(profile, searchValue);
+    })
+  );
+}
+
+async function getAllProfiles(searchValue) {
+  const profiles = await Profile.findAll({
+    attributes: [
+      "id",
+      "branchEn",
+      "firstName",
+      "lastName",
+      "jobTitleEn",
+      "jobTitleFr",
+      "telephone",
+      "cellphone",
+      "manager",
+      "team",
+      "groupLevelId",
+      "locationId",
+      "actingId",
+      "exFeeder",
+      "flagged",
+      "visibleCards",
+    ],
+    include: [
+      { model: User, attributes: ["inactive"], where: { inactive: false } },
+    ],
+    where: {
+      flagged: false,
+    },
+  });
+  const allProf = await getProfs(profiles, searchValue).then((profs) => profs);
+
+  return allProf;
+}
 
 module.exports = getAllProfiles;

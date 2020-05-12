@@ -1,6 +1,6 @@
 const Fuse = require("fuse.js");
 
-const fuzzySearch = async (profiles, searchValue) => {
+async function fuzzySearch(profiles, searchValue) {
   const options = {
     shouldSort: true,
     threshold: 0.3,
@@ -41,6 +41,6 @@ const fuzzySearch = async (profiles, searchValue) => {
   const fuse = new Fuse(profiles, options);
   const results = fuse.search(searchValue);
   return results;
-};
+}
 
 module.exports = fuzzySearch;

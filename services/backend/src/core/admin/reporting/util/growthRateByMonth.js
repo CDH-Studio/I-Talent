@@ -1,9 +1,9 @@
 const moment = require("moment");
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
 const Profiles = Models.profile; // Profiles Table
 
-const growthRateByMonth = async () => {
+async function growthRateByMonth() {
   // Object Structure: {Year, Data: [{Month, # of Occurrences}]}
   let monthlyGrowthRate = [];
 
@@ -141,6 +141,6 @@ const growthRateByMonth = async () => {
     current_month_additions,
     growthRateFromPreviousMonth,
   };
-};
+}
 
 module.exports = growthRateByMonth;

@@ -1,9 +1,9 @@
-const Models = require("../../../../models");
+const Models = require("../../../../database/models");
 
 const User = Models.user;
 const Profile = Models.profile;
 
-const dashboardCount = async () => {
+async function dashboardCount() {
   try {
     const flagged = await Profile.count({
       where: { flagged: true },
@@ -23,6 +23,6 @@ const dashboardCount = async () => {
   } catch (error) {
     throw new Error("Count failed");
   }
-};
+}
 
 module.exports = dashboardCount;

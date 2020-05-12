@@ -1,4 +1,4 @@
-const skillSearch = async (profiles, skillarray) => {
+async function skillSearch(profiles, skillarray) {
   const skillProf = [];
   profiles.forEach((profile) => {
     if (!profile.skills) return;
@@ -7,6 +7,6 @@ const skillSearch = async (profiles, skillarray) => {
     if (skillIds.some((id) => skillarray.includes(id))) skillProf.push(profile);
   });
   return skillProf;
-};
+}
 
 module.exports = skillSearch;

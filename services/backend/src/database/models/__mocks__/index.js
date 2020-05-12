@@ -1,4 +1,5 @@
 // Import the mock library
+// eslint-disable-next-line node/no-unpublished-require
 const SequelizeMock = require("sequelize-mock");
 
 // Setup the mock database connection

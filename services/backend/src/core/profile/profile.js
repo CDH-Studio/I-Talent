@@ -34,7 +34,7 @@ async function createProfile(request, response) {
   if (dbObject.locationId.id) dbObject.locationId = dbObject.locationId.id;
 
   try {
-    const [profile, created] = await Profile.upsert(
+    const [profile] = await Profile.upsert(
       { id, ...dbObject },
       { returning: true }
     );

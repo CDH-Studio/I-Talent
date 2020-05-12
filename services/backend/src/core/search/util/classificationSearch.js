@@ -1,4 +1,4 @@
-const classificationSearch = async (profiles, classificationArray) => {
+async function classificationSearch(profiles, classificationArray) {
   const classificationProf = [];
 
   profiles.forEach((profile) => {
@@ -9,6 +9,6 @@ const classificationSearch = async (profiles, classificationArray) => {
       classificationProf.push(profile);
   });
   return classificationProf;
-};
+}
 
 module.exports = classificationSearch;

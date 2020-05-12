@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return await queryInterface.sequelize.transaction(async (transaction) => {
+    return queryInterface.sequelize.transaction(async (transaction) => {
       await queryInterface.createTable(
         "categories",
         {
