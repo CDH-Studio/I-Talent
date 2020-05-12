@@ -1,4 +1,6 @@
+/* eslint-disable no-shadow */
 import React from "react";
+import PropTypes from "prop-types";
 import DashboardGraphsView from "./DashboardGraphsView";
 
 /**
@@ -6,7 +8,7 @@ import DashboardGraphsView from "./DashboardGraphsView";
  *  Controller for the DashboardGraphsView.
  *  It setups the data (bridge) for rendering the component in the view.
  */
-function DashboardGraphs(props) {
+function DashboardGraphs({ data }) {
   /* only access data for graphes that uses corresponding language on page */
   const changeEnFr = (dataSource) => {
     const locale = localStorage.getItem("lang") || "en";
@@ -22,12 +24,22 @@ function DashboardGraphs(props) {
 
   return (
     <DashboardGraphsView
-      topFiveSkills={changeEnFr(props.data.skillCount)}
-      topFiveCompetencies={changeEnFr(props.data.compCount)}
-      topFiveDevelopmentGoals={changeEnFr(props.data.developCount)}
-      monthlyGrowth={props.data.graphicalData}
+      topFiveSkills={changeEnFr(data.skillCount)}
+      topFiveCompetencies={changeEnFr(data.compCount)}
+      topFiveDevelopmentGoals={changeEnFr(data.developCount)}
+      monthlyGrowth={data.graphicalData}
     />
   );
 }
+
+DashboardGraphs.propTypes = {
+  // data: PropTypes.isRequired,
+  data: PropTypes.shape({
+    skillCount: PropTypes.isRequired,
+    compCount: PropTypes.isRequired,
+    developCount: PropTypes.isRequired,
+    graphicalData: PropTypes.isRequired,
+  }).isRequired,
+};
 
 export default DashboardGraphs;

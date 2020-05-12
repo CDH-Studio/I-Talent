@@ -531,13 +531,12 @@ CompetencyTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   rowSelection: PropTypes.isRequired,
-  data: PropTypes.isRequired,
-  // data: PropTypes.shape({
-  //   getCategoryInformation: PropTypes.shape({
-  //     description: PropTypes.string,
-  //     allCategories: PropTypes.any,
-  //   }),
-  // }).isRequired,
+  data: PropTypes.shape({
+    getCategoryInformation: PropTypes.shape({
+      description: PropTypes.string,
+      allCategories: PropTypes.any,
+    }),
+  }).isRequired,
 };
 
 export default injectIntl(CompetencyTableView);

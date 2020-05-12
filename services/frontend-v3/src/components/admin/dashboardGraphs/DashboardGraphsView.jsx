@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { injectIntl } from "react-intl";
@@ -10,11 +11,17 @@ import { injectIntl } from "react-intl";
  *  (2nd Level) This graph shows the monthly growth rate for the web application
  *  Disclaimer: Please look at Bizcharts documentation for further help with graphes
  */
-function DashboardGraphsView(props) {
-  const topFiveSkills = props.topFiveSkills;
-  const topFiveCompetencies = props.topFiveCompetencies;
-  const topFiveDevelopmentGoals = props.topFiveDevelopmentGoals;
-  const monthlyGrowth = props.monthlyGrowth;
+function DashboardGraphsView({
+  intl,
+  topFiveSkills,
+  topFiveCompetencies,
+  topFiveDevelopmentGoals,
+  monthlyGrowth,
+}) {
+  // const { topFiveSkills } = props;
+  // const { topFiveCompetencies } = props;
+  // const { topFiveDevelopmentGoals } = props;
+  // const { monthlyGrowth } = props;
 
   const popularSkillsColumns = {
     name: { alias: "Skill Name" },
@@ -42,7 +49,7 @@ function DashboardGraphsView(props) {
         <Col span={8}>
           <Card
             hoverable
-            title={props.intl.formatMessage({
+            title={intl.formatMessage({
               id: "admin.dashboard.popular.skills",
               defaultMessage: "Popular Skills",
             })}
@@ -65,7 +72,7 @@ function DashboardGraphsView(props) {
         <Col span={8}>
           <Card
             hoverable
-            title={props.intl.formatMessage({
+            title={intl.formatMessage({
               id: "admin.dashboard.popular.competencies",
               defaultMessage: "Popular Competencies",
             })}
@@ -88,7 +95,7 @@ function DashboardGraphsView(props) {
         <Col span={8}>
           <Card
             hoverable
-            title={props.intl.formatMessage({
+            title={intl.formatMessage({
               id: "admin.dashboard.popular.development.goals",
               defaultMessage: "Popular Development Goals",
             })}
@@ -113,7 +120,7 @@ function DashboardGraphsView(props) {
         <Col span={24}>
           <Card
             hoverable
-            title={props.intl.formatMessage({
+            title={intl.formatMessage({
               id: "admin.dashboard.growth.rate.by.month",
               defaultMessage: "Growth Rate By Month",
             })}
@@ -132,14 +139,14 @@ function DashboardGraphsView(props) {
                 type="line"
                 position="monthName*count"
                 size={2}
-                color={"year"}
+                color="year"
               />
               <Geom
                 type="point"
                 position="monthName*count"
                 size={4}
-                shape={"circle"}
-                color={"year"}
+                shape="circle"
+                color="year"
                 style={{
                   stroke: "#fff",
                   lineWidth: 1,
@@ -152,5 +159,13 @@ function DashboardGraphsView(props) {
     </>
   );
 }
+
+DashboardGraphsView.propTypes = {
+  intl: PropTypes.isRequired,
+  topFiveSkills: PropTypes.isRequired,
+  topFiveCompetencies: PropTypes.isRequired,
+  topFiveDevelopmentGoals: PropTypes.isRequired,
+  monthlyGrowth: PropTypes.isRequired,
+};
 
 export default injectIntl(DashboardGraphsView);
