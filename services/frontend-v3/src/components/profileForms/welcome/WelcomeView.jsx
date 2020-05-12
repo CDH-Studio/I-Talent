@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Typography, Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
+import PropTypes from "prop-types";
 import {
   UserOutlined,
   UserAddOutlined,
@@ -9,16 +10,17 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import { IntlPropType } from "../../../customPropTypes";
 import config from "../../../config";
 
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-function Welcome(props) {
+function WelcomeView({ gedsProfiles, intl, load }) {
   const history = useHistory();
 
   // get current language code
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -86,24 +88,23 @@ function Welcome(props) {
     // truncate text to not overflow card
     const truncateString = (text, length) => {
       if (text && text.length > length) {
-        return text.substring(0, length) + ".";
-      } else {
-        return text;
+        return `${text.substring(0, length)}.`;
       }
+      return text;
     };
 
     // push GEDS profile to DB
     const createProfile = async () => {
-      //check if button was passed profile data
+      // check if button was passed profile data
       if (value) {
         // create profile
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           value
         );
       }
 
-      //Redirect to step 2
+      // Redirect to step 2
       history.push("/secured/profile/create/step/2");
     };
 
@@ -138,6 +139,20 @@ function Welcome(props) {
     );
   };
 
+  generateProfileBtn.propTypes = {
+    icon: PropTypes.element.isRequired,
+    firstTitle: PropTypes.string.isRequired,
+    secondTitle: PropTypes.string,
+    thirdTitle: PropTypes.string,
+    value: PropTypes.string,
+  };
+
+  generateProfileBtn.defaultProps = {
+    secondTitle: undefined,
+    thirdTitle: undefined,
+    value: undefined,
+  };
+
   /*
    * Generate GEDS Profile List
    *
@@ -145,52 +160,57 @@ function Welcome(props) {
    */
   const generateGedsProfileList = () => {
     // check if GEDS profiles have loaded
-    if (!props.load) {
+    if (!load) {
       return (
         <div>
           {/* loading button */}
           {generateProfileBtn({
             icon: <LoadingOutlined />,
-            firstTitle: props.intl.formatMessage({id : "setup.welcome.geds.title"}),
-            secondTitle: props.intl.formatMessage({id : "setup.welcome.geds.description"}),
+            firstTitle: intl.formatMessage({ id: "setup.welcome.geds.title" }),
+            secondTitle: intl.formatMessage({
+              id: "setup.welcome.geds.description",
+            }),
             type: "default",
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
-            firstTitle: props.intl.formatMessage({id : "setup.welcome.new.title"}),
-            secondTitle: props.intl.formatMessage({id : "setup.welcome.new.description"}),
-          })}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          {/* generate list of GEDS profiles */}
-          {props.gedsProfiles.map((item, index) => {
-            return generateProfileBtn({
-              icon: <UserOutlined />,
-              firstTitle: item.firstName + " " + item.lastName,
-              secondTitle: item.jobTitle[locale],
-              thirdTitle: item.email,
-              value: item,
-            });
-          })}
-          {/* new user button */}
-          {generateProfileBtn({
-            icon: <UserAddOutlined />,
-            firstTitle: props.intl.formatMessage({id : "setup.welcome.new.title"}),
-            secondTitle: props.intl.formatMessage({id : "setup.welcome.new.description"}),
+            firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+            secondTitle: intl.formatMessage({
+              id: "setup.welcome.new.description",
+            }),
           })}
         </div>
       );
     }
+    return (
+      <div>
+        {/* generate list of GEDS profiles */}
+        {gedsProfiles.map(item => {
+          return generateProfileBtn({
+            icon: <UserOutlined />,
+            firstTitle: `${item.firstName} ${item.lastName}`,
+            secondTitle: item.jobTitle[locale],
+            thirdTitle: item.email,
+            value: item,
+          });
+        })}
+        {/* new user button */}
+        {generateProfileBtn({
+          icon: <UserAddOutlined />,
+          firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+          secondTitle: intl.formatMessage({
+            id: "setup.welcome.new.description",
+          }),
+        })}
+      </div>
+    );
   };
 
   return (
     <div style={styles.content}>
       <Title level={1} style={styles.welcome}>
-        <RocketOutlined rotate={"45"} /> <FormattedMessage id="setup.welcome" />
+        <RocketOutlined rotate="45" /> <FormattedMessage id="setup.welcome" />
       </Title>
       <Paragraph style={styles.subHeading}>
         <FormattedMessage id="setup.welcome.description" />
@@ -203,4 +223,15 @@ function Welcome(props) {
   );
 }
 
-export default injectIntl(Welcome);
+WelcomeView.propTypes = {
+  gedsProfiles: PropTypes.arrayOf(PropTypes.any),
+  intl: IntlPropType,
+  load: PropTypes.bool.isRequired,
+};
+
+WelcomeView.defaultProps = {
+  gedsProfiles: undefined,
+  intl: undefined,
+};
+
+export default injectIntl(WelcomeView);

@@ -1,31 +1,43 @@
-export default prepareInfo;
+function prepareInfo(
+  unassignableInfo,
+  language,
+  unassignableSpecialUndefineds
+) {
+  let info;
 
-function prepareInfo(info, language, specialUndefineds) {
-  if (specialUndefineds && typeof info == "object") {
-    for (let key in specialUndefineds) {
-      if (info[key] !== null) {
+  if (unassignableSpecialUndefineds && typeof unassignableInfo === "object") {
+    const specialUndefineds = { ...unassignableSpecialUndefineds };
+
+    Object.keys(specialUndefineds).forEach(key => {
+      if (unassignableInfo[key] !== null) {
         delete specialUndefineds[key];
       }
-    }
-    info = Object.assign(info, specialUndefineds);
+    });
+
+    info = Object.assign(unassignableInfo, specialUndefineds);
+  } else {
+    info = unassignableInfo;
   }
+
   if (typeof info === "object") {
     if (info === null) {
       return info;
     }
     if (Array.isArray(info)) {
-      let returnArray = [];
+      const returnArray = [];
       info.forEach(element => returnArray.push(prepareInfo(element, language)));
       return returnArray;
-    } else if ("en" in info) {
-      return info[language];
-    } else {
-      let returnObject = {};
-      for (let key in info) {
-        returnObject[key] = prepareInfo(info[key], language);
-      }
-      return returnObject;
     }
+    if ("en" in info) {
+      return info[language];
+    }
+    const returnObject = {};
+    Object.keys(info).forEach(key => {
+      returnObject[key] = prepareInfo(info[key], language);
+    });
+    return returnObject;
   }
   return info;
 }
+
+export default prepareInfo;

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import axios from "axios";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
+import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -10,7 +13,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = (props) => {
+const PersonalGrowthForm = ({ formType, intl }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -28,7 +31,7 @@ const PersonalGrowthForm = (props) => {
   const [savedExFeederBool, setSavedExFeederBool] = useState();
 
   // Get current language code
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -39,10 +42,10 @@ const PersonalGrowthForm = (props) => {
    * get saved Developmental Goals from profile
    */
   const getSavedDevelopmentalGoals = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate and array of ID's of save locations
-    for (let i = 0; i < profileInfo.developmentalGoals.length; i++) {
+    for (let i = 0; i < profileInfo.developmentalGoals.length; i += 1) {
       selected.push(profileInfo.developmentalGoals[i].id);
     }
 
@@ -55,10 +58,10 @@ const PersonalGrowthForm = (props) => {
    * get saved Relocation Locations from profile
    */
   const getSavedRelocationLocations = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate and array of ID's of save locations
-    for (let i = 0; i < profileInfo.relocationLocations.length; i++) {
+    for (let i = 0; i < profileInfo.relocationLocations.length; i += 1) {
       selected.push(profileInfo.relocationLocations[i].locationId);
     }
 
@@ -70,11 +73,10 @@ const PersonalGrowthForm = (props) => {
    */
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
@@ -89,13 +91,13 @@ const PersonalGrowthForm = (props) => {
    */
   const getDevelopmentalGoalOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getDevelopmentalGoals";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getDevelopmentalGoals`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -135,13 +137,13 @@ const PersonalGrowthForm = (props) => {
    */
   const getRelocationOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getWillingToRelocateTo";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getWillingToRelocateTo`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var location = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const location = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -162,13 +164,13 @@ const PersonalGrowthForm = (props) => {
    */
   const getLookingForNewJobOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getLookingForANewJob";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getLookingForANewJob`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -189,13 +191,13 @@ const PersonalGrowthForm = (props) => {
    */
   const getCareerMobilityOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getCareerMobility";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getCareerMobility`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -216,13 +218,13 @@ const PersonalGrowthForm = (props) => {
    */
   const getTalentMatrixResultOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getTalentMatrixResult";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getTalentMatrixResult`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -275,8 +277,9 @@ const PersonalGrowthForm = (props) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
       });
   }, [locale]);
@@ -296,10 +299,18 @@ const PersonalGrowthForm = (props) => {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
-      formType={props.formType}
+      formType={formType}
       load={load}
     />
   );
-}
+};
+
+PersonalGrowthForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  intl: IntlPropType,
+};
+PersonalGrowthForm.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(PersonalGrowthForm);

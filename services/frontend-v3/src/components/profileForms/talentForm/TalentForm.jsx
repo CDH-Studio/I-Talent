@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import TalentFormView from "./TalentFormView";
 import axios from "axios";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
+import TalentFormView from "./TalentFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -10,7 +13,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const TalentForm = (props) => {
+const TalentForm = ({ formType, intl }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [skillOptions, setSkillOptions] = useState(null);
   const [competencyOptions, setCompetencyOptions] = useState(null);
@@ -20,7 +23,7 @@ const TalentForm = (props) => {
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
 
   // get current language code
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -30,11 +33,10 @@ const TalentForm = (props) => {
    */
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
@@ -49,13 +51,13 @@ const TalentForm = (props) => {
    */
   const getCompetencyOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getCompetency";
-      let result = await axios.get(url);
-      let options = [];
+      const url = `${backendAddress}api/option/getCompetency`;
+      const result = await axios.get(url);
+      const options = [];
 
       // Generate the data for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var option = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -76,15 +78,15 @@ const TalentForm = (props) => {
    */
   const getSkillOptions = async () => {
     try {
-      let dataTree = [];
+      const dataTree = [];
 
       // Get user profile
-      let url = backendAddress + "api/option/getCategory";
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/option/getCategory`;
+      const result = await axios.get(url);
 
       // Loop through all skill categories
-      for (var i = 0; i < result.data.length; i++) {
-        var parent = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const parent = {
           title: result.data[i].description[locale],
           value: result.data[i].id,
           children: [],
@@ -92,12 +94,9 @@ const TalentForm = (props) => {
 
         dataTree.push(parent);
         // Loop through skills in each category
-        for (var w = 0; w < result.data[i].skills.length; w++) {
-          var child = {
-            title:
-              result.data[i].description[locale] +
-              ": " +
-              result.data[i].skills[w].description[locale],
+        for (let w = 0; w < result.data[i].skills.length; w += 1) {
+          const child = {
+            title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
             value: result.data[i].skills[w].id,
             key: result.data[i].skills[w].id,
           };
@@ -118,8 +117,8 @@ const TalentForm = (props) => {
    * get saved competencies from profile
    */
   const getSavedCompetencies = () => {
-    let selected = [];
-    for (let i = 0; i < profileInfo.competencies.length; i++) {
+    const selected = [];
+    for (let i = 0; i < profileInfo.competencies.length; i += 1) {
       selected.push(profileInfo.competencies[i].id);
     }
     setSavedCompetencies(selected);
@@ -131,8 +130,8 @@ const TalentForm = (props) => {
    * generate an array of skill ids saved in profile
    */
   const getSavedSkills = () => {
-    let selected = [];
-    for (let i = 0; i < profileInfo.skills.length; i++) {
+    const selected = [];
+    for (let i = 0; i < profileInfo.skills.length; i += 1) {
       selected.push(profileInfo.skills[i].id);
     }
     setSavedSkills(selected);
@@ -144,8 +143,8 @@ const TalentForm = (props) => {
    * generate an array of mentorship skill ids saved in profile
    */
   const getSavedMentorshipSkill = () => {
-    let selected = [];
-    for (let i = 0; i < profileInfo.mentorshipSkills.length; i++) {
+    const selected = [];
+    for (let i = 0; i < profileInfo.mentorshipSkills.length; i += 1) {
       selected.push(profileInfo.mentorshipSkills[i].id);
     }
     setSavedMentorshipSkills(selected);
@@ -167,8 +166,9 @@ const TalentForm = (props) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
       });
   }, [locale]);
@@ -181,11 +181,19 @@ const TalentForm = (props) => {
       savedCompetencies={savedCompetencies}
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
-      formType={props.formType}
-      locale={locale}
+      formType={formType}
       load={load}
     />
   );
+};
+
+TalentForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  intl: IntlPropType,
+};
+
+TalentForm.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(TalentForm);

@@ -1,37 +1,43 @@
 import React from "react";
 import { List, Tag, Row, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
+import { PropTypes } from "prop-types";
 
-function DevelopmentalGoalsView(props) {
+function DevelopmentalGoalsView({ devGoals }) {
   /*
    * Generate Developmental Goals List
    *
    * Generate a list of Developmental Goals
    * If no competencies are found for the profile then display friendly message
    */
-  const GenerateDevGoalsList = (devGoals) => {
-    if (devGoals.length > 0) {
+  const GenerateDevGoalsList = _devGoals => {
+    if (_devGoals.length > 0) {
       return (
         <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
           <List>
-            {Object.values(devGoals).map((devGoals, index) => (
+            {Object.values(_devGoals).map((devGoal, index) => (
               <Tag color="#114541" key={index}>
-                {devGoals}
+                {devGoal}
               </Tag>
             ))}
           </List>
         </Row>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.developmental.goals.empty" />}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={
+          <FormattedMessage id="profile.developmental.goals.empty" />
+        }
+      />
+    );
   };
-  return GenerateDevGoalsList(props.devGoals);
+  return GenerateDevGoalsList(devGoals);
 }
+
+DevelopmentalGoalsView.propTypes = {
+  devGoals: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default DevelopmentalGoalsView;
