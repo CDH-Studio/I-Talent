@@ -1,12 +1,5 @@
 import PropTypes from "prop-types";
 
-const ValueTitleOptionsPropType = PropTypes.arrayOf(
-  PropTypes.shape({
-    value: PropTypes.string,
-    title: PropTypes.string,
-  })
-);
-
 const KeyTitleOptionsPropType = PropTypes.arrayOf(
   PropTypes.shape({
     key: PropTypes.string,
@@ -130,5 +123,4 @@ export {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
-  ValueTitleOptionsPropType,
 };

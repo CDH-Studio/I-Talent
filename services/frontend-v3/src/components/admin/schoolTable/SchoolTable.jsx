@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import SchoolTableView from "./SchoolTableView";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
+import SchoolTableView from "./SchoolTableView";
 import config from "../../../config";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  SchoolTable(props)
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-function SchoolTable(props) {
+function SchoolTable({ type, intl }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -22,7 +24,20 @@ function SchoolTable(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const size = "large";
-  const { type } = props;
+
+  /* get school information */
+  const getSchools = async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/${type}`
+      );
+      return results.data;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+      return 0;
+    }
+  };
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
@@ -32,6 +47,7 @@ function SchoolTable(props) {
       const setState = async () => {
         schools = await getSchools();
         setData(schools);
+        // eslint-disable-next-line no-console
         console.log("Before: ", schools);
         setLoading(false);
       };
@@ -40,6 +56,7 @@ function SchoolTable(props) {
       const updateState = async () => {
         schools = await getSchools();
         setData(schools);
+        // eslint-disable-next-line no-console
         console.log("After: ", schools);
         setReset(false);
       };
@@ -47,29 +64,16 @@ function SchoolTable(props) {
     }
   }, [loading, reset]);
 
-  /* get school information */
-  const getSchools = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
-
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
-      return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+      return intl.formatMessage({
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
-    return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+    return intl.formatMessage({
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -84,15 +88,15 @@ function SchoolTable(props) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a school */
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         country: values.addSchoolCountry.toUpperCase(),
@@ -102,15 +106,17 @@ function SchoolTable(props) {
 
       setReset(true);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
+    return undefined;
   };
 
   /* handles the update/edit of a school */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       await axios.put(url, {
         country: values.editSchoolCountry.toUpperCase(),
@@ -120,53 +126,57 @@ function SchoolTable(props) {
 
       setReset(true);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
+    return undefined;
   };
 
   /* handles the deletion of a school */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       await axios.post(url, { ids: selectedRowKeys });
 
       setSelectedRowKeys([]);
       setReset(true);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
+    return undefined;
+  };
+
+  /* helper function to rowSelection */
+  // Consult: function taken from Ant Design table components (updated to functional)
+  const onSelectChange = _selectedRowKeys => {
+    // Can access the keys of each school selected in the table
+    setSelectedRowKeys(_selectedRowKeys);
   };
 
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
-      onSelectChange(selectedRowKeys);
+    onChange: _selectedRowKeys => {
+      onSelectChange(_selectedRowKeys);
     },
-  };
-
-  /* helper function to rowSelection */
-  // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
-    // Can access the keys of each school selected in the table
-    setSelectedRowKeys(selectedRowKeys);
   };
 
   /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
-    let allSchools = _.sortBy(data, "description");
+    const allSchools = _.sortBy(data, "description");
 
-    for (let i = 0; i < allSchools.length; i++) {
+    for (let i = 0; i < allSchools.length; i += 1) {
       allSchools[i].key = allSchools[i].id;
     }
 
     return allSchools;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;
@@ -188,5 +198,14 @@ function SchoolTable(props) {
     />
   );
 }
+
+SchoolTable.propTypes = {
+  type: PropTypes.string.isRequired,
+  intl: IntlPropType,
+};
+
+SchoolTable.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(SchoolTable);
