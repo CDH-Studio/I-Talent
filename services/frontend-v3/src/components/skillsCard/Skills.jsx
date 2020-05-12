@@ -1,12 +1,16 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import SkillsView from "./SkillsView";
 
-function Skills(props) {
+const Skills = ({ data }) => {
   const formatData = (list) => {
     const locale = localStorage.getItem("lang") || "en";
 
-    let categorizedList = {};
+    const categorizedList = {};
+
+    Skills.propTypes = {
+      data: PropTypes.isRequired,
+    };
 
     if (list) {
       list.forEach((listElement) => {
@@ -25,9 +29,9 @@ function Skills(props) {
 
   const setUpCategories = (list) => {
     const locale = localStorage.getItem("lang") || "en";
-    let categorizedList = {};
-    let categoriesTemp = {};
-    let categories = [];
+    const categorizedList = {};
+    const categoriesTemp = {};
+    const categories = [];
 
     let k = 0;
 
@@ -38,18 +42,18 @@ function Skills(props) {
           categorizedList[key] = [listElement.description[locale]];
           if (categoriesTemp[k] == null) {
             if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category["en"]];
+              categoriesTemp[k] = [listElement.description.category.en];
             } else {
-              categoriesTemp[k] = [listElement.description.category["fr"]];
+              categoriesTemp[k] = [listElement.description.category.fr];
             }
-            k++;
+            k += 1;
           }
         } else {
           categorizedList[key].push(listElement.description[locale]);
         }
       });
     }
-
+    // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categoriesTemp).entries()) {
       categories.push({ index, val });
     }
@@ -58,10 +62,11 @@ function Skills(props) {
   };
 
   const setUpSkills = (dataSource) => {
-    let skills = [];
+    const skills = [];
 
-    let categorizedSkillsList = formatData(dataSource);
+    const categorizedSkillsList = formatData(dataSource);
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       skills.push({ index, val });
     }
@@ -70,10 +75,10 @@ function Skills(props) {
 
   return (
     <SkillsView
-      skills={setUpSkills(props.data.skills)}
-      categoriesSkills={setUpCategories(props.data.skills)}
+      skills={setUpSkills(data.skills)}
+      categoriesSkills={setUpCategories(data.skills)}
     />
   );
-}
+};
 
 export default Skills;

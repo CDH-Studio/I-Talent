@@ -21,11 +21,13 @@ function SkillsView(props) {
               categorySkill != null && (
                 <Panel
                   header={categorySkill.val}
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index + 1}
                   extra={<TagTwoTone twoToneColor="#3CBAB3" />}
                 >
-                  {skills[categorySkill.index].val.map((skill, index) => (
-                    <Tag color="#007471" key={index}>
+                  {skills[categorySkill.index].val.map((skill, indexTag) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <Tag color="#007471" key={indexTag}>
                       {skill}
                     </Tag>
                   ))}
@@ -34,14 +36,13 @@ function SkillsView(props) {
           )}
         </Collapse>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.mentorship.empty" />}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={<FormattedMessage id="profile.mentorship.empty" />}
+      />
+    );
   };
 
   return generateSkillsCollapse(props.categoriesSkills, props.skills);
