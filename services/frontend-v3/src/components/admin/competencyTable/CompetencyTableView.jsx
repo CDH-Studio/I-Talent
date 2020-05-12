@@ -1,4 +1,6 @@
+/* eslint-disable no-shadow */
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   PageHeader,
   Row,
@@ -24,7 +26,20 @@ import { injectIntl } from "react-intl";
  *  CompetencyTableView(props)
  *  This component renders the competency table for the Admin Competency Page.
  */
-function CompetencyTableView(props) {
+function CompetencyTableView({
+  intl,
+  handleSearch,
+  handleReset,
+  handleSubmitAdd,
+  handleSubmitEdit,
+  handleSubmitDelete,
+  selectedRowKeys,
+  searchedColumn,
+  searchText,
+  size,
+  rowSelection,
+  data,
+}) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -34,20 +49,6 @@ function CompetencyTableView(props) {
   const [fields, setFields] = useState([{}]);
 
   let searchInput;
-
-  const {
-    handleSearch,
-    handleReset,
-    handleSubmitAdd,
-    handleSubmitEdit,
-    handleSubmitDelete,
-    selectedRowKeys,
-    searchedColumn,
-    searchText,
-    size,
-    rowSelection,
-    data,
-  } = props;
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
@@ -63,14 +64,10 @@ function CompetencyTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -85,7 +82,7 @@ function CompetencyTableView(props) {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.search.button",
             defaultMessage: "Search",
           })}
@@ -95,7 +92,7 @@ function CompetencyTableView(props) {
           size="small"
           style={{ width: 90 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.reset.button",
             defaultMessage: "Reset",
           })}
@@ -125,12 +122,32 @@ function CompetencyTableView(props) {
       ),
   });
 
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
+
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
         placement="left"
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.delete.confirm",
           defaultMessage:
             "Are you sure you want to delete all the selected values?",
@@ -142,11 +159,11 @@ function CompetencyTableView(props) {
         onCancel={() => {
           popUpCancel();
         }}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.delete",
           defaultMessage: "Delete",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -157,32 +174,12 @@ function CompetencyTableView(props) {
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.delete",
             defaultMessage: "Delete",
           })}
         </Button>
       </Popconfirm>
-    );
-  };
-
-  /* Renders the success message on top of page */
-  const popUpSuccesss = () => {
-    message.success(
-      props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
-  /* Renders the cancel message on top of page */
-  const popUpCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
     );
   };
 
@@ -239,15 +236,15 @@ function CompetencyTableView(props) {
     return (
       <Modal
         visible={addVisible}
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.add.competency",
           defaultMessage: "Add Competency",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -261,6 +258,7 @@ function CompetencyTableView(props) {
             })
             .catch((info) => {
               handleCancel();
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
         }}
@@ -272,14 +270,14 @@ function CompetencyTableView(props) {
         <Form form={addForm} name="addCompetency" layout="vertical">
           <Form.Item
             name="addCompetencyEn"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.description",
                   defaultMessage: "Please complete the description!",
                 }),
@@ -287,7 +285,7 @@ function CompetencyTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionEn",
                 defaultMessage: "Competency description in English",
               })}
@@ -296,14 +294,14 @@ function CompetencyTableView(props) {
           </Form.Item>
           <Form.Item
             name="addCompetencyFr"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.description",
                   defaultMessage: "Please complete the description!",
                 }),
@@ -311,7 +309,7 @@ function CompetencyTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionFr",
                 defaultMessage: "Competency description in French",
               })}
@@ -328,15 +326,15 @@ function CompetencyTableView(props) {
     return (
       <Modal
         visible={editVisible}
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.edit.competency",
           defaultMessage: "Edit Competency",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -348,6 +346,7 @@ function CompetencyTableView(props) {
               onCreate(values);
             })
             .catch((info) => {
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
           handleOk();
@@ -368,13 +367,13 @@ function CompetencyTableView(props) {
         >
           <Form.Item
             name="editCompetencyEn"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionEn",
                 defaultMessage: "Competency description in English",
               })}
@@ -382,13 +381,13 @@ function CompetencyTableView(props) {
           </Form.Item>
           <Form.Item
             name="editCompetencyFr"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionFr",
                 defaultMessage: "Competency description in French",
               })}
@@ -404,12 +403,11 @@ function CompetencyTableView(props) {
   // Will change sort capability of column based on current language of page
   const getSortDirection = (column) => {
     const currentLanguage =
-      props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
+      intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
       return ["descend"];
-    } else {
-      return ["ascend", "descend"];
     }
+    return ["ascend", "descend"];
   };
 
   /* Sets up the columns for the competency table */
@@ -418,7 +416,7 @@ function CompetencyTableView(props) {
     // Table columns data structure: array of objects
     const competency_table_columns = [
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "language.english",
           defaultMessage: "English",
         }),
@@ -430,14 +428,14 @@ function CompetencyTableView(props) {
         sortDirections: getSortDirection("en"),
         ...getColumnSearchProps(
           "descriptionEn",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "language.english",
             defaultMessage: "English",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "language.french",
           defaultMessage: "French",
         }),
@@ -449,14 +447,14 @@ function CompetencyTableView(props) {
         sortDirections: getSortDirection("fr"),
         ...getColumnSearchProps(
           "descriptionFr",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "language.french",
             defaultMessage: "French",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.edit",
           defaultMessage: "Edit",
         }),
@@ -487,7 +485,7 @@ function CompetencyTableView(props) {
       {addCompetencyModal()}
       {editCompetencyModal()}
       <PageHeader
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.competency.table",
           defaultMessage: "Competencies Table",
         })}
@@ -501,7 +499,7 @@ function CompetencyTableView(props) {
               handleAddModal();
             }}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.add",
               defaultMessage: "Add",
             })}
@@ -520,5 +518,26 @@ function CompetencyTableView(props) {
     </>
   );
 }
+
+CompetencyTableView.propTypes = {
+  intl: PropTypes.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSubmitAdd: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
+  selectedRowKeys: PropTypes.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  rowSelection: PropTypes.isRequired,
+  data: PropTypes.isRequired,
+  // data: PropTypes.shape({
+  //   getCategoryInformation: PropTypes.shape({
+  //     description: PropTypes.string,
+  //     allCategories: PropTypes.any,
+  //   }),
+  // }).isRequired,
+};
 
 export default injectIntl(CompetencyTableView);
