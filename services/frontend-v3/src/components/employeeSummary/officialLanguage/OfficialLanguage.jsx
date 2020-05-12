@@ -1,11 +1,10 @@
+import PropTypes from "prop-types";
 import React from "react";
-import OfficialLanguageView from "./OfficialLanguageView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import OfficialLanguageView from "./OfficialLanguageView";
 
-function OfficialLanguage(props) {
-  const data = props.data;
-
+const OfficialLanguage = ({ data }) => {
   const getFirstLanguageInfo = (dataSource) => {
     const locale = localStorage.getItem("lang") || "en";
     const firstLanguage = {
@@ -107,6 +106,10 @@ function OfficialLanguage(props) {
       secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
     />
   );
-}
+};
+
+OfficialLanguage.propTypes = {
+  data: PropTypes.isRequired,
+};
 
 export default OfficialLanguage;

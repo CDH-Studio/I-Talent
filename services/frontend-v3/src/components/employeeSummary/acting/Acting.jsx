@@ -1,29 +1,30 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import ActingView from "./ActingView";
 import moment from "moment";
+import ActingView from "./ActingView";
 
-function Acting(props) {
-  const formatData = data => {
-    let actingInfo = [];
+const Acting = ({ data }) => {
+  const formatData = () => {
+    const actingInfo = [];
 
     if (data.acting) {
       const acting = {
         title: <FormattedMessage id="profile.acting" />,
-        description: data.acting.description
+        description: data.acting.description,
       };
       actingInfo.push(acting);
 
       if (data.actingPeriodStartDate) {
-        let desc =
+        const desc =
           moment(data.actingPeriodStartDate).format("ll") +
           (data.actingPeriodStartDate
-            ? " - " + moment(data.actingPeriodEndDate).format("ll")
+            ? ` - ${moment(data.actingPeriodEndDate).format("ll")}`
             : "");
 
         const actingDate = {
           title: <FormattedMessage id="profile.acting.date" />,
-          description: desc
+          description: desc,
         };
 
         actingInfo.push(actingDate);
@@ -33,7 +34,17 @@ function Acting(props) {
     return [...actingInfo];
   };
 
-  return <ActingView values={formatData(props.data)} />;
-}
+  return <ActingView values={formatData()} />;
+};
+
+Acting.propTypes = {
+  data: PropTypes.shape({
+    acting: PropTypes.shape({
+      description: PropTypes.string,
+    }),
+    actingPeriodEndDate: PropTypes.string,
+    actingPeriodStartDate: PropTypes.string,
+  }).isRequired,
+};
 
 export default Acting;
