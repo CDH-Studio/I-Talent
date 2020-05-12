@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import {
   PageHeader,
@@ -24,7 +25,20 @@ import { injectIntl } from "react-intl";
  *  DiplomaTableView(props)
  *  This component renders the diploma table for the Admin Diploma Page.
  */
-function DiplomaTableView(props) {
+function DiplomaTableView({
+  handleSearch,
+  handleReset,
+  handleSubmitAdd,
+  handleSubmitEdit,
+  handleSubmitDelete,
+  selectedRowKeys,
+  searchedColumn,
+  searchText,
+  size,
+  rowSelection,
+  data,
+  intl,
+}) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -35,42 +49,26 @@ function DiplomaTableView(props) {
 
   let searchInput;
 
-  const {
-    handleSearch,
-    handleReset,
-    handleSubmitAdd,
-    handleSubmitEdit,
-    handleSubmitDelete,
-    selectedRowKeys,
-    searchedColumn,
-    searchText,
-    size,
-    rowSelection,
-    data,
-  } = props;
-
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
+      /* eslint-disable react/prop-types */
       setSelectedKeys,
       selectedKeys,
       confirm,
       clearFilters,
+      /* eslint-enable react/prop-types */
     }) => (
       <div style={{ padding: 8 }}>
         <Input
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -85,7 +83,7 @@ function DiplomaTableView(props) {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.search.button",
             defaultMessage: "Search",
           })}
@@ -95,7 +93,7 @@ function DiplomaTableView(props) {
           size="small"
           style={{ width: 90 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.reset.button",
             defaultMessage: "Reset",
           })}
@@ -105,8 +103,11 @@ function DiplomaTableView(props) {
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value, currentRecord) =>
+      currentRecord[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
@@ -125,12 +126,32 @@ function DiplomaTableView(props) {
       ),
   });
 
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
+
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
         placement="left"
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.delete.confirm",
           defaultMessage:
             "Are you sure you want to delete all the selected values?",
@@ -142,11 +163,11 @@ function DiplomaTableView(props) {
         onCancel={() => {
           popUpCancel();
         }}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.delete",
           defaultMessage: "Delete",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -157,32 +178,12 @@ function DiplomaTableView(props) {
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.delete",
             defaultMessage: "Delete",
           })}
         </Button>
       </Popconfirm>
-    );
-  };
-
-  /* Renders the success message on top of page */
-  const popUpSuccesss = () => {
-    message.success(
-      props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
-  /* Renders the cancel message on top of page */
-  const popUpCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
     );
   };
 
@@ -222,9 +223,9 @@ function DiplomaTableView(props) {
   };
 
   /* handles render of "Edit Diploma" modal */
-  const handleEditModal = (record) => {
+  const handleEditModal = (item) => {
     setEditVisible(true);
-    setRecord(record);
+    setRecord(item);
     setModalType("edit");
   };
 
@@ -239,15 +240,15 @@ function DiplomaTableView(props) {
     return (
       <Modal
         visible={addVisible}
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.add.diploma",
           defaultMessage: "Add Diploma",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -261,6 +262,7 @@ function DiplomaTableView(props) {
             })
             .catch((info) => {
               handleCancel();
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
         }}
@@ -272,14 +274,14 @@ function DiplomaTableView(props) {
         <Form form={addForm} name="addDiploma" layout="vertical">
           <Form.Item
             name="addDiplomaEn"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.description",
                   defaultMessage: "Please complete the description!",
                 }),
@@ -287,7 +289,7 @@ function DiplomaTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionEn",
                 defaultMessage: "Diploma description in English",
               })}
@@ -296,14 +298,14 @@ function DiplomaTableView(props) {
           </Form.Item>
           <Form.Item
             name="addDiplomaFr"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.description",
                   defaultMessage: "Please complete the description!",
                 }),
@@ -311,7 +313,7 @@ function DiplomaTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionFr",
                 defaultMessage: "Diploma description in French",
               })}
@@ -328,15 +330,15 @@ function DiplomaTableView(props) {
     return (
       <Modal
         visible={editVisible}
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.edit.diploma",
           defaultMessage: "Edit Diploma",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -348,6 +350,7 @@ function DiplomaTableView(props) {
               onCreate(values);
             })
             .catch((info) => {
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
           handleOk();
@@ -368,13 +371,13 @@ function DiplomaTableView(props) {
         >
           <Form.Item
             name="editDiplomaEn"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.english",
               defaultMessage: "English",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionEn",
                 defaultMessage: "Diploma description in English",
               })}
@@ -382,13 +385,13 @@ function DiplomaTableView(props) {
           </Form.Item>
           <Form.Item
             name="editDiplomaFr"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "language.french",
               defaultMessage: "French",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionFr",
                 defaultMessage: "Diploma description in French",
               })}
@@ -404,21 +407,20 @@ function DiplomaTableView(props) {
   // Will change sort capability of column based on current language of page
   const getSortDirection = (column) => {
     const currentLanguage =
-      props.intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
+      intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
       return ["descend"];
-    } else {
-      return ["ascend", "descend"];
     }
+    return ["ascend", "descend"];
   };
 
   /* Sets up the columns for the diploma table */
   // Consult: Ant Design table components for further clarification
   const diplomaTableColumns = () => {
     // Table columns data structure: array of objects
-    const diploma_table_columns = [
+    const diplomaTableCol = [
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "language.english",
           defaultMessage: "English",
         }),
@@ -430,14 +432,14 @@ function DiplomaTableView(props) {
         sortDirections: getSortDirection("en"),
         ...getColumnSearchProps(
           "descriptionEn",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "language.english",
             defaultMessage: "English",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "language.french",
           defaultMessage: "French",
         }),
@@ -449,19 +451,19 @@ function DiplomaTableView(props) {
         sortDirections: getSortDirection("fr"),
         ...getColumnSearchProps(
           "descriptionFr",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "language.french",
             defaultMessage: "French",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.edit",
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: (record) => (
+        render: (item) => (
           <div>
             <Button
               type="primary"
@@ -469,17 +471,17 @@ function DiplomaTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editDiplomaEn"], value: record.descriptionEn },
-                  { name: ["editDiplomaFr"], value: record.descriptionFr },
+                  { name: ["editDiplomaEn"], value: item.descriptionEn },
+                  { name: ["editDiplomaFr"], value: item.descriptionFr },
                 ]);
-                handleEditModal(record);
+                handleEditModal(item);
               }}
             />
           </div>
         ),
       },
     ];
-    return diploma_table_columns;
+    return diplomaTableCol;
   };
 
   return (
@@ -487,7 +489,7 @@ function DiplomaTableView(props) {
       {addDiplomaModal()}
       {editDiplomaModal()}
       <PageHeader
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.diploma.table",
           defaultMessage: "Diplomas Table",
         })}
@@ -501,7 +503,7 @@ function DiplomaTableView(props) {
               handleAddModal();
             }}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.add",
               defaultMessage: "Add",
             })}
@@ -520,5 +522,24 @@ function DiplomaTableView(props) {
     </>
   );
 }
+
+DiplomaTableView.propTypes = {
+  data: PropTypes.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleSubmitAdd: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+  rowSelection: PropTypes.shape({
+    onChange: PropTypes.func,
+  }).isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  selectedRowKeys: PropTypes.isRequired,
+  size: PropTypes.string.isRequired,
+};
 
 export default injectIntl(DiplomaTableView);
