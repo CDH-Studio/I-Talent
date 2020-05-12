@@ -1,8 +1,9 @@
 import React from "react";
 import { Row, Col, Avatar, List } from "antd";
 import { BankOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 
-function EducationView(props) {
+function EducationView({ educationInfo }) {
   /* Component Styles */
   const styles = {
     card: {
@@ -13,12 +14,12 @@ function EducationView(props) {
     },
   };
 
-  const generateEducationInfoList = (dataSource) => {
+  const generateEducationInfoList = dataSource => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={(item) => (
+        renderItem={item => (
           <List.Item extra={item.duration}>
             <List.Item.Meta
               avatar={
@@ -38,8 +39,6 @@ function EducationView(props) {
     );
   };
 
-  const educationInfo = props.educationInfo;
-
   return (
     <Row>
       <Col xs={24} lg={24}>
@@ -48,5 +47,15 @@ function EducationView(props) {
     </Row>
   );
 }
+
+EducationView.propTypes = {
+  educationInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      school: PropTypes.string,
+      duration: PropTypes.string,
+    })
+  ).isRequired,
+};
 
 export default EducationView;

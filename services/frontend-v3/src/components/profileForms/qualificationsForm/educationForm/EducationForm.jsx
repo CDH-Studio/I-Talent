@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import EducationFormView from "./EducationFormView";
 import axios from "axios";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+
+import EducationFormView from "./EducationFormView";
+import {
+  FieldPropType,
+  FormInstancePropType,
+  IntlPropType,
+  ProfileInfoPropType,
+  StylesPropType,
+} from "../../../../customPropTypes";
 import config from "../../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -11,14 +21,14 @@ const { backendAddress } = config;
  *  This component is strongly linked ot Qualifications Form.
  *  It generated the form fields for each education item the user creates in the qualifications form.
  */
-const EducationForm = (props) => {
+const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
   // Define States
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState();
   const [schoolOptions, setSchoolOptions] = useState();
 
   // get current language code
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -30,13 +40,13 @@ const EducationForm = (props) => {
    */
   const getDiplomaOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getDiploma";
-      let result = await axios.get(url);
-      let options = [];
+      const url = `${backendAddress}api/option/getDiploma`;
+      const result = await axios.get(url);
+      const options = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var option = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -56,13 +66,13 @@ const EducationForm = (props) => {
    */
   const getSchoolOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getSchool";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getSchool`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description,
           key: result.data[i].id,
         };
@@ -82,24 +92,38 @@ const EducationForm = (props) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
       });
   }, [locale]);
 
   return (
     <EducationFormView
-      form={props.form}
-      field={props.field}
-      remove={props.remove}
+      form={form}
+      field={field}
+      remove={remove}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
-      profileInfo={props.profileInfo}
-      style={props.style}
+      profileInfo={profileInfo}
+      style={style}
       load={load}
     />
   );
+};
+
+EducationForm.propTypes = {
+  form: FormInstancePropType.isRequired,
+  field: FieldPropType.isRequired,
+  intl: IntlPropType,
+  remove: PropTypes.func.isRequired,
+  profileInfo: ProfileInfoPropType.isRequired,
+  style: StylesPropType.isRequired,
+};
+
+EducationForm.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(EducationForm);

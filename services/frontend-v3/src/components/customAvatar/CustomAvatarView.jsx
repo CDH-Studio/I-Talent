@@ -1,25 +1,32 @@
 import React from "react";
 import { Avatar } from "antd";
+import { PropTypes } from "prop-types";
 
-function CustomAvatarView(props) {
+function CustomAvatarView({ color, style, initials }) {
   // set icon color based on name
-  var iconColor = {
-    backgroundColor: props.color,
-    color: "#fff"
+  const iconColor = {
+    backgroundColor: color,
+    color: "#fff",
   };
 
   const componentStyle = {
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   };
 
   // merge component style with styles passed through from parent
-  var mergedStyles = {
-    ...props.style,
+  const mergedStyles = {
+    ...style,
     ...componentStyle,
-    ...iconColor
+    ...iconColor,
   };
 
-  return <Avatar style={mergedStyles}>{props.initials}</Avatar>;
+  return <Avatar style={mergedStyles}>{initials}</Avatar>;
 }
+
+CustomAvatarView.propTypes = {
+  color: PropTypes.string.isRequired,
+  style: PropTypes.objectOf(PropTypes.string).isRequired,
+  initials: PropTypes.string.isRequired,
+};
 
 export default CustomAvatarView;

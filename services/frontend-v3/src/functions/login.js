@@ -1,11 +1,11 @@
-const post = require("axios").post;
+const { post } = require("axios");
 
-const backendAddress = require("../config").default.backendAddress;
+const { backendAddress } = require("../config").default;
 
 const createUser = (email, name) => {
-  return post(backendAddress + "api/user/", {
+  return post(`${backendAddress}api/user/`, {
     email,
-    name
+    name,
   })
     .then(res => {
       localStorage.setItem("userId", res.data.user.id);

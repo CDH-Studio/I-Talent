@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import EmploymentDataFormView from "../../profileForms/employmentDataForm/EmploymentDataFormView";
 import axios from "axios";
-import config from "../../../config";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
+import config from "../../../config";
+import EmploymentDataFormView from "./EmploymentDataFormView";
+
 const { backendAddress } = config;
 
 /**
@@ -10,7 +13,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const EmploymentDataForm = (props) => {
+const EmploymentDataForm = ({ formType, intl }) => {
   const [substantiveOptions, setSubstantiveOptions] = useState(null);
   const [classificationOptions, setClassificationOptions] = useState(null);
   const [securityOptions, setSecurityOptions] = useState(null);
@@ -18,7 +21,7 @@ const EmploymentDataForm = (props) => {
   const [load, setLoad] = useState(false);
 
   // Get current language code
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -26,12 +29,12 @@ const EmploymentDataForm = (props) => {
   // Get substantive level options
   const getSubstantiveOptions = async () => {
     try {
-      let result = await axios.get(backendAddress + "api/option/getTenure");
+      const result = await axios.get(`${backendAddress}api/option/getTenure`);
 
-      let options = [];
+      const options = [];
       // Generate the data for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var option = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -47,13 +50,13 @@ const EmploymentDataForm = (props) => {
   // Get classification options
   const getClassificationOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getGroupLevel";
-      let result = await axios.get(url);
-      let options = [];
+      const url = `${backendAddress}api/option/getGroupLevel`;
+      const result = await axios.get(url);
+      const options = [];
 
       // Generate the data for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var option = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
           title: result.data[i].description,
           key: result.data[i].id,
         };
@@ -69,13 +72,13 @@ const EmploymentDataForm = (props) => {
   // Get security options
   const getSecurityOptions = async () => {
     try {
-      let url = backendAddress + "api/option/getSecurityClearance";
-      let result = await axios.get(url);
-      let options = [];
+      const url = `${backendAddress}api/option/getSecurityClearance`;
+      const result = await axios.get(url);
+      const options = [];
 
       // Generate the data for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var option = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -91,11 +94,10 @@ const EmploymentDataForm = (props) => {
   // Get user profile for form drop down
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
@@ -115,8 +117,9 @@ const EmploymentDataForm = (props) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
       });
   }, [locale]);
@@ -127,11 +130,20 @@ const EmploymentDataForm = (props) => {
       classificationOptions={classificationOptions}
       securityOptions={securityOptions}
       profileInfo={profileInfo}
-      formType={props.formType}
+      formType={formType}
       locale={locale}
       load={load}
     />
   );
+};
+
+EmploymentDataForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  intl: IntlPropType,
+};
+
+EmploymentDataForm.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(EmploymentDataForm);
