@@ -1,23 +1,10 @@
-const { category, tenure } = require("../../database/models");
+const { getModel } = require("./util/getModel.js");
+const Models = require("../../database/models");
 
-async function deleteOption(request, response) {
-  try {
-    const { id, type } = request.params;
-    const model = getModel(type);
-
-    model
-      .destroy({
-        where: { id: id },
-      })
-      .then((destroyCount) =>
-        response
-          .status(200)
-          .json({ deletePerformed: destroyCount === 1, error: null })
-      );
-  } catch (error) {
-    response.status(500).json({ deletePerformed: false, error: error });
-  }
-}
+const User = Models.user;
+const Profile = Models.profile;
+const Tenure = Models.tenure;
+const Category = Models.category;
 
 async function getOption(request, response) {
   try {
@@ -33,7 +20,7 @@ async function getOption(request, response) {
     }
 
     if (type === "skill") {
-      options.include = category;
+      options.include = Category;
     }
 
     const rows = await model.findAll(options);
@@ -47,7 +34,7 @@ async function getCategories(request, response) {
   try {
     const { type } = request.params;
     if (type === "skill") {
-      const rows = await category.findAll();
+      const rows = await Category.findAll();
       response.status(200).json(rows);
     }
   } catch (error) {
@@ -81,7 +68,7 @@ async function getInactive(request, response) {
 
 async function getUser(request, response) {
   const values = await Profile.findAll({
-    include: [User, tenure],
+    include: [User, Tenure],
     attributes: [
       "id",
       "firstName",
@@ -98,6 +85,25 @@ async function getUser(request, response) {
 
 function checkAdmin(request, response) {
   response.status(200).send("Access Granted");
+}
+
+async function deleteOption(request, response) {
+  try {
+    const { id, type } = request.params;
+    const model = getModel(type);
+
+    model
+      .destroy({
+        where: { id: id },
+      })
+      .then((destroyCount) =>
+        response
+          .status(200)
+          .json({ deletePerformed: destroyCount === 1, error: null })
+      );
+  } catch (error) {
+    response.status(500).json({ deletePerformed: false, error: error });
+  }
 }
 
 async function createOption(request, response) {
@@ -144,6 +150,7 @@ async function bulkDeleteOption(request, response) {
     response.status(500).json({ deletePerformed: false, error: error });
   }
 }
+
 async function updateOption(request, response) {
   try {
     const { id, type } = request.params;

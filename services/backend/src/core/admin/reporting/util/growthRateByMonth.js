@@ -22,12 +22,12 @@ async function growthRateByMonth() {
       (object) => object.year === profileYear
     );
 
-    if (indexYear != -1) {
+    if (indexYear !== -1) {
       const indexMonth = monthlyGrowthRate[indexYear].data.findIndex(
         (object) => object.month === profileMonth
       );
 
-      if (indexMonth != -1) {
+      if (indexMonth !== -1) {
         monthlyGrowthRate[indexYear].data[indexMonth].count =
           monthlyGrowthRate[indexYear].data[indexMonth].count + 1;
       } else {
@@ -73,6 +73,7 @@ async function growthRateByMonth() {
 
   const months = moment.monthsShort();
 
+  // FIXME: Refactor this
   monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
     const addData = [];
 
@@ -103,32 +104,32 @@ async function growthRateByMonth() {
   });
 
   // Users Added This Month & Growth Rate Percentage:
-  const current_year = moment().year();
+  const currentYear = moment().year();
 
-  const current_month = moment().month();
+  const currentMonth = moment().month();
 
   const indexYear = monthlyGrowthRate.findIndex(
-    (object) => object.year === current_year
+    (object) => object.year === currentYear
   );
 
-  const current_month_additions = monthlyGrowthRate[indexYear].data.find(
-    (object) => object.month === current_month
+  const currentMonthAdditions = monthlyGrowthRate[indexYear].data.find(
+    (object) => object.month === currentMonth
   );
 
-  let previous_month_additions = {};
+  let previousMonthAdditions = {};
 
-  if (current_month === 0) {
-    previous_month_additions = monthlyGrowthRate[indexYear - 1].data.find(
+  if (currentMonth === 0) {
+    previousMonthAdditions = monthlyGrowthRate[indexYear - 1].data.find(
       (object) => object.month === 11
     );
   } else {
-    previous_month_additions = monthlyGrowthRate[indexYear].data.find(
-      (object) => object.month === current_month - 1
+    previousMonthAdditions = monthlyGrowthRate[indexYear].data.find(
+      (object) => object.month === currentMonth - 1
     );
   }
   let growthRateFromPreviousMonth = Math.round(
-    ((current_month_additions.count - previous_month_additions.count) /
-      previous_month_additions.count) *
+    ((currentMonthAdditions.count - previousMonthAdditions.count) /
+      previousMonthAdditions.count) *
       100
   );
 
@@ -138,7 +139,7 @@ async function growthRateByMonth() {
 
   return {
     graphicalData,
-    current_month_additions,
+    currentMonthAdditions,
     growthRateFromPreviousMonth,
   };
 }

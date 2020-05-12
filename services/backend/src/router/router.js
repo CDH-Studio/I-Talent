@@ -10,6 +10,7 @@ const userRouter = require("./admin/admin");
 const router = Router();
 
 router.get("/", (req, res) => {
+  console.log("hooray! welcome to our api!");
   res.json({ message: "hooray! welcome to our api!" });
 });
 

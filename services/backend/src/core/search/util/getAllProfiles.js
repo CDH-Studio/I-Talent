@@ -8,9 +8,8 @@ const User = Models.user;
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-
-function getProf(profile, searchValue){
-  const user = await profile.getUser({
+function getProf(profile, searchValue) {
+  const user = Profile.getUser({
     attributes: ["email", "avatarColor", "nameInitials"],
   });
 
@@ -23,19 +22,19 @@ function getProf(profile, searchValue){
 
   const data = { ...profileData, ...userData };
 
-  const groupLevel = await profile.getGroupLevel().then((res) => {
+  const groupLevel = Profile.getGroupLevel().then((res) => {
     if (res) return res.dataValues;
   });
 
-  const acting = await profile.getActing().then((res) => {
+  const acting = Profile.getActing().then((res) => {
     if (res) return res.dataValues;
   });
 
-  const location = await profile.getLocation().then((res) => {
+  const location = Profile.getLocation().then((res) => {
     if (res) return res.dataValues;
   });
 
-  const experiences = await profile.getExperiences();
+  const experiences = Profile.getExperiences();
   const careerSummary = experiences.map((experience) => {
     const startDate = moment(experience.startDate);
     const endDate = moment(experience.endDate);
@@ -49,12 +48,12 @@ function getProf(profile, searchValue){
     };
   });
 
-  const dbProjects = await profile.getProfileProjects();
+  const dbProjects = Profile.getProfileProjects();
   const projects = dbProjects.map((project) => {
     return { text: project.description };
   });
 
-  const education = await profile.getEducation();
+  const education = Profile.getEducation();
   const educations = () => {
     return Promise.all(
       education.map(async (educ) => {
@@ -88,21 +87,21 @@ function getProf(profile, searchValue){
     );
   };
 
-  const educArray = await educations();
+  const educArray = educations();
 
-  const organizationList = await profile
-    .getProfileOrganizations({ order: [["tier", "DESC"]] })
-    .then((organizations) => {
-      const orgList = organizations.map((organization) => {
-        return {
-          en: organization.descriptionEn,
-          fr: organization.descriptionFr,
-        };
-      });
-      return orgList;
+  const organizationList = Profile.getProfileOrganizations({
+    order: [["tier", "DESC"]],
+  }).then((organizations) => {
+    const orgList = organizations.map((organization) => {
+      return {
+        en: organization.descriptionEn,
+        fr: organization.descriptionFr,
+      };
     });
+    return orgList;
+  });
 
-  const skills = await profile.getSkills().map(async (skill) => {
+  const skills = Profile.getSkills().map(async (skill) => {
     if (skill) {
       return {
         id: skill.dataValues.id,
@@ -114,7 +113,7 @@ function getProf(profile, searchValue){
     }
   });
 
-  const competencies = await profile.getCompetencies().map((competencies) => {
+  const competencies = Profile.getCompetencies().map((competencies) => {
     if (competencies)
       return {
         id: competencies.dataValues.id,
@@ -188,7 +187,7 @@ function getProf(profile, searchValue){
     resultSkills,
   };
   return resData;
-};
+}
 
 function getProfs(profiles, searchValue) {
   return Promise.all(
