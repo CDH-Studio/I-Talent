@@ -23,9 +23,11 @@ const Secured = ({ changeLanguage, location }) => {
   const [redirect, setRedirect] = useState(null);
 
   useEffect(() => {
+    const keycloakInstance = Keycloak(keycloakJSONConfig);
+
     // Check if profile exist for the logged in user
     const profileExist = () => {
-      return keycloak.loadUserInfo().then(async (userInfo) => {
+      return keycloakInstance.loadUserInfo().then(async (userInfo) => {
         return createUser(userInfo.email, userInfo.name).then((res) => {
           // Add name and email to local storage
           localStorage.setItem("name", userInfo.name);
@@ -47,7 +49,6 @@ const Secured = ({ changeLanguage, location }) => {
       });
     };
 
-    const keycloakInstance = Keycloak(keycloakJSONConfig);
     keycloakInstance
       .init({
         onLoad: "login-required",
