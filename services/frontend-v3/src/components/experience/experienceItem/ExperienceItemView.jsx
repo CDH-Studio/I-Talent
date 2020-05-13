@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import { Row, Avatar, List } from "antd";
 import { ContainerOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
+import { IntlPropType } from "../../../customPropTypes";
 
 const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
   const styles = {
@@ -78,9 +79,19 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
 
 ExperienceItem.propTypes = {
   expand: PropTypes.bool.isRequired,
-  item: PropTypes.isRequired,
+  item: PropTypes.shape({
+    description: PropTypes.string,
+    duration: PropTypes.string,
+    icon: PropTypes.string,
+    jobTitle: PropTypes.string,
+    organizationName: PropTypes.string,
+  }).isRequired,
   toggleExpand: PropTypes.func.isRequired,
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
+};
+
+ExperienceItem.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(ExperienceItem);

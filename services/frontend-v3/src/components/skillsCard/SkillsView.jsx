@@ -51,7 +51,28 @@ function SkillsView({ categoriesSkills, skills }) {
 }
 
 SkillsView.propTypes = {
-  categoriesSkills: PropTypes.arrayOf(PropTypes.string).isRequired,
-  skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categoriesSkills: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        index: PropTypes.number,
+        val: PropTypes.arrayOf(PropTypes.string),
+      })
+    ),
+  ]),
+  skills: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        index: PropTypes.number,
+        val: PropTypes.arrayOf(PropTypes.string),
+      })
+    ),
+  ]),
+};
+
+SkillsView.defaultProps = {
+  categoriesSkills: undefined,
+  skills: undefined,
 };
 export default SkillsView;

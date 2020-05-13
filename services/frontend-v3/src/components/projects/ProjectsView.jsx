@@ -10,9 +10,7 @@ const ProjectsView = ({ projectsInfo }) => {
           size="small"
           itemLayout="horizontal"
           dataSource={projectsInfo}
-          renderItem={(item) => (
-            <List.Item>{item.projectDescription}</List.Item>
-          )}
+          renderItem={item => <List.Item>{item.projectDescription}</List.Item>}
         />
       </Col>
     </Row>
@@ -20,7 +18,9 @@ const ProjectsView = ({ projectsInfo }) => {
 };
 
 ProjectsView.propTypes = {
-  projectsInfo: PropTypes.isRequired,
+  projectsInfo: PropTypes.arrayOf(
+    PropTypes.shape({ projectDescription: PropTypes.string })
+  ).isRequired,
 };
 
 export default ProjectsView;

@@ -5,6 +5,7 @@ import axios from "axios";
 // eslint-disable-next-line import/no-named-as-default-member
 import ProfileCardsView from "./ProfileCardsView";
 import config from "../../config";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -65,12 +66,16 @@ function ProfileCards({ data, title, content, editUrl, cardName, id }) {
 }
 
 ProfileCards.propTypes = {
-  data: PropTypes.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.isRequired,
+  data: ProfileInfoPropType,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  content: PropTypes.element.isRequired,
   editUrl: PropTypes.string.isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+};
+
+ProfileCards.defaultProps = {
+  data: null,
 };
 
 export default ProfileCards;

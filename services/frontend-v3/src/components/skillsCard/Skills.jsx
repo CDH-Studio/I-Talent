@@ -1,15 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import SkillsView from "./SkillsView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const Skills = ({ data }) => {
-  const formatData = (list) => {
+  const formatData = list => {
     const locale = localStorage.getItem("lang") || "en";
 
     const categorizedList = {};
 
     if (list) {
-      list.forEach((listElement) => {
+      list.forEach(listElement => {
         const key = listElement.description.categoryId;
 
         if (categorizedList[key] == null) {
@@ -23,7 +23,7 @@ const Skills = ({ data }) => {
     return categorizedList;
   };
 
-  const setUpCategories = (list) => {
+  const setUpCategories = list => {
     const locale = localStorage.getItem("lang") || "en";
     const categorizedList = {};
     const categoriesTemp = {};
@@ -32,7 +32,7 @@ const Skills = ({ data }) => {
     let k = 0;
 
     if (list) {
-      list.forEach((listElement) => {
+      list.forEach(listElement => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
@@ -57,7 +57,7 @@ const Skills = ({ data }) => {
     return categories;
   };
 
-  const setUpSkills = (dataSource) => {
+  const setUpSkills = dataSource => {
     const skills = [];
 
     const categorizedSkillsList = formatData(dataSource);
@@ -78,7 +78,11 @@ const Skills = ({ data }) => {
 };
 
 Skills.propTypes = {
-  data: PropTypes.isRequired,
+  data: ProfileInfoPropType,
+};
+
+Skills.defaultProps = {
+  data: null,
 };
 
 export default Skills;

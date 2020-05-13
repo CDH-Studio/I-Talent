@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import Substantive from "./substantive/Substantive";
 import Acting from "./acting/Acting";
 import OfficialLanguage from "./officialLanguage/OfficialLanguage";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const { TabPane } = Tabs;
 
@@ -34,7 +35,11 @@ const EmployeeSummaryView = ({ data }) => {
 };
 
 EmployeeSummaryView.propTypes = {
-  data: PropTypes.isRequired,
+  data: ProfileInfoPropType,
+};
+
+EmployeeSummaryView.defaultProps = {
+  data: null,
 };
 
 export default EmployeeSummaryView;

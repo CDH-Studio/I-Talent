@@ -1,13 +1,17 @@
 import React from "react";
-import PropTypes from "prop-types";
 import EmployeeSummaryView from "./EmployeeSummaryView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const EmployeeSummary = ({ data }) => {
   return <EmployeeSummaryView data={data} />;
 };
 
 EmployeeSummary.propTypes = {
-  data: PropTypes.isRequired,
+  data: ProfileInfoPropType,
+};
+
+EmployeeSummary.defaultProps = {
+  data: null,
 };
 
 export default EmployeeSummary;

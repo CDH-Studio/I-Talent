@@ -5,6 +5,7 @@ import { PageHeader, Anchor, Typography, Row, Col } from "antd";
 import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
+import { ProfileInfoPropType } from "../../../customPropTypes";
 
 import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
@@ -572,8 +573,12 @@ const ProfileLayoutView = ({ data, changeLanguage }) => {
 };
 
 ProfileLayoutView.propTypes = {
-  data: PropTypes.isRequired,
+  data: ProfileInfoPropType,
   changeLanguage: PropTypes.func.isRequired,
+};
+
+ProfileLayoutView.defaultProps = {
+  data: null,
 };
 
 export default ProfileLayoutView;

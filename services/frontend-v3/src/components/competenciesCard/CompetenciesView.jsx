@@ -37,7 +37,7 @@ const CompetenciesView = ({ competencies }) => {
 };
 
 CompetenciesView.propTypes = {
-  competencies: PropTypes.isRequired,
+  competencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default CompetenciesView;

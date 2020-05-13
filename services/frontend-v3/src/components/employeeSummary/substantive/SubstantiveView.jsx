@@ -12,7 +12,7 @@ const SubstantiveView = ({ values }) => {
             <List
               itemLayout="horizontal"
               dataSource={values}
-              renderItem={(item) => (
+              renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
                     title={item.title}
@@ -29,7 +29,9 @@ const SubstantiveView = ({ values }) => {
 };
 
 SubstantiveView.propTypes = {
-  values: PropTypes.isRequired,
+  values: PropTypes.arrayOf(
+    PropTypes.shape({ title: PropTypes.object, description: PropTypes.object })
+  ).isRequired,
 };
 
 export default injectIntl(SubstantiveView);

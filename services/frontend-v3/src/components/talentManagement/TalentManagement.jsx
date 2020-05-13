@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import TalentManagementView from "./TalentManagementView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const TalentManagement = ({ data }) => {
   return (
@@ -12,7 +12,11 @@ const TalentManagement = ({ data }) => {
 };
 
 TalentManagement.propTypes = {
-  data: PropTypes.isRequired,
+  data: ProfileInfoPropType,
+};
+
+TalentManagement.defaultProps = {
+  data: null,
 };
 
 export default TalentManagement;

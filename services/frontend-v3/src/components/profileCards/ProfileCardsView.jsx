@@ -10,6 +10,7 @@ import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
 
 import axios from "axios";
+import { ProfileInfoPropType } from "../../customPropTypes";
 import config from "../../config";
 
 const { backendAddress } = config;
@@ -157,11 +158,16 @@ function ProfileCardsView({
 ProfileCardsView.propTypes = {
   cardName: PropTypes.string.isRequired,
   editUrl: PropTypes.string.isRequired,
-  profileInfo: PropTypes.isRequired,
-  title: PropTypes.string.isRequired,
+  profileInfo: ProfileInfoPropType,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   id: PropTypes.string.isRequired,
-  content: PropTypes.isRequired,
-  style: PropTypes.isRequired,
+  content: PropTypes.element.isRequired,
+  style: PropTypes.objectOf(PropTypes.string),
+};
+
+ProfileCardsView.defaultProps = {
+  profileInfo: null,
+  style: undefined,
 };
 
 export default ProfileCardsView;

@@ -3,6 +3,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { CheckOutlined } from "@ant-design/icons";
 import { Row, Col, List } from "antd";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const TalentManagementView = ({ locale, data }) => {
   const styles = {
@@ -48,7 +49,7 @@ const TalentManagementView = ({ locale, data }) => {
         <List
           itemLayout="horizontal"
           dataSource={getTalentManagementDatasource()}
-          renderItem={(item) => (
+          renderItem={item => (
             <List.Item>
               <List.Item.Meta
                 title={item.title}
@@ -63,22 +64,12 @@ const TalentManagementView = ({ locale, data }) => {
 };
 
 TalentManagementView.propTypes = {
-  data: PropTypes.shape({
-    careerMobility: PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
-    }),
-    exFeeder: PropTypes.bool,
-    talentMatrixResult: PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  data: ProfileInfoPropType,
   locale: PropTypes.oneOf(["fr", "en"]).isRequired,
+};
+
+TalentManagementView.defaultProps = {
+  data: null,
 };
 
 export default TalentManagementView;

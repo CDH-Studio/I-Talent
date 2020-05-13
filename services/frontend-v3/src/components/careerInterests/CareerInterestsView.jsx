@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import { Row, Col, List, Tag, Typography } from "antd";
 
 const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
-  const generateCareerInterestsInfoList = (dataSource) => {
+  const generateCareerInterestsInfoList = dataSource => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={(item) => (
+        renderItem={item => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
@@ -18,7 +18,7 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
     );
   };
 
-  const generateRelocationLocationsInfoList = (dataSource) => {
+  const generateRelocationLocationsInfoList = dataSource => {
     if (dataSource.length > 0) {
       return (
         <div style={{ marginBottom: "10px" }}>
@@ -50,8 +50,22 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
 };
 
 CareerInterestsView.propTypes = {
-  info: PropTypes.isRequired,
-  relocationLocationsInfo: PropTypes.isRequired,
+  info: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.oneOfType([
+        PropTypes.symbol,
+        PropTypes.string,
+        PropTypes.object,
+      ]),
+      icon: PropTypes.string,
+      title: PropTypes.oneOfType([
+        PropTypes.symbol,
+        PropTypes.string,
+        PropTypes.object,
+      ]),
+    })
+  ).isRequired,
+  relocationLocationsInfo: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default CareerInterestsView;

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import ExperienceView from "./ExperienceView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const Experience = ({ data }) => {
   const getExperienceDuration = (startDate, endDate) => {
@@ -24,10 +25,10 @@ const Experience = ({ data }) => {
     return duration;
   };
 
-  const getExperienceInfo = (dataSource) => {
+  const getExperienceInfo = dataSource => {
     const experienceInfo = [];
     if (dataSource.education != null) {
-      dataSource.careerSummary.forEach((expElement) => {
+      dataSource.careerSummary.forEach(expElement => {
         const { startDate } = expElement;
         const { endDate } = expElement;
 
@@ -50,7 +51,10 @@ const Experience = ({ data }) => {
 };
 
 Experience.propTypes = {
-  data: PropTypes.isRequired,
+  data: ProfileInfoPropType,
 };
 
+Experience.defaultProps = {
+  data: null,
+};
 export default Experience;

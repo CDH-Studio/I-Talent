@@ -19,7 +19,13 @@ const ExperienceItem = ({ item }) => {
 };
 
 ExperienceItem.propTypes = {
-  item: PropTypes.isRequired,
+  item: PropTypes.shape({
+    description: PropTypes.string,
+    duration: PropTypes.string,
+    icon: PropTypes.string,
+    jobTitle: PropTypes.string,
+    organizationName: PropTypes.string,
+  }).isRequired,
 };
 
 export default ExperienceItem;

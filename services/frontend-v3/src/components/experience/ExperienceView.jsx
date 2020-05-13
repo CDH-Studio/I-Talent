@@ -10,7 +10,7 @@ const ExperienceView = ({ experienceInfo }) => {
         <List
           itemLayout="vertical"
           dataSource={experienceInfo}
-          renderItem={(item) => <ExperienceItem item={item} />}
+          renderItem={item => <ExperienceItem item={item} />}
         />
       </Col>
     </Row>
@@ -18,7 +18,15 @@ const ExperienceView = ({ experienceInfo }) => {
 };
 
 ExperienceView.propTypes = {
-  experienceInfo: PropTypes.isRequired,
+  experienceInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      duration: PropTypes.string,
+      icon: PropTypes.string,
+      jobTitle: PropTypes.string,
+      organizationName: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default ExperienceView;
