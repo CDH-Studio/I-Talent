@@ -48,7 +48,6 @@ const SchoolTable = ({ type, intl }) => {
         schools = await getSchools();
         setData(schools);
         // eslint-disable-next-line no-console
-        console.log("Before: ", schools);
         setLoading(false);
       };
       setState();
@@ -57,7 +56,6 @@ const SchoolTable = ({ type, intl }) => {
         schools = await getSchools();
         setData(schools);
         // eslint-disable-next-line no-console
-        console.log("After: ", schools);
         setReset(false);
       };
       updateState();
@@ -65,7 +63,7 @@ const SchoolTable = ({ type, intl }) => {
   }, [getSchools, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -88,13 +86,13 @@ const SchoolTable = ({ type, intl }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a school */
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -152,7 +150,7 @@ const SchoolTable = ({ type, intl }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = _selectedRowKeys => {
+  const onSelectChange = (_selectedRowKeys) => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
@@ -160,7 +158,7 @@ const SchoolTable = ({ type, intl }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: _selectedRowKeys => {
+    onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
   };
@@ -197,7 +195,7 @@ const SchoolTable = ({ type, intl }) => {
       data={convertToViewableInformation()}
     />
   );
-}
+};
 
 SchoolTable.propTypes = {
   type: PropTypes.string.isRequired,

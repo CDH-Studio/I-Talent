@@ -524,7 +524,10 @@ function DiplomaTableView({
 }
 
 DiplomaTableView.propTypes = {
-  data: PropTypes.isRequired,
+  data: PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    allDiplomas: PropTypes.arrayOf(PropTypes.any).isRequired,
+  }).isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -538,7 +541,7 @@ DiplomaTableView.propTypes = {
   }).isRequired,
   searchText: PropTypes.string.isRequired,
   searchedColumn: PropTypes.string.isRequired,
-  selectedRowKeys: PropTypes.isRequired,
+  selectedRowKeys: PropTypes.func.isRequired,
   size: PropTypes.string.isRequired,
 };
 
