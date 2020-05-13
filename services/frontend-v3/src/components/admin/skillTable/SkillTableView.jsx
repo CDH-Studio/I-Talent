@@ -639,7 +639,7 @@ SkillTableView.propTypes = {
       allCategories: PropTypes.any,
     }),
   }).isRequired,
-  categories: PropTypes.isRequired,
+  categories: PropTypes.func.isRequired,
 };
 
 SkillTableView.defaultProps = {
