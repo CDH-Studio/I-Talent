@@ -54,9 +54,13 @@ function CategoryTableView({
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
+      // eslint-disable-next-line react/prop-types
       setSelectedKeys,
+      // eslint-disable-next-line react/prop-types
       selectedKeys,
+      // eslint-disable-next-line react/prop-types
       confirm,
+      // eslint-disable-next-line react/prop-types
       clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
@@ -434,7 +438,7 @@ function CategoryTableView({
   // Consult: Ant Design table components for further clarification
   const categoryTableColumns = () => {
     // Table columns data structure: array of objects
-    const category_table_columns = [
+    const categoryTableColumns = [
       {
         title: intl.formatMessage({
           id: "language.english",
@@ -497,7 +501,7 @@ function CategoryTableView({
         ),
       },
     ];
-    return category_table_columns;
+    return categoryTableColumns;
   };
 
   return (

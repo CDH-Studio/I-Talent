@@ -54,9 +54,13 @@ function CompetencyTableView({
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
+      // eslint-disable-next-line react/prop-types
       setSelectedKeys,
+      // eslint-disable-next-line react/prop-types
       selectedKeys,
+      // eslint-disable-next-line react/prop-types
       confirm,
+      // eslint-disable-next-line react/prop-types
       clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
@@ -414,7 +418,7 @@ function CompetencyTableView({
   // Consult: Ant Design table components for further clarification
   const competencyTableColumns = () => {
     // Table columns data structure: array of objects
-    const competency_table_columns = [
+    const competencyTableColumns = [
       {
         title: intl.formatMessage({
           id: "language.english",
@@ -477,7 +481,7 @@ function CompetencyTableView({
         ),
       },
     ];
-    return competency_table_columns;
+    return competencyTableColumns;
   };
 
   return (
