@@ -22,6 +22,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  SkillTableView(props)
@@ -621,7 +622,7 @@ function SkillTableView({
 }
 
 SkillTableView.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -639,6 +640,10 @@ SkillTableView.propTypes = {
     }),
   }).isRequired,
   categories: PropTypes.isRequired,
+};
+
+SkillTableView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(SkillTableView);
