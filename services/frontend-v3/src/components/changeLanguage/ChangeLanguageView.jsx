@@ -3,6 +3,7 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
+import { IntlPropType } from "../../customPropTypes";
 
 const ChangeLanguageView = ({ intl, changeLanguage }) => {
   const languageCode = intl.formatMessage({ id: "lang.code" });
@@ -20,7 +21,7 @@ const ChangeLanguageView = ({ intl, changeLanguage }) => {
       ghost="true"
       type="default"
       tabIndex="0"
-      onKeyPress={(e) => handleKeyPress(e, languageCode)}
+      onKeyPress={e => handleKeyPress(e, languageCode)}
       onClick={() => changeLanguage(languageCode)}
       style={{ textTransform: "uppercase" }}
     >
@@ -35,7 +36,11 @@ const ChangeLanguageView = ({ intl, changeLanguage }) => {
 
 ChangeLanguageView.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
+};
+
+ChangeLanguageView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(ChangeLanguageView);

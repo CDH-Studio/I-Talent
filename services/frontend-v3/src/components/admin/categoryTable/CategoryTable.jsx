@@ -7,6 +7,7 @@ import _ from "lodash";
 import { injectIntl } from "react-intl";
 import CategoryTableView from "./CategoryTableView";
 import config from "../../../config";
+import { IntlPropType } from "../../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -209,8 +210,12 @@ function CategoryTable({ intl, type }) {
 }
 
 CategoryTable.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   type: PropTypes.string.isRequired,
+};
+
+CategoryTable.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(CategoryTable);
