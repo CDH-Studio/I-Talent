@@ -1,8 +1,6 @@
 /* eslint-disable no-shadow */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { IntlPropType } from "../../../customPropTypes";
-
 import {
   PageHeader,
   Row,
@@ -23,6 +21,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  CompetencyTableView(props)
@@ -495,22 +494,24 @@ const CompetencyTableView = ({
           id: "admin.competency.table",
           defaultMessage: "Competencies Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
