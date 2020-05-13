@@ -44,9 +44,13 @@ const AppLayoutView = ({
 
 AppLayoutView.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  sideBarContent: PropTypes.node.isRequired,
+  sideBarContent: PropTypes.node,
   displaySideBar: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
+};
+
+AppLayoutView.defaultProps = {
+  sideBarContent: undefined,
 };
 
 export default AppLayoutView;

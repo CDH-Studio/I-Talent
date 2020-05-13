@@ -13,6 +13,7 @@ import {
 } from "antd";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
+import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -306,12 +307,32 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
-  branchOptions: PropTypes.isRequired,
-  classOptions: PropTypes.isRequired,
-  handleSearch: PropTypes.isRequired,
-  locationOptions: PropTypes.isRequired,
-  skillOptions: PropTypes.isRequired,
-  intl: PropTypes.isRequired,
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    })
+  ),
+  classOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      description: PropTypes.string,
+    })
+  ),
+  locationOptions: IdDescriptionPropType,
+  skillOptions: IdDescriptionPropType,
+  handleSearch: PropTypes.func.isRequired,
+  intl: IntlPropType,
+};
+
+SearchBarView.defaultProps = {
+  intl: undefined,
+  branchOptions: [],
+  classOptions: [],
+  locationOptions: [],
+  skillOptions: [],
 };
 
 export default injectIntl(SearchBarView);

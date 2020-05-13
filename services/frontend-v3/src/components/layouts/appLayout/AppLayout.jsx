@@ -21,9 +21,13 @@ const AppLayout = ({
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
-  sideBarContent: PropTypes.node.isRequired,
+  sideBarContent: PropTypes.node,
   displaySideBar: PropTypes.bool.isRequired,
   changeLanguage: PropTypes.func.isRequired,
+};
+
+AppLayout.defaultProps = {
+  sideBarContent: undefined,
 };
 
 export default AppLayout;
