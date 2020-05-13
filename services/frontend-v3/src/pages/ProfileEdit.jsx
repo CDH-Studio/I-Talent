@@ -1,6 +1,7 @@
 import React from "react";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
+import { IntlPropType } from "../customPropTypes";
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
 const ProfileEdit = ({ changeLanguage, intl, match }) => {
@@ -15,9 +16,13 @@ const ProfileEdit = ({ changeLanguage, intl, match }) => {
 };
 
 ProfileEdit.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   changeLanguage: PropTypes.func.isRequired,
   match: PropTypes.isRequired,
+};
+
+ProfileEdit.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(ProfileEdit);
