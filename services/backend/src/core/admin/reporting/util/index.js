@@ -8,12 +8,12 @@ const dashboardCount = require("./dashboardCount");
 const getTopFive = require("./getTopFive");
 
 module.exports = {
-  countSkillProfiles,
-  countCompetencyProfiles,
-  countDevelopmentGoals,
-  flaggedProfiles,
-  growthRateByMonth,
-  growthRateByWeek,
-  dashboardCount,
-  getTopFive,
+	countSkillProfiles,
+	countCompetencyProfiles,
+	countDevelopmentGoals,
+	flaggedProfiles,
+	growthRateByMonth,
+	growthRateByWeek,
+	dashboardCount,
+	getTopFive,
 };

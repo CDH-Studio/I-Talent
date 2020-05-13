@@ -29,22 +29,22 @@ const Tenure = Models.tenure;
   optionRouter
 */
 const mapping = {
-  careerMobility: CareerMobility,
-  competency: Competency,
-  diploma: Diploma,
-  groupLevel: GroupLevel,
-  keyCompetency: KeyCompetency,
-  location: Location,
-  school: School,
-  securityClearance: SecurityClearance,
-  skill: Skill,
-  category: Category,
-  talentManager: TalentMatrixResult,
-  tenure: Tenure,
+	careerMobility: CareerMobility,
+	competency: Competency,
+	diploma: Diploma,
+	groupLevel: GroupLevel,
+	keyCompetency: KeyCompetency,
+	location: Location,
+	school: School,
+	securityClearance: SecurityClearance,
+	skill: Skill,
+	category: Category,
+	talentManager: TalentMatrixResult,
+	tenure: Tenure,
 };
 
 function getModel(type) {
-  return mapping[type];
+	return mapping[type];
 }
 
 module.exports = { getModel: getModel };

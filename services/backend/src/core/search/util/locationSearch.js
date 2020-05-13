@@ -1,13 +1,13 @@
 async function locationSearch(profiles, locationArray) {
-  const locationProf = [];
+	const locationProf = [];
 
-  profiles.forEach((profile) => {
-    if (!profile.location) return;
-    const locationId = profile.location.id;
+	profiles.forEach((profile) => {
+		if (!profile.location) return;
+		const locationId = profile.location.id;
 
-    if (locationArray.includes(locationId)) locationProf.push(profile);
-  });
-  return locationProf;
+		if (locationArray.includes(locationId)) locationProf.push(profile);
+	});
+	return locationProf;
 }
 
 module.exports = locationSearch;
