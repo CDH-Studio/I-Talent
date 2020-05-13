@@ -20,6 +20,7 @@ import {
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  UserTableView(props)
@@ -380,12 +381,12 @@ function UserTableView({
 }
 
 UserTableView.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
   handleDropdownChange: PropTypes.func.isRequired,
-  profileStatusValue: PropTypes.string.isRequired,
+  profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
@@ -395,6 +396,10 @@ UserTableView.propTypes = {
       allCategories: PropTypes.any,
     }),
   }).isRequired,
+};
+
+UserTableView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(UserTableView);
