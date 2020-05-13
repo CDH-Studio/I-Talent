@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -27,7 +27,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
   });
 
   // Get substantive level options
-  const getSubstantiveOptions = async () => {
+  const getSubstantiveOptions = useCallback(async () => {
     try {
       const result = await axios.get(`${backendAddress}api/option/getTenure`);
 
@@ -45,7 +45,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   // Get classification options
   const getClassificationOptions = async () => {
@@ -70,7 +70,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
   };
 
   // Get security options
-  const getSecurityOptions = async () => {
+  const getSecurityOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getSecurityClearance`;
       const result = await axios.get(url);
@@ -89,7 +89,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
@@ -117,12 +117,12 @@ const EmploymentDataForm = ({ formType, intl }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [locale]);
+  }, [getSecurityOptions, getSubstantiveOptions]);
 
   return (
     <EmploymentDataFormView

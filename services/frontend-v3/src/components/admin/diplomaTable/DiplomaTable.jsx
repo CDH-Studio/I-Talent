@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
@@ -25,7 +25,7 @@ const DiplomaTable = ({ type, intl }) => {
   const size = "large";
 
   // Get diploma information
-  const getDiplomas = async () => {
+  const getDiplomas = useCallback(async () => {
     try {
       const results = await axios.get(
         `${backendAddress}api/admin/options/${type}`
@@ -36,7 +36,7 @@ const DiplomaTable = ({ type, intl }) => {
       console.log(error);
       return 0;
     }
-  };
+  }, [type]);
 
   // Get part of the title for the page
   const getDisplayType = (plural) => {
@@ -71,7 +71,7 @@ const DiplomaTable = ({ type, intl }) => {
       };
       updateState();
     }
-  }, [loading, reset]);
+  }, [getDiplomas, loading, reset]);
 
   /* handles the search part of the column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)

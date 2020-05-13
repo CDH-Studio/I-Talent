@@ -108,6 +108,7 @@ const QualificationsForm = ({ formType }) => {
       getSavedExperience();
       getSavedProjects();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect to run once component is mounted

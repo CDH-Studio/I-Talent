@@ -399,7 +399,7 @@ const EmploymentDataFormView = props => {
     if (load) {
       form.resetFields();
     }
-  }, [props, form]);
+  }, [load, form, profileInfo]);
 
   /*
    * Get Form Control Buttons
