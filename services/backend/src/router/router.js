@@ -5,7 +5,7 @@ const optionsRouter = require("./options/options");
 const profileRouter = require("./profile/profile");
 const profileGenRouter = require("./profileGen/profileGen");
 const searchRouter = require("./search/search");
-const userRouter = require("./admin/admin");
+const userRouter = require("./user/user");
 
 const router = Router();
 

@@ -1,10 +1,9 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
+const search = require("../../core/search/search");
 
 const searchRouter = Router();
 
-const { search } = require("../../core/search/search");
-
-searchRouter.get("/fuzzySearch/", keycloak.protect(), search);
+searchRouter.get("/fuzzySearch/", keycloak.protect(), search.search);
 
 module.exports = searchRouter;

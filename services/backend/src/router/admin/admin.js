@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
-
 const {
   getOption,
   getCategories,

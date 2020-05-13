@@ -1,33 +1,27 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
-
-const {
-  getProfile,
-  getProfileStatusById,
-  updateProfile,
-  createProfile,
-} = require("../../core/profile/profile");
-const { getPublicProfileById } = require("../../core/profile/publicProfile");
-const { getPrivateProfileById } = require("../../core/profile/privateProfile");
+const profile = require("../../core/profile/profile");
+const publicProfile = require("../../core/profile/publicProfile");
+const privateProfile = require("../../core/profile/privateProfile");
 
 const profileRouter = Router();
 
 // Profile endpoints
-profileRouter.get("/", keycloak.protect(), getProfile);
+profileRouter.get("/", keycloak.protect(), profile.getProfile);
 
 profileRouter
   .route("/:id")
-  .get(keycloak.protect(), getPublicProfileById)
-  .post(keycloak.protect(), createProfile)
-  .put(keycloak.protect(), updateProfile);
+  .get(keycloak.protect(), publicProfile.getPublicProfileById)
+  .post(keycloak.protect(), profile.createProfile)
+  .put(keycloak.protect(), profile.updateProfile);
 
 // TODO: Change frontend api to profile/private instead of private/profile
 profileRouter
   .route("/private/:id")
-  .get(keycloak.protect(), getPrivateProfileById);
+  .get(keycloak.protect(), privateProfile.getPrivateProfileById);
 
 profileRouter
   .route("/private/status/:id")
-  .get(keycloak.protect(), getProfileStatusById);
+  .get(keycloak.protect(), profile.getProfileStatusById);
 
 module.exports = profileRouter;
