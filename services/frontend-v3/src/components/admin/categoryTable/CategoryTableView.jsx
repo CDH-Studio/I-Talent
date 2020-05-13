@@ -21,6 +21,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  CategoryTableView(props)
@@ -544,23 +545,27 @@ function CategoryTableView({
 }
 
 CategoryTableView.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
   handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
-  selectedRowKeys: PropTypes.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
-  rowSelection: PropTypes.isRequired,
+  rowSelection: PropTypes.func.isRequired,
   data: PropTypes.shape({
     getCategoryInformation: PropTypes.shape({
       description: PropTypes.string,
       allCategories: PropTypes.any,
     }),
   }).isRequired,
+};
+
+CategoryTableView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(CategoryTableView);

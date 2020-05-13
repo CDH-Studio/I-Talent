@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  DashboardGraphsView(props)
@@ -161,11 +162,16 @@ function DashboardGraphsView({
 }
 
 DashboardGraphsView.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   topFiveSkills: PropTypes.isRequired,
   topFiveCompetencies: PropTypes.isRequired,
   topFiveDevelopmentGoals: PropTypes.isRequired,
-  monthlyGrowth: PropTypes.isRequired,
+  monthlyGrowth: PropTypes.func,
+};
+
+DashboardGraphsView.defaultProps = {
+  intl: undefined,
+  monthlyGrowth: null,
 };
 
 export default injectIntl(DashboardGraphsView);
