@@ -1,6 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Menu } from "antd";
+import { IntlPropType } from "../../../customPropTypes";
+
 import {
   DashboardOutlined,
   SolutionOutlined,
@@ -175,8 +177,11 @@ AdminLayoutView.propTypes = {
     "school",
   ]).isRequired,
   children: PropTypes.node.isRequired,
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   keycloak: PropTypes.instanceOf(Keycloak).isRequired,
 };
 
+AdminLayoutView.defaultPropTypes = {
+  intl: undefined,
+};
 export default injectIntl(AdminLayoutView);
