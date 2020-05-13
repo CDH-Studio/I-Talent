@@ -557,17 +557,19 @@ CategoryTableView.propTypes = {
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
-  rowSelection: PropTypes.func.isRequired,
-  data: PropTypes.shape({
-    getCategoryInformation: PropTypes.shape({
-      description: PropTypes.string,
-      allCategories: PropTypes.any,
-    }),
-  }).isRequired,
+  rowSelection: PropTypes.objectOf(PropTypes.any),
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.shape({
+  //   getCategoryInformation: PropTypes.shape({
+  //     description: PropTypes.string,
+  //     allCategories: PropTypes.any,
+  //   }),
+  // }).isRequired,
 };
 
 CategoryTableView.defaultProps = {
   intl: undefined,
+  rowSelection: undefined,
 };
 
 export default injectIntl(CategoryTableView);

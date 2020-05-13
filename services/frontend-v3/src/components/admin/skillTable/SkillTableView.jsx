@@ -630,18 +630,19 @@ SkillTableView.propTypes = {
   handleSubmitAdd: PropTypes.func.isRequired,
   handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
-  selectedRowKeys: PropTypes.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
-  rowSelection: PropTypes.isRequired,
-  data: PropTypes.shape({
-    getCategoryInformation: PropTypes.shape({
-      description: PropTypes.string,
-      allCategories: PropTypes.any,
-    }),
-  }).isRequired,
-  categories: PropTypes.func.isRequired,
+  rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.shape({
+  //   getCategoryInformation: PropTypes.shape({
+  //     description: PropTypes.string,
+  //     allCategories: PropTypes.any,
+  //   }),
+  // }).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 SkillTableView.defaultProps = {

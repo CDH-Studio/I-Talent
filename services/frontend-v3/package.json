@@ -35,7 +35,8 @@
     "build": "react-app-rewired build",
     "deploy": "serve -s build -l 8080 ",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src --ext .js,.jsx"
   },
   "eslintConfig": {
     "extends": "react-app"
