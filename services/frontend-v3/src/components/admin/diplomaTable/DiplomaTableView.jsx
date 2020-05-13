@@ -25,7 +25,7 @@ import { injectIntl } from "react-intl";
  *  DiplomaTableView(props)
  *  This component renders the diploma table for the Admin Diploma Page.
  */
-function DiplomaTableView({
+const DiplomaTableView = ({
   handleSearch,
   handleReset,
   handleSubmitAdd,
@@ -38,7 +38,7 @@ function DiplomaTableView({
   rowSelection,
   data,
   intl,
-}) {
+}) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -493,22 +493,24 @@ function DiplomaTableView({
           id: "admin.diploma.table",
           defaultMessage: "Diplomas Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -521,10 +523,16 @@ function DiplomaTableView({
       </Row>
     </>
   );
-}
+};
 
 DiplomaTableView.propTypes = {
-  data: PropTypes.isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     description: PropTypes.string.isRequired,
+  //     allDiplomas: PropTypes.arrayOf(PropTypes.any).isRequired,
+  //   })
+  // ).isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -538,7 +546,7 @@ DiplomaTableView.propTypes = {
   }).isRequired,
   searchText: PropTypes.string.isRequired,
   searchedColumn: PropTypes.string.isRequired,
-  selectedRowKeys: PropTypes.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   size: PropTypes.string.isRequired,
 };
 

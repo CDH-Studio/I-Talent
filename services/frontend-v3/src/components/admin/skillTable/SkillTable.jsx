@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-shadow */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
@@ -17,7 +16,7 @@ const { backendAddress } = config;
  *  Controller for the SkillTableView.
  *  It gathers the required data for rendering the component.
  */
-function SkillTable({ intl, type }) {
+const SkillTable = ({ intl, type }) => {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,7 @@ function SkillTable({ intl, type }) {
   const size = "large";
 
   /* get skill information */
-  const getSkill = async () => {
+  const getSkill = useCallback(async () => {
     try {
       const results = await axios.get(
         `${backendAddress}api/admin/options/${type}`
@@ -41,10 +40,10 @@ function SkillTable({ intl, type }) {
       console.log(error);
       return 0;
     }
-  };
+  }, [type]);
 
   /* get category information */
-  const getCategories = async () => {
+  const getCategories = useCallback(async () => {
     try {
       const results = await axios.get(
         `${backendAddress}api/admin/options/categories/${type}`
@@ -55,7 +54,7 @@ function SkillTable({ intl, type }) {
       console.log(error);
       return 0;
     }
-  };
+  }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
@@ -79,7 +78,7 @@ function SkillTable({ intl, type }) {
       };
       updateState();
     }
-  }, [loading, reset]);
+  }, [getCategories, getSkill, loading, reset]);
 
   /* get part of the title for the page */
   const getDisplayType = (plural) => {
@@ -249,7 +248,7 @@ function SkillTable({ intl, type }) {
       categories={categories}
     />
   );
-}
+};
 
 SkillTable.propTypes = {
   intl: IntlPropType,

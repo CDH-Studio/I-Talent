@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -89,7 +89,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
    *
    * get a list of developmental goal options for treeSelect dropdown
    */
-  const getDevelopmentalGoalOptions = async () => {
+  const getDevelopmentalGoalOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getDevelopmentalGoals`;
       const result = await axios.get(url);
@@ -108,7 +108,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Interested In Remote Options
@@ -116,7 +116,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
    * get Interested In Remote Options
    * TODO: Generate this list from API call to back end
    */
-  const getInterestedInRemoteOptions = () => {
+  const getInterestedInRemoteOptions = useCallback(() => {
     const options = [
       {
         key: true,
@@ -128,14 +128,14 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       },
     ];
     setInterestedInRemoteOptions(options);
-  };
+  }, [locale]);
 
   /**
    * Get Relocation Options
    *
    * get a list of Relocation Options for dropdown treeSelect
    */
-  const getRelocationOptions = async () => {
+  const getRelocationOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getWillingToRelocateTo`;
       const result = await axios.get(url);
@@ -155,14 +155,14 @@ const PersonalGrowthForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Saved Looking For New Job
    *
    * get Saved Looking For New Job from user profile
    */
-  const getLookingForNewJobOptions = async () => {
+  const getLookingForNewJobOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getLookingForANewJob`;
       const result = await axios.get(url);
@@ -182,14 +182,14 @@ const PersonalGrowthForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Career Mobility Options
    *
    * get all dropdown options for Career Mobility
    */
-  const getCareerMobilityOptions = async () => {
+  const getCareerMobilityOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getCareerMobility`;
       const result = await axios.get(url);
@@ -209,14 +209,14 @@ const PersonalGrowthForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Talent Matrix Result Options
    *
    * get all dropdown options for Talent Matrix Results
    */
-  const getTalentMatrixResultOptions = async () => {
+  const getTalentMatrixResultOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getTalentMatrixResult`;
       const result = await axios.get(url);
@@ -236,7 +236,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
@@ -259,6 +259,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect when locale changes
@@ -282,7 +283,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [locale]);
+  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
 
   return (
     <PersonalGrowthFormView

@@ -7,6 +7,7 @@ import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import config from "../../config";
+import { IntlPropType } from "../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -86,8 +87,11 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
 };
 
 AdminDashboard.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   changeLanguage: PropTypes.func.isRequired,
 };
 
+AdminDashboard.defaultProps = {
+  intl: undefined,
+};
 export default injectIntl(AdminDashboard);

@@ -28,7 +28,7 @@ import { IntlPropType } from "../../../customPropTypes";
  *  SkillTableView(props)
  *  This component renders the skill table for the Admin Skill Page.
  */
-function SkillTableView({
+const SkillTableView = ({
   handleSearch,
   handleReset,
   handleSubmitAdd,
@@ -42,7 +42,7 @@ function SkillTableView({
   data,
   categories,
   intl,
-}) {
+}) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -335,7 +335,7 @@ function SkillTableView({
             >
               {categories.map((category) => {
                 return (
-                  <Option value={category.id}>
+                  <Option value={category.id} key={category.id}>
                     {intl.formatMessage({ id: "language.code" }) === "en"
                       ? category.descriptionEn
                       : category.descriptionFr}
@@ -568,7 +568,7 @@ function SkillTableView({
             >
               {categories.map((category) => {
                 return (
-                  <Option value={category.id}>
+                  <Option value={category.id} key={category.id}>
                     {intl.formatMessage({ id: "language.code" }) === "en"
                       ? category.descriptionEn
                       : category.descriptionFr}
@@ -591,22 +591,24 @@ function SkillTableView({
           id: "admin.skill.table",
           defaultMessage: "Skills Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -619,7 +621,7 @@ function SkillTableView({
       </Row>
     </>
   );
-}
+};
 
 SkillTableView.propTypes = {
   intl: IntlPropType,
@@ -639,7 +641,7 @@ SkillTableView.propTypes = {
       allCategories: PropTypes.any,
     }),
   }).isRequired,
-  categories: PropTypes.isRequired,
+  categories: PropTypes.func.isRequired,
 };
 
 SkillTableView.defaultProps = {

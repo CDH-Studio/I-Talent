@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
@@ -15,7 +15,7 @@ const { backendAddress } = config;
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-function SchoolTable({ type, intl }) {
+const SchoolTable = ({ type, intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -26,7 +26,7 @@ function SchoolTable({ type, intl }) {
   const size = "large";
 
   /* get school information */
-  const getSchools = async () => {
+  const getSchools = useCallback(async () => {
     try {
       const results = await axios.get(
         `${backendAddress}api/admin/options/${type}`
@@ -37,7 +37,7 @@ function SchoolTable({ type, intl }) {
       console.log(error);
       return 0;
     }
-  };
+  }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
@@ -48,7 +48,6 @@ function SchoolTable({ type, intl }) {
         schools = await getSchools();
         setData(schools);
         // eslint-disable-next-line no-console
-        console.log("Before: ", schools);
         setLoading(false);
       };
       setState();
@@ -57,15 +56,14 @@ function SchoolTable({ type, intl }) {
         schools = await getSchools();
         setData(schools);
         // eslint-disable-next-line no-console
-        console.log("After: ", schools);
         setReset(false);
       };
       updateState();
     }
-  }, [loading, reset]);
+  }, [getSchools, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -88,13 +86,13 @@ function SchoolTable({ type, intl }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a school */
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -152,7 +150,7 @@ function SchoolTable({ type, intl }) {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = _selectedRowKeys => {
+  const onSelectChange = (_selectedRowKeys) => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
@@ -160,7 +158,7 @@ function SchoolTable({ type, intl }) {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: _selectedRowKeys => {
+    onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
   };
@@ -197,7 +195,7 @@ function SchoolTable({ type, intl }) {
       data={convertToViewableInformation()}
     />
   );
-}
+};
 
 SchoolTable.propTypes = {
   type: PropTypes.string.isRequired,

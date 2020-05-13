@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import { Row, Col, Tag, Card, Divider, Avatar, Typography } from "antd";
 import {
@@ -12,7 +13,7 @@ import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
 const { Text } = Typography;
 
-function ResultsCardView({ history, intl, results }) {
+const ResultsCardView = ({ history, intl, results }) => {
   const styles = {
     smallP: {
       lineHeight: "4px",
@@ -21,9 +22,9 @@ function ResultsCardView({ history, intl, results }) {
     },
   };
 
-  const renderCard = person => {
+  const renderCard = (person, key) => {
     return (
-      <Col span={6} style={{ height: "100%" }}>
+      <Col span={6} style={{ height: "100%" }} key={key}>
         <Card
           style={{ height: "100%", overflowX: "hidden" }}
           size="small"
@@ -68,7 +69,7 @@ function ResultsCardView({ history, intl, results }) {
             })}
           </Divider>
 
-          {person.resultSkills.map(skill => (
+          {person.resultSkills.map((skill) => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
@@ -81,7 +82,7 @@ function ResultsCardView({ history, intl, results }) {
     );
   };
 
-  const renderResultCards = dataSource => {
+  const renderResultCards = (dataSource) => {
     if (!dataSource) {
       return <ProfileSkeleton />;
     }
@@ -94,11 +95,7 @@ function ResultsCardView({ history, intl, results }) {
       dataSource,
       localStorage.getItem("lang") || "en"
     );
-    const cards = [];
-    preparedResults.forEach(person => {
-      cards.push(renderCard(person));
-    });
-    return cards;
+    return preparedResults.map((person, key) => renderCard(person, key));
   };
 
   return (
@@ -108,12 +105,12 @@ function ResultsCardView({ history, intl, results }) {
       </Row>
     </div>
   );
-}
+};
 
 ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
   intl: IntlPropType,
-  results: ProfileInfoPropType,
+  results: PropTypes.arrayOf(ProfileInfoPropType),
 };
 
 ResultsCardView.defaultProps = {

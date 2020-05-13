@@ -9,7 +9,7 @@ const FormLabelTooltip = ({ labelText, tooltipText }) => {
 };
 
 FormLabelTooltip.propTypes = {
-  labelText: PropTypes.string.isRequired,
+  labelText: PropTypes.node.isRequired,
   tooltipText: PropTypes.string.isRequired,
 };
 

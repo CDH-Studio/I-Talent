@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Row } from "antd";
 import SearchBar from "../components/searchBar/SearchBar";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import { HistoryPropType } from "../customPropTypes";
 
 const Home = ({ changeLanguage, history }) => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const Home = ({ changeLanguage, history }) => {
 
 Home.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  history: PropTypes.isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 export default Home;

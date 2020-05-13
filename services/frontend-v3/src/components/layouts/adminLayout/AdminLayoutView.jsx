@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Menu } from "antd";
+
 import {
   DashboardOutlined,
   SolutionOutlined,
@@ -13,6 +14,7 @@ import {
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
+import { IntlPropType } from "../../../customPropTypes";
 import AppLayout from "../appLayout/AppLayout";
 
 /**
@@ -175,8 +177,12 @@ AdminLayoutView.propTypes = {
     "school",
   ]).isRequired,
   children: PropTypes.node.isRequired,
-  intl: PropTypes.isRequired,
-  keycloak: PropTypes.instanceOf(Keycloak).isRequired,
+  intl: IntlPropType,
+  keycloak: PropTypes.instanceOf(Keycloak),
 };
 
+AdminLayoutView.defaultProps = {
+  intl: undefined,
+  keycloak: undefined,
+};
 export default injectIntl(AdminLayoutView);

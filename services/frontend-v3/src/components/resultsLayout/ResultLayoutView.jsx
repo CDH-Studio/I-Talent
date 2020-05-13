@@ -5,8 +5,9 @@ import { injectIntl } from "react-intl";
 import AppLayout from "../layouts/appLayout/AppLayout";
 import ResultsCard from "../resultsCard/ResultsCard";
 import SearchFilter from "../searchFilter/SearchFilter";
+import { HistoryPropType } from "../../customPropTypes";
 
-function ResultLayoutView({ changeLanguage, intl, history }) {
+const ResultLayoutView = ({ changeLanguage, intl, history }) => {
   const resultsTitle = intl.formatMessage({
     id: "results.title",
     defaultMessage: "Results",
@@ -29,7 +30,7 @@ function ResultLayoutView({ changeLanguage, intl, history }) {
 
 ResultLayoutView.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  history: PropTypes.isRequired,
+  history: HistoryPropType.isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }).isRequired,

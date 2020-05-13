@@ -1,11 +1,9 @@
 /* eslint-disable consistent-return */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
-// eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import { injectIntl } from "react-intl";
 import { IntlPropType } from "../../../customPropTypes";
@@ -28,7 +26,6 @@ function UserTable({ intl, type }) {
   const [searchedColumn, setSearchedColumn] = useState("");
 
   const size = "large";
-  // const { type } = props;
 
   /* get user information */
   const getUserInformation = async () => {

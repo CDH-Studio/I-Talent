@@ -97,6 +97,7 @@ const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
   return (

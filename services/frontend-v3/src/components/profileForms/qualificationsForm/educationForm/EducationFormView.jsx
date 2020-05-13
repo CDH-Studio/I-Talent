@@ -117,6 +117,7 @@ const EducationFormView = ({
     ) {
       toggleEndDate();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo, field]);
 
   /** **********************************

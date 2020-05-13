@@ -23,7 +23,7 @@ const FormLabelTooltipView = ({ labelText, tooltipText }) => {
 };
 
 FormLabelTooltipView.propTypes = {
-  labelText: PropTypes.string.isRequired,
+  labelText: PropTypes.node.isRequired,
   tooltipText: PropTypes.string.isRequired,
 };
 

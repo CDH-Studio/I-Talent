@@ -13,7 +13,11 @@ const SideNav = ({ sideBarContent, displaySideBar }) => {
 
 SideNav.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
-  sideBarContent: PropTypes.node.isRequired,
+  sideBarContent: PropTypes.node,
+};
+
+SideNav.defaultProps = {
+  sideBarContent: undefined,
 };
 
 export default SideNav;

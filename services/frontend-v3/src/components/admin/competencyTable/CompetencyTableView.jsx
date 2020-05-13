@@ -21,12 +21,13 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  CompetencyTableView(props)
  *  This component renders the competency table for the Admin Competency Page.
  */
-function CompetencyTableView({
+const CompetencyTableView = ({
   intl,
   handleSearch,
   handleReset,
@@ -39,7 +40,7 @@ function CompetencyTableView({
   size,
   rowSelection,
   data,
-}) {
+}) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -493,22 +494,24 @@ function CompetencyTableView({
           id: "admin.competency.table",
           defaultMessage: "Competencies Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -521,26 +524,31 @@ function CompetencyTableView({
       </Row>
     </>
   );
-}
+};
 
 CompetencyTableView.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
   handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
-  selectedRowKeys: PropTypes.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
-  rowSelection: PropTypes.isRequired,
-  data: PropTypes.shape({
-    getCategoryInformation: PropTypes.shape({
-      description: PropTypes.string,
-      allCategories: PropTypes.any,
-    }),
-  }).isRequired,
+  rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.srr({
+  //   getCategoryInformation: PropTypes.shape({
+  //     description: PropTypes.string,
+  //     allCategories: PropTypes.any,
+  //   }),
+  // }).isRequired,
+};
+
+CompetencyTableView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(CompetencyTableView);
