@@ -16,6 +16,7 @@ function DevelopmentalGoalsView({ devGoals }) {
         <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
           <List>
             {Object.values(_devGoals).map((devGoal, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <Tag color="#114541" key={index}>
                 {devGoal}
               </Tag>
