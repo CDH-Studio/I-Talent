@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Table,
   Button,
@@ -15,6 +16,7 @@ import {
   LinkOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+// eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
@@ -23,30 +25,45 @@ import { injectIntl } from "react-intl";
  *  UserTableView(props)
  *  This component renders the user table for the Admin User Page.
  */
-function UserTableView(props) {
+function UserTableView({
+  intl,
+  data,
+  size,
+  searchText,
+  searchedColumn,
+  handleApply,
+  handleDropdownChange,
+  profileStatusValue,
+  handleSearch,
+  handleReset,
+}) {
   let searchInput;
 
   const { Option } = Select;
 
-  const {
-    data,
-    size,
-    searchText,
-    searchedColumn,
-    handleApply,
-    handleDropdownChange,
-    profileStatusValue,
-    handleSearch,
-    handleReset,
-  } = props;
+  // const {
+  //   data,
+  //   size,
+  //   searchText,
+  //   searchedColumn,
+  //   handleApply,
+  //   handleDropdownChange,
+  //   profileStatusValue,
+  //   handleSearch,
+  //   handleReset,
+  // } = props;
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
+      // eslint-disable-next-line react/prop-types
       setSelectedKeys,
+      // eslint-disable-next-line react/prop-types
       selectedKeys,
+      // eslint-disable-next-line react/prop-types
       confirm,
+      // eslint-disable-next-line react/prop-types
       clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
@@ -54,14 +71,10 @@ function UserTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -76,7 +89,7 @@ function UserTableView(props) {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.search.button",
             defaultMessage: "Search",
           })}
@@ -86,7 +99,7 @@ function UserTableView(props) {
           size="small"
           style={{ width: 90 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.reset.button",
             defaultMessage: "Reset",
           })}
@@ -129,36 +142,36 @@ function UserTableView(props) {
         >
           <Option
             key="active"
-            value={props.intl.formatMessage({
+            value={intl.formatMessage({
               id: "admin.active",
               defaultMessage: "Active",
             })}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.active",
               defaultMessage: "Active",
             })}
           </Option>
           <Option
             key="inactive"
-            value={props.intl.formatMessage({
+            value={intl.formatMessage({
               id: "admin.inactive",
               defaultMessage: "Inactive",
             })}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.inactive",
               defaultMessage: "Inactive",
             })}
           </Option>
           <Option
             key="hidden"
-            value={props.intl.formatMessage({
+            value={intl.formatMessage({
               id: "admin.flagged",
               defaultMessage: "Hidden",
             })}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.flagged",
               defaultMessage: "Hidden",
             })}
@@ -168,20 +181,40 @@ function UserTableView(props) {
     );
   };
 
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
+
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
   /* Renders the apply button and confirmation prompt */
   const applyButton = () => {
     return (
       <Popconfirm
         placement="left"
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.update.confirm",
           defaultMessage: "Are you sure that you want to update?",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.update",
           defaultMessage: "Update",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -194,7 +227,7 @@ function UserTableView(props) {
         }}
       >
         <Button type="primary" icon={<CheckCircleOutlined />} size={size}>
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.apply",
             defaultMessage: "Apply",
           })}
@@ -203,44 +236,24 @@ function UserTableView(props) {
     );
   };
 
-  /* Renders the cancel message on top of page */
-  const popUpCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
-    );
-  };
-
-  /* Renders the success message on top of page */
-  const popUpSuccesss = () => {
-    message.success(
-      props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
   /* Sets up the columns for the user table */
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => {
     // Allows for switch between French/English in job title and tenure columns:
     const jobTitleState =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
+      intl.formatMessage({ id: "language.code" }) === "en"
         ? "jobTitleEn"
         : "jobTitleFr";
 
     const tenureState =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
+      intl.formatMessage({ id: "language.code" }) === "en"
         ? "tenureDescriptionEn"
         : "tenureDescriptionFr";
 
     // Table columns data structure: array of objects
     const tableColumns = [
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.view",
           defaultMessage: "View",
         }),
@@ -256,7 +269,7 @@ function UserTableView(props) {
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.name",
           defaultMessage: "Name",
         }),
@@ -268,14 +281,14 @@ function UserTableView(props) {
         sortDirections: ["descend"],
         ...getColumnSearchProps(
           "fullName",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.name",
             defaultMessage: "Name",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.job.title",
           defaultMessage: "Job Title",
         }),
@@ -286,14 +299,14 @@ function UserTableView(props) {
         },
         ...getColumnSearchProps(
           jobTitleState,
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.job.title",
             defaultMessage: "Job Title",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.registered",
           defaultMessage: "Registered",
         }),
@@ -306,14 +319,14 @@ function UserTableView(props) {
         },
         ...getColumnSearchProps(
           "formatCreatedAt",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.registered",
             defaultMessage: "Registered",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.tenure",
           defaultMessage: "Tenure",
         }),
@@ -324,14 +337,14 @@ function UserTableView(props) {
         },
         ...getColumnSearchProps(
           tenureState,
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.tenure",
             defaultMessage: "Tenure",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.profileStatus",
           defaultMessage: "Profile Status",
         }),
@@ -351,7 +364,7 @@ function UserTableView(props) {
   return (
     <>
       <PageHeader
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.user.table",
           defaultMessage: "Users Table",
         })}
@@ -365,5 +378,23 @@ function UserTableView(props) {
     </>
   );
 }
+
+UserTableView.propTypes = {
+  intl: PropTypes.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleApply: PropTypes.func.isRequired,
+  handleDropdownChange: PropTypes.func.isRequired,
+  profileStatusValue: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    getCategoryInformation: PropTypes.shape({
+      description: PropTypes.string,
+      allCategories: PropTypes.any,
+    }),
+  }).isRequired,
+};
 
 export default injectIntl(UserTableView);

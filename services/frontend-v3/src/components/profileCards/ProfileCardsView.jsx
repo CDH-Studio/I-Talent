@@ -27,7 +27,7 @@ function ProfileCardsView({
   const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
-  const { newId } = useParams();
+  const newId = useParams().id;
   const urlID = newId;
   const userID = localStorage.getItem("userId");
   /*
@@ -78,6 +78,7 @@ function ProfileCardsView({
   const generateSwitchButton = () => {
     // Check if user is on his own profile (by
     // comparing the id in storage vs the id in the url)
+
     if (userID === urlID) {
       return (
         <div style={{ marginTop: "15px" }}>

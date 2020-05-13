@@ -1,4 +1,6 @@
+/* eslint-disable no-shadow */
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   PageHeader,
   Row,
@@ -25,7 +27,21 @@ import { injectIntl } from "react-intl";
  *  SkillTableView(props)
  *  This component renders the skill table for the Admin Skill Page.
  */
-function SkillTableView(props) {
+function SkillTableView({
+  handleSearch,
+  handleReset,
+  handleSubmitAdd,
+  handleSubmitEdit,
+  handleSubmitDelete,
+  selectedRowKeys,
+  searchedColumn,
+  searchText,
+  size,
+  rowSelection,
+  data,
+  categories,
+  intl,
+}) {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -38,28 +54,17 @@ function SkillTableView(props) {
 
   const { Option } = Select;
 
-  const {
-    handleSearch,
-    handleReset,
-    handleSubmitAdd,
-    handleSubmitEdit,
-    handleSubmitDelete,
-    selectedRowKeys,
-    searchedColumn,
-    searchText,
-    size,
-    rowSelection,
-    data,
-    categories,
-  } = props;
-
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
+      // eslint-disable-next-line react/prop-types
       setSelectedKeys,
+      // eslint-disable-next-line react/prop-types
       selectedKeys,
+      // eslint-disable-next-line react/prop-types
       confirm,
+      // eslint-disable-next-line react/prop-types
       clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
@@ -67,14 +72,10 @@ function SkillTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -89,7 +90,7 @@ function SkillTableView(props) {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.search.button",
             defaultMessage: "Search",
           })}
@@ -99,7 +100,7 @@ function SkillTableView(props) {
           size="small"
           style={{ width: 90 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.reset.button",
             defaultMessage: "Reset",
           })}
@@ -129,47 +130,6 @@ function SkillTableView(props) {
       ),
   });
 
-  /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={props.intl.formatMessage({
-          id: "admin.delete.confirm",
-          defaultMessage:
-            "Are you sure you want to delete all the selected values?",
-        })}
-        onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        okText={props.intl.formatMessage({
-          id: "admin.delete",
-          defaultMessage: "Delete",
-        })}
-        cancelText={props.intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
-      >
-        <Button
-          type="primary"
-          icon={<DeleteOutlined />}
-          size={size}
-          disabled={selectedRowKeys.length === 0}
-        >
-          {props.intl.formatMessage({
-            id: "admin.delete",
-            defaultMessage: "Delete",
-          })}
-        </Button>
-      </Popconfirm>
-    );
-  };
-
   /* handles the transfer of new or update/edited skill information to function */
   // Allows for backend action to occur based on modalType
   const onCreate = (values) => {
@@ -180,256 +140,10 @@ function SkillTableView(props) {
     }
   };
 
-  /* Renders "Add Skill" modal */
-  const addSkillButton = () => {
-    return (
-      <Modal
-        visible={addVisible}
-        title={props.intl.formatMessage({
-          id: "admin.add.skill",
-          defaultMessage: "Add Skill",
-        })}
-        okText={props.intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={props.intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
-        onOk={() => {
-          addForm
-            .validateFields()
-            .then((values) => {
-              addForm.resetFields();
-              onCreate(values);
-              handleOk();
-            })
-            .catch((info) => {
-              handleCancel();
-              console.log("Validate Failed:", info);
-            });
-        }}
-        onCancel={() => {
-          addForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form form={addForm} name="addSkill" layout="vertical">
-          <Form.Item
-            name="addSkillEn"
-            label={props.intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
-            rules={[
-              {
-                required: true,
-                message: props.intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
-              },
-            ]}
-          >
-            <Input
-              placeholder={props.intl.formatMessage({
-                id: "admin.add.skill.descriptionEn",
-                defaultMessage: "Skill description in English",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSkillFr"
-            label={props.intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
-            rules={[
-              {
-                required: true,
-                message: props.intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
-              },
-            ]}
-          >
-            <Input
-              placeholder={props.intl.formatMessage({
-                id: "admin.add.skill.descriptionFr",
-                defaultMessage: "Skill description in French",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSkillCategory"
-            label={props.intl.formatMessage({
-              id: "admin.category",
-              defaultMessage: "Category",
-            })}
-            rules={[
-              {
-                required: true,
-                message: props.intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
-              },
-            ]}
-          >
-            <Select
-              showSearch
-              placeholder={
-                props.intl.formatMessage({
-                  id: "admin.select",
-                  defaultMessage: "Select",
-                }) +
-                " " +
-                props.intl.formatMessage({
-                  id: "admin.category",
-                  defaultMessage: "Category",
-                })
-              }
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {categories.map((category) => {
-                return (
-                  <Option value={category.id}>
-                    {props.intl.formatMessage({ id: "language.code" }) === "en"
-                      ? category.descriptionEn
-                      : category.descriptionFr}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
-
-  /* Renders "Edit Skill" modal */
-  const editSkillButton = () => {
-    return (
-      <Modal
-        visible={editVisible}
-        title={props.intl.formatMessage({
-          id: "admin.edit.skill",
-          defaultMessage: "Edit Skill",
-        })}
-        okText={props.intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={props.intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
-        onOk={() => {
-          editForm
-            .validateFields()
-            .then((values) => {
-              editForm.resetFields();
-              onCreate(values);
-            })
-            .catch((info) => {
-              console.log("Validate Failed:", info);
-            });
-          handleOk();
-        }}
-        onCancel={() => {
-          editForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form
-          form={editForm}
-          name="editSkill"
-          layout="vertical"
-          fields={fields}
-          onFieldsChange={() => {
-            setFields([{}]);
-          }}
-        >
-          <Form.Item
-            name="editSkillEn"
-            label={props.intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
-          >
-            <Input
-              placeholder={props.intl.formatMessage({
-                id: "admin.add.skill.descriptionEn",
-                defaultMessage: "Skill description in English",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSkillFr"
-            label={props.intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
-          >
-            <Input
-              placeholder={props.intl.formatMessage({
-                id: "admin.add.skill.descriptionFr",
-                defaultMessage: "Skill description in French",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSkillCategory"
-            label={props.intl.formatMessage({
-              id: "admin.category",
-              defaultMessage: "Category",
-            })}
-          >
-            <Select
-              showSearch
-              placeholder={
-                props.intl.formatMessage({
-                  id: "admin.select",
-                  defaultMessage: "Select",
-                }) +
-                " " +
-                props.intl.formatMessage({
-                  id: "admin.category",
-                  defaultMessage: "Category",
-                })
-              }
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {categories.map((category) => {
-                return (
-                  <Option value={category.id}>
-                    {props.intl.formatMessage({ id: "language.code" }) === "en"
-                      ? category.descriptionEn
-                      : category.descriptionFr}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
-
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     message.success(
-      props.intl.formatMessage({
+      intl.formatMessage({
         id: "admin.success",
         defaultMessage: "Successful",
       })
@@ -439,7 +153,7 @@ function SkillTableView(props) {
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     message.error(
-      props.intl.formatMessage({
+      intl.formatMessage({
         id: "admin.cancelled",
         defaultMessage: "Cancelled",
       })
@@ -484,19 +198,169 @@ function SkillTableView(props) {
     setModalType("add");
   };
 
+  /* Renders the delete button and confirmation prompt */
+  const deleteConfirm = () => {
+    return (
+      <Popconfirm
+        placement="left"
+        title={intl.formatMessage({
+          id: "admin.delete.confirm",
+          defaultMessage:
+            "Are you sure you want to delete all the selected values?",
+        })}
+        onConfirm={() => {
+          handleSubmitDelete();
+          popUpSuccesss();
+        }}
+        onCancel={() => {
+          popUpCancel();
+        }}
+        okText={intl.formatMessage({
+          id: "admin.delete",
+          defaultMessage: "Delete",
+        })}
+        cancelText={intl.formatMessage({
+          id: "admin.cancel",
+          defaultMessage: "Cancel",
+        })}
+      >
+        <Button
+          type="primary"
+          icon={<DeleteOutlined />}
+          size={size}
+          disabled={selectedRowKeys.length === 0}
+        >
+          {intl.formatMessage({
+            id: "admin.delete",
+            defaultMessage: "Delete",
+          })}
+        </Button>
+      </Popconfirm>
+    );
+  };
+
+  /* Renders "Edit Skill" modal */
+  const editSkillButton = () => {
+    return (
+      <Modal
+        visible={editVisible}
+        title={intl.formatMessage({
+          id: "admin.edit.skill",
+          defaultMessage: "Edit Skill",
+        })}
+        okText={intl.formatMessage({
+          id: "admin.apply",
+          defaultMessage: "Apply",
+        })}
+        cancelText={intl.formatMessage({
+          id: "admin.cancel",
+          defaultMessage: "Cancel",
+        })}
+        onOk={() => {
+          editForm
+            .validateFields()
+            .then((values) => {
+              editForm.resetFields();
+              onCreate(values);
+            })
+            .catch((info) => {
+              // eslint-disable-next-line no-console
+              console.log("Validate Failed:", info);
+            });
+          handleOk();
+        }}
+        onCancel={() => {
+          editForm.resetFields();
+          handleCancel();
+        }}
+      >
+        <Form
+          form={editForm}
+          name="editSkill"
+          layout="vertical"
+          fields={fields}
+          onFieldsChange={() => {
+            setFields([{}]);
+          }}
+        >
+          <Form.Item
+            name="editSkillEn"
+            label={intl.formatMessage({
+              id: "language.english",
+              defaultMessage: "English",
+            })}
+          >
+            <Input
+              placeholder={intl.formatMessage({
+                id: "admin.add.skill.descriptionEn",
+                defaultMessage: "Skill description in English",
+              })}
+            />
+          </Form.Item>
+          <Form.Item
+            name="editSkillFr"
+            label={intl.formatMessage({
+              id: "language.french",
+              defaultMessage: "French",
+            })}
+          >
+            <Input
+              placeholder={intl.formatMessage({
+                id: "admin.add.skill.descriptionFr",
+                defaultMessage: "Skill description in French",
+              })}
+            />
+          </Form.Item>
+          <Form.Item
+            name="editSkillCategory"
+            label={intl.formatMessage({
+              id: "admin.category",
+              defaultMessage: "Category",
+            })}
+          >
+            <Select
+              showSearch
+              placeholder={`${intl.formatMessage({
+                id: "admin.select",
+                defaultMessage: "Select",
+              })} ${intl.formatMessage({
+                id: "admin.category",
+                defaultMessage: "Category",
+              })}`}
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {categories.map((category) => {
+                return (
+                  <Option value={category.id}>
+                    {intl.formatMessage({ id: "language.code" }) === "en"
+                      ? category.descriptionEn
+                      : category.descriptionFr}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+    );
+  };
+
   /* Sets up the columns for the skill table */
   // Consult: Ant Design table components for further clarification
   const skillTableColumns = () => {
     // Allows for switch between French/English in category column:
     const categoryName =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
+      intl.formatMessage({ id: "language.code" }) === "en"
         ? "categoryNameEn"
         : "categoryNameFr";
 
     // Table columns data structure: array of objects
     const skill_table_columns = [
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.category",
           defaultMessage: "Category",
         }),
@@ -508,14 +372,14 @@ function SkillTableView(props) {
         sortDirections: ["descend"],
         ...getColumnSearchProps(
           categoryName,
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.category",
             defaultMessage: "Category",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "language.english",
           defaultMessage: "English",
         }),
@@ -526,14 +390,14 @@ function SkillTableView(props) {
         },
         ...getColumnSearchProps(
           "descriptionEn",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "language.english",
             defaultMessage: "English",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "language.french",
           defaultMessage: "French",
         }),
@@ -544,14 +408,14 @@ function SkillTableView(props) {
         },
         ...getColumnSearchProps(
           "descriptionFr",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "language.french",
             defaultMessage: "French",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.edit",
           defaultMessage: "Edit",
         }),
@@ -564,7 +428,7 @@ function SkillTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 const categoryName =
-                  props.intl.formatMessage({ id: "language.code" }) === "en"
+                  intl.formatMessage({ id: "language.code" }) === "en"
                     ? record.categoryNameEn
                     : record.categoryNameFr;
                 setFields([
@@ -586,12 +450,142 @@ function SkillTableView(props) {
     return skill_table_columns;
   };
 
+  /* Renders "Add Skill" modal */
+  const addSkillButton = () => {
+    return (
+      <Modal
+        visible={addVisible}
+        title={intl.formatMessage({
+          id: "admin.add.skill",
+          defaultMessage: "Add Skill",
+        })}
+        okText={intl.formatMessage({
+          id: "admin.apply",
+          defaultMessage: "Apply",
+        })}
+        cancelText={intl.formatMessage({
+          id: "admin.cancel",
+          defaultMessage: "Cancel",
+        })}
+        onOk={() => {
+          addForm
+            .validateFields()
+            .then((values) => {
+              addForm.resetFields();
+              onCreate(values);
+              handleOk();
+            })
+            .catch((info) => {
+              handleCancel();
+              console.log("Validate Failed:", info);
+            });
+        }}
+        onCancel={() => {
+          addForm.resetFields();
+          handleCancel();
+        }}
+      >
+        <Form form={addForm} name="addSkill" layout="vertical">
+          <Form.Item
+            name="addSkillEn"
+            label={intl.formatMessage({
+              id: "language.english",
+              defaultMessage: "English",
+            })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
+            ]}
+          >
+            <Input
+              placeholder={intl.formatMessage({
+                id: "admin.add.skill.descriptionEn",
+                defaultMessage: "Skill description in English",
+              })}
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item
+            name="addSkillFr"
+            label={intl.formatMessage({
+              id: "language.french",
+              defaultMessage: "French",
+            })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
+            ]}
+          >
+            <Input
+              placeholder={intl.formatMessage({
+                id: "admin.add.skill.descriptionFr",
+                defaultMessage: "Skill description in French",
+              })}
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item
+            name="addSkillCategory"
+            label={intl.formatMessage({
+              id: "admin.category",
+              defaultMessage: "Category",
+            })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: "admin.validate.description",
+                  defaultMessage: "Please complete the description!",
+                }),
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              placeholder={`${intl.formatMessage({
+                id: "admin.select",
+                defaultMessage: "Select",
+              })} ${intl.formatMessage({
+                id: "admin.category",
+                defaultMessage: "Category",
+              })}`}
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {categories.map((category) => {
+                return (
+                  <Option value={category.id}>
+                    {intl.formatMessage({ id: "language.code" }) === "en"
+                      ? category.descriptionEn
+                      : category.descriptionFr}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+    );
+  };
+
   return (
     <>
       {addSkillButton()}
       {editSkillButton()}
       <PageHeader
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.skill.table",
           defaultMessage: "Skills Table",
         })}
@@ -605,7 +599,7 @@ function SkillTableView(props) {
               handleAddModal();
             }}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "admin.add",
               defaultMessage: "Add",
             })}
@@ -624,5 +618,26 @@ function SkillTableView(props) {
     </>
   );
 }
+
+SkillTableView.propTypes = {
+  intl: PropTypes.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSubmitAdd: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
+  selectedRowKeys: PropTypes.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  rowSelection: PropTypes.isRequired,
+  data: PropTypes.shape({
+    getCategoryInformation: PropTypes.shape({
+      description: PropTypes.string,
+      allCategories: PropTypes.any,
+    }),
+  }).isRequired,
+  categories: PropTypes.isRequired,
+};
 
 export default injectIntl(SkillTableView);

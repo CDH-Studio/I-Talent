@@ -13,7 +13,7 @@ function ProfileCards({ data, title, content, editUrl, cardName, id }) {
   const [load, setLoad] = useState(false);
 
   // useParams returns an object of key/value pairs from URL parameters
-  const { newId } = useParams();
+  const newId = useParams().id;
   const urlID = newId;
 
   // get user profile for hidden cards value
