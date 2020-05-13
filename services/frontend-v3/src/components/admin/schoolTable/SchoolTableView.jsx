@@ -19,6 +19,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
 import { IntlPropType } from "../../../customPropTypes";
 
 /**
@@ -49,10 +50,16 @@ function SchoolTableView({
 
   let searchInput;
 
+  /*
+clearFilters: ƒ onReset()
+confirm: ƒ onConfirm()
+selectedKeys: ["uni"]
+setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
+*/
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const getColumnSearchProps = (dataIndex, title) => ({
-    filterDropdown: ({
+  const getColumnSearchProps = (dataIndex, title) => {
+    const filterDropdown = ({
       setSelectedKeys,
       selectedKeys,
       confirm,
@@ -63,14 +70,10 @@ function SchoolTableView({
           ref={node => {
             searchInput = node;
           }}
-          placeholder={
-            intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -101,29 +104,65 @@ function SchoolTableView({
           })}
         </Button>
       </div>
-    ),
-    filterIcon: filtered => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => searchInput.select());
-      }
-    },
-    render: text =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
-      ) : (
-        text
+    );
+
+    filterDropdown.propTypes = {
+      clearFilters: PropTypes.func.isRequired,
+      confirm: PropTypes.func.isRequired,
+      selectedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+      setSelectedKeys: PropTypes.func.isRequired,
+    };
+
+    return {
+      filterDropdown,
+      filterIcon: filtered => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
       ),
-  });
+      onFilter: (_value, _record) =>
+        _record[dataIndex]
+          .toString()
+          .toLowerCase()
+          .includes(_value.toLowerCase()),
+      onFilterDropdownVisibleChange: visible => {
+        if (visible) {
+          setTimeout(() => searchInput.select());
+        }
+      },
+      render: text =>
+        searchedColumn === dataIndex ? (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />
+        ) : (
+          text
+        ),
+    };
+  };
+
+  getColumnSearchProps.propTypes = {};
+
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
 
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
@@ -166,26 +205,6 @@ function SchoolTableView({
     );
   };
 
-  /* Renders the success message on top of page */
-  const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
-  /* Renders the cancel message on top of page */
-  const popUpCancel = () => {
-    message.error(
-      intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
-    );
-  };
-
   /* handles the transfer of new or update/edited school information to function */
   // Allows for backend action to occur based on modalType
   const onCreate = values => {
@@ -222,9 +241,9 @@ function SchoolTableView({
   };
 
   /* handles render of "Edit School" modal */
-  const handleEditModal = record => {
+  const handleEditModal = _record => {
     setEditVisible(true);
-    setRecord(record);
+    setRecord(_record);
     setModalType("edit");
   };
 
@@ -261,6 +280,7 @@ function SchoolTableView({
             })
             .catch(info => {
               handleCancel();
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
         }}
@@ -374,6 +394,7 @@ function SchoolTableView({
               onCreate(values);
             })
             .catch(info => {
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
           handleOk();
@@ -445,7 +466,7 @@ function SchoolTableView({
   // Consult: Ant Design table components for further clarification
   const schoolsTableColumns = () => {
     // Table columns data structure: array of objects
-    const schools_table_columns = [
+    return [
       {
         title: intl.formatMessage({
           id: "admin.name",
@@ -509,7 +530,7 @@ function SchoolTableView({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: record => (
+        render: _record => (
           <div>
             <Button
               type="primary"
@@ -517,18 +538,17 @@ function SchoolTableView({
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editSchoolName"], value: record.description },
-                  { name: ["editSchoolState"], value: record.state },
-                  { name: ["editSchoolCountry"], value: record.country },
+                  { name: ["editSchoolName"], value: _record.description },
+                  { name: ["editSchoolState"], value: _record.state },
+                  { name: ["editSchoolCountry"], value: _record.country },
                 ]);
-                handleEditModal(record);
+                handleEditModal(_record);
               }}
             />
           </div>
         ),
       },
     ];
-    return schools_table_columns;
   };
 
   return (
@@ -571,10 +591,29 @@ function SchoolTableView({
 }
 
 SchoolTableView.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSubmitAdd: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
   intl: IntlPropType,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+      description: PropTypes.string,
+      id: PropTypes.string,
+      key: PropTypes.string,
+      state: PropTypes.string,
+    })
+  ).isRequired,
 };
-/*
+
 SchoolTableView.defaultProps = {
-  intl: 
-}*/
+  intl: undefined,
+};
 export default injectIntl(SchoolTableView);
