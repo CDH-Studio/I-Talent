@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Tabs } from "antd";
 import { FormattedMessage } from "react-intl";
 import Substantive from "./substantive/Substantive";
