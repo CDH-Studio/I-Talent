@@ -1,13 +1,11 @@
 import React from "react";
 import BasicInfoView from "./BasicInfoView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-function BasicInfo(props) {
+const BasicInfo = ({ data }) => {
   const getButtonLinks = () => {
-    const linkedinUrl = props.data.linkedinUrl;
-    const githubUrl = props.data.githubUrl;
-    const gcconnexUrl = props.data.gcconnexUrl;
-    const email = props.data.email;
-    let buttonLinks = { buttons: [] };
+    const { linkedinUrl, githubUrl, gcconnexUrl, email } = data;
+    const buttonLinks = { buttons: [] };
 
     if (linkedinUrl) {
       buttonLinks.buttons.push("linkedin");
@@ -40,27 +38,31 @@ function BasicInfo(props) {
     buttonLinks.email = {
       icon: "mail",
       textId: "profile.email",
-      url: "mailto:" + email,
+      url: `mailto:${email}`,
     };
 
     return buttonLinks;
   };
 
-  const name = props.data.firstName + " " + props.data.lastName;
+  const name = `${data.firstName} ${data.lastName}`;
 
   return (
     <BasicInfoView
-      data={props.data}
+      data={data}
       name={name}
       avatar={{
-        acr: props.data.nameInitials,
-        color: props.data.avatarColor,
+        acr: data.nameInitials,
+        color: data.avatarColor,
       }}
-      jobTitle={props.data.jobTitle[localStorage.getItem("lang") || "en"]}
+      jobTitle={data.jobTitle[localStorage.getItem("lang") || "en"]}
       locale={localStorage.getItem("lang") || "en"}
       buttonLinks={getButtonLinks()}
     />
   );
-}
+};
+
+BasicInfo.propTypes = {
+  data: ProfileInfoPropType.isRequired,
+};
 
 export default BasicInfo;

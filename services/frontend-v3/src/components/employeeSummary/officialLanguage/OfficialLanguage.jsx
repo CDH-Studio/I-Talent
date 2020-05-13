@@ -1,12 +1,11 @@
 import React from "react";
-import OfficialLanguageView from "./OfficialLanguageView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import OfficialLanguageView from "./OfficialLanguageView";
+import { ProfileInfoPropType } from "../../../customPropTypes";
 
-function OfficialLanguage(props) {
-  const data = props.data;
-
-  const getFirstLanguageInfo = (dataSource) => {
+const OfficialLanguage = ({ data }) => {
+  const getFirstLanguageInfo = dataSource => {
     const locale = localStorage.getItem("lang") || "en";
     const firstLanguage = {
       title: <FormattedMessage id="profile.first.language" />,
@@ -20,7 +19,7 @@ function OfficialLanguage(props) {
     return [firstLanguage];
   };
 
-  const getSecondLanguageGradeInfo = (dataSource) => {
+  const getSecondLanguageGradeInfo = dataSource => {
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
       description:
@@ -58,7 +57,7 @@ function OfficialLanguage(props) {
     ];
   };
 
-  const getSecondLanguageDateInfo = (dataSource) => {
+  const getSecondLanguageDateInfo = dataSource => {
     const formatedReadingDate = moment(dataSource.secondaryReadingDate).format(
       "ll"
     );
@@ -107,6 +106,13 @@ function OfficialLanguage(props) {
       secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
     />
   );
-}
+};
 
+OfficialLanguage.propTypes = {
+  data: ProfileInfoPropType,
+};
+
+OfficialLanguage.defaultProps = {
+  data: null,
+};
 export default OfficialLanguage;

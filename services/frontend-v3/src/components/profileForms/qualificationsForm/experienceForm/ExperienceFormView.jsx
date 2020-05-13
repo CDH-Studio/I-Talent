@@ -10,9 +10,17 @@ import {
   Input,
   Tooltip,
 } from "antd";
+import PropTypes from "prop-types";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+
+import {
+  FieldPropType,
+  FormInstancePropType,
+  ProfileInfoPropType,
+  StylesPropType,
+} from "../../../../customPropTypes";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -23,7 +31,7 @@ const { TextArea } = Input;
  *  It is rendered when a user generates an experience item
  *  It contains jobTilt, Company, start date, end date, and description.
  */
-const ExperienceFormView = (props) => {
+const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
   const Rules = {
@@ -48,11 +56,12 @@ const ExperienceFormView = (props) => {
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const experienceFieldValues = props.form.getFieldsValue("experience");
-      experienceFieldValues.experience[props.field.fieldKey].endDate = null;
-      props.form.setFieldsValue(experienceFieldValues);
+      const experienceFieldValues = form.getFieldsValue("experience");
+      experienceFieldValues.experience[field.fieldKey].endDate = null;
+      form.setFieldsValue(experienceFieldValues);
     }
     setDisableEndDate(!disableEndDate);
+    return undefined;
   };
 
   /*
@@ -61,14 +70,15 @@ const ExperienceFormView = (props) => {
    * Generates a list of invalid dates before the start date
    * This is used for the end date field
    */
-  const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["experience", props.field.fieldKey, "startDate"];
-    if (props.form.getFieldValue(fieldPath)) {
+  const disabledDatesBeforeStart = current => {
+    const fieldPath = ["experience", field.fieldKey, "startDate"];
+    if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current < moment(props.form.getFieldValue(fieldPath).startOf("month"))
+        current < moment(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
+    return undefined;
   };
 
   /*
@@ -77,29 +87,31 @@ const ExperienceFormView = (props) => {
    * Generates a list of invalid dates after the end date
    * This is used for the start date field
    */
-  const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["experience", props.field.fieldKey, "endDate"];
-    if (props.form.getFieldValue(fieldPath)) {
+  const disabledDatesAfterEnd = current => {
+    const fieldPath = ["experience", field.fieldKey, "endDate"];
+    if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current > moment(props.form.getFieldValue(fieldPath).startOf("month"))
+        current > moment(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
+    return undefined;
   };
 
   useEffect(() => {
     // set the default status of "ongoing" checkbox
     if (
-      props.profileInfo.careerSummary[props.field.fieldKey] &&
-      props.profileInfo.careerSummary[props.field.fieldKey].endDate
+      profileInfo.careerSummary[field.fieldKey] &&
+      profileInfo.careerSummary[field.fieldKey].endDate
     ) {
       toggleEndDate();
     }
-  }, [props.profileInfo, props.field]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileInfo, field]);
 
-  /************************************
+  /** **********************************
    ********* Render Component *********
-   ************************************/
+   *********************************** */
   return (
     <Row
       gutter={24}
@@ -110,10 +122,10 @@ const ExperienceFormView = (props) => {
       }}
     >
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-        <Title level={4} style={props.style.entryTitle}>
+        <Title level={4} style={style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.experience" />
-          {": " + (props.field.fieldKey + 1)}
+          {`: ${field.fieldKey + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -123,9 +135,9 @@ const ExperienceFormView = (props) => {
               shape="circle"
               icon={<DeleteOutlined />}
               onClick={() => {
-                props.remove(props.field.name);
+                remove(field.name);
               }}
-              size={"small"}
+              size="small"
               style={{ float: "right" }}
             />
           </Tooltip>
@@ -135,10 +147,10 @@ const ExperienceFormView = (props) => {
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Job Title Field */}
         <Form.Item
-          name={[props.field.name, "header"]}
-          fieldKey={[props.field.fieldKey, "header"]}
+          name={[field.name, "header"]}
+          fieldKey={[field.fieldKey, "header"]}
           label={<FormattedMessage id="admin.job.title" />}
-          style={props.style.formItem}
+          style={style.formItem}
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -148,8 +160,8 @@ const ExperienceFormView = (props) => {
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Company Name Field */}
         <Form.Item
-          name={[props.field.name, "subheader"]}
-          fieldKey={[props.field.fieldKey, "subheader"]}
+          name={[field.name, "subheader"]}
+          fieldKey={[field.fieldKey, "subheader"]}
           label={<FormattedMessage id="profile.career.subheader.name" />}
           rules={[Rules.required, Rules.maxChar60]}
         >
@@ -160,15 +172,15 @@ const ExperienceFormView = (props) => {
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Start Date */}
         <Form.Item
-          name={[props.field.name, "startDate"]}
-          fieldKey={[props.field.fieldKey, "startDate"]}
+          name={[field.name, "startDate"]}
+          fieldKey={[field.fieldKey, "startDate"]}
           label={<FormattedMessage id="profile.history.item.start.date" />}
           rules={[Rules.required]}
         >
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
-            style={props.style.datePicker}
+            style={style.datePicker}
           />
         </Form.Item>
       </Col>
@@ -176,17 +188,17 @@ const ExperienceFormView = (props) => {
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* End Date */}
         <Form.Item
-          name={[props.field.name, "endDate"]}
-          fieldKey={[props.field.fieldKey, "endDate"]}
+          name={[field.name, "endDate"]}
+          fieldKey={[field.fieldKey, "endDate"]}
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
           <DatePicker
             picker="month"
-            style={props.style.datePicker}
+            style={style.datePicker}
             disabledDate={disabledDatesBeforeStart}
             disabled={disableEndDate}
-            placeholder={"unknown"}
+            placeholder="unknown"
           />
         </Form.Item>
         <div style={{ marginTop: "-10px" }}>
@@ -200,8 +212,8 @@ const ExperienceFormView = (props) => {
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
         <Form.Item
-          name={[props.field.name, "content"]}
-          fieldKey={[props.field.fieldKey, "content"]}
+          name={[field.name, "content"]}
+          fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[Rules.required, Rules.maxChar250]}
           extra={<FormattedMessage id="profile.career.content.rule" />}
@@ -211,6 +223,14 @@ const ExperienceFormView = (props) => {
       </Col>
     </Row>
   );
+};
+
+ExperienceFormView.propTypes = {
+  form: FormInstancePropType.isRequired,
+  field: FieldPropType.isRequired,
+  remove: PropTypes.func.isRequired,
+  profileInfo: ProfileInfoPropType.isRequired,
+  style: StylesPropType.isRequired,
 };
 
 export default ExperienceFormView;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import DoneSetupView from "./DoneSetupView";
 import axios from "axios";
+import DoneSetupView from "./DoneSetupView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -17,10 +18,9 @@ const DoneSetup = () => {
     // get user profile for form drop down
     const getProfileInfo = async () => {
       try {
-        let url =
-          backendAddress +
-          "api/private/profile/" +
-          localStorage.getItem("userId");
+        const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+          "userId"
+        )}`;
         await axios.get(url);
         return 1;
       } catch (error) {
@@ -35,6 +35,7 @@ const DoneSetup = () => {
         setLoad(true);
         return 1;
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
         return 0;
       }

@@ -1,11 +1,10 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Affix, Layout } from "antd";
 
 const { Sider } = Layout;
 
-function SideNavView(props) {
-  const displaySideBar = props.displaySideBar;
-
+const SideNavView = ({ displaySideBar, sideBarContent }) => {
   /* Component Styles */
   const styles = {
     siderDiv: {
@@ -32,13 +31,21 @@ function SideNavView(props) {
           zeroWidthTriggerStyle={{ backgroundColor: "#192e2f" }}
         >
           {/* render content of side bar */}
-          {props.sideBarContent}
+          {sideBarContent}
         </Sider>
       </Affix>
     );
-  } else {
-    return <Sider width="0" />;
   }
-}
+  return <Sider width="0" />;
+};
+
+SideNavView.propTypes = {
+  displaySideBar: PropTypes.bool.isRequired,
+  sideBarContent: PropTypes.node,
+};
+
+SideNavView.defaultProps = {
+  sideBarContent: undefined,
+};
 
 export default SideNavView;

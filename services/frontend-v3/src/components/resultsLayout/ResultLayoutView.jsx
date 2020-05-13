@@ -1,37 +1,39 @@
 import React from "react";
-import AppLayout from "../layouts/appLayout/AppLayout";
-import "@ant-design/compatible/assets/index.css";
-import { Layout } from "antd";
-import { PageHeader } from "antd";
+import PropTypes from "prop-types";
+import { Layout, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
+import AppLayout from "../layouts/appLayout/AppLayout";
 import ResultsCard from "../resultsCard/ResultsCard";
 import SearchFilter from "../searchFilter/SearchFilter";
+import { HistoryPropType } from "../../customPropTypes";
 
-function ResultLayoutView(props) {
-  const resultsTitle = props.intl.formatMessage({
+const ResultLayoutView = ({ changeLanguage, intl, history }) => {
+  const resultsTitle = intl.formatMessage({
     id: "results.title",
-    defaultMessage: "Results"
+    defaultMessage: "Results",
   });
   return (
     <Layout>
       <AppLayout
-        changeLanguage={props.changeLanguage}
-        displaySideBar={true}
+        changeLanguage={changeLanguage}
+        displaySideBar
         sideBarContent={
-          <SearchFilter
-            changeLanguage={props.changeLanguage}
-            history={props.history}
-          />
+          <SearchFilter changeLanguage={changeLanguage} history={history} />
         }
       >
         <PageHeader title={resultsTitle} />
-        <ResultsCard
-          changeLanguage={props.changeLanguage}
-          history={props.history}
-        />
+        <ResultsCard changeLanguage={changeLanguage} history={history} />
       </AppLayout>
     </Layout>
   );
 }
+
+ResultLayoutView.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+  history: HistoryPropType.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+};
 
 export default injectIntl(ResultLayoutView);

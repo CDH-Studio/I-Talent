@@ -1,7 +1,7 @@
 import React from "react";
 import { Skeleton } from "antd";
 
-function ProfileSkeletonView() {
+const ProfileSkeletonView = () => {
   return <Skeleton active />;
 }
 

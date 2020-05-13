@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
-import PersonalGrowthFormView from "./PersonalGrowthFormView";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
+import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -10,7 +13,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = (props) => {
+const PersonalGrowthForm = ({ formType, intl }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -28,7 +31,7 @@ const PersonalGrowthForm = (props) => {
   const [savedExFeederBool, setSavedExFeederBool] = useState();
 
   // Get current language code
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
     defaultMessage: "en",
   });
@@ -39,10 +42,10 @@ const PersonalGrowthForm = (props) => {
    * get saved Developmental Goals from profile
    */
   const getSavedDevelopmentalGoals = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate and array of ID's of save locations
-    for (let i = 0; i < profileInfo.developmentalGoals.length; i++) {
+    for (let i = 0; i < profileInfo.developmentalGoals.length; i += 1) {
       selected.push(profileInfo.developmentalGoals[i].id);
     }
 
@@ -55,10 +58,10 @@ const PersonalGrowthForm = (props) => {
    * get saved Relocation Locations from profile
    */
   const getSavedRelocationLocations = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate and array of ID's of save locations
-    for (let i = 0; i < profileInfo.relocationLocations.length; i++) {
+    for (let i = 0; i < profileInfo.relocationLocations.length; i += 1) {
       selected.push(profileInfo.relocationLocations[i].locationId);
     }
 
@@ -70,11 +73,10 @@ const PersonalGrowthForm = (props) => {
    */
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
@@ -87,15 +89,15 @@ const PersonalGrowthForm = (props) => {
    *
    * get a list of developmental goal options for treeSelect dropdown
    */
-  const getDevelopmentalGoalOptions = async () => {
+  const getDevelopmentalGoalOptions = useCallback(async () => {
     try {
-      let url = backendAddress + "api/option/getDevelopmentalGoals";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getDevelopmentalGoals`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -106,7 +108,7 @@ const PersonalGrowthForm = (props) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Interested In Remote Options
@@ -114,7 +116,7 @@ const PersonalGrowthForm = (props) => {
    * get Interested In Remote Options
    * TODO: Generate this list from API call to back end
    */
-  const getInterestedInRemoteOptions = () => {
+  const getInterestedInRemoteOptions = useCallback(() => {
     const options = [
       {
         key: true,
@@ -126,22 +128,22 @@ const PersonalGrowthForm = (props) => {
       },
     ];
     setInterestedInRemoteOptions(options);
-  };
+  }, [locale]);
 
   /**
    * Get Relocation Options
    *
    * get a list of Relocation Options for dropdown treeSelect
    */
-  const getRelocationOptions = async () => {
+  const getRelocationOptions = useCallback(async () => {
     try {
-      let url = backendAddress + "api/option/getWillingToRelocateTo";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getWillingToRelocateTo`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for treeSelect
-      for (var i = 0; i < result.data.length; i++) {
-        var location = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const location = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -153,22 +155,22 @@ const PersonalGrowthForm = (props) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Saved Looking For New Job
    *
    * get Saved Looking For New Job from user profile
    */
-  const getLookingForNewJobOptions = async () => {
+  const getLookingForNewJobOptions = useCallback(async () => {
     try {
-      let url = backendAddress + "api/option/getLookingForANewJob";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getLookingForANewJob`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -180,22 +182,22 @@ const PersonalGrowthForm = (props) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Career Mobility Options
    *
    * get all dropdown options for Career Mobility
    */
-  const getCareerMobilityOptions = async () => {
+  const getCareerMobilityOptions = useCallback(async () => {
     try {
-      let url = backendAddress + "api/option/getCareerMobility";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getCareerMobility`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -207,22 +209,22 @@ const PersonalGrowthForm = (props) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get Talent Matrix Result Options
    *
    * get all dropdown options for Talent Matrix Results
    */
-  const getTalentMatrixResultOptions = async () => {
+  const getTalentMatrixResultOptions = useCallback(async () => {
     try {
-      let url = backendAddress + "api/option/getTalentMatrixResult";
-      let result = await axios.get(url);
-      let dataTree = [];
+      const url = `${backendAddress}api/option/getTalentMatrixResult`;
+      const result = await axios.get(url);
+      const dataTree = [];
 
       // Generate the data format required for dropdown
-      for (var i = 0; i < result.data.length; i++) {
-        var goal = {
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
           title: result.data[i].description[locale],
           key: result.data[i].id,
         };
@@ -234,7 +236,7 @@ const PersonalGrowthForm = (props) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
@@ -257,6 +259,7 @@ const PersonalGrowthForm = (props) => {
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect when locale changes
@@ -275,11 +278,12 @@ const PersonalGrowthForm = (props) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [locale]);
+  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
 
   return (
     <PersonalGrowthFormView
@@ -296,10 +300,18 @@ const PersonalGrowthForm = (props) => {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
-      formType={props.formType}
+      formType={formType}
       load={load}
     />
   );
-}
+};
+
+PersonalGrowthForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  intl: IntlPropType,
+};
+PersonalGrowthForm.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(PersonalGrowthForm);

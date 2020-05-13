@@ -1,10 +1,10 @@
 import React from "react";
-import CareerInterestsView from "./CareerInterestsView";
 import { FormattedMessage } from "react-intl";
+import PropTypes from "prop-types";
+import CareerInterestsView from "./CareerInterestsView";
 
-function CareerInterests(props) {
-  const getCareerInterestsInfo = (dataSource) => {
-    const data = dataSource.data;
+const CareerInterests = ({ data }) => {
+  const getCareerInterestsInfo = () => {
     const locale = localStorage.getItem("lang") || "en";
 
     const interestedInRemote = {
@@ -29,8 +29,7 @@ function CareerInterests(props) {
     return [interestedInRemote, lookingForNewJob];
   };
 
-  const getRelocationLocationsInfo = (dataSource) => {
-    const data = dataSource.data;
+  const getRelocationLocationsInfo = () => {
     const locale = localStorage.getItem("lang") || "en";
 
     const relocationLocationsInfo = [];
@@ -45,12 +44,25 @@ function CareerInterests(props) {
 
   return (
     <CareerInterestsView
-      data={props.data}
+      data={data}
       locale={localStorage.getItem("lang") || "en"}
-      info={getCareerInterestsInfo(props)}
-      relocationLocationsInfo={getRelocationLocationsInfo(props)}
+      info={getCareerInterestsInfo()}
+      relocationLocationsInfo={getRelocationLocationsInfo()}
     />
   );
-}
+};
+
+CareerInterests.propTypes = {
+  data: PropTypes.shape({
+    interestedInRemote: PropTypes.bool,
+    lookingForNewJob: PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    }),
+    relocationLocations: PropTypes.any,
+  }).isRequired,
+};
 
 export default CareerInterests;

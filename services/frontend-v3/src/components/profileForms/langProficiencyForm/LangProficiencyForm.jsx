@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import LangProficiencyFormView from "./LangProficiencyFormView";
 import axios from "axios";
+import PropTypes from "prop-types";
+import LangProficiencyFormView from "./LangProficiencyFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -9,7 +11,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const LangProficiencyForm = (props) => {
+const LangProficiencyForm = ({ formType }) => {
   const [languageOptions, setLanguageOptions] = useState(null);
   const [proficiencyOptions, setProficiencyOptions] = useState(null);
   const [profileInfo, setProfileInfo] = useState(null);
@@ -18,11 +20,10 @@ const LangProficiencyForm = (props) => {
   // Get user profile for form drop down
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
@@ -60,8 +61,9 @@ const LangProficiencyForm = (props) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
       });
   }, []);
@@ -71,10 +73,14 @@ const LangProficiencyForm = (props) => {
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
-      formType={props.formType}
+      formType={formType}
       load={load}
     />
   );
+};
+
+LangProficiencyForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
 export default LangProficiencyForm;

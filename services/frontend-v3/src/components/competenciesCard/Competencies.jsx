@@ -1,27 +1,43 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 
 import CompetenciesView from "./CompetenciesView";
 
-function Competencies(props) {
-  const formatData = (dataSource) => {
-    const data = dataSource.data;
-    const locale = dataSource.intl.formatMessage({ id: "language.code" });
+const Competencies = ({ data, intl }) => {
+  const formatData = () => {
+    const locale = intl.formatMessage({ id: "language.code" });
 
-    let competencies = [];
+    const competencies = [];
     let key = 0;
 
     if (data.competencies) {
-      data.competencies.forEach((element) => {
+      data.competencies.forEach(element => {
         competencies[key] = element.description[locale];
-        key++;
+        key += 1;
       });
     }
 
     return competencies;
   };
+  return <CompetenciesView competencies={formatData()} />;
+};
 
-  return <CompetenciesView competencies={formatData(props)} />;
-}
+Competencies.propTypes = {
+  data: PropTypes.shape({
+    competencies: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.shape({
+          en: PropTypes.string,
+          fr: PropTypes.string,
+        }),
+        id: PropTypes.string,
+      })
+    ),
+  }).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+};
 
 export default injectIntl(Competencies);

@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
-import CompetencyTableView from "./CompetencyTableView";
+/* eslint-disable no-shadow */
+import React, { useState, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
+import { IntlPropType } from "../../../customPropTypes";
 
-const backendAddress = config.backendAddress;
+const { backendAddress } = config;
 
 /**
  *  CompetencyTable(props)
  *  Controller for the CompetencyTableView.
  *  It gathers the required data for rendering the component.
  */
-function CompetencyTable(props) {
+const CompetencyTable = ({ intl, type }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -22,7 +25,20 @@ function CompetencyTable(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const size = "large";
-  const { type } = props;
+
+  /* get competency information */
+  const getCompetencies = useCallback(async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/admin/options/${type}`
+      );
+      return results.data;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+      return 0;
+    }
+  }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
@@ -43,31 +59,18 @@ function CompetencyTable(props) {
       };
       updateState();
     }
-  }, [loading, reset]);
-
-  /* get competency information */
-  const getCompetencies = async () => {
-    try {
-      let results = await axios.get(
-        backendAddress + "api/admin/options/" + type
-      );
-      return results.data;
-    } catch (error) {
-      console.log(error);
-      return 0;
-    }
-  };
+  }, [getCompetencies, loading, reset]);
 
   /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
-      return props.intl.formatMessage({
-        id: "admin." + type + ".plural",
+      return intl.formatMessage({
+        id: `admin.${type}.plural`,
         defaultMessage: type,
       });
 
-    return props.intl.formatMessage({
-      id: "admin." + type + ".singular",
+    return intl.formatMessage({
+      id: `admin.${type}.singular`,
       defaultMessage: type,
     });
   };
@@ -90,7 +93,7 @@ function CompetencyTable(props) {
   /* handles addition of a competency */
   const handleSubmitAdd = async (values) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type;
+      const url = `${backendAddress}api/admin/options/${type}`;
 
       await axios.post(url, {
         descriptionEn: values.addCompetencyEn,
@@ -99,7 +102,9 @@ function CompetencyTable(props) {
       });
 
       setReset(true);
+      return 1;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
@@ -108,7 +113,7 @@ function CompetencyTable(props) {
   /* handles the update/edit of a competency */
   const handleSubmitEdit = async (values, id) => {
     try {
-      const url = backendAddress + "api/admin/options/" + type + "/" + id;
+      const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
       await axios.put(url, {
         descriptionEn: values.editCompetencyEn,
@@ -116,7 +121,9 @@ function CompetencyTable(props) {
       });
 
       setReset(true);
+      return 1;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
@@ -125,16 +132,25 @@ function CompetencyTable(props) {
   /* handles the deletion of a competency */
   const handleSubmitDelete = async () => {
     try {
-      const url = backendAddress + "api/admin/delete/" + type;
+      const url = `${backendAddress}api/admin/delete/${type}`;
 
       await axios.post(url, { ids: selectedRowKeys });
 
       setSelectedRowKeys([]);
       setReset(true);
+      return 1;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
+  };
+
+  /* helper function to rowSelection */
+  // Consult: function taken from Ant Design table components (updated to functional)
+  const onSelectChange = (selectedRowKeys) => {
+    // Can access the keys of each competency selected in the table
+    setSelectedRowKeys(selectedRowKeys);
   };
 
   /* handles row selection in the table */
@@ -145,31 +161,24 @@ function CompetencyTable(props) {
     },
   };
 
-  /* helper function to rowSelection */
-  // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
-    // Can access the keys of each competency selected in the table
-    setSelectedRowKeys(selectedRowKeys);
-  };
-
   /* configures data from backend into viewable data for the table */
   const convertToViewableInformation = () => {
     // Allows for sorting of data between French/English in terms of description:
     const description =
-      props.intl.formatMessage({ id: "language.code" }) === "en"
+      intl.formatMessage({ id: "language.code" }) === "en"
         ? "descriptionEn"
         : "descriptionFr";
 
-    let allCompetencies = _.sortBy(data, description);
+    const allCompetencies = _.sortBy(data, description);
 
-    for (let i = 0; i < allCompetencies.length; i++) {
+    for (let i = 0; i < allCompetencies.length; i += 1) {
       allCompetencies[i].key = allCompetencies[i].id;
     }
 
     return allCompetencies;
   };
 
-  document.title = getDisplayType(true) + " - Admin | I-Talent";
+  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
   if (loading) {
     return <Skeleton active />;
@@ -191,5 +200,14 @@ function CompetencyTable(props) {
     />
   );
 }
+
+CompetencyTable.propTypes = {
+  intl: IntlPropType,
+  type: PropTypes.string.isRequired,
+};
+
+CompetencyTable.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(CompetencyTable);

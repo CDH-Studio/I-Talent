@@ -1,31 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
-import { Form, Col, Button, Input, Switch, Select } from "antd";
+import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
 import "@ant-design/compatible/assets/index.css";
-import { Row } from "antd";
+import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
-function SearchBarView(props) {
+const SearchBarView = ({
+  handleSearch,
+  skillOptions,
+  branchOptions,
+  classOptions,
+  locationOptions,
+  intl,
+}) => {
   const { Option } = Select;
   const [form] = Form.useForm();
-  const {
-    handleSearch,
-    skillOptions,
-    branchOptions,
-    classOptions,
-    locationOptions
-  } = props;
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     handleSearch(values);
   };
 
-  let locale = props.intl.formatMessage({
+  const locale = intl.formatMessage({
     id: "language.code",
-    defaultMessage: "en"
+    defaultMessage: "en",
   });
-  const searchLabel = props.intl.formatMessage({
+  const searchLabel = intl.formatMessage({
     id: "button.search",
-    defaultMessage: "Search"
+    defaultMessage: "Search",
   });
   const searchTitles = [
     "name",
@@ -33,33 +34,33 @@ function SearchBarView(props) {
     "branch",
     "location",
     "classification",
-    "exFeeder"
+    "exFeeder",
   ];
   const labelArr = [
-    props.intl.formatMessage({
+    intl.formatMessage({
       id: "advanced.search.form.name",
-      defaultMessage: "Name"
+      defaultMessage: "Name",
     }),
-    props.intl.formatMessage({
+    intl.formatMessage({
       id: "advanced.search.form.skills",
-      defaultMessage: "Skills"
+      defaultMessage: "Skills",
     }),
-    props.intl.formatMessage({
+    intl.formatMessage({
       id: "advanced.search.form.branch",
-      defaultMessage: "Branch"
+      defaultMessage: "Branch",
     }),
-    props.intl.formatMessage({
+    intl.formatMessage({
       id: "advanced.search.form.location",
-      defaultMessage: "Location"
+      defaultMessage: "Location",
     }),
-    props.intl.formatMessage({
+    intl.formatMessage({
       id: "advanced.search.form.classification",
-      defaultMessage: "Classification"
+      defaultMessage: "Classification",
     }),
-    props.intl.formatMessage({
+    intl.formatMessage({
       id: "advanced.search.form.ex.feeder",
-      defaultMessage: "Ex Feeder"
-    })
+      defaultMessage: "Ex Feeder",
+    }),
   ];
   return (
     <Form
@@ -80,7 +81,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {skillOptions.map(value => {
+            {skillOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -96,7 +97,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {branchOptions.map(value => {
+            {branchOptions.map((value) => {
               return (
                 <Option key={value.description.en}>
                   {value.description[locale]}
@@ -114,7 +115,7 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {locationOptions.map(value => {
+            {locationOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -130,12 +131,12 @@ function SearchBarView(props) {
             mode="multiple"
             placeholder={searchLabel}
           >
-            {classOptions.map(value => {
+            {classOptions.map((value) => {
               return <Option key={value.id}>{value.description}</Option>;
             })}
           </Select>
         </Form.Item>
-        <Form.Item name={searchTitles[5]} label={labelArr[5]}>
+        <Form.Item name={searchTitles[5]} label={labelArr[5]} valuePropName="checked">
           <Switch />
         </Form.Item>{" "}
       </Row>
@@ -149,5 +150,27 @@ function SearchBarView(props) {
       </Row>
     </Form>
   );
-}
+};
+
+SearchBarView.propTypes = {
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    })
+  ).isRequired,
+  classOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      description: PropTypes.string,
+    })
+  ).isRequired,
+  locationOptions: IdDescriptionPropType.isRequired,
+  skillOptions: IdDescriptionPropType.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  intl: IntlPropType.isRequired,
+};
+
 export default injectIntl(SearchBarView);

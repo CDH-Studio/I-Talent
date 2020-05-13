@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { injectIntl, FormattedMessage } from "react-intl";
 import {
   Typography,
@@ -12,11 +13,19 @@ import {
 } from "antd";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
+import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const { Option } = Select;
 const { Title } = Typography;
 
-function SearchBarView(props) {
+const SearchBarView = ({
+  intl,
+  locationOptions,
+  skillOptions,
+  classOptions,
+  branchOptions,
+  handleSearch,
+}) => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
 
@@ -71,7 +80,7 @@ function SearchBarView(props) {
     },
   };
 
-  const searchLabel = props.intl.formatMessage({
+  const searchLabel = intl.formatMessage({
     id: "button.search",
     defaultMessage: "Search",
   });
@@ -83,13 +92,13 @@ function SearchBarView(props) {
 
   // Handle form submission
   const onFinish = (values) => {
-    props.handleSearch(values);
+    handleSearch(values);
   };
 
   // Generate the basic input field for basic search
   const getBasicField = () => {
     return (
-      <Form.Item style={{ width: "100%" }} label={""} name="searchValue">
+      <Form.Item style={{ width: "100%" }} label="" name="searchValue">
         <Input placeholder={searchLabel} size="large" />
       </Form.Item>
     );
@@ -98,147 +107,138 @@ function SearchBarView(props) {
   // Generate the advanced search fields
   const getAdvancedSearchForm = (displayForm) => {
     // detect language
-    let locale = props.intl.formatMessage({
+    const locale = intl.formatMessage({
       id: "language.code",
       defaultMessage: "en",
     });
 
     if (!displayForm) {
       return <div />;
-    } else {
-      return (
-        <div style={{ marginBottom: "0" }}>
-          <Row style={{ padding: "20px 5% 5px 5%" }}>
-            <Col span={24} style={{ padding: "0px 0" }}>
-              <Title level={2} style={{ fontSize: "1.3em" }}>
-                <FormattedMessage id={"advanced.search.button.text"} />
-              </Title>
-            </Col>
-          </Row>
-
-          <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
-            {/* form column one */}
-            <Col span={8}>
-              {/* name field */}
-              <Form.Item
-                label={<FormattedMessage id="advanced.search.form.name" />}
-                name="name"
-              >
-                <Input style={{ width: "100%" }} placeholder={searchLabel} />
-              </Form.Item>
-              {/* Location field */}
-              <Form.Item
-                label={<FormattedMessage id="advanced.search.form.location" />}
-                name={"location"}
-              >
-                <Select
-                  style={{ width: "100% " }}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                  mode="multiple"
-                  placeholder={searchLabel}
-                >
-                  {props.locationOptions.map((value) => {
-                    return (
-                      <Option key={value.id}>
-                        {value.description[locale]}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            {/* form column two */}
-            <Col span={8}>
-              {/* Skills field */}
-              <Form.Item
-                label={<FormattedMessage id="advanced.search.form.skills" />}
-                name={"skills"}
-              >
-                <Select
-                  style={{ width: "100%" }}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                  mode="multiple"
-                  placeholder={searchLabel}
-                >
-                  {props.skillOptions.map((value) => {
-                    return (
-                      <Option key={value.id}>
-                        {value.description[locale]}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-              {/* classification field */}
-              <Form.Item
-                label={
-                  <FormattedMessage id="advanced.search.form.classification" />
-                }
-                name={"classification"}
-              >
-                <Select
-                  style={{ width: "100%" }}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                  mode="multiple"
-                  placeholder={searchLabel}
-                >
-                  {props.classOptions.map((value) => {
-                    return <Option key={value.id}>{value.description}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            {/* form column three */}
-            <Col span={8}>
-              {/* branch field */}
-              <Form.Item
-                label={<FormattedMessage id="advanced.search.form.branch" />}
-                name={"branch"}
-              >
-                <Select
-                  style={{ width: "100%" }}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                  mode="multiple"
-                  placeholder={searchLabel}
-                >
-                  {props.branchOptions.map((value) => {
-                    return (
-                      <Option key={value.description.en}>
-                        {value.description[locale]}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-              {/* exFeeder field */}
-              <Form.Item
-                label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
-                name={"exFeeder"}
-                valuePropName="checked"
-              >
-                <Switch />
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
-      );
     }
+    return (
+      <div style={{ marginBottom: "0" }}>
+        <Row style={{ padding: "20px 5% 5px 5%" }}>
+          <Col span={24} style={{ padding: "0px 0" }}>
+            <Title level={2} style={{ fontSize: "1.3em" }}>
+              <FormattedMessage id="advanced.search.button.text" />
+            </Title>
+          </Col>
+        </Row>
+
+        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
+          {/* form column one */}
+          <Col span={8}>
+            {/* name field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.name" />}
+              name="name"
+            >
+              <Input style={{ width: "100%" }} placeholder={searchLabel} />
+            </Form.Item>
+            {/* Location field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.location" />}
+              name="location"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+              >
+                {locationOptions.map((value) => {
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+          {/* form column two */}
+          <Col span={8}>
+            {/* Skills field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.skills" />}
+              name="skills"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+              >
+                {skillOptions.map((value) => {
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            {/* classification field */}
+            <Form.Item
+              label={
+                <FormattedMessage id="advanced.search.form.classification" />
+              }
+              name="classification"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+              >
+                {classOptions.map((value) => {
+                  return <Option key={value.id}>{value.description}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+          {/* form column three */}
+          <Col span={8}>
+            {/* branch field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.branch" />}
+              name="branch"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+              >
+                {branchOptions.map((value) => {
+                  return (
+                    <Option key={value.description.en}>
+                      {value.description[locale]}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            {/* exFeeder field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+              name="exFeeder"
+              valuePropName="checked"
+            >
+              <Switch />
+            </Form.Item>
+          </Col>
+        </Row>
+      </div>
+    );
   };
 
   return (
@@ -246,7 +246,7 @@ function SearchBarView(props) {
       form={form}
       onFinish={onFinish}
       style={styles.outerForm}
-      layout={"vertical"}
+      layout="vertical"
     >
       <div style={styles.outerDiv}>
         <div style={styles.mainSearchDiv}>
@@ -276,7 +276,7 @@ function SearchBarView(props) {
               form.resetFields();
             }}
           >
-            {props.intl.formatMessage({
+            {intl.formatMessage({
               id: "button.clear",
               defaultMessage: "Clear",
             })}
@@ -293,10 +293,10 @@ function SearchBarView(props) {
                 onClick={toggle}
                 style={{ fontSize: 14 }}
                 tabIndex="0"
-                size={"small"}
+                size="small"
               >
                 <SettingOutlined style={{ marginRight: "3px" }} />
-                <FormattedMessage id={"advanced.search.button.text"} />
+                <FormattedMessage id="advanced.search.button.text" />
               </Button>
             </Col>
           </Row>
@@ -304,6 +304,31 @@ function SearchBarView(props) {
       </div>
     </Form>
   );
-}
+};
+
+SearchBarView.propTypes = {
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    })
+  ).isRequired,
+  classOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      description: PropTypes.string,
+    })
+  ).isRequired,
+  locationOptions: IdDescriptionPropType.isRequired,
+  skillOptions: IdDescriptionPropType.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  intl: IntlPropType,
+};
+
+SearchBarView.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(SearchBarView);
