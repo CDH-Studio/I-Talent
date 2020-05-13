@@ -314,25 +314,21 @@ SearchBarView.propTypes = {
         fr: PropTypes.string,
       }),
     })
-  ),
+  ).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       description: PropTypes.string,
     })
-  ),
-  locationOptions: IdDescriptionPropType,
-  skillOptions: IdDescriptionPropType,
+  ).isRequired,
+  locationOptions: IdDescriptionPropType.isRequired,
+  skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType,
 };
 
 SearchBarView.defaultProps = {
   intl: undefined,
-  branchOptions: [],
-  classOptions: [],
-  locationOptions: [],
-  skillOptions: [],
 };
 
 export default injectIntl(SearchBarView);
