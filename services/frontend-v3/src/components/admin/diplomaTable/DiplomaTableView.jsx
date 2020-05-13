@@ -25,7 +25,7 @@ import { injectIntl } from "react-intl";
  *  DiplomaTableView(props)
  *  This component renders the diploma table for the Admin Diploma Page.
  */
-function DiplomaTableView({
+const DiplomaTableView = ({
   handleSearch,
   handleReset,
   handleSubmitAdd,
@@ -38,7 +38,7 @@ function DiplomaTableView({
   rowSelection,
   data,
   intl,
-}) {
+}) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -493,22 +493,24 @@ function DiplomaTableView({
           id: "admin.diploma.table",
           defaultMessage: "Diplomas Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -521,7 +523,7 @@ function DiplomaTableView({
       </Row>
     </>
   );
-}
+};
 
 DiplomaTableView.propTypes = {
   data: PropTypes.arrayOf(PropTypes.any).isRequired,

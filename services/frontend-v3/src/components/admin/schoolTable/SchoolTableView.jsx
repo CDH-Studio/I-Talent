@@ -26,7 +26,7 @@ import { IntlPropType } from "../../../customPropTypes";
  *  SchoolTableView(props)
  *  This component renders the school table for the Admin School Page.
  */
-function SchoolTableView({
+const SchoolTableView = ({
   handleSearch,
   handleReset,
   handleSubmitAdd,
@@ -39,7 +39,7 @@ function SchoolTableView({
   size,
   rowSelection,
   data,
-}) {
+}) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -67,7 +67,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -75,7 +75,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -115,7 +115,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
     return {
       filterDropdown,
-      filterIcon: filtered => (
+      filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
       ),
       onFilter: (_value, _record) =>
@@ -123,12 +123,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           .toString()
           .toLowerCase()
           .includes(_value.toLowerCase()),
-      onFilterDropdownVisibleChange: visible => {
+      onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInput.select());
         }
       },
-      render: text =>
+      render: (text) =>
         searchedColumn === dataIndex ? (
           <Highlighter
             highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -207,7 +207,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
   /* handles the transfer of new or update/edited school information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = values => {
+  const onCreate = (values) => {
     if (modalType === "edit") {
       handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
@@ -241,7 +241,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* handles render of "Edit School" modal */
-  const handleEditModal = _record => {
+  const handleEditModal = (_record) => {
     setEditVisible(true);
     setRecord(_record);
     setModalType("edit");
@@ -273,12 +273,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onOk={() => {
           addForm
             .validateFields()
-            .then(values => {
+            .then((values) => {
               addForm.resetFields();
               onCreate(values);
               handleOk();
             })
-            .catch(info => {
+            .catch((info) => {
               handleCancel();
               // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
@@ -389,11 +389,11 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onOk={() => {
           editForm
             .validateFields()
-            .then(values => {
+            .then((values) => {
               editForm.resetFields();
               onCreate(values);
             })
-            .catch(info => {
+            .catch((info) => {
               // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
@@ -530,7 +530,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: _record => (
+        render: (_record) => (
           <div>
             <Button
               type="primary"
@@ -560,22 +560,24 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           id: "admin.school.table",
           defaultMessage: "Schools Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -616,4 +618,5 @@ SchoolTableView.propTypes = {
 SchoolTableView.defaultProps = {
   intl: undefined,
 };
+
 export default injectIntl(SchoolTableView);

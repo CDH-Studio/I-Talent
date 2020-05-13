@@ -26,7 +26,7 @@ import { IntlPropType } from "../../../customPropTypes";
  *  UserTableView(props)
  *  This component renders the user table for the Admin User Page.
  */
-function UserTableView({
+const UserTableView = ({
   intl,
   data,
   size,
@@ -37,7 +37,7 @@ function UserTableView({
   profileStatusValue,
   handleSearch,
   handleReset,
-}) {
+}) => {
   let searchInput;
 
   const { Option } = Select;
@@ -369,7 +369,7 @@ function UserTableView({
           id: "admin.user.table",
           defaultMessage: "Users Table",
         })}
-        extra={[applyButton()]}
+        extra={applyButton()}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
