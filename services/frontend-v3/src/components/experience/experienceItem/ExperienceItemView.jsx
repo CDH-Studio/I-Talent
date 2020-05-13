@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
-import { Row, Avatar, List } from "antd";
+import { Row, Avatar, List, Button } from "antd";
 import { ContainerOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 import { IntlPropType } from "../../../customPropTypes";
 
@@ -41,8 +41,8 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
         <Row>{item.organizationName}</Row>
         {generateDescriptionContent()}
         <Row>
-          <a
-            href={false}
+          <Button
+            type="link"
             onClick={toggleExpand}
             style={styles.experienceDescriptionToggleTag}
           >
@@ -53,7 +53,7 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
                 defaultMessage: "Description",
               })}
             </span>
-          </a>
+          </Button>
         </Row>
       </>
     );
