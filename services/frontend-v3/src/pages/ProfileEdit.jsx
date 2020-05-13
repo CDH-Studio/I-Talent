@@ -18,7 +18,12 @@ const ProfileEdit = ({ changeLanguage, intl, match }) => {
 ProfileEdit.propTypes = {
   intl: IntlPropType,
   changeLanguage: PropTypes.func.isRequired,
-  match: PropTypes.isRequired,
+  match: PropTypes.shape({
+    isExact: PropTypes.bool,
+    params: PropTypes.objectOf(PropTypes.any),
+    path: PropTypes.string,
+    url: PropTypes.string,
+  }).isRequired,
 };
 
 ProfileEdit.defaultProps = {

@@ -13,7 +13,7 @@ const EditProfileLayout = ({ changeLanguage, step }) => {
 };
 
 EditProfileLayout.propTypes = {
-  changeLanguage: PropTypes.isRequired,
+  changeLanguage: PropTypes.func.isRequired,
   step: PropTypes.string.isRequired,
 };
 

@@ -4,6 +4,7 @@ import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
 import AppLayout from "../appLayout/AppLayout";
 import {
   EmploymentDataForm,
@@ -26,7 +27,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
    *
    * Generate the correct form based on the step
    */
-  const profileFormSelect = (step) => {
+  const profileFormSelect = step => {
     switch (step) {
       case "primary-info":
         return <PrimaryInfoForm formType="edit" />;
@@ -50,7 +51,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
    *
    * Redirect to form based on sidebar selection
    */
-  const redirectToForm = (data) => {
+  const redirectToForm = data => {
     const url = `/secured/profile/edit/${data.key}`;
     history.push(url);
   };
@@ -60,7 +61,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = (step) => {
+  const getSideBarContent = step => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item key="primary-info">
@@ -121,9 +122,13 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
 };
 
 EditProfileLayoutView.propTypes = {
-  changeLanguage: PropTypes.isRequired,
-  formStep: PropTypes.isRequired,
-  intl: PropTypes.isRequired,
+  changeLanguage: PropTypes.func.isRequired,
+  formStep: PropTypes.string.isRequired,
+  intl: IntlPropType,
+};
+
+EditProfileLayoutView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(EditProfileLayoutView);
