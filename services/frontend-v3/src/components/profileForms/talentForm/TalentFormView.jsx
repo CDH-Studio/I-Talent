@@ -442,7 +442,7 @@ const TalentFormView = props => {
     if (load) {
       form.resetFields();
     }
-  }, [props, form]);
+  }, [load, form, savedMentorshipSkills, skillOptions, savedSkills]);
 
   /*
    * Get Form Control Buttons

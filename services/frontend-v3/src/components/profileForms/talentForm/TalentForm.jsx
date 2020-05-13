@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
@@ -49,7 +49,7 @@ const TalentForm = ({ formType, intl }) => {
    *
    * competency options for drop down
    */
-  const getCompetencyOptions = async () => {
+  const getCompetencyOptions = useCallback(async () => {
     try {
       const url = `${backendAddress}api/option/getCompetency`;
       const result = await axios.get(url);
@@ -69,14 +69,14 @@ const TalentForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get all skill options
    *
    * generate the dataTree of skills and skill categories for the TreeSelect
    */
-  const getSkillOptions = async () => {
+  const getSkillOptions = useCallback(async () => {
     try {
       const dataTree = [];
 
@@ -109,7 +109,7 @@ const TalentForm = ({ formType, intl }) => {
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [locale]);
 
   /**
    * Get saved competencies
@@ -157,6 +157,7 @@ const TalentForm = ({ formType, intl }) => {
       getSavedSkills();
       getSavedMentorshipSkill();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect to run once component is mounted
@@ -171,7 +172,7 @@ const TalentForm = ({ formType, intl }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [locale]);
+  }, [getCompetencyOptions, getSkillOptions]);
 
   return (
     <TalentFormView

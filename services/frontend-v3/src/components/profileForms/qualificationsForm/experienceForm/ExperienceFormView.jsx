@@ -106,6 +106,7 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
     ) {
       toggleEndDate();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo, field]);
 
   /** **********************************

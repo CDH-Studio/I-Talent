@@ -10,16 +10,17 @@ import ResultsCardView from "./ResultsCardView";
 
 const { backendAddress } = config;
 
-function ResultsCard({ history }) {
+const ResultsCard = ({ history }) => {
   const [results, setResults] = useState(null);
 
-  const urlSections = window.location.toString().split("?");
   useEffect(() => {
+    const urlSections = window.location.toString().split("?");
+
     if (urlSections.length === 2) {
       const queryString = urlSections[1];
       axios
         .get(`${backendAddress}api/search/fuzzySearch?${queryString}`)
-        .then(result => setResults(result.data));
+        .then((result) => setResults(result.data));
     } else {
       setResults(new Error("invalid query"));
     }

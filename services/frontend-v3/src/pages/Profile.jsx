@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import config from "../config";
@@ -36,7 +36,7 @@ const Profile = ({ history, match, changeLanguage }) => {
     return fetchedData;
   };
 
-  const goto = (link) => history.push(link);
+  const goto = useCallback((link) => history.push(link), [history]);
 
   useEffect(() => {
     const { id } = match.params;
@@ -53,7 +53,7 @@ const Profile = ({ history, match, changeLanguage }) => {
         setLoading(false);
       });
     }
-  }, []);
+  }, [data, goto, match.params]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;

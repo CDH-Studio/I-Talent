@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import _ from "lodash";
 import { injectIntl } from "react-intl";
 import CategoryTableView from "./CategoryTableView";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
@@ -15,7 +15,7 @@ const { backendAddress } = config;
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-function SchoolTable({ type, intl }) {
+const SchoolTable = ({ type, intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
@@ -26,7 +26,7 @@ function SchoolTable({ type, intl }) {
   const size = "large";
 
   /* get school information */
-  const getSchools = async () => {
+  const getSchools = useCallback(async () => {
     try {
       const results = await axios.get(
         `${backendAddress}api/admin/options/${type}`
@@ -37,7 +37,7 @@ function SchoolTable({ type, intl }) {
       console.log(error);
       return 0;
     }
-  };
+  }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
@@ -62,7 +62,7 @@ function SchoolTable({ type, intl }) {
       };
       updateState();
     }
-  }, [loading, reset]);
+  }, [getSchools, loading, reset]);
 
   /* get part of the title for the page */
   const getDisplayType = plural => {
