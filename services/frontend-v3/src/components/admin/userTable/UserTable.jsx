@@ -8,6 +8,7 @@ import _ from "lodash";
 // eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import { injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 import UserTableView from "./UserTableView";
 import config from "../../../config";
 
@@ -80,7 +81,7 @@ function UserTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -103,7 +104,7 @@ function UserTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
@@ -144,7 +145,7 @@ function UserTable({ intl, type }) {
       convertData[i].key = convertData[i].id;
     }
 
-    convertData.forEach(e => {
+    convertData.forEach((e) => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = `/secured/profile/${e.id}`;
@@ -186,8 +187,12 @@ function UserTable({ intl, type }) {
 }
 
 UserTable.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   type: PropTypes.string.isRequired,
+};
+
+UserTable.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(UserTable);
