@@ -80,7 +80,7 @@ function UserTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -103,7 +103,7 @@ function UserTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
@@ -140,11 +140,11 @@ function UserTable({ intl, type }) {
   const convertToViewableInformation = () => {
     const convertData = _.sortBy(data, "user.name");
 
-    for (let i = 0; i < convertData.length; i = +1) {
+    for (let i = 0; i < convertData.length; i += 1) {
       convertData[i].key = convertData[i].id;
     }
 
-    convertData.forEach((e) => {
+    convertData.forEach(e => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = `/secured/profile/${e.id}`;
