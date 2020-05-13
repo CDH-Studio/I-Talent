@@ -358,7 +358,7 @@ function SkillTableView({
         : "categoryNameFr";
 
     // Table columns data structure: array of objects
-    const skill_table_columns = [
+    const skillTableColumns = [
       {
         title: intl.formatMessage({
           id: "admin.category",
@@ -447,7 +447,7 @@ function SkillTableView({
       },
     ];
 
-    return skill_table_columns;
+    return skillTableColumns;
   };
 
   /* Renders "Add Skill" modal */

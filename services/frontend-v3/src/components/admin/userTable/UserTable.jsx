@@ -1,10 +1,11 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable consistent-return */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
+// eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import { injectIntl } from "react-intl";
 import UserTableView from "./UserTableView";
@@ -63,7 +64,6 @@ function UserTable({ intl, type }) {
   }, [loading, reset]);
 
   /* handles profile status change */
-  // eslint-disable-next-line consistent-return
   const handleApply = async () => {
     try {
       const url = `${backendAddress}api/admin/profileStatus`;
@@ -186,7 +186,8 @@ function UserTable({ intl, type }) {
 }
 
 UserTable.propTypes = {
-  intl: PropTypes.func.isRequired,
+  intl: PropTypes.isRequired,
   type: PropTypes.string.isRequired,
 };
+
 export default injectIntl(UserTable);
