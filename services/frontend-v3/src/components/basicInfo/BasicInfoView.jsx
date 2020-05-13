@@ -150,7 +150,12 @@ function BasicInfoView(props) {
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch && data.branch[locale],
+      description:
+        data.branch && data.branch[locale] ? (
+          data.branch
+        ) : (
+          <FormattedMessage id="profile.not.specified" />
+        ),
     };
 
     const address = {
