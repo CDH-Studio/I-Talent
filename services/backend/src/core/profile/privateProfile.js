@@ -27,39 +27,40 @@ const getPrivateProfileById = async (request, response) => {
 	if (!getProfile) response.status(404).send("Profile Not Found");
 	const data = { ...getProfile.dataValues, ...user.dataValues };
 
-	const tenure = await profile.getTenure().then((res) => {
-		if (res) return res.dataValues;
-	});
+	// const tenure = await profile.getTenure().then((res) => {
+	// 	if (res) return res.dataValues;
+	// });
 
-	const careerMobility = await profile.getCareerMobility().then((res) => {
-		if (res) return res.dataValues;
-	});
+	// const careerMobility = await profile.getCareerMobility().then((res) => {
+	// 	if (res) return res.dataValues;
+	// });
 
-	const talentMatrixResult = await profile
-		.getTalentMatrixResult()
-		.then((res) => {
-			if (res) return res.dataValues;
-		});
+	// const talentMatrixResult = await profile
+	// 	.getTalentMatrixResult()
+	// 	.then((res) => {
+	// 		if (res) return res.dataValues;
+	// 	});
 
-	const groupLevel = await profile.getGroupLevel().then((res) => {
-		if (res) return res.dataValues;
-	});
+	// const groupLevel = await profile.getGroupLevel().then((res) => {
+	// 	if (res) return res.dataValues;
+	// });
 
-	const securityClearance = await profile.getSecurityClearance().then((res) => {
-		if (res) return res.dataValues;
-	});
+	// const securityClearance = await profile.getSecurityClearance().then((res) => {
+	// 	if (res) return res.dataValues;
+	// });
 
-	const acting = await profile.getActing().then((res) => {
-		if (res) return res.dataValues;
-	});
+	// const acting = await profile.getActing().then((res) => {
+	// 	if (res) return res.dataValues;
+	// });
 
-	const location = await profile.getLocation().then((res) => {
-		if (res) return res.dataValues;
-	});
+	// const location = await profile.getLocation().then((res) => {
+	// 	if (res) return res.dataValues;
+	// });
 
-	const experiences = await profile.getExperiences({
-		order: [["startDate", "DESC"]],
-	});
+	// const experiences = await profile.getExperiences({
+	// 	order: [["startDate", "DESC"]],
+	// });
+
 	const careerSummary = experiences.map((experience) => {
 		const startDate = moment(experience.startDate);
 		const endDate = moment(experience.endDate);
@@ -73,14 +74,14 @@ const getPrivateProfileById = async (request, response) => {
 		};
 	});
 
-	const dbProjects = await profile.getProfileProjects();
+	// const dbProjects = await profile.getProfileProjects();
 	const projects = dbProjects.map((project) => {
 		return { text: project.description };
 	});
 
-	const education = await profile.getEducation({
-		order: [["startDate", "DESC"]],
-	});
+	// const education = await profile.getEducation({
+	// 	order: [["startDate", "DESC"]],
+	// });
 	const educations = () => {
 		return Promise.all(
 			education.map(async (educ) => {
