@@ -6,20 +6,19 @@ import CreateProfileLayoutView from "./CreateProfileLayoutView";
  *  CreateProfileLayout(props)
  *  Controller for the Create Profile Layout.
  */
-const CreateProfileLayout = (props) => {
-  const { changeLanguage, step } = props;
-
+const CreateProfileLayout = ({ changeLanguage, step }) => {
   return (
-    <CreateProfileLayoutView
-      changeLanguage={changeLanguage}
-      formStep={step}
-    />
+    <CreateProfileLayoutView changeLanguage={changeLanguage} formStep={step} />
   );
 };
 
 CreateProfileLayout.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  step: PropTypes.isRequired,
+  step: PropTypes.string,
+};
+
+CreateProfileLayout.defaultProps = {
+  step: null,
 };
 
 export default CreateProfileLayout;

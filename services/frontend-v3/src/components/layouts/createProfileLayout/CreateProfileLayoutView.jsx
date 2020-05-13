@@ -16,6 +16,7 @@ import {
   QualificationsForm,
   DoneSetup,
 } from "../../profileForms";
+import { IntlPropType } from "../../../customPropTypes";
 
 const { backendAddress } = config;
 const { Step } = Steps;
@@ -244,9 +245,14 @@ const CreateProfileLayoutView = (props) => {
 };
 
 CreateProfileLayoutView.propTypes = {
-  changeLanguage: PropTypes.isRequired,
-  formStep: PropTypes.isRequired,
-  intl: PropTypes.isRequired,
+  changeLanguage: PropTypes.func.isRequired,
+  formStep: PropTypes.string,
+  intl: IntlPropType,
+};
+
+CreateProfileLayoutView.defaultProps = {
+  intl: undefined,
+  formStep: "1",
 };
 
 export default injectIntl(CreateProfileLayoutView);
