@@ -5,15 +5,15 @@ import { FormattedMessage } from "react-intl";
 
 const { Panel } = Collapse;
 
-function MentorshipView(props) {
-  /*
+const MentorshipView = ({ mentoringCategories, mentoring }) => {
+  /**
    * Generate Mentorship Collapse
    *
    * Generate a collapsible menu organized by mentorship skill category
    * If no skills are found for the profile then display friendly message
    */
-  const generateMentorshipCollapse = (mentoringCategories, mentoringSkills) => {
-    if (mentoringSkills.length > 0) {
+  const generateMentorshipCollapse = () => {
+    if (mentoring.length > 0) {
       return (
         <Collapse>
           {mentoringCategories.map(
@@ -21,11 +21,13 @@ function MentorshipView(props) {
               mentoringCategory != null && (
                 <Panel
                   header={mentoringCategory.val}
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index + 1}
                   extra={<TagTwoTone twoToneColor="#3CBAB3" />}
                 >
-                  {mentoringSkills[mentoringCategory.index].val.map(
+                  {mentoring[mentoringCategory.index].val.map(
                     (mentor) => (
+                      // eslint-disable-next-line react/no-array-index-key
                       <Tag color="#005a74" key={index}>
                         {mentor}
                       </Tag>
@@ -36,17 +38,16 @@ function MentorshipView(props) {
           )}
         </Collapse>
       );
-    } else {
-      return (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.mentorship.empty" />}
-        />
-      );
     }
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={<FormattedMessage id="profile.mentorship.empty" />}
+      />
+    );
   };
 
-  return generateMentorshipCollapse(props.mentoringCategories, props.mentoring);
-}
+  return generateMentorshipCollapse();
+};
 
 export default MentorshipView;

@@ -1,5 +1,20 @@
 {
-  "extends": ["airbnb", "plugin:prettier/recommended"],
-  "plugins": ["react"],
-  "rules": {}
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["react", "react-hooks"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/no-array-index-key": "warn"
+  },
+  "env": {
+    "browser": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.js", "**/*.test.jsx"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

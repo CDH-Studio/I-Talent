@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import QualificationsFormView from "./QualificationsFormView";
 import axios from "axios";
-import config from "../../../config";
 import moment from "moment";
+import PropTypes from "prop-types";
+import QualificationsFormView from "./QualificationsFormView";
+import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -10,7 +12,7 @@ const { backendAddress } = config;
  *  Controller for the QualificationsFormView.
  *  It gathers the required data for rendering the component
  */
-const QualificationsForm = (props) => {
+const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -23,11 +25,10 @@ const QualificationsForm = (props) => {
    */
   const getProfileInfo = async () => {
     try {
-      let url =
-        backendAddress +
-        "api/private/profile/" +
-        localStorage.getItem("userId");
-      let result = await axios.get(url);
+      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
       setProfileInfo(result.data);
       setLoad(true);
       return 1;
@@ -43,11 +44,11 @@ const QualificationsForm = (props) => {
    * get saved education items
    */
   const getSavedEducation = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate an array of education items
-    for (let i = 0; i < profileInfo.education.length; i++) {
-      let child = {
+    for (let i = 0; i < profileInfo.education.length; i += 1) {
+      const child = {
         school: profileInfo.education[i].school.id,
         diploma: profileInfo.education[i].diploma.id,
         startDate: moment(profileInfo.education[i].startDate.en),
@@ -67,11 +68,11 @@ const QualificationsForm = (props) => {
    * get saved experience items
    */
   const getSavedExperience = () => {
-    let selected = [];
+    const selected = [];
 
     // Generate an array of education items
-    for (let i = 0; i < profileInfo. careerSummary.length; i++) {
-      let child = {
+    for (let i = 0; i < profileInfo.careerSummary.length; i += 1) {
+      const child = {
         header: profileInfo.careerSummary[i].header,
         subheader: profileInfo.careerSummary[i].subheader,
         content: profileInfo.careerSummary[i].content,
@@ -94,7 +95,7 @@ const QualificationsForm = (props) => {
   const getSavedProjects = () => {
     const selected = [];
 
-    for (let i = 0; i < profileInfo.projects.length; i++) {
+    for (let i = 0; i < profileInfo.projects.length; i += 1) {
       selected.push(profileInfo.projects[i].text);
     }
     setSavedProjects(selected);
@@ -107,6 +108,7 @@ const QualificationsForm = (props) => {
       getSavedExperience();
       getSavedProjects();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect to run once component is mounted
@@ -121,10 +123,14 @@ const QualificationsForm = (props) => {
       savedEducation={savedEducation}
       savedExperience={savedExperience}
       savedProjects={savedProjects}
-      formType={props.formType}
+      formType={formType}
       load={load}
     />
   );
+};
+
+QualificationsForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
 export default QualificationsForm;

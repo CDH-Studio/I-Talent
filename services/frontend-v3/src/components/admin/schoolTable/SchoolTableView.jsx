@@ -19,12 +19,27 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  SchoolTableView(props)
  *  This component renders the school table for the Admin School Page.
  */
-function SchoolTableView(props) {
+const SchoolTableView = ({
+  handleSearch,
+  handleReset,
+  handleSubmitAdd,
+  handleSubmitEdit,
+  handleSubmitDelete,
+  intl,
+  selectedRowKeys,
+  searchedColumn,
+  searchText,
+  size,
+  rowSelection,
+  data,
+}) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -35,24 +50,16 @@ function SchoolTableView(props) {
 
   let searchInput;
 
-  const {
-    handleSearch,
-    handleReset,
-    handleSubmitAdd,
-    handleSubmitEdit,
-    handleSubmitDelete,
-    selectedRowKeys,
-    searchedColumn,
-    searchText,
-    size,
-    rowSelection,
-    data,
-  } = props;
-
+  /*
+clearFilters: ƒ onReset()
+confirm: ƒ onConfirm()
+selectedKeys: ["uni"]
+setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
+*/
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const getColumnSearchProps = (dataIndex, title) => ({
-    filterDropdown: ({
+  const getColumnSearchProps = (dataIndex, title) => {
+    const filterDropdown = ({
       setSelectedKeys,
       selectedKeys,
       confirm,
@@ -63,14 +70,10 @@ function SchoolTableView(props) {
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={
-            props.intl.formatMessage({
-              id: "admin.search",
-              defaultMessage: "Search for",
-            }) +
-            " " +
-            title
-          }
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+            defaultMessage: "Search for",
+          })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -85,7 +88,7 @@ function SchoolTableView(props) {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.search.button",
             defaultMessage: "Search",
           })}
@@ -95,42 +98,78 @@ function SchoolTableView(props) {
           size="small"
           style={{ width: 90 }}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.reset.button",
             defaultMessage: "Reset",
           })}
         </Button>
       </div>
-    ),
-    filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.select());
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
-      ) : (
-        text
+    );
+
+    filterDropdown.propTypes = {
+      clearFilters: PropTypes.func.isRequired,
+      confirm: PropTypes.func.isRequired,
+      selectedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+      setSelectedKeys: PropTypes.func.isRequired,
+    };
+
+    return {
+      filterDropdown,
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
       ),
-  });
+      onFilter: (_value, _record) =>
+        _record[dataIndex]
+          .toString()
+          .toLowerCase()
+          .includes(_value.toLowerCase()),
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
+          setTimeout(() => searchInput.select());
+        }
+      },
+      render: (text) =>
+        searchedColumn === dataIndex ? (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />
+        ) : (
+          text
+        ),
+    };
+  };
+
+  getColumnSearchProps.propTypes = {};
+
+  /* Renders the success message on top of page */
+  const popUpSuccesss = () => {
+    message.success(
+      intl.formatMessage({
+        id: "admin.success",
+        defaultMessage: "Successful",
+      })
+    );
+  };
+
+  /* Renders the cancel message on top of page */
+  const popUpCancel = () => {
+    message.error(
+      intl.formatMessage({
+        id: "admin.cancelled",
+        defaultMessage: "Cancelled",
+      })
+    );
+  };
 
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => {
     return (
       <Popconfirm
         placement="left"
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.delete.confirm",
           defaultMessage:
             "Are you sure you want to delete all the selected values?",
@@ -142,11 +181,11 @@ function SchoolTableView(props) {
         onCancel={() => {
           popUpCancel();
         }}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.delete",
           defaultMessage: "Delete",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -157,32 +196,12 @@ function SchoolTableView(props) {
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {props.intl.formatMessage({
+          {intl.formatMessage({
             id: "admin.delete",
             defaultMessage: "Delete",
           })}
         </Button>
       </Popconfirm>
-    );
-  };
-
-  /* Renders the success message on top of page */
-  const popUpSuccesss = () => {
-    message.success(
-      props.intl.formatMessage({
-        id: "admin.success",
-        defaultMessage: "Successful",
-      })
-    );
-  };
-
-  /* Renders the cancel message on top of page */
-  const popUpCancel = () => {
-    message.error(
-      props.intl.formatMessage({
-        id: "admin.cancelled",
-        defaultMessage: "Cancelled",
-      })
     );
   };
 
@@ -222,9 +241,9 @@ function SchoolTableView(props) {
   };
 
   /* handles render of "Edit School" modal */
-  const handleEditModal = (record) => {
+  const handleEditModal = (_record) => {
     setEditVisible(true);
-    setRecord(record);
+    setRecord(_record);
     setModalType("edit");
   };
 
@@ -239,15 +258,15 @@ function SchoolTableView(props) {
     return (
       <Modal
         visible={addVisible}
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.add.school",
           defaultMessage: "Add School",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -261,6 +280,7 @@ function SchoolTableView(props) {
             })
             .catch((info) => {
               handleCancel();
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
         }}
@@ -272,14 +292,14 @@ function SchoolTableView(props) {
         <Form form={addForm} name="addSchool" layout="vertical">
           <Form.Item
             name="addSchoolName"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "admin.name",
               defaultMessage: "Name",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.name",
                   defaultMessage: "Please complete the school name!",
                 }),
@@ -287,7 +307,7 @@ function SchoolTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.school.name",
                 defaultMessage: "Input the school name",
               })}
@@ -296,14 +316,14 @@ function SchoolTableView(props) {
           </Form.Item>
           <Form.Item
             name="addSchoolState"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "admin.state.limit",
               defaultMessage: "Province/State (2-Letter Abbreviation)",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.location",
                   defaultMessage: "Please complete the location information!",
                 }),
@@ -311,7 +331,7 @@ function SchoolTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.school.state",
                 defaultMessage: "Input the location information",
               })}
@@ -321,14 +341,14 @@ function SchoolTableView(props) {
           </Form.Item>
           <Form.Item
             name="addSchoolCountry"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "admin.country.limit",
               defaultMessage: "Country (3-Letter Abbreviation)",
             })}
             rules={[
               {
                 required: true,
-                message: props.intl.formatMessage({
+                message: intl.formatMessage({
                   id: "admin.validate.country",
                   defaultMessage: "Please complete the country name!",
                 }),
@@ -336,7 +356,7 @@ function SchoolTableView(props) {
             ]}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.school.country",
                 defaultMessage: "Input the country name",
               })}
@@ -354,15 +374,15 @@ function SchoolTableView(props) {
     return (
       <Modal
         visible={editVisible}
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.edit.school",
           defaultMessage: "Edit School",
         })}
-        okText={props.intl.formatMessage({
+        okText={intl.formatMessage({
           id: "admin.apply",
           defaultMessage: "Apply",
         })}
-        cancelText={props.intl.formatMessage({
+        cancelText={intl.formatMessage({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
@@ -374,6 +394,7 @@ function SchoolTableView(props) {
               onCreate(values);
             })
             .catch((info) => {
+              // eslint-disable-next-line no-console
               console.log("Validate Failed:", info);
             });
           handleOk();
@@ -394,13 +415,13 @@ function SchoolTableView(props) {
         >
           <Form.Item
             name="editSchoolName"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "admin.name",
               defaultMessage: "Name",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.school.name",
                 defaultMessage: "Input the school name",
               })}
@@ -408,13 +429,13 @@ function SchoolTableView(props) {
           </Form.Item>
           <Form.Item
             name="editSchoolState"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "admin.state.limit",
               defaultMessage: "Province/State (2-Letter Abbreviation)",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.school.state",
                 defaultMessage: "Input the location information",
               })}
@@ -423,13 +444,13 @@ function SchoolTableView(props) {
           </Form.Item>
           <Form.Item
             name="editSchoolCountry"
-            label={props.intl.formatMessage({
+            label={intl.formatMessage({
               id: "admin.country.limit",
               defaultMessage: "Country (3-Letter Abbreviation)",
             })}
           >
             <Input
-              placeholder={props.intl.formatMessage({
+              placeholder={intl.formatMessage({
                 id: "admin.add.school.state",
                 defaultMessage: "Input the location information",
               })}
@@ -445,9 +466,9 @@ function SchoolTableView(props) {
   // Consult: Ant Design table components for further clarification
   const schoolsTableColumns = () => {
     // Table columns data structure: array of objects
-    const schools_table_columns = [
+    return [
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.name",
           defaultMessage: "Name",
         }),
@@ -459,14 +480,14 @@ function SchoolTableView(props) {
         sortDirections: ["descend"],
         ...getColumnSearchProps(
           "description",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.school.singular",
             defaultMessage: "School",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.state",
           defaultMessage: "Province/State",
         }),
@@ -478,14 +499,14 @@ function SchoolTableView(props) {
         sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
           "state",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.state",
             defaultMessage: "Province/State",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.country",
           defaultMessage: "Country",
         }),
@@ -497,19 +518,19 @@ function SchoolTableView(props) {
         sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
           "country",
-          props.intl.formatMessage({
+          intl.formatMessage({
             id: "admin.country",
             defaultMessage: "Country",
           })
         ),
       },
       {
-        title: props.intl.formatMessage({
+        title: intl.formatMessage({
           id: "admin.edit",
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: (record) => (
+        render: (_record) => (
           <div>
             <Button
               type="primary"
@@ -517,18 +538,17 @@ function SchoolTableView(props) {
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editSchoolName"], value: record.description },
-                  { name: ["editSchoolState"], value: record.state },
-                  { name: ["editSchoolCountry"], value: record.country },
+                  { name: ["editSchoolName"], value: _record.description },
+                  { name: ["editSchoolState"], value: _record.state },
+                  { name: ["editSchoolCountry"], value: _record.country },
                 ]);
-                handleEditModal(record);
+                handleEditModal(_record);
               }}
             />
           </div>
         ),
       },
     ];
-    return schools_table_columns;
   };
 
   return (
@@ -536,26 +556,28 @@ function SchoolTableView(props) {
       {addSchoolModal()}
       {editSchoolModal()}
       <PageHeader
-        title={props.intl.formatMessage({
+        title={intl.formatMessage({
           id: "admin.school.table",
           defaultMessage: "Schools Table",
         })}
-        extra={[
-          deleteConfirm(),
-          <Button
-            type="primary"
-            icon={<PlusCircleOutlined />}
-            size={size}
-            onClick={() => {
-              handleAddModal();
-            }}
-          >
-            {props.intl.formatMessage({
-              id: "admin.add",
-              defaultMessage: "Add",
-            })}
-          </Button>,
-        ]}
+        extra={
+          <>
+            {deleteConfirm()}
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              size={size}
+              onClick={() => {
+                handleAddModal();
+              }}
+            >
+              {intl.formatMessage({
+                id: "admin.add",
+                defaultMessage: "Add",
+              })}
+            </Button>
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -569,5 +591,32 @@ function SchoolTableView(props) {
     </>
   );
 }
+
+SchoolTableView.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSubmitAdd: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
+  intl: IntlPropType,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+      description: PropTypes.string,
+      id: PropTypes.string,
+      key: PropTypes.string,
+      state: PropTypes.string,
+    })
+  ).isRequired,
+};
+
+SchoolTableView.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(SchoolTableView);

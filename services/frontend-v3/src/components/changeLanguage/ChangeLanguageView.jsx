@@ -1,17 +1,12 @@
-//PREEXISTING CODE
-
 import React from "react";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../../customPropTypes";
 
-function ChangeLanguageView(props) {
-  const { intl } = props;
+const ChangeLanguageView = ({ intl, changeLanguage }) => {
   const languageCode = intl.formatMessage({ id: "lang.code" });
-
-  const changeLanguage = lang => {
-    props.changeLanguage(lang);
-  };
 
   const handleKeyPress = (e, lang) => {
     if (e.charCode === 32 || e.charCode === 13) {
@@ -37,6 +32,15 @@ function ChangeLanguageView(props) {
       />
     </Button>
   );
-}
+};
+
+ChangeLanguageView.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+  intl: IntlPropType,
+};
+
+ChangeLanguageView.defaultProps = {
+  intl: undefined,
+};
 
 export default injectIntl(ChangeLanguageView);

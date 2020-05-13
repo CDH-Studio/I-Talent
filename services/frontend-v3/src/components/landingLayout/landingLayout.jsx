@@ -1,12 +1,9 @@
 import React from "react";
+import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import LandingLayoutView from "./LandingLayoutView";
+import LandingLayoutView from "./landingLayoutView";
 
-/**
- *  LandingLayout(props)
- *
- *  this is the controller for LandingLayoutView
- */
+/** Logic for the landing route layout */
 const LandingLayout = ({ changeLanguage }) => {
   return <LandingLayoutView changeLanguage={changeLanguage} />;
 };
@@ -15,4 +12,4 @@ LandingLayout.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
 };
 
-export default LandingLayout;
+export default injectIntl(LandingLayout);

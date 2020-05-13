@@ -1,18 +1,24 @@
 import React from "react";
+import PropTypes from "prop-types";
 import CreateProfileLayoutView from "./CreateProfileLayoutView";
 
 /**
  *  CreateProfileLayout(props)
  *  Controller for the Create Profile Layout.
  */
-function CreateProfileLayout(props) {
+const CreateProfileLayout = ({ changeLanguage, step }) => {
   return (
-    <CreateProfileLayoutView
-      changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      formStep={props.step}
-    ></CreateProfileLayoutView>
+    <CreateProfileLayoutView changeLanguage={changeLanguage} formStep={step} />
   );
-}
+};
+
+CreateProfileLayout.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+  step: PropTypes.string,
+};
+
+CreateProfileLayout.defaultProps = {
+  step: null,
+};
 
 export default CreateProfileLayout;

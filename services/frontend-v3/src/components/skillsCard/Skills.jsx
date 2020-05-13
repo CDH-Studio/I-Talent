@@ -1,15 +1,15 @@
 import React from "react";
-
 import SkillsView from "./SkillsView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-function Skills(props) {
-  const formatData = (list) => {
+const Skills = ({ data }) => {
+  const formatData = list => {
     const locale = localStorage.getItem("lang") || "en";
 
-    let categorizedList = {};
+    const categorizedList = {};
 
     if (list) {
-      list.forEach((listElement) => {
+      list.forEach(listElement => {
         const key = listElement.description.categoryId;
 
         if (categorizedList[key] == null) {
@@ -23,33 +23,33 @@ function Skills(props) {
     return categorizedList;
   };
 
-  const setUpCategories = (list) => {
+  const setUpCategories = list => {
     const locale = localStorage.getItem("lang") || "en";
-    let categorizedList = {};
-    let categoriesTemp = {};
-    let categories = [];
+    const categorizedList = {};
+    const categoriesTemp = {};
+    const categories = [];
 
     let k = 0;
 
     if (list) {
-      list.forEach((listElement) => {
+      list.forEach(listElement => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
           if (categoriesTemp[k] == null) {
             if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category["en"]];
+              categoriesTemp[k] = [listElement.description.category.en];
             } else {
-              categoriesTemp[k] = [listElement.description.category["fr"]];
+              categoriesTemp[k] = [listElement.description.category.fr];
             }
-            k++;
+            k += 1;
           }
         } else {
           categorizedList[key].push(listElement.description[locale]);
         }
       });
     }
-
+    // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categoriesTemp).entries()) {
       categories.push({ index, val });
     }
@@ -57,11 +57,12 @@ function Skills(props) {
     return categories;
   };
 
-  const setUpSkills = (dataSource) => {
-    let skills = [];
+  const setUpSkills = dataSource => {
+    const skills = [];
 
-    let categorizedSkillsList = formatData(dataSource);
+    const categorizedSkillsList = formatData(dataSource);
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       skills.push({ index, val });
     }
@@ -70,10 +71,18 @@ function Skills(props) {
 
   return (
     <SkillsView
-      skills={setUpSkills(props.data.skills)}
-      categoriesSkills={setUpCategories(props.data.skills)}
+      skills={setUpSkills(data.skills)}
+      categoriesSkills={setUpCategories(data.skills)}
     />
   );
-}
+};
+
+Skills.propTypes = {
+  data: ProfileInfoPropType,
+};
+
+Skills.defaultProps = {
+  data: null,
+};
 
 export default Skills;

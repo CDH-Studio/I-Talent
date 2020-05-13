@@ -1,30 +1,26 @@
-import React from "react";
-import { Form } from "@ant-design/compatible";
-import "@ant-design/compatible/assets/index.css";
-import ResultLayout from "../components/resultsLayout/ResultLayout";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
-class Results extends React.Component {
-  goto = (link) => this.props.history.push(link);
+import ResultLayout from "../components/resultsLayout/ResultLayout";
+import { HistoryPropType } from "../customPropTypes";
 
-  constructor(props) {
-    super(props);
-
+const Results = ({ changeLanguage, history }) => {
+  useEffect(() => {
     document.title = "Results | I-Talent";
-  }
+  }, []);
 
-  render() {
-    return (
-      <ResultLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={true}
-        //sideBarContent={this.props.sideBarContent}
-      ></ResultLayout>
-    );
-  }
-}
+  return (
+    <ResultLayout
+      changeLanguage={changeLanguage}
+      history={history}
+      displaySideBar
+    />
+  );
+};
 
-//Needed when using this,props.intl
-Results = Form.create({})(Results);
+Results.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+  history: HistoryPropType.isRequired,
+};
+
 export default injectIntl(Results);

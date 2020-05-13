@@ -14,11 +14,16 @@ import {
   Button,
   message,
 } from "antd";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import moment from "moment";
+import {
+  KeyTitleOptionsPropType,
+  ProfileInfoPropType,
+} from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
 
@@ -31,7 +36,16 @@ const { Title } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = (props) => {
+const EmploymentDataFormView = props => {
+  const {
+    classificationOptions,
+    formType,
+    load,
+    profileInfo,
+    securityOptions,
+    substantiveOptions,
+  } = props;
+
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
@@ -108,101 +122,9 @@ const EmploymentDataFormView = (props) => {
     },
   };
 
-  /* toggle temporary role form */
-  const toggleTempRoleForm = () => {
-    setDisplayActingRoleForm(!displayActingRoleForm);
-  };
-
-  /* enable or disable end date field */
-  const toggleTempEndDate = () => {
-    // reset end date value
-    if (enableEndDate) {
-      form.setFieldsValue({
-        actingEndDate: null,
-      });
-    }
-    setEnableEndDate(!enableEndDate);
-  };
-
-  /* Disable all dates before start date */
-  const disabledDatesBeforeStart = (current) => {
-    if (form.getFieldValue("actingStartDate")) {
-      return current && current < moment(form.getFieldValue("actingStartDate"));
-    }
-  };
-
-  /* Disable all dates after end date */
-  const disabledDatesAfterEnd = (current) => {
-    if (form.getFieldValue("actingEndDate")) {
-      return current && current > moment(form.getFieldValue("actingEndDate"));
-    }
-  };
-
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (formType) => {
-    if (formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {<FormattedMessage id="setup.save.and.finish" />}
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              {<FormattedMessage id="button.clear" />}
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              {<FormattedMessage id="setup.save.and.next" />} <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    } else if (formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              {<FormattedMessage id="button.clear" />}
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              {<FormattedMessage id="setup.save" />}
-            </Button>
-          </Col>
-        </Row>
-      );
-    } else {
-      console.log("Error Getting Action Buttons");
-    }
-  };
-
   /* Save data */
-  const saveDataToDB = async (values) => {
+  const saveDataToDB = async unalteredValues => {
+    const values = { ...unalteredValues };
     // If dropdown value is undefined then clear value in DB
     values.tenureId = values.tenureId ? values.tenureId : null;
     values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
@@ -225,31 +147,65 @@ const EmploymentDataFormView = (props) => {
       }
     }
 
-    if (props.profileInfo) {
+    if (profileInfo) {
       // If profile exists then update profile
       try {
         await axios.put(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     } else {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          backendAddress + "api/profile/" + localStorage.getItem("userId"),
+          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
           values
         );
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     }
   };
 
+  /* toggle temporary role form */
+  const toggleTempRoleForm = () => {
+    setDisplayActingRoleForm(!displayActingRoleForm);
+  };
+
+  /* enable or disable end date field */
+  const toggleTempEndDate = () => {
+    // reset end date value
+    if (enableEndDate) {
+      form.setFieldsValue({
+        actingEndDate: null,
+      });
+    }
+    setEnableEndDate(!enableEndDate);
+  };
+
+  /* Disable all dates before start date */
+  const disabledDatesBeforeStart = current => {
+    if (form.getFieldValue("actingStartDate")) {
+      return current && current < moment(form.getFieldValue("actingStartDate"));
+    }
+    return undefined;
+  };
+
+  /* Disable all dates after end date */
+  const disabledDatesAfterEnd = current => {
+    if (form.getFieldValue("actingEndDate")) {
+      return current && current > moment(form.getFieldValue("actingEndDate"));
+    }
+    return undefined;
+  };
+
   /* show message */
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = type => {
     switch (type) {
       case "success":
         message.success("Changes Saved");
@@ -264,28 +220,30 @@ const EmploymentDataFormView = (props) => {
   };
 
   /* save and show success notification */
-  const onSave = async (values) => {
+  const onSave = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
 
   /* save and redirect to next step in setup */
-  const onSaveAndNext = async (values) => {
+  const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/4");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
       });
   };
@@ -294,11 +252,12 @@ const EmploymentDataFormView = (props) => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async values => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("validation failure");
       });
   };
@@ -310,16 +269,14 @@ const EmploymentDataFormView = (props) => {
 
     // check if user has acting information in db to expand acting form
     setDisplayActingRoleForm(
-      props.profileInfo &&
-        props.profileInfo.acting &&
-        !!props.profileInfo.acting.id
+      profileInfo && profileInfo.acting && !!profileInfo.acting.id
     );
 
     message.info("Form Cleared");
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getTempRoleForm = (expandMentorshipForm) => {
+  const getTempRoleForm = expandMentorshipForm => {
     if (expandMentorshipForm) {
       return (
         <Row gutter={24} style={{ marginTop: "10px" }}>
@@ -333,13 +290,13 @@ const EmploymentDataFormView = (props) => {
                 showSearch
                 optionFilterProp="children"
                 placeholder={<FormattedMessage id="setup.select" />}
-                allowClear={true}
+                allowClear
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
               >
-                {props.classificationOptions.map((value) => {
+                {classificationOptions.map(value => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -367,7 +324,7 @@ const EmploymentDataFormView = (props) => {
                 style={styles.datePicker}
                 disabledDate={disabledDatesBeforeStart}
                 disabled={!enableEndDate}
-                placeholder={"unknown"}
+                placeholder="unknown"
               />
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
@@ -381,30 +338,28 @@ const EmploymentDataFormView = (props) => {
           </Col>
         </Row>
       );
-    } else {
-      return <div />;
     }
+    return <div />;
   };
 
   /* Generate form header based on form type */
-  const getFormHeader = (formType) => {
-    if (formType == "create") {
+  const getFormHeader = _formType => {
+    if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
           3. <FormattedMessage id="setup.employment" />
         </Title>
       );
-    } else {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          <FormattedMessage id="setup.employment" />
-        </Title>
-      );
     }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="setup.employment" />
+      </Title>
+    );
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
+  const getInitialValues = profile => {
     if (profile) {
       return {
         groupLevelId: profile.classification.id
@@ -425,158 +380,232 @@ const EmploymentDataFormView = (props) => {
           ? moment(profile.actingPeriodEndDate)
           : undefined,
       };
-    } else {
-      return {};
     }
+    return {};
   };
 
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
     setDisplayActingRoleForm(
-      props.profileInfo &&
-        props.profileInfo.acting &&
-        !!props.profileInfo.acting.id
+      profileInfo && profileInfo.acting && !!profileInfo.acting.id
     );
 
     /* check if user has acting end date to enable the date felid on load */
     setEnableEndDate(
-      props.profileInfo ? Boolean(props.profileInfo.actingPeriodEndDate) : false
+      profileInfo ? Boolean(profileInfo.actingPeriodEndDate) : false
     );
 
     // if props change then reset form fields
-    if (props.load) {
+    if (load) {
       form.resetFields();
     }
-  }, [props, form]);
+  }, [load, form, profileInfo]);
 
-  /************************************
+  /*
+   * Get Form Control Buttons
+   *
+   * Get Form Control Buttons based on form type (edit or create)
+   */
+  const getFormControlButtons = _formType => {
+    if (_formType === "create") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSaveAndFinish}
+              htmlType="button"
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
+            </Button>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              <FormattedMessage id="button.clear" />
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button
+              style={styles.finishAndNextBtn}
+              type="primary"
+              onClick={onSaveAndNext}
+            >
+              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+    if (_formType === "edit") {
+      return (
+        <Row gutter={24} style={{ marginTop: "20px" }}>
+          <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.clearBtn}
+              htmlType="button"
+              onClick={onReset}
+              danger
+            >
+              <FormattedMessage id="button.clear" />
+            </Button>
+          </Col>
+          <Col xs={24} md={24} lg={6} xl={6}>
+            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
+              <FormattedMessage id="setup.save" />
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+    // eslint-disable-next-line no-console
+    console.log("Error Getting Action Buttons");
+    return undefined;
+  };
+
+  /** **********************************
    ********* Render Component *********
-   ************************************/
-  if (!props.load) {
+   *********************************** */
+  if (!load) {
     return (
       /* If form data is loading then wait */
       <div style={styles.skeleton}>
         <Skeleton active />
       </div>
     );
-  } else {
-    /* Once data had loaded display form */
-    return (
-      <div style={styles.content}>
-        {/* get form title */}
-        {getFormHeader(props.formType)}
-        <Divider style={styles.headerDiv} />
-        {/* Create for with initial values */}
-        <Form
-          name="basicForm"
-          form={form}
-          initialValues={getInitialValues(props.profileInfo)}
-          layout="vertical"
-        >
-          {/* Form Row One */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="tenureId"
-                label={<FormattedMessage id="profile.substantive" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.substantiveOptions.map((value) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="groupLevelId"
-                label={<FormattedMessage id="profile.classification" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.classificationOptions.map((value) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Two */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                name="securityClearanceId"
-                label={<FormattedMessage id="profile.security" />}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear={true}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {props.securityOptions.map((value) => {
-                    return <Option key={value.key}>{value.title}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Three */}
-          <Row gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <Form.Item
-                name="manager"
-                label={<FormattedMessage id="profile.manager" />}
-                rules={[Rules.maxChar50]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Four: Temporary role */}
-          <Row style={styles.tempRoleRow} gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <FormLabelTooltip
-                labelText={<FormattedMessage id="profile.temporary.role" />}
-                tooltipText="Extra information"
-              />
-              <Switch
-                checked={displayActingRoleForm}
-                onChange={toggleTempRoleForm}
-              />
-              {getTempRoleForm(displayActingRoleForm)}
-            </Col>
-          </Row>
-          {getFormControlButtons(props.formType)}
-        </Form>
-      </div>
-    );
   }
+  /* Once data had loaded display form */
+  return (
+    <div style={styles.content}>
+      {/* get form title */}
+      {getFormHeader(formType)}
+      <Divider style={styles.headerDiv} />
+      {/* Create for with initial values */}
+      <Form
+        name="basicForm"
+        form={form}
+        initialValues={getInitialValues(profileInfo)}
+        layout="vertical"
+      >
+        {/* Form Row One */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              name="tenureId"
+              label={<FormattedMessage id="profile.substantive" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {substantiveOptions.map(value => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              name="groupLevelId"
+              label={<FormattedMessage id="profile.classification" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {classificationOptions.map(value => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Two */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="securityClearanceId"
+              label={<FormattedMessage id="profile.security" />}
+            >
+              <Select
+                showSearch
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                allowClear
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {securityOptions.map(value => {
+                  return <Option key={value.key}>{value.title}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Three */}
+        <Row gutter={24}>
+          <Col className="gutter-row" span={24}>
+            <Form.Item
+              name="manager"
+              label={<FormattedMessage id="profile.manager" />}
+              rules={[Rules.maxChar50]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* Form Row Four: Temporary role */}
+        <Row style={styles.tempRoleRow} gutter={24}>
+          <Col className="gutter-row" span={24}>
+            <FormLabelTooltip
+              labelText={<FormattedMessage id="profile.temporary.role" />}
+              tooltipText="Extra information"
+            />
+            <Switch
+              checked={displayActingRoleForm}
+              onChange={toggleTempRoleForm}
+            />
+            {getTempRoleForm(displayActingRoleForm)}
+          </Col>
+        </Row>
+        {getFormControlButtons(formType)}
+      </Form>
+    </div>
+  );
+};
+
+EmploymentDataFormView.propTypes = {
+  classificationOptions: KeyTitleOptionsPropType,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  load: PropTypes.bool.isRequired,
+  profileInfo: ProfileInfoPropType,
+  securityOptions: KeyTitleOptionsPropType,
+  substantiveOptions: KeyTitleOptionsPropType,
+};
+
+EmploymentDataFormView.defaultProps = {
+  classificationOptions: undefined,
+  securityOptions: undefined,
+  substantiveOptions: undefined,
+  profileInfo: null,
 };
 
 export default EmploymentDataFormView;

@@ -1,15 +1,13 @@
 import React from "react";
-import {} from "antd";
-
+import PropTypes from "prop-types";
 import TopNavView from "./TopNavView";
 
-function TopNav(props) {
-  return (
-    <TopNavView
-      changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-    ></TopNavView>
-  );
-}
+const TopNav = ({ changeLanguage }) => {
+  return <TopNavView changeLanguage={changeLanguage} />;
+};
+
+TopNav.propTypes = {
+  changeLanguage: PropTypes.func.isRequired,
+};
 
 export default TopNav;

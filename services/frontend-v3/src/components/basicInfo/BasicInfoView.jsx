@@ -1,6 +1,5 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 import {
   MailOutlined,
@@ -10,11 +9,20 @@ import {
   EnvironmentOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-
+import PropTypes from "prop-types";
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+import { ProfileInfoPropType } from "../../customPropTypes";
+
 const { Text } = Typography;
 
-function BasicInfoView(props) {
+const BasicInfoView = ({
+  data,
+  name,
+  avatar,
+  jobTitle,
+  locale,
+  buttonLinks,
+}) => {
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
@@ -40,7 +48,7 @@ function BasicInfoView(props) {
    * Generates basic info card header
    * This includes: avatar, name, position
    */
-  const generateProfileHeader = (name, jobTitle, avatar) => {
+  const generateProfileHeader = () => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
         <Col xs={12} md={5} lg={4} xl={3} align="center">
@@ -77,12 +85,12 @@ function BasicInfoView(props) {
    * Generates list of basic info with mall icons
    * This includes: address, email, etc.
    */
-  const generateInfoList = (dataSource) => {
+  const generateInfoList = dataSource => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={(item) => (
+        renderItem={item => (
           <List.Item>
             <List.Item.Meta
               avatar={
@@ -102,9 +110,7 @@ function BasicInfoView(props) {
    *
    * Generates data for contact info list
    */
-  const getContactInfo = (dataSource) => {
-    const data = dataSource.data;
-
+  const getContactInfo = () => {
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="profile.email" />,
@@ -143,10 +149,7 @@ function BasicInfoView(props) {
    *
    * Generates data for user's location
    */
-  const getLocationInfo = (dataSource) => {
-    const locale = dataSource.locale;
-    const data = dataSource.data;
-
+  const getLocationInfo = () => {
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.branch" />,
@@ -187,8 +190,8 @@ function BasicInfoView(props) {
    * Generates the list of actions at bottom of info card
    * This includes links to: email, linkedin, and github
    */
-  const generateActions = (buttonLinks) => {
-    const buttons = buttonLinks.buttons.map((buttonName) => {
+  const generateActions = () => {
+    const buttons = buttonLinks.buttons.map(buttonName => {
       const button = buttonLinks[buttonName];
 
       return (
@@ -211,20 +214,36 @@ function BasicInfoView(props) {
   return (
     <Card
       id="card-profile-basic-info"
-      actions={generateActions(props.buttonLinks)}
+      actions={generateActions()}
       style={styles.card}
     >
-      {generateProfileHeader(props.name, props.jobTitle, props.avatar)}
+      {generateProfileHeader()}
       <Row>
         <Col xs={24} lg={12}>
-          {generateInfoList(getContactInfo(props))}
+          {generateInfoList(getContactInfo())}
         </Col>
         <Col xs={24} lg={12}>
-          {generateInfoList(getLocationInfo(props))}
+          {generateInfoList(getLocationInfo())}
         </Col>
       </Row>
     </Card>
   );
-}
+};
+
+BasicInfoView.propTypes = {
+  data: ProfileInfoPropType.isRequired,
+  name: PropTypes.string.isRequired,
+  avatar: PropTypes.shape({
+    acr: PropTypes.string,
+    color: PropTypes.string,
+  }).isRequired,
+  jobTitle: PropTypes.string,
+  locale: PropTypes.string.isRequired,
+  buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+BasicInfoView.defaultProps = {
+  jobTitle: null,
+};
 
 export default BasicInfoView;

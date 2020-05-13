@@ -1,15 +1,16 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 
 import MentorshipView from "./MentorshipView";
 
-function Mentorship(props) {
-  const formatData = list => {
-    const locale = props.intl.formatMessage({ id: "language.code" });
-    let categorizedList = {};
+const Mentorship = ({ intl, data }) => {
+  const formatData = (list) => {
+    const locale = intl.formatMessage({ id: "language.code" });
+    const categorizedList = {};
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
@@ -21,26 +22,26 @@ function Mentorship(props) {
 
     return categorizedList;
   };
-  const setUpCategories = list => {
-    const locale = props.intl.formatMessage({ id: "language.code" });
-    let categorizedList = {};
-    let categoriesTemp = {};
-    let categories = [];
+  const setUpCategories = (list) => {
+    const locale = intl.formatMessage({ id: "language.code" });
+    const categorizedList = {};
+    const categoriesTemp = {};
+    const categories = [];
 
     let k = 0;
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
           if (categoriesTemp[k] == null) {
             if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category["en"]];
+              categoriesTemp[k] = [listElement.description.category.en];
             } else {
-              categoriesTemp[k] = [listElement.description.category["fr"]];
+              categoriesTemp[k] = [listElement.description.category.fr];
             }
-            k++;
+            k += 1;
           }
         } else {
           categorizedList[key].push(listElement.description[locale]);
@@ -48,6 +49,7 @@ function Mentorship(props) {
       });
     }
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categoriesTemp).entries()) {
       categories.push({ index, val });
     }
@@ -56,10 +58,10 @@ function Mentorship(props) {
   };
 
   const setUpMentorshipSkills = () => {
-    const { data } = props;
-    let mentorshipSkills = [];
-    let categorizedSkillsList = formatData(data.mentorshipSkills);
+    const mentorshipSkills = [];
+    const categorizedSkillsList = formatData(data.mentorshipSkills);
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
       mentorshipSkills.push({ index, val });
     }
@@ -70,9 +72,18 @@ function Mentorship(props) {
   return (
     <MentorshipView
       mentoring={setUpMentorshipSkills()}
-      mentoringCategories={setUpCategories(props.data.mentorshipSkills)}
+      mentoringCategories={setUpCategories(data.mentorshipSkills)}
     />
   );
-}
+};
+
+Mentorship.propTypes = {
+  data: PropTypes.shape({
+    mentorshipSkills: PropTypes.any,
+  }).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+};
 
 export default injectIntl(Mentorship);

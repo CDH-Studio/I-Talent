@@ -1,14 +1,18 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
 
-function OfficialLanguageView(props) {
-  const generateFirstLanguage = dataSource => {
+const OfficialLanguageView = ({
+  firstLanguageInfo,
+  secondLanguageGradeInfo,
+  secondLanguageDateInfo,
+}) => {
+  const generateFirstLanguage = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
@@ -17,12 +21,12 @@ function OfficialLanguageView(props) {
     );
   };
 
-  const generateSecondLanguageProficiency = dataSource => {
+  const generateSecondLanguageProficiency = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
@@ -30,12 +34,6 @@ function OfficialLanguageView(props) {
       />
     );
   };
-
-  const firstLanguageInfo = props.firstLanguageInfo;
-
-  const secondLanguageGradeInfo = props.secondLanguageGradeInfo;
-
-  const secondLanguageDateInfo = props.secondLanguageDateInfo;
 
   return (
     <>
@@ -54,6 +52,12 @@ function OfficialLanguageView(props) {
       </Row>
     </>
   );
-}
+};
+
+OfficialLanguageView.propTypes = {
+  firstLanguageInfo: PropTypes.isRequired,
+  secondLanguageDateInfo: PropTypes.isRequired,
+  secondLanguageGradeInfo: PropTypes.isRequired,
+};
 
 export default OfficialLanguageView;
