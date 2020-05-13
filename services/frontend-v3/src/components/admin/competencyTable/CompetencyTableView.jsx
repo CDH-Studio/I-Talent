@@ -537,12 +537,13 @@ CompetencyTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
-  data: PropTypes.shape({
-    getCategoryInformation: PropTypes.shape({
-      description: PropTypes.string,
-      allCategories: PropTypes.any,
-    }),
-  }).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.srr({
+  //   getCategoryInformation: PropTypes.shape({
+  //     description: PropTypes.string,
+  //     allCategories: PropTypes.any,
+  //   }),
+  // }).isRequired,
 };
 
 CompetencyTableView.defaultProps = {

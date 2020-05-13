@@ -390,12 +390,13 @@ UserTableView.propTypes = {
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    getCategoryInformation: PropTypes.shape({
-      description: PropTypes.string,
-      allCategories: PropTypes.any,
-    }),
-  }).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.shape({
+  //   getCategoryInformation: PropTypes.shape({
+  //     description: PropTypes.string,
+  //     allCategories: PropTypes.any,
+  //   }),
+  // }).isRequired,
 };
 
 UserTableView.defaultProps = {

@@ -524,12 +524,13 @@ function DiplomaTableView({
 }
 
 DiplomaTableView.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      allDiplomas: PropTypes.arrayOf(PropTypes.any).isRequired,
-    })
-  ).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // data: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     description: PropTypes.string.isRequired,
+  //     allDiplomas: PropTypes.arrayOf(PropTypes.any).isRequired,
+  //   })
+  // ).isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,

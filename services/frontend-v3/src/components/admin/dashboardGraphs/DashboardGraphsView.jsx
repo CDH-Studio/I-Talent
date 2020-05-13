@@ -163,9 +163,9 @@ function DashboardGraphsView({
 
 DashboardGraphsView.propTypes = {
   intl: IntlPropType,
-  topFiveSkills: PropTypes.isRequired,
-  topFiveCompetencies: PropTypes.isRequired,
-  topFiveDevelopmentGoals: PropTypes.isRequired,
+  topFiveSkills: PropTypes.arrayOf(PropTypes.any).isRequired,
+  topFiveCompetencies: PropTypes.arrayOf(PropTypes.any).isRequired,
+  topFiveDevelopmentGoals: PropTypes.arrayOf(PropTypes.any).isRequired,
   monthlyGrowth: PropTypes.func,
 };
 
