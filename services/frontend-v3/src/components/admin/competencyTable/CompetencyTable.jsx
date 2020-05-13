@@ -7,6 +7,7 @@ import _ from "lodash";
 import { injectIntl } from "react-intl";
 import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
+import { IntlPropType } from "../../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -201,8 +202,12 @@ const CompetencyTable = ({ intl, type }) => {
 }
 
 CompetencyTable.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   type: PropTypes.string.isRequired,
+};
+
+CompetencyTable.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(CompetencyTable);

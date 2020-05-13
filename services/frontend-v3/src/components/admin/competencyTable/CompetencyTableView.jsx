@@ -1,6 +1,8 @@
 /* eslint-disable no-shadow */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { IntlPropType } from "../../../customPropTypes";
+
 import {
   PageHeader,
   Row,
@@ -524,7 +526,7 @@ function CompetencyTableView({
 }
 
 CompetencyTableView.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -541,6 +543,10 @@ CompetencyTableView.propTypes = {
       allCategories: PropTypes.any,
     }),
   }).isRequired,
+};
+
+CompetencyTableView.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(CompetencyTableView);
