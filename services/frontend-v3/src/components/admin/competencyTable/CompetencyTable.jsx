@@ -9,6 +9,7 @@ import _ from "lodash";
 import { injectIntl } from "react-intl";
 import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
+import { IntlPropType } from "../../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -63,7 +64,7 @@ function CompetencyTable({ intl, type }) {
   }, [loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -86,13 +87,13 @@ function CompetencyTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a competency */
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -146,7 +147,7 @@ function CompetencyTable({ intl, type }) {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = selectedRowKeys => {
+  const onSelectChange = (selectedRowKeys) => {
     // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -154,7 +155,7 @@ function CompetencyTable({ intl, type }) {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: selectedRowKeys => {
+    onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };
@@ -200,8 +201,12 @@ function CompetencyTable({ intl, type }) {
 }
 
 CompetencyTable.propTypes = {
-  intl: PropTypes.isRequired,
+  intl: IntlPropType,
   type: PropTypes.string.isRequired,
+};
+
+CompetencyTable.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(CompetencyTable);
