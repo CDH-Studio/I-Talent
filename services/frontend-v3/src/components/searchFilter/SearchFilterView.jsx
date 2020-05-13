@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
 import "@ant-design/compatible/assets/index.css";
+import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const SearchBarView = ({
   handleSearch,
@@ -135,7 +136,7 @@ const SearchBarView = ({
             })}
           </Select>
         </Form.Item>
-        <Form.Item name={searchTitles[5]} label={labelArr[5]}>
+        <Form.Item name={searchTitles[5]} label={labelArr[5]} valuePropName="checked">
           <Switch />
         </Form.Item>{" "}
       </Row>
@@ -152,14 +153,24 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
-  branchOptions: PropTypes.isRequired,
-  classOptions: PropTypes.isRequired,
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    })
+  ).isRequired,
+  classOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      description: PropTypes.string,
+    })
+  ).isRequired,
+  locationOptions: IdDescriptionPropType.isRequired,
+  skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
-  locationOptions: PropTypes.isRequired,
-  skillOptions: PropTypes.isRequired,
+  intl: IntlPropType.isRequired,
 };
 
 export default injectIntl(SearchBarView);
