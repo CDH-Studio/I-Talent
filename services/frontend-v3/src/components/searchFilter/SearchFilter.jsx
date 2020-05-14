@@ -65,7 +65,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -81,7 +81,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -96,7 +96,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -111,7 +111,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 

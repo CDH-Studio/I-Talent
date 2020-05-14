@@ -34,7 +34,10 @@ const QualificationsForm = ({ formType }) => {
       return 1;
     } catch (error) {
       setLoad(false);
-      throw new Error(error);
+      
+      // eslint-disable-next-line no-console
+      console.log(error);
+      return 0;
     }
   };
 
