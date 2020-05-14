@@ -12,7 +12,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "./node_modules/.bin/eslint"
+    "lint": "./node_modules/.bin/eslint src"
   },
   "author": "Upskill team",
   "license": "MIT",
