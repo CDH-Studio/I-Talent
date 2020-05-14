@@ -17,18 +17,18 @@ const PersonalGrowthForm = ({ formType, intl }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState();
-  const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState();
-  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState();
-  const [relocationOptions, setRelocationOptions] = useState();
-  const [savedRelocationLocations, setSavedRelocationLocations] = useState();
-  const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState();
-  const [savedLookingForNewJob, setSavedLookingForNewJob] = useState();
-  const [careerMobilityOptions, setCareerMobilityOptions] = useState();
-  const [savedCareerMobility, setSavedCareerMobility] = useState();
-  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState();
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState();
-  const [savedExFeederBool, setSavedExFeederBool] = useState();
+  const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
+  const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState([]);
+  const [relocationOptions, setRelocationOptions] = useState([]);
+  const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
+  const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
+  const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
+  const [careerMobilityOptions, setCareerMobilityOptions] = useState([]);
+  const [savedCareerMobility, setSavedCareerMobility] = useState(undefined);
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState([]);
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(undefined);
+  const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
   // Get current language code
   const locale = intl.formatMessage({

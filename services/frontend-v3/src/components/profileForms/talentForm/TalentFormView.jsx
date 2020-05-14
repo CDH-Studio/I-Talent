@@ -630,7 +630,7 @@ TalentFormView.propTypes = {
 };
 
 TalentFormView.defaultProps = {
-  profileInfo: [],
+  profileInfo: null,
   skillOptions: [],
   competencyOptions: [],
   savedCompetencies: [],

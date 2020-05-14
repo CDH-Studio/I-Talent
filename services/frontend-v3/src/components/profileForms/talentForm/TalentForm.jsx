@@ -15,12 +15,12 @@ const { backendAddress } = config;
  */
 const TalentForm = ({ formType, intl }) => {
   const [profileInfo, setProfileInfo] = useState(null);
-  const [skillOptions, setSkillOptions] = useState(null);
-  const [competencyOptions, setCompetencyOptions] = useState(null);
+  const [skillOptions, setSkillOptions] = useState([]);
+  const [competencyOptions, setCompetencyOptions] = useState([]);
   const [load, setLoad] = useState(false);
-  const [savedCompetencies, setSavedCompetencies] = useState();
-  const [savedSkills, setSavedSkills] = useState();
-  const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
+  const [savedCompetencies, setSavedCompetencies] = useState([]);
+  const [savedSkills, setSavedSkills] = useState([]);
+  const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
 
   // get current language code
   const locale = intl.formatMessage({

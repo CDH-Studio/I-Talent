@@ -7,7 +7,7 @@ import config from "../../../config";
 const { backendAddress } = config;
 
 const PrimaryInfoForm = ({ formType }) => {
-  const [locationOptions, setLocationOptions] = useState(null);
+  const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
@@ -15,7 +15,7 @@ const PrimaryInfoForm = ({ formType }) => {
   const getLocations = async () => {
     try {
       const result = await axios.get(`${backendAddress}api/option/getLocation`);
-      setLocationOptions(result.data);
+      setLocationOptions(result.data ? result.data : []);
       return 1;
     } catch (error) {
       throw new Error(error);
@@ -43,7 +43,7 @@ const PrimaryInfoForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });

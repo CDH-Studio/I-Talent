@@ -14,9 +14,9 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering the component
  */
 const EmploymentDataForm = ({ formType, intl }) => {
-  const [substantiveOptions, setSubstantiveOptions] = useState(null);
-  const [classificationOptions, setClassificationOptions] = useState(null);
-  const [securityOptions, setSecurityOptions] = useState(null);
+  const [substantiveOptions, setSubstantiveOptions] = useState([]);
+  const [classificationOptions, setClassificationOptions] = useState([]);
+  const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
