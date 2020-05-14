@@ -253,8 +253,8 @@ EducationFormView.propTypes = {
 };
 
 EducationFormView.defaultProps = {
-  schoolOptions: null,
-  diplomaOptions: null,
+  schoolOptions: [],
+  diplomaOptions: [],
 };
 
 export default EducationFormView;

@@ -602,9 +602,9 @@ EmploymentDataFormView.propTypes = {
 };
 
 EmploymentDataFormView.defaultProps = {
-  classificationOptions: undefined,
-  securityOptions: undefined,
-  substantiveOptions: undefined,
+  classificationOptions: [],
+  securityOptions: [],
+  substantiveOptions: [],
   profileInfo: null,
 };
 

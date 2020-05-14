@@ -566,8 +566,8 @@ LangProficiencyFormView.propTypes = {
 };
 
 LangProficiencyFormView.defaultProps = {
-  languageOptions: null,
-  proficiencyOptions: null,
+  languageOptions: [],
+  proficiencyOptions: [],
   profileInfo: null,
 };
 

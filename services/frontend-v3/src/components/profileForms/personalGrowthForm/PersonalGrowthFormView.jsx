@@ -593,18 +593,19 @@ PersonalGrowthFormView.propTypes = {
 };
 
 PersonalGrowthFormView.defaultProps = {
-  careerMobilityOptions: undefined,
-  developmentalGoalOptions: undefined,
-  interestedInRemoteOptions: undefined,
-  lookingForNewJobOptions: undefined,
+  careerMobilityOptions: [],
+  developmentalGoalOptions: [],
+  interestedInRemoteOptions: [],
+  lookingForNewJobOptions: [],
   profileInfo: null,
-  relocationOptions: undefined,
+  relocationOptions: [],
   savedCareerMobility: undefined,
-  savedDevelopmentalGoals: undefined,
+  savedDevelopmentalGoals: [],
   savedExFeederBool: undefined,
   savedLookingForNewJob: undefined,
-  savedRelocationLocations: undefined,
+  savedRelocationLocations: [],
   savedTalentMatrixResult: undefined,
-  talentMatrixResultOptions: undefined,
+  talentMatrixResultOptions: [],
 };
+
 export default PersonalGrowthFormView;
