@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import config from "../../config";
 import SearchFilterView from "./SearchFilterView";
+import { HistoryPropType } from "../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -14,10 +15,44 @@ const SearchFilter = ({ history, changeLanguage }) => {
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
+  const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
 
   const toggle = () => {
     setExpand(!expand);
   };
+
+  /**
+   * Updates the state value {urlSearchFieldValues} to the values in the URL query string,
+   * to be used as initial values in the form for SearchFilterView
+   */
+  const getSearchFieldValues = useCallback(() => {
+    // Gets the query string search values in an object
+    const querySearchData = queryString.parse(history.location.search);
+
+    // Formats the object according to the form object shape (there's no [] in names)
+    const formatedQuerySearchData = Object.keys(querySearchData).reduce(
+      (acc, key) => {
+        if (key.includes("[]")) {
+          let content = [];
+
+          if (typeof querySearchData[key] !== "object") {
+            content.push(querySearchData[key]);
+          } else {
+            content = querySearchData[key];
+          }
+
+          acc[key.slice(0, key.length - 2)] = content;
+        } else {
+          acc[key] = querySearchData[key];
+        }
+
+        return acc;
+      },
+      {}
+    );
+
+    setUrlSearchFieldValues(formatedQuerySearchData);
+  }, [history.location.search]);
 
   useEffect(() => {
     // Fetches options for skills select field in advanced search
@@ -30,7 +65,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -46,7 +81,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -61,7 +96,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -76,7 +111,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        return [];
       }
     };
 
@@ -91,8 +126,9 @@ const SearchFilter = ({ history, changeLanguage }) => {
       setClassOptions(classifications);
     };
 
+    getSearchFieldValues();
     updateState();
-  }, []);
+  }, [getSearchFieldValues]);
 
   // page with query
   const handleSearch = (values) => {
@@ -112,15 +148,14 @@ const SearchFilter = ({ history, changeLanguage }) => {
       classOptions={classOptions}
       handleSearch={handleSearch}
       toggle={toggle}
+      urlSearchFieldValues={urlSearchFieldValues}
     />
   );
 };
 
 SearchFilter.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 export default injectIntl(SearchFilter);
