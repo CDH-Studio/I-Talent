@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
@@ -12,6 +12,7 @@ const SearchBarView = ({
   classOptions,
   locationOptions,
   intl,
+  previousValues,
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -19,6 +20,13 @@ const SearchBarView = ({
   const onFinish = (values) => {
     handleSearch(values);
   };
+
+  // Sets the default values of the form from the URL search params
+  useEffect(() => {
+    if (previousValues) {
+      form.setFieldsValue(previousValues);
+    }
+  }, [form, previousValues]);
 
   const locale = intl.formatMessage({
     id: "language.code",
@@ -136,7 +144,11 @@ const SearchBarView = ({
             })}
           </Select>
         </Form.Item>
-        <Form.Item name={searchTitles[5]} label={labelArr[5]} valuePropName="checked">
+        <Form.Item
+          name={searchTitles[5]}
+          label={labelArr[5]}
+          valuePropName="checked"
+        >
           <Switch />
         </Form.Item>{" "}
       </Row>
@@ -171,6 +183,17 @@ SearchBarView.propTypes = {
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType.isRequired,
+  previousValues: PropTypes.shape({
+    classification: PropTypes.array,
+    location: PropTypes.array,
+    skills: PropTypes.array,
+    exFeeder: PropTypes.bool,
+    name: PropTypes.string,
+  }),
+};
+
+SearchBarView.defaultProps = {
+  previousValues: undefined,
 };
 
 export default injectIntl(SearchBarView);
