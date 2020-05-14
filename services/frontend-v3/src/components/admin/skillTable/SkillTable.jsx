@@ -38,7 +38,7 @@ const SkillTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      return [];
     }
   }, [type]);
 
@@ -52,7 +52,7 @@ const SkillTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      return [];
     }
   }, [type]);
 
