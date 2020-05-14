@@ -201,7 +201,7 @@ _getProf = async (profile, searchValue) => {
     email: data.email,
     avatarColor: data.avatarColor,
     nameInitials: data.nameInitials,
-    exFeeder: privateInfo.talenManagement ? data.exFeeder : null,
+    exFeeder: privateInfo.talentManagement ? data.exFeeder : null,
     flagged: data.flagged,
     firstName: data.firstName,
     jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
