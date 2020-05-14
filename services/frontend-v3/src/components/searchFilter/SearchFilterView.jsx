@@ -12,7 +12,7 @@ const SearchBarView = ({
   classOptions,
   locationOptions,
   intl,
-  previousValues,
+  urlSearchFieldValues,
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -23,10 +23,10 @@ const SearchBarView = ({
 
   // Sets the default values of the form from the URL search params
   useEffect(() => {
-    if (previousValues) {
-      form.setFieldsValue(previousValues);
+    if (urlSearchFieldValues) {
+      form.setFieldsValue(urlSearchFieldValues);
     }
-  }, [form, previousValues]);
+  }, [form, urlSearchFieldValues]);
 
   const locale = intl.formatMessage({
     id: "language.code",
@@ -183,7 +183,7 @@ SearchBarView.propTypes = {
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType.isRequired,
-  previousValues: PropTypes.shape({
+  urlSearchFieldValues: PropTypes.shape({
     classification: PropTypes.array,
     location: PropTypes.array,
     skills: PropTypes.array,
@@ -193,7 +193,7 @@ SearchBarView.propTypes = {
 };
 
 SearchBarView.defaultProps = {
-  previousValues: undefined,
+  urlSearchFieldValues: undefined,
 };
 
 export default injectIntl(SearchBarView);

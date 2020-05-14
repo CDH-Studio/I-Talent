@@ -15,13 +15,17 @@ const SearchFilter = ({ history, changeLanguage }) => {
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
-  const [previousValues, setPreviousValues] = useState(null);
+  const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
 
   const toggle = () => {
     setExpand(!expand);
   };
 
-  const getPreviousValues = useCallback(() => {
+  /**
+   * Updates the state value {urlSearchFieldValues} to the values in the URL query string,
+   * to be used as initial values in the form for SearchFilterView
+   */
+  const getSearchFieldValues = useCallback(() => {
     // Gets the query string search values in an object
     const querySearchData = queryString.parse(history.location.search);
 
@@ -47,7 +51,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       {}
     );
 
-    setPreviousValues(formatedQuerySearchData);
+    setUrlSearchFieldValues(formatedQuerySearchData);
   }, [history.location.search]);
 
   useEffect(() => {
@@ -122,9 +126,9 @@ const SearchFilter = ({ history, changeLanguage }) => {
       setClassOptions(classifications);
     };
 
-    getPreviousValues();
+    getSearchFieldValues();
     updateState();
-  }, [getPreviousValues]);
+  }, [getSearchFieldValues]);
 
   // page with query
   const handleSearch = (values) => {
@@ -144,7 +148,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       classOptions={classOptions}
       handleSearch={handleSearch}
       toggle={toggle}
-      previousValues={previousValues}
+      urlSearchFieldValues={urlSearchFieldValues}
     />
   );
 };
