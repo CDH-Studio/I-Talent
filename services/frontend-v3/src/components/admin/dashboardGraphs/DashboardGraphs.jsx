@@ -8,18 +8,21 @@ import DashboardGraphsView from "./DashboardGraphsView";
  *  Controller for the DashboardGraphsView.
  *  It setups the data (bridge) for rendering the component in the view.
  */
-function DashboardGraphs({ data }) {
+const DashboardGraphs = ({ data }) => {
   /* only access data for graphes that uses corresponding language on page */
   const changeEnFr = (dataSource) => {
-    const locale = localStorage.getItem("lang") || "en";
-    const data = dataSource.map((skill) => {
-      return {
-        name: skill.description[locale],
-        count: skill.count,
-      };
-    });
+    if (dataSource) {
+      const locale = localStorage.getItem("lang") || "en";
+      const data = dataSource.map((skill) => {
+        return {
+          name: skill.description[locale],
+          count: skill.count,
+        };
+      });
 
-    return data;
+      return data;
+    }
+    return [];
   };
 
   return (
@@ -30,10 +33,9 @@ function DashboardGraphs({ data }) {
       monthlyGrowth={data.graphicalData}
     />
   );
-}
+};
 
 DashboardGraphs.propTypes = {
-  // data: PropTypes.isRequired,
   data: PropTypes.shape({
     skillCount: PropTypes.isRequired,
     compCount: PropTypes.isRequired,
