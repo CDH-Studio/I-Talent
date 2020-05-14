@@ -48,9 +48,11 @@ const Profile = ({ history, match, changeLanguage }) => {
 
     if (data === null) {
       updateProfileInfo(id).then((fetchedData) => {
-        setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
-        setData(fetchedData);
-        setLoading(false);
+        if (fetchedData !== undefined) {
+          setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
+          setData(fetchedData);
+          setLoading(false);
+        }
       });
     }
   }, [data, goto, match.params]);
@@ -59,8 +61,9 @@ const Profile = ({ history, match, changeLanguage }) => {
     document.title = `${name} | I-Talent`;
   }, [name]);
 
-  if (!loading)
+  if (!loading) {
     return <ProfileLayout changeLanguage={changeLanguage} data={data} />;
+  }
 
   return <ProfileSkeleton changeLanguage={changeLanguage} />;
 };
