@@ -475,9 +475,9 @@ QualificationsFormView.propTypes = {
 
 QualificationsFormView.defaultProps = {
   profileInfo: null,
-  savedEducation: undefined,
-  savedExperience: undefined,
-  savedProjects: undefined,
+  savedEducation: [],
+  savedExperience: [],
+  savedProjects: [],
 };
 
 export default QualificationsFormView;

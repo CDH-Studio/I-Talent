@@ -462,7 +462,7 @@ PrimaryInfoFormView.propTypes = {
 };
 
 PrimaryInfoFormView.defaultProps = {
-  locationOptions: null,
+  locationOptions: [],
   profileInfo: null,
 };
 

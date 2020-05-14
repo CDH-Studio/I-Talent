@@ -230,7 +230,7 @@ WelcomeView.propTypes = {
 };
 
 WelcomeView.defaultProps = {
-  gedsProfiles: undefined,
+  gedsProfiles: [],
   intl: undefined,
 };
 
