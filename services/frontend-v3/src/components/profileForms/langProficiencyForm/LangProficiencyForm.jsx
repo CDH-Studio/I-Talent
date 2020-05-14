@@ -12,8 +12,8 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering the component
  */
 const LangProficiencyForm = ({ formType }) => {
-  const [languageOptions, setLanguageOptions] = useState(null);
-  const [proficiencyOptions, setProficiencyOptions] = useState(null);
+  const [languageOptions, setLanguageOptions] = useState([]);
+  const [proficiencyOptions, setProficiencyOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 

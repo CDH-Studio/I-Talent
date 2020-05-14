@@ -631,11 +631,11 @@ TalentFormView.propTypes = {
 
 TalentFormView.defaultProps = {
   profileInfo: null,
-  skillOptions: null,
-  competencyOptions: null,
-  savedCompetencies: undefined,
-  savedSkills: undefined,
-  savedMentorshipSkills: undefined,
+  skillOptions: [],
+  competencyOptions: [],
+  savedCompetencies: [],
+  savedSkills: [],
+  savedMentorshipSkills: [],
 };
 
 export default TalentFormView;
