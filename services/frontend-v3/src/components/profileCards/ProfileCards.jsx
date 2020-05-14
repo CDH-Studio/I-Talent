@@ -19,8 +19,6 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   const getProfileInfo = useCallback(async () => {
     try {
       const url = `${backendAddress}api/profile/${urlID}`;
-      // eslint-disable-next-line no-console
-      console.log(url);
       const result = await axios.get(url);
       return setProfileInfo(result.data);
     } catch (error) {
@@ -61,7 +59,7 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
       id={id}
     />
   );
-}
+};
 
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
