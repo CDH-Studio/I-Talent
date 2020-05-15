@@ -14,12 +14,13 @@ import {
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  IntlPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
@@ -34,7 +35,7 @@ const { SHOW_CHILD } = TreeSelect;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const TalentFormView = props => {
+const TalentFormView = (props) => {
   const {
     profileInfo,
     skillOptions,
@@ -44,6 +45,7 @@ const TalentFormView = props => {
     savedMentorshipSkills,
     formType,
     load,
+    intl,
   } = props;
 
   const history = useHistory();
@@ -109,7 +111,7 @@ const TalentFormView = props => {
   const Rules = {
     required: {
       required: true,
-      message: "Required",
+      message: <FormattedMessage id="profile.rules.required" />,
     },
   };
 
@@ -127,7 +129,7 @@ const TalentFormView = props => {
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     if (!displayMentorshipForm) {
       // clear mentorship skills before submission
@@ -160,16 +162,20 @@ const TalentFormView = props => {
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success("Changes Saved");
+        message.success(
+          intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        message.error("Data Not Saved");
+        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
       default:
-        message.warning("There may be a problem");
+        message.warning(
+          intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -178,7 +184,7 @@ const TalentFormView = props => {
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
@@ -197,7 +203,7 @@ const TalentFormView = props => {
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/6");
       })
@@ -214,7 +220,7 @@ const TalentFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
@@ -234,7 +240,7 @@ const TalentFormView = props => {
     form.resetFields();
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    message.info("Form Cleared");
+    message.info(intl.formatMessage({ id: "profile.form.clear" }));
   };
 
   /*
@@ -311,7 +317,7 @@ const TalentFormView = props => {
    *
    * on change of skills field auto update mentorship options
    */
-  const onChangeSkills = skillsValues => {
+  const onChangeSkills = (skillsValues) => {
     // generate options for mentorship based on skills
     const selectedSkillsOnChangeSkills = generateMentorshipOptions(
       skillOptions,
@@ -337,7 +343,7 @@ const TalentFormView = props => {
    *
    * Get mentorship role form based on if the form switch is toggled
    */
-  const getMentorshipForm = expandMentorshipForm => {
+  const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <div>
@@ -386,7 +392,7 @@ const TalentFormView = props => {
    *
    * Generates the form header (title)
    */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -449,7 +455,7 @@ const TalentFormView = props => {
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -552,7 +558,7 @@ const TalentFormView = props => {
                 placeholder={<FormattedMessage id="setup.select" />}
                 style={{ width: "100%" }}
               >
-                {competencyOptions.map(value => {
+                {competencyOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -627,6 +633,7 @@ TalentFormView.propTypes = {
   savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  intl: IntlPropType,
 };
 
 TalentFormView.defaultProps = {
@@ -636,6 +643,7 @@ TalentFormView.defaultProps = {
   savedCompetencies: [],
   savedSkills: [],
   savedMentorshipSkills: [],
+  intl: null,
 };
 
-export default TalentFormView;
+export default injectIntl(TalentFormView);

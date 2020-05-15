@@ -18,12 +18,13 @@ import {
   CheckOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  IntlPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 
@@ -54,6 +55,7 @@ const PersonalGrowthFormView = ({
   savedExFeederBool,
   formType,
   load,
+  intl,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -119,7 +121,7 @@ const PersonalGrowthFormView = ({
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     // set cleared field to null to clear DB data
     values.interestedInRemote = values.interestedInRemote
@@ -161,16 +163,22 @@ const PersonalGrowthFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success("Changes Saved");
+        message.success(
+          intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        message.error("Data Not Saved");
+        message.error(
+          intl.formatMessage({ id: "profile.edit.save.error" })
+        );
         break;
       default:
-        message.warning("There may be a problem");
+        message.warning(
+          intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -179,7 +187,7 @@ const PersonalGrowthFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
@@ -198,7 +206,7 @@ const PersonalGrowthFormView = ({
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/7");
       })
@@ -216,7 +224,7 @@ const PersonalGrowthFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
@@ -233,7 +241,7 @@ const PersonalGrowthFormView = ({
    */
   const onReset = () => {
     form.resetFields();
-    message.info("Form Cleared");
+    message.info(intl.formatMessage({ id: "profile.form.clear" }));
   };
 
   /*
@@ -241,7 +249,7 @@ const PersonalGrowthFormView = ({
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -325,7 +333,7 @@ const PersonalGrowthFormView = ({
    * Get the initial values for the form
    *
    */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     const hasRequiredProps = () => {
       return (
         savedDevelopmentalGoals !== undefined &&
@@ -408,7 +416,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 style={{ width: "100%" }}
               >
-                {developmentalGoalOptions.map(value => {
+                {developmentalGoalOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -434,7 +442,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {interestedInRemoteOptions.map(value => {
+                {interestedInRemoteOptions.map((value) => {
                   return <Option key={value.key}>{value.text}</Option>;
                 })}
               </Select>
@@ -463,7 +471,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 optionFilterProp="children"
               >
-                {relocationOptions.map(value => {
+                {relocationOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -484,7 +492,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {lookingForNewJobOptions.map(value => {
+                {lookingForNewJobOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -524,7 +532,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {careerMobilityOptions.map(value => {
+                {careerMobilityOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -545,7 +553,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {talentMatrixResultOptions.map(value => {
+                {talentMatrixResultOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -590,6 +598,7 @@ PersonalGrowthFormView.propTypes = {
   savedExFeederBool: PropTypes.bool,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  intl: IntlPropType,
 };
 
 PersonalGrowthFormView.defaultProps = {
@@ -606,6 +615,7 @@ PersonalGrowthFormView.defaultProps = {
   savedRelocationLocations: [],
   savedTalentMatrixResult: undefined,
   talentMatrixResultOptions: [],
+  intl: null,
 };
 
-export default PersonalGrowthFormView;
+export default injectIntl(PersonalGrowthFormView);

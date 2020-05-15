@@ -47,15 +47,15 @@ const EducationFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: "Required",
+      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters",
+      message: <FormattedMessage id="profile.rules.max.50" />,
     },
     maxChar100: {
-      max: 50,
-      message: "Max length 100 characters",
+      max: 100,
+      message: <FormattedMessage id="profile.rules.max.100" />,
     },
   };
 
@@ -79,7 +79,7 @@ const EducationFormView = ({
    * Generates a list of invalid dates before the start date
    * This is used for the end date field
    */
-  const disabledDatesBeforeStart = current => {
+  const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["education", field.fieldKey, "startDate"];
     // eslint-disable-next-line no-console
     console.log(form.getFieldValue(fieldPath));
@@ -98,7 +98,7 @@ const EducationFormView = ({
    * Generates a list of invalid dates after the end date
    * This is used for the start date field
    */
-  const disabledDatesAfterEnd = current => {
+  const disabledDatesAfterEnd = (current) => {
     const fieldPath = ["education", field.fieldKey, "endDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
@@ -117,7 +117,7 @@ const EducationFormView = ({
     ) {
       toggleEndDate();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo, field]);
 
   /** **********************************
@@ -172,7 +172,7 @@ const EducationFormView = ({
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
           >
-            {diplomaOptions.map(value => {
+            {diplomaOptions.map((value) => {
               return <Option key={value.key}>{value.title}</Option>;
             })}
           </Select>
@@ -193,7 +193,7 @@ const EducationFormView = ({
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
           >
-            {schoolOptions.map(value => {
+            {schoolOptions.map((value) => {
               return <Option key={value.key}>{value.title}</Option>;
             })}
           </Select>

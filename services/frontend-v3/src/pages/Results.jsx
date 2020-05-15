@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import ResultLayout from "../components/resultsLayout/ResultLayout";
-import { HistoryPropType } from "../customPropTypes";
+import { HistoryPropType, IntlPropType } from "../customPropTypes";
 
-const Results = ({ changeLanguage, history }) => {
+const Results = ({ changeLanguage, history, intl }) => {
   useEffect(() => {
-    document.title = "Results | I-Talent";
-  }, []);
+    document.title = `${intl.formatMessage({ id: "results.title" })} | I-Talent`;
+  }, [intl]);
 
   return (
     <ResultLayout
@@ -21,6 +21,11 @@ const Results = ({ changeLanguage, history }) => {
 Results.propTypes = {
   changeLanguage: PropTypes.func.isRequired,
   history: HistoryPropType.isRequired,
+  intl: IntlPropType,
+};
+
+Results.defaultProps = {
+  intl: null,
 };
 
 export default injectIntl(Results);

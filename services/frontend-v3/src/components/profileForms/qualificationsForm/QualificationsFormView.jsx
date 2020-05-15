@@ -12,12 +12,12 @@ import {
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import { ProfileInfoPropType, IntlPropType } from "../../../customPropTypes";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -35,6 +35,7 @@ const QualificationsFormView = ({
   savedProjects,
   formType,
   load,
+  intl,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -88,7 +89,7 @@ const QualificationsFormView = ({
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     // format education date for DB storage
     if (values.education) {
@@ -147,16 +148,20 @@ const QualificationsFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success("Changes Saved");
+        message.success(
+          intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        message.error("Data Not Saved");
+        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
       default:
-        message.warning("There may be a problem");
+        message.warning(
+          intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -169,7 +174,7 @@ const QualificationsFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
@@ -188,7 +193,7 @@ const QualificationsFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
@@ -205,7 +210,7 @@ const QualificationsFormView = ({
    */
   const onReset = () => {
     form.resetFields();
-    message.info("Form Cleared");
+    message.info(intl.formatMessage({ id: "profile.form.clear" }));
   };
 
   /*
@@ -213,7 +218,7 @@ const QualificationsFormView = ({
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -275,7 +280,7 @@ const QualificationsFormView = ({
    *
    * Generates the form header (title)
    */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -294,7 +299,7 @@ const QualificationsFormView = ({
    * Get the initial values for the form
    *
    */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     const hasRequiredProps = () => {
       return savedEducation && savedExperience && savedProjects;
     };
@@ -344,7 +349,7 @@ const QualificationsFormView = ({
                 return (
                   <div>
                     {/* generate education form for each education item */}
-                    {fields.map(field => (
+                    {fields.map((field) => (
                       <EducationForm
                         key={field.fieldKey}
                         form={form}
@@ -386,7 +391,7 @@ const QualificationsFormView = ({
                 return (
                   <div>
                     {/* generate education form for each education item */}
-                    {fields.map(field => (
+                    {fields.map((field) => (
                       <ExperienceForm
                         key={field.fieldKey}
                         form={form}
@@ -471,6 +476,7 @@ QualificationsFormView.propTypes = {
   savedProjects: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  intl: IntlPropType,
 };
 
 QualificationsFormView.defaultProps = {
@@ -478,6 +484,7 @@ QualificationsFormView.defaultProps = {
   savedEducation: [],
   savedExperience: [],
   savedProjects: [],
+  intl: null,
 };
 
-export default QualificationsFormView;
+export default injectIntl(QualificationsFormView);

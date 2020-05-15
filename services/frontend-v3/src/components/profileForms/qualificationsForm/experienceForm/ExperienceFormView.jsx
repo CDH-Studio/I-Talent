@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
-
 import {
   FieldPropType,
   FormInstancePropType,
@@ -31,21 +30,27 @@ const { TextArea } = Input;
  *  It is rendered when a user generates an experience item
  *  It contains jobTilt, Company, start date, end date, and description.
  */
-const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
+const ExperienceFormView = ({
+  form,
+  field,
+  remove,
+  profileInfo,
+  style,
+}) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
   const Rules = {
     required: {
       required: true,
-      message: "Required",
+      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar60: {
       max: 60,
-      message: "Max length 60 characters",
+      message: <FormattedMessage id="profile.rules.max.60" />,
     },
     maxChar250: {
       max: 250,
-      message: "Max length 250 characters",
+      message: <FormattedMessage id="profile.rules.max.250" />,
     },
   };
 
@@ -70,7 +75,7 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
    * Generates a list of invalid dates before the start date
    * This is used for the end date field
    */
-  const disabledDatesBeforeStart = current => {
+  const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["experience", field.fieldKey, "startDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
@@ -87,7 +92,7 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
    * Generates a list of invalid dates after the end date
    * This is used for the start date field
    */
-  const disabledDatesAfterEnd = current => {
+  const disabledDatesAfterEnd = (current) => {
     const fieldPath = ["experience", field.fieldKey, "endDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
@@ -106,7 +111,7 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
     ) {
       toggleEndDate();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo, field]);
 
   /** **********************************
@@ -216,7 +221,7 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[Rules.required, Rules.maxChar250]}
-          extra={<FormattedMessage id="profile.career.content.rule" />}
+          extra={<FormattedMessage id="profile.rules.max.250" />}
         >
           <TextArea rows={4} />
         </Form.Item>

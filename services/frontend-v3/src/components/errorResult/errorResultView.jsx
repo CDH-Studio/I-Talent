@@ -1,9 +1,8 @@
 import React from "react";
 import { Result } from "antd";
-
 import PropTypes from "prop-types";
 
-function ErrorResultView({ resultProps }) {
+const ErrorResultView = ({ resultProps }) => {
   return (
     <Result
       status={resultProps.status}

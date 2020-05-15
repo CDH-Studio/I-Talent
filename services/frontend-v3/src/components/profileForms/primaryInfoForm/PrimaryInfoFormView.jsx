@@ -13,21 +13,27 @@ import {
 } from "antd";
 import { useHistory } from "react-router-dom";
 import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
+  IntlPropType,
 } from "../../../customPropTypes";
-
 import config from "../../../config";
 
 const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
 
-function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
+const PrimaryInfoFormView = ({
+  locationOptions,
+  profileInfo,
+  load,
+  formType,
+  intl,
+}) => {
   const history = useHistory();
   const [form] = Form.useForm();
 
@@ -83,28 +89,28 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   const Rules = {
     required: {
       required: true,
-      message: "Required",
+      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters",
+      message: <FormattedMessage id="profile.rules.max.50" />,
     },
     maxChar100: {
-      max: 50,
-      message: "Max length 100 characters",
+      max: 100,
+      message: <FormattedMessage id="profile.rules.max.100" />,
     },
     telephoneFormat: {
-      pattern: /^\d{3}-\d{3}-\d{4}$/i, // prettier-ignore
-      message: "required format: 111-222-3333",
+      pattern: /^\d{3}-\d{3}-\d{4}$/i,
+      message: <FormattedMessage id="profile.rules.phone.number" />,
     },
     emailFormat: {
-      pattern: /\S+@\S+\.ca/i, // prettier-ignore
-      message: "Please Provide a valid Gov. Canada email",
+      pattern: /\S+@\S+\.ca/i,
+      message: <FormattedMessage id="profile.rules.email" />,
     },
   };
 
   /* Save data */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     if (profileInfo) {
       // If profile exists then update profile
       try {
@@ -131,16 +137,20 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success("Changes Saved");
+        message.success(
+          intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        message.error("Data Not Saved");
+        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
       default:
-        message.warning("There may be a problem");
+        message.warning(
+          intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -149,7 +159,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
@@ -164,7 +174,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/3");
       })
@@ -178,7 +188,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
@@ -191,11 +201,11 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
-    message.info("Form Cleared");
+    message.info(intl.formatMessage({ id: "profile.form.clear" }));
   };
 
   /* Generate form header based on form type */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -215,7 +225,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -276,7 +286,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile) {
       return {
         firstName: profile.firstName,
@@ -390,7 +400,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
                   0
                 }
               >
-                {locationOptions.map(value => {
+                {locationOptions.map((value) => {
                   return <Option key={value.id}>{value.description.en}</Option>;
                 })}
               </Select>
@@ -452,18 +462,20 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
       </Form>
     </div>
   );
-}
+};
 
 PrimaryInfoFormView.propTypes = {
   locationOptions: IdDescriptionPropType,
   profileInfo: ProfileInfoPropType,
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  intl: IntlPropType,
 };
 
 PrimaryInfoFormView.defaultProps = {
   locationOptions: [],
   profileInfo: null,
+  intl: null,
 };
 
-export default PrimaryInfoFormView;
+export default injectIntl(PrimaryInfoFormView);
