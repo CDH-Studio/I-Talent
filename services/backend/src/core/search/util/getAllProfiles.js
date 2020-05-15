@@ -24,17 +24,14 @@ async function getProf(profile, searchValue) {
 
 	const groupLevel = await profile.getGroupLevel().then((res) => {
 		if (res) return res.dataValues;
-		return null;
 	});
 
 	const acting = await profile.getActing().then((res) => {
 		if (res) return res.dataValues;
-		return null;
 	});
 
 	const location = await profile.getLocation().then((res) => {
 		if (res) return res.dataValues;
-		return null;
 	});
 
 	const experiences = await profile.getExperiences();
@@ -64,11 +61,9 @@ async function getProf(profile, searchValue) {
 				const endDate = moment(educ.endDate);
 				const school = await educ.getSchool().then((res) => {
 					if (res) return res.dataValues;
-					return null;
 				});
 				const diploma = await educ.getDiploma().then((res) => {
 					if (res) return res.dataValues;
-					return null;
 				});
 				educ = educ.dataValues;
 
@@ -118,16 +113,15 @@ async function getProf(profile, searchValue) {
 		}
 	});
 
-	const competencies = await profile.getCompetencies().map((competency) => {
-		if (competency)
+	const competencies = await profile.getCompetencies().map((competencies) => {
+		if (competencies)
 			return {
-				id: competency.dataValues.id,
+				id: competencies.dataValues.id,
 				description: {
-					en: competency.dataValues.descriptionEn,
-					fr: competency.dataValues.descriptionFr,
+					en: competencies.dataValues.descriptionEn,
+					fr: competencies.dataValues.descriptionFr,
 				},
 			};
-		return null;
 	});
 
 	let allSkill = skills.concat(competencies);
@@ -202,6 +196,7 @@ function getProfs(profiles, searchValue) {
 		})
 	);
 }
+
 async function getAllProfiles(searchValue) {
 	const profiles = await Profile.findAll({
 		attributes: [

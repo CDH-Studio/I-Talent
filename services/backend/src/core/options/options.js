@@ -24,9 +24,8 @@ async function getBranch(request, response) {
 	});
 
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			description: { en: one.branchEn, fr: one.branchFr },
+			description: { en: one.dataValues.branchEn, fr: one.dataValues.branchFr },
 		};
 	});
 	response.status(200).json(resBody);
@@ -35,10 +34,12 @@ async function getBranch(request, response) {
 async function getCareerMobility(request, response) {
 	const all = await CareerMobility.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -51,10 +52,12 @@ async function getCompetency(request, response) {
 		},
 	});
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
 			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -63,10 +66,12 @@ async function getCompetency(request, response) {
 async function getDevelopmentalGoals(request, response) {
 	const all = await Skill.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -75,10 +80,12 @@ async function getDevelopmentalGoals(request, response) {
 async function getDiploma(request, response) {
 	const all = await Diploma.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -87,10 +94,9 @@ async function getDiploma(request, response) {
 async function getGroupLevel(request, response) {
 	const all = await GroupLevel.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: one.description,
+			id: one.dataValues.id,
+			description: one.dataValues.description,
 		};
 	});
 	response.status(200).json(resBody);
@@ -99,10 +105,12 @@ async function getGroupLevel(request, response) {
 async function getKeyCompetency(request, response) {
 	const all = await KeyCompetency.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -111,12 +119,11 @@ async function getKeyCompetency(request, response) {
 async function getLocation(request, response) {
 	const all = await Location.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
+			id: one.dataValues.id,
 			description: {
-				en: `${one.addressEn}, ${one.city}, ${one.provinceEn}`,
-				fr: `${one.addressFr}, ${one.city}, ${one.provinceFr}`,
+				en: `${one.dataValues.addressEn}, ${one.dataValues.city}, ${one.dataValues.provinceEn}`,
+				fr: `${one.dataValues.addressFr}, ${one.dataValues.city}, ${one.dataValues.provinceFr}`,
 			},
 		};
 	});
@@ -126,10 +133,9 @@ async function getLocation(request, response) {
 async function getSchool(request, response) {
 	const all = await School.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: one.description,
+			id: one.dataValues.id,
+			description: one.dataValues.description,
 		};
 	});
 	response.status(200).json(resBody);
@@ -138,10 +144,12 @@ async function getSchool(request, response) {
 async function getSecurityClearance(request, response) {
 	const all = await SecurityClearance.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -154,28 +162,29 @@ async function getCategorySkills(request, response) {
 		require: true,
 	});
 	const resBody = all.map((one) => {
-		one = one.dataValues;
-		const skillsList = one.skills.map((skillCat) => {
-			skillCat = skillCat.dataValues;
-			if (skillCat.categoryId == one.id) {
+		const skillsList = one.dataValues.skills.map((skillCat) => {
+			if (skillCat.dataValues.categoryId === one.dataValues.id) {
 				return {
-					id: skillCat.id,
+					id: skillCat.dataValues.id,
 					description: {
-						en: skillCat.en,
-						fr: skillCat.fr,
+						en: skillCat.dataValues.en,
+						fr: skillCat.dataValues.fr,
 					},
 				};
 			}
 			return {
-				id: skillCat.id,
+				id: skillCat.dataValues.id,
 				description: { en: null, fr: null },
 			};
 		});
 		return {
 			aCategory: {
 				category: {
-					id: one.id,
-					description: { en: one.descriptionEn, fr: one.descriptionFr },
+					id: one.dataValues.id,
+					description: {
+						en: one.dataValues.descriptionEn,
+						fr: one.dataValues.descriptionFr,
+					},
 					skillsList,
 				},
 			},
@@ -191,28 +200,26 @@ async function getCategory(request, response) {
 		require: true,
 	});
 	const resBody = all.map((one) => {
-		one = one.dataValues;
-		const skillsCat = one.skills.map((skillCat) => {
-			skillCat = skillCat.dataValues;
-			if (skillCat.categoryId == one.id) {
+		const skillsCat = one.dataValues.skills.map((skillCat) => {
+			if (skillCat.dataValues.categoryId === one.dataValues.id) {
 				return {
-					id: skillCat.id,
+					id: skillCat.dataValues.id,
 					description: {
-						en: skillCat.descriptionEn,
-						fr: skillCat.descriptionFr,
+						en: skillCat.dataValues.descriptionEn,
+						fr: skillCat.dataValues.descriptionFr,
 					},
 				};
 			}
 			return {
-				id: skillCat.id,
+				id: skillCat.dataValues.id,
 				description: { en: null, fr: null },
 			};
 		});
 		return {
-			id: one.id,
+			id: one.dataValues.id,
 			description: {
-				en: one.descriptionEn,
-				fr: one.descriptionFr,
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
 			},
 			skills: skillsCat,
 		};
@@ -230,14 +237,11 @@ async function getSkill(request, response) {
 		},
 	});
 	const resBody = all.map((one) => {
-		one = one.dataValues;
-
-		const ascCats = one.category.dataValues;
 		return {
-			id: one.id,
+			id: one.dataValues.id,
 			description: {
-				en: one.descriptionEn,
-				fr: one.descriptionFr,
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
 			},
 		};
 	});
@@ -247,10 +251,12 @@ async function getSkill(request, response) {
 async function getTalentMatrixResult(request, response) {
 	const all = await TalentMatrixResult.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -259,10 +265,12 @@ async function getTalentMatrixResult(request, response) {
 async function getTenure(request, response) {
 	const all = await Tenure.findAll();
 	const resBody = all.map((one) => {
-		one = one.dataValues;
 		return {
-			id: one.id,
-			description: { en: one.descriptionEn, fr: one.descriptionFr },
+			id: one.dataValues.id,
+			description: {
+				en: one.dataValues.descriptionEn,
+				fr: one.dataValues.descriptionFr,
+			},
 		};
 	});
 	response.status(200).json(resBody);
@@ -303,12 +311,11 @@ async function getWillingToRelocateTo(request, response) {
 			],
 		});
 		const resBody = all.map((one) => {
-			one = one.dataValues;
 			return {
-				id: one.id,
+				id: one.dataValues.id,
 				description: {
-					en: `${one.city}, ${one.provinceEn}`,
-					fr: `${one.city}, ${one.provinceFr}`,
+					en: `${one.dataValues.city}, ${one.dataValues.provinceEn}`,
+					fr: `${one.dataValues.city}, ${one.dataValues.provinceFr}`,
 				},
 			};
 		});

@@ -18,17 +18,15 @@ const {
 
 const reporting = require("../../core/admin/reporting/index");
 
-// FIXME fix this error
-const catchAdminCheck = (token) => {
+function catchAdminCheck(token) {
 	let hasRole = false;
 	try {
 		hasRole = token.hasRole("view-admin-console");
+		return hasRole;
 	} catch (error) {
 		return false;
-	} finally {
-		return hasRole;
 	}
-};
+}
 
 const adminRouter = Router();
 
