@@ -1,53 +1,46 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 import ErrorResultView from "./errorResultView";
 
-class ErrorResult extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { back: false };
+const ErrorResult = ({ errorCode }) => {
+  const [back, setBack] = useState(false);
 
-    this.handleClick = this.handleClick.bind(this);
+  const handleClick = () => {
+    setBack(true);
+  };
 
-    this.propMap = {
-      404: {
-        status: "404",
-        title: "404",
-        subTitle: "Looks like someone is in the wrong place",
-        extra: (
-          <Button onClick={() => this.handleClick()} type="primary">
-            Back to Home
-          </Button>
-        ),
-      },
-      403: {
-        status: "403",
-        title: "403",
-        subTitle: "Looks like someone doesn't belong",
-        extra: (
-          <Button onClick={() => this.handleClick()} type="primary">
-            Back to Home
-          </Button>
-        ),
-      },
-    };
+  const propMap = {
+    404: {
+      status: "404",
+      title: "404",
+      subTitle: <FormattedMessage id="error.404.subtitle" />,
+      extra: (
+        <Button onClick={handleClick} type="primary">
+          <FormattedMessage id="error.button" />
+        </Button>
+      ),
+    },
+    403: {
+      status: "403",
+      title: "403",
+      subTitle: <FormattedMessage id="error.403.subtitle" />,
+      extra: (
+        <Button onClick={handleClick} type="primary">
+          <FormattedMessage id="error.button" />
+        </Button>
+      ),
+    },
+  };
+
+  if (back) {
+    return <Redirect to="/" />;
   }
+  return <ErrorResultView resultProps={propMap[errorCode]} />;
+};
 
-  handleClick() {
-    this.setState({ back: true });
-  }
-
-  render() {
-    const { back } = this.state;
-    const { errorCode } = this.props;
-    if (back) {
-      return <Redirect to="/" />;
-    }
-    return <ErrorResultView resultProps={this.propMap[errorCode]} />;
-  }
-}
 ErrorResult.propTypes = {
   errorCode: PropTypes.number.isRequired,
 };

@@ -333,5 +333,9 @@
 
   "profile.is.ongoing": "Courant",
 
-  "sign.out": "Déconnexion"
+  "sign.out": "Déconnexion",
+
+  "error.button": "Retour à l'acceuil",
+  "error.404.subtitle": "On dirait que quelqu'un est au mauvais endroit",
+  "error.403.subtitle": "On dirait que quelqu'un n'appartient pas"
 }
