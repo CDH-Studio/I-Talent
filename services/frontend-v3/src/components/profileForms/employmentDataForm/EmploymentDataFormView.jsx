@@ -17,12 +17,13 @@ import {
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import moment from "moment";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  IntlPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
@@ -36,7 +37,7 @@ const { Title } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = props => {
+const EmploymentDataFormView = (props) => {
   const {
     classificationOptions,
     formType,
@@ -44,6 +45,7 @@ const EmploymentDataFormView = props => {
     profileInfo,
     securityOptions,
     substantiveOptions,
+    intl,
   } = props;
 
   const history = useHistory();
@@ -110,20 +112,16 @@ const EmploymentDataFormView = props => {
   const Rules = {
     required: {
       required: true,
-      message: "Required",
+      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar50: {
       max: 50,
-      message: "Max length 50 characters",
-    },
-    maxChar100: {
-      max: 50,
-      message: "Max length 100 characters",
+      message: <FormattedMessage id="profile.rules.max.50" />,
     },
   };
 
   /* Save data */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     // If dropdown value is undefined then clear value in DB
     values.tenureId = values.tenureId ? values.tenureId : null;
@@ -189,7 +187,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Disable all dates before start date */
-  const disabledDatesBeforeStart = current => {
+  const disabledDatesBeforeStart = (current) => {
     if (form.getFieldValue("actingStartDate")) {
       return current && current < moment(form.getFieldValue("actingStartDate"));
     }
@@ -197,7 +195,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Disable all dates after end date */
-  const disabledDatesAfterEnd = current => {
+  const disabledDatesAfterEnd = (current) => {
     if (form.getFieldValue("actingEndDate")) {
       return current && current > moment(form.getFieldValue("actingEndDate"));
     }
@@ -205,16 +203,22 @@ const EmploymentDataFormView = props => {
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        message.success("Changes Saved");
+        message.success(
+          intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        message.error("Data Not Saved");
+        message.error(
+          intl.formatMessage({ id: "profile.edit.save.error" })
+        );
         break;
       default:
-        message.warning("There may be a problem");
+        message.warning(
+          intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -223,7 +227,7 @@ const EmploymentDataFormView = props => {
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
@@ -238,7 +242,7 @@ const EmploymentDataFormView = props => {
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/4");
       })
@@ -252,7 +256,7 @@ const EmploymentDataFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/8");
       })
@@ -272,11 +276,11 @@ const EmploymentDataFormView = props => {
       profileInfo && profileInfo.acting && !!profileInfo.acting.id
     );
 
-    message.info("Form Cleared");
+    message.info(intl.formatMessage({id: "profile.form.clear"}));
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getTempRoleForm = expandMentorshipForm => {
+  const getTempRoleForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <Row gutter={24} style={{ marginTop: "10px" }}>
@@ -296,7 +300,7 @@ const EmploymentDataFormView = props => {
                   0
                 }
               >
-                {classificationOptions.map(value => {
+                {classificationOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -343,7 +347,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Generate form header based on form type */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -359,7 +363,7 @@ const EmploymentDataFormView = props => {
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile) {
       return {
         groupLevelId: profile.classification.id
@@ -406,7 +410,7 @@ const EmploymentDataFormView = props => {
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -507,7 +511,7 @@ const EmploymentDataFormView = props => {
                   0
                 }
               >
-                {substantiveOptions.map(value => {
+                {substantiveOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -529,7 +533,7 @@ const EmploymentDataFormView = props => {
                   0
                 }
               >
-                {classificationOptions.map(value => {
+                {classificationOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -553,7 +557,7 @@ const EmploymentDataFormView = props => {
                   0
                 }
               >
-                {securityOptions.map(value => {
+                {securityOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -599,6 +603,7 @@ EmploymentDataFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
+  intl: IntlPropType,
 };
 
 EmploymentDataFormView.defaultProps = {
@@ -606,6 +611,7 @@ EmploymentDataFormView.defaultProps = {
   securityOptions: [],
   substantiveOptions: [],
   profileInfo: null,
+  intl: null,
 };
 
-export default EmploymentDataFormView;
+export default injectIntl(EmploymentDataFormView);
