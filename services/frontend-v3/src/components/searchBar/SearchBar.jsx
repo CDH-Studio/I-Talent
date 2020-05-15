@@ -24,7 +24,7 @@ const SearchBar = ({ history }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      return [];
     }
   };
 
@@ -38,7 +38,7 @@ const SearchBar = ({ history }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      return [];
     }
   };
 
@@ -52,7 +52,7 @@ const SearchBar = ({ history }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      return [];
     }
   };
 
@@ -66,7 +66,7 @@ const SearchBar = ({ history }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      return [];
     }
   };
 

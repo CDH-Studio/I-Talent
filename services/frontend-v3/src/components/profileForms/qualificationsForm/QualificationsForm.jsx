@@ -16,9 +16,9 @@ const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [savedEducation, setSavedEducation] = useState();
-  const [savedExperience, setSavedExperience] = useState();
-  const [savedProjects, setSavedProjects] = useState();
+  const [savedEducation, setSavedEducation] = useState([]);
+  const [savedExperience, setSavedExperience] = useState([]);
+  const [savedProjects, setSavedProjects] = useState([]);
 
   /**
    * Get User Profile
@@ -34,7 +34,10 @@ const QualificationsForm = ({ formType }) => {
       return 1;
     } catch (error) {
       setLoad(false);
-      throw new Error(error);
+      
+      // eslint-disable-next-line no-console
+      console.log(error);
+      return 0;
     }
   };
 

@@ -24,8 +24,8 @@ const { backendAddress } = config;
 const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
   // Define States
   const [load, setLoad] = useState(false);
-  const [diplomaOptions, setDiplomaOptions] = useState();
-  const [schoolOptions, setSchoolOptions] = useState();
+  const [diplomaOptions, setDiplomaOptions] = useState([]);
+  const [schoolOptions, setSchoolOptions] = useState([]);
 
   // get current language code
   const locale = intl.formatMessage({

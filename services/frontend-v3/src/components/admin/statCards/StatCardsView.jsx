@@ -18,7 +18,11 @@ import { IntlPropType } from "../../../customPropTypes";
  *  This component renders the statistic cards for the Admin Dashboard page.
  */
 
-function StatCardsView({ dashboardCount, intl, monthGrowthRate }) {
+const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
+  if (!dashboardCount || !monthGrowthRate) {
+    return null;
+  }
+
   return (
     <Row gutter={[8, 8]} type="flex">
       <Col span={4}>
