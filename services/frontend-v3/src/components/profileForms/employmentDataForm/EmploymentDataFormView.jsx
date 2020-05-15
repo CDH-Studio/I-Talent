@@ -24,8 +24,10 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
 } from "../../../customPropTypes";
+import editProfileError from "../editProfileError/editProfileError";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+import EditProfileError from "../editProfileError/editProfileError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -41,6 +43,7 @@ const EmploymentDataFormView = props => {
     classificationOptions,
     formType,
     load,
+    networkError,
     profileInfo,
     securityOptions,
     substantiveOptions,
@@ -469,6 +472,14 @@ const EmploymentDataFormView = props => {
   /** **********************************
    ********* Render Component *********
    *********************************** */
+  if (networkError) {
+    return (
+      <div style={styles.skeleton}>
+        <EditProfileError networkError={networkError} />
+      </div>
+    );
+  }
+
   if (!load) {
     return (
       /* If form data is loading then wait */
@@ -477,6 +488,7 @@ const EmploymentDataFormView = props => {
       </div>
     );
   }
+
   /* Once data had loaded display form */
   return (
     <div style={styles.content}>

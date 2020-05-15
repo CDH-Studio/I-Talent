@@ -13,6 +13,7 @@ const SearchBar = ({ history }) => {
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
+  const [networkError, setNetworkError] = useState(null);
 
   // Fetches options for skills select field in advanced search
   const getSkills = async () => {
@@ -22,6 +23,7 @@ const SearchBar = ({ history }) => {
       );
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -33,9 +35,10 @@ const SearchBar = ({ history }) => {
     try {
       const results = await axios.get(`${backendAddress}api/option/getBranch`);
       return results.data.filter(
-        (elem) => elem.description && elem.description.en
+        elem => elem.description && elem.description.en
       );
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -50,6 +53,7 @@ const SearchBar = ({ history }) => {
       );
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -64,6 +68,7 @@ const SearchBar = ({ history }) => {
       );
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -71,7 +76,7 @@ const SearchBar = ({ history }) => {
   };
 
   // turns search values into query, redirects to results page with query
-  const handleSearch = (values) => {
+  const handleSearch = values => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
     history.push(url);
@@ -99,6 +104,7 @@ const SearchBar = ({ history }) => {
       classOptions={classOptions}
       branchOptions={branchOptions}
       handleSearch={handleSearch}
+      networkError={networkError}
     />
   );
 };

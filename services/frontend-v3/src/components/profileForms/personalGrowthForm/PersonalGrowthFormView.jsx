@@ -25,6 +25,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
 } from "../../../customPropTypes";
+import EditProfileError from "../editProfileError/editProfileError";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 
 import config from "../../../config";
@@ -54,6 +55,7 @@ const PersonalGrowthFormView = ({
   savedExFeederBool,
   formType,
   load,
+  networkError,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -362,6 +364,13 @@ const PersonalGrowthFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
+  if (networkError) {
+    return (
+      <div style={styles.skeleton}>
+        <EditProfileError networkError={networkError} />
+      </div>
+    );
+  }
   if (!load) {
     return (
       /* If form data is loading then wait */

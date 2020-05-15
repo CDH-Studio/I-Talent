@@ -24,6 +24,26 @@ const IdDescriptionPropType = PropTypes.arrayOf(
   })
 );
 
+const AxiosErrorPropType = PropTypes.shape({
+  config: PropTypes.objectOf(PropTypes.any),
+  isAxiosError: PropTypes.bool,
+  request: PropTypes.object,
+  response: PropTypes.shape({
+    config: PropTypes.object,
+    data: PropTypes.shape({
+      message: PropTypes.string,
+      status: PropTypes.string,
+    }),
+    headers: PropTypes.objectOf(PropTypes.string),
+    request: PropTypes.object,
+    status: PropTypes.number,
+    statusText: PropTypes.string,
+  }),
+  toJSON: PropTypes.func,
+  message: PropTypes.string,
+  stack: PropTypes.string,
+});
+
 const FormInstancePropType = PropTypes.shape({
   getFieldValue: PropTypes.func,
   getFieldsValue: PropTypes.func,
@@ -114,6 +134,7 @@ const HistoryPropType = PropTypes.shape({
 const StylesPropType = PropTypes.objectOf(PropTypes.objectOf(PropTypes.string));
 
 export {
+  AxiosErrorPropType,
   FieldPropType,
   FormInstancePropType,
   HistoryPropType,

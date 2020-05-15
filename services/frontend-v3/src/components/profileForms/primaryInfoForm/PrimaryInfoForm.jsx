@@ -10,6 +10,7 @@ const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [networkError, setNetworkError] = useState(null);
 
   // Get possible locations for form drop down
   const getLocations = async () => {
@@ -18,6 +19,7 @@ const PrimaryInfoForm = ({ formType }) => {
       setLocationOptions(result.data ? result.data : []);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -32,6 +34,7 @@ const PrimaryInfoForm = ({ formType }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
+      //setNetworkError(error);
       return 0;
     }
   };
@@ -43,7 +46,7 @@ const PrimaryInfoForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
@@ -54,6 +57,7 @@ const PrimaryInfoForm = ({ formType }) => {
       locationOptions={locationOptions}
       profileInfo={profileInfo}
       load={load}
+      networkError={networkError}
       formType={formType}
     />
   );

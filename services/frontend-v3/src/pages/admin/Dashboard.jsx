@@ -8,6 +8,7 @@ import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import config from "../../config";
 import { IntlPropType } from "../../customPropTypes";
+import AdminErrorContent from "../../components/admin/adminErrorContent/AdminErrorContent";
 
 const { backendAddress } = config;
 
@@ -19,6 +20,7 @@ const { backendAddress } = config;
 const AdminDashboard = ({ changeLanguage, intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [networkError, setNetworkError] = useState(null);
 
   const type = "dashboard";
 
@@ -31,6 +33,7 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
 
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -38,7 +41,7 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
   };
 
   // Get part of the title for the page
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -72,16 +75,27 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
     );
   }
 
+  const generateContent = () => {
+    if (networkError) {
+      return <AdminErrorContent networkError={networkError} />;
+    }
+    return (
+      <>
+        <PageHeader
+          title={intl.formatMessage({
+            id: "admin.dashboard.title",
+            defaultMessage: "Admin Dashboard",
+          })}
+        />
+        <StatCards data={data} />
+        <DashboardGraphs data={data} />
+      </>
+    );
+  };
+
   return (
     <AdminLayout changeLanguage={changeLanguage} displaySideBar type={type}>
-      <PageHeader
-        title={intl.formatMessage({
-          id: "admin.dashboard.title",
-          defaultMessage: "Admin Dashboard",
-        })}
-      />
-      <StatCards data={data} />
-      <DashboardGraphs data={data} />
+      {generateContent()}
     </AdminLayout>
   );
 };

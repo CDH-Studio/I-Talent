@@ -16,6 +16,7 @@ import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
+import EditProfileError from "../editProfileError/editProfileError";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -27,7 +28,13 @@ const { backendAddress } = config;
 const { Option } = Select;
 const { Title } = Typography;
 
-function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
+function PrimaryInfoFormView({
+  locationOptions,
+  profileInfo,
+  load,
+  networkError,
+  formType,
+}) {
   const history = useHistory();
   const [form] = Form.useForm();
 
@@ -297,6 +304,14 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
   /** **********************************
    ********* Render Component *********
    *********************************** */
+  if (networkError) {
+    return (
+      <div style={styles.skeleton}>
+        <EditProfileError networkError={networkError} />
+      </div>
+    );
+  }
+
   if (!load) {
     return (
       /* If form data is loading then wait */
@@ -305,6 +320,7 @@ function PrimaryInfoFormView({ locationOptions, profileInfo, load, formType }) {
       </div>
     );
   }
+
   /* Once data had loaded display form */
   return (
     <div style={styles.content}>

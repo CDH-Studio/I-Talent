@@ -16,6 +16,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+  const [networkError, setNetworkError] = useState(null);
 
   const toggle = () => {
     setExpand(!expand);
@@ -63,6 +64,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
         );
         return results.data;
       } catch (error) {
+        setNetworkError(error);
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -76,9 +78,10 @@ const SearchFilter = ({ history, changeLanguage }) => {
           `${backendAddress}api/option/getBranch`
         );
         return results.data.filter(
-          (elem) => elem.description && elem.description.en
+          elem => elem.description && elem.description.en
         );
       } catch (error) {
+        setNetworkError(error);
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -94,6 +97,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
 
         return results.data;
       } catch (error) {
+        setNetworkError(error);
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -109,6 +113,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
 
         return results.data;
       } catch (error) {
+        setNetworkError(error);
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -131,7 +136,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
   }, [getSearchFieldValues]);
 
   // page with query
-  const handleSearch = (values) => {
+  const handleSearch = values => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
     history.push(url);
@@ -149,6 +154,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       handleSearch={handleSearch}
       toggle={toggle}
       urlSearchFieldValues={urlSearchFieldValues}
+      networkError={networkError}
     />
   );
 };

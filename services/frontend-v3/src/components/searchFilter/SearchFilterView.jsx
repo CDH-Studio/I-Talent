@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
 import "@ant-design/compatible/assets/index.css";
+import SearchFilterError from "./searchFilterError/SearchFilterError";
 import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const SearchBarView = ({
@@ -13,11 +14,12 @@ const SearchBarView = ({
   locationOptions,
   intl,
   urlSearchFieldValues,
+  networkError,
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
+  const onFinish = values => {
     handleSearch(values);
   };
 
@@ -70,6 +72,11 @@ const SearchBarView = ({
       defaultMessage: "Ex Feeder",
     }),
   ];
+
+  if (networkError) {
+    return <SearchFilterError networkError={networkError} />;
+  }
+
   return (
     <Form
       style={{ padding: "10px", overflow: "hidden" }}
@@ -89,7 +96,7 @@ const SearchBarView = ({
             mode="multiple"
             placeholder={searchLabel}
           >
-            {skillOptions.map((value) => {
+            {skillOptions.map(value => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -105,7 +112,7 @@ const SearchBarView = ({
             mode="multiple"
             placeholder={searchLabel}
           >
-            {branchOptions.map((value) => {
+            {branchOptions.map(value => {
               return (
                 <Option key={value.description.en}>
                   {value.description[locale]}
@@ -123,7 +130,7 @@ const SearchBarView = ({
             mode="multiple"
             placeholder={searchLabel}
           >
-            {locationOptions.map((value) => {
+            {locationOptions.map(value => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -139,7 +146,7 @@ const SearchBarView = ({
             mode="multiple"
             placeholder={searchLabel}
           >
-            {classOptions.map((value) => {
+            {classOptions.map(value => {
               return <Option key={value.id}>{value.description}</Option>;
             })}
           </Select>

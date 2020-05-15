@@ -120,6 +120,8 @@
 
   "basic.search.button.text": "Basic search",
 
+  "error.network": "An unexpected network error occured:",
+
   "landing.login.and.enter": "Sign in",
   "landing.welcome": "Welcome",
   "landing.benefits": "Benefits",

@@ -21,6 +21,7 @@ const TalentForm = ({ formType, intl }) => {
   const [savedCompetencies, setSavedCompetencies] = useState([]);
   const [savedSkills, setSavedSkills] = useState([]);
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
+  const [networkError, setNetworkError] = useState(null);
 
   // get current language code
   const locale = intl.formatMessage({
@@ -40,6 +41,7 @@ const TalentForm = ({ formType, intl }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -67,6 +69,7 @@ const TalentForm = ({ formType, intl }) => {
       setCompetencyOptions(options);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -107,6 +110,7 @@ const TalentForm = ({ formType, intl }) => {
       setSkillOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -157,7 +161,7 @@ const TalentForm = ({ formType, intl }) => {
       getSavedSkills();
       getSavedMentorshipSkill();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect to run once component is mounted
@@ -184,6 +188,7 @@ const TalentForm = ({ formType, intl }) => {
       savedMentorshipSkills={savedMentorshipSkills}
       formType={formType}
       load={load}
+      networkError={networkError}
     />
   );
 };

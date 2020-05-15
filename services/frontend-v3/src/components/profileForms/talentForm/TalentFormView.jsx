@@ -23,6 +23,7 @@ import {
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+import EditProfileError from "../editProfileError/editProfileError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -39,6 +40,7 @@ const TalentFormView = props => {
     profileInfo,
     skillOptions,
     competencyOptions,
+    networkError,
     savedCompetencies,
     savedSkills,
     savedMentorshipSkills,
@@ -512,6 +514,14 @@ const TalentFormView = props => {
   /** **********************************
    ********* Render Component *********
    *********************************** */
+  if (networkError) {
+    return (
+      <div style={styles.skeleton}>
+        <EditProfileError networkError={networkError} />
+      </div>
+    );
+  }
+
   if (!load) {
     return (
       /* If form data is loading then wait */

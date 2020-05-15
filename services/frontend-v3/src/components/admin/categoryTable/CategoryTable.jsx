@@ -23,6 +23,7 @@ function CategoryTable({ intl, type }) {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [networkError, setNetworkError] = useState(null);
 
   const size = "large";
 
@@ -37,6 +38,7 @@ function CategoryTable({ intl, type }) {
       );
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -89,7 +91,7 @@ function CategoryTable({ intl, type }) {
 
   /* handles addition of a category */
   // eslint-disable-next-line consistent-return
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -126,7 +128,7 @@ function CategoryTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -149,14 +151,14 @@ function CategoryTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
+  const onSelectChange = selectedRowKeys => {
     // Can access the keys of each category selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -164,7 +166,7 @@ function CategoryTable({ intl, type }) {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
+    onChange: selectedRowKeys => {
       onSelectChange(selectedRowKeys);
     },
   };
@@ -199,6 +201,7 @@ function CategoryTable({ intl, type }) {
       handleSubmitAdd={handleSubmitAdd}
       handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
+      networkError={networkError}
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}

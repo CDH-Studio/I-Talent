@@ -16,6 +16,7 @@ const LangProficiencyForm = ({ formType }) => {
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [networkError, setNetworkError] = useState(null);
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
@@ -27,6 +28,7 @@ const LangProficiencyForm = ({ formType }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -71,6 +73,7 @@ const LangProficiencyForm = ({ formType }) => {
   return (
     <LangProficiencyFormView
       languageOptions={languageOptions}
+      networkError={networkError}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
       formType={formType}

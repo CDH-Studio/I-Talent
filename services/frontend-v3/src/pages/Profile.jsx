@@ -11,8 +11,9 @@ const Profile = ({ history, match, changeLanguage }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [networkError, setNetworkError] = useState(null);
 
-  const updateProfileInfo = async (id) => {
+  const updateProfileInfo = async id => {
     const userID = localStorage.getItem("userId");
 
     // Send private data to ProfileLayout component, when current user
@@ -20,23 +21,30 @@ const Profile = ({ history, match, changeLanguage }) => {
     if (id === userID) {
       const fetchedData = await axios
         .get(`${backendAddress}api/private/profile/${id}`)
-        .then((res) => res.data)
+        .then(res => res.data)
         // eslint-disable-next-line no-console
-        .catch((error) => console.error(error));
-
+        .catch(error => {
+          setNetworkError(error);
+          console.error(error);
+          return 0;
+        });
       return fetchedData;
     }
     // Send public data to ProfileLayout component, when current user
     // is looking at someone else profile
     const fetchedData = await axios
       .get(`${backendAddress}api/profile/${id}`)
-      .then((res) => res.data)
+      .then(res => res.data)
       // eslint-disable-next-line no-console
-      .catch((error) => console.error(error));
+      .catch(error => {
+        setNetworkError(error);
+        setLoading(false);
+        console.error(error);
+      });
     return fetchedData;
   };
 
-  const goto = useCallback((link) => history.push(link), [history]);
+  const goto = useCallback(link => history.push(link), [history]);
 
   useEffect(() => {
     const { id } = match.params;
@@ -47,7 +55,7 @@ const Profile = ({ history, match, changeLanguage }) => {
     }
 
     if (data === null) {
-      updateProfileInfo(id).then((fetchedData) => {
+      updateProfileInfo(id).then(fetchedData => {
         if (fetchedData !== undefined) {
           setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
           setData(fetchedData);
@@ -62,7 +70,13 @@ const Profile = ({ history, match, changeLanguage }) => {
   }, [name]);
 
   if (!loading) {
-    return <ProfileLayout changeLanguage={changeLanguage} data={data} />;
+    return (
+      <ProfileLayout
+        changeLanguage={changeLanguage}
+        data={data}
+        networkError={networkError}
+      />
+    );
   }
 
   return <ProfileSkeleton changeLanguage={changeLanguage} />;

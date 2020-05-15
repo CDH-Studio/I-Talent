@@ -19,7 +19,7 @@ import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 import config from "../../../config";
-
+import EditProfileError from "../editProfileError/editProfileError";
 const { backendAddress } = config;
 const { Title } = Typography;
 
@@ -35,6 +35,8 @@ const QualificationsFormView = ({
   savedProjects,
   formType,
   load,
+  networkError,
+  setNetworkError,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -311,6 +313,13 @@ const QualificationsFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
+  if (networkError) {
+    return (
+      <div style={styles.skeleton}>
+        <EditProfileError networkError={networkError} />
+      </div>
+    );
+  }
   if (!load) {
     return (
       /* If form data is loading then wait */
@@ -352,6 +361,7 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
+                        setNetworkError={setNetworkError}
                       />
                     ))}
                     <Form.Item>
@@ -394,6 +404,7 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
+                        setNetworkError={setNetworkError}
                       />
                     ))}
                     <Form.Item>

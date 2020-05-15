@@ -19,16 +19,23 @@ const PersonalGrowthForm = ({ formType, intl }) => {
   const [load, setLoad] = useState(false);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
-  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState([]);
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
+    []
+  );
   const [relocationOptions, setRelocationOptions] = useState([]);
   const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
   const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
   const [careerMobilityOptions, setCareerMobilityOptions] = useState([]);
   const [savedCareerMobility, setSavedCareerMobility] = useState(undefined);
-  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState([]);
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(undefined);
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState(
+    []
+  );
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(
+    undefined
+  );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
+  const [networkError, setNetworkError] = useState(null);
 
   // Get current language code
   const locale = intl.formatMessage({
@@ -80,6 +87,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -106,6 +114,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setDevelopmentalGoalOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -153,6 +162,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setRelocationOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -180,6 +190,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setLookingForNewJobOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -207,6 +218,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setCareerMobilityOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -234,6 +246,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setTalentMatrixResultOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -259,7 +272,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect when locale changes
@@ -283,7 +296,14 @@ const PersonalGrowthForm = ({ formType, intl }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
+  }, [
+    getCareerMobilityOptions,
+    getDevelopmentalGoalOptions,
+    getInterestedInRemoteOptions,
+    getLookingForNewJobOptions,
+    getRelocationOptions,
+    getTalentMatrixResultOptions,
+  ]);
 
   return (
     <PersonalGrowthFormView
@@ -302,6 +322,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       savedExFeederBool={savedExFeederBool}
       formType={formType}
       load={load}
+      networkError={networkError}
     />
   );
 };

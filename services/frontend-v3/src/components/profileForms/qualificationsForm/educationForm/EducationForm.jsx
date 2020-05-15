@@ -21,7 +21,15 @@ const { backendAddress } = config;
  *  This component is strongly linked ot Qualifications Form.
  *  It generated the form fields for each education item the user creates in the qualifications form.
  */
-const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
+const EducationForm = ({
+  form,
+  field,
+  intl,
+  remove,
+  profileInfo,
+  setNetworkError,
+  style,
+}) => {
   // Define States
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState([]);
@@ -55,6 +63,7 @@ const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
       setDiplomaOptions(options);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -81,6 +90,7 @@ const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
       setSchoolOptions(dataTree);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };

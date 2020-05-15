@@ -22,6 +22,7 @@ const SchoolTable = ({ type, intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [networkError, setNetworkError] = useState(null);
 
   const size = "large";
 
@@ -33,6 +34,7 @@ const SchoolTable = ({ type, intl }) => {
       );
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -63,7 +65,7 @@ const SchoolTable = ({ type, intl }) => {
   }, [getSchools, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -86,13 +88,13 @@ const SchoolTable = ({ type, intl }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a school */
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -150,7 +152,7 @@ const SchoolTable = ({ type, intl }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (_selectedRowKeys) => {
+  const onSelectChange = _selectedRowKeys => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
@@ -158,7 +160,7 @@ const SchoolTable = ({ type, intl }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (_selectedRowKeys) => {
+    onChange: _selectedRowKeys => {
       onSelectChange(_selectedRowKeys);
     },
   };
@@ -187,6 +189,7 @@ const SchoolTable = ({ type, intl }) => {
       handleSubmitAdd={handleSubmitAdd}
       handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
+      networkError={networkError}
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}

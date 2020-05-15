@@ -14,6 +14,7 @@ import {
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
+import SearchBarError from "./searchBarError/SearchBarError";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -25,6 +26,7 @@ const SearchBarView = ({
   classOptions,
   branchOptions,
   handleSearch,
+  networkError,
 }) => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
@@ -91,7 +93,7 @@ const SearchBarView = ({
   };
 
   // Handle form submission
-  const onFinish = (values) => {
+  const onFinish = values => {
     handleSearch(values);
   };
 
@@ -105,7 +107,7 @@ const SearchBarView = ({
   };
 
   // Generate the advanced search fields
-  const getAdvancedSearchForm = (displayForm) => {
+  const getAdvancedSearchForm = displayForm => {
     // detect language
     const locale = intl.formatMessage({
       id: "language.code",
@@ -114,6 +116,9 @@ const SearchBarView = ({
 
     if (!displayForm) {
       return <div />;
+    }
+    if (networkError) {
+      return <SearchBarError networkError={networkError} />;
     }
     return (
       <div style={{ marginBottom: "0" }}>
@@ -124,7 +129,6 @@ const SearchBarView = ({
             </Title>
           </Col>
         </Row>
-
         <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
           {/* form column one */}
           <Col span={8}>
@@ -149,7 +153,7 @@ const SearchBarView = ({
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {locationOptions.map((value) => {
+                {locationOptions.map(value => {
                   return (
                     <Option key={value.id}>{value.description[locale]}</Option>
                   );
@@ -173,7 +177,7 @@ const SearchBarView = ({
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {skillOptions.map((value) => {
+                {skillOptions.map(value => {
                   return (
                     <Option key={value.id}>{value.description[locale]}</Option>
                   );
@@ -196,7 +200,7 @@ const SearchBarView = ({
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {classOptions.map((value) => {
+                {classOptions.map(value => {
                   return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
@@ -218,7 +222,7 @@ const SearchBarView = ({
                 mode="multiple"
                 placeholder={searchLabel}
               >
-                {branchOptions.map((value) => {
+                {branchOptions.map(value => {
                   return (
                     <Option key={value.description.en}>
                       {value.description[locale]}

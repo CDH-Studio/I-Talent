@@ -19,6 +19,7 @@ const QualificationsForm = ({ formType }) => {
   const [savedEducation, setSavedEducation] = useState([]);
   const [savedExperience, setSavedExperience] = useState([]);
   const [savedProjects, setSavedProjects] = useState([]);
+  const [networkError, setNetworkError] = useState(null);
 
   /**
    * Get User Profile
@@ -34,7 +35,7 @@ const QualificationsForm = ({ formType }) => {
       return 1;
     } catch (error) {
       setLoad(false);
-      
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -111,7 +112,7 @@ const QualificationsForm = ({ formType }) => {
       getSavedExperience();
       getSavedProjects();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect to run once component is mounted
@@ -128,6 +129,8 @@ const QualificationsForm = ({ formType }) => {
       savedProjects={savedProjects}
       formType={formType}
       load={load}
+      networkError={networkError}
+      setNetworkError={setNetworkError}
     />
   );
 };

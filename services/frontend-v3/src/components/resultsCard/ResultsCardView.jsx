@@ -9,11 +9,12 @@ import {
 } from "../../customPropTypes";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
+import ResultsCardError from "./ResultsCardError/ResultsCardError";
 
 const { Meta } = Card;
 const { Text } = Typography;
 
-const ResultsCardView = ({ history, intl, results }) => {
+const ResultsCardView = ({ history, intl, results, networkError }) => {
   const styles = {
     smallP: {
       lineHeight: "4px",
@@ -69,7 +70,7 @@ const ResultsCardView = ({ history, intl, results }) => {
             })}
           </Divider>
 
-          {person.resultSkills.map((skill) => (
+          {person.resultSkills.map(skill => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
@@ -82,7 +83,7 @@ const ResultsCardView = ({ history, intl, results }) => {
     );
   };
 
-  const renderResultCards = (dataSource) => {
+  const renderResultCards = dataSource => {
     if (!dataSource) {
       return <ProfileSkeleton />;
     }
@@ -97,6 +98,17 @@ const ResultsCardView = ({ history, intl, results }) => {
     );
     return preparedResults.map((person, key) => renderCard(person, key));
   };
+
+  if (networkError) {
+    return <ResultsCardError networkError={networkError} />;
+  }
+
+  if (!results) {
+    return <ProfileSkeleton />;
+  }
+  if (results instanceof Error) {
+    return `An error was encountered! Please try again.\n\n${String(results)}`;
+  }
 
   return (
     <div>

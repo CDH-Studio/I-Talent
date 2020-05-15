@@ -24,6 +24,7 @@ function UserTable({ intl, type }) {
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [networkError, setNetworkError] = useState(null);
 
   const size = "large";
 
@@ -34,6 +35,7 @@ function UserTable({ intl, type }) {
 
       return results.data;
     } catch (error) {
+      setNetworkError(error);
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -78,7 +80,7 @@ function UserTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -101,7 +103,7 @@ function UserTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
@@ -142,7 +144,7 @@ function UserTable({ intl, type }) {
       convertData[i].key = convertData[i].id;
     }
 
-    convertData.forEach((e) => {
+    convertData.forEach(e => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = `/secured/profile/${e.id}`;
@@ -179,6 +181,7 @@ function UserTable({ intl, type }) {
       profileStatusValue={profileStatusValue}
       handleSearch={handleSearch}
       handleReset={handleReset}
+      networkError={networkError}
     />
   );
 }

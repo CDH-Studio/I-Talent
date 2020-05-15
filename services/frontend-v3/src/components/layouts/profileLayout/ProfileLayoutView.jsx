@@ -19,18 +19,22 @@ import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
+import ProfileError from "./profileError/profileError";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
-const ProfileLayoutView = ({ data, changeLanguage }) => {
+const ProfileLayoutView = ({ data, changeLanguage, networkError }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
   const userID = localStorage.getItem("userId");
 
   // Visibility values
-  const { visibleCards } = data;
+  let visibleCards;
+  if (data && data.visibleCards) {
+    visibleCards = data.visibleCards;
+  }
 
   /* Component Styles */
   const styles = {
@@ -555,10 +559,17 @@ const ProfileLayoutView = ({ data, changeLanguage }) => {
     );
   };
 
+  const generateContent = () => {
+    if (networkError) {
+      return <ProfileError networkError={networkError} />;
+    }
+    return displayAllProfileCards();
+  };
+
   return (
     <AppLayout
       changeLanguage={changeLanguage}
-      sideBarContent={generateProfileSidebarContent()}
+      sideBarContent={networkError ? null : generateProfileSidebarContent()}
       displaySideBar
     >
       <PageHeader
@@ -567,7 +578,7 @@ const ProfileLayoutView = ({ data, changeLanguage }) => {
         }}
         title={<FormattedMessage id="my.profile" />}
       />
-      {displayAllProfileCards()}
+      {generateContent()}
     </AppLayout>
   );
 };

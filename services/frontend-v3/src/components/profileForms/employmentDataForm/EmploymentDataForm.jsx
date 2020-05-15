@@ -19,6 +19,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
   const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [networkError, setNetworkError] = useState(null);
 
   // Get current language code
   const locale = intl.formatMessage({
@@ -43,6 +44,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
       setSubstantiveOptions(options);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -65,6 +67,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
       setClassificationOptions(options);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -87,6 +90,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
       setSecurityOptions(options);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   }, [locale]);
@@ -101,6 +105,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
+      setNetworkError(error);
       throw new Error(error);
     }
   };
@@ -117,7 +122,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
@@ -133,6 +138,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
       formType={formType}
       locale={locale}
       load={load}
+      networkError={networkError}
     />
   );
 };

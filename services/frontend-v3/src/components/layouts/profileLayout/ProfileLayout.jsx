@@ -4,8 +4,14 @@ import ProfileLayoutView from "./ProfileLayoutView";
 
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
-const ProfileLayout = ({ data, changeLanguage }) => {
-  return <ProfileLayoutView changeLanguage={changeLanguage} data={data} />;
+const ProfileLayout = ({ data, changeLanguage, networkError }) => {
+  return (
+    <ProfileLayoutView
+      changeLanguage={changeLanguage}
+      data={data}
+      networkError={networkError}
+    />
+  );
 };
 
 ProfileLayout.propTypes = {
