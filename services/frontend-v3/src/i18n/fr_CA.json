@@ -295,6 +295,9 @@
   "profile.years.of.service": "Années de service",
   "profile.rules.required": "Obligatoire",
   "profile.rules.max.50": "Maximum de 50 caractères",
+  "profile.rules.max.100": "Maximum de 100 caractères",
+  "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
+  "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.form.clear": "Formulaire effacé",
 
   "lang": "English",
