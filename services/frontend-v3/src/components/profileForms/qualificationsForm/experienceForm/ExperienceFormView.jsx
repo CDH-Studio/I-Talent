@@ -221,7 +221,7 @@ const ExperienceFormView = ({
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[Rules.required, Rules.maxChar250]}
-          extra={<FormattedMessage id="profile.career.content.rule" />}
+          extra={<FormattedMessage id="profile.rules.max.250" />}
         >
           <TextArea rows={4} />
         </Form.Item>
