@@ -152,10 +152,10 @@ const CreateProfileLayoutView = (props) => {
             description={
               <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.skills" />
+                  - <FormattedMessage id="setup.competencies" />
                 </li>
                 <li>
-                  - <FormattedMessage id="setup.competencies" />
+                  - <FormattedMessage id="setup.skills" />
                 </li>
                 <li>
                   - <FormattedMessage id="profile.mentorship.skills" />

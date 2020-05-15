@@ -28,7 +28,7 @@ const Substantive = ({ intl, data }) => {
     const substative = {
       title: <FormattedMessage id="profile.substantive" />,
       description:
-        data.inderterminate === true ? (
+        data.indeterminate === true ? (
           <FormattedMessage id="profile.indeterminate" />
         ) : (
           <FormattedMessage id="profile.term" />
@@ -46,7 +46,7 @@ Substantive.propTypes = {
     classification: PropTypes.shape({
       description: PropTypes.any,
     }),
-    inderterminate: PropTypes.bool,
+    indeterminate: PropTypes.bool,
     security: PropTypes.shape({
       description: PropTypes.shape({
         en: PropTypes.string,
