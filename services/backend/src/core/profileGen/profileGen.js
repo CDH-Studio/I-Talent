@@ -6,7 +6,7 @@ const Location = Models.location;
 
 // FIXME fix the errors and refactor.
 async function getGedsAssist(request, response) {
-	id = request.params.id;
+	const { id } = request.params;
 	user = await User.findOne({ where: { id } }).then(async (user) => {
 		user = user.dataValues;
 

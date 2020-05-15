@@ -20,7 +20,7 @@ async function getGedsProfile(searchValue) {
 					res.data.forEach((employee) => {
 						let currentBranch = employee;
 						let organizations = [];
-						while (currentBranch.organizationInformation != null) {
+						while (currentBranch.organizationInformation !== null) {
 							const branchInfo = {
 								organizationId:
 									currentBranch.organizationInformation.organization.id,
@@ -39,11 +39,11 @@ async function getGedsProfile(searchValue) {
 						}
 						organizations = organizations.reverse();
 						const contactInfo = {};
-						if (employee.contactInformation.email != "")
+						if (employee.contactInformation.email !== "")
 							contactInfo.email = employee.contactInformation.email;
-						if (employee.contactInformation.phoneNumber != "")
+						if (employee.contactInformation.phoneNumber !== "")
 							contactInfo.phoneNumber = employee.contactInformation.phoneNumber;
-						if (employee.contactInformation.altPhoneNumber != "")
+						if (employee.contactInformation.altPhoneNumber !== "")
 							contactInfo.altPhoneNumber =
 								employee.contactInformation.altPhoneNumber;
 						const empInfo = {
