@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
-import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
-import { ReloadOutlined } from "@ant-design/icons";
-import "@ant-design/compatible/assets/index.css";
+import { Form, Button, Input, Switch, Select, Typography } from "antd";
+import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
+
+const { Title } = Typography;
 
 const SearchBarView = ({
   handleSearch,
@@ -22,6 +23,14 @@ const SearchBarView = ({
   const styles = {
     w100: {
       width: "100%",
+    },
+    searchHeader: {
+      fontSize: "1.2em",
+    },
+    searchHeaderIcon: {
+      fontSize: "0.9em",
+      marginRight: "4px",
+      color: "#3CBAB3",
     },
   };
 
@@ -79,9 +88,14 @@ const SearchBarView = ({
     <Form
       style={{ padding: "22px" }}
       form={form}
+      size={"componentSize"}
       layout="vertical"
       onFinish={onFinish}
     >
+      <Title level={2} style={styles.searchHeader}>
+        <SettingOutlined style={styles.searchHeaderIcon} />
+        Search Filter
+      </Title>
       <Form.Item label={labelArr[0]} name={searchTitles[0]} style={styles.w100}>
         <Input style={styles.w100} placeholder={searchLabel} />
       </Form.Item>
