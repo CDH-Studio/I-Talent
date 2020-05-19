@@ -4,7 +4,11 @@ import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
 import "@ant-design/compatible/assets/index.css";
 import SearchFilterError from "./searchFilterError/SearchFilterError";
-import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
+import {
+  IntlPropType,
+  IdDescriptionPropType,
+  NetworkErrorsPropType,
+} from "../../customPropTypes";
 
 const SearchBarView = ({
   handleSearch,
@@ -14,7 +18,7 @@ const SearchBarView = ({
   locationOptions,
   intl,
   urlSearchFieldValues,
-  networkError,
+  networkErrors,
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -73,8 +77,8 @@ const SearchBarView = ({
     }),
   ];
 
-  if (networkError) {
-    return <SearchFilterError networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <SearchFilterError networkErrors={networkErrors} />;
   }
 
   return (
@@ -197,6 +201,7 @@ SearchBarView.propTypes = {
     exFeeder: PropTypes.bool,
     name: PropTypes.string,
   }),
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 SearchBarView.defaultProps = {

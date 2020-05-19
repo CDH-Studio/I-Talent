@@ -23,8 +23,8 @@ import moment from "moment";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  NetworkErrorsPropType,
 } from "../../../customPropTypes";
-import editProfileError from "../editProfileError/editProfileError";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
 import EditProfileError from "../editProfileError/editProfileError";
@@ -43,7 +43,7 @@ const EmploymentDataFormView = props => {
     classificationOptions,
     formType,
     load,
-    networkError,
+    networkErrors,
     profileInfo,
     securityOptions,
     substantiveOptions,
@@ -472,10 +472,10 @@ const EmploymentDataFormView = props => {
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  if (networkError) {
+  if (networkErrors && networkErrors.length) {
     return (
       <div style={styles.skeleton}>
-        <EditProfileError networkError={networkError} />
+        <EditProfileError networkErrors={networkErrors} />
       </div>
     );
   }
@@ -611,6 +611,7 @@ EmploymentDataFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {

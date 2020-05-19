@@ -1,10 +1,10 @@
 import React from "react";
 import { WarningOutlined } from "@ant-design/icons";
-import { List } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
+import { Card, List } from "antd";
 import { NetworkErrorsPropType } from "../../../customPropTypes";
 
-const SearchFilterErrorView = ({ networkErrors }) => {
+const ProfileCardsErrorView = ({ networkErrors, title }) => {
   const styles = {
     errorTitleText: {
       paddingLeft: "8px",
@@ -12,32 +12,24 @@ const SearchFilterErrorView = ({ networkErrors }) => {
       color: "rgba(0, 0, 0, 0.85)",
     },
     itemTitleText: {
-      wordBreak: "break-word",
       fontSize: "14px",
       fontWeight: "normal",
     },
-    itemDescription: {
-      wordBreak: "break-word",
-    },
-    centeredText: {
-      textAlign: "center",
-    },
   };
-
   return (
-    <>
-      <>
-        <WarningOutlined />
-        <span style={styles.errorTitleText}>
-          <FormattedMessage id="error.network" />
-        </span>
-      </>
-      <List
-        size="small"
-        dataSource={networkErrors}
-        renderItem={item => (
-          <List.Item>
-            <div style={{ textAlign: "center" }}>
+    <div>
+      <Card title={title}>
+        <>
+          <WarningOutlined />
+          <span style={styles.errorTitleText}>
+            {<FormattedMessage id="error.network" />}
+          </span>
+        </>
+        <List
+          size="small"
+          dataSource={networkErrors}
+          renderItem={item => (
+            <List.Item>
               <List.Item.Meta
                 title={
                   <span style={styles.itemTitleText}>
@@ -61,16 +53,16 @@ const SearchFilterErrorView = ({ networkErrors }) => {
                   )
                 }
               />
-            </div>
-          </List.Item>
-        )}
-      />
-    </>
+            </List.Item>
+          )}
+        />
+      </Card>
+    </div>
   );
 };
 
-SearchFilterErrorView.propTypes = {
+ProfileCardsErrorView.propTypes = {
   networkErrors: NetworkErrorsPropType.isRequired,
 };
 
-export default injectIntl(SearchFilterErrorView);
+export default injectIntl(ProfileCardsErrorView);

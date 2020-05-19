@@ -20,6 +20,7 @@ import PropTypes from "prop-types";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  NetworkErrorsPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
@@ -40,7 +41,7 @@ const TalentFormView = props => {
     profileInfo,
     skillOptions,
     competencyOptions,
-    networkError,
+    networkErrors,
     savedCompetencies,
     savedSkills,
     savedMentorshipSkills,
@@ -514,10 +515,10 @@ const TalentFormView = props => {
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  if (networkError) {
+  if (networkErrors && networkErrors.length) {
     return (
       <div style={styles.skeleton}>
-        <EditProfileError networkError={networkError} />
+        <EditProfileError networkErrors={networkErrors} />
       </div>
     );
   }
@@ -637,6 +638,7 @@ TalentFormView.propTypes = {
   savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 TalentFormView.defaultProps = {

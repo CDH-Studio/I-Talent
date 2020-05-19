@@ -21,7 +21,7 @@ const TalentForm = ({ formType, intl }) => {
   const [savedCompetencies, setSavedCompetencies] = useState([]);
   const [savedSkills, setSavedSkills] = useState([]);
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   // get current language code
   const locale = intl.formatMessage({
@@ -41,7 +41,7 @@ const TalentForm = ({ formType, intl }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   };
@@ -69,7 +69,7 @@ const TalentForm = ({ formType, intl }) => {
       setCompetencyOptions(options);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -110,7 +110,7 @@ const TalentForm = ({ formType, intl }) => {
       setSkillOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -188,7 +188,7 @@ const TalentForm = ({ formType, intl }) => {
       savedMentorshipSkills={savedMentorshipSkills}
       formType={formType}
       load={load}
-      networkError={networkError}
+      networkErrors={networkErrors}
     />
   );
 };

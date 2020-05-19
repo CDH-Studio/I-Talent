@@ -20,9 +20,7 @@ const { backendAddress } = config;
 const AdminDashboard = ({ changeLanguage, intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [networkError, setNetworkError] = useState(null);
-
-  const type = "dashboard";
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   // Get dashboard data for statistic cards and graphes
   const getDashboardData = async () => {
@@ -33,12 +31,14 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
 
       return results.data;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
     }
   };
+
+  const type = "dashboard";
 
   // Get part of the title for the page
   const getDisplayType = plural => {
@@ -54,16 +54,26 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
     });
   };
 
-  // useEffect to run once component is mounted
   useEffect(() => {
-    const setState = async () => {
-      // Get the data for the dashboard cards and graphes
+    const getData = async () => {
       const dashboardData = await getDashboardData();
       setData(dashboardData);
       setLoading(false);
     };
-    setState();
-  });
+    getData();
+  }, []);
+
+  // useEffect to run once component is mounted
+  /* useEffect(() => {
+    
+    const setState = async () => {
+      // Get the data for the dashboard cards and graphes
+      
+    };
+    // if (loading) {
+    
+    // }
+  }, [loading, networkErrors]); */
 
   document.title = `${getDisplayType(false)} - Admin | I-Talent`;
 
@@ -76,8 +86,8 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
   }
 
   const generateContent = () => {
-    if (networkError) {
-      return <AdminErrorContent networkError={networkError} />;
+    if (networkErrors && networkErrors.length) {
+      return <AdminErrorContent networkErrors={networkErrors} />;
     }
     return (
       <>

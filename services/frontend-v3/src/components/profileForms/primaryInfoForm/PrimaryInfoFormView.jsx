@@ -20,6 +20,7 @@ import EditProfileError from "../editProfileError/editProfileError";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
+  NetworkErrorsPropType,
 } from "../../../customPropTypes";
 
 import config from "../../../config";
@@ -32,7 +33,7 @@ function PrimaryInfoFormView({
   locationOptions,
   profileInfo,
   load,
-  networkError,
+  networkErrors,
   formType,
 }) {
   const history = useHistory();
@@ -304,10 +305,10 @@ function PrimaryInfoFormView({
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  if (networkError) {
+  if (networkErrors && networkErrors.length) {
     return (
       <div style={styles.skeleton}>
-        <EditProfileError networkError={networkError} />
+        <EditProfileError networkErrors={networkErrors} />
       </div>
     );
   }
@@ -475,6 +476,7 @@ PrimaryInfoFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

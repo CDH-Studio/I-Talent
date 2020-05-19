@@ -20,7 +20,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, NetworkErrorsPropType } from "../../../customPropTypes";
 import AdminErrorContent from "../adminErrorContent/AdminErrorContent";
 
 /**
@@ -33,7 +33,7 @@ const SchoolTableView = ({
   handleSubmitAdd,
   handleSubmitEdit,
   handleSubmitDelete,
-  networkError,
+  networkErrors,
   intl,
   selectedRowKeys,
   searchedColumn,
@@ -553,8 +553,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     ];
   };
 
-  if (networkError) {
-    return <AdminErrorContent networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <AdminErrorContent networkErrors={networkErrors} />;
   }
 
   return (
@@ -619,6 +619,7 @@ SchoolTableView.propTypes = {
       state: PropTypes.string,
     })
   ).isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 SchoolTableView.defaultProps = {

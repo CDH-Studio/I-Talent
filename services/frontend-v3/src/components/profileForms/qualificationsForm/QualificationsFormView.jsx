@@ -17,9 +17,13 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import {
+  ProfileInfoPropType,
+  NetworkErrorsPropType,
+} from "../../../customPropTypes";
 import config from "../../../config";
 import EditProfileError from "../editProfileError/editProfileError";
+
 const { backendAddress } = config;
 const { Title } = Typography;
 
@@ -35,8 +39,8 @@ const QualificationsFormView = ({
   savedProjects,
   formType,
   load,
-  networkError,
-  setNetworkError,
+  networkErrors,
+  setNetworkErrors,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -313,10 +317,10 @@ const QualificationsFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  if (networkError) {
+  if (networkErrors && networkErrors.length) {
     return (
       <div style={styles.skeleton}>
-        <EditProfileError networkError={networkError} />
+        <EditProfileError networkErrors={networkErrors} />
       </div>
     );
   }
@@ -361,7 +365,7 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
-                        setNetworkError={setNetworkError}
+                        setNetworkErrors={setNetworkErrors}
                       />
                     ))}
                     <Form.Item>
@@ -404,7 +408,7 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
-                        setNetworkError={setNetworkError}
+                        setNetworkErrors={setNetworkErrors}
                       />
                     ))}
                     <Form.Item>
@@ -482,6 +486,7 @@ QualificationsFormView.propTypes = {
   savedProjects: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 QualificationsFormView.defaultProps = {

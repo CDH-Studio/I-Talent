@@ -11,7 +11,7 @@ const { backendAddress } = config;
 
 const ResultsCard = ({ history }) => {
   const [results, setResults] = useState(null);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   useEffect(() => {
     const urlSections = window.location.toString().split("?");
@@ -25,7 +25,7 @@ const ResultsCard = ({ history }) => {
           );
           setResults(result.data);
         } catch (error) {
-          setNetworkError(error);
+          setNetworkErrors(oldArray => oldArray.concat(error));
         }
       };
       gatherResults();
@@ -38,7 +38,7 @@ const ResultsCard = ({ history }) => {
     <ResultsCardView
       history={history}
       results={results}
-      networkError={networkError}
+      networkErrors={networkErrors}
     />
   );
 };

@@ -8,12 +8,11 @@ import {
 } from "@ant-design/icons";
 import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
-
-import axios from "axios";
-import { ProfileInfoPropType } from "../../customPropTypes";
-import config from "../../config";
-
-const { backendAddress } = config;
+import ProfileCardsError from "./profileCardsError/ProfileCardsError";
+import {
+  ProfileInfoPropType,
+  NetworkErrorsPropType,
+} from "../../customPropTypes";
 
 function ProfileCardsView({
   cardName,
@@ -23,41 +22,17 @@ function ProfileCardsView({
   id,
   content,
   style,
+  handleVisibilityToggle,
+  networkErrors,
+  disabled,
+  setDisabled,
 }) {
   const history = useHistory();
-  const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
   const newId = useParams().id;
   const urlID = newId;
   const userID = localStorage.getItem("userId");
-  /*
-   * Handle Visibility Toggle
-   *
-   * Handle card visibility toggle by updating state and saving state to backend
-   */
-  const handleVisibilityToggle = async () => {
-    // Update visibleCards state in profile
-    try {
-      // Get current card visibility status from db
-      const url = `${backendAddress}api/profile/${urlID}`;
-      const result = await axios.get(url);
-      const { visibleCards } = result.data;
-
-      // change the stored value
-      const cardNameToBeModified = cardName;
-      visibleCards[cardNameToBeModified] = !disabled;
-      setDisabled(visibleCards[cardNameToBeModified]);
-
-      // save toggle value in db
-      await axios.put(`${backendAddress}api/profile/${urlID}`, {
-        visibleCards,
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
-  };
 
   /*
    * Handle Visibility Toggle
@@ -124,7 +99,7 @@ function ProfileCardsView({
       const cardNameToBeModified = cardName;
       setDisabled(visibleCards[cardNameToBeModified]);
     }
-  }, [cardName, editUrl, profileInfo, title, id, content, style]);
+  }, [cardName, editUrl, profileInfo, setDisabled, title, id, content, style]);
 
   let styles;
   if (disabled === true) {
@@ -140,7 +115,9 @@ function ProfileCardsView({
       },
     };
   }
-
+  if (networkErrors && networkErrors.length) {
+    return <ProfileCardsError networkErrors={networkErrors} title={title} />;
+  }
   return (
     <div>
       <Card
@@ -163,6 +140,7 @@ ProfileCardsView.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.element.isRequired,
   style: PropTypes.objectOf(PropTypes.string),
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 ProfileCardsView.defaultProps = {

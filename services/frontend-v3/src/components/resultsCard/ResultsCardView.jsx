@@ -6,6 +6,7 @@ import {
   HistoryPropType,
   IntlPropType,
   ProfileInfoPropType,
+  NetworkErrorsPropType,
 } from "../../customPropTypes";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
@@ -14,7 +15,7 @@ import ResultsCardError from "./ResultsCardError/ResultsCardError";
 const { Meta } = Card;
 const { Text } = Typography;
 
-const ResultsCardView = ({ history, intl, results, networkError }) => {
+const ResultsCardView = ({ history, intl, results, networkErrors }) => {
   const styles = {
     smallP: {
       lineHeight: "4px",
@@ -99,8 +100,8 @@ const ResultsCardView = ({ history, intl, results, networkError }) => {
     return preparedResults.map((person, key) => renderCard(person, key));
   };
 
-  if (networkError) {
-    return <ResultsCardError networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <ResultsCardError networkErrors={networkErrors} />;
   }
 
   if (!results) {
@@ -123,6 +124,7 @@ ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
   intl: IntlPropType,
   results: PropTypes.arrayOf(ProfileInfoPropType),
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 ResultsCardView.defaultProps = {

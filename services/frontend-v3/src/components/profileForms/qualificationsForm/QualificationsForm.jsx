@@ -19,7 +19,7 @@ const QualificationsForm = ({ formType }) => {
   const [savedEducation, setSavedEducation] = useState([]);
   const [savedExperience, setSavedExperience] = useState([]);
   const [savedProjects, setSavedProjects] = useState([]);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   /**
    * Get User Profile
@@ -35,7 +35,7 @@ const QualificationsForm = ({ formType }) => {
       return 1;
     } catch (error) {
       setLoad(false);
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -129,8 +129,8 @@ const QualificationsForm = ({ formType }) => {
       savedProjects={savedProjects}
       formType={formType}
       load={load}
-      networkError={networkError}
-      setNetworkError={setNetworkError}
+      networkErrors={networkErrors}
+      setNetworkErrors={setNetworkErrors}
     />
   );
 };

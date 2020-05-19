@@ -10,6 +10,7 @@ import {
   IntlPropType,
   ProfileInfoPropType,
   StylesPropType,
+  NetworkErrorsPropType,
 } from "../../../../customPropTypes";
 import config from "../../../../config";
 
@@ -27,7 +28,7 @@ const EducationForm = ({
   intl,
   remove,
   profileInfo,
-  setNetworkError,
+  setNetworkErrors,
   style,
 }) => {
   // Define States
@@ -63,7 +64,7 @@ const EducationForm = ({
       setDiplomaOptions(options);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   };
@@ -90,7 +91,7 @@ const EducationForm = ({
       setSchoolOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   };
@@ -131,6 +132,7 @@ EducationForm.propTypes = {
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
   style: StylesPropType.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 EducationForm.defaultProps = {

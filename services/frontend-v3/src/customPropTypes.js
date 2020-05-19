@@ -112,6 +112,8 @@ const FieldPropType = PropTypes.shape({
   fieldKey: PropTypes.number,
 });
 
+const NetworkErrorsPropType = PropTypes.arrayOf(PropTypes.object);
+
 const HistoryPropType = PropTypes.shape({
   action: PropTypes.string,
   block: PropTypes.func,
@@ -144,4 +146,5 @@ export {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
+  NetworkErrorsPropType,
 };

@@ -21,6 +21,7 @@ import PropTypes from "prop-types";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  NetworkErrorsPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
@@ -39,7 +40,7 @@ const LangProficiencyFormView = ({
   formType,
   languageOptions,
   load,
-  networkError,
+  networkErrors,
   proficiencyOptions,
   profileInfo,
 }) => {
@@ -491,10 +492,10 @@ const LangProficiencyFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  if (networkError) {
+  if (networkErrors && networkErrors.length) {
     return (
       <div style={styles.skeleton}>
-        <EditProfileError networkError={networkError} />
+        <EditProfileError networkErrors={networkErrors} />
       </div>
     );
   }
@@ -573,6 +574,7 @@ LangProficiencyFormView.propTypes = {
   load: PropTypes.bool.isRequired,
   proficiencyOptions: KeyTitleOptionsPropType,
   profileInfo: ProfileInfoPropType,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 LangProficiencyFormView.defaultProps = {

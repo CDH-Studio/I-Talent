@@ -1,8 +1,13 @@
 import React from "react";
 import ResultsCardErrorView from "./ResultsCardErrorView";
+import { NetworkErrorsPropType } from "../../../customPropTypes";
 
-const ResultsCardError = ({ networkError }) => {
-  return <ResultsCardErrorView networkError={networkError} />;
+const ResultsCardError = ({ networkErrors }) => {
+  return <ResultsCardErrorView networkErrors={networkErrors} />;
+};
+
+ResultsCardError.propTypes = {
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 export default ResultsCardError;

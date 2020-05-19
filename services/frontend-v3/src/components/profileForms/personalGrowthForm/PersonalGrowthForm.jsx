@@ -35,7 +35,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
     undefined
   );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   // Get current language code
   const locale = intl.formatMessage({
@@ -87,7 +87,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   };
@@ -114,7 +114,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setDevelopmentalGoalOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -162,7 +162,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setRelocationOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -190,7 +190,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setLookingForNewJobOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -218,7 +218,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setCareerMobilityOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -246,7 +246,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       setTalentMatrixResultOptions(dataTree);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   }, [locale]);
@@ -322,7 +322,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
       savedExFeederBool={savedExFeederBool}
       formType={formType}
       load={load}
-      networkError={networkError}
+      networkErrors={networkErrors}
     />
   );
 };

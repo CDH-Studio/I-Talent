@@ -22,7 +22,7 @@ const SchoolTable = ({ type, intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   const size = "large";
 
@@ -34,7 +34,7 @@ const SchoolTable = ({ type, intl }) => {
       );
       return results.data;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -189,7 +189,7 @@ const SchoolTable = ({ type, intl }) => {
       handleSubmitAdd={handleSubmitAdd}
       handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      networkError={networkError}
+      networkErrors={networkErrors}
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}

@@ -5,7 +5,10 @@ import { PageHeader, Anchor, Typography, Row, Col } from "antd";
 import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import {
+  ProfileInfoPropType,
+  NetworkErrorsPropType,
+} from "../../../customPropTypes";
 
 import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
@@ -24,7 +27,7 @@ import ProfileError from "./profileError/profileError";
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
-const ProfileLayoutView = ({ data, changeLanguage, networkError }) => {
+const ProfileLayoutView = ({ data, changeLanguage, networkErrors }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -560,8 +563,8 @@ const ProfileLayoutView = ({ data, changeLanguage, networkError }) => {
   };
 
   const generateContent = () => {
-    if (networkError) {
-      return <ProfileError networkError={networkError} />;
+    if (networkErrors && networkErrors.length) {
+      return <ProfileError networkErrors={networkErrors} />;
     }
     return displayAllProfileCards();
   };
@@ -569,7 +572,7 @@ const ProfileLayoutView = ({ data, changeLanguage, networkError }) => {
   return (
     <AppLayout
       changeLanguage={changeLanguage}
-      sideBarContent={networkError ? null : generateProfileSidebarContent()}
+      sideBarContent={networkErrors ? null : generateProfileSidebarContent()}
       displaySideBar
     >
       <PageHeader
@@ -586,6 +589,7 @@ const ProfileLayoutView = ({ data, changeLanguage, networkError }) => {
 ProfileLayoutView.propTypes = {
   data: ProfileInfoPropType,
   changeLanguage: PropTypes.func.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 ProfileLayoutView.defaultProps = {

@@ -21,7 +21,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, NetworkErrorsPropType } from "../../../customPropTypes";
 import AdminErrorContent from "../adminErrorContent/AdminErrorContent";
 
 /**
@@ -35,7 +35,7 @@ const CompetencyTableView = ({
   handleSubmitAdd,
   handleSubmitEdit,
   handleSubmitDelete,
-  networkError,
+  networkErrors,
   selectedRowKeys,
   searchedColumn,
   searchText,
@@ -487,8 +487,8 @@ const CompetencyTableView = ({
     return competencyTableColumns;
   };
 
-  if (networkError) {
-    return <AdminErrorContent networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <AdminErrorContent networkErrors={networkErrors} />;
   }
 
   return (
@@ -545,6 +545,7 @@ CompetencyTableView.propTypes = {
   size: PropTypes.string.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
   data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
   // data: PropTypes.srr({
   //   getCategoryInformation: PropTypes.shape({
   //     description: PropTypes.string,

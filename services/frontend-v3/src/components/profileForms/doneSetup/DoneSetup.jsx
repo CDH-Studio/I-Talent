@@ -12,6 +12,7 @@ const { backendAddress } = config;
  */
 const DoneSetup = () => {
   const [load, setLoad] = useState(false);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -24,6 +25,7 @@ const DoneSetup = () => {
         await axios.get(url);
         return 1;
       } catch (error) {
+        setNetworkErrors(oldArray => oldArray.concat(error));
         throw Error(error);
       }
     };
@@ -44,7 +46,7 @@ const DoneSetup = () => {
     getAllData();
   }, []);
 
-  return <DoneSetupView load={load} />;
+  return <DoneSetupView load={load} networkErrors={networkErrors} />;
 };
 
 export default DoneSetup;

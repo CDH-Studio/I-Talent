@@ -16,7 +16,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   const toggle = () => {
     setExpand(!expand);
@@ -64,7 +64,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
         );
         return results.data;
       } catch (error) {
-        setNetworkError(error);
+        setNetworkErrors(oldArray => oldArray.concat(error));
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -81,7 +81,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
           elem => elem.description && elem.description.en
         );
       } catch (error) {
-        setNetworkError(error);
+        setNetworkErrors(oldArray => oldArray.concat(error));
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -97,7 +97,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
 
         return results.data;
       } catch (error) {
-        setNetworkError(error);
+        setNetworkErrors(oldArray => oldArray.concat(error));
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -113,7 +113,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
 
         return results.data;
       } catch (error) {
-        setNetworkError(error);
+        setNetworkErrors(oldArray => oldArray.concat(error));
         // eslint-disable-next-line no-console
         console.log(error);
         return [];
@@ -154,7 +154,7 @@ const SearchFilter = ({ history, changeLanguage }) => {
       handleSearch={handleSearch}
       toggle={toggle}
       urlSearchFieldValues={urlSearchFieldValues}
-      networkError={networkError}
+      networkErrors={networkErrors}
     />
   );
 };

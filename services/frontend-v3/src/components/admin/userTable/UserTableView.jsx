@@ -20,7 +20,7 @@ import {
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, NetworkErrorsPropType } from "../../../customPropTypes";
 import AdminErrorContent from "../adminErrorContent/AdminErrorContent";
 /**
  *  UserTableView(props)
@@ -37,7 +37,7 @@ const UserTableView = ({
   profileStatusValue,
   handleSearch,
   handleReset,
-  networkError,
+  networkErrors,
 }) => {
   let searchInput;
 
@@ -363,8 +363,8 @@ const UserTableView = ({
     return tableColumns;
   };
 
-  if (networkError) {
-    return <AdminErrorContent networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <AdminErrorContent networkErrors={networkErrors} />;
   }
 
   return (
@@ -396,6 +396,7 @@ UserTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
   // data: PropTypes.shape({
   //   getCategoryInformation: PropTypes.shape({
   //     description: PropTypes.string,

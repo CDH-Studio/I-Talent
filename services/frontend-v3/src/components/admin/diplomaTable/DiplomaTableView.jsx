@@ -20,6 +20,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import { NetworkErrorsPropType } from "../../../customPropTypes";
 import AdminErrorContent from "../adminErrorContent/AdminErrorContent";
 
 /**
@@ -32,7 +33,7 @@ const DiplomaTableView = ({
   handleSubmitAdd,
   handleSubmitEdit,
   handleSubmitDelete,
-  networkError,
+  networkErrors,
   selectedRowKeys,
   searchedColumn,
   searchText,
@@ -486,8 +487,8 @@ const DiplomaTableView = ({
     return diplomaTableCol;
   };
 
-  if (networkError) {
-    return <AdminErrorContent networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <AdminErrorContent networkErrors={networkErrors} />;
   }
 
   return (
@@ -554,6 +555,7 @@ DiplomaTableView.propTypes = {
   searchedColumn: PropTypes.string.isRequired,
   selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   size: PropTypes.string.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 export default injectIntl(DiplomaTableView);

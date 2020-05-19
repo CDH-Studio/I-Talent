@@ -11,7 +11,7 @@ const Profile = ({ history, match, changeLanguage }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   const updateProfileInfo = async id => {
     const userID = localStorage.getItem("userId");
@@ -24,7 +24,7 @@ const Profile = ({ history, match, changeLanguage }) => {
         .then(res => res.data)
         // eslint-disable-next-line no-console
         .catch(error => {
-          setNetworkError(error);
+          setNetworkErrors(oldArray => oldArray.concat(error));
           console.error(error);
           return 0;
         });
@@ -37,7 +37,7 @@ const Profile = ({ history, match, changeLanguage }) => {
       .then(res => res.data)
       // eslint-disable-next-line no-console
       .catch(error => {
-        setNetworkError(error);
+        setNetworkErrors(oldArray => oldArray.concat(error));
         setLoading(false);
         console.error(error);
       });
@@ -74,7 +74,7 @@ const Profile = ({ history, match, changeLanguage }) => {
       <ProfileLayout
         changeLanguage={changeLanguage}
         data={data}
-        networkError={networkError}
+        networkErrors={networkErrors}
       />
     );
   }

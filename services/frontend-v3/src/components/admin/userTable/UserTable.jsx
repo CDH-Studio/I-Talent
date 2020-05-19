@@ -24,7 +24,7 @@ function UserTable({ intl, type }) {
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   const size = "large";
 
@@ -35,7 +35,7 @@ function UserTable({ intl, type }) {
 
       return results.data;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -181,7 +181,7 @@ function UserTable({ intl, type }) {
       profileStatusValue={profileStatusValue}
       handleSearch={handleSearch}
       handleReset={handleReset}
-      networkError={networkError}
+      networkErrors={networkErrors}
     />
   );
 }

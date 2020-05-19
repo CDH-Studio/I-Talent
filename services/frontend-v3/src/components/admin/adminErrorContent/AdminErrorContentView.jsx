@@ -2,10 +2,16 @@ import React from "react";
 import { WarningOutlined } from "@ant-design/icons";
 import { PageHeader } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
+import { List } from "antd";
+import { NetworkErrorsPropType } from "../../../customPropTypes";
 
-const AdminErrorContentView = ({ networkError }) => {
+const AdminErrorContentView = ({ networkErrors }) => {
   const styles = {
-    errorTitle: { paddingLeft: "8px" },
+    errorTitleText: { paddingLeft: "8px" },
+    itemTitleText: {
+      fontSize: "14px",
+      fontWeight: "normal",
+    },
   };
   return (
     <>
@@ -13,27 +19,48 @@ const AdminErrorContentView = ({ networkError }) => {
         title={
           <>
             <WarningOutlined />
-            <span style={styles.errorTitle}>
+            <span style={styles.errorTitleText}>
               <FormattedMessage id="error.network" />
             </span>
           </>
         }
       />
-      <div>
-        <p>
-          {networkError.config.method.toUpperCase()} {networkError.config.url}
-        </p>
-        {networkError && networkError.response && networkError.response.data ? (
-          <>
-            <p>{networkError.response.data.status}</p>
-            <p>{networkError.response.data.message}</p>
-          </>
-        ) : (
-          <p>no response from backend server</p>
+      <List
+        size="small"
+        dataSource={networkErrors}
+        renderItem={item => (
+          <List.Item>
+            <List.Item.Meta
+              title={
+                <span style={styles.itemTitleText}>
+                  {item.config.method.toUpperCase()} {item.config.url}
+                </span>
+              }
+              description={
+                item.response && item.response.data ? (
+                  <>
+                    <div style={styles.itemDescription}>
+                      {item.response.status}
+                    </div>
+                    <div style={styles.itemDescription}>
+                      {item.response.statusText}
+                    </div>
+                  </>
+                ) : (
+                  <div style={styles.itemDescription}>
+                    No response from backend
+                  </div>
+                )
+              }
+            />
+          </List.Item>
         )}
-      </div>
+      />
     </>
   );
+};
+AdminErrorContentView.propTypes = {
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 export default injectIntl(AdminErrorContentView);

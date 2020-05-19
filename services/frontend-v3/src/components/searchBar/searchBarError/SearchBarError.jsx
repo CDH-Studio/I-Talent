@@ -1,8 +1,13 @@
 import React from "react";
 import SearchBarErrorView from "./SearchBarErrorView";
+import { NetworkErrorsPropType } from "../../../customPropTypes";
 
-const SearchBarError = ({ networkError }) => {
-  return <SearchBarErrorView networkError={networkError} />;
+const SearchBarError = ({ networkErrors }) => {
+  return <SearchBarErrorView networkErrors={networkErrors} />;
+};
+
+SearchBarError.propTypes = {
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 export default SearchBarError;

@@ -13,7 +13,11 @@ import {
 } from "antd";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
-import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
+import {
+  IntlPropType,
+  IdDescriptionPropType,
+  NetworkErrorsPropType,
+} from "../../customPropTypes";
 import SearchBarError from "./searchBarError/SearchBarError";
 
 const { Option } = Select;
@@ -26,7 +30,7 @@ const SearchBarView = ({
   classOptions,
   branchOptions,
   handleSearch,
-  networkError,
+  networkErrors,
 }) => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
@@ -117,8 +121,8 @@ const SearchBarView = ({
     if (!displayForm) {
       return <div />;
     }
-    if (networkError) {
-      return <SearchBarError networkError={networkError} />;
+    if (networkErrors && networkErrors.length) {
+      return <SearchBarError networkErrors={networkErrors} />;
     }
     return (
       <div style={{ marginBottom: "0" }}>
@@ -329,6 +333,7 @@ SearchBarView.propTypes = {
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 SearchBarView.defaultProps = {

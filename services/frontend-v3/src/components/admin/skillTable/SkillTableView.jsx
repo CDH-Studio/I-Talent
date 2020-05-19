@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, NetworkErrorsPropType } from "../../../customPropTypes";
 import AdminErrorContent from "../adminErrorContent/AdminErrorContent";
 
 /**
@@ -35,7 +35,7 @@ const SkillTableView = ({
   handleSubmitAdd,
   handleSubmitEdit,
   handleSubmitDelete,
-  networkError,
+  networkErrors,
   selectedRowKeys,
   searchedColumn,
   searchText,
@@ -584,8 +584,8 @@ const SkillTableView = ({
     );
   };
 
-  if (networkError) {
-    return <AdminErrorContent networkError={networkError} />;
+  if (networkErrors && networkErrors.length) {
+    return <AdminErrorContent networkErrors={networkErrors} />;
   }
 
   return (
@@ -649,6 +649,7 @@ SkillTableView.propTypes = {
   //   }),
   // }).isRequired,
   categories: PropTypes.arrayOf(PropTypes.any).isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 SkillTableView.defaultProps = {

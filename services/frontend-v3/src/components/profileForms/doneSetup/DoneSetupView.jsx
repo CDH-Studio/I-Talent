@@ -7,6 +7,8 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { NetworkErrorsPropType } from "../../../customPropTypes";
+import EditProfileError from "../editProfileError/editProfileError";
 
 const { Title, Paragraph } = Typography;
 
@@ -15,11 +17,17 @@ const { Title, Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ load }) => {
+const DoneSetupView = ({ load, networkErrors }) => {
   /* Component Styles */
   const styles = {
     skeleton: {
       textAlign: "center",
+      width: "100%",
+      minHeight: "400px",
+      background: "#fff",
+      padding: "30px 30px",
+    },
+    uncenteredSkeleton: {
       width: "100%",
       minHeight: "400px",
       background: "#fff",
@@ -38,6 +46,14 @@ const DoneSetupView = ({ load }) => {
       marginLeft: "10px",
     },
   };
+
+  if (networkErrors && networkErrors.length) {
+    return (
+      <div style={styles.uncenteredSkeleton}>
+        <EditProfileError networkErrors={networkErrors} />;
+      </div>
+    );
+  }
 
   if (!load) {
     return (
@@ -98,6 +114,7 @@ const DoneSetupView = ({ load }) => {
 
 DoneSetupView.propTypes = {
   load: PropTypes.bool.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 export default DoneSetupView;

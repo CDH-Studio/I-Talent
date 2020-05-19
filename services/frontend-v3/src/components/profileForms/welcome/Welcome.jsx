@@ -15,6 +15,7 @@ const { backendAddress } = config;
 function Welcome() {
   const [load, setLoad] = useState(false);
   const [gedsProfiles, setGedsProfiles] = useState([]);
+  const [gedsProfileNetworkError, setGedsProfileNetworkError] = useState(null);
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -32,6 +33,7 @@ function Welcome() {
         setGedsProfiles(result.data);
         return 1;
       } catch (error) {
+        setGedsProfileNetworkError(error);
         // eslint-disable-next-line no-console
         console.log(error);
         return 0;
@@ -55,7 +57,13 @@ function Welcome() {
     getAllData();
   }, []);
 
-  return <WelcomeView gedsProfiles={gedsProfiles} load={load} />;
+  return (
+    <WelcomeView
+      gedsProfiles={gedsProfiles}
+      gedsProfileNetworkError={gedsProfileNetworkError}
+      load={load}
+    />
+  );
 }
 
 export default Welcome;

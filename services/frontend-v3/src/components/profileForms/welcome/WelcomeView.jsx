@@ -8,15 +8,16 @@ import {
   UserAddOutlined,
   RocketOutlined,
   LoadingOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, NetworkErrorsPropType } from "../../../customPropTypes";
 import config from "../../../config";
-
+import EditProfileError from "../editProfileError/editProfileError";
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-function WelcomeView({ gedsProfiles, intl, load }) {
+function WelcomeView({ gedsProfiles, gedsProfileNetworkError, intl, load }) {
   const history = useHistory();
 
   // get current language code
@@ -71,6 +72,9 @@ function WelcomeView({ gedsProfiles, intl, load }) {
       fontStyle: "italic",
       marginTop: "-4px",
     },
+    gedsErrorMessage: {
+      fontSize: "14px;",
+    },
   };
 
   /*
@@ -78,13 +82,10 @@ function WelcomeView({ gedsProfiles, intl, load }) {
    *
    * Generate large square button for GEDS profiles
    */
-  const generateProfileBtn = ({
-    icon,
-    firstTitle,
-    secondTitle,
-    thirdTitle,
-    value,
-  }) => {
+  const generateProfileBtn = (
+    { icon, firstTitle, secondTitle, thirdTitle, value },
+    disableOnClick
+  ) => {
     // truncate text to not overflow card
     const truncateString = (text, length) => {
       if (text && text.length > length) {
@@ -109,7 +110,10 @@ function WelcomeView({ gedsProfiles, intl, load }) {
     };
 
     return (
-      <Button style={styles.btn} onClick={createProfile}>
+      <Button
+        style={styles.btn}
+        onClick={disableOnClick ? null : createProfile}
+      >
         {/* icon */}
         <div style={styles.btnIcon}>{icon}</div>
 
@@ -164,14 +168,19 @@ function WelcomeView({ gedsProfiles, intl, load }) {
       return (
         <div>
           {/* loading button */}
-          {generateProfileBtn({
-            icon: <LoadingOutlined />,
-            firstTitle: intl.formatMessage({ id: "setup.welcome.geds.title" }),
-            secondTitle: intl.formatMessage({
-              id: "setup.welcome.geds.description",
+          {
+            (generateProfileBtn({
+              icon: <LoadingOutlined />,
+              firstTitle: intl.formatMessage({
+                id: "setup.welcome.geds.title",
+              }),
+              secondTitle: intl.formatMessage({
+                id: "setup.welcome.geds.description",
+              }),
+              type: "default",
             }),
-            type: "default",
-          })}
+            true)
+          }
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
@@ -195,6 +204,7 @@ function WelcomeView({ gedsProfiles, intl, load }) {
             value: item,
           });
         })}
+
         {/* new user button */}
         {generateProfileBtn({
           icon: <UserAddOutlined />,
@@ -219,6 +229,14 @@ function WelcomeView({ gedsProfiles, intl, load }) {
         <FormattedMessage id="setup.welcome.action" />
       </Paragraph>
       {generateGedsProfileList()}
+      {gedsProfileNetworkError ? (
+        <div style={styles.gedsErrorMessage}>
+          <EditProfileError
+            networkErrors={[gedsProfileNetworkError]}
+            customErrorTitle="Could not retreive GEDS data"
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -227,6 +245,7 @@ WelcomeView.propTypes = {
   gedsProfiles: PropTypes.arrayOf(PropTypes.any),
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 WelcomeView.defaultProps = {

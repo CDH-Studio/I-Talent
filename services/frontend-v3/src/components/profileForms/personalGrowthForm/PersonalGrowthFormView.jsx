@@ -24,6 +24,7 @@ import PropTypes from "prop-types";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
+  NetworkErrorsPropType,
 } from "../../../customPropTypes";
 import EditProfileError from "../editProfileError/editProfileError";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
@@ -55,7 +56,7 @@ const PersonalGrowthFormView = ({
   savedExFeederBool,
   formType,
   load,
-  networkError,
+  networkErrors,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -364,10 +365,10 @@ const PersonalGrowthFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  if (networkError) {
+  if (networkErrors && networkErrors.length) {
     return (
       <div style={styles.skeleton}>
-        <EditProfileError networkError={networkError} />
+        <EditProfileError networkErrors={networkErrors} />
       </div>
     );
   }
@@ -599,6 +600,7 @@ PersonalGrowthFormView.propTypes = {
   savedExFeederBool: PropTypes.bool,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  networkErrors: NetworkErrorsPropType.isRequired,
 };
 
 PersonalGrowthFormView.defaultProps = {

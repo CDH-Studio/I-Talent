@@ -24,7 +24,7 @@ const SkillTable = ({ intl, type }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   const size = "large";
 
@@ -37,7 +37,7 @@ const SkillTable = ({ intl, type }) => {
 
       return results.data;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -52,6 +52,7 @@ const SkillTable = ({ intl, type }) => {
       );
       return results.data;
     } catch (error) {
+      setNetworkErrors(oldArray => oldArray.concat(error));
       // eslint-disable-next-line no-console
       console.log(error);
       return [];
@@ -245,7 +246,7 @@ const SkillTable = ({ intl, type }) => {
       searchedColumn={searchedColumn}
       searchText={searchText}
       size={size}
-      networkError={networkError}
+      networkErrors={networkErrors}
       rowSelection={rowSelection}
       data={getSkillInformation()}
       categories={categories}

@@ -10,7 +10,7 @@ const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [networkError, setNetworkError] = useState(null);
+  const [networkErrors, setNetworkErrors] = useState([]);
 
   // Get possible locations for form drop down
   const getLocations = async () => {
@@ -19,7 +19,7 @@ const PrimaryInfoForm = ({ formType }) => {
       setLocationOptions(result.data ? result.data : []);
       return 1;
     } catch (error) {
-      setNetworkError(error);
+      setNetworkErrors(oldArray => oldArray.concat(error));
       throw new Error(error);
     }
   };
@@ -34,7 +34,7 @@ const PrimaryInfoForm = ({ formType }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      //setNetworkError(error);
+      //setNetworkErrors(oldArray => oldArray.concat(error));
       return 0;
     }
   };
@@ -57,7 +57,7 @@ const PrimaryInfoForm = ({ formType }) => {
       locationOptions={locationOptions}
       profileInfo={profileInfo}
       load={load}
-      networkError={networkError}
+      networkErrors={networkErrors}
       formType={formType}
     />
   );
