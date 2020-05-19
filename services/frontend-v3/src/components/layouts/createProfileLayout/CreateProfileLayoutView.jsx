@@ -26,7 +26,7 @@ const { Step } = Steps;
  *  Render the layout for the create profile forms
  */
 const CreateProfileLayoutView = (props) => {
-  const { changeLanguage, formStep, intl } = props;
+  const { formStep, intl } = props;
   const history = useHistory();
   const [profileExists, setProfileExists] = useState(false);
 
@@ -228,7 +228,6 @@ const CreateProfileLayoutView = (props) => {
 
   return (
     <AppLayout
-      changeLanguage={changeLanguage}
       sideBarContent={sideBarContent}
       displaySideBar
     >
@@ -245,7 +244,6 @@ const CreateProfileLayoutView = (props) => {
 };
 
 CreateProfileLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   formStep: PropTypes.string,
   intl: IntlPropType,
 };

@@ -19,7 +19,7 @@ import {
  *  EditProfileLayoutView(props)
  *  Render the layout for the edit profile forms
  */
-const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
+const EditProfileLayoutView = ({ formStep, intl }) => {
   const history = useHistory();
 
   /*
@@ -105,7 +105,6 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
 
   return (
     <AppLayout
-      changeLanguage={changeLanguage}
       sideBarContent={sideBarContent}
       displaySideBar
     >
@@ -122,7 +121,6 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
 };
 
 EditProfileLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   formStep: PropTypes.string.isRequired,
   intl: IntlPropType,
 };

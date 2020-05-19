@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-filename-extension */
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider as ReduxProvider, useSelector } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 import { IntlProvider } from "react-intl";
 import moment from "moment";
@@ -13,41 +13,27 @@ import "moment/locale/fr-ca";
 import "./App.css";
 import { NotFound, LandingPage } from "./pages";
 import { Secured, Admin } from "./routes";
+import store, { persistor } from "./redux";
 
-function App() {
-  const [locale, setLocale] = useState(localStorage.getItem("lang") || "en");
+const App = () => {
+  const locale = useSelector((state) => state.settings.language);
+  const [i18nConfig, setI18nConfig] = useState({});
 
-  const i18nConfig = {
-    messages: locale === "fr" ? messagesFr : messagesEn,
-    formats: {
-      number: {
-        CAD: {
-          style: "currency",
-          currency: "USD",
-          currencyDisplay: "symbol",
+  useEffect(() => {
+    setI18nConfig({
+      messages: locale === "fr" ? messagesFr : messagesEn,
+      formats: {
+        number: {
+          CAD: {
+            style: "currency",
+            currency: "USD",
+            currencyDisplay: "symbol",
+          },
         },
       },
-    },
-  };
-
-  moment.locale(`${locale}-ca`);
-
-  const changeLanguage = lang => {
-    localStorage.setItem("lang", lang);
-    switch (locale) {
-      case "fr":
-        i18nConfig.messages = messagesFr;
-        break;
-      case "en":
-      default:
-        i18nConfig.messages = messagesEn;
-        break;
-    }
-
-    moment.locale(`${lang}-ca`);
-
-    setLocale(lang);
-  };
+    });
+    moment.locale(`${locale}-ca`);
+  }, [locale]);
 
   return (
     <IntlProvider
@@ -60,11 +46,10 @@ function App() {
           <Route
             exact
             path="/"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <LandingPage
-                  changeLanguage={changeLanguage}
                   history={history}
                   location={location}
                   match={match}
@@ -75,11 +60,10 @@ function App() {
           />
           <Route
             path="/secured"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <Secured
-                  changeLanguage={changeLanguage}
                   history={history}
                   location={location}
                   match={match}
@@ -90,11 +74,10 @@ function App() {
           />
           <Route
             path="/admin"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <Admin
-                  changeLanguage={changeLanguage}
                   history={history}
                   location={location}
                   match={match}
@@ -108,5 +91,14 @@ function App() {
       </Router>
     </IntlProvider>
   );
-}
-export default App;
+};
+
+const ReduxWrappedApp = () => (
+  <ReduxProvider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </ReduxProvider>
+);
+
+export default ReduxWrappedApp;

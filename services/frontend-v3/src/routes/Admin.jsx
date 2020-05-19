@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import Keycloak from "keycloak-js";
 import axios from "axios";
@@ -18,7 +17,7 @@ import keycloakConfig from "../keycloak";
 const { backendAddress } = config;
 const { keycloakJSONConfig } = keycloakConfig;
 
-const Admin = ({ changeLanguage }) => {
+const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
   // const [isAdmin, setIsAdmin] = useState(false);
@@ -115,48 +114,28 @@ const Admin = ({ changeLanguage }) => {
           <Route
             exact
             path="/admin/dashboard"
-            render={() => <AdminDasboard changeLanguage={changeLanguage} />}
+            render={() => <AdminDasboard />}
           />
-          <Route
-            exact
-            path="/admin/users"
-            render={() => <AdminUser changeLanguage={changeLanguage} />}
-          />
-          <Route
-            exact
-            path="/admin/skills"
-            render={() => <AdminSkill changeLanguage={changeLanguage} />}
-          />
+          <Route exact path="/admin/users" render={() => <AdminUser />} />
+          <Route exact path="/admin/skills" render={() => <AdminSkill />} />
           <Route
             exact
             path="/admin/categories"
-            render={() => <AdminCategory changeLanguage={changeLanguage} />}
+            render={() => <AdminCategory />}
           />
           <Route
             exact
             path="/admin/competencies"
-            render={() => <AdminCompetency changeLanguage={changeLanguage} />}
+            render={() => <AdminCompetency />}
           />
-          <Route
-            exact
-            path="/admin/diploma"
-            render={() => <AdminDiploma changeLanguage={changeLanguage} />}
-          />
-          <Route
-            exact
-            path="/admin/school"
-            render={() => <AdminSchool changeLanguage={changeLanguage} />}
-          />
+          <Route exact path="/admin/diploma" render={() => <AdminDiploma />} />
+          <Route exact path="/admin/school" render={() => <AdminSchool />} />
         </div>
       );
     }
     return <div>Unable to authenticate!</div>;
   }
   return <div />;
-};
-
-Admin.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
 };
 
 export default Admin;

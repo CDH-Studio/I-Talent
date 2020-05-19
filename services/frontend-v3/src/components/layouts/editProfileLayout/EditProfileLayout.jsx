@@ -6,14 +6,13 @@ import EditProfileLayoutView from "./EditProfileLayoutView";
  *  EditProfileLayout(props)
  *  Controller for the Edit Profile Layout.
  */
-const EditProfileLayout = ({ changeLanguage, step }) => {
+const EditProfileLayout = ({ step }) => {
   return (
-    <EditProfileLayoutView changeLanguage={changeLanguage} formStep={step} />
+    <EditProfileLayoutView formStep={step} />
   );
 };
 
 EditProfileLayout.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   step: PropTypes.string.isRequired,
 };
 
