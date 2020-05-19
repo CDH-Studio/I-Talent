@@ -28,7 +28,7 @@ const StatCards = ({ data }) => {
       const growthRate = growthRateByMonthData.growthRateFromPreviousMonth;
 
       const currentMonthAdditions =
-        growthRateByMonthData.current_month_additions.count;
+        growthRateByMonthData.currentMonthAdditions.count;
 
       return { growthRate, currentMonthAdditions };
     }
