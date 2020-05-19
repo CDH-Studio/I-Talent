@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { Form, Button, Input, Switch, Select, Typography } from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
@@ -14,7 +14,6 @@ const SearchBarView = ({
   branchOptions,
   classOptions,
   locationOptions,
-  intl,
   urlSearchFieldValues,
 }) => {
   const { Option } = Select;
@@ -32,6 +31,7 @@ const SearchBarView = ({
       marginRight: "4px",
       color: "#3CBAB3",
     },
+    form: { padding: "22px" },
   };
 
   const onFinish = (values) => {
@@ -46,10 +46,7 @@ const SearchBarView = ({
   }, [form, urlSearchFieldValues]);
 
   const { locale } = useSelector((state) => state.settings);
-  const searchLabel = intl.formatMessage({
-    id: "button.search",
-    defaultMessage: "Search",
-  });
+  const searchLabel = <FormattedMessage id="button.search" />;
   const searchTitles = [
     "name",
     "skills",
@@ -59,34 +56,16 @@ const SearchBarView = ({
     "exFeeder",
   ];
   const labelArr = [
-    intl.formatMessage({
-      id: "advanced.search.form.name",
-      defaultMessage: "Name",
-    }),
-    intl.formatMessage({
-      id: "advanced.search.form.skills",
-      defaultMessage: "Skills",
-    }),
-    intl.formatMessage({
-      id: "advanced.search.form.branch",
-      defaultMessage: "Branch",
-    }),
-    intl.formatMessage({
-      id: "advanced.search.form.location",
-      defaultMessage: "Location",
-    }),
-    intl.formatMessage({
-      id: "advanced.search.form.classification",
-      defaultMessage: "Classification",
-    }),
-    intl.formatMessage({
-      id: "advanced.search.form.ex.feeder",
-      defaultMessage: "Ex Feeder",
-    }),
+    <FormattedMessage id="advanced.search.form.name" />,
+    <FormattedMessage id="advanced.search.form.skills" />,
+    <FormattedMessage id="advanced.search.form.branch" />,
+    <FormattedMessage id="advanced.search.form.location" />,
+    <FormattedMessage id="advanced.search.form.classification" />,
+    <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
     <Form
-      style={{ padding: "22px" }}
+      style={styles.form}
       form={form}
       size={"componentSize"}
       layout="vertical"
@@ -171,10 +150,10 @@ const SearchBarView = ({
         style={styles.w100}
         shape="round"
         size="large"
-        icon={<ReloadOutlined />}
         type="primary"
         htmlType="submit"
       >
+        <ReloadOutlined style={{ marginRight: "5px" }} />
         {searchLabel}
       </Button>
     </Form>
@@ -199,7 +178,6 @@ SearchBarView.propTypes = {
   locationOptions: IdDescriptionPropType.isRequired,
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  intl: IntlPropType.isRequired,
   urlSearchFieldValues: PropTypes.shape({
     classification: PropTypes.array,
     location: PropTypes.array,
@@ -213,4 +191,4 @@ SearchBarView.defaultProps = {
   urlSearchFieldValues: undefined,
 };
 
-export default injectIntl(SearchBarView);
+export default SearchBarView;
