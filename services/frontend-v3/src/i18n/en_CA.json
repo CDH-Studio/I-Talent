@@ -121,6 +121,7 @@
   "basic.search.button.text": "Basic search",
 
   "error.network": "Unexpected network error(s) occured:",
+  "error.no.backend.response": "No response from backend",
 
   "landing.login.and.enter": "Sign in",
   "landing.welcome": "Welcome",

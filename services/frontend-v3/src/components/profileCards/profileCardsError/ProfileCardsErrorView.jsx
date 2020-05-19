@@ -49,7 +49,7 @@ const ProfileCardsErrorView = ({ networkErrors, title }) => {
                     </>
                   ) : (
                     <div style={styles.itemDescription}>
-                      No response from backend
+                      <FormattedMessage id="error.no.backend.response" />
                     </div>
                   )
                 }

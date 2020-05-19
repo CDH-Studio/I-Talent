@@ -572,7 +572,11 @@ const ProfileLayoutView = ({ data, changeLanguage, networkErrors }) => {
   return (
     <AppLayout
       changeLanguage={changeLanguage}
-      sideBarContent={networkErrors ? null : generateProfileSidebarContent()}
+      sideBarContent={
+        networkErrors && networkErrors.length
+          ? null
+          : generateProfileSidebarContent()
+      }
       displaySideBar
     >
       <PageHeader

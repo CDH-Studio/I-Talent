@@ -25,6 +25,7 @@ const Profile = ({ history, match, changeLanguage }) => {
         // eslint-disable-next-line no-console
         .catch(error => {
           setNetworkErrors(oldArray => oldArray.concat(error));
+          // eslint-disable-next-line no-console
           console.error(error);
           return 0;
         });
@@ -39,6 +40,7 @@ const Profile = ({ history, match, changeLanguage }) => {
       .catch(error => {
         setNetworkErrors(oldArray => oldArray.concat(error));
         setLoading(false);
+        // eslint-disable-next-line no-console
         console.error(error);
       });
     return fetchedData;
