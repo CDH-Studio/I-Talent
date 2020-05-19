@@ -204,8 +204,6 @@ const LangProficiencyFormView = ({
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -219,8 +217,7 @@ const LangProficiencyFormView = ({
         history.push("/secured/profile/create/step/5");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -230,11 +227,14 @@ const LangProficiencyFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/8");
+        if (formType === "create") {
+          history.push("/secured/profile/create/step/8");
+        } else {
+          history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+        }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -287,6 +287,9 @@ const LangProficiencyFormView = ({
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
+            <Button style={styles.finishAndSaveBtn} onClick={onSave}>
+              <FormattedMessage id="setup.save" />
+            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -297,8 +300,13 @@ const LangProficiencyFormView = ({
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              <FormattedMessage id="setup.save" />
+            <Button
+              style={styles.saveBtn}
+              type="primary"
+              onClick={onSaveAndFinish}
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
             </Button>
           </Col>
         </Row>

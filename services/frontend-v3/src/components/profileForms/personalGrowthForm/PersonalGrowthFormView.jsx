@@ -171,9 +171,7 @@ const PersonalGrowthFormView = ({
         );
         break;
       case "error":
-        message.error(
-          intl.formatMessage({ id: "profile.edit.save.error" })
-        );
+        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
       default:
         message.warning(
@@ -192,8 +190,6 @@ const PersonalGrowthFormView = ({
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -211,8 +207,7 @@ const PersonalGrowthFormView = ({
         history.push("/secured/profile/create/step/7");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -226,11 +221,14 @@ const PersonalGrowthFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/8");
+        if (formType === "create") {
+          history.push("/secured/profile/create/step/8");
+        } else {
+          history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+        }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -287,6 +285,9 @@ const PersonalGrowthFormView = ({
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
+            <Button style={styles.finishAndSaveBtn} onClick={onSave}>
+              <FormattedMessage id="setup.save" />
+            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -297,8 +298,13 @@ const PersonalGrowthFormView = ({
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              <FormattedMessage id="setup.save" />
+            <Button
+              style={styles.saveBtn}
+              type="primary"
+              onClick={onSaveAndFinish}
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
             </Button>
           </Col>
         </Row>
