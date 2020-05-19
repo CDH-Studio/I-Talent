@@ -86,6 +86,7 @@ const SearchBarView = ({
           }
           mode="multiple"
           placeholder={searchLabel}
+          maxTagCount={3}
         >
           {skillOptions.map((value) => {
             return <Option key={value.id}>{value.description[locale]}</Option>;
@@ -100,6 +101,7 @@ const SearchBarView = ({
           }
           mode="multiple"
           placeholder={searchLabel}
+          maxTagCount={3}
         >
           {branchOptions.map((value) => {
             return (
@@ -118,6 +120,7 @@ const SearchBarView = ({
           }
           mode="multiple"
           placeholder={searchLabel}
+          maxTagCount={3}
         >
           {locationOptions.map((value) => {
             return <Option key={value.id}>{value.description[locale]}</Option>;
