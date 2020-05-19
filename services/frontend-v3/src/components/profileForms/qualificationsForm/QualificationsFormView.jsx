@@ -284,13 +284,13 @@ const QualificationsFormView = ({
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
-          7. <FormattedMessage id="profile.employee.growth.interests" />
+          7. <FormattedMessage id="profile.employee.qualifications" />
         </Title>
       );
     }
     return (
       <Title level={2} style={styles.formTitle}>
-        <FormattedMessage id="profile.employee.growth.interests" />
+        <FormattedMessage id="profile.employee.qualifications" />
       </Title>
     );
   };
