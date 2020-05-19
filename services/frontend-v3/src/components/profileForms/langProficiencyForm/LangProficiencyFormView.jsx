@@ -345,7 +345,6 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryReadingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
-                rules={[Rules.required]}
               >
                 <DatePicker style={styles.datePicker} />
               </Form.Item>
@@ -383,7 +382,6 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryWritingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
-                rules={[Rules.required]}
               >
                 <DatePicker style={styles.datePicker} />
               </Form.Item>
@@ -421,7 +419,6 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryOralDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
-                rules={[Rules.required]}
               >
                 <DatePicker style={styles.datePicker} />
               </Form.Item>
