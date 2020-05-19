@@ -189,8 +189,6 @@ const TalentFormView = (props) => {
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -208,8 +206,7 @@ const TalentFormView = (props) => {
         history.push("/secured/profile/create/step/6");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
   /*
@@ -229,8 +226,7 @@ const TalentFormView = (props) => {
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
