@@ -6,7 +6,7 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 import EducationView from "./EducationView";
 
 const Education = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
 
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("ll");
@@ -27,10 +27,10 @@ const Education = ({ data }) => {
     return duration;
   };
 
-  const getEducationInfo = dataSource => {
+  const getEducationInfo = (dataSource) => {
     const educationInfo = [];
     if (dataSource.education != null) {
-      dataSource.education.forEach(educElement => {
+      dataSource.education.forEach((educElement) => {
         const startDate = educElement.startDate[locale];
         const endDate = educElement.endDate[locale];
 
@@ -47,12 +47,8 @@ const Education = ({ data }) => {
     return [...educationInfo];
   };
 
-  return (
-    <EducationView
-      educationInfo={getEducationInfo(data)}
-    />
-  );
-}
+  return <EducationView educationInfo={getEducationInfo(data)} />;
+};
 
 Education.propTypes = { data: ProfileInfoPropType.isRequired };
 

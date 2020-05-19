@@ -6,7 +6,7 @@ import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
 const OfficialLanguage = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
 
   const getFirstLanguageInfo = (dataSource) => {
     const firstLanguage = {

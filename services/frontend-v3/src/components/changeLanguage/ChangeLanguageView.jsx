@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { IntlPropType } from "../../customPropTypes";
-import { setLanguage } from "../../redux/slices/settingsSlice";
+import { setLocale } from "../../redux/slices/settingsSlice";
 
 const ChangeLanguageView = ({ intl }) => {
   const languageCode = intl.formatMessage({ id: "lang.code" });
@@ -14,7 +14,7 @@ const ChangeLanguageView = ({ intl }) => {
     if (e.charCode === 32 || e.charCode === 13) {
       // Prevent the default action to stop scrolling when space is pressed
       e.preventDefault();
-      dispatch(setLanguage(lang));
+      dispatch(setLocale(lang));
     }
   };
 
@@ -23,8 +23,8 @@ const ChangeLanguageView = ({ intl }) => {
       ghost="true"
       type="default"
       tabIndex="0"
-      onKeyPress={e => handleKeyPress(e, languageCode)}
-      onClick={() => dispatch(setLanguage(languageCode))}
+      onKeyPress={(e) => handleKeyPress(e, languageCode)}
+      onClick={() => dispatch(setLocale(languageCode))}
       style={{ textTransform: "uppercase" }}
     >
       <GlobalOutlined />{" "}

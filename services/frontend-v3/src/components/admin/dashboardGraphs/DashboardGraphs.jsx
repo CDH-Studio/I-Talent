@@ -10,7 +10,7 @@ import DashboardGraphsView from "./DashboardGraphsView";
  *  It setups the data (bridge) for rendering the component in the view.
  */
 const DashboardGraphs = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
 
   /* only access data for graphes that uses corresponding language on page */
   const changeEnFr = (dataSource) => {

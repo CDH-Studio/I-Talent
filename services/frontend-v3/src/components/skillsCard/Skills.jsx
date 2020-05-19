@@ -4,7 +4,7 @@ import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const Skills = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
 
   const formatData = (list) => {
     const categorizedList = {};

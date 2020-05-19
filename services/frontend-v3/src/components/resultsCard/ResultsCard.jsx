@@ -13,7 +13,7 @@ const { backendAddress } = config;
 
 const ResultsCard = ({ history }) => {
   const [results, setResults] = useState(null);
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
 
   useEffect(() => {
     const urlSections = window.location.toString().split("?");

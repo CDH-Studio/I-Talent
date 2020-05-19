@@ -16,7 +16,7 @@ import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 
 const App = () => {
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
   const [i18nConfig, setI18nConfig] = useState({});
 
   useEffect(() => {

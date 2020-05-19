@@ -4,7 +4,7 @@ import TalentManagementView from "./TalentManagementView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const TalentManagement = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
+  const { locale } = useSelector((state) => state.settings);
 
   return <TalentManagementView data={data} locale={locale} />;
 };

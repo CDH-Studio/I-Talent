@@ -4,8 +4,8 @@ import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const BasicInfo = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
-  
+  const { locale } = useSelector((state) => state.settings);
+
   const getButtonLinks = () => {
     const { linkedinUrl, githubUrl, gcconnexUrl, email } = data;
     const buttonLinks = { buttons: [] };

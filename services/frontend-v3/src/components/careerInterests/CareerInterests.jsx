@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import CareerInterestsView from "./CareerInterestsView";
 
 const CareerInterests = ({ data }) => {
-  const locale = useSelector((state) => state.settings.language);
-  
+  const { locale } = useSelector((state) => state.settings);
+
   const getCareerInterestsInfo = () => {
     const interestedInRemote = {
       icon: "mail",
