@@ -1,12 +1,13 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import CareerInterestsView from "./CareerInterestsView";
 
 const CareerInterests = ({ data }) => {
+  const locale = useSelector((state) => state.settings.language);
+  
   const getCareerInterestsInfo = () => {
-    const locale = localStorage.getItem("lang") || "en";
-
     const interestedInRemote = {
       icon: "mail",
       title: <FormattedMessage id="profile.interested.in.remote" />,
@@ -30,8 +31,6 @@ const CareerInterests = ({ data }) => {
   };
 
   const getRelocationLocationsInfo = () => {
-    const locale = localStorage.getItem("lang") || "en";
-
     const relocationLocationsInfo = [];
     if (data.relocationLocations) {
       data.relocationLocations.forEach((locationElement) =>
@@ -45,7 +44,6 @@ const CareerInterests = ({ data }) => {
   return (
     <CareerInterestsView
       data={data}
-      locale={localStorage.getItem("lang") || "en"}
       info={getCareerInterestsInfo()}
       relocationLocationsInfo={getRelocationLocationsInfo()}
     />

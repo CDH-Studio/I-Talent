@@ -238,7 +238,7 @@ BasicInfoView.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   jobTitle: PropTypes.string,
-  locale: PropTypes.string.isRequired,
+  locale: PropTypes.oneOf(["fr", "en"]).isRequired,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

@@ -1,15 +1,16 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const Skills = ({ data }) => {
-  const formatData = list => {
-    const locale = localStorage.getItem("lang") || "en";
+  const locale = useSelector((state) => state.settings.language);
 
+  const formatData = (list) => {
     const categorizedList = {};
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
 
         if (categorizedList[key] == null) {
@@ -23,8 +24,7 @@ const Skills = ({ data }) => {
     return categorizedList;
   };
 
-  const setUpCategories = list => {
-    const locale = localStorage.getItem("lang") || "en";
+  const setUpCategories = (list) => {
     const categorizedList = {};
     const categoriesTemp = {};
     const categories = [];
@@ -32,7 +32,7 @@ const Skills = ({ data }) => {
     let k = 0;
 
     if (list) {
-      list.forEach(listElement => {
+      list.forEach((listElement) => {
         const key = listElement.description.categoryId;
         if (categorizedList[key] == null) {
           categorizedList[key] = [listElement.description[locale]];
@@ -57,7 +57,7 @@ const Skills = ({ data }) => {
     return categories;
   };
 
-  const setUpSkills = dataSource => {
+  const setUpSkills = (dataSource) => {
     const skills = [];
 
     const categorizedSkillsList = formatData(dataSource);
