@@ -56,6 +56,19 @@ const EditProfileLayoutView = ({ formStep }) => {
     history.push(url);
   };
 
+  const styles = {
+    menuList: {
+      paddingLeft: "30px",
+      listStyle: "none",
+    },
+    menuListItem: {
+      marginTop: "-20px",
+    },
+    menuItem: {
+      height: "auto",
+    },
+  };
+
   /*
    * Get Side Bar Content
    *
@@ -64,29 +77,89 @@ const EditProfileLayoutView = ({ formStep }) => {
   const getSideBarContent = (step) => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
-        <Menu.Item key="primary-info">
+        <Menu.Item key="primary-info" style={styles.menuItem}>
           <RightOutlined />
-          <FormattedMessage id="setup.primary.information" />
+          <b>
+            <FormattedMessage id="setup.primary.information" />
+          </b>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.step.2.description" />
+            </li>
+          </ul>
         </Menu.Item>
-        <Menu.Item key="employment">
+        <Menu.Item key="employment" style={styles.menuItem}>
           <RightOutlined />
-          <FormattedMessage id="setup.employment" />
+          <b>
+            <FormattedMessage id="setup.employment" />
+          </b>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.step.3.description" />
+            </li>
+          </ul>
         </Menu.Item>
-        <Menu.Item key="language-proficiency">
+        <Menu.Item key="language-proficiency" style={styles.menuItem}>
           <RightOutlined />
-          <FormattedMessage id="setup.language.proficiency" />
+          <b>
+            <FormattedMessage id="setup.language.proficiency" />
+          </b>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.step.4.description" />
+            </li>
+          </ul>
         </Menu.Item>
-        <Menu.Item key="talent">
+        <Menu.Item key="talent" style={styles.menuItem}>
           <RightOutlined />
-          <FormattedMessage id="setup.talent" />
+          <b>
+            <FormattedMessage id="setup.talent" />
+          </b>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.competencies" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.skills" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.mentorship.skills" />
+            </li>
+          </ul>
         </Menu.Item>
-        <Menu.Item key="personal-growth">
+        <Menu.Item key="personal-growth" style={styles.menuItem}>
           <RightOutlined />
-          <FormattedMessage id="profile.employee.growth.interests" />
+          <b>
+            <FormattedMessage id="profile.employee.growth.interests" />
+          </b>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.developmental.goals" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.career.interests" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.talent.management" />
+            </li>
+          </ul>
         </Menu.Item>
-        <Menu.Item key="qualifications">
+        <Menu.Item key="qualifications" style={styles.menuItem}>
           <RightOutlined />
-          <FormattedMessage id="profile.employee.qualifications" />
+          <b>
+            <FormattedMessage id="profile.employee.qualifications" />
+          </b>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.education" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.experience" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.projects" />
+            </li>
+          </ul>
         </Menu.Item>
       </Menu>
     );
