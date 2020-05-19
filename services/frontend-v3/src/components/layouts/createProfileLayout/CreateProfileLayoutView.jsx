@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { PageHeader, Steps } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import config from "../../../config";
 import {
@@ -16,7 +17,6 @@ import {
   QualificationsForm,
   DoneSetup,
 } from "../../profileForms";
-import { IntlPropType } from "../../../customPropTypes";
 
 const { backendAddress } = config;
 const { Step } = Steps;
@@ -26,7 +26,7 @@ const { Step } = Steps;
  *  Render the layout for the create profile forms
  */
 const CreateProfileLayoutView = (props) => {
-  const { formStep, intl } = props;
+  const { formStep } = props;
   const history = useHistory();
   const [profileExists, setProfileExists] = useState(false);
 
@@ -113,7 +113,7 @@ const CreateProfileLayoutView = (props) => {
           current={stepInt}
           onChange={onChange}
         >
-          <Step title={intl.formatMessage({ id: "setup.welcome" })} />
+          <Step title={<FormattedMessage id="setup.welcome" />} />
           <Step
             title={<FormattedMessage id="setup.primary.information" />}
             description={
@@ -221,16 +221,10 @@ const CreateProfileLayoutView = (props) => {
   const form = profileFormSelect(formStep);
 
   // get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   return (
-    <AppLayout
-      sideBarContent={sideBarContent}
-      displaySideBar
-    >
+    <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
@@ -245,12 +239,10 @@ const CreateProfileLayoutView = (props) => {
 
 CreateProfileLayoutView.propTypes = {
   formStep: PropTypes.string,
-  intl: IntlPropType,
 };
 
 CreateProfileLayoutView.defaultProps = {
-  intl: undefined,
   formStep: "1",
 };
 
-export default injectIntl(CreateProfileLayoutView);
+export default CreateProfileLayoutView;

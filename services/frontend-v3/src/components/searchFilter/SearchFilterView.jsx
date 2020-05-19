@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 import { Form, Col, Button, Input, Switch, Select, Row } from "antd";
 import "@ant-design/compatible/assets/index.css";
+import { useSelector } from "react-redux";
 import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const SearchBarView = ({
@@ -28,10 +29,7 @@ const SearchBarView = ({
     }
   }, [form, urlSearchFieldValues]);
 
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
   const searchLabel = intl.formatMessage({
     id: "button.search",
     defaultMessage: "Search",
