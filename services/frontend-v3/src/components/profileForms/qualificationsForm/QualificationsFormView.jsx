@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -21,7 +22,7 @@ import { ProfileInfoPropType, IntlPropType } from "../../../customPropTypes";
 import config from "../../../config";
 
 const { backendAddress } = config;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 /**
  *  QualificationsFormView(props)
@@ -39,6 +40,7 @@ const QualificationsFormView = ({
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
+  const [fieldsChanged, setFieldsChanged] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -81,6 +83,10 @@ const QualificationsFormView = ({
       float: "right",
       marginBottom: "1rem",
       width: "100%",
+    },
+    unsavedText: {
+      marginLeft: "10px",
+      fontWeight: "normal",
     },
   };
 
@@ -167,6 +173,53 @@ const QualificationsFormView = ({
   };
 
   /*
+   * Get the initial values for the form
+   */
+  const getInitialValues = (profile) => {
+    const hasRequiredProps = () => {
+      return savedEducation && savedExperience && savedProjects;
+    };
+    if (profile && hasRequiredProps()) {
+      return {
+        education: savedEducation,
+        experience: savedExperience,
+        projects: savedProjects,
+      };
+    }
+    return {};
+  };
+
+  /**
+   * Returns true if the values in the form have changed based on its initial values
+   *
+   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   */
+  const checkIfFormValuesChanged = () => {
+    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+
+    // This needs to be done since the remove from the Form.List does not delete the
+    // object, but rather returns an object that contains undefined values
+    if (formValues.education) {
+      formValues.education = formValues.education.map((i) =>
+        _.pickBy(i, _.identity)
+      );
+
+      formValues.education = _.filter(formValues.education, _.size);
+    }
+
+    if (formValues.experience) {
+      formValues.experience = formValues.experience.map((i) =>
+        _.pickBy(i, _.identity)
+      );
+
+      formValues.experience = _.filter(formValues.experience, _.size);
+    }
+
+    setFieldsChanged(!_.isEqual(formValues, initialValues));
+  };
+
+  /*
    * save
    *
    * save and show success notification
@@ -177,10 +230,16 @@ const QualificationsFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
+        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
       });
+  };
+
+  // redirect to profile
+  const onFinish = () => {
+    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
   };
 
   /*
@@ -196,7 +255,7 @@ const QualificationsFormView = ({
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
-          history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+          onFinish();
         }
       })
       .catch(() => {
@@ -212,6 +271,7 @@ const QualificationsFormView = ({
   const onReset = () => {
     form.resetFields();
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    checkIfFormValuesChanged();
   };
 
   /*
@@ -250,7 +310,11 @@ const QualificationsFormView = ({
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button style={styles.finishAndSaveBtn} onClick={onSave}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSave}
+              disabled={!fieldsChanged}
+            >
               <FormattedMessage id="setup.save" />
             </Button>
             <Button
@@ -258,6 +322,7 @@ const QualificationsFormView = ({
               htmlType="button"
               onClick={onReset}
               danger
+              disabled={!fieldsChanged}
             >
               <FormattedMessage id="button.clear" />
             </Button>
@@ -266,10 +331,14 @@ const QualificationsFormView = ({
             <Button
               style={styles.saveBtn}
               type="primary"
-              onClick={onSaveAndFinish}
+              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
             >
               <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
+              {fieldsChanged ? (
+                <FormattedMessage id="setup.save.and.finish" />
+              ) : (
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -296,26 +365,9 @@ const QualificationsFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="profile.employee.qualifications" />
+        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
-  };
-
-  /*
-   * Get the initial values for the form
-   *
-   */
-  const getInitialValues = (profile) => {
-    const hasRequiredProps = () => {
-      return savedEducation && savedExperience && savedProjects;
-    };
-    if (profile && hasRequiredProps()) {
-      return {
-        education: savedEducation,
-        experience: savedExperience,
-        projects: savedProjects,
-      };
-    }
-    return {};
   };
 
   /** **********************************
@@ -342,6 +394,7 @@ const QualificationsFormView = ({
         form={form}
         initialValues={getInitialValues(profileInfo)}
         layout="vertical"
+        onValuesChange={checkIfFormValuesChanged}
       >
         {/* *************** Education ************** */}
         <Title level={3} style={styles.formTitle}>
