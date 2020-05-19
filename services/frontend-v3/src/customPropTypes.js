@@ -112,7 +112,18 @@ const FieldPropType = PropTypes.shape({
   fieldKey: PropTypes.number,
 });
 
-const NetworkErrorsPropType = PropTypes.arrayOf(PropTypes.object);
+const NetworkErrorPropType = PropTypes.shape({
+  isAxiosError: PropTypes.bool,
+  config: PropTypes.object,
+  request: PropTypes.object,
+  // Note: PropTypes.number has to be used to represent undefined
+  response: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  toJSON: PropTypes.func,
+  message: PropTypes.string,
+  stack: PropTypes.string,
+});
+
+const NetworkErrorsPropType = PropTypes.arrayOf(NetworkErrorPropType);
 
 const HistoryPropType = PropTypes.shape({
   action: PropTypes.string,
@@ -146,5 +157,6 @@ export {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
+  NetworkErrorPropType,
   NetworkErrorsPropType,
 };

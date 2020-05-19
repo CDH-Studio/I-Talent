@@ -34,7 +34,6 @@ const PrimaryInfoForm = ({ formType }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      //setNetworkErrors(oldArray => oldArray.concat(error));
       return 0;
     }
   };

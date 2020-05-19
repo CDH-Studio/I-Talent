@@ -2,6 +2,7 @@ import React from "react";
 import { WarningOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { Card, List } from "antd";
+import PropTypes from "prop-types";
 import { NetworkErrorsPropType } from "../../../customPropTypes";
 
 const ProfileCardsErrorView = ({ networkErrors, title }) => {
@@ -22,7 +23,7 @@ const ProfileCardsErrorView = ({ networkErrors, title }) => {
         <>
           <WarningOutlined />
           <span style={styles.errorTitleText}>
-            {<FormattedMessage id="error.network" />}
+            <FormattedMessage id="error.network" />
           </span>
         </>
         <List
@@ -63,6 +64,7 @@ const ProfileCardsErrorView = ({ networkErrors, title }) => {
 
 ProfileCardsErrorView.propTypes = {
   networkErrors: NetworkErrorsPropType.isRequired,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
 };
 
 export default injectIntl(ProfileCardsErrorView);

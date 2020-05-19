@@ -10,7 +10,6 @@ import {
   IntlPropType,
   ProfileInfoPropType,
   StylesPropType,
-  NetworkErrorsPropType,
 } from "../../../../customPropTypes";
 import config from "../../../../config";
 
@@ -132,7 +131,7 @@ EducationForm.propTypes = {
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
   style: StylesPropType.isRequired,
-  networkErrors: NetworkErrorsPropType.isRequired,
+  setNetworkErrors: PropTypes.func.isRequired,
 };
 
 EducationForm.defaultProps = {

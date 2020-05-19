@@ -2,6 +2,7 @@ import React from "react";
 import { WarningOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { List } from "antd";
+import PropTypes from "prop-types";
 import { NetworkErrorsPropType } from "../../../customPropTypes";
 
 const EditProfileErrorView = ({ networkErrors, customErrorTitle }) => {
@@ -65,6 +66,11 @@ const EditProfileErrorView = ({ networkErrors, customErrorTitle }) => {
 
 EditProfileErrorView.propTypes = {
   networkErrors: NetworkErrorsPropType.isRequired,
+  customErrorTitle: PropTypes.string,
+};
+
+EditProfileErrorView.defaultProps = {
+  customErrorTitle: undefined,
 };
 
 export default injectIntl(EditProfileErrorView);

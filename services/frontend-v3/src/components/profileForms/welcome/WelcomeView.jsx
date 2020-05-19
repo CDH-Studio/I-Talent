@@ -8,12 +8,12 @@ import {
   UserAddOutlined,
   RocketOutlined,
   LoadingOutlined,
-  WarningOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { IntlPropType, NetworkErrorsPropType } from "../../../customPropTypes";
+import { IntlPropType, NetworkErrorPropType } from "../../../customPropTypes";
 import config from "../../../config";
 import EditProfileError from "../editProfileError/editProfileError";
+
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
@@ -245,12 +245,13 @@ WelcomeView.propTypes = {
   gedsProfiles: PropTypes.arrayOf(PropTypes.any),
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
-  networkErrors: NetworkErrorsPropType.isRequired,
+  gedsProfileNetworkError: NetworkErrorPropType,
 };
 
 WelcomeView.defaultProps = {
   gedsProfiles: [],
   intl: undefined,
+  gedsProfileNetworkError: undefined,
 };
 
 export default injectIntl(WelcomeView);

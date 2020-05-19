@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useParams, useHistory } from "react-router-dom";
 import {
@@ -141,6 +141,9 @@ ProfileCardsView.propTypes = {
   content: PropTypes.element.isRequired,
   style: PropTypes.objectOf(PropTypes.string),
   networkErrors: NetworkErrorsPropType.isRequired,
+  handleVisibilityToggle: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  setDisabled: PropTypes.func.isRequired,
 };
 
 ProfileCardsView.defaultProps = {

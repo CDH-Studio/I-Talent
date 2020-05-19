@@ -1,8 +1,7 @@
 import React from "react";
 import { WarningOutlined } from "@ant-design/icons";
-import { PageHeader } from "antd";
+import { PageHeader, List } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { List } from "antd";
 import { NetworkErrorsPropType } from "../../../customPropTypes";
 
 const AdminErrorContentView = ({ networkErrors }) => {

@@ -487,6 +487,7 @@ QualificationsFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   networkErrors: NetworkErrorsPropType.isRequired,
+  setNetworkErrors: PropTypes.func.isRequired,
 };
 
 QualificationsFormView.defaultProps = {
