@@ -19,7 +19,7 @@ const Profile = ({ history, match, changeLanguage }) => {
     // is looking at his own profile
     if (id === userID) {
       const fetchedData = await axios
-        .get(`${backendAddress}api/private/profile/${id}`)
+        .get(`${backendAddress}api/profile/private/${id}`)
         .then((res) => res.data)
         // eslint-disable-next-line no-console
         .catch((error) => console.error(error));

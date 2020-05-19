@@ -111,9 +111,10 @@ async function createOption(request, response) {
 		const { type } = request.params;
 		const model = getModel(type);
 
-		dbObject = {
+		const dbObject = {
 			...request.body,
 		};
+
 		if (type === "skill" || type === "competency" || type === "category") {
 			dbObject.type = type;
 		}
@@ -156,10 +157,11 @@ async function updateOption(request, response) {
 		const { id, type } = request.params;
 		const model = getModel(type);
 
-		dbObject = {
+		const dbObject = {
 			id: id,
 			...request.body,
 		};
+
 		if (type === "skill" || type === "competency") {
 			dbObject.type = type;
 		}

@@ -56,7 +56,7 @@ const CreateProfileLayoutView = (props) => {
    */
   const checkForProfile = async () => {
     try {
-      const url = `${backendAddress}api/private/profile/status/${localStorage.getItem(
+      const url = `${backendAddress}api/profile/private/status/${localStorage.getItem(
         "userId"
       )}`;
       const response = await axios.get(url);

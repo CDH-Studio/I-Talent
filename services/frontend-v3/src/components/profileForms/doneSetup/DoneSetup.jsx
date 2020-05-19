@@ -18,7 +18,7 @@ const DoneSetup = () => {
     // get user profile for form drop down
     const getProfileInfo = async () => {
       try {
-        const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+        const url = `${backendAddress}api/profile/private/${localStorage.getItem(
           "userId"
         )}`;
         await axios.get(url);
