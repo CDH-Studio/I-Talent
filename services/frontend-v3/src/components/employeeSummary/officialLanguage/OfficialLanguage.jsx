@@ -1,12 +1,14 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import { useSelector } from "react-redux";
 import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
 const OfficialLanguage = ({ data }) => {
-  const getFirstLanguageInfo = dataSource => {
-    const locale = localStorage.getItem("lang") || "en";
+  const { locale } = useSelector((state) => state.settings);
+
+  const getFirstLanguageInfo = (dataSource) => {
     const firstLanguage = {
       title: <FormattedMessage id="profile.first.language" />,
       description:
@@ -19,7 +21,7 @@ const OfficialLanguage = ({ data }) => {
     return [firstLanguage];
   };
 
-  const getSecondLanguageGradeInfo = dataSource => {
+  const getSecondLanguageGradeInfo = (dataSource) => {
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
       description:
@@ -57,7 +59,7 @@ const OfficialLanguage = ({ data }) => {
     ];
   };
 
-  const getSecondLanguageDateInfo = dataSource => {
+  const getSecondLanguageDateInfo = (dataSource) => {
     const formatedReadingDate = moment(dataSource.secondaryReadingDate).format(
       "ll"
     );

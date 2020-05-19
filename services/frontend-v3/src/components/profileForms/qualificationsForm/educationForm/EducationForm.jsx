@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 import EducationFormView from "./EducationFormView";
 import {
   FieldPropType,
   FormInstancePropType,
-  IntlPropType,
   ProfileInfoPropType,
   StylesPropType,
 } from "../../../../customPropTypes";
@@ -21,17 +20,14 @@ const { backendAddress } = config;
  *  This component is strongly linked ot Qualifications Form.
  *  It generated the form fields for each education item the user creates in the qualifications form.
  */
-const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
+const EducationForm = ({ form, field, remove, profileInfo, style }) => {
   // Define States
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState([]);
   const [schoolOptions, setSchoolOptions] = useState([]);
 
   // get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   /**
    * Get Diploma Options
@@ -117,14 +113,9 @@ const EducationForm = ({ form, field, intl, remove, profileInfo, style }) => {
 EducationForm.propTypes = {
   form: FormInstancePropType.isRequired,
   field: FieldPropType.isRequired,
-  intl: IntlPropType,
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
   style: StylesPropType.isRequired,
 };
 
-EducationForm.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(EducationForm);
+export default EducationForm;

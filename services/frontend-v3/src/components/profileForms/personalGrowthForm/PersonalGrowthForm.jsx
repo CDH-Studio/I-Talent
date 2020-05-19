@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { IntlPropType } from "../../../customPropTypes";
+import { useSelector } from "react-redux";
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
 
@@ -13,7 +12,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = ({ formType, intl }) => {
+const PersonalGrowthForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -31,10 +30,7 @@ const PersonalGrowthForm = ({ formType, intl }) => {
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
   // Get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   /**
    * Get saved Developmental Goals
@@ -308,10 +304,6 @@ const PersonalGrowthForm = ({ formType, intl }) => {
 
 PersonalGrowthForm.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  intl: IntlPropType,
-};
-PersonalGrowthForm.defaultProps = {
-  intl: undefined,
 };
 
-export default injectIntl(PersonalGrowthForm);
+export default PersonalGrowthForm;

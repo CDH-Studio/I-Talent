@@ -6,22 +6,15 @@ import AdminLayoutView from "./AdminLayoutView";
  *  AdminLayout(props)
  *  Controller for the Admin Layout.
  */
-const AdminLayout = (props) => {
-  const { changeLanguage, displaySideBar, type, children } = props;
-
+const AdminLayout = ({ displaySideBar, type, children }) => {
   return (
-    <AdminLayoutView
-      changeLanguage={changeLanguage}
-      displaySideBar={displaySideBar}
-      type={type}
-    >
+    <AdminLayoutView displaySideBar={displaySideBar} type={type}>
       {children}
     </AdminLayoutView>
   );
 };
 
 AdminLayout.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([
     "dashboard",

@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import SubstativeView from "./SubstantiveView";
 
-const Substantive = ({ intl, data }) => {
-  const formatData = () => {
-    const locale = intl.formatMessage({ id: "language.code" });
+const Substantive = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
 
+  const formatData = () => {
     const classification = {
       title: <FormattedMessage id="profile.classification" />,
       description:
@@ -54,9 +55,6 @@ Substantive.propTypes = {
       }),
     }),
   }).isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
 };
 
-export default injectIntl(Substantive);
+export default Substantive;

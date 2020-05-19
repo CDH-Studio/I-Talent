@@ -19,11 +19,7 @@ const Projects = ({ data }) => {
   }, [data]);
 
   return (
-    <ProjectsView
-      data={data}
-      locale={localStorage.getItem("lang") || "en"}
-      projectsInfo={projectsInfo}
-    />
+    <ProjectsView data={data} projectsInfo={projectsInfo} />
   );
 };
 

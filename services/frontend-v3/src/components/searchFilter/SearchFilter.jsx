@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
@@ -9,7 +8,7 @@ import { HistoryPropType } from "../../customPropTypes";
 
 const { backendAddress } = config;
 
-const SearchFilter = ({ history, changeLanguage }) => {
+const SearchFilter = ({ history }) => {
   const [expand, setExpand] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
@@ -140,7 +139,6 @@ const SearchFilter = ({ history, changeLanguage }) => {
 
   return (
     <SearchFilterView
-      changeLanguage={changeLanguage}
       history={history}
       skillOptions={skillOptions}
       branchOptions={branchOptions}
@@ -154,7 +152,6 @@ const SearchFilter = ({ history, changeLanguage }) => {
 };
 
 SearchFilter.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   history: HistoryPropType.isRequired,
 };
 

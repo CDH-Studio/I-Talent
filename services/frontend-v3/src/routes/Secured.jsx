@@ -17,7 +17,7 @@ import { createUser } from "../functions/login";
 
 const { keycloakJSONConfig } = keycloakConfig;
 
-const Secured = ({ changeLanguage, location }) => {
+const Secured = ({ location }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
   const [redirect, setRedirect] = useState(null);
@@ -137,7 +137,6 @@ const Secured = ({ changeLanguage, location }) => {
               render={({ history }) => (
                 <Home
                   keycloak={keycloak}
-                  changeLanguage={changeLanguage}
                   history={history}
                 />
               )}
@@ -149,7 +148,6 @@ const Secured = ({ changeLanguage, location }) => {
               render={({ history }) => (
                 <Results
                   keycloak={keycloak}
-                  changeLanguage={changeLanguage}
                   history={history}
                 />
               )}
@@ -160,7 +158,6 @@ const Secured = ({ changeLanguage, location }) => {
               render={({ match }) => (
                 <ProfileCreate
                   keycloak={keycloak}
-                  changeLanguage={changeLanguage}
                   match={match}
                 />
               )}
@@ -171,7 +168,6 @@ const Secured = ({ changeLanguage, location }) => {
               render={({ match }) => (
                 <ProfileEdit
                   keycloak={keycloak}
-                  changeLanguage={changeLanguage}
                   match={match}
                 />
               )}
@@ -182,7 +178,6 @@ const Secured = ({ changeLanguage, location }) => {
               render={({ history, match }) => (
                 <Profile
                   keycloak={keycloak}
-                  changeLanguage={changeLanguage}
                   history={history}
                   match={match}
                 />
@@ -206,7 +201,6 @@ const Secured = ({ changeLanguage, location }) => {
 };
 
 Secured.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }),
