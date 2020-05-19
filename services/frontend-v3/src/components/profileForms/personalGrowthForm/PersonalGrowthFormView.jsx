@@ -190,8 +190,6 @@ const PersonalGrowthFormView = ({
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -209,8 +207,7 @@ const PersonalGrowthFormView = ({
         history.push("/secured/profile/create/step/7");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -231,8 +228,7 @@ const PersonalGrowthFormView = ({
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 

@@ -164,8 +164,6 @@ const PrimaryInfoFormView = ({
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -179,8 +177,7 @@ const PrimaryInfoFormView = ({
         history.push("/secured/profile/create/step/3");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -197,8 +194,7 @@ const PrimaryInfoFormView = ({
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 

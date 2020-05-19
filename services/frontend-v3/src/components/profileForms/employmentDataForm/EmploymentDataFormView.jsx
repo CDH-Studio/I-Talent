@@ -230,8 +230,6 @@ const EmploymentDataFormView = (props) => {
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -245,8 +243,7 @@ const EmploymentDataFormView = (props) => {
         history.push("/secured/profile/create/step/4");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -263,8 +260,7 @@ const EmploymentDataFormView = (props) => {
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 

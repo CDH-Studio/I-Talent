@@ -204,8 +204,6 @@ const LangProficiencyFormView = ({
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -219,8 +217,7 @@ const LangProficiencyFormView = ({
         history.push("/secured/profile/create/step/5");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -237,8 +234,7 @@ const LangProficiencyFormView = ({
         }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
