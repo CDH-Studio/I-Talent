@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { Form, Button, Input, Switch, Select, Typography } from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
+import { IdDescriptionPropType } from "../../customPropTypes";
 
 const { Title } = Typography;
 
@@ -64,13 +64,7 @@ const SearchBarView = ({
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
-    <Form
-      style={styles.form}
-      form={form}
-      size={"componentSize"}
-      layout="vertical"
-      onFinish={onFinish}
-    >
+    <Form style={styles.form} form={form} layout="vertical" onFinish={onFinish}>
       <Title level={2} style={styles.searchHeader}>
         <SettingOutlined style={styles.searchHeaderIcon} />
         Search Filter
