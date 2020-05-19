@@ -7,7 +7,7 @@ import ResultsCard from "../resultsCard/ResultsCard";
 import SearchFilter from "../searchFilter/SearchFilter";
 import { HistoryPropType } from "../../customPropTypes";
 
-const ResultLayoutView = ({ changeLanguage, intl, history }) => {
+const ResultLayoutView = ({ intl, history }) => {
   const resultsTitle = intl.formatMessage({
     id: "results.title",
     defaultMessage: "Results",
@@ -15,21 +15,17 @@ const ResultLayoutView = ({ changeLanguage, intl, history }) => {
   return (
     <Layout>
       <AppLayout
-        changeLanguage={changeLanguage}
         displaySideBar
-        sideBarContent={
-          <SearchFilter changeLanguage={changeLanguage} history={history} />
-        }
+        sideBarContent={<SearchFilter history={history} />}
       >
         <PageHeader title={resultsTitle} />
-        <ResultsCard changeLanguage={changeLanguage} history={history} />
+        <ResultsCard history={history} />
       </AppLayout>
     </Layout>
   );
-}
+};
 
 ResultLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   history: HistoryPropType.isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,

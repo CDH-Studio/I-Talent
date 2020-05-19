@@ -6,12 +6,7 @@ import SideNav from "../../sideNav/SideNav";
 
 const { Content } = Layout;
 
-const AppLayoutView = ({
-  changeLanguage,
-  sideBarContent,
-  displaySideBar,
-  children,
-}) => {
+const AppLayoutView = ({ sideBarContent, displaySideBar, children }) => {
   const styles = {
     contentLayout: {
       marginTop: "64px",
@@ -26,7 +21,7 @@ const AppLayoutView = ({
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Render Top Navigation Bar */}
-      <TopNav changeLanguage={changeLanguage} />
+      <TopNav />
       <Layout style={{ marginTop: 64 }}>
         {/* Render Side Navigation Bar */}
         <SideNav
@@ -43,7 +38,6 @@ const AppLayoutView = ({
 };
 
 AppLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   sideBarContent: PropTypes.node,
   displaySideBar: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,

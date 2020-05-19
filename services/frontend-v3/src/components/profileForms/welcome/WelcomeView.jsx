@@ -10,20 +10,18 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import config from "../../../config";
 
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-function WelcomeView({ gedsProfiles, intl, load }) {
+const WelcomeView = ({ gedsProfiles, intl, load }) => {
   const history = useHistory();
 
   // get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { PageHeader, Anchor, Typography, Row, Col } from "antd";
 import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
-import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
@@ -23,7 +22,7 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
-const ProfileLayoutView = ({ data, changeLanguage }) => {
+const ProfileLayoutView = ({ data }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -557,7 +556,6 @@ const ProfileLayoutView = ({ data, changeLanguage }) => {
 
   return (
     <AppLayout
-      changeLanguage={changeLanguage}
       sideBarContent={generateProfileSidebarContent()}
       displaySideBar
     >
@@ -574,7 +572,6 @@ const ProfileLayoutView = ({ data, changeLanguage }) => {
 
 ProfileLayoutView.propTypes = {
   data: ProfileInfoPropType,
-  changeLanguage: PropTypes.func.isRequired,
 };
 
 ProfileLayoutView.defaultProps = {

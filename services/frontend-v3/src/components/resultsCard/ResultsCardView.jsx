@@ -13,7 +13,7 @@ import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
 const { Text } = Typography;
 
-const ResultsCardView = ({ history, intl, results }) => {
+const ResultsCardView = ({ history, intl, results, locale }) => {
   const styles = {
     smallP: {
       lineHeight: "4px",
@@ -91,10 +91,9 @@ const ResultsCardView = ({ history, intl, results }) => {
         dataSource
       )}`;
     }
-    const preparedResults = prepareInfo(
-      dataSource,
-      localStorage.getItem("lang") || "en"
-    );
+    
+    const preparedResults = prepareInfo(dataSource, locale);
+
     return preparedResults.map((person, key) => renderCard(person, key));
   };
 
@@ -111,6 +110,7 @@ ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
   intl: IntlPropType,
   results: PropTypes.arrayOf(ProfileInfoPropType),
+  locale: PropTypes.oneOf(["fr", "en"]).isRequired,
 };
 
 ResultsCardView.defaultProps = {

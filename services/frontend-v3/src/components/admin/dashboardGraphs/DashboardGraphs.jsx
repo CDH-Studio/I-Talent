@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import React from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import DashboardGraphsView from "./DashboardGraphsView";
 
 /**
@@ -9,10 +10,11 @@ import DashboardGraphsView from "./DashboardGraphsView";
  *  It setups the data (bridge) for rendering the component in the view.
  */
 const DashboardGraphs = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   /* only access data for graphes that uses corresponding language on page */
   const changeEnFr = (dataSource) => {
     if (dataSource) {
-      const locale = localStorage.getItem("lang") || "en";
       const data = dataSource.map((skill) => {
         return {
           name: skill.description[locale],
