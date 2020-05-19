@@ -15,23 +15,25 @@ import { NotFound, LandingPage } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 
+const i18nConfigBuilder = (locale) => ({
+  messages: locale === "fr" ? messagesFr : messagesEn,
+  formats: {
+    number: {
+      CAD: {
+        style: "currency",
+        currency: "USD",
+        currencyDisplay: "symbol",
+      },
+    },
+  },
+});
+
 const App = () => {
   const { locale } = useSelector((state) => state.settings);
-  const [i18nConfig, setI18nConfig] = useState({});
+  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder('en'));
 
   useEffect(() => {
-    setI18nConfig({
-      messages: locale === "fr" ? messagesFr : messagesEn,
-      formats: {
-        number: {
-          CAD: {
-            style: "currency",
-            currency: "USD",
-            currencyDisplay: "symbol",
-          },
-        },
-      },
-    });
+    setI18nConfig(i18nConfigBuilder(locale));
     moment.locale(`${locale}-ca`);
   }, [locale]);
 
