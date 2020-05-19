@@ -60,15 +60,22 @@ const EditProfileLayoutView = ({ formStep }) => {
     menuList: {
       paddingLeft: "30px",
       listStyle: "none",
-      marginTop: "-10px",
-      paddingBottom: "10px",
+      paddingTop: "5px",
+      paddingBottom: "5px",
+      backgroundColor: "#ffffff60",
     },
     menuListItem: {
       whiteSpace: "normal",
       lineHeight: "20px",
+      padding: "0 16px",
     },
     menuItem: {
       height: "auto",
+      paddingLeft: "0px",
+      paddingRight: "0px",
+    },
+    menuItemHeader: {
+      padding: "0 16px",
     },
   };
 
@@ -81,10 +88,12 @@ const EditProfileLayoutView = ({ formStep }) => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item key="primary-info" style={styles.menuItem}>
-          <RightOutlined />
-          <b>
-            <FormattedMessage id="setup.primary.information" />
-          </b>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="setup.primary.information" />
+            </b>
+          </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.step.2.description" />
@@ -92,10 +101,12 @@ const EditProfileLayoutView = ({ formStep }) => {
           </ul>
         </Menu.Item>
         <Menu.Item key="employment" style={styles.menuItem}>
-          <RightOutlined />
-          <b>
-            <FormattedMessage id="setup.employment" />
-          </b>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="setup.employment" />
+            </b>
+          </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.step.3.description" />
@@ -103,10 +114,12 @@ const EditProfileLayoutView = ({ formStep }) => {
           </ul>
         </Menu.Item>
         <Menu.Item key="language-proficiency" style={styles.menuItem}>
-          <RightOutlined />
-          <b>
-            <FormattedMessage id="setup.language.proficiency" />
-          </b>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="setup.language.proficiency" />
+            </b>
+          </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.step.4.description" />
@@ -114,10 +127,12 @@ const EditProfileLayoutView = ({ formStep }) => {
           </ul>
         </Menu.Item>
         <Menu.Item key="talent" style={styles.menuItem}>
-          <RightOutlined />
-          <b>
-            <FormattedMessage id="setup.talent" />
-          </b>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="setup.talent" />
+            </b>
+          </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.competencies" />
@@ -131,10 +146,12 @@ const EditProfileLayoutView = ({ formStep }) => {
           </ul>
         </Menu.Item>
         <Menu.Item key="personal-growth" style={styles.menuItem}>
-          <RightOutlined />
-          <b>
-            <FormattedMessage id="profile.employee.growth.interests" />
-          </b>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="profile.employee.growth.interests" />
+            </b>
+          </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.developmental.goals" />
@@ -148,10 +165,12 @@ const EditProfileLayoutView = ({ formStep }) => {
           </ul>
         </Menu.Item>
         <Menu.Item key="qualifications" style={styles.menuItem}>
-          <RightOutlined />
-          <b>
-            <FormattedMessage id="profile.employee.qualifications" />
-          </b>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="profile.employee.qualifications" />
+            </b>
+          </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.education" />
