@@ -129,6 +129,7 @@ const SearchBarView = ({
           }
           mode="multiple"
           placeholder={searchLabel}
+          maxTagCount={3}
         >
           {classOptions.map((value) => {
             return <Option key={value.id}>{value.description}</Option>;
