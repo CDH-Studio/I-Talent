@@ -1,19 +1,16 @@
 import React, { useEffect } from "react";
 import { injectIntl } from "react-intl";
-import ResultLayout from "../components/resultsLayout/ResultLayout";
+import ResultLayout from "../components/layouts/resultsLayout/ResultLayout";
 import { HistoryPropType, IntlPropType } from "../customPropTypes";
 
 const Results = ({ history, intl }) => {
   useEffect(() => {
-    document.title = `${intl.formatMessage({ id: "results.title" })} | I-Talent`;
+    document.title = `${intl.formatMessage({
+      id: "results.title",
+    })} | I-Talent`;
   }, [intl]);
 
-  return (
-    <ResultLayout
-      history={history}
-      displaySideBar
-    />
-  );
+  return <ResultLayout history={history} displaySideBar />;
 };
 
 Results.propTypes = {
