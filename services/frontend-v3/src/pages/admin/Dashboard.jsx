@@ -59,7 +59,7 @@ const AdminDashboard = ({ intl }) => {
       setLoading(false);
     };
     setState();
-  });
+  }, []);
 
   document.title = `${getDisplayType(false)} - Admin | I-Talent`;
 
