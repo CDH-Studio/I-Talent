@@ -211,9 +211,7 @@ const EmploymentDataFormView = (props) => {
         );
         break;
       case "error":
-        message.error(
-          intl.formatMessage({ id: "profile.edit.save.error" })
-        );
+        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
       default:
         message.warning(
@@ -232,8 +230,6 @@ const EmploymentDataFormView = (props) => {
         openNotificationWithIcon("success");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -247,8 +243,7 @@ const EmploymentDataFormView = (props) => {
         history.push("/secured/profile/create/step/4");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -258,11 +253,14 @@ const EmploymentDataFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/8");
+        if (formType === "create") {
+          history.push("/secured/profile/create/step/8");
+        } else {
+          history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+        }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -276,7 +274,7 @@ const EmploymentDataFormView = (props) => {
       profileInfo && profileInfo.acting && !!profileInfo.acting.id
     );
 
-    message.info(intl.formatMessage({id: "profile.form.clear"}));
+    message.info(intl.formatMessage({ id: "profile.form.clear" }));
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -448,6 +446,9 @@ const EmploymentDataFormView = (props) => {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
+            <Button style={styles.finishAndSaveBtn} onClick={onSave}>
+              <FormattedMessage id="setup.save" />
+            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
@@ -458,8 +459,13 @@ const EmploymentDataFormView = (props) => {
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              <FormattedMessage id="setup.save" />
+            <Button
+              style={styles.saveBtn}
+              type="primary"
+              onClick={onSaveAndFinish}
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              <FormattedMessage id="setup.save.and.finish" />
             </Button>
           </Col>
         </Row>
