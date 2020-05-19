@@ -60,9 +60,12 @@ const EditProfileLayoutView = ({ formStep }) => {
     menuList: {
       paddingLeft: "30px",
       listStyle: "none",
+      marginTop: "-10px",
+      paddingBottom: "10px",
     },
     menuListItem: {
-      marginTop: "-20px",
+      whiteSpace: "normal",
+      lineHeight: "20px",
     },
     menuItem: {
       height: "auto",
