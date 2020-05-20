@@ -42,6 +42,7 @@ const ProfileLayoutView = ({ data }) => {
     sideBarRow: {
       marginTop: 20,
       marginLeft: 10,
+      marginRight: 10,
     },
     sectionHeader: {
       marginTop: "25px",
@@ -56,6 +57,9 @@ const ProfileLayoutView = ({ data }) => {
     sectionNavIcon: {
       margin: "0 2px",
       color: "#3CBAB3",
+    },
+    sideBarText: {
+      whiteSpace: "normal",
     },
   };
 
@@ -448,7 +452,7 @@ const ProfileLayoutView = ({ data }) => {
             <Link
               href="#card-profile-basic-info"
               title={
-                <Text strong>
+                <Text strong style={styles.sideBarText}>
                   <FormattedMessage id="profile.basic" />
                 </Text>
               }
@@ -459,7 +463,7 @@ const ProfileLayoutView = ({ data }) => {
               <Link
                 href="#divider-skills-and-comp"
                 title={
-                  <Text strong>
+                  <Text strong style={styles.sideBarText}>
                     <FormattedMessage id="profile.employee.skills.competencies" />
                   </Text>
                 }
@@ -467,19 +471,31 @@ const ProfileLayoutView = ({ data }) => {
                 {visibleCards.skills && (
                   <Link
                     href="#card-profile-skills"
-                    title={<FormattedMessage id="profile.skills" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.skills" />
+                      </Text>
+                    }
                   />
                 )}
                 {visibleCards.mentorshipSkills && (
                   <Link
                     href="#card-profile-mentorship-skills"
-                    title={<FormattedMessage id="profile.mentorship.skills" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.mentorship.skills" />
+                      </Text>
+                    }
                   />
                 )}
                 {visibleCards.competencies && (
                   <Link
                     href="#card-profile-competency"
-                    title={<FormattedMessage id="profile.competencies" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.competencies" />
+                      </Text>
+                    }
                   />
                 )}
               </Link>
@@ -490,7 +506,7 @@ const ProfileLayoutView = ({ data }) => {
               <Link
                 href="#divider-employee-growth"
                 title={
-                  <Text strong>
+                  <Text strong style={styles.sideBarText}>
                     <FormattedMessage id="profile.employee.growth.interests" />
                   </Text>
                 }
@@ -499,20 +515,30 @@ const ProfileLayoutView = ({ data }) => {
                   <Link
                     href="#card-profile-dev-goals"
                     title={
-                      <FormattedMessage id="profile.developmental.goals" />
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.developmental.goals" />
+                      </Text>
                     }
                   />
                 )}
                 {visibleCards.talentManagement && (
                   <Link
                     href="#card-profile-talent-management"
-                    title={<FormattedMessage id="profile.talent.management" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.talent.management" />
+                      </Text>
+                    }
                   />
                 )}
                 {visibleCards.careerInterests && (
                   <Link
                     href="#card-profile-career-interests"
-                    title={<FormattedMessage id="profile.career.interests" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.career.interests" />
+                      </Text>
+                    }
                   />
                 )}
               </Link>
@@ -523,7 +549,7 @@ const ProfileLayoutView = ({ data }) => {
               <Link
                 href="#divider-qualifications"
                 title={
-                  <Text strong>
+                  <Text strong style={styles.sideBarText}>
                     <FormattedMessage id="profile.employee.qualifications" />
                   </Text>
                 }
@@ -531,19 +557,31 @@ const ProfileLayoutView = ({ data }) => {
                 {visibleCards.education && (
                   <Link
                     href="#card-profile-education"
-                    title={<FormattedMessage id="profile.education" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.education" />
+                      </Text>
+                    }
                   />
                 )}
                 {visibleCards.experience && (
                   <Link
                     href="#card-profile-experience"
-                    title={<FormattedMessage id="profile.experience" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.experience" />
+                      </Text>
+                    }
                   />
                 )}
                 {visibleCards.projects && (
                   <Link
                     href="#card-profile-projects"
-                    title={<FormattedMessage id="profile.projects" />}
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.projects" />
+                      </Text>
+                    }
                   />
                 )}
               </Link>
@@ -555,10 +593,7 @@ const ProfileLayoutView = ({ data }) => {
   };
 
   return (
-    <AppLayout
-      sideBarContent={generateProfileSidebarContent()}
-      displaySideBar
-    >
+    <AppLayout sideBarContent={generateProfileSidebarContent()} displaySideBar>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",

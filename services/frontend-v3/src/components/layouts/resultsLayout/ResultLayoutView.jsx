@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Layout, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
-import AppLayout from "../layouts/appLayout/AppLayout";
-import ResultsCard from "../resultsCard/ResultsCard";
-import SearchFilter from "../searchFilter/SearchFilter";
-import { HistoryPropType } from "../../customPropTypes";
+import AppLayout from "../appLayout/AppLayout";
+import ResultsCard from "../../resultsCard/ResultsCard";
+import SearchFilter from "../../searchFilter/SearchFilter";
+import { HistoryPropType } from "../../../customPropTypes";
 
 const ResultLayoutView = ({ intl, history }) => {
   const resultsTitle = intl.formatMessage({

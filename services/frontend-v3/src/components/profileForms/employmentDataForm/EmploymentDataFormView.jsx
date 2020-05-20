@@ -20,6 +20,7 @@ import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import moment from "moment";
+import _ from "lodash";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -30,7 +31,7 @@ import config from "../../../config";
 
 const { backendAddress } = config;
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 /**
  *  EmploymentDataFormView(props)
@@ -52,6 +53,7 @@ const EmploymentDataFormView = (props) => {
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
+  const [fieldsChanged, setFieldsChanged] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -105,6 +107,12 @@ const EmploymentDataFormView = (props) => {
       float: "right",
       marginBottom: "1rem",
       width: "100%",
+    },
+    unsavedText: {
+      marginLeft: "10px",
+      fontWeight: "normal",
+      fontStyle: "italic",
+      opacity: 0.5,
     },
   };
 
@@ -221,6 +229,44 @@ const EmploymentDataFormView = (props) => {
     }
   };
 
+  /* Get the initial values for the form */
+  const getInitialValues = (profile) => {
+    if (profile) {
+      return {
+        groupLevelId: profile.classification.id
+          ? profile.classification.id
+          : undefined,
+        tenureId: profile.temporaryRole.id
+          ? profile.temporaryRole.id
+          : undefined,
+        securityClearanceId: profile.security.id
+          ? profile.security.id
+          : undefined,
+        manager: profile.manager,
+        actingId: profile.acting.id ? profile.acting.id : undefined,
+        actingStartDate: profile.actingPeriodStartDate
+          ? moment(profile.actingPeriodStartDate)
+          : undefined,
+        actingEndDate: profile.actingPeriodEndDate
+          ? moment(profile.actingPeriodEndDate)
+          : undefined,
+      };
+    }
+    return {};
+  };
+
+  /**
+   * Returns true if the values in the form have changed based on its initial values
+   *
+   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   */
+  const checkIfFormValuesChanged = () => {
+    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+
+    setFieldsChanged(!_.isEqual(formValues, initialValues));
+  };
+
   /* save and show success notification */
   const onSave = async () => {
     form
@@ -228,6 +274,7 @@ const EmploymentDataFormView = (props) => {
       .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
+        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -247,6 +294,11 @@ const EmploymentDataFormView = (props) => {
       });
   };
 
+  // redirect to profile
+  const onFinish = () => {
+    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+  };
+
   /* save and redirect to home */
   const onSaveAndFinish = async () => {
     form
@@ -256,7 +308,7 @@ const EmploymentDataFormView = (props) => {
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
-          history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+          onFinish();
         }
       })
       .catch(() => {
@@ -275,6 +327,7 @@ const EmploymentDataFormView = (props) => {
     );
 
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    checkIfFormValuesChanged();
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -356,34 +409,9 @@ const EmploymentDataFormView = (props) => {
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.employment" />
+        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
-  };
-
-  /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
-    if (profile) {
-      return {
-        groupLevelId: profile.classification.id
-          ? profile.classification.id
-          : undefined,
-        tenureId: profile.temporaryRole.id
-          ? profile.temporaryRole.id
-          : undefined,
-        securityClearanceId: profile.security.id
-          ? profile.security.id
-          : undefined,
-        manager: profile.manager,
-        actingId: profile.acting.id ? profile.acting.id : undefined,
-        actingStartDate: profile.actingPeriodStartDate
-          ? moment(profile.actingPeriodStartDate)
-          : undefined,
-        actingEndDate: profile.actingPeriodEndDate
-          ? moment(profile.actingPeriodEndDate)
-          : undefined,
-      };
-    }
-    return {};
   };
 
   useEffect(() => {
@@ -446,7 +474,11 @@ const EmploymentDataFormView = (props) => {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button style={styles.finishAndSaveBtn} onClick={onSave}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSave}
+              disabled={!fieldsChanged}
+            >
               <FormattedMessage id="setup.save" />
             </Button>
             <Button
@@ -454,6 +486,7 @@ const EmploymentDataFormView = (props) => {
               htmlType="button"
               onClick={onReset}
               danger
+              disabled={!fieldsChanged}
             >
               <FormattedMessage id="button.clear" />
             </Button>
@@ -462,10 +495,14 @@ const EmploymentDataFormView = (props) => {
             <Button
               style={styles.saveBtn}
               type="primary"
-              onClick={onSaveAndFinish}
+              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
             >
               <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
+              {fieldsChanged ? (
+                <FormattedMessage id="setup.save.and.finish" />
+              ) : (
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -499,6 +536,7 @@ const EmploymentDataFormView = (props) => {
         form={form}
         initialValues={getInitialValues(profileInfo)}
         layout="vertical"
+        onValuesChange={checkIfFormValuesChanged}
       >
         {/* Form Row One */}
         <Row gutter={24}>
