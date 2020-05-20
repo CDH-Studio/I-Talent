@@ -110,6 +110,8 @@ const TalentFormView = (props) => {
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
+      fontStyle: "italic",
+      opacity: 0.5,
     },
   };
 
