@@ -28,6 +28,7 @@ const Tenure = Models.tenure;
   getTenure,
   optionRouter
 */
+// Check for competency:skill line
 const mapping = {
 	careerMobility: CareerMobility,
 	competency: Competency,
@@ -39,7 +40,6 @@ const mapping = {
 	securityClearance: SecurityClearance,
 	skill: Skill,
 	category: Category,
-	competency: Skill,
 	talentManager: TalentMatrixResult,
 	tenure: Tenure,
 };

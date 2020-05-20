@@ -25,13 +25,12 @@
     "fuse.js": "^6.0.0",
     "jest": "^26.0.1",
     "keycloak-connect": "^10.0.1",
-    "moment": "^2.25.3",
-    "npm-check-updates": "^6.0.0",
-    "pg": "^8.2.0",
+    "moment": "^2.26.0",
+    "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.9",
+    "sequelize": "^5.21.10",
     "sequelize-cli": "^5.5.1",
-    "uuid": "^8.0.0"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0",

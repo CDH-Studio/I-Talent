@@ -12,7 +12,8 @@ function generateAvatarColor(userAcronym) {
 	let hash = 0;
 	const s = 90;
 	const l = 45;
-	for (let i = 0; i < userAcronym.length; i++) {
+	for (let i = 0; i < userAcronym.length; i += 1) {
+		// eslint-disable-next-line no-bitwise
 		hash = userAcronym.charCodeAt(i) + ((hash << 5) - hash);
 	}
 	const h = hash % 360;

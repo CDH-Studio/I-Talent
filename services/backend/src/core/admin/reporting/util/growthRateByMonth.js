@@ -49,7 +49,7 @@ async function growthRateByMonth() {
 		}
 	});
 
-	for (let i = 0; i < monthlyGrowthRate.length; i++) {
+	for (let i = 0; i < monthlyGrowthRate.length; i += 1) {
 		monthlyGrowthRate[i].data.sort((a, b) => a.month - b.month);
 	}
 
@@ -61,7 +61,7 @@ async function growthRateByMonth() {
 			newMonth[month.month] = month.count;
 		});
 
-		for (let i = 0; i < 12; i++) {
+		for (let i = 0; i < 12; i += 1) {
 			newData.push({
 				month: i,
 				count: newMonth[i] || 0,
@@ -77,7 +77,7 @@ async function growthRateByMonth() {
 	monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
 		const addData = [];
 
-		for (let i = 0; i < 12; i++) {
+		for (let i = 0; i < 12; i += 1) {
 			addData.push({
 				month: i,
 				monthName: months[i],
@@ -92,7 +92,7 @@ async function growthRateByMonth() {
 	const graphicalData = [];
 
 	monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
-		for (let i = 0; i < 12; i++) {
+		for (let i = 0; i < 12; i += 1) {
 			graphicalData.push({
 				year: entry.year.toString(),
 				monthNumber: i,

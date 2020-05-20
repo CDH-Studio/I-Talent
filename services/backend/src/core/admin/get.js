@@ -61,8 +61,6 @@ const getInactive = async (request, response) => {
 		await User.findOne({ where: { id: id } }).then((row) =>
 			response.status(200).json({ value: row.inactive })
 		);
-
-		const print = await User.findOne({ where: { id: id } });
 	} catch (error) {
 		response.status(500).json(error);
 	}
