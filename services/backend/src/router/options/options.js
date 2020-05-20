@@ -1,43 +1,25 @@
 const { Router } = require("express");
-const {
-	getBranch,
-	getCareerMobility,
-	getCompetency,
-	getDevelopmentalGoals,
-	getDiploma,
-	getGroupLevel,
-	getKeyCompetency,
-	getLocation,
-	getSchool,
-	getSecurityClearance,
-	getCategory,
-	getCategorySkills,
-	getSkill,
-	getTalentMatrixResult,
-	getTenure,
-	getLookingForANewJob,
-	getWillingToRelocateTo,
-} = require("../../core/options/options");
+const options = require("../../core/options/options");
 
 const optionsRouter = Router();
 
-optionsRouter.get("/getBranch", getBranch);
-optionsRouter.get("/getCareerMobility", getCareerMobility);
-optionsRouter.get("/getCompetency", getCompetency);
-optionsRouter.get("/getDevelopmentalGoals", getDevelopmentalGoals);
-optionsRouter.get("/getDiploma", getDiploma);
-optionsRouter.get("/getGroupLevel", getGroupLevel);
-optionsRouter.get("/getKeyCompetency", getKeyCompetency);
-optionsRouter.get("/getLocation", getLocation);
-optionsRouter.get("/getSchool", getSchool);
-optionsRouter.get("/getSecurityClearance", getSecurityClearance);
-optionsRouter.get("/getCategory", getCategory);
-optionsRouter.get("/getCategorySkills", getCategorySkills);
-optionsRouter.get("/getSkill", getSkill);
-optionsRouter.get("/getMentorshipSkill", getSkill);
-optionsRouter.get("/getTalentMatrixResult", getTalentMatrixResult);
-optionsRouter.get("/getTenure", getTenure);
-optionsRouter.get("/getLookingForANewJob", getLookingForANewJob);
-optionsRouter.get("/getWillingToRelocateTo", getWillingToRelocateTo);
+optionsRouter.get("/getBranch", options.getBranch);
+optionsRouter.get("/getCareerMobility", options.getCareerMobility);
+optionsRouter.get("/getCompetency", options.getCompetency);
+optionsRouter.get("/getDevelopmentalGoals", options.getDevelopmentalGoals);
+optionsRouter.get("/getDiploma", options.getDiploma);
+optionsRouter.get("/getGroupLevel", options.getGroupLevel);
+optionsRouter.get("/getKeyCompetency", options.getKeyCompetency);
+optionsRouter.get("/getLocation", options.getLocation);
+optionsRouter.get("/getSchool", options.getSchool);
+optionsRouter.get("/getSecurityClearance", options.getSecurityClearance);
+optionsRouter.get("/getCategory", options.getCategory);
+optionsRouter.get("/getCategorySkills", options.getCategorySkills);
+optionsRouter.get("/getSkill", options.getSkill);
+optionsRouter.get("/getMentorshipSkill", options.getSkill);
+optionsRouter.get("/getTalentMatrixResult", options.getTalentMatrixResult);
+optionsRouter.get("/getTenure", options.getTenure);
+optionsRouter.get("/getLookingForANewJob", options.getLookingForANewJob);
+optionsRouter.get("/getWillingToRelocateTo", options.getWillingToRelocateTo);
 
 module.exports = optionsRouter;

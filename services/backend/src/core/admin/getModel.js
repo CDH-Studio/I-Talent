@@ -1,4 +1,4 @@
-const Models = require("../../../database/models");
+const Models = require("../../database/models");
 
 const CareerMobility = Models.careerMobility;
 const Competency = Models.competency;
@@ -39,6 +39,7 @@ const mapping = {
 	securityClearance: SecurityClearance,
 	skill: Skill,
 	category: Category,
+	competency: Skill,
 	talentManager: TalentMatrixResult,
 	tenure: Tenure,
 };
