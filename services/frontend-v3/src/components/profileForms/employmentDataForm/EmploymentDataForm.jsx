@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { IntlPropType } from "../../../customPropTypes";
+import { useSelector } from "react-redux";
 import config from "../../../config";
 import EmploymentDataFormView from "./EmploymentDataFormView";
 
@@ -13,7 +12,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const EmploymentDataForm = ({ formType, intl }) => {
+const EmploymentDataForm = ({ formType }) => {
   const [substantiveOptions, setSubstantiveOptions] = useState([]);
   const [classificationOptions, setClassificationOptions] = useState([]);
   const [securityOptions, setSecurityOptions] = useState([]);
@@ -21,10 +20,7 @@ const EmploymentDataForm = ({ formType, intl }) => {
   const [load, setLoad] = useState(false);
 
   // Get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
@@ -139,11 +135,6 @@ const EmploymentDataForm = ({ formType, intl }) => {
 
 EmploymentDataForm.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  intl: IntlPropType,
 };
 
-EmploymentDataForm.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(EmploymentDataForm);
+export default EmploymentDataForm;

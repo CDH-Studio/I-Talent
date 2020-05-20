@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import {
   IdDescriptionPropType,
@@ -25,7 +26,7 @@ import config from "../../../config";
 
 const { backendAddress } = config;
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -36,6 +37,7 @@ const PrimaryInfoFormView = ({
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
+  const [fieldsChanged, setFieldsChanged] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -82,6 +84,12 @@ const PrimaryInfoFormView = ({
       float: "right",
       marginBottom: "1rem",
       width: "100%",
+    },
+    unsavedText: {
+      marginLeft: "10px",
+      fontWeight: "normal",
+      fontStyle: "italic",
+      opacity: 0.5,
     },
   };
 
@@ -155,6 +163,37 @@ const PrimaryInfoFormView = ({
     }
   };
 
+  /* Get the initial values for the form */
+  const getInitialValues = (profile) => {
+    if (profile) {
+      return {
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        telephone: profile.telephone,
+        cellphone: profile.cellphone,
+        email: profile.email,
+        location: profile.location.id ? profile.location.id : undefined,
+        team: profile.team,
+        gcconnexUrl: profile.gcconnexUrl,
+        linkedinUrl: profile.linkedinUrl,
+        githubUrl: profile.githubUrl,
+      };
+    }
+    return { email: localStorage.getItem("email") };
+  };
+
+  /**
+   * Returns true if the values in the form have changed based on its initial values
+   *
+   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   */
+  const checkIfFormValuesChanged = () => {
+    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+
+    setFieldsChanged(!_.isEqual(formValues, initialValues));
+  };
+
   /* save and show success notification */
   const onSave = async () => {
     form
@@ -162,10 +201,9 @@ const PrimaryInfoFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
+        checkIfFormValuesChanged();
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -179,9 +217,13 @@ const PrimaryInfoFormView = ({
         history.push("/secured/profile/create/step/3");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
+  };
+
+  // redirect to profile
+  const onFinish = () => {
+    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
   };
 
   /* save and redirect to home */
@@ -190,11 +232,14 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/8");
+        if (formType === "create") {
+          history.push("/secured/profile/create/step/8");
+        } else {
+          onFinish();
+        }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -202,6 +247,7 @@ const PrimaryInfoFormView = ({
   const onReset = () => {
     form.resetFields();
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    checkIfFormValuesChanged();
   };
 
   /* Generate form header based on form type */
@@ -216,6 +262,7 @@ const PrimaryInfoFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
+        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
   };
@@ -259,22 +306,39 @@ const PrimaryInfoFormView = ({
         </Row>
       );
     }
-    if (formType === "edit") {
+    if (_formType === "edit") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSave}
+              disabled={!fieldsChanged}
+            >
+              <FormattedMessage id="setup.save" />
+            </Button>
             <Button
               style={styles.clearBtn}
               htmlType="button"
               onClick={onReset}
               danger
+              disabled={!fieldsChanged}
             >
               <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              <FormattedMessage id="setup.save" />
+            <Button
+              style={styles.saveBtn}
+              type="primary"
+              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {fieldsChanged ? (
+                <FormattedMessage id="setup.save.and.finish" />
+              ) : (
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -283,25 +347,6 @@ const PrimaryInfoFormView = ({
     // eslint-disable-next-line no-console
     console.log("Error Getting Action Buttons");
     return undefined;
-  };
-
-  /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
-    if (profile) {
-      return {
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        telephone: profile.telephone,
-        cellphone: profile.cellphone,
-        email: profile.email,
-        location: profile.location.id ? profile.location.id : undefined,
-        team: profile.team,
-        gcconnexUrl: profile.gcconnexUrl,
-        linkedinUrl: profile.linkedinUrl,
-        githubUrl: profile.githubUrl,
-      };
-    }
-    return { email: localStorage.getItem("email") };
   };
 
   /** **********************************
@@ -327,6 +372,7 @@ const PrimaryInfoFormView = ({
         initialValues={getInitialValues(profileInfo)}
         layout="vertical"
         form={form}
+        onValuesChange={checkIfFormValuesChanged}
       >
         {/* Form Row One */}
         <Row gutter={24}>

@@ -148,6 +148,7 @@ const SearchBarView = ({
                 }
                 mode="multiple"
                 placeholder={searchLabel}
+                maxTagCount={3}
               >
                 {locationOptions.map((value) => {
                   return (
@@ -172,6 +173,7 @@ const SearchBarView = ({
                 }
                 mode="multiple"
                 placeholder={searchLabel}
+                maxTagCount={3}
               >
                 {skillOptions.map((value) => {
                   return (
@@ -194,6 +196,7 @@ const SearchBarView = ({
                   0
                 }
                 mode="multiple"
+                maxTagCount={3}
                 placeholder={searchLabel}
               >
                 {classOptions.map((value) => {
@@ -217,6 +220,7 @@ const SearchBarView = ({
                 }
                 mode="multiple"
                 placeholder={searchLabel}
+                maxTagCount={3}
               >
                 {branchOptions.map((value) => {
                   return (

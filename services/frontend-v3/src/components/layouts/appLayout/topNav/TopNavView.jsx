@@ -8,14 +8,13 @@ import {
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu, Button } from "antd";
 import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
 
 const { Header } = Layout;
 
-const TopNavView = ({ changeLanguage }) => {
+const TopNavView = () => {
   /* Component Styles */
   const styles = {
     header: {
@@ -125,14 +124,10 @@ const TopNavView = ({ changeLanguage }) => {
         {/* Render User Profile Dropdown */}
         {getAvatarDropdown(localStorage.getItem("name"))}
         {/* Render change language button */}
-        <ChangeLanguage changeLanguage={changeLanguage} />
+        <ChangeLanguage />
       </div>
     </Header>
   );
-};
-
-TopNavView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
 };
 
 export default TopNavView;

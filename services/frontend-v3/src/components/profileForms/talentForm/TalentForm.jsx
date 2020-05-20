@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { useSelector } from "react-redux";
 import TalentFormView from "./TalentFormView";
 import config from "../../../config";
 
@@ -13,7 +12,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const TalentForm = ({ formType, intl }) => {
+const TalentForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [skillOptions, setSkillOptions] = useState([]);
   const [competencyOptions, setCompetencyOptions] = useState([]);
@@ -23,10 +22,7 @@ const TalentForm = ({ formType, intl }) => {
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
 
   // get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   /**
    * Get user profile
@@ -190,11 +186,6 @@ const TalentForm = ({ formType, intl }) => {
 
 TalentForm.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  intl: IntlPropType,
 };
 
-TalentForm.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(TalentForm);
+export default TalentForm;

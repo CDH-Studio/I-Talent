@@ -1,10 +1,13 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import { useSelector } from "react-redux";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import EducationView from "./EducationView";
 
-function Education({ data }) {
+const Education = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("ll");
     const formatedEndDate = moment(endDate).format("ll");
@@ -24,11 +27,10 @@ function Education({ data }) {
     return duration;
   };
 
-  const getEducationInfo = dataSource => {
-    const locale = localStorage.getItem("lang") || "en";
+  const getEducationInfo = (dataSource) => {
     const educationInfo = [];
     if (dataSource.education != null) {
-      dataSource.education.forEach(educElement => {
+      dataSource.education.forEach((educElement) => {
         const startDate = educElement.startDate[locale];
         const endDate = educElement.endDate[locale];
 
@@ -45,13 +47,8 @@ function Education({ data }) {
     return [...educationInfo];
   };
 
-  return (
-    <EducationView
-      locale={localStorage.getItem("lang") || "en"}
-      educationInfo={getEducationInfo(data)}
-    />
-  );
-}
+  return <EducationView educationInfo={getEducationInfo(data)} />;
+};
 
 Education.propTypes = { data: ProfileInfoPropType.isRequired };
 

@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import {
   KeyTitleOptionsPropType,
@@ -27,7 +28,7 @@ import config from "../../../config";
 
 const { backendAddress } = config;
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 
 /**
@@ -52,6 +53,7 @@ const TalentFormView = (props) => {
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
+  const [fieldsChanged, setFieldsChanged] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -104,6 +106,12 @@ const TalentFormView = (props) => {
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+    },
+    unsavedText: {
+      marginLeft: "10px",
+      fontWeight: "normal",
+      fontStyle: "italic",
+      opacity: 0.5,
     },
   };
 
@@ -180,6 +188,39 @@ const TalentFormView = (props) => {
     }
   };
 
+  /*
+   * Get the initial values for the form
+   */
+  const getInitialValues = () => {
+    const hasRequiredProps = () => {
+      return (
+        savedCompetencies !== undefined &&
+        savedSkills !== undefined &&
+        savedMentorshipSkills !== undefined
+      );
+    };
+    if (hasRequiredProps()) {
+      return {
+        competencies: savedCompetencies,
+        skills: savedSkills,
+        mentorshipSkills: savedMentorshipSkills,
+      };
+    }
+    return {};
+  };
+
+  /**
+   * Returns true if the values in the form have changed based on its initial values
+   *
+   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   */
+  const checkIfFormValuesChanged = () => {
+    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+
+    setFieldsChanged(!_.isEqual(formValues, initialValues));
+  };
+
   /* save and show success notification */
   const onSave = async () => {
     form
@@ -187,10 +228,9 @@ const TalentFormView = (props) => {
       .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
+        checkIfFormValuesChanged();
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
         openNotificationWithIcon("error");
       });
   };
@@ -208,10 +248,15 @@ const TalentFormView = (props) => {
         history.push("/secured/profile/create/step/6");
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
+
+  // redirect to profile
+  const onFinish = () => {
+    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+  };
+
   /*
    * save and finish
    *
@@ -222,11 +267,14 @@ const TalentFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/8");
+        if (formType === "create") {
+          history.push("/secured/profile/create/step/8");
+        } else {
+          onFinish();
+        }
       })
       .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("validation failure");
+        openNotificationWithIcon("error");
       });
   };
 
@@ -241,6 +289,7 @@ const TalentFormView = (props) => {
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    checkIfFormValuesChanged();
   };
 
   /*
@@ -403,30 +452,9 @@ const TalentFormView = (props) => {
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.talent" />
+        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
-  };
-
-  /*
-   * Get the initial values for the form
-   *
-   */
-  const getInitialValues = () => {
-    const hasRequiredProps = () => {
-      return (
-        savedCompetencies !== undefined &&
-        savedSkills !== undefined &&
-        savedMentorshipSkills !== undefined
-      );
-    };
-    if (hasRequiredProps()) {
-      return {
-        competencies: savedCompetencies,
-        skills: savedSkills,
-        mentorshipSkills: savedMentorshipSkills,
-      };
-    }
-    return {};
   };
 
   useEffect(() => {
@@ -494,17 +522,34 @@ const TalentFormView = (props) => {
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
             <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSave}
+              disabled={!fieldsChanged}
+            >
+              <FormattedMessage id="setup.save" />
+            </Button>
+            <Button
               style={styles.clearBtn}
               htmlType="button"
               onClick={onReset}
               danger
+              disabled={!fieldsChanged}
             >
               <FormattedMessage id="button.clear" />
             </Button>
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
-            <Button style={styles.saveBtn} type="primary" onClick={onSave}>
-              <FormattedMessage id="setup.save" />
+            <Button
+              style={styles.saveBtn}
+              type="primary"
+              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
+            >
+              <CheckOutlined style={{ marginRight: "0.2rem" }} />
+              {fieldsChanged ? (
+                <FormattedMessage id="setup.save.and.finish" />
+              ) : (
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -538,6 +583,7 @@ const TalentFormView = (props) => {
         form={form}
         initialValues={getInitialValues(profileInfo)}
         layout="vertical"
+        onValuesChange={checkIfFormValuesChanged}
       >
         {/* Form Row One:competencies */}
         <Row gutter={24}>

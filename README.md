@@ -69,8 +69,18 @@ You must have the following already installed:
 
 - Docker
 - Vscode
-  - Prettier (plugin)
-  - Eslint (plugin)
+
+#### Linter
+
+The following extensions need to be installed for the linter:
+
+- Prettier (plugin)
+- Eslint (plugin)
+
+Eslint is used for the project with Airbnb style guide.
+
+[React Airbnb style guide documentation](https://github.com/airbnb/javascript/tree/master/react)
+[Javascript Airbnb style guide documentation](https://github.com/airbnb/javascript)
 
 ## Running the Entire Application
 

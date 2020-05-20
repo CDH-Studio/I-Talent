@@ -24,7 +24,6 @@ import AppLayout from "../appLayout/AppLayout";
 const AdminLayoutView = (props) => {
   const {
     type,
-    changeLanguage,
     intl,
     keycloak,
     displaySideBar,
@@ -153,7 +152,6 @@ const AdminLayoutView = (props) => {
   /* Uses the AppLayout */
   return (
     <AppLayout
-      changeLanguage={changeLanguage}
       keycloak={keycloak}
       history={history}
       displaySideBar={displaySideBar}
@@ -165,7 +163,6 @@ const AdminLayoutView = (props) => {
 };
 
 AdminLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([
     "dashboard",
@@ -185,4 +182,5 @@ AdminLayoutView.defaultProps = {
   intl: undefined,
   keycloak: undefined,
 };
+
 export default injectIntl(AdminLayoutView);
