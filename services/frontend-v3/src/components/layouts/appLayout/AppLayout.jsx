@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 import AppLayoutView from "./AppLayoutView";
 
 const AppLayout = ({
-  changeLanguage,
   displaySideBar,
   sideBarContent,
   children,
 }) => {
   return (
     <AppLayoutView
-      changeLanguage={changeLanguage}
       displaySideBar={displaySideBar}
       sideBarContent={sideBarContent}
     >
@@ -23,7 +21,6 @@ AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
   sideBarContent: PropTypes.node,
   displaySideBar: PropTypes.bool.isRequired,
-  changeLanguage: PropTypes.func.isRequired,
 };
 
 AppLayout.defaultProps = {

@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import { Row } from "antd";
 import SearchBar from "../components/searchBar/SearchBar";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import { HistoryPropType } from "../customPropTypes";
 
-const Home = ({ changeLanguage, history }) => {
+const Home = ({ history }) => {
   useEffect(() => {
     document.title = "Home | I-Talent";
   }, []);
 
   return (
-    <AppLayout changeLanguage={changeLanguage} displaySideBar={false}>
+    <AppLayout displaySideBar={false}>
       <Row>
         <SearchBar history={history} />
       </Row>
@@ -20,7 +19,6 @@ const Home = ({ changeLanguage, history }) => {
 };
 
 Home.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   history: HistoryPropType.isRequired,
 };
 

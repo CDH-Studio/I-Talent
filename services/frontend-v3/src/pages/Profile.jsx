@@ -7,7 +7,7 @@ import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
 const { backendAddress } = config;
 
-const Profile = ({ history, match, changeLanguage }) => {
+const Profile = ({ history, match }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -62,14 +62,13 @@ const Profile = ({ history, match, changeLanguage }) => {
   }, [name]);
 
   if (!loading) {
-    return <ProfileLayout changeLanguage={changeLanguage} data={data} />;
+    return <ProfileLayout data={data} />;
   }
 
-  return <ProfileSkeleton changeLanguage={changeLanguage} />;
+  return <ProfileSkeleton />;
 };
 
 Profile.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

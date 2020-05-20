@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const BasicInfo = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   const getButtonLinks = () => {
     const { linkedinUrl, githubUrl, gcconnexUrl, email } = data;
     const buttonLinks = { buttons: [] };
@@ -54,8 +57,8 @@ const BasicInfo = ({ data }) => {
         acr: data.nameInitials,
         color: data.avatarColor,
       }}
-      jobTitle={data.jobTitle[localStorage.getItem("lang") || "en"]}
-      locale={localStorage.getItem("lang") || "en"}
+      jobTitle={data.jobTitle[locale]}
+      locale={locale}
       buttonLinks={getButtonLinks()}
     />
   );

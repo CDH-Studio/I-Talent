@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import { Skeleton, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
@@ -16,7 +15,7 @@ const { backendAddress } = config;
  *  Controller for StatCards and DashboardGraphs.
  *  It gathers the required data for rendering these components.
  */
-const AdminDashboard = ({ changeLanguage, intl }) => {
+const AdminDashboard = ({ intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,20 +59,20 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
       setLoading(false);
     };
     setState();
-  });
+  }, []);
 
   document.title = `${getDisplayType(false)} - Admin | I-Talent`;
 
   if (loading) {
     return (
-      <AdminLayout changeLanguage={changeLanguage} displaySideBar type={type}>
+      <AdminLayout displaySideBar type={type}>
         <Skeleton active />
       </AdminLayout>
     );
   }
 
   return (
-    <AdminLayout changeLanguage={changeLanguage} displaySideBar type={type}>
+    <AdminLayout displaySideBar type={type}>
       <PageHeader
         title={intl.formatMessage({
           id: "admin.dashboard.title",
@@ -88,10 +87,10 @@ const AdminDashboard = ({ changeLanguage, intl }) => {
 
 AdminDashboard.propTypes = {
   intl: IntlPropType,
-  changeLanguage: PropTypes.func.isRequired,
 };
 
 AdminDashboard.defaultProps = {
   intl: undefined,
 };
+
 export default injectIntl(AdminDashboard);

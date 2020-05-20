@@ -1,12 +1,11 @@
 import React from "react";
 import { Button } from "antd";
 import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
 import backgroundImage from "../../assets/myTalentLandingBackground.png";
 import LandingNavBarController from "./landingNavBar/landingNavBarController";
 
 /** UI for the landing route layout */
-const LandingLayoutView = ({ changeLanguage }) => {
+const LandingLayoutView = () => {
   return (
     <>
       <div
@@ -62,14 +61,10 @@ const LandingLayoutView = ({ changeLanguage }) => {
       </div>
 
       <div style={{ paddingTop: "0px" }}>
-        <LandingNavBarController changeLanguage={changeLanguage} />
+        <LandingNavBarController />
       </div>
     </>
   );
-};
-
-LandingLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
 };
 
 export default LandingLayoutView;

@@ -2,9 +2,9 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { IntlPropType } from "../../../customPropTypes";
+import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import {
   EmploymentDataForm,
@@ -19,7 +19,7 @@ import {
  *  EditProfileLayoutView(props)
  *  Render the layout for the edit profile forms
  */
-const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
+const EditProfileLayoutView = ({ formStep }) => {
   const history = useHistory();
 
   /*
@@ -27,7 +27,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
    *
    * Generate the correct form based on the step
    */
-  const profileFormSelect = step => {
+  const profileFormSelect = (step) => {
     switch (step) {
       case "primary-info":
         return <PrimaryInfoForm formType="edit" />;
@@ -51,7 +51,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
    *
    * Redirect to form based on sidebar selection
    */
-  const redirectToForm = data => {
+  const redirectToForm = (data) => {
     const url = `/secured/profile/edit/${data.key}`;
     history.push(url);
   };
@@ -61,7 +61,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = step => {
+  const getSideBarContent = (step) => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item key="primary-info">
@@ -98,17 +98,10 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
   const form = profileFormSelect(formStep);
 
   // get current language code
-  const locale = intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
+  const { locale } = useSelector((state) => state.settings);
 
   return (
-    <AppLayout
-      changeLanguage={changeLanguage}
-      sideBarContent={sideBarContent}
-      displaySideBar
-    >
+    <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
@@ -122,13 +115,7 @@ const EditProfileLayoutView = ({ changeLanguage, formStep, intl }) => {
 };
 
 EditProfileLayoutView.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   formStep: PropTypes.string.isRequired,
-  intl: IntlPropType,
 };
 
-EditProfileLayoutView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(EditProfileLayoutView);
+export default EditProfileLayoutView;

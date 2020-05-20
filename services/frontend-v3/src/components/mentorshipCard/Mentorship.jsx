@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
 
 import MentorshipView from "./MentorshipView";
 
-const Mentorship = ({ intl, data }) => {
+const Mentorship = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   const formatData = (list) => {
-    const locale = intl.formatMessage({ id: "language.code" });
     const categorizedList = {};
 
     if (list) {
@@ -23,7 +24,6 @@ const Mentorship = ({ intl, data }) => {
     return categorizedList;
   };
   const setUpCategories = (list) => {
-    const locale = intl.formatMessage({ id: "language.code" });
     const categorizedList = {};
     const categoriesTemp = {};
     const categories = [];
@@ -81,9 +81,6 @@ Mentorship.propTypes = {
   data: PropTypes.shape({
     mentorshipSkills: PropTypes.any,
   }).isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
 };
 
-export default injectIntl(Mentorship);
+export default Mentorship;

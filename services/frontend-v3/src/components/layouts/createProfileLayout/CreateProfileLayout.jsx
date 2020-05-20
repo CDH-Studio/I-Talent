@@ -6,14 +6,13 @@ import CreateProfileLayoutView from "./CreateProfileLayoutView";
  *  CreateProfileLayout(props)
  *  Controller for the Create Profile Layout.
  */
-const CreateProfileLayout = ({ changeLanguage, step }) => {
+const CreateProfileLayout = ({ step }) => {
   return (
-    <CreateProfileLayoutView changeLanguage={changeLanguage} formStep={step} />
+    <CreateProfileLayoutView formStep={step} />
   );
 };
 
 CreateProfileLayout.propTypes = {
-  changeLanguage: PropTypes.func.isRequired,
   step: PropTypes.string,
 };
 
