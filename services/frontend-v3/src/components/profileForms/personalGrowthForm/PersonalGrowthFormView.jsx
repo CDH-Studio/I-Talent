@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -21,6 +21,7 @@ import {
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -32,7 +33,7 @@ import config from "../../../config";
 
 const { backendAddress } = config;
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 /**
  *  TalentFormView(props)
@@ -59,6 +60,7 @@ const PersonalGrowthFormView = ({
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
+  const [fieldsChanged, setFieldsChanged] = useState(false);
 
   /* Component Styles */
   const styles = {
@@ -114,6 +116,12 @@ const PersonalGrowthFormView = ({
       width: "100%",
     },
     TMTooltip: { paddingLeft: "5px" },
+    unsavedText: {
+      marginLeft: "10px",
+      fontWeight: "normal",
+      fontStyle: "italic",
+      opacity: 0.5,
+    },
   };
 
   /*
@@ -181,6 +189,50 @@ const PersonalGrowthFormView = ({
     }
   };
 
+  /*
+   * Get the initial values for the form
+   */
+  const getInitialValues = (profile) => {
+    const hasRequiredProps = () => {
+      return (
+        savedDevelopmentalGoals !== undefined &&
+        savedRelocationLocations !== undefined &&
+        // TODO: decide how to alter props so unset savedLookingForNewJob isn't the same as undefined prop
+        // savedLookingForNewJob !== undefined &&
+        savedCareerMobility !== undefined &&
+        savedTalentMatrixResult !== undefined &&
+        savedExFeederBool !== undefined
+      );
+    };
+
+    if (profile && hasRequiredProps()) {
+      return {
+        developmentalGoals: savedDevelopmentalGoals,
+        interestedInRemote: profile.interestedInRemote
+          ? profile.interestedInRemote.toString()
+          : undefined,
+        relocationLocations: savedRelocationLocations,
+        lookingForNewJob: savedLookingForNewJob,
+        careerMobility: savedCareerMobility,
+        talentMatrixResult: savedTalentMatrixResult,
+        exFeeder: savedExFeederBool,
+      };
+    }
+    return {};
+  };
+
+  /**
+   * Returns true if the values in the form have changed based on its initial values
+   *
+   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   */
+  const checkIfFormValuesChanged = () => {
+    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+
+    setFieldsChanged(!_.isEqual(formValues, initialValues));
+  };
+
   /* save and show success notification */
   const onSave = async () => {
     form
@@ -188,6 +240,7 @@ const PersonalGrowthFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
+        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -211,6 +264,11 @@ const PersonalGrowthFormView = ({
       });
   };
 
+  // redirect to profile
+  const onFinish = () => {
+    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+  };
+
   /*
    * save and finish
    *
@@ -224,7 +282,7 @@ const PersonalGrowthFormView = ({
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
-          history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+          onFinish();
         }
       })
       .catch(() => {
@@ -240,6 +298,7 @@ const PersonalGrowthFormView = ({
   const onReset = () => {
     form.resetFields();
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    checkIfFormValuesChanged();
   };
 
   /*
@@ -285,7 +344,11 @@ const PersonalGrowthFormView = ({
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
-            <Button style={styles.finishAndSaveBtn} onClick={onSave}>
+            <Button
+              style={styles.finishAndSaveBtn}
+              onClick={onSave}
+              disabled={!fieldsChanged}
+            >
               <FormattedMessage id="setup.save" />
             </Button>
             <Button
@@ -293,6 +356,7 @@ const PersonalGrowthFormView = ({
               htmlType="button"
               onClick={onReset}
               danger
+              disabled={!fieldsChanged}
             >
               <FormattedMessage id="button.clear" />
             </Button>
@@ -301,10 +365,14 @@ const PersonalGrowthFormView = ({
             <Button
               style={styles.saveBtn}
               type="primary"
-              onClick={onSaveAndFinish}
+              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
             >
               <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
+              {fieldsChanged ? (
+                <FormattedMessage id="setup.save.and.finish" />
+              ) : (
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -331,41 +399,9 @@ const PersonalGrowthFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="profile.employee.growth.interests" />
+        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
-  };
-
-  /*
-   * Get the initial values for the form
-   *
-   */
-  const getInitialValues = (profile) => {
-    const hasRequiredProps = () => {
-      return (
-        savedDevelopmentalGoals !== undefined &&
-        savedRelocationLocations !== undefined &&
-        // TODO: decide how to alter props so unset savedLookingForNewJob isn't the same as undefined prop
-        // savedLookingForNewJob !== undefined &&
-        savedCareerMobility !== undefined &&
-        savedTalentMatrixResult !== undefined &&
-        savedExFeederBool !== undefined
-      );
-    };
-
-    if (profile && hasRequiredProps()) {
-      return {
-        developmentalGoals: savedDevelopmentalGoals,
-        interestedInRemote: profile.interestedInRemote
-          ? profile.interestedInRemote.toString()
-          : undefined,
-        relocationLocations: savedRelocationLocations,
-        lookingForNewJob: savedLookingForNewJob,
-        careerMobility: savedCareerMobility,
-        talentMatrixResult: savedTalentMatrixResult,
-        exFeeder: savedExFeederBool,
-      };
-    }
-    return {};
   };
 
   /* TODO: check if user has a skills to mentor 
@@ -396,6 +432,7 @@ const PersonalGrowthFormView = ({
         form={form}
         initialValues={getInitialValues(profileInfo)}
         layout="vertical"
+        onValuesChange={checkIfFormValuesChanged}
       >
         {/* *************** Developmental ************** */}
         {/* Form Row One: Developmental Goals */}
