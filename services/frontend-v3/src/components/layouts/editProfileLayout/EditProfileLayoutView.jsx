@@ -75,7 +75,9 @@ const EditProfileLayoutView = ({ formStep }) => {
       paddingRight: "0px",
     },
     menuItemHeader: {
-      padding: "0 16px",
+      padding: "10px 16px",
+      whiteSpace: "normal",
+      lineHeight: "20px",
     },
   };
 
