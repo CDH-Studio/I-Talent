@@ -114,6 +114,9 @@
   "advanced.search.form.classification": "Classification",
   "advanced.search.form.ex.feeder": "Ex Feeder",
 
+  "sidebar.search.title": "Filtres de recherche",
+  "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
+
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
   "button.clear": "Effacer",

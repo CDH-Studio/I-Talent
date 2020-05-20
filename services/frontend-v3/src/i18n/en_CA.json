@@ -104,6 +104,9 @@
   "advanced.search.form.classification": "Classification",
   "advanced.search.form.ex.feeder": "Ex Feeder",
 
+  "sidebar.search.title": "Search Filters",
+  "sidebar.search.description": "You can update your search filters",
+
   "button.advanced.search": "Advanced search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
