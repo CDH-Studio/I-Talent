@@ -6,7 +6,7 @@ import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { IdDescriptionPropType } from "../../customPropTypes";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const SearchBarView = ({
   handleSearch,
@@ -31,7 +31,8 @@ const SearchBarView = ({
       marginRight: "4px",
       color: "#3CBAB3",
     },
-    form: { padding: "22px" },
+    searchSideBar: { padding: "22px" },
+    form: { paddingTop: "10px" },
   };
 
   const onFinish = (values) => {
@@ -64,97 +65,127 @@ const SearchBarView = ({
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
-    <Form style={styles.form} form={form} layout="vertical" onFinish={onFinish}>
+    <div style={styles.searchSideBar}>
       <Title level={2} style={styles.searchHeader}>
         <SettingOutlined style={styles.searchHeaderIcon} />
-        Search Filter
+        <FormattedMessage id="sidebar.search.title" />
       </Title>
-      <Form.Item label={labelArr[0]} name={searchTitles[0]} style={styles.w100}>
-        <Input style={styles.w100} placeholder={searchLabel} />
-      </Form.Item>
-      <Form.Item style={styles.w100} label={labelArr[1]} name={searchTitles[1]}>
-        <Select
-          style={styles.w100}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          mode="multiple"
-          placeholder={searchLabel}
-          maxTagCount={3}
-        >
-          {skillOptions.map((value) => {
-            return <Option key={value.id}>{value.description[locale]}</Option>;
-          })}
-        </Select>
-      </Form.Item>
-      <Form.Item style={styles.w100} label={labelArr[2]} name={searchTitles[2]}>
-        <Select
-          style={styles.w100}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          mode="multiple"
-          placeholder={searchLabel}
-          maxTagCount={3}
-        >
-          {branchOptions.map((value) => {
-            return (
-              <Option key={value.description.en}>
-                {value.description[locale]}
-              </Option>
-            );
-          })}
-        </Select>
-      </Form.Item>
-      <Form.Item style={styles.w100} label={labelArr[3]} name={searchTitles[3]}>
-        <Select
-          style={styles.w100}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          mode="multiple"
-          placeholder={searchLabel}
-          maxTagCount={3}
-        >
-          {locationOptions.map((value) => {
-            return <Option key={value.id}>{value.description[locale]}</Option>;
-          })}
-        </Select>
-      </Form.Item>
-      <Form.Item style={styles.w100} label={labelArr[4]} name={searchTitles[4]}>
-        <Select
-          style={styles.w100}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          mode="multiple"
-          placeholder={searchLabel}
-          maxTagCount={3}
-        >
-          {classOptions.map((value) => {
-            return <Option key={value.id}>{value.description}</Option>;
-          })}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        style={styles.w100}
-        name={searchTitles[5]}
-        label={labelArr[5]}
-        valuePropName="checked"
+      <Text>
+        <FormattedMessage id="sidebar.search.description" />
+      </Text>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        style={styles.form}
       >
-        <Switch />
-      </Form.Item>{" "}
-      <Button
-        style={styles.w100}
-        shape="round"
-        size="large"
-        type="primary"
-        htmlType="submit"
-      >
-        <ReloadOutlined style={{ marginRight: "5px" }} />
-        {searchLabel}
-      </Button>
-    </Form>
+        <Form.Item
+          label={labelArr[0]}
+          name={searchTitles[0]}
+          style={styles.w100}
+        >
+          <Input style={styles.w100} />
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[1]}
+          name={searchTitles[1]}
+        >
+          <Select
+            style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            mode="multiple"
+            maxTagCount={3}
+          >
+            {skillOptions.map((value) => {
+              return (
+                <Option key={value.id}>{value.description[locale]}</Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[2]}
+          name={searchTitles[2]}
+        >
+          <Select
+            style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            mode="multiple"
+            maxTagCount={3}
+          >
+            {branchOptions.map((value) => {
+              return (
+                <Option key={value.description.en}>
+                  {value.description[locale]}
+                </Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[3]}
+          name={searchTitles[3]}
+        >
+          <Select
+            style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            mode="multiple"
+            maxTagCount={3}
+          >
+            {locationOptions.map((value) => {
+              return (
+                <Option key={value.id}>{value.description[locale]}</Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[4]}
+          name={searchTitles[4]}
+        >
+          <Select
+            style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            mode="multiple"
+            maxTagCount={3}
+          >
+            {classOptions.map((value) => {
+              return <Option key={value.id}>{value.description}</Option>;
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          name={searchTitles[5]}
+          label={labelArr[5]}
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+        <Button
+          style={styles.w100}
+          shape="round"
+          size="large"
+          type="primary"
+          htmlType="submit"
+        >
+          <ReloadOutlined style={{ marginRight: "5px" }} />
+          {searchLabel}
+        </Button>
+      </Form>
+    </div>
   );
 };
 
