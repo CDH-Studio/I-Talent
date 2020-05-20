@@ -25,7 +25,7 @@ const QualificationsForm = ({ formType }) => {
    */
   const getProfileInfo = async () => {
     try {
-      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
         "userId"
       )}`;
       const result = await axios.get(url);
@@ -34,7 +34,7 @@ const QualificationsForm = ({ formType }) => {
       return 1;
     } catch (error) {
       setLoad(false);
-      
+
       // eslint-disable-next-line no-console
       console.log(error);
       return 0;
@@ -111,7 +111,7 @@ const QualificationsForm = ({ formType }) => {
       getSavedExperience();
       getSavedProjects();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect to run once component is mounted

@@ -20,7 +20,7 @@ const LangProficiencyForm = ({ formType }) => {
   // Get user profile for form drop down
   const getProfileInfo = async () => {
     try {
-      const url = `${backendAddress}api/private/profile/${localStorage.getItem(
+      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
         "userId"
       )}`;
       const result = await axios.get(url);
@@ -61,7 +61,7 @@ const LangProficiencyForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);

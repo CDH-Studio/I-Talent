@@ -132,7 +132,7 @@ const SearchFilter = ({ history }) => {
   // page with query
   const handleSearch = (values) => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
-    const url = `/secured/results?${encodeURI(query)}`;
+    const url = `/secured/results?${query}`;
     history.push(url);
     window.location.reload();
   };
