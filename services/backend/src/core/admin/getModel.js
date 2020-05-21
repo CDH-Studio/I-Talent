@@ -42,6 +42,8 @@ const mapping = {
 	category: Category,
 	talentManager: TalentMatrixResult,
 	tenure: Tenure,
+	// eslint-disable-next-line no-dupe-keys
+	competency: Skill,
 };
 
 function getModel(type) {
