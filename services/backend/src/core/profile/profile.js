@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const moment = require("moment");
 
 const Models = require("../../database/models");
@@ -350,9 +351,9 @@ async function getProfile(response) {
 
 async function getProfileStatusById(request, response) {
 	const { id } = request.params;
-	const getProfile = await Profile.findOne({ where: { id: id } });
+	const getProfileFromDB = await Profile.findOne({ where: { id: id } });
 	return response.status(200).json({
-		profile: { exists: !!getProfile },
+		profile: { exists: !!getProfileFromDB },
 	});
 }
 
@@ -382,32 +383,39 @@ const getPrivateProfileById = async (request, response) => {
 
 	const tenure = await profile.getTenure().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const careerMobility = await profile.getCareerMobility().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const talentMatrixResult = await profile
 		.getTalentMatrixResult()
 		.then((res) => {
 			if (res) return res.dataValues;
+			return null;
 		});
 
 	const groupLevel = await profile.getGroupLevel().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const securityClearance = await profile.getSecurityClearance().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const acting = await profile.getActing().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const location = await profile.getLocation().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const experiences = await profile.getExperiences({
@@ -441,11 +449,12 @@ const getPrivateProfileById = async (request, response) => {
 				const endDate = moment(educ.endDate);
 				const school = await educ.getSchool().then((res) => {
 					if (res) return res.dataValues;
+					return null;
 				});
 				const diploma = await educ.getDiploma().then((res) => {
 					if (res) return res.dataValues;
+					return null;
 				});
-				educ = educ.dataValues;
 
 				return {
 					school: {
@@ -501,9 +510,8 @@ const getPrivateProfileById = async (request, response) => {
 				},
 			};
 		}
+		return null;
 	});
-
-	const profileSkills = [];
 
 	const competencies = await profile.getCompetencies().map((competency) => {
 		if (competency)
@@ -514,6 +522,7 @@ const getPrivateProfileById = async (request, response) => {
 					fr: competency.dataValues.descriptionFr,
 				},
 			};
+		return null;
 	});
 
 	const developmentalGoals = await profile.getDevelopmentGoals().map((goal) => {
@@ -525,6 +534,7 @@ const getPrivateProfileById = async (request, response) => {
 					fr: goal.dataValues.descriptionFr,
 				},
 			};
+		return null;
 	});
 
 	const mentorshipSkills = await profile
@@ -549,12 +559,14 @@ const getPrivateProfileById = async (request, response) => {
 					},
 				};
 			}
+			return null;
 		});
 
 	const secLangProf = await profile
 		.getSecondLanguageProficiency()
 		.then((res) => {
 			if (res) return res.dataValues;
+			return null;
 		});
 
 	const relocationLocations = await profile
@@ -687,12 +699,11 @@ const getPrivateProfileById = async (request, response) => {
 		lookingForNewJob: lookingForNewJob,
 		indeterminate: data.indeterminate,
 	};
-	console.log("private function called", resData);
-
-	response.status(200).json(resData);
+	return response.status(200).json(resData);
 };
 
 // Get user profile using profile ID
+// eslint-disable-next-line consistent-return
 const getPublicProfileById = async (request, response) => {
 	const { id } = request.params;
 
@@ -739,7 +750,7 @@ const getPublicProfileById = async (request, response) => {
 	const location = await profile.getLocation({ raw: true });
 
 	// Get Experience (may be empty)
-	const careerSummary = await getExperiencesHelper(profile);
+	const careerSummary = await profile.getExperiencesHelper(profile);
 
 	// Get Projects (may be empty)
 	const dbProjects = await profile.getProfileProjects();
@@ -748,7 +759,7 @@ const getPublicProfileById = async (request, response) => {
 	});
 
 	// Get Education (may be empty)
-	const educArray = await getEducationHelper(profile);
+	const educArray = await profile.getEducationHelper(profile);
 
 	const organizationList = await profile
 		.getProfileOrganizations({ order: [["tier", "ASC"]] })
@@ -781,6 +792,7 @@ const getPublicProfileById = async (request, response) => {
 				},
 			};
 		}
+		return null;
 	});
 
 	const mentorshipSkills = await profile
@@ -804,6 +816,7 @@ const getPublicProfileById = async (request, response) => {
 					},
 				};
 			}
+			return null;
 		});
 
 	const competencies = await profile.getCompetencies().map((competency) => {
@@ -815,6 +828,7 @@ const getPublicProfileById = async (request, response) => {
 					fr: competency.dataValues.descriptionFr,
 				},
 			};
+		return null;
 	});
 
 	const developmentalGoals = await profile.getDevelopmentGoals().map((goal) => {
@@ -826,12 +840,14 @@ const getPublicProfileById = async (request, response) => {
 					fr: goal.dataValues.descriptionFr,
 				},
 			};
+		return null;
 	});
 
 	const secLangProf = await profile
 		.getSecondLanguageProficiency()
 		.then((res) => {
 			if (res) return res.dataValues;
+			return null;
 		});
 
 	const relocationLocations = await profile

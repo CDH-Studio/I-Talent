@@ -2,7 +2,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 async function getGedsProfile(searchValue) {
-	return new Promise(async (resolve, reject) => {
+	return async (resolve, reject) => {
 		const url = `${process.env.GEDSAPIURL}employees?searchValue=${encodeURI(
 			searchValue
 		)}&searchField=9&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=1000&returnOrganizationInformation=yes`;
@@ -57,20 +57,20 @@ async function getGedsProfile(searchValue) {
 						info.push(empInfo);
 					});
 					if (info.length === 0) {
-						reject({ status: 204, statusText: "No content" });
+						reject(new Error({ status: 204, statusText: "No content" }));
 					}
 					resolve(info);
 				} else {
-					reject({ status: res.status, statusText: res.statusText });
+					reject(new Error({ status: res.status, statusText: res.statusText }));
 				}
 			})
 			.catch((err) => {
 				console.error(err);
 				if (err.response.status === 429) {
-					reject({ status: 429, statusText: "Limit Exceeded" });
+					reject(new Error({ status: 429, statusText: "Limit Exceeded" }));
 				}
 			});
-	});
+	};
 }
 
 module.exports = { getGedsProfile };

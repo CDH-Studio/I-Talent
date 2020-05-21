@@ -5,19 +5,21 @@ const utils = require("./util");
 // FIXME remove the await from inside the loop
 async function asyncForEach(array, callback) {
 	for (let i = 0; i < array.length; i += 1) {
-		await callback(array[i]);
+		callback(array[i]);
 	}
 }
 
 // FIXME refactor this form
 async function getSkillNames(searchSkill, skillSearchValue) {
 	await asyncForEach(searchSkill, async (skillId) => {
+		// eslint-disable-next-line no-unused-vars
 		let findSkills = await skill
 			.findOne({ where: { id: skillId } })
 			.then((data) => data.dataValues);
 
 		findSkills = findSkills.descriptionEn;
 
+		// eslint-disable-next-line no-param-reassign
 		skillSearchValue = skillSearchValue.concat(` ${skill}`);
 	});
 	return skillSearchValue;

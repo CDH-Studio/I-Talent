@@ -57,17 +57,17 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: Cache NPM
+      - name: Cache Yarn
         uses: actions/cache@v1
-        id: npm-cache
+        id: yarn-cache
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('services/backend/package-lock.json') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('services/backend/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
-      - name: Installing NPM dependencies
-        run: npm install
+      - name: Installing Yarn dependencies
+        run: yarn
 
       - name: Run linter
-        run: npm run lint
+        run: yarn run lint

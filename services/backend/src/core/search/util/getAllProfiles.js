@@ -13,7 +13,7 @@ async function getProf(profile, searchValue) {
 		attributes: ["email", "avatarColor", "nameInitials"],
 	});
 
-	if (!profile) response.status(404).send("Profile Not Found");
+	if (!profile) return null;
 
 	const privateInfo = profile.visibleCards;
 

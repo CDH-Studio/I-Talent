@@ -35,7 +35,7 @@ const updateInactive = async (request, response) => {
 	try {
 		for (let i = 0; i < request.body.length; i += 1) {
 			const element = request.body[i];
-			const updateInfo = await User.update(
+			const updateInfo = User.update(
 				{ inactive: element.value },
 				{ where: { id: element.id } }
 			);
@@ -54,7 +54,7 @@ const updateFlagged = async (request, response) => {
 	try {
 		for (let i = 0; i < request.body.length; i += 1) {
 			const element = request.body[i];
-			const updateInfo = await Profile.update(
+			const updateInfo = Profile.update(
 				{ flagged: element.value },
 				{ where: { id: element.id } }
 			);

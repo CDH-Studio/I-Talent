@@ -28,8 +28,7 @@ async function growthRateByMonth() {
 			);
 
 			if (indexMonth !== -1) {
-				monthlyGrowthRate[indexYear].data[indexMonth].count =
-					monthlyGrowthRate[indexYear].data[indexMonth].count + 1;
+				monthlyGrowthRate[indexYear].data[indexMonth].count += 1;
 			} else {
 				monthlyGrowthRate[indexYear].data.push({
 					month: profileMonth,
@@ -67,8 +66,10 @@ async function growthRateByMonth() {
 				count: newMonth[i] || 0,
 			});
 		}
-		entry.data = newData;
-		return entry;
+
+		const tempEntry = entry;
+		tempEntry.data = newData;
+		return tempEntry;
 	});
 
 	const months = moment.monthsShort();
@@ -84,8 +85,9 @@ async function growthRateByMonth() {
 				count: entry.data[i].count,
 			});
 		}
-		entry.data = addData;
-		return entry;
+		const tempEntry = entry;
+		tempEntry.data = addData;
+		return tempEntry;
 	});
 
 	// Growth Rate By Month Graph Data:
