@@ -339,6 +339,7 @@
   "profile.hide.account.confirm.content": "Your account will be made unsearchable but people with a direct link will still be able to view it.",
   "profile.deactivate.account.confirm.content": "Your account will be made unsearchable but your data will remain stored.",
   "sign.out": "Logout",
+  "home": "Home",
 
   "error.button": "Back to Home",
   "error.404.subtitle": "Looks like someone is in the wrong place",
