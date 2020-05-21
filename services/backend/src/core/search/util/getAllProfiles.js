@@ -13,7 +13,7 @@ async function getProf(profile, searchValue) {
 		attributes: ["email", "avatarColor", "nameInitials"],
 	});
 
-	if (!profile) response.status(404).send("Profile Not Found");
+	if (!profile) return null;
 
 	const privateInfo = profile.visibleCards;
 
@@ -24,14 +24,17 @@ async function getProf(profile, searchValue) {
 
 	const groupLevel = await profile.getGroupLevel().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const acting = await profile.getActing().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const location = await profile.getLocation().then((res) => {
 		if (res) return res.dataValues;
+		return null;
 	});
 
 	const experiences = await profile.getExperiences();
@@ -59,13 +62,16 @@ async function getProf(profile, searchValue) {
 			education.map(async (educ) => {
 				const startDate = moment(educ.startDate);
 				const endDate = moment(educ.endDate);
+
 				const school = await educ.getSchool().then((res) => {
 					if (res) return res.dataValues;
+					return null;
 				});
+
 				const diploma = await educ.getDiploma().then((res) => {
 					if (res) return res.dataValues;
+					return null;
 				});
-				educ = educ.dataValues;
 
 				return {
 					school: {
@@ -102,7 +108,7 @@ async function getProf(profile, searchValue) {
 		});
 
 	const skills = await profile.getSkills().map(async (skill) => {
-		if (skill) {
+		if (skill)
 			return {
 				id: skill.dataValues.id,
 				description: {
@@ -110,19 +116,22 @@ async function getProf(profile, searchValue) {
 					fr: skill.dataValues.descriptionFr,
 				},
 			};
-		}
+		return null;
 	});
 
-	const competencies = await profile.getCompetencies().map((competencies) => {
-		if (competencies)
-			return {
-				id: competencies.dataValues.id,
-				description: {
-					en: competencies.dataValues.descriptionEn,
-					fr: competencies.dataValues.descriptionFr,
-				},
-			};
-	});
+	const competencies = await profile
+		.getCompetencies()
+		.map((competenciesMap) => {
+			if (competenciesMap)
+				return {
+					id: competenciesMap.dataValues.id,
+					description: {
+						en: competenciesMap.dataValues.descriptionEn,
+						fr: competenciesMap.dataValues.descriptionFr,
+					},
+				};
+			return null;
+		});
 
 	let allSkill = skills.concat(competencies);
 

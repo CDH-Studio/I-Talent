@@ -5,7 +5,7 @@ const createOption = async (request, response) => {
 		const { type } = request.params;
 		const model = getModel(type);
 
-		dbObject = {
+		const dbObject = {
 			...request.body,
 		};
 		if (type === "skill" || type === "competency" || type === "category") {

@@ -9,7 +9,7 @@ const updateOption = async (request, response) => {
 		const { id, type } = request.params;
 		const model = getModel(type);
 
-		dbObject = {
+		const dbObject = {
 			id: id,
 			...request.body,
 		};
@@ -33,9 +33,9 @@ const updateInactive = async (request, response) => {
 	let updates = 0;
 
 	try {
-		for (let i = 0; i < request.body.length; i++) {
+		for (let i = 0; i < request.body.length; i += 1) {
 			const element = request.body[i];
-			const updateInfo = await User.update(
+			const updateInfo = User.update(
 				{ inactive: element.value },
 				{ where: { id: element.id } }
 			);
@@ -52,9 +52,9 @@ const updateFlagged = async (request, response) => {
 	let updates = 0;
 
 	try {
-		for (let i = 0; i < request.body.length; i++) {
+		for (let i = 0; i < request.body.length; i += 1) {
 			const element = request.body[i];
-			const updateInfo = await Profile.update(
+			const updateInfo = Profile.update(
 				{ flagged: element.value },
 				{ where: { id: element.id } }
 			);

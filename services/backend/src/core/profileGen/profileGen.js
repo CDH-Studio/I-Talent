@@ -7,10 +7,8 @@ const Location = Models.location;
 // FIXME fix the errors and refactor.
 async function getGedsAssist(request, response) {
 	const { id } = request.params;
-	user = await User.findOne({ where: { id } }).then(async (user) => {
-		user = user.dataValues;
-
-		let { name } = user;
+	await User.findOne({ where: { id } }).then(async (user) => {
+		let { name } = user.dataValues;
 
 		const lastSpaceIndex = name.lastIndexOf(" ");
 		name = `${name.substring(lastSpaceIndex)}, ${name.substring(
@@ -64,7 +62,7 @@ async function getGedsAssist(request, response) {
 				},
 			};
 
-			profile.email = user.email;
+			profile.email = user.dataValues.email;
 
 			return profile;
 		});
