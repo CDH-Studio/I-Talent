@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   DownOutlined,
   EditOutlined,
   LogoutOutlined,
   UserOutlined,
   DashboardOutlined,
+  MenuOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu, Button } from "antd";
 import { FormattedMessage } from "react-intl";
@@ -27,7 +29,7 @@ const TopNavView = () => {
     },
     navBrand: {
       height: "25px",
-      margin: "0 25px",
+      marginLeft: "25px",
     },
     rightMenu: {
       float: "right",
@@ -49,11 +51,34 @@ const TopNavView = () => {
     signInBtn: {
       marginRight: "20px",
     },
+    hamburgerMenu: {
+      paddingBottom: 23,
+      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
+    },
+    hamburgerHeader: {
+      justifyContent: "space-between",
+      display: "flex",
+      alignItems: "center",
+      height: "100%",
+      padding: "0 20px",
+    },
   };
 
+  const [showMenu, setShowMenu] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const updateWidth = () => setWindowWidth(window.innerWidth);
+
+  useEffect(() => {
+    window.addEventListener("resize", updateWidth);
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
   // menu options for profile dropdown
-  const menu = (
-    <Menu style={styles.dropDownMenu}>
+  const menu = (isDropdown, optionalStartMenuItems) => (
+    <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
+      {optionalStartMenuItems}
       <Menu.Item style={styles.dropDownItem}>
         <a
           rel="noopener noreferrer"
@@ -92,7 +117,11 @@ const TopNavView = () => {
   const getAvatarDropdown = (userName) => {
     if (userName) {
       return (
-        <Dropdown overlay={menu} placement="bottomCenter" trigger="click">
+        <Dropdown
+          overlay={() => menu(true)}
+          placement="bottomCenter"
+          trigger="click"
+        >
           <Button
             type="link"
             className="ant-dropdown-link"
@@ -113,20 +142,62 @@ const TopNavView = () => {
     );
   };
 
+  const hamburgerMenu = () =>
+    showMenu &&
+    menu(
+      false,
+      <Menu.Item style={styles.dropDownItem}>
+        <a rel="noopener noreferrer" href="/secured/home">
+          <HomeOutlined style={styles.MenuIcon} />
+          <FormattedMessage id="Home" />
+        </a>
+      </Menu.Item>
+    );
+
+  const hamburgerButton = (userName) => {
+    if (userName) {
+      return (
+        <Button type="default" onClick={() => setShowMenu((prev) => !prev)}>
+          <MenuOutlined />
+        </Button>
+      );
+    }
+
+    return (
+      <Button type="primary" href="/secured/home">
+        <FormattedMessage id="landing.login.button" />
+      </Button>
+    );
+  };
+
+  if (windowWidth > 400) {
+    return (
+      <Header style={styles.header}>
+        {/* Render logo */}
+        <a href="/secured/home">
+          <img src={Logo} alt="Logo" style={styles.navBrand} />
+        </a>
+        {/* Render right sigh of top menu */}
+        <div style={styles.rightMenu}>
+          {/* Render User Profile Dropdown */}
+          {getAvatarDropdown(localStorage.getItem("name"))}
+          {/* Render change language button */}
+        </div>
+      </Header>
+    );
+  }
+
   return (
-    <Header style={styles.header}>
-      {/* Render logo */}
-      <a href="/secured/home">
-        <img src={Logo} alt="Logo" style={styles.navBrand} />
-      </a>
-      {/* Render right sigh of top menu */}
-      <div style={styles.rightMenu}>
-        {/* Render User Profile Dropdown */}
-        {getAvatarDropdown(localStorage.getItem("name"))}
-        {/* Render change language button */}
-        <ChangeLanguage />
-      </div>
-    </Header>
+    <>
+      <Header style={styles.header}>
+        <div style={styles.hamburgerHeader}>
+          <ChangeLanguage />
+
+          {hamburgerButton(localStorage.getItem("name"))}
+        </div>
+        {hamburgerMenu()}
+      </Header>
+    </>
   );
 };
 
