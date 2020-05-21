@@ -5,14 +5,18 @@ import config from "../config";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
+import { useDispatch } from "react-redux";
+import { addError } from "../redux/slices/errorsSlice";
+
 const { backendAddress } = config;
 
 const Profile = ({ history, match }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  const updateProfileInfo = async (id) => {
+  const updateProfileInfo = async id => {
     const userID = localStorage.getItem("userId");
 
     // Send private data to ProfileLayout component, when current user
@@ -20,9 +24,13 @@ const Profile = ({ history, match }) => {
     if (id === userID) {
       const fetchedData = await axios
         .get(`${backendAddress}api/profile/private/${id}`)
-        .then((res) => res.data)
+        .then(res => res.data)
         // eslint-disable-next-line no-console
-        .catch((error) => console.error(error));
+        .catch(error => {
+          dispatch(addError(error));
+          history.push("/error");
+          console.error(error);
+        });
 
       return fetchedData;
     }
@@ -30,13 +38,17 @@ const Profile = ({ history, match }) => {
     // is looking at someone else profile
     const fetchedData = await axios
       .get(`${backendAddress}api/profile/${id}`)
-      .then((res) => res.data)
+      .then(res => res.data)
       // eslint-disable-next-line no-console
-      .catch((error) => console.error(error));
+      .catch(error => {
+        dispatch(addError(error));
+        history.push("/error");
+        console.error(error);
+      });
     return fetchedData;
   };
 
-  const goto = useCallback((link) => history.push(link), [history]);
+  const goto = useCallback(link => history.push(link), [history]);
 
   useEffect(() => {
     const { id } = match.params;
@@ -47,7 +59,7 @@ const Profile = ({ history, match }) => {
     }
 
     if (data === null) {
-      updateProfileInfo(id).then((fetchedData) => {
+      updateProfileInfo(id).then(fetchedData => {
         if (fetchedData !== undefined) {
           setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
           setData(fetchedData);

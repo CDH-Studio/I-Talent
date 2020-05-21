@@ -11,11 +11,11 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { NotFound, LandingPage } from "./pages";
+import { NotFound, LandingPage, UnexpectedError } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 
-const i18nConfigBuilder = (locale) => ({
+const i18nConfigBuilder = locale => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
   formats: {
     number: {
@@ -29,8 +29,8 @@ const i18nConfigBuilder = (locale) => ({
 });
 
 const App = () => {
-  const { locale } = useSelector((state) => state.settings);
-  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder('en'));
+  const { locale } = useSelector(state => state.settings);
+  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder("en"));
 
   useEffect(() => {
     setI18nConfig(i18nConfigBuilder(locale));
@@ -48,7 +48,7 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={(routeProps) => {
+            render={routeProps => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <LandingPage
@@ -62,7 +62,7 @@ const App = () => {
           />
           <Route
             path="/secured"
-            render={(routeProps) => {
+            render={routeProps => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <Secured
@@ -76,10 +76,24 @@ const App = () => {
           />
           <Route
             path="/admin"
-            render={(routeProps) => {
+            render={routeProps => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <Admin
+                  history={history}
+                  location={location}
+                  match={match}
+                  staticContext={staticContext}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/error"
+            render={routeProps => {
+              const { history, location, match, staticContext } = routeProps;
+              return (
+                <UnexpectedError
                   history={history}
                   location={location}
                   match={match}
