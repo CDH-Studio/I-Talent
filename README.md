@@ -43,6 +43,10 @@ Any ISED employee will be able to login to I-Talent with their windows credentia
   - Full Stack Developer
 - [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
   - Full Stack Developer
+- [Benoit Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)
+  - Full Stack Developer
+- [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)
+  - Full Stack Developer
 
 # Tech Stack
 
