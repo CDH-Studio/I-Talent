@@ -342,6 +342,8 @@
   "home": "Home",
 
   "error.button": "Back to Home",
+  "error.retry": "Retry",
+  "error.show": "Show error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
   "error.403.subtitle": "Looks like someone doesn't belong"
 }

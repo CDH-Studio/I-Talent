@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import PropTypes from "prop-types";
+import HandleError from "../../../functions/handleError";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
-const PrimaryInfoForm = ({ formType }) => {
+const PrimaryInfoForm = ({ formType, history }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+
+  const dispatch = useDispatch();
 
   // Get possible locations for form drop down
   const getLocations = async () => {
@@ -43,9 +48,10 @@ const PrimaryInfoForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         // eslint-disable-next-line no-console
         console.log(error);
+        handleError(error, dispatch, history);
       });
   }, []);
 

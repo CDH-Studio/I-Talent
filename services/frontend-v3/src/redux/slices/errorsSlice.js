@@ -6,7 +6,27 @@ const errorsSlice = createSlice({
   initialState: [],
   reducers: {
     addError(state, action) {
-      state = state.push(action.payload);
+      const error = action.payload;
+      let serializedError;
+      if (error.isAxiosError) {
+        serializedError = {
+          title: error.config.method.toUpperCase() + " " + error.config.url,
+          isAxiosError: true,
+          description: [
+            error.response && error.response.data
+              ? [error.response.status, error.response.statusText]
+              : ["No response from backend"],
+          ],
+        };
+      } else {
+        serializedError = {
+          title: error.message,
+          isAxiosError: false,
+          description: error.stack.split("\n"),
+        };
+      }
+
+      state = state.push(serializedError);
     },
   },
 });

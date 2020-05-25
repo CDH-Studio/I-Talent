@@ -19,28 +19,26 @@ import {
  *  EditProfileLayoutView(props)
  *  Render the layout for the edit profile forms
  */
-const EditProfileLayoutView = ({ formStep }) => {
-  const history = useHistory();
-
+const EditProfileLayoutView = ({ formStep, history }) => {
   /*
    * Profile Form Select
    *
    * Generate the correct form based on the step
    */
-  const profileFormSelect = (step) => {
+  const profileFormSelect = step => {
     switch (step) {
       case "primary-info":
-        return <PrimaryInfoForm formType="edit" />;
+        return <PrimaryInfoForm formType="edit" history={history} />;
       case "employment":
-        return <EmploymentDataForm formType="edit" />;
+        return <EmploymentDataForm formType="edit" history={history} />;
       case "language-proficiency":
-        return <LangProficiencyForm formType="edit" />;
+        return <LangProficiencyForm formType="edit" history={history} />;
       case "talent":
-        return <TalentForm formType="edit" />;
+        return <TalentForm formType="edit" history={history} />;
       case "personal-growth":
-        return <PersonalGrowthForm formType="edit" />;
+        return <PersonalGrowthForm formType="edit" history={history} />;
       case "qualifications":
-        return <QualificationsForm formType="edit" />;
+        return <QualificationsForm formType="edit" history={history} />;
       default:
         return <div>Hello</div>;
     }
@@ -51,7 +49,7 @@ const EditProfileLayoutView = ({ formStep }) => {
    *
    * Redirect to form based on sidebar selection
    */
-  const redirectToForm = (data) => {
+  const redirectToForm = data => {
     const url = `/secured/profile/edit/${data.key}`;
     history.push(url);
   };
@@ -86,7 +84,7 @@ const EditProfileLayoutView = ({ formStep }) => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = (step) => {
+  const getSideBarContent = step => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item key="primary-info" style={styles.menuItem}>
@@ -195,7 +193,7 @@ const EditProfileLayoutView = ({ formStep }) => {
   const form = profileFormSelect(formStep);
 
   // get current language code
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>

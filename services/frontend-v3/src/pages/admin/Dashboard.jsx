@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Skeleton, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import config from "../../config";
 import { IntlPropType } from "../../customPropTypes";
+import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -15,9 +17,11 @@ const { backendAddress } = config;
  *  Controller for StatCards and DashboardGraphs.
  *  It gathers the required data for rendering these components.
  */
-const AdminDashboard = ({ intl }) => {
+const AdminDashboard = ({ intl, history }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   const type = "dashboard";
 
@@ -32,12 +36,12 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   };
 
   // Get part of the title for the page
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -54,7 +58,9 @@ const AdminDashboard = ({ intl }) => {
   useEffect(() => {
     const setState = async () => {
       // Get the data for the dashboard cards and graphes
-      const dashboardData = await getDashboardData();
+      const dashboardData = await getDashboardData().catch(error =>
+        handleError(error, dispatch, history)
+      );
       setData(dashboardData);
       setLoading(false);
     };

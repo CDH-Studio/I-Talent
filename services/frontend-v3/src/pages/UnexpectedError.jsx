@@ -7,25 +7,15 @@ import { FormattedMessage } from "react-intl";
 
 const maxStackLines = 5;
 
-const UnexpectedError = ({ errorCode }) => {
-  const [back, setBack] = useState(false);
+const UnexpectedError = ({ history }) => {
   const [showError, setShowError] = useState(false);
   const errors = useSelector(state => state.errors);
 
   const styles = {
     content: { textAlign: "left", maxWidth: "1200px", margin: "0px" },
     errorTitle: {},
-    axiosErrorDescription: { marginBottom: "0.25em", marginLeft: "1em" },
-    defaultErrorDescription: { marginBottom: "0.25em", marginLeft: "1em" },
+    errorDescription: { marginBottom: "0.0em", marginLeft: "1em" },
   };
-
-  const handleClick = () => {
-    setBack(true);
-  };
-
-  if (back) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <Result
@@ -35,7 +25,7 @@ const UnexpectedError = ({ errorCode }) => {
       extra={
         <div style={{ textAlign: "center" }}>
           <div>
-            <Button onClick={() => setBack(oldValue => !oldValue)}>
+            <Button onClick={() => history.goBack()}>
               <FormattedMessage id="error.retry" />
             </Button>
             <Button onClick={() => setShowError(oldValue => !oldValue)}>
@@ -47,65 +37,18 @@ const UnexpectedError = ({ errorCode }) => {
               {showError ? (
                 <List
                   dataSource={errors}
-                  renderItem={item => {
-                    if (item.isAxiosError) {
-                      return (
-                        <List.Item>
-                          <List.Item.Meta
-                            title={
-                              <span style={styles.errorTitle}>
-                                {item.config.method.toUpperCase()}{" "}
-                                {item.config.url}
-                              </span>
-                            }
-                            description={
-                              item.response && item.response.data ? (
-                                <>
-                                  <div style={styles.axiosErrorDescription}>
-                                    {item.response.status}
-                                  </div>
-                                  <div style={styles.axiosErrorDescription}>
-                                    {item.response.statusText}
-                                  </div>
-                                </>
-                              ) : (
-                                <div style={styles.axiosErrorDescription}>
-                                  <FormattedMessage id="error.no.backend.response" />
-                                </div>
-                              )
-                            }
-                          />
-                        </List.Item>
-                      );
-                    } else {
-                      return (
-                        <List.Item>
-                          <List.Item.Meta
-                            title={
-                              <span style={styles.errorTitle}>
-                                {item.message}
-                              </span>
-                            }
-                            description={
-                              <div>
-                                {item.stack
-                                  .split("\n")
-                                  .slice(maxStackLines)
-                                  .map(val => {
-                                    console.log("VAL", val);
-                                    return (
-                                      <p style={styles.defaultErrorDescription}>
-                                        {val}
-                                      </p>
-                                    );
-                                  })}
-                              </div>
-                            }
-                          />
-                        </List.Item>
-                      );
-                    }
-                  }}
+                  renderItem={item => (
+                    <List.Item>
+                      <List.Item.Meta
+                        title={
+                          <span style={styles.errorTitle}>{item.title}</span>
+                        }
+                        description={item.description.map(val => (
+                          <p style={styles.errorDescription}>{val}</p>
+                        ))}
+                      />
+                    </List.Item>
+                  )}
                 />
               ) : null}
             </div>

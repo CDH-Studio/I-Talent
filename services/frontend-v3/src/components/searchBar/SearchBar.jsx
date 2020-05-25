@@ -3,9 +3,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
-import config from "../../config";
+import { useDispatch } from "react-redux";
+import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
+import config from "../../config";
 const { backendAddress } = config;
 
 const SearchBar = ({ history }) => {
@@ -14,17 +16,19 @@ const SearchBar = ({ history }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
 
+  const dispatch = useDispatch();
+
   // Fetches options for skills select field in advanced search
   const getSkills = async () => {
     try {
       const results = await axios.get(
         `${backendAddress}api/option/getDevelopmentalGoals`
       );
-      return results.data;
+      setSkillOptions(results.data);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   };
 
@@ -32,13 +36,13 @@ const SearchBar = ({ history }) => {
   const getBranch = async () => {
     try {
       const results = await axios.get(`${backendAddress}api/option/getBranch`);
-      return results.data.filter(
-        (elem) => elem.description && elem.description.en
+      setBranchOptions(
+        results.data.filter(elem => elem.description && elem.description.en)
       );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   };
 
@@ -48,11 +52,11 @@ const SearchBar = ({ history }) => {
       const results = await axios.get(
         `${backendAddress}api/option/getLocation`
       );
-      return results.data;
+      setLocationOptions(results.data);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   };
 
@@ -62,16 +66,16 @@ const SearchBar = ({ history }) => {
       const results = await axios.get(
         `${backendAddress}api/option/getGroupLevel`
       );
-      return results.data;
+      setClassOptions(results.data);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   };
 
   // turns search values into query, redirects to results page with query
-  const handleSearch = (values) => {
+  const handleSearch = values => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
     history.push(url);
@@ -79,14 +83,12 @@ const SearchBar = ({ history }) => {
 
   useEffect(() => {
     const updateState = async () => {
-      const skills = await getSkills();
-      const branches = await getBranch();
-      const locations = await getLocation();
-      const classifications = await getClassification();
-      setSkillOptions(skills);
-      setBranchOptions(branches);
-      setLocationOptions(locations);
-      setClassOptions(classifications);
+      Promise.all([
+        getSkills(),
+        getBranch(),
+        getLocation(),
+        getClassification(),
+      ]).catch(error => handleError(error, dispatch, history));
     };
 
     updateState();

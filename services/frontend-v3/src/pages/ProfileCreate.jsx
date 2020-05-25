@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 import { IntlPropType } from "../customPropTypes";
 
-const ProfileCreate = ({ intl, match }) => {
+const ProfileCreate = ({ intl, match, history }) => {
   document.title = `${intl.formatMessage({ id: "create.profile" })} | I-Talent`;
 
-  return <CreateProfileLayout step={match.params.step} />;
+  return <CreateProfileLayout step={match.params.step} history={history} />;
 };
 
 ProfileCreate.propTypes = {

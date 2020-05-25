@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import config from "../../config";
 import SearchFilterView from "./SearchFilterView";
 import { HistoryPropType } from "../../customPropTypes";
+import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -15,6 +17,8 @@ const SearchFilter = ({ history }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+
+  const dispatch = useDispatch();
 
   const toggle = () => {
     setExpand(!expand);
@@ -60,11 +64,11 @@ const SearchFilter = ({ history }) => {
         const results = await axios.get(
           `${backendAddress}api/option/getDevelopmentalGoals`
         );
-        return results.data;
+        setSkillOptions(results.data);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return [];
+        throw error;
       }
     };
 
@@ -74,13 +78,13 @@ const SearchFilter = ({ history }) => {
         const results = await axios.get(
           `${backendAddress}api/option/getBranch`
         );
-        return results.data.filter(
-          (elem) => elem.description && elem.description.en
+        setBranchOptions(
+          results.data.filter(elem => elem.description && elem.description.en)
         );
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return [];
+        throw error;
       }
     };
 
@@ -91,11 +95,11 @@ const SearchFilter = ({ history }) => {
           `${backendAddress}api/option/getLocation`
         );
 
-        return results.data;
+        setLocationOptions(results.data);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return [];
+        throw error;
       }
     };
 
@@ -106,23 +110,22 @@ const SearchFilter = ({ history }) => {
           `${backendAddress}api/option/getGroupLevel`
         );
 
-        return results.data;
+        setClassOptions(results.data);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return [];
+        throw error;
       }
     };
 
     const updateState = async () => {
-      const skills = await getSkills();
-      const branches = await getBranch();
-      const locations = await getLocation();
-      const classifications = await getClassification();
-      setSkillOptions(skills);
-      setBranchOptions(branches);
-      setLocationOptions(locations);
-      setClassOptions(classifications);
+      Promise.all([
+        getSkills(),
+        getBranch(),
+        getLocation(),
+        getClassification(),
+      ]);
+      await getSkills().catch(error => handleError(error, dispatch, history));
     };
 
     getSearchFieldValues();
@@ -130,7 +133,7 @@ const SearchFilter = ({ history }) => {
   }, [getSearchFieldValues]);
 
   // page with query
-  const handleSearch = (values) => {
+  const handleSearch = values => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${query}`;
     history.push(url);

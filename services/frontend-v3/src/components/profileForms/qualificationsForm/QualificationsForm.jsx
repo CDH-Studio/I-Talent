@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
+import handleError from "../../../functions/handleError";
 import QualificationsFormView from "./QualificationsFormView";
 import config from "../../../config";
 
@@ -12,13 +14,15 @@ const { backendAddress } = config;
  *  Controller for the QualificationsFormView.
  *  It gathers the required data for rendering the component
  */
-const QualificationsForm = ({ formType }) => {
+const QualificationsForm = ({ formType, history }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [savedEducation, setSavedEducation] = useState([]);
   const [savedExperience, setSavedExperience] = useState([]);
   const [savedProjects, setSavedProjects] = useState([]);
+
+  const dispatch = useDispatch();
 
   /**
    * Get User Profile
@@ -37,7 +41,7 @@ const QualificationsForm = ({ formType }) => {
 
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -117,7 +121,7 @@ const QualificationsForm = ({ formType }) => {
   // useEffect to run once component is mounted
   useEffect(() => {
     /* Get all required data component */
-    getProfileInfo();
+    getProfileInfo().catch(error => handleError(error, dispatch, history));
   }, []);
 
   return (
@@ -127,6 +131,7 @@ const QualificationsForm = ({ formType }) => {
       savedExperience={savedExperience}
       savedProjects={savedProjects}
       formType={formType}
+      history={history}
       load={load}
     />
   );

@@ -6,9 +6,11 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import UserTableView from "./UserTableView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -17,13 +19,15 @@ const { backendAddress } = config;
  *  Controller for the UserTableView.
  *  It gathers the required data for rendering the component.
  */
-function UserTable({ intl, type }) {
+function UserTable({ intl, type, history }) {
   const [data, setData] = useState([]);
   const [statuses, setStatuses] = useState({});
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+
+  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -36,7 +40,7 @@ function UserTable({ intl, type }) {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -46,15 +50,17 @@ function UserTable({ intl, type }) {
     let users = [];
     if (loading) {
       const setState = async () => {
-        users = await getUserInformation();
-        setData(users);
+        await getUserInformation()
+          .then(users => setData(users))
+          .catch(error => handleError(error, dispatch, history));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        users = await getUserInformation();
-        setData(users);
+        await getUserInformation()
+          .then(users => setData(users))
+          .catch(error => handleError(error, dispatch, history));
         setReset(false);
       };
       updateState();
@@ -78,7 +84,7 @@ function UserTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -101,7 +107,7 @@ function UserTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
@@ -142,7 +148,7 @@ function UserTable({ intl, type }) {
       convertData[i].key = convertData[i].id;
     }
 
-    convertData.forEach((e) => {
+    convertData.forEach(e => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = `/secured/profile/${e.id}`;

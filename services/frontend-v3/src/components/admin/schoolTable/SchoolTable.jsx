@@ -4,9 +4,11 @@ import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import SchoolTableView from "./SchoolTableView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -15,13 +17,15 @@ const { backendAddress } = config;
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-const SchoolTable = ({ type, intl }) => {
+const SchoolTable = ({ type, intl, history }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -35,26 +39,27 @@ const SchoolTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let schools = [];
     if (loading) {
       const setState = async () => {
-        schools = await getSchools();
-        setData(schools);
+        await getSchools()
+          .then(schools => setData(schools))
+          .catch(error => handleError(error, dispatch, history));
         // eslint-disable-next-line no-console
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        schools = await getSchools();
-        setData(schools);
+        await getSchools()
+          .then(schools => setData(schools))
+          .catch(error => handleError(error, dispatch, history));
         // eslint-disable-next-line no-console
         setReset(false);
       };
@@ -63,7 +68,7 @@ const SchoolTable = ({ type, intl }) => {
   }, [getSchools, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -86,13 +91,13 @@ const SchoolTable = ({ type, intl }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a school */
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -150,7 +155,7 @@ const SchoolTable = ({ type, intl }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (_selectedRowKeys) => {
+  const onSelectChange = _selectedRowKeys => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
@@ -158,7 +163,7 @@ const SchoolTable = ({ type, intl }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (_selectedRowKeys) => {
+    onChange: _selectedRowKeys => {
       onSelectChange(_selectedRowKeys);
     },
   };

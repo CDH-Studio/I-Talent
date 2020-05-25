@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -12,25 +14,33 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = ({ formType }) => {
+const PersonalGrowthForm = ({ formType, history }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
-  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState([]);
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
+    []
+  );
   const [relocationOptions, setRelocationOptions] = useState([]);
   const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
   const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
   const [careerMobilityOptions, setCareerMobilityOptions] = useState([]);
   const [savedCareerMobility, setSavedCareerMobility] = useState(undefined);
-  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState([]);
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(undefined);
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState(
+    []
+  );
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(
+    undefined
+  );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
+  const dispatch = useDispatch();
+
   // Get current language code
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   /**
    * Get saved Developmental Goals
@@ -255,7 +265,7 @@ const PersonalGrowthForm = ({ formType }) => {
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect when locale changes
@@ -278,8 +288,16 @@ const PersonalGrowthForm = ({ formType }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
+        handleError(error, dispatch, history);
       });
-  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
+  }, [
+    getCareerMobilityOptions,
+    getDevelopmentalGoalOptions,
+    getInterestedInRemoteOptions,
+    getLookingForNewJobOptions,
+    getRelocationOptions,
+    getTalentMatrixResultOptions,
+  ]);
 
   return (
     <PersonalGrowthFormView

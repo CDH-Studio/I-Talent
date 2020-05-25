@@ -5,6 +5,8 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
+import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
@@ -16,7 +18,7 @@ const { backendAddress } = config;
  *  Controller for the SkillTableView.
  *  It gathers the required data for rendering the component.
  */
-const SkillTable = ({ intl, type }) => {
+const SkillTable = ({ intl, type, history }) => {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +26,7 @@ const SkillTable = ({ intl, type }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
+  const dispatch = useDispatch();
   const size = "large";
 
   /* get skill information */
@@ -38,7 +40,7 @@ const SkillTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   }, [type]);
 
@@ -52,28 +54,29 @@ const SkillTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return [];
+      throw error;
     }
   }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let skills = [];
-    let categories = [];
     if (loading) {
       const setState = async () => {
-        skills = await getSkill();
-        categories = await getCategories();
-        setData(skills);
-        setCategories(categories);
+        await getSkill()
+          .then(skills => setData(skills))
+          .then(getCategories)
+          .then(categories => setCategories(categories))
+          .catch(error => handleError(error, dispatch, history));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        skills = await getSkill();
-        setData(skills);
+        await getSkill()
+          .then(skills => setData(skills))
+          .catch(error => handleError(error, dispatch, history));
+
         setReset(false);
       };
       updateState();
@@ -81,7 +84,7 @@ const SkillTable = ({ intl, type }) => {
   }, [getCategories, getSkill, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -104,14 +107,14 @@ const SkillTable = ({ intl, type }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a skill */
   // eslint-disable-next-line consistent-return
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -137,7 +140,7 @@ const SkillTable = ({ intl, type }) => {
 
       if (typeof values.editSkillCategory === "string") {
         const index = categories.findIndex(
-          (object) =>
+          object =>
             object.descriptionEn === values.editSkillCategory ||
             object.descriptionFr === values.editSkillCategory
         );
@@ -149,7 +152,7 @@ const SkillTable = ({ intl, type }) => {
         });
       } else {
         const categoryObject = categories.find(
-          (category) => category.id === values.editSkillCategory
+          category => category.id === values.editSkillCategory
         );
         await axios.put(url, {
           descriptionEn: values.editSkillEn,
@@ -186,7 +189,7 @@ const SkillTable = ({ intl, type }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
+  const onSelectChange = selectedRowKeys => {
     // Can access the keys of each skill selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -194,7 +197,7 @@ const SkillTable = ({ intl, type }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
+    onChange: selectedRowKeys => {
       onSelectChange(selectedRowKeys);
     },
   };
@@ -218,7 +221,7 @@ const SkillTable = ({ intl, type }) => {
       allSkills[i].key = allSkills[i].id;
     }
 
-    allSkills.forEach((e) => {
+    allSkills.forEach(e => {
       e.categoryNameEn = e.category.descriptionEn;
       e.categoryNameFr = e.category.descriptionFr;
     });

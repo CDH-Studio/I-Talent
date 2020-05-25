@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TalentFormView from "./TalentFormView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -12,7 +13,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const TalentForm = ({ formType }) => {
+const TalentForm = ({ formType, history }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [skillOptions, setSkillOptions] = useState([]);
   const [competencyOptions, setCompetencyOptions] = useState([]);
@@ -21,8 +22,10 @@ const TalentForm = ({ formType }) => {
   const [savedSkills, setSavedSkills] = useState([]);
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
 
+  const dispatch = useDispatch();
+
   // get current language code
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   /**
    * Get user profile
@@ -163,10 +166,11 @@ const TalentForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
+        handleError(error, dispatch, history);
       });
   }, [getCompetencyOptions, getSkillOptions]);
 

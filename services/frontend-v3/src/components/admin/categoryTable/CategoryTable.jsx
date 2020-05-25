@@ -5,6 +5,8 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
+import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
@@ -16,13 +18,14 @@ const { backendAddress } = config;
  *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-function CategoryTable({ intl, type }) {
+function CategoryTable({ intl, type, history }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -39,7 +42,7 @@ function CategoryTable({ intl, type }) {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -47,8 +50,9 @@ function CategoryTable({ intl, type }) {
     let categories = [];
     if (loading) {
       const setState = async () => {
-        categories = await getCategories();
-        setData(categories);
+        await getCategories()
+          .then(categories => setData(categories))
+          .catch(error => handleError(error, dispatch, history));
         setLoading(false);
       };
       setState();
@@ -71,7 +75,7 @@ function CategoryTable({ intl, type }) {
       let result;
 
       // eslint-disable-next-line func-names
-      await axios.post(url, { ids: selectedRowKeys }).then(function (response) {
+      await axios.post(url, { ids: selectedRowKeys }).then(function(response) {
         result = response.data.deletePerformed;
       });
 
@@ -89,7 +93,7 @@ function CategoryTable({ intl, type }) {
 
   /* handles addition of a category */
   // eslint-disable-next-line consistent-return
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -126,7 +130,7 @@ function CategoryTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -149,14 +153,14 @@ function CategoryTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
+  const onSelectChange = selectedRowKeys => {
     // Can access the keys of each category selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -164,7 +168,7 @@ function CategoryTable({ intl, type }) {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
+    onChange: selectedRowKeys => {
       onSelectChange(selectedRowKeys);
     },
   };

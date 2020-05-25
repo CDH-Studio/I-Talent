@@ -25,9 +25,8 @@ const { Step } = Steps;
  *  CreateProfileLayoutView(props)
  *  Render the layout for the create profile forms
  */
-const CreateProfileLayoutView = (props) => {
-  const { formStep } = props;
-  const history = useHistory();
+const CreateProfileLayoutView = props => {
+  const { formStep, history } = props;
   const [profileExists, setProfileExists] = useState(false);
 
   /* Component Styles */
@@ -44,7 +43,7 @@ const CreateProfileLayoutView = (props) => {
    *
    * action to take if sidebar steps are clicked
    */
-  const onChange = (current) => {
+  const onChange = current => {
     const url = `/secured/profile/create/step/${current + 1}`;
     history.push(url);
   };
@@ -74,25 +73,25 @@ const CreateProfileLayoutView = (props) => {
    *
    * Generate the correct form based on the step
    */
-  const profileFormSelect = (step) => {
+  const profileFormSelect = step => {
     const stepInt = parseInt(step, 10);
     switch (stepInt) {
       case 1:
         return <Welcome />;
       case 2:
-        return <PrimaryInfoForm formType="create" />;
+        return <PrimaryInfoForm formType="create" history={history} />;
       case 3:
-        return <EmploymentDataForm formType="create" />;
+        return <EmploymentDataForm formType="create" history={history} />;
       case 4:
-        return <LangProficiencyForm formType="create" />;
+        return <LangProficiencyForm formType="create" history={history} />;
       case 5:
-        return <TalentForm formType="create" />;
+        return <TalentForm formType="create" history={history} />;
       case 6:
-        return <PersonalGrowthForm formType="create" />;
+        return <PersonalGrowthForm formType="create" history={history} />;
       case 7:
-        return <QualificationsForm formType="create" />;
+        return <QualificationsForm formType="create" history={history} />;
       case 8:
-        return <DoneSetup formType="create" />;
+        return <DoneSetup formType="create" history={history} />;
       default:
         return <div>Hello</div>;
     }
@@ -103,7 +102,7 @@ const CreateProfileLayoutView = (props) => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = (step) => {
+  const getSideBarContent = step => {
     const stepInt = parseInt(step, 10) - 1;
     return (
       <div style={{ margin: "20px 25px" }}>
@@ -221,7 +220,7 @@ const CreateProfileLayoutView = (props) => {
   const form = profileFormSelect(formStep);
 
   // get current language code
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import config from "../config";
-import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
-import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-
 import { useDispatch } from "react-redux";
 import { addError } from "../redux/slices/errorsSlice";
+import config from "../config";
+import handleError from "../functions/handleError";
+import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
+import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
 const { backendAddress } = config;
 
@@ -14,6 +14,7 @@ const Profile = ({ history, match }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const dispatch = useDispatch();
 
   const updateProfileInfo = async id => {
@@ -27,9 +28,8 @@ const Profile = ({ history, match }) => {
         .then(res => res.data)
         // eslint-disable-next-line no-console
         .catch(error => {
-          dispatch(addError(error));
-          history.push("/error");
           console.error(error);
+          throw error;
         });
 
       return fetchedData;
@@ -41,8 +41,14 @@ const Profile = ({ history, match }) => {
       .then(res => res.data)
       // eslint-disable-next-line no-console
       .catch(error => {
-        dispatch(addError(error));
-        history.push("/error");
+        if (
+          error.isAxiosError &&
+          error.response &&
+          error.response.status == 404
+        ) {
+        } else {
+          throw error;
+        }
         console.error(error);
       });
     return fetchedData;
@@ -59,13 +65,15 @@ const Profile = ({ history, match }) => {
     }
 
     if (data === null) {
-      updateProfileInfo(id).then(fetchedData => {
-        if (fetchedData !== undefined) {
-          setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
-          setData(fetchedData);
-          setLoading(false);
-        }
-      });
+      updateProfileInfo(id)
+        .then(fetchedData => {
+          if (fetchedData !== undefined) {
+            setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
+            setData(fetchedData);
+            setLoading(false);
+          }
+        })
+        .catch(error => handleError(error, dispatch, history));
     }
   }, [data, goto, match.params]);
 

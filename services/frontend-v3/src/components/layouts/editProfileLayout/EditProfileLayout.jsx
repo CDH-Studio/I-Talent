@@ -6,10 +6,8 @@ import EditProfileLayoutView from "./EditProfileLayoutView";
  *  EditProfileLayout(props)
  *  Controller for the Edit Profile Layout.
  */
-const EditProfileLayout = ({ step }) => {
-  return (
-    <EditProfileLayoutView formStep={step} />
-  );
+const EditProfileLayout = ({ step, history }) => {
+  return <EditProfileLayoutView formStep={step} history={history} />;
 };
 
 EditProfileLayout.propTypes = {

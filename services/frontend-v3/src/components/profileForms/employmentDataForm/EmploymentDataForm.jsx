@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import handleError from "../../../functions/handleError";
 import config from "../../../config";
 import EmploymentDataFormView from "./EmploymentDataFormView";
 
@@ -12,15 +13,17 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const EmploymentDataForm = ({ formType }) => {
+const EmploymentDataForm = ({ formType, history }) => {
   const [substantiveOptions, setSubstantiveOptions] = useState([]);
   const [classificationOptions, setClassificationOptions] = useState([]);
   const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  const dispatch = useDispatch();
+
   // Get current language code
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
@@ -113,10 +116,11 @@ const EmploymentDataForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch((error) => {
+      .catch(error => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
+        handleError(error, dispatch, history);
       });
   }, [getSecurityOptions, getSubstantiveOptions]);
 

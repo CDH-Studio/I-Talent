@@ -5,6 +5,8 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
+import handleError from "../../../functions/handleError";
 import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
@@ -16,13 +18,15 @@ const { backendAddress } = config;
  *  Controller for the CompetencyTableView.
  *  It gathers the required data for rendering the component.
  */
-const CompetencyTable = ({ intl, type }) => {
+const CompetencyTable = ({ intl, type, history }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -36,7 +40,7 @@ const CompetencyTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   }, [type]);
 
@@ -46,15 +50,18 @@ const CompetencyTable = ({ intl, type }) => {
     let competencies = [];
     if (loading) {
       const setState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
+        await getCompetencies()
+          .then(competencies => setData(competencies))
+          .catch(error => handleError(error, dispatch, history));
+
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
+        await getCompetencies()
+          .then(competencies => setData(competencies))
+          .catch(error => handleError(error, dispatch, history));
         setReset(false);
       };
       updateState();
@@ -62,7 +69,7 @@ const CompetencyTable = ({ intl, type }) => {
   }, [getCompetencies, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = (plural) => {
+  const getDisplayType = plural => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -85,13 +92,13 @@ const CompetencyTable = ({ intl, type }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = (clearFilters) => {
+  const handleReset = clearFilters => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a competency */
-  const handleSubmitAdd = async (values) => {
+  const handleSubmitAdd = async values => {
     try {
       const url = `${backendAddress}api/admin/options/${type}`;
 
@@ -148,7 +155,7 @@ const CompetencyTable = ({ intl, type }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
+  const onSelectChange = selectedRowKeys => {
     // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -156,7 +163,7 @@ const CompetencyTable = ({ intl, type }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
+    onChange: selectedRowKeys => {
       onSelectChange(selectedRowKeys);
     },
   };
@@ -199,7 +206,7 @@ const CompetencyTable = ({ intl, type }) => {
       data={convertToViewableInformation()}
     />
   );
-}
+};
 
 CompetencyTable.propTypes = {
   intl: IntlPropType,

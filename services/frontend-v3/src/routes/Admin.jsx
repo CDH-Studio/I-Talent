@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import Keycloak from "keycloak-js";
 import axios from "axios";
 import {
-  AdminDasboard,
+  AdminDashboard,
   AdminUser,
   AdminSkill,
   AdminCategory,
@@ -31,8 +31,8 @@ const Admin = () => {
         promiseType: "native",
         checkLoginIframe: false,
       })
-      .then((auth) => {
-        axios.interceptors.request.use((requestConfig) =>
+      .then(auth => {
+        axios.interceptors.request.use(requestConfig =>
           keycloakInstance.updateToken(300).then(() => {
             const newConfig = requestConfig;
             newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
@@ -114,22 +114,38 @@ const Admin = () => {
           <Route
             exact
             path="/admin/dashboard"
-            render={() => <AdminDasboard />}
+            render={({ history }) => <AdminDashboard history={history} />}
           />
-          <Route exact path="/admin/users" render={() => <AdminUser />} />
-          <Route exact path="/admin/skills" render={() => <AdminSkill />} />
+          <Route
+            exact
+            path="/admin/users"
+            render={({ history }) => <AdminUser history={history} />}
+          />
+          <Route
+            exact
+            path="/admin/skills"
+            render={({ history }) => <AdminSkill history={history} />}
+          />
           <Route
             exact
             path="/admin/categories"
-            render={() => <AdminCategory />}
+            render={({ history }) => <AdminCategory history={history} />}
           />
           <Route
             exact
             path="/admin/competencies"
-            render={() => <AdminCompetency />}
+            render={({ history }) => <AdminCompetency history={history} />}
           />
-          <Route exact path="/admin/diploma" render={() => <AdminDiploma />} />
-          <Route exact path="/admin/school" render={() => <AdminSchool />} />
+          <Route
+            exact
+            path="/admin/diploma"
+            render={({ history }) => <AdminDiploma history={history} />}
+          />
+          <Route
+            exact
+            path="/admin/school"
+            render={({ history }) => <AdminSchool history={history} />}
+          />
         </div>
       );
     }
