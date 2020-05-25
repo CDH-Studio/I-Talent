@@ -182,6 +182,7 @@ const TopNavView = () => {
           {/* Render User Profile Dropdown */}
           {getAvatarDropdown(localStorage.getItem("name"))}
           {/* Render change language button */}
+          <ChangeLanguage />
         </div>
       </Header>
     );
