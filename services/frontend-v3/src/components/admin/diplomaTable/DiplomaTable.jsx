@@ -61,7 +61,7 @@ const DiplomaTable = ({ type, intl }) => {
       const setState = async () => {
         await getDiplomas()
           .then(diplomas => setData(diplomas))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
 
         setLoading(false);
       };
@@ -70,7 +70,7 @@ const DiplomaTable = ({ type, intl }) => {
       const updateState = async () => {
         await getDiplomas()
           .then(diplomas => setData(diplomas))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         setReset(false);
       };
       updateState();

@@ -47,7 +47,7 @@ const SchoolTable = ({ type, intl }) => {
       const setState = async () => {
         await getSchools()
           .then(schools => setData(schools))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         // eslint-disable-next-line no-console
         setLoading(false);
       };
@@ -56,7 +56,7 @@ const SchoolTable = ({ type, intl }) => {
       const updateState = async () => {
         await getSchools()
           .then(schools => setData(schools))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         // eslint-disable-next-line no-console
         setReset(false);
       };

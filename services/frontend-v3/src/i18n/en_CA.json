@@ -316,6 +316,7 @@
   "profile.undefined": "Undefined",
   "profile.do.not.specify": "Do not specify",
   "profile.not.specified": "Not specified",
+  "profile.not.found": "Invalid profile URL",
   "profile.end.date.present": "Present",
   "profile.relocation.locations": "I am willing to relocate to",
   "profile.rules.required": "Required",
@@ -343,6 +344,7 @@
 
   "error.button": "Back to Home",
   "error.retry": "Retry",
+  "error.save": "Data not saved due to network error",
   "error.show": "Show error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
   "error.403.subtitle": "Looks like someone doesn't belong"

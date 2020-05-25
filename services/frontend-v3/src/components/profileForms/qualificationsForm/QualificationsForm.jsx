@@ -119,7 +119,7 @@ const QualificationsForm = ({ formType }) => {
   // useEffect to run once component is mounted
   useEffect(() => {
     /* Get all required data component */
-    getProfileInfo().catch(error => handleError(error, true, true));
+    getProfileInfo().catch(error => handleError(error, true, "redirect"));
   }, []);
 
   return (

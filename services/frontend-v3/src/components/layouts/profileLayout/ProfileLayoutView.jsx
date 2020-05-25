@@ -18,6 +18,7 @@ import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
+import ProfileNotFound from "../../profileNotFound/profileNotFound";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -29,7 +30,7 @@ const ProfileLayoutView = ({ data }) => {
   const userID = localStorage.getItem("userId");
 
   // Visibility values
-  const { visibleCards } = data;
+  const visibleCards = data ? data.visibleCards : null;
 
   /* Component Styles */
   const styles = {
@@ -445,6 +446,14 @@ const ProfileLayoutView = ({ data }) => {
    * card is hidden or not
    */
   const generateProfileSidebarContent = () => {
+    if (!visibleCards) {
+      return (
+        <Row justify="center" style={styles.sideBarRow}>
+          <Col flex={1} offset={1}></Col>
+        </Row>
+      );
+    }
+
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
@@ -600,7 +609,7 @@ const ProfileLayoutView = ({ data }) => {
         }}
         title={<FormattedMessage id="my.profile" />}
       />
-      {displayAllProfileCards()}
+      {data ? displayAllProfileCards() : <ProfileNotFound />}
     </AppLayout>
   );
 };

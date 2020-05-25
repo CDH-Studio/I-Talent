@@ -69,11 +69,11 @@ const Profile = ({ history, match }) => {
         .then(fetchedData => {
           if (fetchedData !== undefined) {
             setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
-            setData(fetchedData);
-            setLoading(false);
           }
+          setData(fetchedData);
+          setLoading(false);
         })
-        .catch(error => handleError(error, true, true));
+        .catch(error => handleError(error, true, "redirect"));
     }
   }, [data, goto, match.params]);
 

@@ -49,7 +49,7 @@ function UserTable({ intl, type }) {
       const setState = async () => {
         await getUserInformation()
           .then(users => setData(users))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         setLoading(false);
       };
       setState();
@@ -57,7 +57,7 @@ function UserTable({ intl, type }) {
       const updateState = async () => {
         await getUserInformation()
           .then(users => setData(users))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         setReset(false);
       };
       updateState();

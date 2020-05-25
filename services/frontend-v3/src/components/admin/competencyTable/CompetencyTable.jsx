@@ -49,7 +49,7 @@ const CompetencyTable = ({ intl, type }) => {
       const setState = async () => {
         await getCompetencies()
           .then(competencies => setData(competencies))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
 
         setLoading(false);
       };
@@ -58,7 +58,7 @@ const CompetencyTable = ({ intl, type }) => {
       const updateState = async () => {
         await getCompetencies()
           .then(competencies => setData(competencies))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         setReset(false);
       };
       updateState();

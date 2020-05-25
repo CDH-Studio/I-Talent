@@ -85,7 +85,7 @@ const SearchBar = ({ history }) => {
         getBranch(),
         getLocation(),
         getClassification(),
-      ]).catch(error => handleError(error, true, true));
+      ]).catch(error => handleError(error, true, "redirect"));
     };
 
     updateState();

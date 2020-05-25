@@ -24,7 +24,7 @@ const ResultsCard = ({ history }) => {
       axios
         .get(`${backendAddress}api/search/fuzzySearch?${queryString}`)
         .then(result => setResults(result.data))
-        .catch(error => handleError(error, true, true));
+        .catch(error => handleError(error, true, "redirect"));
     } else {
       setResults(new Error("invalid query"));
     }

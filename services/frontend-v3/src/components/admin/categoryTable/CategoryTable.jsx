@@ -50,7 +50,7 @@ function CategoryTable({ intl, type }) {
       const setState = async () => {
         await getCategories()
           .then(categories => setData(categories))
-          .catch(error => handleError(error, true, true));
+          .catch(error => handleError(error, true, "redirect"));
         setLoading(false);
       };
       setState();

@@ -66,7 +66,7 @@ const LangProficiencyForm = ({ formType }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, true, true);
+        handleError(error, true, "redirect");
       });
   }, []);
 
