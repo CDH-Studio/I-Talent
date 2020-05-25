@@ -105,7 +105,7 @@ Checkout the `docker-compose.yml` file for information on which ports to use to 
 
 # Wiki
 
-You can find more information about the project in our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki).
+In order to contribute to I-Talent, see our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki) to understand our Way of Working.
 
 # Contact
 
