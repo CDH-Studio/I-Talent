@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import TalentFormView from "./TalentFormView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -13,7 +13,7 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const TalentForm = ({ formType, history }) => {
+const TalentForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [skillOptions, setSkillOptions] = useState([]);
   const [competencyOptions, setCompetencyOptions] = useState([]);
@@ -21,8 +21,6 @@ const TalentForm = ({ formType, history }) => {
   const [savedCompetencies, setSavedCompetencies] = useState([]);
   const [savedSkills, setSavedSkills] = useState([]);
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
-
-  const dispatch = useDispatch();
 
   // get current language code
   const { locale } = useSelector(state => state.settings);
@@ -39,7 +37,7 @@ const TalentForm = ({ formType, history }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -66,7 +64,7 @@ const TalentForm = ({ formType, history }) => {
       setCompetencyOptions(options);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -106,7 +104,7 @@ const TalentForm = ({ formType, history }) => {
       setSkillOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -170,7 +168,7 @@ const TalentForm = ({ formType, history }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, dispatch, history);
+        handleError(error, true, true);
       });
   }, [getCompetencyOptions, getSkillOptions]);
 

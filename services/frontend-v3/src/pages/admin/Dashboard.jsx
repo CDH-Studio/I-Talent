@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Skeleton, PageHeader } from "antd";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
@@ -17,11 +16,9 @@ const { backendAddress } = config;
  *  Controller for StatCards and DashboardGraphs.
  *  It gathers the required data for rendering these components.
  */
-const AdminDashboard = ({ intl, history }) => {
+const AdminDashboard = ({ intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const dispatch = useDispatch();
 
   const type = "dashboard";
 
@@ -59,7 +56,7 @@ const AdminDashboard = ({ intl, history }) => {
     const setState = async () => {
       // Get the data for the dashboard cards and graphes
       const dashboardData = await getDashboardData().catch(error =>
-        handleError(error, dispatch, history)
+        handleError(error, true, true)
       );
       setData(dashboardData);
       setLoading(false);

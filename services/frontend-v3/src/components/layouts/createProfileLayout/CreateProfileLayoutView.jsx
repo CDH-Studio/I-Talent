@@ -26,8 +26,9 @@ const { Step } = Steps;
  *  Render the layout for the create profile forms
  */
 const CreateProfileLayoutView = props => {
-  const { formStep, history } = props;
+  const { formStep } = props;
   const [profileExists, setProfileExists] = useState(false);
+  const history = useHistory();
 
   /* Component Styles */
   const styles = {
@@ -79,19 +80,19 @@ const CreateProfileLayoutView = props => {
       case 1:
         return <Welcome />;
       case 2:
-        return <PrimaryInfoForm formType="create" history={history} />;
+        return <PrimaryInfoForm formType="create" />;
       case 3:
-        return <EmploymentDataForm formType="create" history={history} />;
+        return <EmploymentDataForm formType="create" />;
       case 4:
-        return <LangProficiencyForm formType="create" history={history} />;
+        return <LangProficiencyForm formType="create" />;
       case 5:
-        return <TalentForm formType="create" history={history} />;
+        return <TalentForm formType="create" />;
       case 6:
-        return <PersonalGrowthForm formType="create" history={history} />;
+        return <PersonalGrowthForm formType="create" />;
       case 7:
-        return <QualificationsForm formType="create" history={history} />;
+        return <QualificationsForm formType="create" />;
       case 8:
-        return <DoneSetup formType="create" history={history} />;
+        return <DoneSetup formType="create" />;
       default:
         return <div>Hello</div>;
     }

@@ -5,7 +5,6 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
 import config from "../../../config";
@@ -18,14 +17,13 @@ const { backendAddress } = config;
  *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-function CategoryTable({ intl, type, history }) {
+function CategoryTable({ intl, type }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -52,7 +50,7 @@ function CategoryTable({ intl, type, history }) {
       const setState = async () => {
         await getCategories()
           .then(categories => setData(categories))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         setLoading(false);
       };
       setState();

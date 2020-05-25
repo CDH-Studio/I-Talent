@@ -3,8 +3,8 @@ import ProfileLayoutView from "./ProfileLayoutView";
 
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
-const ProfileLayout = ({ data, history }) => {
-  return <ProfileLayoutView data={data} history={history} />;
+const ProfileLayout = ({ data }) => {
+  return <ProfileLayoutView data={data} />;
 };
 
 ProfileLayout.propTypes = {

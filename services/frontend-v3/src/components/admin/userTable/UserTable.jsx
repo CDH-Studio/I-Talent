@@ -6,7 +6,6 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import UserTableView from "./UserTableView";
 import config from "../../../config";
@@ -19,15 +18,13 @@ const { backendAddress } = config;
  *  Controller for the UserTableView.
  *  It gathers the required data for rendering the component.
  */
-function UserTable({ intl, type, history }) {
+function UserTable({ intl, type }) {
   const [data, setData] = useState([]);
   const [statuses, setStatuses] = useState({});
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-
-  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -52,7 +49,7 @@ function UserTable({ intl, type, history }) {
       const setState = async () => {
         await getUserInformation()
           .then(users => setData(users))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         setLoading(false);
       };
       setState();
@@ -60,7 +57,7 @@ function UserTable({ intl, type, history }) {
       const updateState = async () => {
         await getUserInformation()
           .then(users => setData(users))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         setReset(false);
       };
       updateState();

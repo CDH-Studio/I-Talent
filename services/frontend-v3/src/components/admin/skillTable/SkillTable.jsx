@@ -5,7 +5,7 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
+
 import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
 import config from "../../../config";
@@ -18,7 +18,7 @@ const { backendAddress } = config;
  *  Controller for the SkillTableView.
  *  It gathers the required data for rendering the component.
  */
-const SkillTable = ({ intl, type, history }) => {
+const SkillTable = ({ intl, type }) => {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ const SkillTable = ({ intl, type, history }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const dispatch = useDispatch();
+
   const size = "large";
 
   /* get skill information */
@@ -67,7 +67,7 @@ const SkillTable = ({ intl, type, history }) => {
           .then(skills => setData(skills))
           .then(getCategories)
           .then(categories => setCategories(categories))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         setLoading(false);
       };
       setState();
@@ -75,7 +75,7 @@ const SkillTable = ({ intl, type, history }) => {
       const updateState = async () => {
         await getSkill()
           .then(skills => setData(skills))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
 
         setReset(false);
       };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import handleError from "./../../functions/handleError";
 import ProfileCardsView from "./ProfileCardsView";
 import config from "../../config";
 import { ProfileInfoPropType } from "../../customPropTypes";
@@ -24,14 +25,14 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   }, [urlID]);
 
   // get all required data component
   const getAllData = useCallback(async () => {
     try {
-      await getProfileInfo();
+      await getProfileInfo().catch(error => handleError(error, true, true));
       setLoad(true);
       return 1;
     } catch (error) {

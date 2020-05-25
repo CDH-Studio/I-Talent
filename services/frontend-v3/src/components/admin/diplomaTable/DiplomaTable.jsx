@@ -4,7 +4,6 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 import DiplomaTableView from "./DiplomaTableView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -16,15 +15,13 @@ const { backendAddress } = config;
  *  Controller for the DiplomaTableView.
  *  It gathers the required data for rendering the component.
  */
-const DiplomaTable = ({ type, intl, history }) => {
+const DiplomaTable = ({ type, intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
-  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -64,7 +61,7 @@ const DiplomaTable = ({ type, intl, history }) => {
       const setState = async () => {
         await getDiplomas()
           .then(diplomas => setData(diplomas))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
 
         setLoading(false);
       };
@@ -73,7 +70,7 @@ const DiplomaTable = ({ type, intl, history }) => {
       const updateState = async () => {
         await getDiplomas()
           .then(diplomas => setData(diplomas))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         setReset(false);
       };
       updateState();

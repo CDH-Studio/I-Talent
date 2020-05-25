@@ -417,7 +417,6 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
-                        history={history}
                       />
                     ))}
                     <Form.Item>

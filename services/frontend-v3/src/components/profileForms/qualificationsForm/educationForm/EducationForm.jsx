@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import handleError from "../../../../functions/handleError";
 import EducationFormView from "./EducationFormView";
 import {
@@ -20,20 +20,11 @@ const { backendAddress } = config;
  *  This component is strongly linked ot Qualifications Form.
  *  It generated the form fields for each education item the user creates in the qualifications form.
  */
-const EducationForm = ({
-  form,
-  field,
-  remove,
-  profileInfo,
-  style,
-  history,
-}) => {
+const EducationForm = ({ form, field, remove, profileInfo, style }) => {
   // Define States
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState([]);
   const [schoolOptions, setSchoolOptions] = useState([]);
-
-  const dispatch = useDispatch();
 
   // get current language code
   const { locale } = useSelector(state => state.settings);
@@ -60,7 +51,7 @@ const EducationForm = ({
       setDiplomaOptions(options);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -86,7 +77,7 @@ const EducationForm = ({
       setSchoolOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -101,7 +92,7 @@ const EducationForm = ({
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, dispatch, history);
+        handleError(error, true, true);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);

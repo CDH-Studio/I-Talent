@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 import config from "../../config";
 import SearchFilterView from "./SearchFilterView";
 import { HistoryPropType } from "../../customPropTypes";
@@ -17,8 +16,6 @@ const SearchFilter = ({ history }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
-
-  const dispatch = useDispatch();
 
   const toggle = () => {
     setExpand(!expand);
@@ -125,7 +122,7 @@ const SearchFilter = ({ history }) => {
         getLocation(),
         getClassification(),
       ]);
-      await getSkills().catch(error => handleError(error, dispatch, history));
+      await getSkills().catch(error => handleError(error, true, true));
     };
 
     getSearchFieldValues();

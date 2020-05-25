@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
@@ -15,8 +14,6 @@ const SearchBar = ({ history }) => {
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
-
-  const dispatch = useDispatch();
 
   // Fetches options for skills select field in advanced search
   const getSkills = async () => {
@@ -88,7 +85,7 @@ const SearchBar = ({ history }) => {
         getBranch(),
         getLocation(),
         getClassification(),
-      ]).catch(error => handleError(error, dispatch, history));
+      ]).catch(error => handleError(error, true, true));
     };
 
     updateState();

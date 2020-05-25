@@ -22,7 +22,7 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
-const ProfileLayoutView = ({ data, history }) => {
+const ProfileLayoutView = ({ data }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;

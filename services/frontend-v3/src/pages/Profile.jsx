@@ -73,7 +73,7 @@ const Profile = ({ history, match }) => {
             setLoading(false);
           }
         })
-        .catch(error => handleError(error, dispatch, history));
+        .catch(error => handleError(error, true, true));
     }
   }, [data, goto, match.params]);
 

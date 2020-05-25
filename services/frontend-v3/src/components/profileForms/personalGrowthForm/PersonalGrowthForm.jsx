@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
@@ -14,7 +14,7 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = ({ formType, history }) => {
+const PersonalGrowthForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -36,8 +36,6 @@ const PersonalGrowthForm = ({ formType, history }) => {
     undefined
   );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
-
-  const dispatch = useDispatch();
 
   // Get current language code
   const { locale } = useSelector(state => state.settings);
@@ -86,7 +84,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -112,7 +110,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
       setDevelopmentalGoalOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -159,7 +157,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
       setRelocationOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -186,7 +184,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
       setLookingForNewJobOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -213,7 +211,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
       setCareerMobilityOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -240,7 +238,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
       setTalentMatrixResultOptions(dataTree);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -288,7 +286,7 @@ const PersonalGrowthForm = ({ formType, history }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, dispatch, history);
+        handleError(error, true, true);
       });
   }, [
     getCareerMobilityOptions,

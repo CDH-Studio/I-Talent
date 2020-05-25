@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import handleError from "../../../functions/handleError";
 import config from "../../../config";
 import EmploymentDataFormView from "./EmploymentDataFormView";
@@ -13,14 +13,12 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const EmploymentDataForm = ({ formType, history }) => {
+const EmploymentDataForm = ({ formType }) => {
   const [substantiveOptions, setSubstantiveOptions] = useState([]);
   const [classificationOptions, setClassificationOptions] = useState([]);
   const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-
-  const dispatch = useDispatch();
 
   // Get current language code
   const { locale } = useSelector(state => state.settings);
@@ -42,7 +40,7 @@ const EmploymentDataForm = ({ formType, history }) => {
       setSubstantiveOptions(options);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -64,7 +62,7 @@ const EmploymentDataForm = ({ formType, history }) => {
       setClassificationOptions(options);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -86,7 +84,7 @@ const EmploymentDataForm = ({ formType, history }) => {
       setSecurityOptions(options);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }, [locale]);
 
@@ -100,7 +98,7 @@ const EmploymentDataForm = ({ formType, history }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -120,7 +118,7 @@ const EmploymentDataForm = ({ formType, history }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, dispatch, history);
+        handleError(error, true, true);
       });
   }, [getSecurityOptions, getSubstantiveOptions]);
 

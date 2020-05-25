@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import DoneSetupView from "./DoneSetupView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -12,9 +11,8 @@ const { backendAddress } = config;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetup = ({ history }) => {
+const DoneSetup = ({}) => {
   const [load, setLoad] = useState(false);
-  const dispatch = useDispatch();
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -44,7 +42,7 @@ const DoneSetup = ({ history }) => {
       }
     };
 
-    getAllData().catch(error => handleError(error, dispatch, history));
+    getAllData().catch(error => handleError(error, true, true));
   }, []);
 
   return <DoneSetupView load={load} />;

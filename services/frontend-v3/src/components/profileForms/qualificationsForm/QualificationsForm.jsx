@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -14,15 +14,13 @@ const { backendAddress } = config;
  *  Controller for the QualificationsFormView.
  *  It gathers the required data for rendering the component
  */
-const QualificationsForm = ({ formType, history }) => {
+const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [savedEducation, setSavedEducation] = useState([]);
   const [savedExperience, setSavedExperience] = useState([]);
   const [savedProjects, setSavedProjects] = useState([]);
-
-  const dispatch = useDispatch();
 
   /**
    * Get User Profile
@@ -121,7 +119,7 @@ const QualificationsForm = ({ formType, history }) => {
   // useEffect to run once component is mounted
   useEffect(() => {
     /* Get all required data component */
-    getProfileInfo().catch(error => handleError(error, dispatch, history));
+    getProfileInfo().catch(error => handleError(error, true, true));
   }, []);
 
   return (
@@ -131,7 +129,6 @@ const QualificationsForm = ({ formType, history }) => {
       savedExperience={savedExperience}
       savedProjects={savedProjects}
       formType={formType}
-      history={history}
       load={load}
     />
   );

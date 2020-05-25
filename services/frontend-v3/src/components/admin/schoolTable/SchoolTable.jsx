@@ -4,7 +4,6 @@ import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import SchoolTableView from "./SchoolTableView";
 import config from "../../../config";
@@ -17,15 +16,13 @@ const { backendAddress } = config;
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-const SchoolTable = ({ type, intl, history }) => {
+const SchoolTable = ({ type, intl }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
-  const dispatch = useDispatch();
 
   const size = "large";
 
@@ -50,7 +47,7 @@ const SchoolTable = ({ type, intl, history }) => {
       const setState = async () => {
         await getSchools()
           .then(schools => setData(schools))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         // eslint-disable-next-line no-console
         setLoading(false);
       };
@@ -59,7 +56,7 @@ const SchoolTable = ({ type, intl, history }) => {
       const updateState = async () => {
         await getSchools()
           .then(schools => setData(schools))
-          .catch(error => handleError(error, dispatch, history));
+          .catch(error => handleError(error, true, true));
         // eslint-disable-next-line no-console
         setReset(false);
       };

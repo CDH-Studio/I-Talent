@@ -3,7 +3,6 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import LangProficiencyFormView from "./LangProficiencyFormView";
 import config from "../../../config";
-import { useDispatch } from "react-redux";
 import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
@@ -13,13 +12,11 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-const LangProficiencyForm = ({ formType, history }) => {
+const LangProficiencyForm = ({ formType }) => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-
-  const dispatch = useDispatch();
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
@@ -31,7 +28,7 @@ const LangProficiencyForm = ({ formType, history }) => {
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -69,7 +66,7 @@ const LangProficiencyForm = ({ formType, history }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, dispatch, history);
+        handleError(error, true, true);
       });
   }, []);
 

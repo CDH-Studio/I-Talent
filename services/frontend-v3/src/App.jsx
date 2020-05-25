@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import { Provider as ReduxProvider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
@@ -14,6 +14,7 @@ import "./App.css";
 import { NotFound, LandingPage, UnexpectedError } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
+import history from "./history";
 
 const i18nConfigBuilder = locale => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
@@ -43,7 +44,7 @@ const App = () => {
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
-      <Router>
+      <Router history={history}>
         <Switch>
           <Route
             exact
