@@ -13,6 +13,6 @@ COPY . .
 
 EXPOSE 8080
 
-# CMD ["npm", "run", "deploy"]
+# CMD ["yarn", "deploy"]
 
-CMD ["yarn", "start", "dev:docker"]
+CMD ["yarn", "dev:docker"]
