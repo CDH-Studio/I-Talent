@@ -7,12 +7,12 @@ async function nameSearch(profiles, searchValue) {
 		keys: ["fullName"],
 	};
 
-	profiles = profiles.map((profile) => ({
+	const searchData = profiles.map((profile) => ({
 		...profile,
-		fullName: profile.firstName + " " + profile.lastName,
+		fullName: `${profile.firstName} ${profile.lastName}`,
 	}));
 
-	const fuse = new Fuse(profiles, options);
+	const fuse = new Fuse(searchData, options);
 
 	const results = fuse.search(searchValue);
 	return results;
