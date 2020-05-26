@@ -73,7 +73,7 @@ const Profile = ({ history, match }) => {
           setData(fetchedData);
           setLoading(false);
         })
-        .catch(error => handleError(error, true, "redirect"));
+        .catch(error => handleError(error, "redirect"));
     }
   }, [data, goto, match.params]);
 

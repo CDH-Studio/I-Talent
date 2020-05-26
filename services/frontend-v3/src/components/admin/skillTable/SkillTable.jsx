@@ -67,7 +67,7 @@ const SkillTable = ({ intl, type }) => {
           .then(skills => setData(skills))
           .then(getCategories)
           .then(categories => setCategories(categories))
-          .catch(error => handleError(error, true, "redirect"));
+          .catch(error => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
@@ -75,7 +75,7 @@ const SkillTable = ({ intl, type }) => {
       const updateState = async () => {
         await getSkill()
           .then(skills => setData(skills))
-          .catch(error => handleError(error, true, "redirect"));
+          .catch(error => handleError(error, "redirect"));
 
         setReset(false);
       };

@@ -22,6 +22,7 @@ const UnexpectedError = ({ history }) => {
       //status={resultProps.status}
       title="Unexpected Error"
       subTitle="Something when wrong"
+      status={500}
       extra={
         <div style={{ textAlign: "center" }}>
           <div>

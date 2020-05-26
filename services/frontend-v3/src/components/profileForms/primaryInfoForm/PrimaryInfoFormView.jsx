@@ -208,7 +208,7 @@ const PrimaryInfoFormView = ({
       })
       .catch(error => {
         if (error.isAxiosError) {
-          handleError(error, true, "message");
+          handleError(error, "message");
         } else {
           openNotificationWithIcon("error");
         }
@@ -225,7 +225,7 @@ const PrimaryInfoFormView = ({
       .then(() => history.push("/secured/profile/create/step/3"))
       .catch(error => {
         if (error.isAxiosError) {
-          handleError(error, true, "message");
+          handleError(error, "message");
         } else {
           openNotificationWithIcon("error");
         }
@@ -253,7 +253,7 @@ const PrimaryInfoFormView = ({
       })
       .catch(error => {
         if (error.isAxiosError) {
-          handleError(error, true, "message");
+          handleError(error, "message");
         } else {
           openNotificationWithIcon("error");
         }

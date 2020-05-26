@@ -19,7 +19,11 @@ const errorMessages = {
 export default (error, handleType) => {
   if (handleType === "redirect" && enableErrorRedirect) {
     store.dispatch(addError(error));
-    history.push("/error");
+    console.log("history path", history.location.pathname);
+    //Ensure that if multiple errors are detected due to async behavior the user is only redirected once
+    if (history.location.pathname !== "/error") {
+      history.push("/error");
+    }
   } else if (handleType === "message") {
     message.error(errorMessages[store.getState().settings.locale]);
   }

@@ -168,7 +168,7 @@ const TalentForm = ({ formType }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, true, "redirect");
+        handleError(error, "redirect");
       });
   }, [getCompetencyOptions, getSkillOptions]);
 

@@ -92,7 +92,7 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, true, "redirect");
+        handleError(error, "redirect");
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);

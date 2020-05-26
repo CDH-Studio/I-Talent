@@ -155,7 +155,7 @@ const TalentFormView = props => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        //handleError(error, true, "message");
+        //handleError(error, "message");
       }
     } else {
       // If profile does not exists then create profile
@@ -167,7 +167,7 @@ const TalentFormView = props => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        //handleError(error, true, "message");
+        //handleError(error, "message");
       }
     }
   };

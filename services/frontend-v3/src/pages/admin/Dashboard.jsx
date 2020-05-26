@@ -56,7 +56,7 @@ const AdminDashboard = ({ intl }) => {
     const setState = async () => {
       // Get the data for the dashboard cards and graphes
       const dashboardData = await getDashboardData().catch(error =>
-        handleError(error, true, "redirect")
+        handleError(error, "redirect")
       );
       setData(dashboardData);
       setLoading(false);

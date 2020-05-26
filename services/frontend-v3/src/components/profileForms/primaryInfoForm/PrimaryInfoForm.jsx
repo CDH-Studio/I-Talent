@@ -47,7 +47,7 @@ const PrimaryInfoForm = ({ formType }) => {
       .catch(error => {
         // eslint-disable-next-line no-console
         console.log(error);
-        handleError(error, true, "redirect");
+        handleError(error, "redirect");
       });
   }, []);
 

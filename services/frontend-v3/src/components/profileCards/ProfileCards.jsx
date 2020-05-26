@@ -32,9 +32,7 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   // get all required data component
   const getAllData = useCallback(async () => {
     try {
-      await getProfileInfo().catch(error =>
-        handleError(error, true, "redirect")
-      );
+      await getProfileInfo().catch(error => handleError(error, "redirect"));
       setLoad(true);
       return 1;
     } catch (error) {
