@@ -25,7 +25,7 @@ const DoneSetup = ({}) => {
         await axios.get(url);
         return 1;
       } catch (error) {
-        throw Error(error);
+        throw error;
       }
     };
 

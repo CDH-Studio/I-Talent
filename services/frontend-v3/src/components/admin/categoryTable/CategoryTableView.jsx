@@ -182,7 +182,9 @@ const CategoryTableView = ({
           popUpSuccesss();
         }
       })
-      .catch(error => handleError(error, "message"));
+      .catch(error => {
+        throw error;
+      });
   };
 
   /* handles closure of add or edit category modal */
@@ -418,7 +420,7 @@ const CategoryTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          checkDelete();
+          checkDelete().catch(error => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
