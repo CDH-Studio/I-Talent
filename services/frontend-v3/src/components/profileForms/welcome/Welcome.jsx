@@ -34,7 +34,7 @@ function Welcome() {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        throw error;
       }
     };
 
@@ -48,7 +48,7 @@ function Welcome() {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
+        throw error;
       }
     };
 

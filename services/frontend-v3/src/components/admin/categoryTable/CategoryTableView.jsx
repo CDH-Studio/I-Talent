@@ -21,6 +21,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import handleError from "../../../functions/handleError";
 import { IntlPropType } from "../../../customPropTypes";
 
 /**
@@ -66,7 +67,7 @@ const CategoryTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={(node) => {
+          ref={node => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -74,7 +75,7 @@ const CategoryTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -104,17 +105,20 @@ const CategoryTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: (filtered) => (
+    filterIcon: filtered => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
+    render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -129,11 +133,11 @@ const CategoryTableView = ({
 
   /* handles the transfer of new or update/edited category information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = (values) => {
+  const onCreate = async values => {
     if (modalType === "edit") {
-      handleSubmitEdit(values, record.id);
+      await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      handleSubmitAdd(values);
+      await handleSubmitAdd(values);
     }
   };
 
@@ -161,21 +165,24 @@ const CategoryTableView = ({
   // Gives error prompt if deletion cannot occur
   // Backend: checks if category does not have any associated skills
   const checkDelete = async () => {
-    const result = await handleSubmitDelete();
-    if (result === true) {
-      Modal.error({
-        title: intl.formatMessage({
-          id: "admin.category.disclaimer",
-          defaultMessage: "Disclaimer",
-        }),
-        content: intl.formatMessage({
-          id: "admin.category.disclaimer.message",
-          defaultMessage: "Cannot delete category with skill associations!",
-        }),
-      });
-    } else {
-      popUpSuccesss();
-    }
+    await handleSubmitDelete()
+      .then(result => {
+        if (result === true) {
+          Modal.error({
+            title: intl.formatMessage({
+              id: "admin.category.disclaimer",
+              defaultMessage: "Disclaimer",
+            }),
+            content: intl.formatMessage({
+              id: "admin.category.disclaimer.message",
+              defaultMessage: "Cannot delete category with skill associations!",
+            }),
+          });
+        } else {
+          popUpSuccesss();
+        }
+      })
+      .catch(error => handleError(error, "message"));
   };
 
   /* handles closure of add or edit category modal */
@@ -204,7 +211,7 @@ const CategoryTableView = ({
   };
 
   /* handles render of "Edit Category" modal */
-  const handleEditModal = (record) => {
+  const handleEditModal = record => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -219,7 +226,7 @@ const CategoryTableView = ({
   /* gets sort direction for a table column */
   // Use for tables that need a French and English column
   // Will change sort capability of column based on current language of page
-  const getSortDirection = (column) => {
+  const getSortDirection = column => {
     const currentLanguage =
       intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
@@ -248,15 +255,17 @@ const CategoryTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               addForm.resetFields();
-              onCreate(values);
               handleOk();
             })
-            .catch((info) => {
-              handleCancel();
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              }
               // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -338,15 +347,18 @@ const CategoryTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               editForm.resetFields();
-              onCreate(values);
+              handleOk();
             })
-            .catch((info) => {
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              }
               // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+              console.log("Validate Failed:", error);
             });
-          handleOk();
         }}
         onCancel={() => {
           editForm.resetFields();
@@ -484,7 +496,7 @@ const CategoryTableView = ({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: (record) => (
+        render: record => (
           <div>
             <Button
               type="primary"

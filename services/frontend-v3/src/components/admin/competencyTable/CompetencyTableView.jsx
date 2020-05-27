@@ -22,6 +22,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 import { IntlPropType } from "../../../customPropTypes";
+import handleError from "../../../functions/handleError";
 
 /**
  *  CompetencyTableView(props)
@@ -66,7 +67,7 @@ const CompetencyTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={(node) => {
+          ref={node => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -74,7 +75,7 @@ const CompetencyTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -104,17 +105,20 @@ const CompetencyTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: (filtered) => (
+    filterIcon: filtered => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
+    render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -158,8 +162,9 @@ const CompetencyTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
+          handleSubmitDelete()
+            .then(popUpSuccesss)
+            .catch(error => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -190,11 +195,11 @@ const CompetencyTableView = ({
 
   /* handles the transfer of new or update/edited competency information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = (values) => {
+  const onCreate = async values => {
     if (modalType === "edit") {
-      handleSubmitEdit(values, record.id);
+      await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      handleSubmitAdd(values);
+      await handleSubmitAdd(values);
     }
   };
 
@@ -224,7 +229,7 @@ const CompetencyTableView = ({
   };
 
   /* handles render of "Edit Competency" modal */
-  const handleEditModal = (record) => {
+  const handleEditModal = record => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -253,18 +258,22 @@ const CompetencyTableView = ({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
-        onOk={() => {
+        onOk={async () => {
           addForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               addForm.resetFields();
-              onCreate(values);
               handleOk();
             })
-            .catch((info) => {
-              handleCancel();
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              } else {
+                handleCancel();
+              }
               // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -343,18 +352,21 @@ const CompetencyTableView = ({
           id: "admin.cancel",
           defaultMessage: "Cancel",
         })}
-        onOk={() => {
+        onOk={async () => {
           editForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               editForm.resetFields();
-              onCreate(values);
+              handleOk();
             })
-            .catch((info) => {
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              }
               // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+              console.log("Validate Failed:", error);
             });
-          handleOk();
         }}
         onCancel={() => {
           editForm.resetFields();
@@ -406,7 +418,7 @@ const CompetencyTableView = ({
   /* gets sort direction for a table column */
   // Use for tables that need a French and English column
   // Will change sort capability of column based on current language of page
-  const getSortDirection = (column) => {
+  const getSortDirection = column => {
     const currentLanguage =
       intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
@@ -464,7 +476,7 @@ const CompetencyTableView = ({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: (record) => (
+        render: record => (
           <div>
             <Button
               type="primary"

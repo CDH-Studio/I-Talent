@@ -23,6 +23,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 import { IntlPropType } from "../../../customPropTypes";
+import handleError from "../../../functions/handleError";
 
 /**
  *  SkillTableView(props)
@@ -70,7 +71,7 @@ const SkillTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={(node) => {
+          ref={node => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -78,7 +79,7 @@ const SkillTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -108,17 +109,20 @@ const SkillTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: (filtered) => (
+    filterIcon: filtered => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
+    render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -133,11 +137,11 @@ const SkillTableView = ({
 
   /* handles the transfer of new or update/edited skill information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = (values) => {
+  const onCreate = async values => {
     if (modalType === "edit") {
-      handleSubmitEdit(values, record.id);
+      await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      handleSubmitAdd(values);
+      await handleSubmitAdd(values);
     }
   };
 
@@ -187,7 +191,7 @@ const SkillTableView = ({
   };
 
   /* handles render of "Edit Skill" modal */
-  const handleEditModal = (record) => {
+  const handleEditModal = record => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -210,8 +214,9 @@ const SkillTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
+          handleSubmitDelete()
+            .then(popUpSuccesss)
+            .catch(error => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -260,15 +265,19 @@ const SkillTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               editForm.resetFields();
-              onCreate(values);
+              handleOk();
             })
-            .catch((info) => {
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              } else {
+                // eslint-disable-next-line no-console
+                console.log("Validate Failed:", error);
+              }
             });
-          handleOk();
         }}
         onCancel={() => {
           editForm.resetFields();
@@ -333,7 +342,7 @@ const SkillTableView = ({
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories.map((category) => {
+              {categories.map(category => {
                 return (
                   <Option value={category.id} key={category.id}>
                     {intl.formatMessage({ id: "language.code" }) === "en"
@@ -421,7 +430,7 @@ const SkillTableView = ({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: (record) => (
+        render: record => (
           <div>
             <Button
               type="primary"
@@ -471,15 +480,19 @@ const SkillTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               addForm.resetFields();
-              onCreate(values);
               handleOk();
             })
-            .catch((info) => {
-              handleCancel();
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              } else {
+                handleCancel();
+              }
               // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -566,7 +579,7 @@ const SkillTableView = ({
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories.map((category) => {
+              {categories.map(category => {
                 return (
                   <Option value={category.id} key={category.id}>
                     {intl.formatMessage({ id: "language.code" }) === "en"

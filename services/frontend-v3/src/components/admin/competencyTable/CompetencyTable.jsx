@@ -110,7 +110,7 @@ const CompetencyTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -129,7 +129,7 @@ const CompetencyTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -146,7 +146,7 @@ const CompetencyTable = ({ intl, type }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 

@@ -156,6 +156,7 @@ const TalentFormView = props => {
         // eslint-disable-next-line no-console
         console.log(error);
         //handleError(error, "message");
+        throw error;
       }
     } else {
       // If profile does not exists then create profile
@@ -167,6 +168,7 @@ const TalentFormView = props => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
+        throw error;
         //handleError(error, "message");
       }
     }
@@ -233,8 +235,12 @@ const TalentFormView = props => {
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch(error => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -250,8 +256,12 @@ const TalentFormView = props => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/6");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch(error => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -276,8 +286,12 @@ const TalentFormView = props => {
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch(error => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 

@@ -50,7 +50,8 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
           />
 
           <p style={styles.smallP}>{person.branch}</p>
-          {person.classification.description !== null ? (
+          {person.classification &&
+          person.classification.description !== null ? (
             <p style={styles.smallP}>
               {`Classification: ${person.classification.description}`}
             </p>
@@ -69,7 +70,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
             })}
           </Divider>
 
-          {person.resultSkills.map((skill) => (
+          {person.resultSkills.map(skill => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
@@ -82,7 +83,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
     );
   };
 
-  const renderResultCards = (dataSource) => {
+  const renderResultCards = dataSource => {
     if (!dataSource) {
       return <ProfileSkeleton />;
     }
@@ -91,7 +92,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
         dataSource
       )}`;
     }
-    
+
     const preparedResults = prepareInfo(dataSource, locale);
 
     return preparedResults.map((person, key) => renderCard(person, key));

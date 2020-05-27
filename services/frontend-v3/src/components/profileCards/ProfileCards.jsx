@@ -19,6 +19,7 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   // get user profile for hidden cards value
   const getProfileInfo = useCallback(async () => {
     try {
+      console.log("anerr");
       const url = `${backendAddress}api/profile/${urlID}`;
       const result = await axios.get(url);
       return setProfileInfo(result.data);

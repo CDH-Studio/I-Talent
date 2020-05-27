@@ -20,6 +20,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import handleError from "../../../functions/handleError";
 
 /**
  *  DiplomaTableView(props)
@@ -62,7 +63,7 @@ const DiplomaTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={(node) => {
+          ref={node => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -70,7 +71,7 @@ const DiplomaTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -100,7 +101,7 @@ const DiplomaTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: (filtered) => (
+    filterIcon: filtered => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, currentRecord) =>
@@ -108,12 +109,12 @@ const DiplomaTableView = ({
         .toString()
         .toLowerCase()
         .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
+    onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
+    render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -157,8 +158,9 @@ const DiplomaTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
+          handleSubmitDelete()
+            .then(popUpSuccesss)
+            .catch(error => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -189,11 +191,11 @@ const DiplomaTableView = ({
 
   /* handles the transfer of new or update/edited diploma information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = (values) => {
+  const onCreate = async values => {
     if (modalType === "edit") {
-      handleSubmitEdit(values, record.id);
+      await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      handleSubmitAdd(values);
+      await handleSubmitAdd(values);
     }
   };
 
@@ -223,7 +225,7 @@ const DiplomaTableView = ({
   };
 
   /* handles render of "Edit Diploma" modal */
-  const handleEditModal = (item) => {
+  const handleEditModal = item => {
     setEditVisible(true);
     setRecord(item);
     setModalType("edit");
@@ -255,15 +257,20 @@ const DiplomaTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               addForm.resetFields();
-              onCreate(values);
               handleOk();
             })
-            .catch((info) => {
-              handleCancel();
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              } else {
+                handleCancel();
+              }
+
               // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -345,15 +352,19 @@ const DiplomaTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then((values) => {
+            .then(async values => {
+              await onCreate(values);
               editForm.resetFields();
-              onCreate(values);
+              handleOk();
             })
-            .catch((info) => {
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+            .catch(error => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              } else {
+                // eslint-disable-next-line no-console
+                console.log("Validate Failed:", error);
+              }
             });
-          handleOk();
         }}
         onCancel={() => {
           editForm.resetFields();
@@ -405,7 +416,7 @@ const DiplomaTableView = ({
   /* gets sort direction for a table column */
   // Use for tables that need a French and English column
   // Will change sort capability of column based on current language of page
-  const getSortDirection = (column) => {
+  const getSortDirection = column => {
     const currentLanguage =
       intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
@@ -463,7 +474,7 @@ const DiplomaTableView = ({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: (item) => (
+        render: item => (
           <div>
             <Button
               type="primary"

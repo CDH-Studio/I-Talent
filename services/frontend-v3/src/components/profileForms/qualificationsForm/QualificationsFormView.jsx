@@ -16,6 +16,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import { ProfileInfoPropType, IntlPropType } from "../../../customPropTypes";
@@ -140,6 +141,7 @@ const QualificationsFormView = ({
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
+        throw error;
       }
     } else {
       // If profile does not exists then create profile
@@ -151,6 +153,7 @@ const QualificationsFormView = ({
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
+        throw error;
       }
     }
   };
@@ -234,8 +237,12 @@ const QualificationsFormView = ({
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch(error => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -260,8 +267,12 @@ const QualificationsFormView = ({
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch(error => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 

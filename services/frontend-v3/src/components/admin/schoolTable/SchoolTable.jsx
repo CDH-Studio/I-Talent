@@ -108,7 +108,7 @@ const SchoolTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
     return undefined;
   };
@@ -128,7 +128,7 @@ const SchoolTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
     return undefined;
   };
@@ -145,7 +145,7 @@ const SchoolTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
     return undefined;
   };

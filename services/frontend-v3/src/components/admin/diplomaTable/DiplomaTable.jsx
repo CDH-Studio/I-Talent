@@ -107,7 +107,7 @@ const DiplomaTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -126,7 +126,7 @@ const DiplomaTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 
@@ -143,7 +143,7 @@ const DiplomaTable = ({ type, intl }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      return 0;
+      throw error;
     }
   };
 

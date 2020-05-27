@@ -13,6 +13,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
@@ -21,7 +22,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
   const history = useHistory();
 
   // get current language code
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -96,14 +97,14 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       // check if button was passed profile data
       if (value) {
         // create profile
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          value
-        );
+        await axios
+          .post(
+            `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+            value
+          )
+          .then(() => history.push("/secured/profile/create/step/2"))
+          .catch(error => handleError(error, "message"));
       }
-
-      // Redirect to step 2
-      history.push("/secured/profile/create/step/2");
     };
 
     return (
@@ -219,7 +220,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       {generateGedsProfileList()}
     </div>
   );
-}
+};
 
 WelcomeView.propTypes = {
   gedsProfiles: PropTypes.arrayOf(PropTypes.any),
