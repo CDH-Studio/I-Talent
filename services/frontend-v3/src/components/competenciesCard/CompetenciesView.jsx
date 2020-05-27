@@ -1,6 +1,5 @@
 import React from "react";
 import { List, Tag, Row, Empty } from "antd";
-import { FormattedMessage } from "react-intl";
 
 function CompetenciesView(props) {
   /*
@@ -26,7 +25,7 @@ function CompetenciesView(props) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<FormattedMessage id="profile.competencies.empty"/>}
+          description="no competencies provided"
         />
       );
     }

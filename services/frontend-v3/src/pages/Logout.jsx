@@ -4,7 +4,7 @@ import { Redirect } from "react-router";
 class Logout extends React.Component {
   constructor(props) {
     super(props);
-    document.title = "logging out...";
+    document.title = "loggin out...";
   }
 
   // log out user and redirect home

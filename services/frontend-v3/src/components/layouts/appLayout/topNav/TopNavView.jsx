@@ -4,12 +4,12 @@ import {
   EditOutlined,
   LogoutOutlined,
   UserOutlined,
-  DashboardOutlined,
+  DashboardOutlined
 } from "@ant-design/icons";
-import { Layout, Dropdown, Menu, Button } from "antd";
+import { Layout, Dropdown, Menu } from "antd";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
-import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
+import Logo from "../../../sideNav/logo_v2.svg";
 import { FormattedMessage } from "react-intl";
 
 const { Header } = Layout;
@@ -18,37 +18,31 @@ function TopNavView(props) {
   /* Component Styles */
   const styles = {
     header: {
-      backgroundColor: "#192e2f",
+      backgroundColor: "#001e1e",
       padding: 0,
-      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
-      position: "fixed",
-      zIndex: 2,
-      width: "100%",
+      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)"
     },
     navBrand: {
-      height: "25px",
-      margin: "0 25px",
+      height: "35px",
+      margin: "0 25px"
     },
     rightMenu: {
       float: "right",
-      margin: "0 20px",
+      margin: "0 20px"
     },
     profileAvatar: {
-      marginRight: "8px",
+      marginRight: "8px"
     },
     dropDownMenu: {
-      marginTop: "23px",
-      padding: "0px",
+      marginTop: "0",
+      padding: "0"
     },
     dropDownItem: {
-      padding: "10px 20px",
+      padding: "10px 20px"
     },
     MenuIcon: {
-      marginRight: "10px",
-    },
-    signInBtn: {
-      marginRight: "20px",
-    },
+      marginRight: "10px"
+    }
   };
 
   // menu options for profile dropdown
@@ -64,7 +58,7 @@ function TopNavView(props) {
         </a>
       </Menu.Item>
       <Menu.Item style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/profile/edit/primary-info">
+        <a rel="noopener noreferrer" href="/secured/profile/edit">
           <EditOutlined style={styles.MenuIcon} />
           <FormattedMessage id="edit.profile" />
         </a>
@@ -89,31 +83,6 @@ function TopNavView(props) {
     </Menu>
   );
 
-  const getAvatarDropdown = (userName) => {
-    if (userName) {
-      return (
-        <Dropdown overlay={menu} placement="bottomCenter" trigger="click">
-          <Button
-            type="link"
-            className="ant-dropdown-link"
-            style={{ color: "#fff", padding: "10px 20px" }}
-          >
-            <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
-            <div className={"navProfileName"}>
-              {userName} <DownOutlined />
-            </div>
-          </Button>
-        </Dropdown>
-      );
-    } else {
-      return (
-        <Button type="primary" href={"/secured/home"} style={styles.signInBtn}>
-          <FormattedMessage id="landing.login.button" />
-        </Button>
-      );
-    }
-  };
-
   return (
     <Header style={styles.header}>
       {/* Render logo */}
@@ -123,7 +92,16 @@ function TopNavView(props) {
       {/* Render right sigh of top menu */}
       <div style={styles.rightMenu}>
         {/* Render User Profile Dropdown */}
-        {getAvatarDropdown(localStorage.getItem("name"))}
+        <Dropdown overlay={menu} placement="bottomCenter">
+          <a
+            className="ant-dropdown-link"
+            onClick={e => e.preventDefault()}
+            style={{ color: "#fff", padding: "20px 20px" }}
+          >
+            <CustomAvatar style={styles.profileAvatar}></CustomAvatar>
+            {localStorage.getItem("name")} <DownOutlined />
+          </a>
+        </Dropdown>
         {/* Render change language button */}
         <ChangeLanguage changeLanguage={props.changeLanguage} />
       </div>

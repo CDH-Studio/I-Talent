@@ -1,0 +1,22 @@
+.removeHistoryItemButton {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 0px 2px 2px 5px;
+
+  font-size: 16pt;
+  position: absolute;
+  right: 6pt;
+  top: 6pt;
+  z-index: 100;
+}
+
+.noHorizontalGaps {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.smallLeftPadding {
+  padding-left: 7px !important;
+}

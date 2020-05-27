@@ -1,0 +1,36 @@
+.looksLikeFieldLabel {
+  display: block;
+  padding: 0px;
+  margin: 0em 0em 0.28571429rem 0em;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 13pt;
+  font-weight: bold;
+  text-transform: none;
+}
+
+.looksLikeFieldLabel.disabled {
+  opacity: 0.45;
+}
+
+.dateNumberInput {
+  width: 7em !important;
+}
+
+.dateNumberInput input {
+  padding: 0.678571em 2px !important;
+  text-align: center !important;
+}
+
+.dateNumberSeperator {
+  font-size: 20px;
+  padding: 0.678571rem 2px !important;
+}
+.dateNumberGroup {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.dateDropdown {
+  min-width: 8.5em !important;
+  width: 8.5em !important;
+}

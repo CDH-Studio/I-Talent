@@ -4,12 +4,12 @@ import ProjectsView from "./ProjectsView";
 function Projects(props) {
   const data = props.data;
 
-  const getProjectsInfo = (dataSource) => {
+  const getProjectsInfo = dataSource => {
     let projectsInfo = [];
     if (dataSource.projects != null) {
-      dataSource.projects.forEach((projectElement) => {
+      dataSource.projects.forEach(projectElement => {
         const projects = {
-          projectDescription: projectElement.text,
+          projectDescription: projectElement.text
         };
         projectsInfo.push(projects);
       });
@@ -21,7 +21,7 @@ function Projects(props) {
   return (
     <ProjectsView
       data={data}
-      locale={localStorage.getItem("lang") || "en"}
+      locale={localStorage.getItem("lang")}
       projectsInfo={getProjectsInfo(data)}
     />
   );

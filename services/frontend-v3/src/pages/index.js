@@ -1,4 +1,4 @@
-import LandingPage from "./LandingPage";
+import Landing from "./Landing";
 import Home from "./Home";
 import Results from "./Results";
 import Profile from "./Profile";
@@ -9,11 +9,11 @@ import Logout from "./Logout";
 
 export {
   Logout,
-  LandingPage,
+  Landing,
   Home,
   Results,
   Profile,
   ProfileEdit,
   ProfileCreate,
-  NotFound,
+  NotFound
 };
