@@ -2,27 +2,17 @@ const { skill } = require("../../database/models");
 
 const utils = require("./util");
 
-// FIXME remove the await from inside the loop
-async function asyncForEach(array, callback) {
-	for (let i = 0; i < array.length; i += 1) {
-		callback(array[i]);
-	}
-}
-
 // FIXME refactor this form
-async function getSkillNames(searchSkill, skillSearchValue) {
-	await asyncForEach(searchSkill, async (skillId) => {
-		// eslint-disable-next-line no-unused-vars
-		let findSkills = await skill
-			.findOne({ where: { id: skillId } })
-			.then((data) => data.dataValues);
+async function getSkillNames(searchSkill) {
+	return Promise.all(
+		searchSkill.map(async (skillId) => {
+			const findSkills = await skill
+				.findOne({ where: { id: skillId } })
+				.then((data) => data.dataValues);
 
-		findSkills = findSkills.descriptionEn;
-
-		// eslint-disable-next-line no-param-reassign
-		skillSearchValue = skillSearchValue.concat(` ${skill}`);
-	});
-	return skillSearchValue;
+			return `${findSkills.descriptionEn}`;
+		})
+	);
 }
 
 async function search(request, response) {
@@ -33,10 +23,12 @@ async function search(request, response) {
 	let skillSearchValue = query.searchValue || "";
 
 	if (searchSkill) {
-		skillSearchValue = await getSkillNames(searchSkill, skillSearchValue);
+		skillSearchValue = (
+			await getSkillNames(searchSkill, skillSearchValue)
+		).join(" ");
 	}
 
-	let results = await utils.getAllProfiles(skillSearchValue).then((res) => res);
+	let results = await utils.getAllProfiles(skillSearchValue);
 
 	if (query.searchValue)
 		results = await utils.fuzzySearch(results, query.searchValue);

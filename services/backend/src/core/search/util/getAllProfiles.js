@@ -147,7 +147,8 @@ async function getProf(profile, searchValue) {
 
 	const resultSkills = fuse
 		.search(searchValue)
-		.slice(0, NUMBER_OF_SKILL_RESULT);
+		.slice(0, NUMBER_OF_SKILL_RESULT)
+		.map(({ item }) => item);
 
 	// Response Object
 	const resData = {

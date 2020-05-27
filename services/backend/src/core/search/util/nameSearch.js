@@ -14,7 +14,7 @@ async function nameSearch(profiles, searchValue) {
 
 	const fuse = new Fuse(searchData, options);
 
-	const results = fuse.search(searchValue);
+	const results = fuse.search(searchValue).map(({ item }) => item);
 	return results;
 }
 
