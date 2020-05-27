@@ -83,6 +83,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     secondTitle,
     thirdTitle,
     value,
+    type,
   }) => {
     // truncate text to not overflow card
     const truncateString = (text, length) => {
@@ -105,10 +106,14 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
           .then(() => history.push("/secured/profile/create/step/2"))
           .catch(error => handleError(error, "message"));
       }
+      history.push("/secured/profile/create/step/2");
     };
 
     return (
-      <Button style={styles.btn} onClick={createProfile}>
+      <Button
+        style={styles.btn}
+        onClick={type !== "loading" ? createProfile : null}
+      >
         {/* icon */}
         <div style={styles.btnIcon}>{icon}</div>
 
@@ -144,6 +149,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     secondTitle: PropTypes.string,
     thirdTitle: PropTypes.string,
     value: PropTypes.string,
+    type: PropTypes.string,
   };
 
   generateProfileBtn.defaultProps = {
@@ -169,7 +175,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
             secondTitle: intl.formatMessage({
               id: "setup.welcome.geds.description",
             }),
-            type: "default",
+            type: "loading",
           })}
           {/* new user button */}
           {generateProfileBtn({

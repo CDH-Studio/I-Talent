@@ -190,9 +190,6 @@ const EditProfileLayoutView = ({ formStep, history }) => {
   // Get correct form for current step
   const form = profileFormSelect(formStep);
 
-  // get current language code
-  const { locale } = useSelector(state => state.settings);
-
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <PageHeader
