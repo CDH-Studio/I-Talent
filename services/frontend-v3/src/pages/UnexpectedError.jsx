@@ -17,8 +17,8 @@ const UnexpectedError = ({ history }) => {
   return (
     <Result
       //status={resultProps.status}
-      title="Unexpected Error"
-      subTitle="Something when wrong"
+      title={<FormattedMessage id="error.redirect.title" />}
+      subTitle={<FormattedMessage id="error.redirect.subtitle" />}
       status={500}
       extra={
         <div style={{ textAlign: "center" }}>
@@ -27,7 +27,7 @@ const UnexpectedError = ({ history }) => {
               <FormattedMessage id="error.retry" />
             </Button>
             <Button onClick={() => setShowError(oldValue => !oldValue)}>
-              <FormattedMessage id="error.show" />
+              <FormattedMessage id={showError ? "error.hide" : "error.show"} />
             </Button>
           </div>
           <div style={{ display: "inline-block", textAlign: "left" }}>

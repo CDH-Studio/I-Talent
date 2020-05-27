@@ -10,9 +10,11 @@ import frIntlMessages from "../i18n/fr_CA.json";
 import config from "../config";
 const { enableErrorRedirect } = config;
 
+const intlMessageKey = "error.save";
+
 const errorMessages = {
-  en: enIntlMessages["error.save"] || "error.save",
-  fr: frIntlMessages["error.save"] || "error.save",
+  en: enIntlMessages[intlMessageKey] || intlMessageKey,
+  fr: frIntlMessages[intlMessageKey] || intlMessageKey,
 };
 
 export default (error, handleType) => {

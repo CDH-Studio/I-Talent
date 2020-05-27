@@ -342,11 +342,13 @@
   "sign.out": "Logout",
   "home": "Home",
 
+  "error.redirect.title": "Unexpected error",
+  "error.redirect.subtitle": "Something went wrong",
   "error.button": "Back to Home",
   "error.retry": "Retry",
   "error.save": "Data not saved due to network error",
   "error.show": "Show error log",
-  "error.button": "Back to home",
+  "error.hide": "Hide error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
   "error.403.subtitle": "Looks like someone doesn't belong"
 }
