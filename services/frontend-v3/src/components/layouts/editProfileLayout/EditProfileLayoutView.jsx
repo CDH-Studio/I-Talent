@@ -3,7 +3,6 @@ import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import {
   EmploymentDataForm,
@@ -199,7 +198,6 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
-          textTransform: locale === "en" ? "capitalize" : "",
         }}
         title={<FormattedMessage id="edit.profile" />}
       />
