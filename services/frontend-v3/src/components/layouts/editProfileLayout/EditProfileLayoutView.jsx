@@ -4,7 +4,6 @@ import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import {
   EmploymentDataForm,
@@ -194,15 +193,11 @@ const EditProfileLayoutView = ({ formStep }) => {
   // Get correct form for current step
   const form = profileFormSelect(formStep);
 
-  // get current language code
-  const { locale } = useSelector((state) => state.settings);
-
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
-          textTransform: locale === "en" ? "capitalize" : "",
         }}
         title={<FormattedMessage id="edit.profile" />}
       />
