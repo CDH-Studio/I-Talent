@@ -575,7 +575,7 @@ function ProfileLayoutView(props) {
         style={{
           padding: "0 0 15px 7px",
         }}
-        title={<FormattedMessage id="my.profile"/>}
+        title="User Profile"
       />
       {displayAllProfileCards()}
     </AppLayout>

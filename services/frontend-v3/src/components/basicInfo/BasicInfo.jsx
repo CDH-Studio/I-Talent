@@ -14,7 +14,7 @@ function BasicInfo(props) {
       buttonLinks.linkedin = {
         icon: "linkedin",
         textId: "profile.linkedin",
-        url: linkedinUrl,
+        url: linkedinUrl
       };
     }
 
@@ -23,7 +23,7 @@ function BasicInfo(props) {
       buttonLinks.github = {
         icon: "github",
         textId: "profile.github",
-        url: githubUrl,
+        url: githubUrl
       };
     }
 
@@ -32,7 +32,7 @@ function BasicInfo(props) {
       buttonLinks.gcconnex = {
         icon: "link",
         textId: "profile.gcconnex",
-        url: gcconnexUrl,
+        url: gcconnexUrl
       };
     }
 
@@ -40,7 +40,7 @@ function BasicInfo(props) {
     buttonLinks.email = {
       icon: "mail",
       textId: "profile.email",
-      url: "mailto:" + email,
+      url: "mailto:" + email
     };
 
     return buttonLinks;
@@ -54,10 +54,10 @@ function BasicInfo(props) {
       name={name}
       avatar={{
         acr: props.data.nameInitials,
-        color: props.data.avatarColor,
+        color: props.data.avatarColor
       }}
-      jobTitle={props.data.jobTitle[localStorage.getItem("lang") || "en"]}
-      locale={localStorage.getItem("lang") || "en"}
+      jobTitle={props.data.jobTitle[localStorage.getItem("lang")]}
+      locale={localStorage.getItem("lang")}
       buttonLinks={getButtonLinks()}
     />
   );

@@ -1,12 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Typography, Button } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
 import {
   UserOutlined,
   UserAddOutlined,
-  RocketOutlined,
-  LoadingOutlined,
+  RocketOutlined
 } from "@ant-design/icons";
 import axios from "axios";
 import config from "../../../config";
@@ -17,12 +16,6 @@ const { backendAddress } = config;
 function Welcome(props) {
   const history = useHistory();
 
-  // get current language code
-  let locale = props.intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en",
-  });
-
   /* Component Styles */
   const styles = {
     content: {
@@ -30,45 +23,45 @@ function Welcome(props) {
       width: "100%",
       minHeight: "400px",
       background: "#fff",
-      padding: "80px 10px",
+      padding: "80px 10px"
     },
     welcome: {
       color: "#001529",
-      opacity: 0.7,
+      opacity: 0.7
     },
     subHeading: {
-      fontSize: "1.3em",
+      fontSize: "1.3em"
     },
     divider: {
       width: "20px !important",
-      color: "red",
+      color: "red"
     },
     btn: { width: "180px", height: "180px", margin: "10px" },
     btnIcon: {
       opacity: 0.7,
       fontSize: "65px",
       display: "block",
-      marginTop: "-15px",
+      marginTop: "-15px"
     },
     btnFirstTitle: {
       opacity: 0.7,
       fontSize: "17px",
       display: "block",
-      marginTop: "-13px",
+      marginTop: "-13px"
     },
     btnSecondTitle: {
       opacity: 0.7,
       fontSize: "15px",
       display: "block",
-      marginTop: "-4px",
+      marginTop: "-4px"
     },
     btnThirdTitle: {
       opacity: 0.7,
       fontSize: "15px",
       display: "block",
       fontStyle: "italic",
-      marginTop: "-4px",
-    },
+      marginTop: "-4px"
+    }
   };
 
   /*
@@ -81,7 +74,7 @@ function Welcome(props) {
     firstTitle,
     secondTitle,
     thirdTitle,
-    value,
+    value
   }) => {
     // truncate text to not overflow card
     const truncateString = (text, length) => {
@@ -151,15 +144,15 @@ function Welcome(props) {
           {/* loading button */}
           {generateProfileBtn({
             icon: <LoadingOutlined />,
-            firstTitle: props.intl.formatMessage({id : "setup.welcome.geds.title"}),
-            secondTitle: props.intl.formatMessage({id : "setup.welcome.geds.description"}),
-            type: "default",
+            firstTitle: "Fetching Profiles",
+            secondTitle: "From Geds",
+            type: "default"
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
-            firstTitle: props.intl.formatMessage({id : "setup.welcome.new.title"}),
-            secondTitle: props.intl.formatMessage({id : "setup.welcome.new.description"}),
+            firstTitle: "New User",
+            secondTitle: "start fresh"
           })}
         </div>
       );
@@ -171,16 +164,16 @@ function Welcome(props) {
             return generateProfileBtn({
               icon: <UserOutlined />,
               firstTitle: item.firstName + " " + item.lastName,
-              secondTitle: item.jobTitle[locale],
+              secondTitle: item.jobTitle.en,
               thirdTitle: item.email,
-              value: item,
+              value: item
             });
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
-            firstTitle: props.intl.formatMessage({id : "setup.welcome.new.title"}),
-            secondTitle: props.intl.formatMessage({id : "setup.welcome.new.description"}),
+            firstTitle: "New User",
+            secondTitle: "start fresh"
           })}
         </div>
       );
@@ -190,17 +183,18 @@ function Welcome(props) {
   return (
     <div style={styles.content}>
       <Title level={1} style={styles.welcome}>
-        <RocketOutlined rotate={"45"} /> <FormattedMessage id="setup.welcome" />
+        <RocketOutlined rotate={"45"} /> Welcome
       </Title>
       <Paragraph style={styles.subHeading}>
-        <FormattedMessage id="setup.welcome.description" />
+        We just need a few bits of information to set up your profile
       </Paragraph>
       <Paragraph style={styles.subHeading} strong>
-        <FormattedMessage id="setup.welcome.action" />
+        Please select a GEDS profile to pre-populate your information or start
+        from scratch
       </Paragraph>
       {generateGedsProfileList()}
     </div>
   );
 }
 
-export default injectIntl(Welcome);
+export default Welcome;

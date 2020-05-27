@@ -4,8 +4,6 @@ import EmploymentDataForm from "./employmentDataForm/EmploymentDataForm";
 import LangProficiencyForm from "./langProficiencyForm/LangProficiencyForm";
 import TalentForm from "./talentForm/TalentForm";
 import PersonalGrowthForm from "./personalGrowthForm/PersonalGrowthForm";
-import QualificationsForm from "./qualificationsForm/QualificationsForm";
-import DoneSetup from "./doneSetup/DoneSetup";
 
 export {
   Welcome,
@@ -13,7 +11,5 @@ export {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm,
-  QualificationsForm,
-  DoneSetup,
+  PersonalGrowthForm
 };

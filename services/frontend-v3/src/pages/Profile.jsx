@@ -55,7 +55,7 @@ class Profile extends React.Component {
   render() {
     const { name, data, loading } = this.state;
 
-    document.title = name + " | I-Talent";
+    document.title = name + " | UpSkill";
 
     if (!loading)
       return (

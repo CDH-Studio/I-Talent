@@ -1,0 +1,6 @@
+.addHistoryItemButton {
+  border-radius: 12px !important;
+  margin: 10px auto !important;
+  padding: 20px;
+  width: calc(100% - 10rem);
+}

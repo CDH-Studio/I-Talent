@@ -3,9 +3,9 @@ import CareerInterestsView from "./CareerInterestsView";
 import { FormattedMessage } from "react-intl";
 
 function CareerInterests(props) {
-  const getCareerInterestsInfo = (dataSource) => {
+  const getCareerInterestsInfo = dataSource => {
     const data = dataSource.data;
-    const locale = localStorage.getItem("lang") || "en";
+    const locale = localStorage.getItem("lang");
 
     const interestedInRemote = {
       icon: "mail",
@@ -15,7 +15,7 @@ function CareerInterests(props) {
           <FormattedMessage id="profile.yes" />
         ) : (
           <FormattedMessage id="profile.no" />
-        ),
+        )
     };
     const lookingForNewJob = {
       icon: "mail",
@@ -23,19 +23,19 @@ function CareerInterests(props) {
       description: (data.lookingForNewJob &&
         data.lookingForNewJob.description[locale]) || (
         <FormattedMessage id="profile.not.specified" />
-      ),
+      )
     };
 
     return [interestedInRemote, lookingForNewJob];
   };
 
-  const getRelocationLocationsInfo = (dataSource) => {
+  const getRelocationLocationsInfo = dataSource => {
     const data = dataSource.data;
-    const locale = localStorage.getItem("lang") || "en";
+    const locale = localStorage.getItem("lang");
 
     const relocationLocationsInfo = [];
     if (data.relocationLocations) {
-      data.relocationLocations.forEach((locationElement) =>
+      data.relocationLocations.forEach(locationElement =>
         relocationLocationsInfo.push(locationElement.description[locale])
       );
     }
@@ -46,7 +46,7 @@ function CareerInterests(props) {
   return (
     <CareerInterestsView
       data={props.data}
-      locale={localStorage.getItem("lang") || "en"}
+      locale={localStorage.getItem("lang")}
       info={getCareerInterestsInfo(props)}
       relocationLocationsInfo={getRelocationLocationsInfo(props)}
     />

@@ -19,7 +19,7 @@ export default class LandingLayoutView extends Component {
             height: "655px",
             position: "fixed",
             top: "0px",
-            width: "100%",
+            width: "100%"
           }}
         >
           <div
@@ -29,15 +29,15 @@ export default class LandingLayoutView extends Component {
               margin: "250px auto 0px",
               textAlign: "center",
               width: "100%",
-              fontWeight: "bold",
+              fontWeight: "bold"
             }}
           >
-            Welcome to I-Talent
+            Welcome to MyTalent
           </div>
           <div
             style={{
               width: "100%",
-              textAlign: "center",
+              textAlign: "center"
             }}
           >
             <div
@@ -45,7 +45,7 @@ export default class LandingLayoutView extends Component {
                 color: "#ffffff",
                 fontSize: "20pt",
                 marginBottom: "24pt",
-                marginTop: "18pt",
+                marginTop: "18pt"
               }}
             ></div>
             <Button
@@ -55,7 +55,7 @@ export default class LandingLayoutView extends Component {
               style={{
                 margin: "0 auto",
                 zIndex: "9",
-                backgroundColor: "#427c9e",
+                backgroundColor: "#427c9e"
               }}
             >
               <FormattedMessage id="landing.login.button" />

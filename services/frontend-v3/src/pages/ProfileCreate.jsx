@@ -1,18 +1,26 @@
 import React from "react";
-import { injectIntl } from "react-intl";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 
-const ProfileCreate = (props) => {
-  document.title =
-    props.intl.formatMessage({ id: "create.profile" }) + " | I-Talent";
+class ProfileCreate extends React.Component {
+  goto = link => this.props.history.push(link);
 
-  return (
-    <CreateProfileLayout
-      changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      step={props.match.params.step}
-    ></CreateProfileLayout>
-  );
-};
+  constructor(props) {
+    super(props);
 
-export default injectIntl(ProfileCreate);
+    document.title = "Create Profile | UpSkill";
+  }
+
+  render() {
+    return (
+      <CreateProfileLayout
+        changeLanguage={this.props.changeLanguage}
+        keycloak={this.props.keycloak}
+        history={this.props.history}
+        displaySideBar={true}
+        step={this.props.match.params.step}
+      ></CreateProfileLayout>
+    );
+  }
+}
+
+export default ProfileCreate;

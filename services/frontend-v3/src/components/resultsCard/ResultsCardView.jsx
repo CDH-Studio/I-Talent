@@ -1,20 +1,19 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { Row, Col, Tag, Card, Divider, Avatar, Typography } from "antd";
+import { Row, Col, Tag, Card, Divider } from "antd";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 const { Meta } = Card;
-const { Text } = Typography;
 
 function ResultsCardView(props) {
   const styles = {
     smallP: {
       lineHeight: "4px",
       zIndex: "-1",
-      marginTop: "10px",
-    },
+      marginTop: "10px"
+    }
   };
-  const renderResultCards = (dataSource) => {
+  const renderResultCards = dataSource => {
     if (!dataSource) {
       return <ProfileSkeleton />;
     } else if (dataSource instanceof Error) {
@@ -24,39 +23,27 @@ function ResultsCardView(props) {
     } else {
       const preparedResults = prepareInfo(
         dataSource,
-        localStorage.getItem("lang") || "en"
+        localStorage.getItem("lang")
       );
       let cards = [];
-      preparedResults.forEach((person) => {
+      preparedResults.forEach(person => {
         cards.push(renderCard(person));
       });
       return cards;
     }
   };
 
-  const renderCard = (person) => {
+  const renderCard = person => {
     return (
       <Col span={6} style={{ height: "100%" }}>
         <Card
-          style={{ height: "100%", overflowX: "hidden" }}
+          style={{ height: "100%" }}
           size="small"
           hoverable
           bordered={true}
           onClick={() => props.history.push("/secured/profile/" + person.id)}
         >
           <Meta
-            avatar={
-              <Avatar
-                size={48}
-                style={{
-                  backgroundColor: person.avatarColor,
-                }}
-              >
-                <Text style={{ fontSize: "25px", color: "white" }}>
-                  {person.nameInitials}
-                </Text>
-              </Avatar>
-            }
             title={person.firstName + " " + person.lastName}
             description={<p style={styles.smallP}>{person.jobTitle}</p>}
           ></Meta>
@@ -70,14 +57,13 @@ function ResultsCardView(props) {
             <p></p>
           )}
 
-          <Divider className="results-card-divider" style={styles.divider} orientation="left">
+          <Divider style={styles.divider} orientation="left">
             {props.intl.formatMessage({
               id: "advanced.search.form.skills",
-              defaultMessage: "Skills",
+              defaultMessage: "Skills"
             })}
           </Divider>
-
-          {person.resultSkills.map((skill) => (
+          {person.resultSkills.map(skill => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
