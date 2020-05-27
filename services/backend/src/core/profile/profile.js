@@ -750,7 +750,8 @@ const getPublicProfileById = async (request, response) => {
 	const location = await profile.getLocation({ raw: true });
 
 	// Get Experience (may be empty)
-	const careerSummary = await profile.getExperiencesHelper(profile);
+	// const careerSummary = await profile.getExperiencesHelper(profile);
+	const careerSummary = [];
 
 	// Get Projects (may be empty)
 	const dbProjects = await profile.getProfileProjects();
@@ -759,7 +760,8 @@ const getPublicProfileById = async (request, response) => {
 	});
 
 	// Get Education (may be empty)
-	const educArray = await profile.getEducationHelper(profile);
+	// const educArray = await profile.getEducationHelper(profile);
+	const educArray = [];
 
 	const organizationList = await profile
 		.getProfileOrganizations({ order: [["tier", "ASC"]] })

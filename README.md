@@ -43,6 +43,10 @@ Any ISED employee will be able to login to I-Talent with their windows credentia
   - Full Stack Developer
 - [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
   - Full Stack Developer
+- [Benoit Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)
+  - Full Stack Developer
+- [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)
+  - Full Stack Developer
 
 # Tech Stack
 
@@ -101,7 +105,7 @@ Checkout the `docker-compose.yml` file for information on which ports to use to 
 
 # Wiki
 
-You can find more information about the project in our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki).
+In order to contribute to I-Talent, see our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki) to understand our Way of Working.
 
 # Contact
 

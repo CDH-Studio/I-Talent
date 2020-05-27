@@ -93,7 +93,8 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
       )}`;
     }
 
-    const preparedResults = prepareInfo(dataSource, locale);
+    let preparedResults = prepareInfo(dataSource, locale);
+    preparedResults = preparedResults.map(i => i.item);
 
     return preparedResults.map((person, key) => renderCard(person, key));
   };
