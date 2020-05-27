@@ -1,36 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import TalentManagementView from "./TalentManagementView";
-import { FormattedMessage } from "react-intl";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-function TalentManagement(props) {
-  const data = props.data;
+const TalentManagement = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
 
-  const getTalentManagementInfo = dataSource => {
-    const locale = localStorage.getItem("lang");
-    const careerMobility = {
-      title: <FormattedMessage id="profile.career.mobility" />,
-      description: dataSource.careerMobility.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      )
-    };
+  return <TalentManagementView data={data} locale={locale} />;
+};
 
-    const talentMatrixResult = {
-      title: <FormattedMessage id="profile.talent.matrix.result" />,
-      description: dataSource.talentMatrixResult.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      )
-    };
+TalentManagement.propTypes = {
+  data: ProfileInfoPropType,
+};
 
-    return [careerMobility, talentMatrixResult];
-  };
-
-  return (
-    <TalentManagementView
-      data={data}
-      locale={localStorage.getItem("lang")}
-      info={getTalentManagementInfo(data)}
-    />
-  );
-}
+TalentManagement.defaultProps = {
+  data: null,
+};
 
 export default TalentManagement;

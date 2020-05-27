@@ -1,18 +1,20 @@
 import React from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import SubstativeView from "./SubstantiveView";
 
-function Substantive(props) {
-  const formatData = data => {
-    const locale = props.intl.formatMessage({ id: "language.code" });
+const Substantive = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
 
+  const formatData = () => {
     const classification = {
       title: <FormattedMessage id="profile.classification" />,
       description:
         data.classification &&
         (data.classification.description || (
           <FormattedMessage id="profile.not.specified" />
-        ))
+        )),
     };
 
     const security = {
@@ -21,23 +23,38 @@ function Substantive(props) {
         data.security &&
         (data.security.description[locale] || (
           <FormattedMessage id="profile.not.specified" />
-        ))
+        )),
     };
 
     const substative = {
       title: <FormattedMessage id="profile.substantive" />,
       description:
-        data.inderterminate === true ? (
+        data.indeterminate === true ? (
           <FormattedMessage id="profile.indeterminate" />
         ) : (
           <FormattedMessage id="profile.term" />
-        )
+        ),
     };
 
     return [substative, classification, security];
   };
 
-  return <SubstativeView values={formatData(props.data)} />;
-}
+  return <SubstativeView values={formatData()} />;
+};
 
-export default injectIntl(Substantive);
+Substantive.propTypes = {
+  data: PropTypes.shape({
+    classification: PropTypes.shape({
+      description: PropTypes.any,
+    }),
+    indeterminate: PropTypes.bool,
+    security: PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+};
+
+export default Substantive;

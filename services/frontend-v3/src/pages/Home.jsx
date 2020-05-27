@@ -1,35 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row } from "antd";
 import SearchBar from "../components/searchBar/SearchBar";
-
-import { injectIntl } from "react-intl";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import { HistoryPropType } from "../customPropTypes";
 
-class Home extends React.Component {
-  goto = link => this.props.history.push(link);
+const Home = ({ history }) => {
+  useEffect(() => {
+    document.title = "Home | I-Talent";
+  }, []);
 
-  constructor(props) {
-    super(props);
+  return (
+    <AppLayout displaySideBar={false}>
+      <Row>
+        <SearchBar history={history} />
+      </Row>
+    </AppLayout>
+  );
+};
 
-    document.title = "Home | UpSkill";
-  }
+Home.propTypes = {
+  history: HistoryPropType.isRequired,
+};
 
-  render() {
-    return (
-      <AppLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={false}
-        // sideBarContent={}
-      >
-        <Row>
-          <SearchBar history={this.props.history} />
-        </Row>
-      </AppLayout>
-    );
-  }
-}
-
-//Needed when using this,props.intl
-export default injectIntl(Home);
+export default Home;

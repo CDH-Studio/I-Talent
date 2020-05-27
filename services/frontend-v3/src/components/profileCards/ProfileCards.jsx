@@ -1,61 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import ProfileCardsView from "./ProfileCardsView";
 import axios from "axios";
+import ProfileCardsView from "./ProfileCardsView";
 import config from "../../config";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 const { backendAddress } = config;
 
-function ProfileCards(props) {
+const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
-  //useParams returns an object of key/value pairs from URL parameters
-  const { id } = useParams();
-  const urlID = id;
+  // useParams returns an object of key/value pairs from URL parameters
+  const urlID = useParams().id;
 
   // get user profile for hidden cards value
-  const getProfileInfo = async () => {
+  const getProfileInfo = useCallback(async () => {
     try {
-      let url = backendAddress + "api/profile/" + urlID;
-      let result = await axios.get(url);
-      return await setProfileInfo(result.data);
+      const url = `${backendAddress}api/profile/${urlID}`;
+      const result = await axios.get(url);
+      return setProfileInfo(result.data);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
-  };
+  }, [urlID]);
 
   // get all required data component
-  const getAllData = async () => {
+  const getAllData = useCallback(async () => {
     try {
       await getProfileInfo();
       setLoad(true);
       return 1;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return 0;
     }
-  };
+  }, [getProfileInfo]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
     getAllData();
-  }, []);
+  }, [getAllData]);
 
   return (
     <ProfileCardsView
-      data={props.data}
-      title={props.title}
-      content={props.content}
+      data={data}
+      title={title}
+      content={content}
       profileInfo={profileInfo}
-      editUrl={props.editUrl}
+      editUrl={editUrl}
       load={load}
-      cardName={props.cardName}
+      cardName={cardName}
       getAllData={getAllData}
-      id={props.id}
+      id={id}
     />
   );
-}
+};
+
+ProfileCards.propTypes = {
+  data: ProfileInfoPropType,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  content: PropTypes.element.isRequired,
+  editUrl: PropTypes.string.isRequired,
+  cardName: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+};
+
+ProfileCards.defaultProps = {
+  data: null,
+};
 
 export default ProfileCards;

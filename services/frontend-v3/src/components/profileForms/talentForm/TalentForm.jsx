@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
-import TalentFormView from "./TalentFormView";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import TalentFormView from "./TalentFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -9,176 +12,163 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-function TalentForm() {
+const TalentForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
-  const [skillOptions, setSkillOptions] = useState(null);
-  const [competencyOptions, setCompetencyOptions] = useState(null);
+  const [skillOptions, setSkillOptions] = useState([]);
+  const [competencyOptions, setCompetencyOptions] = useState([]);
   const [load, setLoad] = useState(false);
-  const [savedCompetencies, setSavedCompetencies] = useState();
-  const [savedSkills, setSavedSkills] = useState();
-  const [savedMentorshipSkills, setSavedMentorshipSkills] = useState();
+  const [savedCompetencies, setSavedCompetencies] = useState([]);
+  const [savedSkills, setSavedSkills] = useState([]);
+  const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
 
-  /* useEffect to run once component is mounted */
-  useEffect(() => {
-    /*
-     * get user profile
-     *
-     */
-    const getProfileInfo = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        await setProfileInfo(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
+  // get current language code
+  const { locale } = useSelector((state) => state.settings);
+
+  /**
+   * Get user profile
+   */
+  const getProfileInfo = async () => {
+    try {
+      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
+      setProfileInfo(result.data);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  /**
+   * Get all competency options
+   *
+   * competency options for drop down
+   */
+  const getCompetencyOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getCompetency`;
+      const result = await axios.get(url);
+      const options = [];
+
+      // Generate the data for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        options.push(option);
       }
-    };
 
-    /*
-     * get all competency options
-     *
-     * competency options for drop down
-     */
-    const getCompetencyOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getCompetency";
-        let result = await axios.get(url);
-        await setCompetencyOptions(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
+      setCompetencyOptions(options);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
 
-    /*  */
-    /*
-     * get saved competencies
-     *
-     * get saved competencies from profile
-     */
-    const getSavedCompetencies = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        let selected = [];
-        for (let i = 0; i < result.data.competencies.length; i++) {
-          selected.push(result.data.competencies[i].id);
-        }
-        await setSavedCompetencies(selected);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
+  /**
+   * Get all skill options
+   *
+   * generate the dataTree of skills and skill categories for the TreeSelect
+   */
+  const getSkillOptions = useCallback(async () => {
+    try {
+      const dataTree = [];
 
-    /*
-     * get all skill options
-     *
-     * generate the dataTree of skills and skill categories for the TreeSelect
-     */
-    const getSkillOptions = async () => {
-      try {
-        let dataTree = [];
+      // Get user profile
+      const url = `${backendAddress}api/option/getCategory`;
+      const result = await axios.get(url);
 
-        // get user profile
-        let url = backendAddress + "api/option/getCategory";
-        let result = await axios.get(url);
+      // Loop through all skill categories
+      for (let i = 0; i < result.data.length; i += 1) {
+        const parent = {
+          title: result.data[i].description[locale],
+          value: result.data[i].id,
+          children: [],
+        };
 
-        // loop through all skill categories
-        for (var i = 0; i < result.data.length; i++) {
-          var parent = {
-            title: result.data[i].description.en,
-            value: result.data[i].id,
-            children: []
+        dataTree.push(parent);
+        // Loop through skills in each category
+        for (let w = 0; w < result.data[i].skills.length; w += 1) {
+          const child = {
+            title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
+            value: result.data[i].skills[w].id,
+            key: result.data[i].skills[w].id,
           };
-
-          dataTree.push(parent);
-          // loop through skills in each category
-          for (var w = 0; w < result.data[i].skills.length; w++) {
-            var child = {
-              title:
-                result.data[i].description.en +
-                ": " +
-                result.data[i].skills[w].description.descEn,
-              value: result.data[i].skills[w].id,
-              key: result.data[i].skills[w].id
-            };
-            dataTree[i].children.push(child);
-          }
+          dataTree[i].children.push(child);
         }
-
-        await setSkillOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
       }
-    };
 
-    /*
-     * get saved skills from profile
-     *
-     * generate an array of skill ids saved in profile
-     */
-    const getSavedSkills = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        let selected = [];
-        for (let i = 0; i < result.data.skills.length; i++) {
-          selected.push(result.data.skills[i].id);
-        }
-        await setSavedSkills(selected);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
+      setSkillOptions(dataTree);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
 
-    /*
-     * get saved mentorship from profile
-     *
-     * generate an array of mentorship skill ids saved in profile
-     */
-    const getSavedMentorshipSkill = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        let selected = [];
-        for (let i = 0; i < result.data.mentorshipSkills.length; i++) {
-          selected.push(result.data.mentorshipSkills[i].id);
-        }
-        await setSavedMentorshipSkills(selected);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
+  /**
+   * Get saved competencies
+   *
+   * get saved competencies from profile
+   */
+  const getSavedCompetencies = () => {
+    const selected = [];
+    for (let i = 0; i < profileInfo.competencies.length; i += 1) {
+      selected.push(profileInfo.competencies[i].id);
+    }
+    setSavedCompetencies(selected);
+  };
 
-    /* get all required data component */
-    const getAllData = async () => {
-      try {
-        await getProfileInfo();
-        await getSkillOptions();
-        await getCompetencyOptions();
-        await getSavedCompetencies();
-        await getSavedSkills();
-        await getSavedMentorshipSkill();
+  /**
+   * Get saved skills from profile
+   *
+   * generate an array of skill ids saved in profile
+   */
+  const getSavedSkills = () => {
+    const selected = [];
+    for (let i = 0; i < profileInfo.skills.length; i += 1) {
+      selected.push(profileInfo.skills[i].id);
+    }
+    setSavedSkills(selected);
+  };
+
+  /**
+   * Get saved mentorship from profile
+   *
+   * generate an array of mentorship skill ids saved in profile
+   */
+  const getSavedMentorshipSkill = () => {
+    const selected = [];
+    for (let i = 0; i < profileInfo.mentorshipSkills.length; i += 1) {
+      selected.push(profileInfo.mentorshipSkills[i].id);
+    }
+    setSavedMentorshipSkills(selected);
+  };
+
+  // useEffect when profileInfo changes (extracts info from the profileInfo object)
+  useEffect(() => {
+    if (profileInfo) {
+      getSavedCompetencies();
+      getSavedSkills();
+      getSavedMentorshipSkill();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileInfo]);
+
+  // useEffect to run once component is mounted
+  useEffect(() => {
+    // get all required data component
+    Promise.all([getProfileInfo(), getSkillOptions(), getCompetencyOptions()])
+      .then(() => {
         setLoad(true);
-        return 1;
-      } catch (error) {
+      })
+      .catch((error) => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
-      }
-    };
-
-    getAllData();
-  }, []);
+      });
+  }, [getCompetencyOptions, getSkillOptions]);
 
   return (
     <TalentFormView
@@ -188,9 +178,14 @@ function TalentForm() {
       savedCompetencies={savedCompetencies}
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
+      formType={formType}
       load={load}
     />
   );
-}
+};
+
+TalentForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+};
 
 export default TalentForm;

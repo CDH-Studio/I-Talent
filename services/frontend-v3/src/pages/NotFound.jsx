@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import ErrorResult from "../components/errorResult/errorResult";
 
-class NotFound extends Component {
-  render() {
-    return <ErrorResult errorCode={404} history={this.props.history} />;
-  }
-}
+const NotFound = () => {
+  return <ErrorResult errorCode={404} />;
+};
 
 export default NotFound;

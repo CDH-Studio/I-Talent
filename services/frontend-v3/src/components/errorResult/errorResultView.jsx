@@ -1,10 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import { Result } from "antd";
+import PropTypes from "prop-types";
 
-class ErrorResultView extends Component {
-  render() {
-    return <Result {...this.props.props} />;
-  }
+const ErrorResultView = ({ resultProps }) => {
+  return (
+    <Result
+      status={resultProps.status}
+      title={resultProps.title}
+      subTitle={resultProps.subTitle}
+      extra={resultProps.extra}
+    />
+  );
 }
+
+ErrorResultView.propTypes = {
+  resultProps: PropTypes.shape({
+    status: PropTypes.string,
+    title: PropTypes.string,
+    subTitle: PropTypes.string,
+    extra: PropTypes.symbol,
+  }).isRequired,
+};
 
 export default ErrorResultView;

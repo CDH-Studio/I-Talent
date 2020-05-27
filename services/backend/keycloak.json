@@ -1,8 +1,0 @@
-{
-  "realm": "individual",
-  "bearer-only": true,
-  "auth-server-url": "https://sso-dev.ised-isde.canada.ca/auth",
-  "ssl-required": "external",
-  "resource": "upskill-api",
-  "confidential-port": 0
-}

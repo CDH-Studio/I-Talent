@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import WelcomeView from "./WelcomeView";
 import axios from "axios";
+import WelcomeView from "./WelcomeView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -13,7 +14,7 @@ const { backendAddress } = config;
  */
 function Welcome() {
   const [load, setLoad] = useState(false);
-  const [gedsProfiles, setGedsProfiles] = useState();
+  const [gedsProfiles, setGedsProfiles] = useState([]);
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -25,12 +26,13 @@ function Welcome() {
     const getGedsProfiles = async () => {
       try {
         // Get info from GEDS
-        let result = await axios.get(
-          backendAddress + "api/profGen/" + localStorage.getItem("userId")
+        const result = await axios.get(
+          `${backendAddress}api/profGen/${localStorage.getItem("userId")}`
         );
         setGedsProfiles(result.data);
         return 1;
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
         return 0;
       }
@@ -44,6 +46,7 @@ function Welcome() {
         return 1;
       } catch (error) {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
         return 0;
       }

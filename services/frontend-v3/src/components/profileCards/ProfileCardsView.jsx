@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useParams, useHistory } from "react-router-dom";
 import {
   EyeOutlined,
@@ -9,18 +10,27 @@ import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
 
 import axios from "axios";
+import { ProfileInfoPropType } from "../../customPropTypes";
 import config from "../../config";
+
 const { backendAddress } = config;
 
-function ProfileCardsView(props) {
+function ProfileCardsView({
+  cardName,
+  editUrl,
+  profileInfo,
+  title,
+  id,
+  content,
+  style,
+}) {
   const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
-  //useParams returns an object of key/value pairs from URL parameters
-  const { id } = useParams();
-  const urlID = id;
+  // useParams returns an object of key/value pairs from URL parameters
+  const newId = useParams().id;
+  const urlID = newId;
   const userID = localStorage.getItem("userId");
-
   /*
    * Handle Visibility Toggle
    *
@@ -30,20 +40,21 @@ function ProfileCardsView(props) {
     // Update visibleCards state in profile
     try {
       // Get current card visibility status from db
-      let url = backendAddress + "api/profile/" + urlID;
-      let result = await axios.get(url);
-      let visibleCards = result.data.visibleCards;
+      const url = `${backendAddress}api/profile/${urlID}`;
+      const result = await axios.get(url);
+      const { visibleCards } = result.data;
 
       // change the stored value
-      const cardNameToBeModified = props.cardName;
+      const cardNameToBeModified = cardName;
       visibleCards[cardNameToBeModified] = !disabled;
       setDisabled(visibleCards[cardNameToBeModified]);
 
       // save toggle value in db
-      await axios.put(backendAddress + "api/profile/" + urlID, {
+      await axios.put(`${backendAddress}api/profile/${urlID}`, {
         visibleCards,
       });
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   };
@@ -54,10 +65,8 @@ function ProfileCardsView(props) {
    * Handle card visibility toggle by updating state and saving state to backend
    */
   const redirectToEdit = () => {
-    console.log("props.editUrl");
-    console.log(props.editUrl);
-    if (props.editUrl) {
-      history.push(props.editUrl);
+    if (editUrl) {
+      history.push(editUrl);
     }
   };
 
@@ -66,9 +75,11 @@ function ProfileCardsView(props) {
    *
    * Generate visibility switch and edit button
    */
+  // eslint-disable-next-line consistent-return
   const generateSwitchButton = () => {
-    //Check if user is on his own profile (by
+    // Check if user is on his own profile (by
     // comparing the id in storage vs the id in the url)
+
     if (userID === urlID) {
       return (
         <div style={{ marginTop: "15px" }}>
@@ -108,12 +119,12 @@ function ProfileCardsView(props) {
 
   useEffect(() => {
     // get default state of card visibility status on load of page
-    if (props.profileInfo) {
-      let visibleCards = props.profileInfo.visibleCards;
-      const cardNameToBeModified = props.cardName;
+    if (profileInfo) {
+      const { visibleCards } = profileInfo;
+      const cardNameToBeModified = cardName;
       setDisabled(visibleCards[cardNameToBeModified]);
     }
-  }, [props]);
+  }, [cardName, editUrl, profileInfo, title, id, content, style]);
 
   let styles;
   if (disabled === true) {
@@ -133,15 +144,30 @@ function ProfileCardsView(props) {
   return (
     <div>
       <Card
-        title={props.title}
-        id={props.id}
-        extra={generateSwitchButton(props.cardName)}
-        style={(props.style, styles.grayedOut)}
+        title={title}
+        id={id}
+        extra={generateSwitchButton(cardName)}
+        style={(style, styles.grayedOut)}
       >
-        {props.content}
+        {content}
       </Card>
     </div>
   );
 }
+
+ProfileCardsView.propTypes = {
+  cardName: PropTypes.string.isRequired,
+  editUrl: PropTypes.string.isRequired,
+  profileInfo: ProfileInfoPropType,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  id: PropTypes.string.isRequired,
+  content: PropTypes.element.isRequired,
+  style: PropTypes.objectOf(PropTypes.string),
+};
+
+ProfileCardsView.defaultProps = {
+  profileInfo: null,
+  style: undefined,
+};
 
 export default ProfileCardsView;

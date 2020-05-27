@@ -1,22 +1,13 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import UserTable from "../../components/userTable/UserTable";
-import { injectIntl } from "react-intl";
+import UserTable from "../../components/admin/userTable/UserTable";
 
-class AdminUser extends React.Component {
-  goto = link => this.props.history.push(link);
+const AdminUser = () => {
+  return (
+    <AdminLayout displaySideBar type="user">
+      <UserTable type="user" />
+    </AdminLayout>
+  );
+};
 
-  render() {
-    return (
-      <AdminLayout
-        changeLanguage={this.props.changeLanguage}
-        displaySideBar={true}
-        type="user"
-      >
-        <UserTable type="user" />
-      </AdminLayout>
-    );
-  }
-}
-
-export default injectIntl(AdminUser);
+export default AdminUser;

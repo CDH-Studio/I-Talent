@@ -1,30 +1,25 @@
-import React from "react";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import ResultLayout from "../components/resultsLayout/ResultLayout";
+import React, { useEffect } from "react";
 import { injectIntl } from "react-intl";
-class Results extends React.Component {
-  goto = link => this.props.history.push(link);
+import ResultLayout from "../components/layouts/resultsLayout/ResultLayout";
+import { HistoryPropType, IntlPropType } from "../customPropTypes";
 
-  constructor(props) {
-    super(props);
+const Results = ({ history, intl }) => {
+  useEffect(() => {
+    document.title = `${intl.formatMessage({
+      id: "results.title",
+    })} | I-Talent`;
+  }, [intl]);
 
-    document.title = "Results | UpSkill";
-  }
+  return <ResultLayout history={history} displaySideBar />;
+};
 
-  render() {
-    return (
-      <ResultLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={true}
-        //sideBarContent={this.props.sideBarContent}
-      ></ResultLayout>
-    );
-  }
-}
+Results.propTypes = {
+  history: HistoryPropType.isRequired,
+  intl: IntlPropType,
+};
 
-//Needed when using this,props.intl
-Results = Form.create({})(Results);
+Results.defaultProps = {
+  intl: null,
+};
+
 export default injectIntl(Results);

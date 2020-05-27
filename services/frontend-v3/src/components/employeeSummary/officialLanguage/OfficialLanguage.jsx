@@ -1,14 +1,14 @@
 import React from "react";
-import OfficialLanguageView from "./OfficialLanguageView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import OfficialLanguageView from "./OfficialLanguageView";
+import { ProfileInfoPropType } from "../../../customPropTypes";
 
-function OfficialLanguage(props) {
-  const data = props.data;
+const OfficialLanguage = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
 
-  const getFirstLanguageInfo = dataSource => {
-    const locale = localStorage.getItem("lang");
-
+  const getFirstLanguageInfo = (dataSource) => {
     const firstLanguage = {
       title: <FormattedMessage id="profile.first.language" />,
       description:
@@ -16,12 +16,12 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.firstLanguage[locale]
-        )
+        ),
     };
     return [firstLanguage];
   };
 
-  const getSecondLanguageGradeInfo = dataSource => {
+  const getSecondLanguageGradeInfo = (dataSource) => {
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
       description:
@@ -29,7 +29,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryReadingProficiency
-        )
+        ),
     };
 
     const secondaryWritingProficiency = {
@@ -39,7 +39,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryWritingProficiency
-        )
+        ),
     };
 
     const secondaryOralProficiency = {
@@ -49,17 +49,17 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryOralProficiency
-        )
+        ),
     };
 
     return [
       secondaryReadingProficiency,
       secondaryWritingProficiency,
-      secondaryOralProficiency
+      secondaryOralProficiency,
     ];
   };
 
-  const getSecondLanguageDateInfo = dataSource => {
+  const getSecondLanguageDateInfo = (dataSource) => {
     const formatedReadingDate = moment(dataSource.secondaryReadingDate).format(
       "ll"
     );
@@ -75,7 +75,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           formatedReadingDate
-        )
+        ),
     };
 
     const secondaryWritingDate = {
@@ -85,7 +85,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           formatedWritingDate
-        )
+        ),
     };
 
     const secondaryOralDate = {
@@ -95,7 +95,7 @@ function OfficialLanguage(props) {
           <FormattedMessage id="profile.not.specified" />
         ) : (
           formatedOralDate
-        )
+        ),
     };
 
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];
@@ -108,6 +108,13 @@ function OfficialLanguage(props) {
       secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
     />
   );
-}
+};
 
+OfficialLanguage.propTypes = {
+  data: ProfileInfoPropType,
+};
+
+OfficialLanguage.defaultProps = {
+  data: null,
+};
 export default OfficialLanguage;

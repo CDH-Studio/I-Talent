@@ -1,18 +1,17 @@
 import React from "react";
-
-import { Icon as LegacyIcon } from "@ant-design/compatible";
-
 import { Row, Col, Avatar, List } from "antd";
+import { BankOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 
-function EducationView(props) {
+function EducationView({ educationInfo }) {
   /* Component Styles */
   const styles = {
     card: {
-      height: "100%"
+      height: "100%",
     },
     avatar: {
-      backgroundColor: "#007471"
-    }
+      backgroundColor: "#007471",
+    },
   };
 
   const generateEducationInfoList = dataSource => {
@@ -27,7 +26,7 @@ function EducationView(props) {
                 <Avatar
                   style={styles.avatar}
                   size="large"
-                  icon={<LegacyIcon type={item.icon} />}
+                  icon={<BankOutlined />}
                   shape="square"
                 />
               }
@@ -40,8 +39,6 @@ function EducationView(props) {
     );
   };
 
-  const educationInfo = props.educationInfo;
-
   return (
     <Row>
       <Col xs={24} lg={24}>
@@ -50,5 +47,15 @@ function EducationView(props) {
     </Row>
   );
 }
+
+EducationView.propTypes = {
+  educationInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      school: PropTypes.string,
+      duration: PropTypes.string,
+    })
+  ).isRequired,
+};
 
 export default EducationView;

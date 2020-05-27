@@ -1,12 +1,28 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-
 import { Icon as LegacyIcon } from "@ant-design/compatible";
-
+import {
+  MailOutlined,
+  PhoneOutlined,
+  MobileOutlined,
+  BranchesOutlined,
+  EnvironmentOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import PropTypes from "prop-types";
 import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+import { ProfileInfoPropType } from "../../customPropTypes";
+
 const { Text } = Typography;
 
-function BasicInfoView(props) {
+const BasicInfoView = ({
+  data,
+  name,
+  avatar,
+  jobTitle,
+  locale,
+  buttonLinks,
+}) => {
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
@@ -32,10 +48,10 @@ function BasicInfoView(props) {
    * Generates basic info card header
    * This includes: avatar, name, position
    */
-  const generateProfileHeader = (name, jobTitle, avatar) => {
+  const generateProfileHeader = () => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
-        <Col xs={24} xl={3} align="center">
+        <Col xs={12} md={5} lg={4} xl={3} align="center">
           <Avatar
             size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
@@ -45,7 +61,7 @@ function BasicInfoView(props) {
             </Text>
           </Avatar>
         </Col>
-        <Col xs={24} xl={21} style={{ padding: "11px 10px" }}>
+        <Col xs={12} md={19} lg={20} xl={21} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -69,20 +85,16 @@ function BasicInfoView(props) {
    * Generates list of basic info with mall icons
    * This includes: address, email, etc.
    */
-  const generateInfoList = (dataSource) => {
+  const generateInfoList = dataSource => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={(item) => (
+        renderItem={item => (
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Avatar
-                  style={styles.avatar}
-                  size={48}
-                  icon={<LegacyIcon type={item.icon} />}
-                />
+                <Avatar style={styles.avatar} size={48} icon={item.icon} />
               }
               title={item.title}
               description={item.description}
@@ -98,11 +110,9 @@ function BasicInfoView(props) {
    *
    * Generates data for contact info list
    */
-  const getContactInfo = (dataSource) => {
-    const data = dataSource.data;
-
+  const getContactInfo = () => {
     const email = {
-      icon: "mail",
+      icon: <MailOutlined />,
       title: <FormattedMessage id="profile.email" />,
       description: data.email ? (
         data.email
@@ -112,7 +122,7 @@ function BasicInfoView(props) {
     };
 
     const tel = {
-      icon: "phone",
+      icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
       description: data.telephone ? (
         data.telephone
@@ -122,7 +132,7 @@ function BasicInfoView(props) {
     };
 
     const cel = {
-      icon: "mobile",
+      icon: <MobileOutlined />,
       title: <FormattedMessage id="profile.cellphone" />,
       description: data.cellphone ? (
         data.cellphone
@@ -139,18 +149,20 @@ function BasicInfoView(props) {
    *
    * Generates data for user's location
    */
-  const getLocationInfo = (dataSource) => {
-    const locale = dataSource.locale;
-    const data = dataSource.data;
-
+  const getLocationInfo = () => {
     const branch = {
-      icon: "branches",
+      icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch && data.branch[locale],
+      description:
+        data.branch && data.branch[locale] ? (
+          data.branch
+        ) : (
+          <FormattedMessage id="profile.not.specified" />
+        ),
     };
 
     const address = {
-      icon: "environment",
+      icon: <EnvironmentOutlined />,
       title: <FormattedMessage id="profile.address" />,
       description: data.location ? (
         data.location.description[locale]
@@ -160,7 +172,7 @@ function BasicInfoView(props) {
     };
 
     const manager = {
-      icon: "user",
+      icon: <UserOutlined />,
       title: <FormattedMessage id="profile.manager" />,
       description: data.manager ? (
         data.manager
@@ -178,9 +190,8 @@ function BasicInfoView(props) {
    * Generates the list of actions at bottom of info card
    * This includes links to: email, linkedin, and github
    */
-  const generateActions = (dataSource) => {
-    const buttonLinks = dataSource.buttonLinks;
-    const buttons = buttonLinks.buttons.map((buttonName) => {
+  const generateActions = () => {
+    const buttons = buttonLinks.buttons.map(buttonName => {
       const button = buttonLinks[buttonName];
 
       return (
@@ -203,20 +214,36 @@ function BasicInfoView(props) {
   return (
     <Card
       id="card-profile-basic-info"
-      actions={generateActions(props)}
+      actions={generateActions()}
       style={styles.card}
     >
-      {generateProfileHeader(props.name, props.jobTitle, props.avatar)}
+      {generateProfileHeader()}
       <Row>
         <Col xs={24} lg={12}>
-          {generateInfoList(getContactInfo(props))}
+          {generateInfoList(getContactInfo())}
         </Col>
         <Col xs={24} lg={12}>
-          {generateInfoList(getLocationInfo(props))}
+          {generateInfoList(getLocationInfo())}
         </Col>
       </Row>
     </Card>
   );
-}
+};
+
+BasicInfoView.propTypes = {
+  data: ProfileInfoPropType.isRequired,
+  name: PropTypes.string.isRequired,
+  avatar: PropTypes.shape({
+    acr: PropTypes.string,
+    color: PropTypes.string,
+  }).isRequired,
+  jobTitle: PropTypes.string,
+  locale: PropTypes.oneOf(["fr", "en"]).isRequired,
+  buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+BasicInfoView.defaultProps = {
+  jobTitle: null,
+};
 
 export default BasicInfoView;

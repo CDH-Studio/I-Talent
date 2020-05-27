@@ -1,42 +1,50 @@
 import React from "react";
 import { Layout } from "antd";
+import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import SideNav from "../../sideNav/SideNav";
 
 const { Content } = Layout;
 
-function AppLayoutView(props) {
+const AppLayoutView = ({ sideBarContent, displaySideBar, children }) => {
   const styles = {
+    contentLayout: {
+      marginTop: "64px",
+    },
     content: {
       padding: "20px 15px",
       margin: 0,
-      minHeight: 280
-    }
+      minHeight: "100%",
+    },
   };
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh" }}>
       {/* Render Top Navigation Bar */}
-      <TopNav
-        changeLanguage={props.changeLanguage}
-        keycloak={props.keycloak}
-        history={props.history}
-      ></TopNav>
-      <Layout>
+      <TopNav />
+      <Layout style={{ marginTop: 64 }}>
         {/* Render Side Navigation Bar */}
         <SideNav
-          sideBarContent={props.sideBarContent}
-          displaySideBar={props.displaySideBar}
-        ></SideNav>
+          sideBarContent={sideBarContent}
+          displaySideBar={displaySideBar}
+        />
         {/* Render content */}
         <Layout>
-          <Content style={styles.content}>{props.children}</Content>
+          <Content style={styles.content}>{children}</Content>
         </Layout>
       </Layout>
     </Layout>
   );
-}
+};
 
-/* Component Styles */
+AppLayoutView.propTypes = {
+  sideBarContent: PropTypes.node,
+  displaySideBar: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+AppLayoutView.defaultProps = {
+  sideBarContent: undefined,
+};
 
 export default AppLayoutView;

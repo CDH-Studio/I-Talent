@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
-import EmploymentDataFormView from "../../profileForms/employmentDataForm/EmploymentDataFormView";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import config from "../../../config";
+import EmploymentDataFormView from "./EmploymentDataFormView";
+
 const { backendAddress } = config;
 
 /**
@@ -9,79 +12,113 @@ const { backendAddress } = config;
  *  Controller for the EmploymentDataFormView.
  *  It gathers the required data for rendering the component
  */
-function EmploymentDataForm() {
-  const [substantiveOptions, setSubstantiveOptions] = useState(null);
-  const [classificationOptions, setClassificationOptions] = useState(null);
-  const [securityOptions, setSecurityOptions] = useState(null);
+const EmploymentDataForm = ({ formType }) => {
+  const [substantiveOptions, setSubstantiveOptions] = useState([]);
+  const [classificationOptions, setClassificationOptions] = useState([]);
+  const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
-  /* useEffect to run once component is mounted */
+  // Get current language code
+  const { locale } = useSelector((state) => state.settings);
+
+  // Get substantive level options
+  const getSubstantiveOptions = useCallback(async () => {
+    try {
+      const result = await axios.get(`${backendAddress}api/option/getTenure`);
+
+      const options = [];
+      // Generate the data for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        options.push(option);
+      }
+      setSubstantiveOptions(options);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  // Get classification options
+  const getClassificationOptions = async () => {
+    try {
+      const url = `${backendAddress}api/option/getGroupLevel`;
+      const result = await axios.get(url);
+      const options = [];
+
+      // Generate the data for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
+          title: result.data[i].description,
+          key: result.data[i].id,
+        };
+        options.push(option);
+      }
+      setClassificationOptions(options);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  // Get security options
+  const getSecurityOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getSecurityClearance`;
+      const result = await axios.get(url);
+      const options = [];
+
+      // Generate the data for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const option = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        options.push(option);
+      }
+      setSecurityOptions(options);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  // Get user profile for form drop down
+  const getProfileInfo = async () => {
+    try {
+      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
+      setProfileInfo(result.data);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  // useEffect to run once component is mounted
   useEffect(() => {
-    /* get substantive level options */
-    const getSubstantiveOptions = async () => {
-      try {
-        let result = await axios.get(backendAddress + "api/option/getTenure");
-        await setSubstantiveOptions(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /* get classification options */
-    const getClassificationOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getGroupLevel";
-        let result = await axios.get(url);
-        return await setClassificationOptions(result.data);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /* get security options */
-    const getSecurityOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getSecurityClearance";
-        let result = await axios.get(url);
-        return await setSecurityOptions(result.data);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /* get user profile for form drop down */
-    const getProfileInfo = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        await setProfileInfo(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /* get all required data component */
-    const getAllData = async () => {
-      try {
-        await getClassificationOptions();
-        await getSubstantiveOptions();
-        await getSecurityOptions();
-        await getProfileInfo();
+    // Get all required data component
+    Promise.all([
+      getClassificationOptions(),
+      getSubstantiveOptions(),
+      getSecurityOptions(),
+      getProfileInfo(),
+    ])
+      .then(() => {
         setLoad(true);
-        return 1;
-      } catch (error) {
+      })
+      .catch((error) => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
-      }
-    };
-
-    getAllData();
-  }, []);
+      });
+  }, [getSecurityOptions, getSubstantiveOptions]);
 
   return (
     <EmploymentDataFormView
@@ -89,9 +126,15 @@ function EmploymentDataForm() {
       classificationOptions={classificationOptions}
       securityOptions={securityOptions}
       profileInfo={profileInfo}
+      formType={formType}
+      locale={locale}
       load={load}
     />
   );
-}
+};
+
+EmploymentDataForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+};
 
 export default EmploymentDataForm;

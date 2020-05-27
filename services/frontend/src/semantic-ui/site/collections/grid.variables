@@ -1,5 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-@gutterWidth: 10rem;
-@verticallyDividedBorder: 0px -1px 0px 0px rgba(244, 36, 38, 0.15)

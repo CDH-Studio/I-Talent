@@ -1,102 +1,125 @@
-import React, { useState } from "react";
-import { injectIntl } from "react-intl";
-import { Form, Col, Button, Input, Switch, Select } from "antd";
-import "@ant-design/compatible/assets/index.css";
-import { Row } from "antd";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
+import { Form, Button, Input, Switch, Select, Typography } from "antd";
+import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { IdDescriptionPropType } from "../../customPropTypes";
 
-function SearchBarView(props) {
+const { Title, Text } = Typography;
+
+const SearchBarView = ({
+  handleSearch,
+  skillOptions,
+  branchOptions,
+  classOptions,
+  locationOptions,
+  urlSearchFieldValues,
+}) => {
   const { Option } = Select;
   const [form] = Form.useForm();
-  const {
-    handleSearch,
-    skillOptions,
-    branchOptions,
-    classOptions,
-    locationOptions
-  } = props;
 
-  const onFinish = values => {
+  const styles = {
+    w100: {
+      width: "100%",
+    },
+    searchHeader: {
+      fontSize: "1.2em",
+    },
+    searchHeaderIcon: {
+      fontSize: "0.9em",
+      marginRight: "4px",
+      color: "#3CBAB3",
+    },
+    searchSideBar: { padding: "22px" },
+    form: { paddingTop: "10px" },
+  };
+
+  const onFinish = (values) => {
     handleSearch(values);
   };
 
-  let locale = props.intl.formatMessage({
-    id: "language.code",
-    defaultMessage: "en"
-  });
-  const searchLabel = props.intl.formatMessage({
-    id: "button.search",
-    defaultMessage: "Search"
-  });
+  // Sets the default values of the form from the URL search params
+  useEffect(() => {
+    if (urlSearchFieldValues) {
+      form.setFieldsValue(urlSearchFieldValues);
+    }
+  }, [form, urlSearchFieldValues]);
+
+  const { locale } = useSelector((state) => state.settings);
+  const searchLabel = <FormattedMessage id="button.search" />;
   const searchTitles = [
     "name",
     "skills",
     "branch",
     "location",
     "classification",
-    "exFeeder"
+    "exFeeder",
   ];
   const labelArr = [
-    props.intl.formatMessage({
-      id: "advanced.search.form.name",
-      defaultMessage: "Name"
-    }),
-    props.intl.formatMessage({
-      id: "advanced.search.form.skills",
-      defaultMessage: "Skills"
-    }),
-    props.intl.formatMessage({
-      id: "advanced.search.form.branch",
-      defaultMessage: "Branch"
-    }),
-    props.intl.formatMessage({
-      id: "advanced.search.form.location",
-      defaultMessage: "Location"
-    }),
-    props.intl.formatMessage({
-      id: "advanced.search.form.classification",
-      defaultMessage: "Classification"
-    }),
-    props.intl.formatMessage({
-      id: "advanced.search.form.ex.feeder",
-      defaultMessage: "Ex Feeder"
-    })
+    <FormattedMessage id="advanced.search.form.name" />,
+    <FormattedMessage id="advanced.search.form.skills" />,
+    <FormattedMessage id="advanced.search.form.branch" />,
+    <FormattedMessage id="advanced.search.form.location" />,
+    <FormattedMessage id="advanced.search.form.classification" />,
+    <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
-    <Form
-      style={{ padding: "10px", overflow: "hidden" }}
-      form={form}
-      onFinish={onFinish}
-    >
-      <Row>
-        <Form.Item label={labelArr[0]} name={searchTitles[0]}>
-          <Input style={{ width: 230 }} placeholder={searchLabel} />
+    <div style={styles.searchSideBar}>
+      <Title level={2} style={styles.searchHeader}>
+        <SettingOutlined style={styles.searchHeaderIcon} />
+        <FormattedMessage id="sidebar.search.title" />
+      </Title>
+      <Text>
+        <FormattedMessage id="sidebar.search.description" />
+      </Text>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        style={styles.form}
+      >
+        <Form.Item
+          label={labelArr[0]}
+          name={searchTitles[0]}
+          style={styles.w100}
+        >
+          <Input style={styles.w100} />
         </Form.Item>
-        <Form.Item label={labelArr[1]} name={searchTitles[1]}>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[1]}
+          name={searchTitles[1]}
+        >
           <Select
-            style={{ width: 230 }}
+            style={styles.w100}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             mode="multiple"
-            placeholder={searchLabel}
+            maxTagCount={3}
           >
-            {skillOptions.map(value => {
+            {skillOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
             })}
           </Select>
         </Form.Item>
-        <Form.Item label={labelArr[2]} name={searchTitles[2]}>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[2]}
+          name={searchTitles[2]}
+        >
           <Select
-            style={{ width: 230 }}
+            style={styles.w100}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             mode="multiple"
-            placeholder={searchLabel}
+            maxTagCount={3}
           >
-            {branchOptions.map(value => {
+            {branchOptions.map((value) => {
               return (
                 <Option key={value.description.en}>
                   {value.description[locale]}
@@ -105,49 +128,96 @@ function SearchBarView(props) {
             })}
           </Select>
         </Form.Item>
-        <Form.Item label={labelArr[3]} name={searchTitles[3]}>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[3]}
+          name={searchTitles[3]}
+        >
           <Select
-            style={{ width: 230 }}
+            style={styles.w100}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             mode="multiple"
-            placeholder={searchLabel}
+            maxTagCount={3}
           >
-            {locationOptions.map(value => {
+            {locationOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
             })}
           </Select>
         </Form.Item>
-        <Form.Item label={labelArr[4]} name={searchTitles[4]}>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[4]}
+          name={searchTitles[4]}
+        >
           <Select
-            style={{ width: 230 }}
+            style={styles.w100}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             mode="multiple"
-            placeholder={searchLabel}
+            maxTagCount={3}
           >
-            {classOptions.map(value => {
+            {classOptions.map((value) => {
               return <Option key={value.id}>{value.description}</Option>;
             })}
           </Select>
         </Form.Item>
-        <Form.Item name={searchTitles[5]} label={labelArr[5]}>
+        <Form.Item
+          style={styles.w100}
+          name={searchTitles[5]}
+          label={labelArr[5]}
+          valuePropName="checked"
+        >
           <Switch />
-        </Form.Item>{" "}
-      </Row>
-
-      <Row style={{ justifyContent: "center" }}>
-        <Col>
-          <Button shape="round" size="large" type="primary" htmlType="submit">
-            {searchLabel}
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+        </Form.Item>
+        <Button
+          style={styles.w100}
+          shape="round"
+          size="large"
+          type="primary"
+          htmlType="submit"
+        >
+          <ReloadOutlined style={{ marginRight: "5px" }} />
+          {searchLabel}
+        </Button>
+      </Form>
+    </div>
   );
-}
-export default injectIntl(SearchBarView);
+};
+
+SearchBarView.propTypes = {
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    })
+  ).isRequired,
+  classOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      description: PropTypes.string,
+    })
+  ).isRequired,
+  locationOptions: IdDescriptionPropType.isRequired,
+  skillOptions: IdDescriptionPropType.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  urlSearchFieldValues: PropTypes.shape({
+    classification: PropTypes.array,
+    location: PropTypes.array,
+    skills: PropTypes.array,
+    exFeeder: PropTypes.bool,
+    name: PropTypes.string,
+  }),
+};
+
+SearchBarView.defaultProps = {
+  urlSearchFieldValues: undefined,
+};
+
+export default SearchBarView;

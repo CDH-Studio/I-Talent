@@ -1,22 +1,13 @@
 import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import SkillTable from "../../components/skillTable/SkillTable";
-import { injectIntl } from "react-intl";
+import SkillTable from "../../components/admin/skillTable/SkillTable";
 
-class AdminSkill extends React.Component {
-  goto = link => this.props.history.push(link);
+const AdminSkill = () => {
+  return (
+    <AdminLayout displaySideBar type="skill">
+      <SkillTable type="skill" />
+    </AdminLayout>
+  );
+};
 
-  render() {
-    return (
-      <AdminLayout
-        changeLanguage={this.props.changeLanguage}
-        displaySideBar={true}
-        type="skill"
-      >
-        <SkillTable type="skill" />
-      </AdminLayout>
-    );
-  }
-}
-
-export default injectIntl(AdminSkill);
+export default AdminSkill;

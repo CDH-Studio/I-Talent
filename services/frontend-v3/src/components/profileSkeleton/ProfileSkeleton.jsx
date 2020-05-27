@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileSkeletonView from "./profileSkeletonView";
 
-function ProfileSkeleton() {
+const ProfileSkeleton = () => {
   return <ProfileSkeletonView active />;
 }
 

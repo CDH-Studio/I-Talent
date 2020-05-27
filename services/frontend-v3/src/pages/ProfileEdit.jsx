@@ -1,26 +1,27 @@
 import React from "react";
+import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
+import { IntlPropType } from "../customPropTypes";
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
-class ProfileCreate extends React.Component {
-  goto = link => this.props.history.push(link);
+const ProfileEdit = ({ intl, match }) => {
+  document.title = `${intl.formatMessage({ id: "edit.profile" })} | I-Talent`;
 
-  constructor(props) {
-    super(props);
+  return <EditProfileLayout step={match.params.step} />;
+};
 
-    document.title = "Create Profile | UpSkill";
-  }
+ProfileEdit.propTypes = {
+  intl: IntlPropType,
+  match: PropTypes.shape({
+    isExact: PropTypes.bool,
+    params: PropTypes.objectOf(PropTypes.any),
+    path: PropTypes.string,
+    url: PropTypes.string,
+  }).isRequired,
+};
 
-  render() {
-    return (
-      <EditProfileLayout
-        changeLanguage={this.props.changeLanguage}
-        keycloak={this.props.keycloak}
-        history={this.props.history}
-        displaySideBar={true}
-        step={this.props.match.params.step}
-      ></EditProfileLayout>
-    );
-  }
-}
+ProfileEdit.defaultProps = {
+  intl: undefined,
+};
 
-export default ProfileCreate;
+export default injectIntl(ProfileEdit);

@@ -1,13 +1,8 @@
 import React from "react";
-
 import ChangeLanguageView from "./ChangeLanguageView";
 
-function ChangeLanguage(props) {
-  return (
-    <ChangeLanguageView
-      changeLanguage={props.changeLanguage}
-    ></ChangeLanguageView>
-  );
-}
+const ChangeLanguage = () => {
+  return <ChangeLanguageView />;
+};
 
 export default ChangeLanguage;

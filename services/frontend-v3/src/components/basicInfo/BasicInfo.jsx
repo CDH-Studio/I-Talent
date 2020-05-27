@@ -1,20 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import BasicInfoView from "./BasicInfoView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-function BasicInfo(props) {
+const BasicInfo = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   const getButtonLinks = () => {
-    const linkedinUrl = props.data.linkedinUrl;
-    const githubUrl = props.data.githubUrl;
-    const gcconnexUrl = props.data.gcconnexUrl;
-    const email = props.data.email;
-    let buttonLinks = { buttons: [] };
+    const { linkedinUrl, githubUrl, gcconnexUrl, email } = data;
+    const buttonLinks = { buttons: [] };
 
     if (linkedinUrl) {
       buttonLinks.buttons.push("linkedin");
       buttonLinks.linkedin = {
         icon: "linkedin",
         textId: "profile.linkedin",
-        url: linkedinUrl
+        url: linkedinUrl,
       };
     }
 
@@ -23,7 +24,7 @@ function BasicInfo(props) {
       buttonLinks.github = {
         icon: "github",
         textId: "profile.github",
-        url: githubUrl
+        url: githubUrl,
       };
     }
 
@@ -32,7 +33,7 @@ function BasicInfo(props) {
       buttonLinks.gcconnex = {
         icon: "link",
         textId: "profile.gcconnex",
-        url: gcconnexUrl
+        url: gcconnexUrl,
       };
     }
 
@@ -40,27 +41,31 @@ function BasicInfo(props) {
     buttonLinks.email = {
       icon: "mail",
       textId: "profile.email",
-      url: "mailto:" + email
+      url: `mailto:${email}`,
     };
 
     return buttonLinks;
   };
 
-  const name = props.data.firstName + " " + props.data.lastName;
+  const name = `${data.firstName} ${data.lastName}`;
 
   return (
     <BasicInfoView
-      data={props.data}
+      data={data}
       name={name}
       avatar={{
-        acr: props.data.nameInitials,
-        color: props.data.avatarColor
+        acr: data.nameInitials,
+        color: data.avatarColor,
       }}
-      jobTitle={props.data.jobTitle[localStorage.getItem("lang")]}
-      locale={localStorage.getItem("lang")}
+      jobTitle={data.jobTitle[locale]}
+      locale={locale}
       buttonLinks={getButtonLinks()}
     />
   );
-}
+};
+
+BasicInfo.propTypes = {
+  data: ProfileInfoPropType.isRequired,
+};
 
 export default BasicInfo;

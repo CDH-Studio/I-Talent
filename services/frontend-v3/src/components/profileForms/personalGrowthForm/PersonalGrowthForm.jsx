@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
-import PersonalGrowthFormView from "./PersonalGrowthFormView";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
+
 const { backendAddress } = config;
 
 /**
@@ -9,356 +12,274 @@ const { backendAddress } = config;
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-function PersonalGrowthForm() {
+const PersonalGrowthForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState();
-  const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState();
-  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState();
-  const [relocationOptions, setRelocationOptions] = useState();
-  const [savedRelocationLocations, setSavedRelocationLocations] = useState();
-  const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState();
-  const [savedLookingForNewJob, setSavedLookingForNewJob] = useState();
-  const [careerMobilityOptions, setCareerMobilityOptions] = useState();
-  const [savedCareerMobility, setSavedCareerMobility] = useState();
-  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState();
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState();
-  const [savedExFeederBool, setSavedExFeederBool] = useState();
+  const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
+  const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState([]);
+  const [relocationOptions, setRelocationOptions] = useState([]);
+  const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
+  const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
+  const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
+  const [careerMobilityOptions, setCareerMobilityOptions] = useState([]);
+  const [savedCareerMobility, setSavedCareerMobility] = useState(undefined);
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState([]);
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(undefined);
+  const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
-  /* useEffect to run once component is mounted */
+  // Get current language code
+  const { locale } = useSelector((state) => state.settings);
+
+  /**
+   * Get saved Developmental Goals
+   *
+   * get saved Developmental Goals from profile
+   */
+  const getSavedDevelopmentalGoals = () => {
+    const selected = [];
+
+    // Generate and array of ID's of save locations
+    for (let i = 0; i < profileInfo.developmentalGoals.length; i += 1) {
+      selected.push(profileInfo.developmentalGoals[i].id);
+    }
+
+    setSavedDevelopmentalGoals(selected);
+  };
+
+  /**
+   * Get Saved Relocation Locations
+   *
+   * get saved Relocation Locations from profile
+   */
+  const getSavedRelocationLocations = () => {
+    const selected = [];
+
+    // Generate and array of ID's of save locations
+    for (let i = 0; i < profileInfo.relocationLocations.length; i += 1) {
+      selected.push(profileInfo.relocationLocations[i].locationId);
+    }
+
+    setSavedRelocationLocations(selected);
+  };
+
+  /**
+   * Get User Profile
+   */
+  const getProfileInfo = async () => {
+    try {
+      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+        "userId"
+      )}`;
+      const result = await axios.get(url);
+      setProfileInfo(result.data);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  /**
+   * Get Developmental Goal Options
+   *
+   * get a list of developmental goal options for treeSelect dropdown
+   */
+  const getDevelopmentalGoalOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getDevelopmentalGoals`;
+      const result = await axios.get(url);
+      const dataTree = [];
+
+      // Generate the data format required for treeSelect
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        dataTree.push(goal);
+      }
+      setDevelopmentalGoalOptions(dataTree);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  /**
+   * Get Interested In Remote Options
+   *
+   * get Interested In Remote Options
+   * TODO: Generate this list from API call to back end
+   */
+  const getInterestedInRemoteOptions = useCallback(() => {
+    const options = [
+      {
+        key: true,
+        text: locale === "fr" ? "Oui" : "Yes",
+      },
+      {
+        key: false,
+        text: locale === "fr" ? "Non" : "No",
+      },
+    ];
+    setInterestedInRemoteOptions(options);
+  }, [locale]);
+
+  /**
+   * Get Relocation Options
+   *
+   * get a list of Relocation Options for dropdown treeSelect
+   */
+  const getRelocationOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getWillingToRelocateTo`;
+      const result = await axios.get(url);
+      const dataTree = [];
+
+      // Generate the data format required for treeSelect
+      for (let i = 0; i < result.data.length; i += 1) {
+        const location = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        dataTree.push(location);
+      }
+
+      setRelocationOptions(dataTree);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  /**
+   * Get Saved Looking For New Job
+   *
+   * get Saved Looking For New Job from user profile
+   */
+  const getLookingForNewJobOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getLookingForANewJob`;
+      const result = await axios.get(url);
+      const dataTree = [];
+
+      // Generate the data format required for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        dataTree.push(goal);
+      }
+
+      setLookingForNewJobOptions(dataTree);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  /**
+   * Get Career Mobility Options
+   *
+   * get all dropdown options for Career Mobility
+   */
+  const getCareerMobilityOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getCareerMobility`;
+      const result = await axios.get(url);
+      const dataTree = [];
+
+      // Generate the data format required for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        dataTree.push(goal);
+      }
+
+      setCareerMobilityOptions(dataTree);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  /**
+   * Get Talent Matrix Result Options
+   *
+   * get all dropdown options for Talent Matrix Results
+   */
+  const getTalentMatrixResultOptions = useCallback(async () => {
+    try {
+      const url = `${backendAddress}api/option/getTalentMatrixResult`;
+      const result = await axios.get(url);
+      const dataTree = [];
+
+      // Generate the data format required for dropdown
+      for (let i = 0; i < result.data.length; i += 1) {
+        const goal = {
+          title: result.data[i].description[locale],
+          key: result.data[i].id,
+        };
+        dataTree.push(goal);
+      }
+
+      setTalentMatrixResultOptions(dataTree);
+      return 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [locale]);
+
+  // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
-    /*
-     * Get User Profile
-     *
-     */
-    const getProfileInfo = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        await setProfileInfo(result.data);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
+    if (profileInfo) {
+      const {
+        lookingForNewJob,
+        talentMatrixResult,
+        careerMobility,
+        exFeeder,
+      } = profileInfo;
 
-    /*
-     * Get Developmental Goal Options
-     *
-     * get a list of developmental goal options for treeSelect dropdown
-     */
-    const getDevelopmentalGoalOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getDevelopmentalGoals";
-        let result = await axios.get(url);
-        let dataTree = [];
+      getSavedDevelopmentalGoals();
+      getSavedRelocationLocations();
+      setSavedLookingForNewJob(
+        lookingForNewJob ? lookingForNewJob.id : undefined
+      );
+      setSavedTalentMatrixResult(
+        talentMatrixResult ? talentMatrixResult.id : undefined
+      );
+      setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
+      setSavedExFeederBool(exFeeder);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileInfo]);
 
-        // Generate the data format required for treeSelect
-        for (var i = 0; i < result.data.length; i++) {
-          var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
-          };
-          dataTree.push(goal);
-        }
-        await setDevelopmentalGoalOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
+  // useEffect when locale changes
+  useEffect(() => {
+    getInterestedInRemoteOptions();
 
-    /*
-     * Get saved Developmental Goals
-     *
-     * get saved Developmental Goals from profile
-     */
-    const getSavedDevelopmentalGoals = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        let selected = [];
-
-        // generate and array of ID's of save locations
-        for (let i = 0; i < result.data.developmentalGoals.length; i++) {
-          selected.push(result.data.developmentalGoals[i].id);
-        }
-
-        await setSavedDevelopmentalGoals(selected);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Interested In Remote Options
-     *
-     * get Interested In Remote Options
-     * TODO: Generate this list from API call to back end
-     */
-    const getInterestedInRemoteOptions = () => {
-      const options = [
-        {
-          key: true,
-          text: "Yes"
-        },
-        {
-          key: false,
-          text: "No"
-        }
-      ];
-      setInterestedInRemoteOptions(options);
-    };
-
-    /*
-     * Get Relocation Options
-     *
-     * get a list of Relocation Options for dropdown treeSelect
-     */
-    const getRelocationOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getWillingToRelocateTo";
-        let result = await axios.get(url);
-        let dataTree = [];
-
-        // Generate the data format required for treeSelect
-        for (var i = 0; i < result.data.length; i++) {
-          var location = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
-          };
-          dataTree.push(location);
-        }
-
-        await setRelocationOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Saved Relocation Locations
-     *
-     * get saved Relocation Locations from profile
-     */
-    const getSavedRelocationLocations = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        let selected = [];
-
-        // generate and array of ID's of save locations
-        for (let i = 0; i < result.data.relocationLocations.length; i++) {
-          selected.push(result.data.relocationLocations[i].locationId);
-        }
-
-        await setSavedRelocationLocations(selected);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Saved Looking For New Job
-     *
-     * get Saved Looking For New Job from user profile
-     */
-    const getLookingForNewJobOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getLookingForANewJob";
-        let result = await axios.get(url);
-        let dataTree = [];
-
-        // Generate the data format required for dropdown
-        for (var i = 0; i < result.data.length; i++) {
-          var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
-          };
-          dataTree.push(goal);
-        }
-
-        await setLookingForNewJobOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Saved Looking For New Job
-     *
-     * get Saved Looking For New Job from user profile
-     */
-    const getSavedLookingForNewJob = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-
-        // if id is not found set to "undefined" so dropdown defaults to placeholder
-        let savedValue = result.data.lookingForNewJob
-          ? result.data.lookingForNewJob.id
-          : undefined;
-
-        await setSavedLookingForNewJob(savedValue);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Career Mobility Options
-     *
-     * get all dropdown options for Career Mobility
-     */
-    const getCareerMobilityOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getCareerMobility";
-        let result = await axios.get(url);
-        let dataTree = [];
-
-        // Generate the data format required for dropdown
-        for (var i = 0; i < result.data.length; i++) {
-          var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
-          };
-          dataTree.push(goal);
-        }
-
-        await setCareerMobilityOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Saved Career Mobility
-     *
-     * get saved Saved Career Mobility from user profile
-     */
-    const getSavedCareerMobility = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-
-        // if id is not found set to "undefined" so dropdown defaults to placeholder
-        let savedValue = result.data.careerMobility.id
-          ? result.data.careerMobility.id
-          : undefined;
-
-        await setSavedCareerMobility(savedValue);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Talent Matrix Result Options
-     *
-     * get all dropdown options for Talent Matrix Results
-     */
-    const getTalentMatrixResultOptions = async () => {
-      try {
-        let url = backendAddress + "api/option/getTalentMatrixResult";
-        let result = await axios.get(url);
-        let dataTree = [];
-
-        // Generate the data format required for dropdown
-        for (var i = 0; i < result.data.length; i++) {
-          var goal = {
-            title: result.data[i].description.en,
-            key: result.data[i].id
-          };
-          dataTree.push(goal);
-        }
-
-        await setTalentMatrixResultOptions(dataTree);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Saved Talent Matrix Result
-     *
-     * get saved Talent Matrix Result from user profile
-     */
-    const getSavedTalentMatrixResult = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-
-        // if id is not found set to "undefined" so dropdown defaults to placeholder
-        let savedValue = result.data.talentMatrixResult.id
-          ? result.data.talentMatrixResult.id
-          : undefined;
-
-        await setSavedTalentMatrixResult(savedValue);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /*
-     * Get Ex Feeder Bool
-     *
-     * get EX-feeder nomination boolean from user profile
-     */
-    const getExFeederBool = async () => {
-      try {
-        let url =
-          backendAddress + "api/profile/" + localStorage.getItem("userId");
-        let result = await axios.get(url);
-        await setSavedExFeederBool(result.data.exFeeder);
-        return 1;
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    /* Get all required data component */
-    const getAllData = async () => {
-      try {
-        await getProfileInfo();
-        await getDevelopmentalGoalOptions();
-        await getSavedDevelopmentalGoals();
-        await getInterestedInRemoteOptions();
-        await getRelocationOptions();
-        await getSavedRelocationLocations();
-        await getLookingForNewJobOptions();
-        await getSavedLookingForNewJob();
-        await getCareerMobilityOptions();
-        await getSavedCareerMobility();
-        await getTalentMatrixResultOptions();
-        await getSavedTalentMatrixResult();
-        await getExFeederBool();
+    // Get all required data component
+    Promise.all([
+      getProfileInfo(),
+      getDevelopmentalGoalOptions(),
+      getRelocationOptions(),
+      getLookingForNewJobOptions(),
+      getCareerMobilityOptions(),
+      getTalentMatrixResultOptions(),
+    ])
+      .then(() => {
         setLoad(true);
-        return 1;
-      } catch (error) {
+      })
+      .catch(error => {
         setLoad(false);
+        // eslint-disable-next-line no-console
         console.log(error);
-        return 0;
-      }
-    };
-
-    getAllData();
-  }, []);
+      });
+  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
 
   return (
     <PersonalGrowthFormView
@@ -375,9 +296,14 @@ function PersonalGrowthForm() {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
+      formType={formType}
       load={load}
     />
   );
-}
+};
+
+PersonalGrowthForm.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+};
 
 export default PersonalGrowthForm;

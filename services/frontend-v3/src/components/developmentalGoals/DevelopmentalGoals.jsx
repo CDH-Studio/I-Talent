@@ -1,27 +1,37 @@
 import React from "react";
-import { injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
 import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
 
-function DevelopmentalGoals(props) {
-  const formatData = (dataSource) => {
-    const data = dataSource.data;
-    const locale = dataSource.intl.formatMessage({ id: "language.code" });
+const DevelopmentalGoals = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
 
-    let devGoals = [];
+  const formatData = (dataSource) => {
+    const profileData = { ...dataSource };
+
+    const devGoals = [];
     let key = 0;
 
-    if (data.developmentalGoals) {
-      data.developmentalGoals.forEach((devGoal) => {
+    if (profileData.developmentalGoals) {
+      profileData.developmentalGoals.forEach((devGoal) => {
         devGoals[key] = devGoal.description[locale];
-        key++;
+        key += 1;
       });
     }
 
     return devGoals;
   };
 
-  return <DevelopmentalGoalsView devGoals={formatData(props)} />;
-}
+  return <DevelopmentalGoalsView devGoals={formatData(data)} />;
+};
 
-export default injectIntl(DevelopmentalGoals);
+DevelopmentalGoals.propTypes = {
+  data: ProfileInfoPropType,
+};
+
+DevelopmentalGoals.defaultProps = {
+  data: null,
+};
+
+export default DevelopmentalGoals;

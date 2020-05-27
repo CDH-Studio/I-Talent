@@ -1,12 +1,13 @@
 import React from "react";
-import CareerInterestsView from "./CareerInterestsView";
 import { FormattedMessage } from "react-intl";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import CareerInterestsView from "./CareerInterestsView";
 
-function CareerInterests(props) {
-  const getCareerInterestsInfo = dataSource => {
-    const data = dataSource.data;
-    const locale = localStorage.getItem("lang");
+const CareerInterests = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
 
+  const getCareerInterestsInfo = () => {
     const interestedInRemote = {
       icon: "mail",
       title: <FormattedMessage id="profile.interested.in.remote" />,
@@ -15,7 +16,7 @@ function CareerInterests(props) {
           <FormattedMessage id="profile.yes" />
         ) : (
           <FormattedMessage id="profile.no" />
-        )
+        ),
     };
     const lookingForNewJob = {
       icon: "mail",
@@ -23,19 +24,16 @@ function CareerInterests(props) {
       description: (data.lookingForNewJob &&
         data.lookingForNewJob.description[locale]) || (
         <FormattedMessage id="profile.not.specified" />
-      )
+      ),
     };
 
     return [interestedInRemote, lookingForNewJob];
   };
 
-  const getRelocationLocationsInfo = dataSource => {
-    const data = dataSource.data;
-    const locale = localStorage.getItem("lang");
-
+  const getRelocationLocationsInfo = () => {
     const relocationLocationsInfo = [];
     if (data.relocationLocations) {
-      data.relocationLocations.forEach(locationElement =>
+      data.relocationLocations.forEach((locationElement) =>
         relocationLocationsInfo.push(locationElement.description[locale])
       );
     }
@@ -45,12 +43,24 @@ function CareerInterests(props) {
 
   return (
     <CareerInterestsView
-      data={props.data}
-      locale={localStorage.getItem("lang")}
-      info={getCareerInterestsInfo(props)}
-      relocationLocationsInfo={getRelocationLocationsInfo(props)}
+      data={data}
+      info={getCareerInterestsInfo()}
+      relocationLocationsInfo={getRelocationLocationsInfo()}
     />
   );
-}
+};
+
+CareerInterests.propTypes = {
+  data: PropTypes.shape({
+    interestedInRemote: PropTypes.bool,
+    lookingForNewJob: PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    }),
+    relocationLocations: PropTypes.any,
+  }).isRequired,
+};
 
 export default CareerInterests;

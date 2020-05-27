@@ -1,18 +1,30 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AppLayoutView from "./AppLayoutView";
 
-function AppLayout(props) {
+const AppLayout = ({
+  displaySideBar,
+  sideBarContent,
+  children,
+}) => {
   return (
     <AppLayoutView
-      changeLanguage={props.changeLanguage}
-      keycloak={props.keycloak}
-      history={props.history}
-      displaySideBar={props.displaySideBar}
-      sideBarContent={props.sideBarContent}
+      displaySideBar={displaySideBar}
+      sideBarContent={sideBarContent}
     >
-      {props.children}
+      {children}
     </AppLayoutView>
   );
-}
+};
+
+AppLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+  sideBarContent: PropTypes.node,
+  displaySideBar: PropTypes.bool.isRequired,
+};
+
+AppLayout.defaultProps = {
+  sideBarContent: undefined,
+};
 
 export default AppLayout;

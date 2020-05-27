@@ -1,44 +1,43 @@
 import React from "react";
-import EducationView from "./EducationView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { ProfileInfoPropType } from "../../customPropTypes";
+import EducationView from "./EducationView";
 
-function Education(props) {
+const Education = ({ data }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("ll");
     const formatedEndDate = moment(endDate).format("ll");
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
 
-    const present = <FormattedMessage id="profile.end.date.present" />;
-
     let duration = "";
 
     if (startDate === null && endDate === null) {
-      duration = duration + dateNotProvided;
+      duration += dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + present;
+      duration = `${duration + formatedStartDate} - present`;
     } else {
-      duration = duration + formatedStartDate + " - " + formatedEndDate;
+      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
     }
 
     return duration;
   };
 
-  const getEducationInfo = dataSource => {
-    const locale = localStorage.getItem("lang");
-
-    let educationInfo = [];
+  const getEducationInfo = (dataSource) => {
+    const educationInfo = [];
     if (dataSource.education != null) {
-      dataSource.education.forEach(educElement => {
+      dataSource.education.forEach((educElement) => {
         const startDate = educElement.startDate[locale];
         const endDate = educElement.endDate[locale];
 
         const education = {
-          icon: "bank",
           diploma: educElement.diploma.description[locale],
           school: educElement.school.description[locale],
-          duration: getEducationDuration(startDate, endDate)
+          duration: getEducationDuration(startDate, endDate),
         };
 
         educationInfo.push(education);
@@ -48,12 +47,9 @@ function Education(props) {
     return [...educationInfo];
   };
 
-  return (
-    <EducationView
-      locale={localStorage.getItem("lang")}
-      educationInfo={getEducationInfo(props.data)}
-    />
-  );
-}
+  return <EducationView educationInfo={getEducationInfo(data)} />;
+};
+
+Education.propTypes = { data: ProfileInfoPropType.isRequired };
 
 export default Education;

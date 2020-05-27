@@ -1,45 +1,42 @@
 import React from "react";
-import ExperienceView from "./ExperienceView";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import ExperienceView from "./ExperienceView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-function Experience(props) {
-  const data = props.data;
-
+const Experience = ({ data }) => {
   const getExperienceDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("ll");
     const formatedEndDate = moment(endDate).format("ll");
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
 
-    const present = <FormattedMessage id="profile.end.date.present" />;
-
     let duration = "";
 
     if (startDate === null && endDate === null) {
-      duration = duration + dateNotProvided;
+      duration += dateNotProvided;
     } else if (startDate !== null && endDate === null) {
-      duration = duration + formatedStartDate + " - " + present;
+      duration = `${duration + formatedStartDate} - present`;
     } else {
-      duration = duration + formatedStartDate + " - " + formatedEndDate;
+      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
     }
 
     return duration;
   };
 
   const getExperienceInfo = dataSource => {
-    const locale = localStorage.getItem("lang");
-    let experienceInfo = [];
+    const experienceInfo = [];
     if (dataSource.education != null) {
       dataSource.careerSummary.forEach(expElement => {
-        const startDate = expElement.startDate;
-        const endDate = expElement.endDate;
+        const { startDate } = expElement;
+        const { endDate } = expElement;
 
         const experience = {
+          description: expElement.content,
+          duration: getExperienceDuration(startDate, endDate),
           icon: "solution",
           jobTitle: expElement.header,
           organizationName: expElement.subheader,
-          duration: getExperienceDuration(startDate, endDate)
         };
 
         experienceInfo.push(experience);
@@ -49,9 +46,14 @@ function Experience(props) {
     return [...experienceInfo];
   };
 
-  return (
-    <ExperienceView data={data} experienceInfo={getExperienceInfo(data)} />
-  );
-}
+  return <ExperienceView experienceInfo={getExperienceInfo(data)} />;
+};
 
+Experience.propTypes = {
+  data: ProfileInfoPropType,
+};
+
+Experience.defaultProps = {
+  data: null,
+};
 export default Experience;

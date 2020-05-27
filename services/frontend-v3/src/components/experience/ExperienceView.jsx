@@ -1,53 +1,32 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { Row, Col, List } from "antd";
+import ExperienceItem from "./experienceItem/ExperienceItem";
 
-import { Icon as LegacyIcon } from "@ant-design/compatible";
-
-import { Row, Col, Avatar, List } from "antd";
-
-function ExperienceView(props) {
-  /* Component Styles */
-  const styles = {
-    card: {
-      height: "100%",
-    },
-    avatar: {
-      backgroundColor: "#007471",
-    },
-  };
-  const generateExperienceInfoList = (dataSource) => {
-    return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item extra={item.duration}>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  style={styles.avatar}
-                  size="large"
-                  icon={<LegacyIcon type={item.icon} />}
-                  shape="square"
-                />
-              }
-              title={item.jobTitle}
-              description={item.organizationName}
-            />
-          </List.Item>
-        )}
-      />
-    );
-  };
-
-  const experienceInfo = props.experienceInfo;
-
+const ExperienceView = ({ experienceInfo }) => {
   return (
     <Row>
       <Col xs={24} lg={24}>
-        {generateExperienceInfoList(experienceInfo)}
+        <List
+          itemLayout="vertical"
+          dataSource={experienceInfo}
+          renderItem={item => <ExperienceItem item={item} />}
+        />
       </Col>
     </Row>
   );
-}
+};
+
+ExperienceView.propTypes = {
+  experienceInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      duration: PropTypes.string,
+      icon: PropTypes.string,
+      jobTitle: PropTypes.string,
+      organizationName: PropTypes.string,
+    })
+  ).isRequired,
+};
 
 export default ExperienceView;

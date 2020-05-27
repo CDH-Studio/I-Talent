@@ -4,14 +4,15 @@ ENV TZ=America/Toronto
 
 WORKDIR /upskill-backend
 
-COPY package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 
 EXPOSE 8080
 
-# CMD ["npm", "run", "deploy"]
+# CMD ["yarn", "deploy"]
 
-CMD ["npm", "run", "dev:docker"]
+CMD ["yarn", "dev:docker"]

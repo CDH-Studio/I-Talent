@@ -1,30 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import ProjectsView from "./ProjectsView";
 
-function Projects(props) {
-  const data = props.data;
+const Projects = ({ data }) => {
+  const [projectsInfo, setProjectsInfo] = useState([]);
 
-  const getProjectsInfo = dataSource => {
-    let projectsInfo = [];
-    if (dataSource.projects != null) {
-      dataSource.projects.forEach(projectElement => {
+  useEffect(() => {
+    if (data.projects != null) {
+      const tempProjects = [];
+      data.projects.forEach((projectElement) => {
         const projects = {
-          projectDescription: projectElement.text
+          projectDescription: projectElement.text,
         };
-        projectsInfo.push(projects);
+        tempProjects.push(projects);
       });
+      setProjectsInfo(tempProjects);
     }
-
-    return [...projectsInfo];
-  };
+  }, [data]);
 
   return (
-    <ProjectsView
-      data={data}
-      locale={localStorage.getItem("lang")}
-      projectsInfo={getProjectsInfo(data)}
-    />
+    <ProjectsView data={data} projectsInfo={projectsInfo} />
   );
-}
+};
+
+Projects.propTypes = {
+  data: PropTypes.shape({
+    projects: PropTypes.array,
+  }).isRequired,
+};
 
 export default Projects;
