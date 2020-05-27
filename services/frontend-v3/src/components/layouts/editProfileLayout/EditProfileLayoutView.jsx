@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";

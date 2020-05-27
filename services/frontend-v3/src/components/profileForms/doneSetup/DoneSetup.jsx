@@ -11,7 +11,7 @@ const { backendAddress } = config;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetup = ({}) => {
+const DoneSetup = () => {
   const [load, setLoad] = useState(false);
 
   // useEffect to run once component is mounted

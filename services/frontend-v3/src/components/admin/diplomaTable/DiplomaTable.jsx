@@ -56,7 +56,6 @@ const DiplomaTable = ({ type, intl }) => {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let diplomas = [];
     if (loading) {
       const setState = async () => {
         await getDiplomas()

@@ -155,7 +155,6 @@ const TalentFormView = props => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
-        //handleError(error, "message");
         throw error;
       }
     } else {
@@ -169,7 +168,6 @@ const TalentFormView = props => {
         // eslint-disable-next-line no-console
         console.log(error);
         throw error;
-        //handleError(error, "message");
       }
     }
   };

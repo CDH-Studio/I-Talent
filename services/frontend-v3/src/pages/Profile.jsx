@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { addError } from "../redux/slices/errorsSlice";
 import config from "../config";
 import handleError from "../functions/handleError";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
@@ -14,8 +12,6 @@ const Profile = ({ history, match }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const dispatch = useDispatch();
 
   const updateProfileInfo = async id => {
     const userID = localStorage.getItem("userId");
@@ -44,7 +40,7 @@ const Profile = ({ history, match }) => {
         if (
           error.isAxiosError &&
           error.response &&
-          error.response.status == 404
+          error.response.status === 404
         ) {
         } else {
           throw error;

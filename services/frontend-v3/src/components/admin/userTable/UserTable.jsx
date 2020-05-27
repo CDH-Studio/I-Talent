@@ -44,7 +44,6 @@ function UserTable({ intl, type }) {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if profile status changes */
   useEffect(() => {
-    let users = [];
     if (loading) {
       const setState = async () => {
         await getUserInformation()

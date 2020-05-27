@@ -1,5 +1,4 @@
 import { message } from "antd";
-import { IntlProvider } from "react-intl";
 
 import { addError } from "../redux/slices/errorsSlice";
 import history from "../history";

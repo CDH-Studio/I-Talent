@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Button, List, Result } from "antd";
-import PropTypes from "prop-types";
+import { HistoryPropType } from "../customPropTypes";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-
-const maxStackLines = 5;
 
 const UnexpectedError = ({ history }) => {
   const [showError, setShowError] = useState(false);
@@ -58,6 +55,10 @@ const UnexpectedError = ({ history }) => {
       }
     />
   );
+};
+
+UnexpectedError.propTypes = {
+  history: HistoryPropType,
 };
 
 export default UnexpectedError;

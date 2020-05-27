@@ -44,7 +44,6 @@ const CompetencyTable = ({ intl, type }) => {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let competencies = [];
     if (loading) {
       const setState = async () => {
         await getCompetencies()
