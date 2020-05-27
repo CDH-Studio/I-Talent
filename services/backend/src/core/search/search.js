@@ -6,7 +6,7 @@ const utils = require("./util");
 async function getSkillNames(searchSkill) {
 	return Promise.all(
 		searchSkill.map(async (skillId) => {
-			let findSkills = await skill
+			const findSkills = await skill
 				.findOne({ where: { id: skillId } })
 				.then((data) => data.dataValues);
 
