@@ -31,9 +31,6 @@ function prepareInfo(
     if ("en" in info) {
       return info[language];
     }
-    if ("item" in info) {
-      return prepareInfo(info.item, language);
-    }
     const returnObject = {};
     Object.keys(info).forEach(key => {
       returnObject[key] = prepareInfo(info[key], language);
