@@ -222,6 +222,22 @@ const QualificationsFormView = ({
       formValues.experience = _.filter(formValues.experience, _.size);
     }
 
+    if (dbValues.education) {
+      dbValues.education = dbValues.education.map((i) =>
+        _.pickBy(i, _.identity)
+      );
+
+      dbValues.education = _.filter(dbValues.education, _.size);
+    }
+
+    if (dbValues.experience) {
+      dbValues.experience = dbValues.experience.map((i) =>
+        _.pickBy(i, _.identity)
+      );
+
+      dbValues.experience = _.filter(dbValues.experience, _.size);
+    }
+
     setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
