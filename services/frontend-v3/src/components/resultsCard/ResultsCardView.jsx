@@ -23,74 +23,70 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
   };
 
   const handleKeyPress = (e, person) => {
-    console.log(`IN HANDLEKEYPRESS ${person}`);
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
       history.push(`/secured/profile/${person.id}`);
-      console.log("IN E.CHARCODE");
     }
   };
 
   const renderCard = (person, key) => {
     return (
       <Col span={6} style={{ height: "100%" }} key={key}>
-        <div onKeyPress={(e, person) => handleKeyPress(e, person)}>
-          <Card
-            tabIndex="0"
-            style={{ height: "100%", overflowX: "hidden" }}
-            size="small"
-            hoverable
-            bordered
-            onClick={() => history.push(`/secured/profile/${person.id}`)}
-            // eslint-disable-next-line no-shadow
-          >
-            <Meta
-              avatar={
-                <Avatar
-                  size={48}
-                  style={{
-                    backgroundColor: person.avatarColor,
-                  }}
-                >
-                  <Text style={{ fontSize: "25px", color: "white" }}>
-                    {person.nameInitials}
-                  </Text>
-                </Avatar>
-              }
-              title={`${person.firstName} ${person.lastName}`}
-              description={<p style={styles.smallP}>{person.jobTitle}</p>}
-            />
-
-            <p style={styles.smallP}>{person.branch}</p>
-            {person.classification.description !== null ? (
-              <p style={styles.smallP}>
-                {`Classification: ${person.classification.description}`}
-              </p>
-            ) : (
-              <p />
-            )}
-
-            <Divider
-              className="results-card-divider"
-              style={styles.divider}
-              orientation="left"
-            >
-              {intl.formatMessage({
-                id: "advanced.search.form.skills",
-                defaultMessage: "Skills",
-              })}
-            </Divider>
-
-            {person.resultSkills.map((skill) => (
-              <Tag
-                color="#004441"
-                style={{ marginBottom: "2px", marginTop: "2px" }}
+        <Card
+          tabIndex="0"
+          style={{ height: "100%", overflowX: "hidden" }}
+          size="small"
+          hoverable
+          bordered
+          onClick={() => history.push(`/secured/profile/${person.id}`)}
+          onKeyPress={(e) => handleKeyPress(e, person)}
+        >
+          <Meta
+            avatar={
+              <Avatar
+                size={48}
+                style={{
+                  backgroundColor: person.avatarColor,
+                }}
               >
-                {skill}
-              </Tag>
-            ))}
-          </Card>
-        </div>
+                <Text style={{ fontSize: "25px", color: "white" }}>
+                  {person.nameInitials}
+                </Text>
+              </Avatar>
+            }
+            title={`${person.firstName} ${person.lastName}`}
+            description={<p style={styles.smallP}>{person.jobTitle}</p>}
+          />
+
+          <p style={styles.smallP}>{person.branch}</p>
+          {person.classification.description !== null ? (
+            <p style={styles.smallP}>
+              {`Classification: ${person.classification.description}`}
+            </p>
+          ) : (
+            <p />
+          )}
+
+          <Divider
+            className="results-card-divider"
+            style={styles.divider}
+            orientation="left"
+          >
+            {intl.formatMessage({
+              id: "advanced.search.form.skills",
+              defaultMessage: "Skills",
+            })}
+          </Divider>
+
+          {person.resultSkills.map((skill) => (
+            <Tag
+              color="#004441"
+              style={{ marginBottom: "2px", marginTop: "2px" }}
+            >
+              {skill}
+            </Tag>
+          ))}
+        </Card>
       </Col>
     );
   };
