@@ -30,24 +30,24 @@ const Tenure = Models.tenure;
 */
 // Check for competency:skill line
 const mapping = {
-	careerMobility: CareerMobility,
-	competency: Competency,
-	diploma: Diploma,
-	groupLevel: GroupLevel,
-	keyCompetency: KeyCompetency,
-	location: Location,
-	school: School,
-	securityClearance: SecurityClearance,
-	skill: Skill,
-	category: Category,
-	talentManager: TalentMatrixResult,
-	tenure: Tenure,
-	// eslint-disable-next-line no-dupe-keys
-	competency: Skill,
+  careerMobility: CareerMobility,
+  competency: Competency,
+  diploma: Diploma,
+  groupLevel: GroupLevel,
+  keyCompetency: KeyCompetency,
+  location: Location,
+  school: School,
+  securityClearance: SecurityClearance,
+  skill: Skill,
+  category: Category,
+  talentManager: TalentMatrixResult,
+  tenure: Tenure,
+  // eslint-disable-next-line no-dupe-keys
+  competency: Skill,
 };
 
 function getModel(type) {
-	return mapping[type];
+  return mapping[type];
 }
 
 module.exports = { getModel: getModel };
