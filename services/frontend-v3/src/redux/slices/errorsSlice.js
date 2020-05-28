@@ -26,7 +26,7 @@ const errorsSlice = createSlice({
         };
       }
 
-      state = state.push(serializedError);
+      state.push(serializedError);
     },
   },
 });
