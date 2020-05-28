@@ -12,23 +12,23 @@ const port = process.env.PORT || 8080;
 dotenv.config();
 
 database
-	.authenticate()
-	.then(() => {
-		console.log("Connection has been established successfully.");
-	})
-	.catch((err) => {
-		console.error("Unable to connect to the database:", err);
-	});
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
 
 app.use(sessionInstance);
 app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header(
-		"Access-Control-Allow-Headers",
-		"Origin, Authorization, X-Requested-With, Content-Type, Accept"
-	);
-	res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
-	next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, Authorization, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
+  next();
 });
 
 app.use(keycloak.middleware());
