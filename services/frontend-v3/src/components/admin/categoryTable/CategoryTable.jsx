@@ -38,8 +38,6 @@ function CategoryTable({ intl, type }) {
       );
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -83,8 +81,6 @@ function CategoryTable({ intl, type }) {
       setReset(true);
       return false;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -102,8 +98,6 @@ function CategoryTable({ intl, type }) {
 
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -121,8 +115,6 @@ function CategoryTable({ intl, type }) {
 
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };

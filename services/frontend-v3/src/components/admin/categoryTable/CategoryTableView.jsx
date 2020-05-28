@@ -266,8 +266,6 @@ const CategoryTableView = ({
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -358,8 +356,6 @@ const CategoryTableView = ({
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {

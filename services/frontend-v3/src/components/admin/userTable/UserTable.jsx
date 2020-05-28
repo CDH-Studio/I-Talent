@@ -35,8 +35,6 @@ function UserTable({ intl, type }) {
 
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -73,8 +71,6 @@ function UserTable({ intl, type }) {
       setStatuses({});
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };

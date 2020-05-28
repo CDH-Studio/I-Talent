@@ -28,7 +28,7 @@ import {
   IntlPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import handleMessage from "../../../functions/handleError";
+import handleError from "../../../functions/handleError";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -153,8 +153,6 @@ const PersonalGrowthFormView = ({
           values
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     } else {
@@ -165,8 +163,6 @@ const PersonalGrowthFormView = ({
           values
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     }
@@ -246,7 +242,7 @@ const PersonalGrowthFormView = ({
       })
       .catch(error => {
         if (error.isAxiosError) {
-          handleMessage(error, "message");
+          handleError(error, "message");
         } else {
           openNotificationWithIcon("error");
         }
@@ -267,7 +263,7 @@ const PersonalGrowthFormView = ({
       })
       .catch(error => {
         if (error.isAxiosError) {
-          handleMessage(error, "message");
+          handleError(error, "message");
         } else {
           openNotificationWithIcon("error");
         }
@@ -297,7 +293,7 @@ const PersonalGrowthFormView = ({
       })
       .catch(error => {
         if (error.isAxiosError) {
-          handleMessage(error, "message");
+          handleError(error, "message");
         } else {
           openNotificationWithIcon("error");
         }

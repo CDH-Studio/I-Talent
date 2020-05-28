@@ -24,7 +24,6 @@ const Profile = ({ history, match }) => {
         .then(res => res.data)
         // eslint-disable-next-line no-console
         .catch(error => {
-          console.error(error);
           throw error;
         });
 

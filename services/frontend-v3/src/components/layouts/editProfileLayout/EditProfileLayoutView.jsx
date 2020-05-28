@@ -2,6 +2,7 @@ import React from "react";
 import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
 import {

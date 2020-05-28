@@ -63,8 +63,6 @@ const SearchFilter = ({ history }) => {
         );
         setSkillOptions(results.data);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     };
@@ -79,8 +77,6 @@ const SearchFilter = ({ history }) => {
           results.data.filter(elem => elem.description && elem.description.en)
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     };
@@ -94,8 +90,6 @@ const SearchFilter = ({ history }) => {
 
         setLocationOptions(results.data);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     };
@@ -109,8 +103,6 @@ const SearchFilter = ({ history }) => {
 
         setClassOptions(results.data);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     };

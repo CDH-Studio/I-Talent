@@ -34,8 +34,6 @@ const SchoolTable = ({ type, intl }) => {
       );
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   }, [type]);
@@ -48,7 +46,6 @@ const SchoolTable = ({ type, intl }) => {
         await getSchools()
           .then(schools => setData(schools))
           .catch(error => handleError(error, "redirect"));
-        // eslint-disable-next-line no-console
         setLoading(false);
       };
       setState();
@@ -57,7 +54,6 @@ const SchoolTable = ({ type, intl }) => {
         await getSchools()
           .then(schools => setData(schools))
           .catch(error => handleError(error, "redirect"));
-        // eslint-disable-next-line no-console
         setReset(false);
       };
       updateState();
@@ -106,8 +102,6 @@ const SchoolTable = ({ type, intl }) => {
 
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
     return undefined;
@@ -126,8 +120,6 @@ const SchoolTable = ({ type, intl }) => {
 
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
     return undefined;
@@ -143,8 +135,6 @@ const SchoolTable = ({ type, intl }) => {
       setSelectedRowKeys([]);
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
     return undefined;

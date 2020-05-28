@@ -19,13 +19,10 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   // get user profile for hidden cards value
   const getProfileInfo = useCallback(async () => {
     try {
-      console.log("anerr");
       const url = `${backendAddress}api/profile/${urlID}`;
       const result = await axios.get(url);
       return setProfileInfo(result.data);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   }, [urlID]);
@@ -33,12 +30,11 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   // get all required data component
   const getAllData = useCallback(async () => {
     try {
-      await getProfileInfo().catch(error => handleError(error, "redirect"));
+      await getProfileInfo();
       setLoad(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      handleError(error, "redirect");
       return 0;
     }
   }, [getProfileInfo]);

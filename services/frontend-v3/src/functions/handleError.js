@@ -18,6 +18,7 @@ const errorMessages = {
 };
 
 export default (error, handleType) => {
+  console.error(error);
   if (handleType === "redirect" && enableErrorRedirect) {
     store.dispatch(addError(error));
     console.log("history path", history.location.pathname);

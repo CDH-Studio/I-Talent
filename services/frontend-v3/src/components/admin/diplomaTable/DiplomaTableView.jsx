@@ -268,9 +268,6 @@ const DiplomaTableView = ({
               } else {
                 handleCancel();
               }
-
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -360,9 +357,6 @@ const DiplomaTableView = ({
             .catch(error => {
               if (error.isAxiosError) {
                 handleError(error, "message");
-              } else {
-                // eslint-disable-next-line no-console
-                console.log("Validate Failed:", error);
               }
             });
         }}

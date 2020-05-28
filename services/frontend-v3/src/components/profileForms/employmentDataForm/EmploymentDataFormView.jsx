@@ -162,8 +162,6 @@ const EmploymentDataFormView = props => {
           values
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     } else {
@@ -174,8 +172,6 @@ const EmploymentDataFormView = props => {
           values
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     }

@@ -38,8 +38,6 @@ const SkillTable = ({ intl, type }) => {
 
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   }, [type]);
@@ -52,8 +50,6 @@ const SkillTable = ({ intl, type }) => {
       );
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   }, [type]);
@@ -126,8 +122,6 @@ const SkillTable = ({ intl, type }) => {
 
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -164,8 +158,6 @@ const SkillTable = ({ intl, type }) => {
 
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -181,8 +173,6 @@ const SkillTable = ({ intl, type }) => {
       setSelectedRowKeys([]);
       setReset(true);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };

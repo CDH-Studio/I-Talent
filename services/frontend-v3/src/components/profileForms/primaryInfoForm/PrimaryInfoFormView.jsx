@@ -128,8 +128,6 @@ const PrimaryInfoFormView = ({
           values
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     } else {
@@ -140,8 +138,6 @@ const PrimaryInfoFormView = ({
           values
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     }

@@ -23,8 +23,6 @@ const SearchBar = ({ history }) => {
       );
       setSkillOptions(results.data);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -37,8 +35,6 @@ const SearchBar = ({ history }) => {
         results.data.filter(elem => elem.description && elem.description.en)
       );
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -50,9 +46,6 @@ const SearchBar = ({ history }) => {
         `${backendAddress}api/option/getLocation`
       );
       setLocationOptions(results.data);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -65,8 +58,6 @@ const SearchBar = ({ history }) => {
       );
       setClassOptions(results.data);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };

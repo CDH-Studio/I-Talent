@@ -16,7 +16,6 @@ const UnexpectedError = ({ history }) => {
 
   return (
     <Result
-      //status={resultProps.status}
       title={<FormattedMessage id="error.redirect.title" />}
       subTitle={<FormattedMessage id="error.redirect.subtitle" />}
       status={500}

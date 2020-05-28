@@ -33,8 +33,6 @@ const DiplomaTable = ({ type, intl }) => {
       );
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   }, [type]);
@@ -104,8 +102,6 @@ const DiplomaTable = ({ type, intl }) => {
       setReset(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -123,8 +119,6 @@ const DiplomaTable = ({ type, intl }) => {
       setReset(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -140,8 +134,6 @@ const DiplomaTable = ({ type, intl }) => {
       setReset(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };

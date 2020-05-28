@@ -272,8 +272,6 @@ const CompetencyTableView = ({
               } else {
                 handleCancel();
               }
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {
@@ -364,8 +362,6 @@ const CompetencyTableView = ({
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", error);
             });
         }}
         onCancel={() => {

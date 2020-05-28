@@ -12,7 +12,7 @@ import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import config from "../../config";
-import handleError from "../../functions/handleError";
+import  from "../../functions/";
 
 const { backendAddress } = config;
 
@@ -39,30 +39,25 @@ function ProfileCardsView({
    */
   const handleVisibilityToggle = async () => {
     // Update visibleCards state in profile
-    try {
-      // Get current card visibility status from db
-      const url = `${backendAddress}api/profile/${urlID}`;
-      const result = await axios.get(url).catch(error => {
-        handleError(error, "redirect");
-        return undefined;
-      });
-      const { visibleCards } = result.data;
+    // Get current card visibility status from db
+    const url = `${backendAddress}api/profile/${urlID}`;
+    const result = await axios.get(url).catch(error => {
+      (error, "redirect");
+      return undefined;
+    });
+    const { visibleCards } = result.data;
 
-      // change the stored value
-      const cardNameToBeModified = cardName;
-      visibleCards[cardNameToBeModified] = !disabled;
-      setDisabled(visibleCards[cardNameToBeModified]);
+    // change the stored value
+    const cardNameToBeModified = cardName;
+    visibleCards[cardNameToBeModified] = !disabled;
+    setDisabled(visibleCards[cardNameToBeModified]);
 
-      // save toggle value in db
-      await axios
-        .put(`${backendAddress}api/profile/${urlID}`, {
-          visibleCards,
-        })
-        .catch(error => handleError(error, "message"));
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+    // save toggle value in db
+    await axios
+      .put(`${backendAddress}api/profile/${urlID}`, {
+        visibleCards,
+      })
+      .catch(error => (error, "message"));
   };
 
   /*

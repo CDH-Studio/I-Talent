@@ -35,8 +35,6 @@ const CompetencyTable = ({ intl, type }) => {
       );
       return results.data;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   }, [type]);
@@ -107,8 +105,6 @@ const CompetencyTable = ({ intl, type }) => {
       setReset(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -126,8 +122,6 @@ const CompetencyTable = ({ intl, type }) => {
       setReset(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
@@ -143,8 +137,6 @@ const CompetencyTable = ({ intl, type }) => {
       setReset(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
       throw error;
     }
   };
