@@ -79,7 +79,7 @@ const TopNavView = () => {
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
       {optionalStartMenuItems}
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a
           rel="noopener noreferrer"
           href={`/secured/profile/${localStorage.getItem("userId")}`}
@@ -88,7 +88,7 @@ const TopNavView = () => {
           <FormattedMessage id="my.profile" />
         </a>
       </Menu.Item>
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/profile/edit/primary-info">
           <EditOutlined style={styles.MenuIcon} />
           <FormattedMessage id="edit.profile" />
@@ -96,6 +96,7 @@ const TopNavView = () => {
       </Menu.Item>
       {sessionStorage.getItem("admin") === "true" ? (
         <Menu.Item
+          tabIndex="0"
           disabled={localStorage.getItem("admin")}
           style={styles.dropDownItem}
         >
@@ -105,7 +106,7 @@ const TopNavView = () => {
           </a>
         </Menu.Item>
       ) : null}
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/logout">
           <LogoutOutlined style={styles.MenuIcon} />
           <FormattedMessage id="sign.out" />
