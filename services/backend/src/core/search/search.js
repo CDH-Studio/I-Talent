@@ -1,6 +1,6 @@
-const { skill } = require('../../database/models');
+const { skill } = require("../../database/models");
 
-const utils = require('./util');
+const utils = require("./util");
 
 // FIXME refactor this form
 async function getSkillNames(searchSkill) {
@@ -20,12 +20,12 @@ async function search(request, response) {
 
   const searchSkill = query.skills;
 
-  let skillSearchValue = query.searchValue || '';
+  let skillSearchValue = query.searchValue || "";
 
   if (searchSkill) {
     skillSearchValue = (
       await getSkillNames(searchSkill, skillSearchValue)
-    ).join(' ');
+    ).join(" ");
   }
 
   let results = await utils.getAllProfiles(skillSearchValue);
@@ -45,7 +45,7 @@ async function search(request, response) {
   if (query.classification)
     results = await utils.classificationSearch(results, query.classification);
 
-  if (query.exFeeder === 'true') results = utils.exFeederSearch(results);
+  if (query.exFeeder === "true") results = utils.exFeederSearch(results);
 
   response.status(200).json(results);
 }

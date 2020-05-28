@@ -6,11 +6,11 @@ module.exports = {
     */
     return queryInterface
       .bulkInsert(
-        'users',
+        "users",
         [
           {
-            name: 'John Doe',
-            email: 'john.doe@canada.ca',
+            name: "John Doe",
+            email: "john.doe@canada.ca",
             createdAt: new Date(),
             updatedAt: new Date(),
           },
@@ -19,12 +19,12 @@ module.exports = {
       )
       .then(() => {
         return queryInterface.bulkInsert(
-          'users',
+          "users",
           [
             {
-              id: 'faba08aa-ffe3-11e9-8d71-362b9e155667',
-              name: 'Mary Doe',
-              email: 'mary.doe@canada.ca',
+              id: "faba08aa-ffe3-11e9-8d71-362b9e155667",
+              name: "Mary Doe",
+              email: "mary.doe@canada.ca",
               createdAt: new Date(),
               updatedAt: new Date(),
             },
@@ -42,6 +42,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('users', null, {});
+    return queryInterface.bulkDelete("users", null, {});
   },
 };

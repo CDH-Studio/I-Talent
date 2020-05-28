@@ -5,40 +5,40 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'experiences',
+      "experiences",
       [
         {
-          organization: 'Healt Canada',
-          jobTitle: 'Medical Officer',
+          organization: "Healt Canada",
+          jobTitle: "Medical Officer",
           description:
-            'Overseeing the medical care of patients and the functions performed by medical staff',
+            "Overseeing the medical care of patients and the functions performed by medical staff",
           startDate: new Date(),
           endDate: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: 'faba08aa-ffe3-11e9-8d71-362b9e155667',
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
-          organization: 'Canada Revenue Agency',
-          jobTitle: 'Financial Analyst',
+          organization: "Canada Revenue Agency",
+          jobTitle: "Financial Analyst",
           description:
-            'Cancelled payments and monitored unauthorized purchases',
+            "Cancelled payments and monitored unauthorized purchases",
           startDate: new Date(),
           endDate: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: 'faba08aa-ffe3-11e9-8d71-362b9e155667',
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
         {
-          organization: 'Banque du Canada',
-          jobTitle: 'Gestionnaire de projet TI',
+          organization: "Banque du Canada",
+          jobTitle: "Gestionnaire de projet TI",
           description:
-            'Livrer les project à temps et maintenir le contact avec les clients',
+            "Livrer les project à temps et maintenir le contact avec les clients",
           startDate: new Date(),
           endDate: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          profileId: 'faba08aa-ffe3-11e9-8d71-362b9e155667',
+          profileId: "faba08aa-ffe3-11e9-8d71-362b9e155667",
         },
       ],
       {}
@@ -53,6 +53,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('experiences', null, {});
+    return queryInterface.bulkDelete("experiences", null, {});
   },
 };

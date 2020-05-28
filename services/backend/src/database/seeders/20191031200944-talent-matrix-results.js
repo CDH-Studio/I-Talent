@@ -5,59 +5,59 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'talentMatrixResults',
+      "talentMatrixResults",
       [
         {
-          descriptionEn: 'Early promise',
-          descriptionFr: 'Employé(e) prometteur',
+          descriptionEn: "Early promise",
+          descriptionFr: "Employé(e) prometteur",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Exceptional talent',
-          descriptionFr: 'Futur dirigeant',
+          descriptionEn: "Exceptional talent",
+          descriptionFr: "Futur dirigeant",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Future Achiever',
-          descriptionFr: 'Futur fonceur',
+          descriptionEn: "Future Achiever",
+          descriptionFr: "Futur fonceur",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Growth Employee',
-          descriptionFr: 'Employé(e) en croissance',
+          descriptionEn: "Growth Employee",
+          descriptionFr: "Employé(e) en croissance",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Solid Contributor',
-          descriptionFr: 'Contributeur important',
+          descriptionEn: "Solid Contributor",
+          descriptionFr: "Contributeur important",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Solid Professional',
-          descriptionFr: 'Professionnel solide',
+          descriptionEn: "Solid Professional",
+          descriptionFr: "Professionnel solide",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Strong Performer',
-          descriptionFr: 'Employé(e) au Rendement élevé',
+          descriptionEn: "Strong Performer",
+          descriptionFr: "Employé(e) au Rendement élevé",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Talent Risk',
-          descriptionFr: 'Talent à risk',
+          descriptionEn: "Talent Risk",
+          descriptionFr: "Talent à risk",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Trusted Professional',
-          descriptionFr: 'Professionnel de confiance',
+          descriptionEn: "Trusted Professional",
+          descriptionFr: "Professionnel de confiance",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -71,6 +71,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete('talentMatrixResults', null, {});
+    return queryInterface.bulkDelete("talentMatrixResults", null, {});
   },
 };

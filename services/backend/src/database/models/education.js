@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const education = sequelize.define(
-    'education',
+    "education",
     {
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,

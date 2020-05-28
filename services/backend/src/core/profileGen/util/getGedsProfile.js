@@ -1,5 +1,5 @@
-const axios = require('axios');
-require('dotenv').config();
+const axios = require("axios");
+require("dotenv").config();
 
 async function getGedsProfile(searchValue) {
   return async (resolve, reject) => {
@@ -8,11 +8,11 @@ async function getGedsProfile(searchValue) {
     )}&searchField=9&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=1000&returnOrganizationInformation=yes`;
     const info = [];
     await axios({
-      methon: 'get',
+      methon: "get",
       url: url,
       headers: {
-        'user-key': process.env.GEDSAPIKEY,
-        Accept: 'application/json',
+        "user-key": process.env.GEDSAPIKEY,
+        Accept: "application/json",
       },
     })
       .then((res) => {
@@ -39,11 +39,11 @@ async function getGedsProfile(searchValue) {
             }
             organizations = organizations.reverse();
             const contactInfo = {};
-            if (employee.contactInformation.email !== '')
+            if (employee.contactInformation.email !== "")
               contactInfo.email = employee.contactInformation.email;
-            if (employee.contactInformation.phoneNumber !== '')
+            if (employee.contactInformation.phoneNumber !== "")
               contactInfo.phoneNumber = employee.contactInformation.phoneNumber;
-            if (employee.contactInformation.altPhoneNumber !== '')
+            if (employee.contactInformation.altPhoneNumber !== "")
               contactInfo.altPhoneNumber =
                 employee.contactInformation.altPhoneNumber;
             const empInfo = {
@@ -57,7 +57,7 @@ async function getGedsProfile(searchValue) {
             info.push(empInfo);
           });
           if (info.length === 0) {
-            reject(new Error({ status: 204, statusText: 'No content' }));
+            reject(new Error({ status: 204, statusText: "No content" }));
           }
           resolve(info);
         } else {
@@ -67,7 +67,7 @@ async function getGedsProfile(searchValue) {
       .catch((err) => {
         console.error(err);
         if (err.response.status === 429) {
-          reject(new Error({ status: 429, statusText: 'Limit Exceeded' }));
+          reject(new Error({ status: 429, statusText: "Limit Exceeded" }));
         }
       });
   };

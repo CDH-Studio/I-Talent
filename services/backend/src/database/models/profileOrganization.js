@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const profileOrganization = sequelize.define(
-    'profileOrganization',
+    "profileOrganization",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   profileOrganization.associate = function (models) {
     profileOrganization.belongsTo(models.profile, {
-      onDelete: 'CASCADE',
+      onDelete: "CASCADE",
     });
   };
   return profileOrganization;

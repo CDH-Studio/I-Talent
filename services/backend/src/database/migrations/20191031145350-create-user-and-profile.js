@@ -1,12 +1,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface
-      .createTable('users', {
+      .createTable("users", {
         id: {
           allowNull: false,
           primaryKey: true,
           type: Sequelize.UUID,
-          defaultValue: Sequelize.literal('uuid_generate_v1()'),
+          defaultValue: Sequelize.literal("uuid_generate_v1()"),
         },
         name: {
           type: Sequelize.STRING,
@@ -35,16 +35,16 @@ module.exports = {
         },
       })
       .then(() => {
-        return queryInterface.createTable('profiles', {
+        return queryInterface.createTable("profiles", {
           id: {
             allowNull: false,
             primaryKey: true,
             type: Sequelize.UUID,
             references: {
-              model: 'users', // name of Target model
-              key: 'id', // key in Target model that we're referencing
+              model: "users", // name of Target model
+              key: "id", // key in Target model that we're referencing
             },
-            defaultValue: Sequelize.literal('uuid_generate_v1()'),
+            defaultValue: Sequelize.literal("uuid_generate_v1()"),
           },
           firstName: {
             type: Sequelize.STRING,
@@ -153,8 +153,8 @@ module.exports = {
       });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('profiles').then(() => {
-      return queryInterface.dropTable('users');
+    return queryInterface.dropTable("profiles").then(() => {
+      return queryInterface.dropTable("users");
     });
   },
 };

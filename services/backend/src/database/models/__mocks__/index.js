@@ -1,14 +1,14 @@
 // Import the mock library
-const SequelizeMock = require('sequelize-mock');
+const SequelizeMock = require("sequelize-mock");
 
 // Setup the mock database connection
 const DBConnectionMock = new SequelizeMock();
 
 // Define mock User Model
-const UserMock = DBConnectionMock.define('user');
+const UserMock = DBConnectionMock.define("user");
 
 // Define mock Profile Model
-const ProfileMock = DBConnectionMock.define('profile');
+const ProfileMock = DBConnectionMock.define("profile");
 
 // const test_getUserInfoById = () => {
 //   const run = UserMock.$queueResult([
@@ -45,15 +45,15 @@ const ProfileMock = DBConnectionMock.define('profile');
 // getUserById Test
 UserMock.$queueResult([
   UserMock.build({
-    id: '012345',
-    name: 'John Doe',
-    email: 'john.doe@canada.ca',
+    id: "012345",
+    name: "John Doe",
+    email: "john.doe@canada.ca",
     inactive: false,
   }),
   UserMock.build({
-    id: '054321',
-    name: 'Clarence Decatur Howe',
-    email: 'clarencedecatur.howe@canada.ca',
+    id: "054321",
+    name: "Clarence Decatur Howe",
+    email: "clarencedecatur.howe@canada.ca",
     inactive: false,
   }),
 ]);
@@ -61,15 +61,15 @@ UserMock.$queueResult([
 // getAllUserInfo Test
 UserMock.$queueResult([
   UserMock.build({
-    id: '012345',
-    name: 'John Doe',
-    email: 'john.doe@canada.ca',
+    id: "012345",
+    name: "John Doe",
+    email: "john.doe@canada.ca",
     inactive: false,
   }),
   UserMock.build({
-    id: '054321',
-    name: 'Clarence Decatur Howe',
-    email: 'clarencedecatur.howe@canada.ca',
+    id: "054321",
+    name: "Clarence Decatur Howe",
+    email: "clarencedecatur.howe@canada.ca",
     inactive: false,
   }),
 ]);
@@ -79,9 +79,9 @@ UserMock.$queueResult([
 //  getInactive Test (Fix)
 UserMock.$queueResult(
   UserMock.build({
-    id: '012345',
-    name: 'John Doe',
-    email: 'john.doe@canada.ca',
+    id: "012345",
+    name: "John Doe",
+    email: "john.doe@canada.ca",
     inactive: true,
   })
 );
@@ -89,9 +89,9 @@ UserMock.$queueResult(
 // getFlagged Test
 ProfileMock.$queueResult(
   ProfileMock.build({
-    id: '06789',
-    name: 'Mary Doe',
-    email: 'mary.doe@canada.ca',
+    id: "06789",
+    name: "Mary Doe",
+    email: "mary.doe@canada.ca",
     flagged: true,
   })
 );

@@ -1,5 +1,5 @@
-const Models = require('../../database/models');
-const getGedsProfile = require('./util/getGedsProfile');
+const Models = require("../../database/models");
+const getGedsProfile = require("./util/getGedsProfile");
 
 const User = Models.user;
 const Location = Models.location;
@@ -10,7 +10,7 @@ async function getGedsAssist(request, response) {
   await User.findOne({ where: { id } }).then(async (user) => {
     let { name } = user.dataValues;
 
-    const lastSpaceIndex = name.lastIndexOf(' ');
+    const lastSpaceIndex = name.lastIndexOf(" ");
     name = `${name.substring(lastSpaceIndex)}, ${name.substring(
       0,
       lastSpaceIndex

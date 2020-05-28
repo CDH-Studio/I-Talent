@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const Models = require('../../database/models');
+const Sequelize = require("sequelize");
+const Models = require("../../database/models");
 
 const Profile = Models.profile;
 const CareerMobility = Models.careerMobility;
@@ -18,8 +18,8 @@ const LookingForANewJob = Models.lookingForANewJob;
 async function getBranch(request, response) {
   const all = await Profile.findAll({
     attributes: [
-      [Sequelize.fn('DISTINCT', Sequelize.col('branchEn')), 'branchEn'],
-      'branchFr',
+      [Sequelize.fn("DISTINCT", Sequelize.col("branchEn")), "branchEn"],
+      "branchFr",
     ],
   });
 
@@ -48,7 +48,7 @@ async function getCareerMobility(request, response) {
 async function getCompetency(request, response) {
   const all = await Skill.findAll({
     where: {
-      type: 'competency',
+      type: "competency",
     },
   });
   const resBody = all.map((one) => {
@@ -158,7 +158,7 @@ async function getSecurityClearance(request, response) {
 async function getCategorySkills(request, response) {
   const all = await Category.findAll({
     include: Skill,
-    attributes: ['descriptionEn', 'descriptionFr', 'id'],
+    attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
   });
   const resBody = all.map((one) => {
@@ -196,7 +196,7 @@ async function getCategorySkills(request, response) {
 async function getCategory(request, response) {
   const all = await Category.findAll({
     include: Skill,
-    attributes: ['descriptionEn', 'descriptionFr', 'id'],
+    attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
   });
   const resBody = all.map((one) => {
@@ -230,10 +230,10 @@ async function getCategory(request, response) {
 async function getSkill(request, response) {
   const all = await Skill.findAll({
     include: Category,
-    attributes: ['descriptionEn', 'descriptionFr', 'id'],
+    attributes: ["descriptionEn", "descriptionFr", "id"],
     require: true,
     where: {
-      type: 'skill',
+      type: "skill",
     },
   });
   const resBody = all.map((one) => {
@@ -297,17 +297,17 @@ async function getWillingToRelocateTo(request, response) {
     const all = await Location.findAll({
       attributes: [
         [
-          Sequelize.fn('MIN', Sequelize.cast(Sequelize.col('id'), 'varchar')),
-          'id',
+          Sequelize.fn("MIN", Sequelize.cast(Sequelize.col("id"), "varchar")),
+          "id",
         ],
-        'city',
-        'provinceEn',
-        'provinceFr',
+        "city",
+        "provinceEn",
+        "provinceFr",
       ],
-      group: ['city', 'provinceEn', 'provinceFr'],
+      group: ["city", "provinceEn", "provinceFr"],
       order: [
-        ['provinceEn', 'ASC'],
-        ['city', 'ASC'],
+        ["provinceEn", "ASC"],
+        ["city", "ASC"],
       ],
     });
     const resBody = all.map((one) => {

@@ -5,23 +5,23 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'tenures',
+      "tenures",
       [
         {
-          descriptionEn: 'Term',
-          descriptionFr: 'Période',
+          descriptionEn: "Term",
+          descriptionFr: "Période",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Casual',
-          descriptionFr: 'Temporaire',
+          descriptionEn: "Casual",
+          descriptionFr: "Temporaire",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Indeterminate',
-          descriptionFr: 'Indéterminé',
+          descriptionEn: "Indeterminate",
+          descriptionFr: "Indéterminé",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -35,6 +35,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete('tenures', null, {});
+    return queryInterface.bulkDelete("tenures", null, {});
   },
 };

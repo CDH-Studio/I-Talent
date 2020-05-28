@@ -1,9 +1,9 @@
-const put = require('./put');
-const post = require('./post');
-const del = require('./delete');
-const get = require('./get');
+const put = require("./put");
+const post = require("./post");
+const del = require("./delete");
+const get = require("./get");
 
-const report = require('./reporting');
+const report = require("./reporting");
 
 module.exports = {
   createOption: post.createOption,

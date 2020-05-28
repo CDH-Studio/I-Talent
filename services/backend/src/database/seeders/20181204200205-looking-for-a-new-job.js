@@ -5,29 +5,29 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'lookingForANewJobs',
+      "lookingForANewJobs",
       [
         {
-          descriptionEn: 'Actively applying',
-          descriptionFr: 'Applique activement',
+          descriptionEn: "Actively applying",
+          descriptionFr: "Applique activement",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Casually looking',
-          descriptionFr: 'Regarde les opportunités mine de rien',
+          descriptionEn: "Casually looking",
+          descriptionFr: "Regarde les opportunités mine de rien",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Not looking but open to offers',
-          descriptionFr: 'Ne cherche pas mais est ouvert aux offres',
+          descriptionEn: "Not looking but open to offers",
+          descriptionFr: "Ne cherche pas mais est ouvert aux offres",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Not looking',
-          descriptionFr: 'Ne cherche pas',
+          descriptionEn: "Not looking",
+          descriptionFr: "Ne cherche pas",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -41,6 +41,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete('lookingForANewJobs', null, {});
+    return queryInterface.bulkDelete("lookingForANewJobs", null, {});
   },
 };

@@ -1,5 +1,5 @@
-const moment = require('moment');
-const Models = require('../../../../database/models');
+const moment = require("moment");
+const Models = require("../../../../database/models");
 
 const Profiles = Models.profile; // Profiles Table
 
@@ -8,7 +8,7 @@ async function growthRateByMonth() {
   let monthlyGrowthRate = [];
 
   const profiles = await Profiles.findAll({
-    attributes: ['id', 'createdAt'],
+    attributes: ["id", "createdAt"],
   });
 
   profiles.forEach((profile) => {
@@ -136,7 +136,7 @@ async function growthRateByMonth() {
   );
 
   if (growthRateFromPreviousMonth === Infinity) {
-    growthRateFromPreviousMonth = 'N/A';
+    growthRateFromPreviousMonth = "N/A";
   }
 
   return {

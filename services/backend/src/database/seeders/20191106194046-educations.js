@@ -5,7 +5,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'education',
+      "education",
       [
         {
           startDate: new Date(),
@@ -26,6 +26,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('education', null, {});
+    return queryInterface.bulkDelete("education", null, {});
   },
 };

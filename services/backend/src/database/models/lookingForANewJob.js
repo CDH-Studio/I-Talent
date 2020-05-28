@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const lookingForANewJob = sequelize.define(
-    'lookingForANewJob',
+    "lookingForANewJob",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,

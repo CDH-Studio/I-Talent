@@ -1,5 +1,5 @@
-const { getModel } = require('./getModel.js');
-const Models = require('../../database/models');
+const { getModel } = require("./getModel.js");
+const Models = require("../../database/models");
 
 const User = Models.user;
 const Profile = Models.profile;
@@ -12,14 +12,14 @@ const getOption = async (request, response) => {
     const model = getModel(type);
 
     const options = {
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     };
 
-    if (type === 'skill' || type === 'competency') {
+    if (type === "skill" || type === "competency") {
       options.where = { type: type };
     }
 
-    if (type === 'skill') {
+    if (type === "skill") {
       options.include = Category;
     }
 
@@ -33,7 +33,7 @@ const getOption = async (request, response) => {
 const getCategories = async (request, response) => {
   try {
     const { type } = request.params;
-    if (type === 'skill') {
+    if (type === "skill") {
       const rows = await Category.findAll();
       response.status(200).json(rows);
     }
@@ -70,15 +70,15 @@ const getUser = async (request, response) => {
   const values = await Profile.findAll({
     include: [User, Tenure],
     attributes: [
-      'id',
-      'firstName',
-      'lastName',
+      "id",
+      "firstName",
+      "lastName",
       // "branchEn",
       // "branchFr",
-      'flagged',
-      'createdAt',
-      'jobTitleEn',
-      'jobTitleFr',
+      "flagged",
+      "createdAt",
+      "jobTitleEn",
+      "jobTitleFr",
     ],
   });
 
@@ -86,7 +86,7 @@ const getUser = async (request, response) => {
 };
 
 const checkAdmin = (request, response) =>
-  response.status(200).send('Access Granted');
+  response.status(200).send("Access Granted");
 
 module.exports = {
   getOption,

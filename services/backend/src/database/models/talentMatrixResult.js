@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const talentMatrixResult = sequelize.define(
-    'talentMatrixResult',
+    "talentMatrixResult",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,

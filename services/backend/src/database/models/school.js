@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const school = sequelize.define(
-    'school',
+    "school",
     {
       country: DataTypes.STRING,
       state: { type: DataTypes.STRING, allowNull: true },

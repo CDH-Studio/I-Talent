@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const secondLanguageProficiency = sequelize.define(
-    'secondLanguageProficiency',
+    "secondLanguageProficiency",
     {
       readingProficiency: DataTypes.STRING,
       writingProficiency: DataTypes.STRING,

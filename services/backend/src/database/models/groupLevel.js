@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const groupLevel = sequelize.define(
-    'groupLevel',
+    "groupLevel",
     {
       description: DataTypes.STRING,
     },

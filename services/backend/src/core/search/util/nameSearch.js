@@ -1,10 +1,10 @@
-const Fuse = require('fuse.js');
+const Fuse = require("fuse.js");
 
 async function nameSearch(profiles, searchValue) {
   const options = {
     shouldSort: true,
     threshold: 0.3,
-    keys: ['fullName'],
+    keys: ["fullName"],
   };
 
   const searchData = profiles.map((profile) => ({

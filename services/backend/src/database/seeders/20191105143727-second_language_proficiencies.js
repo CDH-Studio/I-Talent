@@ -5,12 +5,12 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'secondLanguageProficiencies',
+      "secondLanguageProficiencies",
       [
         {
-          readingProficiency: 'C',
-          writingProficiency: 'B',
-          oralProficiency: 'C',
+          readingProficiency: "C",
+          writingProficiency: "B",
+          oralProficiency: "C",
           readingDate: new Date(),
           writingDate: new Date(),
           oralDate: new Date(),
@@ -18,9 +18,9 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          readingProficiency: 'A',
-          writingProficiency: 'B',
-          oralProficiency: 'C',
+          readingProficiency: "A",
+          writingProficiency: "B",
+          oralProficiency: "C",
           readingDate: new Date(),
           writingDate: new Date(),
           oralDate: new Date(),
@@ -40,6 +40,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('secondLanguageProficiencies', null, {});
+    return queryInterface.bulkDelete("secondLanguageProficiencies", null, {});
   },
 };

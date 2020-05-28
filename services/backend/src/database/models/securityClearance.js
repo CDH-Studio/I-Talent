@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const securityClearance = sequelize.define(
-    'securityClearance',
+    "securityClearance",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,

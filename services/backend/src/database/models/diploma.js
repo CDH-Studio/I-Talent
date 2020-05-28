@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const diploma = sequelize.define(
-    'diploma',
+    "diploma",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,

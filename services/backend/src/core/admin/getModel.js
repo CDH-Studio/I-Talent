@@ -1,4 +1,4 @@
-const Models = require('../../database/models');
+const Models = require("../../database/models");
 
 const CareerMobility = Models.careerMobility;
 const Competency = Models.competency;

@@ -5,41 +5,41 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'careerMobilities',
+      "careerMobilities",
       [
         {
-          descriptionEn: 'Fit',
-          descriptionFr: 'Bien placé dans son poste',
+          descriptionEn: "Fit",
+          descriptionFr: "Bien placé dans son poste",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Move to more suitable role',
-          descriptionFr: 'Transfert vers un rôle plus approprié',
+          descriptionEn: "Move to more suitable role",
+          descriptionFr: "Transfert vers un rôle plus approprié",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Develop in role',
-          descriptionFr: 'Se perfectionner dans son rôle',
+          descriptionEn: "Develop in role",
+          descriptionFr: "Se perfectionner dans son rôle",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Well-placed in role',
-          descriptionFr: 'Bien placé dans le rôle',
+          descriptionEn: "Well-placed in role",
+          descriptionFr: "Bien placé dans le rôle",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Ready for lateral movement',
-          descriptionFr: 'Prêt pour un mouvement latéral',
+          descriptionEn: "Ready for lateral movement",
+          descriptionFr: "Prêt pour un mouvement latéral",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Ready for advancement',
-          descriptionFr: 'Prêt à être promu',
+          descriptionEn: "Ready for advancement",
+          descriptionFr: "Prêt à être promu",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -53,6 +53,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete('careerMobilities', null, {});
+    return queryInterface.bulkDelete("careerMobilities", null, {});
   },
 };

@@ -5,17 +5,17 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'competencies',
+      "competencies",
       [
         {
-          descriptionEn: 'Thinking things through',
-          descriptionFr: 'Réflexion approfondie',
+          descriptionEn: "Thinking things through",
+          descriptionFr: "Réflexion approfondie",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          descriptionEn: 'Achieve results',
-          descriptionFr: 'Obtenir des résultats',
+          descriptionEn: "Achieve results",
+          descriptionFr: "Obtenir des résultats",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -32,6 +32,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('competencies', null, {});
+    return queryInterface.bulkDelete("competencies", null, {});
   },
 };

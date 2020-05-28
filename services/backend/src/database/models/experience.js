@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const experience = sequelize.define(
-    'experience',
+    "experience",
     {
       organization: DataTypes.STRING,
       jobTitle: DataTypes.STRING,

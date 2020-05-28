@@ -1,9 +1,9 @@
-const models = require('../../database/models');
+const models = require("../../database/models");
 
 const User = models.user;
 
 function generateNameInitials(name) {
-  const i = name.lastIndexOf(' ') + 1;
+  const i = name.lastIndexOf(" ") + 1;
   return name.substring(0, 1) + name.substring(i, i + 1);
 }
 

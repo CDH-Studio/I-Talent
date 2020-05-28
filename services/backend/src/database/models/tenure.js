@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const tenure = sequelize.define(
-    'tenure',
+    "tenure",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,

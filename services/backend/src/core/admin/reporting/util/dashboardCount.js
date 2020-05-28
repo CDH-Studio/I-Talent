@@ -1,4 +1,4 @@
-const Models = require('../../../../database/models');
+const Models = require("../../../../database/models");
 
 const User = Models.user;
 const Profile = Models.profile;
@@ -21,7 +21,7 @@ async function dashboardCount() {
 
     return { user, exFeeder, flagged, inactive };
   } catch (error) {
-    throw new Error('Count failed');
+    throw new Error("Count failed");
   }
 }
 

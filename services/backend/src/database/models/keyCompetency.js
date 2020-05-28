@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const keyCompetency = sequelize.define(
-    'keyCompetency',
+    "keyCompetency",
     {
       descriptionEn: DataTypes.STRING,
       descriptionFr: DataTypes.STRING,

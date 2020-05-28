@@ -1,7 +1,7 @@
-const Models = require('../../../../database/models');
+const Models = require("../../../../database/models");
 
 const { sequelize } = Models;
-const getTopFive = require('./getTopFive');
+const getTopFive = require("./getTopFive");
 
 async function countCompetencyProfiles() {
   const profileCompetencies = await sequelize.query(

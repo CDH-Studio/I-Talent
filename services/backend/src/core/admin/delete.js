@@ -1,4 +1,4 @@
-const { getModel } = require('./getModel.js');
+const { getModel } = require("./getModel.js");
 
 const deleteOption = async (request, response) => {
   try {

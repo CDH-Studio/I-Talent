@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const profile = sequelize.define(
-    'profile',
+    "profile",
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
@@ -30,28 +30,28 @@ module.exports = (sequelize, DataTypes) => {
   );
   profile.associate = function (models) {
     profile.belongsTo(models.user, {
-      foreignKey: { fieldName: 'id' },
+      foreignKey: { fieldName: "id" },
     });
     profile.belongsToMany(models.skill, {
-      through: 'profileSkills',
+      through: "profileSkills",
     });
     profile.belongsToMany(models.skill, {
-      through: 'profileCompetencies',
-      as: 'competencies',
+      through: "profileCompetencies",
+      as: "competencies",
     });
     profile.belongsToMany(models.skill, {
-      through: 'profileDevelopmentGoals',
-      as: 'developmentGoals',
+      through: "profileDevelopmentGoals",
+      as: "developmentGoals",
     });
     profile.belongsToMany(models.skill, {
-      through: 'profileMentorshipSkills',
-      as: 'mentorshipSkills',
+      through: "profileMentorshipSkills",
+      as: "mentorshipSkills",
     });
     profile.belongsTo(models.tenure);
     profile.belongsTo(models.groupLevel);
     profile.belongsTo(models.groupLevel, {
-      foreignKey: { fieldName: 'actingId' },
-      as: 'acting',
+      foreignKey: { fieldName: "actingId" },
+      as: "acting",
     });
     profile.belongsTo(models.securityClearance);
     profile.belongsTo(models.location);
@@ -59,12 +59,12 @@ module.exports = (sequelize, DataTypes) => {
     profile.belongsTo(models.talentMatrixResult);
     profile.belongsTo(models.keyCompetency);
     profile.belongsTo(models.secondLanguageProficiency, {
-      onDelete: 'CASCADE',
+      onDelete: "CASCADE",
     });
     profile.hasMany(models.experience);
     profile.hasMany(models.education);
     profile.hasMany(models.profileOrganization, {
-      onDelete: 'CASCADE',
+      onDelete: "CASCADE",
     });
     profile.hasMany(models.profileProject);
     profile.belongsTo(models.lookingForANewJob);

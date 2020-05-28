@@ -1,7 +1,7 @@
-const Models = require('../../../../database/models');
+const Models = require("../../../../database/models");
 
 const { sequelize } = Models;
-const getTopFive = require('./getTopFive');
+const getTopFive = require("./getTopFive");
 
 // FIXME: Dont run inline query
 async function countDevelopmentGoals() {

@@ -1,4 +1,4 @@
-const { getModel } = require('./getModel.js');
+const { getModel } = require("./getModel.js");
 
 const createOption = async (request, response) => {
   try {
@@ -8,12 +8,12 @@ const createOption = async (request, response) => {
     const dbObject = {
       ...request.body,
     };
-    if (type === 'skill' || type === 'competency' || type === 'category') {
+    if (type === "skill" || type === "competency" || type === "category") {
       dbObject.type = type;
     }
 
     await model.create(dbObject, { returning: true });
-    response.status(200).send('OK');
+    response.status(200).send("OK");
   } catch (error) {
     response.status(500).send(error.message);
   }
@@ -35,7 +35,7 @@ const bulkDeleteOption = async (request, response) => {
         result = destroyCount > 0;
       })
       .catch(function () {
-        console.log('Delete Error!');
+        console.log("Delete Error!");
         result = false;
       });
 

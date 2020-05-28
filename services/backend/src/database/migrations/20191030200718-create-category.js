@@ -2,7 +2,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(async (transaction) => {
       await queryInterface.createTable(
-        'categories',
+        "categories",
         {
           id: {
             type: Sequelize.INTEGER,
@@ -30,17 +30,17 @@ module.exports = {
       );
       // admin user cannot enter a category description if the combination of french and english text already exists in the table
       await queryInterface.addConstraint(
-        'categories',
-        ['descriptionEn', 'descriptionFr'],
+        "categories",
+        ["descriptionEn", "descriptionFr"],
         {
-          type: 'unique',
-          name: 'categories_unique_definition',
+          type: "unique",
+          name: "categories_unique_definition",
           transaction,
         }
       );
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('categories');
+    return queryInterface.dropTable("categories");
   },
 };

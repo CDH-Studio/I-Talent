@@ -1,5 +1,5 @@
-const { getModel } = require('./getModel.js');
-const Models = require('../../database/models');
+const { getModel } = require("./getModel.js");
+const Models = require("../../database/models");
 
 const User = Models.user;
 const Profile = Models.profile;
@@ -13,7 +13,7 @@ const updateOption = async (request, response) => {
       id: id,
       ...request.body,
     };
-    if (type === 'skill' || type === 'competency') {
+    if (type === "skill" || type === "competency") {
       dbObject.type = type;
     }
 
@@ -73,10 +73,10 @@ const updateProfileStatus = async (request, response) => {
     statuses.forEach(async ([id, status]) => {
       let flagged = false;
       let inactive = false;
-      if (status === 'Inactive' || status === 'Inactif') {
+      if (status === "Inactive" || status === "Inactif") {
         inactive = true;
       }
-      if (status === 'Hidden' || status === 'Caché') {
+      if (status === "Hidden" || status === "Caché") {
         flagged = true;
       }
       await User.findOne({ where: { id } }).then((user) =>
@@ -85,7 +85,7 @@ const updateProfileStatus = async (request, response) => {
         })
       );
     });
-    response.status(200).send('OK');
+    response.status(200).send("OK");
   } catch (error) {
     response.status(500).json({ updatePerformed: false, error: error });
   }

@@ -6,7 +6,7 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('SequlizeSeeder').then(() => {
+    return queryInterface.dropTable("SequlizeSeeder").then(() => {
       return queryInterface.sequelize.query(
         'DROP EXTENSION IF EXISTS "uuid-ossp";'
       );

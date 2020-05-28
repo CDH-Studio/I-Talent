@@ -1,7 +1,7 @@
-const moment = require('moment');
-const Fuse = require('fuse.js');
+const moment = require("moment");
+const Fuse = require("fuse.js");
 
-const Models = require('../../../database/models');
+const Models = require("../../../database/models");
 
 const Profile = Models.profile;
 const User = Models.user;
@@ -10,7 +10,7 @@ const NUMBER_OF_SKILL_RESULT = 4;
 
 async function getProf(profile, searchValue) {
   const user = await profile.getUser({
-    attributes: ['email', 'avatarColor', 'nameInitials'],
+    attributes: ["email", "avatarColor", "nameInitials"],
   });
 
   if (!profile) return null;
@@ -85,7 +85,7 @@ async function getProf(profile, searchValue) {
               fr: diploma.descriptionFr,
             },
           },
-          content: '',
+          content: "",
           startDate: { en: startDate, fr: startDate },
           endDate: { en: endDate, fr: endDate },
         };
@@ -96,7 +96,7 @@ async function getProf(profile, searchValue) {
   const educArray = await educations();
 
   const organizationList = await profile
-    .getProfileOrganizations({ order: [['tier', 'DESC']] })
+    .getProfileOrganizations({ order: [["tier", "DESC"]] })
     .then((organizations) => {
       const orgList = organizations.map((organization) => {
         return {
@@ -139,7 +139,7 @@ async function getProf(profile, searchValue) {
 
   const options = {
     shouldSort: true,
-    keys: ['en', 'fr'],
+    keys: ["en", "fr"],
     threshold: 0.2,
   };
 
@@ -210,25 +210,25 @@ function getProfs(profiles, searchValue) {
 async function getAllProfiles(searchValue) {
   const profiles = await Profile.findAll({
     attributes: [
-      'id',
-      'branchEn',
-      'firstName',
-      'lastName',
-      'jobTitleEn',
-      'jobTitleFr',
-      'telephone',
-      'cellphone',
-      'manager',
-      'team',
-      'groupLevelId',
-      'locationId',
-      'actingId',
-      'exFeeder',
-      'flagged',
-      'visibleCards',
+      "id",
+      "branchEn",
+      "firstName",
+      "lastName",
+      "jobTitleEn",
+      "jobTitleFr",
+      "telephone",
+      "cellphone",
+      "manager",
+      "team",
+      "groupLevelId",
+      "locationId",
+      "actingId",
+      "exFeeder",
+      "flagged",
+      "visibleCards",
     ],
     include: [
-      { model: User, attributes: ['inactive'], where: { inactive: false } },
+      { model: User, attributes: ["inactive"], where: { inactive: false } },
     ],
     where: {
       flagged: false,

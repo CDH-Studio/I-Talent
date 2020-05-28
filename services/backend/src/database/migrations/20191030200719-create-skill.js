@@ -2,13 +2,13 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(async (transaction) => {
       await queryInterface.createTable(
-        'skills',
+        "skills",
         {
           id: {
             allowNull: false,
             primaryKey: true,
             type: Sequelize.UUID,
-            defaultValue: Sequelize.literal('uuid_generate_v1()'),
+            defaultValue: Sequelize.literal("uuid_generate_v1()"),
           },
           descriptionEn: {
             type: Sequelize.STRING,
@@ -32,8 +32,8 @@ module.exports = {
             type: Sequelize.INTEGER,
             allowNull: false, // a skill must belong to a category
             references: {
-              model: 'categories',
-              key: 'id',
+              model: "categories",
+              key: "id",
             },
           },
         },
@@ -41,17 +41,17 @@ module.exports = {
       );
       // admin user cannot enter a skill description if the combination of french and english text already exists in the table
       await queryInterface.addConstraint(
-        'skills',
-        ['descriptionEn', 'descriptionFr'],
+        "skills",
+        ["descriptionEn", "descriptionFr"],
         {
-          type: 'unique',
-          name: 'skills_unique_definition',
+          type: "unique",
+          name: "skills_unique_definition",
           transaction,
         }
       );
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('skills');
+    return queryInterface.dropTable("skills");
   },
 };

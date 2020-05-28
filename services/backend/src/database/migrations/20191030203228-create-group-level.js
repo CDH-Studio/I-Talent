@@ -1,11 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('groupLevels', {
+    return queryInterface.createTable("groupLevels", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.literal('uuid_generate_v1()'),
+        defaultValue: Sequelize.literal("uuid_generate_v1()"),
       },
       description: {
         type: Sequelize.STRING,
@@ -21,6 +21,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('groupLevels');
+    return queryInterface.dropTable("groupLevels");
   },
 };

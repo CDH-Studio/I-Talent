@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
-const moment = require('moment');
+const moment = require("moment");
 
-const Models = require('../../database/models');
+const Models = require("../../database/models");
 
 const Profile = Models.profile;
 const Education = Models.education;
@@ -14,7 +14,7 @@ const Location = Models.location;
 
 /* This objects stores the names of the db attributes 
 in relation to the object keys sent from the frontend */
-const mappedValues = require('./util/mappedValues.json');
+const mappedValues = require("./util/mappedValues.json");
 
 // TODO: Refactor
 async function createProfile(request, response) {
@@ -74,7 +74,7 @@ async function createProfile(request, response) {
           else startDate = startDate.format();
           if (!endDate.isValid()) endDate = null;
           else endDate = endDate.format();
-          if (!exp.content) content = '';
+          if (!exp.content) content = "";
           Experience.create({
             organization: exp.subheader,
             jobTitle: exp.header,
@@ -162,7 +162,7 @@ async function createProfile(request, response) {
         where: { id: profile.dataValues.secondLanguageProficiencyId },
       });
     }
-    response.status(200).send('OK');
+    response.status(200).send("OK");
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: error.message });
@@ -228,7 +228,7 @@ async function updateProfile(request, response) {
           else startDate = startDate.format();
           if (!endDate.isValid()) endDate = null;
           else endDate = endDate.format();
-          if (!exp.content) content = '';
+          if (!exp.content) content = "";
           Experience.create({
             organization: exp.subheader,
             jobTitle: exp.header,
@@ -273,12 +273,12 @@ async function updateProfile(request, response) {
     }
 
     if (
-      'readingProficiency' in dbObject ||
-      'writingProficiency' in dbObject ||
-      'oralProficiency' in dbObject ||
-      'readingDate' in dbObject ||
-      'writingDate' in dbObject ||
-      'oralDate' in dbObject
+      "readingProficiency" in dbObject ||
+      "writingProficiency" in dbObject ||
+      "oralProficiency" in dbObject ||
+      "readingDate" in dbObject ||
+      "writingDate" in dbObject ||
+      "oralDate" in dbObject
     ) {
       let secLangProf;
       secLangProf = await profile.getSecondLanguageProficiency();
@@ -338,8 +338,8 @@ async function updateProfile(request, response) {
     if (updated) {
       return response.status(200).json(profile);
     }
-    response.status(404).send('Profile not found');
-    throw new Error('Profile not found');
+    response.status(404).send("Profile not found");
+    throw new Error("Profile not found");
   } catch (error) {
     console.error(error);
     return response.status(500).send(error.message);
@@ -364,8 +364,8 @@ const getPrivateProfileById = async (request, response) => {
   const profile = await Profile.findOne({ where: { id: id } });
   if (!profile) {
     return response.status(404).json({
-      status: 'API Query Error',
-      message: 'User profile with the provided ID not found',
+      status: "API Query Error",
+      message: "User profile with the provided ID not found",
     });
   }
 
@@ -373,12 +373,12 @@ const getPrivateProfileById = async (request, response) => {
   const user = await profile.getUser();
   if (!user) {
     return response.status(404).json({
-      status: 'API Query Error',
-      message: 'User with the provided ID not found',
+      status: "API Query Error",
+      message: "User with the provided ID not found",
     });
   }
 
-  if (!profile) response.status(404).send('Profile Not Found');
+  if (!profile) response.status(404).send("Profile Not Found");
   const data = { ...profile.dataValues, ...user.dataValues };
 
   const tenure = await profile.getTenure().then((res) => {
@@ -419,7 +419,7 @@ const getPrivateProfileById = async (request, response) => {
   });
 
   const experiences = await profile.getExperiences({
-    order: [['startDate', 'DESC']],
+    order: [["startDate", "DESC"]],
   });
   const careerSummary = experiences.map((experience) => {
     const startDate = moment(experience.startDate);
@@ -440,7 +440,7 @@ const getPrivateProfileById = async (request, response) => {
   });
 
   const education = await profile.getEducation({
-    order: [['startDate', 'DESC']],
+    order: [["startDate", "DESC"]],
   });
   const educations = () => {
     return Promise.all(
@@ -468,7 +468,7 @@ const getPrivateProfileById = async (request, response) => {
               fr: diploma.descriptionFr,
             },
           },
-          content: '',
+          content: "",
           startDate: { en: startDate, fr: startDate },
           endDate: { en: endDate, fr: endDate },
         };
@@ -479,7 +479,7 @@ const getPrivateProfileById = async (request, response) => {
   const educArray = await educations();
 
   const organizationList = await profile
-    .getProfileOrganizations({ order: [['tier', 'ASC']] })
+    .getProfileOrganizations({ order: [["tier", "ASC"]] })
     .then((organizations) => {
       const orgList = organizations.map((organization) => {
         return {
@@ -493,7 +493,7 @@ const getPrivateProfileById = async (request, response) => {
   const skills = await profile.getSkills().map(async (skill) => {
     if (skill) {
       const cats = await skill.getCategory({
-        attributes: ['descriptionEn', 'descriptionFr', 'id'],
+        attributes: ["descriptionEn", "descriptionFr", "id"],
         require: true,
       });
 
@@ -542,7 +542,7 @@ const getPrivateProfileById = async (request, response) => {
     .map(async (mentorshipSkill) => {
       if (mentorshipSkill) {
         const cats = await mentorshipSkill.getCategory({
-          attributes: ['descriptionEn', 'descriptionFr', 'id'],
+          attributes: ["descriptionEn", "descriptionFr", "id"],
           require: true,
         });
 
@@ -624,8 +624,8 @@ const getPrivateProfileById = async (request, response) => {
     isMentor: data.isMentor,
     flagged: data.flagged,
     firstLanguage: {
-      fr: { en: 'French', fr: 'Français' },
-      en: { en: 'English', fr: 'Anglais' },
+      fr: { en: "French", fr: "Français" },
+      en: { en: "English", fr: "Anglais" },
     }[data.firstLanguage],
     firstName: data.firstName,
     lastName: data.lastName,
@@ -711,8 +711,8 @@ const getPublicProfileById = async (request, response) => {
   const profile = await Profile.findOne({ where: { id: id } });
   if (!profile) {
     return response.status(404).json({
-      status: 'API Query Error',
-      message: 'User profile with the provided ID not found',
+      status: "API Query Error",
+      message: "User profile with the provided ID not found",
     });
   }
 
@@ -720,8 +720,8 @@ const getPublicProfileById = async (request, response) => {
   const user = await profile.getUser();
   if (!user) {
     return response.status(404).json({
-      status: 'API Query Error',
-      message: 'User with the provided ID not found',
+      status: "API Query Error",
+      message: "User with the provided ID not found",
     });
   }
 
@@ -764,7 +764,7 @@ const getPublicProfileById = async (request, response) => {
   const educArray = [];
 
   const organizationList = await profile
-    .getProfileOrganizations({ order: [['tier', 'ASC']] })
+    .getProfileOrganizations({ order: [["tier", "ASC"]] })
     .then((organizations) => {
       const orgList = organizations.map((organization) => {
         return {
@@ -778,7 +778,7 @@ const getPublicProfileById = async (request, response) => {
   const skills = await profile.getSkills().map(async (skill) => {
     if (skill) {
       const cats = await skill.getCategory({
-        attributes: ['descriptionEn', 'descriptionFr', 'id'],
+        attributes: ["descriptionEn", "descriptionFr", "id"],
         require: true,
       });
       return {
@@ -802,7 +802,7 @@ const getPublicProfileById = async (request, response) => {
     .map(async (mentorshipSkill) => {
       if (mentorshipSkill) {
         const cats = await mentorshipSkill.getCategory({
-          attributes: ['descriptionEn', 'descriptionFr', 'id'],
+          attributes: ["descriptionEn", "descriptionFr", "id"],
           require: true,
         });
         return {
@@ -978,8 +978,8 @@ const getPublicProfileById = async (request, response) => {
       ...resData,
       gradedOnSecondLanguage: true,
       firstLanguage: {
-        fr: { en: 'French', fr: 'Français' },
-        en: { en: 'English', fr: 'Anglais' },
+        fr: { en: "French", fr: "Français" },
+        en: { en: "English", fr: "Anglais" },
       }[data.firstLanguage],
       secondaryOralDate: secLangProf ? secLangProf.oralDate : null,
       secondaryOralProficiency: secLangProf
@@ -994,8 +994,8 @@ const getPublicProfileById = async (request, response) => {
         ? secLangProf.writingProficiency
         : null,
       secondLanguage: {
-        fr: { en: 'French', fr: 'Français' },
-        en: { en: 'English', fr: 'Anglais' },
+        fr: { en: "French", fr: "Français" },
+        en: { en: "English", fr: "Anglais" },
       }[data.secondLanguage],
     };
 

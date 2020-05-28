@@ -1,18 +1,18 @@
 // Create a Sequelize instance
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
-require('dotenv').config();
+require("dotenv").config();
 
 let dialect;
 let host;
 let port;
-if (process.env.PLATFORM === 'OPENSHIFT') {
-  [dialect, host, port] = process.env.DATABASE_URL.split(':');
-  host = host.replace('//', '');
+if (process.env.PLATFORM === "OPENSHIFT") {
+  [dialect, host, port] = process.env.DATABASE_URL.split(":");
+  host = host.replace("//", "");
 } else {
   host = process.env.PGHOST;
   port = 5432;
-  dialect = 'postgres';
+  dialect = "postgres";
 }
 
 module.exports = new Sequelize(

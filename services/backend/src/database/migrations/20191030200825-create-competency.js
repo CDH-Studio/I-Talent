@@ -1,11 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('competencies', {
+    return queryInterface.createTable("competencies", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.literal('uuid_generate_v1()'),
+        defaultValue: Sequelize.literal("uuid_generate_v1()"),
       },
       descriptionEn: {
         type: Sequelize.STRING,
@@ -24,6 +24,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('competencies');
+    return queryInterface.dropTable("competencies");
   },
 };

@@ -1,11 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('relocationLocations', {
+    return queryInterface.createTable("relocationLocations", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.literal('uuid_generate_v1()'),
+        defaultValue: Sequelize.literal("uuid_generate_v1()"),
       },
       createdAt: {
         allowNull: false,
@@ -18,6 +18,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('relocationLocations');
+    return queryInterface.dropTable("relocationLocations");
   },
 };

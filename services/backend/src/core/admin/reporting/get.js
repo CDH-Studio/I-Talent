@@ -1,4 +1,4 @@
-const utils = require('./util');
+const utils = require("./util");
 
 const statistics = async (request, response) => {
   const skillCount = await utils.countSkillProfiles().then((res) => res);
