@@ -148,7 +148,7 @@ const TopNavView = () => {
     menu(
       false,
       <Menu.Item style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/home">
+        <a tabIndex="0" rel="noopener noreferrer" href="/secured/home">
           <HomeOutlined style={styles.MenuIcon} />
           <FormattedMessage id="Home" />
         </a>

@@ -88,7 +88,7 @@ const EditProfileLayoutView = ({ formStep }) => {
   const getSideBarContent = (step) => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
-        <Menu.Item key="primary-info" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="primary-info" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -101,7 +101,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="employment" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="employment" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -114,7 +114,11 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="language-proficiency" style={styles.menuItem}>
+        <Menu.Item
+          tabIndex="0"
+          key="language-proficiency"
+          style={styles.menuItem}
+        >
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -127,7 +131,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="talent" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="talent" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -146,7 +150,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="personal-growth" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="personal-growth" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -165,7 +169,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="qualifications" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="qualifications" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>

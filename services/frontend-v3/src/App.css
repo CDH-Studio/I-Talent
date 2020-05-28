@@ -168,11 +168,11 @@ menuitem:focus {
   color: #08bab3;
   border-radius: 20px;
 }
-
-input:focus {
+/* BELOW IS A MAYBE IF BORDER RADIUS IS AGREED ON */
+/* input:focus {
   outline: #08bab3;
   border-radius: 20px;
-}
+} */
 
 .ant-step-item:focus {
   outline: #08bab3;
@@ -189,5 +189,13 @@ input:focus {
 }
 .ant-dropdown-menu-item {
   outline: #08bab3;
-  border-radius: 20px;
+  /* border-radius: 20px; */
+}
+
+.ant-menu-item:focus {
+  color: #067472;
+}
+
+*[tabIndex]:focus {
+  outline: #08bab3;
 }
