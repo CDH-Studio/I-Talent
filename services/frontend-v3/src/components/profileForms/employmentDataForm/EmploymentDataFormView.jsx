@@ -384,7 +384,9 @@ const EmploymentDataFormView = (props) => {
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
+                tabIndex="0"
                 onChange={toggleTempEndDate}
+                // onKeyPress={enableEndDate}
                 defaultChecked={enableEndDate}
               >
                 <FormattedMessage id="profile.acting.has.end.date" />
