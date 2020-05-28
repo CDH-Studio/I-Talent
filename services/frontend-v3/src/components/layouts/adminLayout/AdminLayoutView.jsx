@@ -22,13 +22,7 @@ import AppLayout from "../appLayout/AppLayout";
  *  Render the layout for the Admin Side.
  */
 const AdminLayoutView = (props) => {
-  const {
-    type,
-    intl,
-    keycloak,
-    displaySideBar,
-    children,
-  } = props;
+  const { type, intl, keycloak, displaySideBar, children } = props;
 
   const history = useHistory();
 

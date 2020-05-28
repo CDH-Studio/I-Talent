@@ -67,7 +67,7 @@ const CategoryTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -75,7 +75,7 @@ const CategoryTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -105,17 +105,17 @@ const CategoryTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
+    render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -130,7 +130,7 @@ const CategoryTableView = ({
 
   /* handles the transfer of new or update/edited category information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = async values => {
+  const onCreate = async (values) => {
     if (modalType === "edit") {
       await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
@@ -163,7 +163,7 @@ const CategoryTableView = ({
   // Backend: checks if category does not have any associated skills
   const checkDelete = async () => {
     await handleSubmitDelete()
-      .then(result => {
+      .then((result) => {
         if (result === true) {
           Modal.error({
             title: intl.formatMessage({
@@ -179,7 +179,7 @@ const CategoryTableView = ({
           popUpSuccesss();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   };
@@ -210,7 +210,7 @@ const CategoryTableView = ({
   };
 
   /* handles render of "Edit Category" modal */
-  const handleEditModal = record => {
+  const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -225,7 +225,7 @@ const CategoryTableView = ({
   /* gets sort direction for a table column */
   // Use for tables that need a French and English column
   // Will change sort capability of column based on current language of page
-  const getSortDirection = column => {
+  const getSortDirection = (column) => {
     const currentLanguage =
       intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
     if (column === currentLanguage) {
@@ -254,12 +254,12 @@ const CategoryTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then(async values => {
+            .then(async (values) => {
               await onCreate(values);
               addForm.resetFields();
               handleOk();
             })
-            .catch(error => {
+            .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
@@ -344,12 +344,12 @@ const CategoryTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then(async values => {
+            .then(async (values) => {
               await onCreate(values);
               editForm.resetFields();
               handleOk();
             })
-            .catch(error => {
+            .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
@@ -413,7 +413,7 @@ const CategoryTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          checkDelete().catch(error => handleError(error, "message"));
+          checkDelete().catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -491,7 +491,7 @@ const CategoryTableView = ({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: record => (
+        render: (record) => (
           <div>
             <Button
               type="primary"

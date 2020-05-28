@@ -25,7 +25,7 @@ const { Step } = Steps;
  *  CreateProfileLayoutView(props)
  *  Render the layout for the create profile forms
  */
-const CreateProfileLayoutView = props => {
+const CreateProfileLayoutView = (props) => {
   const { formStep } = props;
   const [profileExists, setProfileExists] = useState(false);
   const history = useHistory();
@@ -44,7 +44,7 @@ const CreateProfileLayoutView = props => {
    *
    * action to take if sidebar steps are clicked
    */
-  const onChange = current => {
+  const onChange = (current) => {
     const url = `/secured/profile/create/step/${current + 1}`;
     history.push(url);
   };
@@ -74,7 +74,7 @@ const CreateProfileLayoutView = props => {
    *
    * Generate the correct form based on the step
    */
-  const profileFormSelect = step => {
+  const profileFormSelect = (step) => {
     const stepInt = parseInt(step, 10);
     switch (stepInt) {
       case 1:
@@ -103,7 +103,7 @@ const CreateProfileLayoutView = props => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = step => {
+  const getSideBarContent = (step) => {
     const stepInt = parseInt(step, 10) - 1;
     return (
       <div style={{ margin: "20px 25px" }}>
@@ -221,7 +221,7 @@ const CreateProfileLayoutView = props => {
   const form = profileFormSelect(formStep);
 
   // get current language code
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>

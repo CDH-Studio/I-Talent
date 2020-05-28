@@ -41,8 +41,8 @@ const CompetencyTable = ({ intl, type }) => {
     if (loading) {
       const setState = async () => {
         await getCompetencies()
-          .then(competencies => setData(competencies))
-          .catch(error => handleError(error, "redirect"));
+          .then((competencies) => setData(competencies))
+          .catch((error) => handleError(error, "redirect"));
 
         setLoading(false);
       };
@@ -50,8 +50,8 @@ const CompetencyTable = ({ intl, type }) => {
     } else {
       const updateState = async () => {
         await getCompetencies()
-          .then(competencies => setData(competencies))
-          .catch(error => handleError(error, "redirect"));
+          .then((competencies) => setData(competencies))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -59,7 +59,7 @@ const CompetencyTable = ({ intl, type }) => {
   }, [getCompetencies, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -82,13 +82,13 @@ const CompetencyTable = ({ intl, type }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a competency */
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     const url = `${backendAddress}api/admin/options/${type}`;
 
     await axios.post(url, {
@@ -127,7 +127,7 @@ const CompetencyTable = ({ intl, type }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = selectedRowKeys => {
+  const onSelectChange = (selectedRowKeys) => {
     // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -135,7 +135,7 @@ const CompetencyTable = ({ intl, type }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: selectedRowKeys => {
+    onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };

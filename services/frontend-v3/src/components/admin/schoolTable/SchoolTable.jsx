@@ -40,16 +40,16 @@ const SchoolTable = ({ type, intl }) => {
     if (loading) {
       const setState = async () => {
         await getSchools()
-          .then(schools => setData(schools))
-          .catch(error => handleError(error, "redirect"));
+          .then((schools) => setData(schools))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
         await getSchools()
-          .then(schools => setData(schools))
-          .catch(error => handleError(error, "redirect"));
+          .then((schools) => setData(schools))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -57,7 +57,7 @@ const SchoolTable = ({ type, intl }) => {
   }, [getSchools, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -80,13 +80,13 @@ const SchoolTable = ({ type, intl }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a school */
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     const url = `${backendAddress}api/admin/options/${type}`;
 
     await axios.post(url, {
@@ -126,7 +126,7 @@ const SchoolTable = ({ type, intl }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = _selectedRowKeys => {
+  const onSelectChange = (_selectedRowKeys) => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
@@ -134,7 +134,7 @@ const SchoolTable = ({ type, intl }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: _selectedRowKeys => {
+    onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
   };

@@ -85,12 +85,12 @@ const BasicInfoView = ({
    * Generates list of basic info with mall icons
    * This includes: address, email, etc.
    */
-  const generateInfoList = dataSource => {
+  const generateInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
               avatar={
@@ -191,7 +191,7 @@ const BasicInfoView = ({
    * This includes links to: email, linkedin, and github
    */
   const generateActions = () => {
-    const buttons = buttonLinks.buttons.map(buttonName => {
+    const buttons = buttonLinks.buttons.map((buttonName) => {
       const button = buttonLinks[buttonName];
 
       return (

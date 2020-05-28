@@ -14,12 +14,12 @@ function EducationView({ educationInfo }) {
     },
   };
 
-  const generateEducationInfoList = dataSource => {
+  const generateEducationInfoList = (dataSource) => {
     return (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item extra={item.duration}>
             <List.Item.Meta
               avatar={

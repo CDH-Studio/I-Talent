@@ -122,11 +122,11 @@ const LangProficiencyFormView = ({
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm(prev => !prev);
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /* Save data */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     // If firstLanguage is undefined then clear value in DB
     values.firstLanguage = values.firstLanguage ? values.firstLanguage : null;
@@ -176,7 +176,7 @@ const LangProficiencyFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
         message.success(
@@ -195,7 +195,7 @@ const LangProficiencyFormView = ({
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     // Get default language from API and convert to dropdown key
     let firstLanguage = null;
     if (profile) {
@@ -246,12 +246,12 @@ const LangProficiencyFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -264,11 +264,11 @@ const LangProficiencyFormView = ({
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/5");
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -286,7 +286,7 @@ const LangProficiencyFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
@@ -294,7 +294,7 @@ const LangProficiencyFormView = ({
           onFinish();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -393,7 +393,7 @@ const LangProficiencyFormView = ({
   };
 
   /* Get temporary role form based on if the form switch is toggled */
-  const getSecondLanguageForm = expandMentorshipForm => {
+  const getSecondLanguageForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <div>
@@ -418,7 +418,7 @@ const LangProficiencyFormView = ({
                       .indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  {proficiencyOptions.map(value => {
+                  {proficiencyOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
                   })}
                 </Select>
@@ -455,7 +455,7 @@ const LangProficiencyFormView = ({
                       .indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  {proficiencyOptions.map(value => {
+                  {proficiencyOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
                   })}
                 </Select>
@@ -492,7 +492,7 @@ const LangProficiencyFormView = ({
                       .indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  {proficiencyOptions.map(value => {
+                  {proficiencyOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
                   })}
                 </Select>
@@ -579,7 +579,7 @@ const LangProficiencyFormView = ({
                   0
                 }
               >
-                {languageOptions.map(value => {
+                {languageOptions.map((value) => {
                   return <Option key={value.key}>{value.text}</Option>;
                 })}
               </Select>

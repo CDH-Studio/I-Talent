@@ -70,7 +70,7 @@ const UserTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -78,7 +78,7 @@ const UserTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -108,17 +108,17 @@ const UserTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
+    render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -138,7 +138,7 @@ const UserTableView = ({
         <Select
           defaultValue={profileStatusValue(inactive, flagged)}
           style={{ width: 120 }}
-          onChange={value => {
+          onChange={(value) => {
             handleDropdownChange(value, id);
           }}
         >
@@ -223,7 +223,7 @@ const UserTableView = ({
         onConfirm={() => {
           handleApply()
             .then(popUpSuccesss)
-            .catch(error => handleError(error, "message"));
+            .catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -260,7 +260,7 @@ const UserTableView = ({
           id: "admin.view",
           defaultMessage: "View",
         }),
-        render: record => (
+        render: (record) => (
           <span>
             <Button
               type="primary"
@@ -351,7 +351,7 @@ const UserTableView = ({
           id: "admin.profileStatus",
           defaultMessage: "Profile Status",
         }),
-        render: record => {
+        render: (record) => {
           return renderStatusDropdown(
             record.id,
             record.user.inactive,

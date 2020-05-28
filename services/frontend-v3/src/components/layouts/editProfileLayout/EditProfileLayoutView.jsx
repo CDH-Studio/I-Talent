@@ -24,7 +24,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    *
    * Generate the correct form based on the step
    */
-  const profileFormSelect = step => {
+  const profileFormSelect = (step) => {
     switch (step) {
       case "primary-info":
         return <PrimaryInfoForm formType="edit" history={history} />;
@@ -48,7 +48,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    *
    * Redirect to form based on sidebar selection
    */
-  const redirectToForm = data => {
+  const redirectToForm = (data) => {
     const url = `/secured/profile/edit/${data.key}`;
     history.push(url);
   };
@@ -83,7 +83,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = step => {
+  const getSideBarContent = (step) => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item key="primary-info" style={styles.menuItem}>

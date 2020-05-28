@@ -14,7 +14,7 @@ const { backendAddress } = config;
 
 const ResultsCard = ({ history }) => {
   const [results, setResults] = useState(null);
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   useEffect(() => {
     const urlSections = window.location.toString().split("?");
@@ -23,8 +23,8 @@ const ResultsCard = ({ history }) => {
       const queryString = urlSections[1];
       axios
         .get(`${backendAddress}api/search/fuzzySearch?${queryString}`)
-        .then(result => setResults(result.data))
-        .catch(error => handleError(error, "redirect"));
+        .then((result) => setResults(result.data))
+        .catch((error) => handleError(error, "redirect"));
     } else {
       setResults(new Error("invalid query"));
     }

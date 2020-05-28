@@ -41,16 +41,16 @@ function UserTable({ intl, type }) {
     if (loading) {
       const setState = async () => {
         await getUserInformation()
-          .then(users => setData(users))
-          .catch(error => handleError(error, "redirect"));
+          .then((users) => setData(users))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
         await getUserInformation()
-          .then(users => setData(users))
-          .catch(error => handleError(error, "redirect"));
+          .then((users) => setData(users))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -68,7 +68,7 @@ function UserTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -91,7 +91,7 @@ function UserTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
@@ -132,7 +132,7 @@ function UserTable({ intl, type }) {
       convertData[i].key = convertData[i].id;
     }
 
-    convertData.forEach(e => {
+    convertData.forEach((e) => {
       e.fullName = e.user.name;
       e.formatCreatedAt = moment(e.createdAt).format("LLL");
       e.profileLink = `/secured/profile/${e.id}`;

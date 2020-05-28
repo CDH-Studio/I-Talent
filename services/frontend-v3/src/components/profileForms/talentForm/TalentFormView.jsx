@@ -37,7 +37,7 @@ const { SHOW_CHILD } = TreeSelect;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const TalentFormView = props => {
+const TalentFormView = (props) => {
   const {
     profileInfo,
     skillOptions,
@@ -138,7 +138,7 @@ const TalentFormView = props => {
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     if (!displayMentorshipForm) {
       // clear mentorship skills before submission
@@ -161,7 +161,7 @@ const TalentFormView = props => {
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
         message.success(
@@ -216,12 +216,12 @@ const TalentFormView = props => {
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => saveDataToDB(values))
+      .then(async (values) => saveDataToDB(values))
       .then(() => {
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -238,11 +238,11 @@ const TalentFormView = props => {
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/6");
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -264,7 +264,7 @@ const TalentFormView = props => {
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
@@ -272,7 +272,7 @@ const TalentFormView = props => {
           onFinish();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -369,7 +369,7 @@ const TalentFormView = props => {
    *
    * on change of skills field auto update mentorship options
    */
-  const onChangeSkills = skillsValues => {
+  const onChangeSkills = (skillsValues) => {
     // generate options for mentorship based on skills
     const selectedSkillsOnChangeSkills = generateMentorshipOptions(
       skillOptions,
@@ -395,7 +395,7 @@ const TalentFormView = props => {
    *
    * Get mentorship role form based on if the form switch is toggled
    */
-  const getMentorshipForm = expandMentorshipForm => {
+  const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
         <div>
@@ -444,7 +444,7 @@ const TalentFormView = props => {
    *
    * Generates the form header (title)
    */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -486,7 +486,7 @@ const TalentFormView = props => {
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -607,7 +607,7 @@ const TalentFormView = props => {
                 placeholder={<FormattedMessage id="setup.select" />}
                 style={{ width: "100%" }}
               >
-                {competencyOptions.map(value => {
+                {competencyOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>

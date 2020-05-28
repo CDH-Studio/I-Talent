@@ -71,7 +71,7 @@ const SearchFilter = ({ history }) => {
     const getBranch = async () => {
       const results = await axios.get(`${backendAddress}api/option/getBranch`);
       setBranchOptions(
-        results.data.filter(elem => elem.description && elem.description.en)
+        results.data.filter((elem) => elem.description && elem.description.en)
       );
     };
 
@@ -100,7 +100,7 @@ const SearchFilter = ({ history }) => {
         getLocation(),
         getClassification(),
       ]);
-      await getSkills().catch(error => handleError(error, "redirect"));
+      await getSkills().catch((error) => handleError(error, "redirect"));
     };
 
     getSearchFieldValues();
@@ -108,7 +108,7 @@ const SearchFilter = ({ history }) => {
   }, [getSearchFieldValues]);
 
   // page with query
-  const handleSearch = values => {
+  const handleSearch = (values) => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${query}`;
     history.push(url);

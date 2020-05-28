@@ -52,19 +52,19 @@ const SkillTable = ({ intl, type }) => {
     if (loading) {
       const setState = async () => {
         await getSkill()
-          .then(skills => setData(skills))
-          .catch(error => handleError(error, "redirect"));
+          .then((skills) => setData(skills))
+          .catch((error) => handleError(error, "redirect"));
         await getCategories()
-          .then(categories => setCategories(categories))
-          .catch(error => handleError(error, "redirect"));
+          .then((categories) => setCategories(categories))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
         await getSkill()
-          .then(skills => setData(skills))
-          .catch(error => handleError(error, "redirect"));
+          .then((skills) => setData(skills))
+          .catch((error) => handleError(error, "redirect"));
 
         setReset(false);
       };
@@ -73,7 +73,7 @@ const SkillTable = ({ intl, type }) => {
   }, [getCategories, getSkill, loading, reset]);
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -96,14 +96,14 @@ const SkillTable = ({ intl, type }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a skill */
   // eslint-disable-next-line consistent-return
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     const url = `${backendAddress}api/admin/options/${type}`;
 
     await axios.post(url, {
@@ -122,7 +122,7 @@ const SkillTable = ({ intl, type }) => {
 
     if (typeof values.editSkillCategory === "string") {
       const index = categories.findIndex(
-        object =>
+        (object) =>
           object.descriptionEn === values.editSkillCategory ||
           object.descriptionFr === values.editSkillCategory
       );
@@ -134,7 +134,7 @@ const SkillTable = ({ intl, type }) => {
       });
     } else {
       const categoryObject = categories.find(
-        category => category.id === values.editSkillCategory
+        (category) => category.id === values.editSkillCategory
       );
       await axios.put(url, {
         descriptionEn: values.editSkillEn,
@@ -160,7 +160,7 @@ const SkillTable = ({ intl, type }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = selectedRowKeys => {
+  const onSelectChange = (selectedRowKeys) => {
     // Can access the keys of each skill selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -168,7 +168,7 @@ const SkillTable = ({ intl, type }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: selectedRowKeys => {
+    onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };
@@ -192,7 +192,7 @@ const SkillTable = ({ intl, type }) => {
       allSkills[i].key = allSkills[i].id;
     }
 
-    allSkills.forEach(e => {
+    allSkills.forEach((e) => {
       e.categoryNameEn = e.category.descriptionEn;
       e.categoryNameFr = e.category.descriptionFr;
     });

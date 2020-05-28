@@ -119,7 +119,7 @@ const PrimaryInfoFormView = ({
   };
 
   /* Save data */
-  const saveDataToDB = async values => {
+  const saveDataToDB = async (values) => {
     if (profileInfo) {
       // If profile exists then update profile
       await axios.put(
@@ -136,7 +136,7 @@ const PrimaryInfoFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
         message.success(
@@ -155,7 +155,7 @@ const PrimaryInfoFormView = ({
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     if (profile) {
       return {
         firstName: profile.firstName,
@@ -189,12 +189,12 @@ const PrimaryInfoFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => saveDataToDB(values))
+      .then(async (values) => saveDataToDB(values))
       .then(() => {
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -207,11 +207,11 @@ const PrimaryInfoFormView = ({
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
       })
       .then(() => history.push("/secured/profile/create/step/3"))
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -229,7 +229,7 @@ const PrimaryInfoFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
       })
       .then(() => {
@@ -239,7 +239,7 @@ const PrimaryInfoFormView = ({
           onFinish();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -256,7 +256,7 @@ const PrimaryInfoFormView = ({
   };
 
   /* Generate form header based on form type */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -277,7 +277,7 @@ const PrimaryInfoFormView = ({
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -451,7 +451,7 @@ const PrimaryInfoFormView = ({
                   0
                 }
               >
-                {locationOptions.map(value => {
+                {locationOptions.map((value) => {
                   return <Option key={value.id}>{value.description.en}</Option>;
                 })}
               </Select>

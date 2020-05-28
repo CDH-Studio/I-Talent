@@ -98,7 +98,7 @@ const QualificationsFormView = ({
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     // format education date for DB storage
     if (values.education) {
@@ -147,7 +147,7 @@ const QualificationsFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
         message.success(
@@ -168,7 +168,7 @@ const QualificationsFormView = ({
   /*
    * Get the initial values for the form
    */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     const hasRequiredProps = () => {
       return savedEducation && savedExperience && savedProjects;
     };
@@ -194,7 +194,7 @@ const QualificationsFormView = ({
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
     if (formValues.education) {
-      formValues.education = formValues.education.map(i =>
+      formValues.education = formValues.education.map((i) =>
         _.pickBy(i, _.identity)
       );
 
@@ -202,7 +202,7 @@ const QualificationsFormView = ({
     }
 
     if (formValues.experience) {
-      formValues.experience = formValues.experience.map(i =>
+      formValues.experience = formValues.experience.map((i) =>
         _.pickBy(i, _.identity)
       );
 
@@ -220,12 +220,12 @@ const QualificationsFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -247,7 +247,7 @@ const QualificationsFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
@@ -255,7 +255,7 @@ const QualificationsFormView = ({
           onFinish();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -280,7 +280,7 @@ const QualificationsFormView = ({
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -355,7 +355,7 @@ const QualificationsFormView = ({
    *
    * Generates the form header (title)
    */
-  const getFormHeader = _formType => {
+  const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
@@ -408,7 +408,7 @@ const QualificationsFormView = ({
                 return (
                   <div>
                     {/* generate education form for each education item */}
-                    {fields.map(field => (
+                    {fields.map((field) => (
                       <EducationForm
                         key={field.fieldKey}
                         form={form}
@@ -450,7 +450,7 @@ const QualificationsFormView = ({
                 return (
                   <div>
                     {/* generate education form for each education item */}
-                    {fields.map(field => (
+                    {fields.map((field) => (
                       <ExperienceForm
                         key={field.fieldKey}
                         form={form}

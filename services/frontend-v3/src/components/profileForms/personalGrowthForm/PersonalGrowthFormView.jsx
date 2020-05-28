@@ -129,7 +129,7 @@ const PersonalGrowthFormView = ({
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async unalteredValues => {
+  const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
     // set cleared field to null to clear DB data
     values.interestedInRemote = values.interestedInRemote
@@ -161,7 +161,7 @@ const PersonalGrowthFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
         message.success(
@@ -182,7 +182,7 @@ const PersonalGrowthFormView = ({
   /*
    * Get the initial values for the form
    */
-  const getInitialValues = profile => {
+  const getInitialValues = (profile) => {
     const hasRequiredProps = () => {
       return (
         savedDevelopmentalGoals !== undefined &&
@@ -227,12 +227,12 @@ const PersonalGrowthFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
         checkIfFormValuesChanged();
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -249,11 +249,11 @@ const PersonalGrowthFormView = ({
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/7");
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -275,7 +275,7 @@ const PersonalGrowthFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         await saveDataToDB(values);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
@@ -283,7 +283,7 @@ const PersonalGrowthFormView = ({
           onFinish();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -308,7 +308,7 @@ const PersonalGrowthFormView = ({
    *
    * Get Form Control Buttons based on form type (edit or create)
    */
-  const getFormControlButtons = _formType => {
+  const getFormControlButtons = (_formType) => {
     if (_formType === "create") {
       return (
         <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -461,7 +461,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 style={{ width: "100%" }}
               >
-                {developmentalGoalOptions.map(value => {
+                {developmentalGoalOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -487,7 +487,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {interestedInRemoteOptions.map(value => {
+                {interestedInRemoteOptions.map((value) => {
                   return <Option key={value.key}>{value.text}</Option>;
                 })}
               </Select>
@@ -516,7 +516,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 optionFilterProp="children"
               >
-                {relocationOptions.map(value => {
+                {relocationOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -537,7 +537,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {lookingForNewJobOptions.map(value => {
+                {lookingForNewJobOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -577,7 +577,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {careerMobilityOptions.map(value => {
+                {careerMobilityOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>
@@ -598,7 +598,7 @@ const PersonalGrowthFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
               >
-                {talentMatrixResultOptions.map(value => {
+                {talentMatrixResultOptions.map((value) => {
                   return <Option key={value.key}>{value.title}</Option>;
                 })}
               </Select>

@@ -36,7 +36,7 @@ const PrimaryInfoForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         handleError(error, "redirect");
       });
   }, []);

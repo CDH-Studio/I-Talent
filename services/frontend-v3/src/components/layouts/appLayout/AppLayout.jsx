@@ -2,11 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import AppLayoutView from "./AppLayoutView";
 
-const AppLayout = ({
-  displaySideBar,
-  sideBarContent,
-  children,
-}) => {
+const AppLayout = ({ displaySideBar, sideBarContent, children }) => {
   return (
     <AppLayoutView
       displaySideBar={displaySideBar}

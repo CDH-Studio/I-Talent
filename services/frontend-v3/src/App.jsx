@@ -16,7 +16,7 @@ import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 import historySingleton from "./history";
 
-const i18nConfigBuilder = locale => ({
+const i18nConfigBuilder = (locale) => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
   formats: {
     number: {
@@ -30,7 +30,7 @@ const i18nConfigBuilder = locale => ({
 });
 
 const App = () => {
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
   const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder("en"));
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <LandingPage
@@ -63,7 +63,7 @@ const App = () => {
           />
           <Route
             path="/secured"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <Secured
@@ -77,7 +77,7 @@ const App = () => {
           />
           <Route
             path="/admin"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <Admin
@@ -91,7 +91,7 @@ const App = () => {
           />
           <Route
             path="/error"
-            render={routeProps => {
+            render={(routeProps) => {
               const { history, location, match, staticContext } = routeProps;
               return (
                 <UnexpectedError

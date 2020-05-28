@@ -34,7 +34,7 @@ const DiplomaTable = ({ type, intl }) => {
   }, [type]);
 
   // Get part of the title for the page
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -53,8 +53,8 @@ const DiplomaTable = ({ type, intl }) => {
     if (loading) {
       const setState = async () => {
         await getDiplomas()
-          .then(diplomas => setData(diplomas))
-          .catch(error => handleError(error, "redirect"));
+          .then((diplomas) => setData(diplomas))
+          .catch((error) => handleError(error, "redirect"));
 
         setLoading(false);
       };
@@ -62,8 +62,8 @@ const DiplomaTable = ({ type, intl }) => {
     } else {
       const updateState = async () => {
         await getDiplomas()
-          .then(diplomas => setData(diplomas))
-          .catch(error => handleError(error, "redirect"));
+          .then((diplomas) => setData(diplomas))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -80,13 +80,13 @@ const DiplomaTable = ({ type, intl }) => {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* handles addition of a diploma */
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     const url = `${backendAddress}api/admin/options/${type}`;
 
     await axios.post(url, {
@@ -124,7 +124,7 @@ const DiplomaTable = ({ type, intl }) => {
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = modifiedSelectedRowKeys => {
+  const onSelectChange = (modifiedSelectedRowKeys) => {
     // Can access the keys of each diploma selected in the table
     setSelectedRowKeys(modifiedSelectedRowKeys);
   };
@@ -132,7 +132,7 @@ const DiplomaTable = ({ type, intl }) => {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: modifiedSelectedRowKeys => {
+    onChange: (modifiedSelectedRowKeys) => {
       onSelectChange(modifiedSelectedRowKeys);
     },
   };

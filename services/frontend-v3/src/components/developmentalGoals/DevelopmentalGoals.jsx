@@ -5,16 +5,16 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
 
 const DevelopmentalGoals = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
-  const formatData = (dataSource) => {
+  const formatData = dataSource => {
     const profileData = { ...dataSource };
 
     const devGoals = [];
     let key = 0;
 
     if (profileData.developmentalGoals) {
-      profileData.developmentalGoals.forEach((devGoal) => {
+      profileData.developmentalGoals.forEach(devGoal => {
         devGoals[key] = devGoal.description[locale];
         key += 1;
       });

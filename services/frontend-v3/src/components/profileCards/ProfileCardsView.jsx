@@ -41,7 +41,7 @@ function ProfileCardsView({
     // Update visibleCards state in profile
     // Get current card visibility status from db
     const url = `${backendAddress}api/profile/${urlID}`;
-    const result = await axios.get(url).catch(error => {
+    const result = await axios.get(url).catch((error) => {
       handleError(error, "redirect");
       return undefined;
     });
@@ -57,7 +57,7 @@ function ProfileCardsView({
       .put(`${backendAddress}api/profile/${urlID}`, {
         visibleCards,
       })
-      .catch(error => handleError(error, "message"));
+      .catch((error) => handleError(error, "message"));
   };
 
   /*

@@ -49,7 +49,7 @@ const TalentManagementView = ({ locale, data }) => {
         <List
           itemLayout="horizontal"
           dataSource={getTalentManagementDatasource()}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={item.title}

@@ -58,7 +58,7 @@ const LangProficiencyForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         handleError(error, "redirect");
       });

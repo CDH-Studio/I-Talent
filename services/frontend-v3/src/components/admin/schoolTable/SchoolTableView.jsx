@@ -68,7 +68,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -76,7 +76,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -116,7 +116,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
     return {
       filterDropdown,
-      filterIcon: filtered => (
+      filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
       ),
       onFilter: (_value, _record) =>
@@ -124,12 +124,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           .toString()
           .toLowerCase()
           .includes(_value.toLowerCase()),
-      onFilterDropdownVisibleChange: visible => {
+      onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInput.select());
         }
       },
-      render: text =>
+      render: (text) =>
         searchedColumn === dataIndex ? (
           <Highlighter
             highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -178,7 +178,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
-            .catch(error => handleError(error, "message"));
+            .catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -209,7 +209,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
   /* handles the transfer of new or update/edited school information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = async values => {
+  const onCreate = async (values) => {
     if (modalType === "edit") {
       await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
@@ -243,7 +243,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* handles render of "Edit School" modal */
-  const handleEditModal = _record => {
+  const handleEditModal = (_record) => {
     setEditVisible(true);
     setRecord(_record);
     setModalType("edit");
@@ -275,12 +275,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onOk={() => {
           addForm
             .validateFields()
-            .then(async values => {
+            .then(async (values) => {
               await onCreate(values);
               addForm.resetFields();
               handleOk();
             })
-            .catch(error => {
+            .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
               } else {
@@ -393,12 +393,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onOk={() => {
           editForm
             .validateFields()
-            .then(async values => {
+            .then(async (values) => {
               await onCreate(values);
               editForm.resetFields();
               handleOk();
             })
-            .catch(error => {
+            .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
@@ -535,7 +535,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: _record => (
+        render: (_record) => (
           <div>
             <Button
               type="primary"

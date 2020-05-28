@@ -27,7 +27,7 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
   const [schoolOptions, setSchoolOptions] = useState([]);
 
   // get current language code
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   /**
    * Get Diploma Options
@@ -80,7 +80,7 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         handleError(error, "redirect");
       });

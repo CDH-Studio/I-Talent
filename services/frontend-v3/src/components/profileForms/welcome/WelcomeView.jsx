@@ -22,7 +22,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
   const history = useHistory();
 
   // get current language code
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -104,7 +104,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
             value
           )
           .then(() => history.push("/secured/profile/create/step/2"))
-          .catch(error => handleError(error, "message"));
+          .catch((error) => handleError(error, "message"));
       }
       history.push("/secured/profile/create/step/2");
     };
@@ -192,7 +192,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     return (
       <div>
         {/* generate list of GEDS profiles */}
-        {gedsProfiles.map(item => {
+        {gedsProfiles.map((item) => {
           return generateProfileBtn({
             icon: <UserOutlined />,
             firstTitle: `${item.firstName} ${item.lastName}`,

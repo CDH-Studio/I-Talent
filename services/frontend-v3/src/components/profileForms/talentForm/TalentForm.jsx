@@ -23,7 +23,7 @@ const TalentForm = ({ formType }) => {
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
 
   // get current language code
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   /**
    * Get user profile
@@ -152,7 +152,7 @@ const TalentForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         handleError(error, "redirect");
       });

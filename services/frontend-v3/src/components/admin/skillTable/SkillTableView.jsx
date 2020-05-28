@@ -71,7 +71,7 @@ const SkillTableView = ({
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
@@ -79,7 +79,7 @@ const SkillTableView = ({
             defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -109,17 +109,17 @@ const SkillTableView = ({
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
+    render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -134,7 +134,7 @@ const SkillTableView = ({
 
   /* handles the transfer of new or update/edited skill information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = async values => {
+  const onCreate = async (values) => {
     if (modalType === "edit") {
       await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
@@ -188,7 +188,7 @@ const SkillTableView = ({
   };
 
   /* handles render of "Edit Skill" modal */
-  const handleEditModal = record => {
+  const handleEditModal = (record) => {
     setEditVisible(true);
     setRecord(record);
     setModalType("edit");
@@ -213,7 +213,7 @@ const SkillTableView = ({
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
-            .catch(error => handleError(error, "message"));
+            .catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -262,12 +262,12 @@ const SkillTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then(async values => {
+            .then(async (values) => {
               await onCreate(values);
               editForm.resetFields();
               handleOk();
             })
-            .catch(error => {
+            .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
               }
@@ -336,7 +336,7 @@ const SkillTableView = ({
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories.map(category => {
+              {categories.map((category) => {
                 return (
                   <Option value={category.id} key={category.id}>
                     {intl.formatMessage({ id: "language.code" }) === "en"
@@ -424,7 +424,7 @@ const SkillTableView = ({
           defaultMessage: "Edit",
         }),
         key: "edit",
-        render: record => (
+        render: (record) => (
           <div>
             <Button
               type="primary"
@@ -474,12 +474,12 @@ const SkillTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then(async values => {
+            .then(async (values) => {
               await onCreate(values);
               addForm.resetFields();
               handleOk();
             })
-            .catch(error => {
+            .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
               } else {
@@ -571,7 +571,7 @@ const SkillTableView = ({
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories.map(category => {
+              {categories.map((category) => {
                 return (
                   <Option value={category.id} key={category.id}>
                     {intl.formatMessage({ id: "language.code" }) === "en"

@@ -79,7 +79,7 @@ const EducationFormView = ({
    * Generates a list of invalid dates before the start date
    * This is used for the end date field
    */
-  const disabledDatesBeforeStart = current => {
+  const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["education", field.fieldKey, "startDate"];
     // eslint-disable-next-line no-console
     console.log(form.getFieldValue(fieldPath));
@@ -98,7 +98,7 @@ const EducationFormView = ({
    * Generates a list of invalid dates after the end date
    * This is used for the start date field
    */
-  const disabledDatesAfterEnd = current => {
+  const disabledDatesAfterEnd = (current) => {
     const fieldPath = ["education", field.fieldKey, "endDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
@@ -172,7 +172,7 @@ const EducationFormView = ({
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
           >
-            {diplomaOptions.map(value => {
+            {diplomaOptions.map((value) => {
               return <Option key={value.key}>{value.title}</Option>;
             })}
           </Select>
@@ -193,7 +193,7 @@ const EducationFormView = ({
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
           >
-            {schoolOptions.map(value => {
+            {schoolOptions.map((value) => {
               return <Option key={value.key}>{value.title}</Option>;
             })}
           </Select>

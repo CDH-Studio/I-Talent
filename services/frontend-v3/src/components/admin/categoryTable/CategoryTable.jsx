@@ -43,8 +43,8 @@ function CategoryTable({ intl, type }) {
     if (loading) {
       const setState = async () => {
         await getCategories()
-          .then(categories => setData(categories))
-          .catch(error => handleError(error, "redirect"));
+          .then((categories) => setData(categories))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
@@ -79,7 +79,7 @@ function CategoryTable({ intl, type }) {
 
   /* handles addition of a category */
   // eslint-disable-next-line consistent-return
-  const handleSubmitAdd = async values => {
+  const handleSubmitAdd = async (values) => {
     const url = `${backendAddress}api/admin/options/${type}`;
 
     await axios.post(url, {
@@ -104,7 +104,7 @@ function CategoryTable({ intl, type }) {
   };
 
   /* get part of the title for the page */
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -127,14 +127,14 @@ function CategoryTable({ intl, type }) {
 
   /* handles reset of column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
   /* helper function to rowSelection */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = selectedRowKeys => {
+  const onSelectChange = (selectedRowKeys) => {
     // Can access the keys of each category selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -142,7 +142,7 @@ function CategoryTable({ intl, type }) {
   /* handles row selection in the table */
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: selectedRowKeys => {
+    onChange: (selectedRowKeys) => {
       onSelectChange(selectedRowKeys);
     },
   };

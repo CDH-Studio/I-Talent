@@ -10,7 +10,7 @@ function DevelopmentalGoalsView({ devGoals }) {
    * Generate a list of Developmental Goals
    * If no competencies are found for the profile then display friendly message
    */
-  const GenerateDevGoalsList = _devGoals => {
+  const GenerateDevGoalsList = (_devGoals) => {
     if (_devGoals.length > 0) {
       return (
         <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>

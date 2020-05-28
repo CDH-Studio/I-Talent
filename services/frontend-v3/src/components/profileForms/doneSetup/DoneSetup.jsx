@@ -32,7 +32,7 @@ const DoneSetup = () => {
       return 1;
     };
 
-    getAllData().catch(error => handleError(error, "redirect"));
+    getAllData().catch((error) => handleError(error, "redirect"));
   }, []);
 
   return <DoneSetupView load={load} />;

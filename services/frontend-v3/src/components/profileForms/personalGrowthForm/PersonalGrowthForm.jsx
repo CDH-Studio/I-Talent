@@ -38,7 +38,7 @@ const PersonalGrowthForm = ({ formType }) => {
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
   // Get current language code
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   /**
    * Get saved Developmental Goals
@@ -258,7 +258,7 @@ const PersonalGrowthForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         handleError(error, "redirect");
       });
