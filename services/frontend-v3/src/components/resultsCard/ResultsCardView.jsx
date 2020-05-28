@@ -70,7 +70,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
             })}
           </Divider>
 
-          {person.resultSkills.map(skill => (
+          {person.resultSkills.map((skill) => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
@@ -83,7 +83,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
     );
   };
 
-  const renderResultCards = dataSource => {
+  const renderResultCards = (dataSource) => {
     if (!dataSource) {
       return <ProfileSkeleton />;
     }
@@ -93,8 +93,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
       )}`;
     }
 
-    let preparedResults = prepareInfo(dataSource, locale);
-    preparedResults = preparedResults.map(i => i.item);
+    const preparedResults = prepareInfo(dataSource, locale);
 
     return preparedResults.map((person, key) => renderCard(person, key));
   };

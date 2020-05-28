@@ -42,6 +42,10 @@ const SearchFilter = ({ history }) => {
           }
 
           acc[key.slice(0, key.length - 2)] = content;
+        } else if (querySearchData[key] === "false") {
+          acc[key] = false;
+        } else if (querySearchData[key] === "true") {
+          acc[key] = true;
         } else {
           acc[key] = querySearchData[key];
         }

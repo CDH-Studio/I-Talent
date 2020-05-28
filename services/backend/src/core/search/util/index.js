@@ -8,12 +8,12 @@ const skillSearch = require("./skillSearch");
 const branchSearch = require("./branchSearch");
 
 module.exports = {
-	getAllProfiles,
-	fuzzySearch,
-	nameSearch,
-	exFeederSearch,
-	locationSearch,
-	classificationSearch,
-	skillSearch,
-	branchSearch,
+  getAllProfiles,
+  fuzzySearch,
+  nameSearch,
+  exFeederSearch,
+  locationSearch,
+  classificationSearch,
+  skillSearch,
+  branchSearch,
 };
