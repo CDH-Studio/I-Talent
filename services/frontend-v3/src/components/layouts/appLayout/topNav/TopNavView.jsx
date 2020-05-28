@@ -175,7 +175,7 @@ const TopNavView = () => {
     return (
       <Header style={styles.header}>
         {/* Render logo */}
-        <a href="/secured/home">
+        <a tabIndex="0" href="/secured/home">
           <img src={Logo} alt="Logo" style={styles.navBrand} />
         </a>
         {/* Render right sigh of top menu */}
