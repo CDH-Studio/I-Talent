@@ -54,6 +54,7 @@ const TalentFormView = (props) => {
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [savedValues, setSavedValues] = useState(null);
 
   /* Component Styles */
   const styles = {
@@ -210,15 +211,18 @@ const TalentFormView = (props) => {
   };
 
   /**
-   * Returns true if the values in the form have changed based on its initial values
+   * Returns true if the values in the form have changed based on its initial values or the saved values
    *
    * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+    const dbValues = _.pickBy(
+      savedValues || getInitialValues(profileInfo),
+      _.identity
+    );
 
-    setFieldsChanged(!_.isEqual(formValues, initialValues));
+    setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */
@@ -226,9 +230,10 @@ const TalentFormView = (props) => {
     form
       .validateFields()
       .then(async (values) => {
+        setFieldsChanged(false);
+        setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon("success");
-        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -581,7 +586,7 @@ const TalentFormView = (props) => {
       <Form
         name="basicForm"
         form={form}
-        initialValues={getInitialValues(profileInfo)}
+        initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
         onValuesChange={checkIfFormValuesChanged}
       >
