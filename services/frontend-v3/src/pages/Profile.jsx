@@ -13,7 +13,7 @@ const Profile = ({ history, match }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const updateProfileInfo = async id => {
+  const updateProfileInfo = async (id) => {
     const userID = localStorage.getItem("userId");
 
     // Send private data to ProfileLayout component, when current user
@@ -21,8 +21,8 @@ const Profile = ({ history, match }) => {
     if (id === userID) {
       const fetchedData = await axios
         .get(`${backendAddress}api/profile/private/${id}`)
-        .then(res => res.data)
-        .catch(error => {
+        .then((res) => res.data)
+        .catch((error) => {
           throw error;
         });
 
@@ -32,8 +32,8 @@ const Profile = ({ history, match }) => {
     // is looking at someone else profile
     const fetchedData = await axios
       .get(`${backendAddress}api/profile/${id}`)
-      .then(res => res.data)
-      .catch(error => {
+      .then((res) => res.data)
+      .catch((error) => {
         if (
           !error.isAxiosError ||
           !error.response ||
@@ -45,7 +45,7 @@ const Profile = ({ history, match }) => {
     return fetchedData;
   };
 
-  const goto = useCallback(link => history.push(link), [history]);
+  const goto = useCallback((link) => history.push(link), [history]);
 
   useEffect(() => {
     const { id } = match.params;
@@ -57,14 +57,14 @@ const Profile = ({ history, match }) => {
 
     if (data === null) {
       updateProfileInfo(id)
-        .then(fetchedData => {
+        .then((fetchedData) => {
           if (fetchedData !== undefined) {
             setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
           }
           setData(fetchedData);
           setLoading(false);
         })
-        .catch(error => handleError(error, "redirect"));
+        .catch((error) => handleError(error, "redirect"));
     }
   }, [data, goto, match.params]);
 

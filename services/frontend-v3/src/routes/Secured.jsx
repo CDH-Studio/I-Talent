@@ -27,8 +27,8 @@ const Secured = ({ location }) => {
 
     // Check if profile exist for the logged in user
     const profileExist = () => {
-      return keycloakInstance.loadUserInfo().then(async userInfo => {
-        return createUser(userInfo.email, userInfo.name).then(res => {
+      return keycloakInstance.loadUserInfo().then(async (userInfo) => {
+        return createUser(userInfo.email, userInfo.name).then((res) => {
           // Add name and email to local storage
           localStorage.setItem("name", userInfo.name);
           localStorage.setItem("email", userInfo.email);
@@ -39,7 +39,7 @@ const Secured = ({ location }) => {
 
     // Generate redirect if profile does not exist
     const renderRedirect = () => {
-      return profileExist().then(exists => {
+      return profileExist().then((exists) => {
         if (!exists) {
           return (
             <Redirect from="/old-path" to="/secured/profile/create/step/1" />
@@ -55,7 +55,7 @@ const Secured = ({ location }) => {
         promiseType: "native",
         checkLoginIframe: false,
       })
-      .then(auth => {
+      .then((auth) => {
         // check if user is admin
         if (
           keycloakInstance.tokenParsed.resource_access &&
@@ -71,7 +71,7 @@ const Secured = ({ location }) => {
           sessionStorage.removeItem("admin");
         }
 
-        axios.interceptors.request.use(config =>
+        axios.interceptors.request.use((config) =>
           keycloakInstance.updateToken(5).then(() => {
             const newConfig = config;
             newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
@@ -82,7 +82,7 @@ const Secured = ({ location }) => {
         setKeycloak(keycloakInstance);
         setAuthenticated(auth);
         // store user info in local storage and redirect to create profile if needed
-        renderRedirect().then(redirectLink => {
+        renderRedirect().then((redirectLink) => {
           setRedirect(redirectLink);
         });
       });

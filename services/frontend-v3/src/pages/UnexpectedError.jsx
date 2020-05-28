@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, List, Result } from "antd";
-import { HistoryPropType } from "../customPropTypes";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { HistoryPropType } from "../customPropTypes";
 
 const UnexpectedError = ({ history }) => {
   const [showError, setShowError] = useState(false);
-  const errors = useSelector(state => state.errors);
+  const errors = useSelector((state) => state.errors);
 
   const styles = {
     content: { textAlign: "left", maxWidth: "1200px", margin: "0px" },
@@ -25,7 +25,7 @@ const UnexpectedError = ({ history }) => {
             <Button onClick={() => history.goBack()}>
               <FormattedMessage id="error.retry" />
             </Button>
-            <Button onClick={() => setShowError(oldValue => !oldValue)}>
+            <Button onClick={() => setShowError((oldValue) => !oldValue)}>
               <FormattedMessage id={showError ? "error.hide" : "error.show"} />
             </Button>
           </div>
@@ -34,13 +34,13 @@ const UnexpectedError = ({ history }) => {
               {showError ? (
                 <List
                   dataSource={errors}
-                  renderItem={item => (
+                  renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
                         title={
                           <span style={styles.errorTitle}>{item.title}</span>
                         }
-                        description={item.description.map(val => (
+                        description={item.description.map((val) => (
                           <p style={styles.errorDescription}>{val}</p>
                         ))}
                       />

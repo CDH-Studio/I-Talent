@@ -32,7 +32,7 @@ const AdminDashboard = ({ intl }) => {
   };
 
   // Get part of the title for the page
-  const getDisplayType = plural => {
+  const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
@@ -49,7 +49,7 @@ const AdminDashboard = ({ intl }) => {
   useEffect(() => {
     const setState = async () => {
       // Get the data for the dashboard cards and graphes
-      const dashboardData = await getDashboardData().catch(error =>
+      const dashboardData = await getDashboardData().catch((error) =>
         handleError(error, "redirect")
       );
       setData(dashboardData);
