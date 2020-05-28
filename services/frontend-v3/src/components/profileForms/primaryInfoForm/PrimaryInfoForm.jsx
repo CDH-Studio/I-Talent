@@ -14,27 +14,19 @@ const PrimaryInfoForm = ({ formType }) => {
 
   // Get possible locations for form drop down
   const getLocations = async () => {
-    try {
-      const result = await axios.get(`${backendAddress}api/option/getLocation`);
-      setLocationOptions(result.data ? result.data : []);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    const result = await axios.get(`${backendAddress}api/option/getLocation`);
+    setLocationOptions(result.data ? result.data : []);
+    return 1;
   };
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      return 0;
-    }
+    const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+      "userId"
+    )}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
   };
 
   // useEffect to run once component is mounted

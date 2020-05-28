@@ -12,7 +12,7 @@ import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import config from "../../config";
-import  from "../../functions/";
+import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -42,7 +42,7 @@ function ProfileCardsView({
     // Get current card visibility status from db
     const url = `${backendAddress}api/profile/${urlID}`;
     const result = await axios.get(url).catch(error => {
-      (error, "redirect");
+      handleError(error, "redirect");
       return undefined;
     });
     const { visibleCards } = result.data;
@@ -57,7 +57,7 @@ function ProfileCardsView({
       .put(`${backendAddress}api/profile/${urlID}`, {
         visibleCards,
       })
-      .catch(error => (error, "message"));
+      .catch(error => handleError(error, "message"));
   };
 
   /*

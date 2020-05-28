@@ -162,24 +162,16 @@ const LangProficiencyFormView = ({
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
-      } catch (error) {
-        throw error;
-      }
+      await axios.put(
+        `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+        values
+      );
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
-      } catch (error) {
-        throw error;
-      }
+      await axios.post(
+        `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+        values
+      );
     }
   };
 

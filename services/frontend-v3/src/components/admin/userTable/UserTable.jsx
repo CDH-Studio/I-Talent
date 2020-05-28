@@ -30,13 +30,9 @@ function UserTable({ intl, type }) {
 
   /* get user information */
   const getUserInformation = async () => {
-    try {
-      const results = await axios.get(`${backendAddress}api/admin/user`);
+    const results = await axios.get(`${backendAddress}api/admin/user`);
 
-      return results.data;
-    } catch (error) {
-      throw error;
-    }
+    return results.data;
   };
 
   /* useEffect will run if statement, when the component is mounted */
@@ -63,16 +59,12 @@ function UserTable({ intl, type }) {
 
   /* handles profile status change */
   const handleApply = async () => {
-    try {
-      const url = `${backendAddress}api/admin/profileStatus`;
+    const url = `${backendAddress}api/admin/profileStatus`;
 
-      await axios.put(url, statuses);
+    await axios.put(url, statuses);
 
-      setStatuses({});
-      setReset(true);
-    } catch (error) {
-      throw error;
-    }
+    setStatuses({});
+    setReset(true);
   };
 
   /* get part of the title for the page */

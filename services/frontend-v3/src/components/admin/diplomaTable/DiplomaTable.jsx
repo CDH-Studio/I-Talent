@@ -27,14 +27,10 @@ const DiplomaTable = ({ type, intl }) => {
 
   // Get diploma information
   const getDiplomas = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/${type}`
-      );
-      return results.data;
-    } catch (error) {
-      throw error;
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/${type}`
+    );
+    return results.data;
   }, [type]);
 
   // Get part of the title for the page
@@ -91,51 +87,39 @@ const DiplomaTable = ({ type, intl }) => {
 
   /* handles addition of a diploma */
   const handleSubmitAdd = async values => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        descriptionEn: values.addDiplomaEn,
-        descriptionFr: values.addDiplomaFr,
-      });
+    await axios.post(url, {
+      descriptionEn: values.addDiplomaEn,
+      descriptionFr: values.addDiplomaFr,
+    });
 
-      setReset(true);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    setReset(true);
+    return 1;
   };
 
   /* handles the update/edit of a diploma */
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      await axios.put(url, {
-        descriptionEn: values.editDiplomaEn,
-        descriptionFr: values.editDiplomaFr,
-      });
+    await axios.put(url, {
+      descriptionEn: values.editDiplomaEn,
+      descriptionFr: values.editDiplomaFr,
+    });
 
-      setReset(true);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    setReset(true);
+    return 1;
   };
 
   /* handles the deletion of a diploma */
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      await axios.post(url, { ids: selectedRowKeys });
+    await axios.post(url, { ids: selectedRowKeys });
 
-      setSelectedRowKeys([]);
-      setReset(true);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    setSelectedRowKeys([]);
+    setReset(true);
+    return 1;
   };
 
   /* helper function to rowSelection */

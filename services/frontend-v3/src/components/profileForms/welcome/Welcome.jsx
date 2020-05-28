@@ -24,18 +24,12 @@ function Welcome() {
      * Get GEDs profile that matches registered user
      */
     const getGedsProfiles = async () => {
-      try {
-        // Get info from GEDS
-        const result = await axios.get(
-          `${backendAddress}api/profGen/${localStorage.getItem("userId")}`
-        );
-        setGedsProfiles(result.data);
-        return 1;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        throw error;
-      }
+      // Get info from GEDS
+      const result = await axios.get(
+        `${backendAddress}api/profGen/${localStorage.getItem("userId")}`
+      );
+      setGedsProfiles(result.data);
+      return 1;
     };
 
     /* get all required data component */
@@ -46,8 +40,6 @@ function Welcome() {
         return 1;
       } catch (error) {
         setLoad(false);
-        // eslint-disable-next-line no-console
-        console.log(error);
         throw error;
       }
     };

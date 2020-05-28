@@ -23,7 +23,7 @@ const ChangeLanguageView = ({ intl }) => {
       ghost="true"
       type="default"
       tabIndex="0"
-      onKeyPress={(e) => handleKeyPress(e, languageCode)}
+      onKeyPress={e => handleKeyPress(e, languageCode)}
       onClick={() => dispatch(setLocale(languageCode))}
       style={{ textTransform: "uppercase" }}
     >

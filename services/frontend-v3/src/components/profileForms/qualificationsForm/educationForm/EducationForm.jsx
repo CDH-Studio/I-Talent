@@ -35,24 +35,20 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
    * get a list of diploma options for dropdown
    */
   const getDiplomaOptions = async () => {
-    try {
-      const url = `${backendAddress}api/option/getDiploma`;
-      const result = await axios.get(url);
-      const options = [];
+    const url = `${backendAddress}api/option/getDiploma`;
+    const result = await axios.get(url);
+    const options = [];
 
-      // Generate the data format required for treeSelect
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setDiplomaOptions(options);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for treeSelect
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setDiplomaOptions(options);
+    return 1;
   };
 
   /**
@@ -61,24 +57,20 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
    * get a list of diploma options for dropdown
    */
   const getSchoolOptions = async () => {
-    try {
-      const url = `${backendAddress}api/option/getSchool`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getSchool`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for treeSelect
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description,
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-      setSchoolOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for treeSelect
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description,
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+    setSchoolOptions(dataTree);
+    return 1;
   };
 
   // useEffect to run once component is mounted

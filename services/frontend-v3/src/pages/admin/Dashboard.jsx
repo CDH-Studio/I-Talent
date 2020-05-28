@@ -24,15 +24,11 @@ const AdminDashboard = ({ intl }) => {
 
   // Get dashboard data for statistic cards and graphes
   const getDashboardData = async () => {
-    try {
-      const url = `${backendAddress}api/admin/dashboard/`;
+    const url = `${backendAddress}api/admin/dashboard/`;
 
-      const results = await axios.get(url);
+    const results = await axios.get(url);
 
-      return results.data;
-    } catch (error) {
-      throw error;
-    }
+    return results.data;
   };
 
   // Get part of the title for the page

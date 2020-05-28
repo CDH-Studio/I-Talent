@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { HistoryPropType } from "../../../customPropTypes";
 import EditProfileLayoutView from "./EditProfileLayoutView";
 
 /**
@@ -12,6 +13,7 @@ const EditProfileLayout = ({ step, history }) => {
 
 EditProfileLayout.propTypes = {
   step: PropTypes.string.isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 export default EditProfileLayout;

@@ -18,26 +18,18 @@ const DoneSetup = () => {
   useEffect(() => {
     // get user profile for form drop down
     const getProfileInfo = async () => {
-      try {
-        const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-          "userId"
-        )}`;
-        await axios.get(url);
-        return 1;
-      } catch (error) {
-        throw error;
-      }
+      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+        "userId"
+      )}`;
+      await axios.get(url);
+      return 1;
     };
 
     // get all required data component
     const getAllData = async () => {
-      try {
-        await getProfileInfo();
-        setLoad(true);
-        return 1;
-      } catch (error) {
-        throw error;
-      }
+      await getProfileInfo();
+      setLoad(true);
+      return 1;
     };
 
     getAllData().catch(error => handleError(error, "redirect"));

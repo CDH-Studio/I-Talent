@@ -31,27 +31,19 @@ const SkillTable = ({ intl, type }) => {
 
   /* get skill information */
   const getSkill = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/${type}`
-      );
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/${type}`
+    );
 
-      return results.data;
-    } catch (error) {
-      throw error;
-    }
+    return results.data;
   }, [type]);
 
   /* get category information */
   const getCategories = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/categories/${type}`
-      );
-      return results.data;
-    } catch (error) {
-      throw error;
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/categories/${type}`
+    );
+    return results.data;
   }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
@@ -112,70 +104,58 @@ const SkillTable = ({ intl, type }) => {
   /* handles addition of a skill */
   // eslint-disable-next-line consistent-return
   const handleSubmitAdd = async values => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        descriptionEn: values.addSkillEn,
-        descriptionFr: values.addSkillFr,
-        categoryId: values.addSkillCategory,
-      });
+    await axios.post(url, {
+      descriptionEn: values.addSkillEn,
+      descriptionFr: values.addSkillFr,
+      categoryId: values.addSkillCategory,
+    });
 
-      setReset(true);
-    } catch (error) {
-      throw error;
-    }
+    setReset(true);
   };
 
   /* handles the update/edit of a skill */
   // eslint-disable-next-line consistent-return
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      if (typeof values.editSkillCategory === "string") {
-        const index = categories.findIndex(
-          object =>
-            object.descriptionEn === values.editSkillCategory ||
-            object.descriptionFr === values.editSkillCategory
-        );
-        await axios.put(url, {
-          descriptionEn: values.editSkillEn,
-          descriptionFr: values.editSkillFr,
-          categoryId: categories[index].id,
-          category: categories[index],
-        });
-      } else {
-        const categoryObject = categories.find(
-          category => category.id === values.editSkillCategory
-        );
-        await axios.put(url, {
-          descriptionEn: values.editSkillEn,
-          descriptionFr: values.editSkillFr,
-          categoryId: values.editSkillCategory,
-          category: categoryObject,
-        });
-      }
-
-      setReset(true);
-    } catch (error) {
-      throw error;
+    if (typeof values.editSkillCategory === "string") {
+      const index = categories.findIndex(
+        object =>
+          object.descriptionEn === values.editSkillCategory ||
+          object.descriptionFr === values.editSkillCategory
+      );
+      await axios.put(url, {
+        descriptionEn: values.editSkillEn,
+        descriptionFr: values.editSkillFr,
+        categoryId: categories[index].id,
+        category: categories[index],
+      });
+    } else {
+      const categoryObject = categories.find(
+        category => category.id === values.editSkillCategory
+      );
+      await axios.put(url, {
+        descriptionEn: values.editSkillEn,
+        descriptionFr: values.editSkillFr,
+        categoryId: values.editSkillCategory,
+        category: categoryObject,
+      });
     }
+
+    setReset(true);
   };
 
   /* handles the deletion of a skill */
   // eslint-disable-next-line consistent-return
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      await axios.post(url, { ids: selectedRowKeys });
+    await axios.post(url, { ids: selectedRowKeys });
 
-      setSelectedRowKeys([]);
-      setReset(true);
-    } catch (error) {
-      throw error;
-    }
+    setSelectedRowKeys([]);
+    setReset(true);
   };
 
   /* helper function to rowSelection */

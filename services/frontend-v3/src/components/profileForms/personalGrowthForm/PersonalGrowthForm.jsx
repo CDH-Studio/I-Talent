@@ -76,16 +76,12 @@ const PersonalGrowthForm = ({ formType }) => {
    * Get User Profile
    */
   const getProfileInfo = async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+      "userId"
+    )}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
   };
 
   /**
@@ -94,24 +90,20 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of developmental goal options for treeSelect dropdown
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getDevelopmentalGoals`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getDevelopmentalGoals`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for treeSelect
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-      setDevelopmentalGoalOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for treeSelect
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+    setDevelopmentalGoalOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -140,25 +132,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of Relocation Options for dropdown treeSelect
    */
   const getRelocationOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getWillingToRelocateTo`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getWillingToRelocateTo`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for treeSelect
-      for (let i = 0; i < result.data.length; i += 1) {
-        const location = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(location);
-      }
-
-      setRelocationOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for treeSelect
+    for (let i = 0; i < result.data.length; i += 1) {
+      const location = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(location);
     }
+
+    setRelocationOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -167,25 +155,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get Saved Looking For New Job from user profile
    */
   const getLookingForNewJobOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getLookingForANewJob`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getLookingForANewJob`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-
-      setLookingForNewJobOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+
+    setLookingForNewJobOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -194,25 +178,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get all dropdown options for Career Mobility
    */
   const getCareerMobilityOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getCareerMobility`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getCareerMobility`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-
-      setCareerMobilityOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+
+    setCareerMobilityOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -221,25 +201,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get all dropdown options for Talent Matrix Results
    */
   const getTalentMatrixResultOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getTalentMatrixResult`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getTalentMatrixResult`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-
-      setTalentMatrixResultOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data format required for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+
+    setTalentMatrixResultOptions(dataTree);
+    return 1;
   }, [locale]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)

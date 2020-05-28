@@ -57,54 +57,36 @@ const SearchFilter = ({ history }) => {
   useEffect(() => {
     // Fetches options for skills select field in advanced search
     const getSkills = async () => {
-      try {
-        const results = await axios.get(
-          `${backendAddress}api/option/getDevelopmentalGoals`
-        );
-        setSkillOptions(results.data);
-      } catch (error) {
-        throw error;
-      }
+      const results = await axios.get(
+        `${backendAddress}api/option/getDevelopmentalGoals`
+      );
+      setSkillOptions(results.data);
     };
 
     // Fetches options for branches select field in advanced search
     const getBranch = async () => {
-      try {
-        const results = await axios.get(
-          `${backendAddress}api/option/getBranch`
-        );
-        setBranchOptions(
-          results.data.filter(elem => elem.description && elem.description.en)
-        );
-      } catch (error) {
-        throw error;
-      }
+      const results = await axios.get(`${backendAddress}api/option/getBranch`);
+      setBranchOptions(
+        results.data.filter(elem => elem.description && elem.description.en)
+      );
     };
 
     // Fetches options for locations select field in advanced search
     const getLocation = async () => {
-      try {
-        const results = await axios.get(
-          `${backendAddress}api/option/getLocation`
-        );
+      const results = await axios.get(
+        `${backendAddress}api/option/getLocation`
+      );
 
-        setLocationOptions(results.data);
-      } catch (error) {
-        throw error;
-      }
+      setLocationOptions(results.data);
     };
 
     // Fetches options for classifications select field in advanced search
     const getClassification = async () => {
-      try {
-        const results = await axios.get(
-          `${backendAddress}api/option/getGroupLevel`
-        );
+      const results = await axios.get(
+        `${backendAddress}api/option/getGroupLevel`
+      );
 
-        setClassOptions(results.data);
-      } catch (error) {
-        throw error;
-      }
+      setClassOptions(results.data);
     };
 
     const updateState = async () => {

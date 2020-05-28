@@ -22,7 +22,6 @@ const Profile = ({ history, match }) => {
       const fetchedData = await axios
         .get(`${backendAddress}api/profile/private/${id}`)
         .then(res => res.data)
-        // eslint-disable-next-line no-console
         .catch(error => {
           throw error;
         });
@@ -34,17 +33,14 @@ const Profile = ({ history, match }) => {
     const fetchedData = await axios
       .get(`${backendAddress}api/profile/${id}`)
       .then(res => res.data)
-      // eslint-disable-next-line no-console
       .catch(error => {
         if (
-          error.isAxiosError &&
-          error.response &&
-          error.response.status === 404
+          !error.isAxiosError ||
+          !error.response ||
+          !error.response.status === 404
         ) {
-        } else {
           throw error;
         }
-        console.error(error);
       });
     return fetchedData;
   };

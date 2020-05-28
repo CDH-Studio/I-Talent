@@ -25,81 +25,65 @@ const EmploymentDataForm = ({ formType }) => {
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
-    try {
-      const result = await axios.get(`${backendAddress}api/option/getTenure`);
+    const result = await axios.get(`${backendAddress}api/option/getTenure`);
 
-      const options = [];
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setSubstantiveOptions(options);
-      return 1;
-    } catch (error) {
-      throw error;
+    const options = [];
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setSubstantiveOptions(options);
+    return 1;
   }, [locale]);
 
   // Get classification options
   const getClassificationOptions = async () => {
-    try {
-      const url = `${backendAddress}api/option/getGroupLevel`;
-      const result = await axios.get(url);
-      const options = [];
+    const url = `${backendAddress}api/option/getGroupLevel`;
+    const result = await axios.get(url);
+    const options = [];
 
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description,
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setClassificationOptions(options);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description,
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setClassificationOptions(options);
+    return 1;
   };
 
   // Get security options
   const getSecurityOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getSecurityClearance`;
-      const result = await axios.get(url);
-      const options = [];
+    const url = `${backendAddress}api/option/getSecurityClearance`;
+    const result = await axios.get(url);
+    const options = [];
 
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setSecurityOptions(options);
-      return 1;
-    } catch (error) {
-      throw error;
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setSecurityOptions(options);
+    return 1;
   }, [locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+      "userId"
+    )}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
   };
 
   // useEffect to run once component is mounted

@@ -14,7 +14,7 @@ import "./App.css";
 import { NotFound, LandingPage, UnexpectedError } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
-import history from "./history";
+import historySingleton from "./history";
 
 const i18nConfigBuilder = locale => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
@@ -44,7 +44,7 @@ const App = () => {
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
-      <Router history={history}>
+      <Router history={historySingleton}>
         <Switch>
           <Route
             exact

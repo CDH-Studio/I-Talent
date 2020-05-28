@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import handleError from "./../../functions/handleError";
+import handleError from "../../functions/handleError";
 import ProfileCardsView from "./ProfileCardsView";
 import config from "../../config";
 import { ProfileInfoPropType } from "../../customPropTypes";
@@ -18,13 +18,9 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
 
   // get user profile for hidden cards value
   const getProfileInfo = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/profile/${urlID}`;
-      const result = await axios.get(url);
-      return setProfileInfo(result.data);
-    } catch (error) {
-      throw error;
-    }
+    const url = `${backendAddress}api/profile/${urlID}`;
+    const result = await axios.get(url);
+    return setProfileInfo(result.data);
   }, [urlID]);
 
   // get all required data component

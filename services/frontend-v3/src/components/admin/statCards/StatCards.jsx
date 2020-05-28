@@ -10,7 +10,7 @@ import StatCardsView from "./StatCardsView";
 const StatCards = ({ data }) => {
   /* gets data for the stat cards on dashboard */
   // Gets data for Total users, Inactive users, Hidden profiles, and Total Ex Feeders
-  const dashboardCount = (dashboardCountData) => {
+  const dashboardCount = dashboardCountData => {
     if (dashboardCountData) {
       const totalUsers = dashboardCountData.user;
       const inactiveUsers = dashboardCountData.inactive;
@@ -23,7 +23,7 @@ const StatCards = ({ data }) => {
 
   /* gets monthly data for the stat cards on dashboard */
   // New users in month, and Growth rate in month
-  const monthGrowthRate = (growthRateByMonthData) => {
+  const monthGrowthRate = growthRateByMonthData => {
     if (growthRateByMonthData) {
       const growthRate = growthRateByMonthData.growthRateFromPreviousMonth;
 

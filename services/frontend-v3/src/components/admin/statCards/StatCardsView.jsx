@@ -114,7 +114,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
       </Col>
     </Row>
   );
-}
+};
 
 StatCardsView.propTypes = {
   dashboardCount: PropTypes.shape({

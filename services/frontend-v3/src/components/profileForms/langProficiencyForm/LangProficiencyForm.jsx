@@ -20,16 +20,12 @@ const LangProficiencyForm = ({ formType }) => {
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw error;
-    }
+    const url = `${backendAddress}api/profile/private/${localStorage.getItem(
+      "userId"
+    )}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
   };
 
   // useEffect to run once component is mounted

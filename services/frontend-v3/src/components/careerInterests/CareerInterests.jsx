@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import CareerInterestsView from "./CareerInterestsView";
 
 const CareerInterests = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
+  const { locale } = useSelector(state => state.settings);
 
   const getCareerInterestsInfo = () => {
     const interestedInRemote = {
@@ -33,7 +33,7 @@ const CareerInterests = ({ data }) => {
   const getRelocationLocationsInfo = () => {
     const relocationLocationsInfo = [];
     if (data.relocationLocations) {
-      data.relocationLocations.forEach((locationElement) =>
+      data.relocationLocations.forEach(locationElement =>
         relocationLocationsInfo.push(locationElement.description[locale])
       );
     }

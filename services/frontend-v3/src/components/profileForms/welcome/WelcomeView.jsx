@@ -156,6 +156,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     secondTitle: undefined,
     thirdTitle: undefined,
     value: undefined,
+    type: undefined,
   };
 
   /*
