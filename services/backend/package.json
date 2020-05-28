@@ -17,6 +17,7 @@
   "author": "Upskill team",
   "license": "MIT",
   "dependencies": {
+    "@sentry/node": "5.15.5",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
