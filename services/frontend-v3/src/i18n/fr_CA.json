@@ -117,6 +117,8 @@
   "sidebar.search.title": "Filtres de recherche",
   "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
 
+  "search.no.results": "Aucun résultat trouvé",
+
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
   "button.clear": "Effacer",
