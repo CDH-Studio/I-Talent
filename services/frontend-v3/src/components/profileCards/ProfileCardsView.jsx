@@ -43,7 +43,6 @@ function ProfileCardsView({
     const url = `${backendAddress}api/profile/${urlID}`;
     const result = await axios.get(url).catch((error) => {
       handleError(error, "redirect");
-      return undefined;
     });
     const { visibleCards } = result.data;
 
