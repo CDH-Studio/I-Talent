@@ -12,7 +12,6 @@ import {
   Button,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
@@ -23,6 +22,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
@@ -44,8 +44,8 @@ const LangProficiencyFormView = ({
   proficiencyOptions,
   profileInfo,
   intl,
+  history,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
@@ -616,6 +616,7 @@ LangProficiencyFormView.propTypes = {
   proficiencyOptions: KeyTitleOptionsPropType,
   profileInfo: ProfileInfoPropType,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
 };
 
 LangProficiencyFormView.defaultProps = {

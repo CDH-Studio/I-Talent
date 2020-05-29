@@ -15,7 +15,6 @@ import {
   message,
 } from "antd";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
@@ -25,6 +24,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
@@ -48,9 +48,9 @@ const EmploymentDataFormView = (props) => {
     securityOptions,
     substantiveOptions,
     intl,
+    history,
   } = props;
 
-  const history = useHistory();
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
@@ -651,6 +651,7 @@ EmploymentDataFormView.propTypes = {
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {

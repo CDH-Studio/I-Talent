@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { Typography, Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -11,16 +10,14 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, HistoryPropType } from "../../../customPropTypes";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-const WelcomeView = ({ gedsProfiles, intl, load }) => {
-  const history = useHistory();
-
+const WelcomeView = ({ gedsProfiles, intl, load, history }) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
 
@@ -233,6 +230,7 @@ WelcomeView.propTypes = {
   gedsProfiles: PropTypes.arrayOf(PropTypes.any),
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 WelcomeView.defaultProps = {

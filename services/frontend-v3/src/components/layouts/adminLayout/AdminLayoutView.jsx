@@ -147,7 +147,6 @@ const AdminLayoutView = (props) => {
   return (
     <AppLayout
       keycloak={keycloak}
-      history={history}
       displaySideBar={displaySideBar}
       sideBarContent={sideBarContent()}
     >

@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import { IntlPropType } from "../customPropTypes";
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
-const ProfileEdit = ({ intl, match, history }) => {
+const ProfileEdit = ({ intl, match }) => {
   document.title = `${intl.formatMessage({ id: "edit.profile" })} | I-Talent`;
 
-  return <EditProfileLayout step={match.params.step} history={history} />;
+  return <EditProfileLayout step={match.params.step} />;
 };
 
 ProfileEdit.propTypes = {

@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { Row } from "antd";
 import SearchBar from "../components/searchBar/SearchBar";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
-import { HistoryPropType } from "../customPropTypes";
 
-const Home = ({ history }) => {
+const Home = () => {
   useEffect(() => {
     document.title = "Home | I-Talent";
   }, []);
@@ -12,14 +11,12 @@ const Home = ({ history }) => {
   return (
     <AppLayout displaySideBar={false}>
       <Row>
-        <SearchBar history={history} />
+        <SearchBar />
       </Row>
     </AppLayout>
   );
 };
 
-Home.propTypes = {
-  history: HistoryPropType.isRequired,
-};
+Home.propTypes = {};
 
 export default Home;

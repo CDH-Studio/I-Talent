@@ -12,7 +12,6 @@ import {
   message,
   Popover,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import {
   RightOutlined,
   CheckOutlined,
@@ -26,6 +25,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import handleError from "../../../functions/handleError";
@@ -57,8 +57,8 @@ const PersonalGrowthFormView = ({
   formType,
   load,
   intl,
+  history,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
 
@@ -644,6 +644,7 @@ PersonalGrowthFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
 };
 
 PersonalGrowthFormView.defaultProps = {

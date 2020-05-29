@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import LangProficiencyFormView from "./LangProficiencyFormView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -17,6 +18,8 @@ const LangProficiencyForm = ({ formType }) => {
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+
+  const history = useHistory();
 
   // Get user profile for form drop down
   const getProfileInfo = async () => {
@@ -71,6 +74,7 @@ const LangProficiencyForm = ({ formType }) => {
       profileInfo={profileInfo}
       formType={formType}
       load={load}
+      history={history}
     />
   );
 };

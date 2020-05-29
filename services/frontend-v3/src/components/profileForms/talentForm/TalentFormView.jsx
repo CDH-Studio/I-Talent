@@ -12,12 +12,12 @@ import {
   TreeSelect,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -51,6 +51,7 @@ const TalentFormView = (props) => {
   } = props;
 
   const history = useHistory();
+
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);

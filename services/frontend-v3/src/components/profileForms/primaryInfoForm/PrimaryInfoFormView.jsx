@@ -11,7 +11,6 @@ import {
   Button,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
@@ -21,6 +20,7 @@ import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -35,8 +35,8 @@ const PrimaryInfoFormView = ({
   load,
   formType,
   intl,
+  history,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
 
@@ -521,6 +521,7 @@ PrimaryInfoFormView.propTypes = {
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

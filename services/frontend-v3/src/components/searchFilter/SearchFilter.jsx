@@ -2,20 +2,22 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
+import { useHistory } from "react-router-dom";
 import config from "../../config";
 import SearchFilterView from "./SearchFilterView";
-import { HistoryPropType } from "../../customPropTypes";
 import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
-const SearchFilter = ({ history }) => {
+const SearchFilter = () => {
   const [expand, setExpand] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+
+  const history = useHistory();
 
   const toggle = () => {
     setExpand(!expand);
@@ -129,8 +131,6 @@ const SearchFilter = ({ history }) => {
   );
 };
 
-SearchFilter.propTypes = {
-  history: HistoryPropType.isRequired,
-};
+SearchFilter.propTypes = {};
 
 export default injectIntl(SearchFilter);

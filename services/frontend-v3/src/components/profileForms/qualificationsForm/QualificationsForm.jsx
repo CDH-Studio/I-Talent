@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import handleError from "../../../functions/handleError";
 import QualificationsFormView from "./QualificationsFormView";
 import config from "../../../config";
@@ -21,6 +22,8 @@ const QualificationsForm = ({ formType }) => {
   const [savedEducation, setSavedEducation] = useState([]);
   const [savedExperience, setSavedExperience] = useState([]);
   const [savedProjects, setSavedProjects] = useState([]);
+
+  const history = useHistory();
 
   /**
    * Get User Profile
@@ -127,6 +130,7 @@ const QualificationsForm = ({ formType }) => {
       savedProjects={savedProjects}
       formType={formType}
       load={load}
+      history={history}
     />
   );
 };

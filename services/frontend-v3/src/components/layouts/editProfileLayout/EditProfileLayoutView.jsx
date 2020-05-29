@@ -27,17 +27,17 @@ const EditProfileLayoutView = ({ formStep, history }) => {
   const profileFormSelect = (step) => {
     switch (step) {
       case "primary-info":
-        return <PrimaryInfoForm formType="edit" history={history} />;
+        return <PrimaryInfoForm formType="edit" />;
       case "employment":
-        return <EmploymentDataForm formType="edit" history={history} />;
+        return <EmploymentDataForm formType="edit" />;
       case "language-proficiency":
-        return <LangProficiencyForm formType="edit" history={history} />;
+        return <LangProficiencyForm formType="edit" />;
       case "talent":
-        return <TalentForm formType="edit" history={history} />;
+        return <TalentForm formType="edit" />;
       case "personal-growth":
-        return <PersonalGrowthForm formType="edit" history={history} />;
+        return <PersonalGrowthForm formType="edit" />;
       case "qualifications":
-        return <QualificationsForm formType="edit" history={history} />;
+        return <QualificationsForm formType="edit" />;
       default:
         return <div>Hello</div>;
     }

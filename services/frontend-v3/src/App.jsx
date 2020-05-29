@@ -50,10 +50,9 @@ const App = () => {
             exact
             path="/"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <LandingPage
-                  history={history}
                   location={location}
                   match={match}
                   staticContext={staticContext}
@@ -64,10 +63,9 @@ const App = () => {
           <Route
             path="/secured"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <Secured
-                  history={history}
                   location={location}
                   match={match}
                   staticContext={staticContext}
@@ -78,10 +76,9 @@ const App = () => {
           <Route
             path="/admin"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <Admin
-                  history={history}
                   location={location}
                   match={match}
                   staticContext={staticContext}
@@ -92,10 +89,9 @@ const App = () => {
           <Route
             path="/error"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <UnexpectedError
-                  history={history}
                   location={location}
                   match={match}
                   staticContext={staticContext}

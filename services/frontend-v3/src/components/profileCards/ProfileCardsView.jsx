@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -10,7 +10,7 @@ import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
 
 import axios from "axios";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 import config from "../../config";
 import handleError from "../../functions/handleError";
 
@@ -24,8 +24,8 @@ function ProfileCardsView({
   id,
   content,
   style,
+  history,
 }) {
-  const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
@@ -164,6 +164,7 @@ ProfileCardsView.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.element.isRequired,
   style: PropTypes.objectOf(PropTypes.string),
+  history: HistoryPropType.isRequired,
 };
 
 ProfileCardsView.defaultProps = {

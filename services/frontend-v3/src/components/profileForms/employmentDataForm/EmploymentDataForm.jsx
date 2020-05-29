@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import handleError from "../../../functions/handleError";
 import config from "../../../config";
 import EmploymentDataFormView from "./EmploymentDataFormView";
@@ -20,8 +21,10 @@ const EmploymentDataForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  const history = useHistory();
+
   // Get current language code
-  const { locale } = useSelector(state => state.settings);
+  const { locale } = useSelector((state) => state.settings);
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
@@ -98,7 +101,7 @@ const EmploymentDataForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         handleError(error, "redirect");
       });
@@ -113,6 +116,7 @@ const EmploymentDataForm = ({ formType }) => {
       formType={formType}
       locale={locale}
       load={load}
+      history={history}
     />
   );
 };

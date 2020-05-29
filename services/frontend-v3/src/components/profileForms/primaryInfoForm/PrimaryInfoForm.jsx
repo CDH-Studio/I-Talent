@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -11,6 +12,8 @@ const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+
+  const history = useHistory();
 
   // Get possible locations for form drop down
   const getLocations = async () => {
@@ -47,6 +50,7 @@ const PrimaryInfoForm = ({ formType }) => {
       profileInfo={profileInfo}
       load={load}
       formType={formType}
+      history={history}
     />
   );
 };

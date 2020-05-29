@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Button, List, Result } from "antd";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { HistoryPropType } from "../customPropTypes";
+import { useHistory } from "react-router-dom";
 
-const UnexpectedError = ({ history }) => {
+const UnexpectedError = () => {
   const [showError, setShowError] = useState(false);
   const errors = useSelector((state) => state.errors);
+
+  const history = useHistory();
 
   const styles = {
     content: { textAlign: "left", maxWidth: "1200px", margin: "0px" },
@@ -56,8 +58,6 @@ const UnexpectedError = ({ history }) => {
   );
 };
 
-UnexpectedError.propTypes = {
-  history: HistoryPropType,
-};
+UnexpectedError.propTypes = {};
 
 export default UnexpectedError;

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
+import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
@@ -10,11 +11,12 @@ import config from "../../config";
 
 const { backendAddress } = config;
 
-const SearchBar = ({ history }) => {
+const SearchBar = () => {
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
+  const history = useHistory();
 
   // Fetches options for skills select field in advanced search
   const getSkills = async () => {

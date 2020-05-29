@@ -31,8 +31,8 @@ const Admin = () => {
         promiseType: "native",
         checkLoginIframe: false,
       })
-      .then(auth => {
-        axios.interceptors.request.use(requestConfig =>
+      .then((auth) => {
+        axios.interceptors.request.use((requestConfig) =>
           keycloakInstance.updateToken(300).then(() => {
             const newConfig = requestConfig;
             newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
@@ -114,38 +114,22 @@ const Admin = () => {
           <Route
             exact
             path="/admin/dashboard"
-            render={({ history }) => <AdminDashboard history={history} />}
+            render={() => <AdminDashboard />}
           />
-          <Route
-            exact
-            path="/admin/users"
-            render={({ history }) => <AdminUser history={history} />}
-          />
-          <Route
-            exact
-            path="/admin/skills"
-            render={({ history }) => <AdminSkill history={history} />}
-          />
+          <Route exact path="/admin/users" render={() => <AdminUser />} />
+          <Route exact path="/admin/skills" render={() => <AdminSkill />} />
           <Route
             exact
             path="/admin/categories"
-            render={({ history }) => <AdminCategory history={history} />}
+            render={() => <AdminCategory />}
           />
           <Route
             exact
             path="/admin/competencies"
-            render={({ history }) => <AdminCompetency history={history} />}
+            render={() => <AdminCompetency />}
           />
-          <Route
-            exact
-            path="/admin/diploma"
-            render={({ history }) => <AdminDiploma history={history} />}
-          />
-          <Route
-            exact
-            path="/admin/school"
-            render={({ history }) => <AdminSchool history={history} />}
-          />
+          <Route exact path="/admin/diploma" render={() => <AdminDiploma />} />
+          <Route exact path="/admin/school" render={() => <AdminSchool />} />
         </div>
       );
     }

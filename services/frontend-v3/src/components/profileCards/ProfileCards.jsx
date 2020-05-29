@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import handleError from "../../functions/handleError";
 import ProfileCardsView from "./ProfileCardsView";
@@ -12,6 +12,8 @@ const { backendAddress } = config;
 const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+
+  const history = useHistory();
 
   // useParams returns an object of key/value pairs from URL parameters
   const urlID = useParams().id;
@@ -51,6 +53,7 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
       cardName={cardName}
       getAllData={getAllData}
       id={id}
+      history={history}
     />
   );
 };

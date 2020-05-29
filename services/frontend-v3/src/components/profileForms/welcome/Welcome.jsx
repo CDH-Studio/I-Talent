@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import WelcomeView from "./WelcomeView";
 import config from "../../../config";
 
@@ -15,6 +16,8 @@ const { backendAddress } = config;
 function Welcome() {
   const [load, setLoad] = useState(false);
   const [gedsProfiles, setGedsProfiles] = useState([]);
+
+  const history = useHistory();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -47,7 +50,9 @@ function Welcome() {
     getAllData();
   }, []);
 
-  return <WelcomeView gedsProfiles={gedsProfiles} load={load} />;
+  return (
+    <WelcomeView gedsProfiles={gedsProfiles} load={load} history={history} />
+  );
 }
 
 export default Welcome;
