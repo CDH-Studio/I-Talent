@@ -27,6 +27,9 @@ const UnexpectedError = () => {
             <Button onClick={() => history.goBack()}>
               <FormattedMessage id="error.retry" />
             </Button>
+            <Button onClick={() => history.push("/")}>
+              <FormattedMessage id="back.to.landing" />
+            </Button>
             <Button onClick={() => setShowError((oldValue) => !oldValue)}>
               <FormattedMessage id={showError ? "error.hide" : "error.show"} />
             </Button>
