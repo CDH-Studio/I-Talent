@@ -193,15 +193,17 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
-          <DatePicker
-            picker="month"
-            style={style.datePicker}
-            disabledDate={disabledDatesBeforeStart}
-            disabled={disableEndDate}
-            placeholder="unknown"
-          />
+          {!disableEndDate && (
+            <DatePicker
+              picker="month"
+              style={style.datePicker}
+              disabledDate={disabledDatesBeforeStart}
+              disabled={disableEndDate}
+              placeholder="unknown"
+            />
+          )}
         </Form.Item>
-        <div style={{ marginTop: "-10px" }}>
+        <div style={{ marginTop: disableEndDate ? "-38px" : "-10px" }}>
           {/* Checkbox if event is on-going */}
           <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
             <FormattedMessage id="profile.is.ongoing" />
