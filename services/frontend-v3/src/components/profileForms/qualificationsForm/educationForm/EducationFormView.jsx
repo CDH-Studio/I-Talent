@@ -66,11 +66,11 @@ const EducationFormView = ({
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = form.getFieldsValue("education");
-      educationFieldValues.education[field.fieldKey].endDate = null;
+      const educationFieldValues = form.getFieldValue("education");
+      educationFieldValues[field.fieldKey].endDate = null;
       form.setFieldsValue(educationFieldValues);
     }
-    setDisableEndDate(!disableEndDate);
+    setDisableEndDate((prev) => !prev);
   };
 
   /*
@@ -81,8 +81,6 @@ const EducationFormView = ({
    */
   const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["education", field.fieldKey, "startDate"];
-    // eslint-disable-next-line no-console
-    console.log(form.getFieldValue(fieldPath));
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -112,13 +110,15 @@ const EducationFormView = ({
   useEffect(() => {
     // set the default status of "ongoing" checkbox
     if (
+      profileInfo &&
+      field &&
       profileInfo.education[field.fieldKey] &&
       profileInfo.education[field.fieldKey].endDate.en
     ) {
       toggleEndDate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo, field]);
+  }, [profileInfo]);
 
   /** **********************************
    ********* Render Component *********
