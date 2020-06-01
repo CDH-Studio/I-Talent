@@ -1,74 +1,43 @@
-const Models = require("../../database/models");
-const getGedsProfile = require("./util/getGedsProfile");
+const axios = require("axios");
+require("dotenv").config();
+const models = require("../../database/models");
 
-const User = Models.user;
-const Location = Models.location;
-
-// FIXME fix the errors and refactor.
 async function getGedsAssist(request, response) {
   const { id } = request.params;
-  await User.findOne({ where: { id } }).then(async (user) => {
-    let { name } = user.dataValues;
+  const { name } = request.query;
+  const nameArray = name.split(" ");
 
-    const lastSpaceIndex = name.lastIndexOf(" ");
-    name = `${name.substring(lastSpaceIndex)}, ${name.substring(
-      0,
-      lastSpaceIndex
-    )}`;
+  const url = `https://geds-sage-ssc-spc-apicast-production.api.canada.ca/gapi/v2/employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
-    const gedsData = await getGedsProfile(name);
+  const promises = [
+    axios({
+      methon: "get",
+      url: url,
+      headers: {
+        "user-key": process.env.GEDSAPIKEY,
+        Accept: "application/json",
+      },
+    }),
+    models.user.findOne({ where: { id } }),
+  ];
 
-    const promise = gedsData.map(async (gedsProfile) => {
-      const profile = {};
+  Promise.all(promises)
+    .then((result) => {
+      const dataGEDSArray = result[0].data;
+      const dataDB = result[1].dataValues;
 
-      profile.firstName = gedsProfile.givenName;
-      profile.lastName = gedsProfile.surname;
-      profile.jobTitle = {
-        en: gedsProfile.title.en,
-        fr: gedsProfile.title.fr,
-      };
-      profile.telephone = gedsProfile.phoneNumber;
-      profile.cellphone = gedsProfile.altPhoneNumber;
-
-      const organizations = gedsProfile.organizations.map(
-        ({ organization }, i) => {
-          return { description: organization.description, tier: i };
-        }
-      );
-
-      const branchOrg = organizations[Math.min(2, organizations.length - 1)];
-
-      profile.branchEn = branchOrg.description.en;
-      profile.branchFr = branchOrg.description.fr;
-
-      profile.organizations = organizations;
-
-      const location = await Location.findOne({
-        where: {
-          postalCode:
-            gedsProfile.organizations[gedsProfile.organizations.length - 1]
-              .organization.addressInformation.pc,
-        },
-      }).then((res) => {
-        if (res) return res.dataValues;
-        return {};
+      // Check if the value is the same as the database
+      const nameDB = dataDB.name.split(" ");
+      const dataGEDS = dataGEDSArray.find((element) => {
+        return (
+          element.contactInformation.email === dataDB.email &&
+          element.givenName === nameDB.nameDB[0] &&
+          element.surname === nameDB.nameDB[1]
+        );
       });
-
-      profile.location = {
-        id: location.id,
-        description: {
-          en: `${location.addressEn}, ${location.city}, ${location.provinceEn}`,
-          fr: `${location.addressFr}, ${location.city}, ${location.provinceFr}`,
-        },
-      };
-
-      profile.email = user.dataValues.email;
-
-      return profile;
-    });
-    const profiles = await Promise.all(promise);
-    response.status(200).send(profiles);
-  });
+      response.status(200).send(dataGEDS);
+    })
+    .catch((error) => console.log(error));
 }
 
 module.exports = {
