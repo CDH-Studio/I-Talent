@@ -10,11 +10,11 @@ const errorsSlice = createSlice({
       let serializedError;
       if (error.isAxiosError) {
         serializedError = {
-          title: error.config.method.toUpperCase() + " " + error.config.url,
+          title: `${error.config.method.toUpperCase()} ${error.config.url}`,
           isAxiosError: true,
           description: [
             error.response && error.response.data
-              ? [error.response.status, error.response.statusText]
+              ? [`${error.response.status} ${error.response.statusText}`]
               : ["No response from backend"],
           ],
         };

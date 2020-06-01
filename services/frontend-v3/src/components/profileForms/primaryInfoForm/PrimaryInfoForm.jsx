@@ -35,13 +35,21 @@ const PrimaryInfoForm = ({ formType }) => {
   // useEffect to run once component is mounted
   useEffect(() => {
     // Get all required data component
-    Promise.all([getProfileInfo(), getLocations()])
-      .then(() => {
-        setLoad(true);
+    getProfileInfo()
+      .catch((error) => {
+        if (
+          !error.isAxiosError ||
+          !error.response ||
+          error.response.status !== 404
+        ) {
+          handleError(error, "redirect");
+        }
       })
+      .then(getLocations)
       .catch((error) => {
         handleError(error, "redirect");
-      });
+      })
+      .then(() => setLoad(true));
   }, []);
 
   return (
