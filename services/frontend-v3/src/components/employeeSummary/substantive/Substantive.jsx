@@ -26,14 +26,18 @@ const Substantive = ({ data }) => {
         )),
     };
 
+    let substantiveDescription = <FormattedMessage id="profile.term" />;
+
+    if (
+      data.temporaryRole.description &&
+      data.temporaryRole.description[locale]
+    ) {
+      substantiveDescription = data.temporaryRole.description[locale];
+    }
+
     const substative = {
       title: <FormattedMessage id="profile.substantive" />,
-      description:
-        data.indeterminate === true ? (
-          <FormattedMessage id="profile.indeterminate" />
-        ) : (
-          <FormattedMessage id="profile.term" />
-        ),
+      description: substantiveDescription,
     };
 
     return [substative, classification, security];
@@ -47,7 +51,12 @@ Substantive.propTypes = {
     classification: PropTypes.shape({
       description: PropTypes.any,
     }),
-    indeterminate: PropTypes.bool,
+    temporaryRole: PropTypes.shape({
+      description: PropTypes.shape({
+        en: PropTypes.string,
+        fr: PropTypes.string,
+      }),
+    }),
     security: PropTypes.shape({
       description: PropTypes.shape({
         en: PropTypes.string,
