@@ -33,6 +33,8 @@ const Substantive = ({ data }) => {
       data.temporaryRole.description[locale]
     ) {
       substantiveDescription = data.temporaryRole.description[locale];
+    } else if (data.indeterminate) {
+      substantiveDescription = <FormattedMessage id="profile.indeterminate" />      
     }
 
     const substative = {
@@ -57,6 +59,7 @@ Substantive.propTypes = {
         fr: PropTypes.string,
       }),
     }),
+    indeterminate: PropTypes.bool,
     security: PropTypes.shape({
       description: PropTypes.shape({
         en: PropTypes.string,
