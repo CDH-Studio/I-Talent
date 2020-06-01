@@ -66,8 +66,8 @@ const EducationFormView = ({
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = form.getFieldValue("education");
-      educationFieldValues[field.fieldKey].endDate = null;
+      const educationFieldValues = form.getFieldsValue();
+      educationFieldValues.education[field.fieldKey].endDate = undefined;
       form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate((prev) => !prev);
@@ -232,7 +232,7 @@ const EducationFormView = ({
         </Form.Item>
         <div style={{ marginTop: "-10px" }}>
           {/* Checkbox if event is on-going */}
-          <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
+          <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </div>
