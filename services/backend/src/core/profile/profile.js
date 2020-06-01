@@ -311,7 +311,7 @@ async function updateProfile(request, response) {
           profile.setSecondLanguageProficiency(selectLangProf);
         });
     }
-    if (!dbObject.secondLanguage) {
+    if (dbObject.secondLanguage === null) {
       SecLang.destroy({
         where: { id: profile.dataValues.secondLanguageProficiencyId },
       });

@@ -120,11 +120,6 @@ const LangProficiencyFormView = ({
     },
   };
 
-  /* toggle temporary role form */
-  const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => !prev);
-  };
-
   /* Save data */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
@@ -240,6 +235,17 @@ const LangProficiencyFormView = ({
     return {};
   };
 
+  /* toggle temporary role form */
+  const toggleSecLangForm = () => {
+    setDisplayMentorshipForm((prev) => {
+      const data = savedValues || getInitialValues(profileInfo);
+      setFieldsChanged(
+        (!data.oralProficiency && !prev) || (data.oralProficiency && prev)
+      );
+      return !prev;
+    });
+  };
+
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
@@ -309,7 +315,10 @@ const LangProficiencyFormView = ({
   const onReset = () => {
     form.resetFields();
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+
+    const data = savedValues || getInitialValues(profileInfo);
+    setDisplayMentorshipForm(data.oralProficiency);
+    setFieldsChanged(false);
   };
 
   /*
@@ -598,7 +607,7 @@ const LangProficiencyFormView = ({
               tooltipText="Extra information"
             />
             <Switch
-              defaultChecked={displayMentorshipForm}
+              checked={displayMentorshipForm}
               onChange={toggleSecLangForm}
             />
             {getSecondLanguageForm(displayMentorshipForm)}
