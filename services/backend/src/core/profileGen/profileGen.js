@@ -25,7 +25,6 @@ async function getGedsAssist(request, response) {
     .then((result) => {
       const dataGEDSArray = result[0].data;
       const dataDB = result[1].dataValues;
-
       // Check if the value is the same as the database
       const nameDB = dataDB.name.split(" ");
       const dataGEDS = dataGEDSArray.find((element) => {

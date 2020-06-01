@@ -181,18 +181,31 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
         </div>
       );
     }
+    if (gedsProfiles) {
+      return (
+        <div>
+          {/* generate list of GEDS profiles */}
+          {generateProfileBtn({
+            icon: <UserOutlined />,
+            firstTitle: `${gedsProfiles.givenName} ${gedsProfiles.surname}`,
+            secondTitle:
+              locale === "en" ? gedsProfiles.title.en : gedsProfiles.title.fr,
+            thirdTitle: gedsProfiles.contactInformation.email,
+            value: gedsProfiles,
+          })}
+          {/* new user button */}
+          {generateProfileBtn({
+            icon: <UserAddOutlined />,
+            firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+            secondTitle: intl.formatMessage({
+              id: "setup.welcome.new.description",
+            }),
+          })}
+        </div>
+      );
+    }
     return (
       <div>
-        {/* generate list of GEDS profiles */}
-        {gedsProfiles.map(item => {
-          return generateProfileBtn({
-            icon: <UserOutlined />,
-            firstTitle: `${item.firstName} ${item.lastName}`,
-            secondTitle: item.jobTitle[locale],
-            thirdTitle: item.email,
-            value: item,
-          });
-        })}
         {/* new user button */}
         {generateProfileBtn({
           icon: <UserAddOutlined />,
@@ -219,16 +232,17 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       {generateGedsProfileList()}
     </div>
   );
-}
+};
 
 WelcomeView.propTypes = {
-  gedsProfiles: PropTypes.arrayOf(PropTypes.any),
+  // eslint-disable-next-line react/forbid-prop-types
+  gedsProfiles: PropTypes.object,
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
 };
 
 WelcomeView.defaultProps = {
-  gedsProfiles: [],
+  gedsProfiles: undefined,
   intl: undefined,
 };
 
