@@ -66,11 +66,11 @@ const EducationFormView = ({
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = form.getFieldsValue("education");
-      educationFieldValues.education[field.fieldKey].endDate = null;
+      const educationFieldValues = form.getFieldsValue();
+      educationFieldValues.education[field.fieldKey].endDate = undefined;
       form.setFieldsValue(educationFieldValues);
     }
-    setDisableEndDate(!disableEndDate);
+    setDisableEndDate((prev) => !prev);
   };
 
   /*
@@ -81,8 +81,6 @@ const EducationFormView = ({
    */
   const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["education", field.fieldKey, "startDate"];
-    // eslint-disable-next-line no-console
-    console.log(form.getFieldValue(fieldPath));
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -112,13 +110,15 @@ const EducationFormView = ({
   useEffect(() => {
     // set the default status of "ongoing" checkbox
     if (
+      profileInfo &&
+      field &&
       profileInfo.education[field.fieldKey] &&
       profileInfo.education[field.fieldKey].endDate.en
     ) {
       toggleEndDate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo, field]);
+  }, [profileInfo]);
 
   /** **********************************
    ********* Render Component *********
@@ -139,7 +139,7 @@ const EducationFormView = ({
         <Title level={4} style={style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.education" />
-          {`: ${field.fieldKey + 1}`}
+          {`: ${field.name + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -222,17 +222,19 @@ const EducationFormView = ({
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
-          <DatePicker
-            picker="month"
-            style={style.datePicker}
-            disabledDate={disabledDatesBeforeStart}
-            disabled={disableEndDate}
-            placeholder="unknown"
-          />
+          {!disableEndDate && (
+            <DatePicker
+              picker="month"
+              style={style.datePicker}
+              disabledDate={disabledDatesBeforeStart}
+              disabled={disableEndDate}
+              placeholder="unknown"
+            />
+          )}
         </Form.Item>
-        <div style={{ marginTop: "-10px" }}>
+        <div style={{ marginTop: disableEndDate ? "-38px" : "-10px" }}>
           {/* Checkbox if event is on-going */}
-          <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
+          <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </div>

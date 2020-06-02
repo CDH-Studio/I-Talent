@@ -107,6 +107,8 @@
   "sidebar.search.title": "Search filters",
   "sidebar.search.description": "You can update your search filters",
 
+  "search.no.results": "No results found",
+
   "button.advanced.search": "Advanced search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
@@ -194,6 +196,7 @@
 
   "results.title": "Results",
 
+  "other.profile": "Profile",
   "my.profile": "My profile",
   "edit.profile": "Edit profile",
   "create.profile": "Create profile",
