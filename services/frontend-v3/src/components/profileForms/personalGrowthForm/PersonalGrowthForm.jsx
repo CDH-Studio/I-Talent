@@ -18,19 +18,26 @@ const PersonalGrowthForm = ({ formType }) => {
   const [load, setLoad] = useState(false);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
-  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState([]);
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
+    []
+  );
   const [relocationOptions, setRelocationOptions] = useState([]);
   const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
   const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
   const [careerMobilityOptions, setCareerMobilityOptions] = useState([]);
   const [savedCareerMobility, setSavedCareerMobility] = useState(undefined);
-  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState([]);
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(undefined);
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState(
+    []
+  );
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(
+    undefined
+  );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
   // Get current language code
   const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   /**
    * Get saved Developmental Goals
@@ -67,18 +74,16 @@ const PersonalGrowthForm = ({ formType }) => {
   /**
    * Get User Profile
    */
-  const getProfileInfo = async () => {
+  const getProfileInfo = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
+      const url = `${backendAddress}api/profile/private/${id}`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [id]);
 
   /**
    * Get Developmental Goal Options
@@ -255,7 +260,7 @@ const PersonalGrowthForm = ({ formType }) => {
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect when locale changes
@@ -274,12 +279,20 @@ const PersonalGrowthForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
+  }, [
+    getCareerMobilityOptions,
+    getDevelopmentalGoalOptions,
+    getInterestedInRemoteOptions,
+    getLookingForNewJobOptions,
+    getProfileInfo,
+    getRelocationOptions,
+    getTalentMatrixResultOptions,
+  ]);
 
   return (
     <PersonalGrowthFormView
@@ -298,6 +311,7 @@ const PersonalGrowthForm = ({ formType }) => {
       savedExFeederBool={savedExFeederBool}
       formType={formType}
       load={load}
+      userId={id}
     />
   );
 };

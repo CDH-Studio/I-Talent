@@ -17,7 +17,7 @@ import config from "../../../config";
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-const WelcomeView = ({ gedsProfiles, intl, load }) => {
+const WelcomeView = ({ gedsProfiles, intl, load, userId }) => {
   const history = useHistory();
 
   // get current language code
@@ -97,7 +97,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       if (value) {
         // create profile
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           value
         );
       }
@@ -205,6 +205,16 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     }
     return (
       <div>
+        {/* generate list of GEDS profiles */}
+        {gedsProfiles.map((item) => {
+          return generateProfileBtn({
+            icon: <UserOutlined />,
+            firstTitle: `${item.firstName} ${item.lastName}`,
+            secondTitle: item.jobTitle[locale],
+            thirdTitle: item.email,
+            value: item,
+          });
+        })}
         {/* new user button */}
         {generateProfileBtn({
           icon: <UserAddOutlined />,
@@ -238,6 +248,7 @@ WelcomeView.propTypes = {
   gedsProfiles: PropTypes.object,
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 WelcomeView.defaultProps = {

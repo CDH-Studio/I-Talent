@@ -43,6 +43,7 @@ const LangProficiencyFormView = ({
   proficiencyOptions,
   profileInfo,
   intl,
+  userId,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -159,7 +160,7 @@ const LangProficiencyFormView = ({
       // If profile exists then update profile
       try {
         await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -170,7 +171,7 @@ const LangProficiencyFormView = ({
       // If profile does not exists then create profile
       try {
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -291,7 +292,7 @@ const LangProficiencyFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -627,6 +628,7 @@ LangProficiencyFormView.propTypes = {
   proficiencyOptions: KeyTitleOptionsPropType,
   profileInfo: ProfileInfoPropType,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 LangProficiencyFormView.defaultProps = {

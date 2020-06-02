@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
+import store from "../redux";
+import { clearUser } from "../redux/slices/userSlice";
 
 const Logout = ({ keycloak }) => {
   useEffect(() => {
@@ -12,7 +14,7 @@ const Logout = ({ keycloak }) => {
   const logout = () => {
     try {
       keycloak.logout({ redirectUri: window.location.origin });
-      localStorage.clear();
+      store.dispatch(clearUser());
       return 1;
     } catch (e) {
       // eslint-disable-next-line no-console

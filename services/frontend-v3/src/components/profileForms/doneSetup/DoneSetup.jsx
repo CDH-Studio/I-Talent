@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import DoneSetupView from "./DoneSetupView";
 import config from "../../../config";
@@ -12,15 +13,14 @@ const { backendAddress } = config;
  */
 const DoneSetup = () => {
   const [load, setLoad] = useState(false);
+  const { id } = useSelector((state) => state.user);
 
   // useEffect to run once component is mounted
   useEffect(() => {
     // get user profile for form drop down
     const getProfileInfo = async () => {
       try {
-        const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-          "userId"
-        )}`;
+        const url = `${backendAddress}api/profile/private/${id}`;
         await axios.get(url);
         return 1;
       } catch (error) {
@@ -42,9 +42,9 @@ const DoneSetup = () => {
     };
 
     getAllData();
-  }, []);
+  }, [id]);
 
-  return <DoneSetupView load={load} />;
+  return <DoneSetupView load={load} userId={id}/>;
 };
 
 export default DoneSetup;

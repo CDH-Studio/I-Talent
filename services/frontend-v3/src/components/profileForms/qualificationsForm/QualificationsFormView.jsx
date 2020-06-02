@@ -37,6 +37,7 @@ const QualificationsFormView = ({
   formType,
   load,
   intl,
+  userId,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -136,7 +137,7 @@ const QualificationsFormView = ({
       // If profile exists then update profile
       try {
         await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -147,7 +148,7 @@ const QualificationsFormView = ({
       // If profile does not exists then create profile
       try {
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -281,7 +282,7 @@ const QualificationsFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /*
@@ -566,10 +567,8 @@ QualificationsFormView.propTypes = {
   savedExperience: PropTypes.arrayOf(
     PropTypes.shape({
       content: PropTypes.string,
-
       // Note: PropTypes doesn't have a good way to specify null, you have to use number instead
       endDate: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-
       header: PropTypes.string,
       startDate: PropTypes.object,
       subheader: PropTypes.string,
@@ -579,6 +578,7 @@ QualificationsFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 QualificationsFormView.defaultProps = {
