@@ -106,11 +106,9 @@ const CreateProfileLayoutView = (props) => {
 
   const handleKeyPress = (e, current) => {
     if (e.charCode === 32 || e.charCode === 13) {
-      console.log("current= " + current);
       e.preventDefault();
-      // const url = `/secured/profile/create/step/${current + 2}`;
-      // history.push(url);
-      onChange();
+      const url = `/secured/profile/create/step/${current + 2}`;
+      history.push(url);
     }
   };
 
@@ -123,7 +121,6 @@ const CreateProfileLayoutView = (props) => {
     const stepInt = parseInt(step, 10) - 1;
     return (
       <div style={{ margin: "20px 25px" }}>
-        {console.log("step:" + stepInt)}
         <Steps
           direction="vertical"
           size="small"
@@ -250,6 +247,9 @@ const CreateProfileLayoutView = (props) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
+      <h1 className="hidden">
+        <FormattedMessage id="create.profile" />
+      </h1>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",

@@ -32,6 +32,9 @@ const LandingLayoutView = () => {
 
   return (
     <AppLayout displaySideBar={false}>
+      <h1 className="hidden" Landing Page>
+        <FormattedMessage id="landing.login.and.enter" />
+      </h1>
       <Row justify="center" style={{ marginTop: "120px" }}>
         <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
           <img

@@ -142,6 +142,18 @@
   border-color: rgb(223, 229, 228) !important;
 }
 
+/*Hidden class to use on headings that shouldnt be 
+displayed on pages but need to be read by screen-readers*/
+
+.hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 button:focus {
   outline: #08bab3;
   background-color: #08bab3;
@@ -165,7 +177,7 @@ menuitem:focus {
   background-color: #08bab3;
   color: #08bab3;
 }
-/* BELOW IS A MAYBE IF BORDER RADIUS IS AGREED ON */
+
 input:focus {
   outline: #08bab3;
 }
@@ -214,7 +226,7 @@ input:focus {
 }
 
 .ant-menu-item:focus {
-  color: #067472;
+  color: #424242;
 }
 
 .ant-card:focus {

@@ -232,6 +232,9 @@ const ProfileLayoutView = ({ data }) => {
     // This only display cards that are visible
     return (
       <div>
+        <h1 className="hidden">
+          <FormattedMessage id="my.profile" />
+        </h1>
         {!visibleCards.info && (
           <Row style={styles.row}>
             <Col span={24}>

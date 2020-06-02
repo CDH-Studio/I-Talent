@@ -213,6 +213,9 @@ const EditProfileLayoutView = ({ formStep }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
+      <h1 className="hidden">
+        <FormattedMessage id="edit.profile" />{" "}
+      </h1>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
