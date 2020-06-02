@@ -45,6 +45,16 @@ const EditProfileLayoutView = ({ formStep }) => {
     }
   };
 
+  const handleKeyPress = (e, data) => {
+    console.log(data);
+    console.log(data.key);
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      const url = `/secured/profile/edit/${data.key}`;
+      history.push(url);
+    }
+  };
+
   /*
    * Redirect To Form
    *
@@ -87,7 +97,11 @@ const EditProfileLayoutView = ({ formStep }) => {
    */
   const getSideBarContent = (step) => {
     return (
-      <Menu onClick={redirectToForm} selectedKeys={step}>
+      <Menu
+        onKeyPress={(e) => handleKeyPress(e, step)}
+        onClick={redirectToForm}
+        selectedKeys={step}
+      >
         <Menu.Item tabIndex="0" key="primary-info" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />

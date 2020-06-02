@@ -99,6 +99,22 @@ const CreateProfileLayoutView = (props) => {
   };
 
   /*
+   * Handle Key Press
+   *
+   * handle how to process when enter key is hit when focusing on a step in the sidebar
+   */
+
+  const handleKeyPress = (e, current) => {
+    if (e.charCode === 32 || e.charCode === 13) {
+      console.log("current= " + current);
+      e.preventDefault();
+      // const url = `/secured/profile/create/step/${current + 2}`;
+      // history.push(url);
+      onChange();
+    }
+  };
+
+  /*
    * Get Side Bar Content
    *
    * Generate the sidebar steps for create profile
@@ -107,14 +123,17 @@ const CreateProfileLayoutView = (props) => {
     const stepInt = parseInt(step, 10) - 1;
     return (
       <div style={{ margin: "20px 25px" }}>
+        {console.log("step:" + stepInt)}
         <Steps
           direction="vertical"
           size="small"
           current={stepInt}
           onChange={onChange}
+          onKeyPress={(e) => handleKeyPress(e)}
         >
           <Step title={<FormattedMessage id="setup.welcome" />} />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.primary.information" />}
             description={
               <ul style={styles.stepList}>
@@ -125,6 +144,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.employment" />}
             disabled={!profileExists}
             description={
@@ -136,6 +156,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.language.proficiency" />}
             disabled={!profileExists}
             description={
@@ -147,6 +168,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.talent" />}
             disabled={!profileExists}
             description={
@@ -164,6 +186,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="profile.employee.growth.interests" />}
             disabled={!profileExists}
             description={
@@ -181,6 +204,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="profile.employee.qualifications" />}
             disabled={!profileExists}
             description={
@@ -198,6 +222,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.done" />}
             disabled={!profileExists}
           />

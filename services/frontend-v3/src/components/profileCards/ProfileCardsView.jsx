@@ -90,6 +90,7 @@ function ProfileCardsView({
                 title={<FormattedMessage id="profile.toggle.card.visibility" />}
               >
                 <Switch
+                  alt="visibility switch"
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
                   checked={disabled}

@@ -36,7 +36,7 @@ const LandingLayoutView = () => {
         <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
           <img
             src={logo}
-            alt="Logo"
+            alt="I-Talent Logo"
             style={{ width: "250px", marginTop: "30px" }}
           />
           <Title
@@ -73,7 +73,7 @@ const LandingLayoutView = () => {
         >
           <img
             src={randomPictureSelect()}
-            alt="Logo"
+            alt="I-Talent Logo"
             style={{ maxWidth: "70%", maxHeight: "400px", marginTop: "20px" }}
           />
         </Col>

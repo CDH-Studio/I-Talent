@@ -22,6 +22,12 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
     },
   };
 
+  /*
+   * Handle Key Press
+   *
+   * handle how to process when enter key is hit when focusing on a results card
+   */
+
   const handleKeyPress = (e, person) => {
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
