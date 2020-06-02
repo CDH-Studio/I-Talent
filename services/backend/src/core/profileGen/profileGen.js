@@ -1,74 +1,95 @@
-const Models = require("../../database/models");
-const getGedsProfile = require("./util/getGedsProfile");
+const axios = require("axios");
+require("dotenv").config();
+const models = require("../../database/models");
 
-const User = Models.user;
-const Location = Models.location;
-
-// FIXME fix the errors and refactor.
 async function getGedsAssist(request, response) {
   const { id } = request.params;
-  await User.findOne({ where: { id } }).then(async (user) => {
-    let { name } = user.dataValues;
+  const { name } = request.query;
+  const nameArray = name.split(" ");
 
-    const lastSpaceIndex = name.lastIndexOf(" ");
-    name = `${name.substring(lastSpaceIndex)}, ${name.substring(
-      0,
-      lastSpaceIndex
-    )}`;
+  const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
-    const gedsData = await getGedsProfile(name);
+  const promises = [
+    axios({
+      methon: "get",
+      url: url,
+      headers: {
+        "user-key": process.env.GEDSAPIKEY,
+        Accept: "application/json",
+      },
+    }),
+    models.user.findOne({ where: { id } }),
+  ];
 
-    const promise = gedsData.map(async (gedsProfile) => {
-      const profile = {};
+  Promise.all(promises)
+    .then(async (result) => {
+      const dataGEDSArray = result[0].data;
+      const dataDB = result[1].dataValues;
 
-      profile.firstName = gedsProfile.givenName;
-      profile.lastName = gedsProfile.surname;
-      profile.jobTitle = {
-        en: gedsProfile.title.en,
-        fr: gedsProfile.title.fr,
-      };
-      profile.telephone = gedsProfile.phoneNumber;
-      profile.cellphone = gedsProfile.altPhoneNumber;
+      const dataGEDS = dataGEDSArray.find((element) => {
+        return element.contactInformation.email === dataDB.email;
+      });
 
-      const organizations = gedsProfile.organizations.map(
-        ({ organization }, i) => {
-          return { description: organization.description, tier: i };
-        }
-      );
+      // eslint-disable-next-line prefer-const
+      let organizations = [];
+      let organizationCounter = 0;
+      for (
+        let currentBranch = dataGEDS;
+        currentBranch.organizationInformation;
+        currentBranch = currentBranch.organizationInformation.organization
+      ) {
+        const branchInfo = {
+          description:
+            currentBranch.organizationInformation.organization.description,
+          tier: organizationCounter,
+          addressInformation:
+            currentBranch.organizationInformation.organization
+              .addressInformation,
+        };
+        organizationCounter += 1;
+        organizations.unshift(branchInfo);
+      }
 
       const branchOrg = organizations[Math.min(2, organizations.length - 1)];
 
-      profile.branchEn = branchOrg.description.en;
-      profile.branchFr = branchOrg.description.fr;
+      const location = await models.location
+        .findOne({
+          where: {
+            postalCode: branchOrg.addressInformation.pc,
+          },
+        })
+        .then((res) => {
+          if (res) return res.dataValues;
+          return {};
+        });
 
-      profile.organizations = organizations;
-
-      const location = await Location.findOne({
-        where: {
-          postalCode:
-            gedsProfile.organizations[gedsProfile.organizations.length - 1]
-              .organization.addressInformation.pc,
+      const profile = {
+        firstName: dataGEDS.givenName,
+        lastName: dataGEDS.surname,
+        jobTitle: {
+          en: dataGEDS.title.en,
+          fr: dataGEDS.title.fr,
         },
-      }).then((res) => {
-        if (res) return res.dataValues;
-        return {};
-      });
-
-      profile.location = {
-        id: location.id,
-        description: {
-          en: `${location.addressEn}, ${location.city}, ${location.provinceEn}`,
-          fr: `${location.addressFr}, ${location.city}, ${location.provinceFr}`,
+        email: dataGEDS.contactInformation.email,
+        telephone: dataGEDS.phoneNumber,
+        cellphone: dataGEDS.altPhoneNumber,
+        branchEn: branchOrg.description.en,
+        branchFr: branchOrg.description.fr,
+        organizations: organizations,
+        location: {
+          id: location.id,
+          description: {
+            en: `${location.addressEn}, ${location.city}, ${location.provinceEn}`,
+            fr: `${location.addressFr}, ${location.city}, ${location.provinceFr}`,
+          },
         },
       };
 
-      profile.email = user.dataValues.email;
-
-      return profile;
+      response.status(200).send(profile);
+    })
+    .catch((error) => {
+      console.log(error);
     });
-    const profiles = await Promise.all(promise);
-    response.status(200).send(profiles);
-  });
 }
 
 module.exports = {
