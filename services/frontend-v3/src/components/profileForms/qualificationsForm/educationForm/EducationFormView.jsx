@@ -139,7 +139,7 @@ const EducationFormView = ({
         <Title level={4} style={style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.education" />
-          {`: ${field.fieldKey + 1}`}
+          {`: ${field.name + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
