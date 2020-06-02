@@ -329,6 +329,7 @@
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
   "profile.form.clear": "Form cleared",
+  "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
 
