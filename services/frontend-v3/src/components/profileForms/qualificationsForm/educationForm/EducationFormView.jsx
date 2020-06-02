@@ -42,6 +42,7 @@ const EducationFormView = ({
   profileInfo,
   style,
   load,
+  checkIfFormValuesChanged,
   intl,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
@@ -73,6 +74,7 @@ const EducationFormView = ({
       form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate((prev) => !prev);
+    checkIfFormValuesChanged();
   };
 
   /*

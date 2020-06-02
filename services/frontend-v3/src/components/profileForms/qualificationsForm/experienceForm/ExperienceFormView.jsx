@@ -31,7 +31,15 @@ const { TextArea } = Input;
  *  It is rendered when a user generates an experience item
  *  It contains jobTilt, Company, start date, end date, and description.
  */
+const ExperienceFormView = ({
+  form,
+  field,
+  remove,
+  profileInfo,
+  style,
+  checkIfFormValuesChanged,
   intl,
+}) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
   const Rules = {
@@ -61,6 +69,7 @@ const { TextArea } = Input;
       form.setFieldsValue(experienceFieldValues);
     }
     setDisableEndDate((prev) => !prev);
+    checkIfFormValuesChanged();
   };
 
   /*
