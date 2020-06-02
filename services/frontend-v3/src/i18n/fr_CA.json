@@ -305,6 +305,7 @@
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.form.clear": "Formulaire effacé",
+  "profile.qualifications.select.month": "Sélectionner un mois",
 
   "lang": "English",
   "lang.code": "en",

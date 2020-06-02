@@ -12,13 +12,14 @@ import {
 } from "antd";
 import PropTypes from "prop-types";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import {
   FieldPropType,
   FormInstancePropType,
   ProfileInfoPropType,
   StylesPropType,
+  IntlPropType,
 } from "../../../../customPropTypes";
 
 const { Title } = Typography;
@@ -30,7 +31,7 @@ const { TextArea } = Input;
  *  It is rendered when a user generates an experience item
  *  It contains jobTilt, Company, start date, end date, and description.
  */
-const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
+  intl,
   const [disableEndDate, setDisableEndDate] = useState(true);
 
   const Rules = {
@@ -181,6 +182,9 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
             picker="month"
             disabledDate={disabledDatesAfterEnd}
             style={style.datePicker}
+            placeholder={intl.formatMessage({
+              id: "profile.qualifications.select.month",
+            })}
           />
         </Form.Item>
       </Col>
@@ -199,7 +203,9 @@ const ExperienceFormView = ({ form, field, remove, profileInfo, style }) => {
               style={style.datePicker}
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
-              placeholder="unknown"
+              placeholder={intl.formatMessage({
+                id: "profile.qualifications.select.month",
+              })}
             />
           )}
         </Form.Item>
@@ -233,6 +239,12 @@ ExperienceFormView.propTypes = {
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
   style: StylesPropType.isRequired,
+  checkIfFormValuesChanged: PropTypes.func.isRequired,
+  intl: IntlPropType,
 };
 
-export default ExperienceFormView;
+ExperienceFormView.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(ExperienceFormView);
