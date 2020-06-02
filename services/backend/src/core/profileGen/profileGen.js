@@ -26,15 +26,11 @@ async function getGedsAssist(request, response) {
       const dataGEDSArray = result[0].data;
       const dataDB = result[1].dataValues;
       console.log(dataGEDSArray);
-      // Check if the value is the same as the database
-      const nameDB = dataDB.name.split(" ");
+
       const dataGEDS = dataGEDSArray.find((element) => {
-        return (
-          element.contactInformation.email === dataDB.email &&
-          element.givenName === nameDB.nameDB[0] &&
-          element.surname === nameDB.nameDB[1]
-        );
+        return element.contactInformation.email === dataDB.email;
       });
+
       response.status(200).send(dataGEDS);
     })
     .catch((error) => {
