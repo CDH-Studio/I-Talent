@@ -210,6 +210,10 @@ input:focus {
   color: #08bab3;
 }
 
+.ant-btm.ant-btn-link.ant-btn-sm:focus {
+  color: #424242;
+}
+
 .ant-steps-item:focus {
   color: #08bab3;
   background-color: #a6c8c3;
@@ -226,11 +230,17 @@ input:focus {
 }
 
 .ant-menu-item:focus {
-  color: #424242;
+  color: #001c1a;
 }
 
 .ant-card:focus {
   background-color: #a6c8c3;
+}
+
+button.ant-btn.ant-btn-link:focus {
+  margin-bottom: 0px;
+  background-color: #a6c8c3;
+  color: #001c1a;
 }
 
 *[tabIndex]:focus {
