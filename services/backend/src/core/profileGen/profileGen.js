@@ -7,7 +7,7 @@ async function getGedsAssist(request, response) {
   const { name } = request.query;
   const nameArray = name.split(" ");
 
-  const url = `https://geds-sage-ssc-spc-apicast-production.api.canada.ca/gapi/v2/employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
+  const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
   const promises = [
     axios({
@@ -36,7 +36,7 @@ async function getGedsAssist(request, response) {
       });
       response.status(200).send(dataGEDS);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => 
 }
 
 module.exports = {
