@@ -155,7 +155,7 @@ const BasicInfoView = ({
       title: <FormattedMessage id="profile.branch" />,
       description:
         data.branch && data.branch[locale] ? (
-          data.branch
+          data.branch[locale]
         ) : (
           <FormattedMessage id="profile.not.specified" />
         ),
