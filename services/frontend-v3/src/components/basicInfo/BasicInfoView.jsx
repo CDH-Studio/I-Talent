@@ -51,7 +51,7 @@ const BasicInfoView = ({
   const generateProfileHeader = () => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
-        <Col xs={12} md={5} lg={4} xl={3} align="center">
+        <Col xs={12} md={5} lg={4} xxl={3} align="center">
           <Avatar
             size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
@@ -61,7 +61,7 @@ const BasicInfoView = ({
             </Text>
           </Avatar>
         </Col>
-        <Col xs={12} md={19} lg={20} xl={21} style={{ padding: "11px 10px" }}>
+        <Col xs={12} md={19} lg={20} xxl={21} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
