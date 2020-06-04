@@ -14,7 +14,7 @@ const { backendAddress } = config;
  */
 function Welcome() {
   const [load, setLoad] = useState(false);
-  const [gedsProfiles, setGedsProfiles] = useState([]);
+  const [gedsProfiles, setGedsProfiles] = useState();
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -27,9 +27,16 @@ function Welcome() {
       try {
         // Get info from GEDS
         const result = await axios.get(
-          `${backendAddress}api/profGen/${localStorage.getItem("userId")}`
+          `${backendAddress}api/profGen/${localStorage.getItem("userId")}`,
+          {
+            params: {
+              name: localStorage.getItem("name"),
+            },
+          }
         );
-        setGedsProfiles(result.data);
+        if (result.data) {
+          setGedsProfiles(result.data);
+        }
         return 1;
       } catch (error) {
         // eslint-disable-next-line no-console

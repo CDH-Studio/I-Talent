@@ -12,7 +12,7 @@ import {
 } from "antd";
 
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
 import {
@@ -21,6 +21,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
+  IntlPropType,
 } from "../../../../customPropTypes";
 
 const { Option } = Select;
@@ -41,6 +42,8 @@ const EducationFormView = ({
   profileInfo,
   style,
   load,
+  checkIfFormValuesChanged,
+  intl,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
@@ -71,6 +74,7 @@ const EducationFormView = ({
       form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate((prev) => !prev);
+    checkIfFormValuesChanged();
   };
 
   /*
@@ -139,7 +143,7 @@ const EducationFormView = ({
         <Title level={4} style={style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.education" />
-          {`: ${field.fieldKey + 1}`}
+          {`: ${field.name + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -211,6 +215,9 @@ const EducationFormView = ({
             picker="month"
             disabledDate={disabledDatesAfterEnd}
             style={style.datePicker}
+            placeholder={intl.formatMessage({
+              id: "profile.qualifications.select.month",
+            })}
           />
         </Form.Item>
       </Col>
@@ -228,7 +235,9 @@ const EducationFormView = ({
               style={style.datePicker}
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
-              placeholder="unknown"
+              placeholder={intl.formatMessage({
+                id: "profile.qualifications.select.month",
+              })}
             />
           )}
         </Form.Item>
@@ -252,11 +261,14 @@ EducationFormView.propTypes = {
   style: StylesPropType.isRequired,
   diplomaOptions: KeyTitleOptionsPropType,
   load: PropTypes.bool.isRequired,
+  checkIfFormValuesChanged: PropTypes.func.isRequired,
+  intl: IntlPropType,
 };
 
 EducationFormView.defaultProps = {
   schoolOptions: [],
   diplomaOptions: [],
+  intl: undefined,
 };
 
-export default EducationFormView;
+export default injectIntl(EducationFormView);

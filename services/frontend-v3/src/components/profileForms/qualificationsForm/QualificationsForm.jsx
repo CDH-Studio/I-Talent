@@ -16,9 +16,9 @@ const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [savedEducation, setSavedEducation] = useState([]);
-  const [savedExperience, setSavedExperience] = useState([]);
-  const [savedProjects, setSavedProjects] = useState([]);
+  const [savedEducation, setSavedEducation] = useState();
+  const [savedExperience, setSavedExperience] = useState();
+  const [savedProjects, setSavedProjects] = useState();
 
   /**
    * Get User Profile
