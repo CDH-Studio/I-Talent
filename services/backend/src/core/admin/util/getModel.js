@@ -1,7 +1,6 @@
-const Models = require("../../database/models");
+const Models = require("../../../database/models");
 
 const CareerMobility = Models.careerMobility;
-const Competency = Models.competency;
 const Diploma = Models.diploma;
 const GroupLevel = Models.groupLevel;
 const KeyCompetency = Models.keyCompetency;
@@ -13,8 +12,8 @@ const Category = Models.category;
 const TalentMatrixResult = Models.talentMatrixResult;
 const Tenure = Models.tenure;
 
-/*
- getCareerMobility,
+/**
+  getCareerMobility,
   getCompetency,
   getDiploma,
   getDevelopmentalGoals,
@@ -28,10 +27,8 @@ const Tenure = Models.tenure;
   getTenure,
   optionRouter
 */
-// Check for competency:skill line
 const mapping = {
   careerMobility: CareerMobility,
-  competency: Competency,
   diploma: Diploma,
   groupLevel: GroupLevel,
   keyCompetency: KeyCompetency,
@@ -42,7 +39,6 @@ const mapping = {
   category: Category,
   talentManager: TalentMatrixResult,
   tenure: Tenure,
-  // eslint-disable-next-line no-dupe-keys
   competency: Skill,
 };
 
