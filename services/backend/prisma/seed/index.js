@@ -24,7 +24,7 @@ const prisma = new PrismaClient();
 async function seedStaticInfo() {
   const staticInfo = [
     ...lookingForANewJobs.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.lookingForANewJobs.upsert({
+      await prisma.lookingForANewJobs.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -33,7 +33,7 @@ async function seedStaticInfo() {
     }),
 
     ...tenures.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.tenures.upsert({
+      await prisma.tenures.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -42,7 +42,7 @@ async function seedStaticInfo() {
     }),
 
     ...securityClearances.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.securityClearances.upsert({
+      await prisma.securityClearances.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -51,7 +51,7 @@ async function seedStaticInfo() {
     }),
 
     ...careerMobilities.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.careerMobilities.upsert({
+      await prisma.careerMobilities.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -60,7 +60,7 @@ async function seedStaticInfo() {
     }),
 
     ...talentMatrixResults.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.talentMatrixResults.upsert({
+      await prisma.talentMatrixResults.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -69,7 +69,7 @@ async function seedStaticInfo() {
     }),
 
     ...keyCompetencies.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.keyCompetencies.upsert({
+      await prisma.keyCompetencies.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -78,7 +78,7 @@ async function seedStaticInfo() {
     }),
 
     ...groupLevels.map(async (description) => {
-      await prisma.groupLevels.upsert({
+      await prisma.groupLevels.create({
         data: {
           description,
         },
@@ -86,7 +86,7 @@ async function seedStaticInfo() {
     }),
 
     ...diplomas.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.diplomas.upsert({
+      await prisma.diplomas.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -95,7 +95,7 @@ async function seedStaticInfo() {
     }),
 
     ...schools.map(async ({ state, country, description }) => {
-      await prisma.schools.upsert({
+      await prisma.schools.create({
         data: {
           state,
           country,
@@ -105,7 +105,7 @@ async function seedStaticInfo() {
     }),
 
     ...categories.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.categories.upsert({
+      await prisma.categories.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -114,7 +114,7 @@ async function seedStaticInfo() {
     }),
 
     ...locations.map(async (i) => {
-      await prisma.locations.upsert({
+      await prisma.locations.create({
         data: {
           addressEn: i.addressEn,
           addressFr: i.addressFr,
@@ -128,7 +128,7 @@ async function seedStaticInfo() {
     }),
 
     ...competencies.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.competencies.upsert({
+      await prisma.competencies.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -143,7 +143,7 @@ async function seedStaticInfo() {
 async function seedSkills() {
   const setupSkills = skills.map(
     async ({ descriptionEn, descriptionFr, type, categoryId }) => {
-      await prisma.skills.upsert({
+      await prisma.skills.create({
         data: {
           descriptionEn,
           descriptionFr,
@@ -162,7 +162,7 @@ async function seedSkills() {
 
 async function seedUsers() {
   const setupUsers = users.map(async ({ id, name, email }) => {
-    await prisma.users.upsert({
+    await prisma.users.create({
       data: {
         id,
         name,
@@ -192,7 +192,7 @@ async function seedProfiles() {
       interestedInRemote,
       indeterminate,
     }) => {
-      await prisma.profiles.upsert({
+      await prisma.profiles.create({
         data: {
           firstName,
           lastName,
@@ -214,7 +214,7 @@ async function seedProfiles() {
             },
           },
           visibleCards: {
-            upsert: {},
+            create: {},
           },
         },
       });
@@ -234,7 +234,7 @@ async function seedUserInfo() {
         profileId,
         startDate,
       }) => {
-        await prisma.experiences.upsert({
+        await prisma.experiences.create({
           data: {
             description,
             endDate,
@@ -253,7 +253,7 @@ async function seedUserInfo() {
 
     ...profileOrganizations.map(
       async ({ descriptionEn, descriptionFr, tier, profileId }) => {
-        await prisma.profileOrganizations.upsert({
+        await prisma.profileOrganizations.create({
           data: {
             descriptionEn,
             descriptionFr,
