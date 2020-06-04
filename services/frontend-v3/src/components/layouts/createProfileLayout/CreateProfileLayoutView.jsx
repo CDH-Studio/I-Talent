@@ -50,6 +50,20 @@ const CreateProfileLayoutView = (props) => {
   };
 
   /*
+   * Handle Key Press
+   *
+   * handle how to process when enter key is hit when focusing on a step in the sidebar
+   */
+
+  const handleKeyPress = (e, current) => {
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      const url = `/secured/profile/create/step/${current + 2}`;
+      history.push(url);
+    }
+  };
+
+  /*
    * Check For Profile
    *
    * Check if profile exists
@@ -99,20 +113,6 @@ const CreateProfileLayoutView = (props) => {
   };
 
   /*
-   * Handle Key Press
-   *
-   * handle how to process when enter key is hit when focusing on a step in the sidebar
-   */
-
-  const handleKeyPress = (e, current) => {
-    if (e.charCode === 32 || e.charCode === 13) {
-      e.preventDefault();
-      const url = `/secured/profile/create/step/${current + 2}`;
-      history.push(url);
-    }
-  };
-
-  /*
    * Get Side Bar Content
    *
    * Generate the sidebar steps for create profile
@@ -126,7 +126,7 @@ const CreateProfileLayoutView = (props) => {
           size="small"
           current={stepInt}
           onChange={onChange}
-          onKeyPress={(e) => handleKeyPress(e)}
+          onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
           <Step title={<FormattedMessage id="setup.welcome" />} />
           <Step

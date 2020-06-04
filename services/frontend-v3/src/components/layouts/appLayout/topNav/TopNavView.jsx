@@ -27,9 +27,12 @@ const TopNavView = () => {
       zIndex: 2,
       width: "100%",
     },
+    aroundNavContent: {
+      marginLeft: "25px",
+    },
     navBrand: {
       height: "25px",
-      marginLeft: "25px",
+      // marginLeft: "25px",
     },
     rightMenu: {
       float: "right",
@@ -60,7 +63,7 @@ const TopNavView = () => {
       display: "flex",
       alignItems: "center",
       height: "100%",
-      padding: "0 20px",
+      // padding: "0 20px",
     },
   };
 
@@ -174,16 +177,18 @@ const TopNavView = () => {
   if (windowWidth > 400) {
     return (
       <Header style={styles.header}>
-        {/* Render logo */}
-        <a tabIndex="0" href="/secured/home">
-          <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
-        </a>
-        {/* Render right sigh of top menu */}
-        <div style={styles.rightMenu}>
-          {/* Render User Profile Dropdown */}
-          {getAvatarDropdown(localStorage.getItem("name"))}
-          {/* Render change language button */}
-          <ChangeLanguage />
+        <div style={styles.aroundNavContent}>
+          {/* Render logo */}
+          <a tabIndex="0" href="/secured/home">
+            <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+          </a>
+          {/* Render right sigh of top menu */}
+          <div style={styles.rightMenu}>
+            {/* Render User Profile Dropdown */}
+            {getAvatarDropdown(localStorage.getItem("name"))}
+            {/* Render change language button */}
+            <ChangeLanguage />
+          </div>
         </div>
       </Header>
     );
