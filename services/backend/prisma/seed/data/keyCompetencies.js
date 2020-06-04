@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Achieve results",
     descriptionFr: "Obtenir des résultats",

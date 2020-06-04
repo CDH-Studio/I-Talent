@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Coordinating and Organizing",
     descriptionFr: "Coordination et organisation",

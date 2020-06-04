@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     organization: "Healt Canada",
     jobTitle: "Medical Officer",

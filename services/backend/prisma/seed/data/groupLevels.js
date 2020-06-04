@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   "AS 01",
   "AS 02",
   "AS 03",
