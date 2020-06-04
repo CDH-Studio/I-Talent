@@ -5,19 +5,23 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "deploy": "cd src/database && npx sequelize db:migrate && sequelize db:seed:all && cd .. && node server.js",
+    "deploy": "yarn -s migrate && yarn -s seed && node src/server.js",
     "dev": "nodemon src/server.js",
-    "dev:docker": "cd src/database && npx sequelize db:migrate && sequelize db:seed:all && cd .. && nodemon server.js",
-    "dbsetup": "cd src/database && npx sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
+    "dev:docker": "yarn -s dev",
+    "migrate": "prisma migrate up --experimental -c",
+    "migrate:create": "prisma migrate save --experimental",
+    "generate": "prisma generate",
     "test": "jest --config ./tests/jest.config.json",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "./node_modules/.bin/eslint src"
+    "lint": "./node_modules/.bin/eslint src",
+    "seed": "node prisma/seed"
   },
   "author": "Upskill team",
   "license": "MIT",
   "dependencies": {
-    "@sentry/node": "5.16.0",
+    "@prisma/client": "2.0.0-beta.8",
+    "@sentry/node": "5.15.5",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
@@ -34,6 +38,7 @@
     "uuid": "^8.1.0"
   },
   "devDependencies": {
+    "@prisma/cli": "2.0.0-beta.8",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-node": "^4.1.0",
