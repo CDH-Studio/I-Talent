@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Fit",
     descriptionFr: "Bien placé dans son poste",

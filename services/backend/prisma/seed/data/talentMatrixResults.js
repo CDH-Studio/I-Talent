@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Early promise",
     descriptionFr: "Employé(e) prometteur",

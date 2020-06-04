@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Thinking things through",
     descriptionFr: "Réflexion approfondie",

@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Master of Science - Agri. Econ",
     descriptionFr: "Maîtrise en Science-Agri. Econ",

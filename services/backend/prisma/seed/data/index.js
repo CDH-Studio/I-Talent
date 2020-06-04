@@ -16,7 +16,7 @@ const profiles = require("./profiles");
 const experiences = require("./experiences");
 const profileOrganizations = require("./profileOrganizations");
 
-export {
+module.exports = {
   lookingForANewJobs,
   tenures,
   securityClearances,

@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Reliability",
     descriptionFr: "Cote de fiabilité",
