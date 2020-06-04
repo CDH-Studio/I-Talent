@@ -5,10 +5,10 @@ const utils = require("./util");
 // FIXME refactor this form
 async function getSkillNames(searchSkill) {
   return Promise.all(
-    searchSkill.map(async (skillId) => {
+    searchSkill.map(async skillId => {
       const findSkills = await skill
         .findOne({ where: { id: skillId } })
-        .then((data) => data.dataValues);
+        .then(data => data.dataValues);
 
       return `${findSkills.descriptionEn}`;
     })
@@ -34,6 +34,11 @@ async function search(request, response) {
     results = await utils.fuzzySearch(results, query.searchValue);
 
   if (query.skills) results = await utils.skillSearch(results, query.skills);
+  if (query.mentorshipSkills)
+    results = await utils.mentorshipSkillSearch(
+      results,
+      query.mentorshipSkills
+    );
 
   if (query.name) results = await utils.nameSearch(results, query.name);
 
