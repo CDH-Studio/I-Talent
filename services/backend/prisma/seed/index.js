@@ -21,10 +21,10 @@ const {
 
 const prisma = new PrismaClient();
 
-async function seed() {
+async function seedStaticInfo() {
   const staticInfo = [
     ...lookingForANewJobs.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.lookingForANewJobs.create({
+      await prisma.lookingForANewJobs.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -33,7 +33,7 @@ async function seed() {
     }),
 
     ...tenures.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.tenures.create({
+      await prisma.tenures.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -42,7 +42,7 @@ async function seed() {
     }),
 
     ...securityClearances.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.securityClearances.create({
+      await prisma.securityClearances.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -51,7 +51,7 @@ async function seed() {
     }),
 
     ...careerMobilities.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.careerMobilities.create({
+      await prisma.careerMobilities.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -60,7 +60,7 @@ async function seed() {
     }),
 
     ...talentMatrixResults.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.talentMatrixResults.create({
+      await prisma.talentMatrixResults.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -69,7 +69,7 @@ async function seed() {
     }),
 
     ...keyCompetencies.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.keyCompetencies.create({
+      await prisma.keyCompetencies.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -78,7 +78,7 @@ async function seed() {
     }),
 
     ...groupLevels.map(async (description) => {
-      await prisma.groupLevels.create({
+      await prisma.groupLevels.upsert({
         data: {
           description,
         },
@@ -86,7 +86,7 @@ async function seed() {
     }),
 
     ...diplomas.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.diplomas.create({
+      await prisma.diplomas.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -95,7 +95,7 @@ async function seed() {
     }),
 
     ...schools.map(async ({ state, country, description }) => {
-      await prisma.schools.create({
+      await prisma.schools.upsert({
         data: {
           state,
           country,
@@ -105,7 +105,7 @@ async function seed() {
     }),
 
     ...categories.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.categories.create({
+      await prisma.categories.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -114,7 +114,7 @@ async function seed() {
     }),
 
     ...locations.map(async (i) => {
-      await prisma.locations.create({
+      await prisma.locations.upsert({
         data: {
           addressEn: i.addressEn,
           addressFr: i.addressFr,
@@ -128,7 +128,7 @@ async function seed() {
     }),
 
     ...competencies.map(async ({ descriptionEn, descriptionFr }) => {
-      await prisma.competencies.create({
+      await prisma.competencies.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -136,11 +136,14 @@ async function seed() {
       });
     }),
   ];
-  await Promise.all(staticInfo);
 
+  return Promise.all(staticInfo);
+}
+
+async function seedSkills() {
   const setupSkills = skills.map(
     async ({ descriptionEn, descriptionFr, type, categoryId }) => {
-      await prisma.skills.create({
+      await prisma.skills.upsert({
         data: {
           descriptionEn,
           descriptionFr,
@@ -154,10 +157,12 @@ async function seed() {
       });
     }
   );
-  await Promise.all(setupSkills);
+  return Promise.all(setupSkills);
+}
 
+async function seedUsers() {
   const setupUsers = users.map(async ({ id, name, email }) => {
-    await prisma.users.create({
+    await prisma.users.upsert({
       data: {
         id,
         name,
@@ -165,8 +170,10 @@ async function seed() {
       },
     });
   });
-  await Promise.all(setupUsers);
+  return Promise.all(setupUsers);
+}
 
+async function seedProfiles() {
   const setupProfiles = profiles.map(
     async ({
       id,
@@ -185,7 +192,7 @@ async function seed() {
       interestedInRemote,
       indeterminate,
     }) => {
-      await prisma.profiles.create({
+      await prisma.profiles.upsert({
         data: {
           firstName,
           lastName,
@@ -207,14 +214,16 @@ async function seed() {
             },
           },
           visibleCards: {
-            create: {},
+            upsert: {},
           },
         },
       });
     }
   );
-  await Promise.all(setupProfiles);
+  return Promise.all(setupProfiles);
+}
 
+async function seedUserInfo() {
   const infoUsers = [
     ...experiences.map(
       async ({
@@ -225,7 +234,7 @@ async function seed() {
         profileId,
         startDate,
       }) => {
-        await prisma.experiences.create({
+        await prisma.experiences.upsert({
           data: {
             description,
             endDate,
@@ -244,7 +253,7 @@ async function seed() {
 
     ...profileOrganizations.map(
       async ({ descriptionEn, descriptionFr, tier, profileId }) => {
-        await prisma.profileOrganizations.create({
+        await prisma.profileOrganizations.upsert({
           data: {
             descriptionEn,
             descriptionFr,
@@ -259,7 +268,27 @@ async function seed() {
       }
     ),
   ];
-  await Promise.all(infoUsers);
+  return Promise.all(infoUsers);
+}
+
+async function seed() {
+  // Checks if there's some entries in the database to know if it should seed or not
+  const count = await prisma.lookingForANewJobs.count();
+  if (count === 0) {
+    await seedStaticInfo();
+  }
+
+  const skillsCount = await prisma.skills.count();
+  if (skillsCount) {
+    await seedSkills();
+  }
+
+  const usersCount = await prisma.users.count();
+  if (usersCount === 0) {
+    await seedUsers();
+    await seedProfiles();
+    await seedUserInfo();
+  }
 
   process.exit(0);
 }
