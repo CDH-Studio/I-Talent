@@ -1,4 +1,4 @@
-const Models = require("../../database/models");
+const Models = require("../../../database/models");
 
 const CareerMobility = Models.careerMobility;
 const Diploma = Models.diploma;
@@ -12,8 +12,8 @@ const Category = Models.category;
 const TalentMatrixResult = Models.talentMatrixResult;
 const Tenure = Models.tenure;
 
-/*
- getCareerMobility,
+/**
+  getCareerMobility,
   getCompetency,
   getDiploma,
   getDevelopmentalGoals,
