@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     id: "faba08aa-ffe3-11e9-8d71-362b9e155667",
     firstName: "Mary",

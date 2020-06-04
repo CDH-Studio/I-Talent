@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     addressEn: "191 University Ave",
     addressFr: "191 av University",

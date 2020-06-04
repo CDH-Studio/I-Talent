@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     descriptionEn: "Actively applying",
     descriptionFr: "Applique activement",
