@@ -2,7 +2,6 @@ const { getModel } = require("./getModel.js");
 const Models = require("../../database/models");
 
 const User = Models.user;
-const Profile = Models.profile;
 
 const updateOption = async (request, response) => {
   try {
@@ -10,90 +9,48 @@ const updateOption = async (request, response) => {
     const model = getModel(type);
 
     const dbObject = {
-      id: id,
       ...request.body,
+      id,
     };
-    if (type === "skill" || type === "competency") {
+
+    if (["skill", "competency"].includes(type)) {
       dbObject.type = type;
     }
 
-    await model
-      .update(dbObject, { where: { id: id } })
-      .then((updateInfo) =>
-        response
-          .status(200)
-          .json({ updatePerformed: updateInfo[0] === 1, error: null })
-      );
+    const updatedModel = await model.update(dbObject, { where: { id } });
+
+    response.status(200).json({ updatePerformed: !!updatedModel, error: null });
   } catch (error) {
     response.status(500).json({ updatePerformed: null, error: error });
   }
 };
 
-const updateInactive = async (request, response) => {
-  let updates = 0;
-
-  try {
-    for (let i = 0; i < request.body.length; i += 1) {
-      const element = request.body[i];
-      const updateInfo = User.update(
-        { inactive: element.value },
-        { where: { id: element.id } }
-      );
-      updates += updateInfo[0];
-    }
-
-    response.status(200).json({ updates: updates, error: null });
-  } catch (error) {
-    response.status(500).json({ updates: updates, error: error.message });
-  }
-};
-
-const updateFlagged = async (request, response) => {
-  let updates = 0;
-
-  try {
-    for (let i = 0; i < request.body.length; i += 1) {
-      const element = request.body[i];
-      const updateInfo = Profile.update(
-        { flagged: element.value },
-        { where: { id: element.id } }
-      );
-      updates += updateInfo[0];
-    }
-
-    response.status(200).json({ updates: updates, error: null });
-  } catch (error) {
-    response.status(500).json({ updates: updates, error: error.message });
-  }
-};
-
 const updateProfileStatus = async (request, response) => {
   const statuses = Object.entries(request.body);
-  try {
-    statuses.forEach(async ([id, status]) => {
-      let flagged = false;
-      let inactive = false;
-      if (status === "Inactive" || status === "Inactif") {
-        inactive = true;
+  await Promise.all(
+    statuses.map(async ([id, status]) => {
+      const flagged = ["Hidden", "Caché"].includes(status);
+      const inactive = ["Inactive", "Inactif"].includes(status);
+
+      const user = await User.findOne({ where: { id } });
+
+      if (user) {
+        await user.update({ inactive });
+        const profile = await user.getProfile();
+
+        if (profile) await profile.update({ flagged });
       }
-      if (status === "Hidden" || status === "Caché") {
-        flagged = true;
-      }
-      await User.findOne({ where: { id } }).then((user) =>
-        user.update({ inactive }).then(() => {
-          user.getProfile().then((profile) => profile.update({ flagged }));
-        })
-      );
+    })
+  )
+    .then(() => {
+      response.status(200).send("OK");
+    })
+    .catch((error) => {
+      response.status(500).json({ updatePerformed: false, error: error });
     });
-    response.status(200).send("OK");
-  } catch (error) {
-    response.status(500).json({ updatePerformed: false, error: error });
-  }
 };
 
 module.exports = {
   updateOption,
-  updateFlagged,
-  updateInactive,
   updateProfileStatus,
 };

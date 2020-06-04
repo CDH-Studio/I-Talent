@@ -2,13 +2,11 @@ const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const admin = require("../../core/admin/index");
 
-const reporting = require("../../core/admin/reporting/index");
+const statistics = require("../../core/statistics");
 
 function catchAdminCheck(token) {
-  let hasRole = false;
   try {
-    hasRole = token.hasRole("view-admin-console");
-    return hasRole;
+    return token.hasRole("view-admin-console");
   } catch (error) {
     return false;
   }
@@ -26,18 +24,6 @@ adminRouter.get(
   "/options/categories/:type",
   keycloak.protect("view-admin-console"),
   admin.getCategories
-);
-
-adminRouter.get(
-  "/flagged/:id",
-  keycloak.protect("view-admin-console"),
-  admin.getFlagged
-);
-
-adminRouter.get(
-  "/inactive/:id",
-  keycloak.protect("view-admin-console"),
-  admin.getInactive
 );
 
 adminRouter.get("/user", keycloak.protect("view-admin-console"), admin.getUser);
@@ -58,7 +44,7 @@ adminRouter.post(
 
 adminRouter.put(
   "/profileStatus",
-  keycloak.protect(),
+  keycloak.protect("manage-users"),
   admin.updateProfileStatus
 );
 
@@ -67,18 +53,6 @@ adminRouter
   .put(keycloak.protect("manage-options"), admin.updateOption)
   .delete(keycloak.protect("manage-options"), admin.deleteOption);
 
-adminRouter.put(
-  "/flagged",
-  keycloak.protect("manage-users"),
-  admin.updateFlagged
-);
-
-adminRouter.put(
-  "/inactive",
-  keycloak.protect("manage-users"),
-  admin.updateInactive
-);
-
-adminRouter.get("/dashboard", reporting.get.statistics);
+adminRouter.get("/dashboard", statistics.statistics);
 
 module.exports = adminRouter;

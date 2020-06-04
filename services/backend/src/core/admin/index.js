@@ -3,7 +3,7 @@ const post = require("./post");
 const del = require("./delete");
 const get = require("./get");
 
-const report = require("./reporting");
+const statistics = require("../statistics");
 
 module.exports = {
   createOption: post.createOption,
@@ -19,6 +19,5 @@ module.exports = {
   getUser: get.getUser,
   checkAdmin: get.checkAdmin,
   updateProfileStatus: put.updateProfileStatus,
-  getStatistics: report.get.statistics,
-  getSkillsReport: report.skillsReport,
+  getStatistics: statistics.statistics,
 };

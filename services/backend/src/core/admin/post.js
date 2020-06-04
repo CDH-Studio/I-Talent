@@ -8,7 +8,8 @@ const createOption = async (request, response) => {
     const dbObject = {
       ...request.body,
     };
-    if (type === "skill" || type === "competency" || type === "category") {
+
+    if (["skill", "competency", "category"].includes(type)) {
       dbObject.type = type;
     }
 
@@ -25,21 +26,11 @@ const bulkDeleteOption = async (request, response) => {
     const { ids } = request.body;
     const model = getModel(type);
 
-    let result;
+    const destroyCount = await model.destroy({
+      where: { id: ids },
+    });
 
-    await model
-      .destroy({
-        where: { id: ids },
-      })
-      .then((destroyCount) => {
-        result = destroyCount > 0;
-      })
-      .catch(function () {
-        console.log("Delete Error!");
-        result = false;
-      });
-
-    response.status(200).json({ deletePerformed: result });
+    response.status(200).json({ deletePerformed: destroyCount > 0 });
   } catch (error) {
     response.status(500).json({ deletePerformed: false, error: error });
   }
