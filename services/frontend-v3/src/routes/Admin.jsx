@@ -13,6 +13,14 @@ import {
 } from "../pages/admin";
 import config from "../config";
 import keycloakConfig from "../keycloak";
+import store from "../redux";
+import {
+  setUserId,
+  setUserAvatarColor,
+  setUserEmail,
+  setUserName,
+  setUserInitials,
+} from "../redux/slices/userSlice";
 
 const { backendAddress } = config;
 const { keycloakJSONConfig } = keycloakConfig;
@@ -39,6 +47,20 @@ const Admin = () => {
             return Promise.resolve(newConfig).catch(keycloakInstance.login);
           })
         );
+
+        if (localStorage.getItem("userId")) {
+          const userId = localStorage.getItem("userId");
+          const color = localStorage.getItem("color");
+          const email = localStorage.getItem("email");
+          const name = localStorage.getItem("name");
+          const acronym = localStorage.getItem("acronym");
+
+          store.dispatch(setUserId(userId));
+          store.dispatch(setUserAvatarColor(color));
+          store.dispatch(setUserEmail(email));
+          store.dispatch(setUserName(name));
+          store.dispatch(setUserInitials(acronym));
+        }
 
         axios.get(`${backendAddress}api/admin/check`).then(
           () => {

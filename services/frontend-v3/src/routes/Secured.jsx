@@ -16,7 +16,13 @@ import {
 import keycloakConfig from "../keycloak";
 import createUser from "../functions/login";
 import store from "../redux";
-import { setUserName, setUserEmail } from "../redux/slices/userSlice";
+import {
+  setUserName,
+  setUserEmail,
+  setUserId,
+  setUserAvatarColor,
+  setUserInitials,
+} from "../redux/slices/userSlice";
 
 const { keycloakJSONConfig } = keycloakConfig;
 
@@ -88,6 +94,20 @@ const Secured = ({ location }) => {
               email: keycloakInstance.userInfo.email,
             });
           });
+        }
+
+        if (localStorage.getItem("userId")) {
+          const userId = localStorage.getItem("userId");
+          const color = localStorage.getItem("color");
+          const email = localStorage.getItem("email");
+          const name = localStorage.getItem("name");
+          const acronym = localStorage.getItem("acronym");
+
+          store.dispatch(setUserId(userId));
+          store.dispatch(setUserAvatarColor(color));
+          store.dispatch(setUserEmail(email));
+          store.dispatch(setUserName(name));
+          store.dispatch(setUserInitials(acronym));
         }
 
         setKeycloak(keycloakInstance);
