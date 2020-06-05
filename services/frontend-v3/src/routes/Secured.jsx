@@ -14,7 +14,9 @@ import {
   NotFound,
 } from "../pages";
 import keycloakConfig from "../keycloak";
-import { createUser } from "../functions/login";
+import createUser from "../functions/login";
+import store from "../redux";
+import { setUserName, setUserEmail } from "../redux/slices/userSlice";
 
 const { keycloakJSONConfig } = keycloakConfig;
 
@@ -30,9 +32,8 @@ const Secured = ({ location }) => {
     const profileExist = () => {
       return keycloakInstance.loadUserInfo().then(async (userInfo) => {
         return createUser(userInfo.email, userInfo.name).then((res) => {
-          // Add name and email to local storage
-          localStorage.setItem("name", userInfo.name);
-          localStorage.setItem("email", userInfo.email);
+          store.dispatch(setUserName(userInfo.name));
+          store.dispatch(setUserEmail(userInfo.email));
           return res.hasProfile;
         });
       });

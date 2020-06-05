@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import LangProficiencyFormView from "./LangProficiencyFormView";
 import config from "../../../config";
 
@@ -17,19 +18,19 @@ const LangProficiencyForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  const { id } = useSelector((state) => state.user);
+  
   // Get user profile for form drop down
-  const getProfileInfo = async () => {
+  const getProfileInfo = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
+      const url = `${backendAddress}api/profile/private/${id}`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [id]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -66,7 +67,7 @@ const LangProficiencyForm = ({ formType }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, []);
+  }, [getProfileInfo]);
 
   return (
     <LangProficiencyFormView
@@ -75,6 +76,7 @@ const LangProficiencyForm = ({ formType }) => {
       profileInfo={profileInfo}
       formType={formType}
       load={load}
+      userId={id}
     />
   );
 };

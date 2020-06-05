@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { PageHeader, Anchor, Typography, Row, Col } from "antd";
 import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
@@ -26,7 +27,7 @@ const ProfileLayoutView = ({ data }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
-  const userID = localStorage.getItem("userId");
+  const userID = useSelector((state) => state.user.id);
 
   // Visibility values
   const { visibleCards } = data;

@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 
 import axios from "axios";
 import { ProfileInfoPropType } from "../../customPropTypes";
@@ -15,7 +16,7 @@ import config from "../../config";
 
 const { backendAddress } = config;
 
-function ProfileCardsView({
+const ProfileCardsView = ({
   cardName,
   editUrl,
   profileInfo,
@@ -23,14 +24,15 @@ function ProfileCardsView({
   id,
   content,
   style,
-}) {
+}) => {
   const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
   const newId = useParams().id;
   const urlID = newId;
-  const userID = localStorage.getItem("userId");
+  const userID = useSelector((state) => state.user.id);
+
   /*
    * Handle Visibility Toggle
    *

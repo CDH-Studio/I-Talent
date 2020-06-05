@@ -57,6 +57,7 @@ const PersonalGrowthFormView = ({
   formType,
   load,
   intl,
+  userId
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -150,7 +151,7 @@ const PersonalGrowthFormView = ({
       // If profile exists then update profile
       try {
         await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -161,7 +162,7 @@ const PersonalGrowthFormView = ({
       // If profile does not exists then create profile
       try {
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -271,7 +272,7 @@ const PersonalGrowthFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /*
@@ -647,6 +648,7 @@ PersonalGrowthFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 PersonalGrowthFormView.defaultProps = {
