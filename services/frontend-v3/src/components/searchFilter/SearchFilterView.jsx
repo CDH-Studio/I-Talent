@@ -51,6 +51,7 @@ const SearchBarView = ({
   const searchTitles = [
     "name",
     "skills",
+    "mentorshipSkills",
     "branch",
     "location",
     "classification",
@@ -59,6 +60,7 @@ const SearchBarView = ({
   const labelArr = [
     <FormattedMessage id="advanced.search.form.name" />,
     <FormattedMessage id="advanced.search.form.skills" />,
+    <FormattedMessage id="advanced.search.form.mentor.skills" />,
     <FormattedMessage id="advanced.search.form.branch" />,
     <FormattedMessage id="advanced.search.form.location" />,
     <FormattedMessage id="advanced.search.form.classification" />,
@@ -119,6 +121,26 @@ const SearchBarView = ({
             mode="multiple"
             maxTagCount={3}
           >
+            {skillOptions.map((value) => {
+              return (
+                <Option key={value.id}>{value.description[locale]}</Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          label={labelArr[3]}
+          name={searchTitles[3]}
+        >
+          <Select
+            style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            mode="multiple"
+            maxTagCount={3}
+          >
             {branchOptions.map((value) => {
               return (
                 <Option key={value.description.en}>
@@ -130,8 +152,8 @@ const SearchBarView = ({
         </Form.Item>
         <Form.Item
           style={styles.w100}
-          label={labelArr[3]}
-          name={searchTitles[3]}
+          label={labelArr[4]}
+          name={searchTitles[4]}
         >
           <Select
             style={styles.w100}
@@ -150,8 +172,8 @@ const SearchBarView = ({
         </Form.Item>
         <Form.Item
           style={styles.w100}
-          label={labelArr[4]}
-          name={searchTitles[4]}
+          label={labelArr[5]}
+          name={searchTitles[5]}
         >
           <Select
             style={styles.w100}
@@ -168,8 +190,8 @@ const SearchBarView = ({
         </Form.Item>
         <Form.Item
           style={styles.w100}
-          name={searchTitles[5]}
-          label={labelArr[5]}
+          name={searchTitles[6]}
+          label={labelArr[6]}
           valuePropName="checked"
         >
           <Switch />

@@ -233,6 +233,33 @@ const SearchBarView = ({
             </Form.Item>
             {/* exFeeder field */}
             <Form.Item
+              label={
+                <FormattedMessage id="advanced.search.form.mentorship.skills" />
+              }
+              name="mentorshipSkills"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+                maxTagCount={3}
+              >
+                {skillOptions.map((value) => {
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
+          <Col span={8}>
+            <Form.Item
               label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
               name="exFeeder"
               valuePropName="checked"
