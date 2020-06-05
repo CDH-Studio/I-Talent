@@ -9,7 +9,7 @@ const LandingNavBarView = () => {
   return (
     <Menu color="blue" fixed="top" fluid inverted>
       <Menu.Item style={{ paddingBottom: "8px", paddingTop: "8px" }}>
-        <img src={Logo} style={{ maxWidth: "37px" }} alt="UpSkill Logo" />
+        <img src={Logo} style={{ maxWidth: "37px" }} alt="I-Talent Logo" />
       </Menu.Item>
       <Menu.Item position="right" href="/secured/home" tabIndex="0">
         <FormattedMessage id="landing.login.and.enter" />
