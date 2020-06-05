@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -41,6 +41,8 @@ const QualificationsFormView = ({
   const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [savedValues, setSavedValues] = useState(null);
+  const [initialValues, setInitialValues] = useState(null);
 
   /* Component Styles */
   const styles = {
@@ -174,31 +176,52 @@ const QualificationsFormView = ({
     }
   };
 
-  /*
-   * Get the initial values for the form
+  /**
+   * Get the initial values for the form (once)
    */
-  const getInitialValues = (profile) => {
-    const hasRequiredProps = () => {
-      return savedEducation && savedExperience && savedProjects;
-    };
-    if (profile && hasRequiredProps()) {
-      return {
+  useEffect(() => {
+    if (
+      !initialValues &&
+      savedEducation &&
+      savedExperience &&
+      savedProjects &&
+      profileInfo
+    ) {
+      setInitialValues({
         education: savedEducation,
         experience: savedExperience,
         projects: savedProjects,
-      };
+      });
     }
-    return {};
-  };
+  }, [
+    savedEducation,
+    savedExperience,
+    savedProjects,
+    profileInfo,
+    initialValues,
+  ]);
 
   /**
-   * Returns true if the values in the form have changed based on its initial values
+   * Sets the value of the form according to the initial values (once, when the initial values are initially set)
+   */
+  useEffect(() => {
+    if (initialValues) {
+      form.resetFields();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues]);
+
+  /**
+   * Returns true if the values in the form have changed based on its initial values or the saved values
    *
    * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+    const dbValues = _.pickBy(
+      savedValues || initialValues,
+      _.identity
+    );
 
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
@@ -218,7 +241,23 @@ const QualificationsFormView = ({
       formValues.experience = _.filter(formValues.experience, _.size);
     }
 
-    setFieldsChanged(!_.isEqual(formValues, initialValues));
+    if (dbValues.education) {
+      dbValues.education = dbValues.education.map((i) =>
+        _.pickBy(i, _.identity)
+      );
+
+      dbValues.education = _.filter(dbValues.education, _.size);
+    }
+
+    if (dbValues.experience) {
+      dbValues.experience = dbValues.experience.map((i) =>
+        _.pickBy(i, _.identity)
+      );
+
+      dbValues.experience = _.filter(dbValues.experience, _.size);
+    }
+
+    setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
   /*
@@ -230,9 +269,10 @@ const QualificationsFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        setFieldsChanged(false);
+        setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon("success");
-        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -394,7 +434,7 @@ const QualificationsFormView = ({
       <Form
         name="QualificationForm"
         form={form}
-        initialValues={getInitialValues(profileInfo)}
+        initialValues={savedValues || initialValues}
         layout="vertical"
         onValuesChange={checkIfFormValuesChanged}
       >
@@ -417,6 +457,7 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
+                        checkIfFormValuesChanged={checkIfFormValuesChanged}
                       />
                     ))}
                     <Form.Item>
@@ -459,6 +500,7 @@ const QualificationsFormView = ({
                         remove={remove}
                         profileInfo={profileInfo}
                         style={styles}
+                        checkIfFormValuesChanged={checkIfFormValuesChanged}
                       />
                     ))}
                     <Form.Item>
@@ -541,9 +583,9 @@ QualificationsFormView.propTypes = {
 
 QualificationsFormView.defaultProps = {
   profileInfo: null,
-  savedEducation: [],
-  savedExperience: [],
-  savedProjects: [],
+  savedEducation: undefined,
+  savedExperience: undefined,
+  savedProjects: undefined,
   intl: null,
 };
 

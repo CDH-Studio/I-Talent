@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider as ReduxProvider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import * as Sentry from "@sentry/browser";
 
 import { IntlProvider } from "react-intl";
 import moment from "moment";
@@ -30,11 +31,15 @@ const i18nConfigBuilder = (locale) => ({
 
 const App = () => {
   const { locale } = useSelector((state) => state.settings);
-  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder('en'));
+  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder("en"));
 
   useEffect(() => {
     setI18nConfig(i18nConfigBuilder(locale));
     moment.locale(`${locale}-ca`);
+
+    Sentry.configureScope((scope) => {
+      scope.setTag("locale", `${locale}-ca`);
+    });
   }, [locale]);
 
   return (

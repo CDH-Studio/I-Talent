@@ -12,7 +12,7 @@ import {
 } from "antd";
 
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
 import {
@@ -21,6 +21,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
+  IntlPropType,
 } from "../../../../customPropTypes";
 
 const { Option } = Select;
@@ -41,6 +42,8 @@ const EducationFormView = ({
   profileInfo,
   style,
   load,
+  checkIfFormValuesChanged,
+  intl,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
@@ -66,11 +69,12 @@ const EducationFormView = ({
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = form.getFieldsValue("education");
-      educationFieldValues.education[field.fieldKey].endDate = null;
+      const educationFieldValues = form.getFieldsValue();
+      educationFieldValues.education[field.fieldKey].endDate = undefined;
       form.setFieldsValue(educationFieldValues);
     }
-    setDisableEndDate(!disableEndDate);
+    setDisableEndDate((prev) => !prev);
+    checkIfFormValuesChanged();
   };
 
   /*
@@ -81,8 +85,6 @@ const EducationFormView = ({
    */
   const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["education", field.fieldKey, "startDate"];
-    // eslint-disable-next-line no-console
-    console.log(form.getFieldValue(fieldPath));
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -112,13 +114,15 @@ const EducationFormView = ({
   useEffect(() => {
     // set the default status of "ongoing" checkbox
     if (
+      profileInfo &&
+      field &&
       profileInfo.education[field.fieldKey] &&
       profileInfo.education[field.fieldKey].endDate.en
     ) {
       toggleEndDate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo, field]);
+  }, [profileInfo]);
 
   /** **********************************
    ********* Render Component *********
@@ -139,7 +143,7 @@ const EducationFormView = ({
         <Title level={4} style={style.entryTitle}>
           <FormOutlined style={{ marginRight: "0.5em" }} />
           <FormattedMessage id="setup.education" />
-          {`: ${field.fieldKey + 1}`}
+          {`: ${field.name + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -211,6 +215,9 @@ const EducationFormView = ({
             picker="month"
             disabledDate={disabledDatesAfterEnd}
             style={style.datePicker}
+            placeholder={intl.formatMessage({
+              id: "profile.qualifications.select.month",
+            })}
           />
         </Form.Item>
       </Col>
@@ -222,17 +229,21 @@ const EducationFormView = ({
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
-          <DatePicker
-            picker="month"
-            style={style.datePicker}
-            disabledDate={disabledDatesBeforeStart}
-            disabled={disableEndDate}
-            placeholder="unknown"
-          />
+          {!disableEndDate && (
+            <DatePicker
+              picker="month"
+              style={style.datePicker}
+              disabledDate={disabledDatesBeforeStart}
+              disabled={disableEndDate}
+              placeholder={intl.formatMessage({
+                id: "profile.qualifications.select.month",
+              })}
+            />
+          )}
         </Form.Item>
-        <div style={{ marginTop: "-10px" }}>
+        <div style={{ marginTop: disableEndDate ? "-38px" : "-10px" }}>
           {/* Checkbox if event is on-going */}
-          <Checkbox onChange={toggleEndDate} defaultChecked={disableEndDate}>
+          <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </div>
@@ -250,11 +261,14 @@ EducationFormView.propTypes = {
   style: StylesPropType.isRequired,
   diplomaOptions: KeyTitleOptionsPropType,
   load: PropTypes.bool.isRequired,
+  checkIfFormValuesChanged: PropTypes.func.isRequired,
+  intl: IntlPropType,
 };
 
 EducationFormView.defaultProps = {
   schoolOptions: [],
   diplomaOptions: [],
+  intl: undefined,
 };
 
-export default EducationFormView;
+export default injectIntl(EducationFormView);

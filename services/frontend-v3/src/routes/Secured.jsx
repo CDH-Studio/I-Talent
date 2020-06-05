@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
 import axios from "axios";
+import * as Sentry from "@sentry/browser";
 import {
   Logout,
   Home,
@@ -79,6 +80,15 @@ const Secured = ({ location }) => {
           })
         );
 
+        if (keycloakInstance && keycloakInstance.userInfo) {
+          Sentry.configureScope((scope) => {
+            scope.setUser({
+              username: keycloakInstance.userInfo.preferred_username,
+              email: keycloakInstance.userInfo.email,
+            });
+          });
+        }
+
         setKeycloak(keycloakInstance);
         setAuthenticated(auth);
         // store user info in local storage and redirect to create profile if needed
@@ -135,10 +145,7 @@ const Secured = ({ location }) => {
               exact
               path="/secured/home"
               render={({ history }) => (
-                <Home
-                  keycloak={keycloak}
-                  history={history}
-                />
+                <Home keycloak={keycloak} history={history} />
               )}
             />
             {/* Results of search */}
@@ -146,41 +153,28 @@ const Secured = ({ location }) => {
               exact
               path="/secured/results"
               render={({ history }) => (
-                <Results
-                  keycloak={keycloak}
-                  history={history}
-                />
+                <Results keycloak={keycloak} history={history} />
               )}
             />
             {/* Create profile forms */}
             <Route
               path="/secured/profile/create/step/:step"
               render={({ match }) => (
-                <ProfileCreate
-                  keycloak={keycloak}
-                  match={match}
-                />
+                <ProfileCreate keycloak={keycloak} match={match} />
               )}
             />
             {/* Edit profile forms */}
             <Route
               path="/secured/profile/edit/:step"
               render={({ match }) => (
-                <ProfileEdit
-                  keycloak={keycloak}
-                  match={match}
-                />
+                <ProfileEdit keycloak={keycloak} match={match} />
               )}
             />
             {/* Profile page based on user ID */}
             <Route
               path="/secured/profile/:id?"
               render={({ history, match }) => (
-                <Profile
-                  keycloak={keycloak}
-                  history={history}
-                  match={match}
-                />
+                <Profile keycloak={keycloak} history={history} match={match} />
               )}
             />
             {/* Logout authorized user */}

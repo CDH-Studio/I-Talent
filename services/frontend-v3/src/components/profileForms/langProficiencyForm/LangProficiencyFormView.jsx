@@ -48,6 +48,7 @@ const LangProficiencyFormView = ({
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [savedValues, setSavedValues] = useState(null);
 
   /* Component Styles */
   const styles = {
@@ -117,11 +118,6 @@ const LangProficiencyFormView = ({
       required: true,
       message: <FormattedMessage id="profile.rules.required" />,
     },
-  };
-
-  /* toggle temporary role form */
-  const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /* Save data */
@@ -239,16 +235,30 @@ const LangProficiencyFormView = ({
     return {};
   };
 
+  /* toggle temporary role form */
+  const toggleSecLangForm = () => {
+    setDisplayMentorshipForm((prev) => {
+      const data = savedValues || getInitialValues(profileInfo);
+      setFieldsChanged(
+        (!data.oralProficiency && !prev) || (data.oralProficiency && prev)
+      );
+      return !prev;
+    });
+  };
+
   /**
-   * Returns true if the values in the form have changed based on its initial values
+   * Returns true if the values in the form have changed based on its initial values or the saved values
    *
    * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+    const dbValues = _.pickBy(
+      savedValues || getInitialValues(profileInfo),
+      _.identity
+    );
 
-    setFieldsChanged(!_.isEqual(formValues, initialValues));
+    setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */
@@ -256,9 +266,10 @@ const LangProficiencyFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        setFieldsChanged(false);
+        setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon("success");
-        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -304,7 +315,10 @@ const LangProficiencyFormView = ({
   const onReset = () => {
     form.resetFields();
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+
+    const data = savedValues || getInitialValues(profileInfo);
+    setDisplayMentorshipForm(data.oralProficiency);
+    setFieldsChanged(false);
   };
 
   /*
@@ -555,7 +569,7 @@ const LangProficiencyFormView = ({
       <Form
         name="basicForm"
         form={form}
-        initialValues={getInitialValues(profileInfo)}
+        initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
         onValuesChange={checkIfFormValuesChanged}
       >
@@ -593,7 +607,7 @@ const LangProficiencyFormView = ({
               tooltipText="Extra information"
             />
             <Switch
-              defaultChecked={displayMentorshipForm}
+              checked={displayMentorshipForm}
               onChange={toggleSecLangForm}
             />
             {getSecondLanguageForm(displayMentorshipForm)}
