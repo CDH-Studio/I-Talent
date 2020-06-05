@@ -185,7 +185,7 @@ const TopNavView = () => {
           {/* Render right sigh of top menu */}
           <div style={styles.rightMenu}>
             {/* Render User Profile Dropdown */}
-            {getAvatarDropdown(localStorage.getItem("name"))}
+            {getAvatarDropdown(name)}
             {/* Render change language button */}
             <ChangeLanguage />
           </div>

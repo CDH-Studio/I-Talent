@@ -2,19 +2,28 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
-import store from "../redux";
+import { useDispatch } from "react-redux";
 import { clearUser } from "../redux/slices/userSlice";
 
 const Logout = ({ keycloak }) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     document.title = "logging out...";
   }, []);
 
   // log out user and redirect home
-  const logout = () => {
+  const logout = async () => {
     try {
+      dispatch(clearUser());
+      if (localStorage.getItem("userId")) {
+        const attributes = ["userId", "color", "email", "name", "acronym"];
+
+        attributes.forEach((i) => {
+          localStorage.removeItem(i);
+        });
+      }
       keycloak.logout({ redirectUri: window.location.origin });
-      store.dispatch(clearUser());
       return 1;
     } catch (e) {
       // eslint-disable-next-line no-console
