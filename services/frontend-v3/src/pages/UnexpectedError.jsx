@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, List, Result } from "antd";
+import { Button, List, Result, Space } from "antd";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
@@ -23,7 +23,7 @@ const UnexpectedError = () => {
       status={500}
       extra={
         <div style={{ textAlign: "center" }}>
-          <div>
+          <Space size={"small"}>
             <Button onClick={() => history.goBack()}>
               <FormattedMessage id="error.retry" />
             </Button>
@@ -33,7 +33,7 @@ const UnexpectedError = () => {
             <Button onClick={() => setShowError((oldValue) => !oldValue)}>
               <FormattedMessage id={showError ? "error.hide" : "error.show"} />
             </Button>
-          </div>
+          </Space>
           <div style={{ display: "inline-block", textAlign: "left" }}>
             <div style={styles.content}>
               {showError ? (
