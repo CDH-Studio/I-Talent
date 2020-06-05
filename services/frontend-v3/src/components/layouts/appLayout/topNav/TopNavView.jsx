@@ -32,7 +32,6 @@ const TopNavView = () => {
     },
     navBrand: {
       height: "25px",
-      // marginLeft: "25px",
     },
     rightMenu: {
       float: "right",
@@ -63,7 +62,6 @@ const TopNavView = () => {
       display: "flex",
       alignItems: "center",
       height: "100%",
-      // padding: "0 20px",
     },
   };
 
