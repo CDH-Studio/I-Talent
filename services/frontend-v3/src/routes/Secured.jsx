@@ -4,6 +4,7 @@ import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
+import { useDispatch } from "react-redux";
 import {
   Logout,
   Home,
@@ -15,18 +16,12 @@ import {
 } from "../pages";
 import keycloakConfig from "../keycloak";
 import createUser from "../functions/login";
-import store from "../redux";
-import {
-  setUserName,
-  setUserEmail,
-  setUserId,
-  setUserAvatarColor,
-  setUserInitials,
-} from "../redux/slices/userSlice";
+import { setUserName, setUserEmail } from "../redux/slices/userSlice";
 
 const { keycloakJSONConfig } = keycloakConfig;
 
 const Secured = ({ location }) => {
+  const dispatch = useDispatch();
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
   const [redirect, setRedirect] = useState(null);
@@ -38,8 +33,8 @@ const Secured = ({ location }) => {
     const profileExist = () => {
       return keycloakInstance.loadUserInfo().then(async (userInfo) => {
         return createUser(userInfo.email, userInfo.name).then((res) => {
-          store.dispatch(setUserName(userInfo.name));
-          store.dispatch(setUserEmail(userInfo.email));
+          dispatch(setUserName(userInfo.name));
+          dispatch(setUserEmail(userInfo.email));
           return res.hasProfile;
         });
       });
@@ -96,20 +91,6 @@ const Secured = ({ location }) => {
           });
         }
 
-        if (localStorage.getItem("userId")) {
-          const userId = localStorage.getItem("userId");
-          const color = localStorage.getItem("color");
-          const email = localStorage.getItem("email");
-          const name = localStorage.getItem("name");
-          const acronym = localStorage.getItem("acronym");
-
-          store.dispatch(setUserId(userId));
-          store.dispatch(setUserAvatarColor(color));
-          store.dispatch(setUserEmail(email));
-          store.dispatch(setUserName(name));
-          store.dispatch(setUserInitials(acronym));
-        }
-
         setKeycloak(keycloakInstance);
         setAuthenticated(auth);
         // store user info in local storage and redirect to create profile if needed
@@ -117,7 +98,7 @@ const Secured = ({ location }) => {
           setRedirect(redirectLink);
         });
       });
-  }, []);
+  }, [dispatch]);
 
   // Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // const copyToClipboard = e => {

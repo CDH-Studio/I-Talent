@@ -16,13 +16,6 @@ const Logout = ({ keycloak }) => {
   const logout = async () => {
     try {
       dispatch(clearUser());
-      if (localStorage.getItem("userId")) {
-        const attributes = ["userId", "color", "email", "name", "acronym"];
-
-        attributes.forEach((i) => {
-          localStorage.removeItem(i);
-        });
-      }
       keycloak.logout({ redirectUri: window.location.origin });
       return 1;
     } catch (e) {
