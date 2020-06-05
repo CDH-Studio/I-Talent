@@ -15,6 +15,13 @@ import "./App.css";
 import { NotFound, LandingPage } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
+import {
+  setUserId,
+  setUserAvatarColor,
+  setUserEmail,
+  setUserName,
+  setUserInitials,
+} from "./redux/slices/userSlice";
 
 const i18nConfigBuilder = (locale) => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
@@ -40,6 +47,24 @@ const App = () => {
     Sentry.configureScope((scope) => {
       scope.setTag("locale", `${locale}-ca`);
     });
+
+    // This statement should be temporary, and be removed in the future
+    if (localStorage.getItem("userId")) {
+      const attributes = ["userId", "color", "email", "name", "acronym"];
+      const reduxFunctions = [
+        setUserId,
+        setUserAvatarColor,
+        setUserEmail,
+        setUserName,
+        setUserInitials,
+      ];
+
+      // Moves the info from localStorage to redux and clears it
+      attributes.forEach((attribute, key) => {
+        store.dispatch(reduxFunctions[key](attribute));
+        localStorage.removeItem(attribute);
+      });
+    }
   }, [locale]);
 
   return (

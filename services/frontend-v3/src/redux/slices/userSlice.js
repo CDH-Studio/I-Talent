@@ -28,9 +28,8 @@ const userSlice = createSlice({
     setUserEmail(state, action) {
       state.email = action.payload;
     },
-    // eslint-disable-next-line no-unused-vars
-    clearUser(state) {
-      state = initialState;
+    clearUser() {
+      return initialState;
     },
   },
 });
