@@ -13,6 +13,7 @@ import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
+import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
@@ -30,6 +31,8 @@ const ProfileLayoutView = ({ data }) => {
 
   // Visibility values
   const { visibleCards } = data;
+
+  console.log("DATA", data);
 
   /* Component Styles */
   const styles = {
@@ -168,6 +171,12 @@ const ProfileLayoutView = ({ data }) => {
                 content={<TalentManagement data={data} style={styles.card} />}
                 cardName="talentManagement"
                 id="card-profile-talent-management"
+                editUrl="/secured/profile/edit/personal-growth"
+              />
+              <ProfileCards
+                content={<ExFeeder data={data} style={styles.card} />}
+                cardName="exFeeder"
+                id="card-profile-ex-feeder"
                 editUrl="/secured/profile/edit/personal-growth"
               />
             </Col>
@@ -330,19 +339,30 @@ const ProfileLayoutView = ({ data }) => {
           </Row>
         )}
 
-        {visibleCards.talentManagement && visibleCards.careerInterests ? (
+        {(visibleCards.talentManagement || visibleCards.exFeeder) &&
+        visibleCards.careerInterests ? (
           <Row
             style={styles.row}
             gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
             type="flex"
           >
             <Col xs={24} xl={12}>
-              <ProfileCards
-                title={<FormattedMessage id="profile.talent.management" />}
-                content={<TalentManagement data={data} style={styles.card} />}
-                cardName="talentManagement"
-                id="card-profile-talent-management"
-              />
+              {visibleCards.talentManagement && (
+                <ProfileCards
+                  title={<FormattedMessage id="profile.talent.management" />}
+                  content={<TalentManagement data={data} style={styles.card} />}
+                  cardName="talentManagement"
+                  id="card-profile-talent-management"
+                />
+              )}
+              {visibleCards.exFeeder && (
+                <ProfileCards
+                  title={<ExFeeder data={data} style={styles.card} />}
+                  content={null}
+                  cardName="exFeeder"
+                  id="card-profile-ex-feeder"
+                />
+              )}
             </Col>
             <Col xs={24} xl={12}>
               <ProfileCards
@@ -364,6 +384,18 @@ const ProfileLayoutView = ({ data }) => {
                       <TalentManagement data={data} style={styles.card} />
                     }
                     cardName="talentManagement"
+                    id="card-profile-talent-management"
+                  />
+                </Col>
+              </Row>
+            )}
+            {visibleCards.exFeeder && (
+              <Row style={styles.row}>
+                <Col span={24}>
+                  <ProfileCards
+                    title={<FormattedMessage id="profile.exFeeder" />}
+                    content={<ExFeeder data={data} style={styles.card} />}
+                    cardName="exFeeder"
                     id="card-profile-talent-management"
                   />
                 </Col>

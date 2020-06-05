@@ -139,6 +139,7 @@ module.exports = {
               projects: true,
               careerInterests: true,
               mentorshipSkills: true,
+              exFeeder: true,
             },
           },
           createdAt: {
@@ -152,7 +153,7 @@ module.exports = {
         });
       });
   },
-  down: (queryInterface) => {
+  down: queryInterface => {
     return queryInterface.dropTable("profiles").then(() => {
       return queryInterface.dropTable("users");
     });
