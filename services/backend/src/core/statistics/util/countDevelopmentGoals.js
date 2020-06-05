@@ -1,4 +1,4 @@
-const Models = require("../../../../database/models");
+const Models = require("../../../database/models");
 
 const { sequelize } = Models;
 const getTopFive = require("./getTopFive");

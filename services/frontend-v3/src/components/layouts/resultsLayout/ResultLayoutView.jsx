@@ -1,24 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Layout, PageHeader } from "antd";
-import { injectIntl } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import AppLayout from "../appLayout/AppLayout";
 import ResultsCard from "../../resultsCard/ResultsCard";
 import SearchFilter from "../../searchFilter/SearchFilter";
 import { HistoryPropType } from "../../../customPropTypes";
 
-const ResultLayoutView = ({ intl, history }) => {
-  const resultsTitle = intl.formatMessage({
-    id: "results.title",
-    defaultMessage: "Results",
-  });
+const ResultLayoutView = ({ history }) => {
   return (
     <Layout>
       <AppLayout
         displaySideBar
         sideBarContent={<SearchFilter history={history} />}
       >
-        <PageHeader title={resultsTitle} />
+        <h1 className="hidden">
+          <FormattedMessage id="results.title" />
+        </h1>
+        <PageHeader title={<FormattedMessage id="results.title" />} />
         <ResultsCard history={history} />
       </AppLayout>
     </Layout>

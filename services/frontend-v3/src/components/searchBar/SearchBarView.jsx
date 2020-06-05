@@ -256,7 +256,7 @@ const SearchBarView = ({
         <div style={styles.mainSearchDiv}>
           <img
             src={logo}
-            alt="UpSkill Logo"
+            alt="I-Talent Logo"
             style={{ width: "80%", maxWidth: "300px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}

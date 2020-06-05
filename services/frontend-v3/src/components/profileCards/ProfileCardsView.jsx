@@ -90,6 +90,7 @@ function ProfileCardsView({
                 title={<FormattedMessage id="profile.toggle.card.visibility" />}
               >
                 <Switch
+                  aria-label="visibility toggle"
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
                   checked={disabled}
@@ -104,6 +105,7 @@ function ProfileCardsView({
                 title={<FormattedMessage id="profile.edit" />}
               >
                 <Button
+                  aria-label="visibility toggle"
                   type="default"
                   shape="circle"
                   icon={<EditOutlined />}
