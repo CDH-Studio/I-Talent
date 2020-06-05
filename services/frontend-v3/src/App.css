@@ -170,7 +170,7 @@ menu:focus {
 
 menuitem:focus {
   outline: #08bab3;
-  background-color: #08bab427;
+  background-color: #08bab462;
   color: #08bab3;
 }
 
@@ -185,7 +185,7 @@ ant-tabs-tab:focus {
 }
 
 a.ant-btn.ant-btn-link.ant-btn-block:focus {
-  background-color: #08bab427;
+  background-color: #08bab462;
 }
 
 .ant-select-selector:focus {
@@ -201,22 +201,22 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
   border-color: #08bab3;
 
   color: #08bab3;
-  background-color: #08bab427;
+  background-color: #08bab462;
 }
 
 .ant-collapse-header:focus {
-  background-color: #08bab427;
+  background-color: #08bab462;
 }
 
 .ant-btn:focus {
   outline: #a6c8c3;
-  background-color: #08bab427;
+  background-color: #08bab462;
   color: #08bab3;
 }
 
 .ant-btn-link:focus {
   outline: #08bab3;
-  background-color: #08bab427;
+  background-color: #08bab462;
   color: #08bab3;
 }
 
@@ -226,7 +226,7 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
 
 .ant-steps-item:focus {
   color: #08bab3;
-  background-color: #08bab455;
+  background-color: #08bab462;
 }
 
 .ant-dropdown-menu-item:focus {
@@ -235,7 +235,7 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
 
 .ant-dropdown-link:focus {
   outline: #08bab3;
-  background-color: #08bab427;
+  background-color: #08bab462;
   color: #08bab3;
 }
 
@@ -244,15 +244,15 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
 }
 
 .ant-card:focus {
-  background-color: #08bab427;
+  background-color: #08bab462;
 }
 
 .ant-tabs-tab-active:focus {
-  background-color: #08bab427;
+  background-color: #08bab462;
 }
 
 button.ant-btn.ant-btn-link:focus {
-  background-color: #08bab427;
+  background-color: #08bab462;
   color: #001c1a;
 }
 
