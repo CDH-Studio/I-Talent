@@ -32,8 +32,6 @@ const ProfileLayoutView = ({ data }) => {
   // Visibility values
   const { visibleCards } = data;
 
-  console.log("DATA", data);
-
   /* Component Styles */
   const styles = {
     card: {
@@ -174,13 +172,15 @@ const ProfileLayoutView = ({ data }) => {
                 editUrl="/secured/profile/edit/personal-growth"
               />
               {data.exFeeder ? (
-                <ProfileCards
-                  title={<ExFeeder data={data} style={styles.card} />}
-                  content={null}
-                  cardName="exFeeder"
-                  id="card-profile-ex-feeder"
-                  editUrl="/secured/profile/edit/personal-growth"
-                />
+                <div style={{ paddingTop: "16px" }}>
+                  <ProfileCards
+                    title={<ExFeeder data={data} style={styles.card} />}
+                    content={null}
+                    cardName="exFeeder"
+                    id="card-profile-ex-feeder"
+                    editUrl="/secured/profile/edit/personal-growth"
+                  />
+                </div>
               ) : null}
             </Col>
             <Col xs={24} xl={12}>
@@ -360,12 +360,18 @@ const ProfileLayoutView = ({ data }) => {
                 />
               )}
               {visibleCards.exFeeder && data.exFeeder && (
-                <ProfileCards
-                  title={<ExFeeder data={data} style={styles.card} />}
-                  content={null}
-                  cardName="exFeeder"
-                  id="card-profile-ex-feeder"
-                />
+                <div
+                  style={{
+                    paddingTop: visibleCards.talentManagement ? "16px" : "0px",
+                  }}
+                >
+                  <ProfileCards
+                    title={<ExFeeder data={data} style={styles.card} />}
+                    content={null}
+                    cardName="exFeeder"
+                    id="card-profile-ex-feeder"
+                  />
+                </div>
               )}
             </Col>
             <Col xs={24} xl={12}>
