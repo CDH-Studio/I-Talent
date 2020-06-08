@@ -24,7 +24,7 @@ const UnexpectedError = () => {
       extra={
         <div style={{ textAlign: "center" }}>
           <div>
-            <Space size={"small"}>
+            <Space size="small">
               <Button type="primary" onClick={() => history.goBack()}>
                 <FormattedMessage id="error.retry" />
               </Button>

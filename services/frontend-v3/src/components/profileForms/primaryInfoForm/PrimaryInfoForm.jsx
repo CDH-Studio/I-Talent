@@ -3,6 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+// eslint-disable-next-line import/no-named-as-default
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
