@@ -8,6 +8,7 @@ import enIntlMessages from "../i18n/en_CA.json";
 import frIntlMessages from "../i18n/fr_CA.json";
 
 import config from "../config";
+
 const { enableErrorRedirect } = config;
 
 const intlMessageKey = "error.save";

@@ -453,7 +453,7 @@ const ProfileLayoutView = ({ data }) => {
     if (!visibleCards) {
       return (
         <Row justify="center" style={styles.sideBarRow}>
-          <Col flex={1} offset={1}></Col>
+          <Col flex={1} offset={1} />
         </Row>
       );
     }
