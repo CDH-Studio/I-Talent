@@ -173,12 +173,15 @@ const ProfileLayoutView = ({ data }) => {
                 id="card-profile-talent-management"
                 editUrl="/secured/profile/edit/personal-growth"
               />
-              <ProfileCards
-                content={<ExFeeder data={data} style={styles.card} />}
-                cardName="exFeeder"
-                id="card-profile-ex-feeder"
-                editUrl="/secured/profile/edit/personal-growth"
-              />
+              {data.exFeeder ? (
+                <ProfileCards
+                  title={<ExFeeder data={data} style={styles.card} />}
+                  content={null}
+                  cardName="exFeeder"
+                  id="card-profile-ex-feeder"
+                  editUrl="/secured/profile/edit/personal-growth"
+                />
+              ) : null}
             </Col>
             <Col xs={24} xl={12}>
               <ProfileCards
@@ -339,7 +342,8 @@ const ProfileLayoutView = ({ data }) => {
           </Row>
         )}
 
-        {(visibleCards.talentManagement || visibleCards.exFeeder) &&
+        {(visibleCards.talentManagement ||
+          (visibleCards.exFeeder && data.exFeeder)) &&
         visibleCards.careerInterests ? (
           <Row
             style={styles.row}
@@ -355,7 +359,7 @@ const ProfileLayoutView = ({ data }) => {
                   id="card-profile-talent-management"
                 />
               )}
-              {visibleCards.exFeeder && (
+              {visibleCards.exFeeder && data.exFeeder && (
                 <ProfileCards
                   title={<ExFeeder data={data} style={styles.card} />}
                   content={null}
@@ -389,7 +393,7 @@ const ProfileLayoutView = ({ data }) => {
                 </Col>
               </Row>
             )}
-            {visibleCards.exFeeder && (
+            {visibleCards.exFeeder && data.exFeeder && (
               <Row style={styles.row}>
                 <Col span={24}>
                   <ProfileCards

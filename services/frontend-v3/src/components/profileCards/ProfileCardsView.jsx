@@ -144,6 +144,7 @@ function ProfileCardsView({
   return (
     <div>
       <Card
+        className={content === null ? "no-content-card" : null}
         title={title}
         id={id}
         extra={generateSwitchButton(cardName)}
@@ -161,13 +162,14 @@ ProfileCardsView.propTypes = {
   profileInfo: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   id: PropTypes.string.isRequired,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
 };
 
 ProfileCardsView.defaultProps = {
   profileInfo: null,
   style: undefined,
+  content: null,
 };
 
 export default ProfileCardsView;

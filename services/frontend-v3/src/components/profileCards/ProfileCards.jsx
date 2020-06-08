@@ -64,7 +64,7 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.element,
   editUrl: PropTypes.string.isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -72,6 +72,7 @@ ProfileCards.propTypes = {
 
 ProfileCards.defaultProps = {
   data: null,
+  content: null,
 };
 
 export default ProfileCards;
