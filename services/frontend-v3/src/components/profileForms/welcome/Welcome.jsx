@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import WelcomeView from "./WelcomeView";
 import config from "../../../config";
 
@@ -12,9 +13,11 @@ const { backendAddress } = config;
  *  It gathers a list of GEDs profile that matches the registered user
  *  User can pre-populate profile or start from scratch
  */
-function Welcome() {
+const Welcome = () => {
   const [load, setLoad] = useState(false);
-  const [gedsProfiles, setGedsProfiles] = useState([]);
+  const [gedsProfiles, setGedsProfiles] = useState();
+
+  const { id, name } = useSelector((state) => state.user);
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -26,10 +29,14 @@ function Welcome() {
     const getGedsProfiles = async () => {
       try {
         // Get info from GEDS
-        const result = await axios.get(
-          `${backendAddress}api/profGen/${localStorage.getItem("userId")}`
-        );
-        setGedsProfiles(result.data);
+        const result = await axios.get(`${backendAddress}api/profGen/${id})}`, {
+          params: {
+            name,
+          },
+        });
+        if (result.data) {
+          setGedsProfiles(result.data);
+        }
         return 1;
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -53,9 +60,9 @@ function Welcome() {
     };
 
     getAllData();
-  }, []);
+  }, [id, name]);
 
-  return <WelcomeView gedsProfiles={gedsProfiles} load={load} />;
-}
+  return <WelcomeView gedsProfiles={gedsProfiles} load={load} userId={id} />;
+};
 
 export default Welcome;

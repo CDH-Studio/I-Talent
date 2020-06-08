@@ -17,7 +17,7 @@ import config from "../../../config";
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-const WelcomeView = ({ gedsProfiles, intl, load }) => {
+const WelcomeView = ({ gedsProfiles, intl, load, userId }) => {
   const history = useHistory();
 
   // get current language code
@@ -97,7 +97,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       if (value) {
         // create profile
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           value
         );
       }
@@ -181,10 +181,32 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
         </div>
       );
     }
+    if (gedsProfiles) {
+      return (
+        <div>
+          {/* generate list of GEDS profiles */}
+          {generateProfileBtn({
+            icon: <UserOutlined />,
+            firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
+            secondTitle: gedsProfiles.jobTitle[locale],
+            thirdTitle: gedsProfiles.email,
+            value: gedsProfiles,
+          })}
+          {/* new user button */}
+          {generateProfileBtn({
+            icon: <UserAddOutlined />,
+            firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+            secondTitle: intl.formatMessage({
+              id: "setup.welcome.new.description",
+            }),
+          })}
+        </div>
+      );
+    }
     return (
       <div>
         {/* generate list of GEDS profiles */}
-        {gedsProfiles.map(item => {
+        {gedsProfiles.map((item) => {
           return generateProfileBtn({
             icon: <UserOutlined />,
             firstTitle: `${item.firstName} ${item.lastName}`,
@@ -219,16 +241,18 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       {generateGedsProfileList()}
     </div>
   );
-}
+};
 
 WelcomeView.propTypes = {
-  gedsProfiles: PropTypes.arrayOf(PropTypes.any),
+  // eslint-disable-next-line react/forbid-prop-types
+  gedsProfiles: PropTypes.object,
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 WelcomeView.defaultProps = {
-  gedsProfiles: [],
+  gedsProfiles: undefined,
   intl: undefined,
 };
 

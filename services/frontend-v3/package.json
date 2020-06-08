@@ -6,6 +6,7 @@
     "@ant-design/compatible": "^1.0.2",
     "@ant-design/icons": "^4.0.5",
     "@reduxjs/toolkit": "^1.3.6",
+    "@sentry/browser": "^5.15.5",
     "@testing-library/jest-dom": "5.8.0",
     "@testing-library/react": "^10.0.4",
     "@testing-library/user-event": "10.3.2",
@@ -22,6 +23,7 @@
     "prop-types": "^15.7.2",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.13.1",
     "react-highlight-words": "^0.16.0",
@@ -49,12 +51,14 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "IE 11"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "IE 11"
     ]
   },
   "devDependencies": {

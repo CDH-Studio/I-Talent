@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider as ReduxProvider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import * as Sentry from "@sentry/browser";
 
 import { IntlProvider } from "react-intl";
 import moment from "moment";
@@ -14,6 +15,13 @@ import "./App.css";
 import { NotFound, LandingPage } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
+import {
+  setUserId,
+  setUserAvatarColor,
+  setUserEmail,
+  setUserName,
+  setUserInitials,
+} from "./redux/slices/userSlice";
 
 const i18nConfigBuilder = (locale) => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
@@ -30,11 +38,33 @@ const i18nConfigBuilder = (locale) => ({
 
 const App = () => {
   const { locale } = useSelector((state) => state.settings);
-  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder('en'));
+  const [i18nConfig, setI18nConfig] = useState(i18nConfigBuilder("en"));
 
   useEffect(() => {
     setI18nConfig(i18nConfigBuilder(locale));
     moment.locale(`${locale}-ca`);
+
+    Sentry.configureScope((scope) => {
+      scope.setTag("locale", `${locale}-ca`);
+    });
+
+    // This statement should be temporary, and be removed in the future
+    if (localStorage.getItem("userId")) {
+      const attributes = ["userId", "color", "email", "name", "acronym"];
+      const reduxFunctions = [
+        setUserId,
+        setUserAvatarColor,
+        setUserEmail,
+        setUserName,
+        setUserInitials,
+      ];
+
+      // Moves the info from localStorage to redux and clears it
+      attributes.forEach((attribute, key) => {
+        store.dispatch(reduxFunctions[key](attribute));
+        localStorage.removeItem(attribute);
+      });
+    }
   }, [locale]);
 
   return (

@@ -36,24 +36,24 @@ const { SHOW_CHILD } = TreeSelect;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const TalentFormView = (props) => {
-  const {
-    profileInfo,
-    skillOptions,
-    competencyOptions,
-    savedCompetencies,
-    savedSkills,
-    savedMentorshipSkills,
-    formType,
-    load,
-    intl,
-  } = props;
-
+const TalentFormView = ({
+  profileInfo,
+  skillOptions,
+  competencyOptions,
+  savedCompetencies,
+  savedSkills,
+  savedMentorshipSkills,
+  formType,
+  load,
+  intl,
+  userId,
+}) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [savedValues, setSavedValues] = useState(null);
 
   /* Component Styles */
   const styles = {
@@ -148,7 +148,7 @@ const TalentFormView = (props) => {
       // If profile exists then update profile
       try {
         await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -159,7 +159,7 @@ const TalentFormView = (props) => {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -210,15 +210,18 @@ const TalentFormView = (props) => {
   };
 
   /**
-   * Returns true if the values in the form have changed based on its initial values
+   * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * _.pickBy({}, _.identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+    const dbValues = _.pickBy(
+      savedValues || getInitialValues(profileInfo),
+      _.identity
+    );
 
-    setFieldsChanged(!_.isEqual(formValues, initialValues));
+    setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */
@@ -226,9 +229,10 @@ const TalentFormView = (props) => {
     form
       .validateFields()
       .then(async (values) => {
+        setFieldsChanged(false);
+        setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon("success");
-        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -254,7 +258,7 @@ const TalentFormView = (props) => {
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /*
@@ -581,7 +585,7 @@ const TalentFormView = (props) => {
       <Form
         name="basicForm"
         form={form}
-        initialValues={getInitialValues(profileInfo)}
+        initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
         onValuesChange={checkIfFormValuesChanged}
       >
@@ -680,6 +684,7 @@ TalentFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 TalentFormView.defaultProps = {

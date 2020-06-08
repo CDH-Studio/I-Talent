@@ -20,7 +20,14 @@ const { backendAddress } = config;
  *  This component is strongly linked ot Qualifications Form.
  *  It generated the form fields for each education item the user creates in the qualifications form.
  */
-const EducationForm = ({ form, field, remove, profileInfo, style }) => {
+const EducationForm = ({
+  form,
+  field,
+  remove,
+  profileInfo,
+  style,
+  checkIfFormValuesChanged,
+}) => {
   // Define States
   const [load, setLoad] = useState(false);
   const [diplomaOptions, setDiplomaOptions] = useState([]);
@@ -88,7 +95,7 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
         // eslint-disable-next-line no-console
         console.log(error);
@@ -106,6 +113,7 @@ const EducationForm = ({ form, field, remove, profileInfo, style }) => {
       profileInfo={profileInfo}
       style={style}
       load={load}
+      checkIfFormValuesChanged={checkIfFormValuesChanged}
     />
   );
 };
@@ -116,6 +124,7 @@ EducationForm.propTypes = {
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
   style: StylesPropType.isRequired,
+  checkIfFormValuesChanged: PropTypes.func.isRequired,
 };
 
 export default EducationForm;

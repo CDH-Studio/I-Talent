@@ -47,6 +47,7 @@ const EmploymentDataFormView = (props) => {
     securityOptions,
     substantiveOptions,
     intl,
+    userId,
   } = props;
 
   const history = useHistory();
@@ -54,6 +55,7 @@ const EmploymentDataFormView = (props) => {
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [savedValues, setSavedValues] = useState(null);
 
   /* Component Styles */
   const styles = {
@@ -157,7 +159,7 @@ const EmploymentDataFormView = (props) => {
       // If profile exists then update profile
       try {
         await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -168,7 +170,7 @@ const EmploymentDataFormView = (props) => {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -256,15 +258,18 @@ const EmploymentDataFormView = (props) => {
   };
 
   /**
-   * Returns true if the values in the form have changed based on its initial values
+   * Returns true if the values in the form have changed based on its initial values or the saved values
    *
    * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+    const dbValues = _.pickBy(
+      savedValues || getInitialValues(profileInfo),
+      _.identity
+    );
 
-    setFieldsChanged(!_.isEqual(formValues, initialValues));
+    setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */
@@ -272,9 +277,10 @@ const EmploymentDataFormView = (props) => {
     form
       .validateFields()
       .then(async (values) => {
+        setFieldsChanged(false);
+        setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon("success");
-        checkIfFormValuesChanged();
       })
       .catch(() => {
         openNotificationWithIcon("error");
@@ -296,7 +302,7 @@ const EmploymentDataFormView = (props) => {
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -384,7 +390,9 @@ const EmploymentDataFormView = (props) => {
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
+                tabIndex="0"
                 onChange={toggleTempEndDate}
+                onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
               >
                 <FormattedMessage id="profile.acting.has.end.date" />
@@ -534,7 +542,7 @@ const EmploymentDataFormView = (props) => {
       <Form
         name="basicForm"
         form={form}
-        initialValues={getInitialValues(profileInfo)}
+        initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
         onValuesChange={checkIfFormValuesChanged}
       >
@@ -542,6 +550,7 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
+              tabIndex="0"
               name="tenureId"
               label={<FormattedMessage id="profile.substantive" />}
             >
@@ -564,6 +573,7 @@ const EmploymentDataFormView = (props) => {
 
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
+              tabIndex="0"
               name="groupLevelId"
               label={<FormattedMessage id="profile.classification" />}
             >
@@ -588,6 +598,7 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
+              tabIndex="0"
               name="securityClearanceId"
               label={<FormattedMessage id="profile.security" />}
             >
@@ -648,6 +659,7 @@ EmploymentDataFormView.propTypes = {
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {

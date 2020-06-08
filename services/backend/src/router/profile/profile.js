@@ -8,18 +8,18 @@ const profileRouter = Router();
 profileRouter.get("/", keycloak.protect(), profile.getProfile);
 
 profileRouter
-	.route("/:id")
-	.get(keycloak.protect(), profile.getPublicProfileById)
-	.post(keycloak.protect(), profile.createProfile)
-	.put(keycloak.protect(), profile.updateProfile);
+  .route("/:id")
+  .get(keycloak.protect(), profile.getPublicProfileById)
+  .post(keycloak.protect(), profile.createProfile)
+  .put(keycloak.protect(), profile.updateProfile);
 
 // TODO: Change frontend api to profile/private instead of private/profile
 profileRouter
-	.route("/private/:id")
-	.get(keycloak.protect(), profile.getPrivateProfileById);
+  .route("/private/:id")
+  .get(keycloak.protect(), profile.getPrivateProfileById);
 
 profileRouter
-	.route("/private/status/:id")
-	.get(keycloak.protect(), profile.getProfileStatusById);
+  .route("/private/status/:id")
+  .get(keycloak.protect(), profile.getProfileStatusById);
 
 module.exports = profileRouter;
