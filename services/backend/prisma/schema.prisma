@@ -7,340 +7,428 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model careerMobilities {
-  id            String     @default(uuid()) @id
+enum Language {
+  FRENCH
+  ENGLISH
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  HIDDEN
+}
+
+enum Proficiency {
+  READING
+  WRITING
+  ORAL
+}
+
+model opClassifications {
+  id                   String     @default(uuid()) @id
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt 
+  name                 String     @unique
+
+  actingLevelUsers     users[]    @relation("actingLevelUsers")
+  groupLevelUsers      users[]    @relation("groupLevelUsers")
+}
+
+model opSecurityClearances {
+  id            String     @default(uuid())
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profiles      profiles[]
+  languageId    Language
+  description   String
+
+  users         users[]
+
+  @@id([id, languageId])
+  @@unique([languageId, description])
 }
 
-model categories {
-  id            Int      @default(autoincrement()) @id
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  skills        skills[]
-
-  @@unique([descriptionEn, descriptionFr], name: "categories_unique_definition")
-}
-
-model competencies {
-  id            String   @default(uuid()) @id
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-}
-
-model diplomas {
-  id            String      @default(uuid()) @id
+model opLookingJobs {
+  id            String      @default(uuid())
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  education     education[]
+  languageId    Language
+  description   String
+
+  users         users[]
+
+  @@id([id, languageId])
+  @@unique([languageId, description])
 }
 
-model education {
-  id        String    @default(uuid()) @id
+model opTenures {
+  id            String      @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  languageId    Language
+  name          String
+
+  users         users[]
+
+  @@id([id, languageId])
+  @@unique([languageId, name])
+}
+
+model opCareerMobilities {
+  id            String     @default(uuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  languageId    Language
+  description   String
+
+  users         users[]
+
+  @@id([id, languageId])
+  @@unique([languageId, description])
+}
+
+model opTalentMatrixResults {
+  id            String      @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  languageId    Language
+  description   String
+
+  users         users[]
+
+  @@id([id, languageId])
+  @@unique([languageId, description])
+}
+
+model opOfficeLocations {
+  id                  String                @default(uuid())
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  languageId          Language
+  addressId           String
+  city                String
+  postalCode          String
+  country             String
+
+  users               users[]
+  relocationLocations relocationLocations[]
+  address             opLocationAddresses   @relation(fields: [addressId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([addressId, city, postalCode, country])
+}
+
+model opLocationAddresses {
+  id                  String                @default(uuid())
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  languageId          Language
+  address             String
+  province            String
+
+  locations           opOfficeLocations[]
+
+  @@id([id, languageId])
+  @@unique([languageId, address, province])
+}
+
+// did not add relations
+model opSkills {
+  id                  String           @default(uuid())
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  categoryId          Int
+  languageId          Language
+  name                String
+
+  category            opCategories     @relation(fields: [categoryId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([languageId, name])
+}
+
+model opCategories {
+  id            Int      @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  languageId    Language
+  name          String
+  skills        opSkills[]
+
+  @@id([id, languageId])
+  @@unique([languageId, name])
+}
+
+// did not add relations
+model opCompetencies {
+  id            String   @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  languageId    Language
+  name          String
+
+  @@id([id, languageId])
+  @@unique([languageId, name])
+}
+
+model opSchools {
+  id          String      @default(uuid()) @id
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  country     String
+  name        String
+  province    String
+
+  educations  educations[]
+
+  @@unique([country, name, province])
+}
+
+model opDiplomas {
+  id            String      @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  languageId    Language
+  description   String
+
+  @@id([id, languageId])
+  @@unique([languageId, description])
+}
+
+model employmentInfos {
+  id            String      @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  languageId    Language
+  jobTitle      String
+  branch        String
+
+  users         users[]
+
+  @@id([id, languageId])
+}
+
+model visibleCards {
+  id                  String    @default(uuid()) @id
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  info                Boolean   @default(true)
+  manager             Boolean   @default(true)
+  talentManagement    Boolean   @default(true)
+  officialLanguage    Boolean   @default(true)
+  skills              Boolean   @default(true)
+  competencies        Boolean   @default(true)
+  developmentalGoals  Boolean   @default(true)
+  education           Boolean   @default(true)
+  experience          Boolean   @default(true)
+  projects            Boolean   @default(true)
+  careerInterests     Boolean   @default(true)
+  mentorshipSkills    Boolean   @default(true)
+
+  users         users[]
+}
+
+model mentorshipSkills {
+  id        String   @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  languageId Language
+  userId    String
+  skillId   String
+
+  users     users    @relation(fields: [userId], references: [id])
+  skills    opSkills @relation(fields: [skillId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([userId, skillId])
+}
+
+model skills {
+  id        String   @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  languageId    Language
+  userId    String
+  skillId   String
+
+  users     users    @relation(fields: [userId], references: [id])
+  skills    opSkills @relation(fields: [skillId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([userId, skillId])
+}
+
+model developmentalGoals {
+  id            String          @default(uuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  languageId    Language
+  userId        String
+  skillId       String
+  competencyId  String
+
+  users         users           @relation(fields: [userId], references: [id])
+  skills        opSkills        @relation(fields: [skillId, languageId], references: [id, languageId])
+  compentencies opCompetencies  @relation(fields: [competencyId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([userId, skillId, competencyId])
+}
+
+model compentencies {
+  id            String          @default(uuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  languageId    Language
+  userId        String
+  competencyId  String
+
+  users         users           @relation(fields: [userId], references: [id])
+  compentencies opCompetencies  @relation(fields: [competencyId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([userId, competencyId])
+}
+
+model secondLangProfs {
+  id                 String     @default(uuid()) @id
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  userId             String
+  date               DateTime
+  proficiency        Proficiency
+
+  users              users[]    @relation("secondLangProfUsers")
+  user               users      @relation(fields: [userId], references: [id])
+
+  @@unique([userId, proficiency])
+}
+
+model organizations {
+  id            String    @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  userId        String
+  languageId    Language
+  description   String
+  tier          Int
+
+  users         users[]   @relation("organizationsUsers")
+  user          users     @relation(fields: [userId], references: [id])
+
+  @@id([id, languageId])
+}
+
+model educations {
+  id        String    @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  diplomaId String?
-  endDate   DateTime?
-  profileId String?
-  schoolId  String?
-  startDate DateTime?
-  diplomas  diplomas? @relation(fields: [diplomaId], references: [id])
-  profiles  profiles? @relation(fields: [profileId], references: [id])
-  schools   schools?  @relation(fields: [schoolId], references: [id])
+  languageId  Language
+  userId    String
+  schoolId  String
+  diplomaId String
+  endDate   DateTime
+  startDate DateTime
+
+  users     users[]     @relation("educationsUsers")
+  user      users       @relation(fields: [userId], references: [id])
+  school    opSchools   @relation(fields: [schoolId], references: [id])
+  diploma   opDiplomas  @relation(fields: [diplomaId, languageId], references: [id, languageId])
+
+  @@id([id, languageId])
+  @@unique([userId, schoolId, diplomaId, endDate, startDate])
 }
 
 model experiences {
   id           String    @default(uuid()) @id
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-  description  String?
-  endDate      DateTime?
-  jobTitle     String?
-  organization String?
-  profileId    String?
-  startDate    DateTime?
-  profiles     profiles? @relation(fields: [profileId], references: [id])
-}
+  userId       String
+  description  String
+  startDate    DateTime
+  endDate      DateTime
+  jobTitle     String
+  organization String
+  
+  users        users[]   @relation("experiencesUsers")
+  user         users     @relation(fields: [userId], references: [id])
 
-model groupLevels {
-  id                                          String     @default(uuid()) @id
-  createdAt                                   DateTime   @default(now())
-  updatedAt                                   DateTime   @updatedAt 
-  description                                 String?
-  profiles_groupLevelsToprofiles_actingId     profiles[] @relation("groupLevelsToprofiles_actingId")
-  profiles_groupLevelsToprofiles_groupLevelId profiles[] @relation("groupLevelsToprofiles_groupLevelId")
-}
-
-model keyCompetencies {
-  id            String     @default(uuid()) @id
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profiles      profiles[]
-}
-
-model locations {
-  id                  String                @default(uuid()) @id
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  addressEn           String?
-  addressFr           String?
-  city                String?
-  country             String?
-  postalCode          String?
-  provinceEn          String?
-  provinceFr          String?
-  profiles            profiles[]
-  relocationLocations relocationLocations[]
-}
-
-model lookingForANewJobs {
-  id            String     @default(uuid()) @id
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profiles      profiles[]
-}
-
-model profileCompetencies {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profileId String
-  skillId   String
-  profiles  profiles @relation(fields: [profileId], references: [id])
-  skills    skills   @relation(fields: [skillId], references: [id])
-
-  @@id([profileId, skillId])
-}
-
-model profileDevelopmentGoals {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profileId String
-  skillId   String
-  profiles  profiles @relation(fields: [profileId], references: [id])
-  skills    skills   @relation(fields: [skillId], references: [id])
-
-  @@id([profileId, skillId])
-}
-
-model profileMentorshipSkills {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profileId String
-  skillId   String
-  profiles  profiles @relation(fields: [profileId], references: [id])
-  skills    skills   @relation(fields: [skillId], references: [id])
-
-  @@id([profileId, skillId])
-}
-
-model profileOrganizations {
-  id            String    @default(uuid()) @id
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profileId     String?
-  tier          Int?
-  profiles      profiles? @relation(fields: [profileId], references: [id])
-}
-
-model profileProjects {
-  id          String    @default(uuid()) @id
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  description String?
-  profileId   String?
-  profiles    profiles? @relation(fields: [profileId], references: [id])
-}
-
-model profileSkills {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profileId String
-  skillId   String
-  profiles  profiles @relation(fields: [profileId], references: [id])
-  skills    skills   @relation(fields: [skillId], references: [id])
-
-  @@id([profileId, skillId])
-}
-
-model profiles {
-  id                                             String                       @default(uuid()) @id
-  createdAt                                      DateTime                     @default(now())
-  updatedAt                                      DateTime                     @updatedAt
-  actingEndDate                                  DateTime?
-  actingId                                       String?
-  actingStartDate                                DateTime?
-  branchEn                                       String?
-  branchFr                                       String?
-  careerMobilityId                               String?
-  cellphone                                      String?
-  exFeeder                                       Boolean?
-  firstLanguage                                  String?
-  firstName                                      String?
-  flagged                                        Boolean                      @default(false)
-  gcconnex                                       String?
-  github                                         String?
-  groupLevelId                                   String?
-  indeterminate                                  Boolean?                     @default(false)
-  interestedInRemote                             Boolean?
-  isMentor                                       Boolean?                     @default(false)
-  jobTitleEn                                     String?
-  jobTitleFr                                     String?
-  keyCompetencyId                                String?
-  lastName                                       String?
-  linkedin                                       String?
-  locationId                                     String?
-  lookingForANewJobId                            String?
-  manager                                        String?
-  secondLanguage                                 String?
-  secondLanguageProficiencyId                    String?
-  securityClearanceId                            String?
-  talentMatrixResultId                           String?
-  team                                           String?
-  telephone                                      String?
-  tenureId                                       String?
-  visibleCards                                   visibleCards  @relation(fields: [visibleCardsId], references: [id])
-  visibleCardsId                                 String
-  yearService                                    Int?
-  groupLevels_groupLevelsToprofiles_actingId     groupLevels?                 @relation("groupLevelsToprofiles_actingId", fields: [actingId], references: [id])
-  careerMobilities                               careerMobilities?            @relation(fields: [careerMobilityId], references: [id])
-  groupLevels_groupLevelsToprofiles_groupLevelId groupLevels?                 @relation("groupLevelsToprofiles_groupLevelId", fields: [groupLevelId], references: [id])
-  users                                          users                        @relation(fields: [id], references: [id])
-  keyCompetencies                                keyCompetencies?             @relation(fields: [keyCompetencyId], references: [id])
-  locations                                      locations?                   @relation(fields: [locationId], references: [id])
-  lookingForANewJobs                             lookingForANewJobs?          @relation(fields: [lookingForANewJobId], references: [id])
-  secondLanguageProficiencies                    secondLanguageProficiencies? @relation(fields: [secondLanguageProficiencyId], references: [id])
-  securityClearances                             securityClearances?          @relation(fields: [securityClearanceId], references: [id])
-  talentMatrixResults                            talentMatrixResults?         @relation(fields: [talentMatrixResultId], references: [id])
-  tenures                                        tenures?                     @relation(fields: [tenureId], references: [id])
-  education                                      education[]
-  experiences                                    experiences[]
-  profileCompetencies                            profileCompetencies[]
-  profileDevelopmentGoals                        profileDevelopmentGoals[]
-  profileMentorshipSkills                        profileMentorshipSkills[]
-  profileOrganizations                           profileOrganizations[]
-  profileProjects                                profileProjects[]
-  profileSkills                                  profileSkills[]
-  relocationLocations                            relocationLocations[]
-}
-
-model visibleCards {
-  id      String @default(uuid()) @id
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  info              Boolean   @default(true)
-  manager              Boolean   @default(true)
-  talentManagement              Boolean   @default(true)
-  officialLanguage              Boolean   @default(true)
-  skills              Boolean   @default(true)
-  competencies              Boolean   @default(true)
-  developmentalGoals              Boolean   @default(true)
-  education              Boolean   @default(true)
-  experience              Boolean   @default(true)
-  projects              Boolean   @default(true)
-  careerInterests              Boolean   @default(true)
-  mentorshipSkills              Boolean   @default(true)
+  @@unique([userId, description, endDate, startDate, jobTitle, organization])
 }
 
 model relocationLocations {
-  id         String     @default(uuid()) @id
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  locationId String?
-  profileId  String?
-  locations  locations? @relation(fields: [locationId], references: [id])
-  profiles   profiles?  @relation(fields: [profileId], references: [id])
-}
+  id         String            @default(uuid())
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  languageId Language
+  userId     String
+  locationId String
 
-model schools {
-  id          String      @default(uuid()) @id
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  country     String?
-  description String?
-  state       String?
-  education   education[]
-}
+  users      users[]           @relation("relocationLocationsUsers")
+  user       users             @relation(fields: [userId], references: [id])
+  locations  opOfficeLocations @relation(fields: [locationId, languageId], references: [id, languageId])
 
-model secondLanguageProficiencies {
-  id                 String     @default(uuid()) @id
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-  oralDate           DateTime?
-  oralProficiency    String?
-  readingDate        DateTime?
-  readingProficiency String?
-  writingDate        DateTime?
-  writingProficiency String?
-  profiles           profiles[]
-}
-
-model securityClearances {
-  id            String     @default(uuid()) @id
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profiles      profiles[]
-}
-
-model skills {
-  id                      String                    @default(uuid()) @id
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  categoryId              Int
-  descriptionEn           String?
-  descriptionFr           String?
-  type                    String?
-  categories              categories                @relation(fields: [categoryId], references: [id])
-  profileCompetencies     profileCompetencies[]
-  profileDevelopmentGoals profileDevelopmentGoals[]
-  profileMentorshipSkills profileMentorshipSkills[]
-  profileSkills           profileSkills[]
-
-  @@unique([descriptionEn, descriptionFr], name: "skills_unique_definition")
-}
-
-model talentMatrixResults {
-  id            String     @default(uuid()) @id
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profiles      profiles[]
-}
-
-model tenures {
-  id            String     @default(uuid()) @id
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  descriptionEn String?
-  descriptionFr String?
-  profiles      profiles[]
+  @@id([id, languageId])
+  @@unique([userId, locationId])
 }
 
 model users {
-  id           String     @default(uuid()) @id
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  avatarColor  String?
-  email        String?
-  inactive     Boolean    @default(false)
-  name         String?
-  nameInitials String?
-  profiles     profiles[]
+  id                                             String                       @default(uuid()) @id
+  createdAt                                      DateTime                     @default(now())
+  updatedAt                                      DateTime                     @updatedAt
+
+  groupLevelId          String?
+  actingLevelId         String?
+  securityClearanceId   String?
+  lookingJobId          String?
+  tenureId              String?
+  careerMobilityId      String?
+  employmentInfoId      String?
+  talentMatrixResultId  String?
+  officeLocationId      String?
+  visibleCardId         String?
+
+  name                  String?
+  nameInitials          String?
+  firstName             String?
+  lastName              String?
+  avatarColor           String?
+  email                 String?
+  telephone             String?
+  cellphone             String?
+  manager               String?
+  team                  String?
+  firstLanguage         Language?
+  secondLangauge        Language?
+  preferredLanguage     String?
+  actingStartDate       DateTime?
+  actingEndDate         DateTime?
+  linkedin              String?
+  github                String?
+  gcconnex              String?
+  exFeeder              Boolean    @default(false)
+  mentoring             Boolean    @default(false)
+  interestedInRemote    Boolean    @default(false)
+  status                UserStatus @default(ACTIVE)
+  projects              String[]
+
+  mentorshipSkills      mentorshipSkills[]
+  skills                skills[]
+  developmentalGoals    developmentalGoals[]
+  competencies          compentencies[]
+  secondLangProfs       secondLangProfs[]
+  organizations         organizations[]
+  educations            educations[]
+  experiences           experiences[]
+  relocationLocations   relocationLocations[]
+
+  groupLevel            opClassifications?      @relation(fields: [groupLevelId], references: [id], name: "userGroupLevels")
+  actingLevel           opClassifications?      @relation(fields: [actingLevelId], references: [id], name: "userActingLevels")
+  securityClearance     opSecurityClearances?   @relation(fields: [securityClearanceId], references: [id])
+  lookingJob            opLookingJobs?          @relation(fields: [lookingJobId], references: [id])
+  tenure                opTenures?              @relation(fields: [tenureId], references: [id])
+  careerMobility        opCareerMobilities?     @relation(fields: [careerMobilityId], references: [id])
+  employmentInfo        employmentInfos?        @relation(fields: [employmentInfoId], references: [id])
+  talentMatrixResult    opTalentMatrixResults?  @relation(fields: [talentMatrixResultId], references: [id])
+  officeLocation        opOfficeLocations?      @relation(fields: [officeLocationId], references: [id])
+  visibleCards          visibleCards?           @relation(fields: [visibleCardId], references: [id])
 }
