@@ -22,23 +22,23 @@ async function getProf(profile, searchValue) {
 
   const data = { ...profileData, ...userData };
 
-  const groupLevel = await profile.getGroupLevel().then(res => {
+  const groupLevel = await profile.getGroupLevel().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const acting = await profile.getActing().then(res => {
+  const acting = await profile.getActing().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const location = await profile.getLocation().then(res => {
+  const location = await profile.getLocation().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
   const experiences = await profile.getExperiences();
-  const careerSummary = experiences.map(experience => {
+  const careerSummary = experiences.map((experience) => {
     const startDate = moment(experience.startDate);
     const endDate = moment(experience.endDate);
 
@@ -52,23 +52,23 @@ async function getProf(profile, searchValue) {
   });
 
   const dbProjects = await profile.getProfileProjects();
-  const projects = dbProjects.map(project => {
+  const projects = dbProjects.map((project) => {
     return { text: project.description };
   });
 
   const education = await profile.getEducation();
   const educations = () => {
     return Promise.all(
-      education.map(async educ => {
+      education.map(async (educ) => {
         const startDate = moment(educ.startDate);
         const endDate = moment(educ.endDate);
 
-        const school = await educ.getSchool().then(res => {
+        const school = await educ.getSchool().then((res) => {
           if (res) return res.dataValues;
           return null;
         });
 
-        const diploma = await educ.getDiploma().then(res => {
+        const diploma = await educ.getDiploma().then((res) => {
           if (res) return res.dataValues;
           return null;
         });
@@ -97,8 +97,8 @@ async function getProf(profile, searchValue) {
 
   const organizationList = await profile
     .getProfileOrganizations({ order: [["tier", "DESC"]] })
-    .then(organizations => {
-      const orgList = organizations.map(organization => {
+    .then((organizations) => {
+      const orgList = organizations.map((organization) => {
         return {
           en: organization.descriptionEn,
           fr: organization.descriptionFr,
@@ -107,7 +107,7 @@ async function getProf(profile, searchValue) {
       return orgList;
     });
 
-  const skills = await profile.getSkills().map(async skill => {
+  const skills = await profile.getSkills().map(async (skill) => {
     if (skill)
       return {
         id: skill.dataValues.id,
@@ -121,7 +121,7 @@ async function getProf(profile, searchValue) {
 
   const mentorshipSkills = await profile
     .getMentorshipSkills()
-    .map(async skill => {
+    .map(async (skill) => {
       if (skill)
         return {
           id: skill.dataValues.id,
@@ -133,21 +133,23 @@ async function getProf(profile, searchValue) {
       return null;
     });
 
-  const competencies = await profile.getCompetencies().map(competenciesMap => {
-    if (competenciesMap)
-      return {
-        id: competenciesMap.dataValues.id,
-        description: {
-          en: competenciesMap.dataValues.descriptionEn,
-          fr: competenciesMap.dataValues.descriptionFr,
-        },
-      };
-    return null;
-  });
+  const competencies = await profile
+    .getCompetencies()
+    .map((competenciesMap) => {
+      if (competenciesMap)
+        return {
+          id: competenciesMap.dataValues.id,
+          description: {
+            en: competenciesMap.dataValues.descriptionEn,
+            fr: competenciesMap.dataValues.descriptionFr,
+          },
+        };
+      return null;
+    });
 
   let allSkill = skills.concat(competencies);
 
-  allSkill = allSkill.map(skill => skill.description);
+  allSkill = allSkill.map((skill) => skill.description);
 
   const options = {
     shouldSort: true,
@@ -214,7 +216,7 @@ async function getProf(profile, searchValue) {
 
 function getProfs(profiles, searchValue) {
   return Promise.all(
-    profiles.map(profile => {
+    profiles.map((profile) => {
       return getProf(profile, searchValue);
     })
   );
@@ -247,7 +249,7 @@ async function getAllProfiles(searchValue) {
       flagged: false,
     },
   });
-  const allProf = await getProfs(profiles, searchValue).then(profs => profs);
+  const allProf = await getProfs(profiles, searchValue).then((profs) => profs);
 
   return allProf;
 }
