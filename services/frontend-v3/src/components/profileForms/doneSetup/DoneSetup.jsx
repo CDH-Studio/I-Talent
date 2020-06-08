@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import DoneSetupView from "./DoneSetupView";
 import config from "../../../config";
@@ -13,6 +14,7 @@ const { backendAddress } = config;
  */
 const DoneSetup = () => {
   const [load, setLoad] = useState(false);
+  const { id } = useSelector((state) => state.user);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -33,9 +35,9 @@ const DoneSetup = () => {
     };
 
     getAllData().catch((error) => handleError(error, "redirect"));
-  }, []);
+  }, [id]);
 
-  return <DoneSetupView load={load} />;
+  return <DoneSetupView load={load} userId={id} />;
 };
 
 export default DoneSetup;

@@ -1,10 +1,10 @@
 const moment = require("moment");
-const Models = require("../../../../database/models");
+const Models = require("../../../database/models");
 
 const Profiles = Models.profile; // Profiles Table
 
 async function growthRateByMonth() {
-  // Object Structure: {Year, Data: [{Month, # of Occurrences}]}
+  // Object Structure: [{year, data: [{month, count: # of Occurrences}]}
   let monthlyGrowthRate = [];
 
   const profiles = await Profiles.findAll({
@@ -13,9 +13,7 @@ async function growthRateByMonth() {
 
   profiles.forEach((profile) => {
     const profileCreatedAt = moment(profile.createdAt);
-
     const profileMonth = profileCreatedAt.month();
-
     const profileYear = profileCreatedAt.year();
 
     const indexYear = monthlyGrowthRate.findIndex(
@@ -48,66 +46,50 @@ async function growthRateByMonth() {
     }
   });
 
+  // Sorts monthlyGrowthRate.data by month
   for (let i = 0; i < monthlyGrowthRate.length; i += 1) {
     monthlyGrowthRate[i].data.sort((a, b) => a.month - b.month);
   }
 
-  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
-    const newData = [];
-    const newMonth = [];
+  const months = moment.monthsShort();
 
-    entry.data.forEach((month) => {
-      newMonth[month.month] = month.count;
+  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
+    const newMonth = [];
+    entry.data.forEach(({ month, count }) => {
+      newMonth[month] = count;
     });
 
+    const newData = [];
     for (let i = 0; i < 12; i += 1) {
       newData.push({
         month: i,
+        monthName: months[i],
         count: newMonth[i] || 0,
       });
     }
 
-    const tempEntry = entry;
-    tempEntry.data = newData;
-    return tempEntry;
-  });
-
-  const months = moment.monthsShort();
-
-  // FIXME: Refactor this
-  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
-    const addData = [];
-
-    for (let i = 0; i < 12; i += 1) {
-      addData.push({
-        month: i,
-        monthName: months[i],
-        count: entry.data[i].count,
-      });
-    }
-    const tempEntry = entry;
-    tempEntry.data = addData;
-    return tempEntry;
+    return {
+      ...entry,
+      data: newData,
+    };
   });
 
   // Growth Rate By Month Graph Data:
   const graphicalData = [];
 
-  monthlyGrowthRate = monthlyGrowthRate.map((entry) => {
+  monthlyGrowthRate.forEach(({ year, data }) => {
     for (let i = 0; i < 12; i += 1) {
       graphicalData.push({
-        year: entry.year.toString(),
+        year: year.toString(),
         monthNumber: i,
-        monthName: entry.data[i].monthName,
-        count: entry.data[i].count,
+        monthName: data[i].monthName,
+        count: data[i].count,
       });
     }
-    return entry;
   });
 
   // Users Added This Month & Growth Rate Percentage:
   const currentYear = moment().year();
-
   const currentMonth = moment().month();
 
   const indexYear = monthlyGrowthRate.findIndex(
@@ -129,6 +111,7 @@ async function growthRateByMonth() {
       (object) => object.month === currentMonth - 1
     );
   }
+
   let growthRateFromPreviousMonth = Math.round(
     ((currentMonthAdditions.count - previousMonthAdditions.count) /
       previousMonthAdditions.count) *

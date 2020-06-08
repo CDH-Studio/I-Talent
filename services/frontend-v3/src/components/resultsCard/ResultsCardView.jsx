@@ -1,19 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
-import { Row, Col, Tag, Card, Divider, Avatar, Typography } from "antd";
-import {
-  HistoryPropType,
-  IntlPropType,
-  ProfileInfoPropType,
-} from "../../customPropTypes";
+import { FormattedMessage } from "react-intl";
+import { Row, Col, Tag, Card, Divider, Avatar, Typography, Empty } from "antd";
+import { HistoryPropType, ProfileInfoPropType } from "../../customPropTypes";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 
 const { Meta } = Card;
 const { Text } = Typography;
 
-const ResultsCardView = ({ history, intl, results, locale }) => {
+const ResultsCardView = ({ history, results, locale }) => {
   const styles = {
     smallP: {
       lineHeight: "4px",
@@ -22,15 +18,30 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
     },
   };
 
+  /*
+   * Handle Key Press
+   *
+   * handle how to process when enter key is hit when focusing on a results card
+   */
+
+  const handleKeyPress = (e, person) => {
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      history.push(`/secured/profile/${person.id}`);
+    }
+  };
+
   const renderCard = (person, key) => {
     return (
       <Col span={6} style={{ height: "100%" }} key={key}>
         <Card
+          tabIndex="0"
           style={{ height: "100%", overflowX: "hidden" }}
           size="small"
           hoverable
           bordered
           onClick={() => history.push(`/secured/profile/${person.id}`)}
+          onKeyPress={(e) => handleKeyPress(e, person)}
         >
           <Meta
             avatar={
@@ -64,10 +75,7 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
             style={styles.divider}
             orientation="left"
           >
-            {intl.formatMessage({
-              id: "advanced.search.form.skills",
-              defaultMessage: "Skills",
-            })}
+            <FormattedMessage id="advanced.search.form.skills" />
           </Divider>
 
           {person.resultSkills.map((skill) => (
@@ -93,6 +101,12 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
       )}`;
     }
 
+    if (dataSource.length === 0) {
+      return (
+        <Empty description={<FormattedMessage id="search.no.results" />} />
+      );
+    }
+
     const preparedResults = prepareInfo(dataSource, locale);
 
     return preparedResults.map((person, key) => renderCard(person, key));
@@ -100,7 +114,12 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
 
   return (
     <div>
-      <Row gutter={[16, 16]} type="flex" justify="left" align="top">
+      <Row
+        gutter={[16, 16]}
+        type="flex"
+        justify="left"
+        align={results.length === 0 ? "center" : "top"}
+      >
         {renderResultCards(results)}
       </Row>
     </div>
@@ -109,14 +128,12 @@ const ResultsCardView = ({ history, intl, results, locale }) => {
 
 ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
-  intl: IntlPropType,
   results: PropTypes.arrayOf(ProfileInfoPropType),
   locale: PropTypes.oneOf(["fr", "en"]).isRequired,
 };
 
 ResultsCardView.defaultProps = {
   results: null,
-  intl: undefined,
 };
 
-export default injectIntl(ResultsCardView);
+export default ResultsCardView;

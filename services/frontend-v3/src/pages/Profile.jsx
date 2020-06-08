@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import config from "../config";
 import handleError from "../functions/handleError";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
@@ -13,9 +14,9 @@ const Profile = ({ history, match }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const updateProfileInfo = async (id) => {
-    const userID = localStorage.getItem("userId");
+  const userID = useSelector(state => state.user.id);
 
+  const updateProfileInfo = useCallback(async (id) => {
     // Send private data to ProfileLayout component, when current user
     // is looking at his own profile
     if (id === userID) {
@@ -43,7 +44,7 @@ const Profile = ({ history, match }) => {
         }
       });
     return fetchedData;
-  };
+  }, [userID]);
 
   const goto = useCallback((link) => history.push(link), [history]);
 
@@ -51,7 +52,7 @@ const Profile = ({ history, match }) => {
     const { id } = match.params;
 
     if (id === undefined) {
-      goto(`/secured/profile/${localStorage.getItem("userId")}`);
+      goto(`/secured/profile/${userID}`);
       // this.forceUpdate();
     }
 
@@ -66,7 +67,7 @@ const Profile = ({ history, match }) => {
         })
         .catch((error) => handleError(error, "redirect"));
     }
-  }, [data, goto, match.params]);
+  }, [data, goto, match.params, updateProfileInfo, userID]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;

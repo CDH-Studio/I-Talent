@@ -40,6 +40,7 @@ const PersonalGrowthForm = ({ formType }) => {
 
   // Get current language code
   const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   const history = useHistory();
 
@@ -78,14 +79,12 @@ const PersonalGrowthForm = ({ formType }) => {
   /**
    * Get User Profile
    */
-  const getProfileInfo = async () => {
-    const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-      "userId"
-    )}`;
+  const getProfileInfo = useCallback(async () => {
+    const url = `${backendAddress}api/profile/private/${id}`;
     const result = await axios.get(url);
     setProfileInfo(result.data);
     return 1;
-  };
+  }, [id]);
 
   /**
    * Get Developmental Goal Options
@@ -270,6 +269,7 @@ const PersonalGrowthForm = ({ formType }) => {
     getDevelopmentalGoalOptions,
     getInterestedInRemoteOptions,
     getLookingForNewJobOptions,
+    getProfileInfo,
     getRelocationOptions,
     getTalentMatrixResultOptions,
   ]);
@@ -292,6 +292,7 @@ const PersonalGrowthForm = ({ formType }) => {
       formType={formType}
       load={load}
       history={history}
+      userId={id}
     />
   );
 };

@@ -36,9 +36,12 @@ const PrimaryInfoFormView = ({
   formType,
   intl,
   history,
+  userId,
+  email,
 }) => {
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [savedValues, setSavedValues] = useState(null);
 
   /* Component Styles */
   const styles = {
@@ -122,16 +125,20 @@ const PrimaryInfoFormView = ({
   const saveDataToDB = async (values) => {
     if (profileInfo) {
       // If profile exists then update profile
-      await axios.put(
-        `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-        values
-      );
+      try {
+        await axios.put(`${backendAddress}api/profile/${userId}`, values);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
     } else {
       // If profile does not exists then create profile
-      await axios.post(
-        `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-        values
-      );
+      try {
+        await axios.post(`${backendAddress}api/profile/${userId}`, values);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
     }
   };
 
@@ -170,29 +177,33 @@ const PrimaryInfoFormView = ({
         githubUrl: profile.githubUrl,
       };
     }
-    return { email: localStorage.getItem("email") };
+    return { email };
   };
 
   /**
-   * Returns true if the values in the form have changed based on its initial values
+   * Returns true if the values in the form have changed based on its initial values or the saved values
    *
    * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const initialValues = _.pickBy(getInitialValues(profileInfo), _.identity);
+    const dbValues = _.pickBy(
+      savedValues || getInitialValues(profileInfo),
+      _.identity
+    );
 
-    setFieldsChanged(!_.isEqual(formValues, initialValues));
+    setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */
   const onSave = async () => {
     form
       .validateFields()
-      .then(async (values) => saveDataToDB(values))
-      .then(() => {
+      .then(async (values) => {
+        setFieldsChanged(false);
+        setSavedValues(values);
+        await saveDataToDB(values);
         openNotificationWithIcon("success");
-        checkIfFormValuesChanged();
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -222,7 +233,7 @@ const PrimaryInfoFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -374,7 +385,7 @@ const PrimaryInfoFormView = ({
       {/* Create for with initial values */}
       <Form
         name="basicForm"
-        initialValues={getInitialValues(profileInfo)}
+        initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
         form={form}
         onValuesChange={checkIfFormValuesChanged}
@@ -522,6 +533,8 @@ PrimaryInfoFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
+  userId: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

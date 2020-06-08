@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 
 import axios from "axios";
 import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
@@ -16,7 +17,7 @@ import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
-function ProfileCardsView({
+const ProfileCardsView = ({
   cardName,
   editUrl,
   profileInfo,
@@ -25,13 +26,14 @@ function ProfileCardsView({
   content,
   style,
   history,
-}) {
+}) => {
   const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
   const newId = useParams().id;
   const urlID = newId;
-  const userID = localStorage.getItem("userId");
+  const userID = useSelector((state) => state.user.id);
+
   /*
    * Handle Visibility Toggle
    *
@@ -90,6 +92,7 @@ function ProfileCardsView({
                 title={<FormattedMessage id="profile.toggle.card.visibility" />}
               >
                 <Switch
+                  aria-label="visibility toggle"
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
                   checked={disabled}
@@ -104,6 +107,7 @@ function ProfileCardsView({
                 title={<FormattedMessage id="profile.edit" />}
               >
                 <Button
+                  aria-label="visibility toggle"
                   type="default"
                   shape="circle"
                   icon={<EditOutlined />}
@@ -153,7 +157,7 @@ function ProfileCardsView({
       </Card>
     </div>
   );
-}
+};
 
 ProfileCardsView.propTypes = {
   cardName: PropTypes.string.isRequired,

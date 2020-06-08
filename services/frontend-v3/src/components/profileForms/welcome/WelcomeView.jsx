@@ -17,7 +17,7 @@ import handleError from "../../../functions/handleError";
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-const WelcomeView = ({ gedsProfiles, intl, load, history }) => {
+const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
 
@@ -96,10 +96,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, history }) => {
       if (value) {
         // create profile
         await axios
-          .post(
-            `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-            value
-          )
+          .post(`${backendAddress}api/profile/${userId}`, value)
           .then(() => history.push("/secured/profile/create/step/2"))
           .catch((error) => handleError(error, "message"));
       }
@@ -186,6 +183,28 @@ const WelcomeView = ({ gedsProfiles, intl, load, history }) => {
         </div>
       );
     }
+    if (gedsProfiles) {
+      return (
+        <div>
+          {/* generate list of GEDS profiles */}
+          {generateProfileBtn({
+            icon: <UserOutlined />,
+            firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
+            secondTitle: gedsProfiles.jobTitle[locale],
+            thirdTitle: gedsProfiles.email,
+            value: gedsProfiles,
+          })}
+          {/* new user button */}
+          {generateProfileBtn({
+            icon: <UserAddOutlined />,
+            firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+            secondTitle: intl.formatMessage({
+              id: "setup.welcome.new.description",
+            }),
+          })}
+        </div>
+      );
+    }
     return (
       <div>
         {/* generate list of GEDS profiles */}
@@ -227,14 +246,16 @@ const WelcomeView = ({ gedsProfiles, intl, load, history }) => {
 };
 
 WelcomeView.propTypes = {
-  gedsProfiles: PropTypes.arrayOf(PropTypes.any),
+  // eslint-disable-next-line react/forbid-prop-types
+  gedsProfiles: PropTypes.object,
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 WelcomeView.defaultProps = {
-  gedsProfiles: [],
+  gedsProfiles: undefined,
   intl: undefined,
 };
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -19,20 +19,20 @@ const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [savedEducation, setSavedEducation] = useState([]);
-  const [savedExperience, setSavedExperience] = useState([]);
-  const [savedProjects, setSavedProjects] = useState([]);
+  const [savedEducation, setSavedEducation] = useState();
+  const [savedExperience, setSavedExperience] = useState();
+  const [savedProjects, setSavedProjects] = useState();
+
+  const { id } = useSelector((state) => state.user);
 
   const history = useHistory();
 
   /**
    * Get User Profile
    */
-  const getProfileInfo = async () => {
+  const getProfileInfo = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
+      const url = `${backendAddress}api/profile/private/${id}`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
       setLoad(true);
@@ -41,7 +41,7 @@ const QualificationsForm = ({ formType }) => {
       setLoad(false);
       throw error;
     }
-  };
+  }, [id]);
 
   /**
    * Get Saved Education Information
@@ -120,7 +120,7 @@ const QualificationsForm = ({ formType }) => {
   useEffect(() => {
     /* Get all required data component */
     getProfileInfo().catch((error) => handleError(error, "redirect"));
-  }, []);
+  }, [getProfileInfo]);
 
   return (
     <QualificationsFormView
@@ -131,6 +131,7 @@ const QualificationsForm = ({ formType }) => {
       formType={formType}
       load={load}
       history={history}
+      userId={id}
     />
   );
 };

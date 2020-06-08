@@ -1,3 +1,4 @@
+const Sentry = require("@sentry/node");
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
@@ -6,6 +7,12 @@ const database = require("./database/config/database");
 const router = require("./router/router");
 
 const app = express();
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.DEPLOYEMENT_ENV,
+});
+app.use(Sentry.Handlers.requestHandler());
 
 const port = process.env.PORT || 8080;
 
@@ -36,6 +43,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api", router);
 app.use(keycloak.middleware({ logout: "/" }));
+app.use(Sentry.Handlers.errorHandler());
 app.listen(port, () => console.log(`Magic happens on port ${port}`));
 
 // FIXME: create the get employee info function

@@ -108,6 +108,8 @@
   "sidebar.search.description": "You can update your search filters",
 
   "back.to.landing": "Back to landing",
+  "search.no.results": "No results found",
+
   "button.advanced.search": "Advanced search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
@@ -195,6 +197,7 @@
 
   "results.title": "Results",
 
+  "other.profile": "Profile",
   "my.profile": "My profile",
   "edit.profile": "Edit profile",
   "create.profile": "Create profile",
@@ -328,6 +331,7 @@
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
   "profile.form.clear": "Form cleared",
+  "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
 

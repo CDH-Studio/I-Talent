@@ -226,7 +226,7 @@ async function updateProfile(request, response) {
           let { content } = exp;
           if (!startDate.isValid()) startDate = null;
           else startDate = startDate.format();
-          if (!endDate.isValid()) endDate = null;
+          if (!exp.endDate || !endDate.isValid()) endDate = null;
           else endDate = endDate.format();
           if (!exp.content) content = "";
           Experience.create({
@@ -311,7 +311,7 @@ async function updateProfile(request, response) {
           profile.setSecondLanguageProficiency(selectLangProf);
         });
     }
-    if (!dbObject.secondLanguage) {
+    if (dbObject.secondLanguage === null) {
       SecLang.destroy({
         where: { id: profile.dataValues.secondLanguageProficiencyId },
       });

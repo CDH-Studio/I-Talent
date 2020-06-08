@@ -25,6 +25,7 @@ const EmploymentDataForm = ({ formType }) => {
 
   // Get current language code
   const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
@@ -80,14 +81,12 @@ const EmploymentDataForm = ({ formType }) => {
   }, [locale]);
 
   // Get user profile for form drop down
-  const getProfileInfo = async () => {
-    const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-      "userId"
-    )}`;
+  const getProfileInfo = useCallback(async () => {
+    const url = `${backendAddress}api/profile/private/${id}`;
     const result = await axios.get(url);
     setProfileInfo(result.data);
     return 1;
-  };
+  }, [id]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -105,7 +104,7 @@ const EmploymentDataForm = ({ formType }) => {
         setLoad(false);
         handleError(error, "redirect");
       });
-  }, [getSecurityOptions, getSubstantiveOptions]);
+  }, [getProfileInfo, getSecurityOptions, getSubstantiveOptions]);
 
   return (
     <EmploymentDataFormView
@@ -117,6 +116,7 @@ const EmploymentDataForm = ({ formType }) => {
       locale={locale}
       load={load}
       history={history}
+      userId={id}
     />
   );
 };
