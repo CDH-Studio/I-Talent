@@ -400,7 +400,7 @@ const ProfileLayoutView = ({ data }) => {
                     title={<FormattedMessage id="profile.exFeeder" />}
                     content={<ExFeeder data={data} style={styles.card} />}
                     cardName="exFeeder"
-                    id="card-profile-talent-management"
+                    id="card-profile-ex-feeder"
                   />
                 </Col>
               </Row>
@@ -538,7 +538,8 @@ const ProfileLayoutView = ({ data }) => {
             )}
             {(visibleCards.developmentalGoals ||
               visibleCards.talentManagement ||
-              visibleCards.careerInterests) && (
+              visibleCards.careerInterests ||
+              visibleCards.exFeeder) && (
               <Link
                 href="#divider-employee-growth"
                 title={
@@ -563,6 +564,16 @@ const ProfileLayoutView = ({ data }) => {
                     title={
                       <Text style={styles.sideBarText}>
                         <FormattedMessage id="profile.talent.management" />
+                      </Text>
+                    }
+                  />
+                )}
+                {visibleCards.exFeeder && (
+                  <Link
+                    href="#card-profile-ex-feeder"
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.ex.feeder.title" />
                       </Text>
                     }
                   />
