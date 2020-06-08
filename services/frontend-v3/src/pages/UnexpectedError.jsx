@@ -23,17 +23,21 @@ const UnexpectedError = () => {
       status={500}
       extra={
         <div style={{ textAlign: "center" }}>
-          <Space size={"small"}>
-            <Button type="primary" onClick={() => history.goBack()}>
-              <FormattedMessage id="error.retry" />
-            </Button>
-            <Button onClick={() => history.push("/")}>
-              <FormattedMessage id="back.to.landing" />
-            </Button>
-            <Button onClick={() => setShowError((oldValue) => !oldValue)}>
-              <FormattedMessage id={showError ? "error.hide" : "error.show"} />
-            </Button>
-          </Space>
+          <div>
+            <Space size={"small"}>
+              <Button type="primary" onClick={() => history.goBack()}>
+                <FormattedMessage id="error.retry" />
+              </Button>
+              <Button onClick={() => history.push("/")}>
+                <FormattedMessage id="back.to.landing" />
+              </Button>
+              <Button onClick={() => setShowError((oldValue) => !oldValue)}>
+                <FormattedMessage
+                  id={showError ? "error.hide" : "error.show"}
+                />
+              </Button>
+            </Space>
+          </div>
           <div style={{ display: "inline-block", textAlign: "left" }}>
             <div style={styles.content}>
               {showError ? (
