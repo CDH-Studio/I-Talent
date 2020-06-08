@@ -135,6 +135,64 @@ const SearchBarView = ({
             >
               <Input style={{ width: "100%" }} placeholder={searchLabel} />
             </Form.Item>
+
+            {/* branch field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.branch" />}
+              name="branch"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+                maxTagCount={3}
+              >
+                {branchOptions.map((value) => {
+                  return (
+                    <Option key={value.description.en}>
+                      {value.description[locale]}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            {/* ex-feeder field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+              name="exFeeder"
+              valuePropName="checked"
+            >
+              <Switch />
+            </Form.Item>
+          </Col>
+          {/* form column two */}
+          <Col span={8}>
+            {/* Skills field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.skills" />}
+              name="skills"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+                maxTagCount={3}
+              >
+                {skillOptions.map((value) => {
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
             {/* Location field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.location" />}
@@ -158,12 +216,15 @@ const SearchBarView = ({
               </Select>
             </Form.Item>
           </Col>
-          {/* form column two */}
+
+          {/* form column three */}
           <Col span={8}>
-            {/* Skills field */}
+            {/* Mentorship Skills field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.skills" />}
-              name="skills"
+              label={
+                <FormattedMessage id="advanced.search.form.mentorship.skills" />
+              }
+              name="mentorshipSkills"
             >
               <Select
                 style={{ width: "100%" }}
@@ -203,68 +264,6 @@ const SearchBarView = ({
                   return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
-            </Form.Item>
-          </Col>
-          {/* form column three */}
-          <Col span={8}>
-            {/* branch field */}
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.branch" />}
-              name="branch"
-            >
-              <Select
-                style={{ width: "100%" }}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={3}
-              >
-                {branchOptions.map((value) => {
-                  return (
-                    <Option key={value.description.en}>
-                      {value.description[locale]}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-            {/* exFeeder field */}
-            <Form.Item
-              label={
-                <FormattedMessage id="advanced.search.form.mentorship.skills" />
-              }
-              name="mentorshipSkills"
-            >
-              <Select
-                style={{ width: "100%" }}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={3}
-              >
-                {skillOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>{value.description[locale]}</Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
-          <Col span={8}>
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
-              name="exFeeder"
-              valuePropName="checked"
-            >
-              <Switch />
             </Form.Item>
           </Col>
         </Row>
