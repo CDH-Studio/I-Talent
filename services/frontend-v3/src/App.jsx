@@ -61,7 +61,7 @@ const App = () => {
 
       // Moves the info from localStorage to redux and clears it
       attributes.forEach((attribute, key) => {
-        store.dispatch(reduxFunctions[key](attribute));
+        store.dispatch(reduxFunctions[key](localStorage.getItem(attribute)));
         localStorage.removeItem(attribute);
       });
     }
