@@ -171,17 +171,16 @@ const ProfileLayoutView = ({ data }) => {
                 id="card-profile-talent-management"
                 editUrl="/secured/profile/edit/personal-growth"
               />
-              {data.exFeeder ? (
-                <div style={{ paddingTop: "16px" }}>
-                  <ProfileCards
-                    title={<ExFeeder data={data} style={styles.card} />}
-                    content={null}
-                    cardName="exFeeder"
-                    id="card-profile-ex-feeder"
-                    editUrl="/secured/profile/edit/personal-growth"
-                  />
-                </div>
-              ) : null}
+              <div style={{ paddingTop: "16px" }}>
+                <ProfileCards
+                  title={<ExFeeder data={data} style={styles.card} />}
+                  content={null}
+                  cardName="exFeeder"
+                  id="card-profile-ex-feeder"
+                  editUrl="/secured/profile/edit/personal-growth"
+                  forceDisabled={!data.exFeeder}
+                />
+              </div>
             </Col>
             <Col xs={24} xl={12}>
               <ProfileCards

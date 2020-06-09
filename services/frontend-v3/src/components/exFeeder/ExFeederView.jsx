@@ -11,15 +11,18 @@ const ExFeederView = ({ locale, data }) => {
       paddingLeft: "8px",
     },
   };
+  if (data.exFeeder) {
+    return (
+      <>
+        <CheckOutlined />
+        <span style={styles.exFeederTitleSpan}>
+          <FormattedMessage id="profile.ex.feeder" />
+        </span>
+      </>
+    );
+  }
 
-  return (
-    <>
-      <CheckOutlined />
-      <span style={styles.exFeederTitleSpan}>
-        <FormattedMessage id="profile.ex.feeder" />
-      </span>
-    </>
-  );
+  return <FormattedMessage id="profile.not.ex.feeder" />;
 };
 
 ExFeederView.propTypes = {

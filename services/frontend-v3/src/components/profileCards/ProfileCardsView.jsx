@@ -23,6 +23,7 @@ function ProfileCardsView({
   id,
   content,
   style,
+  forceDisabled,
 }) {
   const history = useHistory();
   const [disabled, setDisabled] = useState(true);
@@ -92,12 +93,14 @@ function ProfileCardsView({
                 <Switch
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
-                  checked={disabled}
+                  checked={disabled && !forceDisabled}
                   onChange={handleVisibilityToggle}
                   style={{ marginTop: "5px" }}
+                  disabled={forceDisabled}
                 />
               </Tooltip>
             </Col>
+
             <Col>
               <Tooltip
                 placement="top"
@@ -122,9 +125,18 @@ function ProfileCardsView({
     if (profileInfo) {
       const { visibleCards } = profileInfo;
       const cardNameToBeModified = cardName;
-      setDisabled(visibleCards[cardNameToBeModified]);
+      setDisabled(visibleCards[cardNameToBeModified] && !forceDisabled);
     }
-  }, [cardName, editUrl, profileInfo, title, id, content, style]);
+  }, [
+    cardName,
+    editUrl,
+    profileInfo,
+    title,
+    id,
+    content,
+    style,
+    forceDisabled,
+  ]);
 
   let styles;
   if (disabled === true) {
