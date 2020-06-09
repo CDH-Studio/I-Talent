@@ -85,4 +85,4 @@ tmp
 .DS_Store
 
 # prisma generated client
-generated/
+client/
