@@ -47,6 +47,7 @@ const EmploymentDataFormView = (props) => {
     securityOptions,
     substantiveOptions,
     intl,
+    userId,
   } = props;
 
   const history = useHistory();
@@ -158,7 +159,7 @@ const EmploymentDataFormView = (props) => {
       // If profile exists then update profile
       try {
         await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -169,7 +170,7 @@ const EmploymentDataFormView = (props) => {
       // If profile does not exists then create profile
       try {
         await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
+          `${backendAddress}api/profile/${userId}`,
           values
         );
       } catch (error) {
@@ -301,7 +302,7 @@ const EmploymentDataFormView = (props) => {
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -389,7 +390,9 @@ const EmploymentDataFormView = (props) => {
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
+                tabIndex="0"
                 onChange={toggleTempEndDate}
+                onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
               >
                 <FormattedMessage id="profile.acting.has.end.date" />
@@ -547,6 +550,7 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
+              tabIndex="0"
               name="tenureId"
               label={<FormattedMessage id="profile.substantive" />}
             >
@@ -569,6 +573,7 @@ const EmploymentDataFormView = (props) => {
 
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
+              tabIndex="0"
               name="groupLevelId"
               label={<FormattedMessage id="profile.classification" />}
             >
@@ -593,6 +598,7 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
+              tabIndex="0"
               name="securityClearanceId"
               label={<FormattedMessage id="profile.security" />}
             >
@@ -653,6 +659,7 @@ EmploymentDataFormView.propTypes = {
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {

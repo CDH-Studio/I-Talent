@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
 
@@ -10,6 +11,7 @@ const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const { id, email } = useSelector((state) => state.user);
 
   // Get possible locations for form drop down
   const getLocations = async () => {
@@ -23,18 +25,16 @@ const PrimaryInfoForm = ({ formType }) => {
   };
 
   // Get user profile for form drop down
-  const getProfileInfo = async () => {
+  const getProfileInfo = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
+      const url = `${backendAddress}api/profile/private/${id}`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
       return 0;
     }
-  };
+  }, [id]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -47,7 +47,7 @@ const PrimaryInfoForm = ({ formType }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, []);
+  }, [getProfileInfo]);
 
   return (
     <PrimaryInfoFormView
@@ -55,6 +55,8 @@ const PrimaryInfoForm = ({ formType }) => {
       profileInfo={profileInfo}
       load={load}
       formType={formType}
+      userId={id}
+      email={email}
     />
   );
 };

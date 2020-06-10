@@ -1,5 +1,5 @@
 const moment = require("moment");
-const Models = require("../../../../database/models");
+const Models = require("../../../database/models");
 
 const Profiles = Models.profile; // Profiles Table
 

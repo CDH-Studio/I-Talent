@@ -34,6 +34,8 @@ const PrimaryInfoFormView = ({
   load,
   formType,
   intl,
+  userId,
+  email,
 }) => {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -123,10 +125,7 @@ const PrimaryInfoFormView = ({
     if (profileInfo) {
       // If profile exists then update profile
       try {
-        await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
+        await axios.put(`${backendAddress}api/profile/${userId}`, values);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -134,10 +133,7 @@ const PrimaryInfoFormView = ({
     } else {
       // If profile does not exists then create profile
       try {
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
+        await axios.post(`${backendAddress}api/profile/${userId}`, values);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -180,7 +176,7 @@ const PrimaryInfoFormView = ({
         githubUrl: profile.githubUrl,
       };
     }
-    return { email: localStorage.getItem("email") };
+    return { email };
   };
 
   /**
@@ -228,7 +224,7 @@ const PrimaryInfoFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -521,6 +517,8 @@ PrimaryInfoFormView.propTypes = {
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

@@ -32,11 +32,14 @@ const LandingLayoutView = () => {
 
   return (
     <AppLayout displaySideBar={false}>
+      <h1 className="hidden" Landing Page>
+        <FormattedMessage id="landing.login.and.enter" />
+      </h1>
       <Row justify="center" style={{ marginTop: "120px" }}>
         <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
           <img
             src={logo}
-            alt="Logo"
+            alt="I-Talent Logo"
             style={{ width: "250px", marginTop: "30px" }}
           />
           <Title
@@ -73,7 +76,7 @@ const LandingLayoutView = () => {
         >
           <img
             src={randomPictureSelect()}
-            alt="Logo"
+            alt="I-Talent Logo"
             style={{ maxWidth: "70%", maxHeight: "400px", marginTop: "20px" }}
           />
         </Col>

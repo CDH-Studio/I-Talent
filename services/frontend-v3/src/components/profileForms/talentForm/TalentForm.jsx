@@ -23,22 +23,21 @@ const TalentForm = ({ formType }) => {
 
   // get current language code
   const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   /**
    * Get user profile
    */
-  const getProfileInfo = async () => {
+  const getProfileInfo = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
+      const url = `${backendAddress}api/profile/private/${id}`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
       return 1;
     } catch (error) {
       throw new Error(error);
     }
-  };
+  }, [id]);
 
   /**
    * Get all competency options
@@ -168,7 +167,7 @@ const TalentForm = ({ formType }) => {
         // eslint-disable-next-line no-console
         console.log(error);
       });
-  }, [getCompetencyOptions, getSkillOptions]);
+  }, [getCompetencyOptions, getProfileInfo, getSkillOptions]);
 
   return (
     <TalentFormView
@@ -180,6 +179,7 @@ const TalentForm = ({ formType }) => {
       savedMentorshipSkills={savedMentorshipSkills}
       formType={formType}
       load={load}
+      userId={id}
     />
   );
 };
