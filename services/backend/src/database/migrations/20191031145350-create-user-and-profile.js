@@ -152,7 +152,7 @@ module.exports = {
         });
       });
   },
-  down: (queryInterface) => {
+  down: queryInterface => {
     return queryInterface.dropTable("profiles").then(() => {
       return queryInterface.dropTable("users");
     });
