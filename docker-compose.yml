@@ -16,6 +16,7 @@ services:
     build: ./services/backend
     ports:
       - "8080:8080"
+      - "5555:5555"
     volumes:
       - ./services/backend:/upskill-backend
       - ./upskill-backend/node_modules
