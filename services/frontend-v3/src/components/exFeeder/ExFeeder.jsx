@@ -1,12 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import ExFeederView from "./ExFeederView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const ExFeeder = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
-  return <ExFeederView data={data} locale={locale} />;
+  return <ExFeederView data={data} />;
 };
 ExFeeder.propTypes = {
   data: ProfileInfoPropType,

@@ -56,7 +56,7 @@ async function createProfile(request, response) {
               diplomaId: diploma.id ? diploma.id : diploma,
               startDate,
               endDate,
-            }).then(education => {
+            }).then((education) => {
               profile.addEducation(education);
             });
           }
@@ -66,7 +66,7 @@ async function createProfile(request, response) {
 
     if (dbObject.experience) {
       Experience.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.experience.forEach(exp => {
+        dbObject.experience.forEach((exp) => {
           let startDate = moment(exp.startDate);
           let endDate = moment(exp.endDate);
           let content;
@@ -81,7 +81,7 @@ async function createProfile(request, response) {
             description: content,
             startDate: startDate,
             endDate: endDate,
-          }).then(experience => {
+          }).then((experience) => {
             profile.addExperience(experience);
           });
         });
@@ -90,10 +90,10 @@ async function createProfile(request, response) {
 
     if (dbObject.projects) {
       Project.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.projects.forEach(project => {
+        dbObject.projects.forEach((project) => {
           Project.create({
             description: project,
-          }).then(projectData => {
+          }).then((projectData) => {
             profile.addProfileProject(projectData);
           });
         });
@@ -109,7 +109,7 @@ async function createProfile(request, response) {
                 descriptionEn: en,
                 descriptionFr: fr,
                 tier,
-              }).then(organization => {
+              }).then((organization) => {
                 profile.addProfileOrganization(organization);
               });
             }
@@ -153,7 +153,7 @@ async function createProfile(request, response) {
           },
           { returning: true }
         )
-        .then(secLangProfValue => {
+        .then((secLangProfValue) => {
           profile.setSecondLanguageProficiency(secLangProfValue);
         });
     }
@@ -189,7 +189,7 @@ async function updateProfile(request, response) {
       where: { id: id },
     });
 
-    const profile = await Profile.findOne({ where: { id: id } }).then(res => {
+    const profile = await Profile.findOne({ where: { id: id } }).then((res) => {
       updated = true;
       return res;
     });
@@ -210,7 +210,7 @@ async function updateProfile(request, response) {
               diplomaId: diploma.id ? diploma.id : diploma,
               startDate,
               endDate,
-            }).then(education => {
+            }).then((education) => {
               profile.addEducation(education);
             });
           }
@@ -220,7 +220,7 @@ async function updateProfile(request, response) {
 
     if (dbObject.experience) {
       Experience.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.experience.forEach(exp => {
+        dbObject.experience.forEach((exp) => {
           let startDate = moment(exp.startDate);
           let endDate = moment(exp.endDate);
           let { content } = exp;
@@ -235,7 +235,7 @@ async function updateProfile(request, response) {
             description: content,
             startDate: startDate,
             endDate: endDate,
-          }).then(experience => {
+          }).then((experience) => {
             profile.addExperience(experience);
           });
         });
@@ -244,10 +244,10 @@ async function updateProfile(request, response) {
 
     if (dbObject.projects) {
       Project.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.projects.forEach(project => {
+        dbObject.projects.forEach((project) => {
           Project.create({
             description: project,
-          }).then(projectData => {
+          }).then((projectData) => {
             profile.addProfileProject(projectData);
           });
         });
@@ -263,7 +263,7 @@ async function updateProfile(request, response) {
                 descriptionEn: en,
                 descriptionFr: fr,
                 tier,
-              }).then(organization => {
+              }).then((organization) => {
                 profile.addProfileOrganization(organization);
               });
             }
@@ -307,7 +307,7 @@ async function updateProfile(request, response) {
           },
           { returning: true }
         )
-        .then(selectLangProf => {
+        .then((selectLangProf) => {
           profile.setSecondLanguageProficiency(selectLangProf);
         });
     }
@@ -321,10 +321,10 @@ async function updateProfile(request, response) {
       await RelocationLocation.destroy({
         where: { profileId: id },
       }).then(() =>
-        dbObject.relocationLocations.forEach(element => {
-          RelocationLocation.create({}).then(relocationLocation => {
+        dbObject.relocationLocations.forEach((element) => {
+          RelocationLocation.create({}).then((relocationLocation) => {
             profile.addRelocationLocation(relocationLocation).then(() => {
-              Location.findOne({ where: { id: element } }).then(location => {
+              Location.findOne({ where: { id: element } }).then((location) => {
                 location.addRelocationLocation(relocationLocation);
               });
             });
@@ -381,37 +381,39 @@ const getPrivateProfileById = async (request, response) => {
   if (!profile) response.status(404).send("Profile Not Found");
   const data = { ...profile.dataValues, ...user.dataValues };
 
-  const tenure = await profile.getTenure().then(res => {
+  const tenure = await profile.getTenure().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const careerMobility = await profile.getCareerMobility().then(res => {
+  const careerMobility = await profile.getCareerMobility().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const talentMatrixResult = await profile.getTalentMatrixResult().then(res => {
+  const talentMatrixResult = await profile
+    .getTalentMatrixResult()
+    .then((res) => {
+      if (res) return res.dataValues;
+      return null;
+    });
+
+  const groupLevel = await profile.getGroupLevel().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const groupLevel = await profile.getGroupLevel().then(res => {
+  const securityClearance = await profile.getSecurityClearance().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const securityClearance = await profile.getSecurityClearance().then(res => {
+  const acting = await profile.getActing().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
 
-  const acting = await profile.getActing().then(res => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const location = await profile.getLocation().then(res => {
+  const location = await profile.getLocation().then((res) => {
     if (res) return res.dataValues;
     return null;
   });
@@ -419,7 +421,7 @@ const getPrivateProfileById = async (request, response) => {
   const experiences = await profile.getExperiences({
     order: [["startDate", "DESC"]],
   });
-  const careerSummary = experiences.map(experience => {
+  const careerSummary = experiences.map((experience) => {
     const startDate = moment(experience.startDate);
     const endDate = moment(experience.endDate);
 
@@ -433,7 +435,7 @@ const getPrivateProfileById = async (request, response) => {
   });
 
   const dbProjects = await profile.getProfileProjects();
-  const projects = dbProjects.map(project => {
+  const projects = dbProjects.map((project) => {
     return { text: project.description };
   });
 
@@ -442,14 +444,14 @@ const getPrivateProfileById = async (request, response) => {
   });
   const educations = () => {
     return Promise.all(
-      education.map(async educ => {
+      education.map(async (educ) => {
         const startDate = moment(educ.startDate);
         const endDate = moment(educ.endDate);
-        const school = await educ.getSchool().then(res => {
+        const school = await educ.getSchool().then((res) => {
           if (res) return res.dataValues;
           return null;
         });
-        const diploma = await educ.getDiploma().then(res => {
+        const diploma = await educ.getDiploma().then((res) => {
           if (res) return res.dataValues;
           return null;
         });
@@ -478,8 +480,8 @@ const getPrivateProfileById = async (request, response) => {
 
   const organizationList = await profile
     .getProfileOrganizations({ order: [["tier", "ASC"]] })
-    .then(organizations => {
-      const orgList = organizations.map(organization => {
+    .then((organizations) => {
+      const orgList = organizations.map((organization) => {
         return {
           en: organization.descriptionEn,
           fr: organization.descriptionFr,
@@ -488,7 +490,7 @@ const getPrivateProfileById = async (request, response) => {
       return orgList;
     });
 
-  const skills = await profile.getSkills().map(async skill => {
+  const skills = await profile.getSkills().map(async (skill) => {
     if (skill) {
       const cats = await skill.getCategory({
         attributes: ["descriptionEn", "descriptionFr", "id"],
@@ -511,7 +513,7 @@ const getPrivateProfileById = async (request, response) => {
     return null;
   });
 
-  const competencies = await profile.getCompetencies().map(competency => {
+  const competencies = await profile.getCompetencies().map((competency) => {
     if (competency)
       return {
         id: competency.dataValues.id,
@@ -523,7 +525,7 @@ const getPrivateProfileById = async (request, response) => {
     return null;
   });
 
-  const developmentalGoals = await profile.getDevelopmentGoals().map(goal => {
+  const developmentalGoals = await profile.getDevelopmentGoals().map((goal) => {
     if (goal)
       return {
         id: goal.dataValues.id,
@@ -537,7 +539,7 @@ const getPrivateProfileById = async (request, response) => {
 
   const mentorshipSkills = await profile
     .getMentorshipSkills()
-    .map(async mentorshipSkill => {
+    .map(async (mentorshipSkill) => {
       if (mentorshipSkill) {
         const cats = await mentorshipSkill.getCategory({
           attributes: ["descriptionEn", "descriptionFr", "id"],
@@ -560,17 +562,19 @@ const getPrivateProfileById = async (request, response) => {
       return null;
     });
 
-  const secLangProf = await profile.getSecondLanguageProficiency().then(res => {
-    if (res) return res.dataValues;
-    return null;
-  });
+  const secLangProf = await profile
+    .getSecondLanguageProficiency()
+    .then((res) => {
+      if (res) return res.dataValues;
+      return null;
+    });
 
   const relocationLocations = await profile
     .getRelocationLocations()
-    .then(relocs =>
+    .then((relocs) =>
       Promise.all(
-        relocs.map(element =>
-          element.getLocation().then(loc => ({
+        relocs.map((element) =>
+          element.getLocation().then((loc) => ({
             description: {
               en: `${loc.city}, ${loc.provinceEn}`,
               fr: `${loc.city}, ${loc.provinceFr}`,
@@ -582,15 +586,17 @@ const getPrivateProfileById = async (request, response) => {
       )
     );
 
-  const lookingForNewJob = await profile.getLookingForANewJob().then(value => {
-    if (!value) {
-      return null;
-    }
-    return {
-      id: value.id,
-      description: { en: value.descriptionEn, fr: value.descriptionFr },
-    };
-  });
+  const lookingForNewJob = await profile
+    .getLookingForANewJob()
+    .then((value) => {
+      if (!value) {
+        return null;
+      }
+      return {
+        id: value.id,
+        description: { en: value.descriptionEn, fr: value.descriptionFr },
+      };
+    });
 
   // Response Object
   const resData = {
@@ -749,7 +755,7 @@ const getPublicProfileById = async (request, response) => {
 
   // Get Projects (may be empty)
   const dbProjects = await profile.getProfileProjects();
-  const projects = dbProjects.map(project => {
+  const projects = dbProjects.map((project) => {
     return { text: project.description };
   });
 
@@ -759,8 +765,8 @@ const getPublicProfileById = async (request, response) => {
 
   const organizationList = await profile
     .getProfileOrganizations({ order: [["tier", "ASC"]] })
-    .then(organizations => {
-      const orgList = organizations.map(organization => {
+    .then((organizations) => {
+      const orgList = organizations.map((organization) => {
         return {
           en: organization.descriptionEn,
           fr: organization.descriptionFr,
@@ -769,7 +775,7 @@ const getPublicProfileById = async (request, response) => {
       return orgList;
     });
 
-  const skills = await profile.getSkills().map(async skill => {
+  const skills = await profile.getSkills().map(async (skill) => {
     if (skill) {
       const cats = await skill.getCategory({
         attributes: ["descriptionEn", "descriptionFr", "id"],
@@ -793,7 +799,7 @@ const getPublicProfileById = async (request, response) => {
 
   const mentorshipSkills = await profile
     .getMentorshipSkills()
-    .map(async mentorshipSkill => {
+    .map(async (mentorshipSkill) => {
       if (mentorshipSkill) {
         const cats = await mentorshipSkill.getCategory({
           attributes: ["descriptionEn", "descriptionFr", "id"],
@@ -815,7 +821,7 @@ const getPublicProfileById = async (request, response) => {
       return null;
     });
 
-  const competencies = await profile.getCompetencies().map(competency => {
+  const competencies = await profile.getCompetencies().map((competency) => {
     if (competency)
       return {
         id: competency.dataValues.id,
@@ -827,7 +833,7 @@ const getPublicProfileById = async (request, response) => {
     return null;
   });
 
-  const developmentalGoals = await profile.getDevelopmentGoals().map(goal => {
+  const developmentalGoals = await profile.getDevelopmentGoals().map((goal) => {
     if (goal)
       return {
         id: goal.dataValues.id,
@@ -839,17 +845,19 @@ const getPublicProfileById = async (request, response) => {
     return null;
   });
 
-  const secLangProf = await profile.getSecondLanguageProficiency().then(res => {
-    if (res) return res.dataValues;
-    return null;
-  });
+  const secLangProf = await profile
+    .getSecondLanguageProficiency()
+    .then((res) => {
+      if (res) return res.dataValues;
+      return null;
+    });
 
   const relocationLocations = await profile
     .getRelocationLocations()
-    .then(relocs =>
+    .then((relocs) =>
       Promise.all(
-        relocs.map(element =>
-          element.getLocation().then(loc => ({
+        relocs.map((element) =>
+          element.getLocation().then((loc) => ({
             description: {
               en: `${loc.city}, ${loc.provinceEn}`,
               fr: `${loc.city}, ${loc.provinceFr}`,
@@ -861,15 +869,17 @@ const getPublicProfileById = async (request, response) => {
       )
     );
 
-  const lookingForNewJob = await profile.getLookingForANewJob().then(value => {
-    if (!value) {
-      return null;
-    }
-    return {
-      id: value.id,
-      description: { en: value.descriptionEn, fr: value.descriptionFr },
-    };
-  });
+  const lookingForNewJob = await profile
+    .getLookingForANewJob()
+    .then((value) => {
+      if (!value) {
+        return null;
+      }
+      return {
+        id: value.id,
+        description: { en: value.descriptionEn, fr: value.descriptionFr },
+      };
+    });
 
   // Format location address to display (Number and street name, Province)
   const locationDescription = {
