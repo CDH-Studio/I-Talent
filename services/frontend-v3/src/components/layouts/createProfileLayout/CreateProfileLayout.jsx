@@ -7,9 +7,7 @@ import CreateProfileLayoutView from "./CreateProfileLayoutView";
  *  Controller for the Create Profile Layout.
  */
 const CreateProfileLayout = ({ step }) => {
-  return (
-    <CreateProfileLayoutView formStep={step} />
-  );
+  return <CreateProfileLayoutView formStep={step} />;
 };
 
 CreateProfileLayout.propTypes = {

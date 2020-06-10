@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import handleError from "../../../functions/handleError";
 import QualificationsFormView from "./QualificationsFormView";
 import config from "../../../config";
 
@@ -21,7 +23,9 @@ const QualificationsForm = ({ formType }) => {
   const [savedExperience, setSavedExperience] = useState();
   const [savedProjects, setSavedProjects] = useState();
 
-  const { id } = useSelector(state => state.user);
+  const { id } = useSelector((state) => state.user);
+
+  const history = useHistory();
 
   /**
    * Get User Profile
@@ -35,10 +39,7 @@ const QualificationsForm = ({ formType }) => {
       return 1;
     } catch (error) {
       setLoad(false);
-
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
+      throw error;
     }
   }, [id]);
 
@@ -118,7 +119,7 @@ const QualificationsForm = ({ formType }) => {
   // useEffect to run once component is mounted
   useEffect(() => {
     /* Get all required data component */
-    getProfileInfo();
+    getProfileInfo().catch((error) => handleError(error, "redirect"));
   }, [getProfileInfo]);
 
   return (
@@ -129,6 +130,7 @@ const QualificationsForm = ({ formType }) => {
       savedProjects={savedProjects}
       formType={formType}
       load={load}
+      history={history}
       userId={id}
     />
   );

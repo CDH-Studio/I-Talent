@@ -355,7 +355,13 @@
   "sign.out": "Déconnexion",
   "home": "Acceuil",
 
+  "error.redirect.title": "Erreur inattendue",
+  "error.redirect.subtitle": "Quelque chose a mal tourné",
   "error.button": "Retour à l'acceuil",
+  "error.retry": "Réessayez",
+  "error.save": "Données non enregistrées en raison d'une erreur réseau",
+  "error.show": "Afficher le journal des erreurs",
+  "error.hide": "Masquer le journal des erreurs",
   "error.404.subtitle": "On dirait que quelqu'un est au mauvais endroit",
   "error.403.subtitle": "On dirait que quelqu'un n'appartient pas"
 }

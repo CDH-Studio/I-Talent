@@ -9,6 +9,7 @@ import { injectIntl } from "react-intl";
 import { IntlPropType } from "../../../customPropTypes";
 import UserTableView from "./UserTableView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -29,32 +30,27 @@ function UserTable({ intl, type }) {
 
   /* get user information */
   const getUserInformation = async () => {
-    try {
-      const results = await axios.get(`${backendAddress}api/admin/user`);
+    const results = await axios.get(`${backendAddress}api/admin/user`);
 
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    return results.data;
   };
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if profile status changes */
   useEffect(() => {
-    let users = [];
     if (loading) {
       const setState = async () => {
-        users = await getUserInformation();
-        setData(users);
+        await getUserInformation()
+          .then((users) => setData(users))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        users = await getUserInformation();
-        setData(users);
+        await getUserInformation()
+          .then((users) => setData(users))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -63,18 +59,12 @@ function UserTable({ intl, type }) {
 
   /* handles profile status change */
   const handleApply = async () => {
-    try {
-      const url = `${backendAddress}api/admin/profileStatus`;
+    const url = `${backendAddress}api/admin/profileStatus`;
 
-      await axios.put(url, statuses);
+    await axios.put(url, statuses);
 
-      setStatuses({});
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setStatuses({});
+    setReset(true);
   };
 
   /* get part of the title for the page */

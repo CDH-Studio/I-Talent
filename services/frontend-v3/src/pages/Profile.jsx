@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import config from "../config";
+import handleError from "../functions/handleError";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
@@ -22,8 +23,9 @@ const Profile = ({ history, match }) => {
       const fetchedData = await axios
         .get(`${backendAddress}api/profile/private/${id}`)
         .then((res) => res.data)
-        // eslint-disable-next-line no-console
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          throw error;
+        });
 
       return fetchedData;
     }
@@ -32,8 +34,15 @@ const Profile = ({ history, match }) => {
     const fetchedData = await axios
       .get(`${backendAddress}api/profile/${id}`)
       .then((res) => res.data)
-      // eslint-disable-next-line no-console
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        if (
+          !error.isAxiosError ||
+          !error.response ||
+          !error.response.status === 404
+        ) {
+          throw error;
+        }
+      });
     return fetchedData;
   }, [userID]);
 
@@ -48,13 +57,15 @@ const Profile = ({ history, match }) => {
     }
 
     if (data === null) {
-      updateProfileInfo(id).then((fetchedData) => {
-        if (fetchedData !== undefined) {
-          setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
+      updateProfileInfo(id)
+        .then((fetchedData) => {
+          if (fetchedData !== undefined) {
+            setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
+          }
           setData(fetchedData);
           setLoading(false);
-        }
-      });
+        })
+        .catch((error) => handleError(error, "redirect"));
     }
   }, [data, goto, match.params, updateProfileInfo, userID]);
 

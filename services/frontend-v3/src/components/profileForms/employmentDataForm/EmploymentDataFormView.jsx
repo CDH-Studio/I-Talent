@@ -15,7 +15,6 @@ import {
   message,
 } from "antd";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
@@ -25,9 +24,11 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -47,10 +48,10 @@ const EmploymentDataFormView = (props) => {
     securityOptions,
     substantiveOptions,
     intl,
+    history,
     userId,
   } = props;
 
-  const history = useHistory();
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
@@ -157,26 +158,10 @@ const EmploymentDataFormView = (props) => {
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.put(`${backendAddress}api/profile/${userId}`, values);
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.post(`${backendAddress}api/profile/${userId}`, values);
     }
   };
 
@@ -282,8 +267,12 @@ const EmploymentDataFormView = (props) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -295,8 +284,12 @@ const EmploymentDataFormView = (props) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/4");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -317,8 +310,12 @@ const EmploymentDataFormView = (props) => {
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -659,6 +656,7 @@ EmploymentDataFormView.propTypes = {
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
 };
 

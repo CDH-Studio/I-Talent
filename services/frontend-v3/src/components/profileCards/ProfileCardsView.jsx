@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -11,8 +11,9 @@ import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 
 import axios from "axios";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 import config from "../../config";
+import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -24,9 +25,9 @@ const ProfileCardsView = ({
   id,
   content,
   style,
+  history,
   forceDisabled,
 }) => {
-  const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
@@ -41,25 +42,24 @@ const ProfileCardsView = ({
    */
   const handleVisibilityToggle = async () => {
     // Update visibleCards state in profile
-    try {
-      // Get current card visibility status from db
-      const url = `${backendAddress}api/profile/${urlID}`;
-      const result = await axios.get(url);
-      const { visibleCards } = result.data;
+    // Get current card visibility status from db
+    const url = `${backendAddress}api/profile/${urlID}`;
+    const result = await axios.get(url).catch((error) => {
+      handleError(error, "redirect");
+    });
+    const { visibleCards } = result.data;
 
-      // change the stored value
-      const cardNameToBeModified = cardName;
-      visibleCards[cardNameToBeModified] = !disabled;
-      setDisabled(visibleCards[cardNameToBeModified]);
+    // change the stored value
+    const cardNameToBeModified = cardName;
+    visibleCards[cardNameToBeModified] = !disabled;
+    setDisabled(visibleCards[cardNameToBeModified]);
 
-      // save toggle value in db
-      await axios.put(`${backendAddress}api/profile/${urlID}`, {
+    // save toggle value in db
+    await axios
+      .put(`${backendAddress}api/profile/${urlID}`, {
         visibleCards,
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+      })
+      .catch((error) => handleError(error, "message"));
   };
 
   /*
@@ -180,6 +180,7 @@ ProfileCardsView.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
+  history: HistoryPropType.isRequired,
   forceDisabled: PropTypes.bool,
 };
 

@@ -10,15 +10,20 @@ import {
   Button,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
+
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
-import { ProfileInfoPropType, IntlPropType } from "../../../customPropTypes";
+import {
+  ProfileInfoPropType,
+  IntlPropType,
+  HistoryPropType,
+} from "../../../customPropTypes";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -37,9 +42,9 @@ const QualificationsFormView = ({
   formType,
   load,
   intl,
+  history,
   userId,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -135,26 +140,10 @@ const QualificationsFormView = ({
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.put(`${backendAddress}api/profile/${userId}`, values);
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.post(`${backendAddress}api/profile/${userId}`, values);
     }
   };
 
@@ -209,7 +198,7 @@ const QualificationsFormView = ({
     if (initialValues) {
       form.resetFields();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValues]);
 
   /**
@@ -219,10 +208,7 @@ const QualificationsFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(
-      savedValues || initialValues,
-      _.identity
-    );
+    const dbValues = _.pickBy(savedValues || initialValues, _.identity);
 
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
@@ -275,8 +261,12 @@ const QualificationsFormView = ({
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -301,8 +291,12 @@ const QualificationsFormView = ({
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -578,6 +572,7 @@ QualificationsFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
 };
 

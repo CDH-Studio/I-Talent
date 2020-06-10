@@ -7,6 +7,7 @@ import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import config from "../../config";
 import { IntlPropType } from "../../customPropTypes";
+import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -23,17 +24,11 @@ const AdminDashboard = ({ intl }) => {
 
   // Get dashboard data for statistic cards and graphes
   const getDashboardData = async () => {
-    try {
-      const url = `${backendAddress}api/admin/dashboard/`;
+    const url = `${backendAddress}api/admin/dashboard/`;
 
-      const results = await axios.get(url);
+    const results = await axios.get(url);
 
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return [];
-    }
+    return results.data;
   };
 
   // Get part of the title for the page
@@ -54,7 +49,9 @@ const AdminDashboard = ({ intl }) => {
   useEffect(() => {
     const setState = async () => {
       // Get the data for the dashboard cards and graphes
-      const dashboardData = await getDashboardData();
+      const dashboardData = await getDashboardData().catch((error) =>
+        handleError(error, "redirect")
+      );
       setData(dashboardData);
       setLoading(false);
     };

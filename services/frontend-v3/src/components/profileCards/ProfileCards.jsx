@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
+import handleError from "../../functions/handleError";
 import ProfileCardsView from "./ProfileCardsView";
 import config from "../../config";
 import { ProfileInfoPropType } from "../../customPropTypes";
@@ -20,20 +21,16 @@ const ProfileCards = ({
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  const history = useHistory();
+
   // useParams returns an object of key/value pairs from URL parameters
   const urlID = useParams().id;
 
   // get user profile for hidden cards value
   const getProfileInfo = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/profile/${urlID}`;
-      const result = await axios.get(url);
-      return setProfileInfo(result.data);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    const url = `${backendAddress}api/profile/${urlID}`;
+    const result = await axios.get(url);
+    return setProfileInfo(result.data);
   }, [urlID]);
 
   // get all required data component
@@ -43,8 +40,7 @@ const ProfileCards = ({
       setLoad(true);
       return 1;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      handleError(error, "redirect");
       return 0;
     }
   }, [getProfileInfo]);
@@ -65,6 +61,7 @@ const ProfileCards = ({
       cardName={cardName}
       getAllData={getAllData}
       id={id}
+      history={history}
       forceDisabled={forceDisabled}
     />
   );
