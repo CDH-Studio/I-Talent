@@ -1,17 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { CheckOutlined } from "@ant-design/icons";
 import { Row, Col, List } from "antd";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const TalentManagementView = ({ locale, data }) => {
-  const styles = {
-    exFeederTitleSpan: {
-      paddingLeft: "8px",
-    },
-  };
-
   const getTalentManagementDatasource = () => {
     const careerMobility = {
       title: <FormattedMessage id="profile.career.mobility" />,
@@ -27,19 +20,6 @@ const TalentManagementView = ({ locale, data }) => {
       ),
     };
 
-    if (data.exFeeder) {
-      const exFeederResult = {
-        title: (
-          <>
-            <CheckOutlined />
-            <span style={styles.exFeederTitleSpan}>
-              <FormattedMessage id="profile.ex.feeder" />
-            </span>
-          </>
-        ),
-      };
-      return [careerMobility, talentMatrixResult, exFeederResult];
-    }
     return [careerMobility, talentMatrixResult];
   };
 

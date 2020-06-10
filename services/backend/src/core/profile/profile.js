@@ -962,7 +962,6 @@ const getPublicProfileById = async (request, response) => {
           fr: careerMobility ? careerMobility.descriptionFr : null,
         },
       },
-      exFeeder: data.exFeeder,
       talentMatrixResult: {
         id: talentMatrixResult ? talentMatrixResult.id : null,
         description: {
@@ -970,6 +969,13 @@ const getPublicProfileById = async (request, response) => {
           fr: talentMatrixResult ? talentMatrixResult.descriptionFr : null,
         },
       },
+    };
+
+  // send exFeeder for TalentManagement card only if the card is visible
+  if (visibleCards.exFeeder)
+    resData = {
+      ...resData,
+      exFeeder: data.exFeeder,
     };
 
   // send resData for officialLanguage card only if the card is visible

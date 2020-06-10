@@ -248,6 +248,8 @@
   "profile.education.subheader.name": "School name",
   "profile.email": "Email",
   "profile.ex.feeder": "I am nominated in the EX-feeder program",
+  "profile.not.ex.feeder": "I'm not nominated in the EX-Feeder Program.",
+  "profile.ex.feeder.title": "EX-feeder",
   "profile.first.language": "First language",
   "profile.first.name": "First name",
   "profile.github": "Github",

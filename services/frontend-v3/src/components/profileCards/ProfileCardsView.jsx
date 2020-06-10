@@ -26,6 +26,7 @@ const ProfileCardsView = ({
   content,
   style,
   history,
+  forceDisabled,
 }) => {
   const [disabled, setDisabled] = useState(true);
 
@@ -95,12 +96,14 @@ const ProfileCardsView = ({
                   aria-label="visibility toggle"
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
-                  checked={disabled}
+                  checked={disabled && !forceDisabled}
                   onChange={handleVisibilityToggle}
                   style={{ marginTop: "5px" }}
+                  disabled={forceDisabled}
                 />
               </Tooltip>
             </Col>
+
             <Col>
               <Tooltip
                 placement="top"
@@ -126,9 +129,18 @@ const ProfileCardsView = ({
     if (profileInfo) {
       const { visibleCards } = profileInfo;
       const cardNameToBeModified = cardName;
-      setDisabled(visibleCards[cardNameToBeModified]);
+      setDisabled(visibleCards[cardNameToBeModified] && !forceDisabled);
     }
-  }, [cardName, editUrl, profileInfo, title, id, content, style]);
+  }, [
+    cardName,
+    editUrl,
+    profileInfo,
+    title,
+    id,
+    content,
+    style,
+    forceDisabled,
+  ]);
 
   let styles;
   if (disabled === true) {
@@ -148,6 +160,7 @@ const ProfileCardsView = ({
   return (
     <div>
       <Card
+        className={content === null ? "no-content-card" : null}
         title={title}
         id={id}
         extra={generateSwitchButton(cardName)}
@@ -165,14 +178,17 @@ ProfileCardsView.propTypes = {
   profileInfo: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   id: PropTypes.string.isRequired,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
   history: HistoryPropType.isRequired,
+  forceDisabled: PropTypes.bool,
 };
 
 ProfileCardsView.defaultProps = {
   profileInfo: null,
   style: undefined,
+  content: null,
+  forceDisabled: false,
 };
 
 export default ProfileCardsView;
