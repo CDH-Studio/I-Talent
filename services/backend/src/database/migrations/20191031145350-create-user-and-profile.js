@@ -139,6 +139,7 @@ module.exports = {
               projects: true,
               careerInterests: true,
               mentorshipSkills: true,
+              exFeeder: true,
             },
           },
           createdAt: {

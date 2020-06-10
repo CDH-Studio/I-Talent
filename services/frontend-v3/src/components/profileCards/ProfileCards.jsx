@@ -8,7 +8,15 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 
 const { backendAddress } = config;
 
-const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
+const ProfileCards = ({
+  data,
+  title,
+  content,
+  editUrl,
+  cardName,
+  id,
+  forceDisabled,
+}) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
@@ -57,6 +65,7 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
       cardName={cardName}
       getAllData={getAllData}
       id={id}
+      forceDisabled={forceDisabled}
     />
   );
 };
@@ -64,14 +73,17 @@ const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.element,
   editUrl: PropTypes.string.isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  forceDisabled: PropTypes.bool,
 };
 
 ProfileCards.defaultProps = {
   data: null,
+  content: null,
+  forceDisabled: false,
 };
 
 export default ProfileCards;
