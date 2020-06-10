@@ -1,11 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "I-Talend team",
+  "description": "I-Talent team",
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "dev": "npx concurrently \"nodemon src/server.js\" \"yarn -s studio\"",
     "generate": "cd src/database && prisma generate",
     "migrate": "cd src/database && prisma migrate up --experimental -c",
     "migrate:create": "cd src/database && prisma migrate save --experimental",
@@ -15,14 +15,16 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "./node_modules/.bin/eslint src",
-    "seed": "node src/database/seed"
+    "seed": "node src/database/seeds",
+    "studio": "cd src/database && prisma studio --experimental"
   },
-  "author": "I-Talend team",
+  "author": "I-Talent team",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^2.0.0",
+    "@prisma/client": "2.0.0",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
@@ -32,7 +34,7 @@
     "moment": "^2.26.0"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.0.0",
+    "@prisma/cli": "2.0.0",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-node": "^4.1.0",
