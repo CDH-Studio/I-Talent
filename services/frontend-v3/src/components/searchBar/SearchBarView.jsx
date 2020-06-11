@@ -10,6 +10,7 @@ import {
   Input,
   Switch,
   Select,
+  Divider,
 } from "antd";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
@@ -104,6 +105,43 @@ const SearchBarView = ({
     );
   };
 
+  // Generate the regular search fields
+  const getBasicSearchForm = (displayForm) => {
+    if (!displayForm) {
+      return <div />;
+    }
+
+    return (
+      <div>
+        <div style={styles.mainSearchField}>{getBasicField()}</div>
+        <Button
+          shape="round"
+          size="large"
+          type="primary"
+          htmlType="submit"
+          icon={<SearchOutlined />}
+          style={styles.submitBtn}
+        >
+          {searchLabel}
+        </Button>
+        <Button
+          ghost
+          shape="round"
+          size="large"
+          style={styles.clearBtn}
+          onClick={() => {
+            form.resetFields();
+          }}
+        >
+          {intl.formatMessage({
+            id: "button.clear",
+            defaultMessage: "Clear",
+          })}
+        </Button>
+      </div>
+    );
+  };
+
   // Generate the advanced search fields
   const getAdvancedSearchForm = (displayForm) => {
     // detect language
@@ -125,7 +163,10 @@ const SearchBarView = ({
           </Col>
         </Row>
 
-        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
+        <Row
+          gutter={[48, 24]}
+          style={{ padding: "0px 5%", marginBottom: "0px" }}
+        >
           {/* form column one */}
           <Col span={8}>
             {/* name field */}
@@ -241,6 +282,34 @@ const SearchBarView = ({
             </Form.Item>
           </Col>
         </Row>
+        <div
+          style={{ width: "100%", textAlign: "center", margin: "0 0 30px 0" }}
+        >
+          <Button
+            shape="round"
+            size="large"
+            type="primary"
+            htmlType="submit"
+            icon={<SearchOutlined />}
+            style={styles.submitBtn}
+          >
+            {searchLabel}
+          </Button>
+          <Button
+            shape="round"
+            size="large"
+            style={styles.clearBtn}
+            onClick={() => {
+              form.resetFields();
+            }}
+          >
+            {intl.formatMessage({
+              id: "button.clear",
+              defaultMessage: "clear changes",
+            })}
+          </Button>
+        </div>
+        <Divider />
       </div>
     );
   };
@@ -260,31 +329,7 @@ const SearchBarView = ({
             style={{ width: "80%", maxWidth: "300px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
-          <div style={styles.mainSearchField}>{getBasicField()}</div>
-          <Button
-            shape="round"
-            size="large"
-            type="primary"
-            htmlType="submit"
-            icon={<SearchOutlined />}
-            style={styles.submitBtn}
-          >
-            {searchLabel}
-          </Button>
-          <Button
-            ghost
-            shape="round"
-            size="large"
-            style={styles.clearBtn}
-            onClick={() => {
-              form.resetFields();
-            }}
-          >
-            {intl.formatMessage({
-              id: "button.clear",
-              defaultMessage: "Clear",
-            })}
-          </Button>
+          {getBasicSearchForm(!expand)}
         </div>
         <div style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
