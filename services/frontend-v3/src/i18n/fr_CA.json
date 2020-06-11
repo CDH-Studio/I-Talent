@@ -1,5 +1,4 @@
 {
-  "button.advanced.search": "Recherche avancée",
   "advanced.search.form.desired.skills": "Compétences désirées",
   "admin": "Admin",
   "admin.console": "Console d'admin",
@@ -105,7 +104,6 @@
   "advanced.search.form.last.name": "Nom de famille",
 
   "button.search": "Rechercher",
-  "button.basic.search": "Recherche de base",
   "advanced.search.button.text": "Recherche avancée",
   "advanced.search.form.name": "Nom",
   "advanced.search.form.skills": "Compétences",
@@ -120,6 +118,8 @@
   "back.to.landing": "Retour à la page d'accueil",
   "search.no.results": "Aucun résultat trouvé",
 
+  "button.advanced.search": "Recherche avancée",
+  "button.basic.search": "Recherche de base",
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
   "button.clear": "Effacer les modifications",

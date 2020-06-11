@@ -111,6 +111,7 @@
   "search.no.results": "No results found",
 
   "button.advanced.search": "Advanced search",
+  "button.basic.search": "Basic search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
   "button.clear": "Clear changes",
@@ -120,7 +121,6 @@
   "button.finish": "Finish",
   "button.deactivate.account": "Deactivate account",
   "button.hide.account": "Hide account",
-  "button.basic.search": "Basic search",
 
   "apply.button.text": "Apply",
 
