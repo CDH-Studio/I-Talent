@@ -31,6 +31,7 @@
     "fuse.js": "^6.0.1",
     "jest": "^26.0.1",
     "keycloak-connect": "^10.0.1",
+    "lodash": "^4.17.15",
     "moment": "^2.26.0"
   },
   "devDependencies": {
