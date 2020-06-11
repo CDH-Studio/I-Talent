@@ -31,7 +31,7 @@ const SearchBarView = ({
   branchOptions,
   handleSearch,
 }) => {
-  const [expand, setExpand] = useState(false);
+  const [expandAdvancedSearch, setExpandAdvancedSearch] = useState(false);
   const [form] = Form.useForm();
 
   const styles = {
@@ -92,7 +92,7 @@ const SearchBarView = ({
 
   // Toggle expandable advanced search form
   const toggle = () => {
-    setExpand(!expand);
+    setExpandAdvancedSearch(!expandAdvancedSearch);
   };
 
   // Handle form submission
@@ -386,11 +386,11 @@ const SearchBarView = ({
             style={{ width: "80%", maxWidth: "300px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
-          {getBasicSearchForm(!expand)}
+          {getBasicSearchForm(!expandAdvancedSearch)}
         </div>
         <div style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
-          {getAdvancedSearchForm(expand)}
+          {getAdvancedSearchForm(expandAdvancedSearch)}
           {/* expand advance search btn */}
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
@@ -402,7 +402,7 @@ const SearchBarView = ({
                 size="small"
               >
                 {/* <SettingOutlined style={{ marginRight: "3px" }} /> */}
-                {expand ? (
+                {expandAdvancedSearch ? (
                   <div>
                     <DoubleRightOutlined
                       rotate="270"
