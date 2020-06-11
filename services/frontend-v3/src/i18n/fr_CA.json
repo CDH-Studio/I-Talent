@@ -121,7 +121,7 @@
 
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
-  "button.clear": "Effacer",
+  "button.clear": "Effacer les modifications",
   "button.close": "Fermer",
   "button.next": "Suivant",
   "button.back": "Précédent",
@@ -307,7 +307,7 @@
   "profile.rules.max.250": "Maximum de 250 caractères",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
-  "profile.form.clear": "Formulaire effacé",
+  "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",
 
   "lang": "English",

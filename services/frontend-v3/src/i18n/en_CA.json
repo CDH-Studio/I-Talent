@@ -113,7 +113,7 @@
   "button.advanced.search": "Advanced search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
-  "button.clear": "Clear",
+  "button.clear": "Clear changes",
   "button.close": "Close",
   "button.next": "Next",
   "button.back": "Back",
@@ -332,7 +332,7 @@
   "profile.rules.max.250": "Max length 250 characters",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
-  "profile.form.clear": "Form cleared",
+  "profile.form.clear": "Changes cleared",
   "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
