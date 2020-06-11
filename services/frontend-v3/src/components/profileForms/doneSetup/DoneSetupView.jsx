@@ -15,7 +15,7 @@ const { Title, Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ load, id }) => {
+const DoneSetupView = ({ load, userId }) => {
   /* Component Styles */
   const styles = {
     skeleton: {
@@ -86,7 +86,7 @@ const DoneSetupView = ({ load, id }) => {
         icon={<UserOutlined />}
         size="large"
         type="primary"
-        href={`/secured/profile/${id}`}
+        href={`/secured/profile/${userId}`}
       >
         <span>
           <FormattedMessage id="setup.done.view.profile" />
@@ -98,7 +98,7 @@ const DoneSetupView = ({ load, id }) => {
 
 DoneSetupView.propTypes = {
   load: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default DoneSetupView;
