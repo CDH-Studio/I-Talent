@@ -15,14 +15,13 @@ import {
 import {
   SearchOutlined,
   SettingOutlined,
-  UpOutlined,
-  DownOutlined,
+  DoubleRightOutlined,
 } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const SearchBarView = ({
   intl,
@@ -163,12 +162,16 @@ const SearchBarView = ({
         <Row style={{ padding: "20px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={2} style={{ fontSize: "1.3em" }}>
+              <SettingOutlined
+                style={{ marginRight: "4px", color: "#3CBAB3" }}
+              />
               <FormattedMessage id="advanced.search.button.text" />
             </Title>
+            <Text>the is a sample text that give some instruction</Text>
           </Col>
         </Row>
 
-        <Row style={{ padding: "20px 5% 5px 5%" }}>
+        <Row style={{ padding: "15px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
               General Info
@@ -264,7 +267,7 @@ const SearchBarView = ({
           </Col>
         </Row>
 
-        <Row style={{ padding: "10px 5% 5px 5%" }}>
+        <Row style={{ padding: "5px 5% 5px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
               Skills and Talent
@@ -401,12 +404,18 @@ const SearchBarView = ({
                 {/* <SettingOutlined style={{ marginRight: "3px" }} /> */}
                 {expand ? (
                   <div>
-                    <UpOutlined style={{ marginRight: "3px" }} />
+                    <DoubleRightOutlined
+                      rotate="270"
+                      style={{ marginRight: "4px" }}
+                    />
                     <FormattedMessage id="button.basic.search" />
                   </div>
                 ) : (
                   <div>
-                    <DownOutlined style={{ marginRight: "3px" }} />
+                    <DoubleRightOutlined
+                      rotate="90"
+                      style={{ marginRight: "4px" }}
+                    />
                     <FormattedMessage id="button.advanced.search" />
                   </div>
                 )}
