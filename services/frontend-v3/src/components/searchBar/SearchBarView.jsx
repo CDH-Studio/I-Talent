@@ -112,7 +112,7 @@ const SearchBarView = ({
   // Generate the regular search fields
   const getBasicSearchForm = (displayForm) => {
     if (!displayForm) {
-      return <div />;
+      return null;
     }
 
     return (
@@ -155,7 +155,7 @@ const SearchBarView = ({
     });
 
     if (!displayForm) {
-      return <div />;
+      return null;
     }
     return (
       <div style={{ marginBottom: "0" }}>
