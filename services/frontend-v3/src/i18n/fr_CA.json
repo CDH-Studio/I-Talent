@@ -115,13 +115,14 @@
   "sidebar.search.title": "Filtres de recherche",
   "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
 
+  "back.to.landing": "Retour à la page d'accueil",
   "search.no.results": "Aucun résultat trouvé",
 
   "button.advanced.search": "Recherche avancée",
   "button.basic.search": "Recherche de base",
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
-  "button.clear": "Effacer",
+  "button.clear": "Effacer les modifications",
   "button.close": "Fermer",
   "button.next": "Suivant",
   "button.back": "Précédent",
@@ -307,7 +308,7 @@
   "profile.rules.max.250": "Maximum de 250 caractères",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
-  "profile.form.clear": "Formulaire effacé",
+  "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",
 
   "lang": "English",
@@ -336,6 +337,7 @@
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Ne pas spécifié",
   "profile.not.specified": "Non spécifié",
+  "profile.not.found": "Profil non trouvé",
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transferé à",
   "profile.career.interests": "Mobilité de l'emploi",
