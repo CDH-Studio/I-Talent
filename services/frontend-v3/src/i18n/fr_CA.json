@@ -117,6 +117,7 @@
   "sidebar.search.title": "Filtres de recherche",
   "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
 
+  "back.to.landing": "Retour à la page d'accueil",
   "search.no.results": "Aucun résultat trouvé",
 
   "button.apply": "Enregistrer",
@@ -336,6 +337,7 @@
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Ne pas spécifié",
   "profile.not.specified": "Non spécifié",
+  "profile.not.found": "Profil non trouvé",
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transferé à",
   "profile.career.interests": "Mobilité de l'emploi",
