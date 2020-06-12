@@ -1,53 +1,90 @@
-const models = require("../../database/models");
+const loadash = require("lodash");
+const { PrismaClient } = require("../../database/client");
 
-const User = models.user;
+const prisma = new PrismaClient();
 
-function generateNameInitials(name) {
-  const i = name.lastIndexOf(" ") + 1;
-  return name.substring(0, 1) + name.substring(i, i + 1);
+function generateAvatarColor() {
+  const colours = [
+    "#0bdaa3",
+    "#da680b",
+    "#7a0bda",
+    "#2a0bda",
+    "#c20bda",
+    "#da0b3f",
+    "#8e44ad",
+    "#98ad44",
+    "#ad4497",
+    "#ad5944",
+    "#ad4463",
+  ];
+  return loadash.random(colours);
 }
 
-// FIXME: Refactor
-function generateAvatarColor(userAcronym) {
-  let hash = 0;
-  const s = 90;
-  const l = 45;
-  for (let i = 0; i < userAcronym.length; i += 1) {
-    // eslint-disable-next-line no-bitwise
-    hash = userAcronym.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const h = hash % 360;
-  return `hsl(${h}, ${s}%, ${l}%)`;
-}
-
-async function getUser(request, response) {
-  response.status(200).json(await User.findAll());
+// TODO: Add pagination
+async function getUsers(request, response) {
+  prisma.users
+    .findMany({
+      take: 100,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        status: true,
+        avatarColor: true,
+        nameInitials: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    })
+    .then((result) => response.status(200).json(result))
+    .catch((error) => {
+      console.log(error);
+      response.status(500).json("Unable to get profiles");
+    });
 }
 
 async function getUserById(request, response) {
   const { id } = request.params;
-  response.status(200).json(await User.findOne({ where: { id: id } }));
+  prisma.users
+    .findOne({
+      where: { id: id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        status: true,
+        avatarColor: true,
+        nameInitials: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    })
+    .then((result) => response.status(200).json(result))
+    .catch((error) => {
+      console.log(error);
+      response.status(500).json("Unable to get profile");
+    });
 }
 
 async function createUser(request, response) {
-  const acronym = generateNameInitials(request.body.name);
-  const color = generateAvatarColor(acronym);
-
-  await User.findOrCreate({
-    where: { email: request.body.email },
-    defaults: {
-      name: request.body.name,
-      nameInitials: acronym,
-      avatarColor: color,
-    },
-  }).then(async ([user, created]) => {
-    const hasProfile = !((await user.getProfile()) == null);
-    const resData = { user, created, hasProfile };
-    response.status(200).json(resData);
-  });
+  const { body } = request;
+  prisma.users
+    .create({
+      id: body.id,
+      name: body.name,
+      email: body.email,
+      avatarColor: generateAvatarColor(),
+      nameInitials: `${body.firstName.charAt(0)}${body.lastName.charAt(0)}`,
+    })
+    .then((result) => response.status(200).json(result))
+    .catch((error) => {
+      console.log(error);
+      response.status(500).json("Unable to create profiles");
+    });
 }
+
 module.exports = {
-  getUser,
+  getUsers,
   getUserById,
   createUser,
 };
