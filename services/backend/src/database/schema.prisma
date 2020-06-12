@@ -168,10 +168,10 @@ model opSkills {
   id                  String        @default(uuid()) @id
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
-  categoryId          String
+  categoryId          String?
 
   translations        opTransSkills[]
-  category            opCategories  @relation(fields: [categoryId])
+  category            opCategories?  @relation(fields: [categoryId])
 }
 
 model opTransCategories {
@@ -282,7 +282,7 @@ model mentorshipSkills {
   userId    String
   skillId   String
 
-  users     users    @relation(fields: [userId])
+  user      users    @relation(fields: [userId])
   skill     opSkills @relation(fields: [skillId])
 
   @@unique([userId, skillId])
@@ -295,7 +295,7 @@ model skills {
   userId    String
   skillId   String
 
-  users     users    @relation(fields: [userId])
+  user      users    @relation(fields: [userId])
   skill     opSkills @relation(fields: [skillId])
 
   @@unique([userId, skillId])
@@ -309,7 +309,7 @@ model developmentalGoals {
   skillId       String?
   competencyId  String?
 
-  users         users           @relation(fields: [userId])
+  user          users           @relation(fields: [userId])
   skill         opSkills?       @relation(fields: [skillId])
   competency    opCompetencies? @relation(fields: [competencyId])
 
@@ -323,7 +323,7 @@ model competencies {
   userId        String
   competencyId  String
 
-  users         users           @relation(fields: [userId])
+  user           users           @relation(fields: [userId])
   competency    opCompetencies  @relation(fields: [competencyId])
 
   @@unique([userId, competencyId])
@@ -367,14 +367,14 @@ model educations {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   userId    String
-  schoolId  String
-  diplomaId String
+  schoolId  String?
+  diplomaId String?
   endDate   DateTime
   startDate DateTime
 
   user      users       @relation(fields: [userId])
-  school    opSchools   @relation(fields: [schoolId])
-  diploma   opDiplomas  @relation(fields: [diplomaId])
+  school    opSchools?  @relation(fields: [schoolId])
+  diploma   opDiplomas? @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, endDate, startDate])
 }
