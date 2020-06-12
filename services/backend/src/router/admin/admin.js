@@ -12,14 +12,18 @@ function catchAdminCheck(token) {
 
 const adminRouter = Router();
 
-adminRouter.get("/user", keycloak.protect("view-admin-console"), admin.getUser);
+adminRouter.get(
+  "/users",
+  keycloak.protect("view-admin-console"),
+  admin.getUsers
+);
 
 adminRouter.get("/check", keycloak.protect(catchAdminCheck), admin.checkAdmin);
 
 adminRouter.put(
-  "/profileStatus",
+  "/userStatuses",
   keycloak.protect("manage-users"),
-  admin.updateProfileStatus
+  admin.updateUserStatuses
 );
 
 module.exports = adminRouter;

@@ -39,7 +39,7 @@ optionsRouter.get(
   categories.getCategoriesSkills
 );
 
-optionsRouter.get("/classfications", classifications.getClassfications);
+optionsRouter.get("/classfications", classifications.getClassifications);
 
 optionsRouter
   .route("/competencies")
@@ -47,7 +47,7 @@ optionsRouter
   .delete(keycloak.protect("manage-options"), competencies.deleteCompetencies);
 optionsRouter
   .route("/competency")
-  .post(keycloak.protect("manage-options"), competencies.createCategory)
+  .post(keycloak.protect("manage-options"), competencies.createCompetency)
   .put(keycloak.protect("manage-options"), competencies.updateCompetency)
   .delete(keycloak.protect("manage-options"), competencies.deleteCompetency);
 optionsRouter.get(
