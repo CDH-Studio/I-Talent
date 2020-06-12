@@ -13,6 +13,7 @@ optionsRouter.get("/locations", options.getLocations);
 optionsRouter.get("/schools", options.getSchools);
 optionsRouter.get("/securityClearances", options.getSecurityClearance);
 optionsRouter.get("/categories", options.getCategories);
+optionsRouter.get("/categoriesSkills", options.getCategoriesSkills);
 optionsRouter.get("/skills", options.getSkills);
 optionsRouter.get("/talentMatrixResults", options.getTalentMatrixResults);
 optionsRouter.get("/tenures", options.getTenures);

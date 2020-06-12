@@ -271,11 +271,11 @@ async function getSecurityClearances(request, response) {
   }
 }
 
-async function getCategories(request, response) {
+async function getCategoriesSkills(request, response) {
   try {
     const { language } = request.query;
 
-    const categoriesQuery = await prisma.opTransCategories.findMany({
+    const categoriesSkillsQuery = await prisma.opTransCategories.findMany({
       where: {
         language,
         opCategories: {
@@ -310,7 +310,7 @@ async function getCategories(request, response) {
       },
     });
 
-    const categories = categoriesQuery.map((category) => {
+    const categoriesSkills = categoriesSkillsQuery.map((category) => {
       return {
         id: category.opCategories.id,
         name: category.name,
@@ -320,6 +320,33 @@ async function getCategories(request, response) {
             name: skill.translations[0].name,
           };
         }),
+      };
+    });
+
+    response.status(200).json(categoriesSkills);
+  } catch (error) {
+    response.status(500).json("Error fetching category skill options");
+  }
+}
+
+async function getCategories(request, response) {
+  try {
+    const { language } = request.query;
+
+    const categoriesQuery = await prisma.opTransCategories.findMany({
+      where: {
+        language,
+      },
+      select: {
+        opCategoriesId: true,
+        name: true,
+      },
+    });
+
+    const categories = categoriesQuery.map((category) => {
+      return {
+        id: category.opCategoriesId,
+        name: category.name,
       };
     });
 
@@ -450,6 +477,7 @@ module.exports = {
   getSchools,
   getSecurityClearances,
   getCategories,
+  getCategoriesSkills,
   getSkills,
   getTalentMatrixResults,
   getTenures,
