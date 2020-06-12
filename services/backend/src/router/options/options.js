@@ -3,23 +3,19 @@ const options = require("../../core/options/options");
 
 const optionsRouter = Router();
 
-optionsRouter.get("/getBranch", options.getBranch);
-optionsRouter.get("/getCareerMobility", options.getCareerMobility);
-optionsRouter.get("/getCompetency", options.getCompetency);
-optionsRouter.get("/getDevelopmentalGoals", options.getDevelopmentalGoals);
-optionsRouter.get("/getDiploma", options.getDiploma);
-optionsRouter.get("/getGroupLevel", options.getGroupLevel);
-optionsRouter.get("/getKeyCompetency", options.getKeyCompetency);
-optionsRouter.get("/getLocation", options.getLocation);
-optionsRouter.get("/getSchool", options.getSchool);
-optionsRouter.get("/getSecurityClearance", options.getSecurityClearance);
-optionsRouter.get("/getCategory", options.getCategory);
-optionsRouter.get("/getCategorySkills", options.getCategorySkills);
-optionsRouter.get("/getSkill", options.getSkill);
-optionsRouter.get("/getMentorshipSkill", options.getSkill);
-optionsRouter.get("/getTalentMatrixResult", options.getTalentMatrixResult);
-optionsRouter.get("/getTenure", options.getTenure);
-optionsRouter.get("/getLookingForANewJob", options.getLookingForANewJob);
-optionsRouter.get("/getWillingToRelocateTo", options.getWillingToRelocateTo);
+optionsRouter.get("/branches", options.getBranches);
+optionsRouter.get("/careerMobilities", options.getCareerMobilities);
+optionsRouter.get("/competencies", options.getCompetencies);
+optionsRouter.get("/developmentalGoals", options.getDevelopmentalGoals);
+optionsRouter.get("/diplomas", options.getDiplomas);
+optionsRouter.get("/classfications", options.getClassfications);
+optionsRouter.get("/locations", options.getLocations);
+optionsRouter.get("/schools", options.getSchools);
+optionsRouter.get("/securityClearances", options.getSecurityClearance);
+optionsRouter.get("/categories", options.getCategories);
+optionsRouter.get("/skills", options.getSkills);
+optionsRouter.get("/talentMatrixResults", options.getTalentMatrixResults);
+optionsRouter.get("/tenures", options.getTenures);
+optionsRouter.get("/lookingJobs", options.getLookingJobs);
 
 module.exports = optionsRouter;
