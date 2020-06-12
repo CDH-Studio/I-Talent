@@ -1,16 +1,16 @@
-const { skill } = require("../../database/models");
-
 const utils = require("./util");
+const { PrismaClient } = require("../../database/client");
 
-// FIXME refactor this form
+const prisma = new PrismaClient();
+
 async function getSkillNames(searchSkill) {
   return Promise.all(
     searchSkill.map(async (skillId) => {
-      const findSkills = await skill
+      const findSkills = await prisma.skills
         .findOne({ where: { id: skillId } })
         .then((data) => data.dataValues);
 
-      return `${findSkills.descriptionEn}`;
+      return `${findSkills.description}`;
     })
   );
 }
