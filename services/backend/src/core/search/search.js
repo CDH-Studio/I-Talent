@@ -10,7 +10,7 @@ async function getSkillNames(searchSkill) {
         .findOne({ where: { id: skillId } })
         .then((data) => data.dataValues);
 
-      return `${findSkills.descriptionEn}`;
+      return `${findSkills.description}`;
     })
   );
 }
