@@ -66,7 +66,7 @@ const ProfileLayoutView = ({ data }) => {
   /*
    * Display Cards on Profile Page
    *
-   * Handle displaying the profile depending on wheter the user looking at his
+   * Handle displaying the profile depending on whether the user looking at his
    * own profile or looking at other users profiles
    */
   const displayAllProfileCards = () => {
@@ -451,7 +451,7 @@ const ProfileLayoutView = ({ data }) => {
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor>
+          <Anchor offsetTop="75">
             <Link
               href="#card-profile-basic-info"
               title={
