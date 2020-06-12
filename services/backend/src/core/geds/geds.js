@@ -1,6 +1,8 @@
 const axios = require("axios");
+const { PrismaClient } = require("../../database/client");
 require("dotenv").config();
-const models = require("../../database/models");
+
+const prisma = new PrismaClient();
 
 async function getGedsAssist(request, response) {
   const { id } = request.params;
@@ -18,7 +20,7 @@ async function getGedsAssist(request, response) {
         Accept: "application/json",
       },
     }),
-    models.user.findOne({ where: { id } }),
+    prisma.users.findOne({ where: { id }, select: { email: true } }),
   ];
 
   Promise.all(promises)
@@ -30,8 +32,7 @@ async function getGedsAssist(request, response) {
         return element.contactInformation.email === dataDB.email;
       });
 
-      // eslint-disable-next-line prefer-const
-      let organizations = [];
+      const organizations = [];
       let organizationCounter = 0;
       for (
         let currentBranch = dataGEDS;
@@ -51,44 +52,53 @@ async function getGedsAssist(request, response) {
       }
 
       const branchOrg = organizations[Math.min(2, organizations.length - 1)];
-
-      const location = await models.location
-        .findOne({
+      try {
+        const location = await prisma.opOfficeLocations.findMany({
           where: {
-            postalCode: branchOrg.addressInformation.pc,
+            country: branchOrg.addressInformation.country,
+            city: branchOrg.addressInformation.city,
+            postalCode: branchOrg.addressInformation.postalCode,
+            streetNumber: branchOrg.addressInformation.streetNumber,
+            translations: {
+              some: {
+                province: branchOrg.addressInformation.province,
+                streetName: branchOrg.addressInformation.streetNumber,
+              },
+            },
           },
-        })
-        .then((res) => {
-          if (res) return res.dataValues;
-          return {};
         });
 
-      const profile = {
-        firstName: dataGEDS.givenName,
-        lastName: dataGEDS.surname,
-        jobTitle: {
-          en: dataGEDS.title.en,
-          fr: dataGEDS.title.fr,
-        },
-        email: dataGEDS.contactInformation.email,
-        telephone: dataGEDS.phoneNumber,
-        cellphone: dataGEDS.altPhoneNumber,
-        branchEn: branchOrg.description.en,
-        branchFr: branchOrg.description.fr,
-        organizations: organizations,
-        location: {
-          id: location.id,
-          description: {
-            en: `${location.addressEn}, ${location.city}, ${location.provinceEn}`,
-            fr: `${location.addressFr}, ${location.city}, ${location.provinceFr}`,
+        const profile = {
+          firstName: dataGEDS.givenName,
+          lastName: dataGEDS.surname,
+          jobTitle: {
+            en: dataGEDS.title.en,
+            fr: dataGEDS.title.fr,
           },
-        },
-      };
+          email: dataGEDS.contactInformation.email,
+          telephone: dataGEDS.phoneNumber,
+          cellphone: dataGEDS.altPhoneNumber,
+          branchEn: branchOrg.description.en,
+          branchFr: branchOrg.description.fr,
+          organizations: organizations,
+          location: {
+            id: location.id,
+            description: {
+              en: `${location[0].addressEn}, ${location[0].city}, ${location[0].provinceEn}`,
+              fr: `${location[0].addressFr}, ${location[0].city}, ${location[0].provinceFr}`,
+            },
+          },
+        };
 
-      response.status(200).send(profile);
+        response.status(200).send(profile);
+      } catch (error) {
+        console.log(error);
+        response.status(500).json("Unable to get location");
+      }
     })
     .catch((error) => {
       console.log(error);
+      response.status(500).json("Unable to get geds Profile");
     });
 }
 
