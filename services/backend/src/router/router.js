@@ -7,6 +7,7 @@ const profileGenRouter = require("./geds/geds");
 const searchRouter = require("./search/search");
 const userRouter = require("./user/user");
 const apiTest = require("./api-test/api-test");
+const statsRouter = require("./statistics/statistics");
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/profGen/", profileGenRouter);
 router.use("/search/", searchRouter);
 router.use("/user/", userRouter);
 router.use("/test/", apiTest);
+router.use("/stats/", statsRouter);
 
 module.exports = router;
