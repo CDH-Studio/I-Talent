@@ -2,7 +2,7 @@ const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
-async function getHiddenUserCount(request, response) {
+async function countHiddenUsers(request, response) {
   try {
     const hiddenUserCount = await prisma.users.count({
       where: {
@@ -16,7 +16,7 @@ async function getHiddenUserCount(request, response) {
   }
 }
 
-async function getInactiveUserCount(request, response) {
+async function countInactiveUsers(request, response) {
   try {
     const inactiveUserCount = await prisma.users.count({
       where: {
@@ -30,7 +30,7 @@ async function getInactiveUserCount(request, response) {
   }
 }
 
-async function getUserCount(request, response) {
+async function countUsers(request, response) {
   try {
     const userCount = await prisma.users.count();
 
@@ -40,7 +40,7 @@ async function getUserCount(request, response) {
   }
 }
 
-async function getExFeederUserCount(request, response) {
+async function countExFeederUsers(request, response) {
   try {
     const exFeederUserCount = await prisma.users.count({
       where: {
@@ -55,8 +55,8 @@ async function getExFeederUserCount(request, response) {
 }
 
 module.exports = {
-  getHiddenUserCount,
-  getInactiveUserCount,
-  getUserCount,
-  getExFeederUserCount,
+  countHiddenUsers,
+  countInactiveUsers,
+  countUsers,
+  countExFeederUsers,
 };

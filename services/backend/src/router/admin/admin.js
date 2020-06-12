@@ -2,8 +2,6 @@ const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const admin = require("../../core/admin/admin");
 
-const statistics = require("../../core/statistics");
-
 function catchAdminCheck(token) {
   try {
     return token.hasRole("view-admin-console");
@@ -23,7 +21,5 @@ adminRouter.put(
   keycloak.protect("manage-users"),
   admin.updateProfileStatus
 );
-
-adminRouter.get("/dashboard", statistics.statistics);
 
 module.exports = adminRouter;
