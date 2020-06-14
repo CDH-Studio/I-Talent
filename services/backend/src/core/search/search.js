@@ -34,11 +34,16 @@ async function search(request, response) {
     results = await utils.fuzzySearch(results, query.searchValue);
 
   if (query.skills) results = await utils.skillSearch(results, query.skills);
+
   if (query.mentorshipSkills)
     results = await utils.mentorshipSkillSearch(
       results,
       query.mentorshipSkills
     );
+
+  if (query.anyMentorSkills) {
+    results = await utils.anyMentorshipSkillsSearch(results);
+  }
 
   if (query.name) results = await utils.nameSearch(results, query.name);
 

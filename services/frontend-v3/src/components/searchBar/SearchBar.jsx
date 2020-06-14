@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import queryString from "query-string";
 import { useHistory } from "react-router-dom";
@@ -12,19 +13,15 @@ import config from "../../config";
 const { backendAddress } = config;
 
 const SearchBar = () => {
+  const [anyMentorSkills, setAnyMentorSkills] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const history = useHistory();
 
-  // Fetches options for skills select field in advanced search
-  const getSkills = async () => {
-    const results = await axios.get(
-      `${backendAddress}api/option/getDevelopmentalGoals`
-    );
-    setSkillOptions(results.data);
-  };
+  // get current language code
+  const { locale } = useSelector((state) => state.settings);
 
   // Fetches options for branches select field in advanced search
   const getBranch = async () => {
@@ -48,14 +45,56 @@ const SearchBar = () => {
     setClassOptions(results.data);
   };
 
+  const handleAnyMentorSkillsChange = (e) => {
+    setAnyMentorSkills(e.target.checked);
+  };
+
   // turns search values into query, redirects to results page with query
-  const handleSearch = (values) => {
+  const handleSearch = (unassignableValues) => {
+    let values;
+    if (unassignableValues.anyMentorSkills) {
+      values = { ...unassignableValues, mentorshipSkills: undefined };
+    } else {
+      values = { ...unassignableValues, anyMentorSkills: undefined };
+    }
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
     history.push(url);
   };
 
   useEffect(() => {
+    // Fetches options for skills select field in advanced search
+    const getSkills = async () => {
+      const dataTree = [];
+
+      // Get user profile
+      const url = `${backendAddress}api/option/getCategory`;
+      const result = await axios.get(url);
+
+      // Loop through all skill categories
+      for (let i = 0; i < result.data.length; i += 1) {
+        const parent = {
+          title: result.data[i].description[locale],
+          value: result.data[i].id,
+          children: [],
+        };
+
+        dataTree.push(parent);
+        // Loop through skills in each category
+        for (let w = 0; w < result.data[i].skills.length; w += 1) {
+          const child = {
+            title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
+            value: result.data[i].skills[w].id,
+            key: result.data[i].skills[w].id,
+          };
+          dataTree[i].children.push(child);
+        }
+      }
+
+      setSkillOptions(dataTree);
+      return 1;
+    };
+
     const updateState = async () => {
       Promise.all([
         getSkills(),
@@ -66,7 +105,7 @@ const SearchBar = () => {
     };
 
     updateState();
-  }, []);
+  }, [locale]);
 
   return (
     <SearchBarView
@@ -75,6 +114,8 @@ const SearchBar = () => {
       classOptions={classOptions}
       branchOptions={branchOptions}
       handleSearch={handleSearch}
+      anyMentorSkills={anyMentorSkills}
+      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
     />
   );
 };

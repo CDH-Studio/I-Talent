@@ -1,11 +1,12 @@
 async function mentorshipSkillSearch(profiles, skillarray) {
-  const skillProf = [];
+  const mentorSkillProf = [];
   profiles.forEach((profile) => {
     if (!profile.mentorshipSkills) return;
     const skillIds = profile.mentorshipSkills.map((skill) => skill.id);
-    if (skillIds.some((id) => skillarray.includes(id))) skillProf.push(profile);
+    if (skillIds.some((id) => skillarray.includes(id)))
+      mentorSkillProf.push(profile);
   });
-  return skillProf;
+  return mentorSkillProf;
 }
 
 module.exports = mentorshipSkillSearch;

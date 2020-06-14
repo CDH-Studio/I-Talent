@@ -1,11 +1,21 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import { Form, Button, Input, Switch, Select, Typography } from "antd";
+import {
+  Form,
+  Button,
+  Checkbox,
+  Input,
+  Switch,
+  Select,
+  Typography,
+  TreeSelect,
+} from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { IdDescriptionPropType } from "../../customPropTypes";
 
+const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;
 
 const SearchBarView = ({
@@ -15,6 +25,8 @@ const SearchBarView = ({
   classOptions,
   locationOptions,
   urlSearchFieldValues,
+  handleAnyMentorSkillsChange,
+  anyMentorSkills,
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -50,20 +62,22 @@ const SearchBarView = ({
   const searchLabel = <FormattedMessage id="button.search" />;
   const searchTitles = [
     "name",
+    "classification",
+    "location",
+    "branch",
     "skills",
     "mentorshipSkills",
-    "branch",
-    "location",
-    "classification",
+    "anyMentorSkills",
     "exFeeder",
   ];
   const labelArr = [
     <FormattedMessage id="advanced.search.form.name" />,
+    <FormattedMessage id="advanced.search.form.classification" />,
+    <FormattedMessage id="advanced.search.form.location" />,
+    <FormattedMessage id="advanced.search.form.branch" />,
     <FormattedMessage id="advanced.search.form.skills" />,
     <FormattedMessage id="advanced.search.form.mentorship.skills" />,
-    <FormattedMessage id="advanced.search.form.branch" />,
-    <FormattedMessage id="advanced.search.form.location" />,
-    <FormattedMessage id="advanced.search.form.classification" />,
+    null,
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
@@ -101,10 +115,8 @@ const SearchBarView = ({
             mode="multiple"
             maxTagCount={3}
           >
-            {skillOptions.map((value) => {
-              return (
-                <Option key={value.id}>{value.description[locale]}</Option>
-              );
+            {classOptions.map((value) => {
+              return <Option key={value.id}>{value.description}</Option>;
             })}
           </Select>
         </Form.Item>
@@ -121,7 +133,7 @@ const SearchBarView = ({
             mode="multiple"
             maxTagCount={3}
           >
-            {skillOptions.map((value) => {
+            {locationOptions.map((value) => {
               return (
                 <Option key={value.id}>{value.description[locale]}</Option>
               );
@@ -155,43 +167,50 @@ const SearchBarView = ({
           label={labelArr[4]}
           name={searchTitles[4]}
         >
-          <Select
+          <TreeSelect
             style={styles.w100}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
+            treeData={skillOptions}
+            treeCheckable
+            showCheckedStrategy={SHOW_CHILD}
+            showSearch
             mode="multiple"
             maxTagCount={3}
-          >
-            {locationOptions.map((value) => {
-              return (
-                <Option key={value.id}>{value.description[locale]}</Option>
-              );
-            })}
-          </Select>
+          />
         </Form.Item>
         <Form.Item
           style={styles.w100}
           label={labelArr[5]}
           name={searchTitles[5]}
         >
-          <Select
+          <TreeSelect
             style={styles.w100}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
+            treeData={skillOptions}
+            treeCheckable
+            showCheckedStrategy={SHOW_CHILD}
+            showSearch
             mode="multiple"
             maxTagCount={3}
-          >
-            {classOptions.map((value) => {
-              return <Option key={value.id}>{value.description}</Option>;
-            })}
-          </Select>
+            disabled={anyMentorSkills}
+          />
         </Form.Item>
         <Form.Item
           style={styles.w100}
           name={searchTitles[6]}
           label={labelArr[6]}
+          valuePropName="checked"
+        >
+          <Checkbox onChange={handleAnyMentorSkillsChange}>Any</Checkbox>
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          name={searchTitles[7]}
+          label={labelArr[7]}
           valuePropName="checked"
         >
           <Switch />

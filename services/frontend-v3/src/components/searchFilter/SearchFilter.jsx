@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
@@ -10,6 +11,7 @@ import handleError from "../../functions/handleError";
 const { backendAddress } = config;
 
 const SearchFilter = () => {
+  const [anyMentorSkills, setAnyMentorSkills] = useState(false);
   const [expand, setExpand] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
@@ -18,6 +20,9 @@ const SearchFilter = () => {
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
 
   const history = useHistory();
+
+  // get current language code
+  const { locale } = useSelector((state) => state.settings);
 
   const toggle = () => {
     setExpand(!expand);
@@ -60,13 +65,42 @@ const SearchFilter = () => {
     setUrlSearchFieldValues(formatedQuerySearchData);
   }, [history.location.search]);
 
+  const handleAnyMentorSkillsChange = (e) => {
+    setAnyMentorSkills(e.target.checked);
+  };
+
   useEffect(() => {
     // Fetches options for skills select field in advanced search
+    // Fetches options for skills select field in advanced search
     const getSkills = async () => {
-      const results = await axios.get(
-        `${backendAddress}api/option/getDevelopmentalGoals`
-      );
-      setSkillOptions(results.data);
+      const dataTree = [];
+
+      // Get user profile
+      const url = `${backendAddress}api/option/getCategory`;
+      const result = await axios.get(url);
+
+      // Loop through all skill categories
+      for (let i = 0; i < result.data.length; i += 1) {
+        const parent = {
+          title: result.data[i].description[locale],
+          value: result.data[i].id,
+          children: [],
+        };
+
+        dataTree.push(parent);
+        // Loop through skills in each category
+        for (let w = 0; w < result.data[i].skills.length; w += 1) {
+          const child = {
+            title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
+            value: result.data[i].skills[w].id,
+            key: result.data[i].skills[w].id,
+          };
+          dataTree[i].children.push(child);
+        }
+      }
+
+      setSkillOptions(dataTree);
+      return 1;
     };
 
     // Fetches options for branches select field in advanced search
@@ -107,10 +141,16 @@ const SearchFilter = () => {
 
     getSearchFieldValues();
     updateState();
-  }, [getSearchFieldValues]);
+  }, [getSearchFieldValues, locale]);
 
   // page with query
-  const handleSearch = (values) => {
+  const handleSearch = (unassignableValues) => {
+    let values;
+    if (unassignableValues.anyMentorSkills) {
+      values = { ...unassignableValues, mentorshipSkills: undefined };
+    } else {
+      values = { ...unassignableValues, anyMentorSkills: undefined };
+    }
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${query}`;
     history.push(url);
@@ -127,6 +167,8 @@ const SearchFilter = () => {
       handleSearch={handleSearch}
       toggle={toggle}
       urlSearchFieldValues={urlSearchFieldValues}
+      anyMentorSkills={anyMentorSkills}
+      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
     />
   );
 };
