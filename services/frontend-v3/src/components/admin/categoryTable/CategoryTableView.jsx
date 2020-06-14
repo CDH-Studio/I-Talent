@@ -21,6 +21,7 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
+import handleError from "../../../functions/handleError";
 import { IntlPropType } from "../../../customPropTypes";
 
 /**
@@ -129,11 +130,11 @@ const CategoryTableView = ({
 
   /* handles the transfer of new or update/edited category information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = (values) => {
+  const onCreate = async (values) => {
     if (modalType === "edit") {
-      handleSubmitEdit(values, record.id);
+      await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      handleSubmitAdd(values);
+      await handleSubmitAdd(values);
     }
   };
 
@@ -161,21 +162,26 @@ const CategoryTableView = ({
   // Gives error prompt if deletion cannot occur
   // Backend: checks if category does not have any associated skills
   const checkDelete = async () => {
-    const result = await handleSubmitDelete();
-    if (result === true) {
-      Modal.error({
-        title: intl.formatMessage({
-          id: "admin.category.disclaimer",
-          defaultMessage: "Disclaimer",
-        }),
-        content: intl.formatMessage({
-          id: "admin.category.disclaimer.message",
-          defaultMessage: "Cannot delete category with skill associations!",
-        }),
+    await handleSubmitDelete()
+      .then((result) => {
+        if (result === true) {
+          Modal.error({
+            title: intl.formatMessage({
+              id: "admin.category.disclaimer",
+              defaultMessage: "Disclaimer",
+            }),
+            content: intl.formatMessage({
+              id: "admin.category.disclaimer.message",
+              defaultMessage: "Cannot delete category with skill associations!",
+            }),
+          });
+        } else {
+          popUpSuccesss();
+        }
+      })
+      .catch((error) => {
+        throw error;
       });
-    } else {
-      popUpSuccesss();
-    }
   };
 
   /* handles closure of add or edit category modal */
@@ -248,15 +254,15 @@ const CategoryTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then((values) => {
+            .then(async (values) => {
+              await onCreate(values);
               addForm.resetFields();
-              onCreate(values);
               handleOk();
             })
-            .catch((info) => {
-              handleCancel();
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+            .catch((error) => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              }
             });
         }}
         onCancel={() => {
@@ -338,15 +344,16 @@ const CategoryTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then((values) => {
+            .then(async (values) => {
+              await onCreate(values);
               editForm.resetFields();
-              onCreate(values);
+              handleOk();
             })
-            .catch((info) => {
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+            .catch((error) => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              }
             });
-          handleOk();
         }}
         onCancel={() => {
           editForm.resetFields();
@@ -406,7 +413,7 @@ const CategoryTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          checkDelete();
+          checkDelete().catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();

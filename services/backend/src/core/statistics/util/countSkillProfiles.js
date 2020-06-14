@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const Models = require("../../../../database/models");
+const Models = require("../../../database/models");
 
 const Skills = Models.skill; // Skills Table
 const Profiles = Models.profile; // Profiles Table

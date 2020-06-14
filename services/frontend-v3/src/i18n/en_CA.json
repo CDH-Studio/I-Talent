@@ -108,19 +108,20 @@
   "sidebar.search.title": "Search filters",
   "sidebar.search.description": "You can update your search filters",
 
+  "back.to.landing": "Back to landing",
   "search.no.results": "No results found",
 
   "button.advanced.search": "Advanced search",
+  "button.basic.search": "Basic search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
-  "button.clear": "Clear",
+  "button.clear": "Clear changes",
   "button.close": "Close",
   "button.next": "Next",
   "button.back": "Back",
   "button.finish": "Finish",
   "button.deactivate.account": "Deactivate account",
   "button.hide.account": "Hide account",
-  "button.basic.search": "Basic search",
 
   "apply.button.text": "Apply",
 
@@ -248,6 +249,8 @@
   "profile.education.subheader.name": "School name",
   "profile.email": "Email",
   "profile.ex.feeder": "I am nominated in the EX-feeder program",
+  "profile.not.ex.feeder": "I'm not nominated in the EX-Feeder Program.",
+  "profile.ex.feeder.title": "EX-feeder",
   "profile.first.language": "First language",
   "profile.first.name": "First name",
   "profile.github": "Github",
@@ -320,6 +323,7 @@
   "profile.undefined": "Undefined",
   "profile.do.not.specify": "Do not specify",
   "profile.not.specified": "Not specified",
+  "profile.not.found": "Invalid profile URL",
   "profile.end.date.present": "Present",
   "profile.relocation.locations": "I am willing to relocate to",
   "profile.rules.required": "Required",
@@ -329,7 +333,7 @@
   "profile.rules.max.250": "Max length 250 characters",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
-  "profile.form.clear": "Form cleared",
+  "profile.form.clear": "Changes cleared",
   "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
@@ -346,7 +350,13 @@
   "sign.out": "Logout",
   "home": "Home",
 
-  "error.button": "Back to home",
+  "error.redirect.title": "Unexpected error",
+  "error.redirect.subtitle": "Something went wrong",
+  "error.button": "Back to Home",
+  "error.retry": "Retry",
+  "error.save": "Data not saved due to network error",
+  "error.show": "Show error log",
+  "error.hide": "Hide error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
   "error.403.subtitle": "Looks like someone doesn't belong"
 }

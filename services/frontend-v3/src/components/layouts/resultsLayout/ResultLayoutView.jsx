@@ -5,28 +5,23 @@ import { injectIntl } from "react-intl";
 import AppLayout from "../appLayout/AppLayout";
 import ResultsCard from "../../resultsCard/ResultsCard";
 import SearchFilter from "../../searchFilter/SearchFilter";
-import { HistoryPropType } from "../../../customPropTypes";
 
-const ResultLayoutView = ({ intl, history }) => {
+const ResultLayoutView = ({ intl }) => {
   const resultsTitle = intl.formatMessage({
     id: "results.title",
     defaultMessage: "Results",
   });
   return (
     <Layout>
-      <AppLayout
-        displaySideBar
-        sideBarContent={<SearchFilter history={history} />}
-      >
+      <AppLayout displaySideBar sideBarContent={<SearchFilter />}>
         <PageHeader title={resultsTitle} />
-        <ResultsCard history={history} />
+        <ResultsCard />
       </AppLayout>
     </Layout>
   );
 };
 
 ResultLayoutView.propTypes = {
-  history: HistoryPropType.isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }).isRequired,

@@ -2,8 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -18,19 +21,28 @@ const PersonalGrowthForm = ({ formType }) => {
   const [load, setLoad] = useState(false);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
-  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState([]);
+  const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
+    []
+  );
   const [relocationOptions, setRelocationOptions] = useState([]);
   const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
   const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
   const [careerMobilityOptions, setCareerMobilityOptions] = useState([]);
   const [savedCareerMobility, setSavedCareerMobility] = useState(undefined);
-  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState([]);
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(undefined);
+  const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState(
+    []
+  );
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(
+    undefined
+  );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
 
   // Get current language code
   const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
+
+  const history = useHistory();
 
   /**
    * Get saved Developmental Goals
@@ -67,18 +79,12 @@ const PersonalGrowthForm = ({ formType }) => {
   /**
    * Get User Profile
    */
-  const getProfileInfo = async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+  const getProfileInfo = useCallback(async () => {
+    const url = `${backendAddress}api/profile/private/${id}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
+  }, [id]);
 
   /**
    * Get Developmental Goal Options
@@ -86,24 +92,20 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of developmental goal options for treeSelect dropdown
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getDevelopmentalGoals`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getDevelopmentalGoals`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for treeSelect
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-      setDevelopmentalGoalOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data format required for treeSelect
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+    setDevelopmentalGoalOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -132,25 +134,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of Relocation Options for dropdown treeSelect
    */
   const getRelocationOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getWillingToRelocateTo`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getWillingToRelocateTo`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for treeSelect
-      for (let i = 0; i < result.data.length; i += 1) {
-        const location = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(location);
-      }
-
-      setRelocationOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data format required for treeSelect
+    for (let i = 0; i < result.data.length; i += 1) {
+      const location = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(location);
     }
+
+    setRelocationOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -159,25 +157,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get Saved Looking For New Job from user profile
    */
   const getLookingForNewJobOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getLookingForANewJob`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getLookingForANewJob`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-
-      setLookingForNewJobOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data format required for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+
+    setLookingForNewJobOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -186,25 +180,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get all dropdown options for Career Mobility
    */
   const getCareerMobilityOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getCareerMobility`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getCareerMobility`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-
-      setCareerMobilityOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data format required for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+
+    setCareerMobilityOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -213,25 +203,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get all dropdown options for Talent Matrix Results
    */
   const getTalentMatrixResultOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getTalentMatrixResult`;
-      const result = await axios.get(url);
-      const dataTree = [];
+    const url = `${backendAddress}api/option/getTalentMatrixResult`;
+    const result = await axios.get(url);
+    const dataTree = [];
 
-      // Generate the data format required for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const goal = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        dataTree.push(goal);
-      }
-
-      setTalentMatrixResultOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data format required for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const goal = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      dataTree.push(goal);
     }
+
+    setTalentMatrixResultOptions(dataTree);
+    return 1;
   }, [locale]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
@@ -255,7 +241,7 @@ const PersonalGrowthForm = ({ formType }) => {
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
   // useEffect when locale changes
@@ -274,12 +260,19 @@ const PersonalGrowthForm = ({ formType }) => {
       .then(() => {
         setLoad(true);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoad(false);
-        // eslint-disable-next-line no-console
-        console.log(error);
+        handleError(error, "redirect");
       });
-  }, [getCareerMobilityOptions, getDevelopmentalGoalOptions, getInterestedInRemoteOptions, getLookingForNewJobOptions, getRelocationOptions, getTalentMatrixResultOptions]);
+  }, [
+    getCareerMobilityOptions,
+    getDevelopmentalGoalOptions,
+    getInterestedInRemoteOptions,
+    getLookingForNewJobOptions,
+    getProfileInfo,
+    getRelocationOptions,
+    getTalentMatrixResultOptions,
+  ]);
 
   return (
     <PersonalGrowthFormView
@@ -298,6 +291,8 @@ const PersonalGrowthForm = ({ formType }) => {
       savedExFeederBool={savedExFeederBool}
       formType={formType}
       load={load}
+      history={history}
+      userId={id}
     />
   );
 };

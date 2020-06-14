@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { PageHeader, Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
@@ -27,8 +27,12 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = (props) => {
   const { formStep } = props;
-  const history = useHistory();
   const [profileExists, setProfileExists] = useState(false);
+  const history = useHistory();
+
+  // get current language code
+  const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   /* Component Styles */
   const styles = {
@@ -50,15 +54,27 @@ const CreateProfileLayoutView = (props) => {
   };
 
   /*
+   * Handle Key Press
+   *
+   * handle how to process when enter key is hit when focusing on a step in the sidebar
+   */
+
+  const handleKeyPress = (e, current) => {
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      const url = `/secured/profile/create/step/${current + 2}`;
+      history.push(url);
+    }
+  };
+
+  /*
    * Check For Profile
    *
    * Check if profile exists
    */
-  const checkForProfile = async () => {
+  const checkForProfile = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/status/${localStorage.getItem(
-        "userId"
-      )}`;
+      const url = `${backendAddress}api/profile/private/status/${id}`;
       const response = await axios.get(url);
       const { exists } = response.data.profile;
       if (exists) setProfileExists(exists);
@@ -67,7 +83,7 @@ const CreateProfileLayoutView = (props) => {
       // eslint-disable-next-line no-console
       console.log(error);
     }
-  };
+  }, [id]);
 
   /*
    * Profile Form Select
@@ -112,9 +128,11 @@ const CreateProfileLayoutView = (props) => {
           size="small"
           current={stepInt}
           onChange={onChange}
+          onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
           <Step title={<FormattedMessage id="setup.welcome" />} />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.primary.information" />}
             description={
               <ul style={styles.stepList}>
@@ -125,6 +143,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.employment" />}
             disabled={!profileExists}
             description={
@@ -136,6 +155,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.language.proficiency" />}
             disabled={!profileExists}
             description={
@@ -147,6 +167,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.talent" />}
             disabled={!profileExists}
             description={
@@ -164,6 +185,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="profile.employee.growth.interests" />}
             disabled={!profileExists}
             description={
@@ -181,6 +203,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="profile.employee.qualifications" />}
             disabled={!profileExists}
             description={
@@ -198,6 +221,7 @@ const CreateProfileLayoutView = (props) => {
             }
           />
           <Step
+            tabIndex="0"
             title={<FormattedMessage id="setup.done" />}
             disabled={!profileExists}
           />
@@ -213,18 +237,18 @@ const CreateProfileLayoutView = (props) => {
    */
   useEffect(() => {
     checkForProfile();
-  }, [props]);
+  }, [checkForProfile, props]);
 
   // Get Sidebar Content
   const sideBarContent = getSideBarContent(formStep);
   // Get correct form for current step
   const form = profileFormSelect(formStep);
 
-  // get current language code
-  const { locale } = useSelector((state) => state.settings);
-
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
+      <h1 className="hidden">
+        <FormattedMessage id="create.profile" />
+      </h1>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",

@@ -15,6 +15,7 @@ import rootReducer from "./slices";
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["settings", "user"],
 };
 
 const store = configureStore({

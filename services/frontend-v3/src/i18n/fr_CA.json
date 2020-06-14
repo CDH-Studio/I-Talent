@@ -1,5 +1,4 @@
 {
-  "button.advanced.search": "Recherche avancée",
   "advanced.search.form.desired.skills": "Compétences désirées",
   "admin": "Admin",
   "admin.console": "Console d'admin",
@@ -105,7 +104,6 @@
   "advanced.search.form.last.name": "Nom de famille",
 
   "button.search": "Rechercher",
-  "button.basic.search": "Recherche de base",
   "advanced.search.button.text": "Recherche avancée",
   "advanced.search.form.name": "Nom",
   "advanced.search.form.skills": "Compétences",
@@ -118,11 +116,14 @@
   "sidebar.search.title": "Filtres de recherche",
   "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
 
+  "back.to.landing": "Retour à la page d'accueil",
   "search.no.results": "Aucun résultat trouvé",
 
+  "button.advanced.search": "Recherche avancée",
+  "button.basic.search": "Recherche de base",
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
-  "button.clear": "Effacer",
+  "button.clear": "Effacer les modifications",
   "button.close": "Fermer",
   "button.next": "Suivant",
   "button.back": "Précédent",
@@ -251,6 +252,8 @@
   "profile.education.subheader.name": "École",
   "profile.email": "Courriel",
   "profile.ex.feeder": "Je suis nommé dans le programme EX-Feeder",
+  "profile.not.ex.feeder": "Je ne suis pas nominé dans le programme EX-Feeder",
+  "profile.ex.feeder.title": "EX-Feeder",
   "profile.first.language": "Première langue",
   "profile.first.name": "Prénom",
   "profile.github": "Github",
@@ -306,7 +309,7 @@
   "profile.rules.max.250": "Maximum de 250 caractères",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
-  "profile.form.clear": "Formulaire effacé",
+  "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",
 
   "lang": "English",
@@ -335,6 +338,7 @@
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Ne pas spécifié",
   "profile.not.specified": "Non spécifié",
+  "profile.not.found": "Profil non trouvé",
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transferé à",
   "profile.career.interests": "Mobilité de l'emploi",
@@ -354,7 +358,13 @@
   "sign.out": "Déconnexion",
   "home": "Acceuil",
 
+  "error.redirect.title": "Erreur inattendue",
+  "error.redirect.subtitle": "Quelque chose a mal tourné",
   "error.button": "Retour à l'acceuil",
+  "error.retry": "Réessayez",
+  "error.save": "Données non enregistrées en raison d'une erreur réseau",
+  "error.show": "Afficher le journal des erreurs",
+  "error.hide": "Masquer le journal des erreurs",
   "error.404.subtitle": "On dirait que quelqu'un est au mauvais endroit",
   "error.403.subtitle": "On dirait que quelqu'un n'appartient pas"
 }

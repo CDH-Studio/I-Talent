@@ -1,6 +1,12 @@
-const { override, fixBabelImports, addLessLoader } = require("customize-cra");
+const {
+  override,
+  fixBabelImports,
+  addBabelPresets,
+  addLessLoader,
+} = require("customize-cra");
 
 module.exports = override(
+  ...addBabelPresets("@babel/preset-react", "@babel/preset-env"),
   fixBabelImports("import", {
     libraryName: "antd",
     libraryDirectory: "es",

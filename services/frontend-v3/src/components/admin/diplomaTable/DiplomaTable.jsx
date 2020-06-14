@@ -6,6 +6,7 @@ import _ from "lodash";
 import { injectIntl } from "react-intl";
 import DiplomaTableView from "./DiplomaTableView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -26,16 +27,10 @@ const DiplomaTable = ({ type, intl }) => {
 
   // Get diploma information
   const getDiplomas = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/${type}`
-      );
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/${type}`
+    );
+    return results.data;
   }, [type]);
 
   // Get part of the title for the page
@@ -55,18 +50,20 @@ const DiplomaTable = ({ type, intl }) => {
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let diplomas = [];
     if (loading) {
       const setState = async () => {
-        diplomas = await getDiplomas();
-        setData(diplomas);
+        await getDiplomas()
+          .then((diplomas) => setData(diplomas))
+          .catch((error) => handleError(error, "redirect"));
+
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        diplomas = await getDiplomas();
-        setData(diplomas);
+        await getDiplomas()
+          .then((diplomas) => setData(diplomas))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -90,57 +87,39 @@ const DiplomaTable = ({ type, intl }) => {
 
   /* handles addition of a diploma */
   const handleSubmitAdd = async (values) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        descriptionEn: values.addDiplomaEn,
-        descriptionFr: values.addDiplomaFr,
-      });
+    await axios.post(url, {
+      descriptionEn: values.addDiplomaEn,
+      descriptionFr: values.addDiplomaFr,
+    });
 
-      setReset(true);
-      return 1;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
+    return 1;
   };
 
   /* handles the update/edit of a diploma */
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      await axios.put(url, {
-        descriptionEn: values.editDiplomaEn,
-        descriptionFr: values.editDiplomaFr,
-      });
+    await axios.put(url, {
+      descriptionEn: values.editDiplomaEn,
+      descriptionFr: values.editDiplomaFr,
+    });
 
-      setReset(true);
-      return 1;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
+    return 1;
   };
 
   /* handles the deletion of a diploma */
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      await axios.post(url, { ids: selectedRowKeys });
+    await axios.post(url, { ids: selectedRowKeys });
 
-      setSelectedRowKeys([]);
-      setReset(true);
-      return 1;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setSelectedRowKeys([]);
+    setReset(true);
+    return 1;
   };
 
   /* helper function to rowSelection */

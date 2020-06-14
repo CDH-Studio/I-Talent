@@ -18,15 +18,30 @@ const ResultsCardView = ({ history, results, locale }) => {
     },
   };
 
+  /*
+   * Handle Key Press
+   *
+   * handle how to process when enter key is hit when focusing on a results card
+   */
+
+  const handleKeyPress = (e, person) => {
+    if (e.charCode === 32 || e.charCode === 13) {
+      e.preventDefault();
+      history.push(`/secured/profile/${person.id}`);
+    }
+  };
+
   const renderCard = (person, key) => {
     return (
       <Col span={6} style={{ height: "100%" }} key={key}>
         <Card
+          tabIndex="0"
           style={{ height: "100%", overflowX: "hidden" }}
           size="small"
           hoverable
           bordered
           onClick={() => history.push(`/secured/profile/${person.id}`)}
+          onKeyPress={(e) => handleKeyPress(e, person)}
         >
           <Meta
             avatar={
@@ -46,7 +61,8 @@ const ResultsCardView = ({ history, results, locale }) => {
           />
 
           <p style={styles.smallP}>{person.branch}</p>
-          {person.classification.description !== null ? (
+          {person.classification &&
+          person.classification.description !== null ? (
             <p style={styles.smallP}>
               {`Classification: ${person.classification.description}`}
             </p>

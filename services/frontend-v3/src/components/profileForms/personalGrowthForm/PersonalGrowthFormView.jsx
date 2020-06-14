@@ -12,7 +12,6 @@ import {
   message,
   Popover,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import {
   RightOutlined,
   CheckOutlined,
@@ -26,9 +25,10 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-
+import handleError from "../../../functions/handleError";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -57,8 +57,9 @@ const PersonalGrowthFormView = ({
   formType,
   load,
   intl,
+  history,
+  userId,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -148,26 +149,10 @@ const PersonalGrowthFormView = ({
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.put(`${backendAddress}api/profile/${userId}`, values);
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.post(`${backendAddress}api/profile/${userId}`, values);
     }
   };
 
@@ -247,8 +232,12 @@ const PersonalGrowthFormView = ({
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -264,14 +253,18 @@ const PersonalGrowthFormView = ({
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/7");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /*
@@ -290,8 +283,12 @@ const PersonalGrowthFormView = ({
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -647,6 +644,8 @@ PersonalGrowthFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 PersonalGrowthFormView.defaultProps = {

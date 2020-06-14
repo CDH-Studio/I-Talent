@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
+import { HistoryPropType } from "../../../customPropTypes";
 import {
   EmploymentDataForm,
   LangProficiencyForm,
@@ -18,9 +18,7 @@ import {
  *  EditProfileLayoutView(props)
  *  Render the layout for the edit profile forms
  */
-const EditProfileLayoutView = ({ formStep }) => {
-  const history = useHistory();
-
+const EditProfileLayoutView = ({ formStep, history }) => {
   /*
    * Profile Form Select
    *
@@ -88,7 +86,7 @@ const EditProfileLayoutView = ({ formStep }) => {
   const getSideBarContent = (step) => {
     return (
       <Menu onClick={redirectToForm} selectedKeys={step}>
-        <Menu.Item key="primary-info" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="primary-info" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -101,7 +99,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="employment" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="employment" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -114,7 +112,11 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="language-proficiency" style={styles.menuItem}>
+        <Menu.Item
+          tabIndex="0"
+          key="language-proficiency"
+          style={styles.menuItem}
+        >
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -127,7 +129,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="talent" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="talent" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -146,7 +148,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="personal-growth" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="personal-growth" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -165,7 +167,7 @@ const EditProfileLayoutView = ({ formStep }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item key="qualifications" style={styles.menuItem}>
+        <Menu.Item tabIndex="0" key="qualifications" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
@@ -195,6 +197,9 @@ const EditProfileLayoutView = ({ formStep }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
+      <h1 className="hidden">
+        <FormattedMessage id="edit.profile" />{" "}
+      </h1>
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
@@ -208,6 +213,7 @@ const EditProfileLayoutView = ({ formStep }) => {
 
 EditProfileLayoutView.propTypes = {
   formStep: PropTypes.string.isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 export default EditProfileLayoutView;
