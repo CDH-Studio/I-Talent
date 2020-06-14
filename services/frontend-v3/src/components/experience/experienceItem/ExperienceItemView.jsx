@@ -25,11 +25,30 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
   };
 
   const generateDescriptionContent = () => {
-    if (expand) {
+    if (item.description && item.description.length > 0) {
       return (
-        <Row>
-          <p style={styles.experienceDescription}>{item.description}</p>
-        </Row>
+        <>
+          {expand && (
+            <Row>
+              <p style={styles.experienceDescription}>{item.description}</p>
+            </Row>
+          )}
+          <Row>
+            <Button
+              type="link"
+              onClick={toggleExpand}
+              style={styles.experienceDescriptionToggleTag}
+            >
+              {expand ? <UpOutlined /> : <DownOutlined />}
+              <span style={styles.expandDescriptionToggleTagText}>
+                {intl.formatMessage({
+                  id: "profile.career.content.name",
+                  defaultMessage: "Description",
+                })}
+              </span>
+            </Button>
+          </Row>
+        </>
       );
     }
     return null;
@@ -40,21 +59,6 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
       <>
         <Row>{item.organizationName}</Row>
         {generateDescriptionContent()}
-        <Row>
-          <Button
-            type="link"
-            onClick={toggleExpand}
-            style={styles.experienceDescriptionToggleTag}
-          >
-            {expand ? <UpOutlined /> : <DownOutlined />}
-            <span style={styles.expandDescriptionToggleTagText}>
-              {intl.formatMessage({
-                id: "profile.career.content.name",
-                defaultMessage: "Description",
-              })}
-            </span>
-          </Button>
-        </Row>
       </>
     );
   };
