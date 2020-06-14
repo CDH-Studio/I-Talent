@@ -255,6 +255,8 @@ SearchBarView.propTypes = {
     exFeeder: PropTypes.bool,
     name: PropTypes.string,
   }),
+  anyMentorSkills: PropTypes.bool.isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 SearchBarView.defaultProps = {

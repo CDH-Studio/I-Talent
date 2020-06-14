@@ -447,6 +447,8 @@ SearchBarView.propTypes = {
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType,
+  anyMentorSkills: PropTypes.bool.isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 SearchBarView.defaultProps = {
