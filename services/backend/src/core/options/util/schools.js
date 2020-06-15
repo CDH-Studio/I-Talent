@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 async function getSchools(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const schoolsQuery = await prisma.opTransSchools.findMany({
@@ -25,6 +28,11 @@ async function getSchools(request, response) {
 
     response.status(200).json(schools);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching school options");
   }
 }
@@ -57,6 +65,7 @@ async function getSchoolsAllLang(request, response) {
 
     response.status(200).json(schools);
   } catch (error) {
+    console.log(error);
     response
       .status(500)
       .send("Error fetching school options in every language");
@@ -65,6 +74,8 @@ async function getSchoolsAllLang(request, response) {
 
 async function createSchool(request, response) {
   try {
+    validationResult(request).throw();
+
     const { abbrCountry, abbrProvince, en, fr } = request.body;
 
     if (!en && !fr) {
@@ -102,12 +113,19 @@ async function createSchool(request, response) {
 
     response.status(200).send("Successfully created a school entry");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error creating a school entry");
   }
 }
 
 async function updateSchool(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id, abbrCountry, abbrProvince, en, fr } = request.body;
 
     if (!en && !fr) {
@@ -150,12 +168,19 @@ async function updateSchool(request, response) {
       .status(200)
       .send("Successfully updated the specified school entry");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error updating the specified school entry");
   }
 }
 
 async function deleteSchool(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id } = request.query;
 
     await prisma.opTransSchools.deleteMany({
@@ -174,12 +199,19 @@ async function deleteSchool(request, response) {
       .status(200)
       .send("Successfully deleted the specified school option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified school option");
   }
 }
 
 async function deleteSchools(request, response) {
   try {
+    validationResult(request).throw();
+
     const { ids } = request.query;
 
     await prisma.opSchools.deleteMany({
@@ -192,6 +224,11 @@ async function deleteSchools(request, response) {
       .status(200)
       .send("Successfully deleted the specified school option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified school option");
   }
 }

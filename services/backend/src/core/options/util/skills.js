@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 async function getSkills(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const skillsQuery = await prisma.opTransSkills.findMany({
@@ -25,6 +28,11 @@ async function getSkills(request, response) {
 
     response.status(200).json(skills);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching skill options");
   }
 }
@@ -53,12 +61,15 @@ async function getSkillsAllLang(request, response) {
 
     response.status(200).json(skills);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error fetching skill options in every language");
   }
 }
 
 async function createSkill(request, response) {
   try {
+    validationResult(request).throw();
+
     const { en, fr, categoryId } = request.body;
 
     await prisma.opSkills.create({
@@ -85,12 +96,19 @@ async function createSkill(request, response) {
 
     response.status(200).send("Successfully created a skill option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error creating a skill option");
   }
 }
 
 async function updateSkill(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id, en, fr, categoryId } = request.body;
 
     await prisma.opSkills.update({
@@ -122,12 +140,19 @@ async function updateSkill(request, response) {
       .status(200)
       .send("Successfully updated the specified skill option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error updating the specified skill option");
   }
 }
 
 async function deleteSkill(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id } = request.body;
 
     await prisma.skills.deleteMany({
@@ -158,12 +183,19 @@ async function deleteSkill(request, response) {
       .status(200)
       .send("Successfully deleted the specified skill option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified skill option");
   }
 }
 
 async function deleteSkills(request, response) {
   try {
+    validationResult(request).throw();
+
     const { ids } = request.body;
 
     await prisma.skills.deleteMany({
@@ -202,6 +234,11 @@ async function deleteSkills(request, response) {
       .status(200)
       .send("Successfully deleted the specified skill options");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified skill options");
   }
 }
