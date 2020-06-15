@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 async function getCompetencies(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const competenciesQuery = await prisma.opTransCompetencies.findMany({
@@ -28,6 +31,11 @@ async function getCompetencies(request, response) {
 
     response.status(200).json(competencies);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching competency options");
   }
 }
@@ -64,6 +72,8 @@ async function getCompetenciesAllLang(request, response) {
 
 async function createCompetency(request, response) {
   try {
+    validationResult(request).throw();
+
     const { en, fr } = request.body;
 
     await prisma.opCompetencies.create({
@@ -85,12 +95,19 @@ async function createCompetency(request, response) {
 
     response.status(200).send("Successfully created a competency option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error creating a competency option");
   }
 }
 
 async function updateCompetency(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id, en, fr } = request.body;
 
     await prisma.opCompetencies.update({
@@ -117,12 +134,19 @@ async function updateCompetency(request, response) {
       .status(200)
       .send("Successfully updated the specified competency option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error updating the specified competency option");
   }
 }
 
 async function deleteCompetency(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id } = request.body;
 
     await prisma.competencies.deleteMany({
@@ -147,12 +171,19 @@ async function deleteCompetency(request, response) {
       .status(200)
       .send("Successfully deleted the specified competency option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified competency option");
   }
 }
 
 async function deleteCompetencies(request, response) {
   try {
+    validationResult(request).throw();
+
     const { ids } = request.body;
 
     await prisma.competencies.deleteMany({
@@ -183,6 +214,11 @@ async function deleteCompetencies(request, response) {
       .status(200)
       .send("Successfully deleted the specified competency options");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response
       .status(500)
       .send("Error deleting the specified competency options");

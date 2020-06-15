@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 async function getCategories(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const categoriesQuery = await prisma.opTransCategories.findMany({
@@ -28,6 +31,11 @@ async function getCategories(request, response) {
 
     response.status(200).json(categories);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching category options");
   }
 }
@@ -56,6 +64,7 @@ async function getCategoriesAllLang(request, response) {
 
     response.status(200).json(categories);
   } catch (error) {
+    console.log(error);
     response
       .status(500)
       .send("Error fetching category options in every language");
@@ -64,6 +73,8 @@ async function getCategoriesAllLang(request, response) {
 
 async function getCategoriesSkills(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const categoriesSkillsQuery = await prisma.opTransCategories.findMany({
@@ -116,12 +127,19 @@ async function getCategoriesSkills(request, response) {
 
     response.status(200).json(categoriesSkills);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching category skill options");
   }
 }
 
 async function createCategory(request, response) {
   try {
+    validationResult(request).throw();
+
     const { en, fr } = request.body;
 
     await prisma.opCategories.create({
@@ -143,12 +161,19 @@ async function createCategory(request, response) {
 
     response.status(200).send("Successfully created a category option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error creating a category option");
   }
 }
 
 async function updateCategory(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id, en, fr } = request.body;
 
     await prisma.opCategories.update({
@@ -175,12 +200,19 @@ async function updateCategory(request, response) {
       .status(200)
       .send("Successfully updated the specified category option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error updating the specified category option");
   }
 }
 
 async function deleteCategory(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id } = request.body;
 
     await prisma.opCategories.delete({
@@ -193,12 +225,19 @@ async function deleteCategory(request, response) {
       .status(200)
       .send("Successfully deleted the specified category option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified category option");
   }
 }
 
 async function deleteCategories(request, response) {
   try {
+    validationResult(request).throw();
+
     const { ids } = request.body;
 
     await prisma.opCategories.deleteMany({
@@ -213,6 +252,11 @@ async function deleteCategories(request, response) {
       .status(200)
       .send("Successfully deleted the specified category options");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified category options");
   }
 }

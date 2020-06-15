@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 async function getLocations(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const locationsQuery = await prisma.opTransOfficeLocations.findMany({
@@ -41,6 +44,11 @@ async function getLocations(request, response) {
 
     response.status(200).json(locations);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching location options");
   }
 }

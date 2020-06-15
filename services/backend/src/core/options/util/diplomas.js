@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 async function getDiplomas(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const diplomasQuery = await prisma.opTransDiplomas.findMany({
@@ -25,6 +28,11 @@ async function getDiplomas(request, response) {
 
     response.status(200).json(diplomas);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error fetching diploma options");
   }
 }
@@ -53,6 +61,7 @@ async function getDiplomasAllLang(request, response) {
 
     response.status(200).json(diplomas);
   } catch (error) {
+    console.log(error);
     response
       .status(500)
       .send("Error fetching diploma options in every language");
@@ -61,6 +70,8 @@ async function getDiplomasAllLang(request, response) {
 
 async function createDiploma(request, response) {
   try {
+    validationResult(request).throw();
+
     const { en, fr } = request.body;
 
     await prisma.opDiplomas.create({
@@ -82,12 +93,19 @@ async function createDiploma(request, response) {
 
     response.status(200).send("Successfully created a diploma option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error creating a diploma option");
   }
 }
 
 async function updateDiploma(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id, en, fr } = request.body;
 
     await prisma.opDiplomas.create({
@@ -114,12 +132,19 @@ async function updateDiploma(request, response) {
       .status(200)
       .send("Successfully updated the specified diploma option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error updating the specified diploma option");
   }
 }
 
 async function deleteDiploma(request, response) {
   try {
+    validationResult(request).throw();
+
     const { id } = request.query;
 
     await prisma.opTransDiplomas.delete({
@@ -132,12 +157,19 @@ async function deleteDiploma(request, response) {
       .status(200)
       .send("Successfully deleted the specified diploma option");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified diploma option");
   }
 }
 
 async function deleteDiplomas(request, response) {
   try {
+    validationResult(request).throw();
+
     const { ids } = request.query;
 
     await prisma.opTransDiplomas.deleteMany({
@@ -152,6 +184,11 @@ async function deleteDiplomas(request, response) {
       .status(200)
       .send("Successfully deleted the specified diploma options");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error deleting the specified diploma options");
   }
 }
