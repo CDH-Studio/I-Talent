@@ -10,12 +10,15 @@ const langValidator = [
 
 const updateUserStatusValidator = [
   body()
-    .isJSON()
-    .custom((value) => {
-      return Object.keys(value).every((i) => {
-        return isUUID(i) && isIn(value[i], ["ACTIVE", "INACTIVE", "HIDDEN"]);
-      });
-    }),
+    .custom((object) => {
+      return Object.keys(object).every(
+        (key) =>
+          isUUID(key) && isIn(object[key], ["ACTIVE", "INACTIVE", "HIDDEN"])
+      );
+    })
+    .withMessage(
+      "must be a JSON object with user UUIDs as keys and it's value must be 'ACTIVE' or 'INACTIVE' or 'HIDDEN'"
+    ),
 ];
 
 module.exports = {

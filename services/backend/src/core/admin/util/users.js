@@ -51,8 +51,8 @@ const getUsers = async (request, response) => {
         firstName: i.firstName,
         lastName: i.lastName,
         status: i.status,
-        jobTitle: jobTitle.length > 0 ? jobTitle[0] : undefined,
-        tenure: tenure.length > 0 ? tenure[0] : undefined,
+        jobTitle: jobTitle.length > 0 ? jobTitle[0].jobTitle : undefined,
+        tenure: tenure.length > 0 ? tenure[0].name : undefined,
       };
     });
 
