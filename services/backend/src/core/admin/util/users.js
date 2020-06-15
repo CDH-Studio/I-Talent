@@ -1,9 +1,12 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
 
 const getUsers = async (request, response) => {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const usersQuery = await prisma.users.findMany({
@@ -55,12 +58,19 @@ const getUsers = async (request, response) => {
 
     response.status(200).json(users);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting information about the users");
   }
 };
 
 const updateUserStatuses = async (request, response) => {
   try {
+    validationResult(request).throw();
+
     const userIds = Object.keys(request.body);
 
     await Promise.all(
@@ -78,6 +88,11 @@ const updateUserStatuses = async (request, response) => {
 
     response.status(200).send("Successfully updated the user statuses");
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error updating the user statuses");
   }
 };
