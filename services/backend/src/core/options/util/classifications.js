@@ -13,6 +13,7 @@ async function getClassifications(request, response) {
 
     response.status(200).json(classificationsQuery);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error fetching classification options");
   }
 }
