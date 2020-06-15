@@ -166,6 +166,12 @@ async function createCategory(request, response) {
       response.status(422).json(error.errors);
       return;
     }
+    if (error.code === "P2002") {
+      response
+        .status(409)
+        .send("Category option already exists with that information");
+      return;
+    }
     response.status(500).send("Error creating a category option");
   }
 }
@@ -182,14 +188,22 @@ async function updateCategory(request, response) {
       },
       data: {
         translations: {
-          create: [
+          updateMany: [
             {
-              name: en,
-              language: "ENGLISH",
+              where: {
+                language: "ENGLISH",
+              },
+              data: {
+                name: en,
+              },
             },
             {
-              name: fr,
-              language: "FRENCH",
+              where: {
+                language: "FRENCH",
+              },
+              data: {
+                name: fr,
+              },
             },
           ],
         },
@@ -215,6 +229,12 @@ async function deleteCategory(request, response) {
 
     const { id } = request.body;
 
+    await prisma.opTransCategories.deleteMany({
+      where: {
+        opCategoriesId: id,
+      },
+    });
+
     await prisma.opCategories.delete({
       where: {
         id,
@@ -239,6 +259,14 @@ async function deleteCategories(request, response) {
     validationResult(request).throw();
 
     const { ids } = request.body;
+
+    await prisma.opTransCategories.deleteMany({
+      where: {
+        opCategoriesId: {
+          in: ids,
+        },
+      },
+    });
 
     await prisma.opCategories.deleteMany({
       where: {

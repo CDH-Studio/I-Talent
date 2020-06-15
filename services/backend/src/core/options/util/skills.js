@@ -101,6 +101,12 @@ async function createSkill(request, response) {
       response.status(422).json(error.errors);
       return;
     }
+    if (error.code === "P2002") {
+      response
+        .status(409)
+        .send("Category option already exists with that information");
+      return;
+    }
     response.status(500).send("Error creating a skill option");
   }
 }
@@ -117,19 +123,29 @@ async function updateSkill(request, response) {
       },
       data: {
         category: {
-          connect: {
-            id: categoryId,
-          },
+          connect: categoryId
+            ? {
+                id: categoryId,
+              }
+            : undefined,
         },
         translations: {
-          create: [
+          updateMany: [
             {
-              name: en,
-              language: "ENGLISH",
+              where: {
+                language: "ENGLISH",
+              },
+              data: {
+                name: en,
+              },
             },
             {
-              name: fr,
-              language: "FRENCH",
+              where: {
+                language: "FRENCH",
+              },
+              data: {
+                name: fr,
+              },
             },
           ],
         },
@@ -170,6 +186,12 @@ async function deleteSkill(request, response) {
     await prisma.developmentalGoals.deleteMany({
       where: {
         skillId: id,
+      },
+    });
+
+    await prisma.opTransSkills.deleteMany({
+      where: {
+        opSkillsId: id,
       },
     });
 
@@ -217,6 +239,14 @@ async function deleteSkills(request, response) {
     await prisma.developmentalGoals.deleteMany({
       where: {
         skillId: {
+          in: ids,
+        },
+      },
+    });
+
+    await prisma.opTransSkills.deleteMany({
+      where: {
+        opSkillsId: {
           in: ids,
         },
       },
