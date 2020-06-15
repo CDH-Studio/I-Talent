@@ -100,6 +100,12 @@ async function createCompetency(request, response) {
       response.status(422).json(error.errors);
       return;
     }
+    if (error.code === "P2002") {
+      response
+        .status(409)
+        .send("Competency option already exists with that information");
+      return;
+    }
     response.status(500).send("Error creating a competency option");
   }
 }
@@ -116,14 +122,22 @@ async function updateCompetency(request, response) {
       },
       data: {
         translations: {
-          create: [
+          updateMany: [
             {
-              name: en,
-              language: "ENGLISH",
+              where: {
+                language: "ENGLISH",
+              },
+              data: {
+                name: en,
+              },
             },
             {
-              name: fr,
-              language: "FRENCH",
+              where: {
+                language: "FRENCH",
+              },
+              data: {
+                name: fr,
+              },
             },
           ],
         },
@@ -158,6 +172,12 @@ async function deleteCompetency(request, response) {
     await prisma.developmentalGoals.deleteMany({
       where: {
         competencyId: id,
+      },
+    });
+
+    await prisma.opTransCompetencies.deleteMany({
+      where: {
+        opCompetenciesId: id,
       },
     });
 
@@ -197,6 +217,14 @@ async function deleteCompetencies(request, response) {
     await prisma.developmentalGoals.deleteMany({
       where: {
         competencyId: {
+          in: ids,
+        },
+      },
+    });
+
+    await prisma.opTransCompetencies.deleteMany({
+      where: {
+        opCompetenciesId: {
           in: ids,
         },
       },

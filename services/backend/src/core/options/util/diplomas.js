@@ -98,6 +98,12 @@ async function createDiploma(request, response) {
       response.status(422).json(error.errors);
       return;
     }
+    if (error.code === "P2002") {
+      response
+        .status(409)
+        .send("Diploma option already exists with that information");
+      return;
+    }
     response.status(500).send("Error creating a diploma option");
   }
 }
@@ -108,20 +114,28 @@ async function updateDiploma(request, response) {
 
     const { id, en, fr } = request.body;
 
-    await prisma.opDiplomas.create({
+    await prisma.opDiplomas.update({
       where: {
         id,
       },
       data: {
         translations: {
-          create: [
+          updateMany: [
             {
-              description: en,
-              language: "ENGLISH",
+              where: {
+                language: "ENGLISH",
+              },
+              data: {
+                description: en,
+              },
             },
             {
-              description: fr,
-              language: "FRENCH",
+              where: {
+                language: "FRENCH",
+              },
+              data: {
+                description: fr,
+              },
             },
           ],
         },
@@ -145,9 +159,15 @@ async function deleteDiploma(request, response) {
   try {
     validationResult(request).throw();
 
-    const { id } = request.query;
+    const { id } = request.body;
 
-    await prisma.opTransDiplomas.delete({
+    await prisma.opTransDiplomas.deleteMany({
+      where: {
+        opDiplomasId: id,
+      },
+    });
+
+    await prisma.opDiplomas.delete({
       where: {
         id,
       },
@@ -170,12 +190,20 @@ async function deleteDiplomas(request, response) {
   try {
     validationResult(request).throw();
 
-    const { ids } = request.query;
+    const { ids } = request.body;
 
     await prisma.opTransDiplomas.deleteMany({
       where: {
+        opDiplomasId: {
+          in: ids,
+        },
+      },
+    });
+
+    await prisma.opDiplomas.deleteMany({
+      where: {
         id: {
-          in: [ids],
+          in: ids,
         },
       },
     });
