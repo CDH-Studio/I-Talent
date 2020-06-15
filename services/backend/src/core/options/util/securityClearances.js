@@ -18,6 +18,9 @@ async function getSecurityClearances(request, response) {
           opSecurityClearancesId: true,
           description: true,
         },
+        orderBy: {
+          description: "asc",
+        },
       }
     );
 

@@ -18,6 +18,9 @@ async function getCareerMobilities(request, response) {
           opCareerMobilitiesId: true,
           description: true,
         },
+        orderBy: {
+          description: "asc",
+        },
       }
     );
 

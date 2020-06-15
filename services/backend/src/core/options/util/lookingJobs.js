@@ -17,6 +17,9 @@ async function getLookingJobs(request, response) {
         opLookingJobsId: true,
         description: true,
       },
+      orderBy: {
+        description: "asc",
+      },
     });
 
     const lookingJobs = lookingJobsQuery.map((i) => {

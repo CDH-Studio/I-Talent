@@ -9,6 +9,9 @@ async function getClassifications(request, response) {
         id: true,
         name: true,
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
     response.status(200).json(classificationsQuery);

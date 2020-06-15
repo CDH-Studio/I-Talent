@@ -17,6 +17,9 @@ async function getTenures(request, response) {
         opTenuresId: true,
         name: true,
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
     const tenures = tenuresQuery.map((i) => {

@@ -66,13 +66,18 @@ optionsRouter
   );
 optionsRouter.get("/categoriesAllLang", categories.getCategoriesAllLang);
 optionsRouter.get(
+  "/categoriesAllLang",
+  keycloak.protect("view-admin-console"),
+  categories.getCategoriesAllLang
+);
+optionsRouter.get(
   "/categoriesSkills",
   keycloak.protect("view-admin-console"),
   langValidator,
   categories.getCategoriesSkills
 );
 
-optionsRouter.get("/classfications", classifications.getClassifications);
+optionsRouter.get("/classifications", classifications.getClassifications);
 
 optionsRouter
   .route("/competencies")
