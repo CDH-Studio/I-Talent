@@ -46,14 +46,8 @@ async function createUser(request, response) {
     response.status(200).json(resData);
   });
 }
-
-function check(request, response) {
-  response.status(200).send("Access Granted");
-}
-
 module.exports = {
   getUser,
   getUserById,
   createUser,
-  check,
 };
