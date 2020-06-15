@@ -11,13 +11,13 @@ import handleError from "../../functions/handleError";
 const { backendAddress } = config;
 
 const SearchFilter = () => {
-  const [anyMentorSkills, setAnyMentorSkills] = useState(false);
   const [expand, setExpand] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+  const [anyMentorSkills, setAnyMentorSkills] = useState(false);
 
   const history = useHistory();
 
@@ -63,6 +63,7 @@ const SearchFilter = () => {
     );
 
     setUrlSearchFieldValues(formatedQuerySearchData);
+    setAnyMentorSkills(formatedQuerySearchData.anyMentorSkills);
   }, [history.location.search]);
 
   const handleAnyMentorSkillsChange = (e) => {
