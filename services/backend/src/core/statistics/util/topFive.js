@@ -103,7 +103,7 @@ async function getTopFiveSkills(request, response) {
       },
     });
 
-    const topFiveSkills = getTopFiveSkillsHelper(skillIds, language);
+    const topFiveSkills = await getTopFiveSkillsHelper(skillIds, language);
 
     response.status(200).json(topFiveSkills);
   } catch (error) {
@@ -122,14 +122,14 @@ async function getTopFiveCompetencies(request, response) {
 
     const { language } = request.query;
 
-    const competencyIds = await prisma.developmentalGoals.findMany({
+    const competencyIds = await prisma.competencies.findMany({
       select: {
         id: true,
         competencyId: true,
       },
     });
 
-    const topFiveCompetencies = getTopFiveCompetenciesHelper(
+    const topFiveCompetencies = await getTopFiveCompetenciesHelper(
       competencyIds,
       language
     );
@@ -171,18 +171,17 @@ async function getTopFiveDevelopmentalGoals(request, response) {
       },
     });
 
-    const topFiveSkills = getTopFiveSkillsHelper(skillIds, language);
-    const topFiveCompetencies = getTopFiveCompetenciesHelper(
-      competencyIds,
-      language
+    const topFive = await Promise.all([
+      getTopFiveSkillsHelper(skillIds, language),
+      getTopFiveCompetenciesHelper(competencyIds, language),
+    ]);
+
+    const topFiveDevelopmentalGoals = [...topFive[0], ...topFive[1]].slice(
+      0,
+      5
     );
 
-    const topFiveDevelopmentGoals = [
-      ...topFiveSkills,
-      ...topFiveCompetencies,
-    ].slice(0, 5);
-
-    response.status(200).json(topFiveDevelopmentGoals);
+    response.status(200).json(topFiveDevelopmentalGoals);
   } catch (error) {
     console.log(error);
     if (error.errors) {

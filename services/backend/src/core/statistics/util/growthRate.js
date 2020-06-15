@@ -63,6 +63,7 @@ async function growthRateByMonth(request, response) {
       const currentMonth = oldestUserDate.month();
 
       growthRate[currentYear] = { [currentMonth]: 0 };
+      oldestUserDate.add(1, "month");
     }
 
     // Updated the growth rate according to user entries
@@ -78,7 +79,7 @@ async function growthRateByMonth(request, response) {
     const currentYear = moment().year();
     const currentMonth = moment().month();
 
-    const currentMonthUsersCount = growthRate[currentYear][currentMonth];
+    const currentMonthNewUserCount = growthRate[currentYear][currentMonth];
 
     let previousMonthAdditions = 0;
 
@@ -91,11 +92,11 @@ async function growthRateByMonth(request, response) {
 
     let growthRateFromPreviousMonth = 0;
 
-    if (previousMonthAdditions === 0) {
-      growthRateFromPreviousMonth = currentMonthUsersCount * 100;
+    if (!previousMonthAdditions || previousMonthAdditions === 0) {
+      growthRateFromPreviousMonth = currentMonthNewUserCount * 100;
     } else {
       growthRateFromPreviousMonth = Math.round(
-        ((currentMonthUsersCount - previousMonthAdditions) /
+        ((currentMonthNewUserCount - previousMonthAdditions) /
           previousMonthAdditions) *
           100
       );
@@ -104,7 +105,7 @@ async function growthRateByMonth(request, response) {
     response.status(200).json({
       growthRate,
       growthRateFromPreviousMonth,
-      currentMonthUsersCount,
+      currentMonthNewUserCount,
     });
   } catch (error) {
     console.log(error);
