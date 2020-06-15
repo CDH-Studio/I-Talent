@@ -12,6 +12,7 @@ async function countHiddenUsers(request, response) {
 
     response.status(200).json(hiddenUserCount);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error getting hidden user count");
   }
 }
@@ -26,6 +27,7 @@ async function countInactiveUsers(request, response) {
 
     response.status(200).json(inactiveUserCount);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error getting inactive user count");
   }
 }
@@ -36,6 +38,7 @@ async function countUsers(request, response) {
 
     response.status(200).json(userCount);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error getting user count");
   }
 }
@@ -50,6 +53,7 @@ async function countExFeederUsers(request, response) {
 
     response.status(200).json(exFeederUserCount);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error getting exFeeder user count");
   }
 }

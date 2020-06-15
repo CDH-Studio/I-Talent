@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
@@ -91,6 +92,8 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
 
 async function getTopFiveSkills(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const skillIds = await prisma.skills.findMany({
@@ -104,12 +107,19 @@ async function getTopFiveSkills(request, response) {
 
     response.status(200).json(topFiveSkills);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting the top five skills");
   }
 }
 
 async function getTopFiveCompetencies(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const competencyIds = await prisma.developmentalGoals.findMany({
@@ -126,12 +136,19 @@ async function getTopFiveCompetencies(request, response) {
 
     response.status(200).json(topFiveCompetencies);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting the top five competencies");
   }
 }
 
 async function getTopFiveDevelopmentalGoals(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const competencyIds = await prisma.developmentalGoals.findMany({
@@ -167,6 +184,11 @@ async function getTopFiveDevelopmentalGoals(request, response) {
 
     response.status(200).json(topFiveDevelopmentGoals);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting the top five developmental goals");
   }
 }

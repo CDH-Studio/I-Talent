@@ -29,6 +29,7 @@ async function growthRateByWeek(request, response) {
 
     response.status(200).json(userCreationPerWeek);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error fetching growth rate by week");
   }
 }
@@ -106,6 +107,7 @@ async function growthRateByMonth(request, response) {
       currentMonthUsersCount,
     });
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error fetching growth rate by month");
   }
 }
