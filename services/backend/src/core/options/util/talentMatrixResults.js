@@ -18,6 +18,9 @@ async function getTalentMatrixResults(request, response) {
           opTalentMatrixResultsId: true,
           description: true,
         },
+        orderBy: {
+          name: "asc",
+        },
       }
     );
 
