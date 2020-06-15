@@ -137,6 +137,7 @@ const ExperienceFormView = ({
           <FormattedMessage id="setup.experience" />
           {`: ${field.name + 1}`}
           <Tooltip
+            trigger="click"
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
           >
