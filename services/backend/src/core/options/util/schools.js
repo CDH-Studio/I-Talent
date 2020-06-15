@@ -54,12 +54,14 @@ async function getSchoolsAllLang(request, response) {
     });
 
     const schools = schoolsQuery.map((i) => {
+      const en = i.translations.find((j) => j.language === "ENGLISH");
+      const fr = i.translations.find((j) => j.language === "FRENCH");
       return {
         id: i.id,
         abbrProvince: i.abbrProvince,
         abbrCountry: i.abbrCountry,
-        en: i.translations.find((j) => j.language === "ENGLISH").name,
-        fr: i.translations.find((j) => j.language === "FRENCH").name,
+        en: en ? en.name : undefined,
+        fr: fr ? fr.name : undefined,
       };
     });
 
@@ -139,15 +141,23 @@ async function updateSchool(request, response) {
 
     if (en) {
       translations.push({
-        name: en,
-        language: "ENGLISH",
+        where: {
+          language: "ENGLISH",
+        },
+        data: {
+          name: en,
+        },
       });
     }
 
     if (fr) {
       translations.push({
-        name: fr,
-        language: "FRENCH",
+        where: {
+          language: "FRENCH",
+        },
+        data: {
+          name: fr,
+        },
       });
     }
 
@@ -159,7 +169,7 @@ async function updateSchool(request, response) {
         abbrCountry,
         abbrProvince,
         translations: {
-          create: translations,
+          updateMany: translations,
         },
       },
     });
@@ -181,7 +191,7 @@ async function deleteSchool(request, response) {
   try {
     validationResult(request).throw();
 
-    const { id } = request.query;
+    const { id } = request.body;
 
     await prisma.opTransSchools.deleteMany({
       where: {
@@ -189,7 +199,7 @@ async function deleteSchool(request, response) {
       },
     });
 
-    await prisma.opSchools.deleteMany({
+    await prisma.opSchools.delete({
       where: {
         id,
       },
@@ -212,11 +222,21 @@ async function deleteSchools(request, response) {
   try {
     validationResult(request).throw();
 
-    const { ids } = request.query;
+    const { ids } = request.body;
+
+    await prisma.opTransSchools.deleteMany({
+      where: {
+        opSchoolsId: {
+          in: ids,
+        },
+      },
+    });
 
     await prisma.opSchools.deleteMany({
       where: {
-        id: ids,
+        id: {
+          in: ids,
+        },
       },
     });
 
