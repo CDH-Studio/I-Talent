@@ -312,6 +312,9 @@
   "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",
 
+  "profile.visibility.show.confirm": "Etes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
+  "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Ne sera visible que pour vous et les RH)",
+
   "lang": "English",
   "lang.code": "en",
   "language.code": "fr",
