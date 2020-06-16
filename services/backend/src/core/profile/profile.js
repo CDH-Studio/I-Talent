@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../database/client");
 
 const prisma = new PrismaClient();
@@ -23,12 +24,18 @@ async function updateProfile(request, response) {
     interestedInRemote: body.interestedInRemote,
     exFeeder: body.exFeeder,
     mentoring: body.isMentor,
-
-    // Find where these occur once we start working on frontend
-    // actingLevel: null,
-    // employmentInfo: null,
-    // projects: null,
-    // status: body.status,
+    name: body.name,
+    nameInitials: body.nameInitials,
+    avatarColor: body.avatarColor,
+    email: body.email,
+    status: body.status,
+    projects: body.projects,
+    skills: body.skills,
+    competencies: body.competencies,
+    developmentalGoals: body.developmentalGoals,
+    educations: body.education,
+    relocationLocations: body.relocationLocations,
+    experiences: body.experience,
 
     officeLocation: { connect: { id: body.locationId } },
     careerMobility: { connect: { id: body.careerMobilityId } },
@@ -37,6 +44,26 @@ async function updateProfile(request, response) {
     lookingJob: { connect: { id: body.lookingForANewJobId } },
     talentMatrixResult: { connect: { id: body.talentMatrixResultId } },
     groupLevel: { connect: { id: body.groupLevelId } },
+    actingLevel: { connect: { id: body.actingLevelId } },
+    employmentInfo: { connect: { id: body.employmentInfoId } },
+
+    visibleCards: {
+      update: {
+        manager: body.manager,
+        info: body.info,
+        talentManagement: body.talentManagement,
+        officialLanguage: body.officialLanguage,
+        skills: body.skills,
+        competencies: body.competencies,
+        developmentalGoals: body.developmentalGoals,
+        education: body.education,
+        experience: body.experience,
+        projects: body.projects,
+        careerInterests: body.careerInterests,
+        mentorshipSkills: body.mentorshipSkills,
+        exFeeder: body.exFeeder,
+      },
+    },
   };
   prisma.users
     .update({ where: { id }, data: { profile } })
@@ -48,8 +75,11 @@ async function updateProfile(request, response) {
 }
 
 async function getProfileStatusById(request, response) {
-  const { id } = request.params;
   try {
+    validationResult(request).throw();
+
+    const { id } = request.params;
+
     const getProfileFromDB = await prisma.users.findOne({ where: { id: id } });
     response.status(200).json({
       profile: { exists: !!getProfileFromDB },
@@ -96,7 +126,6 @@ async function getFullProfile(id, language) {
       educations: true,
       relocationLocations: true,
       experiences: true,
-
       groupLevel: {
         select: {
           id: true,
