@@ -17,12 +17,15 @@ import { IntlPropType } from "../../../customPropTypes";
  *  StatCardsView(props)
  *  This component renders the statistic cards for the Admin Dashboard page.
  */
-
-const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
-  if (!dashboardCount || !monthGrowthRate) {
-    return null;
-  }
-
+const StatCardsView = ({
+  countUsers,
+  countHiddenUsers,
+  countInactiveUsers,
+  countExFeederUsers,
+  newUsers,
+  growthRatePrevMonth,
+  intl,
+}) => {
   return (
     <Row gutter={[8, 8]} type="flex">
       <Col span={4}>
@@ -34,7 +37,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
                 defaultMessage="Total Users"
               />
             }
-            value={dashboardCount.total_users}
+            value={countUsers}
             valueStyle={{ color: "#3f8600" }}
             prefix={<TeamOutlined />}
           />
@@ -49,7 +52,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
                 defaultMessage="Inactive Users"
               />
             }
-            value={dashboardCount.inactive_users}
+            value={countInactiveUsers}
             valueStyle={{ color: "#515052" }}
             prefix={<UserOutlined />}
           />
@@ -64,7 +67,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
                 defaultMessage="Hidden Profiles"
               />
             }
-            value={dashboardCount.hiddenProfiles}
+            value={countHiddenUsers}
             valueStyle={{ color: "#cf1322" }}
             prefix={<EyeInvisibleFilled />}
           />
@@ -79,7 +82,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
                 defaultMessage="Total Ex Feeders"
               />
             }
-            value={dashboardCount.exFeeders}
+            value={countExFeederUsers}
             valueStyle={{ color: "#82A7A6" }}
             prefix={<SolutionOutlined />}
           />
@@ -92,7 +95,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
               id: "admin.dashboard.monthly.added",
               defaultMessage: "New Users",
             })} - ${moment().format("MMMM")}`}
-            value={monthGrowthRate.current_month_additions}
+            value={newUsers}
             valueStyle={{ color: "#CD8FD6" }}
             prefix={<UsergroupAddOutlined />}
           />
@@ -105,7 +108,7 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
               id: "admin.dashboard.growth.rate.percentage",
               defaultMessage: "New Users",
             })} - ${moment().format("MMMM")}`}
-            value={monthGrowthRate.growthRate}
+            value={growthRatePrevMonth}
             valueStyle={{ color: "#FF934F" }}
             prefix={<RiseOutlined />}
             suffix="%"
@@ -117,20 +120,22 @@ const StatCardsView = ({ dashboardCount, intl, monthGrowthRate }) => {
 };
 
 StatCardsView.propTypes = {
-  dashboardCount: PropTypes.shape({
-    total_users: PropTypes.number,
-    inactive_users: PropTypes.number,
-    hiddenProfiles: PropTypes.number,
-    exFeeders: PropTypes.number,
-  }).isRequired,
+  countUsers: PropTypes.number,
+  countHiddenUsers: PropTypes.number,
+  countInactiveUsers: PropTypes.number,
+  countExFeederUsers: PropTypes.number,
+  newUsers: PropTypes.number,
+  growthRatePrevMonth: PropTypes.number,
   intl: IntlPropType,
-  monthGrowthRate: PropTypes.shape({
-    growthRate: PropTypes.string,
-    current_month_additions: PropTypes.number,
-  }).isRequired,
 };
 
 StatCardsView.defaultProps = {
+  countUsers: "-",
+  countHiddenUsers: "-",
+  countInactiveUsers: "-",
+  countExFeederUsers: "-",
+  newUsers: "-",
+  growthRatePrevMonth: "-",
   intl: undefined,
 };
 

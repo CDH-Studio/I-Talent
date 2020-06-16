@@ -1,7 +1,6 @@
-/* eslint-disable no-shadow */
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import moment from "moment";
 import DashboardGraphsView from "./DashboardGraphsView";
 
 /**
@@ -9,41 +8,43 @@ import DashboardGraphsView from "./DashboardGraphsView";
  *  Controller for the DashboardGraphsView.
  *  It setups the data (bridge) for rendering the component in the view.
  */
-const DashboardGraphs = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
+const DashboardGraphs = () => {
+  const [graphicalData, setGraphicalData] = useState([]);
 
-  /* only access data for graphes that uses corresponding language on page */
-  const changeEnFr = (dataSource) => {
-    if (dataSource) {
-      const data = dataSource.map((skill) => {
-        return {
-          name: skill.description[locale],
-          count: skill.count,
-        };
+  const { topFive, growthRate } = useSelector((state) => state.stats);
+
+  // Formats the data for the monthly growth rate graph
+  useEffect(() => {
+    if (growthRate.month.growthRate) {
+      const rate = growthRate.month.growthRate;
+      const data = [];
+
+      const shortMonthNames = moment.monthsShort();
+
+
+      Object.keys(rate).forEach((year) => {
+        Object.keys(rate[year]).forEach((month) => {
+          data.push({
+            year,
+            monthName: shortMonthNames[month],
+            monthNumber: month,
+            count: rate[year][month],
+          });
+        });
       });
 
-      return data;
+      setGraphicalData(data);
     }
-    return [];
-  };
+  }, [growthRate]);
 
   return (
     <DashboardGraphsView
-      topFiveSkills={changeEnFr(data.skillCount)}
-      topFiveCompetencies={changeEnFr(data.compCount)}
-      topFiveDevelopmentGoals={changeEnFr(data.developCount)}
-      monthlyGrowth={data.graphicalData}
+      topFiveSkills={topFive.skills}
+      topFiveCompetencies={topFive.competencies}
+      topFiveDevelopmentalGoals={topFive.developmentalGoals}
+      monthlyGrowth={graphicalData}
     />
   );
-};
-
-DashboardGraphs.propTypes = {
-  data: PropTypes.shape({
-    skillCount: PropTypes.isRequired,
-    compCount: PropTypes.isRequired,
-    developCount: PropTypes.isRequired,
-    graphicalData: PropTypes.isRequired,
-  }).isRequired,
 };
 
 export default DashboardGraphs;

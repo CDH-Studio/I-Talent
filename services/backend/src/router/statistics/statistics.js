@@ -33,7 +33,7 @@ countRouter.get(
   dashboardCount.countExFeederUsers
 );
 
-statsRouter.use("count", countRouter);
+statsRouter.use("/count", countRouter);
 
 statsRouter.get(
   "/hiddenUsers",

@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
-import { injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { FormattedMessage } from "react-intl";
 
 /**
  *  DashboardGraphsView(props)
@@ -13,17 +12,11 @@ import { IntlPropType } from "../../../customPropTypes";
  *  Disclaimer: Please look at Bizcharts documentation for further help with graphes
  */
 function DashboardGraphsView({
-  intl,
   topFiveSkills,
   topFiveCompetencies,
-  topFiveDevelopmentGoals,
+  topFiveDevelopmentalGoals,
   monthlyGrowth,
 }) {
-  // const { topFiveSkills } = props;
-  // const { topFiveCompetencies } = props;
-  // const { topFiveDevelopmentGoals } = props;
-  // const { monthlyGrowth } = props;
-
   const popularSkillsColumns = {
     name: { alias: "Skill Name" },
     count: { alias: "Number of users" },
@@ -50,10 +43,7 @@ function DashboardGraphsView({
         <Col span={8}>
           <Card
             hoverable
-            title={intl.formatMessage({
-              id: "admin.dashboard.popular.skills",
-              defaultMessage: "Popular Skills",
-            })}
+            title={<FormattedMessage id="admin.dashboard.popular.skills" />}
           >
             <Chart
               data={topFiveSkills}
@@ -73,10 +63,9 @@ function DashboardGraphsView({
         <Col span={8}>
           <Card
             hoverable
-            title={intl.formatMessage({
-              id: "admin.dashboard.popular.competencies",
-              defaultMessage: "Popular Competencies",
-            })}
+            title={
+              <FormattedMessage id="admin.dashboard.popular.competencies" />
+            }
           >
             <Chart
               data={topFiveCompetencies}
@@ -96,13 +85,12 @@ function DashboardGraphsView({
         <Col span={8}>
           <Card
             hoverable
-            title={intl.formatMessage({
-              id: "admin.dashboard.popular.development.goals",
-              defaultMessage: "Popular Development Goals",
-            })}
+            title={
+              <FormattedMessage id="admin.dashboard.popular.development.goals" />
+            }
           >
             <Chart
-              data={topFiveDevelopmentGoals}
+              data={topFiveDevelopmentalGoals}
               scale={popularDevelopmentGoalsColumns}
               padding="auto"
               forceFit
@@ -121,10 +109,9 @@ function DashboardGraphsView({
         <Col span={24}>
           <Card
             hoverable
-            title={intl.formatMessage({
-              id: "admin.dashboard.growth.rate.by.month",
-              defaultMessage: "Growth Rate By Month",
-            })}
+            title={
+              <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
+            }
           >
             <Chart
               data={monthlyGrowth}
@@ -162,16 +149,27 @@ function DashboardGraphsView({
 }
 
 DashboardGraphsView.propTypes = {
-  intl: IntlPropType,
-  topFiveSkills: PropTypes.arrayOf(PropTypes.any).isRequired,
-  topFiveCompetencies: PropTypes.arrayOf(PropTypes.any).isRequired,
-  topFiveDevelopmentGoals: PropTypes.arrayOf(PropTypes.any).isRequired,
-  monthlyGrowth: PropTypes.func,
+  topFiveSkills: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      count: PropTypes.number,
+    })
+  ).isRequired,
+  topFiveCompetencies: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      count: PropTypes.number,
+    })
+  ).isRequired,
+  topFiveDevelopmentalGoals: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      count: PropTypes.number,
+    })
+  ).isRequired,
+  monthlyGrowth: PropTypes.shape({
+    growthRate: PropTypes.any,
+  }).isRequired,
 };
 
-DashboardGraphsView.defaultProps = {
-  intl: undefined,
-  monthlyGrowth: null,
-};
-
-export default injectIntl(DashboardGraphsView);
+export default DashboardGraphsView;
