@@ -5,8 +5,9 @@ import {
   EyeOutlined,
   EyeInvisibleOutlined,
   EditOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
+import { Card, Switch, Button, Row, Col, Tooltip, Popconfirm } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 
@@ -74,6 +75,19 @@ const ProfileCardsView = ({
   };
 
   /*
+   * Get Pop Confirm Title
+   *
+   * Get title of pop confirm based on current toggle position
+   */
+  const getPopConfirmTitle = (visibilityBool) => {
+    if (visibilityBool) {
+      return <FormattedMessage id="profile.visibility.hide.confirm" />;
+    } else {
+      return <FormattedMessage id="profile.visibility.show.confirm" />;
+    }
+  };
+
+  /*
    * Generate Switch Button
    *
    * Generate visibility switch and edit button
@@ -88,21 +102,23 @@ const ProfileCardsView = ({
         <div style={{ marginTop: "15px" }}>
           <Row type="flex" gutter={[16, 16]}>
             <Col>
-              <Tooltip
-                trigger="click"
-                placement="top"
-                title={<FormattedMessage id="profile.toggle.card.visibility" />}
+              <Popconfirm
+                title={getPopConfirmTitle(disabled)}
+                okText={<FormattedMessage id="profile.yes" />}
+                cancelText={<FormattedMessage id="profile.no" />}
+                icon={<QuestionCircleOutlined />}
+                onConfirm={handleVisibilityToggle}
+                placement="topRight"
               >
                 <Switch
                   aria-label="visibility toggle"
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
                   checked={disabled && !forceDisabled}
-                  onChange={handleVisibilityToggle}
                   style={{ marginTop: "5px" }}
                   disabled={forceDisabled}
                 />
-              </Tooltip>
+              </Popconfirm>
             </Col>
 
             <Col>
@@ -112,7 +128,7 @@ const ProfileCardsView = ({
                 title={<FormattedMessage id="profile.edit" />}
               >
                 <Button
-                  aria-label="visibility toggle"
+                  aria-label="edit card"
                   type="default"
                   shape="circle"
                   icon={<EditOutlined />}
