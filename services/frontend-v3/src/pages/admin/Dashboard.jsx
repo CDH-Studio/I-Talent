@@ -20,7 +20,7 @@ import {
   setTopFiveCompetencies,
   setTopFiveSkills,
   setTopFiveDevelopmentalGoals,
-} from "../../redux/slices/stats";
+} from "../../redux/slices/statsSlice";
 
 const { backendAddress } = config;
 

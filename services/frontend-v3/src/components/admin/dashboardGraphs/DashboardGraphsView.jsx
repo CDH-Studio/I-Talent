@@ -44,6 +44,7 @@ function DashboardGraphsView({
           <Card
             hoverable
             title={<FormattedMessage id="admin.dashboard.popular.skills" />}
+            loading={topFiveSkills.length === 0}
           >
             <Chart
               data={topFiveSkills}
@@ -66,6 +67,7 @@ function DashboardGraphsView({
             title={
               <FormattedMessage id="admin.dashboard.popular.competencies" />
             }
+            loading={topFiveCompetencies.length === 0}
           >
             <Chart
               data={topFiveCompetencies}
@@ -88,6 +90,7 @@ function DashboardGraphsView({
             title={
               <FormattedMessage id="admin.dashboard.popular.development.goals" />
             }
+            loading={topFiveDevelopmentalGoals.length === 0}
           >
             <Chart
               data={topFiveDevelopmentalGoals}
@@ -112,6 +115,7 @@ function DashboardGraphsView({
             title={
               <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
             }
+            loading={monthlyGrowth.length === 0}
           >
             <Chart
               data={monthlyGrowth}

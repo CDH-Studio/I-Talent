@@ -29,7 +29,7 @@ const StatCardsView = ({
   return (
     <Row gutter={[8, 8]} type="flex">
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }}>
+        <Card hoverable style={{ height: "100%" }} loading={countUsers === "-"}>
           <Statistic
             title={
               <FormattedMessage
@@ -44,7 +44,11 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }}>
+        <Card
+          hoverable
+          style={{ height: "100%" }}
+          loading={countInactiveUsers === "-"}
+        >
           <Statistic
             title={
               <FormattedMessage
@@ -59,7 +63,11 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }}>
+        <Card
+          hoverable
+          style={{ height: "100%" }}
+          loading={countHiddenUsers === "-"}
+        >
           <Statistic
             title={
               <FormattedMessage
@@ -74,7 +82,11 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }}>
+        <Card
+          hoverable
+          style={{ height: "100%" }}
+          loading={countExFeederUsers === "-"}
+        >
           <Statistic
             title={
               <FormattedMessage
@@ -89,7 +101,7 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }}>
+        <Card hoverable style={{ height: "100%" }} loading={newUsers === "-"}>
           <Statistic
             title={`${intl.formatMessage({
               id: "admin.dashboard.monthly.added",
@@ -102,7 +114,11 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }}>
+        <Card
+          hoverable
+          style={{ height: "100%" }}
+          loading={growthRatePrevMonth === "-"}
+        >
           <Statistic
             title={`${intl.formatMessage({
               id: "admin.dashboard.growth.rate.percentage",
