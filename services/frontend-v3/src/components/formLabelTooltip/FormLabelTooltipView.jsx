@@ -15,7 +15,7 @@ const FormLabelTooltipView = ({ labelText, tooltipText }) => {
   return (
     <div style={{ display: "inline", marginRight: "10px" }}>
       {labelText}
-      <Tooltip title={tooltipText}>
+      <Tooltip trigger="click" title={tooltipText}>
         <InfoCircleOutlined style={styles.tooltipIcon} />
       </Tooltip>
     </div>
