@@ -80,11 +80,11 @@ const ProfileCardsView = ({
    * Get title of pop confirm based on current toggle position
    */
   const getPopConfirmTitle = (visibilityBool) => {
+    // if user wants to hide profile
     if (visibilityBool) {
       return <FormattedMessage id="profile.visibility.hide.confirm" />;
-    } else {
-      return <FormattedMessage id="profile.visibility.show.confirm" />;
     }
+    return <FormattedMessage id="profile.visibility.show.confirm" />;
   };
 
   /*
