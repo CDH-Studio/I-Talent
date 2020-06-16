@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   PageHeader,
@@ -20,7 +20,8 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 import handleError from "../../../functions/handleError";
 import { IntlPropType } from "../../../customPropTypes";
 
@@ -40,7 +41,6 @@ const CategoryTableView = ({
   searchText,
   size,
   rowSelection,
-  data,
 }) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -49,6 +49,10 @@ const CategoryTableView = ({
   const [addVisible, setAddVisible] = useState(false);
   const [record, setRecord] = useState({});
   const [fields, setFields] = useState([{}]);
+  const [columns, setColumns] = useState([]);
+
+  const { data, loading } = useSelector((state) => state.admin.categories);
+  const { locale } = useSelector((state) => state.settings);
 
   let searchInput;
 
@@ -88,20 +92,14 @@ const CategoryTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {intl.formatMessage({
-            id: "admin.search.button",
-            defaultMessage: "Search",
-          })}
+          <FormattedMessage id="admin.search.button" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          {intl.formatMessage({
-            id: "admin.reset.button",
-            defaultMessage: "Reset",
-          })}
+          <FormattedMessage id="admin.reset.button" />
         </Button>
       </div>
     ),
@@ -143,7 +141,6 @@ const CategoryTableView = ({
     message.success(
       intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful",
       })
     );
   };
@@ -153,35 +150,15 @@ const CategoryTableView = ({
     message.error(
       intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled",
       })
     );
   };
 
   /* checks if deletion of category can occur */
   // Gives error prompt if deletion cannot occur
-  // Backend: checks if category does not have any associated skills
   const checkDelete = async () => {
-    await handleSubmitDelete()
-      .then((result) => {
-        if (result === true) {
-          Modal.error({
-            title: intl.formatMessage({
-              id: "admin.category.disclaimer",
-              defaultMessage: "Disclaimer",
-            }),
-            content: intl.formatMessage({
-              id: "admin.category.disclaimer.message",
-              defaultMessage: "Cannot delete category with skill associations!",
-            }),
-          });
-        } else {
-          popUpSuccesss();
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
+    await handleSubmitDelete();
+    popUpSuccesss();
   };
 
   /* handles closure of add or edit category modal */
@@ -222,35 +199,14 @@ const CategoryTableView = ({
     setModalType("add");
   };
 
-  /* gets sort direction for a table column */
-  // Use for tables that need a French and English column
-  // Will change sort capability of column based on current language of page
-  const getSortDirection = (column) => {
-    const currentLanguage =
-      intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
-    if (column === currentLanguage) {
-      return ["descend"];
-    }
-    return ["ascend", "descend"];
-  };
-
   /* Renders "Add Category" modal */
   const addCategoryButton = () => {
     return (
       <Modal
         visible={addVisible}
-        title={intl.formatMessage({
-          id: "admin.add.category",
-          defaultMessage: "Add Category",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.add.category" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={() => {
           addForm
             .validateFields()
@@ -273,48 +229,34 @@ const CategoryTableView = ({
         <Form form={addForm} name="addCategory" layout="vertical">
           <Form.Item
             name="addCategoryEn"
-            label={intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
+            label={<FormattedMessage id="language.english" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
+                message: <FormattedMessage id="admin.validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.category.descriptionEn",
-                defaultMessage: "Category description in English",
               })}
               allowClear
             />
           </Form.Item>
           <Form.Item
             name="addCategoryFr"
-            label={intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
+            label={<FormattedMessage id="language.french" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
+                message: <FormattedMessage id="admin.validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.category.descriptionFr",
-                defaultMessage: "Category description in French",
               })}
               allowClear
             />
@@ -329,18 +271,9 @@ const CategoryTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={intl.formatMessage({
-          id: "admin.edit.category",
-          defaultMessage: "Edit Category",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.edit.category" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={() => {
           editForm
             .validateFields()
@@ -371,29 +304,21 @@ const CategoryTableView = ({
         >
           <Form.Item
             name="editCategoryEn"
-            label={intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
+            label={<FormattedMessage id="language.english" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.category.descriptionEn",
-                defaultMessage: "Category description in English",
               })}
             />
           </Form.Item>
           <Form.Item
             name="editCategoryFr"
-            label={intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
+            label={<FormattedMessage id="language.french" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.category.descriptionFr",
-                defaultMessage: "Category description in French",
               })}
             />
           </Form.Item>
@@ -407,36 +332,21 @@ const CategoryTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={intl.formatMessage({
-          id: "admin.delete.confirm",
-          defaultMessage:
-            "Are you sure you want to delete all the selected values?",
-        })}
+        title={<FormattedMessage id="admin.delete.category" />}
+        okText={<FormattedMessage id="admin.delete" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onConfirm={() => {
           checkDelete().catch((error) => handleError(error, "message"));
         }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        okText={intl.formatMessage({
-          id: "admin.delete",
-          defaultMessage: "Delete",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        onCancel={popUpCancel}
       >
         <Button
           type="primary"
-          icon={<DeleteOutlined />}
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {intl.formatMessage({
-            id: "admin.delete",
-            defaultMessage: "Delete",
-          })}
+          <DeleteOutlined style={{ marginRight: 10 }} />
+          <FormattedMessage id="admin.delete" />
         </Button>
       </Popconfirm>
     );
@@ -444,52 +354,41 @@ const CategoryTableView = ({
 
   /* Sets up the columns for the category table */
   // Consult: Ant Design table components for further clarification
-  const categoryTableColumns = () => {
+  const categoryTableColumns = useCallback(() => {
     // Table columns data structure: array of objects
     const categoryTableColumns = [
       {
-        title: intl.formatMessage({
-          id: "language.english",
-          defaultMessage: "English",
-        }),
-        dataIndex: "descriptionEn",
-        key: "categoryEn",
+        title: <FormattedMessage id="language.english" />,
+        dataIndex: "en",
+        key: "en",
         sorter: (a, b) => {
-          return a.descriptionEn.localeCompare(b.descriptionEn);
+          return a.en.localeCompare(b.en);
         },
-        sortDirections: getSortDirection("en"),
+        defaultSortOrder: locale === "en" ? "ascend" : undefined,
         ...getColumnSearchProps(
-          "descriptionEn",
+          "en",
           intl.formatMessage({
             id: "language.english",
-            defaultMessage: "English",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "language.french",
-          defaultMessage: "French",
-        }),
-        dataIndex: "descriptionFr",
-        key: "categoryFr",
+        title: <FormattedMessage id="language.french" />,
+        dataIndex: "fr",
+        key: "fr",
         sorter: (a, b) => {
-          return a.descriptionFr.localeCompare(b.descriptionFr);
+          return a.fr.localeCompare(b.fr);
         },
-        sortDirections: getSortDirection("fr"),
+        defaultSortOrder: locale === "fr" ? "ascend" : undefined,
         ...getColumnSearchProps(
-          "descriptionFr",
+          "fr",
           intl.formatMessage({
             id: "language.french",
-            defaultMessage: "French",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "admin.edit",
-          defaultMessage: "Edit",
-        }),
+        title: <FormattedMessage id="admin.edit" />,
         key: "edit",
         render: (record) => (
           <div>
@@ -499,8 +398,8 @@ const CategoryTableView = ({
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editCategoryEn"], value: record.descriptionEn },
-                  { name: ["editCategoryFr"], value: record.descriptionFr },
+                  { name: ["editCategoryEn"], value: record.en },
+                  { name: ["editCategoryFr"], value: record.fr },
                 ]);
                 handleEditModal(record);
               }}
@@ -509,33 +408,27 @@ const CategoryTableView = ({
         ),
       },
     ];
-    return categoryTableColumns;
-  };
+
+    setColumns(categoryTableColumns);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
+
+  useEffect(() => {
+    categoryTableColumns();
+  }, [categoryTableColumns]);
 
   return (
     <>
       {addCategoryButton()}
       {editCategoryButton()}
       <PageHeader
-        title={intl.formatMessage({
-          id: "admin.category.table",
-          defaultMessage: "Categories Table",
-        })}
+        title={<FormattedMessage id="admin.category.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              size={size}
-              onClick={() => {
-                handleAddModal();
-              }}
-            >
-              {intl.formatMessage({
-                id: "admin.add",
-                defaultMessage: "Add",
-              })}
+            <Button type="primary" size={size} onClick={handleAddModal}>
+              <PlusCircleOutlined style={{ marginRight: 10 }} />
+              <FormattedMessage id="admin.add" />
             </Button>
           </>
         }
@@ -544,8 +437,9 @@ const CategoryTableView = ({
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={categoryTableColumns()}
+            columns={columns}
             dataSource={data}
+            loading={loading}
           />
         </Col>
       </Row>
@@ -565,13 +459,6 @@ CategoryTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any),
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  // data: PropTypes.shape({
-  //   getCategoryInformation: PropTypes.shape({
-  //     description: PropTypes.string,
-  //     allCategories: PropTypes.any,
-  //   }),
-  // }).isRequired,
 };
 
 CategoryTableView.defaultProps = {

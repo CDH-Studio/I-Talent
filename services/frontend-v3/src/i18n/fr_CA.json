@@ -50,6 +50,7 @@
   "admin.category.singular": "Catégorie",
   "admin.category.plural": "Catégories",
   "admin.category.table": "Tableau de catégories",
+  "admin.delete.category": "Êtes-vous certain de vouloir supprimer toutes les catégories sélectionnées? Les compétences associés à ces catégories n'auront plus de catégories.",
   "admin.add.category": "Ajouter une catégorie",
   "admin.edit.category": "Modifier la catégorie",
   "admin.add.category.descriptionEn": "Description de la catégorie en anglais",

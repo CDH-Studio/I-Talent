@@ -49,6 +49,7 @@
   "admin.category.singular": "Category",
   "admin.category.plural": "Categories",
   "admin.category.table": "Categories table",
+  "admin.delete.category": "Are you sure that you want to delete all the selected categories? Associated skills won't have a category anymore.",
   "admin.add.category": "Add category",
   "admin.edit.category": "Edit category",
   "admin.add.category.descriptionEn": "Category description in English",

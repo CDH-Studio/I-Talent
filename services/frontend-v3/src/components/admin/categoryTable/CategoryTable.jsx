@@ -1,14 +1,16 @@
-/* eslint-disable no-shadow */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Skeleton } from "antd";
 import axios from "axios";
-import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
+import {
+  setAdminCategories,
+  setAdminCategoriesLoading,
+} from "../../../redux/slices/adminSlice";
 
 const { backendAddress } = config;
 
@@ -17,9 +19,7 @@ const { backendAddress } = config;
  *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-function CategoryTable({ intl, type }) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+function CategoryTable({ intl }) {
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -27,64 +27,58 @@ function CategoryTable({ intl, type }) {
 
   const size = "large";
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
+  const dispatch = useDispatch();
 
   /* get category information */
-  const getCategories = async () => {
-    const results = await axios.get(
-      `${backendAddress}api/admin/options/categories/skill`
-    );
-    return results.data;
-  };
+  const getCategories = useCallback(async () => {
+    try {
+      dispatch(setAdminCategoriesLoading(true));
+
+      const results = await axios.get(
+        `${backendAddress}api/option/categoriesAllLang`
+      );
+
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((category) => ({
+        ...category,
+        key: category.id,
+      }));
+
+      dispatch(setAdminCategories(formattedData));
+
+      if (reset) {
+        setReset(false);
+      }
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch, reset]);
 
   useEffect(() => {
-    let categories = [];
-    if (loading) {
-      const setState = async () => {
-        await getCategories()
-          .then((categories) => setData(categories))
-          .catch((error) => handleError(error, "redirect"));
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        categories = await getCategories();
-        setData(categories);
-        setReset(false);
-        setSelectedRowKeys([]);
-      };
-      updateState();
-    }
-  }, [loading, reset]);
+    getCategories();
+  }, [getCategories]);
 
   /* handles the deletion of a category */
   const handleSubmitDelete = async () => {
-    const url = `${backendAddress}api/admin/delete/${type}`;
-
-    let result;
-
-    // eslint-disable-next-line func-names
-    await axios.post(url, { ids: selectedRowKeys }).then(function (response) {
-      result = response.data.deletePerformed;
+    const result = await axios.delete(`${backendAddress}api/option/categories`, {
+      data: {
+        ids: selectedRowKeys,
+      },
     });
 
-    if (result === false) {
+    if (result.data === false) {
       return true;
     }
     setReset(true);
-    return false;
+    return true;
   };
 
   /* handles addition of a category */
   // eslint-disable-next-line consistent-return
   const handleSubmitAdd = async (values) => {
-    const url = `${backendAddress}api/admin/options/${type}`;
-
-    await axios.post(url, {
-      descriptionEn: values.addCategoryEn,
-      descriptionFr: values.addCategoryFr,
+    await axios.post(`${backendAddress}api/option/category`, {
+      en: values.addCategoryEn,
+      fr: values.addCategoryFr,
     });
 
     setReset(true);
@@ -93,11 +87,10 @@ function CategoryTable({ intl, type }) {
   /* handles the update/edit of a category */
   // eslint-disable-next-line consistent-return
   const handleSubmitEdit = async (values, id) => {
-    const url = `${backendAddress}api/admin/options/${type}/${id}`;
-
-    await axios.put(url, {
-      descriptionEn: values.editCategoryEn,
-      descriptionFr: values.editCategoryFr,
+    await axios.put(`${backendAddress}api/option/category`, {
+      id,
+      en: values.editCategoryEn,
+      fr: values.editCategoryFr,
     });
 
     setReset(true);
@@ -107,13 +100,11 @@ function CategoryTable({ intl, type }) {
   const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
-        id: `admin.${type}.plural`,
-        defaultMessage: type,
+        id: `admin.category.plural`,
       });
 
     return intl.formatMessage({
-      id: `admin.${type}.singular`,
-      defaultMessage: type,
+      id: `admin.category.singular`,
     });
   };
 
@@ -147,28 +138,7 @@ function CategoryTable({ intl, type }) {
     },
   };
 
-  /* configures data from backend into viewable data for the table */
-  const getCategoryInformation = () => {
-    // Allows for sorting of data between French/English in terms of description:
-    const description =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "descriptionEn"
-        : "descriptionFr";
-
-    const allCategories = _.sortBy(data, description);
-
-    for (let i = 0; i < allCategories.length; i += 1) {
-      allCategories[i].key = allCategories[i].id;
-    }
-
-    return allCategories;
-  };
-
   document.title = `${getDisplayType(true)} - Admin | I-Talent`;
-
-  if (loading) {
-    return <Skeleton active />;
-  }
 
   return (
     <CategoryTableView
@@ -182,14 +152,12 @@ function CategoryTable({ intl, type }) {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={getCategoryInformation()}
     />
   );
 }
 
 CategoryTable.propTypes = {
   intl: IntlPropType,
-  type: PropTypes.string.isRequired,
 };
 
 CategoryTable.defaultProps = {

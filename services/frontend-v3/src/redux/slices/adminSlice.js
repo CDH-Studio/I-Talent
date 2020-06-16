@@ -6,6 +6,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  categories: {
+    data: [],
+    loading: true,
+  },
 };
 
 const adminSlice = createSlice({
@@ -23,6 +27,15 @@ const adminSlice = createSlice({
     setAdminUsersLoading(state, action) {
       state.users.loading = action.payload;
     },
+    setAdminCategories(state, action) {
+      state.categories = {
+        data: action.payload,
+        loading: false,
+      };
+    },
+    setAdminCategoriesLoading(state, action) {
+      state.categories.loading = action.payload;
+    },
     clearAdmin() {
       return initialState;
     },
@@ -32,6 +45,8 @@ const adminSlice = createSlice({
 export const {
   setAdminUsers,
   setAdminUsersLoading,
+  setAdminCategories,
+  setAdminCategoriesLoading,
   clearAdmin,
 } = adminSlice.actions;
 
