@@ -5,7 +5,7 @@ import {
   EyeOutlined,
   EyeInvisibleOutlined,
   EditOutlined,
-  QuestionCircleOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import { Card, Switch, Button, Row, Col, Tooltip, Popconfirm } from "antd";
 import { FormattedMessage } from "react-intl";
@@ -106,7 +106,7 @@ const ProfileCardsView = ({
                 title={getPopConfirmTitle(disabled)}
                 okText={<FormattedMessage id="profile.yes" />}
                 cancelText={<FormattedMessage id="profile.no" />}
-                icon={<QuestionCircleOutlined />}
+                icon={<WarningOutlined style={{ color: "orange" }} />}
                 onConfirm={handleVisibilityToggle}
                 placement="topRight"
               >
