@@ -109,6 +109,7 @@ const ProfileCardsView = ({
                 icon={<WarningOutlined style={{ color: "orange" }} />}
                 onConfirm={handleVisibilityToggle}
                 placement="topRight"
+                disabled={forceDisabled}
               >
                 <Switch
                   aria-label="visibility toggle"
