@@ -21,7 +21,7 @@ import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 import { IntlPropType } from "../../customPropTypes";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const SearchBarView = ({
   intl,
@@ -161,7 +161,7 @@ const SearchBarView = ({
               />
               <FormattedMessage id="advanced.search.button.text" />
             </Title>
-            <Text>the is a sample text that give some instruction</Text>
+            <FormattedMessage id="advanced.search.description" />
           </Col>
         </Row>
 

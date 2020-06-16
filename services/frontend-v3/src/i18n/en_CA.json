@@ -103,6 +103,7 @@
   "admin.dashboard.growth.rate.percentage": "Growth rate in ",
 
   "advanced.search.button.text": "Advanced search",
+  "advanced.search.description": "Use the filters below to search for employees in the I-Talent directory that match your specific needs.",
   "advanced.search.form.name": "Name",
   "advanced.search.form.skills": "Skills",
   "advanced.search.form.location": "Location",

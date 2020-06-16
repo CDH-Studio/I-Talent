@@ -112,6 +112,7 @@
 
   "button.search": "Rechercher",
   "advanced.search.button.text": "Recherche avancée",
+  "advanced.search.description": "Utilisez les filtres ci-dessous pour rechercher des employés dans le répertoire I-Talent qui correspondent à vos besoins.",
   "advanced.search.form.name": "Nom",
   "advanced.search.form.skills": "Compétences",
   "advanced.search.form.broad.search": "Recherche générale",
