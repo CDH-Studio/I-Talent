@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import moment from "moment";
 import { injectIntl } from "react-intl";
@@ -20,7 +19,7 @@ const { backendAddress } = config;
  *  Controller for the UserTableView.
  *  It gathers the required data for rendering the component.
  */
-function UserTable({ intl, type }) {
+function UserTable({ intl }) {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -77,11 +76,11 @@ function UserTable({ intl, type }) {
   const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
-        id: `admin.${type}.plural`,
+        id: `admin.user.plural`,
       });
 
     return intl.formatMessage({
-      id: `admin.${type}.singular`,
+      id: `admin.user.singular`,
     });
   };
 
@@ -148,7 +147,6 @@ function UserTable({ intl, type }) {
 
 UserTable.propTypes = {
   intl: IntlPropType,
-  type: PropTypes.string.isRequired,
 };
 
 UserTable.defaultProps = {
