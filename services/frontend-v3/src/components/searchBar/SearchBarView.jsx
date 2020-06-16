@@ -10,13 +10,18 @@ import {
   Input,
   Switch,
   Select,
+  Divider,
 } from "antd";
-import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  SettingOutlined,
+  DoubleRightOutlined,
+} from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
 
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const SearchBarView = ({
   intl,
@@ -26,7 +31,7 @@ const SearchBarView = ({
   branchOptions,
   handleSearch,
 }) => {
-  const [expand, setExpand] = useState(false);
+  const [expandAdvancedSearch, setExpandAdvancedSearch] = useState(false);
   const [form] = Form.useForm();
 
   const styles = {
@@ -87,7 +92,7 @@ const SearchBarView = ({
 
   // Toggle expandable advanced search form
   const toggle = () => {
-    setExpand(!expand);
+    setExpandAdvancedSearch(!expandAdvancedSearch);
   };
 
   // Handle form submission
@@ -104,6 +109,43 @@ const SearchBarView = ({
     );
   };
 
+  // Generate the regular search fields
+  const getBasicSearchForm = (displayForm) => {
+    if (!displayForm) {
+      return null;
+    }
+
+    return (
+      <div>
+        <div style={styles.mainSearchField}>{getBasicField()}</div>
+        <Button
+          shape="round"
+          size="large"
+          type="primary"
+          htmlType="submit"
+          icon={<SearchOutlined />}
+          style={styles.submitBtn}
+        >
+          {searchLabel}
+        </Button>
+        <Button
+          ghost
+          shape="round"
+          size="large"
+          style={styles.clearBtn}
+          onClick={() => {
+            form.resetFields();
+          }}
+        >
+          {intl.formatMessage({
+            id: "button.clear",
+            defaultMessage: "Clear",
+          })}
+        </Button>
+      </div>
+    );
+  };
+
   // Generate the advanced search fields
   const getAdvancedSearchForm = (displayForm) => {
     // detect language
@@ -113,21 +155,35 @@ const SearchBarView = ({
     });
 
     if (!displayForm) {
-      return <div />;
+      return null;
     }
     return (
       <div style={{ marginBottom: "0" }}>
-        <Row style={{ padding: "20px 5% 5px 5%" }}>
+        <Row style={{ padding: "20px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={2} style={{ fontSize: "1.3em" }}>
+              <SettingOutlined
+                style={{ marginRight: "4px", color: "#3CBAB3" }}
+              />
               <FormattedMessage id="advanced.search.button.text" />
             </Title>
+            <Text>the is a sample text that give some instruction</Text>
           </Col>
         </Row>
 
-        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
+        <Row style={{ padding: "15px 5% 0px 5%" }}>
+          <Col span={24} style={{ padding: "0px 0" }}>
+            <Title level={3} style={{ fontSize: "1em" }}>
+              General Info
+            </Title>
+          </Col>
+        </Row>
+        <Row
+          gutter={[48, 24]}
+          style={{ padding: "0px 5%", marginBottom: "0px" }}
+        >
           {/* form column one */}
-          <Col span={8}>
+          <Col span={12}>
             {/* name field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.name" />}
@@ -135,53 +191,7 @@ const SearchBarView = ({
             >
               <Input style={{ width: "100%" }} placeholder={searchLabel} />
             </Form.Item>
-            {/* Location field */}
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.location" />}
-              name="location"
-            >
-              <Select
-                style={{ width: "100%" }}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={3}
-              >
-                {locationOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>{value.description[locale]}</Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-          {/* form column two */}
-          <Col span={8}>
-            {/* Skills field */}
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.skills" />}
-              name="skills"
-            >
-              <Select
-                style={{ width: "100%" }}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={3}
-              >
-                {skillOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>{value.description[locale]}</Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
+
             {/* classification field */}
             <Form.Item
               label={
@@ -205,8 +215,31 @@ const SearchBarView = ({
               </Select>
             </Form.Item>
           </Col>
+
           {/* form column three */}
-          <Col span={8}>
+          <Col span={12}>
+            {/* Location field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.location" />}
+              name="location"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+                maxTagCount={3}
+              >
+                {locationOptions.map((value) => {
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
             {/* branch field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.branch" />}
@@ -231,6 +264,66 @@ const SearchBarView = ({
                 })}
               </Select>
             </Form.Item>
+          </Col>
+        </Row>
+
+        <Row style={{ padding: "5px 5% 5px 5%" }}>
+          <Col span={24} style={{ padding: "0px 0" }}>
+            <Title level={3} style={{ fontSize: "1em" }}>
+              Skills and Talent
+            </Title>
+          </Col>
+        </Row>
+        <Row
+          gutter={[48, 24]}
+          style={{ padding: "0px 5%", marginBottom: "0px" }}
+        >
+          {/* form column one */}
+          <Col span={24}>
+            {/* Skills field */}
+            <Form.Item
+              label={<FormattedMessage id="advanced.search.form.skills" />}
+              name="skills"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                placeholder={searchLabel}
+                maxTagCount={10}
+              >
+                {skillOptions.map((value) => {
+                  return (
+                    <Option key={value.id}>{value.description[locale]}</Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            {/* classification field */}
+            <Form.Item
+              label={
+                <FormattedMessage id="advanced.search.form.classification" />
+              }
+              name="classification"
+            >
+              <Select
+                style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                mode="multiple"
+                maxTagCount={10}
+                placeholder={searchLabel}
+              >
+                {classOptions.map((value) => {
+                  return <Option key={value.id}>{value.description}</Option>;
+                })}
+              </Select>
+            </Form.Item>
             {/* exFeeder field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
@@ -241,6 +334,39 @@ const SearchBarView = ({
             </Form.Item>
           </Col>
         </Row>
+
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            margin: "-40px 0 30px 0",
+          }}
+        >
+          <Button
+            shape="round"
+            size="large"
+            type="primary"
+            htmlType="submit"
+            icon={<SearchOutlined />}
+            style={styles.submitBtn}
+          >
+            {searchLabel}
+          </Button>
+          <Button
+            shape="round"
+            size="large"
+            style={styles.clearBtn}
+            onClick={() => {
+              form.resetFields();
+            }}
+          >
+            {intl.formatMessage({
+              id: "button.clear",
+              defaultMessage: "clear changes",
+            })}
+          </Button>
+        </div>
+        <Divider />
       </div>
     );
   };
@@ -260,47 +386,39 @@ const SearchBarView = ({
             style={{ width: "80%", maxWidth: "300px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
-          <div style={styles.mainSearchField}>{getBasicField()}</div>
-          <Button
-            shape="round"
-            size="large"
-            type="primary"
-            htmlType="submit"
-            icon={<SearchOutlined />}
-            style={styles.submitBtn}
-          >
-            {searchLabel}
-          </Button>
-          <Button
-            ghost
-            shape="round"
-            size="large"
-            style={styles.clearBtn}
-            onClick={() => {
-              form.resetFields();
-            }}
-          >
-            {intl.formatMessage({
-              id: "button.clear",
-              defaultMessage: "Clear",
-            })}
-          </Button>
+          {getBasicSearchForm(!expandAdvancedSearch)}
         </div>
         <div style={styles.advSearchCard}>
           {/* Gets fields for Advanced Search in collapse */}
-          {getAdvancedSearchForm(expand)}
+          {getAdvancedSearchForm(expandAdvancedSearch)}
           {/* expand advance search btn */}
           <Row>
             <Col span={24} style={styles.advFieldPlacement}>
               <Button
                 type="link"
                 onClick={toggle}
-                style={{ fontSize: 14 }}
+                style={{ fontSize: 15 }}
                 tabIndex="0"
                 size="small"
               >
-                <SettingOutlined style={{ marginRight: "3px" }} />
-                <FormattedMessage id="advanced.search.button.text" />
+                {/* <SettingOutlined style={{ marginRight: "3px" }} /> */}
+                {expandAdvancedSearch ? (
+                  <div>
+                    <DoubleRightOutlined
+                      rotate="270"
+                      style={{ marginRight: "4px" }}
+                    />
+                    <FormattedMessage id="button.basic.search" />
+                  </div>
+                ) : (
+                  <div>
+                    <DoubleRightOutlined
+                      rotate="90"
+                      style={{ marginRight: "4px" }}
+                    />
+                    <FormattedMessage id="button.advanced.search" />
+                  </div>
+                )}
               </Button>
             </Col>
           </Row>

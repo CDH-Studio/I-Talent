@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import { Provider as ReduxProvider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import * as Sentry from "@sentry/browser";
@@ -12,9 +12,17 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { NotFound, LandingPage } from "./pages";
+import { NotFound, LandingPage, UnexpectedError } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
+import historySingleton from "./history";
+import {
+  setUserId,
+  setUserAvatarColor,
+  setUserEmail,
+  setUserName,
+  setUserInitials,
+} from "./redux/slices/userSlice";
 
 const i18nConfigBuilder = (locale) => ({
   messages: locale === "fr" ? messagesFr : messagesEn,
@@ -40,6 +48,24 @@ const App = () => {
     Sentry.configureScope((scope) => {
       scope.setTag("locale", `${locale}-ca`);
     });
+
+    // This statement should be temporary, and be removed in the future
+    if (localStorage.getItem("userId")) {
+      const attributes = ["userId", "color", "email", "name", "acronym"];
+      const reduxFunctions = [
+        setUserId,
+        setUserAvatarColor,
+        setUserEmail,
+        setUserName,
+        setUserInitials,
+      ];
+
+      // Moves the info from localStorage to redux and clears it
+      attributes.forEach((attribute, key) => {
+        store.dispatch(reduxFunctions[key](localStorage.getItem(attribute)));
+        localStorage.removeItem(attribute);
+      });
+    }
   }, [locale]);
 
   return (
@@ -48,16 +74,15 @@ const App = () => {
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
-      <Router>
+      <Router history={historySingleton}>
         <Switch>
           <Route
             exact
             path="/"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <LandingPage
-                  history={history}
                   location={location}
                   match={match}
                   staticContext={staticContext}
@@ -68,10 +93,9 @@ const App = () => {
           <Route
             path="/secured"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <Secured
-                  history={history}
                   location={location}
                   match={match}
                   staticContext={staticContext}
@@ -82,10 +106,22 @@ const App = () => {
           <Route
             path="/admin"
             render={(routeProps) => {
-              const { history, location, match, staticContext } = routeProps;
+              const { location, match, staticContext } = routeProps;
               return (
                 <Admin
-                  history={history}
+                  location={location}
+                  match={match}
+                  staticContext={staticContext}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/error"
+            render={(routeProps) => {
+              const { location, match, staticContext } = routeProps;
+              return (
+                <UnexpectedError
                   location={location}
                   match={match}
                   staticContext={staticContext}

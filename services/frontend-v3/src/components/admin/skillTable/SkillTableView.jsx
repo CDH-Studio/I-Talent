@@ -23,6 +23,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 import { IntlPropType } from "../../../customPropTypes";
+import handleError from "../../../functions/handleError";
 
 /**
  *  SkillTableView(props)
@@ -133,11 +134,11 @@ const SkillTableView = ({
 
   /* handles the transfer of new or update/edited skill information to function */
   // Allows for backend action to occur based on modalType
-  const onCreate = (values) => {
+  const onCreate = async (values) => {
     if (modalType === "edit") {
-      handleSubmitEdit(values, record.id);
+      await handleSubmitEdit(values, record.id);
     } else if (modalType === "add") {
-      handleSubmitAdd(values);
+      await handleSubmitAdd(values);
     }
   };
 
@@ -210,8 +211,9 @@ const SkillTableView = ({
             "Are you sure you want to delete all the selected values?",
         })}
         onConfirm={() => {
-          handleSubmitDelete();
-          popUpSuccesss();
+          handleSubmitDelete()
+            .then(popUpSuccesss)
+            .catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -260,15 +262,16 @@ const SkillTableView = ({
         onOk={() => {
           editForm
             .validateFields()
-            .then((values) => {
+            .then(async (values) => {
+              await onCreate(values);
               editForm.resetFields();
-              onCreate(values);
+              handleOk();
             })
-            .catch((info) => {
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+            .catch((error) => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              }
             });
-          handleOk();
         }}
         onCancel={() => {
           editForm.resetFields();
@@ -471,15 +474,17 @@ const SkillTableView = ({
         onOk={() => {
           addForm
             .validateFields()
-            .then((values) => {
+            .then(async (values) => {
+              await onCreate(values);
               addForm.resetFields();
-              onCreate(values);
               handleOk();
             })
-            .catch((info) => {
-              handleCancel();
-              // eslint-disable-next-line no-console
-              console.log("Validate Failed:", info);
+            .catch((error) => {
+              if (error.isAxiosError) {
+                handleError(error, "message");
+              } else {
+                handleCancel();
+              }
             });
         }}
         onCancel={() => {

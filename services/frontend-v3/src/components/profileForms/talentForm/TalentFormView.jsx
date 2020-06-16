@@ -12,12 +12,12 @@ import {
   TreeSelect,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -25,6 +25,7 @@ import {
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -36,20 +37,20 @@ const { SHOW_CHILD } = TreeSelect;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const TalentFormView = (props) => {
-  const {
-    profileInfo,
-    skillOptions,
-    competencyOptions,
-    savedCompetencies,
-    savedSkills,
-    savedMentorshipSkills,
-    formType,
-    load,
-    intl,
-  } = props;
-
+const TalentFormView = ({
+  profileInfo,
+  skillOptions,
+  competencyOptions,
+  savedCompetencies,
+  savedSkills,
+  savedMentorshipSkills,
+  formType,
+  load,
+  intl,
+  userId,
+}) => {
   const history = useHistory();
+
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
@@ -147,26 +148,10 @@ const TalentFormView = (props) => {
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.put(`${backendAddress}api/profile/${userId}`, values);
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.post(`${backendAddress}api/profile/${userId}`, values);
     }
   };
 
@@ -235,8 +220,12 @@ const TalentFormView = (props) => {
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -252,14 +241,18 @@ const TalentFormView = (props) => {
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/6");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /*
@@ -278,8 +271,12 @@ const TalentFormView = (props) => {
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -685,6 +682,7 @@ TalentFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 TalentFormView.defaultProps = {

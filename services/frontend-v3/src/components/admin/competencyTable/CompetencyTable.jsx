@@ -5,6 +5,7 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import handleError from "../../../functions/handleError";
 import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
@@ -28,33 +29,29 @@ const CompetencyTable = ({ intl, type }) => {
 
   /* get competency information */
   const getCompetencies = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/${type}`
-      );
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/${type}`
+    );
+    return results.data;
   }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let competencies = [];
     if (loading) {
       const setState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
+        await getCompetencies()
+          .then((competencies) => setData(competencies))
+          .catch((error) => handleError(error, "redirect"));
+
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        competencies = await getCompetencies();
-        setData(competencies);
+        await getCompetencies()
+          .then((competencies) => setData(competencies))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -92,58 +89,40 @@ const CompetencyTable = ({ intl, type }) => {
 
   /* handles addition of a competency */
   const handleSubmitAdd = async (values) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        descriptionEn: values.addCompetencyEn,
-        descriptionFr: values.addCompetencyFr,
-        categoryId: 22,
-      });
+    await axios.post(url, {
+      descriptionEn: values.addCompetencyEn,
+      descriptionFr: values.addCompetencyFr,
+      categoryId: 22,
+    });
 
-      setReset(true);
-      return 1;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
+    return 1;
   };
 
   /* handles the update/edit of a competency */
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      await axios.put(url, {
-        descriptionEn: values.editCompetencyEn,
-        descriptionFr: values.editCompetencyFr,
-      });
+    await axios.put(url, {
+      descriptionEn: values.editCompetencyEn,
+      descriptionFr: values.editCompetencyFr,
+    });
 
-      setReset(true);
-      return 1;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
+    return 1;
   };
 
   /* handles the deletion of a competency */
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      await axios.post(url, { ids: selectedRowKeys });
+    await axios.post(url, { ids: selectedRowKeys });
 
-      setSelectedRowKeys([]);
-      setReset(true);
-      return 1;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setSelectedRowKeys([]);
+    setReset(true);
+    return 1;
   };
 
   /* helper function to rowSelection */
@@ -199,7 +178,7 @@ const CompetencyTable = ({ intl, type }) => {
       data={convertToViewableInformation()}
     />
   );
-}
+};
 
 CompetencyTable.propTypes = {
   intl: IntlPropType,

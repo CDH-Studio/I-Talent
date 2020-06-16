@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { Typography, Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -11,15 +10,14 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType, HistoryPropType } from "../../../customPropTypes";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
 
-const WelcomeView = ({ gedsProfiles, intl, load }) => {
-  const history = useHistory();
-
+const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
 
@@ -82,6 +80,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     secondTitle,
     thirdTitle,
     value,
+    type,
   }) => {
     // truncate text to not overflow card
     const truncateString = (text, length) => {
@@ -96,18 +95,19 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
       // check if button was passed profile data
       if (value) {
         // create profile
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          value
-        );
+        await axios
+          .post(`${backendAddress}api/profile/${userId}`, value)
+          .then(() => history.push("/secured/profile/create/step/2"))
+          .catch((error) => handleError(error, "message"));
       }
-
-      // Redirect to step 2
       history.push("/secured/profile/create/step/2");
     };
 
     return (
-      <Button style={styles.btn} onClick={createProfile}>
+      <Button
+        style={styles.btn}
+        onClick={type !== "loading" ? createProfile : null}
+      >
         {/* icon */}
         <div style={styles.btnIcon}>{icon}</div>
 
@@ -143,12 +143,14 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     secondTitle: PropTypes.string,
     thirdTitle: PropTypes.string,
     value: PropTypes.string,
+    type: PropTypes.string,
   };
 
   generateProfileBtn.defaultProps = {
     secondTitle: undefined,
     thirdTitle: undefined,
     value: undefined,
+    type: undefined,
   };
 
   /*
@@ -168,7 +170,7 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
             secondTitle: intl.formatMessage({
               id: "setup.welcome.geds.description",
             }),
-            type: "default",
+            type: "loading",
           })}
           {/* new user button */}
           {generateProfileBtn({
@@ -205,6 +207,16 @@ const WelcomeView = ({ gedsProfiles, intl, load }) => {
     }
     return (
       <div>
+        {/* generate list of GEDS profiles */}
+        {gedsProfiles.map((item) => {
+          return generateProfileBtn({
+            icon: <UserOutlined />,
+            firstTitle: `${item.firstName} ${item.lastName}`,
+            secondTitle: item.jobTitle[locale],
+            thirdTitle: item.email,
+            value: item,
+          });
+        })}
         {/* new user button */}
         {generateProfileBtn({
           icon: <UserAddOutlined />,
@@ -238,6 +250,8 @@ WelcomeView.propTypes = {
   gedsProfiles: PropTypes.object,
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
+  history: HistoryPropType.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 WelcomeView.defaultProps = {

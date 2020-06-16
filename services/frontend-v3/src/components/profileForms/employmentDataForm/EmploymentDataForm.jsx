@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import handleError from "../../../functions/handleError";
 import config from "../../../config";
 import EmploymentDataFormView from "./EmploymentDataFormView";
 
@@ -19,87 +21,72 @@ const EmploymentDataForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  const history = useHistory();
+
   // Get current language code
   const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
-    try {
-      const result = await axios.get(`${backendAddress}api/option/getTenure`);
+    const result = await axios.get(`${backendAddress}api/option/getTenure`);
 
-      const options = [];
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setSubstantiveOptions(options);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    const options = [];
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setSubstantiveOptions(options);
+    return 1;
   }, [locale]);
 
   // Get classification options
   const getClassificationOptions = async () => {
-    try {
-      const url = `${backendAddress}api/option/getGroupLevel`;
-      const result = await axios.get(url);
-      const options = [];
+    const url = `${backendAddress}api/option/getGroupLevel`;
+    const result = await axios.get(url);
+    const options = [];
 
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description,
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setClassificationOptions(options);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description,
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setClassificationOptions(options);
+    return 1;
   };
 
   // Get security options
   const getSecurityOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getSecurityClearance`;
-      const result = await axios.get(url);
-      const options = [];
+    const url = `${backendAddress}api/option/getSecurityClearance`;
+    const result = await axios.get(url);
+    const options = [];
 
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-      setSecurityOptions(options);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+    setSecurityOptions(options);
+    return 1;
   }, [locale]);
 
   // Get user profile for form drop down
-  const getProfileInfo = async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${localStorage.getItem(
-        "userId"
-      )}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+  const getProfileInfo = useCallback(async () => {
+    const url = `${backendAddress}api/profile/private/${id}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
+  }, [id]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -115,10 +102,9 @@ const EmploymentDataForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        // eslint-disable-next-line no-console
-        console.log(error);
+        handleError(error, "redirect");
       });
-  }, [getSecurityOptions, getSubstantiveOptions]);
+  }, [getProfileInfo, getSecurityOptions, getSubstantiveOptions]);
 
   return (
     <EmploymentDataFormView
@@ -129,6 +115,8 @@ const EmploymentDataForm = ({ formType }) => {
       formType={formType}
       locale={locale}
       load={load}
+      history={history}
+      userId={id}
     />
   );
 };

@@ -61,7 +61,8 @@ const ResultsCardView = ({ history, results, locale }) => {
           />
 
           <p style={styles.smallP}>{person.branch}</p>
-          {person.classification.description !== null ? (
+          {person.classification &&
+          person.classification.description !== null ? (
             <p style={styles.smallP}>
               {`Classification: ${person.classification.description}`}
             </p>

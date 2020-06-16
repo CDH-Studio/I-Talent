@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import Keycloak from "keycloak-js";
 import axios from "axios";
 import {
-  AdminDasboard,
+  AdminDashboard,
   AdminUser,
   AdminSkill,
   AdminCategory,
@@ -114,7 +114,7 @@ const Admin = () => {
           <Route
             exact
             path="/admin/dashboard"
-            render={() => <AdminDasboard />}
+            render={() => <AdminDashboard />}
           />
           <Route exact path="/admin/users" render={() => <AdminUser />} />
           <Route exact path="/admin/skills" render={() => <AdminSkill />} />

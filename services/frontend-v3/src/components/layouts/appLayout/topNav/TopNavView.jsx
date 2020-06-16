@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu, Button } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
@@ -65,6 +66,8 @@ const TopNavView = () => {
     },
   };
 
+  const { id, name } = useSelector((state) => state.user);
+
   const [showMenu, setShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -83,7 +86,7 @@ const TopNavView = () => {
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a
           rel="noopener noreferrer"
-          href={`/secured/profile/${localStorage.getItem("userId")}`}
+          href={`/secured/profile/${id}`}
         >
           <UserOutlined style={styles.MenuIcon} />
           <FormattedMessage id="my.profile" />
@@ -98,7 +101,6 @@ const TopNavView = () => {
       {sessionStorage.getItem("admin") === "true" ? (
         <Menu.Item
           tabIndex="0"
-          disabled={localStorage.getItem("admin")}
           style={styles.dropDownItem}
         >
           <a rel="noopener noreferrer" href="/admin/dashboard">
@@ -183,7 +185,7 @@ const TopNavView = () => {
           {/* Render right sigh of top menu */}
           <div style={styles.rightMenu}>
             {/* Render User Profile Dropdown */}
-            {getAvatarDropdown(localStorage.getItem("name"))}
+            {getAvatarDropdown(name)}
             {/* Render change language button */}
             <ChangeLanguage />
           </div>
@@ -198,7 +200,7 @@ const TopNavView = () => {
         <div style={styles.hamburgerHeader}>
           <ChangeLanguage />
 
-          {hamburgerButton(localStorage.getItem("name"))}
+          {hamburgerButton(name)}
         </div>
         {hamburgerMenu()}
       </Header>

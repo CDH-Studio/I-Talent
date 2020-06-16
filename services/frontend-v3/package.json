@@ -15,6 +15,7 @@
     "babel-plugin-import": "^1.13.0",
     "bizcharts": "^3.5.8",
     "customize-cra": "^0.9.1",
+    "history": "^4.10.1",
     "keycloak-js": "^10.0.1",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",

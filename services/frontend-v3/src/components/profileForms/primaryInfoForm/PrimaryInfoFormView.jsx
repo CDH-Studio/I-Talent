@@ -11,7 +11,6 @@ import {
   Button,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
@@ -21,8 +20,10 @@ import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -34,8 +35,10 @@ const PrimaryInfoFormView = ({
   load,
   formType,
   intl,
+  history,
+  userId,
+  email,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -123,10 +126,7 @@ const PrimaryInfoFormView = ({
     if (profileInfo) {
       // If profile exists then update profile
       try {
-        await axios.put(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
+        await axios.put(`${backendAddress}api/profile/${userId}`, values);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -134,10 +134,7 @@ const PrimaryInfoFormView = ({
     } else {
       // If profile does not exists then create profile
       try {
-        await axios.post(
-          `${backendAddress}api/profile/${localStorage.getItem("userId")}`,
-          values
-        );
+        await axios.post(`${backendAddress}api/profile/${userId}`, values);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -180,7 +177,7 @@ const PrimaryInfoFormView = ({
         githubUrl: profile.githubUrl,
       };
     }
-    return { email: localStorage.getItem("email") };
+    return { email };
   };
 
   /**
@@ -208,8 +205,12 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -219,16 +220,20 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/3");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .then(() => history.push("/secured/profile/create/step/3"))
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${localStorage.getItem("userId")}`);
+    history.push(`/secured/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -237,14 +242,20 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+      })
+      .then(() => {
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -521,6 +532,9 @@ PrimaryInfoFormView.propTypes = {
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
+  userId: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {
