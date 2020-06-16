@@ -167,9 +167,13 @@ DashboardGraphsView.propTypes = {
       count: PropTypes.number,
     })
   ).isRequired,
-  monthlyGrowth: PropTypes.shape({
-    growthRate: PropTypes.any,
-  }).isRequired,
+  monthlyGrowth: PropTypes.arrayOf(
+    PropTypes.shape({
+      year: PropTypes.string,
+      count: PropTypes.number,
+      monthName: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default DashboardGraphsView;

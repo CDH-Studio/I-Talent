@@ -27,7 +27,6 @@ const DashboardGraphs = () => {
           data.push({
             year,
             monthName: shortMonthNames[month],
-            monthNumber: month,
             count: rate[year][month],
           });
         });

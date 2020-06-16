@@ -120,12 +120,15 @@ const StatCardsView = ({
 };
 
 StatCardsView.propTypes = {
-  countUsers: PropTypes.number,
-  countHiddenUsers: PropTypes.number,
-  countInactiveUsers: PropTypes.number,
-  countExFeederUsers: PropTypes.number,
-  newUsers: PropTypes.number,
-  growthRatePrevMonth: PropTypes.number,
+  countUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  countHiddenUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  countInactiveUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  countExFeederUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  newUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  growthRatePrevMonth: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   intl: IntlPropType,
 };
 
