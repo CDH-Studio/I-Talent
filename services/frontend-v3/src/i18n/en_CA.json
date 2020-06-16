@@ -55,6 +55,7 @@
   "admin.add.category.descriptionEn": "Category description in English",
   "admin.add.category.descriptionFr": "Category description in French",
   "admin.competency.table": "Competencies table",
+  "admin.delete.competency": "Are you sure that you want to delete all the selected competencies? This will consequently delete the users competencies and developmental goals associated to those competencies.",
   "admin.add.competency": "Add competency",
   "admin.edit.competency": "Edit competency",
   "admin.add.competency.descriptionEn": "Competency description in English",

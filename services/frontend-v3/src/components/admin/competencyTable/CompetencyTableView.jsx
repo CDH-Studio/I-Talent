@@ -20,7 +20,8 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 
@@ -40,7 +41,6 @@ const CompetencyTableView = ({
   searchText,
   size,
   rowSelection,
-  data,
 }) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -51,6 +51,8 @@ const CompetencyTableView = ({
   const [fields, setFields] = useState([{}]);
 
   let searchInput;
+
+  const { data, loading } = useSelector((state) => state.admin.competencies);
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
@@ -72,7 +74,6 @@ const CompetencyTableView = ({
           }}
           placeholder={`${intl.formatMessage({
             id: "admin.search",
-            defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -88,20 +89,14 @@ const CompetencyTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {intl.formatMessage({
-            id: "admin.search.button",
-            defaultMessage: "Search",
-          })}
+          <FormattedMessage id="admin.search.button" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          {intl.formatMessage({
-            id: "admin.reset.button",
-            defaultMessage: "Reset",
-          })}
+          <FormattedMessage id="admin.reset.button" />
         </Button>
       </div>
     ),
@@ -133,7 +128,6 @@ const CompetencyTableView = ({
     message.success(
       intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful",
       })
     );
   };
@@ -143,7 +137,6 @@ const CompetencyTableView = ({
     message.error(
       intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled",
       })
     );
   };
@@ -153,11 +146,9 @@ const CompetencyTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={intl.formatMessage({
-          id: "admin.delete.confirm",
-          defaultMessage:
-            "Are you sure you want to delete all the selected values?",
-        })}
+        title={<FormattedMessage id="admin.delete.competency" />}
+        okText={<FormattedMessage id="admin.delete" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -166,25 +157,14 @@ const CompetencyTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
-        okText={intl.formatMessage({
-          id: "admin.delete",
-          defaultMessage: "Delete",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
       >
         <Button
           type="primary"
-          icon={<DeleteOutlined />}
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {intl.formatMessage({
-            id: "admin.delete",
-            defaultMessage: "Delete",
-          })}
+          <DeleteOutlined style={{ marginRight: 10 }} />
+          <FormattedMessage id="admin.delete" />
         </Button>
       </Popconfirm>
     );
@@ -243,18 +223,9 @@ const CompetencyTableView = ({
     return (
       <Modal
         visible={addVisible}
-        title={intl.formatMessage({
-          id: "admin.add.competency",
-          defaultMessage: "Add Competency",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.add.competency" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={async () => {
           addForm
             .validateFields()
@@ -279,48 +250,34 @@ const CompetencyTableView = ({
         <Form form={addForm} name="addCompetency" layout="vertical">
           <Form.Item
             name="addCompetencyEn"
-            label={intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
+            label={<FormattedMessage id="language.english" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
+                message: <FormattedMessage id="admin.validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionEn",
-                defaultMessage: "Competency description in English",
               })}
               allowClear
             />
           </Form.Item>
           <Form.Item
             name="addCompetencyFr"
-            label={intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
+            label={<FormattedMessage id="language.french" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
+                message: <FormattedMessage id="admin.validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionFr",
-                defaultMessage: "Competency description in French",
               })}
               allowClear
             />
@@ -335,18 +292,9 @@ const CompetencyTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={intl.formatMessage({
-          id: "admin.edit.competency",
-          defaultMessage: "Edit Competency",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.edit.competency" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={async () => {
           editForm
             .validateFields()
@@ -377,29 +325,21 @@ const CompetencyTableView = ({
         >
           <Form.Item
             name="editCompetencyEn"
-            label={intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
+            label={<FormattedMessage id="language.english" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionEn",
-                defaultMessage: "Competency description in English",
               })}
             />
           </Form.Item>
           <Form.Item
             name="editCompetencyFr"
-            label={intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
+            label={<FormattedMessage id="language.french" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.competency.descriptionFr",
-                defaultMessage: "Competency description in French",
               })}
             />
           </Form.Item>
@@ -408,66 +348,41 @@ const CompetencyTableView = ({
     );
   };
 
-  /* gets sort direction for a table column */
-  // Use for tables that need a French and English column
-  // Will change sort capability of column based on current language of page
-  const getSortDirection = (column) => {
-    const currentLanguage =
-      intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
-    if (column === currentLanguage) {
-      return ["descend"];
-    }
-    return ["ascend", "descend"];
-  };
-
   /* Sets up the columns for the competency table */
   // Consult: Ant Design table components for further clarification
   const competencyTableColumns = () => {
     // Table columns data structure: array of objects
     const competencyTableColumns = [
       {
-        title: intl.formatMessage({
-          id: "language.english",
-          defaultMessage: "English",
-        }),
-        dataIndex: "descriptionEn",
-        key: "competencyEn",
+        title: <FormattedMessage id="language.english" />,
+        dataIndex: "en",
+        key: "en",
         sorter: (a, b) => {
-          return a.descriptionEn.localeCompare(b.descriptionEn);
+          return a.en.localeCompare(b.en);
         },
-        sortDirections: getSortDirection("en"),
         ...getColumnSearchProps(
-          "descriptionEn",
+          "en",
           intl.formatMessage({
             id: "language.english",
-            defaultMessage: "English",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "language.french",
-          defaultMessage: "French",
-        }),
-        dataIndex: "descriptionFr",
-        key: "competencyFr",
+        title: <FormattedMessage id="language.french" />,
+        dataIndex: "fr",
+        key: "fr",
         sorter: (a, b) => {
-          return a.descriptionFr.localeCompare(b.descriptionFr);
+          return a.fr.localeCompare(b.fr);
         },
-        sortDirections: getSortDirection("fr"),
         ...getColumnSearchProps(
-          "descriptionFr",
+          "fr",
           intl.formatMessage({
             id: "language.french",
-            defaultMessage: "French",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "admin.edit",
-          defaultMessage: "Edit",
-        }),
+        title: <FormattedMessage id="admin.edit" />,
         key: "edit",
         render: (record) => (
           <div>
@@ -477,8 +392,8 @@ const CompetencyTableView = ({
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editCompetencyEn"], value: record.descriptionEn },
-                  { name: ["editCompetencyFr"], value: record.descriptionFr },
+                  { name: ["editCompetencyEn"], value: record.en },
+                  { name: ["editCompetencyFr"], value: record.fr },
                 ]);
                 handleEditModal(record);
               }}
@@ -495,25 +410,13 @@ const CompetencyTableView = ({
       {addCompetencyModal()}
       {editCompetencyModal()}
       <PageHeader
-        title={intl.formatMessage({
-          id: "admin.competency.table",
-          defaultMessage: "Competencies Table",
-        })}
+        title={<FormattedMessage id="admin.competency.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              size={size}
-              onClick={() => {
-                handleAddModal();
-              }}
-            >
-              {intl.formatMessage({
-                id: "admin.add",
-                defaultMessage: "Add",
-              })}
+            <Button type="primary" size={size} onClick={handleAddModal}>
+              <PlusCircleOutlined style={{ marginRight: 10 }} />
+              <FormattedMessage id="admin.add" />
             </Button>
           </>
         }
@@ -524,6 +427,7 @@ const CompetencyTableView = ({
             rowSelection={rowSelection}
             columns={competencyTableColumns()}
             dataSource={data}
+            loading={loading}
           />
         </Col>
       </Row>
@@ -543,13 +447,6 @@ CompetencyTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  // data: PropTypes.srr({
-  //   getCategoryInformation: PropTypes.shape({
-  //     description: PropTypes.string,
-  //     allCategories: PropTypes.any,
-  //   }),
-  // }).isRequired,
 };
 
 CompetencyTableView.defaultProps = {

@@ -56,6 +56,7 @@
   "admin.add.category.descriptionEn": "Description de la catégorie en anglais",
   "admin.add.category.descriptionFr": "Description de la catégorie en français",
   "admin.competency.table": "Tableau d'habiletés",
+  "admin.delete.competency": "Êtes-vous certain de vouloir supprimer toutes les habiletés sélectionnées? Ceci supprimera aussi les habiletés et objectifs de développement associés aux utilisateurs relié aux habiletés sélectionné.",
   "admin.add.competency": "Ajouter une habileté",
   "admin.edit.competency": "Modifier l'habileté",
   "admin.add.competency.descriptionEn": "Description de l'habileté en anglais",

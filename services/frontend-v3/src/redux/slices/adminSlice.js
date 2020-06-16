@@ -10,6 +10,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  competencies: {
+    data: [],
+    loading: true,
+  },
 };
 
 const adminSlice = createSlice({
@@ -36,6 +40,15 @@ const adminSlice = createSlice({
     setAdminCategoriesLoading(state, action) {
       state.categories.loading = action.payload;
     },
+    setAdminCompetencies(state, action) {
+      state.competencies = {
+        data: action.payload,
+        loading: false,
+      };
+    },
+    setAdminCompetenciesLoading(state, action) {
+      state.competencies.loading = action.payload;
+    },
     clearAdmin() {
       return initialState;
     },
@@ -47,6 +60,8 @@ export const {
   setAdminUsersLoading,
   setAdminCategories,
   setAdminCategoriesLoading,
+  setAdminCompetencies,
+  setAdminCompetenciesLoading,
   clearAdmin,
 } = adminSlice.actions;
 
