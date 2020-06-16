@@ -1,15 +1,17 @@
-/* eslint-disable consistent-return */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Skeleton } from "antd";
 import axios from "axios";
-import _ from "lodash";
 import moment from "moment";
 import { injectIntl } from "react-intl";
+import { useSelector, useDispatch } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import UserTableView from "./UserTableView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
+import {
+  setAdminUsers,
+  setAdminUsersLoading,
+} from "../../../redux/slices/adminSlice";
 
 const { backendAddress } = config;
 
@@ -19,47 +21,56 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering the component.
  */
 function UserTable({ intl, type }) {
-  const [data, setData] = useState([]);
   const [statuses, setStatuses] = useState({});
-  const [loading, setLoading] = useState(true);
   const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
   const size = "large";
 
+  const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
+
   /* get user information */
-  const getUserInformation = async () => {
-    const results = await axios.get(`${backendAddress}api/admin/user`);
+  const getUserInformation = useCallback(async () => {
+    try {
+      dispatch(setAdminUsersLoading(true));
 
-    return results.data;
-  };
+      const results = await axios.get(
+        `${backendAddress}api/admin/users?language=${
+          locale === "en" ? "ENGLISH" : "FRENCH"
+        }`
+      );
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if profile status changes */
-  useEffect(() => {
-    if (loading) {
-      const setState = async () => {
-        await getUserInformation()
-          .then((users) => setData(users))
-          .catch((error) => handleError(error, "redirect"));
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        await getUserInformation()
-          .then((users) => setData(users))
-          .catch((error) => handleError(error, "redirect"));
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((user) => ({
+        key: user.id,
+        profileLink: `/secured/profile/${user.id}`,
+        fullName: `${user.firstName} ${user.lastName}`,
+        jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
+        tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
+        formatCreatedAt: moment(user.createdAt).format("LLL"),
+        status: user.status,
+      }));
+
+      dispatch(setAdminUsers({ data: formattedData, locale }));
+
+      if (reset) {
         setReset(false);
-      };
-      updateState();
+      }
+    } catch (error) {
+      handleError(error, "redirect");
     }
-  }, [loading, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, locale, reset]);
+
+  useEffect(() => {
+    getUserInformation();
+  }, [getUserInformation]);
 
   /* handles profile status change */
   const handleApply = async () => {
-    const url = `${backendAddress}api/admin/profileStatus`;
+    const url = `${backendAddress}api/admin/userStatuses`;
 
     await axios.put(url, statuses);
 
@@ -72,12 +83,10 @@ function UserTable({ intl, type }) {
     if (plural)
       return intl.formatMessage({
         id: `admin.${type}.plural`,
-        defaultMessage: type,
       });
 
     return intl.formatMessage({
       id: `admin.${type}.singular`,
-      defaultMessage: type,
     });
   };
 
@@ -107,60 +116,29 @@ function UserTable({ intl, type }) {
   };
 
   /* gets user's profile status value to display in dropdown */
-  const profileStatusValue = (inactive, flagged) => {
-    if (inactive)
-      return intl.formatMessage({
-        id: "admin.inactive",
-        defaultMessage: "Inactive",
-      });
-    if (flagged)
-      return intl.formatMessage({
-        id: "admin.flagged",
-        defaultMessage: "Hidden",
-      });
-    return intl.formatMessage({
-      id: "admin.active",
-      defaultMessage: "Active",
-    });
-  };
+  const profileStatusValue = (status) => {
+    switch (status) {
+      case "INACTIVE":
+        return intl.formatMessage({
+          id: "admin.inactive",
+        });
 
-  /* configures data from backend into viewable data for the table */
-  const convertToViewableInformation = () => {
-    const convertData = _.sortBy(data, "user.name");
+      case "HIDDEN":
+        return intl.formatMessage({
+          id: "admin.flagged",
+        });
 
-    for (let i = 0; i < convertData.length; i += 1) {
-      convertData[i].key = convertData[i].id;
+      default:
+        return intl.formatMessage({
+          id: "admin.active",
+        });
     }
-
-    convertData.forEach((e) => {
-      e.fullName = e.user.name;
-      e.formatCreatedAt = moment(e.createdAt).format("LLL");
-      e.profileLink = `/secured/profile/${e.id}`;
-      if (e.tenure === null) {
-        e.tenureDescriptionEn = "None Specified";
-        e.tenureDescriptionFr = "Aucun spécifié";
-      } else {
-        e.tenureDescriptionEn = e.tenure.descriptionEn;
-        e.tenureDescriptionFr = e.tenure.descriptionFr;
-      }
-      if (e.jobTitleEn === null && e.jobTitleFr === null) {
-        e.jobTitleEn = "None Specified";
-        e.jobTitleFr = "Aucun spécifié";
-      }
-    });
-
-    return convertData;
   };
 
   document.title = `${getDisplayType(true)} - Admin | I-Talent`;
 
-  if (loading) {
-    return <Skeleton active />;
-  }
-
   return (
     <UserTableView
-      data={convertToViewableInformation()}
       size={size}
       searchText={searchText}
       searchedColumn={searchedColumn}
