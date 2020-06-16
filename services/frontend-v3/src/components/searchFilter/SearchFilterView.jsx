@@ -205,7 +205,9 @@ const SearchBarView = ({
           label={labelArr[6]}
           valuePropName="checked"
         >
-          <Checkbox onChange={handleAnyMentorSkillsChange}>Any</Checkbox>
+          <Checkbox onChange={handleAnyMentorSkillsChange}>
+            <FormattedMessage id="select.any" />
+          </Checkbox>
         </Form.Item>
         <Form.Item
           style={styles.w100}

@@ -321,7 +321,9 @@ const SearchBarView = ({
               />
             </Form.Item>
             <Form.Item name="anyMentorSkills" valuePropName="checked">
-              <Checkbox onChange={handleAnyMentorSkillsChange}>Any</Checkbox>
+              <Checkbox onChange={handleAnyMentorSkillsChange}>
+                <FormattedMessage id="select.any" />
+              </Checkbox>
             </Form.Item>
             {/* exFeeder field */}
             <Form.Item
