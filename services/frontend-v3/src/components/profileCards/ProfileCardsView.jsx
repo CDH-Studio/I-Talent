@@ -89,6 +89,7 @@ const ProfileCardsView = ({
           <Row type="flex" gutter={[16, 16]}>
             <Col>
               <Tooltip
+                trigger="click"
                 placement="top"
                 title={<FormattedMessage id="profile.toggle.card.visibility" />}
               >
@@ -106,6 +107,7 @@ const ProfileCardsView = ({
 
             <Col>
               <Tooltip
+                trigger="click"
                 placement="top"
                 title={<FormattedMessage id="profile.edit" />}
               >
