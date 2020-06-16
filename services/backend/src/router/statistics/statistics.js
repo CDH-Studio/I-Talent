@@ -6,6 +6,7 @@ const {
   growthRate,
   topFive,
 } = require("../../core/statistics");
+const { langValidator } = require("./validator");
 
 const statsRouter = Router();
 
@@ -55,18 +56,21 @@ statsRouter.get(
 statsRouter.get(
   "/topFiveCompetencies",
   keycloak.protect("view-admin-console"),
+  langValidator,
   topFive.getTopFiveCompetencies
 );
 
 statsRouter.get(
   "/topFiveSkills",
   keycloak.protect("view-admin-console"),
+  langValidator,
   topFive.getTopFiveSkills
 );
 
 statsRouter.get(
   "/topFiveDevelopmentalGoals",
   keycloak.protect("view-admin-console"),
+  langValidator,
   topFive.getTopFiveDevelopmentalGoals
 );
 
