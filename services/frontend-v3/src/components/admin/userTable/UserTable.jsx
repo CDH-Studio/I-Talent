@@ -22,7 +22,6 @@ const { backendAddress } = config;
  */
 function UserTable({ intl, type }) {
   const [statuses, setStatuses] = useState({});
-  const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
@@ -54,15 +53,11 @@ function UserTable({ intl, type }) {
       }));
 
       dispatch(setAdminUsers({ data: formattedData, locale }));
-
-      if (reset) {
-        setReset(false);
-      }
     } catch (error) {
       handleError(error, "redirect");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, locale, reset]);
+  }, [dispatch, locale]);
 
   useEffect(() => {
     getUserInformation();
@@ -75,7 +70,7 @@ function UserTable({ intl, type }) {
     await axios.put(url, statuses);
 
     setStatuses({});
-    setReset(true);
+    getUserInformation();
   };
 
   /* get part of the title for the page */

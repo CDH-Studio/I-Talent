@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -20,7 +19,6 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering the component.
  */
 function CategoryTable({ intl }) {
-  const [reset, setReset] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -45,14 +43,10 @@ function CategoryTable({ intl }) {
       }));
 
       dispatch(setAdminCategories(formattedData));
-
-      if (reset) {
-        setReset(false);
-      }
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch, reset]);
+  }, [dispatch]);
 
   useEffect(() => {
     getCategories();
@@ -69,7 +63,8 @@ function CategoryTable({ intl }) {
     if (result.data === false) {
       return true;
     }
-    setReset(true);
+    
+    getCategories();
     return true;
   };
 
@@ -80,8 +75,8 @@ function CategoryTable({ intl }) {
       en: values.addCategoryEn,
       fr: values.addCategoryFr,
     });
-
-    setReset(true);
+    
+    getCategories();
   };
 
   /* handles the update/edit of a category */
@@ -92,8 +87,8 @@ function CategoryTable({ intl }) {
       en: values.editCategoryEn,
       fr: values.editCategoryFr,
     });
-
-    setReset(true);
+    
+    getCategories();
   };
 
   /* get part of the title for the page */
