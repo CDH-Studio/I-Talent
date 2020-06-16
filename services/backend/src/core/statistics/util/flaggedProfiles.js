@@ -17,6 +17,7 @@ async function getHiddenUsers(request, response) {
 
     response.status(200).json(hiddenUsers);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Error fetching hidden users");
   }
 }

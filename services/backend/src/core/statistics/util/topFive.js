@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../../../database/client");
 
 const prisma = new PrismaClient();
@@ -91,6 +92,8 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
 
 async function getTopFiveSkills(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const skillIds = await prisma.skills.findMany({
@@ -100,38 +103,52 @@ async function getTopFiveSkills(request, response) {
       },
     });
 
-    const topFiveSkills = getTopFiveSkillsHelper(skillIds, language);
+    const topFiveSkills = await getTopFiveSkillsHelper(skillIds, language);
 
     response.status(200).json(topFiveSkills);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting the top five skills");
   }
 }
 
 async function getTopFiveCompetencies(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
-    const competencyIds = await prisma.developmentalGoals.findMany({
+    const competencyIds = await prisma.competencies.findMany({
       select: {
         id: true,
         competencyId: true,
       },
     });
 
-    const topFiveCompetencies = getTopFiveCompetenciesHelper(
+    const topFiveCompetencies = await getTopFiveCompetenciesHelper(
       competencyIds,
       language
     );
 
     response.status(200).json(topFiveCompetencies);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting the top five competencies");
   }
 }
 
 async function getTopFiveDevelopmentalGoals(request, response) {
   try {
+    validationResult(request).throw();
+
     const { language } = request.query;
 
     const competencyIds = await prisma.developmentalGoals.findMany({
@@ -154,19 +171,23 @@ async function getTopFiveDevelopmentalGoals(request, response) {
       },
     });
 
-    const topFiveSkills = getTopFiveSkillsHelper(skillIds, language);
-    const topFiveCompetencies = getTopFiveCompetenciesHelper(
-      competencyIds,
-      language
+    const topFive = await Promise.all([
+      getTopFiveSkillsHelper(skillIds, language),
+      getTopFiveCompetenciesHelper(competencyIds, language),
+    ]);
+
+    const topFiveDevelopmentalGoals = [...topFive[0], ...topFive[1]].slice(
+      0,
+      5
     );
 
-    const topFiveDevelopmentGoals = [
-      ...topFiveSkills,
-      ...topFiveCompetencies,
-    ].slice(0, 5);
-
-    response.status(200).json(topFiveDevelopmentGoals);
+    response.status(200).json(topFiveDevelopmentalGoals);
   } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).send("Error getting the top five developmental goals");
   }
 }
