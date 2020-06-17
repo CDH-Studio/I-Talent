@@ -1,12 +1,15 @@
-import PropTypes from "prop-types";
 import React, { useState, useEffect, useCallback } from "react";
-import { Skeleton } from "antd";
 import axios from "axios";
-import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import DiplomaTableView from "./DiplomaTableView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
+import {
+  setAdminDiplomas,
+  setAdminDiplomasLoading,
+} from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../customPropTypes";
 
 const { backendAddress } = config;
 
@@ -15,62 +18,41 @@ const { backendAddress } = config;
  *  Controller for the DiplomaTableView.
  *  It gathers the required data for rendering the component.
  */
-const DiplomaTable = ({ type, intl }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reset, setReset] = useState(false);
+const DiplomaTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const size = "large";
 
-  // Get diploma information
+  const dispatch = useDispatch();
+
+  // Fetches the diploma information
   const getDiplomas = useCallback(async () => {
-    const results = await axios.get(
-      `${backendAddress}api/admin/options/${type}`
-    );
-    return results.data;
-  }, [type]);
+    try {
+      dispatch(setAdminDiplomasLoading(true));
 
-  // Get part of the title for the page
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.${type}.plural`,
-        defaultMessage: type,
-      });
+      const results = await axios.get(
+        `${backendAddress}api/option/diplomasAllLang`
+      );
 
-    return intl.formatMessage({
-      id: `admin.${type}.singular`,
-      defaultMessage: type,
-    });
-  };
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((competency) => ({
+        ...competency,
+        key: competency.id,
+      }));
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
-  useEffect(() => {
-    if (loading) {
-      const setState = async () => {
-        await getDiplomas()
-          .then((diplomas) => setData(diplomas))
-          .catch((error) => handleError(error, "redirect"));
-
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        await getDiplomas()
-          .then((diplomas) => setData(diplomas))
-          .catch((error) => handleError(error, "redirect"));
-        setReset(false);
-      };
-      updateState();
+      dispatch(setAdminDiplomas(formattedData));
+    } catch (error) {
+      handleError(error, "redirect");
     }
-  }, [getDiplomas, loading, reset]);
+  }, [dispatch]);
 
-  /* handles the search part of the column search functionality */
+  useEffect(() => {
+    getDiplomas();
+  }, [getDiplomas]);
+
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -78,58 +60,54 @@ const DiplomaTable = ({ type, intl }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a diploma */
+  // Handles addition of a diploma
   const handleSubmitAdd = async (values) => {
-    const url = `${backendAddress}api/admin/options/${type}`;
-
-    await axios.post(url, {
-      descriptionEn: values.addDiplomaEn,
-      descriptionFr: values.addDiplomaFr,
+    await axios.post(`${backendAddress}api/option/diploma`, {
+      en: values.addDiplomaEn,
+      fr: values.addDiplomaFr,
     });
 
-    setReset(true);
-    return 1;
+    getDiplomas();
   };
 
-  /* handles the update/edit of a diploma */
+  // Handles the update/edit of a diploma
   const handleSubmitEdit = async (values, id) => {
-    const url = `${backendAddress}api/admin/options/${type}/${id}`;
-
-    await axios.put(url, {
-      descriptionEn: values.editDiplomaEn,
-      descriptionFr: values.editDiplomaFr,
+    await axios.put(`${backendAddress}api/option/diploma`, {
+      id,
+      en: values.editDiplomaEn,
+      fr: values.editDiplomaFr,
     });
 
-    setReset(true);
-    return 1;
+    getDiplomas();
   };
 
-  /* handles the deletion of a diploma */
+  // Handles the deletion of a diploma
   const handleSubmitDelete = async () => {
-    const url = `${backendAddress}api/admin/delete/${type}`;
-
-    await axios.post(url, { ids: selectedRowKeys });
+    await axios.delete(`${backendAddress}api/option/diplomas`, {
+      data: {
+        ids: selectedRowKeys,
+      },
+    });
 
     setSelectedRowKeys([]);
-    setReset(true);
-    return 1;
+    getDiplomas();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (modifiedSelectedRowKeys) => {
     // Can access the keys of each diploma selected in the table
     setSelectedRowKeys(modifiedSelectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (modifiedSelectedRowKeys) => {
@@ -137,28 +115,21 @@ const DiplomaTable = ({ type, intl }) => {
     },
   };
 
-  /* configures data from backend into viewable data for the table */
-  const convertToViewableInformation = () => {
-    // Allows for sorting of data between French/English in terms of description:
-    const description =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "descriptionEn"
-        : "descriptionFr";
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.diploma.plural`,
+        });
 
-    const allDiplomas = _.sortBy(data, description);
+      return intl.formatMessage({
+        id: `admin.diploma.singular`,
+      });
+    };
 
-    for (let i = 0; i < allDiplomas.length; i += 1) {
-      allDiplomas[i].key = allDiplomas[i].id;
-    }
-
-    return allDiplomas;
-  };
-
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
-
-  if (loading) {
-    return <Skeleton active />;
-  }
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <DiplomaTableView
@@ -172,16 +143,16 @@ const DiplomaTable = ({ type, intl }) => {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={convertToViewableInformation()}
     />
   );
 };
 
 DiplomaTable.propTypes = {
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
-  type: PropTypes.string.isRequired,
+  intl: IntlPropType,
+};
+
+DiplomaTable.defaultProps = {
+  intl: undefined,
 };
 
 export default injectIntl(DiplomaTable);

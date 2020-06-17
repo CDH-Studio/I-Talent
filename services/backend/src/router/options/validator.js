@@ -10,8 +10,7 @@ const langValidator = [
 
 const deleteManyValidator = [
   body("ids")
-    .custom((value) => {
-      const array = JSON.parse(value);
+    .custom((array) => {
       if (Array.isArray(array)) {
         return array.every((i) => isUUID(i));
       }
