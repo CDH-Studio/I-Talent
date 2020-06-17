@@ -82,7 +82,7 @@ async function createSchool(request, response) {
 
     if (!en && !fr) {
       response
-        .status(500)
+        .status(422)
         .send("Must specify school name, either in english or in french");
       return;
     }
@@ -137,28 +137,58 @@ async function updateSchool(request, response) {
       return;
     }
 
-    const translations = [];
+    const savedTranslations = await prisma.opSchools
+      .findOne({
+        where: {
+          id,
+        },
+        select: {
+          translations: {
+            select: {
+              language: true,
+            },
+          },
+        },
+      })
+      .then((i) => i.translations.map((j) => j.language));
+
+    const updateTranslations = [];
+    const createTranslations = [];
 
     if (en) {
-      translations.push({
-        where: {
-          language: "ENGLISH",
-        },
-        data: {
+      if (savedTranslations.includes("ENGLISH")) {
+        updateTranslations.push({
+          where: {
+            language: "ENGLISH",
+          },
+          data: {
+            name: en,
+          },
+        });
+      } else {
+        createTranslations.push({
           name: en,
-        },
-      });
+          language: "ENGLISH",
+        });
+      }
     }
 
     if (fr) {
-      translations.push({
-        where: {
-          language: "FRENCH",
-        },
-        data: {
+      if (savedTranslations.includes("FRENCH")) {
+        updateTranslations.push({
+          where: {
+            language: "FRENCH",
+          },
+          data: {
+            name: fr,
+          },
+        });
+      } else {
+        createTranslations.push({
           name: fr,
-        },
-      });
+          language: "FRENCH",
+        });
+      }
     }
 
     await prisma.opSchools.update({
@@ -169,7 +199,8 @@ async function updateSchool(request, response) {
         abbrCountry,
         abbrProvince,
         translations: {
-          updateMany: translations,
+          updateMany: updateTranslations,
+          create: createTranslations,
         },
       },
     });

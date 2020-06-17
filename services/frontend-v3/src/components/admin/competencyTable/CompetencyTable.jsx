@@ -1,14 +1,16 @@
 /* eslint-disable no-shadow */
 import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
-import { Skeleton } from "antd";
 import axios from "axios";
-import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import handleError from "../../../functions/handleError";
 import CompetencyTableView from "./CompetencyTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
+import {
+  setAdminCompetenciesLoading,
+  setAdminCompetencies,
+} from "../../../redux/slices/adminSlice";
 
 const { backendAddress } = config;
 
@@ -17,62 +19,41 @@ const { backendAddress } = config;
  *  Controller for the CompetencyTableView.
  *  It gathers the required data for rendering the component.
  */
-const CompetencyTable = ({ intl, type }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reset, setReset] = useState(false);
+const CompetencyTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const size = "large";
 
-  /* get competency information */
+  const dispatch = useDispatch();
+
+  // Fetches the competency information
   const getCompetencies = useCallback(async () => {
-    const results = await axios.get(
-      `${backendAddress}api/admin/options/${type}`
-    );
-    return results.data;
-  }, [type]);
+    try {
+      dispatch(setAdminCompetenciesLoading(true));
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
-  useEffect(() => {
-    if (loading) {
-      const setState = async () => {
-        await getCompetencies()
-          .then((competencies) => setData(competencies))
-          .catch((error) => handleError(error, "redirect"));
+      const results = await axios.get(
+        `${backendAddress}api/option/competenciesAllLang`
+      );
 
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        await getCompetencies()
-          .then((competencies) => setData(competencies))
-          .catch((error) => handleError(error, "redirect"));
-        setReset(false);
-      };
-      updateState();
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((competency) => ({
+        ...competency,
+        key: competency.id,
+      }));
+
+      dispatch(setAdminCompetencies(formattedData));
+    } catch (error) {
+      handleError(error, "redirect");
     }
-  }, [getCompetencies, loading, reset]);
+  }, [dispatch]);
 
-  /* get part of the title for the page */
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.${type}.plural`,
-        defaultMessage: type,
-      });
+  useEffect(() => {
+    getCompetencies();
+  }, [getCompetencies]);
 
-    return intl.formatMessage({
-      id: `admin.${type}.singular`,
-      defaultMessage: type,
-    });
-  };
-
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -80,59 +61,54 @@ const CompetencyTable = ({ intl, type }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a competency */
+  // Handles addition of a competency
   const handleSubmitAdd = async (values) => {
-    const url = `${backendAddress}api/admin/options/${type}`;
-
-    await axios.post(url, {
-      descriptionEn: values.addCompetencyEn,
-      descriptionFr: values.addCompetencyFr,
-      categoryId: 22,
+    await axios.post(`${backendAddress}api/option/competency`, {
+      en: values.addCompetencyEn,
+      fr: values.addCompetencyFr,
     });
 
-    setReset(true);
-    return 1;
+    getCompetencies();
   };
 
-  /* handles the update/edit of a competency */
+  // Handles the update/edit of a competency
   const handleSubmitEdit = async (values, id) => {
-    const url = `${backendAddress}api/admin/options/${type}/${id}`;
-
-    await axios.put(url, {
-      descriptionEn: values.editCompetencyEn,
-      descriptionFr: values.editCompetencyFr,
+    await axios.put(`${backendAddress}api/option/competency`, {
+      id,
+      en: values.editCompetencyEn,
+      fr: values.editCompetencyFr,
     });
 
-    setReset(true);
-    return 1;
+    getCompetencies();
   };
 
-  /* handles the deletion of a competency */
+  // Handles the deletion of a competency
   const handleSubmitDelete = async () => {
-    const url = `${backendAddress}api/admin/delete/${type}`;
-
-    await axios.post(url, { ids: selectedRowKeys });
+    await axios.delete(`${backendAddress}api/option/competencies`, {
+      data: {
+        ids: selectedRowKeys,
+      },
+    });
 
     setSelectedRowKeys([]);
-    setReset(true);
-    return 1;
+    getCompetencies();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
     // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
@@ -140,28 +116,21 @@ const CompetencyTable = ({ intl, type }) => {
     },
   };
 
-  /* configures data from backend into viewable data for the table */
-  const convertToViewableInformation = () => {
-    // Allows for sorting of data between French/English in terms of description:
-    const description =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "descriptionEn"
-        : "descriptionFr";
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.competency.plural`,
+        });
 
-    const allCompetencies = _.sortBy(data, description);
+      return intl.formatMessage({
+        id: `admin.competency.singular`,
+      });
+    };
 
-    for (let i = 0; i < allCompetencies.length; i += 1) {
-      allCompetencies[i].key = allCompetencies[i].id;
-    }
-
-    return allCompetencies;
-  };
-
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
-
-  if (loading) {
-    return <Skeleton active />;
-  }
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <CompetencyTableView
@@ -175,14 +144,12 @@ const CompetencyTable = ({ intl, type }) => {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={convertToViewableInformation()}
     />
   );
 };
 
 CompetencyTable.propTypes = {
   intl: IntlPropType,
-  type: PropTypes.string.isRequired,
 };
 
 CompetencyTable.defaultProps = {
