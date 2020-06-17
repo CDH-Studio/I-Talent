@@ -118,6 +118,8 @@ const AdminDashboard = ({ intl }) => {
 
   const getTopFiveCompentencies = useCallback(async () => {
     try {
+      dispatch(setTopFiveCompetencies([]));
+
       const results = await axios.get(
         `${backendAddress}api/stats/topFiveCompetencies?language=${
           locale === "en" ? "ENGLISH" : "FRENCH"
@@ -132,6 +134,8 @@ const AdminDashboard = ({ intl }) => {
 
   const getTopFiveSkills = useCallback(async () => {
     try {
+      dispatch(setTopFiveSkills([]));
+
       const results = await axios.get(
         `${backendAddress}api/stats/topFiveSkills?language=${
           locale === "en" ? "ENGLISH" : "FRENCH"
@@ -146,6 +150,8 @@ const AdminDashboard = ({ intl }) => {
 
   const getTopFiveDevelopmentalGoals = useCallback(async () => {
     try {
+      dispatch(setTopFiveDevelopmentalGoals([]));
+
       const results = await axios.get(
         `${backendAddress}api/stats/topFiveDevelopmentalGoals?language=${
           locale === "en" ? "ENGLISH" : "FRENCH"
