@@ -1,15 +1,19 @@
 /* eslint-disable no-shadow */
 import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
-import { Skeleton } from "antd";
 import axios from "axios";
-import _ from "lodash";
 import { injectIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 
 import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
+import {
+  setAdminCategoriesLoading,
+  setAdminCategories,
+  setAdminSkills,
+  setAdminSkillsLoading,
+} from "../../../redux/slices/adminSlice";
 
 const { backendAddress } = config;
 
@@ -18,71 +22,71 @@ const { backendAddress } = config;
  *  Controller for the SkillTableView.
  *  It gathers the required data for rendering the component.
  */
-const SkillTable = ({ intl, type }) => {
-  const [data, setData] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reset, setReset] = useState(false);
+const SkillTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const size = "large";
 
+  const dispatch = useDispatch();
+
   /* get skill information */
   const getSkill = useCallback(async () => {
-    const results = await axios.get(
-      `${backendAddress}api/admin/options/${type}`
-    );
+    try {
+      dispatch(setAdminSkillsLoading(true));
 
-    return results.data;
-  }, [type]);
+      const results = await axios.get(
+        `${backendAddress}api/option/skillsAllLang`
+      );
+
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((category) => ({
+        ...category,
+        key: category.id,
+      }));
+
+      dispatch(setAdminSkills(formattedData));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
 
   /* get category information */
   const getCategories = useCallback(async () => {
-    const results = await axios.get(
-      `${backendAddress}api/admin/options/categories/${type}`
-    );
-    return results.data;
-  }, [type]);
+    try {
+      dispatch(setAdminCategoriesLoading(true));
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
-  useEffect(() => {
-    if (loading) {
-      const setState = async () => {
-        await getSkill()
-          .then((skills) => setData(skills))
-          .catch((error) => handleError(error, "redirect"));
-        await getCategories()
-          .then((categories) => setCategories(categories))
-          .catch((error) => handleError(error, "redirect"));
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        await getSkill()
-          .then((skills) => setData(skills))
-          .catch((error) => handleError(error, "redirect"));
+      const results = await axios.get(
+        `${backendAddress}api/option/categoriesAllLang`
+      );
 
-        setReset(false);
-      };
-      updateState();
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((category) => ({
+        ...category,
+        key: category.id,
+      }));
+
+      dispatch(setAdminCategories(formattedData));
+    } catch (error) {
+      handleError(error, "redirect");
     }
-  }, [getCategories, getSkill, loading, reset]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    getSkill();
+    getCategories();
+  }, [getCategories, getSkill]);
 
   /* get part of the title for the page */
   const getDisplayType = (plural) => {
     if (plural)
       return intl.formatMessage({
-        id: `admin.${type}.plural`,
-        defaultMessage: type,
+        id: `admin.skill.plural`,
       });
 
     return intl.formatMessage({
-      id: `admin.${type}.singular`,
-      defaultMessage: type,
+      id: `admin.skill.singular`,
     });
   };
 
@@ -102,60 +106,38 @@ const SkillTable = ({ intl, type }) => {
   };
 
   /* handles addition of a skill */
-  // eslint-disable-next-line consistent-return
   const handleSubmitAdd = async (values) => {
-    const url = `${backendAddress}api/admin/options/${type}`;
-
-    await axios.post(url, {
-      descriptionEn: values.addSkillEn,
-      descriptionFr: values.addSkillFr,
+    await axios.post(`${backendAddress}api/option/skill`, {
+      en: values.addSkillEn,
+      fr: values.addSkillFr,
       categoryId: values.addSkillCategory,
     });
 
-    setReset(true);
+    getSkill();
   };
 
   /* handles the update/edit of a skill */
-  // eslint-disable-next-line consistent-return
   const handleSubmitEdit = async (values, id) => {
-    const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    await axios.put(`${backendAddress}api/option/skill`, {
+      id,
+      en: values.editSkillEn,
+      fr: values.editSkillFr,
+      categoryId: values.editSkillCategoryId,
+    });
 
-    if (typeof values.editSkillCategory === "string") {
-      const index = categories.findIndex(
-        (object) =>
-          object.descriptionEn === values.editSkillCategory ||
-          object.descriptionFr === values.editSkillCategory
-      );
-      await axios.put(url, {
-        descriptionEn: values.editSkillEn,
-        descriptionFr: values.editSkillFr,
-        categoryId: categories[index].id,
-        category: categories[index],
-      });
-    } else {
-      const categoryObject = categories.find(
-        (category) => category.id === values.editSkillCategory
-      );
-      await axios.put(url, {
-        descriptionEn: values.editSkillEn,
-        descriptionFr: values.editSkillFr,
-        categoryId: values.editSkillCategory,
-        category: categoryObject,
-      });
-    }
-
-    setReset(true);
+    getSkill();
   };
 
   /* handles the deletion of a skill */
-  // eslint-disable-next-line consistent-return
   const handleSubmitDelete = async () => {
-    const url = `${backendAddress}api/admin/delete/${type}`;
-
-    await axios.post(url, { ids: selectedRowKeys });
+    await axios.delete(`${backendAddress}api/option/skills`, {
+      data: {
+        ids: selectedRowKeys,
+      },
+    });
 
     setSelectedRowKeys([]);
-    setReset(true);
+    getSkill();
   };
 
   /* helper function to rowSelection */
@@ -169,42 +151,12 @@ const SkillTable = ({ intl, type }) => {
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
+      console.log(selectedRowKeys);
       onSelectChange(selectedRowKeys);
     },
   };
 
-  /* configures data from backend into viewable data for the table */
-  const getSkillInformation = () => {
-    // Allows for sorting of data between French/English in terms of description and category:
-    const description =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "descriptionEn"
-        : "descriptionFr";
-
-    const category =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "categoryNameEn"
-        : "categoryNameFr";
-
-    const allSkills = _.sortBy(data, description);
-
-    for (let i = 0; i < allSkills.length; i += 1) {
-      allSkills[i].key = allSkills[i].id;
-    }
-
-    allSkills.forEach((e) => {
-      e.categoryNameEn = e.category.descriptionEn;
-      e.categoryNameFr = e.category.descriptionFr;
-    });
-
-    return _.sortBy(allSkills, category);
-  };
-
   document.title = `${getDisplayType(true)} - Admin | I-Talent`;
-
-  if (loading) {
-    return <Skeleton active />;
-  }
 
   return (
     <SkillTableView
@@ -218,15 +170,12 @@ const SkillTable = ({ intl, type }) => {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={getSkillInformation()}
-      categories={categories}
     />
   );
 };
 
 SkillTable.propTypes = {
   intl: IntlPropType,
-  type: PropTypes.string.isRequired,
 };
 
 SkillTable.defaultProps = {

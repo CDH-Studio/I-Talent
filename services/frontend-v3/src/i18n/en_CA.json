@@ -11,6 +11,7 @@
   "admin.skill.plural": "Skills",
   "admin.skill.singular": "Skill",
   "admin.skill.table": "Skills table",
+  "admin.delete.skill": "Are you sure that you want to delete all the selected skills? This will consequently delete the users skills and developmental goals associated to those skills.",
   "admin.competency.plural": "Competencies",
   "admin.competency.singular": "Competency",
   "admin.diploma.plural": "Diplomas",

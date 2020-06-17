@@ -14,6 +14,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  skills: {
+    data: [],
+    loading: true,
+  },
   diplomas: {
     data: [],
     loading: true,
@@ -57,6 +61,15 @@ const adminSlice = createSlice({
     setAdminCompetenciesLoading(state, action) {
       state.competencies.loading = action.payload;
     },
+    setAdminSkills(state, action) {
+      state.skills = {
+        data: action.payload,
+        loading: false,
+      };
+    },
+    setAdminSkillsLoading(state, action) {
+      state.skills.loading = action.payload;
+    },
     setAdminDiplomas(state, action) {
       state.diplomas = {
         data: action.payload,
@@ -88,6 +101,8 @@ export const {
   setAdminCategoriesLoading,
   setAdminCompetencies,
   setAdminCompetenciesLoading,
+  setAdminSkills,
+  setAdminSkillsLoading,
   setAdminDiplomas,
   setAdminDiplomasLoading,
   setAdminSchools,

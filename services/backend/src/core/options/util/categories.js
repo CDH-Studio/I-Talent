@@ -71,71 +71,6 @@ async function getCategoriesAllLang(request, response) {
   }
 }
 
-async function getCategoriesSkills(request, response) {
-  try {
-    validationResult(request).throw();
-
-    const { language } = request.query;
-
-    const categoriesSkillsQuery = await prisma.opTransCategories.findMany({
-      where: {
-        language,
-        opCategories: {
-          opSkills: {
-            every: {
-              translations: {
-                every: {
-                  language,
-                },
-              },
-            },
-          },
-        },
-      },
-      select: {
-        name: true,
-        opCategories: {
-          select: {
-            id: true,
-            opSkills: {
-              select: {
-                id: true,
-                translations: {
-                  select: {
-                    name: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-
-    const categoriesSkills = categoriesSkillsQuery.map((category) => {
-      return {
-        id: category.opCategories.id,
-        name: category.name,
-        skills: category.opCategories.opSkills.map((skill) => {
-          return {
-            id: skill.id,
-            name: skill.translations[0].name,
-          };
-        }),
-      };
-    });
-
-    response.status(200).json(categoriesSkills);
-  } catch (error) {
-    console.log(error);
-    if (error.errors) {
-      response.status(422).json(error.errors);
-      return;
-    }
-    response.status(500).send("Error fetching category skill options");
-  }
-}
-
 async function createCategory(request, response) {
   try {
     validationResult(request).throw();
@@ -292,7 +227,6 @@ async function deleteCategories(request, response) {
 module.exports = {
   getCategories,
   getCategoriesAllLang,
-  getCategoriesSkills,
   createCategory,
   updateCategory,
   deleteCategory,
