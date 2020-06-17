@@ -32,6 +32,7 @@ function UserTable({ intl }) {
   // Fetches the user information
   const getUserInformation = useCallback(async () => {
     try {
+      dispatch(setAdminUsers({ data: [] }));
       dispatch(setAdminUsersLoading(true));
 
       const results = await axios.get(
