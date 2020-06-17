@@ -42,6 +42,7 @@ async function getSkillsAllLang(request, response) {
     const skillsQuery = await prisma.opSkills.findMany({
       select: {
         id: true,
+        categoryId: true,
         translations: {
           select: {
             language: true,
@@ -56,6 +57,7 @@ async function getSkillsAllLang(request, response) {
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").name,
         fr: i.translations.find((j) => j.language === "FRENCH").name,
+        categoryId: i.categoryId,
       };
     });
 

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   PageHeader,
   Row,
@@ -19,7 +19,10 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import _ from "lodash";
+
 import handleError from "../../../functions/handleError";
 
 /**
@@ -37,7 +40,6 @@ const DiplomaTableView = ({
   searchText,
   size,
   rowSelection,
-  data,
   intl,
 }) => {
   const [addForm] = Form.useForm();
@@ -47,8 +49,18 @@ const DiplomaTableView = ({
   const [addVisible, setAddVisible] = useState(false);
   const [record, setRecord] = useState({});
   const [fields, setFields] = useState([{}]);
+  const [sortedData, setSortedData] = useState([]);
 
   let searchInput;
+
+  const { data, loading } = useSelector((state) => state.admin.diplomas);
+  const { locale } = useSelector((state) => state.settings);
+
+  useEffect(() => {
+    if (data && locale) {
+      setSortedData(_.sortBy(data, locale));
+    }
+  }, [locale, data]);
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
@@ -68,7 +80,6 @@ const DiplomaTableView = ({
           }}
           placeholder={`${intl.formatMessage({
             id: "admin.search",
-            defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -84,20 +95,14 @@ const DiplomaTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {intl.formatMessage({
-            id: "admin.search.button",
-            defaultMessage: "Search",
-          })}
+          <FormattedMessage id="admin.search.button" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          {intl.formatMessage({
-            id: "admin.reset.button",
-            defaultMessage: "Reset",
-          })}
+          <FormattedMessage id="admin.reset.button" />
         </Button>
       </div>
     ),
@@ -132,17 +137,15 @@ const DiplomaTableView = ({
     message.success(
       intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful",
       })
     );
   };
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.error(
+    message.info(
       intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled",
       })
     );
   };
@@ -152,11 +155,9 @@ const DiplomaTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={intl.formatMessage({
-          id: "admin.delete.confirm",
-          defaultMessage:
-            "Are you sure you want to delete all the selected values?",
-        })}
+        title={<FormattedMessage id="admin.delete.diploma" />}
+        okText={<FormattedMessage id="admin.delete" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -165,38 +166,17 @@ const DiplomaTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
-        okText={intl.formatMessage({
-          id: "admin.delete",
-          defaultMessage: "Delete",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
       >
         <Button
           type="primary"
-          icon={<DeleteOutlined />}
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {intl.formatMessage({
-            id: "admin.delete",
-            defaultMessage: "Delete",
-          })}
+          <DeleteOutlined style={{ marginRight: 10 }} />
+          <FormattedMessage id="admin.delete" />
         </Button>
       </Popconfirm>
     );
-  };
-
-  /* handles the transfer of new or update/edited diploma information to function */
-  // Allows for backend action to occur based on modalType
-  const onCreate = async (values) => {
-    if (modalType === "edit") {
-      await handleSubmitEdit(values, record.id);
-    } else if (modalType === "add") {
-      await handleSubmitAdd(values);
-    }
   };
 
   /* handles closure of add or edit diploma modal */
@@ -242,31 +222,20 @@ const DiplomaTableView = ({
     return (
       <Modal
         visible={addVisible}
-        title={intl.formatMessage({
-          id: "admin.add.diploma",
-          defaultMessage: "Add Diploma",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.add.diploma" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={() => {
           addForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitAdd(values);
               addForm.resetFields();
               handleOk();
             })
             .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
-              } else {
-                handleCancel();
               }
             });
         }}
@@ -278,48 +247,34 @@ const DiplomaTableView = ({
         <Form form={addForm} name="addDiploma" layout="vertical">
           <Form.Item
             name="addDiplomaEn"
-            label={intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
+            label={<FormattedMessage id="language.english" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
+                message: <FormattedMessage id="admin.validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionEn",
-                defaultMessage: "Diploma description in English",
               })}
               allowClear
             />
           </Form.Item>
           <Form.Item
             name="addDiplomaFr"
-            label={intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
+            label={<FormattedMessage id="language.french" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.description",
-                  defaultMessage: "Please complete the description!",
-                }),
+                message: <FormattedMessage id="admin.validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionFr",
-                defaultMessage: "Diploma description in French",
               })}
               allowClear
             />
@@ -334,23 +289,14 @@ const DiplomaTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={intl.formatMessage({
-          id: "admin.edit.diploma",
-          defaultMessage: "Edit Diploma",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.edit.diploma" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={() => {
           editForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitEdit(values, record.id);
               editForm.resetFields();
               handleOk();
             })
@@ -376,29 +322,21 @@ const DiplomaTableView = ({
         >
           <Form.Item
             name="editDiplomaEn"
-            label={intl.formatMessage({
-              id: "language.english",
-              defaultMessage: "English",
-            })}
+            label={<FormattedMessage id="language.english" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionEn",
-                defaultMessage: "Diploma description in English",
               })}
             />
           </Form.Item>
           <Form.Item
             name="editDiplomaFr"
-            label={intl.formatMessage({
-              id: "language.french",
-              defaultMessage: "French",
-            })}
+            label={<FormattedMessage id="language.french" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.diploma.descriptionFr",
-                defaultMessage: "Diploma description in French",
               })}
             />
           </Form.Item>
@@ -407,112 +345,74 @@ const DiplomaTableView = ({
     );
   };
 
-  /* gets sort direction for a table column */
-  // Use for tables that need a French and English column
-  // Will change sort capability of column based on current language of page
-  const getSortDirection = (column) => {
-    const currentLanguage =
-      intl.formatMessage({ id: "language.code" }) === "en" ? "en" : "fr";
-    if (column === currentLanguage) {
-      return ["descend"];
-    }
-    return ["ascend", "descend"];
-  };
-
   /* Sets up the columns for the diploma table */
+  // Table columns data structure: array of objects
   // Consult: Ant Design table components for further clarification
-  const diplomaTableColumns = () => {
-    // Table columns data structure: array of objects
-    const diplomaTableCol = [
-      {
-        title: intl.formatMessage({
+  const diplomaTableColumns = () => [
+    {
+      title: <FormattedMessage id="language.english" />,
+      dataIndex: "en",
+      key: "en",
+      sorter: (a, b) => {
+        return a.en.localeCompare(b.en);
+      },
+      sortDirections: locale === "en" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "en",
+        intl.formatMessage({
           id: "language.english",
-          defaultMessage: "English",
-        }),
-        dataIndex: "descriptionEn",
-        key: "diplomaEn",
-        sorter: (a, b) => {
-          return a.descriptionEn.localeCompare(b.descriptionEn);
-        },
-        sortDirections: getSortDirection("en"),
-        ...getColumnSearchProps(
-          "descriptionEn",
-          intl.formatMessage({
-            id: "language.english",
-            defaultMessage: "English",
-          })
-        ),
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="language.french" />,
+      dataIndex: "fr",
+      key: "fr",
+      sorter: (a, b) => {
+        return a.fr.localeCompare(b.fr);
       },
-      {
-        title: intl.formatMessage({
+      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "fr",
+        intl.formatMessage({
           id: "language.french",
-          defaultMessage: "French",
-        }),
-        dataIndex: "descriptionFr",
-        key: "diplomaFr",
-        sorter: (a, b) => {
-          return a.descriptionFr.localeCompare(b.descriptionFr);
-        },
-        sortDirections: getSortDirection("fr"),
-        ...getColumnSearchProps(
-          "descriptionFr",
-          intl.formatMessage({
-            id: "language.french",
-            defaultMessage: "French",
-          })
-        ),
-      },
-      {
-        title: intl.formatMessage({
-          id: "admin.edit",
-          defaultMessage: "Edit",
-        }),
-        key: "edit",
-        render: (item) => (
-          <div>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setFields([
-                  { name: ["editDiplomaEn"], value: item.descriptionEn },
-                  { name: ["editDiplomaFr"], value: item.descriptionFr },
-                ]);
-                handleEditModal(item);
-              }}
-            />
-          </div>
-        ),
-      },
-    ];
-    return diplomaTableCol;
-  };
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.edit" />,
+      key: "edit",
+      render: (item) => (
+        <div>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setFields([
+                { name: ["editDiplomaEn"], value: item.en },
+                { name: ["editDiplomaFr"], value: item.fr },
+              ]);
+              handleEditModal(item);
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
       {addDiplomaModal()}
       {editDiplomaModal()}
       <PageHeader
-        title={intl.formatMessage({
-          id: "admin.diploma.table",
-          defaultMessage: "Diplomas Table",
-        })}
+        title={<FormattedMessage id="admin.diploma.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              size={size}
-              onClick={() => {
-                handleAddModal();
-              }}
-            >
-              {intl.formatMessage({
-                id: "admin.add",
-                defaultMessage: "Add",
-              })}
+            <Button type="primary" size={size} onClick={handleAddModal}>
+              <PlusCircleOutlined style={{ marginRight: 10 }} />
+              <FormattedMessage id="admin.add" />
             </Button>
           </>
         }
@@ -523,7 +423,8 @@ const DiplomaTableView = ({
             showSorterTooltip={false}
             rowSelection={rowSelection}
             columns={diplomaTableColumns()}
-            dataSource={data}
+            dataSource={sortedData}
+            loading={loading}
           />
         </Col>
       </Row>
@@ -532,13 +433,6 @@ const DiplomaTableView = ({
 };
 
 DiplomaTableView.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  // data: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     description: PropTypes.string.isRequired,
-  //     allDiplomas: PropTypes.arrayOf(PropTypes.any).isRequired,
-  //   })
-  // ).isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,

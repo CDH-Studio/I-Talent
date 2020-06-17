@@ -70,12 +70,6 @@ optionsRouter.get(
   keycloak.protect("view-admin-console"),
   categories.getCategoriesAllLang
 );
-optionsRouter.get(
-  "/categoriesSkills",
-  keycloak.protect("view-admin-console"),
-  langValidator,
-  categories.getCategoriesSkills
-);
 
 optionsRouter.get("/classifications", classifications.getClassifications);
 

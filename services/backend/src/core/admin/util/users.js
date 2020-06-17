@@ -12,6 +12,7 @@ const getUsers = async (request, response) => {
     const usersQuery = await prisma.users.findMany({
       select: {
         id: true,
+        createdAt: true,
         firstName: true,
         lastName: true,
         status: true,
@@ -39,6 +40,9 @@ const getUsers = async (request, response) => {
             },
           },
         },
+      },
+      orderBy: {
+        firstName: "asc",
       },
     });
 
