@@ -246,8 +246,6 @@ const DiplomaTableView = ({
             .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
-              } else {
-                handleCancel();
               }
             });
         }}
