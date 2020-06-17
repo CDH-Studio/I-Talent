@@ -27,7 +27,7 @@ const DiplomaTable = ({ intl }) => {
 
   const dispatch = useDispatch();
 
-  // Get diploma information
+  // Fetches the diploma information
   const getDiplomas = useCallback(async () => {
     try {
       dispatch(setAdminDiplomasLoading(true));
@@ -48,23 +48,11 @@ const DiplomaTable = ({ intl }) => {
     }
   }, [dispatch]);
 
-  // Get part of the title for the page
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.diploma.plural`,
-      });
-
-    return intl.formatMessage({
-      id: `admin.diploma.singular`,
-    });
-  };
-
   useEffect(() => {
     getDiplomas();
   }, [getDiplomas]);
 
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -72,14 +60,14 @@ const DiplomaTable = ({ intl }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a diploma */
+  // Handles addition of a diploma
   const handleSubmitAdd = async (values) => {
     await axios.post(`${backendAddress}api/option/diploma`, {
       en: values.addDiplomaEn,
@@ -89,7 +77,7 @@ const DiplomaTable = ({ intl }) => {
     getDiplomas();
   };
 
-  /* handles the update/edit of a diploma */
+  // Handles the update/edit of a diploma
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`${backendAddress}api/option/diploma`, {
       id,
@@ -100,7 +88,7 @@ const DiplomaTable = ({ intl }) => {
     getDiplomas();
   };
 
-  /* handles the deletion of a diploma */
+  // Handles the deletion of a diploma
   const handleSubmitDelete = async () => {
     await axios.delete(`${backendAddress}api/option/diplomas`, {
       data: {
@@ -112,14 +100,14 @@ const DiplomaTable = ({ intl }) => {
     getDiplomas();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (modifiedSelectedRowKeys) => {
     // Can access the keys of each diploma selected in the table
     setSelectedRowKeys(modifiedSelectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (modifiedSelectedRowKeys) => {
@@ -127,7 +115,21 @@ const DiplomaTable = ({ intl }) => {
     },
   };
 
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.diploma.plural`,
+        });
+
+      return intl.formatMessage({
+        id: `admin.diploma.singular`,
+      });
+    };
+
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <DiplomaTableView

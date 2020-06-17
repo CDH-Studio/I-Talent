@@ -68,14 +68,12 @@ const CategoryTableView = ({
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
-      // eslint-disable-next-line react/prop-types
+      /* eslint-disable react/prop-types */
       setSelectedKeys,
-      // eslint-disable-next-line react/prop-types
       selectedKeys,
-      // eslint-disable-next-line react/prop-types
       confirm,
-      // eslint-disable-next-line react/prop-types
       clearFilters,
+      /* eslint-enable react/prop-types */
     }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -133,16 +131,6 @@ const CategoryTableView = ({
         text
       ),
   });
-
-  /* handles the transfer of new or update/edited category information to function */
-  // Allows for backend action to occur based on modalType
-  const onCreate = async (values) => {
-    if (modalType === "edit") {
-      await handleSubmitEdit(values, record.id);
-    } else if (modalType === "add") {
-      await handleSubmitAdd(values);
-    }
-  };
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
@@ -219,7 +207,7 @@ const CategoryTableView = ({
           addForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitAdd(values);
               addForm.resetFields();
               handleOk();
             })
@@ -286,7 +274,7 @@ const CategoryTableView = ({
           editForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitEdit(values, record.id);
               editForm.resetFields();
               handleOk();
             })
@@ -361,6 +349,7 @@ const CategoryTableView = ({
   };
 
   /* Sets up the columns for the category table */
+  // Table columns data structure: array of objects
   // Consult: Ant Design table components for further clarification
   const categoryTableColumns = () => [
     {

@@ -51,14 +51,12 @@ const UserTableView = ({
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
-      // eslint-disable-next-line react/prop-types
+      /* eslint-disable react/prop-types */
       setSelectedKeys,
-      // eslint-disable-next-line react/prop-types
       selectedKeys,
-      // eslint-disable-next-line react/prop-types
       confirm,
-      // eslint-disable-next-line react/prop-types
       clearFilters,
+      /* eslint-enable react/prop-types */
     }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -185,92 +183,89 @@ const UserTableView = ({
   };
 
   /* Sets up the columns for the user table */
-  // Consult: Ant Design table components for further clarification
-  const userTableColumns = () => {
-    // Table columns data structure: array of objects
-    const tableColumns = [
-      {
-        title: <FormattedMessage id="admin.view" />,
-        render: (record) => (
-          <span>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<LinkOutlined />}
-              onClick={() => window.open(record.profileLink)}
-            />
-          </span>
-        ),
-      },
-      {
-        title: <FormattedMessage id="admin.name" />,
-        dataIndex: "fullName",
-        key: "name",
-        sorter: (a, b) => {
-          return a.fullName.localeCompare(b.fullName);
-        },
-        sortDirections: ["descend"],
-        ...getColumnSearchProps(
-          "fullName",
-          intl.formatMessage({
-            id: "admin.name",
-          })
-        ),
-      },
-      {
-        title: <FormattedMessage id="admin.job.title" />,
-        dataIndex: "jobTitle",
-        key: "jobTitle",
-        sorter: (a, b) => {
-          return a.jobTitle.localeCompare(b.jobTitle);
-        },
-        ...getColumnSearchProps(
-          "jobTitle",
-          intl.formatMessage({
-            id: "admin.job.title",
-          })
-        ),
-      },
-      {
-        title: <FormattedMessage id="admin.registered" />,
-        dataIndex: "formatCreatedAt",
-        key: "registered",
-        sorter: (a, b) => {
-          return (
-            moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
-          );
-        },
-        ...getColumnSearchProps(
-          "formatCreatedAt",
-          intl.formatMessage({
-            id: "admin.registered",
-          })
-        ),
-      },
-      {
-        title: <FormattedMessage id="admin.tenure" />,
-        dataIndex: "tenure",
-        key: "tenure",
-        sorter: (a, b) => {
-          return a.tenure.localeCompare(b.tenure);
-        },
-        ...getColumnSearchProps(
-          "tenure",
-          intl.formatMessage({
-            id: "admin.tenure",
-          })
-        ),
-      },
-      {
-        title: <FormattedMessage id="admin.profileStatus" />,
-        render: (record) => {
-          return renderStatusDropdown(record.key, record.status);
-        },
-      },
-    ];
+  // Table columns data structure: array of objects
 
-    return tableColumns;
-  };
+  // Consult: Ant Design table components for further clarification
+  const userTableColumns = () => [
+    {
+      title: <FormattedMessage id="admin.view" />,
+      render: (record) => (
+        <span>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<LinkOutlined />}
+            onClick={() => window.open(record.profileLink)}
+          />
+        </span>
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.name" />,
+      dataIndex: "fullName",
+      key: "name",
+      sorter: (a, b) => {
+        return a.fullName.localeCompare(b.fullName);
+      },
+      sortDirections: ["descend"],
+      ...getColumnSearchProps(
+        "fullName",
+        intl.formatMessage({
+          id: "admin.name",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.job.title" />,
+      dataIndex: "jobTitle",
+      key: "jobTitle",
+      sorter: (a, b) => {
+        return a.jobTitle.localeCompare(b.jobTitle);
+      },
+      ...getColumnSearchProps(
+        "jobTitle",
+        intl.formatMessage({
+          id: "admin.job.title",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.registered" />,
+      dataIndex: "formatCreatedAt",
+      key: "registered",
+      sorter: (a, b) => {
+        return (
+          moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
+        );
+      },
+      ...getColumnSearchProps(
+        "formatCreatedAt",
+        intl.formatMessage({
+          id: "admin.registered",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.tenure" />,
+      dataIndex: "tenure",
+      key: "tenure",
+      sorter: (a, b) => {
+        return a.tenure.localeCompare(b.tenure);
+      },
+      ...getColumnSearchProps(
+        "tenure",
+        intl.formatMessage({
+          id: "admin.tenure",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.profileStatus" />,
+      render: (record) => {
+        return renderStatusDropdown(record.key, record.status);
+      },
+    },
+  ];
 
   return (
     <>

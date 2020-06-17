@@ -85,14 +85,12 @@ const SkillTableView = ({
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
-      // eslint-disable-next-line react/prop-types
+      /* eslint-disable react/prop-types */
       setSelectedKeys,
-      // eslint-disable-next-line react/prop-types
       selectedKeys,
-      // eslint-disable-next-line react/prop-types
       confirm,
-      // eslint-disable-next-line react/prop-types
       clearFilters,
+      /* eslint-enable react/prop-types */
     }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -149,16 +147,6 @@ const SkillTableView = ({
         text
       ),
   });
-
-  /* handles the transfer of new or update/edited skill information to function */
-  // Allows for backend action to occur based on modalType
-  const onCreate = async (values) => {
-    if (modalType === "edit") {
-      await handleSubmitEdit(values, record.id);
-    } else if (modalType === "add") {
-      await handleSubmitAdd(values);
-    }
-  };
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
@@ -257,7 +245,7 @@ const SkillTableView = ({
           editForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitEdit(values, record.id);
               editForm.resetFields();
               handleOk();
             })
@@ -332,82 +320,78 @@ const SkillTableView = ({
   };
 
   /* Sets up the columns for the skill table */
+  // Table columns data structure: array of objects
   // Consult: Ant Design table components for further clarification
-  const skillTableColumns = () => {
-    // Table columns data structure: array of objects
-    const skillTableColumns = [
-      {
-        title: <FormattedMessage id="admin.category" />,
-        dataIndex: "category",
-        key: "category",
-        sorter: (a, b) => {
-          return a.category.localeCompare(b.category);
-        },
-        ...getColumnSearchProps(
-          "category",
-          intl.formatMessage({
-            id: "admin.category",
-          })
-        ),
+  const skillTableColumns = () => [
+    {
+      title: <FormattedMessage id="admin.category" />,
+      dataIndex: "category",
+      key: "category",
+      sorter: (a, b) => {
+        return a.category.localeCompare(b.category);
       },
-      {
-        title: <FormattedMessage id="language.english" />,
-        dataIndex: "en",
-        key: "en",
-        sorter: (a, b) => {
-          return a.en.localeCompare(b.en);
-        },
-        sortDirections: locale === "en" ? ["descend"] : undefined,
-        ...getColumnSearchProps(
-          "en",
-          intl.formatMessage({
-            id: "language.english",
-          })
-        ),
+      ...getColumnSearchProps(
+        "category",
+        intl.formatMessage({
+          id: "admin.category",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="language.english" />,
+      dataIndex: "en",
+      key: "en",
+      sorter: (a, b) => {
+        return a.en.localeCompare(b.en);
       },
-      {
-        title: <FormattedMessage id="language.french" />,
-        dataIndex: "fr",
-        key: "fr",
-        sorter: (a, b) => {
-          return a.fr.localeCompare(b.fr);
-        },
-        sortDirections: locale === "fr" ? ["descend"] : undefined,
-        ...getColumnSearchProps(
-          "fr",
-          intl.formatMessage({
-            id: "language.french",
-          })
-        ),
+      sortDirections: locale === "en" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "en",
+        intl.formatMessage({
+          id: "language.english",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="language.french" />,
+      dataIndex: "fr",
+      key: "fr",
+      sorter: (a, b) => {
+        return a.fr.localeCompare(b.fr);
       },
-      {
-        title: <FormattedMessage id="admin.edit" />,
-        key: "edit",
-        render: (record) => (
-          <div>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setFields([
-                  { name: ["editSkillEn"], value: record.en },
-                  { name: ["editSkillFr"], value: record.fr },
-                  {
-                    name: ["editSkillCategoryId"],
-                    value: record.categoryId,
-                  },
-                ]);
-                handleEditModal(record);
-              }}
-            />
-          </div>
-        ),
-      },
-    ];
-
-    return skillTableColumns;
-  };
+      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "fr",
+        intl.formatMessage({
+          id: "language.french",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.edit" />,
+      key: "edit",
+      render: (record) => (
+        <div>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setFields([
+                { name: ["editSkillEn"], value: record.en },
+                { name: ["editSkillFr"], value: record.fr },
+                {
+                  name: ["editSkillCategoryId"],
+                  value: record.categoryId,
+                },
+              ]);
+              handleEditModal(record);
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
 
   /* Renders "Add Skill" modal */
   const addSkillButton = () => {
@@ -421,7 +405,7 @@ const SkillTableView = ({
           addForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitAdd(values);
               addForm.resetFields();
               handleOk();
             })

@@ -208,16 +208,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     );
   };
 
-  /* handles the transfer of new or update/edited school information to function */
-  // Allows for backend action to occur based on modalType
-  const onCreate = async (values) => {
-    if (modalType === "edit") {
-      await handleSubmitEdit(values, record.id);
-    } else if (modalType === "add") {
-      await handleSubmitAdd(values);
-    }
-  };
-
   /* handles closure of add or edit school modal */
   // occurs if "Ok" option is hit
   const handleOk = () => {
@@ -268,7 +258,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           addForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitAdd(values);
               addForm.resetFields();
               handleOk();
             })
@@ -381,7 +371,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           editForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitEdit(values, record.id);
               editForm.resetFields();
               handleOk();
             })
@@ -453,106 +443,104 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* Sets up the columns for the school table */
+  // Table columns data structure: array of objects
   // Consult: Ant Design table components for further clarification
-  const schoolsTableColumns = () => {
-    // Table columns data structure: array of objects
-    return [
-      {
-        title: <FormattedMessage id="language.english" />,
-        dataIndex: "en",
-        key: "en",
-        sorter: (a, b) => {
-          if (!a.en) {
-            return 1;
-          }
-          if (!b.en) {
-            return -1;
-          }
+  const schoolsTableColumns = () => [
+    {
+      title: <FormattedMessage id="language.english" />,
+      dataIndex: "en",
+      key: "en",
+      sorter: (a, b) => {
+        if (!a.en) {
+          return 1;
+        }
+        if (!b.en) {
+          return -1;
+        }
 
-          return a.en.localeCompare(b.en);
-        },
-        sortDirections: locale === "en" ? ["descend"] : undefined,
-        ...getColumnSearchProps(
-          "en",
-          intl.formatMessage({
-            id: "language.english",
-          })
-        ),
+        return a.en.localeCompare(b.en);
       },
-      {
-        title: <FormattedMessage id="language.french" />,
-        dataIndex: "fr",
-        key: "fr",
-        sorter: (a, b) => {
-          if (!a.fr) {
-            return 1;
-          }
-          if (!b.fr) {
-            return -1;
-          }
+      sortDirections: locale === "en" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "en",
+        intl.formatMessage({
+          id: "language.english",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="language.french" />,
+      dataIndex: "fr",
+      key: "fr",
+      sorter: (a, b) => {
+        if (!a.fr) {
+          return 1;
+        }
+        if (!b.fr) {
+          return -1;
+        }
 
-          return a.fr.localeCompare(b.fr);
-        },
-        sortDirections: locale === "fr" ? ["descend"] : undefined,
-        ...getColumnSearchProps(
-          "fr",
-          intl.formatMessage({
-            id: "language.french",
-          })
-        ),
+        return a.fr.localeCompare(b.fr);
       },
-      {
-        title: <FormattedMessage id="admin.state" />,
-        dataIndex: "abbrProvince",
-        key: "schoolState",
-        sorter: (a, b) => {
-          return a.abbrProvince.localeCompare(b.abbrProvince);
-        },
-        ...getColumnSearchProps(
-          "abbrProvince",
-          intl.formatMessage({
-            id: "admin.state",
-          })
-        ),
+      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "fr",
+        intl.formatMessage({
+          id: "language.french",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.state" />,
+      dataIndex: "abbrProvince",
+      key: "schoolState",
+      sorter: (a, b) => {
+        return a.abbrProvince.localeCompare(b.abbrProvince);
       },
-      {
-        title: <FormattedMessage id="admin.country" />,
-        dataIndex: "abbrCountry",
-        key: "schoolCountry",
-        sorter: (a, b) => {
-          return a.abbrCountry.localeCompare(b.abbrCountry);
-        },
-        ...getColumnSearchProps(
-          "abbrCountry",
-          intl.formatMessage({
-            id: "admin.country",
-          })
-        ),
+      ...getColumnSearchProps(
+        "abbrProvince",
+        intl.formatMessage({
+          id: "admin.state",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.country" />,
+      dataIndex: "abbrCountry",
+      key: "schoolCountry",
+      sorter: (a, b) => {
+        return a.abbrCountry.localeCompare(b.abbrCountry);
       },
-      {
-        title: <FormattedMessage id="admin.edit" />,
-        key: "edit",
-        render: (item) => (
-          <div>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setFields([
-                  { name: ["editSchoolEn"], value: item.en },
-                  { name: ["editSchoolFr"], value: item.fr },
-                  { name: ["editSchoolProvince"], value: item.abbrProvince },
-                  { name: ["editSchoolCountry"], value: item.abbrCountry },
-                ]);
-                handleEditModal(item);
-              }}
-            />
-          </div>
-        ),
-      },
-    ];
-  };
+      ...getColumnSearchProps(
+        "abbrCountry",
+        intl.formatMessage({
+          id: "admin.country",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.edit" />,
+      key: "edit",
+      render: (item) => (
+        <div>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setFields([
+                { name: ["editSchoolEn"], value: item.en },
+                { name: ["editSchoolFr"], value: item.fr },
+                { name: ["editSchoolProvince"], value: item.abbrProvince },
+                { name: ["editSchoolCountry"], value: item.abbrCountry },
+              ]);
+              handleEditModal(item);
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>

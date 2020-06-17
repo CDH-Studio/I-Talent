@@ -179,16 +179,6 @@ const DiplomaTableView = ({
     );
   };
 
-  /* handles the transfer of new or update/edited diploma information to function */
-  // Allows for backend action to occur based on modalType
-  const onCreate = async (values) => {
-    if (modalType === "edit") {
-      await handleSubmitEdit(values, record.id);
-    } else if (modalType === "add") {
-      await handleSubmitAdd(values);
-    }
-  };
-
   /* handles closure of add or edit diploma modal */
   // occurs if "Ok" option is hit
   const handleOk = () => {
@@ -239,7 +229,7 @@ const DiplomaTableView = ({
           addForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitAdd(values);
               addForm.resetFields();
               handleOk();
             })
@@ -306,7 +296,7 @@ const DiplomaTableView = ({
           editForm
             .validateFields()
             .then(async (values) => {
-              await onCreate(values);
+              await handleSubmitEdit(values, record.id);
               editForm.resetFields();
               handleOk();
             })
@@ -356,63 +346,60 @@ const DiplomaTableView = ({
   };
 
   /* Sets up the columns for the diploma table */
+  // Table columns data structure: array of objects
   // Consult: Ant Design table components for further clarification
-  const diplomaTableColumns = () => {
-    // Table columns data structure: array of objects
-    const diplomaTableCol = [
-      {
-        title: <FormattedMessage id="language.english" />,
-        dataIndex: "en",
-        key: "en",
-        sorter: (a, b) => {
-          return a.en.localeCompare(b.en);
-        },
-        sortDirections: locale === "en" ? ["descend"] : undefined,
-        ...getColumnSearchProps(
-          "en",
-          intl.formatMessage({
-            id: "language.english",
-          })
-        ),
+  const diplomaTableColumns = () => [
+    {
+      title: <FormattedMessage id="language.english" />,
+      dataIndex: "en",
+      key: "en",
+      sorter: (a, b) => {
+        return a.en.localeCompare(b.en);
       },
-      {
-        title: <FormattedMessage id="language.french" />,
-        dataIndex: "fr",
-        key: "fr",
-        sorter: (a, b) => {
-          return a.fr.localeCompare(b.fr);
-        },
-        sortDirections: locale === "fr" ? ["descend"] : undefined,
-        ...getColumnSearchProps(
-          "fr",
-          intl.formatMessage({
-            id: "language.french",
-          })
-        ),
+      sortDirections: locale === "en" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "en",
+        intl.formatMessage({
+          id: "language.english",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="language.french" />,
+      dataIndex: "fr",
+      key: "fr",
+      sorter: (a, b) => {
+        return a.fr.localeCompare(b.fr);
       },
-      {
-        title: <FormattedMessage id="admin.edit" />,
-        key: "edit",
-        render: (item) => (
-          <div>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setFields([
-                  { name: ["editDiplomaEn"], value: item.en },
-                  { name: ["editDiplomaFr"], value: item.fr },
-                ]);
-                handleEditModal(item);
-              }}
-            />
-          </div>
-        ),
-      },
-    ];
-    return diplomaTableCol;
-  };
+      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "fr",
+        intl.formatMessage({
+          id: "language.french",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.edit" />,
+      key: "edit",
+      render: (item) => (
+        <div>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setFields([
+                { name: ["editDiplomaEn"], value: item.en },
+                { name: ["editDiplomaFr"], value: item.fr },
+              ]);
+              handleEditModal(item);
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>

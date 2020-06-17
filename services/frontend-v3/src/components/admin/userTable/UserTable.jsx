@@ -29,7 +29,7 @@ function UserTable({ intl }) {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
-  /* get user information */
+  // Fetches the user information
   const getUserInformation = useCallback(async () => {
     try {
       dispatch(setAdminUsersLoading(true));
@@ -62,7 +62,7 @@ function UserTable({ intl }) {
     getUserInformation();
   }, [getUserInformation]);
 
-  /* handles profile status change */
+  // Handles profile status change
   const handleApply = async () => {
     const url = `${backendAddress}api/admin/userStatuses`;
 
@@ -72,19 +72,7 @@ function UserTable({ intl }) {
     getUserInformation();
   };
 
-  /* get part of the title for the page */
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.user.plural`,
-      });
-
-    return intl.formatMessage({
-      id: `admin.user.singular`,
-    });
-  };
-
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -92,14 +80,14 @@ function UserTable({ intl }) {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles dropdown option change */
+  // Handles dropdown option change
   // Takes note of change in statuses through id, so it can update user(s) when "Apply" is hit.
   const handleDropdownChange = (status, id) => {
     const addStatus = statuses;
@@ -109,7 +97,7 @@ function UserTable({ intl }) {
     setStatuses(addStatus);
   };
 
-  /* gets user's profile status value to display in dropdown */
+  // Gets user's profile status value to display in dropdown
   const profileStatusValue = (status) => {
     switch (status) {
       case "INACTIVE":
@@ -129,7 +117,21 @@ function UserTable({ intl }) {
     }
   };
 
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.user.plural`,
+        });
+
+      return intl.formatMessage({
+        id: `admin.user.singular`,
+      });
+    };
+
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <UserTableView

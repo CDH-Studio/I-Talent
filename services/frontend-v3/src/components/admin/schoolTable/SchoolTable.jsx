@@ -27,7 +27,7 @@ const SchoolTable = ({ intl }) => {
 
   const dispatch = useDispatch();
 
-  /* get school information */
+  // Fetches the school information
   const getSchools = useCallback(async () => {
     try {
       dispatch(setAdminSchoolsLoading(true));
@@ -52,19 +52,7 @@ const SchoolTable = ({ intl }) => {
     getSchools();
   }, [getSchools]);
 
-  /* get part of the title for the page */
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.school.plural`,
-      });
-
-    return intl.formatMessage({
-      id: `admin.school.singular`,
-    });
-  };
-
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -72,14 +60,14 @@ const SchoolTable = ({ intl }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a school */
+  // Handles addition of a school
   const handleSubmitAdd = async (values) => {
     await axios.post(`${backendAddress}api/option/school`, {
       en: values.addSchoolEn,
@@ -91,7 +79,7 @@ const SchoolTable = ({ intl }) => {
     getSchools();
   };
 
-  /* handles the update/edit of a school */
+  // Handles the update/edit of a school
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`${backendAddress}api/option/school`, {
       id,
@@ -104,7 +92,7 @@ const SchoolTable = ({ intl }) => {
     getSchools();
   };
 
-  /* handles the deletion of a school */
+  // Handles the deletion of a school
   const handleSubmitDelete = async () => {
     await axios.delete(`${backendAddress}api/option/schools`, {
       data: {
@@ -116,14 +104,14 @@ const SchoolTable = ({ intl }) => {
     getSchools();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (_selectedRowKeys) => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (_selectedRowKeys) => {
@@ -131,7 +119,21 @@ const SchoolTable = ({ intl }) => {
     },
   };
 
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.school.plural`,
+        });
+
+      return intl.formatMessage({
+        id: `admin.school.singular`,
+      });
+    };
+
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <SchoolTableView

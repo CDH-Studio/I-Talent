@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { injectIntl } from "react-intl";
@@ -31,7 +30,7 @@ const SkillTable = ({ intl }) => {
 
   const dispatch = useDispatch();
 
-  /* get skill information */
+  // Fetches the skill information
   const getSkill = useCallback(async () => {
     try {
       dispatch(setAdminSkillsLoading(true));
@@ -52,7 +51,7 @@ const SkillTable = ({ intl }) => {
     }
   }, [dispatch]);
 
-  /* get category information */
+  // Fetches the category information
   const getCategories = useCallback(async () => {
     try {
       dispatch(setAdminCategoriesLoading(true));
@@ -78,19 +77,7 @@ const SkillTable = ({ intl }) => {
     getCategories();
   }, [getCategories, getSkill]);
 
-  /* get part of the title for the page */
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.skill.plural`,
-      });
-
-    return intl.formatMessage({
-      id: `admin.skill.singular`,
-    });
-  };
-
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -98,14 +85,14 @@ const SkillTable = ({ intl }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a skill */
+  // Handles addition of a skill
   const handleSubmitAdd = async (values) => {
     await axios.post(`${backendAddress}api/option/skill`, {
       en: values.addSkillEn,
@@ -116,7 +103,7 @@ const SkillTable = ({ intl }) => {
     getSkill();
   };
 
-  /* handles the update/edit of a skill */
+  // Handles the update/edit of a skill
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`${backendAddress}api/option/skill`, {
       id,
@@ -128,7 +115,7 @@ const SkillTable = ({ intl }) => {
     getSkill();
   };
 
-  /* handles the deletion of a skill */
+  // Handles the deletion of a skill
   const handleSubmitDelete = async () => {
     await axios.delete(`${backendAddress}api/option/skills`, {
       data: {
@@ -140,23 +127,36 @@ const SkillTable = ({ intl }) => {
     getSkill();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
+  const onSelectChange = (_selectedRowKeys) => {
     // Can access the keys of each skill selected in the table
-    setSelectedRowKeys(selectedRowKeys);
+    setSelectedRowKeys(_selectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
-      console.log(selectedRowKeys);
-      onSelectChange(selectedRowKeys);
+    onChange: (_selectedRowKeys) => {
+      onSelectChange(_selectedRowKeys);
     },
   };
 
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.skill.plural`,
+        });
+
+      return intl.formatMessage({
+        id: `admin.skill.singular`,
+      });
+    };
+
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  });
 
   return (
     <SkillTableView

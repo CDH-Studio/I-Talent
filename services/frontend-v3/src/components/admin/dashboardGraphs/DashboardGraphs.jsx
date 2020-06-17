@@ -21,7 +21,6 @@ const DashboardGraphs = () => {
 
       const shortMonthNames = moment.monthsShort();
 
-
       Object.keys(rate).forEach((year) => {
         Object.keys(rate[year]).forEach((month) => {
           data.push({

@@ -28,7 +28,7 @@ const CompetencyTable = ({ intl }) => {
 
   const dispatch = useDispatch();
 
-  /* get competency information */
+  // Fetches the competency information
   const getCompetencies = useCallback(async () => {
     try {
       dispatch(setAdminCompetenciesLoading(true));
@@ -49,25 +49,11 @@ const CompetencyTable = ({ intl }) => {
     }
   }, [dispatch]);
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
     getCompetencies();
   }, [getCompetencies]);
 
-  /* get part of the title for the page */
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.competency.plural`,
-      });
-
-    return intl.formatMessage({
-      id: `admin.competency.singular`,
-    });
-  };
-
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -75,14 +61,14 @@ const CompetencyTable = ({ intl }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a competency */
+  // Handles addition of a competency
   const handleSubmitAdd = async (values) => {
     await axios.post(`${backendAddress}api/option/competency`, {
       en: values.addCompetencyEn,
@@ -92,7 +78,7 @@ const CompetencyTable = ({ intl }) => {
     getCompetencies();
   };
 
-  /* handles the update/edit of a competency */
+  // Handles the update/edit of a competency
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`${backendAddress}api/option/competency`, {
       id,
@@ -103,7 +89,7 @@ const CompetencyTable = ({ intl }) => {
     getCompetencies();
   };
 
-  /* handles the deletion of a competency */
+  // Handles the deletion of a competency
   const handleSubmitDelete = async () => {
     await axios.delete(`${backendAddress}api/option/competencies`, {
       data: {
@@ -112,18 +98,17 @@ const CompetencyTable = ({ intl }) => {
     });
 
     setSelectedRowKeys([]);
-
     getCompetencies();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (selectedRowKeys) => {
     // Can access the keys of each competency selected in the table
     setSelectedRowKeys(selectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (selectedRowKeys) => {
@@ -131,7 +116,21 @@ const CompetencyTable = ({ intl }) => {
     },
   };
 
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.competency.plural`,
+        });
+
+      return intl.formatMessage({
+        id: `admin.competency.singular`,
+      });
+    };
+
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <CompetencyTableView
