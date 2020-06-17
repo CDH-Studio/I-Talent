@@ -14,6 +14,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  diplomas: {
+    data: [],
+    loading: true,
+  },
 };
 
 const adminSlice = createSlice({
@@ -49,6 +53,15 @@ const adminSlice = createSlice({
     setAdminCompetenciesLoading(state, action) {
       state.competencies.loading = action.payload;
     },
+    setAdminDiplomas(state, action) {
+      state.diplomas = {
+        data: action.payload,
+        loading: false,
+      };
+    },
+    setAdminDiplomasLoading(state, action) {
+      state.diplomas.loading = action.payload;
+    },
     clearAdmin() {
       return initialState;
     },
@@ -62,6 +75,8 @@ export const {
   setAdminCategoriesLoading,
   setAdminCompetencies,
   setAdminCompetenciesLoading,
+  setAdminDiplomas,
+  setAdminDiplomasLoading,
   clearAdmin,
 } = adminSlice.actions;
 

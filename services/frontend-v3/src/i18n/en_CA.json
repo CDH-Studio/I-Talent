@@ -61,6 +61,7 @@
   "admin.add.competency.descriptionEn": "Competency description in English",
   "admin.add.competency.descriptionFr": "Competency description in French",
   "admin.diploma.table": "Diplomas table",
+  "admin.delete.diploma": "Are you sure that you want to delete all the selected diplomas? This will consequently delete the users associated diplomas to their education.",
   "admin.add.diploma": "Add diploma",
   "admin.edit.diploma": "Edit diploma",
   "admin.add.diploma.descriptionEn": "Diploma description in English",
