@@ -18,8 +18,9 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 
@@ -39,7 +40,6 @@ const SchoolTableView = ({
   searchText,
   size,
   rowSelection,
-  data,
 }) => {
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -50,6 +50,8 @@ const SchoolTableView = ({
   const [fields, setFields] = useState([{}]);
 
   let searchInput;
+
+  const { data, loading } = useSelector((state) => state.admin.schools);
 
   /*
 clearFilters: ƒ onReset()
@@ -73,7 +75,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           }}
           placeholder={`${intl.formatMessage({
             id: "admin.search",
-            defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -89,20 +90,14 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {intl.formatMessage({
-            id: "admin.search.button",
-            defaultMessage: "Search",
-          })}
+          <FormattedMessage id="admin.search.button" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          {intl.formatMessage({
-            id: "admin.reset.button",
-            defaultMessage: "Reset",
-          })}
+          <FormattedMessage id="admin.reset.button" />
         </Button>
       </div>
     );
@@ -119,27 +114,38 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
       ),
-      onFilter: (_value, _record) =>
-        _record[dataIndex]
+      onFilter: (_value, _record) => {
+        if (!_record[dataIndex]) {
+          return _value === "-" || _value === "";
+        }
+        return _record[dataIndex]
           .toString()
           .toLowerCase()
-          .includes(_value.toLowerCase()),
+          .includes(_value.toLowerCase());
+      },
       onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInput.select());
         }
       },
-      render: (text) =>
-        searchedColumn === dataIndex ? (
-          <Highlighter
-            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-            searchWords={[searchText]}
-            autoEscape
-            textToHighlight={text.toString()}
-          />
-        ) : (
-          text
-        ),
+      render: (text) => {
+        if (searchedColumn === dataIndex) {
+          return (
+            <Highlighter
+              highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+              searchWords={[searchText]}
+              autoEscape
+              textToHighlight={text || "-"}
+            />
+          );
+        }
+
+        if (text) {
+          return text;
+        }
+
+        return "-";
+      },
     };
   };
 
@@ -150,7 +156,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     message.success(
       intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful",
       })
     );
   };
@@ -160,7 +165,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     message.info(
       intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled",
       })
     );
   };
@@ -170,11 +174,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     return (
       <Popconfirm
         placement="left"
-        title={intl.formatMessage({
-          id: "admin.delete.confirm",
-          defaultMessage:
-            "Are you sure you want to delete all the selected values?",
-        })}
+        title={<FormattedMessage id="admin.delete.school" />}
+        okText={<FormattedMessage id="admin.delete" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -183,25 +185,14 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onCancel={() => {
           popUpCancel();
         }}
-        okText={intl.formatMessage({
-          id: "admin.delete",
-          defaultMessage: "Delete",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
       >
         <Button
           type="primary"
-          icon={<DeleteOutlined />}
           size={size}
           disabled={selectedRowKeys.length === 0}
         >
-          {intl.formatMessage({
-            id: "admin.delete",
-            defaultMessage: "Delete",
-          })}
+          <DeleteOutlined style={{ marginRight: 10 }} />
+          <FormattedMessage id="admin.delete" />
         </Button>
       </Popconfirm>
     );
@@ -260,18 +251,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     return (
       <Modal
         visible={addVisible}
-        title={intl.formatMessage({
-          id: "admin.add.school",
-          defaultMessage: "Add School",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.add.school" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={() => {
           addForm
             .validateFields()
@@ -283,8 +265,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             .catch((error) => {
               if (error.isAxiosError) {
                 handleError(error, "message");
-              } else {
-                handleCancel();
               }
             });
         }}
@@ -295,49 +275,57 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       >
         <Form form={addForm} name="addSchool" layout="vertical">
           <Form.Item
-            name="addSchoolName"
-            label={intl.formatMessage({
-              id: "admin.name",
-              defaultMessage: "Name",
-            })}
+            name="addSchoolEn"
+            label={<FormattedMessage id="language.english" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.name",
-                  defaultMessage: "Please complete the school name!",
-                }),
+                message: <FormattedMessage id="admin.validate.name" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.school.name",
-                defaultMessage: "Input the school name",
               })}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="addSchoolState"
-            label={intl.formatMessage({
-              id: "admin.state.limit",
-              defaultMessage: "Province/State (2-Letter Abbreviation)",
-            })}
+            name="addSchoolFr"
+            label={<FormattedMessage id="language.french" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.location",
-                  defaultMessage: "Please complete the location information!",
-                }),
+                message: <FormattedMessage id="admin.validate.name" />,
+              },
+            ]}
+          >
+            <Input
+              placeholder={intl.formatMessage({
+                id: "admin.add.school.name",
+              })}
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item
+            name="addSchoolProvince"
+            label={<FormattedMessage id="admin.state.limit" />}
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="admin.validate.location" />,
+              },
+              {
+                min: 2,
+                max: 2,
+                message: <FormattedMessage id="admin.validate.length.2" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.school.state",
-                defaultMessage: "Input the location information",
               })}
               maxLength={2}
               allowClear
@@ -345,24 +333,22 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           </Form.Item>
           <Form.Item
             name="addSchoolCountry"
-            label={intl.formatMessage({
-              id: "admin.country.limit",
-              defaultMessage: "Country (3-Letter Abbreviation)",
-            })}
+            label={<FormattedMessage id="admin.country.limit" />}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({
-                  id: "admin.validate.country",
-                  defaultMessage: "Please complete the country name!",
-                }),
+                message: <FormattedMessage id="admin.validate.country" />,
+              },
+              {
+                min: 3,
+                max: 3,
+                message: <FormattedMessage id="admin.validate.length.3" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.school.country",
-                defaultMessage: "Input the country name",
               })}
               maxLength={3}
               allowClear
@@ -378,18 +364,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     return (
       <Modal
         visible={editVisible}
-        title={intl.formatMessage({
-          id: "admin.edit.school",
-          defaultMessage: "Edit School",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.apply",
-          defaultMessage: "Apply",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.edit.school" />}
+        okText={<FormattedMessage id="admin.apply" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onOk={() => {
           editForm
             .validateFields()
@@ -419,45 +396,43 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           }}
         >
           <Form.Item
-            name="editSchoolName"
-            label={intl.formatMessage({
-              id: "admin.name",
-              defaultMessage: "Name",
-            })}
+            name="editSchoolEn"
+            label={<FormattedMessage id="language.english" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.school.name",
-                defaultMessage: "Input the school name",
               })}
             />
           </Form.Item>
           <Form.Item
-            name="editSchoolState"
-            label={intl.formatMessage({
-              id: "admin.state.limit",
-              defaultMessage: "Province/State (2-Letter Abbreviation)",
-            })}
+            name="editSchoolFr"
+            label={<FormattedMessage id="language.french" />}
+          >
+            <Input
+              placeholder={intl.formatMessage({
+                id: "admin.add.school.name",
+              })}
+            />
+          </Form.Item>
+          <Form.Item
+            name="editSchoolProvince"
+            label={<FormattedMessage id="admin.state.limit" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.school.state",
-                defaultMessage: "Input the location information",
               })}
               maxLength={2}
             />
           </Form.Item>
           <Form.Item
             name="editSchoolCountry"
-            label={intl.formatMessage({
-              id: "admin.country.limit",
-              defaultMessage: "Country (3-Letter Abbreviation)",
-            })}
+            label={<FormattedMessage id="admin.country.limit" />}
           >
             <Input
               placeholder={intl.formatMessage({
                 id: "admin.add.school.state",
-                defaultMessage: "Input the location information",
               })}
               maxLength={3}
             />
@@ -473,69 +448,81 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     // Table columns data structure: array of objects
     return [
       {
-        title: intl.formatMessage({
-          id: "admin.name",
-          defaultMessage: "Name",
-        }),
-        dataIndex: "description",
-        key: "schoolName",
+        title: <FormattedMessage id="language.english" />,
+        dataIndex: "en",
+        key: "en",
         sorter: (a, b) => {
-          return a.description.localeCompare(b.description);
+          if (!a.en) {
+            return 1;
+          }
+          if (!b.en) {
+            return -1;
+          }
+
+          return a.en.localeCompare(b.en);
         },
-        sortDirections: ["descend"],
         ...getColumnSearchProps(
-          "description",
+          "en",
           intl.formatMessage({
-            id: "admin.school.singular",
-            defaultMessage: "School",
+            id: "language.english",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "admin.state",
-          defaultMessage: "Province/State",
-        }),
-        dataIndex: "state",
+        title: <FormattedMessage id="language.french" />,
+        dataIndex: "fr",
+        key: "fr",
+        sorter: (a, b) => {
+          if (!a.fr) {
+            return 1;
+          }
+          if (!b.fr) {
+            return -1;
+          }
+
+          return a.fr.localeCompare(b.fr);
+        },
+        ...getColumnSearchProps(
+          "fr",
+          intl.formatMessage({
+            id: "language.french",
+          })
+        ),
+      },
+      {
+        title: <FormattedMessage id="admin.state" />,
+        dataIndex: "abbrProvince",
         key: "schoolState",
         sorter: (a, b) => {
-          return a.state.localeCompare(b.state);
+          return a.abbrProvince.localeCompare(b.abbrProvince);
         },
         sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
-          "state",
+          "abbrProvince",
           intl.formatMessage({
             id: "admin.state",
-            defaultMessage: "Province/State",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "admin.country",
-          defaultMessage: "Country",
-        }),
-        dataIndex: "country",
+        title: <FormattedMessage id="admin.country" />,
+        dataIndex: "abbrCountry",
         key: "schoolCountry",
         sorter: (a, b) => {
-          return a.country.localeCompare(b.country);
+          return a.abbrCountry.localeCompare(b.abbrCountry);
         },
         sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
-          "country",
+          "abbrCountry",
           intl.formatMessage({
             id: "admin.country",
-            defaultMessage: "Country",
           })
         ),
       },
       {
-        title: intl.formatMessage({
-          id: "admin.edit",
-          defaultMessage: "Edit",
-        }),
+        title: <FormattedMessage id="admin.edit" />,
         key: "edit",
-        render: (_record) => (
+        render: (item) => (
           <div>
             <Button
               type="primary"
@@ -543,11 +530,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
               icon={<EditOutlined />}
               onClick={() => {
                 setFields([
-                  { name: ["editSchoolName"], value: _record.description },
-                  { name: ["editSchoolState"], value: _record.state },
-                  { name: ["editSchoolCountry"], value: _record.country },
+                  { name: ["editSchoolEn"], value: item.en },
+                  { name: ["editSchoolFr"], value: item.fr },
+                  { name: ["editSchoolProvince"], value: item.abbrProvince },
+                  { name: ["editSchoolCountry"], value: item.abbrCountry },
                 ]);
-                handleEditModal(_record);
+                handleEditModal(item);
               }}
             />
           </div>
@@ -561,25 +549,13 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <PageHeader
-        title={intl.formatMessage({
-          id: "admin.school.table",
-          defaultMessage: "Schools Table",
-        })}
+        title={<FormattedMessage id="admin.school.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              size={size}
-              onClick={() => {
-                handleAddModal();
-              }}
-            >
-              {intl.formatMessage({
-                id: "admin.add",
-                defaultMessage: "Add",
-              })}
+            <Button type="primary" size={size} onClick={handleAddModal}>
+              <PlusCircleOutlined style={{ marginRight: 10 }} />
+              <FormattedMessage id="admin.add" />
             </Button>
           </>
         }
@@ -590,6 +566,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             rowSelection={rowSelection}
             columns={schoolsTableColumns()}
             dataSource={data}
+            loading={loading}
           />
         </Col>
       </Row>
@@ -609,15 +586,6 @@ SchoolTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      country: PropTypes.string,
-      description: PropTypes.string,
-      id: PropTypes.string,
-      key: PropTypes.string,
-      state: PropTypes.string,
-    })
-  ).isRequired,
 };
 
 SchoolTableView.defaultProps = {
