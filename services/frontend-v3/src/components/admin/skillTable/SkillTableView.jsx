@@ -23,6 +23,8 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+import _ from "lodash";
+
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 
@@ -61,21 +63,21 @@ const SkillTableView = ({
 
   useEffect(() => {
     if (skills.data && categories.data.length > 0) {
-      setData(
-        skills.data.map((skill) => {
-          const category = categories.data.find(
-            (category) => category.id === skill.categoryId
-          );
-          return {
-            key: skill.id,
-            id: skill.id,
-            en: skill.en,
-            fr: skill.fr,
-            category: category ? category[locale] : undefined,
-            categoryId: skill.categoryId,
-          };
-        })
-      );
+      const unsortedData = skills.data.map((skill) => {
+        const category = categories.data.find(
+          (category) => category.id === skill.categoryId
+        );
+        return {
+          key: skill.id,
+          id: skill.id,
+          en: skill.en,
+          fr: skill.fr,
+          category: category ? category[locale] : undefined,
+          categoryId: skill.categoryId,
+        };
+      });
+
+      setData(_.sortBy(unsortedData, locale));
     }
   }, [skills, categories, locale]);
 
@@ -355,6 +357,7 @@ const SkillTableView = ({
         sorter: (a, b) => {
           return a.en.localeCompare(b.en);
         },
+        sortDirections: locale === "en" ? ["descend"] : undefined,
         ...getColumnSearchProps(
           "en",
           intl.formatMessage({
@@ -369,6 +372,7 @@ const SkillTableView = ({
         sorter: (a, b) => {
           return a.fr.localeCompare(b.fr);
         },
+        sortDirections: locale === "fr" ? ["descend"] : undefined,
         ...getColumnSearchProps(
           "fr",
           intl.formatMessage({

@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   PageHeader,
@@ -22,6 +22,8 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+import _ from "lodash";
+
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 
@@ -49,10 +51,18 @@ const CompetencyTableView = ({
   const [addVisible, setAddVisible] = useState(false);
   const [record, setRecord] = useState({});
   const [fields, setFields] = useState([{}]);
+  const [sortedData, setSortedData] = useState([]);
 
   let searchInput;
 
   const { data, loading } = useSelector((state) => state.admin.competencies);
+  const { locale } = useSelector((state) => state.settings);
+
+  useEffect(() => {
+    if (data && locale) {
+      setSortedData(_.sortBy(data, locale));
+    }
+  }, [locale, data]);
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
@@ -360,6 +370,7 @@ const CompetencyTableView = ({
         sorter: (a, b) => {
           return a.en.localeCompare(b.en);
         },
+        sortDirections: locale === "en" ? ["descend"] : undefined,
         ...getColumnSearchProps(
           "en",
           intl.formatMessage({
@@ -374,6 +385,7 @@ const CompetencyTableView = ({
         sorter: (a, b) => {
           return a.fr.localeCompare(b.fr);
         },
+        sortDirections: locale === "fr" ? ["descend"] : undefined,
         ...getColumnSearchProps(
           "fr",
           intl.formatMessage({
@@ -426,7 +438,7 @@ const CompetencyTableView = ({
           <Table
             rowSelection={rowSelection}
             columns={competencyTableColumns()}
-            dataSource={data}
+            dataSource={sortedData}
             loading={loading}
           />
         </Col>

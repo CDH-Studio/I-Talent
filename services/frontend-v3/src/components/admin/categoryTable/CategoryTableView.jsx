@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   PageHeader,
@@ -22,6 +22,8 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+import _ from "lodash";
+
 import handleError from "../../../functions/handleError";
 import { IntlPropType } from "../../../customPropTypes";
 
@@ -49,10 +51,16 @@ const CategoryTableView = ({
   const [addVisible, setAddVisible] = useState(false);
   const [record, setRecord] = useState({});
   const [fields, setFields] = useState([{}]);
-  const [columns, setColumns] = useState([]);
+  const [sortedData, setSortedData] = useState([]);
 
   const { data, loading } = useSelector((state) => state.admin.categories);
   const { locale } = useSelector((state) => state.settings);
+
+  useEffect(() => {
+    if (data && locale) {
+      setSortedData(_.sortBy(data, locale));
+    }
+  }, [locale, data]);
 
   let searchInput;
 
@@ -354,68 +362,58 @@ const CategoryTableView = ({
 
   /* Sets up the columns for the category table */
   // Consult: Ant Design table components for further clarification
-  const categoryTableColumns = useCallback(() => {
-    // Table columns data structure: array of objects
-    const categoryTableColumns = [
-      {
-        title: <FormattedMessage id="language.english" />,
-        dataIndex: "en",
-        key: "en",
-        sorter: (a, b) => {
-          return a.en.localeCompare(b.en);
-        },
-        defaultSortOrder: locale === "en" ? "ascend" : undefined,
-        ...getColumnSearchProps(
-          "en",
-          intl.formatMessage({
-            id: "language.english",
-          })
-        ),
+  const categoryTableColumns = () => [
+    {
+      title: <FormattedMessage id="language.english" />,
+      dataIndex: "en",
+      key: "en",
+      sorter: (a, b) => {
+        return a.en.localeCompare(b.en);
       },
-      {
-        title: <FormattedMessage id="language.french" />,
-        dataIndex: "fr",
-        key: "fr",
-        sorter: (a, b) => {
-          return a.fr.localeCompare(b.fr);
-        },
-        defaultSortOrder: locale === "fr" ? "ascend" : undefined,
-        ...getColumnSearchProps(
-          "fr",
-          intl.formatMessage({
-            id: "language.french",
-          })
-        ),
+      sortDirections: locale === "en" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "en",
+        intl.formatMessage({
+          id: "language.english",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="language.french" />,
+      dataIndex: "fr",
+      key: "fr",
+      sorter: (a, b) => {
+        return a.fr.localeCompare(b.fr);
       },
-      {
-        title: <FormattedMessage id="admin.edit" />,
-        key: "edit",
-        render: (record) => (
-          <div>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setFields([
-                  { name: ["editCategoryEn"], value: record.en },
-                  { name: ["editCategoryFr"], value: record.fr },
-                ]);
-                handleEditModal(record);
-              }}
-            />
-          </div>
-        ),
-      },
-    ];
-
-    setColumns(categoryTableColumns);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locale]);
-
-  useEffect(() => {
-    categoryTableColumns();
-  }, [categoryTableColumns]);
+      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      ...getColumnSearchProps(
+        "fr",
+        intl.formatMessage({
+          id: "language.french",
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.edit" />,
+      key: "edit",
+      render: (record) => (
+        <div>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setFields([
+                { name: ["editCategoryEn"], value: record.en },
+                { name: ["editCategoryFr"], value: record.fr },
+              ]);
+              handleEditModal(record);
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -437,8 +435,8 @@ const CategoryTableView = ({
         <Col span={24}>
           <Table
             rowSelection={rowSelection}
-            columns={columns}
-            dataSource={data}
+            columns={categoryTableColumns()}
+            dataSource={sortedData}
             loading={loading}
           />
         </Col>

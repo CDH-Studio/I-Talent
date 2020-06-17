@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   PageHeader,
   Row,
@@ -21,6 +21,8 @@ import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import _ from "lodash";
+
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 
@@ -48,10 +50,18 @@ const SchoolTableView = ({
   const [addVisible, setAddVisible] = useState(false);
   const [record, setRecord] = useState({});
   const [fields, setFields] = useState([{}]);
+  const [sortedData, setSortedData] = useState([]);
 
   let searchInput;
 
   const { data, loading } = useSelector((state) => state.admin.schools);
+  const { locale } = useSelector((state) => state.settings);
+
+  useEffect(() => {
+    if (data && locale) {
+      setSortedData(_.sortBy(data, locale));
+    }
+  }, [locale, data]);
 
   /*
 clearFilters: ƒ onReset()
@@ -461,6 +471,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
           return a.en.localeCompare(b.en);
         },
+        sortDirections: locale === "en" ? ["descend"] : undefined,
         ...getColumnSearchProps(
           "en",
           intl.formatMessage({
@@ -482,6 +493,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
           return a.fr.localeCompare(b.fr);
         },
+        sortDirections: locale === "fr" ? ["descend"] : undefined,
         ...getColumnSearchProps(
           "fr",
           intl.formatMessage({
@@ -496,7 +508,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         sorter: (a, b) => {
           return a.abbrProvince.localeCompare(b.abbrProvince);
         },
-        sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
           "abbrProvince",
           intl.formatMessage({
@@ -511,7 +522,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         sorter: (a, b) => {
           return a.abbrCountry.localeCompare(b.abbrCountry);
         },
-        sortDirections: ["ascend", "descend"],
         ...getColumnSearchProps(
           "abbrCountry",
           intl.formatMessage({
@@ -565,7 +575,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           <Table
             rowSelection={rowSelection}
             columns={schoolsTableColumns()}
-            dataSource={data}
+            dataSource={sortedData}
             loading={loading}
           />
         </Col>
