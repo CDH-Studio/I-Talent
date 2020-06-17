@@ -123,6 +123,7 @@ async function getFullProfile(id, language) {
       interestedInRemote: true,
       status: true,
       projects: true,
+      secondLangProfs: true,
       skills: {
         select: {
           skill: {
@@ -541,6 +542,15 @@ function filterProfileResult(profile) {
             profile.relocationLocations.location.translations[0].streetName,
         }
       : [];
+
+  filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
+    return {
+      id: prof.id,
+      date: prof.date,
+      proficiency: prof.proficiency,
+      level: prof.level,
+    };
+  });
 
   return filteredProfile;
 }
