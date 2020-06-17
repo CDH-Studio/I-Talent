@@ -154,7 +154,7 @@ const SkillTableView = ({
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.error(
+    message.info(
       intl.formatMessage({
         id: "admin.cancelled",
         defaultMessage: "Cancelled",
