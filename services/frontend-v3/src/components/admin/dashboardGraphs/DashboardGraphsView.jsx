@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { IntlPropType } from "../../../customPropTypes";
 
 /**
  *  DashboardGraphsView(props)
@@ -11,30 +12,44 @@ import { FormattedMessage } from "react-intl";
  *  (2nd Level) This graph shows the monthly growth rate for the web application
  *  Disclaimer: Please look at Bizcharts documentation for further help with graphes
  */
-function DashboardGraphsView({
+const DashboardGraphsView = ({
   topFiveSkills,
   topFiveCompetencies,
   topFiveDevelopmentalGoals,
   monthlyGrowth,
-}) {
+  intl,
+}) => {
   const popularSkillsColumns = {
-    name: { alias: "Skill Name" },
-    count: { alias: "Number of users" },
+    count: {
+      alias: intl.formatMessage({
+        id: "admin.dashboard.number.of.occurrences",
+      }),
+    },
   };
 
   const popularCompetenciesColumns = {
-    name: { alias: "Competency Name" },
-    count: { alias: "Number of users" },
+    count: {
+      alias: intl.formatMessage({
+        id: "admin.dashboard.number.of.occurrences",
+      }),
+    },
   };
 
   const popularDevelopmentGoalsColumns = {
-    name: { alias: "Development Goal Name" },
-    count: { alias: "Number of users" },
+    count: {
+      alias: intl.formatMessage({
+        id: "admin.dashboard.number.of.occurrences",
+      }),
+    },
   };
 
   const growthRateByMonthColumns = {
     monthName: { range: [0, 1] },
-    count: { alias: "Number of users" },
+    count: {
+      alias: intl.formatMessage({
+        id: "admin.dashboard.number.of.occurrences",
+      }),
+    },
   };
 
   return (
@@ -150,7 +165,7 @@ function DashboardGraphsView({
       </Row>
     </>
   );
-}
+};
 
 DashboardGraphsView.propTypes = {
   topFiveSkills: PropTypes.arrayOf(
@@ -178,6 +193,11 @@ DashboardGraphsView.propTypes = {
       monthName: PropTypes.string,
     })
   ).isRequired,
+  intl: IntlPropType,
 };
 
-export default DashboardGraphsView;
+DashboardGraphsView.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(DashboardGraphsView);
