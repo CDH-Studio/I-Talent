@@ -1,6 +1,5 @@
 function exFeederSearch(profiles) {
-  const results = profiles.filter((profile) => profile.exFeeder === true);
-  return results;
+  return profiles.filter((profile) => profile.exFeeder === true);
 }
 
 module.exports = exFeederSearch;
