@@ -32,7 +32,13 @@ const Secured = ({ location }) => {
     // Check if profile exist for the logged in user
     const profileExist = () => {
       return keycloakInstance.loadUserInfo().then(async (userInfo) => {
-        return createUser(userInfo.email, userInfo.name).then((res) => {
+        return createUser(
+          userInfo.email,
+          userInfo.name,
+          userInfo.sub,
+          userInfo.family_name,
+          userInfo.given_name
+        ).then((res) => {
           dispatch(setUserName(userInfo.name));
           dispatch(setUserEmail(userInfo.email));
           return res.hasProfile;

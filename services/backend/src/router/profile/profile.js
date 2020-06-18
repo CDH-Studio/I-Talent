@@ -16,15 +16,15 @@ profileRouter
   .put(keycloak.protect(), profile.updateProfile);
 
 profileRouter
+  .route("/:id/status")
+  .get(keycloak.protect(), UUIDValidator, profile.getProfileStatusById);
+
+profileRouter
   .route("/private/:id")
   .get(
     keycloak.protect(),
     [UUIDValidator, langValidator],
     profile.getPrivateProfileById
   );
-
-profileRouter
-  .route("/private/status/:id")
-  .get(keycloak.protect(), UUIDValidator, profile.getProfileStatusById);
 
 module.exports = profileRouter;

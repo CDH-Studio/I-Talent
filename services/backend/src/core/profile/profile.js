@@ -7,70 +7,75 @@ async function updateProfile(request, response) {
   try {
     validationResult(request).throw();
     const { id } = request.params;
-    const { body } = request;
-    const result = await prisma.users.update({
-      where: { id },
-      data: {
-        firstName: body.firstName,
-        lastName: body.lastName,
-        team: body.team,
-        telephone: body.telephone,
-        cellphone: body.cellphone,
-        linkedin: body.linkedin,
-        github: body.github,
-        gcconnex: body.gcconnex,
-        manager: body.manager,
-        firstLanguage: body.firstLanguage,
-        secondLanguage: body.secondLanguage,
-        preferredLanguage: body.preferredLanguage,
-        actingStartDate: body.actingStartDate,
-        actingEndDate: body.actingEndDate,
-        interestedInRemote: body.interestedInRemote,
-        exFeeder: body.exFeeder,
-        mentoring: body.isMentor,
-        name: body.name,
-        nameInitials: body.nameInitials,
-        avatarColor: body.avatarColor,
-        email: body.email,
-        status: body.status,
-        projects: body.projects,
-        skills: body.skills,
-        competencies: body.competencies,
-        developmentalGoals: body.developmentalGoals,
-        educations: body.education,
-        relocationLocations: body.relocationLocations,
-        experiences: body.experience,
+    if (request.kauth.grant.access_token.content.sub === id) {
+      const { body } = request;
+      const result = await prisma.users.update({
+        where: { id },
+        data: {
+          firstName: body.firstName,
+          lastName: body.lastName,
+          team: body.team,
+          telephone: body.telephone,
+          cellphone: body.cellphone,
+          linkedin: body.linkedin,
+          github: body.github,
+          gcconnex: body.gcconnex,
+          manager: body.manager,
+          firstLanguage: body.firstLanguage,
+          secondLanguage: body.secondLanguage,
+          preferredLanguage: body.preferredLanguage,
+          actingStartDate: body.actingStartDate,
+          actingEndDate: body.actingEndDate,
+          interestedInRemote: body.interestedInRemote,
+          exFeeder: body.exFeeder,
+          mentoring: body.isMentor,
+          name: body.name,
+          nameInitials: body.nameInitials,
+          avatarColor: body.avatarColor,
+          email: body.email,
+          status: body.status,
+          projects: body.projects,
+          skills: body.skills,
+          competencies: body.competencies,
+          developmentalGoals: body.developmentalGoals,
+          educations: body.education,
+          relocationLocations: body.relocationLocations,
+          experiences: body.experience,
 
-        officeLocation: { connect: { id: body.locationId } },
-        careerMobility: { connect: { id: body.careerMobilityId } },
-        tenure: { connect: { id: body.tenureId } },
-        securityClearance: { connect: { id: body.securityClearanceId } },
-        lookingJob: { connect: { id: body.lookingForANewJobId } },
-        talentMatrixResult: { connect: { id: body.talentMatrixResultId } },
-        groupLevel: { connect: { id: body.groupLevelId } },
-        actingLevel: { connect: { id: body.actingLevelId } },
-        employmentInfo: { connect: { id: body.employmentInfoId } },
+          officeLocation: { connect: { id: body.locationId } },
+          careerMobility: { connect: { id: body.careerMobilityId } },
+          tenure: { connect: { id: body.tenureId } },
+          securityClearance: { connect: { id: body.securityClearanceId } },
+          lookingJob: { connect: { id: body.lookingForANewJobId } },
+          talentMatrixResult: { connect: { id: body.talentMatrixResultId } },
+          groupLevel: { connect: { id: body.groupLevelId } },
+          actingLevel: { connect: { id: body.actingLevelId } },
+          employmentInfo: { connect: { id: body.employmentInfoId } },
 
-        visibleCards: {
-          update: {
-            manager: body.manager,
-            info: body.info,
-            talentManagement: body.talentManagement,
-            officialLanguage: body.officialLanguage,
-            skills: body.skills,
-            competencies: body.competencies,
-            developmentalGoals: body.developmentalGoals,
-            education: body.education,
-            experience: body.experience,
-            projects: body.projects,
-            careerInterests: body.careerInterests,
-            mentorshipSkills: body.mentorshipSkills,
-            exFeeder: body.exFeeder,
+          visibleCards: {
+            update: {
+              manager: body.manager,
+              info: body.info,
+              talentManagement: body.talentManagement,
+              officialLanguage: body.officialLanguage,
+              skills: body.skills,
+              competencies: body.competencies,
+              developmentalGoals: body.developmentalGoals,
+              education: body.education,
+              experience: body.experience,
+              projects: body.projects,
+              careerInterests: body.careerInterests,
+              mentorshipSkills: body.mentorshipSkills,
+              exFeeder: body.exFeeder,
+            },
           },
         },
-      },
-    });
-    response.status(200).json(result);
+      });
+      response.status(200).json(result);
+    }
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
   } catch (error) {
     console.log(error);
     response.status(500).json("Unable to create profiles");
@@ -559,9 +564,14 @@ async function getPrivateProfileById(request, response) {
   try {
     validationResult(request).throw();
     const { id } = request.params;
-    const { language } = request.query;
-    const filter = filterProfileResult(await getFullProfile(id, language));
-    response.status(200).json(filter);
+    if (request.kauth.grant.access_token.content.sub === id) {
+      const { language } = request.query;
+      const filter = filterProfileResult(await getFullProfile(id, language));
+      response.status(200).json(filter);
+    }
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
   } catch (error) {
     console.log(error);
     response.status(500).json("Unable to get profile");
