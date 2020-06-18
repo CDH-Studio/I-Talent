@@ -31,17 +31,23 @@ const { keycloak } = require("../../auth/keycloak");
 
 const optionsRouter = Router();
 
-optionsRouter.get("/branches", langValidator, branches.getBranches);
+optionsRouter.get(
+  "/branches",
+  keycloak.protect(),
+  langValidator,
+  branches.getBranches
+);
 
 optionsRouter.get(
   "/careerMobilities",
+  keycloak.protect(),
   langValidator,
   careerMobilities.getCareerMobilities
 );
 
 optionsRouter
   .route("/categories")
-  .get(langValidator, categories.getCategories)
+  .get(keycloak.protect(), langValidator, categories.getCategories)
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
@@ -64,18 +70,26 @@ optionsRouter
     deleteOneValidator,
     categories.deleteCategory
   );
-optionsRouter.get("/categoriesAllLang", categories.getCategoriesAllLang);
+optionsRouter.get(
+  "/categoriesAllLang",
+  keycloak.protect(),
+  categories.getCategoriesAllLang
+);
 optionsRouter.get(
   "/categoriesAllLang",
   keycloak.protect("view-admin-console"),
   categories.getCategoriesAllLang
 );
 
-optionsRouter.get("/classifications", classifications.getClassifications);
+optionsRouter.get(
+  "/classifications",
+  keycloak.protect(),
+  classifications.getClassifications
+);
 
 optionsRouter
   .route("/competencies")
-  .get(langValidator, competencies.getCompetencies)
+  .get(keycloak.protect(), langValidator, competencies.getCompetencies)
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
@@ -106,13 +120,14 @@ optionsRouter.get(
 
 optionsRouter.get(
   "/developmentalGoals",
+  keycloak.protect(),
   langValidator,
   developmentalGoals.getDevelopmentalGoals
 );
 
 optionsRouter
   .route("/diplomas")
-  .get(langValidator, diplomas.getDiplomas)
+  .get(keycloak.protect(), langValidator, diplomas.getDiplomas)
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
@@ -141,13 +156,23 @@ optionsRouter.get(
   diplomas.getDiplomasAllLang
 );
 
-optionsRouter.get("/locations", langValidator, locations.getLocations);
+optionsRouter.get(
+  "/locations",
+  keycloak.protect(),
+  langValidator,
+  locations.getLocations
+);
 
-optionsRouter.get("/lookingJobs", langValidator, lookingJobs.getLookingJobs);
+optionsRouter.get(
+  "/lookingJobs",
+  keycloak.protect(),
+  langValidator,
+  lookingJobs.getLookingJobs
+);
 
 optionsRouter
   .route("/schools")
-  .get(langValidator, schools.getSchools)
+  .get(keycloak.protect(), langValidator, schools.getSchools)
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
@@ -178,13 +203,14 @@ optionsRouter.get(
 
 optionsRouter.get(
   "/securityClearances",
+  keycloak.protect(),
   langValidator,
   securityClearances.getSecurityClearances
 );
 
 optionsRouter
   .route("/skills")
-  .get(langValidator, skills.getSkills)
+  .get(keycloak.protect(), langValidator, skills.getSkills)
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
@@ -215,9 +241,15 @@ optionsRouter.get(
 
 optionsRouter.get(
   "/talentMatrixResults",
+  keycloak.protect(),
   langValidator,
   talentMatrixResults.getTalentMatrixResults
 );
-optionsRouter.get("/tenures", langValidator, tenures.getTenures);
+optionsRouter.get(
+  "/tenures",
+  keycloak.protect(),
+  langValidator,
+  tenures.getTenures
+);
 
 module.exports = optionsRouter;
