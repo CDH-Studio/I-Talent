@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Form, Button, Input, Switch, Select, Typography } from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
 import { IdDescriptionPropType } from "../../customPropTypes";
 
 const { Title, Text } = Typography;
@@ -46,14 +45,13 @@ const SearchBarView = ({
     }
   }, [form, urlSearchFieldValues]);
 
-  const { locale } = useSelector((state) => state.settings);
   const searchLabel = <FormattedMessage id="button.search" />;
   const searchTitles = [
     "name",
     "skills",
-    "branch",
-    "location",
-    "classification",
+    "branches",
+    "locations",
+    "classifications",
     "exFeeder",
   ];
   const labelArr = [
@@ -100,9 +98,7 @@ const SearchBarView = ({
             maxTagCount={3}
           >
             {skillOptions.map((value) => {
-              return (
-                <Option key={value.id}>{value.description[locale]}</Option>
-              );
+              return <Option key={value.id}>{value.name}</Option>;
             })}
           </Select>
         </Form.Item>
@@ -120,11 +116,7 @@ const SearchBarView = ({
             maxTagCount={3}
           >
             {branchOptions.map((value) => {
-              return (
-                <Option key={value.description.en}>
-                  {value.description[locale]}
-                </Option>
-              );
+              return <Option key={value}>{value}</Option>;
             })}
           </Select>
         </Form.Item>
@@ -136,14 +128,20 @@ const SearchBarView = ({
           <Select
             style={styles.w100}
             filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              option.children
+                .join("")
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
             }
             mode="multiple"
             maxTagCount={3}
           >
             {locationOptions.map((value) => {
               return (
-                <Option key={value.id}>{value.description[locale]}</Option>
+                <Option key={value.id}>
+                  {value.streetNumber} {value.streetName}, {value.city},{" "}
+                  {value.province}
+                </Option>
               );
             })}
           </Select>
@@ -162,7 +160,7 @@ const SearchBarView = ({
             maxTagCount={3}
           >
             {classOptions.map((value) => {
-              return <Option key={value.id}>{value.description}</Option>;
+              return <Option key={value.id}>{value.name}</Option>;
             })}
           </Select>
         </Form.Item>
