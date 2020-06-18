@@ -1,4 +1,3 @@
-const loadash = require("lodash");
 const { PrismaClient } = require("../../database/client");
 
 const prisma = new PrismaClient();
@@ -17,14 +16,12 @@ function generateAvatarColor() {
     "#ad5944",
     "#ad4463",
   ];
-  return loadash.random(colours);
+  return colours[Math.floor(Math.random() * colours.length)];
 }
 
-// TODO: Add pagination
 async function getUsers(request, response) {
   prisma.users
     .findMany({
-      take: 100,
       select: {
         id: true,
         name: true,
@@ -67,24 +64,52 @@ async function getUserById(request, response) {
 }
 
 async function createUser(request, response) {
-  const { body } = request;
-  prisma.users
-    .create({
-      id: body.id,
-      name: body.name,
-      email: body.email,
-      avatarColor: generateAvatarColor(),
-      nameInitials: `${body.firstName.charAt(0)}${body.lastName.charAt(0)}`,
-    })
-    .then((result) => response.status(200).json(result))
-    .catch((error) => {
-      console.log(error);
-      response.status(500).json("Unable to create profiles");
-    });
+  try {
+    const { body } = request;
+    const { id } = request.params;
+    if (request.kauth.grant.access_token.content.sub === id) {
+      const user = await prisma.users.create({
+        data: {
+          id,
+          name: body.name,
+          email: body.email,
+          avatarColor: generateAvatarColor(),
+          nameInitials: `${body.firstName.charAt(0)}${body.lastName.charAt(0)}`,
+          visibleCards: { create: {} },
+        },
+      });
+      response.status(200).json(user);
+    }
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json("Unable to create profiles");
+  }
+}
+
+async function checkExistence(request, response) {
+  try {
+    const { id } = request.params;
+    if (request.kauth.grant.access_token.content.sub === id) {
+      const count = await prisma.users.count({
+        where: { id },
+      });
+      response.status(200).json(count);
+    }
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json("Unable to find user");
+  }
 }
 
 module.exports = {
   getUsers,
   getUserById,
   createUser,
+  checkExistence,
 };

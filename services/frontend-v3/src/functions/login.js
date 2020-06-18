@@ -8,10 +8,12 @@ import {
   setUserInitials,
 } from "../redux/slices/userSlice";
 
-const createUser = (email, name) => {
-  return post(`${config.backendAddress}api/user/`, {
+const createUser = (email, name, id, lastName, firstName) => {
+  return post(`${config.backendAddress}api/user/${id}`, {
     email,
     name,
+    lastName,
+    firstName,
   })
     .then((res) => {
       store.dispatch(setUserId(res.data.user.id));

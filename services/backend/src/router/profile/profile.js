@@ -2,20 +2,29 @@ const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const profile = require("../../core/profile/profile");
 
+const { langValidator, UUIDValidator } = require("./validator");
+
 const profileRouter = Router();
 
 profileRouter
   .route("/:id")
-  .get(keycloak.protect(), profile.getPublicProfileById)
+  .get(
+    keycloak.protect(),
+    [UUIDValidator, langValidator],
+    profile.getPublicProfileById
+  )
   .put(keycloak.protect(), profile.updateProfile);
 
-// TODO: Change frontend api to profile/private instead of private/profile
 profileRouter
-  .route("/private/:id")
-  .get(keycloak.protect(), profile.getPrivateProfileById);
+  .route("/:id/status")
+  .get(keycloak.protect(), UUIDValidator, profile.getProfileStatusById);
 
 profileRouter
-  .route("/private/status/:id")
-  .get(keycloak.protect(), profile.getProfileStatusById);
+  .route("/private/:id")
+  .get(
+    keycloak.protect(),
+    [UUIDValidator, langValidator],
+    profile.getPrivateProfileById
+  );
 
 module.exports = profileRouter;
