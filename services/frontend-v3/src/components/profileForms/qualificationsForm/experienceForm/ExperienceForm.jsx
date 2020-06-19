@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ExperienceFormView from "./ExperienceFormView";
 import {
@@ -22,6 +22,8 @@ const ExperienceForm = ({
   style,
   checkIfFormValuesChanged,
 }) => {
+  const [charsLeft, setCharsLeft] = useState(250);
+
   return (
     <ExperienceFormView
       form={form}
@@ -30,6 +32,8 @@ const ExperienceForm = ({
       profileInfo={profileInfo}
       style={style}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
+      charsLeft={charsLeft}
+      setCharsLeft={setCharsLeft}
     />
   );
 };

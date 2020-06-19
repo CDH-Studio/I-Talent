@@ -39,6 +39,8 @@ const ExperienceFormView = ({
   style,
   checkIfFormValuesChanged,
   intl,
+  charsLeft,
+  setCharsLeft,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
@@ -56,6 +58,8 @@ const ExperienceFormView = ({
       message: <FormattedMessage id="profile.rules.max.250" />,
     },
   };
+
+  form.onValuesChange = (changedVals) => console.log("chval", changedVals);
 
   /*
    * Toggle End Date
@@ -229,13 +233,23 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
         <Form.Item
-          name={[field.name, "content"]}
+          name={"content"}
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[Rules.maxChar250]}
-          extra={<FormattedMessage id="profile.rules.max.250" />}
+          extra={
+            <div>
+              <FormattedMessage id="profile.rules.max.250" />
+              <span>({charsLeft} remaining)</span>
+            </div>
+          }
+          onChange={(evv, ev) => console.log("eeevvvv", ev, evv)}
         >
-          <TextArea rows={4} />
+          <TextArea
+            name="content"
+            onChange={(event, ee) => console.log("evv", ee, event)}
+            rows={4}
+          />
         </Form.Item>
       </Col>
     </Row>
