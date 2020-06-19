@@ -11,12 +11,10 @@
     "migrate:create": "cd src/database && prisma migrate save --experimental",
     "deploy": "yarn -s migrate && yarn -s seed && yarn -s start",
     "dev:docker": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
-    "test": "jest --config ./tests/jest.config.json",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
-    "studio": "cd src/database && prisma studio --experimental"
+    "studio": "cd src/database && prisma studio --experimental",
+    "test": "jest"
   },
   "author": "I-Talent team",
   "license": "MIT",
@@ -47,6 +45,13 @@
     "eslint-plugin-prettier": "^3.1.3",
     "jest": "^26.0.1",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
