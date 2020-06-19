@@ -275,7 +275,6 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
 
 button.ant-btn.ant-btn-link:focus {
   background-color: #415a5a;
-
   box-shadow: 0px 18px #415a5a, 0px 7px #415a5a;
   padding-top: 20px;
   padding-bottom: 0px;
