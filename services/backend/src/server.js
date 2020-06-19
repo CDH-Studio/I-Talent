@@ -11,6 +11,7 @@ const port = process.env.PORT || 8080;
 dotenv.config();
 
 app.use(sessionInstance);
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -26,15 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api", router);
 app.use(keycloak.middleware({ logout: "/" }));
-app.listen(port, () => console.log(`Magic happens on port ${port}`));
 
-// FIXME: create the get employee info function
-// router.get(
-//   "/getEmployeeInfo/:searchValue",
-//   keycloak.protect(),
-//   async (req, res) => {
-//     const { searchValue } = req.params;
-//     const data = await geds.getEmployeeInfo(searchValue);
-//     res.json(JSON.parse(data.body));
-//   }
-// );
+if (process.env.NODE_ENV !== "test")
+  app.listen(port, () => console.log(`Backend port is ${port}.`));
+
+module.exports = app;
