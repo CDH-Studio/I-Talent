@@ -168,9 +168,7 @@ button:focus {
 a:focus {
   outline: #08bab3;
   outline-width: 2rem;
-
   background-color: #a6c8c349;
-
   box-shadow: 7px 0 0 #a6c8c349, -5px 0 0 #a6c8c349;
   padding-top: 5px;
   padding-bottom: 10px;
