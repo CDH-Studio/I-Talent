@@ -1,5 +1,4 @@
 {
-  "button.advanced.search": "Recherche avancée",
   "advanced.search.form.desired.skills": "Compétences désirées",
   "admin": "Admin",
   "admin.console": "Console d'admin",
@@ -105,8 +104,8 @@
   "advanced.search.form.last.name": "Nom de famille",
 
   "button.search": "Rechercher",
-  "button.basic.search": "Recherche de base",
   "advanced.search.button.text": "Recherche avancée",
+  "advanced.search.description": "Utilisez les filtres ci-dessous pour rechercher des employés dans le répertoire I-Talent qui correspondent à vos besoins.",
   "advanced.search.form.name": "Nom",
   "advanced.search.form.skills": "Compétences",
   "advanced.search.form.broad.search": "Recherche générale",
@@ -117,11 +116,14 @@
   "sidebar.search.title": "Filtres de recherche",
   "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
 
+  "back.to.landing": "Retour à la page d'accueil",
   "search.no.results": "Aucun résultat trouvé",
 
+  "button.advanced.search": "Recherche avancée",
+  "button.basic.search": "Recherche de base",
   "button.apply": "Enregistrer",
   "button.cancel": "Annuler",
-  "button.clear": "Effacer",
+  "button.clear": "Effacer les modifications",
   "button.close": "Fermer",
   "button.next": "Suivant",
   "button.back": "Précédent",
@@ -307,8 +309,11 @@
   "profile.rules.max.250": "Maximum de 250 caractères",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
-  "profile.form.clear": "Formulaire effacé",
+  "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",
+
+  "profile.visibility.show.confirm": "Etes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
+  "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Ne sera visible que pour vous et les RH)",
 
   "lang": "English",
   "lang.code": "en",
@@ -336,6 +341,7 @@
   "profile.undefined": "Indéfinie",
   "profile.do.not.specify": "Ne pas spécifié",
   "profile.not.specified": "Non spécifié",
+  "profile.not.found": "Profil non trouvé",
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transferé à",
   "profile.career.interests": "Mobilité de l'emploi",

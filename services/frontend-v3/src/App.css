@@ -260,6 +260,13 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
   background-color: #08bab462;
 }
 
+.anticon.anticon-info-circle:focus {
+  outline: #08bab3;
+  background-color: #08bab462;
+  color: #08bab3;
+  border-radius: 50%;
+}
+
 button.ant-btn.ant-btn-link:focus {
   background-color: #08bab462;
   color: #001c1a;

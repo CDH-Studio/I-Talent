@@ -96,6 +96,7 @@
   "admin.dashboard.growth.rate.percentage": "Growth rate in ",
 
   "advanced.search.button.text": "Advanced search",
+  "advanced.search.description": "Use the filters below to search for employees in the I-Talent directory that match your specific needs.",
   "advanced.search.form.name": "Name",
   "advanced.search.form.skills": "Skills",
   "advanced.search.form.location": "Location",
@@ -111,16 +112,16 @@
   "search.no.results": "No results found",
 
   "button.advanced.search": "Advanced search",
+  "button.basic.search": "Basic search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
-  "button.clear": "Clear",
+  "button.clear": "Clear changes",
   "button.close": "Close",
   "button.next": "Next",
   "button.back": "Back",
   "button.finish": "Finish",
   "button.deactivate.account": "Deactivate account",
   "button.hide.account": "Hide account",
-  "button.basic.search": "Basic search",
 
   "apply.button.text": "Apply",
 
@@ -332,10 +333,13 @@
   "profile.rules.max.250": "Max length 250 characters",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
-  "profile.form.clear": "Form cleared",
+  "profile.form.clear": "Changes cleared",
   "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
+
+  "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
+  "profile.visibility.hide.confirm": "Are you sure you want to make hide this card from your public profile? (Will be only visible to you and HR)",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
