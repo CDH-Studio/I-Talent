@@ -50,14 +50,7 @@ const PersonalGrowthForm = ({ formType }) => {
    * get saved Developmental Goals from profile
    */
   const getSavedDevelopmentalGoals = () => {
-    const selected = [];
-
-    // Generate and array of ID's of save locations
-    for (let i = 0; i < profileInfo.developmentalGoals.length; i += 1) {
-      selected.push(profileInfo.developmentalGoals[i].id);
-    }
-
-    setSavedDevelopmentalGoals(selected);
+    setSavedDevelopmentalGoals(profileInfo.developmentalGoals.map((i) => i.id));
   };
 
   /**
@@ -66,25 +59,21 @@ const PersonalGrowthForm = ({ formType }) => {
    * get saved Relocation Locations from profile
    */
   const getSavedRelocationLocations = () => {
-    const selected = [];
-
-    // Generate and array of ID's of save locations
-    for (let i = 0; i < profileInfo.relocationLocations.length; i += 1) {
-      selected.push(profileInfo.relocationLocations[i].locationId);
-    }
-
-    setSavedRelocationLocations(selected);
+    setSavedRelocationLocations(profileInfo.relocationLocations.map((i) => i.id));
   };
 
   /**
    * Get User Profile
    */
   const getProfileInfo = useCallback(async () => {
-    const url = `${backendAddress}api/profile/private/${id}`;
-    const result = await axios.get(url);
+    const result = await axios.get(
+      `${backendAddress}api/profile/private/${id}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
+
     setProfileInfo(result.data);
-    return 1;
-  }, [id]);
+  }, [id, locale]);
 
   /**
    * Get Developmental Goal Options
@@ -92,20 +81,13 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of developmental goal options for treeSelect dropdown
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getDevelopmentalGoals`;
-    const result = await axios.get(url);
-    const dataTree = [];
+    const result = await axios.get(
+      `${backendAddress}api/option/developmentalGoals?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
 
-    // Generate the data format required for treeSelect
-    for (let i = 0; i < result.data.length; i += 1) {
-      const goal = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      dataTree.push(goal);
-    }
-    setDevelopmentalGoalOptions(dataTree);
-    return 1;
+    setDevelopmentalGoalOptions(result.data);
   }, [locale]);
 
   /**
@@ -117,11 +99,11 @@ const PersonalGrowthForm = ({ formType }) => {
   const getInterestedInRemoteOptions = useCallback(() => {
     const options = [
       {
-        key: true,
+        key: "true",
         text: locale === "fr" ? "Oui" : "Yes",
       },
       {
-        key: false,
+        key: "false",
         text: locale === "fr" ? "Non" : "No",
       },
     ];
@@ -134,21 +116,13 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of Relocation Options for dropdown treeSelect
    */
   const getRelocationOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getWillingToRelocateTo`;
-    const result = await axios.get(url);
-    const dataTree = [];
+    const result = await axios.get(
+      `${backendAddress}api/option/locations?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
 
-    // Generate the data format required for treeSelect
-    for (let i = 0; i < result.data.length; i += 1) {
-      const location = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      dataTree.push(location);
-    }
-
-    setRelocationOptions(dataTree);
-    return 1;
+    setRelocationOptions(result.data);
   }, [locale]);
 
   /**
@@ -157,21 +131,13 @@ const PersonalGrowthForm = ({ formType }) => {
    * get Saved Looking For New Job from user profile
    */
   const getLookingForNewJobOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getLookingForANewJob`;
-    const result = await axios.get(url);
-    const dataTree = [];
+    const result = await axios.get(
+      `${backendAddress}api/option/lookingJobs?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
 
-    // Generate the data format required for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const goal = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      dataTree.push(goal);
-    }
-
-    setLookingForNewJobOptions(dataTree);
-    return 1;
+    setLookingForNewJobOptions(result.data);
   }, [locale]);
 
   /**
@@ -180,21 +146,13 @@ const PersonalGrowthForm = ({ formType }) => {
    * get all dropdown options for Career Mobility
    */
   const getCareerMobilityOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getCareerMobility`;
-    const result = await axios.get(url);
-    const dataTree = [];
+    const result = await axios.get(
+      `${backendAddress}api/option/careerMobilities?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
 
-    // Generate the data format required for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const goal = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      dataTree.push(goal);
-    }
-
-    setCareerMobilityOptions(dataTree);
-    return 1;
+    setCareerMobilityOptions(result.data);
   }, [locale]);
 
   /**
@@ -203,28 +161,20 @@ const PersonalGrowthForm = ({ formType }) => {
    * get all dropdown options for Talent Matrix Results
    */
   const getTalentMatrixResultOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getTalentMatrixResult`;
-    const result = await axios.get(url);
-    const dataTree = [];
+    const result = await axios.get(
+      `${backendAddress}api/option/talentMatrixResults?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
 
-    // Generate the data format required for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const goal = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      dataTree.push(goal);
-    }
-
-    setTalentMatrixResultOptions(dataTree);
-    return 1;
+    setTalentMatrixResultOptions(result.data);
   }, [locale]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
     if (profileInfo) {
       const {
-        lookingForNewJob,
+        lookingJob,
         talentMatrixResult,
         careerMobility,
         exFeeder,
@@ -232,9 +182,7 @@ const PersonalGrowthForm = ({ formType }) => {
 
       getSavedDevelopmentalGoals();
       getSavedRelocationLocations();
-      setSavedLookingForNewJob(
-        lookingForNewJob ? lookingForNewJob.id : undefined
-      );
+      setSavedLookingForNewJob(lookingJob ? lookingJob.id : undefined);
       setSavedTalentMatrixResult(
         talentMatrixResult ? talentMatrixResult.id : undefined
       );

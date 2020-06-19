@@ -54,6 +54,7 @@ async function getUserById(request, response) {
         nameInitials: true,
         createdAt: true,
         updatedAt: true,
+        signupStep: true,
       },
     })
     .then((result) => response.status(200).json(result))
@@ -73,12 +74,15 @@ async function createUser(request, response) {
           id,
           name: body.name,
           email: body.email,
+          firstName: body.firstName,
+          lastName: body.lastName,
           avatarColor: generateAvatarColor(),
           nameInitials: `${body.firstName.charAt(0)}${body.lastName.charAt(0)}`,
           visibleCards: { create: {} },
         },
       });
       response.status(200).json(user);
+      return;
     }
     response
       .status(403)
@@ -97,6 +101,7 @@ async function checkExistence(request, response) {
         where: { id },
       });
       response.status(200).json(count);
+      return;
     }
     response
       .status(403)

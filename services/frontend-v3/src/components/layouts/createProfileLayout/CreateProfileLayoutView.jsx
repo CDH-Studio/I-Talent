@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect } from "react";
 import { PageHeader, Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
-import config from "../../../config";
 import {
   Welcome,
   EmploymentDataForm,
@@ -18,21 +16,17 @@ import {
   DoneSetup,
 } from "../../profileForms";
 
-const { backendAddress } = config;
 const { Step } = Steps;
 
 /**
  *  CreateProfileLayoutView(props)
  *  Render the layout for the create profile forms
  */
-const CreateProfileLayoutView = (props) => {
-  const { formStep } = props;
-  const [profileExists, setProfileExists] = useState(false);
+const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
 
   // get current language code
   const { locale } = useSelector((state) => state.settings);
-  const { id } = useSelector((state) => state.user);
 
   /* Component Styles */
   const styles = {
@@ -66,24 +60,6 @@ const CreateProfileLayoutView = (props) => {
       history.push(url);
     }
   };
-
-  /*
-   * Check For Profile
-   *
-   * Check if profile exists
-   */
-  const checkForProfile = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/status/${id}`;
-      const response = await axios.get(url);
-      const { exists } = response.data.profile;
-      if (exists) setProfileExists(exists);
-      else setProfileExists(false);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
-  }, [id]);
 
   /*
    * Profile Form Select
@@ -145,7 +121,7 @@ const CreateProfileLayoutView = (props) => {
           <Step
             tabIndex="0"
             title={<FormattedMessage id="setup.employment" />}
-            disabled={!profileExists}
+            disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -157,7 +133,7 @@ const CreateProfileLayoutView = (props) => {
           <Step
             tabIndex="0"
             title={<FormattedMessage id="setup.language.proficiency" />}
-            disabled={!profileExists}
+            disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -169,7 +145,7 @@ const CreateProfileLayoutView = (props) => {
           <Step
             tabIndex="0"
             title={<FormattedMessage id="setup.talent" />}
-            disabled={!profileExists}
+            disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -187,7 +163,7 @@ const CreateProfileLayoutView = (props) => {
           <Step
             tabIndex="0"
             title={<FormattedMessage id="profile.employee.growth.interests" />}
-            disabled={!profileExists}
+            disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -205,7 +181,7 @@ const CreateProfileLayoutView = (props) => {
           <Step
             tabIndex="0"
             title={<FormattedMessage id="profile.employee.qualifications" />}
-            disabled={!profileExists}
+            disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>
                 <li>
@@ -223,21 +199,12 @@ const CreateProfileLayoutView = (props) => {
           <Step
             tabIndex="0"
             title={<FormattedMessage id="setup.done" />}
-            disabled={!profileExists}
+            disabled={highestStep < 3}
           />
         </Steps>
       </div>
     );
   };
-
-  /*
-   * UseEffect
-   *
-   * Run every time props are changed
-   */
-  useEffect(() => {
-    checkForProfile();
-  }, [checkForProfile, props]);
 
   // Get Sidebar Content
   const sideBarContent = getSideBarContent(formStep);
@@ -263,10 +230,12 @@ const CreateProfileLayoutView = (props) => {
 
 CreateProfileLayoutView.propTypes = {
   formStep: PropTypes.string,
+  highestStep: PropTypes.string,
 };
 
 CreateProfileLayoutView.defaultProps = {
   formStep: "1",
+  highestStep: "1",
 };
 
 export default CreateProfileLayoutView;

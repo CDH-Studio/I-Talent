@@ -1,6 +1,6 @@
-# Migration `20200610181736-init`
+# Migration `20200619135903-init`
 
-This migration has been generated at 6/10/2020, 6:17:36 PM.
+This migration has been generated at 6/19/2020, 1:59:03 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -75,7 +75,7 @@ CREATE TABLE "public"."opTransSkills" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."opSkills" (
-"categoryId" text  NOT NULL ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
+"categoryId" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."opTransCategories" (
@@ -139,7 +139,7 @@ CREATE TABLE "public"."competencies" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."secondLangProfs" (
-"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"date" timestamp(3)  NOT NULL ,"id" text  NOT NULL ,"level" "ProficiencyLevel" NOT NULL ,"proficiency" "Proficiency" NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
+"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"date" timestamp(3)   ,"id" text  NOT NULL ,"level" "ProficiencyLevel" NOT NULL ,"proficiency" "Proficiency" NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."transOrganizations" (
@@ -151,7 +151,7 @@ CREATE TABLE "public"."organizations" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."educations" (
-"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"diplomaId" text  NOT NULL ,"endDate" timestamp(3)  NOT NULL ,"id" text  NOT NULL ,"schoolId" text  NOT NULL ,"startDate" timestamp(3)  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
+"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"diplomaId" text   ,"endDate" timestamp(3)   ,"id" text  NOT NULL ,"schoolId" text   ,"startDate" timestamp(3)  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."transExperiences" (
@@ -159,7 +159,7 @@ CREATE TABLE "public"."transExperiences" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."experiences" (
-"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"endDate" timestamp(3)  NOT NULL ,"id" text  NOT NULL ,"startDate" timestamp(3)  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
+"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"endDate" timestamp(3)   ,"id" text  NOT NULL ,"startDate" timestamp(3)  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."relocationLocations" (
@@ -167,7 +167,7 @@ CREATE TABLE "public"."relocationLocations" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."users" (
-"actingEndDate" timestamp(3)   ,"actingLevelId" text   ,"actingStartDate" timestamp(3)   ,"avatarColor" text   ,"careerMobilityId" text   ,"cellphone" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"email" text   ,"employmentInfoId" text   ,"exFeeder" boolean  NOT NULL DEFAULT false,"firstLanguage" "Language"  ,"firstName" text   ,"gcconnex" text   ,"github" text   ,"groupLevelId" text   ,"id" text  NOT NULL ,"interestedInRemote" boolean  NOT NULL DEFAULT false,"lastName" text   ,"linkedin" text   ,"lookingJobId" text   ,"manager" text   ,"mentoring" boolean  NOT NULL DEFAULT false,"name" text   ,"nameInitials" text   ,"officeLocationId" text   ,"preferredLanguage" "Language" NOT NULL DEFAULT E'ENGLISH',"projects" text []  ,"secondLanguage" "Language"  ,"securityClearanceId" text   ,"status" "UserStatus" NOT NULL DEFAULT E'ACTIVE',"talentMatrixResultId" text   ,"team" text   ,"telephone" text   ,"tenureId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"visibleCardId" text  NOT NULL ,
+"actingEndDate" timestamp(3)   ,"actingLevelId" text   ,"actingStartDate" timestamp(3)   ,"avatarColor" text   ,"careerMobilityId" text   ,"cellphone" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"email" text   ,"employmentInfoId" text   ,"exFeeder" boolean  NOT NULL DEFAULT false,"firstLanguage" "Language"  ,"firstName" text   ,"gcconnex" text   ,"github" text   ,"groupLevelId" text   ,"id" text  NOT NULL ,"interestedInRemote" boolean  NOT NULL DEFAULT false,"lastName" text   ,"linkedin" text   ,"lookingJobId" text   ,"manager" text   ,"mentoring" boolean  NOT NULL DEFAULT false,"name" text   ,"nameInitials" text   ,"officeLocationId" text   ,"preferredLanguage" "Language" NOT NULL DEFAULT E'ENGLISH',"projects" text []  ,"secondLanguage" "Language"  ,"securityClearanceId" text   ,"signupStep" integer  NOT NULL DEFAULT 0,"status" "UserStatus" NOT NULL DEFAULT E'ACTIVE',"talentMatrixResultId" text   ,"team" text   ,"telephone" text   ,"tenureId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"visibleCardId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE UNIQUE INDEX "opTransSecurityClearances.language_description" ON "public"."opTransSecurityClearances"("language","description")
@@ -192,13 +192,15 @@ CREATE UNIQUE INDEX "mentorshipSkills.userId_skillId" ON "public"."mentorshipSki
 
 CREATE UNIQUE INDEX "skills.userId_skillId" ON "public"."skills"("userId","skillId")
 
-CREATE UNIQUE INDEX "developmentalGoals.userId_skillId_competencyId" ON "public"."developmentalGoals"("userId","skillId","competencyId")
+CREATE UNIQUE INDEX "developmentalGoals.userId_skillId" ON "public"."developmentalGoals"("userId","skillId")
+
+CREATE UNIQUE INDEX "developmentalGoals.userId_competencyId" ON "public"."developmentalGoals"("userId","competencyId")
 
 CREATE UNIQUE INDEX "competencies.userId_competencyId" ON "public"."competencies"("userId","competencyId")
 
 CREATE UNIQUE INDEX "secondLangProfs.userId_proficiency" ON "public"."secondLangProfs"("userId","proficiency")
 
-CREATE UNIQUE INDEX "educations.userId_schoolId_diplomaId_endDate_startDate" ON "public"."educations"("userId","schoolId","diplomaId","endDate","startDate")
+CREATE UNIQUE INDEX "educations.userId_schoolId_diplomaId_startDate" ON "public"."educations"("userId","schoolId","diplomaId","startDate")
 
 CREATE UNIQUE INDEX "transExperiences.language_description_jobTitle_organization" ON "public"."transExperiences"("language","description","jobTitle","organization")
 
@@ -218,7 +220,7 @@ ALTER TABLE "public"."opTransOfficeLocations" ADD FOREIGN KEY ("opOfficeLocation
 
 ALTER TABLE "public"."opTransSkills" ADD FOREIGN KEY ("opSkillsId")REFERENCES "public"."opSkills"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
-ALTER TABLE "public"."opSkills" ADD FOREIGN KEY ("categoryId")REFERENCES "public"."opCategories"("id") ON DELETE CASCADE  ON UPDATE CASCADE
+ALTER TABLE "public"."opSkills" ADD FOREIGN KEY ("categoryId")REFERENCES "public"."opCategories"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
 ALTER TABLE "public"."opTransCategories" ADD FOREIGN KEY ("opCategoriesId")REFERENCES "public"."opCategories"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
@@ -256,9 +258,9 @@ ALTER TABLE "public"."organizations" ADD FOREIGN KEY ("userId")REFERENCES "publi
 
 ALTER TABLE "public"."educations" ADD FOREIGN KEY ("userId")REFERENCES "public"."users"("id") ON DELETE CASCADE  ON UPDATE CASCADE
 
-ALTER TABLE "public"."educations" ADD FOREIGN KEY ("schoolId")REFERENCES "public"."opSchools"("id") ON DELETE CASCADE  ON UPDATE CASCADE
+ALTER TABLE "public"."educations" ADD FOREIGN KEY ("schoolId")REFERENCES "public"."opSchools"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
-ALTER TABLE "public"."educations" ADD FOREIGN KEY ("diplomaId")REFERENCES "public"."opDiplomas"("id") ON DELETE CASCADE  ON UPDATE CASCADE
+ALTER TABLE "public"."educations" ADD FOREIGN KEY ("diplomaId")REFERENCES "public"."opDiplomas"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
 ALTER TABLE "public"."transExperiences" ADD FOREIGN KEY ("experiencesId")REFERENCES "public"."experiences"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
@@ -293,10 +295,10 @@ ALTER TABLE "public"."users" ADD FOREIGN KEY ("visibleCardId")REFERENCES "public
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..20200610181736-init
+migration ..20200619135903-init
 --- datamodel.dml
 +++ datamodel.dml
-@@ -1,0 +1,469 @@
+@@ -1,0 +1,471 @@
 +generator client {
 +  provider = "prisma-client-js"
 +  output   = "./client"
@@ -467,10 +469,10 @@ migration ..20200610181736-init
 +  id                  String        @default(uuid()) @id
 +  createdAt           DateTime      @default(now())
 +  updatedAt           DateTime      @updatedAt
-+  categoryId          String
++  categoryId          String?
 +
 +  translations        opTransSkills[]
-+  category            opCategories  @relation(fields: [categoryId])
++  category            opCategories?  @relation(fields: [categoryId])
 +}
 +
 +model opTransCategories {
@@ -581,7 +583,7 @@ migration ..20200610181736-init
 +  userId    String
 +  skillId   String
 +
-+  users     users    @relation(fields: [userId])
++  user      users    @relation(fields: [userId])
 +  skill     opSkills @relation(fields: [skillId])
 +
 +  @@unique([userId, skillId])
@@ -594,7 +596,7 @@ migration ..20200610181736-init
 +  userId    String
 +  skillId   String
 +
-+  users     users    @relation(fields: [userId])
++  user      users    @relation(fields: [userId])
 +  skill     opSkills @relation(fields: [skillId])
 +
 +  @@unique([userId, skillId])
@@ -608,11 +610,12 @@ migration ..20200610181736-init
 +  skillId       String?
 +  competencyId  String?
 +
-+  users         users           @relation(fields: [userId])
++  user          users           @relation(fields: [userId])
 +  skill         opSkills?       @relation(fields: [skillId])
 +  competency    opCompetencies? @relation(fields: [competencyId])
 +
-+  @@unique([userId, skillId, competencyId])
++  @@unique([userId, skillId])
++  @@unique([userId, competencyId])
 +}
 +
 +model competencies {
@@ -622,7 +625,7 @@ migration ..20200610181736-init
 +  userId        String
 +  competencyId  String
 +
-+  users         users           @relation(fields: [userId])
++  user           users           @relation(fields: [userId])
 +  competency    opCompetencies  @relation(fields: [competencyId])
 +
 +  @@unique([userId, competencyId])
@@ -633,7 +636,7 @@ migration ..20200610181736-init
 +  createdAt     DateTime   @default(now())
 +  updatedAt     DateTime   @updatedAt
 +  userId        String
-+  date          DateTime
++  date          DateTime?
 +  proficiency   Proficiency
 +  level         ProficiencyLevel
 +
@@ -666,16 +669,16 @@ migration ..20200610181736-init
 +  createdAt DateTime  @default(now())
 +  updatedAt DateTime  @updatedAt
 +  userId    String
-+  schoolId  String
-+  diplomaId String
-+  endDate   DateTime
++  schoolId  String?
++  diplomaId String?
++  endDate   DateTime?
 +  startDate DateTime
 +
 +  user      users       @relation(fields: [userId])
-+  school    opSchools   @relation(fields: [schoolId])
-+  diploma   opDiplomas  @relation(fields: [diplomaId])
++  school    opSchools?  @relation(fields: [schoolId])
++  diploma   opDiplomas? @relation(fields: [diplomaId])
 +
-+  @@unique([userId, schoolId, diplomaId, endDate, startDate])
++  @@unique([userId, schoolId, diplomaId, startDate])
 +}
 +
 +model transExperiences {
@@ -697,7 +700,7 @@ migration ..20200610181736-init
 +  translations transExperiences[]
 +  userId       String
 +  startDate    DateTime
-+  endDate      DateTime
++  endDate      DateTime?
 +  
 +  user         users     @relation(fields: [userId])
 +}
@@ -754,6 +757,7 @@ migration ..20200610181736-init
 +  interestedInRemote    Boolean                 @default(false)
 +  status                UserStatus              @default(ACTIVE)
 +  projects              String[]
++  signupStep            Int                     @default(0)
 +
 +  groupLevel            opClassifications?      @relation(fields: [groupLevelId], name: "groupLevels")
 +  actingLevel           opClassifications?      @relation(fields: [actingLevelId], name: "actingLevels")

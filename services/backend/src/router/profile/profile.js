@@ -13,11 +13,11 @@ profileRouter
     [UUIDValidator, langValidator],
     profile.getPublicProfileById
   )
-  .put(keycloak.protect(), profile.updateProfile);
-
-profileRouter
-  .route("/:id/status")
-  .get(keycloak.protect(), UUIDValidator, profile.getProfileStatusById);
+  .put(
+    keycloak.protect(),
+    [UUIDValidator, langValidator],
+    profile.updateProfile
+  );
 
 profileRouter
   .route("/private/:id")

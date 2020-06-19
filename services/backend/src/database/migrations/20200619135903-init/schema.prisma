@@ -168,10 +168,10 @@ model opSkills {
   id                  String        @default(uuid()) @id
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
-  categoryId          String
+  categoryId          String?
 
   translations        opTransSkills[]
-  category            opCategories  @relation(fields: [categoryId])
+  category            opCategories?  @relation(fields: [categoryId])
 }
 
 model opTransCategories {
@@ -282,7 +282,7 @@ model mentorshipSkills {
   userId    String
   skillId   String
 
-  users     users    @relation(fields: [userId])
+  user      users    @relation(fields: [userId])
   skill     opSkills @relation(fields: [skillId])
 
   @@unique([userId, skillId])
@@ -295,7 +295,7 @@ model skills {
   userId    String
   skillId   String
 
-  users     users    @relation(fields: [userId])
+  user      users    @relation(fields: [userId])
   skill     opSkills @relation(fields: [skillId])
 
   @@unique([userId, skillId])
@@ -309,11 +309,12 @@ model developmentalGoals {
   skillId       String?
   competencyId  String?
 
-  users         users           @relation(fields: [userId])
+  user          users           @relation(fields: [userId])
   skill         opSkills?       @relation(fields: [skillId])
   competency    opCompetencies? @relation(fields: [competencyId])
 
-  @@unique([userId, skillId, competencyId])
+  @@unique([userId, skillId])
+  @@unique([userId, competencyId])
 }
 
 model competencies {
@@ -323,7 +324,7 @@ model competencies {
   userId        String
   competencyId  String
 
-  users         users           @relation(fields: [userId])
+  user           users           @relation(fields: [userId])
   competency    opCompetencies  @relation(fields: [competencyId])
 
   @@unique([userId, competencyId])
@@ -334,7 +335,7 @@ model secondLangProfs {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   userId        String
-  date          DateTime
+  date          DateTime?
   proficiency   Proficiency
   level         ProficiencyLevel
 
@@ -367,16 +368,16 @@ model educations {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   userId    String
-  schoolId  String
-  diplomaId String
-  endDate   DateTime
+  schoolId  String?
+  diplomaId String?
+  endDate   DateTime?
   startDate DateTime
 
   user      users       @relation(fields: [userId])
-  school    opSchools   @relation(fields: [schoolId])
-  diploma   opDiplomas  @relation(fields: [diplomaId])
+  school    opSchools?  @relation(fields: [schoolId])
+  diploma   opDiplomas? @relation(fields: [diplomaId])
 
-  @@unique([userId, schoolId, diplomaId, endDate, startDate])
+  @@unique([userId, schoolId, diplomaId, startDate])
 }
 
 model transExperiences {
@@ -398,7 +399,7 @@ model experiences {
   translations transExperiences[]
   userId       String
   startDate    DateTime
-  endDate      DateTime
+  endDate      DateTime?
   
   user         users     @relation(fields: [userId])
 }
@@ -455,6 +456,7 @@ model users {
   interestedInRemote    Boolean                 @default(false)
   status                UserStatus              @default(ACTIVE)
   projects              String[]
+  signupStep            Int                     @default(0)
 
   groupLevel            opClassifications?      @relation(fields: [groupLevelId], name: "groupLevels")
   actingLevel           opClassifications?      @relation(fields: [actingLevelId], name: "actingLevels")

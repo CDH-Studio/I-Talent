@@ -146,13 +146,7 @@ const TalentFormView = ({
       values.mentorshipSkills = [];
     }
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(`${backendAddress}api/profile/${userId}`, values);
   };
 
   /* show message */
@@ -607,7 +601,7 @@ const TalentFormView = ({
                 style={{ width: "100%" }}
               >
                 {competencyOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>

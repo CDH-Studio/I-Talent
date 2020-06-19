@@ -14,24 +14,34 @@ const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+
   const { id, email } = useSelector((state) => state.user);
+  const { locale } = useSelector((state) => state.settings);
 
   const history = useHistory();
 
   // Get possible locations for form drop down
   const getLocations = async () => {
-    const result = await axios.get(`${backendAddress}api/option/getLocation`);
+    const result = await axios.get(
+      `${backendAddress}api/option/locations?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
     setLocationOptions(result.data ? result.data : []);
     return 1;
   };
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const url = `${backendAddress}api/profile/private/${id}`;
-    const result = await axios.get(url);
-    setProfileInfo(result.data);
-    return 1;
-  }, [id]);
+    if (id) {
+      const url = `${backendAddress}api/profile/private/${id}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`;
+      const result = await axios.get(url);
+      setProfileInfo(result.data);
+      console.log(result.data);
+    }
+  }, [id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {

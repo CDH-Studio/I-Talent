@@ -1945,7 +1945,7 @@
       "model": "opSkills",
       "field": "categoryId",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -1959,7 +1959,7 @@
       "model": "opSkills",
       "field": "category",
       "type": "opCategories",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -3741,7 +3741,7 @@
     {
       "tag": "CreateField",
       "model": "mentorshipSkills",
-      "field": "users",
+      "field": "user",
       "type": "users",
       "arity": "Required"
     },
@@ -3751,7 +3751,7 @@
         "path": {
           "tag": "Field",
           "model": "mentorshipSkills",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       }
@@ -3763,7 +3763,7 @@
         "path": {
           "tag": "Field",
           "model": "mentorshipSkills",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       },
@@ -3932,7 +3932,7 @@
     {
       "tag": "CreateField",
       "model": "skills",
-      "field": "users",
+      "field": "user",
       "type": "users",
       "arity": "Required"
     },
@@ -3942,7 +3942,7 @@
         "path": {
           "tag": "Field",
           "model": "skills",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       }
@@ -3954,7 +3954,7 @@
         "path": {
           "tag": "Field",
           "model": "skills",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       },
@@ -4130,7 +4130,7 @@
     {
       "tag": "CreateField",
       "model": "developmentalGoals",
-      "field": "users",
+      "field": "user",
       "type": "users",
       "arity": "Required"
     },
@@ -4140,7 +4140,7 @@
         "path": {
           "tag": "Field",
           "model": "developmentalGoals",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       }
@@ -4152,7 +4152,7 @@
         "path": {
           "tag": "Field",
           "model": "developmentalGoals",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       },
@@ -4232,7 +4232,23 @@
           "arguments": [
             {
               "name": "",
-              "value": "[userId, skillId, competencyId]"
+              "value": "[userId, skillId]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "developmentalGoals",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[userId, competencyId]"
             }
           ]
         },
@@ -4353,7 +4369,7 @@
     {
       "tag": "CreateField",
       "model": "competencies",
-      "field": "users",
+      "field": "user",
       "type": "users",
       "arity": "Required"
     },
@@ -4363,7 +4379,7 @@
         "path": {
           "tag": "Field",
           "model": "competencies",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       }
@@ -4375,7 +4391,7 @@
         "path": {
           "tag": "Field",
           "model": "competencies",
-          "field": "users"
+          "field": "user"
         },
         "directive": "relation"
       },
@@ -4539,7 +4555,7 @@
       "model": "secondLangProfs",
       "field": "date",
       "type": "DateTime",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -4973,21 +4989,21 @@
       "model": "educations",
       "field": "schoolId",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "educations",
       "field": "diplomaId",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "educations",
       "field": "endDate",
       "type": "DateTime",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -5033,7 +5049,7 @@
       "model": "educations",
       "field": "school",
       "type": "opSchools",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -5065,7 +5081,7 @@
       "model": "educations",
       "field": "diploma",
       "type": "opDiplomas",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -5101,7 +5117,7 @@
           "arguments": [
             {
               "name": "",
-              "value": "[userId, schoolId, diplomaId, endDate, startDate]"
+              "value": "[userId, schoolId, diplomaId, startDate]"
             }
           ]
         },
@@ -5372,7 +5388,7 @@
       "model": "experiences",
       "field": "endDate",
       "type": "DateTime",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -6049,6 +6065,38 @@
       "field": "projects",
       "type": "String",
       "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "users",
+      "field": "signupStep",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "users",
+          "field": "signupStep"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "users",
+          "field": "signupStep"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
     },
     {
       "tag": "CreateField",

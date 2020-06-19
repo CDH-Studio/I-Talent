@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 import { IntlPropType } from "../customPropTypes";
+import config from "../config";
+
+const { backendAddress } = config;
 
 const ProfileCreate = ({ intl, match }) => {
-  document.title = `${intl.formatMessage({ id: "create.profile" })} | I-Talent`;
+  const [highestStep, setHighestStep] = useState(1);
+  const { id } = useSelector((state) => state.user);
 
-  return <CreateProfileLayout step={match.params.step} />;
+  useEffect(() => {
+    if (match.params.step > highestStep) {
+      setHighestStep(match.params.step);
+
+      axios.put(`${backendAddress}api/profile/${id}`, {
+        signupStep: parseInt(match.params.step, 10),
+      });
+    }
+  }, [highestStep, id, match]);
+
+  useEffect(() => {
+    document.title = `${intl.formatMessage({
+      id: "create.profile",
+    })} | I-Talent`;
+  }, [intl]);
+
+  return (
+    <CreateProfileLayout step={match.params.step} highestStep={highestStep} />
+  );
 };
 
 ProfileCreate.propTypes = {

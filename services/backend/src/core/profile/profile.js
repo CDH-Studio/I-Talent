@@ -1,97 +1,423 @@
 const { validationResult } = require("express-validator");
+const moment = require("moment");
 const { PrismaClient } = require("../../database/client");
 
 const prisma = new PrismaClient();
 
+function normalizeDate(date, startOf) {
+  return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
+}
+
 async function updateProfile(request, response) {
   try {
     validationResult(request).throw();
-    const { id } = request.params;
-    if (request.kauth.grant.access_token.content.sub === id) {
-      const { body } = request;
-      const result = await prisma.users.update({
-        where: { id },
-        data: {
-          firstName: body.firstName,
-          lastName: body.lastName,
-          team: body.team,
-          telephone: body.telephone,
-          cellphone: body.cellphone,
-          linkedin: body.linkedin,
-          github: body.github,
-          gcconnex: body.gcconnex,
-          manager: body.manager,
-          firstLanguage: body.firstLanguage,
-          secondLanguage: body.secondLanguage,
-          preferredLanguage: body.preferredLanguage,
-          actingStartDate: body.actingStartDate,
-          actingEndDate: body.actingEndDate,
-          interestedInRemote: body.interestedInRemote,
-          exFeeder: body.exFeeder,
-          mentoring: body.isMentor,
-          name: body.name,
-          nameInitials: body.nameInitials,
-          avatarColor: body.avatarColor,
-          email: body.email,
-          status: body.status,
-          projects: body.projects,
-          skills: body.skills,
-          competencies: body.competencies,
-          developmentalGoals: body.developmentalGoals,
-          educations: body.education,
-          relocationLocations: body.relocationLocations,
-          experiences: body.experience,
 
-          officeLocation: { connect: { id: body.locationId } },
-          careerMobility: { connect: { id: body.careerMobilityId } },
-          tenure: { connect: { id: body.tenureId } },
-          securityClearance: { connect: { id: body.securityClearanceId } },
-          lookingJob: { connect: { id: body.lookingForANewJobId } },
-          talentMatrixResult: { connect: { id: body.talentMatrixResultId } },
-          groupLevel: { connect: { id: body.groupLevelId } },
-          actingLevel: { connect: { id: body.actingLevelId } },
-          employmentInfo: { connect: { id: body.employmentInfoId } },
+    const userId = request.params.id;
+    const { language } = request.query;
 
-          visibleCards: {
-            update: {
-              manager: body.manager,
-              info: body.info,
-              talentManagement: body.talentManagement,
-              officialLanguage: body.officialLanguage,
-              skills: body.skills,
-              competencies: body.competencies,
-              developmentalGoals: body.developmentalGoals,
-              education: body.education,
-              experience: body.experience,
-              projects: body.projects,
-              careerInterests: body.careerInterests,
-              mentorshipSkills: body.mentorshipSkills,
-              exFeeder: body.exFeeder,
+    if (request.kauth.grant.access_token.content.sub === userId) {
+      const {
+        firstName,
+        lastName,
+        team,
+        telephone,
+        cellphone,
+        linkedin,
+        github,
+        gcconnex,
+        manager,
+        firstLanguage,
+        secondLanguage,
+        preferredLanguage,
+        actingStartDate,
+        actingEndDate,
+        interestedInRemote,
+        exFeeder,
+        mentoring,
+        nameInitials,
+        avatarColor,
+        status,
+        signupStep,
+
+        projects,
+
+        skills,
+        mentorshipSkills,
+        competencies,
+        developmentalGoals,
+        educations,
+        relocationLocations,
+        experiences,
+        secondLangProfs,
+
+        locationId,
+        careerMobilityId,
+        tenureId,
+        securityClearanceId,
+        lookingForANewJobId,
+        talentMatrixResultId,
+        groupLevelId,
+        actingLevelId,
+        employmentInfoId,
+
+        visibleCards,
+      } = request.body;
+
+      // Used for updating/creating developmental goals
+      let skillIds;
+      let competencyIds;
+      let upsertDevelopmentalGoals;
+      if (developmentalGoals) {
+        skillIds = await prisma.opSkills
+          .findMany({
+            where: { id: { in: developmentalGoals } },
+            select: { id: true },
+          })
+          .then((i) => i.map((j) => j.id));
+
+        competencyIds = await prisma.opCompetencies
+          .findMany({
+            where: { id: { in: developmentalGoals } },
+            select: { id: true },
+          })
+          .then((i) => i.map((j) => j.id));
+
+        upsertDevelopmentalGoals = developmentalGoals.map((id) => {
+          const isCompentency = competencyIds.includes(id);
+          const isSkill = skillIds.includes(id);
+
+          if (!isCompentency && !isSkill) {
+            return undefined;
+          }
+
+          return {
+            where: {
+              userId_competencyId: isCompentency
+                ? {
+                    competencyId: id,
+                    userId,
+                  }
+                : undefined,
+              userId_skillId: isSkill
+                ? {
+                    skillId: id,
+                    userId,
+                  }
+                : undefined,
             },
-          },
+            create: {
+              competency: isCompentency
+                ? {
+                    connect: {
+                      id,
+                    },
+                  }
+                : undefined,
+              skill: isSkill
+                ? {
+                    connect: {
+                      id,
+                    },
+                  }
+                : undefined,
+            },
+            update: {},
+          };
+        });
+      }
+
+      const result = await prisma.users.update({
+        where: { id: userId },
+        data: {
+          firstName,
+          lastName,
+          team,
+          telephone,
+          cellphone,
+          linkedin,
+          github,
+          gcconnex,
+          manager,
+          firstLanguage,
+          secondLanguage,
+          preferredLanguage,
+          actingStartDate: normalizeDate(actingStartDate, "day"),
+          actingEndDate: normalizeDate(actingEndDate, "day"),
+          interestedInRemote,
+          exFeeder,
+          mentoring,
+          nameInitials,
+          avatarColor,
+          status,
+          signupStep,
+
+          projects: projects
+            ? {
+                set: projects,
+              }
+            : undefined,
+
+          skills: skills
+            ? {
+                deleteMany: {
+                  skillId: {
+                    notIn: skills,
+                  },
+                },
+                upsert: skills.map((id) => ({
+                  where: {
+                    userId_skillId: {
+                      skillId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    skill: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          mentorshipSkills: mentorshipSkills
+            ? {
+                deleteMany: {
+                  skillId: {
+                    notIn: mentorshipSkills,
+                  },
+                },
+                upsert: mentorshipSkills.map((id) => ({
+                  where: {
+                    userId_skillId: {
+                      skillId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    skill: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          competencies: competencies
+            ? {
+                deleteMany: {
+                  competencyId: {
+                    notIn: competencies,
+                  },
+                },
+                upsert: competencies.map((id) => ({
+                  where: {
+                    userId_competencyId: {
+                      competencyId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    competency: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          developmentalGoals: developmentalGoals
+            ? {
+                deleteMany: {
+                  competencyId: {
+                    notIn: competencyIds,
+                  },
+                  skillId: {
+                    notIn: skillIds,
+                  },
+                },
+                upsert: upsertDevelopmentalGoals,
+              }
+            : undefined,
+          relocationLocations: relocationLocations
+            ? {
+                deleteMany: {
+                  locationId: {
+                    notIn: relocationLocations,
+                  },
+                },
+                upsert: relocationLocations.map((id) => ({
+                  where: {
+                    userId_locationId: {
+                      locationId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    location: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          educations: educations
+            ? {
+                deleteMany: {},
+                upsert: educations.map(
+                  ({ startDate, endDate, diplomaId, schoolId }) => ({
+                    where: {
+                      userId_schoolId_diplomaId_startDate: {
+                        startDate: normalizeDate(startDate, "month"),
+                        diplomaId,
+                        schoolId,
+                        userId,
+                      },
+                    },
+                    create: {
+                      startDate: normalizeDate(startDate, "month"),
+                      endDate: normalizeDate(endDate, "month"),
+                      diploma: {
+                        connect: {
+                          id: diplomaId,
+                        },
+                      },
+                      school: {
+                        connect: {
+                          id: schoolId,
+                        },
+                      },
+                    },
+                    update: {},
+                  })
+                ),
+              }
+            : undefined,
+          experiences: experiences
+            ? {
+                deleteMany: {},
+                create: experiences.map(
+                  ({
+                    startDate,
+                    endDate,
+                    jobTitle,
+                    organization,
+                    description,
+                  }) => ({
+                    startDate,
+                    endDate,
+                    translations: {
+                      create: {
+                        language,
+                        jobTitle,
+                        organization,
+                        description,
+                      },
+                    },
+                  })
+                ),
+              }
+            : undefined,
+          secondLangProfs: secondLangProfs
+            ? {
+                upsert: secondLangProfs.map((i) => ({
+                  where: {
+                    userId_proficiency: {
+                      userId,
+                      proficiency: i.proficiency,
+                    },
+                  },
+                  create: i,
+                  update: {
+                    level: i.level,
+                    date: normalizeDate(i.date, "day"),
+                  },
+                })),
+              }
+            : undefined,
+
+          officeLocation: locationId
+            ? {
+                connect: { id: locationId },
+              }
+            : undefined,
+          careerMobility: careerMobilityId
+            ? {
+                connect: { id: careerMobilityId },
+              }
+            : undefined,
+          tenure: tenureId
+            ? {
+                connect: { id: tenureId },
+              }
+            : undefined,
+          securityClearance: securityClearanceId
+            ? {
+                connect: { id: securityClearanceId },
+              }
+            : undefined,
+          lookingJob: lookingForANewJobId
+            ? {
+                connect: { id: lookingForANewJobId },
+              }
+            : undefined,
+          talentMatrixResult: talentMatrixResultId
+            ? {
+                connect: { id: talentMatrixResultId },
+              }
+            : undefined,
+          groupLevel: groupLevelId
+            ? {
+                connect: { id: groupLevelId },
+              }
+            : undefined,
+          actingLevel: actingLevelId
+            ? {
+                connect: { id: actingLevelId },
+              }
+            : undefined,
+          employmentInfo: employmentInfoId
+            ? {
+                connect: { id: employmentInfoId },
+              }
+            : undefined,
+
+          visibleCards: visibleCards
+            ? {
+                update: {
+                  manager: visibleCards.manager,
+                  info: visibleCards.info,
+                  talentManagement: visibleCards.talentManagement,
+                  officialLanguage: visibleCards.officialLanguage,
+                  skills: visibleCards.skills,
+                  competencies: visibleCards.competencies,
+                  developmentalGoals: visibleCards.developmentalGoals,
+                  education: visibleCards.education,
+                  experience: visibleCards.experience,
+                  projects: visibleCards.projects,
+                  careerInterests: visibleCards.careerInterests,
+                  mentorshipSkills: visibleCards.mentorshipSkills,
+                  exFeeder: visibleCards.exFeeder,
+                },
+              }
+            : undefined,
         },
       });
       response.status(200).json(result);
+      return;
     }
     response
       .status(403)
       .json({ data: "Access to private account has be denied." });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json("Unable to create profiles");
-  }
-}
-
-async function getProfileStatusById(request, response) {
-  try {
-    validationResult(request).throw();
-
-    const { id } = request.params;
-
-    const getProfileFromDB = await prisma.users.findOne({ where: { id: id } });
-    response.status(200).json({
-      profile: { exists: !!getProfileFromDB },
-    });
   } catch (error) {
     console.log(error);
     response.status(500).json("Unable to create profiles");
@@ -201,6 +527,7 @@ async function getFullProfile(id, language) {
           endDate: true,
           diploma: {
             select: {
+              id: true,
               translations: {
                 where: { language },
                 select: {
@@ -211,6 +538,7 @@ async function getFullProfile(id, language) {
           },
           school: {
             select: {
+              id: true,
               abbrCountry: true,
               abbrProvince: true,
               translations: {
@@ -228,6 +556,7 @@ async function getFullProfile(id, language) {
           id: true,
           location: {
             select: {
+              id: true,
               streetNumber: true,
               postalCode: true,
               city: true,
@@ -367,6 +696,23 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      mentorshipSkills: {
+        select: {
+          skill: {
+            select: {
+              id: true,
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
       visibleCards: {
         select: {
           manager: true,
@@ -392,6 +738,15 @@ function filterProfileResult(profile) {
   let filteredProfile = profile;
 
   filteredProfile.skills = profile.skills.map((skill) => {
+    if (skill.skill.translations)
+      return {
+        id: skill.skill.id,
+        name: skill.skill.translations[0].name,
+      };
+    return null;
+  });
+
+  filteredProfile.mentorshipSkills = profile.mentorshipSkills.map((skill) => {
     if (skill.skill.translations)
       return {
         id: skill.skill.id,
@@ -426,11 +781,7 @@ function filterProfileResult(profile) {
               name: goal.skill.translations[0].name,
             }
           : null;
-      return {
-        id: goal.id,
-        competency,
-        skill,
-      };
+      return competency || skill;
     }
   );
 
@@ -439,10 +790,14 @@ function filterProfileResult(profile) {
       id: education.id,
       startDate: education.startDate,
       endDate: education.endDate,
-      diploma: education.diploma.translations[0].description
-        ? education.diploma.translations[0].description
-        : null,
+      diploma: {
+        id: education.diploma.id,
+        description: education.diploma.translations[0].description
+          ? education.diploma.translations[0].description
+          : null,
+      },
       school: {
+        id: education.school.id,
         country: education.school.abbrCountry
           ? education.school.abbrCountry
           : null,
@@ -473,80 +828,92 @@ function filterProfileResult(profile) {
     };
   });
 
-  filteredProfile.securityClearance = {
-    id: profile.securityClearance.id,
-    description: profile.securityClearance.translations[0].description
-      ? profile.securityClearance.translations[0].description
-      : null,
-  };
+  if (profile.securityClearance) {
+    filteredProfile.securityClearance = {
+      id: profile.securityClearance.id,
+      description: profile.securityClearance.translations[0].description
+        ? profile.securityClearance.translations[0].description
+        : null,
+    };
+  }
 
-  filteredProfile.lookingJob = {
-    id: profile.lookingJob.id,
-    description: profile.lookingJob.translations[0].description
-      ? profile.lookingJob.translations[0].description
-      : null,
-  };
+  if (profile.lookingJob) {
+    filteredProfile.lookingJob = {
+      id: profile.lookingJob.id,
+      description: profile.lookingJob.translations[0].description
+        ? profile.lookingJob.translations[0].description
+        : null,
+    };
+  }
 
-  filteredProfile.tenure = {
-    id: profile.tenure.id,
-    description: profile.tenure.translations[0].name
-      ? profile.tenure.translations[0].name
-      : null,
-  };
+  if (profile.tenure) {
+    filteredProfile.tenure = {
+      id: profile.tenure.id,
+      description: profile.tenure.translations[0].name
+        ? profile.tenure.translations[0].name
+        : null,
+    };
+  }
 
-  filteredProfile.careerMobility = {
-    id: profile.careerMobility.id,
-    description: profile.careerMobility.translations[0].description
-      ? profile.careerMobility.translations[0].description
-      : null,
-  };
+  if (profile.careerMobility) {
+    filteredProfile.careerMobility = {
+      id: profile.careerMobility.id,
+      description: profile.careerMobility.translations[0].description
+        ? profile.careerMobility.translations[0].description
+        : null,
+    };
+  }
 
-  filteredProfile.employmentInfo = {
-    id: profile.employmentInfo.id,
-    jobTitle: profile.employmentInfo.translations[0].jobTitle
-      ? profile.employmentInfo.translations[0].jobTitle
-      : null,
-    branch: profile.employmentInfo.translations[0].branch
-      ? profile.employmentInfo.translations[0].branch
-      : null,
-  };
+  if (profile.employmentInfo) {
+    filteredProfile.employmentInfo = {
+      id: profile.employmentInfo.id,
+      jobTitle: profile.employmentInfo.translations[0].jobTitle
+        ? profile.employmentInfo.translations[0].jobTitle
+        : null,
+      branch: profile.employmentInfo.translations[0].branch
+        ? profile.employmentInfo.translations[0].branch
+        : null,
+    };
+  }
 
-  filteredProfile.talentMatrixResult = {
-    id: profile.talentMatrixResult.id,
-    description: profile.talentMatrixResult.translations[0].description
-      ? profile.talentMatrixResult.translations[0].description
-      : null,
-  };
+  if (profile.talentMatrixResult) {
+    filteredProfile.talentMatrixResult = {
+      id: profile.talentMatrixResult.id,
+      description: profile.talentMatrixResult.translations[0].description
+        ? profile.talentMatrixResult.translations[0].description
+        : null,
+    };
+  }
 
-  filteredProfile.officeLocation = {
-    id: profile.officeLocation.id,
-    postalCode: profile.officeLocation.postalCode,
-    streetNumber: profile.officeLocation.streetNumber,
-    city: profile.officeLocation.city,
-    country: profile.officeLocation.country,
-    streetName: profile.officeLocation.translations[0].streetName
-      ? profile.officeLocation.translations[0].streetName
-      : null,
-    province: profile.officeLocation.translations[0].province
-      ? profile.officeLocation.translations[0].province
-      : null,
-  };
+  if (profile.officeLocation) {
+    filteredProfile.officeLocation = {
+      id: profile.officeLocation.id,
+      postalCode: profile.officeLocation.postalCode,
+      streetNumber: profile.officeLocation.streetNumber,
+      city: profile.officeLocation.city,
+      country: profile.officeLocation.country,
+      streetName: profile.officeLocation.translations[0].streetName
+        ? profile.officeLocation.translations[0].streetName
+        : null,
+      province: profile.officeLocation.translations[0].province
+        ? profile.officeLocation.translations[0].province
+        : null,
+    };
+  }
 
-  filteredProfile.relocationLocations =
-    filteredProfile.relocationLocations.location &&
-    filteredProfile.relocationLocations.location.translations
-      ? {
-          id: profile.relocationLocations.id,
-          streetNumber: profile.relocationLocations.location.streetNumber,
-          postalCode: profile.relocationLocations.location.postalCode,
-          city: profile.relocationLocations.location.city,
-          country: profile.relocationLocations.location.country,
-          province:
-            profile.relocationLocations.location.translations[0].province,
-          streetName:
-            profile.relocationLocations.location.translations[0].streetName,
-        }
-      : [];
+  if (profile.relocationLocations) {
+    filteredProfile.relocationLocations = filteredProfile.relocationLocations.map(
+      ({ location }) => ({
+        id: location.id,
+        streetNumber: location.streetNumber,
+        postalCode: location.postalCode,
+        city: location.city,
+        country: location.country,
+        province: location.translations[0].province,
+        streetName: location.translations[0].streetName,
+      })
+    );
+  }
 
   filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
     return {
@@ -568,6 +935,7 @@ async function getPrivateProfileById(request, response) {
       const { language } = request.query;
       const filter = filterProfileResult(await getFullProfile(id, language));
       response.status(200).json(filter);
+      return;
     }
     response
       .status(403)
@@ -654,5 +1022,4 @@ module.exports = {
   updateProfile,
   getPublicProfileById,
   getPrivateProfileById,
-  getProfileStatusById,
 };

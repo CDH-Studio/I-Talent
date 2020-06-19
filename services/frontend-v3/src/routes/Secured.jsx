@@ -15,10 +15,17 @@ import {
   NotFound,
 } from "../pages";
 import keycloakConfig from "../keycloak";
-import createUser from "../functions/login";
-import { setUserName, setUserEmail } from "../redux/slices/userSlice";
+import {
+  setUserName,
+  setUserEmail,
+  setUserId,
+  setUserAvatarColor,
+  setUserInitials,
+} from "../redux/slices/userSlice";
+import config from "../config";
 
 const { keycloakJSONConfig } = keycloakConfig;
+const { backendAddress } = config;
 
 const Secured = ({ location }) => {
   const dispatch = useDispatch();
@@ -26,35 +33,51 @@ const Secured = ({ location }) => {
   const [keycloak, setKeycloak] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
+  const handleRequest = (userInfo, res) => {
+    dispatch(setUserName(userInfo.name));
+    dispatch(setUserEmail(userInfo.email));
+    dispatch(setUserId(res.data.id));
+    dispatch(setUserAvatarColor(res.data.avatarColor));
+    dispatch(setUserInitials(res.data.nameInitials));
+    return res.data.signupStep;
+  };
+
   useEffect(() => {
     const keycloakInstance = Keycloak(keycloakJSONConfig);
 
     // Check if profile exist for the logged in user
     const profileExist = () => {
       return keycloakInstance.loadUserInfo().then(async (userInfo) => {
-        return createUser(
-          userInfo.email,
-          userInfo.name,
-          userInfo.sub,
-          userInfo.family_name,
-          userInfo.given_name
-        ).then((res) => {
-          dispatch(setUserName(userInfo.name));
-          dispatch(setUserEmail(userInfo.email));
-          return res.hasProfile;
-        });
+        return axios
+          .get(`${backendAddress}api/user/${userInfo.sub}`)
+          .then((res) => {
+            handleRequest(userInfo, res);
+          })
+          .catch(() => {
+            axios
+              .post(`${backendAddress}api/user/${userInfo.sub}`, {
+                email: userInfo.email,
+                name: userInfo.name,
+                lastName: userInfo.family_name,
+                firstName: userInfo.given_name,
+              })
+              .then((res) => {
+                handleRequest(userInfo, res);
+              });
+          });
       });
     };
 
     // Generate redirect if profile does not exist
     const renderRedirect = () => {
-      return profileExist().then((exists) => {
-        if (!exists) {
-          return (
-            <Redirect from="/old-path" to="/secured/profile/create/step/1" />
-          );
+      return profileExist().then((signupStep) => {
+        if (signupStep === 8) {
+          return null;
         }
-        return <div />;
+
+        return (
+          <Redirect from="/old-path" to="/secured/profile/create/step/1" />
+        );
       });
     };
 

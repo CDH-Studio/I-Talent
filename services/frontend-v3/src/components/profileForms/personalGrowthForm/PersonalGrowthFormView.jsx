@@ -132,28 +132,12 @@ const PersonalGrowthFormView = ({
    * update profile in DB or create profile if it is not found
    */
   const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-    // set cleared field to null to clear DB data
-    values.interestedInRemote = values.interestedInRemote
-      ? values.interestedInRemote
-      : null;
-    values.lookingForNewJob = values.lookingForNewJob
-      ? values.lookingForNewJob
-      : null;
-    values.careerMobility = values.careerMobility
-      ? values.careerMobility
-      : null;
-    values.talentMatrixResult = values.talentMatrixResult
-      ? values.talentMatrixResult
-      : null;
+    const values = {
+      ...unalteredValues,
+      interestedInRemote: unalteredValues.interestedInRemote === "true",
+    };
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(`${backendAddress}api/profile/${userId}`, values);
   };
 
   /* show message */
@@ -198,9 +182,9 @@ const PersonalGrowthFormView = ({
           ? profile.interestedInRemote.toString()
           : undefined,
         relocationLocations: savedRelocationLocations,
-        lookingForNewJob: savedLookingForNewJob,
-        careerMobility: savedCareerMobility,
-        talentMatrixResult: savedTalentMatrixResult,
+        lookingForANewJobId: savedLookingForNewJob,
+        careerMobilityId: savedCareerMobility,
+        talentMatrixResultId: savedTalentMatrixResult,
         exFeeder: savedExFeederBool,
       };
     }
@@ -462,7 +446,7 @@ const PersonalGrowthFormView = ({
                 style={{ width: "100%" }}
               >
                 {developmentalGoalOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -517,7 +501,11 @@ const PersonalGrowthFormView = ({
                 optionFilterProp="children"
               >
                 {relocationOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return (
+                    <Option key={value.id}>
+                      {value.streetNumber} {value.streetName}, {value.city}
+                    </Option>
+                  );
                 })}
               </Select>
             </Form.Item>
@@ -528,7 +516,7 @@ const PersonalGrowthFormView = ({
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
-              name="lookingForNewJob"
+              name="lookingForANewJobId"
               label={<FormattedMessage id="profile.looking.for.new.job" />}
             >
               <Select
@@ -538,7 +526,7 @@ const PersonalGrowthFormView = ({
                 allowClear
               >
                 {lookingForNewJobOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -569,7 +557,7 @@ const PersonalGrowthFormView = ({
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
-              name="careerMobility"
+              name="careerMobilityId"
               label={<FormattedMessage id="profile.career.mobility" />}
             >
               <Select
@@ -579,7 +567,7 @@ const PersonalGrowthFormView = ({
                 allowClear
               >
                 {careerMobilityOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -590,7 +578,7 @@ const PersonalGrowthFormView = ({
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
-              name="talentMatrixResult"
+              name="talentMatrixResultId"
               label={<FormattedMessage id="profile.talent.matrix.result" />}
             >
               <Select
@@ -600,7 +588,7 @@ const PersonalGrowthFormView = ({
                 allowClear
               >
                 {talentMatrixResultOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
             </Form.Item>
