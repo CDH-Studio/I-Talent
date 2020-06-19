@@ -104,7 +104,7 @@ const LangProficiencyFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
-      minWidth: "100%",
+      width: "100%",
     },
     unsavedText: {
       marginLeft: "10px",
