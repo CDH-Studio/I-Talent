@@ -415,6 +415,10 @@ async function updateProfile(request, response) {
       .json({ data: "Access to private account has be denied." });
   } catch (error) {
     console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).json("Unable to create profiles");
   }
 }
@@ -925,18 +929,26 @@ function filterProfileResult(profile) {
 async function getPrivateProfileById(request, response) {
   try {
     validationResult(request).throw();
+
     const { id } = request.params;
+    const { language } = request.query;
+
     if (request.kauth.grant.access_token.content.sub === id) {
-      const { language } = request.query;
       const filter = filterProfileResult(await getFullProfile(id, language));
+
       response.status(200).json(filter);
       return;
     }
+
     response
       .status(403)
       .json({ data: "Access to private account has be denied." });
   } catch (error) {
     console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
     response.status(500).json("Unable to get profile");
   }
 }
@@ -944,6 +956,7 @@ async function getPrivateProfileById(request, response) {
 async function getPublicProfileById(request, response) {
   try {
     validationResult(request).throw();
+
     const { id } = request.params;
     const { language } = request.query;
 

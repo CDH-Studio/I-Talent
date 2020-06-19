@@ -2,7 +2,11 @@ const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const profile = require("../../core/profile/profile");
 
-const { langValidator, UUIDValidator } = require("./validator");
+const {
+  langValidator,
+  UUIDValidator,
+  updateProfileValidator,
+} = require("./validator");
 
 const profileRouter = Router();
 
@@ -13,11 +17,7 @@ profileRouter
     [UUIDValidator, langValidator],
     profile.getPublicProfileById
   )
-  .put(
-    keycloak.protect(),
-    [UUIDValidator, langValidator],
-    profile.updateProfile
-  );
+  .put(keycloak.protect(), updateProfileValidator, profile.updateProfile);
 
 profileRouter
   .route("/private/:id")
