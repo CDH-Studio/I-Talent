@@ -36,7 +36,7 @@ const TopNavView = () => {
     },
     rightMenu: {
       float: "right",
-      margin: "0 20px",
+      margin: "0px 20px",
     },
     profileAvatar: {
       marginRight: "8px",
@@ -84,10 +84,7 @@ const TopNavView = () => {
     <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
       {optionalStartMenuItems}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a
-          rel="noopener noreferrer"
-          href={`/secured/profile/${id}`}
-        >
+        <a rel="noopener noreferrer" href={`/secured/profile/${id}`}>
           <UserOutlined style={styles.MenuIcon} />
           <FormattedMessage id="my.profile" />
         </a>
@@ -99,10 +96,7 @@ const TopNavView = () => {
         </a>
       </Menu.Item>
       {sessionStorage.getItem("admin") === "true" ? (
-        <Menu.Item
-          tabIndex="0"
-          style={styles.dropDownItem}
-        >
+        <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/admin/dashboard">
             <DashboardOutlined style={styles.MenuIcon} />
             <FormattedMessage id="admin" />
