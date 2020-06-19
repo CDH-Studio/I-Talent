@@ -50,9 +50,7 @@ const Secured = ({ location }) => {
       return keycloakInstance.loadUserInfo().then(async (userInfo) => {
         return axios
           .get(`${backendAddress}api/user/${userInfo.sub}`)
-          .then((res) => {
-            handleRequest(userInfo, res);
-          })
+          .then((res) => handleRequest(userInfo, res))
           .catch(() => {
             axios
               .post(`${backendAddress}api/user/${userInfo.sub}`, {
@@ -61,9 +59,7 @@ const Secured = ({ location }) => {
                 lastName: userInfo.family_name,
                 firstName: userInfo.given_name,
               })
-              .then((res) => {
-                handleRequest(userInfo, res);
-              });
+              .then((res) => handleRequest(userInfo, res));
           });
       });
     };
@@ -71,6 +67,7 @@ const Secured = ({ location }) => {
     // Generate redirect if profile does not exist
     const renderRedirect = () => {
       return profileExist().then((signupStep) => {
+        console.log(signupStep === 8, signupStep);
         if (signupStep === 8) {
           return null;
         }

@@ -5250,22 +5250,6 @@
       "arity": "Required"
     },
     {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Model",
-          "model": "transExperiences",
-          "arguments": [
-            {
-              "name": "",
-              "value": "[language, description, jobTitle, organization]"
-            }
-          ]
-        },
-        "directive": "unique"
-      }
-    },
-    {
       "tag": "CreateModel",
       "model": "experiences"
     },

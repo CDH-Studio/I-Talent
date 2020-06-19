@@ -1,6 +1,6 @@
-# Migration `20200619135903-init`
+# Migration `20200619150447-init`
 
-This migration has been generated at 6/19/2020, 1:59:03 PM.
+This migration has been generated at 6/19/2020, 3:04:47 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -202,8 +202,6 @@ CREATE UNIQUE INDEX "secondLangProfs.userId_proficiency" ON "public"."secondLang
 
 CREATE UNIQUE INDEX "educations.userId_schoolId_diplomaId_startDate" ON "public"."educations"("userId","schoolId","diplomaId","startDate")
 
-CREATE UNIQUE INDEX "transExperiences.language_description_jobTitle_organization" ON "public"."transExperiences"("language","description","jobTitle","organization")
-
 CREATE UNIQUE INDEX "relocationLocations.userId_locationId" ON "public"."relocationLocations"("userId","locationId")
 
 ALTER TABLE "public"."opTransSecurityClearances" ADD FOREIGN KEY ("opSecurityClearancesId")REFERENCES "public"."opSecurityClearances"("id") ON DELETE SET NULL  ON UPDATE CASCADE
@@ -295,10 +293,10 @@ ALTER TABLE "public"."users" ADD FOREIGN KEY ("visibleCardId")REFERENCES "public
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..20200619135903-init
+migration ..20200619150447-init
 --- datamodel.dml
 +++ datamodel.dml
-@@ -1,0 +1,471 @@
+@@ -1,0 +1,469 @@
 +generator client {
 +  provider = "prisma-client-js"
 +  output   = "./client"
@@ -689,8 +687,6 @@ migration ..20200619135903-init
 +  description  String
 +  jobTitle     String
 +  organization String
-+
-+  @@unique([language, description, jobTitle, organization])
 +}
 +
 +model experiences {

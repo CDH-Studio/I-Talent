@@ -18,6 +18,7 @@ import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -56,6 +57,8 @@ const TalentFormView = ({
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -146,7 +149,12 @@ const TalentFormView = ({
       values.mentorshipSkills = [];
     }
 
-    await axios.put(`${backendAddress}api/profile/${userId}`, values);
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      values
+    );
   };
 
   /* show message */

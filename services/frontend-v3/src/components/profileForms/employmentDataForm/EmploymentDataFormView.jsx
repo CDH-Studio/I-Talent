@@ -20,6 +20,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -57,6 +58,8 @@ const EmploymentDataFormView = (props) => {
   const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -134,29 +137,13 @@ const EmploymentDataFormView = (props) => {
   /* Save data */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    // If dropdown value is undefined then clear value in DB
-    values.tenureId = values.tenureId ? values.tenureId : null;
-    values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
-    values.securityClearanceId = values.securityClearanceId
-      ? values.securityClearanceId
-      : null;
 
-    if (!displayActingRoleForm) {
-      // if temp role toggle isn't active clear data
-      values.actingId = null;
-      values.actingStartDate = null;
-      values.actingEndDate = null;
-    } else {
-      // format dates before submit
-      if (values.actingStartDate) {
-        values.actingStartDate = values.actingStartDate.startOf("day");
-      }
-      if (values.actingEndDate) {
-        values.actingEndDate = values.actingEndDate.endOf("day");
-      }
-    }
-
-    await axios.put(`${backendAddress}api/profile/${userId}`, values);
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      values
+    );
   };
 
   /* toggle temporary role form */

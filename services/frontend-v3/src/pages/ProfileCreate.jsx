@@ -11,17 +11,24 @@ const { backendAddress } = config;
 
 const ProfileCreate = ({ intl, match }) => {
   const [highestStep, setHighestStep] = useState(1);
+
+  const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (match.params.step > highestStep) {
       setHighestStep(match.params.step);
 
-      axios.put(`${backendAddress}api/profile/${id}`, {
-        signupStep: parseInt(match.params.step, 10),
-      });
+      axios.put(
+        `${backendAddress}api/profile/${id}?language=${
+          locale === "en" ? "ENGLISH" : "FRENCH"
+        }`,
+        {
+          signupStep: parseInt(match.params.step, 10),
+        }
+      );
     }
-  }, [highestStep, id, match]);
+  }, [highestStep, id, match, locale]);
 
   useEffect(() => {
     document.title = `${intl.formatMessage({

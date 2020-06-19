@@ -18,6 +18,7 @@ import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -51,6 +52,8 @@ const LangProficiencyFormView = ({
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -148,9 +151,7 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "ORAL",
             level: values.oralProficiency,
-            date: values.secondaryOralDate
-              ? values.secondaryOralDate.startOf("day").toISOString()
-              : undefined,
+            date: values.secondaryOralDate,
           });
         }
 
@@ -158,9 +159,7 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "WRITING",
             level: values.writingProficiency,
-            date: values.secondaryWritingDate
-              ? values.secondaryWritingDate.startOf("day").toISOString()
-              : undefined,
+            date: values.secondaryWritingDate,
           });
         }
 
@@ -168,15 +167,18 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "READING",
             level: values.readingProficiency,
-            date: values.secondaryReadingDate
-              ? values.secondaryReadingDate.startOf("day").toISOString()
-              : undefined,
+            date: values.secondaryReadingDate,
           });
         }
       }
     }
 
-    await axios.put(`${backendAddress}api/profile/${userId}`, dbValues);
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      dbValues
+    );
   };
 
   /* show message */

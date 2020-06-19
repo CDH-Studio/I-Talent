@@ -126,6 +126,14 @@ async function updateProfile(request, response) {
         });
       }
 
+      if (experiences) {
+        await prisma.experiences.deleteMany({ where: { userId } });
+      }
+
+      if (educations) {
+        await prisma.educations.deleteMany({ where: { userId } });
+      }
+
       const result = await prisma.users.update({
         where: { id: userId },
         data: {
@@ -272,39 +280,26 @@ async function updateProfile(request, response) {
             : undefined,
           educations: educations
             ? {
-                deleteMany: {},
-                upsert: educations.map(
+                create: educations.map(
                   ({ startDate, endDate, diplomaId, schoolId }) => ({
-                    where: {
-                      userId_schoolId_diplomaId_startDate: {
-                        startDate: normalizeDate(startDate, "month"),
-                        diplomaId,
-                        schoolId,
-                        userId,
+                    startDate: normalizeDate(startDate, "month"),
+                    endDate: normalizeDate(endDate, "month"),
+                    diploma: {
+                      connect: {
+                        id: diplomaId,
                       },
                     },
-                    create: {
-                      startDate: normalizeDate(startDate, "month"),
-                      endDate: normalizeDate(endDate, "month"),
-                      diploma: {
-                        connect: {
-                          id: diplomaId,
-                        },
-                      },
-                      school: {
-                        connect: {
-                          id: schoolId,
-                        },
+                    school: {
+                      connect: {
+                        id: schoolId,
                       },
                     },
-                    update: {},
                   })
                 ),
               }
             : undefined,
           experiences: experiences
             ? {
-                deleteMany: {},
                 create: experiences.map(
                   ({
                     startDate,

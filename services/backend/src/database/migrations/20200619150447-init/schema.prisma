@@ -388,8 +388,6 @@ model transExperiences {
   description  String
   jobTitle     String
   organization String
-
-  @@unique([language, description, jobTitle, organization])
 }
 
 model experiences {

@@ -16,6 +16,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -25,7 +26,6 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import config from "../../../config";
-import { useSelector } from "react-redux";
 
 const { backendAddress } = config;
 const { Title, Text } = Typography;
@@ -50,7 +50,7 @@ const QualificationsFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
-  
+
   const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
@@ -110,36 +110,6 @@ const QualificationsFormView = ({
    */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    // format education date for DB storage
-    if (values.educations) {
-      for (let i = 0; i < values.educations.length; i += 1) {
-        if (values.educations[i].startDate) {
-          values.educations[i].startDate = values.educations[
-            i
-          ].startDate.startOf("month");
-        }
-        if (values.educations[i].endDate) {
-          values.educations[i].endDate = values.educations[i].endDate.startOf(
-            "month"
-          );
-        }
-      }
-    }
-
-    if (values.experiences) {
-      for (let i = 0; i < values.experiences.length; i += 1) {
-        if (values.experiences[i].startDate) {
-          values.experiences[i].startDate = values.experiences[
-            i
-          ].startDate.startOf("month");
-        }
-        if (values.experiences[i].endDate) {
-          values.experiences[i].endDate = values.experiences[i].endDate.startOf(
-            "month"
-          );
-        }
-      }
-    }
 
     await axios.put(
       `${backendAddress}api/profile/${userId}?language=${

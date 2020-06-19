@@ -21,6 +21,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -63,6 +64,8 @@ const PersonalGrowthFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -137,7 +140,12 @@ const PersonalGrowthFormView = ({
       interestedInRemote: unalteredValues.interestedInRemote === "true",
     };
 
-    await axios.put(`${backendAddress}api/profile/${userId}`, values);
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      values
+    );
   };
 
   /* show message */

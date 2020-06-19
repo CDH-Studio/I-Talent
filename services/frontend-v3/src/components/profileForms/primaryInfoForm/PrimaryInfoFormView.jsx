@@ -16,6 +16,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -42,6 +43,8 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -123,22 +126,16 @@ const PrimaryInfoFormView = ({
 
   /* Save data */
   const saveDataToDB = async (values) => {
-    if (profileInfo) {
-      // If profile exists then update profile
-      try {
-        await axios.put(`${backendAddress}api/profile/${userId}`, values);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    } else {
-      // If profile does not exists then create profile
-      try {
-        await axios.post(`${backendAddress}api/profile/${userId}`, values);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+    try {
+      await axios.put(
+        `${backendAddress}api/profile/${userId}?language=${
+          locale === "en" ? "ENGLISH" : "FRENCH"
+        }`,
+        values
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   };
 
@@ -170,7 +167,9 @@ const PrimaryInfoFormView = ({
         telephone: profile.telephone,
         cellphone: profile.cellphone,
         email: profile.email,
-        locationId: profile.officeLocation ? profile.officeLocation.id : undefined,
+        locationId: profile.officeLocation
+          ? profile.officeLocation.id
+          : undefined,
         team: profile.team,
         gcconnex: profile.gcconnex,
         linkedin: profile.linkedin,
