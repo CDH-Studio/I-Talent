@@ -197,15 +197,21 @@ async function getAllUsers(searchValue, language) {
       ...user,
     };
 
-    const employment = info.employmentInfo.translations[0];
-    info.branch = employment ? employment.branch : undefined;
-    info.jobTitle = employment ? employment.jobTitle : undefined;
-    delete info.employmentInfo;
+    if (info.employmentInfo) {
+      const employment = info.employmentInfo.translations[0];
+      info.branch = employment ? employment.branch : undefined;
+      info.jobTitle = employment ? employment.jobTitle : undefined;
+      delete info.employmentInfo;
+    }
 
-    const location = info.officeLocation.translations[0];
-    info.officeLocation.province = location ? location.province : undefined;
-    info.officeLocation.streetName = location ? location.streetName : undefined;
-    delete info.officeLocation.translations;
+    if (info.officeLocation) {
+      const location = info.officeLocation.translations[0];
+      info.officeLocation.province = location ? location.province : undefined;
+      info.officeLocation.streetName = location
+        ? location.streetName
+        : undefined;
+      delete info.officeLocation.translations;
+    }
 
     if (info.experiences) {
       info.experiences = info.experiences.map((i) => {
