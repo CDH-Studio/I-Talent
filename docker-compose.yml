@@ -1,7 +1,7 @@
 version: "3"
 services:
   web-ant:
-    container_name: "upskill-frontend-v3"
+    container_name: "upskill-frontend"
     build: ./services/frontend-v3
     ports:
       - "3000:3000"
