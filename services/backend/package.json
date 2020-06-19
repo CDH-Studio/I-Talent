@@ -11,12 +11,10 @@
     "migrate:create": "cd src/database && prisma migrate save --experimental",
     "deploy": "yarn -s migrate && yarn -s seed && yarn -s start",
     "dev:docker": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
-    "test": "jest --config ./tests/jest.config.json",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
-    "studio": "cd src/database && prisma studio --experimental"
+    "studio": "cd src/database && prisma studio --experimental",
+    "test": "cross-env NODE_ENV=test  jest"
   },
   "author": "I-Talent team",
   "license": "MIT",
@@ -25,12 +23,12 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "concurrently": "^5.2.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.5.0",
     "fuse.js": "^6.0.1",
-    "jest": "^26.0.1",
     "keycloak-connect": "^10.0.1",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
@@ -48,5 +46,11 @@
     "jest": "^26.0.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
