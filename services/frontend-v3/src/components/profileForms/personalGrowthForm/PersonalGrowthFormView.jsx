@@ -115,7 +115,7 @@ const PersonalGrowthFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
-      width: "100%",
+      minWidth: "100%",
     },
     TMTooltip: { paddingLeft: "5px" },
     unsavedText: {

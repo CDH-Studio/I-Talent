@@ -78,7 +78,9 @@ const PrimaryInfoFormView = ({
       marginRight: "1rem",
       marginBottom: "1rem",
     },
+
     clearBtn: { float: "left", marginBottom: "1rem" },
+
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -87,7 +89,7 @@ const PrimaryInfoFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
-      width: "100%",
+      minWidth: "100%",
     },
     unsavedText: {
       marginLeft: "10px",
