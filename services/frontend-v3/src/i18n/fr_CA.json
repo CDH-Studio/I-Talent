@@ -308,6 +308,7 @@
   "profile.rules.max.60": "Maximum de 60 caractères",
   "profile.rules.max.100": "Maximum de 100 caractères",
   "profile.rules.max.250": "Maximum de 250 caractères",
+  "profile.rules.max.exceeded": "Longueur max dépassée",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.form.clear": "Changements effacé",

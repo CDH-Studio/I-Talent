@@ -61,7 +61,7 @@ const ExperienceFormView = ({
     },
     maxChar250: {
       max: 250,
-      message: <FormattedMessage id="profile.rules.max.250" />,
+      message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
 
