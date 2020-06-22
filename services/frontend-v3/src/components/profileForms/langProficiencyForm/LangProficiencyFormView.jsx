@@ -127,7 +127,9 @@ const LangProficiencyFormView = ({
 
   /* Save data */
   const saveDataToDB = async (values) => {
-    const dbValues = {};
+    const dbValues = {
+      secondLangProfs: []
+    };
 
     // If firstLanguage is undefined then clear value in DB
     if (values.firstLanguage) {
@@ -145,8 +147,6 @@ const LangProficiencyFormView = ({
         values.writingProficiency ||
         values.readingProficiency
       ) {
-        dbValues.secondLangProfs = [];
-
         if (values.oralProficiency) {
           dbValues.secondLangProfs.push({
             proficiency: "ORAL",
@@ -231,8 +231,6 @@ const LangProficiencyFormView = ({
           }
         });
       }
-
-      console.log(data);
 
       return data;
     }
@@ -560,7 +558,7 @@ const LangProficiencyFormView = ({
   useEffect(() => {
     /* check if user has a second language */
     setDisplayMentorshipForm(
-      profileInfo ? !!profileInfo.secondLangProfs : false
+      profileInfo ? profileInfo.secondLangProfs.length !== 0 : false
     );
   }, [profileInfo]);
 

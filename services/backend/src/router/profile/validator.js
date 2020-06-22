@@ -63,7 +63,10 @@ const updateProfileValidator = [
   langValidator,
   UUIDValidator,
   updateProfileStringBody.map((i) =>
-    body(i).optional().isString().withMessage("must be a string")
+    body(i)
+      .optional()
+      .custom((value) => typeof value === "string" || value === null)
+      .withMessage("must be a string")
   ),
   updateProfileNumberBody.map((i) =>
     body(i)

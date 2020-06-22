@@ -324,6 +324,11 @@ async function updateProfile(request, response) {
             : undefined,
           secondLangProfs: secondLangProfs
             ? {
+                deleteMany: {
+                  proficiency: {
+                    notIn: secondLangProfs.map((i) => i.proficiency),
+                  },
+                },
                 upsert: secondLangProfs.map((i) => ({
                   where: {
                     userId_proficiency: {
@@ -736,96 +741,108 @@ async function getFullProfile(id, language) {
 function filterProfileResult(profile) {
   let filteredProfile = profile;
 
-  filteredProfile.skills = profile.skills.map((skill) => {
-    if (skill.skill.translations)
+  if (profile.skills) {
+    filteredProfile.skills = profile.skills.map((skill) => {
+      if (skill.skill.translations)
+        return {
+          id: skill.skill.id,
+          name: skill.skill.translations[0].name,
+        };
+      return null;
+    });
+  }
+
+  if (profile.mentorshipSkills) {
+    filteredProfile.mentorshipSkills = profile.mentorshipSkills.map((skill) => {
+      if (skill.skill.translations)
+        return {
+          id: skill.skill.id,
+          name: skill.skill.translations[0].name,
+        };
+      return null;
+    });
+  }
+
+  if (profile.competencies) {
+    filteredProfile.competencies = profile.competencies.map((competency) => {
+      if (competency.competency.translations)
+        return {
+          id: competency.competency.id,
+          name: competency.competency.translations[0].name,
+        };
+      return null;
+    });
+  }
+
+  if (profile.developmentalGoals) {
+    filteredProfile.developmentalGoals = profile.developmentalGoals.map(
+      (goal) => {
+        const competency =
+          goal.competency && goal.competency.translations
+            ? {
+                id: goal.competency.id,
+                name: goal.competency.translations[0].name,
+              }
+            : null;
+
+        const skill =
+          goal.skill && goal.skill.translations
+            ? {
+                id: goal.skill.id,
+                name: goal.skill.translations[0].name,
+              }
+            : null;
+        return competency || skill;
+      }
+    );
+  }
+
+  if (profile.educations) {
+    filteredProfile.educations = profile.educations.map((education) => {
       return {
-        id: skill.skill.id,
-        name: skill.skill.translations[0].name,
+        id: education.id,
+        startDate: education.startDate,
+        endDate: education.endDate,
+        diploma: {
+          id: education.diploma.id,
+          description: education.diploma.translations[0].description
+            ? education.diploma.translations[0].description
+            : null,
+        },
+        school: {
+          id: education.school.id,
+          country: education.school.abbrCountry
+            ? education.school.abbrCountry
+            : null,
+          province: education.school.abbrProvince
+            ? education.school.abbrProvince
+            : null,
+          name: education.school.translations[0].name
+            ? education.school.translations[0].name
+            : null,
+        },
       };
-    return null;
-  });
+    });
+  }
 
-  filteredProfile.mentorshipSkills = profile.mentorshipSkills.map((skill) => {
-    if (skill.skill.translations)
+  if (profile.experiences) {
+    filteredProfile.experiences = profile.experiences.map((experience) => {
       return {
-        id: skill.skill.id,
-        name: skill.skill.translations[0].name,
+        id: experience.id,
+        startDate: experience.startDate,
+        endDate: experience.endDate,
+        description: experience.translations[0].description
+          ? experience.translations[0].description
+          : null,
+        jobTitle: experience.translations[0].jobTitle
+          ? experience.translations[0].jobTitle
+          : null,
+        organization: experience.translations[0].organization
+          ? experience.translations[0].organization
+          : null,
       };
-    return null;
-  });
-
-  filteredProfile.competencies = profile.competencies.map((competency) => {
-    if (competency.competency.translations)
-      return {
-        id: competency.competency.id,
-        name: competency.competency.translations[0].name,
-      };
-    return null;
-  });
-
-  filteredProfile.developmentalGoals = profile.developmentalGoals.map(
-    (goal) => {
-      const competency =
-        goal.competency && goal.competency.translations
-          ? {
-              id: goal.competency.id,
-              name: goal.competency.translations[0].name,
-            }
-          : null;
-
-      const skill =
-        goal.skill && goal.skill.translations
-          ? {
-              id: goal.skill.id,
-              name: goal.skill.translations[0].name,
-            }
-          : null;
-      return competency || skill;
-    }
-  );
-
-  filteredProfile.educations = profile.educations.map((education) => {
-    return {
-      id: education.id,
-      startDate: education.startDate,
-      endDate: education.endDate,
-      diploma: {
-        id: education.diploma.id,
-        description: education.diploma.translations[0].description
-          ? education.diploma.translations[0].description
-          : null,
-      },
-      school: {
-        id: education.school.id,
-        country: education.school.abbrCountry
-          ? education.school.abbrCountry
-          : null,
-        province: education.school.abbrProvince
-          ? education.school.abbrProvince
-          : null,
-        name: education.school.translations[0].name
-          ? education.school.translations[0].name
-          : null,
-      },
-    };
-  });
-
-  filteredProfile.experiences = profile.experiences.map((experience) => {
-    return {
-      id: experience.id,
-      startDate: experience.startDate,
-      endDate: experience.endDate,
-      description: experience.translations[0].description
-        ? experience.translations[0].description
-        : null,
-      jobTitle: experience.translations[0].jobTitle
-        ? experience.translations[0].jobTitle
-        : null,
-      organization: experience.translations[0].organization
-        ? experience.translations[0].organization
-        : null,
-    };
-  });
+    });
+  }
 
   if (profile.securityClearance) {
     filteredProfile.securityClearance = {
