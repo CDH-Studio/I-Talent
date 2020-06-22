@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const swaggerUi = require("swagger-ui-express");
 const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
+const swaggerOptions = require("./docs/swaggerOptions");
 
 const app = express();
 
@@ -26,6 +28,10 @@ app.use(keycloak.middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api", router);
+app.get("/oauth2-redirect.html", function (req, res) {
+  res.sendfile("src/docs/oauth2-redirect.html");
+});
+app.use("/api-docs", swaggerUi.serve, swaggerOptions);
 app.use(keycloak.middleware({ logout: "/" }));
 
 if (process.env.NODE_ENV !== "test")

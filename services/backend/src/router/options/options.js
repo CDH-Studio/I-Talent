@@ -31,6 +31,27 @@ const { keycloak } = require("../../auth/keycloak");
 
 const optionsRouter = Router();
 
+/**
+ * @swagger
+ *
+ * /api/option/branches:
+ *   get:
+ *     summary: Returns an array of people's work branch
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - $ref: '#/definitions/Language'
+ *     responses:
+ *       200:
+ *         $ref: '#/definitions/StringArray'
+ *       422:
+ *         $ref: '#/definitions/422'
+ *       500:
+ *         $ref: '#/definitions/500'
+ *     security:
+ *       - Keycloak: []
+ *     tags: [option]
+ */
 optionsRouter.get(
   "/branches",
   keycloak.protect(),
@@ -38,6 +59,27 @@ optionsRouter.get(
   branches.getBranches
 );
 
+/**
+ * @swagger
+ *
+ * /api/option/careerMobilities:
+ *   get:
+ *     summary: Returns an array of career mobilities option
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - $ref: '#/definitions/Language'
+ *     responses:
+ *       200:
+ *         $ref: '#/definitions/IdDescriptionArray'
+ *       422:
+ *         $ref: '#/definitions/422'
+ *       500:
+ *         $ref: '#/definitions/500'
+ *     security:
+ *       - Keycloak: []
+ *     tags: [option]
+ */
 optionsRouter.get(
   "/careerMobilities",
   keycloak.protect(),
@@ -45,6 +87,43 @@ optionsRouter.get(
   careerMobilities.getCareerMobilities
 );
 
+/**
+ * @swagger
+ *
+ * /api/option/categories:
+ *   get:
+ *     summary: Returns an array of people's work branch
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - $ref: '#/definitions/Language'
+ *     responses:
+ *       200:
+ *         $ref: '#/definitions/IdNameArray'
+ *       422:
+ *         $ref: '#/definitions/422'
+ *       500:
+ *         $ref: '#/definitions/500'
+ *     security:
+ *       - Keycloak: []
+ *     tags: [option]
+ *   delete:
+ *     summary: Returns an array of people's work branch
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - $ref: '#/definitions/DeleteManyIds'
+ *     responses:
+ *       200:
+ *         $ref: '#/definitions/200'
+ *       422:
+ *         $ref: '#/definitions/422'
+ *       500:
+ *         $ref: '#/definitions/500'
+ *     security:
+ *       - Keycloak: []
+ *     tags: [option]
+ */
 optionsRouter
   .route("/categories")
   .get(keycloak.protect(), langValidator, categories.getCategories)
