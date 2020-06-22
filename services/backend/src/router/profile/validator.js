@@ -66,7 +66,12 @@ const updateProfileValidator = [
     body(i).optional().isString().withMessage("must be a string")
   ),
   updateProfileNumberBody.map((i) =>
-    body(i).optional().trim().isNumeric().withMessage("must be a number")
+    body(i)
+      .optional()
+      .trim()
+      .toInt()
+      .isNumeric()
+      .withMessage("must be a number")
   ),
   updateProfileUUIDBody.map((i) =>
     body(i).optional().trim().isUUID().withMessage("must be a UUID")
