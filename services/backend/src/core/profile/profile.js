@@ -533,9 +533,9 @@ async function getFullProfile(id, language) {
             select: {
               id: true,
               translations: {
-                where: { language },
                 select: {
                   description: true,
+                  language: true,
                 },
               },
             },
@@ -546,9 +546,9 @@ async function getFullProfile(id, language) {
               abbrCountry: true,
               abbrProvince: true,
               translations: {
-                where: { language },
                 select: {
                   name: true,
+                  language: true,
                 },
               },
             },
@@ -582,8 +582,8 @@ async function getFullProfile(id, language) {
           startDate: true,
           endDate: true,
           translations: {
-            where: { language },
             select: {
+              language: true,
               description: true,
               jobTitle: true,
               organization: true,
@@ -738,40 +738,44 @@ async function getFullProfile(id, language) {
   });
 }
 
-function filterProfileResult(profile) {
+function filterProfileResult(profile, language) {
   let filteredProfile = profile;
 
   if (profile.skills) {
-    filteredProfile.skills = profile.skills.map((skill) => {
-      if (skill.skill.translations)
+    filteredProfile.skills = profile.skills.map(({ skill }) => {
+      if (skill.translations)
         return {
-          id: skill.skill.id,
-          name: skill.skill.translations[0].name,
+          id: skill.id,
+          name: skill.translations[0].name,
         };
       return null;
     });
   }
 
   if (profile.mentorshipSkills) {
-    filteredProfile.mentorshipSkills = profile.mentorshipSkills.map((skill) => {
-      if (skill.skill.translations)
-        return {
-          id: skill.skill.id,
-          name: skill.skill.translations[0].name,
-        };
-      return null;
-    });
+    filteredProfile.mentorshipSkills = profile.mentorshipSkills.map(
+      ({ skill }) => {
+        if (skill.translations)
+          return {
+            id: skill.id,
+            name: skill.translations[0].name,
+          };
+        return null;
+      }
+    );
   }
 
   if (profile.competencies) {
-    filteredProfile.competencies = profile.competencies.map((competency) => {
-      if (competency.competency.translations)
-        return {
-          id: competency.competency.id,
-          name: competency.competency.translations[0].name,
-        };
-      return null;
-    });
+    filteredProfile.competencies = profile.competencies.map(
+      ({ competency }) => {
+        if (competency.translations)
+          return {
+            id: competency.id,
+            name: competency.translations[0].name,
+          };
+        return null;
+      }
+    );
   }
 
   if (profile.developmentalGoals) {
@@ -799,27 +803,27 @@ function filterProfileResult(profile) {
 
   if (profile.educations) {
     filteredProfile.educations = profile.educations.map((education) => {
+      const translatedDiploma =
+        education.diploma.translations.find((i) => i.language === language) ||
+        education.diploma.translations[0];
+
+      const translatedSchool =
+        education.school.translations.find((i) => i.language === language) ||
+        education.school.translations[0];
+
       return {
         id: education.id,
         startDate: education.startDate,
         endDate: education.endDate,
         diploma: {
           id: education.diploma.id,
-          description: education.diploma.translations[0].description
-            ? education.diploma.translations[0].description
-            : null,
+          description: translatedDiploma ? translatedDiploma.description : null,
         },
         school: {
           id: education.school.id,
-          country: education.school.abbrCountry
-            ? education.school.abbrCountry
-            : null,
-          province: education.school.abbrProvince
-            ? education.school.abbrProvince
-            : null,
-          name: education.school.translations[0].name
-            ? education.school.translations[0].name
-            : null,
+          country: education.school.abbrCountry,
+          province: education.school.abbrProvince,
+          name: translatedSchool ? translatedSchool.name : null,
         },
       };
     });
@@ -827,18 +831,20 @@ function filterProfileResult(profile) {
 
   if (profile.experiences) {
     filteredProfile.experiences = profile.experiences.map((experience) => {
+      const translatedExperience =
+        experience.translations.find((i) => i.language === language) ||
+        experience.translations[0];
+
       return {
         id: experience.id,
         startDate: experience.startDate,
         endDate: experience.endDate,
-        description: experience.translations[0].description
-          ? experience.translations[0].description
+        description: translatedExperience
+          ? translatedExperience.description
           : null,
-        jobTitle: experience.translations[0].jobTitle
-          ? experience.translations[0].jobTitle
-          : null,
-        organization: experience.translations[0].organization
-          ? experience.translations[0].organization
+        jobTitle: translatedExperience ? translatedExperience.jobTitle : null,
+        organization: translatedExperience
+          ? translatedExperience.organization
           : null,
       };
     });
@@ -847,7 +853,7 @@ function filterProfileResult(profile) {
   if (profile.securityClearance) {
     filteredProfile.securityClearance = {
       id: profile.securityClearance.id,
-      description: profile.securityClearance.translations[0].description
+      description: profile.securityClearance.translations[0]
         ? profile.securityClearance.translations[0].description
         : null,
     };
@@ -856,7 +862,7 @@ function filterProfileResult(profile) {
   if (profile.lookingJob) {
     filteredProfile.lookingJob = {
       id: profile.lookingJob.id,
-      description: profile.lookingJob.translations[0].description
+      description: profile.lookingJob.translations[0]
         ? profile.lookingJob.translations[0].description
         : null,
     };
@@ -865,7 +871,7 @@ function filterProfileResult(profile) {
   if (profile.tenure) {
     filteredProfile.tenure = {
       id: profile.tenure.id,
-      description: profile.tenure.translations[0].name
+      description: profile.tenure.translations[0]
         ? profile.tenure.translations[0].name
         : null,
     };
@@ -874,7 +880,7 @@ function filterProfileResult(profile) {
   if (profile.careerMobility) {
     filteredProfile.careerMobility = {
       id: profile.careerMobility.id,
-      description: profile.careerMobility.translations[0].description
+      description: profile.careerMobility.translations[0]
         ? profile.careerMobility.translations[0].description
         : null,
     };
@@ -883,10 +889,10 @@ function filterProfileResult(profile) {
   if (profile.employmentInfo) {
     filteredProfile.employmentInfo = {
       id: profile.employmentInfo.id,
-      jobTitle: profile.employmentInfo.translations[0].jobTitle
+      jobTitle: profile.employmentInfo.translations[0]
         ? profile.employmentInfo.translations[0].jobTitle
         : null,
-      branch: profile.employmentInfo.translations[0].branch
+      branch: profile.employmentInfo.translations[0]
         ? profile.employmentInfo.translations[0].branch
         : null,
     };
@@ -895,7 +901,7 @@ function filterProfileResult(profile) {
   if (profile.talentMatrixResult) {
     filteredProfile.talentMatrixResult = {
       id: profile.talentMatrixResult.id,
-      description: profile.talentMatrixResult.translations[0].description
+      description: profile.talentMatrixResult.translations[0]
         ? profile.talentMatrixResult.translations[0].description
         : null,
     };
@@ -908,10 +914,10 @@ function filterProfileResult(profile) {
       streetNumber: profile.officeLocation.streetNumber,
       city: profile.officeLocation.city,
       country: profile.officeLocation.country,
-      streetName: profile.officeLocation.translations[0].streetName
+      streetName: profile.officeLocation.translations[0]
         ? profile.officeLocation.translations[0].streetName
         : null,
-      province: profile.officeLocation.translations[0].province
+      province: profile.officeLocation.translations[0]
         ? profile.officeLocation.translations[0].province
         : null,
     };
@@ -925,8 +931,12 @@ function filterProfileResult(profile) {
         postalCode: location.postalCode,
         city: location.city,
         country: location.country,
-        province: location.translations[0].province,
-        streetName: location.translations[0].streetName,
+        province: location.translations[0]
+          ? location.translations[0].province
+          : null,
+        streetName: location.translations[0]
+          ? location.translations[0].streetName
+          : null,
       })
     );
   }
@@ -951,7 +961,10 @@ async function getPrivateProfileById(request, response) {
     const { language } = request.query;
 
     if (request.kauth.grant.access_token.content.sub === id) {
-      const filter = filterProfileResult(await getFullProfile(id, language));
+      const filter = filterProfileResult(
+        await getFullProfile(id, language),
+        language
+      );
 
       response.status(200).json(filter);
       return;
@@ -978,7 +991,7 @@ async function getPublicProfileById(request, response) {
     const { language } = request.query;
 
     const unFilteredProfile = await getFullProfile(id, language);
-    const result = filterProfileResult(unFilteredProfile);
+    const result = filterProfileResult(unFilteredProfile, language);
 
     if (!result.visibleCards.manager) {
       delete result.manager;
