@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import DoneSetupView from "./DoneSetupView";
-import config from "../../../config";
-import handleError from "../../../functions/handleError";
-
-const { backendAddress } = config;
 
 /**
  *  DoneSetup(props)

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { PageHeader, Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
@@ -230,12 +230,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
 
 CreateProfileLayoutView.propTypes = {
   formStep: PropTypes.string,
-  highestStep: PropTypes.string,
+  highestStep: PropTypes.number,
 };
 
 CreateProfileLayoutView.defaultProps = {
   formStep: "1",
-  highestStep: "1",
+  highestStep: 1,
 };
 
 export default CreateProfileLayoutView;

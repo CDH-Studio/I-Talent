@@ -627,7 +627,7 @@ PersonalGrowthFormView.propTypes = {
   developmentalGoalOptions: KeyTitleOptionsPropType,
   savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
   interestedInRemoteOptions: PropTypes.arrayOf(
-    PropTypes.shape({ key: PropTypes.bool, text: PropTypes.string })
+    PropTypes.shape({ key: PropTypes.string, text: PropTypes.string })
   ),
   relocationOptions: KeyTitleOptionsPropType,
   savedRelocationLocations: PropTypes.arrayOf(PropTypes.string),

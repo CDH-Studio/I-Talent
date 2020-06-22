@@ -17,14 +17,16 @@ const ProfileCreate = ({ intl, match }) => {
 
   useEffect(() => {
     if (match.params.step > highestStep) {
-      setHighestStep(match.params.step);
+      const signupStep = parseInt(match.params.step, 10);
+
+      setHighestStep(signupStep);
 
       axios.put(
         `${backendAddress}api/profile/${id}?language=${
           locale === "en" ? "ENGLISH" : "FRENCH"
         }`,
         {
-          signupStep: parseInt(match.params.step, 10),
+          signupStep,
         }
       );
     }

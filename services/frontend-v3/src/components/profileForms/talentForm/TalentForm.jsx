@@ -102,7 +102,7 @@ const TalentForm = ({ formType }) => {
    * get saved competencies from profile
    */
   const getSavedCompetencies = () => {
-    setSavedCompetencies(profileInfo.competencies.map(i => i.id));
+    setSavedCompetencies(profileInfo.competencies.map((i) => i.id));
   };
 
   /**
@@ -111,7 +111,7 @@ const TalentForm = ({ formType }) => {
    * generate an array of skill ids saved in profile
    */
   const getSavedSkills = () => {
-    setSavedSkills(profileInfo.skills.map(i => i.id));
+    setSavedSkills(profileInfo.skills.map((i) => i.id));
   };
 
   /**

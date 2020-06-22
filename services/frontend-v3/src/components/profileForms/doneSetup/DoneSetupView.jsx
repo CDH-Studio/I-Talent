@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Skeleton } from "antd";
+import { Typography, Button } from "antd";
 import {
   SearchOutlined,
   UserOutlined,

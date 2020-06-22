@@ -3,7 +3,6 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-// eslint-disable-next-line import/no-named-as-default
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -21,15 +20,14 @@ const PrimaryInfoForm = ({ formType }) => {
   const history = useHistory();
 
   // Get possible locations for form drop down
-  const getLocations = async () => {
+  const getLocations = useCallback(async () => {
     const result = await axios.get(
       `${backendAddress}api/option/locations?language=${
         locale === "en" ? "ENGLISH" : "FRENCH"
       }`
     );
     setLocationOptions(result.data ? result.data : []);
-    return 1;
-  };
+  }, [locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
@@ -39,7 +37,6 @@ const PrimaryInfoForm = ({ formType }) => {
       }`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
-      console.log(result.data);
     }
   }, [id, locale]);
 
@@ -61,7 +58,7 @@ const PrimaryInfoForm = ({ formType }) => {
         handleError(error, "redirect");
       })
       .then(() => setLoad(true));
-  }, [getProfileInfo]);
+  }, [getLocations, getProfileInfo]);
 
   return (
     <PrimaryInfoFormView
