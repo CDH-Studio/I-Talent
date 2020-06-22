@@ -47,22 +47,28 @@ async function getUserById(request, response) {
 
     const { id } = request.params;
 
-    const users = await prisma.users.findOne({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        status: true,
-        avatarColor: true,
-        nameInitials: true,
-        createdAt: true,
-        updatedAt: true,
-        signupStep: true,
-      },
-    });
+    if (request.kauth.grant.access_token.content.sub === id) {
+      const users = await prisma.users.findOne({
+        where: { id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          status: true,
+          avatarColor: true,
+          nameInitials: true,
+          createdAt: true,
+          updatedAt: true,
+          signupStep: true,
+        },
+      });
+      response.status(200).json(users);
+      return;
+    }
 
-    response.status(200).json(users);
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
   } catch (error) {
     console.log(error);
     if (error.errors) {
@@ -78,8 +84,8 @@ async function createUser(request, response) {
     validationResult(request).throw();
 
     const { name, firstName, lastName, email } = request.body;
-
     const { id } = request.params;
+
     if (request.kauth.grant.access_token.content.sub === id) {
       const user = await prisma.users.create({
         data: {
