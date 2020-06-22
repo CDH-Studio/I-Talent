@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useImperativeHandle } from "react";
 import {
   Row,
   Col,
@@ -40,7 +40,7 @@ const ExperienceFormView = ({
   checkIfFormValuesChanged,
   intl,
   charsLeft,
-  setCharsLeft,
+  handleContentChange,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
@@ -64,8 +64,6 @@ const ExperienceFormView = ({
       message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
-
-  const descMaxCharRule = Rules.maxChar250;
 
   /*
    * Toggle End Date
@@ -242,7 +240,7 @@ const ExperienceFormView = ({
           name={[field.name, "content"]}
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
-          rules={[descMaxCharRule]}
+          rules={[Rules.maxChar250]}
           extra={
             <div>
               <FormattedMessage id="profile.rules.max.250" />
@@ -260,9 +258,7 @@ const ExperienceFormView = ({
         >
           <TextArea
             name="content"
-            onInput={(e) =>
-              setCharsLeft(descMaxCharRule.max - e.currentTarget.value.length)
-            }
+            onChange={(e) => handleContentChange(e)}
             rows={4}
           />
         </Form.Item>
@@ -279,6 +275,8 @@ ExperienceFormView.propTypes = {
   style: StylesPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
+  charsLeft: PropTypes.number.isRequired,
+  handleContentChange: PropTypes.func.isRequired,
 };
 
 ExperienceFormView.defaultProps = {

@@ -22,7 +22,20 @@ const ExperienceForm = ({
   style,
   checkIfFormValuesChanged,
 }) => {
-  const [charsLeft, setCharsLeft] = useState(250);
+  const [charsLeft, setCharsLeft] = useState(
+    field &&
+      field.key !== undefined &&
+      profileInfo &&
+      profileInfo.careerSummary &&
+      profileInfo.careerSummary[field.key] &&
+      profileInfo.careerSummary[field.key].content
+      ? 250 - profileInfo.careerSummary[field.key].content.length
+      : 250
+  );
+
+  const handleContentChange = (e) => {
+    setCharsLeft(250 - e.currentTarget.value.length);
+  };
 
   return (
     <ExperienceFormView
@@ -33,7 +46,7 @@ const ExperienceForm = ({
       style={style}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
       charsLeft={charsLeft}
-      setCharsLeft={setCharsLeft}
+      handleContentChange={handleContentChange}
     />
   );
 };
