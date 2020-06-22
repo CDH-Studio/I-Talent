@@ -239,7 +239,7 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
         <Form.Item
-          name={"content"}
+          name={[field.name, "content"]}
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[descMaxCharRule]}
