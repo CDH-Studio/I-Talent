@@ -24,14 +24,21 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
     },
   };
 
+  const generateDescriptionBody = () => {
+    const lineStrings = item.description.split(" ").join("\u00A0").split("\n");
+    return lineStrings.map((line, index) => (
+      <>
+        {index > 0 ? <br /> : null} {line}
+      </>
+    ));
+  };
+
   const generateDescriptionContent = () => {
     if (item.description && item.description.length > 0) {
       return (
         <>
           {expand && (
-            <Row>
-              <p style={styles.experienceDescription}>{item.description}</p>
-            </Row>
+            <Row style={{ display: "block" }}>{generateDescriptionBody()}</Row>
           )}
           <Row>
             <Button
