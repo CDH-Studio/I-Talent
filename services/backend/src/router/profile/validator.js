@@ -13,8 +13,6 @@ const updateProfileStringBody = [
   "firstName",
   "lastName",
   "team",
-  "telephone",
-  "cellphone",
   "linkedin",
   "github",
   "gcconnex",
@@ -22,6 +20,8 @@ const updateProfileStringBody = [
   "nameInitials",
   "avatarColor",
 ];
+
+const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
 
 const updateProfileNumberBody = ["signupStep"];
 const updateProfileStringArrayBody = ["projects"];
@@ -75,6 +75,13 @@ const updateProfileValidator = [
       .toInt()
       .isNumeric()
       .withMessage("must be a number")
+  ),
+  updateProfilePhoneNumberBody.map((i) =>
+    body(i)
+      .optional()
+      .trim()
+      .isMobilePhone("en-CA")
+      .withMessage("must be a valid phone number")
   ),
   updateProfileUUIDBody.map((i) =>
     body(i).optional().trim().isUUID().withMessage("must be a UUID")
