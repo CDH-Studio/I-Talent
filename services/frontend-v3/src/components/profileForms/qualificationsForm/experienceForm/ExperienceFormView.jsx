@@ -44,6 +44,12 @@ const ExperienceFormView = ({
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
+  const styles = {
+    space: {
+      paddingLeft: "0.25em",
+    },
+  };
+
   const Rules = {
     required: {
       required: true,
@@ -59,7 +65,7 @@ const ExperienceFormView = ({
     },
   };
 
-  form.onValuesChange = (changedVals) => console.log("chval", changedVals);
+  const descMaxCharRule = Rules.maxChar250;
 
   /*
    * Toggle End Date
@@ -236,18 +242,27 @@ const ExperienceFormView = ({
           name={"content"}
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
-          rules={[Rules.maxChar250]}
+          rules={[descMaxCharRule]}
           extra={
             <div>
               <FormattedMessage id="profile.rules.max.250" />
-              <span>({charsLeft} remaining)</span>
+              {charsLeft >= 0 && (
+                <span style={styles.space}>
+                  ({charsLeft}
+                  <span style={styles.space}>
+                    <FormattedMessage id="count.remaining" />
+                  </span>
+                  )
+                </span>
+              )}
             </div>
           }
-          onChange={(evv, ev) => console.log("eeevvvv", ev, evv)}
         >
           <TextArea
             name="content"
-            onChange={(event, ee) => console.log("evv", ee, event)}
+            onInput={(e) =>
+              setCharsLeft(descMaxCharRule.max - e.currentTarget.value.length)
+            }
             rows={4}
           />
         </Form.Item>
