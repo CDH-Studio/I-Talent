@@ -137,10 +137,7 @@ const PrimaryInfoFormView = ({
       },
       {
         validator(rule, value) {
-          if (
-            !value ||
-            (isMobilePhone(value, "en-CA"))
-          ) {
+          if (!value || isMobilePhone(value, "en-CA")) {
             return Promise.resolve();
           }
 
@@ -160,9 +157,7 @@ const PrimaryInfoFormView = ({
   const saveDataToDB = async (values) => {
     try {
       await axios.put(
-        `${backendAddress}api/profile/${userId}?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`,
+        `${backendAddress}api/profile/${userId}?language=${locale}`,
         values
       );
     } catch (error) {

@@ -43,9 +43,7 @@ const EducationForm = ({
    */
   const getDiplomaOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/diplomas?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/diplomas?language=${locale}`
     );
 
     setDiplomaOptions(result.data);
@@ -58,9 +56,7 @@ const EducationForm = ({
    */
   const getSchoolOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/schools?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/schools?language=${locale}`
     );
 
     setSchoolOptions(result.data);

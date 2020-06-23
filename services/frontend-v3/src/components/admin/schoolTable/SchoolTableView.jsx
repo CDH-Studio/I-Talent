@@ -59,7 +59,7 @@ const SchoolTableView = ({
 
   useEffect(() => {
     if (data && locale) {
-      setSortedData(_.sortBy(data, locale));
+      setSortedData(_.sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
 
@@ -460,7 +460,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
         return a.en.localeCompare(b.en);
       },
-      sortDirections: locale === "en" ? ["descend"] : undefined,
+      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -482,7 +482,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
         return a.fr.localeCompare(b.fr);
       },
-      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({

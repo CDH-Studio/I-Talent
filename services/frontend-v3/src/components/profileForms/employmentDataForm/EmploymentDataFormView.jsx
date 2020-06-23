@@ -157,9 +157,7 @@ const EmploymentDataFormView = (props) => {
     }
 
     await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`,
+      `${backendAddress}api/profile/${userId}?language=${locale}`,
       values
     );
   };

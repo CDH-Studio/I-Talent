@@ -58,7 +58,7 @@ const CategoryTableView = ({
 
   useEffect(() => {
     if (data && locale) {
-      setSortedData(_.sortBy(data, locale));
+      setSortedData(_.sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
 
@@ -359,7 +359,7 @@ const CategoryTableView = ({
       sorter: (a, b) => {
         return a.en.localeCompare(b.en);
       },
-      sortDirections: locale === "en" ? ["descend"] : undefined,
+      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -374,7 +374,7 @@ const CategoryTableView = ({
       sorter: (a, b) => {
         return a.fr.localeCompare(b.fr);
       },
-      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({

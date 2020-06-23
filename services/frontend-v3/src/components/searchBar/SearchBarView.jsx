@@ -191,7 +191,7 @@ const SearchBarView = ({
               label={
                 <FormattedMessage id="advanced.search.form.classification" />
               }
-              name="classification"
+              name="classifications"
             >
               <Select
                 style={{ width: "100%" }}
@@ -215,7 +215,7 @@ const SearchBarView = ({
             {/* Location field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.location" />}
-              name="location"
+              name="locations"
             >
               <Select
                 style={{ width: "100%" }}
@@ -242,7 +242,7 @@ const SearchBarView = ({
             {/* branch field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.branch" />}
-              name="branch"
+              name="branches"
             >
               <Select
                 style={{ width: "100%" }}
@@ -306,7 +306,7 @@ const SearchBarView = ({
               label={
                 <FormattedMessage id="advanced.search.form.classification" />
               }
-              name="classification"
+              name="classifications"
             >
               <Select
                 style={{ width: "100%" }}
