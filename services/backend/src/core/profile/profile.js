@@ -49,7 +49,6 @@ async function updateProfile(request, response) {
         actingEndDate,
         interestedInRemote,
         exFeeder,
-        mentoring,
         avatarColor,
         status,
         signupStep,
@@ -186,7 +185,6 @@ async function updateProfile(request, response) {
           actingEndDate: normalizeDate(actingEndDate, "day"),
           interestedInRemote,
           exFeeder,
-          mentoring,
           avatarColor,
           status,
           signupStep,
@@ -455,7 +453,6 @@ async function getFullProfile(id, language) {
       github: true,
       gcconnex: true,
       exFeeder: true,
-      mentoring: true,
       interestedInRemote: true,
       status: true,
       projects: true,
@@ -921,15 +918,9 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.employmentInfo) {
-    filteredProfile.employmentInfo = {
-      id: profile.employmentInfo.id,
-      jobTitle: profile.employmentInfo.translations[0]
-        ? profile.employmentInfo.translations[0].jobTitle
-        : null,
-      branch: profile.employmentInfo.translations[0]
-        ? profile.employmentInfo.translations[0].branch
-        : null,
-    };
+    const trans = profile.employmentInfo.translations[0];
+    filteredProfile.jobTitle = trans ? trans.jobTitle : null;
+    filteredProfile.branch = trans ? trans.branch : null;
   }
 
   if (profile.talentMatrixResult) {
@@ -1071,9 +1062,6 @@ async function getPublicProfileById(request, response) {
       delete result.interestedInRemote;
       delete result.lookingJob;
       delete result.relocationLocations;
-    }
-    if (!result.visibleCards.mentorshipSkills) {
-      delete result.mentoring;
     }
     if (!result.visibleCards.exFeeder) {
       delete result.exFeeder;

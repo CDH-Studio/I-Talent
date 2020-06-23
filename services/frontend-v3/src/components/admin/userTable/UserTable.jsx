@@ -36,9 +36,7 @@ function UserTable({ intl }) {
       dispatch(setAdminUsersLoading(true));
 
       const results = await axios.get(
-        `${backendAddress}api/admin/users?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`
+        `${backendAddress}api/admin/users?language=${locale}`
       );
 
       // Formats data from backend into viewable data for the table

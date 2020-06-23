@@ -72,12 +72,14 @@ const SkillTableView = ({
           id: skill.id,
           en: skill.en,
           fr: skill.fr,
-          category: category ? category[locale] : undefined,
+          category: category
+            ? category[locale === "ENGLISH" ? "en" : "fr"]
+            : undefined,
           categoryId: skill.categoryId,
         };
       });
 
-      setData(_.sortBy(unsortedData, locale));
+      setData(_.sortBy(unsortedData, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [skills, categories, locale]);
 
@@ -344,7 +346,7 @@ const SkillTableView = ({
       sorter: (a, b) => {
         return a.en.localeCompare(b.en);
       },
-      sortDirections: locale === "en" ? ["descend"] : undefined,
+      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -359,7 +361,7 @@ const SkillTableView = ({
       sorter: (a, b) => {
         return a.fr.localeCompare(b.fr);
       },
-      sortDirections: locale === "fr" ? ["descend"] : undefined,
+      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -482,7 +484,7 @@ const SkillTableView = ({
               {categories.data.map((category) => {
                 return (
                   <Option value={category.id} key={category.id}>
-                    {category[locale]}
+                    {category[locale === "ENGLISH" ? "en" : "fr"]}
                   </Option>
                 );
               })}

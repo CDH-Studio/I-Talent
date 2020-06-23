@@ -22,9 +22,7 @@ const PrimaryInfoForm = ({ formType }) => {
   // Get possible locations for form drop down
   const getLocations = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/locations?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/locations?language=${locale}`
     );
     setLocationOptions(result.data ? result.data : []);
   }, [locale]);
@@ -32,9 +30,7 @@ const PrimaryInfoForm = ({ formType }) => {
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     if (id) {
-      const url = `${backendAddress}api/profile/private/${id}?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`;
+      const url = `${backendAddress}api/profile/private/${id}?language=${locale}`;
       const result = await axios.get(url);
       setProfileInfo(result.data);
     }

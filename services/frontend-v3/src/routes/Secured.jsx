@@ -179,8 +179,8 @@ const Secured = ({ location }) => {
             {/* Profile page based on user ID */}
             <Route
               path="/secured/profile/:id?"
-              render={({ match }) => (
-                <Profile keycloak={keycloak} match={match} />
+              render={({ match, history }) => (
+                <Profile keycloak={keycloak} match={match} history={history} />
               )}
             />
             {/* Logout authorized user */}

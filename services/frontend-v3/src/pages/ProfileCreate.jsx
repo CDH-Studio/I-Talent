@@ -21,14 +21,9 @@ const ProfileCreate = ({ intl, match }) => {
 
       setHighestStep(signupStep);
 
-      axios.put(
-        `${backendAddress}api/profile/${id}?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`,
-        {
-          signupStep,
-        }
-      );
+      axios.put(`${backendAddress}api/profile/${id}?language=${locale}`, {
+        signupStep,
+      });
     }
   }, [highestStep, id, match, locale]);
 

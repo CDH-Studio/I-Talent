@@ -121,9 +121,7 @@ const AdminDashboard = ({ intl }) => {
       dispatch(setTopFiveCompetencies([]));
 
       const results = await axios.get(
-        `${backendAddress}api/stats/topFiveCompetencies?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`
+        `${backendAddress}api/stats/topFiveCompetencies?language=${locale}`
       );
 
       dispatch(setTopFiveCompetencies(results.data));
@@ -137,9 +135,7 @@ const AdminDashboard = ({ intl }) => {
       dispatch(setTopFiveSkills([]));
 
       const results = await axios.get(
-        `${backendAddress}api/stats/topFiveSkills?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`
+        `${backendAddress}api/stats/topFiveSkills?language=${locale}`
       );
 
       dispatch(setTopFiveSkills(results.data));
@@ -153,9 +149,7 @@ const AdminDashboard = ({ intl }) => {
       dispatch(setTopFiveDevelopmentalGoals([]));
 
       const results = await axios.get(
-        `${backendAddress}api/stats/topFiveDevelopmentalGoals?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`
+        `${backendAddress}api/stats/topFiveDevelopmentalGoals?language=${locale}`
       );
 
       dispatch(setTopFiveDevelopmentalGoals(results.data));
