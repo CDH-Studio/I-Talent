@@ -1,22 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import MentorshipView from "./MentorshipView";
 
 const Mentorship = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
   const formatData = (list) => {
     const categorizedList = {};
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
+
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }
@@ -32,19 +30,15 @@ const Mentorship = ({ data }) => {
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
           if (categoriesTemp[k] == null) {
-            if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category.en];
-            } else {
-              categoriesTemp[k] = [listElement.description.category.fr];
-            }
+            categoriesTemp[k] = [listElement.category];
             k += 1;
           }
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }

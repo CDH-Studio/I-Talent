@@ -10,7 +10,7 @@ const ProjectsView = ({ projectsInfo }) => {
           size="small"
           itemLayout="horizontal"
           dataSource={projectsInfo}
-          renderItem={item => <List.Item>{item.projectDescription}</List.Item>}
+          renderItem={(item) => <List.Item>{item}</List.Item>}
         />
       </Col>
     </Row>

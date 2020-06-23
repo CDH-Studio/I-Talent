@@ -89,6 +89,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="info"
                 id="card-profile-employee-summary"
                 editUrl="/secured/profile/edit/employment"
+                data={data}
               />
             </Col>
           </Row>
@@ -111,6 +112,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="skills"
                 id="card-profile-skills"
                 editUrl="/secured/profile/edit/talent"
+                data={data}
               />
             </Col>
           </Row>
@@ -122,6 +124,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="mentorshipSkills"
                 id="card-profile-mentorship-skills"
                 editUrl="/secured/profile/edit/talent"
+                data={data}
               />
             </Col>
           </Row>
@@ -134,6 +137,7 @@ const ProfileLayoutView = ({ data }) => {
                   cardName="competencies"
                   id="card-profile-competency"
                   editUrl="/secured/profile/edit/talent"
+                  data={data}
                 />
               </Col>
             </Col>
@@ -157,6 +161,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="developmentalGoals"
                 id="card-profile-dev-goals"
                 editUrl="/secured/profile/edit/personal-growth"
+                data={data}
               />
             </Col>
           </Row>
@@ -172,6 +177,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="talentManagement"
                 id="card-profile-talent-management"
                 editUrl="/secured/profile/edit/personal-growth"
+                data={data}
               />
               <div style={{ paddingTop: "16px" }}>
                 <ProfileCards
@@ -181,6 +187,7 @@ const ProfileLayoutView = ({ data }) => {
                   id="card-profile-ex-feeder"
                   editUrl="/secured/profile/edit/personal-growth"
                   forceDisabled={!data.exFeeder}
+                  data={data}
                 />
               </div>
             </Col>
@@ -191,6 +198,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="careerInterests"
                 id="card-profile-career-interests"
                 editUrl="/secured/profile/edit/personal-growth"
+                data={data}
               />
             </Col>
           </Row>
@@ -213,6 +221,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="education"
                 id="card-profile-education"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
               />
             </Col>
           </Row>
@@ -224,6 +233,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="experience"
                 id="card-profile-experience"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
               />
             </Col>
           </Row>
@@ -235,6 +245,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="projects"
                 id="card-profile-projects"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
               />
             </Col>
           </Row>
@@ -266,6 +277,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<EmployeeSummary data={data} />}
                 cardName="info"
                 id="card-profile-employee-summary"
+                data={data}
               />
             </Col>
           </Row>
@@ -291,6 +303,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Skills data={data} />}
                 cardName="skills"
                 id="card-profile-skills"
+                data={data}
               />
             </Col>
           </Row>
@@ -303,6 +316,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Mentorship data={data} />}
                 cardName="mentorshipSkills"
                 id="card-profile-mentorship-skills"
+                data={data}
               />
             </Col>
           </Row>
@@ -315,6 +329,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Competencies data={data} />}
                 cardName="competencies"
                 id="card-profile-competency"
+                data={data}
               />
             </Col>
           </Row>
@@ -341,6 +356,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<DevelopmentalGoals data={data} />}
                 cardName="developmentalGoals"
                 id="card-profile-dev-goals"
+                data={data}
               />
             </Col>
           </Row>
@@ -361,6 +377,7 @@ const ProfileLayoutView = ({ data }) => {
                   content={<TalentManagement data={data} style={styles.card} />}
                   cardName="talentManagement"
                   id="card-profile-talent-management"
+                  data={data}
                 />
               )}
               {visibleCards.exFeeder && data.exFeeder && (
@@ -374,6 +391,7 @@ const ProfileLayoutView = ({ data }) => {
                     content={null}
                     cardName="exFeeder"
                     id="card-profile-ex-feeder"
+                    data={data}
                   />
                 </div>
               )}
@@ -384,6 +402,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<CareerInterests data={data} style={styles.card} />}
                 cardName="careerInterests"
                 id="card-profile-career-interests"
+                data={data}
               />
             </Col>
           </Row>
@@ -399,6 +418,7 @@ const ProfileLayoutView = ({ data }) => {
                     }
                     cardName="talentManagement"
                     id="card-profile-talent-management"
+                    data={data}
                   />
                 </Col>
               </Row>
@@ -411,6 +431,7 @@ const ProfileLayoutView = ({ data }) => {
                     content={<ExFeeder data={data} style={styles.card} />}
                     cardName="exFeeder"
                     id="card-profile-ex-feeder"
+                    data={data}
                   />
                 </Col>
               </Row>
@@ -425,6 +446,7 @@ const ProfileLayoutView = ({ data }) => {
                     }
                     cardName="careerInterests"
                     id="card-profile-career-interests"
+                    data={data}
                   />
                 </Col>
               </Row>
@@ -452,6 +474,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Education data={data} style={styles.card} />}
                 cardName="education"
                 id="card-profile-education"
+                data={data}
               />
             </Col>
           </Row>
@@ -464,6 +487,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Experience data={data} style={styles.card} />}
                 cardName="experience"
                 id="card-profile-experience"
+                data={data}
               />
             </Col>
           </Row>
@@ -476,6 +500,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Projects data={data} style={styles.card} />}
                 cardName="projects"
                 id="card-profile-projects"
+                data={data}
               />
             </Col>
           </Row>
