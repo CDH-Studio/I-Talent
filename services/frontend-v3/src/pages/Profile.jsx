@@ -38,7 +38,11 @@ const Profile = ({ history, match }) => {
       // Send public data to ProfileLayout component, when current user
       // is looking at someone else profile
       const fetchedData = await axios
-        .get(`${backendAddress}api/profile/${id}`)
+        .get(
+          `${backendAddress}api/profile/${id}?language=${
+            locale === "en" ? "ENGLISH" : "FRENCH"
+          }`
+        )
         .then((res) => res.data)
         .catch((error) => {
           if (
