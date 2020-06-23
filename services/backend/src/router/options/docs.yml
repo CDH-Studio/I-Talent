@@ -1,0 +1,69 @@
+/api/option/branches:
+  get:
+    summary: Returns an array of people's work branch
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/StringArray'
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+/api/option/careerMobilities:
+  get:
+    summary: Returns an array of career mobilities option
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/IdDescriptionArray'
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+/api/option/categories:
+  get:
+    summary: Returns an array of skills categories name and id
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/IdNameArray'
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+  delete:
+    summary: Delete a multiple categories
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/DeleteManyIds'
+    responses:
+      200:
+        $ref: '#/definitions/200'
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
