@@ -19,7 +19,7 @@ async function getTalentMatrixResults(request, response) {
           description: true,
         },
         orderBy: {
-          name: "asc",
+          description: "asc",
         },
       }
     );

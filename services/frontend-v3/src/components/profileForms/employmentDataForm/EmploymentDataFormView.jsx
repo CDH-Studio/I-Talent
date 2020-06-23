@@ -20,6 +20,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -57,6 +58,8 @@ const EmploymentDataFormView = (props) => {
   const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -133,36 +136,32 @@ const EmploymentDataFormView = (props) => {
 
   /* Save data */
   const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-    // If dropdown value is undefined then clear value in DB
-    values.tenureId = values.tenureId ? values.tenureId : null;
-    values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
-    values.securityClearanceId = values.securityClearanceId
-      ? values.securityClearanceId
-      : null;
+    const values = {
+      ...unalteredValues,
+    };
 
-    if (!displayActingRoleForm) {
-      // if temp role toggle isn't active clear data
-      values.actingId = null;
-      values.actingStartDate = null;
-      values.actingEndDate = null;
-    } else {
-      // format dates before submit
-      if (values.actingStartDate) {
-        values.actingStartDate = values.actingStartDate.startOf("day");
-      }
-      if (values.actingEndDate) {
-        values.actingEndDate = values.actingEndDate.endOf("day");
-      }
+    if (!unalteredValues.securityClearanceId) {
+      values.securityClearanceId = null;
     }
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
+    if (!unalteredValues.tenureId) {
+      values.tenureId = null;
     }
+
+    if (!unalteredValues.groupLevelId) {
+      values.groupLevelId = null;
+    }
+
+    if (!unalteredValues.actingLevelId) {
+      values.actingLevelId = null;
+    }
+
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      values
+    );
   };
 
   /* toggle temporary role form */
@@ -220,22 +219,18 @@ const EmploymentDataFormView = (props) => {
   const getInitialValues = (profile) => {
     if (profile) {
       return {
-        groupLevelId: profile.classification.id
-          ? profile.classification.id
-          : undefined,
-        tenureId: profile.temporaryRole.id
-          ? profile.temporaryRole.id
-          : undefined,
-        securityClearanceId: profile.security.id
-          ? profile.security.id
+        groupLevelId: profile.groupLevel ? profile.groupLevel.id : undefined,
+        tenureId: profile.tenure ? profile.tenure.id : undefined,
+        securityClearanceId: profile.securityClearance
+          ? profile.securityClearance.id
           : undefined,
         manager: profile.manager,
-        actingId: profile.acting.id ? profile.acting.id : undefined,
-        actingStartDate: profile.actingPeriodStartDate
-          ? moment(profile.actingPeriodStartDate)
+        actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
+        actingStartDate: profile.actingStartDate
+          ? moment(profile.actingStartDate)
           : undefined,
-        actingEndDate: profile.actingPeriodEndDate
-          ? moment(profile.actingPeriodEndDate)
+        actingEndDate: profile.actingStartDate
+          ? moment(profile.actingStartDate)
           : undefined,
       };
     }
@@ -326,7 +321,7 @@ const EmploymentDataFormView = (props) => {
 
     // check if user has acting information in db to expand acting form
     setDisplayActingRoleForm(
-      profileInfo && profileInfo.acting && !!profileInfo.acting.id
+      profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
@@ -340,7 +335,7 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24} style={{ marginTop: "10px" }}>
           <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
             <Form.Item
-              name="actingId"
+              name="actingLevelId"
               label={<FormattedMessage id="profile.acting" />}
               rules={[Rules.required]}
             >
@@ -355,7 +350,7 @@ const EmploymentDataFormView = (props) => {
                 }
               >
                 {classificationOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -422,13 +417,11 @@ const EmploymentDataFormView = (props) => {
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
     setDisplayActingRoleForm(
-      profileInfo && profileInfo.acting && !!profileInfo.acting.id
+      profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
     /* check if user has acting end date to enable the date felid on load */
-    setEnableEndDate(
-      profileInfo ? Boolean(profileInfo.actingPeriodEndDate) : false
-    );
+    setEnableEndDate(profileInfo ? Boolean(profileInfo.actingEndDate) : false);
 
     // if props change then reset form fields
     if (load) {
@@ -562,7 +555,7 @@ const EmploymentDataFormView = (props) => {
                 }
               >
                 {substantiveOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -585,7 +578,7 @@ const EmploymentDataFormView = (props) => {
                 }
               >
                 {classificationOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -610,7 +603,7 @@ const EmploymentDataFormView = (props) => {
                 }
               >
                 {securityOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.description}</Option>;
                 })}
               </Select>
             </Form.Item>
