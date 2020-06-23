@@ -339,9 +339,7 @@ async function seedUsers() {
       telephone,
       employmentInfo,
       exFeeder,
-      mentoring,
       experiences,
-      nameInitials,
       organizations,
       securityClearance,
       careerMobility,
@@ -407,9 +405,7 @@ async function seedUsers() {
           secondLanguage,
           team,
           telephone,
-          nameInitials,
           exFeeder,
-          mentoring,
           preferredLanguage,
           avatarColor,
           actingEndDate,
@@ -621,8 +617,8 @@ async function seedUsers() {
             ),
           },
           visibleCards: {
-            create: {}
-          }
+            create: {},
+          },
         },
       });
     }
