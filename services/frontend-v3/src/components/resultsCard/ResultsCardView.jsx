@@ -78,12 +78,13 @@ const ResultsCardView = ({ history, results, locale }) => {
             <FormattedMessage id="advanced.search.form.skills" />
           </Divider>
 
-          {person.resultSkills.map((skill) => (
+          {person.resultSkills.map(({ id, name }) => (
             <Tag
               color="#004441"
               style={{ marginBottom: "2px", marginTop: "2px" }}
+              key={id}
             >
-              {skill}
+              {name}
             </Tag>
           ))}
         </Card>
