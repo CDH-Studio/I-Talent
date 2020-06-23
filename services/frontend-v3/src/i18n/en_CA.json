@@ -339,6 +339,7 @@
   "profile.rules.max.100": "Max length 100 characters",
   "profile.rules.max.250": "Max length 250 characters",
   "profile.rules.phone.number": "Required format: 111-222-3333",
+  "profile.rules.valid.phone.number": "Must be a valid phone number",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
   "profile.form.clear": "Changes cleared",
   "profile.qualifications.select.month": "Select month",
