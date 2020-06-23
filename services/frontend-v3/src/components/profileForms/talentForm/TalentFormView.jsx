@@ -18,6 +18,7 @@ import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -56,6 +57,8 @@ const TalentFormView = ({
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -147,13 +150,12 @@ const TalentFormView = ({
       values.mentorshipSkills = [];
     }
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      values
+    );
   };
 
   /* show message */
@@ -608,7 +610,7 @@ const TalentFormView = ({
                 style={{ width: "100%" }}
               >
                 {competencyOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -673,7 +675,7 @@ TalentFormView.propTypes = {
         })
       ),
       title: PropTypes.string,
-      value: PropTypes.number,
+      value: PropTypes.string,
     })
   ),
   competencyOptions: KeyTitleOptionsPropType,
