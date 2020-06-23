@@ -5,9 +5,7 @@ const { PrismaClient } = require("../../database/client");
 const prisma = new PrismaClient();
 
 function normalizeDate(date, startOf) {
-  return date
-    ? moment.utc(moment(date).startOf(startOf)).startOf(startOf).toISOString()
-    : undefined;
+  return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
 }
 
 function idHelper(id, savedId) {
