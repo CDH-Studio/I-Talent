@@ -35,6 +35,7 @@ const ProfileCardsView = ({
   const newId = useParams().id;
   const urlID = newId;
   const userID = useSelector((state) => state.user.id);
+  const { locale } = useSelector((state) => state.settings);
 
   /*
    * Handle Visibility Toggle
@@ -43,12 +44,7 @@ const ProfileCardsView = ({
    */
   const handleVisibilityToggle = async () => {
     // Update visibleCards state in profile
-    // Get current card visibility status from db
-    const url = `${backendAddress}api/profile/${urlID}`;
-    const result = await axios.get(url).catch((error) => {
-      handleError(error, "redirect");
-    });
-    const { visibleCards } = result.data;
+    const { visibleCards } = profileInfo;
 
     // change the stored value
     const cardNameToBeModified = cardName;
@@ -57,9 +53,14 @@ const ProfileCardsView = ({
 
     // save toggle value in db
     await axios
-      .put(`${backendAddress}api/profile/${urlID}`, {
-        visibleCards,
-      })
+      .put(
+        `${backendAddress}api/profile/${urlID}?language=${
+          locale === "en" ? "ENGLISH" : "FRENCH"
+        }`,
+        {
+          visibleCards,
+        }
+      )
       .catch((error) => handleError(error, "message"));
   };
 
@@ -204,7 +205,7 @@ ProfileCardsView.propTypes = {
 };
 
 ProfileCardsView.defaultProps = {
-  profileInfo: null,
+  profileInfo: {},
   style: undefined,
   content: null,
   forceDisabled: false,

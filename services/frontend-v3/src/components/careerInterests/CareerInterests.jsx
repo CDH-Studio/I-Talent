@@ -21,8 +21,7 @@ const CareerInterests = ({ data }) => {
     const lookingForNewJob = {
       icon: "mail",
       title: <FormattedMessage id="profile.looking.for.new.job" />,
-      description: (data.lookingForNewJob &&
-        data.lookingForNewJob.description[locale]) || (
+      description: (data.lookingJob && data.lookingJob.description) || (
         <FormattedMessage id="profile.not.specified" />
       ),
     };
@@ -53,11 +52,8 @@ const CareerInterests = ({ data }) => {
 CareerInterests.propTypes = {
   data: PropTypes.shape({
     interestedInRemote: PropTypes.bool,
-    lookingForNewJob: PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
+    lookingJob: PropTypes.shape({
+      description: PropTypes.string,
     }),
     relocationLocations: PropTypes.any,
   }).isRequired,

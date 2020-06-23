@@ -5,7 +5,9 @@ const { PrismaClient } = require("../../database/client");
 const prisma = new PrismaClient();
 
 function normalizeDate(date, startOf) {
-  return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
+  return date
+    ? moment.utc(moment(date).startOf(startOf)).startOf(startOf).toISOString()
+    : undefined;
 }
 
 function idHelper(id, savedId) {
@@ -468,6 +470,19 @@ async function getFullProfile(id, language) {
           skill: {
             select: {
               id: true,
+              category: {
+                select: {
+                  id: true,
+                  translations: {
+                    where: {
+                      language,
+                    },
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
               translations: {
                 where: {
                   language,
@@ -709,6 +724,19 @@ async function getFullProfile(id, language) {
           skill: {
             select: {
               id: true,
+              category: {
+                select: {
+                  id: true,
+                  translations: {
+                    where: {
+                      language,
+                    },
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
               translations: {
                 where: {
                   language,
@@ -747,10 +775,12 @@ function filterProfileResult(profile, language) {
 
   if (profile.skills) {
     filteredProfile.skills = profile.skills.map(({ skill }) => {
-      if (skill.translations)
+      if (skill.translations && skill.category.translations)
         return {
           id: skill.id,
           name: skill.translations[0].name,
+          categoryId: skill.category.id,
+          category: skill.category.translations[0].name,
         };
       return null;
     });
@@ -759,10 +789,12 @@ function filterProfileResult(profile, language) {
   if (profile.mentorshipSkills) {
     filteredProfile.mentorshipSkills = profile.mentorshipSkills.map(
       ({ skill }) => {
-        if (skill.translations)
+        if (skill.translations && skill.category.translations)
           return {
             id: skill.id,
             name: skill.translations[0].name,
+            categoryId: skill.category.id,
+            category: skill.category.translations[0].name,
           };
         return null;
       }
