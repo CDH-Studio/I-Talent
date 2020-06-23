@@ -3,7 +3,6 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-// eslint-disable-next-line import/no-named-as-default
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
@@ -14,24 +13,32 @@ const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+
   const { id, email } = useSelector((state) => state.user);
+  const { locale } = useSelector((state) => state.settings);
 
   const history = useHistory();
 
   // Get possible locations for form drop down
-  const getLocations = async () => {
-    const result = await axios.get(`${backendAddress}api/option/getLocation`);
+  const getLocations = useCallback(async () => {
+    const result = await axios.get(
+      `${backendAddress}api/option/locations?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
     setLocationOptions(result.data ? result.data : []);
-    return 1;
-  };
+  }, [locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const url = `${backendAddress}api/profile/private/${id}`;
-    const result = await axios.get(url);
-    setProfileInfo(result.data);
-    return 1;
-  }, [id]);
+    if (id) {
+      const url = `${backendAddress}api/profile/private/${id}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`;
+      const result = await axios.get(url);
+      setProfileInfo(result.data);
+    }
+  }, [id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -51,7 +58,7 @@ const PrimaryInfoForm = ({ formType }) => {
         handleError(error, "redirect");
       })
       .then(() => setLoad(true));
-  }, [getProfileInfo]);
+  }, [getLocations, getProfileInfo]);
 
   return (
     <PrimaryInfoFormView

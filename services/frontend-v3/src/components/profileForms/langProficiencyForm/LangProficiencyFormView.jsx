@@ -18,6 +18,7 @@ import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -51,6 +52,8 @@ const LangProficiencyFormView = ({
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -123,47 +126,60 @@ const LangProficiencyFormView = ({
   };
 
   /* Save data */
-  const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
+  const saveDataToDB = async (values) => {
+    const dbValues = {
+      secondLangProfs: [],
+    };
+
     // If firstLanguage is undefined then clear value in DB
-    values.firstLanguage = values.firstLanguage ? values.firstLanguage : null;
-
-    if (!displayMentorshipForm) {
-      // if second language tab is not opened clear values before submission
-      values.secondLanguage = null;
-      values.readingProficiency = null;
-      values.writingProficiency = null;
-      values.oralProficiency = null;
-      values.secondaryReadingDate = null;
-      values.secondaryWritingDate = null;
-      values.secondaryOralDate = null;
+    if (values.firstLanguage) {
+      dbValues.firstLanguage = values.firstLanguage;
     } else {
+      dbValues.firstLanguage = null;
+    }
+
+    if (displayMentorshipForm) {
       // set second language based on first language
-      values.secondLanguage = values.firstLanguage === "en" ? "fr" : "en";
+      dbValues.secondLanguage =
+        values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
 
-      // format dates before submit
-      if (values.secondaryReadingDate) {
-        values.secondaryReadingDate = values.secondaryReadingDate.startOf(
-          "day"
-        );
-      }
-      if (values.secondaryWritingDate) {
-        values.secondaryWritingDate = values.secondaryWritingDate.startOf(
-          "day"
-        );
-      }
-      if (values.secondaryOralDate) {
-        values.secondaryWritingDate = values.secondaryOralDate.startOf("day");
+      if (
+        values.oralProficiency ||
+        values.writingProficiency ||
+        values.readingProficiency
+      ) {
+        if (values.oralProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "ORAL",
+            level: values.oralProficiency,
+            date: values.secondaryOralDate,
+          });
+        }
+
+        if (values.writingProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "WRITING",
+            level: values.writingProficiency,
+            date: values.secondaryWritingDate,
+          });
+        }
+
+        if (values.readingProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "READING",
+            level: values.readingProficiency,
+            date: values.secondaryReadingDate,
+          });
+        }
       }
     }
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      dbValues
+    );
   };
 
   /* show message */
@@ -188,35 +204,36 @@ const LangProficiencyFormView = ({
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     // Get default language from API and convert to dropdown key
-    let firstLanguage = null;
     if (profile) {
-      if (profile.firstLanguage) {
-        firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
-      } else {
-        firstLanguage = undefined;
+      const data = {
+        firstLanguage: profile.firstLanguage,
+      };
+
+      if (profile.secondLangProfs) {
+        profile.secondLangProfs.forEach(({ date, level, proficiency }) => {
+          switch (proficiency) {
+            case "ORAL":
+              data.oralProficiency = level;
+              data.secondaryOralDate = date ? moment(date) : undefined;
+              break;
+
+            case "WRITING":
+              data.writingProficiency = level;
+              data.secondaryWritingDate = date ? moment(date) : undefined;
+              break;
+
+            case "READING":
+              data.readingProficiency = level;
+              data.secondaryReadingDate = date ? moment(date) : undefined;
+              break;
+
+            default:
+              break;
+          }
+        });
       }
 
-      return {
-        firstLanguage,
-        ...(profile.secondaryReadingProficiency && {
-          readingProficiency: profile.secondaryReadingProficiency,
-        }),
-        ...(profile.secondaryWritingProficiency && {
-          writingProficiency: profile.secondaryWritingProficiency,
-        }),
-        ...(profile.secondaryOralProficiency && {
-          oralProficiency: profile.secondaryOralProficiency,
-        }),
-        ...(profile.secondaryReadingDate && {
-          secondaryReadingDate: moment(profile.secondaryReadingDate),
-        }),
-        ...(profile.secondaryWritingDate && {
-          secondaryWritingDate: moment(profile.secondaryWritingDate),
-        }),
-        ...(profile.secondaryOralDate && {
-          secondaryOralDate: moment(profile.secondaryOralDate),
-        }),
-      };
+      return data;
     }
     return {};
   };
@@ -542,7 +559,7 @@ const LangProficiencyFormView = ({
   useEffect(() => {
     /* check if user has a second language */
     setDisplayMentorshipForm(
-      profileInfo ? !!profileInfo.secondaryOralProficiency : false
+      profileInfo ? profileInfo.secondLangProfs.length !== 0 : false
     );
   }, [profileInfo]);
 

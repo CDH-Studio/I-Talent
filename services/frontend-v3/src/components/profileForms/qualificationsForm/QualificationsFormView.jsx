@@ -16,6 +16,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -49,6 +50,8 @@ const QualificationsFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -107,44 +110,13 @@ const QualificationsFormView = ({
    */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    // format education date for DB storage
-    if (values.education) {
-      for (let i = 0; i < values.education.length; i += 1) {
-        if (values.education[i].startDate) {
-          values.education[i].startDate = values.education[i].startDate.startOf(
-            "month"
-          );
-        }
-        if (values.education[i].endDate) {
-          values.education[i].endDate = values.education[i].endDate.startOf(
-            "month"
-          );
-        }
-      }
-    }
 
-    if (values.experience) {
-      for (let i = 0; i < values.experience.length; i += 1) {
-        if (values.experience[i].startDate) {
-          values.experience[i].startDate = values.experience[
-            i
-          ].startDate.startOf("month");
-        }
-        if (values.experience[i].endDate) {
-          values.experience[i].endDate = values.experience[i].endDate.startOf(
-            "month"
-          );
-        }
-      }
-    }
-
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(
+      `${backendAddress}api/profile/${userId}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`,
+      values
+    );
   };
 
   /* show message */
@@ -178,8 +150,8 @@ const QualificationsFormView = ({
       profileInfo
     ) {
       setInitialValues({
-        education: savedEducation,
-        experience: savedExperience,
+        educations: savedEducation,
+        experiences: savedExperience,
         projects: savedProjects,
       });
     }
@@ -212,36 +184,36 @@ const QualificationsFormView = ({
 
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
-    if (formValues.education) {
-      formValues.education = formValues.education.map((i) =>
+    if (formValues.educations) {
+      formValues.educations = formValues.educations.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      formValues.education = _.filter(formValues.education, _.size);
+      formValues.educations = _.filter(formValues.educations, _.size);
     }
 
-    if (formValues.experience) {
-      formValues.experience = formValues.experience.map((i) =>
+    if (formValues.experiences) {
+      formValues.experiences = formValues.experiences.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      formValues.experience = _.filter(formValues.experience, _.size);
+      formValues.experiences = _.filter(formValues.experiences, _.size);
     }
 
-    if (dbValues.education) {
-      dbValues.education = dbValues.education.map((i) =>
+    if (dbValues.educations) {
+      dbValues.educations = dbValues.educations.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      dbValues.education = _.filter(dbValues.education, _.size);
+      dbValues.educations = _.filter(dbValues.educations, _.size);
     }
 
-    if (dbValues.experience) {
-      dbValues.experience = dbValues.experience.map((i) =>
+    if (dbValues.experiences) {
+      dbValues.experiences = dbValues.experiences.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      dbValues.experience = _.filter(dbValues.experience, _.size);
+      dbValues.experiences = _.filter(dbValues.experiences, _.size);
     }
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
@@ -439,7 +411,7 @@ const QualificationsFormView = ({
         </Title>
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.List name="education">
+            <Form.List name="educations">
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -482,7 +454,7 @@ const QualificationsFormView = ({
         {/* Form Row One: Remote Work */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.List name="experience">
+            <Form.List name="experiences">
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -561,8 +533,7 @@ QualificationsFormView.propTypes = {
   savedExperience: PropTypes.arrayOf(
     PropTypes.shape({
       content: PropTypes.string,
-      // Note: PropTypes doesn't have a good way to specify null, you have to use number instead
-      endDate: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+      endDate: PropTypes.oneOfType([PropTypes.object]),
       header: PropTypes.string,
       startDate: PropTypes.object,
       subheader: PropTypes.string,

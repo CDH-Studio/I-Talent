@@ -14,15 +14,21 @@ async function getSkills(request, response) {
         language,
       },
       select: {
-        opSkillsId: true,
         name: true,
+        opSkills: {
+          select: {
+            id: true,
+            categoryId: true,
+          },
+        },
       },
     });
 
     const skills = skillsQuery.map((i) => {
       return {
-        id: i.opSkillsId,
+        id: i.opSkills.id,
         name: i.name,
+        categoryId: i.opSkills.categoryId,
       };
     });
 

@@ -20,15 +20,19 @@ const LangProficiencyForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const history = useHistory();
+
   const { id } = useSelector((state) => state.user);
+  const { locale } = useSelector((state) => state.settings);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const url = `${backendAddress}api/profile/private/${id}`;
-    const result = await axios.get(url);
+    const result = await axios.get(
+      `${backendAddress}api/profile/private/${id}?language=${
+        locale === "en" ? "ENGLISH" : "FRENCH"
+      }`
+    );
     setProfileInfo(result.data);
-    return 1;
-  }, [id]);
+  }, [id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -44,13 +48,13 @@ const LangProficiencyForm = ({ formType }) => {
     // Set substantive level options
     setLanguageOptions([
       {
-        key: "en",
-        value: "en",
+        key: "ENGLISH",
+        value: "ENGLISH",
         text: "English",
       },
       {
-        key: "fr",
-        value: "fr",
+        key: "FRENCH",
+        value: "FRENCH",
         text: "Français",
       },
     ]);
