@@ -43,7 +43,7 @@ const App = () => {
 
   useEffect(() => {
     setI18nConfig(i18nConfigBuilder(locale));
-    moment.locale(`${locale}-ca`);
+    moment.locale(`${locale === "ENGLISH" ? "en" : "fr"}-ca`);
 
     Sentry.configureScope((scope) => {
       scope.setTag("locale", `${locale}-ca`);
@@ -70,7 +70,7 @@ const App = () => {
 
   return (
     <IntlProvider
-      locale={locale}
+      locale={locale === "ENGLISH" ? "en" : "fr"}
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
