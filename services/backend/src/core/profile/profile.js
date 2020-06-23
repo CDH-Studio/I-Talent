@@ -8,6 +8,22 @@ function normalizeDate(date, startOf) {
   return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
 }
 
+function idHelper(id, savedId) {
+  if (id === null && savedId) {
+    return {
+      disconnect: true,
+    };
+  }
+
+  if (id === undefined || (id === null && !savedId)) {
+    return undefined;
+  }
+
+  return {
+    connect: { id },
+  };
+}
+
 async function updateProfile(request, response) {
   try {
     validationResult(request).throw();
@@ -126,6 +142,8 @@ async function updateProfile(request, response) {
         });
       }
 
+      // Deletes every experiences and educations if experiences or educations is defined since
+      // there's no way to uniquely identify them solely from the data
       if (experiences) {
         await prisma.experiences.deleteMany({ where: { userId } });
       }
@@ -133,6 +151,22 @@ async function updateProfile(request, response) {
       if (educations) {
         await prisma.educations.deleteMany({ where: { userId } });
       }
+
+      // Queries user ids to check if an id was already defined
+      const userIds = await prisma.users.findOne({
+        where: { id: userId },
+        select: {
+          officeLocationId: true,
+          careerMobilityId: true,
+          tenureId: true,
+          securityClearanceId: true,
+          lookingJobId: true,
+          talentMatrixResultId: true,
+          groupLevelId: true,
+          actingLevelId: true,
+          employmentInfoId: true,
+        },
+      });
 
       const result = await prisma.users.update({
         where: { id: userId },
@@ -345,51 +379,21 @@ async function updateProfile(request, response) {
               }
             : undefined,
 
-          officeLocation: locationId
-            ? {
-                connect: { id: locationId },
-              }
-            : undefined,
-          careerMobility: careerMobilityId
-            ? {
-                connect: { id: careerMobilityId },
-              }
-            : undefined,
-          tenure: tenureId
-            ? {
-                connect: { id: tenureId },
-              }
-            : undefined,
-          securityClearance: securityClearanceId
-            ? {
-                connect: { id: securityClearanceId },
-              }
-            : undefined,
-          lookingJob: lookingForANewJobId
-            ? {
-                connect: { id: lookingForANewJobId },
-              }
-            : undefined,
-          talentMatrixResult: talentMatrixResultId
-            ? {
-                connect: { id: talentMatrixResultId },
-              }
-            : undefined,
-          groupLevel: groupLevelId
-            ? {
-                connect: { id: groupLevelId },
-              }
-            : undefined,
-          actingLevel: actingLevelId
-            ? {
-                connect: { id: actingLevelId },
-              }
-            : undefined,
-          employmentInfo: employmentInfoId
-            ? {
-                connect: { id: employmentInfoId },
-              }
-            : undefined,
+          officeLocation: idHelper(locationId, userIds.officeLocationId),
+          careerMobility: idHelper(careerMobilityId, userIds.careerMobilityId),
+          tenure: idHelper(tenureId, userIds.tenureId),
+          securityClearance: idHelper(
+            securityClearanceId,
+            userIds.securityClearanceId
+          ),
+          lookingJob: idHelper(lookingForANewJobId, userIds.lookingJobId),
+          talentMatrixResult: idHelper(
+            talentMatrixResultId,
+            userIds.talentMatrixResultId
+          ),
+          groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
+          actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
+          employmentInfo: idHelper(employmentInfoId, userIds.employmentInfoId),
 
           visibleCards: visibleCards
             ? {

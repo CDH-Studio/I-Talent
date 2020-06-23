@@ -140,6 +140,18 @@ const PersonalGrowthFormView = ({
       interestedInRemote: unalteredValues.interestedInRemote === "true",
     };
 
+    if (!unalteredValues.talentMatrixResultId) {
+      values.talentMatrixResultId = null;
+    }
+
+    if (!unalteredValues.careerMobilityId) {
+      values.careerMobilityId = null;
+    }
+
+    if (!unalteredValues.savedLookingForNewJob) {
+      values.savedLookingForNewJob = null;
+    }
+
     await axios.put(
       `${backendAddress}api/profile/${userId}?language=${
         locale === "en" ? "ENGLISH" : "FRENCH"
@@ -171,19 +183,7 @@ const PersonalGrowthFormView = ({
    * Get the initial values for the form
    */
   const getInitialValues = (profile) => {
-    const hasRequiredProps = () => {
-      return (
-        savedDevelopmentalGoals !== undefined &&
-        savedRelocationLocations !== undefined &&
-        // TODO: decide how to alter props so unset savedLookingForNewJob isn't the same as undefined prop
-        // savedLookingForNewJob !== undefined &&
-        savedCareerMobility !== undefined &&
-        savedTalentMatrixResult !== undefined &&
-        savedExFeederBool !== undefined
-      );
-    };
-
-    if (profile && hasRequiredProps()) {
+    if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
         interestedInRemote: profile.interestedInRemote

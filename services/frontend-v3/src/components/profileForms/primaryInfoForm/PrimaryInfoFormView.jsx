@@ -17,6 +17,7 @@ import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { isMobilePhone } from "validator";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -115,8 +116,18 @@ const PrimaryInfoFormView = ({
       message: <FormattedMessage id="profile.rules.max.100" />,
     },
     telephoneFormat: {
-      pattern: /^\d{3}-\d{3}-\d{4}$/i,
-      message: <FormattedMessage id="profile.rules.phone.number" />,
+      validator(rule, value) {
+        if (
+          !value ||
+          (isMobilePhone(value, "en-CA") && /^\d{3}-\d{3}-\d{4}$/i.test(value))
+        ) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject(
+          intl.formatMessage({ id: "profile.rules.phone.number" })
+        );
+      },
     },
     emailFormat: {
       pattern: /\S+@\S+\.ca/i,

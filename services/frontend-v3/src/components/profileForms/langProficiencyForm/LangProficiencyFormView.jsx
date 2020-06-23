@@ -128,19 +128,20 @@ const LangProficiencyFormView = ({
   /* Save data */
   const saveDataToDB = async (values) => {
     const dbValues = {
-      secondLangProfs: []
+      secondLangProfs: [],
     };
 
     // If firstLanguage is undefined then clear value in DB
     if (values.firstLanguage) {
-      dbValues.firstLanguage =
-        values.firstLanguage === "en" ? "ENGLISH" : "FRENCH";
+      dbValues.firstLanguage = values.firstLanguage;
+    } else {
+      dbValues.firstLanguage = null;
     }
 
     if (displayMentorshipForm) {
       // set second language based on first language
       dbValues.secondLanguage =
-        values.firstLanguage === "en" ? "FRENCH" : "ENGLISH";
+        values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
 
       if (
         values.oralProficiency ||

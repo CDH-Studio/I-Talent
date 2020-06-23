@@ -1,5 +1,5 @@
 const { query, param, body } = require("express-validator");
-const { isUUID, isIn } = require("validator");
+const { isUUID, isIn, isMobilePhone } = require("validator");
 const moment = require("moment");
 
 const langValidator = query("language")
@@ -27,11 +27,9 @@ const updateProfileNumberBody = ["signupStep"];
 const updateProfileStringArrayBody = ["projects"];
 const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
 
-const updateProfileLanguageBody = [
-  "firstLanguage",
-  "secondLanguage",
-  "preferredLanguage",
-];
+const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
+
+const updateProfileLanguageBody = ["preferredLanguage"];
 
 const updateProfileBooleanBody = [
   "interestedInRemote",
@@ -80,11 +78,14 @@ const updateProfileValidator = [
     body(i)
       .optional()
       .trim()
-      .isMobilePhone("en-CA")
+      .custom((value) => !value || isMobilePhone(value, "en-CA"))
       .withMessage("must be a valid phone number")
   ),
   updateProfileUUIDBody.map((i) =>
-    body(i).optional().trim().isUUID().withMessage("must be a UUID")
+    body(i)
+      .optional()
+      .custom((value) => value === null || isUUID(value))
+      .withMessage("must be a UUID or null")
   ),
   updateProfileDateBody.map((i) =>
     body(i)
@@ -107,6 +108,12 @@ const updateProfileValidator = [
       .trim()
       .isIn(["ENGLISH", "FRENCH"])
       .withMessage("must be 'ENGLISH' or 'FRENCH'")
+  ),
+  updateProfileOptionalLanguageBody.map((i) =>
+    body(i)
+      .optional()
+      .isIn(["ENGLISH", "FRENCH", null])
+      .withMessage("must be 'ENGLISH' or 'FRENCH' or null")
   ),
   updateProfileStringArrayBody.map((i) =>
     body(i)

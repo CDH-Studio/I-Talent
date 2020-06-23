@@ -136,7 +136,25 @@ const EmploymentDataFormView = (props) => {
 
   /* Save data */
   const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
+    const values = {
+      ...unalteredValues,
+    };
+
+    if (!unalteredValues.securityClearanceId) {
+      values.securityClearanceId = null;
+    }
+
+    if (!unalteredValues.tenureId) {
+      values.tenureId = null;
+    }
+
+    if (!unalteredValues.groupLevelId) {
+      values.groupLevelId = null;
+    }
+
+    if (!unalteredValues.actingLevelId) {
+      values.actingLevelId = null;
+    }
 
     await axios.put(
       `${backendAddress}api/profile/${userId}?language=${
