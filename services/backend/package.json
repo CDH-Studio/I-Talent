@@ -10,7 +10,7 @@
     "migrate": "cd src/database && prisma migrate up --experimental -c",
     "migrate:create": "cd src/database && prisma migrate save --experimental",
     "deploy": "yarn -s migrate && yarn -s seed && yarn -s start",
-    "dev:docker": "yarn -s dev",
+    "dev:docker": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio --experimental",
@@ -19,7 +19,7 @@
   "author": "I-Talent team",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "2.0.0",
+    "@prisma/client": "^2.1.0",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "concurrently": "^5.2.0",
@@ -35,7 +35,7 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
-    "@prisma/cli": "2.0.0",
+    "@prisma/cli": "^2.1.0",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-node": "^4.1.0",
