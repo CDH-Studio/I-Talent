@@ -1,6 +1,6 @@
-# Migration `20200619150447-init`
+# Migration `20200623105030-init`
 
-This migration has been generated at 6/19/2020, 3:04:47 PM.
+This migration has been generated at 6/23/2020, 10:50:30 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -167,7 +167,7 @@ CREATE TABLE "public"."relocationLocations" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."users" (
-"actingEndDate" timestamp(3)   ,"actingLevelId" text   ,"actingStartDate" timestamp(3)   ,"avatarColor" text   ,"careerMobilityId" text   ,"cellphone" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"email" text   ,"employmentInfoId" text   ,"exFeeder" boolean  NOT NULL DEFAULT false,"firstLanguage" "Language"  ,"firstName" text   ,"gcconnex" text   ,"github" text   ,"groupLevelId" text   ,"id" text  NOT NULL ,"interestedInRemote" boolean  NOT NULL DEFAULT false,"lastName" text   ,"linkedin" text   ,"lookingJobId" text   ,"manager" text   ,"mentoring" boolean  NOT NULL DEFAULT false,"name" text   ,"nameInitials" text   ,"officeLocationId" text   ,"preferredLanguage" "Language" NOT NULL DEFAULT E'ENGLISH',"projects" text []  ,"secondLanguage" "Language"  ,"securityClearanceId" text   ,"signupStep" integer  NOT NULL DEFAULT 0,"status" "UserStatus" NOT NULL DEFAULT E'ACTIVE',"talentMatrixResultId" text   ,"team" text   ,"telephone" text   ,"tenureId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"visibleCardId" text  NOT NULL ,
+"actingEndDate" timestamp(3)   ,"actingLevelId" text   ,"actingStartDate" timestamp(3)   ,"avatarColor" text   ,"careerMobilityId" text   ,"cellphone" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"email" text   ,"employmentInfoId" text   ,"exFeeder" boolean  NOT NULL DEFAULT false,"firstLanguage" "Language"  ,"firstName" text   ,"gcconnex" text   ,"github" text   ,"groupLevelId" text   ,"id" text  NOT NULL ,"interestedInRemote" boolean  NOT NULL DEFAULT false,"lastName" text   ,"linkedin" text   ,"lookingJobId" text   ,"manager" text   ,"name" text   ,"officeLocationId" text   ,"preferredLanguage" "Language" NOT NULL DEFAULT E'ENGLISH',"projects" text []  ,"secondLanguage" "Language"  ,"securityClearanceId" text   ,"signupStep" integer  NOT NULL DEFAULT 0,"status" "UserStatus" NOT NULL DEFAULT E'ACTIVE',"talentMatrixResultId" text   ,"team" text   ,"telephone" text   ,"tenureId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"visibleCardId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE UNIQUE INDEX "opTransSecurityClearances.language_description" ON "public"."opTransSecurityClearances"("language","description")
@@ -293,10 +293,10 @@ ALTER TABLE "public"."users" ADD FOREIGN KEY ("visibleCardId")REFERENCES "public
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..20200619150447-init
+migration ..20200623105030-init
 --- datamodel.dml
 +++ datamodel.dml
-@@ -1,0 +1,469 @@
+@@ -1,0 +1,467 @@
 +generator client {
 +  provider = "prisma-client-js"
 +  output   = "./client"
@@ -731,7 +731,6 @@ migration ..20200619150447-init
 +  visibleCardId         String
 +
 +  name                  String?
-+  nameInitials          String?
 +  firstName             String?
 +  lastName              String?
 +  avatarColor           String?
@@ -749,7 +748,6 @@ migration ..20200619150447-init
 +  github                String?
 +  gcconnex              String?
 +  exFeeder              Boolean                 @default(false)
-+  mentoring             Boolean                 @default(false)
 +  interestedInRemote    Boolean                 @default(false)
 +  status                UserStatus              @default(ACTIVE)
 +  projects              String[]

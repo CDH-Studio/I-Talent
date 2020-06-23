@@ -432,7 +432,6 @@ model users {
   visibleCardId         String
 
   name                  String?
-  nameInitials          String?
   firstName             String?
   lastName              String?
   avatarColor           String?
@@ -450,7 +449,6 @@ model users {
   github                String?
   gcconnex              String?
   exFeeder              Boolean                 @default(false)
-  mentoring             Boolean                 @default(false)
   interestedInRemote    Boolean                 @default(false)
   status                UserStatus              @default(ACTIVE)
   projects              String[]

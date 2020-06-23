@@ -17,7 +17,6 @@ const updateProfileStringBody = [
   "github",
   "gcconnex",
   "manager",
-  "nameInitials",
   "avatarColor",
 ];
 
@@ -31,11 +30,7 @@ const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
 
 const updateProfileLanguageBody = ["preferredLanguage"];
 
-const updateProfileBooleanBody = [
-  "interestedInRemote",
-  "exFeeder",
-  "mentoring",
-];
+const updateProfileBooleanBody = ["interestedInRemote", "exFeeder"];
 
 const updateProfileUUIDArrayBody = [
   "skills",

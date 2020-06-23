@@ -50,7 +50,6 @@ async function updateProfile(request, response) {
         interestedInRemote,
         exFeeder,
         mentoring,
-        nameInitials,
         avatarColor,
         status,
         signupStep,
@@ -188,7 +187,6 @@ async function updateProfile(request, response) {
           interestedInRemote,
           exFeeder,
           mentoring,
-          nameInitials,
           avatarColor,
           status,
           signupStep,
@@ -440,7 +438,6 @@ async function getFullProfile(id, language) {
       createdAt: true,
       updatedAt: true,
       name: true,
-      nameInitials: true,
       firstName: true,
       lastName: true,
       avatarColor: true,
@@ -743,7 +740,10 @@ async function getFullProfile(id, language) {
 }
 
 function filterProfileResult(profile, language) {
-  let filteredProfile = profile;
+  let filteredProfile = {
+    ...profile,
+    nameInitials: `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`,
+  };
 
   if (profile.skills) {
     filteredProfile.skills = profile.skills.map(({ skill }) => {
