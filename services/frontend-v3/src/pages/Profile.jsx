@@ -23,11 +23,7 @@ const Profile = ({ history, match }) => {
       // is looking at his own profile
       if (id === userID) {
         const fetchedData = await axios
-          .get(
-            `${backendAddress}api/profile/private/${id}?language=${
-              locale === "en" ? "ENGLISH" : "FRENCH"
-            }`
-          )
+          .get(`${backendAddress}api/profile/private/${id}?language=${locale}`)
           .then((res) => res.data)
           .catch((error) => {
             throw error;
@@ -38,11 +34,7 @@ const Profile = ({ history, match }) => {
       // Send public data to ProfileLayout component, when current user
       // is looking at someone else profile
       const fetchedData = await axios
-        .get(
-          `${backendAddress}api/profile/${id}?language=${
-            locale === "en" ? "ENGLISH" : "FRENCH"
-          }`
-        )
+        .get(`${backendAddress}api/profile/${id}?language=${locale}`)
         .then((res) => res.data)
         .catch((error) => {
           if (

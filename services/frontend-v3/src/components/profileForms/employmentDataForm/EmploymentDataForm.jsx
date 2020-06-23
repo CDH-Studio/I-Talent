@@ -30,9 +30,7 @@ const EmploymentDataForm = ({ formType }) => {
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/tenures?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/tenures?language=${locale}`
     );
 
     setSubstantiveOptions(result.data);
@@ -41,9 +39,7 @@ const EmploymentDataForm = ({ formType }) => {
   // Get classification options
   const getClassificationOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/classifications?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/classifications?language=${locale}`
     );
 
     setClassificationOptions(result.data);
@@ -52,9 +48,7 @@ const EmploymentDataForm = ({ formType }) => {
   // Get security options
   const getSecurityOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/securityClearances?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/securityClearances?language=${locale}`
     );
 
     setSecurityOptions(result.data);
@@ -63,9 +57,7 @@ const EmploymentDataForm = ({ formType }) => {
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/profile/private/${id}?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/profile/private/${id}?language=${locale}`
     );
 
     setProfileInfo(result.data);

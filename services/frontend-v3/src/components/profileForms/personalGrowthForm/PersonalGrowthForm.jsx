@@ -59,7 +59,9 @@ const PersonalGrowthForm = ({ formType }) => {
    * get saved Relocation Locations from profile
    */
   const getSavedRelocationLocations = () => {
-    setSavedRelocationLocations(profileInfo.relocationLocations.map((i) => i.id));
+    setSavedRelocationLocations(
+      profileInfo.relocationLocations.map((i) => i.id)
+    );
   };
 
   /**
@@ -67,9 +69,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/profile/private/${id}?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/profile/private/${id}?language=${locale}`
     );
 
     setProfileInfo(result.data);
@@ -82,9 +82,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/developmentalGoals?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/developmentalGoals?language=${locale}`
     );
 
     setDevelopmentalGoalOptions(result.data);
@@ -100,11 +98,11 @@ const PersonalGrowthForm = ({ formType }) => {
     const options = [
       {
         key: "true",
-        text: locale === "fr" ? "Oui" : "Yes",
+        text: locale === "ENGLISH" ? "Yes" : "Oui",
       },
       {
         key: "false",
-        text: locale === "fr" ? "Non" : "No",
+        text: locale === "ENGLISH" ? "No" : "Non",
       },
     ];
     setInterestedInRemoteOptions(options);
@@ -117,9 +115,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getRelocationOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/locations?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/locations?language=${locale}`
     );
 
     setRelocationOptions(result.data);
@@ -132,9 +128,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getLookingForNewJobOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/lookingJobs?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/lookingJobs?language=${locale}`
     );
 
     setLookingForNewJobOptions(result.data);
@@ -147,9 +141,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getCareerMobilityOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/careerMobilities?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/careerMobilities?language=${locale}`
     );
 
     setCareerMobilityOptions(result.data);
@@ -162,9 +154,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getTalentMatrixResultOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/talentMatrixResults?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/talentMatrixResults?language=${locale}`
     );
 
     setTalentMatrixResultOptions(result.data);

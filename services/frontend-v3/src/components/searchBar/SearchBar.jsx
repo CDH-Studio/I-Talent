@@ -23,9 +23,7 @@ const SearchBar = () => {
   // Fetches options for skills select field in advanced search
   const getSkills = useCallback(async () => {
     const results = await axios.get(
-      `${backendAddress}api/option/developmentalGoals?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/developmentalGoals?language=${locale}`
     );
     setSkillOptions(results.data);
   }, [locale]);
@@ -33,9 +31,7 @@ const SearchBar = () => {
   // Fetches options for branches select field in advanced search
   const getBranch = useCallback(async () => {
     const results = await axios.get(
-      `${backendAddress}api/option/branches?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/branches?language=${locale}`
     );
     setBranchOptions(results.data);
   }, [locale]);
@@ -43,9 +39,7 @@ const SearchBar = () => {
   // Fetches options for locations select field in advanced search
   const getLocation = useCallback(async () => {
     const results = await axios.get(
-      `${backendAddress}api/option/locations?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/locations?language=${locale}`
     );
     setLocationOptions(results.data);
   }, [locale]);

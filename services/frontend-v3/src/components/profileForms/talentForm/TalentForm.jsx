@@ -31,9 +31,7 @@ const TalentForm = ({ formType }) => {
    */
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/profile/private/${id}?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/profile/private/${id}?language=${locale}`
     );
     setProfileInfo(result.data);
   }, [id, locale]);
@@ -45,9 +43,7 @@ const TalentForm = ({ formType }) => {
    */
   const getCompetencyOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/competencies?language=${
-        locale === "en" ? "ENGLISH" : "FRENCH"
-      }`
+      `${backendAddress}api/option/competencies?language=${locale}`
     );
 
     setCompetencyOptions(result.data);
@@ -59,13 +55,9 @@ const TalentForm = ({ formType }) => {
    * generate the dataTree of skills and skill categories for the TreeSelect
    */
   const getSkillOptions = useCallback(async () => {
-    const categoriesUrl = `${backendAddress}api/option/categories?language=${
-      locale === "en" ? "ENGLISH" : "FRENCH"
-    }`;
+    const categoriesUrl = `${backendAddress}api/option/categories?language=${locale}`;
 
-    const skillsUrl = `${backendAddress}api/option/skills?language=${
-      locale === "en" ? "ENGLISH" : "FRENCH"
-    }`;
+    const skillsUrl = `${backendAddress}api/option/skills?language=${locale}`;
 
     const [categoriesResult, skillsResults] = await Promise.all([
       axios.get(categoriesUrl),

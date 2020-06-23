@@ -25,7 +25,7 @@ import {
 } from "./redux/slices/userSlice";
 
 const i18nConfigBuilder = (locale) => ({
-  messages: locale === "fr" ? messagesFr : messagesEn,
+  messages: locale === "ENGLISH" ? messagesEn : messagesFr,
   formats: {
     number: {
       CAD: {

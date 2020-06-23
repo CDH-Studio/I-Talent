@@ -26,18 +26,14 @@ const ResultsCard = () => {
       if (queryString.includes("searchValue")) {
         axios
           .get(
-            `${backendAddress}api/search/fuzzy?${queryString}&language=${
-              locale === "en" ? "ENGLISH" : "FRENCH"
-            }`
+            `${backendAddress}api/search/fuzzy?${queryString}&language=${locale}`
           )
           .then((result) => setResults(result.data))
           .catch((error) => handleError(error, "redirect"));
       } else {
         axios
           .get(
-            `${backendAddress}api/search/filters?${queryString}&language=${
-              locale === "en" ? "ENGLISH" : "FRENCH"
-            }`
+            `${backendAddress}api/search/filters?${queryString}&language=${locale}`
           )
           .then((result) => setResults(result.data))
           .catch((error) => handleError(error, "redirect"));

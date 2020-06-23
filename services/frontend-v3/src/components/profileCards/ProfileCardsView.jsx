@@ -53,14 +53,9 @@ const ProfileCardsView = ({
 
     // save toggle value in db
     await axios
-      .put(
-        `${backendAddress}api/profile/${urlID}?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`,
-        {
-          visibleCards,
-        }
-      )
+      .put(`${backendAddress}api/profile/${urlID}?language=${locale}`, {
+        visibleCards,
+      })
       .catch((error) => handleError(error, "message"));
   };
 

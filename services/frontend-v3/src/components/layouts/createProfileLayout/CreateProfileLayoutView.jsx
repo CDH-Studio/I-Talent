@@ -219,7 +219,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
-          textTransform: locale === "en" ? "capitalize" : "",
+          textTransform: locale === "ENGLIS" ? "capitalize" : "",
         }}
         title={<FormattedMessage id="create.profile" />}
       />

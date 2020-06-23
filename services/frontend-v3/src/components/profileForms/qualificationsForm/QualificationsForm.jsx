@@ -34,9 +34,7 @@ const QualificationsForm = ({ formType }) => {
   const getProfileInfo = useCallback(async () => {
     try {
       const result = await axios.get(
-        `${backendAddress}api/profile/private/${id}?language=${
-          locale === "en" ? "ENGLISH" : "FRENCH"
-        }`
+        `${backendAddress}api/profile/private/${id}?language=${locale}`
       );
       setProfileInfo(result.data);
       setLoad(true);
@@ -70,7 +68,7 @@ const QualificationsForm = ({ formType }) => {
    */
   const getSavedExperience = () => {
     // Generate an array of education items
-    const selected = profileInfo.experiences.map(i => ({
+    const selected = profileInfo.experiences.map((i) => ({
       jobTitle: i.jobTitle,
       organization: i.organization,
       description: i.description,

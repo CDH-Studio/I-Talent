@@ -129,7 +129,7 @@ const ResultsCardView = ({ history, results, locale }) => {
 ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
   results: PropTypes.arrayOf(ProfileInfoPropType),
-  locale: PropTypes.oneOf(["fr", "en"]).isRequired,
+  locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
 };
 
 ResultsCardView.defaultProps = {
