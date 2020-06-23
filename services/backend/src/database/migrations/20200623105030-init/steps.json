@@ -5774,13 +5774,6 @@
     {
       "tag": "CreateField",
       "model": "users",
-      "field": "nameInitials",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "users",
       "field": "firstName",
       "type": "String",
       "arity": "Optional"
@@ -5941,38 +5934,6 @@
           "tag": "Field",
           "model": "users",
           "field": "exFeeder"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "false"
-    },
-    {
-      "tag": "CreateField",
-      "model": "users",
-      "field": "mentoring",
-      "type": "Boolean",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "users",
-          "field": "mentoring"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "users",
-          "field": "mentoring"
         },
         "directive": "default"
       },

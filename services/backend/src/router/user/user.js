@@ -5,8 +5,6 @@ const { UUIDValidator, createUserValidator } = require("./validator");
 
 const userRouter = Router();
 
-userRouter.get("/", keycloak.protect(), user.getUsers);
-
 userRouter
   .route("/:id")
   .get(keycloak.protect(), [UUIDValidator], user.getUserById)
