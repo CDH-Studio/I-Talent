@@ -116,37 +116,8 @@ async function createUser(request, response) {
   }
 }
 
-async function checkExistence(request, response) {
-  try {
-    validationResult(request).throw();
-
-    const { id } = request.params;
-
-    if (request.kauth.grant.access_token.content.sub === id) {
-      const count = await prisma.users.count({
-        where: { id },
-      });
-
-      response.status(200).json(count);
-      return;
-    }
-
-    response
-      .status(403)
-      .json({ data: "Access to private account has be denied." });
-  } catch (error) {
-    console.log(error);
-    if (error.errors) {
-      response.status(422).json(error.errors);
-      return;
-    }
-    response.status(500).json("Unable to find user");
-  }
-}
-
 module.exports = {
   getUsers,
   getUserById,
   createUser,
-  checkExistence,
 };

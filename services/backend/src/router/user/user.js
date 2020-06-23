@@ -12,11 +12,4 @@ userRouter
   .get(keycloak.protect(), [UUIDValidator], user.getUserById)
   .post(keycloak.protect(), createUserValidator, user.createUser);
 
-userRouter.get(
-  "/checkExistence/:id",
-  keycloak.protect(),
-  [UUIDValidator],
-  user.checkExistence
-);
-
 module.exports = userRouter;
