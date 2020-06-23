@@ -20,25 +20,8 @@ function generateAvatarColor() {
   return colours[Math.floor(Math.random() * colours.length)];
 }
 
-async function getUsers(request, response) {
-  prisma.users
-    .findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        status: true,
-        avatarColor: true,
-        nameInitials: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    })
-    .then((result) => response.status(200).json(result))
-    .catch((error) => {
-      console.log(error);
-      response.status(500).json("Unable to get profiles");
-    });
+function getNameInitials(firstName, lastName) {
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`;
 }
 
 async function getUserById(request, response) {
@@ -48,7 +31,7 @@ async function getUserById(request, response) {
     const { id } = request.params;
 
     if (request.kauth.grant.access_token.content.sub === id) {
-      const users = await prisma.users.findOne({
+      const user = await prisma.users.findOne({
         where: { id },
         select: {
           id: true,
@@ -56,13 +39,18 @@ async function getUserById(request, response) {
           email: true,
           status: true,
           avatarColor: true,
-          nameInitials: true,
+          firstName: true,
+          lastName: true,
           createdAt: true,
           updatedAt: true,
           signupStep: true,
         },
       });
-      response.status(200).json(users);
+
+      response.status(200).json({
+        ...user,
+        nameInitials: getNameInitials(user.firstName, user.lastName),
+      });
       return;
     }
 
@@ -95,12 +83,14 @@ async function createUser(request, response) {
           firstName,
           lastName,
           avatarColor: generateAvatarColor(),
-          nameInitials: `${firstName.charAt(0)}${lastName.charAt(0)}`,
           visibleCards: { create: {} },
         },
       });
 
-      response.status(200).json(user);
+      response.status(200).json({
+        ...user,
+        nameInitials: getNameInitials(firstName, lastName),
+      });
       return;
     }
     response
@@ -117,7 +107,6 @@ async function createUser(request, response) {
 }
 
 module.exports = {
-  getUsers,
   getUserById,
   createUser,
 };

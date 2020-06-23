@@ -48,7 +48,6 @@ async function getAllUsers(searchValue, language) {
             status: true,
             email: true,
             avatarColor: true,
-            nameInitials: true,
             projects,
             groupLevel: info && {
               select: {
@@ -195,6 +194,7 @@ async function getAllUsers(searchValue, language) {
     let allSkills = [];
     const info = {
       ...user,
+      nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
     };
 
     if (info.employmentInfo) {
