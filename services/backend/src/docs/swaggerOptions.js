@@ -17,7 +17,7 @@ const specs = swaggerJsdoc({
       },
     },
   },
-  apis: ["./src/router/*/*.js", "./src/docs/definitions.js"],
+  apis: ["./src/router/*/docs.yml", "./src/docs/definitions.yml"],
 });
 
 module.exports = swaggerUi.setup(specs, {
