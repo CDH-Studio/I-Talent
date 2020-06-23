@@ -124,7 +124,6 @@ const ProfileCardsView = ({
 
             <Col>
               <Tooltip
-                trigger="click"
                 placement="top"
                 title={<FormattedMessage id="profile.edit" />}
               >

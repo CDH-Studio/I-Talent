@@ -145,7 +145,6 @@ const EducationFormView = ({
           <FormattedMessage id="setup.education" />
           {`: ${field.name + 1}`}
           <Tooltip
-            trigger="click"
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
           >
