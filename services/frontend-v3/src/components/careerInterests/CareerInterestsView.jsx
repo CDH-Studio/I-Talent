@@ -26,10 +26,9 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
             <FormattedMessage id="profile.willing.to.relocate.to" />:{" "}
           </Typography.Text>
           <div style={{ marginTop: "7px" }}>
-            {dataSource.map((loc, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Tag color="#00c15b" key={index}>
-                {loc}
+            {dataSource.map(({ id, city, province }) => (
+              <Tag color="#00c15b" key={id}>
+                {city}, {province}
               </Tag>
             ))}
           </div>
@@ -65,7 +64,11 @@ CareerInterestsView.propTypes = {
       ]),
     })
   ).isRequired,
-  relocationLocationsInfo: PropTypes.arrayOf(PropTypes.string).isRequired,
+  relocationLocationsInfo: PropTypes.arrayOf(PropTypes.string),
+};
+
+CareerInterestsView.defaultProps = {
+  relocationLocationsInfo: [],
 };
 
 export default CareerInterestsView;

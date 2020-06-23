@@ -1,12 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import CareerInterestsView from "./CareerInterestsView";
 
 const CareerInterests = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
   const getCareerInterestsInfo = () => {
     const interestedInRemote = {
       icon: "mail",
@@ -29,22 +26,11 @@ const CareerInterests = ({ data }) => {
     return [interestedInRemote, lookingForNewJob];
   };
 
-  const getRelocationLocationsInfo = () => {
-    const relocationLocationsInfo = [];
-    if (data.relocationLocations) {
-      data.relocationLocations.forEach((locationElement) =>
-        relocationLocationsInfo.push(locationElement.description[locale])
-      );
-    }
-
-    return [...relocationLocationsInfo];
-  };
-
   return (
     <CareerInterestsView
       data={data}
       info={getCareerInterestsInfo()}
-      relocationLocationsInfo={getRelocationLocationsInfo()}
+      relocationLocationsInfo={data.relocationLocations}
     />
   );
 };
