@@ -85,8 +85,7 @@ const updateProfileValidator = [
   updateProfileDateBody.map((i) =>
     body(i)
       .optional()
-      .trim()
-      .custom((j) => moment(j).isValid())
+      .custom((j) => j === null || moment(j).isValid())
       .withMessage("must be a date")
   ),
   updateProfileBooleanBody.map((i) =>

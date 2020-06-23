@@ -47,8 +47,8 @@ const getUsers = async (request, response) => {
     });
 
     const users = usersQuery.map((i) => {
-      const jobTitle = i.employmentInfo.translations;
-      const tenure = i.tenure.translations;
+      const jobTitle = i.employmentInfo ? i.employmentInfo.translations : [];
+      const tenure = i.tenure ? i.tenure.translations : [];
 
       return {
         id: i.id,

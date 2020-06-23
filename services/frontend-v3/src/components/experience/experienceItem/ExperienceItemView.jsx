@@ -38,7 +38,7 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
   const generateDescription = () => {
     return (
       <>
-        <Row>{item.organizationName}</Row>
+        <Row>{item.organization}</Row>
         {generateDescriptionContent()}
         <Row>
           <Button
@@ -84,7 +84,7 @@ ExperienceItem.propTypes = {
     duration: PropTypes.string,
     icon: PropTypes.string,
     jobTitle: PropTypes.string,
-    organizationName: PropTypes.string,
+    organization: PropTypes.string,
   }).isRequired,
   toggleExpand: PropTypes.func.isRequired,
   intl: IntlPropType,

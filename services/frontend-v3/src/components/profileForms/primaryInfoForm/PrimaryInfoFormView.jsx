@@ -117,20 +117,26 @@ const PrimaryInfoFormView = ({
       max: 100,
       message: <FormattedMessage id="profile.rules.max.100" />,
     },
-    telephoneFormat: {
-      validator(rule, value) {
-        if (
-          !value ||
-          (isMobilePhone(value, "en-CA") && /^\d{3}-\d{3}-\d{4}$/i.test(value))
-        ) {
-          return Promise.resolve();
-        }
-
-        return Promise.reject(
-          intl.formatMessage({ id: "profile.rules.phone.number" })
-        );
+    telephoneFormat: [
+      {
+        pattern: /^\d{3}-\d{3}-\d{4}$/i,
+        message: <FormattedMessage id="profile.rules.phone.number" />,
       },
-    },
+      {
+        validator(rule, value) {
+          if (
+            !value ||
+            (isMobilePhone(value, "en-CA"))
+          ) {
+            return Promise.resolve();
+          }
+
+          return Promise.reject(
+            intl.formatMessage({ id: "profile.rules.valid.phone.number" })
+          );
+        },
+      },
+    ],
     emailFormat: {
       pattern: /\S+@\S+\.ca/i,
       message: <FormattedMessage id="profile.rules.email" />,
@@ -430,7 +436,7 @@ const PrimaryInfoFormView = ({
             <Form.Item
               name="telephone"
               label={<FormattedMessage id="profile.telephone" />}
-              rules={[Rules.telephoneFormat]}
+              rules={Rules.telephoneFormat}
             >
               <Input />
             </Form.Item>
