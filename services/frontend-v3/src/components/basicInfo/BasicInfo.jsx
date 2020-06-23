@@ -57,7 +57,7 @@ const BasicInfo = ({ data }) => {
         acr: data.nameInitials,
         color: data.avatarColor,
       }}
-      jobTitle={data.jobTitle[locale]}
+      jobTitle={data.jobTitle}
       locale={locale}
       buttonLinks={getButtonLinks()}
     />

@@ -318,6 +318,7 @@
   "profile.rules.max.250": "Maximum de 250 caractères",
   "profile.rules.max.exceeded": "Longueur max dépassée",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
+  "profile.rules.valid.phone.number": "Doit être un numéro de téléphone valide",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",

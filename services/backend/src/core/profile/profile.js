@@ -465,6 +465,19 @@ async function getFullProfile(id, language) {
           skill: {
             select: {
               id: true,
+              category: {
+                select: {
+                  id: true,
+                  translations: {
+                    where: {
+                      language,
+                    },
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
               translations: {
                 where: {
                   language,
@@ -706,6 +719,19 @@ async function getFullProfile(id, language) {
           skill: {
             select: {
               id: true,
+              category: {
+                select: {
+                  id: true,
+                  translations: {
+                    where: {
+                      language,
+                    },
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
               translations: {
                 where: {
                   language,
@@ -747,10 +773,12 @@ function filterProfileResult(profile, language) {
 
   if (profile.skills) {
     filteredProfile.skills = profile.skills.map(({ skill }) => {
-      if (skill.translations)
+      if (skill.translations && skill.category.translations)
         return {
           id: skill.id,
           name: skill.translations[0].name,
+          categoryId: skill.category.id,
+          category: skill.category.translations[0].name,
         };
       return null;
     });
@@ -759,10 +787,12 @@ function filterProfileResult(profile, language) {
   if (profile.mentorshipSkills) {
     filteredProfile.mentorshipSkills = profile.mentorshipSkills.map(
       ({ skill }) => {
-        if (skill.translations)
+        if (skill.translations && skill.category.translations)
           return {
             id: skill.id,
             name: skill.translations[0].name,
+            categoryId: skill.category.id,
+            category: skill.category.translations[0].name,
           };
         return null;
       }
