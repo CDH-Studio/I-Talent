@@ -73,5 +73,8 @@ jobs:
       - name: Installing Yarn dependencies
         run: yarn
 
+      - name: Generate prisma client
+        run: yarn generate
+
       - name: Run linter
         run: yarn run lint
