@@ -36,6 +36,15 @@ definitions:
             format: uuid
           description:
             type: string
+  IdName:
+    schema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
   IdNameArray:
     schema:
       type: array
@@ -71,6 +80,146 @@ definitions:
             type: string
           count:
             type: number
+  SearchResponse:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          firstName:
+            type: string
+          lastName:
+            type: string
+          telephone:
+            type: string
+          cellphone:
+            type: string
+          manager:
+            type: string
+          team:
+            type: string
+          exFeeder:
+            type: boolean
+          status:
+            type: string
+            enum:
+              - ACTIVE
+              - INACTIVE
+              - HIDDEN
+          email:
+            type: string
+            format: email
+          avatarColor:
+            type: string
+          projects:
+            type: array
+            items:
+              type: string
+          groupLevel:
+            type: object
+            properties:
+              id: 
+                type: string
+                format: uuid
+              name:
+                type: string
+          actingLevel:
+            type: object
+            properties:
+              id: 
+                type: string
+                format: uuid
+              name:
+                type: string
+          officeLocation:
+            type: object
+            properties:
+              id: 
+                type: string
+                format: uuid
+              city:
+                type: string
+              streetNumber:
+                type: number
+              province:
+                type: string
+              streetName:
+                type: string
+          experiences:
+            type: array
+            items:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                description:
+                  type: string
+                jobTitle:
+                  type: string
+                organization:
+                  type: string
+          educations:
+            type: array
+            items:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                diploma:
+                  type: string
+                school:
+                  type: string
+          skills:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+          competencies:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+          organizations:
+            type: array
+            items:
+              type: string
+          nameInitials:
+            type: string
+          branch:
+            type: string
+          jobTitle:
+            type: string
+          resultSkills:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
   CountResponse:
     schema:
       type: number

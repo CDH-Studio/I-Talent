@@ -1,0 +1,70 @@
+/api/search/filters:
+  get:
+    summary: Returns the id and names of hidden users
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+      - name: name
+        in: query
+        description: Name of the user to be searched
+        type: string
+      - name: skills
+        in: query
+        description: Array of skill UUIDs to be searched
+        type: array
+        items:
+          type: string
+          format: uuid
+      - name: branches
+        in: query
+        description: Array of branch names to be searched
+        type: array
+        items:
+          type: string
+      - name: locations
+        in: query
+        description: Array of office location UUIDs to be searched
+        type: array
+        items:
+          type: string
+          format: uuid
+      - name: classifications
+        in: query
+        description: Array of classification UUIDs to be searched
+        type: array
+        items:
+          type: string
+          format: uuid
+      - name: exFeeder
+        in: query
+        description: Ex feeder boolean value to be searched
+        type: boolean
+    responses:
+      200:
+        $ref: "#/definitions/SearchResponse"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [search]
+
+/api/search/fuzzy:
+  get:
+    summary: Returns the id and names of hidden users
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+      - name: searchValue
+        in: query
+        description: The value to be searched
+        type: string
+    responses:
+      200:
+        $ref: "#/definitions/SearchResponse"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [search]
