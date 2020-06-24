@@ -74,8 +74,8 @@
                       type: string
                     fr:
                       type: string
-      422:
-        $ref: "#/definitions/422"
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:

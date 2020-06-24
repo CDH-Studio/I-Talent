@@ -8,6 +8,8 @@
     responses:
       200:
         $ref: '#/definitions/StringArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:
@@ -26,6 +28,8 @@
     responses:
       200:
         $ref: '#/definitions/IdDescriptionArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:
@@ -44,6 +48,8 @@
     responses:
       200:
         $ref: '#/definitions/IdNameArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:
@@ -60,6 +66,8 @@
     responses:
       200:
         $ref: '#/definitions/200'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:

@@ -17,6 +17,8 @@
                 type: string
               lastName:
                 type: string
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -46,6 +48,8 @@
               type: number
             currentMonthNewUserCount:
               type: number
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -67,6 +71,8 @@
               type: array
               items:
                 type: number
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -81,6 +87,10 @@
     responses:
       200:
         $ref: "#/definitions/TopFiveResponse"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
       500:
         $ref: "#/definitions/500"
     security:
@@ -95,6 +105,10 @@
     responses:
       200:
         $ref: "#/definitions/TopFiveResponse"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
       500:
         $ref: "#/definitions/500"
     security:
@@ -109,6 +123,8 @@
     responses:
       200:
         $ref: "#/definitions/TopFiveResponse"
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -123,6 +139,8 @@
     responses:
       200:
         $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -137,6 +155,8 @@
     responses:
       200:
         $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -151,6 +171,8 @@
     responses:
       200:
         $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
@@ -165,6 +187,8 @@
     responses:
       200:
         $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
       500:
         $ref: "#/definitions/500"
     security:
