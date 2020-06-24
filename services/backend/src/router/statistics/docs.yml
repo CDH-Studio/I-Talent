@@ -4,7 +4,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         schema:
           type: array
           items:
@@ -29,7 +29,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         description: "Note: the year and the month keys are numbers"
         schema:
           type: object
@@ -58,7 +58,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         description: Data is sorted from the oldest to the most recent week
         schema:
           type: object
@@ -79,7 +79,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/TopFiveResponse"
       500:
         $ref: "#/definitions/500"
@@ -93,7 +93,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/TopFiveResponse"
       500:
         $ref: "#/definitions/500"
@@ -107,7 +107,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/TopFiveResponse"
       500:
         $ref: "#/definitions/500"
@@ -121,7 +121,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/CountResponse"
       500:
         $ref: "#/definitions/500"
@@ -135,7 +135,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/CountResponse"
       500:
         $ref: "#/definitions/500"
@@ -149,7 +149,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/CountResponse"
       500:
         $ref: "#/definitions/500"
@@ -163,7 +163,7 @@
     produces:
       - application/json
     responses:
-      400:
+      200:
         $ref: "#/definitions/CountResponse"
       500:
         $ref: "#/definitions/500"
