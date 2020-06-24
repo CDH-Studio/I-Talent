@@ -1,3 +1,15 @@
+tags:
+  - name: geds
+    description: GEDS related enpoint
+    externalDocs:
+      description: GEDS API documentation
+      url: https://ssc-spc.api.canada.ca/en/detail?api=GEDS-SAGE
+  - name: option
+    description: Options the user may select for their profiles
+  - name: search
+    description: Search for profiles
+  - name: stats
+    description: Statistics for the admin dashbaord
 definitions:
   Language:
     name: language
@@ -44,11 +56,24 @@ definitions:
       type: object
       required: [ids]
       properties:
-      ids:
-        type: array
-        items:
-          type: string
-          format: uuid
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+  TopFiveResponse:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          count:
+            type: number
+  CountResponse:
+    schema:
+      type: number
   200:
     description: Success
   422:
