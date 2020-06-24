@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl";
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   const styles = {
-    subtitle: { fontWeight: "600", color: "rgba(0, 0, 0, 0.65)" },
+    subtitle: { fontWeight: "600", color: "rgba(0, 0, 0, 0.55)" },
   };
 
   const generateSecondaryLanguageTable = () => (
