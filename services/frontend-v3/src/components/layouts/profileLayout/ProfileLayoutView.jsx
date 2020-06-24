@@ -103,7 +103,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<OfficialLanguage data={data} />}
                 cardName="officalLanguage"
                 id="card-profile-official-lang"
-                editUrl="/secured/profile/edit/talent"
+                editUrl="/secured/profile/edit/language-proficiency"
               />
             </Col>
           </Row>
