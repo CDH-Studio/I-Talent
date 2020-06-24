@@ -21,6 +21,7 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -89,6 +90,20 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="info"
                 id="card-profile-employee-summary"
                 editUrl="/secured/profile/edit/employment"
+              />
+            </Col>
+          </Row>
+
+          {/** ********** Official language *********** */}
+
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.official.language" />}
+                content={<OfficialLanguage data={data} />}
+                cardName="officalLanguage"
+                id="official-lang"
+                editUrl="/secured/profile/edit/talent"
               />
             </Col>
           </Row>

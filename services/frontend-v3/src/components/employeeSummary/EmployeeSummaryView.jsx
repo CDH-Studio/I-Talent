@@ -1,44 +1,29 @@
 import React from "react";
-import { Tabs } from "antd";
-import { FormattedMessage } from "react-intl";
-import Substantive from "./substantive/Substantive";
-import Acting from "./acting/Acting";
-import OfficialLanguage from "./officialLanguage/OfficialLanguage";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { List } from "antd";
+import PropTypes from "prop-types";
 
-const { TabPane } = Tabs;
-
-const EmployeeSummaryView = ({ data }) => {
+const EmployeeSummaryView = ({ values }) => {
   return (
     <div>
-      <Tabs defaultActiveKey="1">
-        <TabPane tab={<FormattedMessage id="profile.tenure" />} key={1}>
-          <Substantive data={data} />
-        </TabPane>
-
-        <TabPane
-          tab={<FormattedMessage id="profile.acting.label.only" />}
-          key={2}
-        >
-          <Acting data={data} />
-        </TabPane>
-        <TabPane
-          tab={<FormattedMessage id="profile.official.language" />}
-          key={3}
-        >
-          <OfficialLanguage data={data} />
-        </TabPane>
-      </Tabs>
+      <List
+        itemLayout="horizontal"
+        dataSource={values}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta title={item.title} description={item.description} />
+          </List.Item>
+        )}
+      />
     </div>
   );
 };
 
 EmployeeSummaryView.propTypes = {
-  data: ProfileInfoPropType,
+  values: PropTypes.arrayOf(PropTypes.object),
 };
 
 EmployeeSummaryView.defaultProps = {
-  data: null,
+  values: null,
 };
 
 export default EmployeeSummaryView;
