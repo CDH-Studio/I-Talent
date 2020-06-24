@@ -32,6 +32,9 @@
               id:
                 type: string
                 format: uuid
+              createdAt:
+                type: string
+                format: date-time
               firstName:
                 type: string
               lastName:

@@ -11,4 +11,6 @@ tags:
   - name: stats
     description: Statistics for the admin dashboard
   - name: admin
-    description: Specific admin endpoints (should be deprecated)
+    description: Specific admin endpoints (should be deprecated and merged with profile)
+  - name: user
+    description: Basic profile information (should be deprecated and merged with profile)

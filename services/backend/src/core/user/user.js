@@ -85,6 +85,18 @@ async function createUser(request, response) {
           avatarColor: generateAvatarColor(),
           visibleCards: { create: {} },
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          status: true,
+          avatarColor: true,
+          firstName: true,
+          lastName: true,
+          createdAt: true,
+          updatedAt: true,
+          signupStep: true,
+        },
       });
 
       response.status(200).json({

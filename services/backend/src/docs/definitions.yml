@@ -208,13 +208,45 @@ definitions:
                   format: uuid
                 name:
                   type: string
+  UserResponse:
+    schema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - HIDDEN
+        avatarColor:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        signupStep:
+          type: number
   CountResponse:
     schema:
       type: number
   200:
     description: Success
   403:
-    description: Request not authenticated with keycloak
+    description: Request not authenticated with keycloak or user does not have access to certain information
   422:
     description: Request does not satisfy the parameters validation
   500:
