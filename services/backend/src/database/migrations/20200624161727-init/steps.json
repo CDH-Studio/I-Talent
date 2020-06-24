@@ -62,11 +62,11 @@
     },
     {
       "tag": "CreateModel",
-      "model": "dbSeed"
+      "model": "DbSeed"
     },
     {
       "tag": "CreateField",
-      "model": "dbSeed",
+      "model": "DbSeed",
       "field": "id",
       "type": "String",
       "arity": "Required"
@@ -76,7 +76,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "dbSeed",
+          "model": "DbSeed",
           "field": "id"
         },
         "directive": "id"
@@ -84,7 +84,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "dbSeed",
+      "model": "DbSeed",
       "field": "createdAt",
       "type": "DateTime",
       "arity": "Required"
@@ -94,7 +94,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "dbSeed",
+          "model": "DbSeed",
           "field": "createdAt"
         },
         "directive": "default"
@@ -106,7 +106,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "dbSeed",
+          "model": "DbSeed",
           "field": "createdAt"
         },
         "directive": "default"
@@ -116,7 +116,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "dbSeed",
+      "model": "DbSeed",
       "field": "updatedAt",
       "type": "DateTime",
       "arity": "Required"
@@ -126,7 +126,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "dbSeed",
+          "model": "DbSeed",
           "field": "updatedAt"
         },
         "directive": "updatedAt"

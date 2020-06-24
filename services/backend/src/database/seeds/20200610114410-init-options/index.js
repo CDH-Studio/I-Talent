@@ -247,14 +247,14 @@ async function seedStaticInfo() {
 async function seed() {
   const folderName = path.dirname(__filename).split(path.sep).pop();
 
-  const dbSeed = await prisma.dbSeed.findOne({
+  const dbSeed = await prisma.DbSeed.findOne({
     where: { id: folderName },
   });
 
   if (!dbSeed) {
     console.log(`---- Starting seeding: ${folderName} ----`);
     await seedStaticInfo();
-    await prisma.dbSeed.create({
+    await prisma.DbSeed.create({
       data: {
         id: folderName,
       },

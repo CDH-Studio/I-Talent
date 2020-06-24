@@ -1,6 +1,6 @@
-# Migration `20200624155130-init`
+# Migration `20200624161727-init`
 
-This migration has been generated at 6/24/2020, 3:51:30 PM.
+This migration has been generated at 6/24/2020, 4:17:27 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -14,7 +14,7 @@ CREATE TYPE "Proficiency" AS ENUM ('READING', 'WRITING', 'ORAL');
 
 CREATE TYPE "ProficiencyLevel" AS ENUM ('A', 'B', 'C', 'E', 'X');
 
-CREATE TABLE "public"."dbSeed" (
+CREATE TABLE "public"."DbSeed" (
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
     PRIMARY KEY ("id"))
 
@@ -299,7 +299,7 @@ ALTER TABLE "public"."User" ADD FOREIGN KEY ("visibleCardId")REFERENCES "public"
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..20200624155130-init
+migration ..20200624161727-init
 --- datamodel.dml
 +++ datamodel.dml
 @@ -1,0 +1,516 @@
@@ -313,7 +313,7 @@ migration ..20200624155130-init
 +  url      = env("DATABASE_URL")
 +}
 +
-+model dbSeed {
++model DbSeed {
 +  id        String   @id
 +  createdAt DateTime @default(now())
 +  updatedAt DateTime @updatedAt
