@@ -42,5 +42,8 @@ module.exports = swaggerUi.setup(specs, {
     defaultModelsExpandDepth: -1,
     filter: true,
     withCredentials: true,
+    tagsSorter: (a, b) => {
+      return a.localeCompare(b);
+    },
   },
 });
