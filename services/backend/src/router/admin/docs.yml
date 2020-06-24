@@ -1,0 +1,89 @@
+/api/admin/check:
+  get:
+    summary: Checks if the requests has admin privileges (has "view-admin-console" keyclock role)
+    produces:
+      - application/json
+    responses:
+      200:
+        schema:
+          type: boolean
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [admin]
+
+/api/admin/users:
+  get:
+    summary: Returns an array of users formatted for the admin dashboard
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              firstName:
+                type: string
+              lastName:
+                type: string
+              status:
+                type: string
+                enum:
+                  - ACTIVE
+                  - INACTIVE
+                  - HIDDEN
+              jobTitle:
+                type: string
+              tenure:
+                type: string
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [admin]
+    
+/api/admin/userStatuses:
+  put:
+    summary: Batch update user statuses
+    produces:
+      - application/json
+    parameters:
+      - name: body
+        in: body
+        description: An object containing UUIDs as key and the user status, 'ACTIVE' or 'INACTIVE' or 'HIDDEN'
+        required: true
+        schema:
+          type: object
+          properties:
+            UUID:
+              type: string
+              enum:
+                - ACTIVE
+                - INACTIVE
+                - HIDDEN
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [admin]
