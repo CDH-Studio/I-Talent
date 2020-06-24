@@ -96,6 +96,7 @@
   "admin.dashboard.growth.rate.percentage": "Growth rate in ",
 
   "advanced.search.button.text": "Advanced search",
+  "advanced.search.description": "Use the filters below to search for employees in the I-Talent directory that match your specific needs.",
   "advanced.search.form.name": "Name",
   "advanced.search.form.skills": "Skills",
   "advanced.search.form.location": "Location",
@@ -339,6 +340,9 @@
   "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
+
+  "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
+  "profile.visibility.hide.confirm": "Are you sure you want to make hide this card from your public profile? (Will be only visible to you and HR)",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",

@@ -115,7 +115,7 @@ const PersonalGrowthFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
-      width: "100%",
+      minWidth: "100%",
     },
     TMTooltip: { paddingLeft: "5px" },
     unsavedText: {
@@ -550,6 +550,8 @@ const PersonalGrowthFormView = ({
         <Title level={3} style={styles.formTitle}>
           <FormattedMessage id="setup.talent.management" />
           <Popover
+            trigger="click"
+            tabIndex="0"
             content={
               <div>
                 <FormattedMessage id="profile.talent.management.tooltip" />
@@ -558,7 +560,6 @@ const PersonalGrowthFormView = ({
                 </a>
               </div>
             }
-            trigger="hover"
           >
             <ExclamationCircleOutlined style={styles.TMTooltip} />
           </Popover>
