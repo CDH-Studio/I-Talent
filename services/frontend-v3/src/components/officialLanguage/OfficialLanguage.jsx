@@ -23,13 +23,14 @@ const OfficialLanguage = ({ data }) => {
 
   const getSecondLanguageInfo = (dataSource) => {
     const secondaryReadingProficiency = {
-      title: <FormattedMessage id="profile.reading" />,
+      gradeTitle: <FormattedMessage id="profile.reading" />,
       grade:
         dataSource.secondaryReadingProficiency === null ? (
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryReadingProficiency
         ),
+      dateTitle: <FormattedMessage id="profile.secondary.reading.date" />,
       date:
         dataSource.secondaryReadingDate === null ? (
           <FormattedMessage id="profile.not.specified" />
@@ -39,13 +40,14 @@ const OfficialLanguage = ({ data }) => {
     };
 
     const secondaryWritingProficiency = {
-      title: <FormattedMessage id="profile.writing" />,
+      gradeTitle: <FormattedMessage id="profile.writing" />,
       grade:
         dataSource.secondaryWritingProficiency === null ? (
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryWritingProficiency
         ),
+      dateTitle: <FormattedMessage id="profile.secondary.writing.date" />,
       date:
         dataSource.secondaryWritingDate === null ? (
           <FormattedMessage id="profile.not.specified" />
@@ -55,13 +57,14 @@ const OfficialLanguage = ({ data }) => {
     };
 
     const secondaryOralProficiency = {
-      title: <FormattedMessage id="profile.oral" />,
+      gradeTitle: <FormattedMessage id="profile.oral" />,
       grade:
         dataSource.secondaryOralProficiency === null ? (
           <FormattedMessage id="profile.not.specified" />
         ) : (
           dataSource.secondaryOralProficiency
         ),
+      dateTitle: <FormattedMessage id="profile.secondary.oral.date" />,
       date:
         dataSource.secondaryOralDate === null ? (
           <FormattedMessage id="profile.not.specified" />

@@ -1,85 +1,69 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
+import { FormattedMessage } from "react-intl";
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
-  const style = { title: { fontWeight: "bold" } };
-
-  return (
-    <List
-      dataSource={[
-        { title: firstLanguageInfo.title, body: firstLanguageInfo.description },
-        ...secondLanguageInfo.map((item) => ({
-          title: item.title,
-          body: (
-            <div>
-              <div>{item.grade}</div>
-              <div>{item.date}</div>
-            </div>
-          ),
-        })),
-      ]}
-      grid={{ gutter: 16, column: 4 }}
-      renderItem={(item) => (
-        <List.Item>
-          <div style={style.title}>{item.title}</div>
-          {item.body}
-        </List.Item>
-      )}
-    />
-  );
-
-  /*const generateFirstLanguage = (dataSource) => {
-    return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
-          </List.Item>
-        )}
-      />
-    );
+  const styles = {
+    subtitle: { fontWeight: "600", color: "rgba(0, 0, 0, 0.65)" },
   };
 
-  const generateSecondLanguageProficiency = (dataSource) => {
-    return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
-          </List.Item>
-        )}
-      />
-    );
-  };
-
-  return (
+  const generateSecondaryLanguageTable = () => (
     <>
       <Row>
-        <Col xs={24} lg={12}>
-          {generateFirstLanguage(firstLanguageInfo)}
-        </Col>
+        {secondLanguageInfo.map((item) => (
+          <Col style={styles.subtitle} span={8}>
+            {item.gradeTitle}
+          </Col>
+        ))}
       </Row>
       <Row>
-        <Col xs={24} lg={12}>
-          {generateSecondLanguageProficiency(secondLanguageGradeInfo)}
-        </Col>
-        <Col xs={24} lg={12}>
-          {generateSecondLanguageProficiency(secondLanguageDateInfo)}
-        </Col>
+        {secondLanguageInfo.map((item) => (
+          <Col span={8}>{item.grade}</Col>
+        ))}
+      </Row>
+      <Row>
+        {secondLanguageInfo.map((item) => (
+          <Col style={styles.subtitle} span={8}>
+            {item.dateTitle}
+          </Col>
+        ))}
+      </Row>
+      <Row>
+        {secondLanguageInfo.map((item) => (
+          <Col span={8}>{item.date}</Col>
+        ))}
       </Row>
     </>
-  );*/
+  );
+
+  return (
+    <Row>
+      <Col span={6}>
+        <List.Item.Meta
+          title={firstLanguageInfo.title}
+          description={firstLanguageInfo.description}
+        />
+      </Col>
+      <Col span={18}>
+        <List.Item.Meta
+          title={<FormattedMessage id="profile.second.language.proficiency" />}
+          description={generateSecondaryLanguageTable()}
+        />
+      </Col>
+    </Row>
+  );
 };
 
 OfficialLanguageView.propTypes = {
-  firstLanguageInfo: PropTypes.isRequired,
-  secondLanguageDateInfo: PropTypes.isRequired,
-  secondLanguageGradeInfo: PropTypes.isRequired,
+  firstLanguageInfo: PropTypes.PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+  ).isRequired,
+  secondLanguageInfo: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+    )
+  ).isRequired,
 };
 
 export default OfficialLanguageView;

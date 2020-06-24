@@ -102,7 +102,7 @@ const ProfileLayoutView = ({ data }) => {
                 title={<FormattedMessage id="profile.official.language" />}
                 content={<OfficialLanguage data={data} />}
                 cardName="officalLanguage"
-                id="official-lang"
+                id="card-profile-official-lang"
                 editUrl="/secured/profile/edit/talent"
               />
             </Col>
@@ -281,6 +281,23 @@ const ProfileLayoutView = ({ data }) => {
                 content={<EmployeeSummary data={data} />}
                 cardName="info"
                 id="card-profile-employee-summary"
+              />
+            </Col>
+          </Row>
+        )}
+
+        {visibleCards.officialLanguage && (
+          <Row
+            style={styles.row}
+            gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
+            type="flex"
+          >
+            <Col xs={24} xl={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.official.language" />}
+                content={<OfficialLanguage data={data} />}
+                cardName="officalLanguage"
+                id="card-profile-official-lang"
               />
             </Col>
           </Row>
@@ -525,7 +542,24 @@ const ProfileLayoutView = ({ data }) => {
                   <FormattedMessage id="profile.basic" />
                 </Text>
               }
-            />
+            >
+              <Link
+                href="#card-profile-employee-summary"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employee.summary" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-official-lang"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.official.language" />
+                  </Text>
+                }
+              />
+            </Link>
             {(visibleCards.skills ||
               visibleCards.mentorshipSkills ||
               visibleCards.competencies) && (
@@ -572,7 +606,7 @@ const ProfileLayoutView = ({ data }) => {
             {(visibleCards.developmentalGoals ||
               visibleCards.talentManagement ||
               visibleCards.careerInterests ||
-              visibleCards.exFeeder) && (
+              (visibleCards.exFeeder && data.exFeeder)) && (
               <Link
                 href="#divider-employee-growth"
                 title={
@@ -601,7 +635,7 @@ const ProfileLayoutView = ({ data }) => {
                     }
                   />
                 )}
-                {visibleCards.exFeeder && (
+                {visibleCards.exFeeder && data.exFeeder && (
                   <Link
                     href="#card-profile-ex-feeder"
                     title={
