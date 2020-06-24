@@ -19,7 +19,7 @@ const prisma = new PrismaClient();
 async function seedStaticInfo() {
   const staticInfo = [
     ...lookingJobs.map(async ({ en, fr }) => {
-      await prisma.opLookingJobs.create({
+      await prisma.OpLookingJob.create({
         data: {
           translations: {
             create: [
@@ -38,7 +38,7 @@ async function seedStaticInfo() {
     }),
 
     ...tenures.map(async ({ en, fr }) => {
-      await prisma.opTenures.create({
+      await prisma.OpTenure.create({
         data: {
           translations: {
             create: [
@@ -57,7 +57,7 @@ async function seedStaticInfo() {
     }),
 
     ...securityClearances.map(async ({ en, fr }) => {
-      await prisma.opSecurityClearances.create({
+      await prisma.OpSecurityClearance.create({
         data: {
           translations: {
             create: [
@@ -76,7 +76,7 @@ async function seedStaticInfo() {
     }),
 
     ...careerMobilities.map(async ({ en, fr }) => {
-      await prisma.opCareerMobilities.create({
+      await prisma.OpCareerMobility.create({
         data: {
           translations: {
             create: [
@@ -95,7 +95,7 @@ async function seedStaticInfo() {
     }),
 
     ...talentMatrixResults.map(async ({ en, fr }) => {
-      await prisma.opTalentMatrixResults.create({
+      await prisma.OpTalentMatrixResult.create({
         data: {
           translations: {
             create: [
@@ -114,7 +114,7 @@ async function seedStaticInfo() {
     }),
 
     ...classifications.map(async (name) => {
-      await prisma.opClassifications.create({
+      await prisma.OpClassification.create({
         data: {
           name,
         },
@@ -122,7 +122,7 @@ async function seedStaticInfo() {
     }),
 
     ...diplomas.map(async ({ en, fr }) => {
-      await prisma.opDiplomas.create({
+      await prisma.OpDiploma.create({
         data: {
           translations: {
             create: [
@@ -141,7 +141,7 @@ async function seedStaticInfo() {
     }),
 
     ...schools.map(async ({ abbrProvince, abbrCountry, translations }) => {
-      await prisma.opSchools.create({
+      await prisma.OpSchool.create({
         data: {
           abbrProvince,
           abbrCountry,
@@ -158,7 +158,7 @@ async function seedStaticInfo() {
     }),
 
     ...categories.map(async ({ en, fr, skills }) => {
-      await prisma.opCategories.create({
+      await prisma.OpCategory.create({
         data: {
           translations: {
             create: [
@@ -196,7 +196,7 @@ async function seedStaticInfo() {
 
     ...officeLocations.map(
       async ({ streetNumber, postalCode, city, country, translations }) => {
-        await prisma.opOfficeLocations.create({
+        await prisma.OpOfficeLocation.create({
           data: {
             streetNumber,
             postalCode,
@@ -222,7 +222,7 @@ async function seedStaticInfo() {
     ),
 
     ...competencies.map(async ({ en, fr }) => {
-      await prisma.opCompetencies.create({
+      await prisma.OpCompetency.create({
         data: {
           translations: {
             create: [
@@ -247,14 +247,14 @@ async function seedStaticInfo() {
 async function seed() {
   const folderName = path.dirname(__filename).split(path.sep).pop();
 
-  const dbSeed = await prisma.dbSeeds.findOne({
+  const dbSeed = await prisma.dbSeed.findOne({
     where: { id: folderName },
   });
 
   if (!dbSeed) {
     console.log(`---- Starting seeding: ${folderName} ----`);
     await seedStaticInfo();
-    await prisma.dbSeeds.create({
+    await prisma.dbSeed.create({
       data: {
         id: folderName,
       },
