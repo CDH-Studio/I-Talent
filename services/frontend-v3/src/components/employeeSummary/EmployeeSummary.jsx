@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import moment from "moment";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import moment from "moment";
 import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
