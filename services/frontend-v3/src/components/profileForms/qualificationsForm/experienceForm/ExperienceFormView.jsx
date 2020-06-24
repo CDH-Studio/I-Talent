@@ -39,8 +39,16 @@ const ExperienceFormView = ({
   style,
   checkIfFormValuesChanged,
   intl,
+  charsLeft,
+  handleContentChange,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
+
+  const styles = {
+    space: {
+      paddingLeft: "0.25em",
+    },
+  };
 
   const Rules = {
     required: {
@@ -53,7 +61,7 @@ const ExperienceFormView = ({
     },
     maxChar250: {
       max: 250,
-      message: <FormattedMessage id="profile.rules.max.250" />,
+      message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
 
@@ -232,10 +240,27 @@ const ExperienceFormView = ({
           name={[field.name, "content"]}
           fieldKey={[field.fieldKey, "content"]}
           label={<FormattedMessage id="profile.career.content.name" />}
-          rules={[Rules.required, Rules.maxChar250]}
-          extra={<FormattedMessage id="profile.rules.max.250" />}
+          rules={[Rules.maxChar250]}
+          extra={
+            <div>
+              <FormattedMessage id="profile.rules.max.250" />
+              {charsLeft >= 0 && (
+                <span style={styles.space}>
+                  ({charsLeft}
+                  <span style={styles.space}>
+                    <FormattedMessage id="count.remaining" />
+                  </span>
+                  )
+                </span>
+              )}
+            </div>
+          }
         >
-          <TextArea rows={4} />
+          <TextArea
+            name="content"
+            onChange={(e) => handleContentChange(e)}
+            rows={4}
+          />
         </Form.Item>
       </Col>
     </Row>
@@ -250,6 +275,8 @@ ExperienceFormView.propTypes = {
   style: StylesPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
+  charsLeft: PropTypes.number.isRequired,
+  handleContentChange: PropTypes.func.isRequired,
 };
 
 ExperienceFormView.defaultProps = {
