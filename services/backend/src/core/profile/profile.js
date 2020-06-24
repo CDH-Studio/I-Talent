@@ -162,7 +162,7 @@ async function updateProfile(request, response) {
         },
       });
 
-      await prisma.users.update({
+      const result = await prisma.User.update({
         where: { id: userId },
         data: {
           firstName,
