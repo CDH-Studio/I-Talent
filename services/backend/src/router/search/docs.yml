@@ -1,6 +1,6 @@
 /api/search/filters:
   get:
-    summary: Returns the id and names of hidden users
+    summary: Search users by filters
     produces:
       - application/json
     parameters:
@@ -55,7 +55,7 @@
 
 /api/search/fuzzy:
   get:
-    summary: Returns the id and names of hidden users
+    summary: Search users by all their public fields
     produces:
       - application/json
     parameters:
