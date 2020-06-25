@@ -11,4 +11,8 @@ module.exports = [
     en: "Indeterminate",
     fr: "Indéterminé",
   },
+  {
+    en: "Student",
+    fr: "Étudiante",
+  },
 ];

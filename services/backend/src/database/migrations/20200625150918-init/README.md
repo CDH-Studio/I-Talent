@@ -1,6 +1,6 @@
-# Migration `20200625095344-init`
+# Migration `20200625150918-init`
 
-This migration has been generated at 6/25/2020, 9:53:44 AM.
+This migration has been generated at 6/25/2020, 3:09:18 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -94,6 +94,10 @@ CREATE TABLE "public"."OpCompetency" (
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
     PRIMARY KEY ("id"))
 
+CREATE TABLE "public"."Competency" (
+"competencyId" text  NOT NULL ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
+    PRIMARY KEY ("id"))
+
 CREATE TABLE "public"."OpTransSchool" (
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"language" "Language" NOT NULL ,"name" text  NOT NULL ,"opSchoolId" text   ,"updatedAt" timestamp(3)  NOT NULL ,
     PRIMARY KEY ("id"))
@@ -134,10 +138,6 @@ CREATE TABLE "public"."DevelopmentalGoal" (
 "competencyId" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"skillId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
-CREATE TABLE "public"."Competency" (
-"competencyId" text  NOT NULL ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
-    PRIMARY KEY ("id"))
-
 CREATE TABLE "public"."SecondLangProf" (
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"date" timestamp(3)   ,"id" text  NOT NULL ,"level" "ProficiencyLevel" NOT NULL ,"proficiency" "Proficiency" NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text  NOT NULL ,
     PRIMARY KEY ("id"))
@@ -147,7 +147,7 @@ CREATE TABLE "public"."Organization" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."OrganizationTier" (
-"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"organizationId" text   ,"tier" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
+"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"organizationId" text   ,"tier" integer  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."TransOrganization" (
@@ -192,6 +192,8 @@ CREATE UNIQUE INDEX "OpTransCategory.language_name" ON "public"."OpTransCategory
 
 CREATE UNIQUE INDEX "OpTransCompetency.language_name" ON "public"."OpTransCompetency"("language","name")
 
+CREATE UNIQUE INDEX "Competency.userId_competencyId" ON "public"."Competency"("userId","competencyId")
+
 CREATE UNIQUE INDEX "MentorshipSkill.userId_skillId" ON "public"."MentorshipSkill"("userId","skillId")
 
 CREATE UNIQUE INDEX "Skill.userId_skillId" ON "public"."Skill"("userId","skillId")
@@ -199,8 +201,6 @@ CREATE UNIQUE INDEX "Skill.userId_skillId" ON "public"."Skill"("userId","skillId
 CREATE UNIQUE INDEX "DevelopmentalGoal.userId_skillId" ON "public"."DevelopmentalGoal"("userId","skillId")
 
 CREATE UNIQUE INDEX "DevelopmentalGoal.userId_competencyId" ON "public"."DevelopmentalGoal"("userId","competencyId")
-
-CREATE UNIQUE INDEX "Competency.userId_competencyId" ON "public"."Competency"("userId","competencyId")
 
 CREATE UNIQUE INDEX "SecondLangProf.userId_proficiency" ON "public"."SecondLangProf"("userId","proficiency")
 
@@ -228,6 +228,10 @@ ALTER TABLE "public"."OpTransCategory" ADD FOREIGN KEY ("opCategoryId")REFERENCE
 
 ALTER TABLE "public"."OpTransCompetency" ADD FOREIGN KEY ("opCompetencyId")REFERENCES "public"."OpCompetency"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
+ALTER TABLE "public"."Competency" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE CASCADE  ON UPDATE CASCADE
+
+ALTER TABLE "public"."Competency" ADD FOREIGN KEY ("competencyId")REFERENCES "public"."OpCompetency"("id") ON DELETE CASCADE  ON UPDATE CASCADE
+
 ALTER TABLE "public"."OpTransSchool" ADD FOREIGN KEY ("opSchoolId")REFERENCES "public"."OpSchool"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
 ALTER TABLE "public"."OpTransDiploma" ADD FOREIGN KEY ("opDiplomaId")REFERENCES "public"."OpDiploma"("id") ON DELETE SET NULL  ON UPDATE CASCADE
@@ -247,10 +251,6 @@ ALTER TABLE "public"."DevelopmentalGoal" ADD FOREIGN KEY ("userId")REFERENCES "p
 ALTER TABLE "public"."DevelopmentalGoal" ADD FOREIGN KEY ("skillId")REFERENCES "public"."OpSkill"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
 ALTER TABLE "public"."DevelopmentalGoal" ADD FOREIGN KEY ("competencyId")REFERENCES "public"."OpCompetency"("id") ON DELETE SET NULL  ON UPDATE CASCADE
-
-ALTER TABLE "public"."Competency" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE CASCADE  ON UPDATE CASCADE
-
-ALTER TABLE "public"."Competency" ADD FOREIGN KEY ("competencyId")REFERENCES "public"."OpCompetency"("id") ON DELETE CASCADE  ON UPDATE CASCADE
 
 ALTER TABLE "public"."SecondLangProf" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE CASCADE  ON UPDATE CASCADE
 
@@ -299,7 +299,7 @@ ALTER TABLE "public"."User" ADD FOREIGN KEY ("visibleCardId")REFERENCES "public"
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..20200625095344-init
+migration ..20200625150918-init
 --- datamodel.dml
 +++ datamodel.dml
 @@ -1,0 +1,516 @@
@@ -310,7 +310,7 @@ migration ..20200625095344-init
 +
 +datasource db {
 +  provider = "postgresql"
-+  url      = env("DATABASE_URL")
++  url = "***"
 +}
 +
 +model DbSeed {
@@ -542,6 +542,18 @@ migration ..20200625095344-init
 +  competencies       Competency[]
 +}
 +
++model Competency {
++  id           String       @default(uuid()) @id
++  createdAt    DateTime     @default(now())
++  updatedAt    DateTime     @updatedAt
++  userId       String
++  competencyId String
++  user         User         @relation(fields: [userId])
++  competency   OpCompetency @relation(fields: [competencyId])
++
++  @@unique([userId, competencyId])
++}
++
 +model OpTransSchool {
 +  id         String    @default(uuid()) @id
 +  createdAt  DateTime  @default(now())
@@ -658,18 +670,6 @@ migration ..20200625095344-init
 +  @@unique([userId, competencyId])
 +}
 +
-+model Competency {
-+  id           String       @default(uuid()) @id
-+  createdAt    DateTime     @default(now())
-+  updatedAt    DateTime     @updatedAt
-+  userId       String
-+  competencyId String
-+  user         User         @relation(fields: [userId])
-+  competency   OpCompetency @relation(fields: [competencyId])
-+
-+  @@unique([userId, competencyId])
-+}
-+
 +model SecondLangProf {
 +  id          String           @default(uuid()) @id
 +  createdAt   DateTime         @default(now())
@@ -696,7 +696,7 @@ migration ..20200625095344-init
 +  id             String              @default(uuid()) @id
 +  createdAt      DateTime            @default(now())
 +  updatedAt      DateTime            @updatedAt
-+  tier           String
++  tier           Int
 +  organization   Organization?       @relation(fields: [organizationId])
 +  translations   TransOrganization[]
 +  organizationId String?

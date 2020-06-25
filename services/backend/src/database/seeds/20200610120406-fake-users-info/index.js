@@ -139,7 +139,7 @@ async function getCompetenciesIds(compentencies) {
             },
           },
         })
-        .then((i) => i.opCompetenciesId)
+        .then((i) => i.opCompetencyId)
     );
 
     compentenciesIds = await Promise.all(promises);
@@ -162,7 +162,7 @@ async function getSkillsIds(skills) {
             },
           },
         })
-        .then((i) => i.opSkillsId)
+        .then((i) => i.opSkillId)
     );
 
     skillsIds = await Promise.all(promises);
@@ -185,7 +185,7 @@ async function getDevelopmentalGoalsSkillsIds(developmentalGoals) {
             },
           },
         })
-        .then((i) => (i ? i.opSkillsId : undefined))
+        .then((i) => (i ? i.opSkillId : undefined))
     );
 
     developmentalGoalsSkillsIds = await Promise.all(promises);
@@ -211,7 +211,7 @@ async function getDevelopmentalGoalsCompetenciesIds(developmentalGoals) {
             },
           },
         })
-        .then((i) => (i ? i.opCompetenciesId : undefined))
+        .then((i) => (i ? i.opCompetencyId : undefined))
     );
 
     developmentalGoalsCompetenciesIds = await Promise.all(promises);
@@ -237,7 +237,7 @@ async function getMentorshipSkillsIds(mentorshipSkills) {
             },
           },
         })
-        .then((i) => i.opSkillsId)
+        .then((i) => i.opSkillId)
     );
 
     mentorshipSkillsIds = await Promise.all(promises);
@@ -264,7 +264,7 @@ async function getEducationIds(educations) {
             })
             .then((i) => {
               if (i[0]) {
-                return i[0].opDiplomasId;
+                return i[0].opDiplomaId;
               }
               return undefined;
             }),
@@ -277,7 +277,7 @@ async function getEducationIds(educations) {
             })
             .then((i) => {
               if (i[0]) {
-                return i[0].opSchoolsId;
+                return i[0].opSchoolId;
               }
               return undefined;
             }),
@@ -340,57 +340,57 @@ async function seedUsers() {
       secondLanguage,
       teams,
       telephone,
-      // employmentInfo,
+      employmentInfo,
       exFeeder,
-      // experiences,
-      // organizations,
-      // securityClearance,
+      experiences,
+      organizations,
+      securityClearance,
       careerMobility,
       lookingJob,
       projects,
       preferredLanguage,
-      // proficiencies,
+      proficiencies,
       avatarColor,
-      // tenure,
-      // talentMatrixResult,
-      // officeLocation,
-      // compentencies,
-      // developmentalGoals,
-      // mentorshipSkills,
-      // skills,
+      tenure,
+      talentMatrixResult,
+      officeLocation,
+      compentencies,
+      developmentalGoals,
+      mentorshipSkills,
+      skills,
       actingLevel,
       groupLevel,
       actingEndDate,
       actingStartDate,
-      // educations,
-      // relocationLocations,
+      educations,
+      relocationLocations,
     }) => {
       const careerMobilityId = await getCareerMobilityId(careerMobility);
       const lookingJobId = await getLookingJobId(lookingJob);
-      // const tenureId = await getTenureId(tenure);
-      // const officeLocationId = await getOfficeLocationId(officeLocation);
-      // const compentenciesIds = await getCompetenciesIds(compentencies);
-      // const skillsIds = await getSkillsIds(skills);
-      // const educationIds = await getEducationIds(educations);
+      const tenureId = await getTenureId(tenure);
+      const officeLocationId = await getOfficeLocationId(officeLocation);
+      const compentenciesIds = await getCompetenciesIds(compentencies);
+      const skillsIds = await getSkillsIds(skills);
+      const educationIds = await getEducationIds(educations);
 
-      // const developmentalGoalsSkillsIds = await getDevelopmentalGoalsSkillsIds(
-      //   developmentalGoals
-      // );
-      // const developmentalGoalsCompetenciesIds = await getDevelopmentalGoalsCompetenciesIds(
-      //   developmentalGoals
-      // );
-      // const mentorshipSkillsIds = await getMentorshipSkillsIds(
-      //   mentorshipSkills
-      // );
-      // const talentMatrixResultId = await getTalentMatrixResultId(
-      //   talentMatrixResult
-      // );
-      // const securityClearanceId = await getSecurityClearanceId(
-      //   securityClearance
-      // );
-      // const relocationLocationIds = await getRelocationLocationIds(
-      //   relocationLocations
-      // );
+      const developmentalGoalsSkillsIds = await getDevelopmentalGoalsSkillsIds(
+        developmentalGoals
+      );
+      const developmentalGoalsCompetenciesIds = await getDevelopmentalGoalsCompetenciesIds(
+        developmentalGoals
+      );
+      const mentorshipSkillsIds = await getMentorshipSkillsIds(
+        mentorshipSkills
+      );
+      const talentMatrixResultId = await getTalentMatrixResultId(
+        talentMatrixResult
+      );
+      const securityClearanceId = await getSecurityClearanceId(
+        securityClearance
+      );
+      const relocationLocationIds = await getRelocationLocationIds(
+        relocationLocations
+      );
 
       await prisma.user.create({
         data: {
@@ -432,10 +432,71 @@ async function seedUsers() {
           teams: {
             set: teams,
           },
-          securityClearance: undefined,
-          employmentInfo: undefined,
-          experiences: undefined,
-          organizations: undefined,
+          securityClearance: securityClearanceId
+            ? {
+                connect: {
+                  id: securityClearanceId,
+                },
+              }
+            : undefined,
+          employmentInfo: {
+            create: {
+              translations: {
+                create: Object.keys(employmentInfo).map((i) => {
+                  return {
+                    jobTitle: employmentInfo[i].jobTitle,
+                    branch: employmentInfo[i].branch,
+                    language: i === "en" ? "ENGLISH" : "FRENCH",
+                  };
+                }),
+              },
+            },
+          },
+          experiences: {
+            create: experiences.map(({ endDate, startDate, translations }) => {
+              return {
+                endDate,
+                startDate,
+                translations: {
+                  create: Object.keys(translations).map((i) => {
+                    return {
+                      description: translations[i].description,
+                      jobTitle: translations[i].jobTitle,
+                      organization: translations[i].organization,
+                      language: i === "en" ? "ENGLISH" : "FRENCH",
+                    };
+                  }),
+                },
+              };
+            }),
+          },
+          organizations: organizations
+            ? {
+                create: organizations.map((organization) => {
+                  return {
+                    organizationTier: {
+                      create: organization.map(({ tier, en, fr }) => {
+                        return {
+                          tier,
+                          translations: {
+                            create: [
+                              {
+                                description: en,
+                                language: "ENGLISH",
+                              },
+                              {
+                                description: fr,
+                                language: "FRENCH",
+                              },
+                            ],
+                          },
+                        };
+                      }),
+                    },
+                  };
+                }),
+              }
+            : undefined,
           careerMobility: careerMobilityId
             ? {
                 connect: {
@@ -450,16 +511,122 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          tenure: undefined,
-          talentMatrixResult: undefined,
-          officeLocation: undefined,
-          secondLangProfs: undefined,
-          competencies: undefined,
-          skills: undefined,
-          mentorshipSkills: undefined,
-          developmentalGoals: undefined,
-          relocationLocations: undefined,
-          educations: undefined,
+          tenure: tenureId
+            ? {
+                connect: {
+                  id: tenureId,
+                },
+              }
+            : undefined,
+          talentMatrixResult: talentMatrixResultId
+            ? {
+                connect: {
+                  id: talentMatrixResultId,
+                },
+              }
+            : undefined,
+          officeLocation: officeLocationId
+            ? {
+                connect: {
+                  id: officeLocationId,
+                },
+              }
+            : undefined,
+          secondLangProfs: {
+            create: proficiencies.map(({ date, level, proficiency }) => {
+              return {
+                date,
+                level,
+                proficiency,
+              };
+            }),
+          },
+          competencies: {
+            create: compentenciesIds.map((id) => {
+              return {
+                competency: {
+                  connect: {
+                    id,
+                  },
+                },
+              };
+            }),
+          },
+          skills: {
+            create: skillsIds.map((id) => {
+              return {
+                skill: {
+                  connect: {
+                    id,
+                  },
+                },
+              };
+            }),
+          },
+          mentorshipSkills: {
+            create: mentorshipSkillsIds.map((id) => {
+              return {
+                skill: {
+                  connect: {
+                    id,
+                  },
+                },
+              };
+            }),
+          },
+          developmentalGoals: {
+            create: [
+              ...developmentalGoalsCompetenciesIds.map((id) => {
+                return {
+                  competency: {
+                    connect: {
+                      id,
+                    },
+                  },
+                };
+              }),
+              ...developmentalGoalsSkillsIds.map((id) => {
+                return {
+                  skill: {
+                    connect: {
+                      id,
+                    },
+                  },
+                };
+              }),
+            ],
+          },
+          relocationLocations: {
+            create: relocationLocationIds.map((id) => {
+              return {
+                location: {
+                  connect: {
+                    id,
+                  },
+                },
+              };
+            }),
+          },
+          educations: {
+            create: educationIds.map(
+              ({ diplomaId, schoolId, startDate, endDate }) => {
+                return {
+                  startDate,
+                  endDate,
+                  diploma: {
+                    connect: {
+                      id: diplomaId,
+                    },
+                  },
+                  school: {
+                    connect: {
+                      id: schoolId,
+                    },
+                  },
+                };
+              }
+            ),
+          },
           visibleCards: {
             create: {},
           },

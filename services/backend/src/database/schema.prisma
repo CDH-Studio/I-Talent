@@ -391,7 +391,7 @@ model OrganizationTier {
   id             String              @default(uuid()) @id
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
-  tier           String
+  tier           Int
   organization   Organization?       @relation(fields: [organizationId])
   translations   TransOrganization[]
   organizationId String?

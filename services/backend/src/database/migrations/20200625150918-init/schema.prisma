@@ -237,6 +237,18 @@ model OpCompetency {
   competencies       Competency[]
 }
 
+model Competency {
+  id           String       @default(uuid()) @id
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  userId       String
+  competencyId String
+  user         User         @relation(fields: [userId])
+  competency   OpCompetency @relation(fields: [competencyId])
+
+  @@unique([userId, competencyId])
+}
+
 model OpTransSchool {
   id         String    @default(uuid()) @id
   createdAt  DateTime  @default(now())
@@ -353,18 +365,6 @@ model DevelopmentalGoal {
   @@unique([userId, competencyId])
 }
 
-model Competency {
-  id           String       @default(uuid()) @id
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  userId       String
-  competencyId String
-  user         User         @relation(fields: [userId])
-  competency   OpCompetency @relation(fields: [competencyId])
-
-  @@unique([userId, competencyId])
-}
-
 model SecondLangProf {
   id          String           @default(uuid()) @id
   createdAt   DateTime         @default(now())
@@ -391,7 +391,7 @@ model OrganizationTier {
   id             String              @default(uuid()) @id
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
-  tier           String
+  tier           Int
   organization   Organization?       @relation(fields: [organizationId])
   translations   TransOrganization[]
   organizationId String?
