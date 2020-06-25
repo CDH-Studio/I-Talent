@@ -58,8 +58,7 @@ const SearchBar = () => {
     {
       if (query !== "") {
         history.push(url);
-        // eslint-disable-next-line no-console
-      } else console.log("");
+      }
     }
   };
 
