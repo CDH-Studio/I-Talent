@@ -1,6 +1,6 @@
 /api/option/branches:
   get:
-    summary: Returns an array of people's work branch
+    summary: Returns an array of people's work branches
     produces:
       - application/json
     parameters:
@@ -8,6 +8,8 @@
     responses:
       200:
         $ref: '#/definitions/StringArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:
@@ -18,7 +20,7 @@
 
 /api/option/careerMobilities:
   get:
-    summary: Returns an array of career mobilities option
+    summary: Returns an array of career mobility options
     produces:
       - application/json
     parameters:
@@ -26,6 +28,8 @@
     responses:
       200:
         $ref: '#/definitions/IdDescriptionArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:
@@ -34,9 +38,25 @@
       - Keycloak: []
     tags: [option]
 
-/api/option/categories:
+/api/option/classifications:
   get:
-    summary: Returns an array of skills categories name and id
+    summary: Returns an array of classification options
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: '#/definitions/IdNameArray'
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+/api/option/developmentalGoals:
+  get:
+    summary: Returns an array of developmental goal options (skills and competencies combined)
     produces:
       - application/json
     parameters:
@@ -44,6 +64,8 @@
     responses:
       200:
         $ref: '#/definitions/IdNameArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:
@@ -51,15 +73,115 @@
     security:
       - Keycloak: []
     tags: [option]
-  delete:
-    summary: Delete a multiple categories
+
+/api/option/locations:
+  get:
+    summary: Returns an array of office location options
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/DeleteManyIds'
+      - $ref: '#/definitions/Language'
     responses:
       200:
-        $ref: '#/definitions/200'
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              streetNumber:
+                type: number
+              streetName:
+                type: string
+              city:
+                type: string
+              province:
+                type: string
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+
+/api/option/lookingJobs:
+  get:
+    summary: Returns an array of looking for a new job options
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/IdDescriptionArray'
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+/api/option/securityClearances:
+  get:
+    summary: Returns an array of security clearance options
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/IdDescriptionArray'
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+/api/option/talentMatrixResults:
+  get:
+    summary: Returns an array of talent matrix result options
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/IdDescriptionArray'
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: '#/definitions/422'
+      500:
+        $ref: '#/definitions/500'
+    security:
+      - Keycloak: []
+    tags: [option]
+
+/api/option/tenures:
+  get:
+    summary: Returns an array of tenure options
+    produces:
+      - application/json
+    parameters:
+      - $ref: '#/definitions/Language'
+    responses:
+      200:
+        $ref: '#/definitions/IdNameArray'
+      403:
+        $ref: "#/definitions/403"
       422:
         $ref: '#/definitions/422'
       500:

@@ -1,0 +1,197 @@
+/api/stats/hiddenUsers:
+  get:
+    summary: Returns the id and names of hidden users
+    produces:
+      - application/json
+    responses:
+      200:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              firstName:
+                type: string
+              lastName:
+                type: string
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/growthRateByMonth:
+  get:
+    summary: Returns stats about the monthly growth rate
+    produces:
+      - application/json
+    responses:
+      200:
+        description: "Note: the year and the month keys are numbers"
+        schema:
+          type: object
+          properties:
+            growthRate:
+              type: object
+              properties:
+                year:
+                  type: object
+                  properties:
+                    month:
+                      type: number
+            growthRateFromPreviousMonth:
+              type: number
+            currentMonthNewUserCount:
+              type: number
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/growthRateByWeek:
+  get:
+    summary: Returns stats about the weekly growth rate
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Data is sorted from the oldest to the most recent week
+        schema:
+          type: object
+          properties:
+            userCreationPerWeek:
+              type: array
+              items:
+                type: number
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/topFiveCompetencies:
+  get:
+    summary: Returns the top five competencies between users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/TopFiveResponse"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/topFiveSkills:
+  get:
+    summary: Returns the top five skills between users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/TopFiveResponse"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/topFiveDevelopmentalGoals:
+  get:
+    summary: Returns the top five developmental goals between users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/TopFiveResponse"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/count/users:
+  get:
+    summary: Returns the number of users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/count/hiddenUsers:
+  get:
+    summary: Returns the number of hidden users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/count/inactiveUsers:
+  get:
+    summary: Returns the number of inactive users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+
+/api/stats/count/exFeederUsers:
+  get:
+    summary: Returns the number of exFeeder users
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/CountResponse"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [stats]
+            

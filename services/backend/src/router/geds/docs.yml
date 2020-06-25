@@ -1,0 +1,83 @@
+/api/profGen/{id}:
+  get:
+    summary: Returns geds profile information
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: User ID used to fetch the email from the database
+        required: true
+        type: string
+        format: uuid
+    responses:
+      200:
+        schema:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            jobTitle:
+              type: object
+              properties:
+                en:
+                  type: string
+                fr:
+                  type: string
+            email:
+              type: string
+              format: email
+            telephone:
+              type: string
+            cellphone:
+              type: string
+            branchEn:
+              type: string
+            branchFr:
+              type: string
+            organizations:
+              type: array
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+                  tier:
+                    type: number
+                  addressInformation:
+                    type: object
+                    properties:
+                      country:
+                        type: string
+                      city:
+                        type: string
+                      postalCode:
+                        type: string
+                      streetNumber:
+                        type: number
+                      province:
+                        type: string
+                      streetName:
+                        type: string
+            location:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                description:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                    fr:
+                      type: string
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [geds]
