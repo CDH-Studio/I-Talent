@@ -55,10 +55,10 @@ const SearchBar = () => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
     {
-      query !== ""
-        ? history.push(url)
-        : // eslint-disable-next-line no-console
-          console.log("");
+      if (query !== "") {
+        history.push(url);
+        // eslint-disable-next-line no-console
+      } else console.log("");
     }
   };
 
