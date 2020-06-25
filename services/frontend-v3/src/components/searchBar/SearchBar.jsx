@@ -55,10 +55,8 @@ const SearchBar = () => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
 
-    {
-      if (query !== "") {
-        history.push(url);
-      }
+    if (query !== "") {
+      history.push(url);
     }
   };
 
