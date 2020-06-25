@@ -8,9 +8,10 @@ import {
   BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+import { Row, Col, Card, Avatar, List, Tag, Typography, Button } from "antd";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const { Text } = Typography;
@@ -40,6 +41,7 @@ const BasicInfoView = ({
     userAvatar: {
       verticalAlign: "middle",
     },
+    rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
   };
 
   /*
@@ -211,6 +213,27 @@ const BasicInfoView = ({
     return buttons;
   };
 
+  const generateTeamInfo = () => {
+    const teams = {
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="profile.teams" />,
+      description: data.team ? (
+        <List>
+          {Object.values([data.team]).map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Tag color="#727272" key={index}>
+              {item}
+            </Tag>
+          ))}
+        </List>
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
+    };
+
+    return [teams];
+  };
+
   return (
     <Card
       id="card-profile-basic-info"
@@ -225,6 +248,9 @@ const BasicInfoView = ({
         <Col xs={24} lg={12}>
           {generateInfoList(getLocationInfo())}
         </Col>
+      </Row>
+      <Row style={styles.rowTopSplitter}>
+        {generateInfoList(generateTeamInfo())}
       </Row>
     </Card>
   );
