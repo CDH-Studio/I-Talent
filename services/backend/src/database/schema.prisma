@@ -237,6 +237,18 @@ model OpCompetency {
   competencies       Competency[]
 }
 
+model Competency {
+  id           String       @default(uuid()) @id
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  userId       String
+  competencyId String
+  user         User         @relation(fields: [userId])
+  competency   OpCompetency @relation(fields: [competencyId])
+
+  @@unique([userId, competencyId])
+}
+
 model OpTransSchool {
   id         String    @default(uuid()) @id
   createdAt  DateTime  @default(now())
@@ -350,18 +362,6 @@ model DevelopmentalGoal {
   competency   OpCompetency? @relation(fields: [competencyId])
 
   @@unique([userId, skillId])
-  @@unique([userId, competencyId])
-}
-
-model Competency {
-  id           String       @default(uuid()) @id
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  userId       String
-  competencyId String
-  user         User         @relation(fields: [userId])
-  competency   OpCompetency @relation(fields: [competencyId])
-
   @@unique([userId, competencyId])
 }
 

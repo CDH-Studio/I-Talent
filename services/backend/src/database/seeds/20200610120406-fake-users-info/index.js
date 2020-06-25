@@ -346,7 +346,7 @@ async function seedUsers() {
       lookingJob,
       projects,
       preferredLanguage,
-      proficiencies,
+      // proficiencies,
       avatarColor,
       tenure,
       talentMatrixResult,
@@ -362,32 +362,32 @@ async function seedUsers() {
       educations,
       relocationLocations,
     }) => {
-      const careerMobilityId = await getCareerMobilityId(careerMobility);
-      const lookingJobId = await getLookingJobId(lookingJob);
-      const tenureId = await getTenureId(tenure);
-      const officeLocationId = await getOfficeLocationId(officeLocation);
-      const compentenciesIds = await getCompetenciesIds(compentencies);
-      const skillsIds = await getSkillsIds(skills);
-      const educationIds = await getEducationIds(educations);
+      // const careerMobilityId = await getCareerMobilityId(careerMobility);
+      // const lookingJobId = await getLookingJobId(lookingJob);
+      // const tenureId = await getTenureId(tenure);
+      // const officeLocationId = await getOfficeLocationId(officeLocation);
+      // const compentenciesIds = await getCompetenciesIds(compentencies);
+      // const skillsIds = await getSkillsIds(skills);
+      // const educationIds = await getEducationIds(educations);
 
-      const developmentalGoalsSkillsIds = await getDevelopmentalGoalsSkillsIds(
-        developmentalGoals
-      );
-      const developmentalGoalsCompetenciesIds = await getDevelopmentalGoalsCompetenciesIds(
-        developmentalGoals
-      );
-      const mentorshipSkillsIds = await getMentorshipSkillsIds(
-        mentorshipSkills
-      );
-      const talentMatrixResultId = await getTalentMatrixResultId(
-        talentMatrixResult
-      );
+      // const developmentalGoalsSkillsIds = await getDevelopmentalGoalsSkillsIds(
+      //   developmentalGoals
+      // );
+      // const developmentalGoalsCompetenciesIds = await getDevelopmentalGoalsCompetenciesIds(
+      //   developmentalGoals
+      // );
+      // const mentorshipSkillsIds = await getMentorshipSkillsIds(
+      //   mentorshipSkills
+      // );
+      // const talentMatrixResultId = await getTalentMatrixResultId(
+      //   talentMatrixResult
+      // );
       const securityClearanceId = await getSecurityClearanceId(
         securityClearance
       );
-      const relocationLocationIds = await getRelocationLocationIds(
-        relocationLocations
-      );
+      // const relocationLocationIds = await getRelocationLocationIds(
+      //   relocationLocations
+      // );
 
       await prisma.user.create({
         data: {
@@ -423,37 +423,9 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          employmentInfo: {
-            create: {
-              translations: {
-                create: Object.keys(employmentInfo).map((i) => {
-                  return {
-                    jobTitle: employmentInfo[i].jobTitle,
-                    branch: employmentInfo[i].branch,
-                    language: i === "en" ? "ENGLISH" : "FRENCH",
-                  };
-                }),
-              },
-            },
-          },
-          experiences: {
-            create: experiences.map(({ endDate, startDate, translations }) => {
-              return {
-                endDate,
-                startDate,
-                translations: {
-                  create: Object.keys(translations).map((i) => {
-                    return {
-                      description: translations[i].description,
-                      jobTitle: translations[i].jobTitle,
-                      organization: translations[i].organization,
-                      language: i === "en" ? "ENGLISH" : "FRENCH",
-                    };
-                  }),
-                },
-              };
-            }),
-          },
+          employmentInfo: undefined,
+          experiences: undefined,
+          organizations: undefined,
           securityClearance: securityClearanceId
             ? {
                 connect: {
@@ -461,91 +433,24 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          careerMobility: careerMobilityId
-            ? {
-                connect: {
-                  id: careerMobilityId,
-                },
-              }
-            : undefined,
-          lookingJob: lookingJobId
-            ? {
-                connect: {
-                  id: lookingJobId,
-                },
-              }
-            : undefined,
-          tenure: tenureId
-            ? {
-                connect: {
-                  id: tenureId,
-                },
-              }
-            : undefined,
-          talentMatrixResult: talentMatrixResultId
-            ? {
-                connect: {
-                  id: talentMatrixResultId,
-                },
-              }
-            : undefined,
-          officeLocation: officeLocationId
-            ? {
-                connect: {
-                  id: officeLocationId,
-                },
-              }
-            : undefined,
+          careerMobility: undefined,
+          lookingJob: undefined,
+          tenure: undefined,
+          talentMatrixResult: undefined,
+          officeLocation: undefined,
           projects: {
             set: projects,
           },
           teams: {
             set: teams,
           },
-          secondLangProfs: {
-            create: proficiencies.map(({ date, level, proficiency }) => {
-              return {
-                date,
-                level,
-                proficiency,
-              };
-            }),
-          },
-
-          developmentalGoals: {
-            create: [
-              ...developmentalGoalsCompetenciesIds.map((id) => {
-                return {
-                  competency: {
-                    connect: {
-                      id,
-                    },
-                  },
-                };
-              }),
-              ...developmentalGoalsSkillsIds.map((id) => {
-                return {
-                  skill: {
-                    connect: {
-                      id,
-                    },
-                  },
-                };
-              }),
-            ],
-          },
-          relocationLocations: {
-            create: relocationLocationIds.map((id) => {
-              return {
-                location: {
-                  connect: {
-                    id,
-                  },
-                },
-              };
-            }),
-          },
-
+          secondLangProfs: undefined,
+          competencies: undefined,
+          skills: undefined,
+          mentorshipSkills: undefined,
+          developmentalGoals: undefined,
+          relocationLocations: undefined,
+          educations: undefined,
           visibleCards: {
             create: {},
           },
