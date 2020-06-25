@@ -24,7 +24,6 @@ async function getSecurityClearanceId(description) {
 
 async function getCareerMobilityId(description) {
   let careerMobilityId;
-  console.log(`description: ${description}`);
   if (description) {
     try {
       careerMobilityId = await prisma.opTransCareerMobility
@@ -41,27 +40,27 @@ async function getCareerMobilityId(description) {
       console.log(error);
     }
   }
-  console.log(`career mobility: ${careerMobilityId}`);
-
   return careerMobilityId;
 }
 
 async function getLookingJobId(description) {
   let lookingJobId;
-
   if (description) {
-    lookingJobId = await prisma.opTransLookingJob
-      .findOne({
-        where: {
-          language_description: {
-            description,
-            language: "ENGLISH",
+    try {
+      lookingJobId = await prisma.opTransLookingJob
+        .findOne({
+          where: {
+            language_description: {
+              description,
+              language: "ENGLISH",
+            },
           },
-        },
-      })
-      .then((i) => i.opLookingJobId);
+        })
+        .then((i) => i.opLookingJobId);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
   return lookingJobId;
 }
 
@@ -347,7 +346,7 @@ async function seedUsers() {
       // organizations,
       // securityClearance,
       careerMobility,
-      // lookingJob,
+      lookingJob,
       projects,
       preferredLanguage,
       // proficiencies,
@@ -367,7 +366,7 @@ async function seedUsers() {
       // relocationLocations,
     }) => {
       const careerMobilityId = await getCareerMobilityId(careerMobility);
-      // const lookingJobId = await getLookingJobId(lookingJob);
+      const lookingJobId = await getLookingJobId(lookingJob);
       // const tenureId = await getTenureId(tenure);
       // const officeLocationId = await getOfficeLocationId(officeLocation);
       // const compentenciesIds = await getCompetenciesIds(compentencies);
@@ -437,8 +436,20 @@ async function seedUsers() {
           employmentInfo: undefined,
           experiences: undefined,
           organizations: undefined,
-          careerMobility: undefined,
-          lookingJob: undefined,
+          careerMobility: careerMobilityId
+            ? {
+                connect: {
+                  id: careerMobilityId,
+                },
+              }
+            : undefined,
+          lookingJob: lookingJobId
+            ? {
+                connect: {
+                  id: lookingJobId,
+                },
+              }
+            : undefined,
           tenure: undefined,
           talentMatrixResult: undefined,
           officeLocation: undefined,
