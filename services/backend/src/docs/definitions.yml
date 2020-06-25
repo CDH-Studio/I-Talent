@@ -24,7 +24,7 @@ definitions:
       - C
       - E
       - X
-  Language:
+  LanguageQuery:
     name: language
     in: query
     description: The language which the data will be returned
@@ -33,42 +33,44 @@ definitions:
     enum:
       - ENGLISH
       - FRENCH
+  IdQuery:
+    name: id
+    in: query
+    description: UUID of the user
+    required: true
+    type: string
+    format: uuid
   StringArray:
     schema:
       type: array
       items:
         type: string
+  IdDescription:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      description:
+        type: string
   IdDescriptionArray:
     schema:
       type: array
       items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
   IdName:
-    schema:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
   IdNameArray:
     schema:
       type: array
       items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          name:
-            type: string
+        $ref: "#/definitions/IdName"
   IdEnFrArray:
     schema:
       type: array
@@ -82,7 +84,7 @@ definitions:
             type: string
           fr:
             type: string
-  UUIDArray:
+  IdArray:
     type: array
     items:
       type: string
@@ -97,7 +99,7 @@ definitions:
       required: [ids]
       properties:
         ids:
-          $ref: "#/definitions/UUIDArray"
+          $ref: "#/definitions/IdArray"
   CreateOption:
     name: body
     in: body
@@ -180,25 +182,11 @@ definitions:
           avatarColor:
             type: string
           projects:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/StringArray"
           groupLevel:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
+            $ref: "#/definitions/IdName"
           actingLevel:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
+            $ref: "#/definitions/IdName"
           officeLocation:
             type: object
             properties:
@@ -246,29 +234,11 @@ definitions:
                 school:
                   type: string
           skills:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
+            $ref: "#/definitions/IdNameArray"
           competencies:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
+            $ref: "#/definitions/IdNameArray"
           organizations:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/StringArray"
           nameInitials:
             type: string
           branch:
@@ -276,15 +246,7 @@ definitions:
           jobTitle:
             type: string
           resultSkills:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
+            $ref: "#/definitions/IdNameArray"
   UserResponse:
     schema:
       type: object
@@ -313,6 +275,8 @@ definitions:
           format: date-time
         signupStep:
           type: number
+        nameInitials:
+          type: string
   CountResponse:
     schema:
       type: number
@@ -565,49 +529,19 @@ definitions:
             organization:
               type: string
       securityClearance:
-        type: object
-        properties:
-          id:
-            type: string
-            format: UUID
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
       lookingJob:
-        type: object
-        properties:
-          id:
-            type: string
-            format: UUID
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
       tenure:
-        type: object
-        properties:
-          id:
-            type: string
-            format: UUID
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
       careerMobility:
-        type: object
-        properties:
-          id:
-            type: string
-            format: UUID
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
       jobTitle:
         type: string
       branch:
         type: string
       talentMatrixResult:
-        type: object
-        properties:
-          id: 
-            type: string
-            format: uuid
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
       officeLocation:
         type: object
         properties:
@@ -665,13 +599,6 @@ definitions:
         $ref: "#/definitions/VisibleCards"
       nameInitials:
         type: string
-  IdParam:
-    name: id
-    in: query
-    description: UUID of the user
-    required: true
-    type: string
-    format: uuid
   200:
     description: Success
   403:

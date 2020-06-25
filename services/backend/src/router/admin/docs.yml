@@ -21,7 +21,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         schema:
@@ -40,11 +40,7 @@
               lastName:
                 type: string
               status:
-                type: string
-                enum:
-                  - ACTIVE
-                  - INACTIVE
-                  - HIDDEN
+                $ref: "#/definitions/UserStatusEnum"
               jobTitle:
                 type: string
               tenure:
@@ -73,11 +69,7 @@
           type: object
           properties:
             UUID:
-              type: string
-              enum:
-                - ACTIVE
-                - INACTIVE
-                - HIDDEN
+              $ref: "#/definitions/UserStatusEnum"
     responses:
       200:
         $ref: "#/definitions/200"

@@ -4,8 +4,8 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
-      - $ref: "#/definitions/IdParam"
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
     responses:
       200:
         schema:
@@ -24,8 +24,8 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
-      - $ref: "#/definitions/IdParam"
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
       - name: body
         in: body
         description: Data used to update profile
@@ -51,20 +51,11 @@
             manager:
               type: string
             firstLanguage:
-              type: string
-              enum:
-                - ENGLISH
-                - FRENCH
+              $ref: "#/definitions/LanguageEnum"
             secondLanguage:
-              type: string
-              enum:
-                - ENGLISH
-                - FRENCH
+              $ref: "#/definitions/LanguageEnum"
             preferredLanguage:
-              type: string
-              enum:
-                - ENGLISH
-                - FRENCH
+              $ref: "#/definitions/LanguageEnum"
             actingStartDate:
               type: string
               format: data-time
@@ -78,17 +69,11 @@
             avatarColor:
               type: string
             status:
-              type: string
-              enum:
-                - ACTIVE
-                - INACTIVE
-                - HIDDEN
+              $ref: "#/definitions/UserStatusEnum"
             signupStep:
               type: number
             projects:
-              type: array
-              items:
-                type: string
+              $ref: "#/definitions/StringArray"
             skills:
               $ref: "#/definitions/UUIDArray"
             mentorshipSkills:
@@ -154,8 +139,8 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
-      - $ref: "#/definitions/IdParam"
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
     responses:
       200:
         schema:

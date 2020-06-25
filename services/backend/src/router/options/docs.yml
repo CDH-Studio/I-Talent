@@ -4,7 +4,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/StringArray"
@@ -24,7 +24,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdDescriptionArray"
@@ -60,7 +60,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdNameArray"
@@ -80,7 +80,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         schema:
@@ -115,7 +115,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdDescriptionArray"
@@ -135,7 +135,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdDescriptionArray"
@@ -155,7 +155,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdDescriptionArray"
@@ -175,7 +175,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdNameArray"

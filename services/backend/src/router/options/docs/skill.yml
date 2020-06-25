@@ -4,7 +4,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         schema:

@@ -4,12 +4,7 @@
     produces:
       - application/json
     parameters:
-      - name: id
-        in: path
-        description: User ID used to fetch the user from the database
-        required: true
-        type: string
-        format: uuid
+      - $ref: "#/definitions/IdQuery"
     responses:
       200:
         $ref: "#/definitions/UserResponse"
@@ -27,12 +22,7 @@
     produces:
       - application/json
     parameters:
-      - name: id
-        in: path
-        description: User ID used to create the user from the database
-        required: true
-        type: string
-        format: uuid
+      - $ref: "#/definitions/IdQuery"
       - name: body
         in: body
         description: User ID used to fetch the email from the database

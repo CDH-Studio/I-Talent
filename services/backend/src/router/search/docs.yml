@@ -4,7 +4,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
       - name: name
         in: query
         description: Name of the user to be searched
@@ -59,7 +59,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: "#/definitions/Language"
+      - $ref: "#/definitions/LanguageQuery"
       - name: searchValue
         in: query
         description: The value to be searched
