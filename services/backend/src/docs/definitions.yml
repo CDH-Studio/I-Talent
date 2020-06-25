@@ -1,5 +1,30 @@
 definitions:
-  Language:
+  LanguageEnum:
+    type: string
+    enum:
+      - ENGLISH
+      - FRENCH
+  UserStatusEnum:
+    type: string
+    enum:
+      - ACTIVE
+      - INACTIVE
+      - HIDDEN
+  ProficiencyEnum:
+    type: string
+    enum:
+      - ORAL
+      - READING
+      - WRITING
+  ProficiencyLevelEnum:
+    type: string
+    enum:
+      - A
+      - B
+      - C
+      - E
+      - X
+  LanguageQuery:
     name: language
     in: query
     description: The language which the data will be returned
@@ -8,42 +33,44 @@ definitions:
     enum:
       - ENGLISH
       - FRENCH
+  IdQuery:
+    name: id
+    in: query
+    description: UUID of the user
+    required: true
+    type: string
+    format: uuid
   StringArray:
     schema:
       type: array
       items:
         type: string
+  IdDescription:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      description:
+        type: string
   IdDescriptionArray:
     schema:
       type: array
       items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          description:
-            type: string
+        $ref: "#/definitions/IdDescription"
   IdName:
-    schema:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
   IdNameArray:
     schema:
       type: array
       items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          name:
-            type: string
+        $ref: "#/definitions/IdName"
   IdEnFrArray:
     schema:
       type: array
@@ -57,6 +84,11 @@ definitions:
             type: string
           fr:
             type: string
+  IdArray:
+    type: array
+    items:
+      type: string
+      format: uuid
   DeleteManyIds:
     name: body
     in: body
@@ -67,10 +99,7 @@ definitions:
       required: [ids]
       properties:
         ids:
-          type: array
-          items:
-            type: string
-            format: uuid
+          $ref: "#/definitions/IdArray"
   CreateOption:
     name: body
     in: body
@@ -146,40 +175,22 @@ definitions:
           exFeeder:
             type: boolean
           status:
-            type: string
-            enum:
-              - ACTIVE
-              - INACTIVE
-              - HIDDEN
+            $ref: "#/definitions/UserStatusEnum"
           email:
             type: string
             format: email
           avatarColor:
             type: string
           projects:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/StringArray"
           groupLevel:
-            type: object
-            properties:
-              id: 
-                type: string
-                format: uuid
-              name:
-                type: string
+            $ref: "#/definitions/IdName"
           actingLevel:
-            type: object
-            properties:
-              id: 
-                type: string
-                format: uuid
-              name:
-                type: string
+            $ref: "#/definitions/IdName"
           officeLocation:
             type: object
             properties:
-              id: 
+              id:
                 type: string
                 format: uuid
               city:
@@ -223,29 +234,11 @@ definitions:
                 school:
                   type: string
           skills:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
+            $ref: "#/definitions/IdNameArray"
           competencies:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
+            $ref: "#/definitions/IdNameArray"
           organizations:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/StringArray"
           nameInitials:
             type: string
           branch:
@@ -253,15 +246,7 @@ definitions:
           jobTitle:
             type: string
           resultSkills:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
+            $ref: "#/definitions/IdNameArray"
   UserResponse:
     schema:
       type: object
@@ -275,11 +260,7 @@ definitions:
           type: string
           format: email
         status:
-          type: string
-          enum:
-            - ACTIVE
-            - INACTIVE
-            - HIDDEN
+          $ref: "#/definitions/UserStatusEnum"
         avatarColor:
           type: string
         firstName:
@@ -294,9 +275,330 @@ definitions:
           format: date-time
         signupStep:
           type: number
+        nameInitials:
+          type: string
   CountResponse:
     schema:
       type: number
+  VisibleCards:
+    type: object
+    required:
+      - manager
+      - info
+      - talentManagement
+      - officialLanguage
+      - skills
+      - competencies
+      - developmentalGoals
+      - education
+      - experience
+      - projects
+      - careerInterests
+      - mentorshipSkills
+      - exFeeder
+    properties:
+      manager:
+        type: boolean
+      info:
+        type: boolean
+      talentManagement:
+        type: boolean
+      officialLanguage:
+        type: boolean
+      skills:
+        type: boolean
+      competencies:
+        type: boolean
+      developmentalGoals:
+        type: boolean
+      education:
+        type: boolean
+      experience:
+        type: boolean
+      projects:
+        type: boolean
+      careerInterests:
+        type: boolean
+      mentorshipSkills:
+        type: boolean
+      exFeeder:
+        type: boolean
+  Educations:
+    type: array
+    items:
+      type: object
+      required:
+        - startDate
+        - endDate
+        - diplomaId
+        - schoolId
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        diplomaId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+  Experiences:
+    type: array
+    items:
+      type: object
+      required:
+        - startDate
+        - endDate
+        - jobTitle
+        - organization
+        - description
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        jobTitle:
+          type: string
+        organization:
+          type: string
+        description:
+          type: string
+  SecondLangProfs:
+    type: array
+    items:
+      type: object
+      required: [proficiency, level, date]
+      properties:
+        proficiency:
+          $ref: '#/definitions/ProficiencyEnum'
+        level:
+          $ref: '#/definitions/ProficiencyLevelEnum'
+        date:
+          type: string
+          format: date-time
+  GetProfile:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+      name:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      avatarColor:
+        type: string
+      email:
+        type: string
+        format: email
+      telephone:
+        type: string
+      cellphone:
+        type: string
+      team:
+        type: string
+      manager:
+        type: string
+      firstLanguage:
+        $ref: '#/definitions/LanguageEnum'
+      secondLanguage:
+        $ref: '#/definitions/LanguageEnum'
+      preferredLanguage:
+        $ref: '#/definitions/LanguageEnum'
+      actingStartDate:
+        type: string
+        format: data-time
+      actingEndDate:
+        type: string
+        format: data-time
+      linkedin:
+        type: string
+      github:
+        type: string
+      gcconnex:
+        type: string
+      exFeeder:
+        type: boolean
+      interestedInRemote:
+        type: boolean
+      status:
+        $ref: '#/definitions/UserStatusEnum'
+      projects:
+        type: array
+        items:
+          type: string
+      skills:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+            categoryId:
+              type: string
+              format: uuid
+            category:
+              type: string
+      mentorshipSkills:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+            categoryId:
+              type: string
+              format: uuid
+            category:
+              type: string
+      competencies:
+        $ref: "#/definitions/IdNameArray"
+      developmentalGoals:
+        $ref: "#/definitions/IdNameArray"
+      educations:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            startDate:
+              type: string
+              format: date-time
+            endDate:
+              type: string
+              format: date-time
+            diploma:
+              type: object
+              properties:
+                id: 
+                  type: string
+                  format: uuid
+                description:
+                  type: string
+            school:
+              type: object
+              properties:
+                id: 
+                  type: string
+                  format: uuid
+                country:
+                  type: string
+                province:
+                  type: string
+                name:
+                  type: string
+      experiences:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            startDate:
+              type: string
+              format: date-time
+            endDate:
+              type: string
+              format: date-time
+            description:
+              type: string
+            jobTitle:
+              type: string
+            organization:
+              type: string
+      securityClearance:
+        $ref: "#/definitions/IdDescription"
+      lookingJob:
+        $ref: "#/definitions/IdDescription"
+      tenure:
+        $ref: "#/definitions/IdDescription"
+      careerMobility:
+        $ref: "#/definitions/IdDescription"
+      jobTitle:
+        type: string
+      branch:
+        type: string
+      talentMatrixResult:
+        $ref: "#/definitions/IdDescription"
+      officeLocation:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          postalCode:
+            type: string
+          streetNumber:
+            type: number
+          city:
+            type: string
+          country:
+            type: string
+          streetName:
+            type: string
+          province:
+            type: string
+      relocationLocations:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            postalCode:
+              type: string
+            streetNumber:
+              type: number
+            city:
+              type: string
+            country:
+              type: string
+            streetName:
+              type: string
+            province:
+              type: string
+      secondLangProfs:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            date:
+              type: string
+              format: date-time
+            proficiency:
+              $ref: "#/definitions/ProficiencyEnum"
+            level:
+              $ref: "#/definitions/ProficiencyLevelEnum"
+      visibleCards:
+        $ref: "#/definitions/VisibleCards"
+      nameInitials:
+        type: string
   200:
     description: Success
   403:

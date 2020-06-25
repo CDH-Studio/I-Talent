@@ -4,7 +4,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
         $ref: "#/definitions/IdNameArray"
@@ -23,7 +23,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/DeleteManyIds'
+      - $ref: "#/definitions/DeleteManyIds"
     responses:
       200:
         $ref: "#/definitions/200"
@@ -43,7 +43,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/CreateOption'
+      - $ref: "#/definitions/CreateOption"
     responses:
       200:
         $ref: "#/definitions/200"
@@ -63,7 +63,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/UpdateOption'
+      - $ref: "#/definitions/UpdateOption"
     responses:
       200:
         $ref: "#/definitions/200"
@@ -82,7 +82,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/DeleteOption'
+      - $ref: "#/definitions/DeleteOption"
     responses:
       200:
         $ref: "#/definitions/200"
@@ -103,7 +103,7 @@
       - application/json
     responses:
       200:
-        $ref: '#/definitions/IdEnFrArray'
+        $ref: "#/definitions/IdEnFrArray"
       403:
         $ref: "#/definitions/403"
       422:
