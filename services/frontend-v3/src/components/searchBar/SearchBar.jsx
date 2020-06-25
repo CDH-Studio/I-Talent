@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-lone-blocks */
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -52,7 +54,10 @@ const SearchBar = () => {
   const handleSearch = (values) => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/secured/results?${encodeURI(query)}`;
-    history.push(url);
+
+    if (query !== "") {
+      history.push(url);
+    }
   };
 
   useEffect(() => {
