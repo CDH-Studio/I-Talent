@@ -84,6 +84,7 @@ const ProfileInfoPropType = PropTypes.shape({
   telephone: PropTypes.string,
   cellphone: PropTypes.string,
   location: PropTypes.any,
+  teams: PropTypes.arrayOf(PropTypes.string),
 });
 
 const FieldPropType = PropTypes.shape({
