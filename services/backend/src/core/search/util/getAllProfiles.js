@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const NUMBER_OF_SKILL_RESULT = 4;
 
 async function getAllUsers(searchValue, language) {
-  const visibleCards = await prisma.users.findMany({
+  const visibleCards = await prisma.user.findMany({
     select: {
       id: true,
       visibleCards: true,
@@ -32,7 +32,7 @@ async function getAllUsers(searchValue, language) {
           experience,
         },
       }) =>
-        prisma.users.findOne({
+        prisma.user.findOne({
           where: {
             id,
           },
@@ -43,7 +43,7 @@ async function getAllUsers(searchValue, language) {
             telephone: true,
             cellphone: true,
             manager,
-            team: true,
+            teams: true,
             exFeeder,
             status: true,
             email: true,

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function getClassifications(request, response) {
   try {
-    const classificationsQuery = await prisma.opClassifications.findMany({
+    const classificationsQuery = await prisma.opClassification.findMany({
       select: {
         id: true,
         name: true,

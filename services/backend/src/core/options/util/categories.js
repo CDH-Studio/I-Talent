@@ -9,12 +9,12 @@ async function getCategories(request, response) {
 
     const { language } = request.query;
 
-    const categoriesQuery = await prisma.opTransCategories.findMany({
+    const categoriesQuery = await prisma.opTransCategory.findMany({
       where: {
         language,
       },
       select: {
-        opCategoriesId: true,
+        opCategoryId: true,
         name: true,
       },
       orderBy: {
@@ -24,7 +24,7 @@ async function getCategories(request, response) {
 
     const categories = categoriesQuery.map((i) => {
       return {
-        id: i.opCategoriesId,
+        id: i.opCategoryId,
         name: i.name,
       };
     });
@@ -42,7 +42,7 @@ async function getCategories(request, response) {
 
 async function getCategoriesAllLang(request, response) {
   try {
-    const categoriesQuery = await prisma.opCategories.findMany({
+    const categoriesQuery = await prisma.opCategory.findMany({
       select: {
         id: true,
         translations: {
@@ -77,7 +77,7 @@ async function createCategory(request, response) {
 
     const { en, fr } = request.body;
 
-    await prisma.opCategories.create({
+    await prisma.opCategory.create({
       data: {
         translations: {
           create: [
@@ -117,7 +117,7 @@ async function updateCategory(request, response) {
 
     const { id, en, fr } = request.body;
 
-    await prisma.opCategories.update({
+    await prisma.opCategory.update({
       where: {
         id,
       },
@@ -164,13 +164,13 @@ async function deleteCategory(request, response) {
 
     const { id } = request.body;
 
-    await prisma.opTransCategories.deleteMany({
+    await prisma.opTransCategory.deleteMany({
       where: {
-        opCategoriesId: id,
+        opCategoryId: id,
       },
     });
 
-    await prisma.opCategories.delete({
+    await prisma.opCategory.delete({
       where: {
         id,
       },
@@ -195,15 +195,15 @@ async function deleteCategories(request, response) {
 
     const { ids } = request.body;
 
-    await prisma.opTransCategories.deleteMany({
+    await prisma.opTransCategory.deleteMany({
       where: {
-        opCategoriesId: {
+        opCategoryId: {
           in: ids,
         },
       },
     });
 
-    await prisma.opCategories.deleteMany({
+    await prisma.opCategory.deleteMany({
       where: {
         id: {
           in: ids,

@@ -9,12 +9,12 @@ async function getLookingJobs(request, response) {
 
     const { language } = request.query;
 
-    const lookingJobsQuery = await prisma.opTransLookingJobs.findMany({
+    const lookingJobsQuery = await prisma.opTransLookingJob.findMany({
       where: {
         language,
       },
       select: {
-        opLookingJobsId: true,
+        opLookingJobId: true,
         description: true,
       },
       orderBy: {
@@ -24,7 +24,7 @@ async function getLookingJobs(request, response) {
 
     const lookingJobs = lookingJobsQuery.map((i) => {
       return {
-        id: i.opLookingJobsId,
+        id: i.opLookingJobId,
         description: i.description,
       };
     });

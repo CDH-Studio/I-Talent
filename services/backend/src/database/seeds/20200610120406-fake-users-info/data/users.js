@@ -32,7 +32,7 @@ module.exports = [
       city: "Ottawa",
       country: "Canada",
     },
-    avatarColor: "hsl(20, 100%, 50%)",
+    avatarColor: "#0bdaa3",
     projects: [
       "Landscaping backyard",
       "Calculator prediction mobile application",
@@ -168,7 +168,7 @@ module.exports = [
       city: "Ottawa",
       country: "Canada",
     },
-    avatarColor: "hsl(203, 100%, 50%)",
+    avatarColor: "#ad4463",
     projects: ["Gardening strawberries", "AI powered translator"],
     employmentInfo: {
       en: {

@@ -9,12 +9,12 @@ async function getDevelopmentalGoals(request, response) {
 
     const { language } = request.query;
 
-    const competenciesQuery = await prisma.opTransCompetencies.findMany({
+    const competenciesQuery = await prisma.opTransCompetency.findMany({
       where: {
         language,
       },
       select: {
-        opCompetenciesId: true,
+        opCompetencyId: true,
         name: true,
       },
       orderBy: {
@@ -22,12 +22,12 @@ async function getDevelopmentalGoals(request, response) {
       },
     });
 
-    const skillsQuery = await prisma.opTransSkills.findMany({
+    const skillsQuery = await prisma.opTransSkill.findMany({
       where: {
         language,
       },
       select: {
-        opSkillsId: true,
+        opSkillId: true,
         name: true,
       },
       orderBy: {
@@ -37,14 +37,14 @@ async function getDevelopmentalGoals(request, response) {
 
     const competencies = competenciesQuery.map((i) => {
       return {
-        id: i.opCompetenciesId,
+        id: i.opCompetencyId,
         name: i.name,
       };
     });
 
     const skills = skillsQuery.map((i) => {
       return {
-        id: i.opSkillsId,
+        id: i.opSkillId,
         name: i.name,
       };
     });

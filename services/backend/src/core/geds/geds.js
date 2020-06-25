@@ -20,7 +20,7 @@ async function getGedsAssist(request, response) {
         Accept: "application/json",
       },
     }),
-    prisma.users.findOne({ where: { id }, select: { email: true } }),
+    prisma.user.findOne({ where: { id }, select: { email: true } }),
   ];
 
   Promise.all(promises)
@@ -53,7 +53,7 @@ async function getGedsAssist(request, response) {
 
       const branchOrg = organizations[Math.min(2, organizations.length - 1)];
       try {
-        const location = await prisma.opOfficeLocations.findMany({
+        const location = await prisma.opOfficeLocation.findMany({
           where: {
             country: branchOrg.addressInformation.country,
             city: branchOrg.addressInformation.city,

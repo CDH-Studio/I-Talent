@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function getHiddenUsers(request, response) {
   try {
-    const hiddenUsers = await prisma.users.findMany({
+    const hiddenUsers = await prisma.user.findMany({
       where: {
         status: "HIDDEN",
       },
