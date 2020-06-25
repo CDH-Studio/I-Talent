@@ -4,16 +4,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdNameArray'
+        $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option.school]
@@ -23,16 +23,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/DeleteManyIds'
+      - $ref: "#/definitions/DeleteManyIds"
     responses:
       200:
-        $ref: '#/definitions/200'
+        $ref: "#/definitions/200"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option.school]
@@ -61,13 +61,13 @@
               type: string
     responses:
       200:
-        $ref: '#/definitions/200'
+        $ref: "#/definitions/200"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option.school]
@@ -97,13 +97,13 @@
               type: string
     responses:
       200:
-        $ref: '#/definitions/200'
+        $ref: "#/definitions/200"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option.school]
@@ -113,16 +113,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/DeleteOption'
+      - $ref: "#/definitions/DeleteOption"
     responses:
       200:
-        $ref: '#/definitions/200'
+        $ref: "#/definitions/200"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option.school]
@@ -134,13 +134,13 @@
       - application/json
     responses:
       200:
-        $ref: '#/definitions/IdEnFrArray'
+        $ref: "#/definitions/IdEnFrArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option.school]

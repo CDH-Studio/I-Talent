@@ -194,4 +194,3 @@
     security:
       - Keycloak: []
     tags: [stats]
-            

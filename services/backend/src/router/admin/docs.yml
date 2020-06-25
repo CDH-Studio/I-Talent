@@ -21,7 +21,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
         schema:
@@ -58,7 +58,7 @@
     security:
       - Keycloak: []
     tags: [admin]
-    
+
 /api/admin/userStatuses:
   put:
     summary: Batch update user statuses

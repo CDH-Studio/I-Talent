@@ -4,16 +4,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/StringArray'
+        $ref: "#/definitions/StringArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -24,16 +24,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdDescriptionArray'
+        $ref: "#/definitions/IdDescriptionArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -45,11 +45,11 @@
       - application/json
     responses:
       200:
-        $ref: '#/definitions/IdNameArray'
+        $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -60,16 +60,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdNameArray'
+        $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -80,7 +80,7 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
         schema:
@@ -102,13 +102,12 @@
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
-
 
 /api/option/lookingJobs:
   get:
@@ -116,16 +115,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdDescriptionArray'
+        $ref: "#/definitions/IdDescriptionArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -136,16 +135,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdDescriptionArray'
+        $ref: "#/definitions/IdDescriptionArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -156,16 +155,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdDescriptionArray'
+        $ref: "#/definitions/IdDescriptionArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
@@ -176,16 +175,16 @@
     produces:
       - application/json
     parameters:
-      - $ref: '#/definitions/Language'
+      - $ref: "#/definitions/Language"
     responses:
       200:
-        $ref: '#/definitions/IdNameArray'
+        $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       422:
-        $ref: '#/definitions/422'
+        $ref: "#/definitions/422"
       500:
-        $ref: '#/definitions/500'
+        $ref: "#/definitions/500"
     security:
       - Keycloak: []
     tags: [option]
