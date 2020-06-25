@@ -82,15 +82,19 @@ async function updateProfile(request, response) {
       let competencyIds;
       let upsertDevelopmentalGoals;
       if (developmentalGoals) {
-        skillIds = await prisma.OpSkill.findMany({
-          where: { id: { in: developmentalGoals } },
-          select: { id: true },
-        }).then((i) => i.map((j) => j.id));
+        skillIds = await prisma.opSkill
+          .findMany({
+            where: { id: { in: developmentalGoals } },
+            select: { id: true },
+          })
+          .then((i) => i.map((j) => j.id));
 
-        competencyIds = await prisma.OpCompetency.findMany({
-          where: { id: { in: developmentalGoals } },
-          select: { id: true },
-        }).then((i) => i.map((j) => j.id));
+        competencyIds = await prisma.opCompetency
+          .findMany({
+            where: { id: { in: developmentalGoals } },
+            select: { id: true },
+          })
+          .then((i) => i.map((j) => j.id));
 
         upsertDevelopmentalGoals = developmentalGoals.map((id) => {
           const isCompentency = competencyIds.includes(id);
@@ -139,15 +143,15 @@ async function updateProfile(request, response) {
       // Deletes every experiences and educations if experiences or educations is defined since
       // there's no way to uniquely identify them solely from the data
       if (experiences) {
-        await prisma.Experience.deleteMany({ where: { userId } });
+        await prisma.experience.deleteMany({ where: { userId } });
       }
 
       if (educations) {
-        await prisma.Education.deleteMany({ where: { userId } });
+        await prisma.education.deleteMany({ where: { userId } });
       }
 
       // Queries user ids to check if an id was already defined
-      const userIds = await prisma.User.findOne({
+      const userIds = await prisma.user.findOne({
         where: { id: userId },
         select: {
           officeLocationId: true,
@@ -430,7 +434,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  return prisma.User.findOne({
+  return prisma.user.findOne({
     where: { id },
     select: {
       id: true,

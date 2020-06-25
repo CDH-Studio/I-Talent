@@ -493,7 +493,7 @@ model User {
   status               UserStatus            @default(ACTIVE)
   signupStep           Int                   @default(0)
   projects             String[]
-  team                 String[]
+  teams                String[]
   groupLevel           OpClassification?     @relation(fields: [groupLevelId], name: "groupLevels")
   actingLevel          OpClassification?     @relation(fields: [actingLevelId], name: "actingLevels")
   securityClearance    OpSecurityClearance?  @relation(fields: [securityClearanceId])

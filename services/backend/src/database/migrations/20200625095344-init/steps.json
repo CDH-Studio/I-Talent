@@ -6847,7 +6847,7 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "team",
+      "field": "teams",
       "type": "String",
       "arity": "List"
     },
