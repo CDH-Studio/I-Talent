@@ -17,27 +17,31 @@ async function getSecurityClearanceId(description) {
           },
         },
       })
-      .then((i) => i.opSecurityClearancesId);
+      .then((i) => i.opSecurityClearanceId);
   }
-
   return securityClearanceId;
 }
 
 async function getCareerMobilityId(description) {
   let careerMobilityId;
-
+  console.log(`description: ${description}`);
   if (description) {
-    careerMobilityId = await prisma.opTransCareerMobility
-      .findOne({
-        where: {
-          language_description: {
-            description,
-            language: "ENGLISH",
+    try {
+      careerMobilityId = await prisma.opTransCareerMobility
+        .findOne({
+          where: {
+            language_description: {
+              description,
+              language: "ENGLISH",
+            },
           },
-        },
-      })
-      .then((i) => i.opCareerMobilitiesId);
+        })
+        .then((i) => i.opCareerMobilityId);
+    } catch (error) {
+      console.log(error);
+    }
   }
+  console.log(`career mobility: ${careerMobilityId}`);
 
   return careerMobilityId;
 }
@@ -55,7 +59,7 @@ async function getLookingJobId(description) {
           },
         },
       })
-      .then((i) => i.opLookingJobsId);
+      .then((i) => i.opLookingJobId);
   }
 
   return lookingJobId;
@@ -74,7 +78,7 @@ async function getTenureId(name) {
           },
         },
       })
-      .then((i) => i.opTenuresId);
+      .then((i) => i.opTenureId);
   }
 
   return tenureId;
@@ -93,7 +97,7 @@ async function getTalentMatrixResultId(description) {
           },
         },
       })
-      .then((i) => i.opTalentMatrixResultsId);
+      .then((i) => i.opTalentMatrixResultId);
   }
 
   return talentMatrixResultId;
@@ -337,32 +341,32 @@ async function seedUsers() {
       secondLanguage,
       teams,
       telephone,
-      employmentInfo,
+      // employmentInfo,
       exFeeder,
-      experiences,
-      organizations,
-      securityClearance,
+      // experiences,
+      // organizations,
+      // securityClearance,
       careerMobility,
-      lookingJob,
+      // lookingJob,
       projects,
       preferredLanguage,
       // proficiencies,
       avatarColor,
-      tenure,
-      talentMatrixResult,
-      officeLocation,
-      compentencies,
-      developmentalGoals,
-      mentorshipSkills,
-      skills,
+      // tenure,
+      // talentMatrixResult,
+      // officeLocation,
+      // compentencies,
+      // developmentalGoals,
+      // mentorshipSkills,
+      // skills,
       actingLevel,
       groupLevel,
       actingEndDate,
       actingStartDate,
-      educations,
-      relocationLocations,
+      // educations,
+      // relocationLocations,
     }) => {
-      // const careerMobilityId = await getCareerMobilityId(careerMobility);
+      const careerMobilityId = await getCareerMobilityId(careerMobility);
       // const lookingJobId = await getLookingJobId(lookingJob);
       // const tenureId = await getTenureId(tenure);
       // const officeLocationId = await getOfficeLocationId(officeLocation);
@@ -382,9 +386,9 @@ async function seedUsers() {
       // const talentMatrixResultId = await getTalentMatrixResultId(
       //   talentMatrixResult
       // );
-      const securityClearanceId = await getSecurityClearanceId(
-        securityClearance
-      );
+      // const securityClearanceId = await getSecurityClearanceId(
+      //   securityClearance
+      // );
       // const relocationLocationIds = await getRelocationLocationIds(
       //   relocationLocations
       // );
@@ -423,27 +427,21 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          employmentInfo: undefined,
-          experiences: undefined,
-          organizations: undefined,
-          securityClearance: securityClearanceId
-            ? {
-                connect: {
-                  id: securityClearanceId,
-                },
-              }
-            : undefined,
-          careerMobility: undefined,
-          lookingJob: undefined,
-          tenure: undefined,
-          talentMatrixResult: undefined,
-          officeLocation: undefined,
           projects: {
             set: projects,
           },
           teams: {
             set: teams,
           },
+          securityClearance: undefined,
+          employmentInfo: undefined,
+          experiences: undefined,
+          organizations: undefined,
+          careerMobility: undefined,
+          lookingJob: undefined,
+          tenure: undefined,
+          talentMatrixResult: undefined,
+          officeLocation: undefined,
           secondLangProfs: undefined,
           competencies: undefined,
           skills: undefined,
