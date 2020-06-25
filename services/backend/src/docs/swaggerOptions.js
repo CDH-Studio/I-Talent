@@ -7,7 +7,7 @@ const specs = swaggerJsdoc({
       title: "I-Talent API",
       version: "1.0.0",
       description:
-        "Exposed [express](https://expressjs.com/) node.js API endpoints for the I-Talent frontend querying a PostgreSQL database with [prisma.io](https://www.prisma.io/). \n\n To query the API, you'll need to authenticate yourself with your ISED account below.",
+        "Exposed [express](https://expressjs.com/) node.js API endpoints for the I-Talent frontend querying a PostgreSQL database with [prisma.io](https://www.prisma.io/). \n\n Select a tag (category) to reveal information about the endpoints and select an endpoint to test them. To query the API, you'll need to authenticate yourself with your ISED account below or by clicking on any locks. \n\n __Note:__ You will need to request a new token every minute (log out and re-authenticate yourself)",
       license: {
         name: "MIT",
         url: "https://opensource.org/licenses/MIT",
@@ -26,11 +26,15 @@ const specs = swaggerJsdoc({
       },
     },
   },
-  apis: ["./src/router/*/docs.yml", "./src/docs/*.yml"],
+  apis: [
+    "./src/router/*/docs.yml",
+    "./src/router/*/docs/*.yml",
+    "./src/docs/*.yml",
+  ],
 });
 
 module.exports = swaggerUi.setup(specs, {
-  customSiteTitle: "I-Talent API",
+  customSiteTitle: "I-Talent API Docs",
   customfavIcon: "http://localhost:3000/favicon.ico",
   customCss:
     ".swagger-ui .topbar { display: none } .swagger-ui .scheme-container { background: none; box-shadow: none }",

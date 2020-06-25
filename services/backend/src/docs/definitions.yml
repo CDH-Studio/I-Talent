@@ -44,10 +44,23 @@ definitions:
             format: uuid
           name:
             type: string
+  IdEnFrArray:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          en:
+            type: string
+          fr:
+            type: string
   DeleteManyIds:
     name: body
     in: body
-    description: An array of UUID ids to be deleted
+    description: An array of UUIDs to be deleted
     required: true
     schema:
       type: object
@@ -58,6 +71,47 @@ definitions:
           items:
             type: string
             format: uuid
+  CreateOption:
+    name: body
+    in: body
+    description: English and french translations for the option
+    required: true
+    schema:
+      type: object
+      required: [en, fr]
+      properties:
+        en:
+          type: string
+        fr:
+          type: string
+  UpdateOption:
+    name: body
+    in: body
+    description: English and french translations for the option and its UUID
+    required: true
+    schema:
+      type: object
+      required: [id, en, fr]
+      properties:
+        id:
+          type: string
+          format: uuid
+        en:
+          type: string
+        fr:
+          type: string
+  DeleteOption:
+    name: body
+    in: body
+    description: UUID of the option to be deleted
+    required: true
+    schema:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+          format: uuid
   TopFiveResponse:
     schema:
       type: array
@@ -247,6 +301,8 @@ definitions:
     description: Success
   403:
     description: Request not authenticated with keycloak or user does not have access to certain information
+  409:
+    description: Request not processed due to entry already existing
   422:
     description: Request does not satisfy the parameters validation
   500:
