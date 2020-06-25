@@ -1,0 +1,156 @@
+/api/profile/{id}:
+  get:
+    summary: Public profile information (takes visibleCards into account)
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        schema:
+          $ref: "#/definitions/GetProfile"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [profile]
+  put:
+    summary: Update a user
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
+      - name: body
+        in: body
+        description: Data used to update profile
+        schema:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            team:
+              type: string
+            telephone:
+              type: string
+            cellphone:
+              type: string
+            linkedin:
+              type: string
+            github:
+              type: string
+            gcconnex:
+              type: string
+            manager:
+              type: string
+            firstLanguage:
+              $ref: "#/definitions/LanguageEnum"
+            secondLanguage:
+              $ref: "#/definitions/LanguageEnum"
+            preferredLanguage:
+              $ref: "#/definitions/LanguageEnum"
+            actingStartDate:
+              type: string
+              format: data-time
+            actingEndDate:
+              type: string
+              format: data-time
+            interestedInRemote:
+              type: boolean
+            exFeeder:
+              type: boolean
+            avatarColor:
+              type: string
+            status:
+              $ref: "#/definitions/UserStatusEnum"
+            signupStep:
+              type: number
+            projects:
+              $ref: "#/definitions/StringArray"
+            skills:
+              $ref: "#/definitions/UUIDArray"
+            mentorshipSkills:
+              $ref: "#/definitions/UUIDArray"
+            competencies:
+              $ref: "#/definitions/UUIDArray"
+            developmentalGoals:
+              $ref: "#/definitions/UUIDArray"
+            educations:
+              $ref: "#/definitions/Educations"
+            relocationLocations:
+              $ref: "#/definitions/UUIDArray"
+            experiences:
+              $ref: "#/definitions/Experiences"
+            secondLangProfs:
+              $ref: "#/definitions/SecondLangProfs"
+            locationId:
+              type: string
+              format: uuid
+            careerMobilityId:
+              type: string
+              format: uuid
+            tenureId:
+              type: string
+              format: uuid
+            securityClearanceId:
+              type: string
+              format: uuid
+            lookingForANewJobId:
+              type: string
+              format: uuid
+            talentMatrixResultId:
+              type: string
+              format: uuid
+            groupLevelId:
+              type: string
+              format: uuid
+            actingLevelId:
+              type: string
+              format: uuid
+            employmentInfoId:
+              type: string
+              format: uuid
+            visibleCards:
+              $ref: "#/definitions/VisibleCards"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [profile]
+
+/api/profile/private/{id}:
+  get:
+    summary: All of the profile's information
+    description: __Note:__ the id must match the id from the Keycloak request
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        schema:
+          $ref: "#/definitions/GetProfile"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [profile]

@@ -35,7 +35,6 @@ const specs = swaggerJsdoc({
 
 module.exports = swaggerUi.setup(specs, {
   customSiteTitle: "I-Talent API Docs",
-  customfavIcon: "http://localhost:3000/favicon.ico",
   customCss:
     ".swagger-ui .topbar { display: none } .swagger-ui .scheme-container { background: none; box-shadow: none }",
   swaggerOptions: {

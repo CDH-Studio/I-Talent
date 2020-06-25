@@ -166,7 +166,7 @@ async function updateProfile(request, response) {
         },
       });
 
-      const result = await prisma.users.update({
+      await prisma.users.update({
         where: { id: userId },
         data: {
           firstName,
@@ -412,7 +412,8 @@ async function updateProfile(request, response) {
             : undefined,
         },
       });
-      response.status(200).json(result);
+
+      response.status(200).json("Successfully updated profile");
       return;
     }
     response
