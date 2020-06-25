@@ -35,7 +35,7 @@ async function updateProfile(request, response) {
       const {
         firstName,
         lastName,
-        teams,
+        team,
         telephone,
         cellphone,
         linkedin,
@@ -82,14 +82,14 @@ async function updateProfile(request, response) {
       let competencyIds;
       let upsertDevelopmentalGoals;
       if (developmentalGoals) {
-        skillIds = await prisma.opSkill
+        skillIds = await prisma.opSkills
           .findMany({
             where: { id: { in: developmentalGoals } },
             select: { id: true },
           })
           .then((i) => i.map((j) => j.id));
 
-        competencyIds = await prisma.opCompetency
+        competencyIds = await prisma.opCompetencies
           .findMany({
             where: { id: { in: developmentalGoals } },
             select: { id: true },
@@ -143,15 +143,15 @@ async function updateProfile(request, response) {
       // Deletes every experiences and educations if experiences or educations is defined since
       // there's no way to uniquely identify them solely from the data
       if (experiences) {
-        await prisma.experience.deleteMany({ where: { userId } });
+        await prisma.experiences.deleteMany({ where: { userId } });
       }
 
       if (educations) {
-        await prisma.education.deleteMany({ where: { userId } });
+        await prisma.educations.deleteMany({ where: { userId } });
       }
 
       // Queries user ids to check if an id was already defined
-      const userIds = await prisma.user.findOne({
+      const userIds = await prisma.users.findOne({
         where: { id: userId },
         select: {
           officeLocationId: true,
@@ -166,11 +166,12 @@ async function updateProfile(request, response) {
         },
       });
 
-      await prisma.user.update({
+      await prisma.users.update({
         where: { id: userId },
         data: {
           firstName,
           lastName,
+          team,
           telephone,
           cellphone,
           linkedin,
@@ -191,11 +192,6 @@ async function updateProfile(request, response) {
           projects: projects
             ? {
                 set: projects,
-              }
-            : undefined,
-          teams: teams
-            ? {
-                set: teams,
               }
             : undefined,
 
@@ -310,33 +306,6 @@ async function updateProfile(request, response) {
                   },
                   update: {},
                 })),
-              }
-            : undefined,
-          organizations: organizations
-            ? {
-                create: organizations.map((organization) => {
-                  return {
-                    organizationTier: {
-                      create: organization.map(({ tier, en, fr }) => {
-                        return {
-                          tier,
-                          translations: {
-                            create: [
-                              {
-                                description: en,
-                                language: "ENGLISH",
-                              },
-                              {
-                                description: fr,
-                                language: "FRENCH",
-                              },
-                            ],
-                          },
-                        };
-                      }),
-                    },
-                  };
-                }),
               }
             : undefined,
           educations: educations
@@ -461,7 +430,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  return prisma.user.findOne({
+  return prisma.users.findOne({
     where: { id },
     select: {
       id: true,
@@ -475,7 +444,7 @@ async function getFullProfile(id, language) {
       telephone: true,
       cellphone: true,
       manager: true,
-      teams: true,
+      team: true,
       firstLanguage: true,
       secondLanguage: true,
       preferredLanguage: true,
@@ -613,26 +582,6 @@ async function getFullProfile(id, language) {
                 select: {
                   province: true,
                   streetName: true,
-                },
-              },
-            },
-          },
-        },
-      },
-      organizations: {
-        select: {
-          organizationTier: {
-            orderBy: {
-              tier: "desc",
-            },
-            select: {
-              tier: true,
-              translations: {
-                where: {
-                  language,
-                },
-                select: {
-                  description: true,
                 },
               },
             },
@@ -1026,18 +975,6 @@ function filterProfileResult(profile, language) {
       level: prof.level,
     };
   });
-
-  if (profile.organization) {
-    filteredProfile.organization = filteredProfile.organization.map((i) => {
-      return i.organizationTier.map((organization) => {
-        const trans = organization.translations[0];
-        return {
-          tier: organization.tier,
-          description: trans ? trans.description : undefined,
-        };
-      });
-    });
-  }
 
   return filteredProfile;
 }
