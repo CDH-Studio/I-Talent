@@ -72,11 +72,6 @@ optionsRouter
   );
 optionsRouter.get(
   "/categoriesAllLang",
-  keycloak.protect(),
-  categories.getCategoriesAllLang
-);
-optionsRouter.get(
-  "/categoriesAllLang",
   keycloak.protect("view-admin-console"),
   categories.getCategoriesAllLang
 );

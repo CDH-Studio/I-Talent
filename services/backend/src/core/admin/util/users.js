@@ -52,6 +52,7 @@ const getUsers = async (request, response) => {
 
       return {
         id: i.id,
+        createdAt: i.createdAt,
         firstName: i.firstName,
         lastName: i.lastName,
         status: i.status,

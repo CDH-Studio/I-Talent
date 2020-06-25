@@ -24,6 +24,15 @@ definitions:
             format: uuid
           description:
             type: string
+  IdName:
+    schema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
   IdNameArray:
     schema:
       type: array
@@ -35,23 +44,266 @@ definitions:
             format: uuid
           name:
             type: string
+  IdEnFrArray:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          en:
+            type: string
+          fr:
+            type: string
   DeleteManyIds:
     name: body
     in: body
-    description: An array of UUID ids to be deleted
+    description: An array of UUIDs to be deleted
     required: true
     schema:
       type: object
       required: [ids]
       properties:
-      ids:
-        type: array
-        items:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+  CreateOption:
+    name: body
+    in: body
+    description: English and french translations for the option
+    required: true
+    schema:
+      type: object
+      required: [en, fr]
+      properties:
+        en:
+          type: string
+        fr:
+          type: string
+  UpdateOption:
+    name: body
+    in: body
+    description: English and french translations for the option and its UUID
+    required: true
+    schema:
+      type: object
+      required: [id, en, fr]
+      properties:
+        id:
           type: string
           format: uuid
+        en:
+          type: string
+        fr:
+          type: string
+  DeleteOption:
+    name: body
+    in: body
+    description: UUID of the option to be deleted
+    required: true
+    schema:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+          format: uuid
+  TopFiveResponse:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          count:
+            type: number
+  SearchResponse:
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          firstName:
+            type: string
+          lastName:
+            type: string
+          telephone:
+            type: string
+          cellphone:
+            type: string
+          manager:
+            type: string
+          team:
+            type: string
+          exFeeder:
+            type: boolean
+          status:
+            type: string
+            enum:
+              - ACTIVE
+              - INACTIVE
+              - HIDDEN
+          email:
+            type: string
+            format: email
+          avatarColor:
+            type: string
+          projects:
+            type: array
+            items:
+              type: string
+          groupLevel:
+            type: object
+            properties:
+              id: 
+                type: string
+                format: uuid
+              name:
+                type: string
+          actingLevel:
+            type: object
+            properties:
+              id: 
+                type: string
+                format: uuid
+              name:
+                type: string
+          officeLocation:
+            type: object
+            properties:
+              id: 
+                type: string
+                format: uuid
+              city:
+                type: string
+              streetNumber:
+                type: number
+              province:
+                type: string
+              streetName:
+                type: string
+          experiences:
+            type: array
+            items:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                description:
+                  type: string
+                jobTitle:
+                  type: string
+                organization:
+                  type: string
+          educations:
+            type: array
+            items:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                diploma:
+                  type: string
+                school:
+                  type: string
+          skills:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+          competencies:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+          organizations:
+            type: array
+            items:
+              type: string
+          nameInitials:
+            type: string
+          branch:
+            type: string
+          jobTitle:
+            type: string
+          resultSkills:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+  UserResponse:
+    schema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - HIDDEN
+        avatarColor:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        signupStep:
+          type: number
+  CountResponse:
+    schema:
+      type: number
   200:
     description: Success
+  403:
+    description: Request not authenticated with keycloak or user does not have access to certain information
+  409:
+    description: Request not processed due to entry already existing
   422:
-    description: The request does not satisfy the parameters validation
+    description: Request does not satisfy the parameters validation
   500:
     description: Server error, either related to the database or server framework
