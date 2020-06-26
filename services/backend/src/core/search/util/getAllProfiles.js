@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const NUMBER_OF_SKILL_RESULT = 4;
 
 async function getAllUsers(searchValue, language) {
-  const visibleCards = await prisma.users.findMany({
+  const visibleCards = await prisma.user.findMany({
     select: {
       id: true,
       visibleCards: true,
@@ -28,11 +28,10 @@ async function getAllUsers(searchValue, language) {
           skills,
           competencies,
           education,
-          exFeeder,
           experience,
         },
       }) =>
-        prisma.users.findOne({
+        prisma.user.findOne({
           where: {
             id,
           },
@@ -43,11 +42,23 @@ async function getAllUsers(searchValue, language) {
             telephone: true,
             cellphone: true,
             manager,
-            team: true,
-            exFeeder,
+            teams: true,
             status: true,
             email: true,
             avatarColor: true,
+            tenure: {
+              select: {
+                id: true,
+                translations: {
+                  where: {
+                    language,
+                  },
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
             projects,
             groupLevel: info && {
               select: {
@@ -171,16 +182,21 @@ async function getAllUsers(searchValue, language) {
               },
             },
             organizations: {
-              orderBy: {
-                tier: "desc",
-              },
               select: {
-                translations: {
-                  where: {
-                    language,
+                organizationTier: {
+                  orderBy: {
+                    tier: "asc",
                   },
                   select: {
-                    description: true,
+                    tier: true,
+                    translations: {
+                      where: {
+                        language,
+                      },
+                      select: {
+                        description: true,
+                      },
+                    },
                   },
                 },
               },
@@ -216,7 +232,6 @@ async function getAllUsers(searchValue, language) {
     if (info.experiences) {
       info.experiences = info.experiences.map((i) => {
         const trans = i.translations[0];
-
         return {
           startDate: i.startDate,
           endDate: i.endDate,
@@ -267,11 +282,25 @@ async function getAllUsers(searchValue, language) {
       allSkills = [...allSkills, ...info.competencies];
     }
 
-    info.organizations = info.organizations.map((i) => {
-      const trans = i.translations[0];
+    if (info.organizations) {
+      info.organizations = info.organizations
+        .map((i) => {
+          return i.organizationTier.map((organization) => {
+            return {
+              description: organization.translations[0]
+                ? organization.translations[0].description
+                : undefined,
+            };
+          });
+        })
+        .flat();
+    }
 
-      return trans ? trans.description : undefined;
-    });
+    if (info.tenure) {
+      info.tenure = info.tenure.translations[0]
+        ? info.tenure.translations[0].name
+        : undefined;
+    }
 
     const fuse = new Fuse(allSkills, {
       shouldSort: true,

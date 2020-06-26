@@ -9,12 +9,12 @@ async function getCompetencies(request, response) {
 
     const { language } = request.query;
 
-    const competenciesQuery = await prisma.opTransCompetencies.findMany({
+    const competenciesQuery = await prisma.opTransCompetency.findMany({
       where: {
         language,
       },
       select: {
-        opCompetenciesId: true,
+        opCompetencyId: true,
         name: true,
       },
       orderBy: {
@@ -24,7 +24,7 @@ async function getCompetencies(request, response) {
 
     const competencies = competenciesQuery.map((i) => {
       return {
-        id: i.opCompetenciesId,
+        id: i.opCompetencyId,
         name: i.name,
       };
     });
@@ -42,7 +42,7 @@ async function getCompetencies(request, response) {
 
 async function getCompetenciesAllLang(request, response) {
   try {
-    const competenciesQuery = await prisma.opCompetencies.findMany({
+    const competenciesQuery = await prisma.opCompetency.findMany({
       select: {
         id: true,
         translations: {
@@ -76,7 +76,7 @@ async function createCompetency(request, response) {
 
     const { en, fr } = request.body;
 
-    await prisma.opCompetencies.create({
+    await prisma.opCompetency.create({
       data: {
         translations: {
           create: [
@@ -116,7 +116,7 @@ async function updateCompetency(request, response) {
 
     const { id, en, fr } = request.body;
 
-    await prisma.opCompetencies.update({
+    await prisma.opCompetency.update({
       where: {
         id,
       },
@@ -163,25 +163,25 @@ async function deleteCompetency(request, response) {
 
     const { id } = request.body;
 
-    await prisma.competencies.deleteMany({
+    await prisma.competency.deleteMany({
       where: {
         competencyId: id,
       },
     });
 
-    await prisma.developmentalGoals.deleteMany({
+    await prisma.developmentalGoal.deleteMany({
       where: {
         competencyId: id,
       },
     });
 
-    await prisma.opTransCompetencies.deleteMany({
+    await prisma.opTransCompetency.deleteMany({
       where: {
         opCompetenciesId: id,
       },
     });
 
-    await prisma.opCompetencies.delete({
+    await prisma.opCompetency.delete({
       where: {
         id,
       },
@@ -206,7 +206,7 @@ async function deleteCompetencies(request, response) {
 
     const { ids } = request.body;
 
-    await prisma.competencies.deleteMany({
+    await prisma.competency.deleteMany({
       where: {
         competencyId: {
           in: ids,
@@ -214,7 +214,7 @@ async function deleteCompetencies(request, response) {
       },
     });
 
-    await prisma.developmentalGoals.deleteMany({
+    await prisma.developmentalGoal.deleteMany({
       where: {
         competencyId: {
           in: ids,
@@ -222,15 +222,15 @@ async function deleteCompetencies(request, response) {
       },
     });
 
-    await prisma.opTransCompetencies.deleteMany({
+    await prisma.opTransCompetency.deleteMany({
       where: {
-        opCompetenciesId: {
+        opCompetencyId: {
           in: ids,
         },
       },
     });
 
-    await prisma.opCompetencies.deleteMany({
+    await prisma.opCompetency.deleteMany({
       where: {
         id: {
           in: ids,

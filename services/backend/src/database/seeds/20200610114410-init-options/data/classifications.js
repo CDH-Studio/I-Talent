@@ -115,4 +115,5 @@ module.exports = [
   "TI 06",
   "TI 07",
   "TI 08",
+  "SU-Student",
 ];

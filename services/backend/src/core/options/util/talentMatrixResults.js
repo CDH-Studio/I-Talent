@@ -9,13 +9,13 @@ async function getTalentMatrixResults(request, response) {
 
     const { language } = request.query;
 
-    const talentMatrixResultsQuery = await prisma.opTransTalentMatrixResults.findMany(
+    const talentMatrixResultsQuery = await prisma.opTransTalentMatrixResult.findMany(
       {
         where: {
           language,
         },
         select: {
-          opTalentMatrixResultsId: true,
+          opTalentMatrixResultId: true,
           description: true,
         },
         orderBy: {
@@ -26,7 +26,7 @@ async function getTalentMatrixResults(request, response) {
 
     const talentMatrixResults = talentMatrixResultsQuery.map((i) => {
       return {
-        id: i.opTalentMatrixResultsId,
+        id: i.opTalentMatrixResultId,
         description: i.description,
       };
     });

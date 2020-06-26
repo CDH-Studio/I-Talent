@@ -24,12 +24,12 @@ async function fuzzySearch(profiles, searchValue) {
       "officeLocation.streetName",
       "manager",
       "cellphone",
-      "organizations",
+      "organizations.description",
       "skills.name",
-      "team",
+      "teams",
       "telephone",
       "projects",
-      "exFeeder",
+      "tenure",
     ],
   };
 

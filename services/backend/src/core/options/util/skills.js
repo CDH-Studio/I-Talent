@@ -9,13 +9,13 @@ async function getSkills(request, response) {
 
     const { language } = request.query;
 
-    const skillsQuery = await prisma.opTransSkills.findMany({
+    const skillsQuery = await prisma.opTransSkill.findMany({
       where: {
         language,
       },
       select: {
         name: true,
-        opSkills: {
+        opSkill: {
           select: {
             id: true,
             categoryId: true,
@@ -26,9 +26,9 @@ async function getSkills(request, response) {
 
     const skills = skillsQuery.map((i) => {
       return {
-        id: i.opSkills.id,
+        id: i.opSkill.id,
         name: i.name,
-        categoryId: i.opSkills.categoryId,
+        categoryId: i.opSkill.categoryId,
       };
     });
 
@@ -45,7 +45,7 @@ async function getSkills(request, response) {
 
 async function getSkillsAllLang(request, response) {
   try {
-    const skillsQuery = await prisma.opSkills.findMany({
+    const skillsQuery = await prisma.opSkill.findMany({
       select: {
         id: true,
         categoryId: true,
@@ -80,7 +80,7 @@ async function createSkill(request, response) {
 
     const { en, fr, categoryId } = request.body;
 
-    await prisma.opSkills.create({
+    await prisma.opSkill.create({
       data: {
         category: {
           connect: {
@@ -125,7 +125,7 @@ async function updateSkill(request, response) {
 
     const { id, en, fr, categoryId } = request.body;
 
-    await prisma.opSkills.update({
+    await prisma.opSkill.update({
       where: {
         id,
       },
@@ -179,31 +179,31 @@ async function deleteSkill(request, response) {
 
     const { id } = request.body;
 
-    await prisma.skills.deleteMany({
+    await prisma.skill.deleteMany({
       where: {
         skillId: id,
       },
     });
 
-    await prisma.mentorshipSkills.deleteMany({
+    await prisma.mentorshipSkill.deleteMany({
       where: {
         skillId: id,
       },
     });
 
-    await prisma.developmentalGoals.deleteMany({
+    await prisma.developmentalGoal.deleteMany({
       where: {
         skillId: id,
       },
     });
 
-    await prisma.opTransSkills.deleteMany({
+    await prisma.opTransSkill.deleteMany({
       where: {
-        opSkillsId: id,
+        opSkillId: id,
       },
     });
 
-    await prisma.opSkills.delete({
+    await prisma.opSkill.delete({
       where: {
         id,
       },
@@ -228,7 +228,7 @@ async function deleteSkills(request, response) {
 
     const { ids } = request.body;
 
-    await prisma.skills.deleteMany({
+    await prisma.skill.deleteMany({
       where: {
         skillId: {
           in: ids,
@@ -236,7 +236,7 @@ async function deleteSkills(request, response) {
       },
     });
 
-    await prisma.mentorshipSkills.deleteMany({
+    await prisma.mentorshipSkill.deleteMany({
       where: {
         skillId: {
           in: ids,
@@ -244,7 +244,7 @@ async function deleteSkills(request, response) {
       },
     });
 
-    await prisma.developmentalGoals.deleteMany({
+    await prisma.developmentalGoal.deleteMany({
       where: {
         skillId: {
           in: ids,
@@ -252,15 +252,15 @@ async function deleteSkills(request, response) {
       },
     });
 
-    await prisma.opTransSkills.deleteMany({
+    await prisma.opTransSkill.deleteMany({
       where: {
-        opSkillsId: {
+        opSkillId: {
           in: ids,
         },
       },
     });
 
-    await prisma.opSkills.deleteMany({
+    await prisma.opSkill.deleteMany({
       where: {
         id: {
           in: ids,

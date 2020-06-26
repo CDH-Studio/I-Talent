@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function countHiddenUsers(request, response) {
   try {
-    const hiddenUserCount = await prisma.users.count({
+    const hiddenUserCount = await prisma.user.count({
       where: {
         status: "HIDDEN",
       },
@@ -19,7 +19,7 @@ async function countHiddenUsers(request, response) {
 
 async function countInactiveUsers(request, response) {
   try {
-    const inactiveUserCount = await prisma.users.count({
+    const inactiveUserCount = await prisma.user.count({
       where: {
         status: "INACTIVE",
       },
@@ -34,7 +34,7 @@ async function countInactiveUsers(request, response) {
 
 async function countUsers(request, response) {
   try {
-    const userCount = await prisma.users.count();
+    const userCount = await prisma.user.count();
 
     response.status(200).json(userCount);
   } catch (error) {
@@ -45,7 +45,7 @@ async function countUsers(request, response) {
 
 async function countExFeederUsers(request, response) {
   try {
-    const exFeederUserCount = await prisma.users.count({
+    const exFeederUserCount = await prisma.user.count({
       where: {
         exFeeder: true,
       },

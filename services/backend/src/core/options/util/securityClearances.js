@@ -9,13 +9,13 @@ async function getSecurityClearances(request, response) {
 
     const { language } = request.query;
 
-    const securityClearancesQuery = await prisma.opTransSecurityClearances.findMany(
+    const securityClearancesQuery = await prisma.opTransSecurityClearance.findMany(
       {
         where: {
           language,
         },
         select: {
-          opSecurityClearancesId: true,
+          opSecurityClearanceId: true,
           description: true,
         },
         orderBy: {
@@ -26,7 +26,7 @@ async function getSecurityClearances(request, response) {
 
     const securityClearances = securityClearancesQuery.map((i) => {
       return {
-        id: i.opSecurityClearancesId,
+        id: i.opSecurityClearanceId,
         description: i.description,
       };
     });
