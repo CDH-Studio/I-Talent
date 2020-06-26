@@ -1,49 +1,34 @@
 const request = require("supertest");
-const { mockKeycloak, mockPrisma, unMock } = require("../../mocks");
 
-beforeAll(() => {
-  unMock();
-});
+const path = "/api/stats/hiddenUsers"
 
-describe.only("Test /api/stats/hiddenUsers", () => {
+describe(`Test ${path}`, () => {
   describe("when not authenticated", () => {
     test("should not process request - 403", async (done) => {
-      app = require("../../../src/server");
+      const res = await request(app).get(path);
 
-      const response = await request(app).get("/api/stats/hiddenUsers");
-
-      expect(response.statusCode).toBe(403);
-      expect(response.text).toBe("Access denied");
+      expect(res.statusCode).toBe(403);
+      expect(res.text).toBe("Access denied");
 
       done();
     });
   });
 
   describe("when authenticated", () => {
-    beforeEach(() => {
-      mockKeycloak();
-    });
-
     test("should process request - 200", async (done) => {
-      app = require("../../../src/server");
+      const res = await request(mockedKeycloakApp).get(path);
 
-      const response = await request(app).get("/api/stats/hiddenUsers");
-
-      expect(response.statusCode).toBe(200);
-      expect(response.body).toStrictEqual([]);
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toStrictEqual([]);
 
       done();
     });
 
     test("should trigger error if there's a database problem - 500", async (done) => {
-      mockPrisma();
-      console.log = jest.fn();
-      app = require("../../../src/server");
+      const res = await request(mockedPrismaApp).get(path);
 
-      const response = await request(app).get("/api/stats/hiddenUsers");
-
-      expect(response.statusCode).toBe(500);
-      expect(response.text).toBe("Error fetching hidden users");
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Error fetching hidden users");
       expect(console.log).toHaveBeenCalled();
 
       done();

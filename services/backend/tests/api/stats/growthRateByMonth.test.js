@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const path = "/api/stats/count/users";
+const path = "/api/stats/growthRateByMonth";
 
 describe(`Test ${path}`, () => {
   describe("when not authenticated", () => {
@@ -19,7 +19,15 @@ describe(`Test ${path}`, () => {
       const res = await request(mockedKeycloakApp).get(path);
 
       expect(res.statusCode).toBe(200);
-      expect(res.body).toBe(2);
+      expect(res.body).toStrictEqual({
+        currentMonthNewUserCount: 2,
+        growthRate: {
+          2020: {
+            5: 2,
+          },
+        },
+        growthRateFromPreviousMonth: 200,
+      });
 
       done();
     });
@@ -28,7 +36,7 @@ describe(`Test ${path}`, () => {
       const res = await request(mockedPrismaApp).get(path);
 
       expect(res.statusCode).toBe(500);
-      expect(res.text).toBe("Error getting user count");
+      expect(res.text).toBe("Error fetching growth rate by month");
       expect(console.log).toHaveBeenCalled();
 
       done();

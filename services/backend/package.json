@@ -14,7 +14,7 @@
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio --experimental",
-    "test": "cross-env NODE_ENV=test DATABASE_URL=postgres://api:api@db-postgres:5432/jestTesting?schema=public jest --forceExit --verbose"
+    "test": "cross-env NODE_ENV=test DATABASE_URL=postgres://api:api@db-postgres:5432/testdb?schema=public jest"
   },
   "author": "I-Talent team",
   "license": "MIT",
@@ -54,6 +54,14 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "setupFiles": [
+      "./tests/setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./tests/teardown.js"
+    ],
+    "verbose": true,
+    "forceExit": true
   }
 }
