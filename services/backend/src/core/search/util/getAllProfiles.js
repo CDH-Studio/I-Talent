@@ -302,8 +302,6 @@ async function getAllUsers(searchValue, language) {
         : undefined;
     }
 
-    console.log(info.tenure);
-
     const fuse = new Fuse(allSkills, {
       shouldSort: true,
       threshold: 0.2,
