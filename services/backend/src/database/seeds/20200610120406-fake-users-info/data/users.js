@@ -9,7 +9,7 @@ module.exports = [
     telephone: "713-123-4567",
     cellphone: "613-987-6543",
     manager: "Chahine El Chaar",
-    team: "CDH Studio",
+    teams: ["CDH Studio", "I-talent"],
     firstLanguage: "ENGLISH",
     secondLanguage: "FRENCH",
     preferredLanguage: "ENGLISH",
@@ -32,7 +32,7 @@ module.exports = [
       city: "Ottawa",
       country: "Canada",
     },
-    avatarColor: "hsl(20, 100%, 50%)",
+    avatarColor: "#0bdaa3",
     projects: [
       "Landscaping backyard",
       "Calculator prediction mobile application",
@@ -148,7 +148,7 @@ module.exports = [
     telephone: "343-123-4567",
     cellphone: "613-123-4567",
     manager: "Chahine El Chaar",
-    team: "CDH Studio",
+    teams: ["CDH Studio"],
     firstLanguage: "FRENCH",
     secondLanguage: "ENGLISH",
     preferredLanguage: "FRENCH",
@@ -168,7 +168,7 @@ module.exports = [
       city: "Ottawa",
       country: "Canada",
     },
-    avatarColor: "hsl(203, 100%, 50%)",
+    avatarColor: "#ad4463",
     projects: ["Gardening strawberries", "AI powered translator"],
     employmentInfo: {
       en: {
@@ -207,56 +207,60 @@ module.exports = [
       },
     ],
     organizations: [
-      {
-        en: "Innovation, Science and Economic Development Canada",
-        fr: "Innovation, Sciences et Développement économique Canada",
-        tier: 0,
-      },
-      {
-        en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
-        fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
-        tier: 1,
-      },
-      {
-        en: "Chief Information Office",
-        fr: "Bureau de l'information en chef",
-        tier: 2,
-      },
-      {
-        en: "Digital Services Division",
-        fr: "Division des services numériques",
-        tier: 3,
-      },
-      {
-        en: "Business Line Solutions Directorate",
-        fr: "Direction des solutions métiers",
-        tier: 4,
-      },
-      {
-        en: "Innovation, Science and Economic Development Canada",
-        fr: "Innovation, Sciences et Développement économique Canada",
-        tier: 0,
-      },
-      {
-        en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
-        fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
-        tier: 1,
-      },
-      {
-        en: "Chief Information Office",
-        fr: "Bureau de l'information en chef",
-        tier: 2,
-      },
-      {
-        en: "Digital Services Division",
-        fr: "Division des services numériques",
-        tier: 3,
-      },
-      {
-        en: "Director General's Office",
-        fr: "Bureau du directeur général",
-        tier: 4,
-      },
+      [
+        {
+          en: "Innovation, Science and Economic Development Canada",
+          fr: "Innovation, Sciences et Développement économique Canada",
+          tier: 0,
+        },
+        {
+          en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
+          fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
+          tier: 1,
+        },
+        {
+          en: "Chief Information Office",
+          fr: "Bureau de l'information en chef",
+          tier: 2,
+        },
+        {
+          en: "Digital Services Division",
+          fr: "Division des services numériques",
+          tier: 3,
+        },
+        {
+          en: "Business Line Solutions Directorate",
+          fr: "Direction des solutions métiers",
+          tier: 4,
+        },
+      ],
+      [
+        {
+          en: "Innovation, Science and Economic Development Canada",
+          fr: "Innovation, Sciences et Développement économique Canada",
+          tier: 0,
+        },
+        {
+          en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
+          fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
+          tier: 1,
+        },
+        {
+          en: "Chief Information Office",
+          fr: "Bureau de l'information en chef",
+          tier: 2,
+        },
+        {
+          en: "Digital Services Division",
+          fr: "Division des services numériques",
+          tier: 3,
+        },
+        {
+          en: "Director General's Office",
+          fr: "Bureau du directeur général",
+          tier: 4,
+        },
+      ],
     ],
     proficiencies: [
       {

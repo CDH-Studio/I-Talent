@@ -10,7 +10,7 @@ async function getBranches(request, response) {
 
     const { language } = request.query;
 
-    const branchesQuery = await prisma.transEploymentInfos.findMany({
+    const branchesQuery = await prisma.transEmploymentInfo.findMany({
       where: {
         language,
       },

@@ -7,7 +7,7 @@ async function growthRateByWeek(request, response) {
   try {
     const userCreationPerWeek = {};
 
-    const profiles = await prisma.users.findMany({
+    const profiles = await prisma.user.findMany({
       select: {
         id: true,
         createdAt: true,
@@ -36,7 +36,7 @@ async function growthRateByWeek(request, response) {
 
 async function growthRateByMonth(request, response) {
   try {
-    const users = await prisma.users.findMany({
+    const users = await prisma.user.findMany({
       select: {
         id: true,
         createdAt: true,

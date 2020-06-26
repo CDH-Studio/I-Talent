@@ -9,29 +9,27 @@ async function getCareerMobilities(request, response) {
 
     const { language } = request.query;
 
-    const careerMobilitiesQuery = await prisma.opTransCareerMobilities.findMany(
-      {
-        where: {
-          language,
-        },
-        select: {
-          opCareerMobilitiesId: true,
-          description: true,
-        },
-        orderBy: {
-          description: "asc",
-        },
-      }
-    );
+    const careerMobilityQuery = await prisma.opTransCareerMobility.findMany({
+      where: {
+        language,
+      },
+      select: {
+        opCareerMobilityId: true,
+        description: true,
+      },
+      orderBy: {
+        description: "asc",
+      },
+    });
 
-    const careerMobilities = careerMobilitiesQuery.map((i) => {
+    const careerMobility = careerMobilityQuery.map((i) => {
       return {
-        id: i.opCareerMobilitiesId,
+        id: i.opCareerMobilityId,
         description: i.description,
       };
     });
 
-    response.status(200).json(careerMobilities);
+    response.status(200).json(careerMobility);
   } catch (error) {
     console.log(error);
     if (error.errors) {

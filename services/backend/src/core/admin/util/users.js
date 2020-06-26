@@ -9,7 +9,7 @@ const getUsers = async (request, response) => {
 
     const { language } = request.query;
 
-    const usersQuery = await prisma.users.findMany({
+    const usersQuery = await prisma.user.findMany({
       select: {
         id: true,
         createdAt: true,
@@ -80,7 +80,7 @@ const updateUserStatuses = async (request, response) => {
 
     await Promise.all(
       userIds.map(async (userId) => {
-        await prisma.users.update({
+        await prisma.user.update({
           where: {
             id: userId,
           },

@@ -197,7 +197,7 @@ const PrimaryInfoFormView = ({
         locationId: profile.officeLocation
           ? profile.officeLocation.id
           : undefined,
-        team: profile.team,
+        teams: profile.teams,
         gcconnex: profile.gcconnex,
         linkedin: profile.linkedin,
         github: profile.github,
@@ -535,14 +535,19 @@ const PrimaryInfoFormView = ({
               </Select>
             </Form.Item>
           </Col>
-
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
-              name="team"
-              label={<FormattedMessage id="profile.team" />}
-              rules={[Rules.maxChar50]}
+              name="teams"
+              label={<FormattedMessage id="profile.teams" />}
+              className="custom-bubble-select-style"
             >
-              <Input />
+              <Select
+                mode="tags"
+                style={{ width: "100%" }}
+                notFoundContent={
+                  <FormattedMessage id="setup.teams.placeholder" />
+                }
+              />
             </Form.Item>
           </Col>
         </Row>

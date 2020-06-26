@@ -9,19 +9,19 @@ async function getSchools(request, response) {
 
     const { language } = request.query;
 
-    const schoolsQuery = await prisma.opTransSchools.findMany({
+    const schoolsQuery = await prisma.opTransSchool.findMany({
       where: {
         language,
       },
       select: {
-        opSchoolsId: true,
+        opSchoolId: true,
         name: true,
       },
     });
 
     const schools = schoolsQuery.map((i) => {
       return {
-        id: i.opSchoolsId,
+        id: i.opSchoolId,
         name: i.name,
       };
     });
@@ -39,7 +39,7 @@ async function getSchools(request, response) {
 
 async function getSchoolsAllLang(request, response) {
   try {
-    const schoolsQuery = await prisma.opSchools.findMany({
+    const schoolsQuery = await prisma.opSchool.findMany({
       select: {
         id: true,
         abbrProvince: true,
@@ -103,7 +103,7 @@ async function createSchool(request, response) {
       });
     }
 
-    await prisma.opSchools.create({
+    await prisma.opSchool.create({
       data: {
         abbrCountry,
         abbrProvince,
@@ -137,7 +137,7 @@ async function updateSchool(request, response) {
       return;
     }
 
-    const savedTranslations = await prisma.opSchools
+    const savedTranslations = await prisma.opSchool
       .findOne({
         where: {
           id,
@@ -191,7 +191,7 @@ async function updateSchool(request, response) {
       }
     }
 
-    await prisma.opSchools.update({
+    await prisma.opSchool.update({
       where: {
         id,
       },
@@ -224,13 +224,13 @@ async function deleteSchool(request, response) {
 
     const { id } = request.body;
 
-    await prisma.opTransSchools.deleteMany({
+    await prisma.opTransSchool.deleteMany({
       where: {
-        opSchoolsId: id,
+        opSchoolId: id,
       },
     });
 
-    await prisma.opSchools.delete({
+    await prisma.opSchool.delete({
       where: {
         id,
       },
@@ -255,15 +255,15 @@ async function deleteSchools(request, response) {
 
     const { ids } = request.body;
 
-    await prisma.opTransSchools.deleteMany({
+    await prisma.opTransSchool.deleteMany({
       where: {
-        opSchoolsId: {
+        opSchoolId: {
           in: ids,
         },
       },
     });
 
-    await prisma.opSchools.deleteMany({
+    await prisma.opSchool.deleteMany({
       where: {
         id: {
           in: ids,

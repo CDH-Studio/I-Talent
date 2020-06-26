@@ -31,7 +31,7 @@ async function getUserById(request, response) {
     const { id } = request.params;
 
     if (request.kauth.grant.access_token.content.sub === id) {
-      const user = await prisma.users.findOne({
+      const user = await prisma.user.findOne({
         where: { id },
         select: {
           id: true,
@@ -47,10 +47,11 @@ async function getUserById(request, response) {
         },
       });
 
-      response.status(200).json({
-        ...user,
-        nameInitials: getNameInitials(user.firstName, user.lastName),
-      });
+      if (user) {
+        user.nameInitials = getNameInitials(user.firstName, user.lastName);
+      }
+
+      response.status(200).json(user);
       return;
     }
 
@@ -75,7 +76,7 @@ async function createUser(request, response) {
     const { id } = request.params;
 
     if (request.kauth.grant.access_token.content.sub === id) {
-      const user = await prisma.users.create({
+      const user = await prisma.user.create({
         data: {
           id,
           name,

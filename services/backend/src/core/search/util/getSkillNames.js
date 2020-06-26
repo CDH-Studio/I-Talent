@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 async function getSkillNames(searchSkill, language) {
   const skillNames = await Promise.all(
     searchSkill.map(async (id) => {
-      const findSkills = await prisma.opTransSkills.findMany({
+      const findSkills = await prisma.opTransSkill.findMany({
         where: {
-          opSkillsId: id,
+          opSkillId: id,
           language,
         },
         select: {
@@ -19,9 +19,9 @@ async function getSkillNames(searchSkill, language) {
         return findSkills[0].name;
       }
 
-      const findCompetencies = await prisma.opTransCompetencies.findMany({
+      const findCompetencies = await prisma.opTransCompetency.findMany({
         where: {
-          opCompetenciesId: id,
+          opCompetencyId: id,
           language,
         },
         select: {

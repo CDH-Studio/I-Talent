@@ -9,12 +9,12 @@ async function getTenures(request, response) {
 
     const { language } = request.query;
 
-    const tenuresQuery = await prisma.opTransTenures.findMany({
+    const tenuresQuery = await prisma.opTransTenure.findMany({
       where: {
         language,
       },
       select: {
-        opTenuresId: true,
+        opTenureId: true,
         name: true,
       },
       orderBy: {
@@ -24,7 +24,7 @@ async function getTenures(request, response) {
 
     const tenures = tenuresQuery.map((i) => {
       return {
-        id: i.opTenuresId,
+        id: i.opTenureId,
         name: i.name,
       };
     });

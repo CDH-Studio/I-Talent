@@ -9,19 +9,19 @@ async function getDiplomas(request, response) {
 
     const { language } = request.query;
 
-    const diplomasQuery = await prisma.opTransDiplomas.findMany({
+    const diplomasQuery = await prisma.opTransDiploma.findMany({
       where: {
         language,
       },
       select: {
-        opDiplomasId: true,
+        opDiplomaId: true,
         description: true,
       },
     });
 
     const diplomas = diplomasQuery.map((i) => {
       return {
-        id: i.opDiplomasId,
+        id: i.opDiplomaId,
         description: i.description,
       };
     });
@@ -39,7 +39,7 @@ async function getDiplomas(request, response) {
 
 async function getDiplomasAllLang(request, response) {
   try {
-    const diplomasQuery = await prisma.opDiplomas.findMany({
+    const diplomasQuery = await prisma.opDiploma.findMany({
       select: {
         id: true,
         translations: {
@@ -74,7 +74,7 @@ async function createDiploma(request, response) {
 
     const { en, fr } = request.body;
 
-    await prisma.opDiplomas.create({
+    await prisma.opDiploma.create({
       data: {
         translations: {
           create: [
@@ -114,7 +114,7 @@ async function updateDiploma(request, response) {
 
     const { id, en, fr } = request.body;
 
-    await prisma.opDiplomas.update({
+    await prisma.opDiploma.update({
       where: {
         id,
       },
@@ -161,13 +161,13 @@ async function deleteDiploma(request, response) {
 
     const { id } = request.body;
 
-    await prisma.opTransDiplomas.deleteMany({
+    await prisma.opTransDiploma.deleteMany({
       where: {
-        opDiplomasId: id,
+        opDiplomaId: id,
       },
     });
 
-    await prisma.opDiplomas.delete({
+    await prisma.opDiploma.delete({
       where: {
         id,
       },
@@ -192,15 +192,15 @@ async function deleteDiplomas(request, response) {
 
     const { ids } = request.body;
 
-    await prisma.opTransDiplomas.deleteMany({
+    await prisma.opTransDiploma.deleteMany({
       where: {
-        opDiplomasId: {
+        opDiplomaId: {
           in: ids,
         },
       },
     });
 
-    await prisma.opDiplomas.deleteMany({
+    await prisma.opDiploma.deleteMany({
       where: {
         id: {
           in: ids,

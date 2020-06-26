@@ -22,7 +22,7 @@ async function getTopFiveSkillsHelper(skills, language) {
 
   const topFiveSkillIds = topFiveSkillIdsCount.map((i) => i.skillId);
 
-  const topFiveSkills = await prisma.opTransSkills.findMany({
+  const topFiveSkills = await prisma.opTransSkill.findMany({
     where: {
       opSkillsId: {
         in: topFiveSkillIds,
@@ -65,7 +65,7 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
     (i) => i.competencyId
   );
 
-  const topFiveCompetencies = await prisma.opTransCompetencies.findMany({
+  const topFiveCompetencies = await prisma.opTransCompetency.findMany({
     where: {
       opCompetenciesId: {
         in: topFiveCompetencyIds,
@@ -96,7 +96,7 @@ async function getTopFiveSkills(request, response) {
 
     const { language } = request.query;
 
-    const skillIds = await prisma.skills.findMany({
+    const skillIds = await prisma.skill.findMany({
       select: {
         id: true,
         skillId: true,
@@ -122,7 +122,7 @@ async function getTopFiveCompetencies(request, response) {
 
     const { language } = request.query;
 
-    const competencyIds = await prisma.competencies.findMany({
+    const competencyIds = await prisma.competency.findMany({
       select: {
         id: true,
         competencyId: true,
@@ -151,7 +151,7 @@ async function getTopFiveDevelopmentalGoals(request, response) {
 
     const { language } = request.query;
 
-    const competencyIds = await prisma.developmentalGoals.findMany({
+    const competencyIds = await prisma.developmentalGoal.findMany({
       where: {
         skillId: undefined,
       },
@@ -161,7 +161,7 @@ async function getTopFiveDevelopmentalGoals(request, response) {
       },
     });
 
-    const skillIds = await prisma.developmentalGoals.findMany({
+    const skillIds = await prisma.developmentalGoal.findMany({
       where: {
         competencyId: undefined,
       },

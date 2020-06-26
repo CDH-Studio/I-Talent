@@ -8,7 +8,7 @@ async function getSecurityClearanceId(description) {
   let securityClearanceId;
 
   if (description) {
-    securityClearanceId = await prisma.opTransSecurityClearances
+    securityClearanceId = await prisma.opTransSecurityClearance
       .findOne({
         where: {
           language_description: {
@@ -17,47 +17,50 @@ async function getSecurityClearanceId(description) {
           },
         },
       })
-      .then((i) => i.opSecurityClearancesId);
+      .then((i) => i.opSecurityClearanceId);
   }
-
   return securityClearanceId;
 }
 
 async function getCareerMobilityId(description) {
   let careerMobilityId;
-
   if (description) {
-    careerMobilityId = await prisma.opTransCareerMobilities
-      .findOne({
-        where: {
-          language_description: {
-            description,
-            language: "ENGLISH",
+    try {
+      careerMobilityId = await prisma.opTransCareerMobility
+        .findOne({
+          where: {
+            language_description: {
+              description,
+              language: "ENGLISH",
+            },
           },
-        },
-      })
-      .then((i) => i.opCareerMobilitiesId);
+        })
+        .then((i) => i.opCareerMobilityId);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
   return careerMobilityId;
 }
 
 async function getLookingJobId(description) {
   let lookingJobId;
-
   if (description) {
-    lookingJobId = await prisma.opTransLookingJobs
-      .findOne({
-        where: {
-          language_description: {
-            description,
-            language: "ENGLISH",
+    try {
+      lookingJobId = await prisma.opTransLookingJob
+        .findOne({
+          where: {
+            language_description: {
+              description,
+              language: "ENGLISH",
+            },
           },
-        },
-      })
-      .then((i) => i.opLookingJobsId);
+        })
+        .then((i) => i.opLookingJobId);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
   return lookingJobId;
 }
 
@@ -65,7 +68,7 @@ async function getTenureId(name) {
   let tenureId;
 
   if (name) {
-    tenureId = await prisma.opTransTenures
+    tenureId = await prisma.opTransTenure
       .findOne({
         where: {
           language_name: {
@@ -74,7 +77,7 @@ async function getTenureId(name) {
           },
         },
       })
-      .then((i) => i.opTenuresId);
+      .then((i) => i.opTenureId);
   }
 
   return tenureId;
@@ -84,7 +87,7 @@ async function getTalentMatrixResultId(description) {
   let talentMatrixResultId;
 
   if (description) {
-    talentMatrixResultId = await prisma.opTransTalentMatrixResults
+    talentMatrixResultId = await prisma.opTransTalentMatrixResult
       .findOne({
         where: {
           language_description: {
@@ -93,7 +96,7 @@ async function getTalentMatrixResultId(description) {
           },
         },
       })
-      .then((i) => i.opTalentMatrixResultsId);
+      .then((i) => i.opTalentMatrixResultId);
   }
 
   return talentMatrixResultId;
@@ -103,7 +106,7 @@ async function getOfficeLocationId(officeLocation) {
   let officeLocationId;
 
   if (officeLocation) {
-    await prisma.opOfficeLocations
+    await prisma.opOfficeLocation
       .findMany({
         where: {
           city: officeLocation.city,
@@ -127,7 +130,7 @@ async function getCompetenciesIds(compentencies) {
 
   if (compentencies) {
     const promises = compentencies.map(async (name) =>
-      prisma.opTransCompetencies
+      prisma.opTransCompetency
         .findOne({
           where: {
             language_name: {
@@ -136,7 +139,7 @@ async function getCompetenciesIds(compentencies) {
             },
           },
         })
-        .then((i) => i.opCompetenciesId)
+        .then((i) => i.opCompetencyId)
     );
 
     compentenciesIds = await Promise.all(promises);
@@ -150,7 +153,7 @@ async function getSkillsIds(skills) {
 
   if (skills) {
     const promises = skills.map(async (name) =>
-      prisma.opTransSkills
+      prisma.opTransSkill
         .findOne({
           where: {
             language_name: {
@@ -159,7 +162,7 @@ async function getSkillsIds(skills) {
             },
           },
         })
-        .then((i) => i.opSkillsId)
+        .then((i) => i.opSkillId)
     );
 
     skillsIds = await Promise.all(promises);
@@ -173,7 +176,7 @@ async function getDevelopmentalGoalsSkillsIds(developmentalGoals) {
 
   if (developmentalGoalsSkillsIds) {
     const promises = developmentalGoals.map(async (name) =>
-      prisma.opTransSkills
+      prisma.opTransSkill
         .findOne({
           where: {
             language_name: {
@@ -182,7 +185,7 @@ async function getDevelopmentalGoalsSkillsIds(developmentalGoals) {
             },
           },
         })
-        .then((i) => (i ? i.opSkillsId : undefined))
+        .then((i) => (i ? i.opSkillId : undefined))
     );
 
     developmentalGoalsSkillsIds = await Promise.all(promises);
@@ -199,7 +202,7 @@ async function getDevelopmentalGoalsCompetenciesIds(developmentalGoals) {
 
   if (developmentalGoalsCompetenciesIds) {
     const promises = developmentalGoals.map(async (name) =>
-      prisma.opTransCompetencies
+      prisma.opTransCompetency
         .findOne({
           where: {
             language_name: {
@@ -208,7 +211,7 @@ async function getDevelopmentalGoalsCompetenciesIds(developmentalGoals) {
             },
           },
         })
-        .then((i) => (i ? i.opCompetenciesId : undefined))
+        .then((i) => (i ? i.opCompetencyId : undefined))
     );
 
     developmentalGoalsCompetenciesIds = await Promise.all(promises);
@@ -225,7 +228,7 @@ async function getMentorshipSkillsIds(mentorshipSkills) {
 
   if (mentorshipSkills) {
     const promises = mentorshipSkills.map(async (name) =>
-      prisma.opTransSkills
+      prisma.opTransSkill
         .findOne({
           where: {
             language_name: {
@@ -234,7 +237,7 @@ async function getMentorshipSkillsIds(mentorshipSkills) {
             },
           },
         })
-        .then((i) => i.opSkillsId)
+        .then((i) => i.opSkillId)
     );
 
     mentorshipSkillsIds = await Promise.all(promises);
@@ -252,7 +255,7 @@ async function getEducationIds(educations) {
         return {
           startDate,
           endDate,
-          diplomaId: await prisma.opTransDiplomas
+          diplomaId: await prisma.opTransDiploma
             .findMany({
               where: {
                 description: diploma,
@@ -261,11 +264,11 @@ async function getEducationIds(educations) {
             })
             .then((i) => {
               if (i[0]) {
-                return i[0].opDiplomasId;
+                return i[0].opDiplomaId;
               }
               return undefined;
             }),
-          schoolId: await prisma.opTransSchools
+          schoolId: await prisma.opTransSchool
             .findMany({
               where: {
                 name: school,
@@ -274,7 +277,7 @@ async function getEducationIds(educations) {
             })
             .then((i) => {
               if (i[0]) {
-                return i[0].opSchoolsId;
+                return i[0].opSchoolId;
               }
               return undefined;
             }),
@@ -294,7 +297,7 @@ async function getRelocationLocationIds(relocationLocations) {
   if (relocationLocations) {
     const promises = relocationLocations.map(
       async ({ city, country, streetNumber, postalCode }) =>
-        prisma.opOfficeLocations
+        prisma.opOfficeLocation
           .findMany({
             where: {
               city,
@@ -335,7 +338,7 @@ async function seedUsers() {
       linkedin,
       manager,
       secondLanguage,
-      team,
+      teams,
       telephone,
       employmentInfo,
       exFeeder,
@@ -389,7 +392,7 @@ async function seedUsers() {
         relocationLocations
       );
 
-      await prisma.users.create({
+      await prisma.user.create({
         data: {
           name,
           email,
@@ -403,7 +406,6 @@ async function seedUsers() {
           linkedin,
           manager,
           secondLanguage,
-          team,
           telephone,
           exFeeder,
           preferredLanguage,
@@ -421,6 +423,19 @@ async function seedUsers() {
             ? {
                 connect: {
                   name: groupLevel,
+                },
+              }
+            : undefined,
+          projects: {
+            set: projects,
+          },
+          teams: {
+            set: teams,
+          },
+          securityClearance: securityClearanceId
+            ? {
+                connect: {
+                  id: securityClearanceId,
                 },
               }
             : undefined,
@@ -457,30 +472,29 @@ async function seedUsers() {
           },
           organizations: organizations
             ? {
-                create: organizations.map(({ tier, en, fr }) => {
+                create: organizations.map((organization) => {
                   return {
-                    tier,
-                    translations: {
-                      create: [
-                        {
-                          description: en,
-                          language: "ENGLISH",
-                        },
-                        {
-                          description: fr,
-                          language: "FRENCH",
-                        },
-                      ],
+                    organizationTier: {
+                      create: organization.map(({ tier, en, fr }) => {
+                        return {
+                          tier,
+                          translations: {
+                            create: [
+                              {
+                                description: en,
+                                language: "ENGLISH",
+                              },
+                              {
+                                description: fr,
+                                language: "FRENCH",
+                              },
+                            ],
+                          },
+                        };
+                      }),
                     },
                   };
                 }),
-              }
-            : undefined,
-          securityClearance: securityClearanceId
-            ? {
-                connect: {
-                  id: securityClearanceId,
-                },
               }
             : undefined,
           careerMobility: careerMobilityId
@@ -518,9 +532,6 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          projects: {
-            set: projects,
-          },
           secondLangProfs: {
             create: proficiencies.map(({ date, level, proficiency }) => {
               return {
@@ -633,14 +644,14 @@ async function seed() {
 
   const folderName = path.dirname(__filename).split(path.sep).pop();
 
-  const dbSeed = await prisma.dbSeeds.findOne({
+  const dbSeed = await prisma.dbSeed.findOne({
     where: { id: folderName },
   });
 
   if (!dbSeed) {
     console.log(`---- Starting seeding: ${folderName} ----`);
     await seedUsers();
-    await prisma.dbSeeds.create({
+    await prisma.dbSeed.create({
       data: {
         id: folderName,
       },
