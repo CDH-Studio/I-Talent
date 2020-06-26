@@ -28,7 +28,6 @@ async function getAllUsers(searchValue, language) {
           skills,
           competencies,
           education,
-          exFeeder,
           experience,
         },
       }) =>
@@ -44,10 +43,22 @@ async function getAllUsers(searchValue, language) {
             cellphone: true,
             manager,
             teams: true,
-            exFeeder,
             status: true,
             email: true,
             avatarColor: true,
+            tenure: {
+              select: {
+                id: true,
+                translations: {
+                  where: {
+                    language,
+                  },
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
             projects,
             groupLevel: info && {
               select: {
@@ -174,7 +185,7 @@ async function getAllUsers(searchValue, language) {
               select: {
                 organizationTier: {
                   orderBy: {
-                    tier: "desc",
+                    tier: "asc",
                   },
                   select: {
                     tier: true,
@@ -272,17 +283,26 @@ async function getAllUsers(searchValue, language) {
     }
 
     if (info.organizations) {
-      info.organizations = info.organizations.map((i) => {
-        return i.organizationTier.map((organization) => {
-          const trans = organization.translations[0];
-
-          return {
-            tier: organization.tier,
-            description: trans ? trans.description : undefined,
-          };
-        });
-      });
+      info.organizations = info.organizations
+        .map((i) => {
+          return i.organizationTier.map((organization) => {
+            return {
+              description: organization.translations[0]
+                ? organization.translations[0].description
+                : undefined,
+            };
+          });
+        })
+        .flat();
     }
+
+    if (info.tenure) {
+      info.tenure = info.tenure.translations[0]
+        ? info.tenure.translations[0].name
+        : undefined;
+    }
+
+    console.log(info.tenure);
 
     const fuse = new Fuse(allSkills, {
       shouldSort: true,
