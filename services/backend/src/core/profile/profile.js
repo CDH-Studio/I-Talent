@@ -166,7 +166,7 @@ async function updateProfile(request, response) {
         },
       });
 
-      const result = await prisma.user.update({
+      await prisma.user.update({
         where: { id: userId },
         data: {
           firstName,
@@ -310,6 +310,33 @@ async function updateProfile(request, response) {
                   },
                   update: {},
                 })),
+              }
+            : undefined,
+          organizations: organizations
+            ? {
+                create: organizations.map((organization) => {
+                  return {
+                    organizationTier: {
+                      create: organization.map(({ tier, en, fr }) => {
+                        return {
+                          tier,
+                          translations: {
+                            create: [
+                              {
+                                description: en,
+                                language: "ENGLISH",
+                              },
+                              {
+                                description: fr,
+                                language: "FRENCH",
+                              },
+                            ],
+                          },
+                        };
+                      }),
+                    },
+                  };
+                }),
               }
             : undefined,
           educations: educations
@@ -586,6 +613,26 @@ async function getFullProfile(id, language) {
                 select: {
                   province: true,
                   streetName: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      organizations: {
+        select: {
+          organizationTier: {
+            orderBy: {
+              tier: "desc",
+            },
+            select: {
+              tier: true,
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  description: true,
                 },
               },
             },
@@ -979,6 +1026,18 @@ function filterProfileResult(profile, language) {
       level: prof.level,
     };
   });
+
+  if (profile.organization) {
+    filteredProfile.organization = filteredProfile.organization.map((i) => {
+      return i.organizationTier.map((organization) => {
+        const trans = organization.translations[0];
+        return {
+          tier: organization.tier,
+          description: trans ? trans.description : undefined,
+        };
+      });
+    });
+  }
 
   return filteredProfile;
 }

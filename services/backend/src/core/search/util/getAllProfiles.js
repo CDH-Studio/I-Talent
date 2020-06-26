@@ -171,16 +171,21 @@ async function getAllUsers(searchValue, language) {
               },
             },
             organizations: {
-              orderBy: {
-                tier: "desc",
-              },
               select: {
-                translations: {
-                  where: {
-                    language,
+                organizationTier: {
+                  orderBy: {
+                    tier: "desc",
                   },
                   select: {
-                    description: true,
+                    tier: true,
+                    translations: {
+                      where: {
+                        language,
+                      },
+                      select: {
+                        description: true,
+                      },
+                    },
                   },
                 },
               },
@@ -216,7 +221,6 @@ async function getAllUsers(searchValue, language) {
     if (info.experiences) {
       info.experiences = info.experiences.map((i) => {
         const trans = i.translations[0];
-
         return {
           startDate: i.startDate,
           endDate: i.endDate,
@@ -267,11 +271,18 @@ async function getAllUsers(searchValue, language) {
       allSkills = [...allSkills, ...info.competencies];
     }
 
-    info.organizations = info.organizations.map((i) => {
-      const trans = i.translations[0];
+    if (info.organizations) {
+      info.organizations = info.organizations.map((i) => {
+        return i.organizationTier.map((organization) => {
+          const trans = organization.translations[0];
 
-      return trans ? trans.description : undefined;
-    });
+          return {
+            tier: organization.tier,
+            description: trans ? trans.description : undefined,
+          };
+        });
+      });
+    }
 
     const fuse = new Fuse(allSkills, {
       shouldSort: true,
