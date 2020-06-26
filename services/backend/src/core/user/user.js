@@ -47,10 +47,11 @@ async function getUserById(request, response) {
         },
       });
 
-      response.status(200).json({
-        ...user,
-        nameInitials: getNameInitials(user.firstName, user.lastName),
-      });
+      if (user) {
+        user.nameInitials = getNameInitials(user.firstName, user.lastName);
+      }
+
+      response.status(200).json(user);
       return;
     }
 
