@@ -35,7 +35,7 @@ async function updateProfile(request, response) {
       const {
         firstName,
         lastName,
-        team,
+        teams,
         telephone,
         cellphone,
         linkedin,
@@ -82,14 +82,14 @@ async function updateProfile(request, response) {
       let competencyIds;
       let upsertDevelopmentalGoals;
       if (developmentalGoals) {
-        skillIds = await prisma.opSkills
+        skillIds = await prisma.opSkill
           .findMany({
             where: { id: { in: developmentalGoals } },
             select: { id: true },
           })
           .then((i) => i.map((j) => j.id));
 
-        competencyIds = await prisma.opCompetencies
+        competencyIds = await prisma.opCompetency
           .findMany({
             where: { id: { in: developmentalGoals } },
             select: { id: true },
@@ -143,15 +143,15 @@ async function updateProfile(request, response) {
       // Deletes every experiences and educations if experiences or educations is defined since
       // there's no way to uniquely identify them solely from the data
       if (experiences) {
-        await prisma.experiences.deleteMany({ where: { userId } });
+        await prisma.experience.deleteMany({ where: { userId } });
       }
 
       if (educations) {
-        await prisma.educations.deleteMany({ where: { userId } });
+        await prisma.education.deleteMany({ where: { userId } });
       }
 
       // Queries user ids to check if an id was already defined
-      const userIds = await prisma.users.findOne({
+      const userIds = await prisma.user.findOne({
         where: { id: userId },
         select: {
           officeLocationId: true,
@@ -166,12 +166,16 @@ async function updateProfile(request, response) {
         },
       });
 
-      await prisma.users.update({
+      await prisma.user.update({
         where: { id: userId },
         data: {
           firstName,
           lastName,
-          team,
+          teams: teams
+            ? {
+                set: teams,
+              }
+            : undefined,
           telephone,
           cellphone,
           linkedin,
@@ -430,7 +434,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  return prisma.users.findOne({
+  return prisma.user.findOne({
     where: { id },
     select: {
       id: true,
@@ -444,7 +448,7 @@ async function getFullProfile(id, language) {
       telephone: true,
       cellphone: true,
       manager: true,
-      team: true,
+      teams: true,
       firstLanguage: true,
       secondLanguage: true,
       preferredLanguage: true,
