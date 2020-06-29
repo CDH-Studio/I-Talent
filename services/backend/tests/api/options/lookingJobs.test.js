@@ -1,8 +1,8 @@
 const request = require("supertest");
 const _ = require("lodash");
-const seed = require("../../../src/database/seeds/20200610114410-init-options/data/careerMobilities");
+const seed = require("../../../src/database/seeds/20200610114410-init-options/data/lookingJobs");
 
-const path = "/api/option/careerMobilities";
+const path = "/api/option/lookingJobs";
 const data = ["ENGLISH", "FRENCH"];
 
 describe(`Test ${path}`, () => {
@@ -41,7 +41,7 @@ describe(`Test ${path}`, () => {
         done();
       });
 
-      test("should process request and not return duplicate classfications - 200", async (done) => {
+      test("should process request and not return duplicate lookingJob - 200", async (done) => {
         expect(res.statusCode).toBe(200);
         expect(res.body.length).toBe(new Set(res.body).size);
 
@@ -62,7 +62,7 @@ describe(`Test ${path}`, () => {
         );
 
         expect(res.statusCode).toBe(500);
-        expect(res.text).toBe("Error fetching careerMobility options");
+        expect(res.text).toBe("Error fetching lookinJob options");
         expect(console.log).toHaveBeenCalled();
 
         done();
@@ -80,7 +80,7 @@ describe(`Test ${path}`, () => {
 
     test("should throw validation error invalid language query param - 422", async (done) => {
       const res = await request(mockedKeycloakApp).get(
-        `${path}?language=asdfafse`
+        `${path}?language=asdhty45e`
       );
 
       expect(res.statusCode).toBe(422);
