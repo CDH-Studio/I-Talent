@@ -10,8 +10,6 @@ friendsRouter
   .post(keycloak.protect(), friends.addFriend)
   .delete(keycloak.protect(), friends.removeFriend);
 
-friendsRouter
-  .route("/allFriends")
-  .get(keycloak.protect(), friends.getAllFriends);
+friendsRouter.route("/").get(keycloak.protect(), friends.getAllFriends);
 
 module.exports = friendsRouter;
