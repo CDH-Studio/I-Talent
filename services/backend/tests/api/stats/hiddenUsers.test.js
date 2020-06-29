@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const path = "/api/stats/hiddenUsers"
+const path = "/api/stats/hiddenUsers";
 
 describe(`Test ${path}`, () => {
   describe("when not authenticated", () => {

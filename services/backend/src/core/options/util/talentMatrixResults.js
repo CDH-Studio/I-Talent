@@ -1,7 +1,5 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function getTalentMatrixResults(request, response) {
   try {

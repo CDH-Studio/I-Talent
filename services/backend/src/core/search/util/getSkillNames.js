@@ -1,6 +1,4 @@
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function getSkillNames(searchSkill, language) {
   const skillNames = await Promise.all(

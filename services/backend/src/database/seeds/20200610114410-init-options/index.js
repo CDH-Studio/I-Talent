@@ -1,5 +1,5 @@
 const path = require("path");
-const { PrismaClient } = require("../../client");
+const prisma = require("../../");
 const {
   lookingJobs,
   tenures,
@@ -13,8 +13,6 @@ const {
   officeLocations,
   competencies,
 } = require("./data");
-
-const prisma = new PrismaClient();
 
 async function seedStaticInfo() {
   const staticInfo = [
@@ -261,6 +259,8 @@ async function seed() {
     });
     console.log(`---- Finished seeding: ${folderName} ----\n`);
   }
+
+  await prisma.disconnect();
 }
 
 module.exports = seed;

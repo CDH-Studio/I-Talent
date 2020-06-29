@@ -1,8 +1,5 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../database/client");
-
-const prisma = new PrismaClient();
-
+const prisma = require("../../database");
 function generateAvatarColor() {
   const colours = [
     "#0bdaa3",

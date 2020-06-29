@@ -21,12 +21,14 @@ const mockKeycloak = () => {
 
 const mockPrisma = () => {
   jest.resetModules();
-  jest.mock("../src/database/client");
+  jest.mock("../src/database", () => {
+    return {};
+  });
 };
 
 const unMock = () => {
   jest.resetModules();
-  jest.unmock("../src/auth/keycloak").unmock("../src/database/client");
+  jest.unmock("../src/auth/keycloak").unmock("../src/database");
 };
 
 module.exports = {

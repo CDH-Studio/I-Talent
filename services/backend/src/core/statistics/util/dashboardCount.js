@@ -1,6 +1,4 @@
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function countHiddenUsers(request, response) {
   try {
@@ -35,6 +33,8 @@ async function countInactiveUsers(request, response) {
 async function countUsers(request, response) {
   try {
     const userCount = await prisma.user.count();
+
+    console.warn(await prisma.users.findMany())
 
     response.status(200).json(userCount);
   } catch (error) {

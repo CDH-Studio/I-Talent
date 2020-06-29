@@ -1,8 +1,6 @@
 const _ = require("lodash");
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function getTopFiveSkillsHelper(skills, language) {
   const skillsCount = _(skills)
@@ -104,7 +102,6 @@ async function getTopFiveSkills(request, response) {
     });
 
     const topFiveSkills = await getTopFiveSkillsHelper(skillIds, language);
-
     response.status(200).json(topFiveSkills);
   } catch (error) {
     console.log(error);

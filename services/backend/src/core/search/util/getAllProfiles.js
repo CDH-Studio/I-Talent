@@ -1,8 +1,6 @@
 const Fuse = require("fuse.js");
 
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 const NUMBER_OF_SKILL_RESULT = 4;
 

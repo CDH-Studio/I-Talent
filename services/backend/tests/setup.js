@@ -1,4 +1,9 @@
 const { mockKeycloak, mockPrisma } = require("./mocks");
+const { PrismaClient } = require("../src/database/client");
+
+global.prisma = new PrismaClient({
+  datasources: process.env.TEST_DATABASE_URL,
+});
 
 console.log = jest.fn();
 
