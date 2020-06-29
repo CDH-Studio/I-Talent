@@ -18,7 +18,7 @@ async function setupTestDB() {
   console.log("Migrated testing database");
 
   execSync(`DATABASE_URL=${process.env.TEST_DATABASE_URL} yarn generate`);
-  console.log("Genereated testing database client");
+  console.log("Generated testing database client");
 
   execSync(`DATABASE_URL=${process.env.TEST_DATABASE_URL} yarn seed`);
   console.log("Seeded testing database");

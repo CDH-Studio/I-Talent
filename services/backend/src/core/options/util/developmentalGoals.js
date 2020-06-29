@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getDevelopmentalGoals(request, response) {
@@ -47,7 +48,7 @@ async function getDevelopmentalGoals(request, response) {
       };
     });
 
-    const developmentalGoals = [...competencies, ...skills];
+    const developmentalGoals = _.sortBy([...competencies, ...skills], "name");
 
     response.status(200).json(developmentalGoals);
   } catch (error) {
