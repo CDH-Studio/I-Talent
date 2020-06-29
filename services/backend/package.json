@@ -63,6 +63,18 @@
     ],
     "globalSetup": "./tests/globalSetup.js",
     "verbose": true,
-    "collectCoverage": true
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**/*.js",
+      "!./src/docs/**",
+      "!./src/database/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "coverageDirectory": "./tests/coverage"
   }
 }

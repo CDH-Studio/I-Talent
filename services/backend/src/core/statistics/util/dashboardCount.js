@@ -34,8 +34,6 @@ async function countUsers(request, response) {
   try {
     const userCount = await prisma.user.count();
 
-    console.warn(await prisma.users.findMany())
-
     response.status(200).json(userCount);
   } catch (error) {
     console.log(error);
