@@ -1,19 +1,28 @@
 import React from "react";
-import { List } from "antd";
+import { Tabs } from "antd";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import OfficialLanguage from "./officialLanguage/OfficialLanguage";
+import Acting from "./acting/Acting";
+import Substantive from "./substantive/Substantive";
 
-const EmployeeSummaryView = ({ values }) => {
+const { TabPane } = Tabs;
+
+const EmployeeSummaryView = ({ data }) => {
   return (
     <div>
-      <List
-        itemLayout="horizontal"
-        dataSource={values}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
-          </List.Item>
-        )}
-      />
+      <Tabs defaultActiveKey="1">
+        <TabPane tab={<FormattedMessage id="profile.tenure" />} key={1}>
+          <Substantive data={data} />
+        </TabPane>
+
+        <TabPane
+          tab={<FormattedMessage id="profile.acting.label.only" />}
+          key={2}
+        >
+          <Acting data={data} />
+        </TabPane>
+      </Tabs>
     </div>
   );
 };
