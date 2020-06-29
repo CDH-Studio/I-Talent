@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getTalentMatrixResults(request, response) {
@@ -22,12 +23,13 @@ async function getTalentMatrixResults(request, response) {
       }
     );
 
-    const talentMatrixResults = talentMatrixResultsQuery.map((i) => {
-      return {
+    const talentMatrixResults = _.sortBy(
+      talentMatrixResultsQuery.map((i) => ({
         id: i.opTalentMatrixResultId,
         description: i.description,
-      };
-    });
+      })),
+      "description"
+    );
 
     response.status(200).json(talentMatrixResults);
   } catch (error) {

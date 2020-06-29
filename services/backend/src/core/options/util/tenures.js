@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getTenures(request, response) {
@@ -20,12 +21,13 @@ async function getTenures(request, response) {
       },
     });
 
-    const tenures = tenuresQuery.map((i) => {
-      return {
+    const tenures = _.sortBy(
+      tenuresQuery.map((i) => ({
         id: i.opTenureId,
         name: i.name,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(tenures);
   } catch (error) {
