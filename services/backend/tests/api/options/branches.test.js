@@ -51,7 +51,7 @@ describe(`Test ${path}`, () => {
 
       test("should process request and return alphabetically - 200", async (done) => {
         expect(res.statusCode).toBe(200);
-        expect(_.isEqual(res.body, _.sortBy(res.body))).toBeTruthy();
+        expect(res.body).toStrictEqual(_.sortBy(res.body));
 
         done();
       });

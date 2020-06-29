@@ -1,6 +1,5 @@
 const request = require("supertest");
 const _ = require("lodash");
-
 const seed = require("../../../src/database/seeds/20200610114410-init-options/data/careerMobilities");
 
 const path = "/api/option/careerMobilities";
@@ -21,11 +20,13 @@ describe(`Test ${path}`, () => {
   describe("when authenticated", () => {
     describe.each(data)("in %s", (language) => {
       let res;
+      let resData;
 
       beforeAll(async () => {
         res = await request(mockedKeycloakApp).get(
           `${path}?language=${language}`
         );
+        resData = _.map(res.body, "description");
       });
 
       test(`should process request - 200`, async (done) => {
@@ -35,8 +36,6 @@ describe(`Test ${path}`, () => {
           language === "ENGLISH" ? i.en : i.fr
         );
 
-        const resData = res.body.map((i) => i.description);
-
         expect(resData).toStrictEqual(_.sortBy(seedData));
 
         done();
@@ -45,12 +44,7 @@ describe(`Test ${path}`, () => {
       test("should process request and return alphabetically - 200", async (done) => {
         expect(res.statusCode).toBe(200);
 
-        expect(
-          _.isEqual(
-            _.map(res.body, "description"),
-            _.sortBy(_.map(res.body, "description"))
-          )
-        ).toBeTruthy();
+        expect(resData).toStrictEqual(_.sortBy(resData));
 
         done();
       });
