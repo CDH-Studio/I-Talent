@@ -22,21 +22,21 @@ async function getTopFiveSkillsHelper(skills, language) {
 
   const topFiveSkills = await prisma.opTransSkill.findMany({
     where: {
-      opSkillsId: {
+      opSkillId: {
         in: topFiveSkillIds,
       },
       language,
     },
     select: {
       name: true,
-      opSkillsId: true,
+      opSkillId: true,
     },
   });
 
   const topFiveSkillsCount = topFiveSkills.map((i) => {
     return {
       name: i.name,
-      count: topFiveSkillIdsCount.find((j) => j.skillId === i.opSkillsId).count,
+      count: topFiveSkillIdsCount.find((j) => j.skillId === i.opSkillId).count,
     };
   });
 
@@ -65,14 +65,14 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
 
   const topFiveCompetencies = await prisma.opTransCompetency.findMany({
     where: {
-      opCompetenciesId: {
+      opCompetencyId: {
         in: topFiveCompetencyIds,
       },
       language,
     },
     select: {
       name: true,
-      opCompetenciesId: true,
+      opCompetencyId: true,
     },
   });
 
@@ -80,7 +80,7 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
     return {
       name: i.name,
       count: topFiveCompetencyIdsCount.find(
-        (j) => j.competencyId === i.opCompetenciesId
+        (j) => j.competencyId === i.opCompetencyId
       ).count,
     };
   });
