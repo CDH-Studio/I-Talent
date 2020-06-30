@@ -9,6 +9,7 @@ import { ProfileInfoPropType } from "../../../customPropTypes";
 
 import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
+import Security from "../../security/Security";
 import Skills from "../../skillsCard/Skills";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
@@ -91,6 +92,15 @@ const ProfileLayoutView = ({ data }) => {
                 id="card-profile-employee-summary"
                 editUrl="/secured/profile/edit/employment"
               />
+              <div style={{ paddingTop: "16px" }}>
+                <ProfileCards
+                  title={<Security data={data} />}
+                  content={null}
+                  cardName="security"
+                  id="card-profile-security"
+                  editUrl="/secured/profile/edit/employment"
+                />
+              </div>
             </Col>
           </Row>
 
@@ -101,7 +111,7 @@ const ProfileLayoutView = ({ data }) => {
               <ProfileCards
                 title={<FormattedMessage id="profile.official.language" />}
                 content={<OfficialLanguage data={data} />}
-                cardName="officalLanguage"
+                cardName="officialLanguage"
                 id="card-profile-official-lang"
                 editUrl="/secured/profile/edit/language-proficiency"
               />
@@ -282,6 +292,20 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="info"
                 id="card-profile-employee-summary"
               />
+              {visibleCards.security && data.security && (
+                <div
+                  style={{
+                    paddingTop: "16px",
+                  }}
+                >
+                  <ProfileCards
+                    title={<Security data={data} />}
+                    content={null}
+                    cardName="security"
+                    id="card-profile-security"
+                  />
+                </div>
+              )}
             </Col>
           </Row>
         )}
@@ -315,6 +339,7 @@ const ProfileLayoutView = ({ data }) => {
             <FormattedMessage id="profile.employee.skills.competencies" />
           </Title>
         )}
+
         {visibleCards.skills && (
           <Row style={styles.row}>
             <Col span={24}>
@@ -551,14 +576,26 @@ const ProfileLayoutView = ({ data }) => {
                   </Text>
                 }
               />
-              <Link
-                href="#card-profile-official-lang"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.official.language" />
-                  </Text>
-                }
-              />
+              {visibleCards.security && (
+                <Link
+                  href="#card-profile-security"
+                  title={
+                    <Text style={styles.sideBarText}>
+                      <FormattedMessage id="profile.security" />
+                    </Text>
+                  }
+                />
+              )}
+              {visibleCards.officialLanguage && (
+                <Link
+                  href="#card-profile-official-lang"
+                  title={
+                    <Text style={styles.sideBarText}>
+                      <FormattedMessage id="profile.official.language" />
+                    </Text>
+                  }
+                />
+              )}
             </Link>
             {(visibleCards.skills ||
               visibleCards.mentorshipSkills ||

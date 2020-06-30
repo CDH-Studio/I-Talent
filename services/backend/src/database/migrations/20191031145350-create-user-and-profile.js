@@ -140,6 +140,7 @@ module.exports = {
               careerInterests: true,
               mentorshipSkills: true,
               exFeeder: true,
+              security: false,
             },
           },
           createdAt: {

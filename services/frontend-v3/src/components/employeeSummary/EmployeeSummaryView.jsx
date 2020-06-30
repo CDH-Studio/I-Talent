@@ -1,8 +1,7 @@
 import React from "react";
 import { Tabs } from "antd";
 import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
-import OfficialLanguage from "./officialLanguage/OfficialLanguage";
+import { ProfileInfoPropType } from "../../customPropTypes";
 import Acting from "./acting/Acting";
 import Substantive from "./substantive/Substantive";
 
@@ -28,11 +27,11 @@ const EmployeeSummaryView = ({ data }) => {
 };
 
 EmployeeSummaryView.propTypes = {
-  values: PropTypes.arrayOf(PropTypes.object),
+  data: ProfileInfoPropType,
 };
 
 EmployeeSummaryView.defaultProps = {
-  values: null,
+  data: null,
 };
 
 export default EmployeeSummaryView;

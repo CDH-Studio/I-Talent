@@ -17,15 +17,6 @@ const Substantive = ({ data }) => {
         )),
     };
 
-    const security = {
-      title: <FormattedMessage id="profile.security" />,
-      description:
-        data.security &&
-        (data.security.description[locale] || (
-          <FormattedMessage id="profile.not.specified" />
-        )),
-    };
-
     let substantiveDescription = <FormattedMessage id="profile.term" />;
 
     if (
@@ -34,7 +25,7 @@ const Substantive = ({ data }) => {
     ) {
       substantiveDescription = data.temporaryRole.description[locale];
     } else if (data.indeterminate) {
-      substantiveDescription = <FormattedMessage id="profile.indeterminate" />      
+      substantiveDescription = <FormattedMessage id="profile.indeterminate" />;
     }
 
     const substative = {
@@ -42,7 +33,7 @@ const Substantive = ({ data }) => {
       description: substantiveDescription,
     };
 
-    return [substative, classification, security];
+    return [substative, classification];
   };
 
   return <SubstativeView values={formatData()} />;

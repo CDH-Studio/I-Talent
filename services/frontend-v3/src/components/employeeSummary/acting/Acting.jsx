@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import ActingView from "./ActingView";
 
-const Acting = ({ data }) => {
+const Acting = ({ data, intl }) => {
   const formatData = () => {
     const actingInfo = [];
 
@@ -15,12 +15,14 @@ const Acting = ({ data }) => {
       };
       actingInfo.push(acting);
 
+      const formattedEndDate = data.actingPeriodEndDate
+        ? moment(data.actingPeriodEndDate).format("ll")
+        : intl.formatMessage({ id: "profile.is.ongoing" });
+
       if (data.actingPeriodStartDate) {
         const desc =
           moment(data.actingPeriodStartDate).format("ll") +
-          (data.actingPeriodStartDate
-            ? ` - ${moment(data.actingPeriodEndDate).format("ll")}`
-            : "");
+          (data.actingPeriodStartDate ? ` - ${formattedEndDate}` : "");
 
         const actingDate = {
           title: <FormattedMessage id="profile.acting.date" />,
@@ -45,6 +47,11 @@ Acting.propTypes = {
     actingPeriodEndDate: PropTypes.string,
     actingPeriodStartDate: PropTypes.string,
   }).isRequired,
+  intl: PropTypes.shape({ formatMessage: PropTypes.func }),
 };
 
-export default Acting;
+Acting.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(Acting);
