@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getSkills(request, response) {
@@ -20,15 +21,19 @@ async function getSkills(request, response) {
           },
         },
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
-    const skills = skillsQuery.map((i) => {
-      return {
+    const skills = _.sortBy(
+      skillsQuery.map((i) => ({
         id: i.opSkill.id,
         name: i.name,
         categoryId: i.opSkill.categoryId,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(skills);
   } catch (error) {
