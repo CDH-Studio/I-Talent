@@ -375,7 +375,11 @@ const UserTableView = ({
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
-          <Table columns={userTableColumns()} dataSource={data} />
+          <Table
+            showSorterTooltip={false}
+            columns={userTableColumns()}
+            dataSource={data}
+          />
         </Col>
       </Row>
     </>

@@ -520,6 +520,7 @@ const DiplomaTableView = ({
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
+            showSorterTooltip={false}
             rowSelection={rowSelection}
             columns={diplomaTableColumns()}
             dataSource={data}
