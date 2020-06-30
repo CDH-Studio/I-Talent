@@ -543,6 +543,7 @@ const CategoryTableView = ({
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
+            showSorterTooltip={false}
             rowSelection={rowSelection}
             columns={categoryTableColumns()}
             dataSource={data}
