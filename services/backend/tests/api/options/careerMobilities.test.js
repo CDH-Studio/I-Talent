@@ -29,7 +29,7 @@ describe(`Test ${path}`, () => {
         resData = _.map(res.body, "description");
       });
 
-      test(`should process request - 200`, async (done) => {
+      test("should process request - 200", async (done) => {
         expect(res.statusCode).toBe(200);
 
         const seedData = seed.map((i) =>
@@ -37,6 +37,13 @@ describe(`Test ${path}`, () => {
         );
 
         expect(resData).toStrictEqual(_.sortBy(seedData));
+
+        done();
+      });
+
+      test(`should process request and data should have ids - 200`, async (done) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.body.every((i) => "id" in i)).toBeTruthy();
 
         done();
       });

@@ -32,7 +32,7 @@ describe(`Test ${path}`, () => {
           resData = _.map(res.body, "name");
         });
 
-        test(`should process request - 200`, async (done) => {
+        test("should process request - 200", async (done) => {
           expect(res.statusCode).toBe(200);
 
           const seedData = seed.map((i) =>

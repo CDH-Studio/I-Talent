@@ -44,6 +44,13 @@ describe(`Test ${path}`, () => {
         done();
       });
 
+      test("should process request and data should have ids - 200", async (done) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.body.every((i) => "id" in i)).toBeTruthy();
+
+        done();
+      });
+
       test("should process request and return alphabetically - 200", async (done) => {
         expect(res.statusCode).toBe(200);
 

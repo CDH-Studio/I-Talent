@@ -20,12 +20,19 @@ describe(`Test ${path}`, () => {
     let res;
 
     beforeAll(async () => {
-      res = await request(mockedKeycloakApp).get(`${path}`);
+      res = await request(mockedKeycloakApp).get(path);
     });
 
-    test(`should process request - 200`, async (done) => {
+    test("should process request - 200", async (done) => {
       expect(res.statusCode).toBe(200);
       expect(_.map(res.body, "name")).toStrictEqual(_.sortBy(seed));
+
+      done();
+    });
+
+    test("should process request and data should have ids - 200", async (done) => {
+      expect(res.statusCode).toBe(200);
+      expect(res.body.every((i) => "id" in i)).toBeTruthy();
 
       done();
     });
