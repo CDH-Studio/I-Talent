@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getSecurityClearances(request, response) {
@@ -22,12 +23,13 @@ async function getSecurityClearances(request, response) {
       }
     );
 
-    const securityClearances = securityClearancesQuery.map((i) => {
-      return {
+    const securityClearances = _.sortBy(
+      securityClearancesQuery.map((i) => ({
         id: i.opSecurityClearanceId,
         description: i.description,
-      };
-    });
+      })),
+      "description"
+    );
 
     response.status(200).json(securityClearances);
   } catch (error) {

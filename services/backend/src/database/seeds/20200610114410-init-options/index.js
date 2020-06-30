@@ -209,7 +209,7 @@ async function seedStaticInfo() {
                 },
                 {
                   province: translations.fr.province,
-                  streetName: translations.en.streetName,
+                  streetName: translations.fr.streetName,
                   language: "FRENCH",
                 },
               ],

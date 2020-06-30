@@ -21,7 +21,7 @@ async function getBranches(request, response) {
       },
     });
 
-    const branches = _.uniq(branchesQuery.map((i) => i.branch));
+    const branches = _.sortBy(_.uniq(branchesQuery.map((i) => i.branch)));
 
     response.status(200).json(branches);
   } catch (error) {

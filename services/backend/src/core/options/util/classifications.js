@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getClassifications(request, response) {
@@ -12,7 +13,9 @@ async function getClassifications(request, response) {
       },
     });
 
-    response.status(200).json(classificationsQuery);
+    const classifications = _.sortBy(classificationsQuery, "name");
+
+    response.status(200).json(classifications);
   } catch (error) {
     console.log(error);
     response.status(500).send("Error fetching classification options");
