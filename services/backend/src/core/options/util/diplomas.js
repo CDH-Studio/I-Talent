@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getDiplomas(request, response) {
@@ -49,13 +50,14 @@ async function getDiplomasAllLang(request, response) {
       },
     });
 
-    const diplomas = diplomasQuery.map((i) => {
-      return {
+    const diplomas = _.orderBy(
+      diplomasQuery.map((i) => ({
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").description,
         fr: i.translations.find((j) => j.language === "FRENCH").description,
-      };
-    });
+      })),
+      ["en", "fr"]
+    );
 
     response.status(200).json(diplomas);
   } catch (error) {

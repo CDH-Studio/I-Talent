@@ -61,14 +61,15 @@ async function getSkillsAllLang(request, response) {
       },
     });
 
-    const skills = skillsQuery.map((i) => {
-      return {
+    const skills = _.orderBy(
+      skillsQuery.map((i) => ({
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").name,
         fr: i.translations.find((j) => j.language === "FRENCH").name,
         categoryId: i.categoryId,
-      };
-    });
+      })),
+      ["en", "fr"]
+    );
 
     response.status(200).json(skills);
   } catch (error) {
