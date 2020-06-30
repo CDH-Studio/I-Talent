@@ -166,10 +166,10 @@ button:focus {
 }
 
 a:focus {
-  outline: #08bab3;
-  outline-width: 2rem;
-  background-color: #a6c8c349;
-  box-shadow: 7px 0 0 #a6c8c349, -5px 0 0 #a6c8c349;
+  outline: 1px solid #999c9e !important;
+  /* outline-width: 2rem; */
+  /* background-color: #a6c8c349;
+  box-shadow: 7px 0 0 #a6c8c349, -5px 0 0 #a6c8c349; */
   padding-top: 5px;
   padding-bottom: 10px;
   border-radius: 20px;
@@ -272,10 +272,11 @@ a.ant-btn.ant-btn-link.ant-btn-block:focus {
 }
 
 button.ant-btn.ant-btn-link:focus {
-  background-color: #415a5a;
-  box-shadow: 0px 18px #415a5a, 0px 7px #415a5a;
-  padding-top: 20px;
-  padding-bottom: 0px;
+  /* background-color: #415a5a;
+  box-shadow: 0px 18px #415a5a, 0px 7px #415a5a; */
+  outline: 1px solid #999c9e !important;
+  /* padding-top: 20px;
+  padding-bottom: 0px; */
   border-radius: 10px;
 }
 
