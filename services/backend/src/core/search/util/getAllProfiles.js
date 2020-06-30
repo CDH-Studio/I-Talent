@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-async function getAllUsers(searchValue, language) {
-  const visibleCards = await prisma.user.findMany({
+async function getAllUsers(searchValue, language, userId) {
+  let visibleCards = await prisma.user.findMany({
     select: {
       id: true,
       visibleCards: true,
@@ -16,6 +16,62 @@ async function getAllUsers(searchValue, language) {
       status: "ACTIVE",
     },
   });
+
+  visibleCards = await Promise.all(
+    visibleCards.map(
+      async ({
+        id,
+        visibleCards: {
+          info,
+          manager,
+          projects,
+          skills,
+          competencies,
+          education,
+          experience,
+        },
+      }) => {
+        const Friends = await prisma.user.findOne({
+          where: { id },
+          select: { friends: true },
+        });
+
+        const isFriends = Friends.friends.some((item) => item.id === userId);
+
+        return {
+          id,
+          visibleCards: {
+            info: !(info === "PRIVATE" || (info === "FRIENDS" && !isFriends)),
+            manager: !(
+              manager === "PRIVATE" ||
+              (manager === "FRIENDS" && !isFriends)
+            ),
+            projects: !(
+              projects === "PRIVATE" ||
+              (projects === "FRIENDS" && !isFriends)
+            ),
+            skills: !(
+              skills === "PRIVATE" ||
+              (skills === "FRIENDS" && !isFriends)
+            ),
+            competencies: !(
+              competencies === "PRIVATE" ||
+              (competencies === "FRIENDS" && !isFriends)
+            ),
+            education: !(
+              education === "PRIVATE" ||
+              (education === "FRIENDS" && !isFriends)
+            ),
+            experience: !(
+              experience === "PRIVATE" ||
+              (experience === "FRIENDS" && !isFriends)
+            ),
+          },
+        };
+      }
+    )
+  );
+  console.log(visibleCards);
 
   const users = await Promise.all(
     visibleCards.map(
