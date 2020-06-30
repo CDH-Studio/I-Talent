@@ -28,7 +28,6 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
@@ -311,6 +310,23 @@ const PrimaryInfoFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
+        <div style={styles.gedsInfoLink}>
+          <Popover
+            trigger="click"
+            tabIndex="0"
+            content={
+              <div style={styles.popoverStyle}>
+                <FormattedMessage id="profile.geds.edit.info1" />
+                <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <FormattedMessage id="profile.geds.edit.info.link" />
+                </a>{" "}
+                <FormattedMessage id="profile.geds.edit.info2" />
+              </div>
+            }
+          >
+            <QuestionCircleOutlined />
+          </Popover>
+        </div>
         {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
