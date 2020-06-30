@@ -296,7 +296,7 @@ const PrimaryInfoFormView = ({
                   <FormattedMessage id="profile.geds.edit.info1" />
                   <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>{" "}
+                  </a>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -319,7 +319,7 @@ const PrimaryInfoFormView = ({
                 <FormattedMessage id="profile.geds.edit.info1" />
                 <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>{" "}
+                </a>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }
