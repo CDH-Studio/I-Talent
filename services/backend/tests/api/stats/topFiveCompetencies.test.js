@@ -21,13 +21,13 @@ describe(`Test ${path}`, () => {
       );
 
       expect(res.statusCode).toBe(200);
-      // expect(res.body).toStrictEqual([
-      //   { name: "Mobilize People", count: 1 },
-      //   { name: "Achieve Results", count: 1 },
-      //   { name: "Budget", count: 1 },
-      //   { name: "Business Acumen", count: 1 },
-      //   { name: "Delegation", count: 1 },
-      // ]);
+      expect(res.body).toStrictEqual([
+        { name: "Achieve Results", count: 1 },
+        { name: "Budget", count: 1 },
+        { name: "Business Acumen", count: 1 },
+        { name: "Delegation", count: 1 },
+        { name: "Mobilize People", count: 1 },
+      ]);
 
       done();
     });
@@ -38,13 +38,13 @@ describe(`Test ${path}`, () => {
       );
 
       expect(res.statusCode).toBe(200);
-      // expect(res.body).toStrictEqual([
-      //   { name: "Mobiliser les personnes", count: 1 },
-      //   { name: "Obtenir des résultats", count: 1 },
-      //   { name: "Budget", count: 1 },
-      //   { name: "Avoir le sens des affaires", count: 1 },
-      //   { name: "Savoir déléguer", count: 1 },
-      // ]);
+      expect(res.body).toStrictEqual([
+        { name: "Avoir le sens des affaires", count: 1 },
+        { name: "Budget", count: 1 },
+        { name: "Mobiliser les personnes", count: 1 },
+        { name: "Obtenir des résultats", count: 1 },
+        { name: "Savoir déléguer", count: 1 },
+      ]);
 
       done();
     });

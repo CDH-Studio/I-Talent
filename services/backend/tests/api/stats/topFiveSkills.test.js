@@ -21,13 +21,13 @@ describe(`Test ${path}`, () => {
       );
 
       expect(res.statusCode).toBe(200);
-      // expect(res.body).toStrictEqual([
-      //   { name: 'Clerical', count: 1 },
-      //   { name: 'Executive Support', count: 1 },
-      //   { name: 'Financial Policy', count: 1 },
-      //   { name: 'Statistics', count: 1 },
-      //   { name: 'Teaching (Instructor)', count: 1 }
-      // ]);
+      expect(res.body).toStrictEqual([
+        { name: "Clerical", count: 1 },
+        { name: "Executive Support", count: 1 },
+        { name: "Financial Policy", count: 1 },
+        { name: "Statistics", count: 1 },
+        { name: "Teaching (Instructor)", count: 1 },
+      ]);
 
       done();
     });
@@ -38,13 +38,13 @@ describe(`Test ${path}`, () => {
       );
 
       expect(res.statusCode).toBe(200);
-      // expect(res.body).toStrictEqual([
-      //   { name: "Travail administratif", count: 1 },
-      //   { name: "Soutien à la haute direction", count: 1 },
-      //   { name: "Statistiques", count: 1 },
-      //   { name: "Politique financière", count: 1 },
-      //   { name: "Enseignement (instructeur)", count: 1 },
-      // ]);
+      expect(res.body).toStrictEqual([
+        { name: "Enseignement (instructeur)", count: 1 },
+        { name: "Politique financière", count: 1 },
+        { name: "Soutien à la haute direction", count: 1 },
+        { name: "Statistiques", count: 1 },
+        { name: "Travail administratif", count: 1 },
+      ]);
 
       done();
     });

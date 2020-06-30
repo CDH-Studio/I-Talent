@@ -21,13 +21,13 @@ describe(`Test ${path}`, () => {
       );
 
       expect(res.statusCode).toBe(200);
-      // expect(res.body).toStrictEqual([
-      //   { name: "Leading Teams", count: 1 },
-      //   { name: "Change Management", count: 1 },
-      //   { name: "Business Planning", count: 1 },
-      //   { name: "Java", count: 1 },
-      //   { name: "JavaScript", count: 1 },
-      // ]);
+      expect(res.body).toStrictEqual([
+        { name: "Business Planning", count: 1 },
+        { name: "Change Management", count: 1 },
+        { name: "Java", count: 1 },
+        { name: "JavaScript", count: 1 },
+        { name: "Leading Teams", count: 1 },
+      ]);
 
       done();
     });
@@ -38,13 +38,13 @@ describe(`Test ${path}`, () => {
       );
 
       expect(res.statusCode).toBe(200);
-      // expect(res.body).toStrictEqual([
-      //   { name: "Direction des équipes", count: 1 },
-      //   { name: "Gestion du changement", count: 1 },
-      //   { name: "Planification des activités", count: 1 },
-      //   { name: "Java", count: 1 },
-      //   { name: "JavaScript", count: 1 },
-      // ]);
+      expect(res.body).toStrictEqual([
+        { name: "Direction des équipes", count: 1 },
+        { name: "Gestion du changement", count: 1 },
+        { name: "Java", count: 1 },
+        { name: "JavaScript", count: 1 },
+        { name: "Planification des activités", count: 1 },
+      ]);
 
       done();
     });
