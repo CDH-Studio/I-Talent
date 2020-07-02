@@ -370,6 +370,10 @@
   "profile.hide.account.confirm.content": "Votre compte sera rendu inaccessible, mais les personnes disposant d'un lien direct pourront toujours le consulter.",
   "profile.deactivate.account.confirm.content": "Votre compte sera rendu inaccessible, mais vos données resteront stockées.",
 
+  "profile.addFriend": "Ajouter un ami",
+  "profile.removeFriend": "Supprimer un ami",
+  "profile.removeFriend.confirm": "Voulez-vous vraiment supprimer cet utilisateur de votre groupe d'amis ?",
+
   "profile.is.ongoing": "Courant",
 
   "sign.out": "Déconnexion",
