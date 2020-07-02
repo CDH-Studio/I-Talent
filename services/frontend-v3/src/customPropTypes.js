@@ -72,14 +72,8 @@ const ProfileInfoPropType = PropTypes.shape({
   githubUrl: PropTypes.string,
   gcconnexUrl: PropTypes.string,
   email: PropTypes.string,
-  jobTitle: PropTypes.shape({
-    en: PropTypes.string,
-    fr: PropTypes.string,
-  }),
-  branch: PropTypes.shape({
-    en: PropTypes.string,
-    fr: PropTypes.string,
-  }),
+  jobTitle: PropTypes.string,
+  branch: PropTypes.string,
   manager: PropTypes.string,
   telephone: PropTypes.string,
   cellphone: PropTypes.string,
