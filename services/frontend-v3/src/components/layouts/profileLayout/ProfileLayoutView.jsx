@@ -719,10 +719,10 @@ const ProfileLayoutView = ({ data }) => {
       const response = await axios
         .get(`${backendAddress}api/friends/${urlID}`)
         .catch((error) => handleError(error, "message"));
-      setFriends(response);
+      setFriends(response.data.friend);
     }
-    fetchData();
-  }, [urlID]);
+    if (urlID !== userID) fetchData();
+  }, [urlID, userID]);
 
   const getButton = () => {
     if (userID === urlID) return "";
