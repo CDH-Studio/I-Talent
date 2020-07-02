@@ -15,6 +15,7 @@ import {
   RiseOutlined,
   TrophyOutlined,
   WarningOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -33,6 +34,7 @@ import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
+import Friends from "../../friends/Friends";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
 
@@ -265,6 +267,22 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="projects"
                 id="card-profile-projects"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
+              />
+            </Col>
+          </Row>
+          {/** ********** Friends *********** */}
+          <Title level={2} style={styles.sectionHeader} id="divider-friends">
+            <TeamOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.friends" />
+          </Title>
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.friends" />}
+                content={<Friends data={data} style={styles.card} />}
+                cardName="friends"
+                id="card-profile-friends"
                 data={data}
               />
             </Col>
@@ -693,6 +711,16 @@ const ProfileLayoutView = ({ data }) => {
                   />
                 )}
               </Link>
+            )}
+            {urlID === userID && (
+              <Link
+                href="#card-profile-friends"
+                title={
+                  <Text strong style={styles.sideBarText}>
+                    <FormattedMessage id="profile.friends" />
+                  </Text>
+                }
+              />
             )}
           </Anchor>
         </Col>

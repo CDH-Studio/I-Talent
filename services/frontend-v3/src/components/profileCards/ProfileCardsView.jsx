@@ -77,7 +77,7 @@ const ProfileCardsView = ({
   const generateSwitchButton = () => {
     // Check if user is on his own profile (by
     // comparing the id in storage vs the id in the url)
-    if (userID === urlID) {
+    if (userID === urlID && cardName !== "friends") {
       return (
         <div style={{ marginTop: "15px" }}>
           <Row type="flex" gutter={[16, 16]}>

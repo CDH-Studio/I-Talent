@@ -749,6 +749,8 @@ async function getFullProfile(id, language) {
       friends: {
         select: {
           id: true,
+          firstName: true,
+          lastName: true,
         },
       },
       visibleCards: {
