@@ -1,4 +1,5 @@
 const request = require("supertest");
+const moment = require("moment");
 
 const path = "/api/stats/growthRateByMonth";
 
@@ -23,7 +24,7 @@ describe(`Test ${path}`, () => {
         currentMonthNewUserCount: 2,
         growthRate: {
           2020: {
-            5: 2,
+            [moment().get("M")]: 2,
           },
         },
         growthRateFromPreviousMonth: 200,
