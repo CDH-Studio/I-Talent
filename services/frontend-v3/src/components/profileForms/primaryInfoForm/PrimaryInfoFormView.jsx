@@ -10,8 +10,14 @@ import {
   Input,
   Button,
   message,
+  Popover,
 } from "antd";
-import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  LinkOutlined,
+  RightOutlined,
+  CheckOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
@@ -96,6 +102,13 @@ const PrimaryInfoFormView = ({
       fontWeight: "normal",
       fontStyle: "italic",
       opacity: 0.5,
+    },
+    gedsInfoLink: {
+      display: "inline",
+      float: "right",
+    },
+    popoverStyle: {
+      maxWidth: "430px",
     },
   };
 
@@ -274,12 +287,46 @@ const PrimaryInfoFormView = ({
       return (
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
+          <div style={styles.gedsInfoLink}>
+            <Popover
+              trigger="click"
+              tabIndex="0"
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage id="profile.geds.edit.info1" />
+                  <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                    <FormattedMessage id="profile.geds.edit.info.link" />
+                  </a>
+                  <FormattedMessage id="profile.geds.edit.info2" />
+                </div>
+              }
+            >
+              <QuestionCircleOutlined />
+            </Popover>
+          </div>
         </Title>
       );
     }
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
+        <div style={styles.gedsInfoLink}>
+          <Popover
+            trigger="click"
+            tabIndex="0"
+            content={
+              <div style={styles.popoverStyle}>
+                <FormattedMessage id="profile.geds.edit.info1" />
+                <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <FormattedMessage id="profile.geds.edit.info.link" />
+                </a>
+                <FormattedMessage id="profile.geds.edit.info2" />
+              </div>
+            }
+          >
+            <QuestionCircleOutlined />
+          </Popover>
+        </div>
         {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
