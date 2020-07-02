@@ -326,6 +326,7 @@
 
   "profile.visibility.show.confirm": "Etes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
   "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Ne sera visible que pour vous et les RH)",
+  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe d'amis? (Ne sera visible que pour vous et les RH)?",
 
   "lang": "English",
   "lang.code": "en",
@@ -373,6 +374,10 @@
 
   "sign.out": "Déconnexion",
   "home": "Acceuil",
+
+  "profile.visibleCards.public": "Publique",
+  "profile.visibleCards.friends": "Amis seulement",
+  "profile.visibleCards.private": "Privée",
 
   "error.redirect.title": "Erreur inattendue",
   "error.redirect.subtitle": "Quelque chose a mal tourné",

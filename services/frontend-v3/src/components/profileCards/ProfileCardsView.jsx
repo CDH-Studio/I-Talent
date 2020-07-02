@@ -6,8 +6,9 @@ import {
   EyeInvisibleOutlined,
   EditOutlined,
   WarningOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
-import { Card, Switch, Button, Row, Col, Tooltip, Popconfirm } from "antd";
+import { Card, Button, Row, Col, Tooltip, Popconfirm, Radio } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 
@@ -27,9 +28,8 @@ const ProfileCardsView = ({
   content,
   style,
   history,
-  forceDisabled,
 }) => {
-  const [disabled, setDisabled] = useState(true);
+  const [status, setStatus] = useState("");
 
   // useParams returns an object of key/value pairs from URL parameters
   const newId = useParams().id;
@@ -42,14 +42,12 @@ const ProfileCardsView = ({
    *
    * Handle card visibility toggle by updating state and saving state to backend
    */
-  const handleVisibilityToggle = async () => {
+  const handleVisibilityToggle = async (value) => {
     // Update visibleCards state in profile
     const { visibleCards } = profileInfo;
-
-    // change the stored value
-    const cardNameToBeModified = cardName;
-    visibleCards[cardNameToBeModified] = !disabled;
-    setDisabled(visibleCards[cardNameToBeModified]);
+    const modifiedCard = cardName;
+    visibleCards[modifiedCard] = value;
+    setStatus(value);
 
     // save toggle value in db
     await axios
@@ -71,19 +69,6 @@ const ProfileCardsView = ({
   };
 
   /*
-   * Get Pop Confirm Title
-   *
-   * Get title of pop confirm based on current toggle position
-   */
-  const getPopConfirmTitle = (visibilityBool) => {
-    // if user wants to hide profile
-    if (visibilityBool) {
-      return <FormattedMessage id="profile.visibility.hide.confirm" />;
-    }
-    return <FormattedMessage id="profile.visibility.show.confirm" />;
-  };
-
-  /*
    * Generate Switch Button
    *
    * Generate visibility switch and edit button
@@ -92,32 +77,71 @@ const ProfileCardsView = ({
   const generateSwitchButton = () => {
     // Check if user is on his own profile (by
     // comparing the id in storage vs the id in the url)
-
     if (userID === urlID) {
       return (
         <div style={{ marginTop: "15px" }}>
           <Row type="flex" gutter={[16, 16]}>
             <Col>
-              <Popconfirm
-                title={getPopConfirmTitle(disabled)}
-                okText={<FormattedMessage id="profile.yes" />}
-                cancelText={<FormattedMessage id="profile.no" />}
-                icon={<WarningOutlined style={{ color: "orange" }} />}
-                onConfirm={handleVisibilityToggle}
-                placement="topRight"
-                disabled={forceDisabled}
-              >
-                <Switch
-                  aria-label="visibility toggle"
-                  checkedChildren={<EyeOutlined />}
-                  unCheckedChildren={<EyeInvisibleOutlined />}
-                  checked={disabled && !forceDisabled}
-                  style={{ marginTop: "5px" }}
-                  disabled={forceDisabled}
-                />
-              </Popconfirm>
+              <Radio.Group value={status} buttonStyle="solid" size="middle">
+                <Tooltip
+                  placement="bottom"
+                  title={<FormattedMessage id="profile.visibleCards.public" />}
+                >
+                  <Popconfirm
+                    title={
+                      <FormattedMessage id="profile.visibility.show.confirm" />
+                    }
+                    placement="topRight"
+                    okText={<FormattedMessage id="profile.yes" />}
+                    cancelText={<FormattedMessage id="profile.no" />}
+                    icon={<WarningOutlined style={{ color: "orange" }} />}
+                    onConfirm={() => handleVisibilityToggle("PUBLIC")}
+                  >
+                    <Radio.Button value="PUBLIC">
+                      <EyeOutlined />
+                    </Radio.Button>
+                  </Popconfirm>
+                </Tooltip>
+                <Tooltip
+                  placement="bottom"
+                  title={<FormattedMessage id="profile.visibleCards.friends" />}
+                >
+                  <Popconfirm
+                    title={
+                      <FormattedMessage id="profile.visibility.friends.confirm" />
+                    }
+                    placement="topRight"
+                    okText={<FormattedMessage id="profile.yes" />}
+                    cancelText={<FormattedMessage id="profile.no" />}
+                    icon={<WarningOutlined style={{ color: "orange" }} />}
+                    onConfirm={() => handleVisibilityToggle("FRIENDS")}
+                  >
+                    <Radio.Button value="FRIENDS">
+                      <TeamOutlined />
+                    </Radio.Button>
+                  </Popconfirm>
+                </Tooltip>
+                <Tooltip
+                  placement="bottom"
+                  title={<FormattedMessage id="profile.visibleCards.private" />}
+                >
+                  <Popconfirm
+                    title={
+                      <FormattedMessage id="profile.visibility.hide.confirm" />
+                    }
+                    placement="topRight"
+                    okText={<FormattedMessage id="profile.yes" />}
+                    cancelText={<FormattedMessage id="profile.no" />}
+                    icon={<WarningOutlined style={{ color: "orange" }} />}
+                    onConfirm={() => handleVisibilityToggle("PRIVATE")}
+                  >
+                    <Radio.Button value="PRIVATE">
+                      <EyeInvisibleOutlined />
+                    </Radio.Button>
+                  </Popconfirm>
+                </Tooltip>
+              </Radio.Group>
             </Col>
-
             <Col>
               <Tooltip
                 placement="top"
@@ -139,34 +163,25 @@ const ProfileCardsView = ({
   };
 
   useEffect(() => {
-    // get default state of card visibility status on load of page
     if (profileInfo) {
       const { visibleCards } = profileInfo;
-      const cardNameToBeModified = cardName;
-      setDisabled(visibleCards[cardNameToBeModified] && !forceDisabled);
+      const modifiedCard = cardName;
+      setStatus(visibleCards[modifiedCard]);
     }
-  }, [
-    cardName,
-    editUrl,
-    profileInfo,
-    title,
-    id,
-    content,
-    style,
-    forceDisabled,
-  ]);
+  }, [cardName, editUrl, profileInfo, title, id, content, style]);
 
   let styles;
-  if (disabled === true) {
+
+  if (status === "PRIVATE") {
     styles = {
       grayedOut: {
-        backgroundColor: "",
+        backgroundColor: "#D3D3D3",
       },
     };
   } else {
     styles = {
       grayedOut: {
-        backgroundColor: "#D3D3D3",
+        backgroundColor: "",
       },
     };
   }
@@ -177,7 +192,7 @@ const ProfileCardsView = ({
         className={content === null ? "no-content-card" : null}
         title={title}
         id={id}
-        extra={generateSwitchButton(cardName)}
+        extra={generateSwitchButton()}
         style={(style, styles.grayedOut)}
       >
         {content}
@@ -195,14 +210,12 @@ ProfileCardsView.propTypes = {
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
   history: HistoryPropType.isRequired,
-  forceDisabled: PropTypes.bool,
 };
 
 ProfileCardsView.defaultProps = {
   profileInfo: {},
   style: undefined,
   content: null,
-  forceDisabled: false,
 };
 
 export default ProfileCardsView;
