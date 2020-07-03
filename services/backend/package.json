@@ -14,7 +14,7 @@
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio --experimental",
-    "test": "cross-env NODE_ENV=test  jest"
+    "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest"
   },
   "author": "I-Talent team",
   "license": "MIT",
@@ -32,9 +32,9 @@
     "keycloak-connect": "^10.0.2",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
-    "validator": "^13.1.1",
     "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "swagger-ui-express": "^4.1.4",
+    "validator": "^13.1.1"
   },
   "devDependencies": {
     "@prisma/cli": "^2.1.3",
@@ -47,12 +47,34 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.1.0",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "setupFiles": [
+      "./tests/setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./tests/teardown.js"
+    ],
+    "globalSetup": "./tests/globalSetup.js",
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**/*.js",
+      "!./src/docs/**",
+      "!./src/database/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "coverageDirectory": "./tests/coverage"
   }
 }

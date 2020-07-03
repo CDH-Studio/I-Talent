@@ -1,5 +1,6 @@
 const { readdirSync } = require("fs");
 const path = require("path");
+const prisma = require("..");
 
 /**
  * Gets a list of directories in the for the seeds
@@ -28,6 +29,8 @@ async function seed() {
   );
 
   console.log("---- FINISHED SEEDING, all seeds were applied ----");
+
+  await prisma.disconnect();
 
   process.exit(0);
 }

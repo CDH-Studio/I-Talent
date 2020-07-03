@@ -1,7 +1,5 @@
 const moment = require("moment");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function growthRateByWeek(request, response) {
   try {

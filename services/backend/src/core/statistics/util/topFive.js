@@ -1,8 +1,6 @@
 const _ = require("lodash");
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function getTopFiveSkillsHelper(skills, language) {
   const skillsCount = _(skills)
@@ -24,21 +22,21 @@ async function getTopFiveSkillsHelper(skills, language) {
 
   const topFiveSkills = await prisma.opTransSkill.findMany({
     where: {
-      opSkillsId: {
+      opSkillId: {
         in: topFiveSkillIds,
       },
       language,
     },
     select: {
       name: true,
-      opSkillsId: true,
+      opSkillId: true,
     },
   });
 
   const topFiveSkillsCount = topFiveSkills.map((i) => {
     return {
       name: i.name,
-      count: topFiveSkillIdsCount.find((j) => j.skillId === i.opSkillsId).count,
+      count: topFiveSkillIdsCount.find((j) => j.skillId === i.opSkillId).count,
     };
   });
 
@@ -67,14 +65,14 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
 
   const topFiveCompetencies = await prisma.opTransCompetency.findMany({
     where: {
-      opCompetenciesId: {
+      opCompetencyId: {
         in: topFiveCompetencyIds,
       },
       language,
     },
     select: {
       name: true,
-      opCompetenciesId: true,
+      opCompetencyId: true,
     },
   });
 
@@ -82,7 +80,7 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
     return {
       name: i.name,
       count: topFiveCompetencyIdsCount.find(
-        (j) => j.competencyId === i.opCompetenciesId
+        (j) => j.competencyId === i.opCompetencyId
       ).count,
     };
   });
@@ -105,7 +103,9 @@ async function getTopFiveSkills(request, response) {
 
     const topFiveSkills = await getTopFiveSkillsHelper(skillIds, language);
 
-    response.status(200).json(topFiveSkills);
+    const sortedTopFiveSkills = _.orderBy(topFiveSkills, ["count", "name"]);
+
+    response.status(200).json(sortedTopFiveSkills);
   } catch (error) {
     console.log(error);
     if (error.errors) {
@@ -134,7 +134,12 @@ async function getTopFiveCompetencies(request, response) {
       language
     );
 
-    response.status(200).json(topFiveCompetencies);
+    const sortedTopFiveCompetencies = _.orderBy(topFiveCompetencies, [
+      "count",
+      "name",
+    ]);
+
+    response.status(200).json(sortedTopFiveCompetencies);
   } catch (error) {
     console.log(error);
     if (error.errors) {
@@ -181,7 +186,12 @@ async function getTopFiveDevelopmentalGoals(request, response) {
       5
     );
 
-    response.status(200).json(topFiveDevelopmentalGoals);
+    const sortedTopFiveDevelopmentalGoals = _.orderBy(
+      topFiveDevelopmentalGoals,
+      ["count", "name"]
+    );
+
+    response.status(200).json(sortedTopFiveDevelopmentalGoals);
   } catch (error) {
     console.log(error);
     if (error.errors) {

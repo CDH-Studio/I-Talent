@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getDiplomas(request, response) {
   try {
@@ -17,14 +16,18 @@ async function getDiplomas(request, response) {
         opDiplomaId: true,
         description: true,
       },
+      orderBy: {
+        description: "asc",
+      },
     });
 
-    const diplomas = diplomasQuery.map((i) => {
-      return {
-        id: i.opDiplomaId,
-        description: i.description,
-      };
-    });
+    const diplomas = _.sortBy(
+      diplomasQuery.map((i) => ({
+          id: i.opDiplomaId,
+          description: i.description,
+        })),
+      "description"
+    );
 
     response.status(200).json(diplomas);
   } catch (error) {
@@ -51,13 +54,14 @@ async function getDiplomasAllLang(request, response) {
       },
     });
 
-    const diplomas = diplomasQuery.map((i) => {
-      return {
+    const diplomas = _.orderBy(
+      diplomasQuery.map((i) => ({
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").description,
         fr: i.translations.find((j) => j.language === "FRENCH").description,
-      };
-    });
+      })),
+      ["en", "fr"]
+    );
 
     response.status(200).json(diplomas);
   } catch (error) {

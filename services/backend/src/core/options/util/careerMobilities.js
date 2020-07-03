@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getCareerMobilities(request, response) {
   try {
@@ -22,12 +21,13 @@ async function getCareerMobilities(request, response) {
       },
     });
 
-    const careerMobility = careerMobilityQuery.map((i) => {
-      return {
+    const careerMobility = _.sortBy(
+      careerMobilityQuery.map((i) => ({
         id: i.opCareerMobilityId,
         description: i.description,
-      };
-    });
+      })),
+      "description"
+    );
 
     response.status(200).json(careerMobility);
   } catch (error) {

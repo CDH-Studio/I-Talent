@@ -1,24 +1,26 @@
-const administration = require("./skills/administration");
-const auditAndEvaluation = require("./skills/auditAndEvaluation");
-const collaboration = require("./skills/collaboration");
-const finances = require("./skills/finances");
-const emergencyManagement = require("./skills/emergencyManagement");
-const communications = require("./skills/communications");
-const dataScience = require("./skills/dataScience");
-const digital = require("./skills/digital");
-const humanResources = require("./skills/humanResources");
-const innovation = require("./skills/innovation");
-const informationManagement = require("./skills/informationManagement");
-const diversityAndInclusion = require("./skills/diversityAndInclusion");
-const management = require("./skills/management");
-const learningDelivery = require("./skills/learningDelivery");
-const policy = require("./skills/policy");
-const specializations = require("./skills/specializations");
-const procurement = require("./skills/procurement");
-const internationalAffairs = require("./skills/internationalAffairs");
-const learningDesign = require("./skills/learningDesign");
-const general = require("./skills/general");
-const programmingLanguages = require("./skills/programmingLanguages");
+const {
+  administration,
+  auditAndEvaluation,
+  collaboration,
+  finances,
+  emergencyManagement,
+  communications,
+  dataScience,
+  digital,
+  humanResources,
+  innovation,
+  informationManagement,
+  diversityAndInclusion,
+  management,
+  learningDelivery,
+  policy,
+  specializations,
+  procurement,
+  internationalAffairs,
+  learningDesign,
+  general,
+  programmingLanguages,
+} = require("./skills");
 
 module.exports = [
   {

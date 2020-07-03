@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getDevelopmentalGoals(request, response) {
   try {
@@ -35,21 +34,17 @@ async function getDevelopmentalGoals(request, response) {
       },
     });
 
-    const competencies = competenciesQuery.map((i) => {
-      return {
-        id: i.opCompetencyId,
-        name: i.name,
-      };
-    });
+    const competencies = competenciesQuery.map((i) => ({
+      id: i.opCompetencyId,
+      name: i.name,
+    }));
 
-    const skills = skillsQuery.map((i) => {
-      return {
-        id: i.opSkillId,
-        name: i.name,
-      };
-    });
+    const skills = skillsQuery.map((i) => ({
+      id: i.opSkillId,
+      name: i.name,
+    }));
 
-    const developmentalGoals = [...competencies, ...skills];
+    const developmentalGoals = _.sortBy([...competencies, ...skills], "name");
 
     response.status(200).json(developmentalGoals);
   } catch (error) {
