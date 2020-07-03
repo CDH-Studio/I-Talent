@@ -325,9 +325,9 @@
   "profile.form.clear": "Changements effacé",
   "profile.qualifications.select.month": "Sélectionner un mois",
 
-  "profile.visibility.show.confirm": "Etes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
-  "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Ne sera visible que pour vous et les RH)",
-  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe d'amis? (Ne sera visible que pour vous et les RH)?",
+  "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
+  "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Sera aussi visible pour les ressources humaines)",
+  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe d'amis? (Sera aussi visible pour les ressources humaines)?",
 
   "lang": "English",
   "lang.code": "en",
