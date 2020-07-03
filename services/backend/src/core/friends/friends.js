@@ -88,6 +88,7 @@ async function getFriendById(request, response) {
       response.status(200).json({
         friend: friends.friends.some((item) => item.id === friendId),
       });
+      return;
     }
     response
       .status(403)
