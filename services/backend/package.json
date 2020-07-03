@@ -4,7 +4,7 @@
   "description": "I-Talent team",
   "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "(cd src/database && npx @prisma/cli generate) && node src/server.js",
     "dev": "npx concurrently \"nodemon -e yml,js,json src/server.js\" \"yarn -s studio\"",
     "generate": "cd src/database && prisma generate",
     "migrate": "cd src/database && prisma migrate up --experimental -c",
