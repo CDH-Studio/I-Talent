@@ -26,6 +26,7 @@ async function fuzzySearch(request, response) {
 async function filterSearch(request, response) {
   try {
     validationResult(request).throw();
+    const userId = request.kauth.grant.access_token.content.sub;
 
     const {
       skills,
@@ -42,7 +43,11 @@ async function filterSearch(request, response) {
       skillSearchValue = await utils.getSkillNames(skills);
     }
 
-    let results = await utils.getAllProfiles(skillSearchValue, language);
+    let results = await utils.getAllProfiles(
+      skillSearchValue,
+      language,
+      userId
+    );
 
     if (skills) {
       results = await utils.skillSearch(results, skills);

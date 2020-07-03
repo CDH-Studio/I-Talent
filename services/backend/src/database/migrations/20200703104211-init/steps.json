@@ -39,6 +39,15 @@
       ]
     },
     {
+      "tag": "CreateEnum",
+      "enum": "CardVisibilityStatus",
+      "values": [
+        "PRIVATE",
+        "PUBLIC",
+        "FRIENDS"
+      ]
+    },
+    {
       "tag": "CreateSource",
       "source": "db"
     },
@@ -3986,7 +3995,7 @@
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "info",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4012,13 +4021,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "manager",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4044,13 +4053,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "talentManagement",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4076,13 +4085,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "officialLanguage",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4108,13 +4117,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "skills",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4140,13 +4149,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "competencies",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4172,13 +4181,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "developmentalGoals",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4204,13 +4213,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "education",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4236,13 +4245,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "experience",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4268,13 +4277,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "projects",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4300,13 +4309,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "careerInterests",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4332,13 +4341,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "mentorshipSkills",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4364,13 +4373,13 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
       "model": "VisibleCard",
       "field": "exFeeder",
-      "type": "Boolean",
+      "type": "CardVisibilityStatus",
       "arity": "Required"
     },
     {
@@ -4396,7 +4405,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "true"
+      "value": "PUBLIC"
     },
     {
       "tag": "CreateField",
@@ -7261,6 +7270,66 @@
       "field": "relocationLocations",
       "type": "RelocationLocation",
       "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "friends",
+      "type": "User",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "user",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"UserToUser\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "userId",
+      "type": "String",
+      "arity": "Optional"
     }
   ]
 }

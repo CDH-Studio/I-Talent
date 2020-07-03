@@ -744,6 +744,13 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      friends: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+        },
+      },
       visibleCards: {
         select: {
           manager: true,
@@ -1014,63 +1021,108 @@ async function getPrivateProfileById(request, response) {
 async function getPublicProfileById(request, response) {
   try {
     validationResult(request).throw();
-
+    const userId = request.kauth.grant.access_token.content.sub;
     const { id } = request.params;
     const { language } = request.query;
 
-    const unFilteredProfile = await getFullProfile(id, language);
-    const result = filterProfileResult(unFilteredProfile, language);
+    if (userId && id) {
+      const result = filterProfileResult(
+        await getFullProfile(id, language),
+        language
+      );
 
-    if (!result.visibleCards.manager) {
-      delete result.manager;
-    }
-    if (!result.visibleCards.info) {
-      delete result.employmentInfo;
-      delete result.securityClearance;
-      delete result.groupLevel;
-      delete result.tenure;
-      delete result.actingLevel;
-      delete result.actingStartDate;
-      delete result.actingEndDate;
-      delete result.firstLanguage;
-      delete result.secondLanguage;
-    }
-    if (!result.visibleCards.talentManagement) {
-      delete result.careerMobility;
-      delete result.talentMatrixResult;
-    }
-    if (!result.visibleCards.officialLanguage) {
-      delete result.firstLanguage;
-      delete result.secondLanguage;
-    }
-    if (!result.visibleCards.skills) {
-      delete result.skills;
-    }
-    if (!result.visibleCards.competencies) {
-      delete result.competencies;
-    }
-    if (!result.visibleCards.developmentalGoals) {
-      delete result.developmentalGoals;
-    }
-    if (!result.visibleCards.education) {
-      delete result.educations;
-    }
-    if (!result.visibleCards.experience) {
-      delete result.experiences;
-    }
-    if (!result.visibleCards.projects) {
-      delete result.projects;
-    }
-    if (!result.visibleCards.careerInterests) {
-      delete result.interestedInRemote;
-      delete result.lookingJob;
-      delete result.relocationLocations;
-    }
-    if (!result.visibleCards.exFeeder) {
-      delete result.exFeeder;
-    }
+      const isFriends = result.friends.some((item) => item.id === userId);
 
-    response.status(200).json(result);
+      if (
+        result.visibleCards.manager === "PRIVATE" ||
+        (result.visibleCards.manager === "FRIENDS" && !isFriends)
+      ) {
+        delete result.manager;
+      }
+
+      if (
+        result.visibleCards.info === "PRIVATE" ||
+        (result.visibleCards.info === "FRIENDS" && !isFriends)
+      ) {
+        delete result.employmentInfo;
+        delete result.securityClearance;
+        delete result.groupLevel;
+        delete result.tenure;
+        delete result.actingLevel;
+        delete result.actingStartDate;
+        delete result.actingEndDate;
+        delete result.firstLanguage;
+        delete result.secondLanguage;
+      }
+
+      if (
+        result.visibleCards.talentManagement === "PRIVATE" ||
+        (result.visibleCards.talentManagement === "FRIENDS" && !isFriends)
+      ) {
+        delete result.careerMobility;
+        delete result.talentMatrixResult;
+      }
+
+      if (
+        result.visibleCards.officialLanguage === "PRIVATE" ||
+        (result.visibleCards.officialLanguage === "FRIENDS" && !isFriends)
+      ) {
+        delete result.firstLanguage;
+        delete result.secondLanguage;
+      }
+      if (
+        result.visibleCards.skills === "PRIVATE" ||
+        (result.visibleCards.skills === "FRIENDS" && !isFriends)
+      ) {
+        delete result.skills;
+      }
+      if (
+        result.visibleCards.competencies === "PRIVATE" ||
+        (result.visibleCards.competencies === "FRIENDS" && !isFriends)
+      ) {
+        delete result.competencies;
+      }
+      if (
+        result.visibleCards.developmentalGoals === "PRIVATE" ||
+        (result.visibleCards.developmentalGoals === "FRIENDS" && !isFriends)
+      ) {
+        delete result.developmentalGoals;
+      }
+      if (
+        result.visibleCards.education === "PRIVATE" ||
+        (result.visibleCards.education === "FRIENDS" && !isFriends)
+      ) {
+        delete result.educations;
+      }
+      if (
+        result.visibleCards.experience === "PRIVATE" ||
+        (result.visibleCards.experience === "FRIENDS" && !isFriends)
+      ) {
+        delete result.experiences;
+      }
+      if (
+        result.visibleCards.projects === "PRIVATE" ||
+        (result.visibleCards.projects === "FRIENDS" && !isFriends)
+      ) {
+        delete result.projects;
+      }
+      if (
+        result.visibleCards.careerInterests === "PRIVATE" ||
+        (result.visibleCards.careerInterests === "FRIENDS" && !isFriends)
+      ) {
+        delete result.interestedInRemote;
+        delete result.lookingJob;
+        delete result.relocationLocations;
+      }
+      if (
+        result.visibleCards.exFeeder === "PRIVATE" ||
+        (result.visibleCards.exFeeder === "FRIENDS" && !isFriends)
+      ) {
+        delete result.exFeeder;
+      }
+
+      response.status(200).json(result);
+    }
   } catch (error) {
     console.log(error);
     if (error.errors) {
