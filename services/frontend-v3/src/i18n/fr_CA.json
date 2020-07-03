@@ -138,6 +138,11 @@
 
   "count.remaining": "restants",
 
+  "footer.about.link": "À propos I-Talent",
+  "footer.contact.link": "Contactez-nous",
+  "footer.terms.and.conditions.link": "Avis",
+  "footer.privacy.link": "Confidentialité",
+
   "landing.login.and.enter": "Connexion",
   "landing.welcome": "Bienvenue",
   "landing.benefits": "Avantages",

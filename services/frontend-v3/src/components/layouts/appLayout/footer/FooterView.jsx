@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import { FormattedMessage } from "react-intl";
-// import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
+import { FormattedMessage } from "react-intl";
+
 // import CanLogo from "../../../../assets/government-of-canada-logo.svg";
 // import Footer from "./Footer";
 import { Layout } from "antd";
@@ -54,7 +54,7 @@ const FooterView = () => {
             // href to be changed to route w about page
             href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
           >
-            About I-Talent
+            <FormattedMessage id="footer.about.link" />
           </a>
 
           <a
@@ -62,21 +62,21 @@ const FooterView = () => {
             // href to be changed to route w Contact Us page
             href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
           >
-            Contact Us
+            <FormattedMessage id="footer.contact.link" />
           </a>
 
           <a
             style={styles.link}
             href="https://www.canada.ca/en/transparency/terms.html"
           >
-            Terms and Conditions
+            <FormattedMessage id="footer.terms.and.conditions.link" />
           </a>
 
           <a
             style={styles.link}
             href="https://www.canada.ca/en/transparency/terms.html"
           >
-            Privacy
+            <FormattedMessage id="footer.privacy.link" />
           </a>
         </div>
       </Footer>
@@ -91,7 +91,7 @@ const FooterView = () => {
           // href to be changed to route w about page
           href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
         >
-          About I-Talent
+          <FormattedMessage id="footer.about.link" />
         </a>
 
         <a
@@ -99,21 +99,21 @@ const FooterView = () => {
           // href to be changed to route w Contact Us page
           href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
         >
-          Contact Us
+          <FormattedMessage id="footer.contact.link" />
         </a>
 
         <a
           style={styles.link}
           href="https://www.canada.ca/en/transparency/terms.html"
         >
-          Terms and Conditions
+          <FormattedMessage id="footer.terms.and.conditions.link" />
         </a>
 
         <a
           style={styles.link}
           href="https://www.canada.ca/en/transparency/terms.html"
         >
-          Privacy
+          <FormattedMessage id="footer.privacy.link" />
         </a>
       </div>
     </Footer>

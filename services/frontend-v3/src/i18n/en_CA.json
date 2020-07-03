@@ -129,6 +129,11 @@
 
   "count.remaining": "remaining",
 
+  "footer.about.link": "About I-Talent",
+  "footer.contact.link": "Contact Us",
+  "footer.terms.and.conditions.link": "Terms and Conditions",
+  "footer.privacy.link": "Privacy",
+
   "landing.login.and.enter": "Sign in",
   "landing.welcome": "Welcome",
   "landing.benefits": "Benefits",
