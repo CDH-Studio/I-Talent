@@ -39,6 +39,12 @@ enum ProficiencyLevel {
   X
 }
 
+enum CardVisibilityStatus {
+  PRIVATE
+  PUBLIC
+  FRIENDS
+}
+
 model OpTransSecurityClearance {
   id          String   @default(uuid()) @id
   createdAt   DateTime @default(now())
@@ -307,22 +313,22 @@ model EmploymentInfo {
 }
 
 model VisibleCard {
-  id                 String   @default(uuid()) @id
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  info               Boolean  @default(true)
-  manager            Boolean  @default(true)
-  talentManagement   Boolean  @default(true)
-  officialLanguage   Boolean  @default(true)
-  skills             Boolean  @default(true)
-  competencies       Boolean  @default(true)
-  developmentalGoals Boolean  @default(true)
-  education          Boolean  @default(true)
-  experience         Boolean  @default(true)
-  projects           Boolean  @default(true)
-  careerInterests    Boolean  @default(true)
-  mentorshipSkills   Boolean  @default(true)
-  exFeeder           Boolean  @default(true)
+  id                 String               @default(uuid()) @id
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  info               CardVisibilityStatus @default(PUBLIC)
+  manager            CardVisibilityStatus @default(PUBLIC)
+  talentManagement   CardVisibilityStatus @default(PUBLIC)
+  officialLanguage   CardVisibilityStatus @default(PUBLIC)
+  skills             CardVisibilityStatus @default(PUBLIC)
+  competencies       CardVisibilityStatus @default(PUBLIC)
+  developmentalGoals CardVisibilityStatus @default(PUBLIC)
+  education          CardVisibilityStatus @default(PUBLIC)
+  experience         CardVisibilityStatus @default(PUBLIC)
+  projects           CardVisibilityStatus @default(PUBLIC)
+  careerInterests    CardVisibilityStatus @default(PUBLIC)
+  mentorshipSkills   CardVisibilityStatus @default(PUBLIC)
+  exFeeder           CardVisibilityStatus @default(PUBLIC)
   users              User[]
 }
 
@@ -513,4 +519,7 @@ model User {
   educations           Education[]
   experiences          Experience[]
   relocationLocations  RelocationLocation[]
+  friends              User[]
+  user                 User?                 @relation("UserToUser", fields: [userId])
+  userId               String?
 }

@@ -4,15 +4,7 @@ import { useHistory } from "react-router-dom";
 import ProfileCardsView from "./ProfileCardsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
-const ProfileCards = ({
-  data,
-  title,
-  content,
-  editUrl,
-  cardName,
-  id,
-  forceDisabled,
-}) => {
+const ProfileCards = ({ data, title, content, editUrl, cardName, id }) => {
   const history = useHistory();
 
   return (
@@ -24,7 +16,6 @@ const ProfileCards = ({
       cardName={cardName}
       id={id}
       history={history}
-      forceDisabled={forceDisabled}
     />
   );
 };
@@ -36,13 +27,11 @@ ProfileCards.propTypes = {
   editUrl: PropTypes.string.isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  forceDisabled: PropTypes.bool,
 };
 
 ProfileCards.defaultProps = {
   data: null,
   content: null,
-  forceDisabled: false,
 };
 
 export default ProfileCards;

@@ -1,6 +1,6 @@
-# Migration `20200626141327-init`
+# Migration `20200703104211-init`
 
-This migration has been generated at 6/26/2020, 2:13:27 PM.
+This migration has been generated at 7/3/2020, 10:42:11 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -13,6 +13,8 @@ CREATE TYPE "UserStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'HIDDEN');
 CREATE TYPE "Proficiency" AS ENUM ('READING', 'WRITING', 'ORAL');
 
 CREATE TYPE "ProficiencyLevel" AS ENUM ('A', 'B', 'C', 'E', 'X');
+
+CREATE TYPE "CardVisibilityStatus" AS ENUM ('PRIVATE', 'PUBLIC', 'FRIENDS');
 
 CREATE TABLE "public"."DbSeed" (
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"id" text  NOT NULL ,"updatedAt" timestamp(3)  NOT NULL ,
@@ -123,7 +125,7 @@ CREATE TABLE "public"."EmploymentInfo" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."VisibleCard" (
-"careerInterests" boolean  NOT NULL DEFAULT true,"competencies" boolean  NOT NULL DEFAULT true,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"developmentalGoals" boolean  NOT NULL DEFAULT true,"education" boolean  NOT NULL DEFAULT true,"exFeeder" boolean  NOT NULL DEFAULT true,"experience" boolean  NOT NULL DEFAULT true,"id" text  NOT NULL ,"info" boolean  NOT NULL DEFAULT true,"manager" boolean  NOT NULL DEFAULT true,"mentorshipSkills" boolean  NOT NULL DEFAULT true,"officialLanguage" boolean  NOT NULL DEFAULT true,"projects" boolean  NOT NULL DEFAULT true,"skills" boolean  NOT NULL DEFAULT true,"talentManagement" boolean  NOT NULL DEFAULT true,"updatedAt" timestamp(3)  NOT NULL ,
+"careerInterests" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"competencies" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"developmentalGoals" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"education" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"exFeeder" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"experience" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"id" text  NOT NULL ,"info" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"manager" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"mentorshipSkills" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"officialLanguage" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"projects" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"skills" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"talentManagement" "CardVisibilityStatus" NOT NULL DEFAULT E'PUBLIC',"updatedAt" timestamp(3)  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."MentorshipSkill" (
@@ -171,7 +173,7 @@ CREATE TABLE "public"."RelocationLocation" (
     PRIMARY KEY ("id"))
 
 CREATE TABLE "public"."User" (
-"actingEndDate" timestamp(3)   ,"actingLevelId" text   ,"actingStartDate" timestamp(3)   ,"avatarColor" text   ,"careerMobilityId" text   ,"cellphone" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"email" text   ,"employmentInfoId" text   ,"exFeeder" boolean  NOT NULL DEFAULT false,"firstLanguage" "Language"  ,"firstName" text   ,"gcconnex" text   ,"github" text   ,"groupLevelId" text   ,"id" text  NOT NULL ,"interestedInRemote" boolean  NOT NULL DEFAULT false,"lastName" text   ,"linkedin" text   ,"lookingJobId" text   ,"manager" text   ,"name" text   ,"officeLocationId" text   ,"preferredLanguage" "Language" NOT NULL DEFAULT E'ENGLISH',"projects" text []  ,"secondLanguage" "Language"  ,"securityClearanceId" text   ,"signupStep" integer  NOT NULL DEFAULT 0,"status" "UserStatus" NOT NULL DEFAULT E'ACTIVE',"talentMatrixResultId" text   ,"teams" text []  ,"telephone" text   ,"tenureId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"visibleCardId" text  NOT NULL ,
+"actingEndDate" timestamp(3)   ,"actingLevelId" text   ,"actingStartDate" timestamp(3)   ,"avatarColor" text   ,"careerMobilityId" text   ,"cellphone" text   ,"createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,"email" text   ,"employmentInfoId" text   ,"exFeeder" boolean  NOT NULL DEFAULT false,"firstLanguage" "Language"  ,"firstName" text   ,"gcconnex" text   ,"github" text   ,"groupLevelId" text   ,"id" text  NOT NULL ,"interestedInRemote" boolean  NOT NULL DEFAULT false,"lastName" text   ,"linkedin" text   ,"lookingJobId" text   ,"manager" text   ,"name" text   ,"officeLocationId" text   ,"preferredLanguage" "Language" NOT NULL DEFAULT E'ENGLISH',"projects" text []  ,"secondLanguage" "Language"  ,"securityClearanceId" text   ,"signupStep" integer  NOT NULL DEFAULT 0,"status" "UserStatus" NOT NULL DEFAULT E'ACTIVE',"talentMatrixResultId" text   ,"teams" text []  ,"telephone" text   ,"tenureId" text   ,"updatedAt" timestamp(3)  NOT NULL ,"userId" text   ,"visibleCardId" text  NOT NULL ,
     PRIMARY KEY ("id"))
 
 CREATE UNIQUE INDEX "OpTransSecurityClearance.language_description" ON "public"."OpTransSecurityClearance"("language","description")
@@ -293,16 +295,18 @@ ALTER TABLE "public"."User" ADD FOREIGN KEY ("talentMatrixResultId")REFERENCES "
 ALTER TABLE "public"."User" ADD FOREIGN KEY ("officeLocationId")REFERENCES "public"."OpOfficeLocation"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 
 ALTER TABLE "public"."User" ADD FOREIGN KEY ("visibleCardId")REFERENCES "public"."VisibleCard"("id") ON DELETE CASCADE  ON UPDATE CASCADE
+
+ALTER TABLE "public"."User" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE SET NULL  ON UPDATE CASCADE
 ```
 
 ## Changes
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..20200626141327-init
+migration ..20200703104211-init
 --- datamodel.dml
 +++ datamodel.dml
-@@ -1,0 +1,516 @@
+@@ -1,0 +1,525 @@
 +generator client {
 +  provider = "prisma-client-js"
 +  output   = "./client"
@@ -342,6 +346,12 @@ migration ..20200626141327-init
 +  C
 +  E
 +  X
++}
++
++enum CardVisibilityStatus {
++  PRIVATE
++  PUBLIC
++  FRIENDS
 +}
 +
 +model OpTransSecurityClearance {
@@ -612,22 +622,22 @@ migration ..20200626141327-init
 +}
 +
 +model VisibleCard {
-+  id                 String   @default(uuid()) @id
-+  createdAt          DateTime @default(now())
-+  updatedAt          DateTime @updatedAt
-+  info               Boolean  @default(true)
-+  manager            Boolean  @default(true)
-+  talentManagement   Boolean  @default(true)
-+  officialLanguage   Boolean  @default(true)
-+  skills             Boolean  @default(true)
-+  competencies       Boolean  @default(true)
-+  developmentalGoals Boolean  @default(true)
-+  education          Boolean  @default(true)
-+  experience         Boolean  @default(true)
-+  projects           Boolean  @default(true)
-+  careerInterests    Boolean  @default(true)
-+  mentorshipSkills   Boolean  @default(true)
-+  exFeeder           Boolean  @default(true)
++  id                 String               @default(uuid()) @id
++  createdAt          DateTime             @default(now())
++  updatedAt          DateTime             @updatedAt
++  info               CardVisibilityStatus @default(PUBLIC)
++  manager            CardVisibilityStatus @default(PUBLIC)
++  talentManagement   CardVisibilityStatus @default(PUBLIC)
++  officialLanguage   CardVisibilityStatus @default(PUBLIC)
++  skills             CardVisibilityStatus @default(PUBLIC)
++  competencies       CardVisibilityStatus @default(PUBLIC)
++  developmentalGoals CardVisibilityStatus @default(PUBLIC)
++  education          CardVisibilityStatus @default(PUBLIC)
++  experience         CardVisibilityStatus @default(PUBLIC)
++  projects           CardVisibilityStatus @default(PUBLIC)
++  careerInterests    CardVisibilityStatus @default(PUBLIC)
++  mentorshipSkills   CardVisibilityStatus @default(PUBLIC)
++  exFeeder           CardVisibilityStatus @default(PUBLIC)
 +  users              User[]
 +}
 +
@@ -818,6 +828,9 @@ migration ..20200626141327-init
 +  educations           Education[]
 +  experiences          Experience[]
 +  relocationLocations  RelocationLocation[]
++  friends              User[]
++  user                 User?                 @relation("UserToUser", fields: [userId])
++  userId               String?
 +}
 ```
 
