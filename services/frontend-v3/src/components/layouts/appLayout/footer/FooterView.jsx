@@ -20,9 +20,13 @@ const FooterView = () => {
       bottom: "0",
     },
     link: {
-      float: "right",
+      // float: "right",
       display: "inline",
       marginLeft: "15px",
+    },
+    aroundLinks: {
+      textAlign: "center",
+      paddingLeft: "270px",
     },
   };
 
@@ -49,35 +53,37 @@ const FooterView = () => {
   return (
     <>
       <Footer style={styles.footer}>
-        <a
-          style={styles.link}
-          // href to be changed to route w about page
-          href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
-        >
-          About I-Talent
-        </a>
+        <div style={styles.aroundLinks}>
+          <a
+            style={styles.link}
+            // href to be changed to route w about page
+            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+          >
+            About I-Talent
+          </a>
 
-        <a
-          style={styles.link}
-          // href to be changed to route w Contact Us page
-          href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
-        >
-          Contact Us
-        </a>
+          <a
+            style={styles.link}
+            // href to be changed to route w Contact Us page
+            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+          >
+            Contact Us
+          </a>
 
-        <a
-          style={styles.link}
-          href="https://www.canada.ca/en/transparency/terms.html"
-        >
-          Terms and Conditions
-        </a>
+          <a
+            style={styles.link}
+            href="https://www.canada.ca/en/transparency/terms.html"
+          >
+            Terms and Conditions
+          </a>
 
-        <a
-          style={styles.link}
-          href="https://www.canada.ca/en/transparency/terms.html"
-        >
-          Privacy
-        </a>
+          <a
+            style={styles.link}
+            href="https://www.canada.ca/en/transparency/terms.html"
+          >
+            Privacy
+          </a>
+        </div>
       </Footer>
     </>
   );
