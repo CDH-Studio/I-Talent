@@ -11,9 +11,9 @@ API documentation can be accessed locally [here](http://localhost:8080/api-docs)
 - [Contributors](#contributors)
 - [Tech Stack](#tech-stack)
 - [Repo Structure](#repo-structure)
+- [Architecture Overview](#architecture-overview)
 - [Local Development](#local-development)
 - [Wiki](#wiki)
-- [License](#license)
 - [Contact](#contact)
 
 # What is I-Talent?
@@ -25,15 +25,18 @@ Any ISED employee will be able to login to I-Talent with their windows credentia
 # Contributors
 Our full stack developers
 
-- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
-- [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
+__Active developers__
 - [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
 - [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
+- [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
+- [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)
+- [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)
+
+__Previous developers__
+- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
+- [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
 - [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
 - [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
-- [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
-- [Benoit Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)
-- [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)
 
 # Tech Stack
 
@@ -48,7 +51,7 @@ Our full stack developers
 I-Talent is broken down into two different services: Frontend and Backend.
 
 - Frontend: Serves the React app that is the web interface for I-Talent.
-- Backend: Manages data coming into and out of the database.
+- Backend: Manages data coming into and out of the database (see its [README](services/backend/README.md))
 
 # Local Development
 
