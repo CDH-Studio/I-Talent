@@ -7,7 +7,7 @@ import { IntlPropType } from "../../customPropTypes";
 import { setLocale } from "../../redux/slices/settingsSlice";
 
 const ChangeLanguageView = ({ intl }) => {
-  const languageCode = intl.formatMessage({ id: "lang.code" });
+  const languageCode = intl.formatMessage({ id: "lang.db.code" });
   const dispatch = useDispatch();
 
   const handleKeyPress = (e, lang) => {

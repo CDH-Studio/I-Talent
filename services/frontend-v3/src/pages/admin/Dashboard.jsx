@@ -1,13 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import axios from "axios";
-import { Skeleton, PageHeader } from "antd";
+import { PageHeader } from "antd";
 import { injectIntl } from "react-intl";
+import { useSelector, useDispatch } from "react-redux";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import config from "../../config";
 import { IntlPropType } from "../../customPropTypes";
 import handleError from "../../functions/handleError";
+import {
+  setCountUsers,
+  setCountHiddenUsers,
+  setCountInactiveUsers,
+  setCountExFeederUsers,
+  setHiddenUsers,
+  setGrowthRateByMonth,
+  setGrowthRateByWeek,
+  setTopFiveCompetencies,
+  setTopFiveSkills,
+  setTopFiveDevelopmentalGoals,
+} from "../../redux/slices/statsSlice";
 
 const { backendAddress } = config;
 
@@ -17,19 +30,133 @@ const { backendAddress } = config;
  *  It gathers the required data for rendering these components.
  */
 const AdminDashboard = ({ intl }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
   const type = "dashboard";
 
-  // Get dashboard data for statistic cards and graphes
-  const getDashboardData = async () => {
-    const url = `${backendAddress}api/admin/dashboard/`;
+  // Get dashboard data for statistic cards
+  const getUserCount = useCallback(async () => {
+    try {
+      const results = await axios.get(`${backendAddress}api/stats/count/users`);
 
-    const results = await axios.get(url);
+      dispatch(setCountUsers(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
 
-    return results.data;
-  };
+  const getHiddenUserCount = useCallback(async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/stats/count/hiddenUsers`
+      );
+
+      dispatch(setCountHiddenUsers(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
+
+  const getInactiveUserCount = useCallback(async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/stats/count/inactiveUsers`
+      );
+
+      dispatch(setCountInactiveUsers(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
+
+  const getExfeederUserCount = useCallback(async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/stats/count/exFeederUsers`
+      );
+
+      dispatch(setCountExFeederUsers(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
+
+  const getHiddenUsers = useCallback(async () => {
+    try {
+      const results = await axios.get(`${backendAddress}api/stats/hiddenUsers`);
+
+      dispatch(setHiddenUsers(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
+
+  const getGrowthRateByMonth = useCallback(async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/stats/growthRateByMonth`
+      );
+
+      dispatch(setGrowthRateByMonth(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
+
+  const getGrowthRateByWeek = useCallback(async () => {
+    try {
+      const results = await axios.get(
+        `${backendAddress}api/stats/growthRateByWeek`
+      );
+
+      dispatch(setGrowthRateByWeek(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch]);
+
+  const getTopFiveCompentencies = useCallback(async () => {
+    try {
+      dispatch(setTopFiveCompetencies([]));
+
+      const results = await axios.get(
+        `${backendAddress}api/stats/topFiveCompetencies?language=${locale}`
+      );
+
+      dispatch(setTopFiveCompetencies(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch, locale]);
+
+  const getTopFiveSkills = useCallback(async () => {
+    try {
+      dispatch(setTopFiveSkills([]));
+
+      const results = await axios.get(
+        `${backendAddress}api/stats/topFiveSkills?language=${locale}`
+      );
+
+      dispatch(setTopFiveSkills(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch, locale]);
+
+  const getTopFiveDevelopmentalGoals = useCallback(async () => {
+    try {
+      dispatch(setTopFiveDevelopmentalGoals([]));
+
+      const results = await axios.get(
+        `${backendAddress}api/stats/topFiveDevelopmentalGoals?language=${locale}`
+      );
+
+      dispatch(setTopFiveDevelopmentalGoals(results.data));
+    } catch (error) {
+      handleError(error, "redirect");
+    }
+  }, [dispatch, locale]);
 
   // Get part of the title for the page
   const getDisplayType = (plural) => {
@@ -47,26 +174,32 @@ const AdminDashboard = ({ intl }) => {
 
   // useEffect to run once component is mounted
   useEffect(() => {
-    const setState = async () => {
-      // Get the data for the dashboard cards and graphes
-      const dashboardData = await getDashboardData().catch((error) =>
-        handleError(error, "redirect")
-      );
-      setData(dashboardData);
-      setLoading(false);
-    };
-    setState();
-  }, []);
+    Promise.all([
+      getUserCount(),
+      getHiddenUserCount(),
+      getInactiveUserCount(),
+      getExfeederUserCount(),
+      getHiddenUsers(),
+      getGrowthRateByMonth(),
+      getGrowthRateByWeek(),
+      getTopFiveCompentencies(),
+      getTopFiveSkills(),
+      getTopFiveDevelopmentalGoals(),
+    ]);
+  }, [
+    getExfeederUserCount,
+    getGrowthRateByMonth,
+    getGrowthRateByWeek,
+    getHiddenUserCount,
+    getHiddenUsers,
+    getInactiveUserCount,
+    getTopFiveCompentencies,
+    getTopFiveDevelopmentalGoals,
+    getTopFiveSkills,
+    getUserCount,
+  ]);
 
   document.title = `${getDisplayType(false)} - Admin | I-Talent`;
-
-  if (loading) {
-    return (
-      <AdminLayout displaySideBar type={type}>
-        <Skeleton active />
-      </AdminLayout>
-    );
-  }
 
   return (
     <AdminLayout displaySideBar type={type}>
@@ -76,8 +209,8 @@ const AdminDashboard = ({ intl }) => {
           defaultMessage: "Admin Dashboard",
         })}
       />
-      <StatCards data={data} />
-      <DashboardGraphs data={data} />
+      <StatCards />
+      <DashboardGraphs />
     </AdminLayout>
   );
 };

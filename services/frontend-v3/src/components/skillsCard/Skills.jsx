@@ -1,22 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const Skills = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
   const formatData = (list) => {
     const categorizedList = {};
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
 
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }
@@ -33,19 +30,15 @@ const Skills = ({ data }) => {
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
           if (categoriesTemp[k] == null) {
-            if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category.en];
-            } else {
-              categoriesTemp[k] = [listElement.description.category.fr];
-            }
+            categoriesTemp[k] = [listElement.category];
             k += 1;
           }
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }

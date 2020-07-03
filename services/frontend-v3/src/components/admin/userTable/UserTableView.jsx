@@ -16,10 +16,10 @@ import {
   LinkOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-// eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import Highlighter from "react-highlight-words";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 
@@ -29,7 +29,6 @@ import handleError from "../../../functions/handleError";
  */
 const UserTableView = ({
   intl,
-  data,
   size,
   searchText,
   searchedColumn,
@@ -43,30 +42,21 @@ const UserTableView = ({
 
   const { Option } = Select;
 
-  // const {
-  //   data,
-  //   size,
-  //   searchText,
-  //   searchedColumn,
-  //   handleApply,
-  //   handleDropdownChange,
-  //   profileStatusValue,
-  //   handleSearch,
-  //   handleReset,
-  // } = props;
+  const { locale } = useSelector((state) => state.settings);
+  const { data, loading, locale: dataLocale } = useSelector(
+    (state) => state.admin.users
+  );
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
-      // eslint-disable-next-line react/prop-types
+      /* eslint-disable react/prop-types */
       setSelectedKeys,
-      // eslint-disable-next-line react/prop-types
       selectedKeys,
-      // eslint-disable-next-line react/prop-types
       confirm,
-      // eslint-disable-next-line react/prop-types
       clearFilters,
+      /* eslint-enable react/prop-types */
     }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -75,7 +65,6 @@ const UserTableView = ({
           }}
           placeholder={`${intl.formatMessage({
             id: "admin.search",
-            defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -91,20 +80,14 @@ const UserTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          {intl.formatMessage({
-            id: "admin.search.button",
-            defaultMessage: "Search",
-          })}
+          <FormattedMessage id="admin.search.button" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          {intl.formatMessage({
-            id: "admin.reset.button",
-            defaultMessage: "Reset",
-          })}
+          <FormattedMessage id="admin.reset.button" />
         </Button>
       </div>
     ),
@@ -132,51 +115,24 @@ const UserTableView = ({
   });
 
   /* Renders the dropdown for profile status options */
-  const renderStatusDropdown = (id, inactive, flagged) => {
+  const renderStatusDropdown = (id, status) => {
     return (
       <div>
         <Select
-          defaultValue={profileStatusValue(inactive, flagged)}
+          defaultValue={profileStatusValue(status)}
           style={{ width: 120 }}
           onChange={(value) => {
             handleDropdownChange(value, id);
           }}
         >
-          <Option
-            key="active"
-            value={intl.formatMessage({
-              id: "admin.active",
-              defaultMessage: "Active",
-            })}
-          >
-            {intl.formatMessage({
-              id: "admin.active",
-              defaultMessage: "Active",
-            })}
+          <Option key="active" value="ACTIVE">
+            <FormattedMessage id="admin.active" />
           </Option>
-          <Option
-            key="inactive"
-            value={intl.formatMessage({
-              id: "admin.inactive",
-              defaultMessage: "Inactive",
-            })}
-          >
-            {intl.formatMessage({
-              id: "admin.inactive",
-              defaultMessage: "Inactive",
-            })}
+          <Option key="inactive" value="INACTIVE">
+            <FormattedMessage id="admin.inactive" />
           </Option>
-          <Option
-            key="hidden"
-            value={intl.formatMessage({
-              id: "admin.flagged",
-              defaultMessage: "Hidden",
-            })}
-          >
-            {intl.formatMessage({
-              id: "admin.flagged",
-              defaultMessage: "Hidden",
-            })}
+          <Option key="hidden" value="HIDDEN">
+            <FormattedMessage id="admin.flagged" />
           </Option>
         </Select>
       </div>
@@ -185,10 +141,9 @@ const UserTableView = ({
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.error(
+    message.info(
       intl.formatMessage({
         id: "admin.cancelled",
-        defaultMessage: "Cancelled",
       })
     );
   };
@@ -198,7 +153,6 @@ const UserTableView = ({
     message.success(
       intl.formatMessage({
         id: "admin.success",
-        defaultMessage: "Successful",
       })
     );
   };
@@ -208,18 +162,9 @@ const UserTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={intl.formatMessage({
-          id: "admin.update.confirm",
-          defaultMessage: "Are you sure that you want to update?",
-        })}
-        okText={intl.formatMessage({
-          id: "admin.update",
-          defaultMessage: "Update",
-        })}
-        cancelText={intl.formatMessage({
-          id: "admin.cancel",
-          defaultMessage: "Cancel",
-        })}
+        title={<FormattedMessage id="admin.update.confirm" />}
+        okText={<FormattedMessage id="admin.update" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
         onConfirm={() => {
           handleApply()
             .then(popUpSuccesss)
@@ -229,148 +174,103 @@ const UserTableView = ({
           popUpCancel();
         }}
       >
-        <Button type="primary" icon={<CheckCircleOutlined />} size={size}>
-          {intl.formatMessage({
-            id: "admin.apply",
-            defaultMessage: "Apply",
-          })}
+        <Button type="primary" size={size}>
+          <CheckCircleOutlined style={{ marginRight: 10 }} />
+          <FormattedMessage id="admin.apply" />
         </Button>
       </Popconfirm>
     );
   };
 
   /* Sets up the columns for the user table */
+  // Table columns data structure: array of objects
+
   // Consult: Ant Design table components for further clarification
-  const userTableColumns = () => {
-    // Allows for switch between French/English in job title and tenure columns:
-    const jobTitleState =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "jobTitleEn"
-        : "jobTitleFr";
-
-    const tenureState =
-      intl.formatMessage({ id: "language.code" }) === "en"
-        ? "tenureDescriptionEn"
-        : "tenureDescriptionFr";
-
-    // Table columns data structure: array of objects
-    const tableColumns = [
-      {
-        title: intl.formatMessage({
-          id: "admin.view",
-          defaultMessage: "View",
-        }),
-        render: (record) => (
-          <span>
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<LinkOutlined />}
-              onClick={() => window.open(record.profileLink)}
-            />
-          </span>
-        ),
+  const userTableColumns = () => [
+    {
+      title: <FormattedMessage id="admin.view" />,
+      render: (record) => (
+        <span>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<LinkOutlined />}
+            onClick={() => window.open(record.profileLink)}
+          />
+        </span>
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.name" />,
+      dataIndex: "fullName",
+      key: "name",
+      sorter: (a, b) => {
+        return a.fullName.localeCompare(b.fullName);
       },
-      {
-        title: intl.formatMessage({
+      sortDirections: ["descend"],
+      ...getColumnSearchProps(
+        "fullName",
+        intl.formatMessage({
           id: "admin.name",
-          defaultMessage: "Name",
-        }),
-        dataIndex: "fullName",
-        key: "name",
-        sorter: (a, b) => {
-          return a.fullName.localeCompare(b.fullName);
-        },
-        sortDirections: ["descend"],
-        ...getColumnSearchProps(
-          "fullName",
-          intl.formatMessage({
-            id: "admin.name",
-            defaultMessage: "Name",
-          })
-        ),
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.job.title" />,
+      dataIndex: "jobTitle",
+      key: "jobTitle",
+      sorter: (a, b) => {
+        return a.jobTitle.localeCompare(b.jobTitle);
       },
-      {
-        title: intl.formatMessage({
+      ...getColumnSearchProps(
+        "jobTitle",
+        intl.formatMessage({
           id: "admin.job.title",
-          defaultMessage: "Job Title",
-        }),
-        dataIndex: jobTitleState,
-        key: "jobTitle",
-        sorter: (a, b) => {
-          return a[jobTitleState].localeCompare(b[jobTitleState]);
-        },
-        ...getColumnSearchProps(
-          jobTitleState,
-          intl.formatMessage({
-            id: "admin.job.title",
-            defaultMessage: "Job Title",
-          })
-        ),
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.registered" />,
+      dataIndex: "formatCreatedAt",
+      key: "registered",
+      sorter: (a, b) => {
+        return (
+          moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
+        );
       },
-      {
-        title: intl.formatMessage({
+      ...getColumnSearchProps(
+        "formatCreatedAt",
+        intl.formatMessage({
           id: "admin.registered",
-          defaultMessage: "Registered",
-        }),
-        dataIndex: "formatCreatedAt",
-        key: "registered",
-        sorter: (a, b) => {
-          return (
-            moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
-          );
-        },
-        ...getColumnSearchProps(
-          "formatCreatedAt",
-          intl.formatMessage({
-            id: "admin.registered",
-            defaultMessage: "Registered",
-          })
-        ),
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.tenure" />,
+      dataIndex: "tenure",
+      key: "tenure",
+      sorter: (a, b) => {
+        return a.tenure.localeCompare(b.tenure);
       },
-      {
-        title: intl.formatMessage({
+      ...getColumnSearchProps(
+        "tenure",
+        intl.formatMessage({
           id: "admin.tenure",
-          defaultMessage: "Tenure",
-        }),
-        dataIndex: tenureState,
-        key: "tenure",
-        sorter: (a, b) => {
-          return a[tenureState].localeCompare(b[tenureState]);
-        },
-        ...getColumnSearchProps(
-          tenureState,
-          intl.formatMessage({
-            id: "admin.tenure",
-            defaultMessage: "Tenure",
-          })
-        ),
+        })
+      ),
+    },
+    {
+      title: <FormattedMessage id="admin.profileStatus" />,
+      render: (record) => {
+        return renderStatusDropdown(record.key, record.status);
       },
-      {
-        title: intl.formatMessage({
-          id: "admin.profileStatus",
-          defaultMessage: "Profile Status",
-        }),
-        render: (record) => {
-          return renderStatusDropdown(
-            record.id,
-            record.user.inactive,
-            record.flagged
-          );
-        },
-      },
-    ];
-
-    return tableColumns;
-  };
+    },
+  ];
 
   return (
     <>
       <PageHeader
-        title={intl.formatMessage({
-          id: "admin.user.table",
-          defaultMessage: "Users Table",
-        })}
+        title={<FormattedMessage id="admin.user.table" />}
         extra={applyButton()}
       />
       <Row gutter={[0, 8]}>
@@ -379,6 +279,7 @@ const UserTableView = ({
             showSorterTooltip={false}
             columns={userTableColumns()}
             dataSource={data}
+            loading={loading && locale !== dataLocale}
           />
         </Col>
       </Row>
@@ -396,13 +297,6 @@ UserTableView.propTypes = {
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  // data: PropTypes.shape({
-  //   getCategoryInformation: PropTypes.shape({
-  //     description: PropTypes.string,
-  //     allCategories: PropTypes.any,
-  //   }),
-  // }).isRequired,
 };
 
 UserTableView.defaultProps = {

@@ -31,7 +31,7 @@ const Welcome = () => {
      */
     const getGedsProfiles = async () => {
       // Get info from GEDS
-      const result = await axios.get(`${backendAddress}api/profGen/${id})}`, {
+      const result = await axios.get(`${backendAddress}api/profGen/${id}`, {
         params: {
           name,
         },

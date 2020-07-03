@@ -1,12 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import CareerInterestsView from "./CareerInterestsView";
 
 const CareerInterests = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
   const getCareerInterestsInfo = () => {
     const interestedInRemote = {
       icon: "mail",
@@ -21,8 +18,7 @@ const CareerInterests = ({ data }) => {
     const lookingForNewJob = {
       icon: "mail",
       title: <FormattedMessage id="profile.looking.for.new.job" />,
-      description: (data.lookingForNewJob &&
-        data.lookingForNewJob.description[locale]) || (
+      description: (data.lookingJob && data.lookingJob.description) || (
         <FormattedMessage id="profile.not.specified" />
       ),
     };
@@ -30,22 +26,11 @@ const CareerInterests = ({ data }) => {
     return [interestedInRemote, lookingForNewJob];
   };
 
-  const getRelocationLocationsInfo = () => {
-    const relocationLocationsInfo = [];
-    if (data.relocationLocations) {
-      data.relocationLocations.forEach((locationElement) =>
-        relocationLocationsInfo.push(locationElement.description[locale])
-      );
-    }
-
-    return [...relocationLocationsInfo];
-  };
-
   return (
     <CareerInterestsView
       data={data}
       info={getCareerInterestsInfo()}
-      relocationLocationsInfo={getRelocationLocationsInfo()}
+      relocationLocationsInfo={data.relocationLocations}
     />
   );
 };
@@ -53,11 +38,8 @@ const CareerInterests = ({ data }) => {
 CareerInterests.propTypes = {
   data: PropTypes.shape({
     interestedInRemote: PropTypes.bool,
-    lookingForNewJob: PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
+    lookingJob: PropTypes.shape({
+      description: PropTypes.string,
     }),
     relocationLocations: PropTypes.any,
   }).isRequired,

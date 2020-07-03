@@ -1,12 +1,25 @@
-const Models = require("../../../database/models");
+const prisma = require("../../../database");
 
-const Profiles = Models.profile;
+async function getHiddenUsers(request, response) {
+  try {
+    const hiddenUsers = await prisma.user.findMany({
+      where: {
+        status: "HIDDEN",
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+      },
+    });
 
-async function flaggedProfiles() {
-  return Profiles.findAll({
-    where: { flagged: true },
-    attributes: ["id", "firstName", "lastName"],
-  });
+    response.status(200).json(hiddenUsers);
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Error fetching hidden users");
+  }
 }
 
-module.exports = flaggedProfiles;
+module.exports = {
+  getHiddenUsers,
+};
