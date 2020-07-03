@@ -2,6 +2,8 @@ const Fuse = require("fuse.js");
 
 const prisma = require("../../../database");
 
+const _ = require("lodash");
+
 const NUMBER_OF_SKILL_RESULT = 4;
 
 async function getAllUsers(searchValue, language, userId) {
@@ -335,8 +337,8 @@ async function getAllUsers(searchValue, language, userId) {
     }
 
     if (info.organizations) {
-      info.organizations = info.organizations
-        .map((i) => {
+      info.organizations = _.flattenDeep(
+        info.organizations.map((i) => {
           return i.organizationTier.map((organization) => {
             return {
               description: organization.translations[0]
@@ -345,7 +347,7 @@ async function getAllUsers(searchValue, language, userId) {
             };
           });
         })
-        .flat();
+      );
     }
 
     if (info.tenure) {
