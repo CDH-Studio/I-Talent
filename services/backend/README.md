@@ -13,3 +13,9 @@ Backend for I-Talent built on top of the node.js framework [expressjs](https://e
   - `docs/` - Documentation for the backend (swagger config files and database diagram)
   - `router/` - Express.js routers alongside with the validation for the endpoints
 - `tests/` - Tests for the backend
+
+## Database diagram
+
+The database diagram has been create with [draw.io](draw.io), and can be modified with the .xml file in the docs folder
+
+![Database digagram](src/docs/I-Talent-database-diagram.png)
