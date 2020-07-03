@@ -13,8 +13,6 @@ const FooterView = () => {
     footer: {
       backgroundColor: "#F8F8F8",
       paddingLeft: "60px",
-      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
-      height: "60px",
       zIndex: 4,
       width: "100%",
 
@@ -24,8 +22,7 @@ const FooterView = () => {
     link: {
       float: "right",
       display: "inline",
-      margin: "15px",
-      marginBottom: "20px",
+      marginLeft: "15px",
     },
   };
 
@@ -59,6 +56,7 @@ const FooterView = () => {
         >
           About I-Talent
         </a>
+
         <a
           style={styles.link}
           // href to be changed to route w Contact Us page
