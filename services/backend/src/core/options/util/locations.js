@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getLocations(request, response) {
   try {
@@ -29,18 +28,21 @@ async function getLocations(request, response) {
       },
     });
 
-    const locations = locationsQuery.map((i) => {
-      const { streetName, province } = i;
-      const { id, city, streetNumber } = i.opOfficeLocation;
+    const locations = _.orderBy(
+      locationsQuery.map((i) => {
+        const { streetName, province } = i;
+        const { id, city, streetNumber } = i.opOfficeLocation;
 
-      return {
-        id,
-        streetNumber,
-        streetName,
-        city,
-        province,
-      };
-    });
+        return {
+          id,
+          streetNumber,
+          streetName,
+          city,
+          province,
+        };
+      }),
+      ["province", "city", "streetNumber", "streetName"]
+    );
 
     response.status(200).json(locations);
   } catch (error) {

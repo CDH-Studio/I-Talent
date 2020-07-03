@@ -1,8 +1,6 @@
 const { validationResult } = require("express-validator");
 const moment = require("moment");
-const { PrismaClient } = require("../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../database");
 
 function normalizeDate(date, startOf) {
   return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;

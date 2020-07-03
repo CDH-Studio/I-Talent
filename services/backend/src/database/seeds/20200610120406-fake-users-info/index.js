@@ -1,8 +1,6 @@
 const path = require("path");
-const { PrismaClient } = require("../../client");
+const prisma = require("../../");
 const users = require("./data/users");
-
-const prisma = new PrismaClient();
 
 async function getSecurityClearanceId(description) {
   let securityClearanceId;
@@ -639,7 +637,7 @@ async function seedUsers() {
 
 async function seed() {
   if (process.env.NODE_ENV === "production") {
-    process.exit(0);
+    return;
   }
 
   const folderName = path.dirname(__filename).split(path.sep).pop();
@@ -658,6 +656,8 @@ async function seed() {
     });
     console.log(`---- Finished seeding: ${folderName} ----\n`);
   }
+
+  await prisma.disconnect();
 }
 
 module.exports = seed;

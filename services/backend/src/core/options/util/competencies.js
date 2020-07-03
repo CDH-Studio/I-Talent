@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getCompetencies(request, response) {
   try {
@@ -22,12 +21,13 @@ async function getCompetencies(request, response) {
       },
     });
 
-    const competencies = competenciesQuery.map((i) => {
-      return {
+    const competencies = _.sortBy(
+      competenciesQuery.map((i) => ({
         id: i.opCompetencyId,
         name: i.name,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(competencies);
   } catch (error) {
@@ -54,16 +54,18 @@ async function getCompetenciesAllLang(request, response) {
       },
     });
 
-    const competencies = competenciesQuery.map((i) => {
-      return {
+    const competencies = _.orderBy(
+      competenciesQuery.map((i) => ({
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").name,
         fr: i.translations.find((j) => j.language === "FRENCH").name,
-      };
-    });
+      })),
+      ["en", "fr"]
+    );
 
     response.status(200).json(competencies);
   } catch (error) {
+    console.log(error);
     response
       .status(500)
       .send("Error fetching competency options in every language");
