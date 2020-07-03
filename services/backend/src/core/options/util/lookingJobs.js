@@ -1,7 +1,5 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../../database");
 
 async function getLookingJobs(request, response) {
   try {
@@ -22,12 +20,10 @@ async function getLookingJobs(request, response) {
       },
     });
 
-    const lookingJobs = lookingJobsQuery.map((i) => {
-      return {
-        id: i.opLookingJobId,
-        description: i.description,
-      };
-    });
+    const lookingJobs = lookingJobsQuery.map((i) => ({
+      id: i.opLookingJobId,
+      description: i.description,
+    }));
 
     response.status(200).json(lookingJobs);
   } catch (error) {

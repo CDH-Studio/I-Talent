@@ -26,8 +26,8 @@ module.exports = [
         streetName: "Brown Ave",
       },
       fr: {
-        province: "av Brown",
-        streetName: "Nouvelle-Écosse",
+        province: "Nouvelle-Écosse",
+        streetName: "av Brown",
       },
     },
   },

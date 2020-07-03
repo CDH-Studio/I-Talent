@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getSkills(request, response) {
   try {
@@ -22,15 +21,19 @@ async function getSkills(request, response) {
           },
         },
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
-    const skills = skillsQuery.map((i) => {
-      return {
+    const skills = _.sortBy(
+      skillsQuery.map((i) => ({
         id: i.opSkill.id,
         name: i.name,
         categoryId: i.opSkill.categoryId,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(skills);
   } catch (error) {
@@ -58,14 +61,15 @@ async function getSkillsAllLang(request, response) {
       },
     });
 
-    const skills = skillsQuery.map((i) => {
-      return {
+    const skills = _.orderBy(
+      skillsQuery.map((i) => ({
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").name,
         fr: i.translations.find((j) => j.language === "FRENCH").name,
         categoryId: i.categoryId,
-      };
-    });
+      })),
+      ["en", "fr"]
+    );
 
     response.status(200).json(skills);
   } catch (error) {

@@ -1,6 +1,6 @@
 {
   "extends": ["airbnb-base", "prettier"],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "jest"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -15,5 +15,8 @@
     "object-shorthand": "off",
     "class-methods-use-this": "off",
     "prefer-const": "off"
+  },
+  "env": {
+    "jest/globals": true
   }
 }

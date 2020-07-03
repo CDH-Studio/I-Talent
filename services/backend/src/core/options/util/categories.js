@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getCategories(request, response) {
   try {
@@ -22,12 +21,13 @@ async function getCategories(request, response) {
       },
     });
 
-    const categories = categoriesQuery.map((i) => {
-      return {
+    const categories = _.sortBy(
+      categoriesQuery.map((i) => ({
         id: i.opCategoryId,
         name: i.name,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(categories);
   } catch (error) {
@@ -54,13 +54,14 @@ async function getCategoriesAllLang(request, response) {
       },
     });
 
-    const categories = categoriesQuery.map((i) => {
-      return {
+    const categories = _.orderBy(
+      categoriesQuery.map((i) => ({
         id: i.id,
         en: i.translations.find((j) => j.language === "ENGLISH").name,
         fr: i.translations.find((j) => j.language === "FRENCH").name,
-      };
-    });
+      })),
+      ["en", "fr"]
+    );
 
     response.status(200).json(categories);
   } catch (error) {

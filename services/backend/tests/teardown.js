@@ -1,0 +1,3 @@
+afterAll(() => {
+  global.prisma.disconnect();
+});

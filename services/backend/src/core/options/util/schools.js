@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../../database/client");
-
-const prisma = new PrismaClient();
+const _ = require("lodash");
+const prisma = require("../../../database");
 
 async function getSchools(request, response) {
   try {
@@ -17,14 +16,18 @@ async function getSchools(request, response) {
         opSchoolId: true,
         name: true,
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
-    const schools = schoolsQuery.map((i) => {
-      return {
+    const schools = _.sortBy(
+      schoolsQuery.map((i) => ({
         id: i.opSchoolId,
         name: i.name,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(schools);
   } catch (error) {
@@ -53,17 +56,20 @@ async function getSchoolsAllLang(request, response) {
       },
     });
 
-    const schools = schoolsQuery.map((i) => {
-      const en = i.translations.find((j) => j.language === "ENGLISH");
-      const fr = i.translations.find((j) => j.language === "FRENCH");
-      return {
-        id: i.id,
-        abbrProvince: i.abbrProvince,
-        abbrCountry: i.abbrCountry,
-        en: en ? en.name : undefined,
-        fr: fr ? fr.name : undefined,
-      };
-    });
+    const schools = _.orderBy(
+      schoolsQuery.map((i) => {
+        const en = i.translations.find((j) => j.language === "ENGLISH");
+        const fr = i.translations.find((j) => j.language === "FRENCH");
+        return {
+          id: i.id,
+          abbrProvince: i.abbrProvince,
+          abbrCountry: i.abbrCountry,
+          en: en ? en.name : undefined,
+          fr: fr ? fr.name : undefined,
+        };
+      }),
+      ["abbrCountry", "abbrProvince", "en", "fr"]
+    );
 
     response.status(200).json(schools);
   } catch (error) {
