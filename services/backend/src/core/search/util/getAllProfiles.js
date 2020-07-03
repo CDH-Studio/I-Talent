@@ -1,8 +1,7 @@
 const Fuse = require("fuse.js");
 
-const prisma = require("../../../database");
-
 const _ = require("lodash");
+const prisma = require("../../../database");
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
