@@ -2,6 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
+import Footer from "./footer/Footer";
 import SideNav from "../../sideNav/SideNav";
 
 const { Content } = Layout;
@@ -33,6 +34,7 @@ const AppLayoutView = ({ sideBarContent, displaySideBar, children }) => {
           <Content style={styles.content}>{children}</Content>
         </Layout>
       </Layout>
+      <Footer />
     </Layout>
   );
 };
