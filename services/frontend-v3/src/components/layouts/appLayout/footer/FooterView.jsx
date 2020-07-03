@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { FormattedMessage } from "react-intl";
 // import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 // import CanLogo from "../../../../assets/government-of-canada-logo.svg";
@@ -28,32 +28,27 @@ const FooterView = () => {
       textAlign: "center",
       paddingLeft: "270px",
     },
+    aroundLinksSmalll: {
+      textAlign: "center",
+    },
   };
 
-  //   // update width to screen size
+  // update width to screen size
 
-  //   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  //   const updateWidth = () => setWindowWidth(window.innerWidth);
+  const updateWidth = () => setWindowWidth(window.innerWidth);
 
-  //   useEffect(() => {
-  //     window.addEventListener("resize", updateWidth);
+  useEffect(() => {
+    window.addEventListener("resize", updateWidth);
 
-  //     return () => window.removeEventListener("resize", updateWidth);
-  //   }, []);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
-  //   if (windowWidth > 400) {
-  //     return (
-  //       <Footer style={styles.header}>
-
-  //       </Footer>
-  //     );
-  //   }
-
-  return (
-    <>
+  if (windowWidth < 993) {
+    return (
       <Footer style={styles.footer}>
-        <div style={styles.aroundLinks}>
+        <div style={styles.aroundLinksSmall}>
           <a
             style={styles.link}
             // href to be changed to route w about page
@@ -85,7 +80,43 @@ const FooterView = () => {
           </a>
         </div>
       </Footer>
-    </>
+    );
+  }
+
+  return (
+    <Footer style={styles.footer}>
+      <div style={styles.aroundLinks}>
+        <a
+          style={styles.link}
+          // href to be changed to route w about page
+          href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+        >
+          About I-Talent
+        </a>
+
+        <a
+          style={styles.link}
+          // href to be changed to route w Contact Us page
+          href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+        >
+          Contact Us
+        </a>
+
+        <a
+          style={styles.link}
+          href="https://www.canada.ca/en/transparency/terms.html"
+        >
+          Terms and Conditions
+        </a>
+
+        <a
+          style={styles.link}
+          href="https://www.canada.ca/en/transparency/terms.html"
+        >
+          Privacy
+        </a>
+      </div>
+    </Footer>
   );
 };
 
