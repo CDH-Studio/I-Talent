@@ -1,10 +1,8 @@
 const request = require("supertest");
 const _ = require("lodash");
-const seedSkills = require("../../../src/database/seeds/20200610114410-init-options/data/skills");
+const seed = require("../../../src/database/seeds/20200610114410-init-options/data/diplomas");
 
-const seed = _.flatten(_.map(seedSkills));
-
-const path = "/api/option/skills";
+const path = "/api/option/diplomas";
 const data = ["ENGLISH", "FRENCH"];
 
 describe(`Test ${path}`, () => {
@@ -29,14 +27,15 @@ describe(`Test ${path}`, () => {
           res = await request(mockedKeycloakApp).get(
             `${path}?language=${language}`
           );
-          resData = _.map(res.body, "name");
+          resData = _.map(res.body, "description");
         });
 
         test("should process request - 200", async (done) => {
           expect(res.statusCode).toBe(200);
 
-          const seedData = seed.map((i) =>
-            language === "ENGLISH" ? i.en : i.fr
+          const seedData = _.without(
+            seed.map((i) => (language === "ENGLISH" ? i.en : i.fr)),
+            undefined
           );
 
           expect(resData).toStrictEqual(_.sortBy(seedData));
@@ -44,10 +43,9 @@ describe(`Test ${path}`, () => {
           done();
         });
 
-        test("should have the skill and category id - 200", async (done) => {
+        test("should have the diploma id - 200", async (done) => {
           expect(res.statusCode).toBe(200);
           expect(res.body.every((i) => "id" in i)).toBeTruthy();
-          expect(res.body.every((i) => "categoryId" in i)).toBeTruthy();
 
           done();
         });
@@ -65,7 +63,7 @@ describe(`Test ${path}`, () => {
           );
 
           expect(res.statusCode).toBe(500);
-          expect(res.text).toBe("Error fetching skill options");
+          expect(res.text).toBe("Error fetching diploma options");
           expect(console.log).toHaveBeenCalled();
 
           done();
@@ -83,7 +81,7 @@ describe(`Test ${path}`, () => {
 
       test("should throw validation error invalid language query param - 422", async (done) => {
         const res = await request(mockedKeycloakApp).get(
-          `${path}?language=asdfafse`
+          `${path}?language=asdmoivfe12`
         );
 
         expect(res.statusCode).toBe(422);
@@ -112,26 +110,20 @@ describe(`Test ${path}`, () => {
 
     describe("when authenticated", () => {
       describe("when 'ids' array is empty", () => {
-        test.todo("should process request - 200");
+        test.todo("should process request, have a 200 status");
         test.todo("not delete anything from the database");
       });
 
       describe("when 'ids' array has multiple UUID", () => {
-        test.todo("should process request - 200");
-        test.todo("delete related user skills");
-        test.todo("delete related user mentorship skills");
-        test.todo("delete related user developmental goals");
-        test.todo("delete related skill option translations");
-        test.todo("delete skill options");
+        test.todo("should process request, have a 200 status");
+        test.todo("delete related school option translations");
+        test.todo("delete school options");
       });
 
       describe("when 'ids' array has a single UUID", () => {
-        test.todo("should process request - 200");
-        test.todo("delete related user skills");
-        test.todo("delete related user mentorship skills");
-        test.todo("delete related user developmental goals");
-        test.todo("delete related skill option translations");
-        test.todo("delete skill option");
+        test.todo("should process request, have a 200 status");
+        test.todo("delete related school option translations");
+        test.todo("delete school option");
       });
 
       test.todo(

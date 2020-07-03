@@ -1,10 +1,8 @@
 const request = require("supertest");
 const _ = require("lodash");
-const seedSkills = require("../../../src/database/seeds/20200610114410-init-options/data/skills");
+const seed = require("../../../src/database/seeds/20200610114410-init-options/data/competencies");
 
-const seed = _.flatten(_.map(seedSkills));
-
-const path = "/api/option/skills";
+const path = "/api/option/competencies";
 const data = ["ENGLISH", "FRENCH"];
 
 describe(`Test ${path}`, () => {
@@ -44,10 +42,9 @@ describe(`Test ${path}`, () => {
           done();
         });
 
-        test("should have the skill and category id - 200", async (done) => {
+        test("should have the competency id - 200", async (done) => {
           expect(res.statusCode).toBe(200);
           expect(res.body.every((i) => "id" in i)).toBeTruthy();
-          expect(res.body.every((i) => "categoryId" in i)).toBeTruthy();
 
           done();
         });
@@ -65,7 +62,7 @@ describe(`Test ${path}`, () => {
           );
 
           expect(res.statusCode).toBe(500);
-          expect(res.text).toBe("Error fetching skill options");
+          expect(res.text).toBe("Error fetching competency options");
           expect(console.log).toHaveBeenCalled();
 
           done();
@@ -83,7 +80,7 @@ describe(`Test ${path}`, () => {
 
       test("should throw validation error invalid language query param - 422", async (done) => {
         const res = await request(mockedKeycloakApp).get(
-          `${path}?language=asdfafse`
+          `${path}?language=fr`
         );
 
         expect(res.statusCode).toBe(422);
@@ -118,20 +115,18 @@ describe(`Test ${path}`, () => {
 
       describe("when 'ids' array has multiple UUID", () => {
         test.todo("should process request - 200");
-        test.todo("delete related user skills");
-        test.todo("delete related user mentorship skills");
+        test.todo("delete related user compentencies");
         test.todo("delete related user developmental goals");
-        test.todo("delete related skill option translations");
-        test.todo("delete skill options");
+        test.todo("delete related competency option translations");
+        test.todo("delete competency options");
       });
 
       describe("when 'ids' array has a single UUID", () => {
         test.todo("should process request - 200");
-        test.todo("delete related user skills");
-        test.todo("delete related user mentorship skills");
+        test.todo("delete related user compentencies");
         test.todo("delete related user developmental goals");
-        test.todo("delete related skill option translations");
-        test.todo("delete skill option");
+        test.todo("delete related competency option translations");
+        test.todo("delete competency option");
       });
 
       test.todo(

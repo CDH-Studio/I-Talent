@@ -16,14 +16,18 @@ async function getSchools(request, response) {
         opSchoolId: true,
         name: true,
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
-    const schools = schoolsQuery.map((i) => {
-      return {
+    const schools = _.sortBy(
+      schoolsQuery.map((i) => ({
         id: i.opSchoolId,
         name: i.name,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(schools);
   } catch (error) {

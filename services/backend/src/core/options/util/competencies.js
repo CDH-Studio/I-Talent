@@ -21,12 +21,13 @@ async function getCompetencies(request, response) {
       },
     });
 
-    const competencies = competenciesQuery.map((i) => {
-      return {
+    const competencies = _.sortBy(
+      competenciesQuery.map((i) => ({
         id: i.opCompetencyId,
         name: i.name,
-      };
-    });
+      })),
+      "name"
+    );
 
     response.status(200).json(competencies);
   } catch (error) {

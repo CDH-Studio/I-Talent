@@ -16,14 +16,18 @@ async function getDiplomas(request, response) {
         opDiplomaId: true,
         description: true,
       },
+      orderBy: {
+        description: "asc",
+      },
     });
 
-    const diplomas = diplomasQuery.map((i) => {
-      return {
-        id: i.opDiplomaId,
-        description: i.description,
-      };
-    });
+    const diplomas = _.sortBy(
+      diplomasQuery.map((i) => ({
+          id: i.opDiplomaId,
+          description: i.description,
+        })),
+      "description"
+    );
 
     response.status(200).json(diplomas);
   } catch (error) {
