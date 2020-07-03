@@ -37,8 +37,6 @@ async function fuzzySearch(profiles, searchValue) {
     ],
   };
 
-  console.log(profiles);
-
   const fuse = new Fuse(profiles, options);
   const results = fuse.search(searchValue).map(({ item }) => item);
   return results;
