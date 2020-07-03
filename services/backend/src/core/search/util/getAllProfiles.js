@@ -69,8 +69,6 @@ async function getAllUsers(searchValue, language, userId) {
       }
     )
   );
-  console.log(visibleCards);
-
   const users = await Promise.all(
     visibleCards.map(
       ({
