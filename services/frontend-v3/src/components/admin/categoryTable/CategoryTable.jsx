@@ -5,6 +5,7 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
@@ -31,24 +32,19 @@ function CategoryTable({ intl, type }) {
 
   /* get category information */
   const getCategories = async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/categories/skill`
-      );
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/categories/skill`
+    );
+    return results.data;
   };
 
   useEffect(() => {
     let categories = [];
     if (loading) {
       const setState = async () => {
-        categories = await getCategories();
-        setData(categories);
+        await getCategories()
+          .then((categories) => setData(categories))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
@@ -65,64 +61,46 @@ function CategoryTable({ intl, type }) {
 
   /* handles the deletion of a category */
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      let result;
+    let result;
 
-      // eslint-disable-next-line func-names
-      await axios.post(url, { ids: selectedRowKeys }).then(function (response) {
-        result = response.data.deletePerformed;
-      });
+    // eslint-disable-next-line func-names
+    await axios.post(url, { ids: selectedRowKeys }).then(function (response) {
+      result = response.data.deletePerformed;
+    });
 
-      if (result === false) {
-        return true;
-      }
-      setReset(true);
-      return false;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
+    if (result === false) {
+      return true;
     }
+    setReset(true);
+    return false;
   };
 
   /* handles addition of a category */
   // eslint-disable-next-line consistent-return
   const handleSubmitAdd = async (values) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        descriptionEn: values.addCategoryEn,
-        descriptionFr: values.addCategoryFr,
-      });
+    await axios.post(url, {
+      descriptionEn: values.addCategoryEn,
+      descriptionFr: values.addCategoryFr,
+    });
 
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
   };
 
   /* handles the update/edit of a category */
   // eslint-disable-next-line consistent-return
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      await axios.put(url, {
-        descriptionEn: values.editCategoryEn,
-        descriptionFr: values.editCategoryFr,
-      });
+    await axios.put(url, {
+      descriptionEn: values.editCategoryEn,
+      descriptionFr: values.editCategoryFr,
+    });
 
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
   };
 
   /* get part of the title for the page */

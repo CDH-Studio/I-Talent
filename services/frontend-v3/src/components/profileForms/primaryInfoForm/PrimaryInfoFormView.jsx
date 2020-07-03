@@ -10,9 +10,14 @@ import {
   Input,
   Button,
   message,
+  Popover,
 } from "antd";
-import { useHistory } from "react-router-dom";
-import { LinkOutlined, RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  LinkOutlined,
+  RightOutlined,
+  CheckOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
@@ -21,8 +26,10 @@ import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -34,10 +41,10 @@ const PrimaryInfoFormView = ({
   load,
   formType,
   intl,
+  history,
   userId,
   email,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -77,7 +84,9 @@ const PrimaryInfoFormView = ({
       marginRight: "1rem",
       marginBottom: "1rem",
     },
+
     clearBtn: { float: "left", marginBottom: "1rem" },
+
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -86,13 +95,20 @@ const PrimaryInfoFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
-      width: "100%",
+      minWidth: "100%",
     },
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
       fontStyle: "italic",
       opacity: 0.5,
+    },
+    gedsInfoLink: {
+      display: "inline",
+      float: "right",
+    },
+    popoverStyle: {
+      maxWidth: "430px",
     },
   };
 
@@ -204,8 +220,12 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -215,10 +235,14 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        history.push("/secured/profile/create/step/3");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .then(() => history.push("/secured/profile/create/step/3"))
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -233,14 +257,20 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+      })
+      .then(() => {
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -257,12 +287,46 @@ const PrimaryInfoFormView = ({
       return (
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
+          <div style={styles.gedsInfoLink}>
+            <Popover
+              trigger="click"
+              tabIndex="0"
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage id="profile.geds.edit.info1" />
+                  <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                    <FormattedMessage id="profile.geds.edit.info.link" />
+                  </a>
+                  <FormattedMessage id="profile.geds.edit.info2" />
+                </div>
+              }
+            >
+              <QuestionCircleOutlined />
+            </Popover>
+          </div>
         </Title>
       );
     }
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
+        <div style={styles.gedsInfoLink}>
+          <Popover
+            trigger="click"
+            tabIndex="0"
+            content={
+              <div style={styles.popoverStyle}>
+                <FormattedMessage id="profile.geds.edit.info1" />
+                <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <FormattedMessage id="profile.geds.edit.info.link" />
+                </a>
+                <FormattedMessage id="profile.geds.edit.info2" />
+              </div>
+            }
+          >
+            <QuestionCircleOutlined />
+          </Popover>
+        </div>
         {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
       </Title>
     );
@@ -517,6 +581,7 @@ PrimaryInfoFormView.propTypes = {
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
 };

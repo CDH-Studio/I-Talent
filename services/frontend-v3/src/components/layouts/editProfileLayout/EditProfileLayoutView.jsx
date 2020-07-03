@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { PageHeader, Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
+import { HistoryPropType } from "../../../customPropTypes";
 import {
   EmploymentDataForm,
   LangProficiencyForm,
@@ -18,9 +18,7 @@ import {
  *  EditProfileLayoutView(props)
  *  Render the layout for the edit profile forms
  */
-const EditProfileLayoutView = ({ formStep }) => {
-  const history = useHistory();
-
+const EditProfileLayoutView = ({ formStep, history }) => {
   /*
    * Profile Form Select
    *
@@ -215,6 +213,7 @@ const EditProfileLayoutView = ({ formStep }) => {
 
 EditProfileLayoutView.propTypes = {
   formStep: PropTypes.string.isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 export default EditProfileLayoutView;

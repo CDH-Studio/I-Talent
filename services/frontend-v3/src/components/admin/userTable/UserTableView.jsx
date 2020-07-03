@@ -21,6 +21,7 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl } from "react-intl";
 import { IntlPropType } from "../../../customPropTypes";
+import handleError from "../../../functions/handleError";
 
 /**
  *  UserTableView(props)
@@ -220,8 +221,9 @@ const UserTableView = ({
           defaultMessage: "Cancel",
         })}
         onConfirm={() => {
-          handleApply();
-          popUpSuccesss();
+          handleApply()
+            .then(popUpSuccesss)
+            .catch((error) => handleError(error, "message"));
         }}
         onCancel={() => {
           popUpCancel();
@@ -373,12 +375,16 @@ const UserTableView = ({
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
-          <Table columns={userTableColumns()} dataSource={data} />
+          <Table
+            showSorterTooltip={false}
+            columns={userTableColumns()}
+            dataSource={data}
+          />
         </Col>
       </Row>
     </>
   );
-}
+};
 
 UserTableView.propTypes = {
   intl: IntlPropType,

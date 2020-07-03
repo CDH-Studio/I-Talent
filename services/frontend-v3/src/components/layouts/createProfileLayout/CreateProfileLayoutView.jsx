@@ -27,8 +27,8 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = (props) => {
   const { formStep } = props;
-  const history = useHistory();
   const [profileExists, setProfileExists] = useState(false);
+  const history = useHistory();
 
   // get current language code
   const { locale } = useSelector((state) => state.settings);

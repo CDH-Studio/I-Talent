@@ -12,7 +12,6 @@ import {
   message,
   Popover,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import {
   RightOutlined,
   CheckOutlined,
@@ -26,9 +25,10 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-
+import handleError from "../../../functions/handleError";
 import config from "../../../config";
 
 const { backendAddress } = config;
@@ -57,9 +57,9 @@ const PersonalGrowthFormView = ({
   formType,
   load,
   intl,
-  userId
+  history,
+  userId,
 }) => {
-  const history = useHistory();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -115,7 +115,7 @@ const PersonalGrowthFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
-      width: "100%",
+      minWidth: "100%",
     },
     TMTooltip: { paddingLeft: "5px" },
     unsavedText: {
@@ -149,26 +149,10 @@ const PersonalGrowthFormView = ({
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.put(`${backendAddress}api/profile/${userId}`, values);
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.post(`${backendAddress}api/profile/${userId}`, values);
     }
   };
 
@@ -248,8 +232,12 @@ const PersonalGrowthFormView = ({
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -265,8 +253,12 @@ const PersonalGrowthFormView = ({
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/7");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -291,8 +283,12 @@ const PersonalGrowthFormView = ({
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -554,6 +550,8 @@ const PersonalGrowthFormView = ({
         <Title level={3} style={styles.formTitle}>
           <FormattedMessage id="setup.talent.management" />
           <Popover
+            trigger="click"
+            tabIndex="0"
             content={
               <div>
                 <FormattedMessage id="profile.talent.management.tooltip" />
@@ -562,7 +560,6 @@ const PersonalGrowthFormView = ({
                 </a>
               </div>
             }
-            trigger="hover"
           >
             <ExclamationCircleOutlined style={styles.TMTooltip} />
           </Popover>
@@ -648,6 +645,7 @@ PersonalGrowthFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
+  history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
 };
 

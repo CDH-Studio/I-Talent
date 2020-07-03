@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import EditProfileLayoutView from "./EditProfileLayoutView";
 
 /**
@@ -7,9 +8,8 @@ import EditProfileLayoutView from "./EditProfileLayoutView";
  *  Controller for the Edit Profile Layout.
  */
 const EditProfileLayout = ({ step }) => {
-  return (
-    <EditProfileLayoutView formStep={step} />
-  );
+  const history = useHistory();
+  return <EditProfileLayoutView formStep={step} history={history} />;
 };
 
 EditProfileLayout.propTypes = {

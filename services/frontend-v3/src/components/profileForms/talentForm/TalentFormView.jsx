@@ -12,12 +12,12 @@ import {
   TreeSelect,
   message,
 } from "antd";
-import { useHistory } from "react-router-dom";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -25,6 +25,7 @@ import {
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -49,6 +50,7 @@ const TalentFormView = ({
   userId,
 }) => {
   const history = useHistory();
+
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
@@ -106,6 +108,7 @@ const TalentFormView = ({
     saveBtn: {
       float: "right",
       marginBottom: "1rem",
+      minWidth: "100%",
     },
     unsavedText: {
       marginLeft: "10px",
@@ -146,26 +149,10 @@ const TalentFormView = ({
 
     if (profileInfo) {
       // If profile exists then update profile
-      try {
-        await axios.put(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.put(`${backendAddress}api/profile/${userId}`, values);
     } else {
       // If profile does not exists then create profile
-      try {
-        await axios.post(
-          `${backendAddress}api/profile/${userId}`,
-          values
-        );
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      await axios.post(`${backendAddress}api/profile/${userId}`, values);
     }
   };
 
@@ -234,8 +221,12 @@ const TalentFormView = ({
         await saveDataToDB(values);
         openNotificationWithIcon("success");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -251,8 +242,12 @@ const TalentFormView = ({
         await saveDataToDB(values);
         history.push("/secured/profile/create/step/6");
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 
@@ -277,8 +272,12 @@ const TalentFormView = ({
           onFinish();
         }
       })
-      .catch(() => {
-        openNotificationWithIcon("error");
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon("error");
+        }
       });
   };
 

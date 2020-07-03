@@ -146,17 +146,13 @@ const Secured = ({ location }) => {
             <Route
               exact
               path="/secured/home"
-              render={({ history }) => (
-                <Home keycloak={keycloak} history={history} />
-              )}
+              render={() => <Home keycloak={keycloak} />}
             />
             {/* Results of search */}
             <Route
               exact
               path="/secured/results"
-              render={({ history }) => (
-                <Results keycloak={keycloak} history={history} />
-              )}
+              render={() => <Results keycloak={keycloak} />}
             />
             {/* Create profile forms */}
             <Route
@@ -175,8 +171,8 @@ const Secured = ({ location }) => {
             {/* Profile page based on user ID */}
             <Route
               path="/secured/profile/:id?"
-              render={({ history, match }) => (
-                <Profile keycloak={keycloak} history={history} match={match} />
+              render={({ match }) => (
+                <Profile keycloak={keycloak} match={match} />
               )}
             />
             {/* Logout authorized user */}

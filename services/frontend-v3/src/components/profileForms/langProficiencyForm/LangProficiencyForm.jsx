@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LangProficiencyFormView from "./LangProficiencyFormView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -17,19 +19,15 @@ const LangProficiencyForm = ({ formType }) => {
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-
+  const history = useHistory();
   const { id } = useSelector((state) => state.user);
-  
+
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${id}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const url = `${backendAddress}api/profile/private/${id}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
   }, [id]);
 
   // useEffect to run once component is mounted
@@ -64,8 +62,7 @@ const LangProficiencyForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        // eslint-disable-next-line no-console
-        console.log(error);
+        handleError(error, "redirect");
       });
   }, [getProfileInfo]);
 
@@ -76,6 +73,7 @@ const LangProficiencyForm = ({ formType }) => {
       profileInfo={profileInfo}
       formType={formType}
       load={load}
+      history={history}
       userId={id}
     />
   );

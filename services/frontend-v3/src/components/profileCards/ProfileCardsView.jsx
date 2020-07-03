@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
   EditOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
-import { Card, Switch, Button, Row, Col, Tooltip } from "antd";
+import { Card, Switch, Button, Row, Col, Tooltip, Popconfirm } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 
 import axios from "axios";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 import config from "../../config";
+import handleError from "../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -24,8 +26,9 @@ const ProfileCardsView = ({
   id,
   content,
   style,
+  history,
+  forceDisabled,
 }) => {
-  const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
@@ -40,25 +43,24 @@ const ProfileCardsView = ({
    */
   const handleVisibilityToggle = async () => {
     // Update visibleCards state in profile
-    try {
-      // Get current card visibility status from db
-      const url = `${backendAddress}api/profile/${urlID}`;
-      const result = await axios.get(url);
-      const { visibleCards } = result.data;
+    // Get current card visibility status from db
+    const url = `${backendAddress}api/profile/${urlID}`;
+    const result = await axios.get(url).catch((error) => {
+      handleError(error, "redirect");
+    });
+    const { visibleCards } = result.data;
 
-      // change the stored value
-      const cardNameToBeModified = cardName;
-      visibleCards[cardNameToBeModified] = !disabled;
-      setDisabled(visibleCards[cardNameToBeModified]);
+    // change the stored value
+    const cardNameToBeModified = cardName;
+    visibleCards[cardNameToBeModified] = !disabled;
+    setDisabled(visibleCards[cardNameToBeModified]);
 
-      // save toggle value in db
-      await axios.put(`${backendAddress}api/profile/${urlID}`, {
+    // save toggle value in db
+    await axios
+      .put(`${backendAddress}api/profile/${urlID}`, {
         visibleCards,
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+      })
+      .catch((error) => handleError(error, "message"));
   };
 
   /*
@@ -70,6 +72,19 @@ const ProfileCardsView = ({
     if (editUrl) {
       history.push(editUrl);
     }
+  };
+
+  /*
+   * Get Pop Confirm Title
+   *
+   * Get title of pop confirm based on current toggle position
+   */
+  const getPopConfirmTitle = (visibilityBool) => {
+    // if user wants to hide profile
+    if (visibilityBool) {
+      return <FormattedMessage id="profile.visibility.hide.confirm" />;
+    }
+    return <FormattedMessage id="profile.visibility.show.confirm" />;
   };
 
   /*
@@ -87,27 +102,33 @@ const ProfileCardsView = ({
         <div style={{ marginTop: "15px" }}>
           <Row type="flex" gutter={[16, 16]}>
             <Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="profile.toggle.card.visibility" />}
+              <Popconfirm
+                title={getPopConfirmTitle(disabled)}
+                okText={<FormattedMessage id="profile.yes" />}
+                cancelText={<FormattedMessage id="profile.no" />}
+                icon={<WarningOutlined style={{ color: "orange" }} />}
+                onConfirm={handleVisibilityToggle}
+                placement="topRight"
+                disabled={forceDisabled}
               >
                 <Switch
                   aria-label="visibility toggle"
                   checkedChildren={<EyeOutlined />}
                   unCheckedChildren={<EyeInvisibleOutlined />}
-                  checked={disabled}
-                  onChange={handleVisibilityToggle}
+                  checked={disabled && !forceDisabled}
                   style={{ marginTop: "5px" }}
+                  disabled={forceDisabled}
                 />
-              </Tooltip>
+              </Popconfirm>
             </Col>
+
             <Col>
               <Tooltip
                 placement="top"
                 title={<FormattedMessage id="profile.edit" />}
               >
                 <Button
-                  aria-label="visibility toggle"
+                  aria-label="edit card"
                   type="default"
                   shape="circle"
                   icon={<EditOutlined />}
@@ -126,9 +147,18 @@ const ProfileCardsView = ({
     if (profileInfo) {
       const { visibleCards } = profileInfo;
       const cardNameToBeModified = cardName;
-      setDisabled(visibleCards[cardNameToBeModified]);
+      setDisabled(visibleCards[cardNameToBeModified] && !forceDisabled);
     }
-  }, [cardName, editUrl, profileInfo, title, id, content, style]);
+  }, [
+    cardName,
+    editUrl,
+    profileInfo,
+    title,
+    id,
+    content,
+    style,
+    forceDisabled,
+  ]);
 
   let styles;
   if (disabled === true) {
@@ -148,6 +178,7 @@ const ProfileCardsView = ({
   return (
     <div>
       <Card
+        className={content === null ? "no-content-card" : null}
         title={title}
         id={id}
         extra={generateSwitchButton(cardName)}
@@ -157,7 +188,7 @@ const ProfileCardsView = ({
       </Card>
     </div>
   );
-}
+};
 
 ProfileCardsView.propTypes = {
   cardName: PropTypes.string.isRequired,
@@ -165,13 +196,17 @@ ProfileCardsView.propTypes = {
   profileInfo: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   id: PropTypes.string.isRequired,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
+  history: HistoryPropType.isRequired,
+  forceDisabled: PropTypes.bool,
 };
 
 ProfileCardsView.defaultProps = {
   profileInfo: null,
   style: undefined,
+  content: null,
+  forceDisabled: false,
 };
 
 export default ProfileCardsView;

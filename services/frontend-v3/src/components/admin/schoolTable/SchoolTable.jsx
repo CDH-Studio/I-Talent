@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { IntlPropType } from "../../../customPropTypes";
 import SchoolTableView from "./SchoolTableView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -27,35 +28,28 @@ const SchoolTable = ({ type, intl }) => {
 
   /* get school information */
   const getSchools = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/${type}`
-      );
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/${type}`
+    );
+    return results.data;
   }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let schools = [];
     if (loading) {
       const setState = async () => {
-        schools = await getSchools();
-        setData(schools);
-        // eslint-disable-next-line no-console
+        await getSchools()
+          .then((schools) => setData(schools))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        schools = await getSchools();
-        setData(schools);
-        // eslint-disable-next-line no-console
+        await getSchools()
+          .then((schools) => setData(schools))
+          .catch((error) => handleError(error, "redirect"));
         setReset(false);
       };
       updateState();
@@ -93,58 +87,40 @@ const SchoolTable = ({ type, intl }) => {
 
   /* handles addition of a school */
   const handleSubmitAdd = async (values) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        country: values.addSchoolCountry.toUpperCase(),
-        description: values.addSchoolName,
-        state: values.addSchoolState.toUpperCase(),
-      });
+    await axios.post(url, {
+      country: values.addSchoolCountry.toUpperCase(),
+      description: values.addSchoolName,
+      state: values.addSchoolState.toUpperCase(),
+    });
 
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
     return undefined;
   };
 
   /* handles the update/edit of a school */
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      await axios.put(url, {
-        country: values.editSchoolCountry.toUpperCase(),
-        description: values.editSchoolName,
-        state: values.editSchoolState.toUpperCase(),
-      });
+    await axios.put(url, {
+      country: values.editSchoolCountry.toUpperCase(),
+      description: values.editSchoolName,
+      state: values.editSchoolState.toUpperCase(),
+    });
 
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
     return undefined;
   };
 
   /* handles the deletion of a school */
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      await axios.post(url, { ids: selectedRowKeys });
+    await axios.post(url, { ids: selectedRowKeys });
 
-      setSelectedRowKeys([]);
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setSelectedRowKeys([]);
+    setReset(true);
     return undefined;
   };
 

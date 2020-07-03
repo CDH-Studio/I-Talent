@@ -96,6 +96,7 @@
   "admin.dashboard.growth.rate.percentage": "Growth rate in ",
 
   "advanced.search.button.text": "Advanced search",
+  "advanced.search.description": "Use the filters below to search for employees in the I-Talent directory that match your specific needs.",
   "advanced.search.form.name": "Name",
   "advanced.search.form.skills": "Skills",
   "advanced.search.form.location": "Location",
@@ -107,23 +108,26 @@
   "sidebar.search.title": "Search filters",
   "sidebar.search.description": "You can update your search filters",
 
+  "back.to.landing": "Back to landing",
   "search.no.results": "No results found",
 
   "button.advanced.search": "Advanced search",
+  "button.basic.search": "Basic search",
   "button.apply": "Apply",
   "button.cancel": "Cancel",
-  "button.clear": "Clear",
+  "button.clear": "Clear changes",
   "button.close": "Close",
   "button.next": "Next",
   "button.back": "Back",
   "button.finish": "Finish",
   "button.deactivate.account": "Deactivate account",
   "button.hide.account": "Hide account",
-  "button.basic.search": "Basic search",
 
   "apply.button.text": "Apply",
 
   "basic.search.button.text": "Basic search",
+
+  "count.remaining": "remaining",
 
   "landing.login.and.enter": "Sign in",
   "landing.welcome": "Welcome",
@@ -247,8 +251,13 @@
   "profile.education.subheader.name": "School name",
   "profile.email": "Email",
   "profile.ex.feeder": "I am nominated in the EX-feeder program",
+  "profile.not.ex.feeder": "I'm not nominated in the EX-Feeder Program.",
+  "profile.ex.feeder.title": "EX-feeder",
   "profile.first.language": "First language",
   "profile.first.name": "First name",
+  "profile.geds.edit.info1": "If the information pulled from your GEDS account is incorrect, please see the ",
+  "profile.geds.edit.info.link": "Update GEDS Contact Details Form",
+  "profile.geds.edit.info2": " for instructions on updating your profile.",
   "profile.github": "Github",
   "profile.group.or.level": "Group/Level",
   "profile.history.item.end.date": "End date",
@@ -319,6 +328,7 @@
   "profile.undefined": "Undefined",
   "profile.do.not.specify": "Do not specify",
   "profile.not.specified": "Not specified",
+  "profile.not.found": "Invalid profile URL",
   "profile.end.date.present": "Present",
   "profile.relocation.locations": "I am willing to relocate to",
   "profile.rules.required": "Required",
@@ -326,12 +336,16 @@
   "profile.rules.max.60": "Max length 60 characters",
   "profile.rules.max.100": "Max length 100 characters",
   "profile.rules.max.250": "Max length 250 characters",
+  "profile.rules.max.exceeded": "Max length exceeded",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
-  "profile.form.clear": "Form cleared",
+  "profile.form.clear": "Changes cleared",
   "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
+
+  "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
+  "profile.visibility.hide.confirm": "Are you sure you want to make hide this card from your public profile? (Will be only visible to you and HR)",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
@@ -345,7 +359,13 @@
   "sign.out": "Logout",
   "home": "Home",
 
-  "error.button": "Back to home",
+  "error.redirect.title": "Unexpected error",
+  "error.redirect.subtitle": "Something went wrong",
+  "error.button": "Back to Home",
+  "error.retry": "Retry",
+  "error.save": "Data not saved due to network error",
+  "error.show": "Show error log",
+  "error.hide": "Hide error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
   "error.403.subtitle": "Looks like someone doesn't belong"
 }

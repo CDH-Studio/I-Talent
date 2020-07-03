@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import TalentFormView from "./TalentFormView";
 import config from "../../../config";
+import handleError from "../../../functions/handleError";
 
 const { backendAddress } = config;
 
@@ -29,14 +30,10 @@ const TalentForm = ({ formType }) => {
    * Get user profile
    */
   const getProfileInfo = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/profile/private/${id}`;
-      const result = await axios.get(url);
-      setProfileInfo(result.data);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const url = `${backendAddress}api/profile/private/${id}`;
+    const result = await axios.get(url);
+    setProfileInfo(result.data);
+    return 1;
   }, [id]);
 
   /**
@@ -45,25 +42,21 @@ const TalentForm = ({ formType }) => {
    * competency options for drop down
    */
   const getCompetencyOptions = useCallback(async () => {
-    try {
-      const url = `${backendAddress}api/option/getCompetency`;
-      const result = await axios.get(url);
-      const options = [];
+    const url = `${backendAddress}api/option/getCompetency`;
+    const result = await axios.get(url);
+    const options = [];
 
-      // Generate the data for dropdown
-      for (let i = 0; i < result.data.length; i += 1) {
-        const option = {
-          title: result.data[i].description[locale],
-          key: result.data[i].id,
-        };
-        options.push(option);
-      }
-
-      setCompetencyOptions(options);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
+    // Generate the data for dropdown
+    for (let i = 0; i < result.data.length; i += 1) {
+      const option = {
+        title: result.data[i].description[locale],
+        key: result.data[i].id,
+      };
+      options.push(option);
     }
+
+    setCompetencyOptions(options);
+    return 1;
   }, [locale]);
 
   /**
@@ -72,38 +65,34 @@ const TalentForm = ({ formType }) => {
    * generate the dataTree of skills and skill categories for the TreeSelect
    */
   const getSkillOptions = useCallback(async () => {
-    try {
-      const dataTree = [];
+    const dataTree = [];
 
-      // Get user profile
-      const url = `${backendAddress}api/option/getCategory`;
-      const result = await axios.get(url);
+    // Get user profile
+    const url = `${backendAddress}api/option/getCategory`;
+    const result = await axios.get(url);
 
-      // Loop through all skill categories
-      for (let i = 0; i < result.data.length; i += 1) {
-        const parent = {
-          title: result.data[i].description[locale],
-          value: result.data[i].id,
-          children: [],
+    // Loop through all skill categories
+    for (let i = 0; i < result.data.length; i += 1) {
+      const parent = {
+        title: result.data[i].description[locale],
+        value: result.data[i].id,
+        children: [],
+      };
+
+      dataTree.push(parent);
+      // Loop through skills in each category
+      for (let w = 0; w < result.data[i].skills.length; w += 1) {
+        const child = {
+          title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
+          value: result.data[i].skills[w].id,
+          key: result.data[i].skills[w].id,
         };
-
-        dataTree.push(parent);
-        // Loop through skills in each category
-        for (let w = 0; w < result.data[i].skills.length; w += 1) {
-          const child = {
-            title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
-            value: result.data[i].skills[w].id,
-            key: result.data[i].skills[w].id,
-          };
-          dataTree[i].children.push(child);
-        }
+        dataTree[i].children.push(child);
       }
-
-      setSkillOptions(dataTree);
-      return 1;
-    } catch (error) {
-      throw new Error(error);
     }
+
+    setSkillOptions(dataTree);
+    return 1;
   }, [locale]);
 
   /**
@@ -164,8 +153,7 @@ const TalentForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        // eslint-disable-next-line no-console
-        console.log(error);
+        handleError(error, "redirect");
       });
   }, [getCompetencyOptions, getProfileInfo, getSkillOptions]);
 

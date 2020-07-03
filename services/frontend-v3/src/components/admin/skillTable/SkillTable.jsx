@@ -5,6 +5,8 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
+
+import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
 import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
@@ -29,51 +31,41 @@ const SkillTable = ({ intl, type }) => {
 
   /* get skill information */
   const getSkill = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/${type}`
-      );
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/${type}`
+    );
 
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return [];
-    }
+    return results.data;
   }, [type]);
 
   /* get category information */
   const getCategories = useCallback(async () => {
-    try {
-      const results = await axios.get(
-        `${backendAddress}api/admin/options/categories/${type}`
-      );
-      return results.data;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return [];
-    }
+    const results = await axios.get(
+      `${backendAddress}api/admin/options/categories/${type}`
+    );
+    return results.data;
   }, [type]);
 
   /* useEffect will run if statement, when the component is mounted */
   /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
   useEffect(() => {
-    let skills = [];
-    let categories = [];
     if (loading) {
       const setState = async () => {
-        skills = await getSkill();
-        categories = await getCategories();
-        setData(skills);
-        setCategories(categories);
+        await getSkill()
+          .then((skills) => setData(skills))
+          .catch((error) => handleError(error, "redirect"));
+        await getCategories()
+          .then((categories) => setCategories(categories))
+          .catch((error) => handleError(error, "redirect"));
         setLoading(false);
       };
       setState();
     } else {
       const updateState = async () => {
-        skills = await getSkill();
-        setData(skills);
+        await getSkill()
+          .then((skills) => setData(skills))
+          .catch((error) => handleError(error, "redirect"));
+
         setReset(false);
       };
       updateState();
@@ -112,76 +104,58 @@ const SkillTable = ({ intl, type }) => {
   /* handles addition of a skill */
   // eslint-disable-next-line consistent-return
   const handleSubmitAdd = async (values) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}`;
+    const url = `${backendAddress}api/admin/options/${type}`;
 
-      await axios.post(url, {
-        descriptionEn: values.addSkillEn,
-        descriptionFr: values.addSkillFr,
-        categoryId: values.addSkillCategory,
-      });
+    await axios.post(url, {
+      descriptionEn: values.addSkillEn,
+      descriptionFr: values.addSkillFr,
+      categoryId: values.addSkillCategory,
+    });
 
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setReset(true);
   };
 
   /* handles the update/edit of a skill */
   // eslint-disable-next-line consistent-return
   const handleSubmitEdit = async (values, id) => {
-    try {
-      const url = `${backendAddress}api/admin/options/${type}/${id}`;
+    const url = `${backendAddress}api/admin/options/${type}/${id}`;
 
-      if (typeof values.editSkillCategory === "string") {
-        const index = categories.findIndex(
-          (object) =>
-            object.descriptionEn === values.editSkillCategory ||
-            object.descriptionFr === values.editSkillCategory
-        );
-        await axios.put(url, {
-          descriptionEn: values.editSkillEn,
-          descriptionFr: values.editSkillFr,
-          categoryId: categories[index].id,
-          category: categories[index],
-        });
-      } else {
-        const categoryObject = categories.find(
-          (category) => category.id === values.editSkillCategory
-        );
-        await axios.put(url, {
-          descriptionEn: values.editSkillEn,
-          descriptionFr: values.editSkillFr,
-          categoryId: values.editSkillCategory,
-          category: categoryObject,
-        });
-      }
-
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
+    if (typeof values.editSkillCategory === "string") {
+      const index = categories.findIndex(
+        (object) =>
+          object.descriptionEn === values.editSkillCategory ||
+          object.descriptionFr === values.editSkillCategory
+      );
+      await axios.put(url, {
+        descriptionEn: values.editSkillEn,
+        descriptionFr: values.editSkillFr,
+        categoryId: categories[index].id,
+        category: categories[index],
+      });
+    } else {
+      const categoryObject = categories.find(
+        (category) => category.id === values.editSkillCategory
+      );
+      await axios.put(url, {
+        descriptionEn: values.editSkillEn,
+        descriptionFr: values.editSkillFr,
+        categoryId: values.editSkillCategory,
+        category: categoryObject,
+      });
     }
+
+    setReset(true);
   };
 
   /* handles the deletion of a skill */
   // eslint-disable-next-line consistent-return
   const handleSubmitDelete = async () => {
-    try {
-      const url = `${backendAddress}api/admin/delete/${type}`;
+    const url = `${backendAddress}api/admin/delete/${type}`;
 
-      await axios.post(url, { ids: selectedRowKeys });
+    await axios.post(url, { ids: selectedRowKeys });
 
-      setSelectedRowKeys([]);
-      setReset(true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      return 0;
-    }
+    setSelectedRowKeys([]);
+    setReset(true);
   };
 
   /* helper function to rowSelection */

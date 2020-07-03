@@ -14,11 +14,13 @@ import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
+import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
+import ProfileNotFound from "../../profileNotFound/profileNotFound";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -30,7 +32,7 @@ const ProfileLayoutView = ({ data }) => {
   const userID = useSelector((state) => state.user.id);
 
   // Visibility values
-  const { visibleCards } = data;
+  const visibleCards = data ? data.visibleCards : null;
 
   /* Component Styles */
   const styles = {
@@ -67,7 +69,7 @@ const ProfileLayoutView = ({ data }) => {
   /*
    * Display Cards on Profile Page
    *
-   * Handle displaying the profile depending on wheter the user looking at his
+   * Handle displaying the profile depending on whether the user looking at his
    * own profile or looking at other users profiles
    */
   const displayAllProfileCards = () => {
@@ -171,6 +173,16 @@ const ProfileLayoutView = ({ data }) => {
                 id="card-profile-talent-management"
                 editUrl="/secured/profile/edit/personal-growth"
               />
+              <div style={{ paddingTop: "16px" }}>
+                <ProfileCards
+                  title={<ExFeeder data={data} style={styles.card} />}
+                  content={null}
+                  cardName="exFeeder"
+                  id="card-profile-ex-feeder"
+                  editUrl="/secured/profile/edit/personal-growth"
+                  forceDisabled={!data.exFeeder}
+                />
+              </div>
             </Col>
             <Col xs={24} xl={12}>
               <ProfileCards
@@ -334,19 +346,37 @@ const ProfileLayoutView = ({ data }) => {
           </Row>
         )}
 
-        {visibleCards.talentManagement && visibleCards.careerInterests ? (
+        {(visibleCards.talentManagement ||
+          (visibleCards.exFeeder && data.exFeeder)) &&
+        visibleCards.careerInterests ? (
           <Row
             style={styles.row}
             gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
             type="flex"
           >
             <Col xs={24} xl={12}>
-              <ProfileCards
-                title={<FormattedMessage id="profile.talent.management" />}
-                content={<TalentManagement data={data} style={styles.card} />}
-                cardName="talentManagement"
-                id="card-profile-talent-management"
-              />
+              {visibleCards.talentManagement && (
+                <ProfileCards
+                  title={<FormattedMessage id="profile.talent.management" />}
+                  content={<TalentManagement data={data} style={styles.card} />}
+                  cardName="talentManagement"
+                  id="card-profile-talent-management"
+                />
+              )}
+              {visibleCards.exFeeder && data.exFeeder && (
+                <div
+                  style={{
+                    paddingTop: visibleCards.talentManagement ? "16px" : "0px",
+                  }}
+                >
+                  <ProfileCards
+                    title={<ExFeeder data={data} style={styles.card} />}
+                    content={null}
+                    cardName="exFeeder"
+                    id="card-profile-ex-feeder"
+                  />
+                </div>
+              )}
             </Col>
             <Col xs={24} xl={12}>
               <ProfileCards
@@ -369,6 +399,18 @@ const ProfileLayoutView = ({ data }) => {
                     }
                     cardName="talentManagement"
                     id="card-profile-talent-management"
+                  />
+                </Col>
+              </Row>
+            )}
+            {visibleCards.exFeeder && data.exFeeder && (
+              <Row style={styles.row}>
+                <Col span={24}>
+                  <ProfileCards
+                    title={<FormattedMessage id="profile.exFeeder" />}
+                    content={<ExFeeder data={data} style={styles.card} />}
+                    cardName="exFeeder"
+                    id="card-profile-ex-feeder"
                   />
                 </Col>
               </Row>
@@ -449,10 +491,18 @@ const ProfileLayoutView = ({ data }) => {
    * card is hidden or not
    */
   const generateProfileSidebarContent = () => {
+    if (!visibleCards) {
+      return (
+        <Row justify="center" style={styles.sideBarRow}>
+          <Col flex={1} offset={1} />
+        </Row>
+      );
+    }
+
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor>
+          <Anchor offsetTop="75">
             <Link
               href="#card-profile-basic-info"
               title={
@@ -506,7 +556,8 @@ const ProfileLayoutView = ({ data }) => {
             )}
             {(visibleCards.developmentalGoals ||
               visibleCards.talentManagement ||
-              visibleCards.careerInterests) && (
+              visibleCards.careerInterests ||
+              visibleCards.exFeeder) && (
               <Link
                 href="#divider-employee-growth"
                 title={
@@ -531,6 +582,16 @@ const ProfileLayoutView = ({ data }) => {
                     title={
                       <Text style={styles.sideBarText}>
                         <FormattedMessage id="profile.talent.management" />
+                      </Text>
+                    }
+                  />
+                )}
+                {visibleCards.exFeeder && (
+                  <Link
+                    href="#card-profile-ex-feeder"
+                    title={
+                      <Text style={styles.sideBarText}>
+                        <FormattedMessage id="profile.ex.feeder.title" />
                       </Text>
                     }
                   />
@@ -608,7 +669,7 @@ const ProfileLayoutView = ({ data }) => {
           />
         }
       />
-      {displayAllProfileCards()}
+      {data ? displayAllProfileCards() : <ProfileNotFound />}
     </AppLayout>
   );
 };
