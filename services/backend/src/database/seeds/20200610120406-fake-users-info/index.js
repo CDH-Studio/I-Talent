@@ -1,5 +1,5 @@
 const path = require("path");
-const prisma = require("../../");
+const prisma = require("../..");
 const users = require("./data/users");
 
 async function getSecurityClearanceId(description) {

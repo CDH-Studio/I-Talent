@@ -23,9 +23,9 @@ async function getDiplomas(request, response) {
 
     const diplomas = _.sortBy(
       diplomasQuery.map((i) => ({
-          id: i.opDiplomaId,
-          description: i.description,
-        })),
+        id: i.opDiplomaId,
+        description: i.description,
+      })),
       "description"
     );
 

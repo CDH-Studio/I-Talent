@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const prisma = require("../../database");
+
 function generateAvatarColor() {
   const colours = [
     "#0bdaa3",

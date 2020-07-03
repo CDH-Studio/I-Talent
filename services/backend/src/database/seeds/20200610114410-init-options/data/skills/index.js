@@ -41,5 +41,5 @@ module.exports = {
   internationalAffairs,
   learningDesign,
   general,
-  programmingLanguages
-}
+  programmingLanguages,
+};
