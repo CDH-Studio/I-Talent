@@ -1,14 +1,9 @@
-# I-Talent
+<img src="services/frontend-v3/src/assets/MyTalent-Logo-Full-v2-dark.svg" alt="I-Talent Logo" width="170" />
 
 An improved directory and employee search tool.
 
-![I-Talent Screenshot](docs/wikiFiles/I-Talent-page.jpg?raw=true)
-
-I-Talent can be accessed [here](http://mytalent-frontend-dev-mytalent.apps.dev.openshift.ised-isde.canada.ca/).
-
-[Our promotional website](https://cdh-studio.github.io/UpSkill/)
-
-API documentation can be accessed [here](https://documenter.getpostman.com/view/10159635/SzKQz14k?version=latest).
+Development version of I-Talent can be accessed [here](http://italent-dev.apps.dev.openshift.ised-isde.canada.ca/).<br>
+API documentation can be accessed locally [here](http://localhost:8080/api-docs) (needs the backend server running).
 
 # Table of Contents
 
@@ -28,30 +23,22 @@ I-Talent is an internal web-application that would enable employees to share inf
 Any ISED employee will be able to login to I-Talent with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
 
 # Contributors
+Our full stack developers
 
 - [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
-  - Full Stack Developer
 - [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
-  - Full Stack Developer
 - [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
-  - Full Stack Developer
 - [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
-  - Full Stack Developer
 - [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
-  - Full Stack Developer
 - [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
-  - Full Stack Developer
 - [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
-  - Full Stack Developer
 - [Benoit Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)
-  - Full Stack Developer
 - [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)
-  - Full Stack Developer
 
 # Tech Stack
 
 - Frontend Service Framework: React
-- Backend Service Framework: Node + Express
+- Backend Service Framework: Node + Express + Prisma
 - Database: Postgres
 - Testing Framework: Jest
 - Hosting: OpenShift
@@ -96,10 +83,11 @@ docker-compose up
 
 You can access different components of the web application:
 
-- The frontend at `localhost:3000`.
-- The backend at `localhost:8080`.
+- Frontend at `localhost:3000`.
+- Backend at `localhost:8080`.
+- API documentation at `localhost:8080/api-docs`.
 - Postgres database at `localhost:5432`.
-- Adminer at `localhost:3333`.
+- Prisma studio at `localhost:5555`.
 
 Checkout the `docker-compose.yml` file for information on which ports to use to access all of the other services.
 
