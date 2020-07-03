@@ -329,7 +329,7 @@ model VisibleCard {
   careerInterests    CardVisibilityStatus @default(PUBLIC)
   mentorshipSkills   CardVisibilityStatus @default(PUBLIC)
   exFeeder           CardVisibilityStatus @default(PUBLIC)
-  User               User[]
+  users              User[]
 }
 
 model MentorshipSkill {
@@ -520,6 +520,6 @@ model User {
   experiences          Experience[]
   relocationLocations  RelocationLocation[]
   friends              User[]
-  User                 User?                 @relation("UserToUser", fields: [userId])
+  user                 User?                 @relation("UserToUser", fields: [userId])
   userId               String?
 }
