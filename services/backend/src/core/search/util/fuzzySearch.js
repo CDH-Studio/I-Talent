@@ -34,7 +34,6 @@ async function fuzzySearch(profiles, searchValue) {
       "team",
       "telephone",
       "projects.text",
-      "exFeeder",
     ],
   };
 
