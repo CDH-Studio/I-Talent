@@ -1,6 +1,5 @@
 const axios = require("axios");
 const prisma = require("../../database");
-require("dotenv").config();
 
 async function getGedsAssist(request, response) {
   const { id } = request.params;

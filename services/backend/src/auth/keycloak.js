@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const redis = require("redis");
 const KeycloakConnect = require("keycloak-connect");
 const session = require("express-session");
