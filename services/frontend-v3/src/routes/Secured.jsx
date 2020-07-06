@@ -22,6 +22,8 @@ import {
   setUserAvatarColor,
   setUserInitials,
 } from "../redux/slices/userSlice";
+import { setLocale } from "../redux/slices/settingsSlice";
+
 import config from "../config";
 
 const { keycloakJSONConfig } = keycloakConfig;
@@ -40,6 +42,7 @@ const Secured = ({ location }) => {
       dispatch(setUserId(res.data.id));
       dispatch(setUserAvatarColor(res.data.avatarColor));
       dispatch(setUserInitials(res.data.nameInitials));
+      dispatch(setLocale(res.data.preferredLanguage));
       return res.data.signupStep;
     },
     [dispatch]
@@ -56,7 +59,6 @@ const Secured = ({ location }) => {
         const res = await axios.get(
           `${backendAddress}api/user/${userInfo.sub}`
         );
-
         return handleRequest(userInfo, res);
       } catch (error) {
         const res = await axios.post(
