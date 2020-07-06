@@ -1,14 +1,15 @@
 require("dotenv").config();
 
+const redis = require("redis");
 const KeycloakConnect = require("keycloak-connect");
 const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
 
-// Configure session to use memoryStore and Setup keycloak middleware to
-// use the session memoryStore.
-const memoryStore = new session.MemoryStore();
+let redisClient = redis.createClient({ host: "redis" });
+const store = new RedisStore({ client: redisClient });
 
 const keycloak = new KeycloakConnect(
-  { store: memoryStore },
+  { store },
   {
     realm: "individual",
     "bearer-only": true,
@@ -23,7 +24,7 @@ const sessionInstance = session({
   secret: process.env.KEYCLOAK_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: memoryStore,
+  store,
 });
 
 module.exports = { keycloak, sessionInstance };

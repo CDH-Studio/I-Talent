@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12-alpine
 
 ENV TZ=America/Toronto
 
@@ -11,10 +11,6 @@ RUN yarn install
 
 COPY . .
 
-# RUN npm run build
-
 EXPOSE 3000
-
-# CMD ["npm", "run", "deploy"]
 
 CMD ["yarn", "start"]
