@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
 const swaggerUi = require("swagger-ui-express");
 const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
@@ -9,8 +8,6 @@ const swaggerOptions = require("./docs/swaggerOptions");
 const app = express();
 
 const port = process.env.PORT || 8080;
-
-dotenv.config();
 
 app.use(sessionInstance);
 

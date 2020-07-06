@@ -22,6 +22,7 @@ services:
       - backend-node-modules:/upskill-backend/node_modules
     env_file:
       - ./env/backend.env
+      - .env
     networks:
       - redis-net
       - postgres-net
@@ -44,7 +45,7 @@ services:
   redis:
     container_name: "upskill-redis-session"
     image: "redis:6-alpine"
-    command: ["redis-server"]
+    command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
     hostname: redis
     restart: always
     networks:
