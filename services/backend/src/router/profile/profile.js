@@ -17,7 +17,8 @@ profileRouter
     [UUIDValidator, langValidator],
     profile.getPublicProfileById
   )
-  .put(keycloak.protect(), updateProfileValidator, profile.updateProfile);
+  .put(keycloak.protect(), updateProfileValidator, profile.updateProfile)
+  .post(keycloak.protect(), updateProfileValidator, profile.updateProfile);
 
 profileRouter
   .route("/private/:id")
