@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const moment = require("moment");
+const _ = require("lodash");
 const prisma = require("../../database");
 
 function normalizeDate(date, startOf) {
@@ -779,7 +780,7 @@ function filterProfileResult(profile, language) {
   };
 
   if (profile.skills) {
-    filteredProfile.skills = profile.skills.map(({ skill }) => {
+    const skills = profile.skills.map(({ skill }) => {
       if (skill.translations && skill.category.translations)
         return {
           id: skill.id,
@@ -789,56 +790,64 @@ function filterProfileResult(profile, language) {
         };
       return null;
     });
+
+    filteredProfile.skills = _.sortBy(_.remove(skills, null), "name");
   }
 
   if (profile.mentorshipSkills) {
-    filteredProfile.mentorshipSkills = profile.mentorshipSkills.map(
-      ({ skill }) => {
-        if (skill.translations && skill.category.translations)
-          return {
-            id: skill.id,
-            name: skill.translations[0].name,
-            categoryId: skill.category.id,
-            category: skill.category.translations[0].name,
-          };
-        return null;
-      }
-    );
+    const skills = profile.mentorshipSkills.map(({ skill }) => {
+      if (skill.translations && skill.category.translations)
+        return {
+          id: skill.id,
+          name: skill.translations[0].name,
+          categoryId: skill.category.id,
+          category: skill.category.translations[0].name,
+        };
+      return null;
+    });
+
+    filteredProfile.mentorshipSkills = _.sortBy(_.remove(skills, null), "name");
   }
 
   if (profile.competencies) {
-    filteredProfile.competencies = profile.competencies.map(
-      ({ competency }) => {
-        if (competency.translations)
-          return {
-            id: competency.id,
-            name: competency.translations[0].name,
-          };
-        return null;
-      }
+    const competencies = profile.competencies.map(({ competency }) => {
+      if (competency.translations)
+        return {
+          id: competency.id,
+          name: competency.translations[0].name,
+        };
+      return null;
+    });
+
+    filteredProfile.competencies = _.sortBy(
+      _.remove(competencies, null),
+      "name"
     );
   }
 
   if (profile.developmentalGoals) {
-    filteredProfile.developmentalGoals = profile.developmentalGoals.map(
-      (goal) => {
-        const competency =
-          goal.competency && goal.competency.translations
-            ? {
-                id: goal.competency.id,
-                name: goal.competency.translations[0].name,
-              }
-            : null;
+    const developmentalGoals = profile.developmentalGoals.map((goal) => {
+      const competency =
+        goal.competency && goal.competency.translations
+          ? {
+              id: goal.competency.id,
+              name: goal.competency.translations[0].name,
+            }
+          : null;
 
-        const skill =
-          goal.skill && goal.skill.translations
-            ? {
-                id: goal.skill.id,
-                name: goal.skill.translations[0].name,
-              }
-            : null;
-        return competency || skill;
-      }
+      const skill =
+        goal.skill && goal.skill.translations
+          ? {
+              id: goal.skill.id,
+              name: goal.skill.translations[0].name,
+            }
+          : null;
+      return competency || skill;
+    });
+
+    filteredProfile.developmentalGoals = _.sortBy(
+      _.remove(developmentalGoals, null),
+      "name"
     );
   }
 
