@@ -1,3 +1,1 @@
-module.exports = async () => {
-  require("dotenv").config();
-};
+module.exports = async () => {};
