@@ -23,14 +23,25 @@ const ResultsCard = () => {
 
     if (urlSections.length === 2) {
       const queryString = urlSections[1];
-      axios
-        .get(`${backendAddress}api/search/fuzzySearch?${queryString}`)
-        .then((result) => setResults(result.data))
-        .catch((error) => handleError(error, "redirect"));
+      if (queryString.includes("searchValue")) {
+        axios
+          .get(
+            `${backendAddress}api/search/fuzzy?${queryString}&language=${locale}`
+          )
+          .then((result) => setResults(result.data))
+          .catch((error) => handleError(error, "redirect"));
+      } else {
+        axios
+          .get(
+            `${backendAddress}api/search/filters?${queryString}&language=${locale}`
+          )
+          .then((result) => setResults(result.data))
+          .catch((error) => handleError(error, "redirect"));
+      }
     } else {
       setResults(new Error("invalid query"));
     }
-  }, []);
+  }, [locale]);
 
   if (!results) {
     return <ProfileSkeleton />;

@@ -119,8 +119,8 @@ const ExperienceFormView = ({
     if (
       profileInfo &&
       field &&
-      profileInfo.careerSummary[field.fieldKey] &&
-      profileInfo.careerSummary[field.fieldKey].endDate
+      profileInfo.experiences[field.fieldKey] &&
+      profileInfo.experiences[field.fieldKey].endDate
     ) {
       toggleEndDate();
     }
@@ -165,8 +165,8 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Job Title Field */}
         <Form.Item
-          name={[field.name, "header"]}
-          fieldKey={[field.fieldKey, "header"]}
+          name={[field.name, "jobTitle"]}
+          fieldKey={[field.fieldKey, "jobTitle"]}
           label={<FormattedMessage id="admin.job.title" />}
           style={style.formItem}
           rules={[Rules.required, Rules.maxChar60]}
@@ -178,8 +178,8 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Company Name Field */}
         <Form.Item
-          name={[field.name, "subheader"]}
-          fieldKey={[field.fieldKey, "subheader"]}
+          name={[field.name, "organization"]}
+          fieldKey={[field.fieldKey, "organization"]}
           label={<FormattedMessage id="profile.career.subheader.name" />}
           rules={[Rules.required, Rules.maxChar60]}
         >
@@ -237,8 +237,8 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
         <Form.Item
-          name={[field.name, "content"]}
-          fieldKey={[field.fieldKey, "content"]}
+          name={[field.name, "description"]}
+          fieldKey={[field.fieldKey, "description"]}
           label={<FormattedMessage id="profile.career.content.name" />}
           rules={[Rules.maxChar250]}
           extra={

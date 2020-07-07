@@ -20,7 +20,6 @@ const BasicInfoView = ({
   name,
   avatar,
   jobTitle,
-  locale,
   buttonLinks,
 }) => {
   /* Component Styles */
@@ -153,19 +152,19 @@ const BasicInfoView = ({
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.branch" />,
-      description:
-        data.branch && data.branch[locale] ? (
-          data.branch[locale]
-        ) : (
-          <FormattedMessage id="profile.not.specified" />
-        ),
+      description: data.branch ? (
+        data.branch
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
 
+    const location = data.officeLocation;
     const address = {
       icon: <EnvironmentOutlined />,
       title: <FormattedMessage id="profile.address" />,
-      description: data.location ? (
-        data.location.description[locale]
+      description: location ? (
+        `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
       ) : (
         <FormattedMessage id="profile.not.specified" />
       ),
@@ -238,7 +237,6 @@ BasicInfoView.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   jobTitle: PropTypes.string,
-  locale: PropTypes.oneOf(["fr", "en"]).isRequired,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

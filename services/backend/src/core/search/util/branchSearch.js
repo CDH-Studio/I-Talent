@@ -1,8 +1,5 @@
 async function branchSearch(profiles, branchArray) {
-  const results = profiles.filter((profile) =>
-    branchArray.includes(encodeURI(profile.branch))
-  );
-  return results;
+  return profiles.filter((profile) => branchArray.includes(profile.branch));
 }
 
 module.exports = branchSearch;

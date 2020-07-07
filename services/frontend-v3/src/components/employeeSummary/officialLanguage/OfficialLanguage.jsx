@@ -1,55 +1,64 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
-import { useSelector } from "react-redux";
 import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
 const OfficialLanguage = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
   const getFirstLanguageInfo = (dataSource) => {
+    let description = <FormattedMessage id="profile.not.specified" />;
+
+    if (dataSource.firstLanguage === "ENGLISH") {
+      description = <FormattedMessage id="language.english" />;
+    } else if (dataSource.firstLanguage === "FRENCH") {
+      description = <FormattedMessage id="language.french" />;
+    }
+
     const firstLanguage = {
       title: <FormattedMessage id="profile.first.language" />,
-      description:
-        dataSource.firstLanguage === undefined ? (
-          <FormattedMessage id="profile.not.specified" />
-        ) : (
-          dataSource.firstLanguage[locale]
-        ),
+      description,
     };
     return [firstLanguage];
   };
 
   const getSecondLanguageGradeInfo = (dataSource) => {
+    const reading = dataSource.secondLangProfs.find(
+      (i) => i.proficiency === "READING"
+    );
+
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
-      description:
-        dataSource.secondaryReadingProficiency === null ? (
-          <FormattedMessage id="profile.not.specified" />
-        ) : (
-          dataSource.secondaryReadingProficiency
-        ),
+      description: reading ? (
+        reading.level
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
+
+    const writing = dataSource.secondLangProfs.find(
+      (i) => i.proficiency === "WRITING"
+    );
 
     const secondaryWritingProficiency = {
       title: <FormattedMessage id="profile.writing" />,
-      description:
-        dataSource.secondaryWritingProficiency === null ? (
-          <FormattedMessage id="profile.not.specified" />
-        ) : (
-          dataSource.secondaryWritingProficiency
-        ),
+      description: writing ? (
+        writing.level
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
+
+    const oral = dataSource.secondLangProfs.find(
+      (i) => i.proficiency === "ORAL"
+    );
 
     const secondaryOralProficiency = {
       title: <FormattedMessage id="profile.oral" />,
-      description:
-        dataSource.secondaryOralProficiency === null ? (
-          <FormattedMessage id="profile.not.specified" />
-        ) : (
-          dataSource.secondaryOralProficiency
-        ),
+      description: oral ? (
+        oral.level
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
 
     return [
@@ -60,41 +69,45 @@ const OfficialLanguage = ({ data }) => {
   };
 
   const getSecondLanguageDateInfo = (dataSource) => {
-    const formatedReadingDate = moment(dataSource.secondaryReadingDate).format(
-      "ll"
+    const reading = dataSource.secondLangProfs.find(
+      (i) => i.proficiency === "READING"
     );
-    const formatedWritingDate = moment(dataSource.secondaryWritingDate).format(
-      "ll"
+
+    const writing = dataSource.secondLangProfs.find(
+      (i) => i.proficiency === "WRITING"
     );
-    const formatedOralDate = moment(dataSource.secondaryOralDate).format("ll");
+
+    const oral = dataSource.secondLangProfs.find(
+      (i) => i.proficiency === "ORAL"
+    );
 
     const secondaryReadingDate = {
       title: <FormattedMessage id="profile.reading" />,
       description:
-        dataSource.secondaryReadingDate === null ? (
-          <FormattedMessage id="profile.not.specified" />
+        reading && reading.date ? (
+          moment(reading.date).format("ll")
         ) : (
-          formatedReadingDate
+          <FormattedMessage id="profile.not.specified" />
         ),
     };
 
     const secondaryWritingDate = {
       title: <FormattedMessage id="profile.writing" />,
       description:
-        dataSource.secondaryWritingDate === null ? (
-          <FormattedMessage id="profile.not.specified" />
+        writing && writing.date ? (
+          moment(writing.date).format("ll")
         ) : (
-          formatedWritingDate
+          <FormattedMessage id="profile.not.specified" />
         ),
     };
 
     const secondaryOralDate = {
       title: <FormattedMessage id="profile.oral" />,
       description:
-        dataSource.secondaryOralDate === null ? (
-          <FormattedMessage id="profile.not.specified" />
+        oral && oral.date ? (
+          moment(oral.date).format("ll")
         ) : (
-          formatedOralDate
+          <FormattedMessage id="profile.not.specified" />
         ),
     };
 
@@ -117,4 +130,5 @@ OfficialLanguage.propTypes = {
 OfficialLanguage.defaultProps = {
   data: null,
 };
+
 export default OfficialLanguage;

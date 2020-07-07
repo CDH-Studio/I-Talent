@@ -14,8 +14,8 @@ const { enableErrorRedirect } = config;
 const intlMessageKey = "error.save";
 
 const errorMessages = {
-  en: enIntlMessages[intlMessageKey] || intlMessageKey,
-  fr: frIntlMessages[intlMessageKey] || intlMessageKey,
+  ENGLISH: enIntlMessages[intlMessageKey] || intlMessageKey,
+  FRENCH: frIntlMessages[intlMessageKey] || intlMessageKey,
 };
 
 export default (error, handleType) => {
