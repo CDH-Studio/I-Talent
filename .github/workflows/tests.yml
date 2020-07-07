@@ -71,6 +71,14 @@ jobs:
 
     - name: Run jest tests
       run: yarn test --forceExit
+      
+    - name: SonarQube Scan
+      uses: kitabisa/sonarqube-action@v1.0.0-rc.1
+      with:
+        host: ${{ secrets.SONAR_QUBE_HOST }}
+        projectKey: italent-dev
+        projectBaseDir: ./services/backend
+        login: ${{ secrets.SONAR_QUBE_TOKEN }}
 
     - name: Upload a test coverage
       uses: actions/upload-artifact@v2
