@@ -4,14 +4,12 @@ ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
 USER $user
+RUN npm -g config set user $user
 
-WORKDIR /opt/upskill-frontend
+WORKDIR /upskill-frontend
 
 COPY package.json ./
 COPY yarn.lock ./
-
-# RUN mkdir -p /opt/upskill-backend/.yarn-cache
-# ENV YARN_CACHE_FOLDER=/opt/upskill-backend/.yarn-cache
 
 RUN yarn install 
 RUN yarn cache clean

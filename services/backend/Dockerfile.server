@@ -5,7 +5,8 @@ ENV NODE_ENV=production
 
 USER $user
 
-WORKDIR /opt/upskill-backend
+WORKDIR /upskill-backend
+RUN npm -g config set user $user
 
 COPY package.json ./
 COPY yarn.lock ./
