@@ -338,7 +338,11 @@ const PrimaryInfoFormView = ({
             <QuestionCircleOutlined />
           </Popover>
         </div>
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };

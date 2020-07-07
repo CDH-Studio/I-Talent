@@ -391,7 +391,11 @@ const PersonalGrowthFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="profile.employee.growth.interests" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
