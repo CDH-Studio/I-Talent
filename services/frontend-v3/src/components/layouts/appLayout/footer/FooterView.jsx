@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
-// import CanLogo from "../../../../assets/government-of-canada-logo.svg";
-// import Footer from "./Footer";
 import { Layout } from "antd";
 
 const { Footer } = Layout;
@@ -20,7 +18,6 @@ const FooterView = () => {
       bottom: "0",
     },
     link: {
-      // float: "right",
       display: "inline",
       marginLeft: "15px",
     },
@@ -28,7 +25,7 @@ const FooterView = () => {
       textAlign: "center",
       paddingLeft: "270px",
     },
-    aroundLinksSmalll: {
+    aroundLinksSmall: {
       textAlign: "center",
     },
   };
@@ -46,6 +43,48 @@ const FooterView = () => {
   }, []);
 
   if (windowWidth < 993) {
+    return (
+      <Footer style={styles.footer}>
+        <div style={styles.aroundLinksSmall}>
+          <a
+            style={styles.link}
+            // href to be changed to route w about page
+            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+          >
+            <FormattedMessage id="footer.about.link" />
+          </a>
+
+          <a
+            style={styles.link}
+            // href to be changed to route w Contact Us page
+            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+          >
+            <FormattedMessage id="footer.contact.link" />
+          </a>
+
+          <a
+            style={styles.link}
+            href="https://www.canada.ca/en/transparency/terms.html"
+          >
+            <FormattedMessage id="footer.terms.and.conditions.link" />
+          </a>
+
+          <a
+            style={styles.link}
+            href="https://www.canada.ca/en/transparency/terms.html"
+          >
+            <FormattedMessage id="footer.privacy.link" />
+          </a>
+        </div>
+      </Footer>
+    );
+  }
+
+  const urlSections = window.location.toString().split("/");
+  // console.log(urlSections);
+  const home = urlSections[urlSections.length - 1];
+
+  if (home === "home") {
     return (
       <Footer style={styles.footer}>
         <div style={styles.aroundLinksSmall}>
