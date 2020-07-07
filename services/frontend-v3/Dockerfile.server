@@ -3,19 +3,13 @@ FROM node:12-alpine
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
-RUN chown -Rh $user:$user /project
-USER $user
-
 WORKDIR /upskill-frontend
+COPY . .
 
-COPY package.json ./
-COPY yarn.lock ./
+RUN chown -Rh $user:$user /upskill-frontend
+USER $user
 
 RUN yarn install 
 RUN yarn cache clean
-
-COPY . .
-
-EXPOSE 8080
 
 CMD ["yarn", "deploy"]
