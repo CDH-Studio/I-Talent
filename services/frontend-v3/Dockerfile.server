@@ -8,6 +8,9 @@ WORKDIR /opt/upskill-frontend
 COPY package.json ./
 COPY yarn.lock ./
 
+RUN mkdir -p /opt/upskill-backend/.yarn-cache
+ENV YARN_CACHE_FOLDER=/opt/upskill-backend/.yarn-cache
+
 RUN yarn install 
 RUN yarn cache clean
 
