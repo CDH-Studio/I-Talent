@@ -8,20 +8,26 @@ import {
   BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Dropdown,
+  Avatar,
+  List,
+  Typography,
+  Button,
+  Menu,
+} from "antd";
 import { ProfileInfoPropType } from "../../customPropTypes";
+import OrgTree from "./orgTree/OrgTree";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({
-  data,
-  name,
-  avatar,
-  jobTitle,
-  buttonLinks,
-}) => {
+const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
@@ -38,6 +44,9 @@ const BasicInfoView = ({
     },
     userAvatar: {
       verticalAlign: "middle",
+    },
+    leftSpacing: {
+      paddingLeft: "0.5em",
     },
   };
 
@@ -151,9 +160,14 @@ const BasicInfoView = ({
   const getLocationInfo = () => {
     const branch = {
       icon: <BranchesOutlined />,
-      title: <FormattedMessage id="profile.branch" />,
+      title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
-        data.branch
+        <Dropdown overlay={<OrgTree data={data} />} trigger={["click"]}>
+          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <DownOutlined />
+            <span style={styles.leftSpacing}>data.branch</span>
+          </a>
+        </Dropdown>
       ) : (
         <FormattedMessage id="profile.not.specified" />
       ),

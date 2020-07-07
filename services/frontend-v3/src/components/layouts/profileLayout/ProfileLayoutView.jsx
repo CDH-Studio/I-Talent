@@ -46,6 +46,8 @@ const { Link } = Anchor;
 const { Title, Text } = Typography;
 
 const ProfileLayoutView = ({ data }) => {
+  console.log("data", data);
+
   const [friends, setFriends] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters

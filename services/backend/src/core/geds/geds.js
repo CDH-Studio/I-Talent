@@ -43,10 +43,10 @@ const url = `${
   Promise.all(promises)
     .then(async (result) => {
       const dataGEDSArray = result[0].data;
-      const dataDBEmail = result[1];
-
+      const dataDBEmail = result[1].email;
+      console.log("RESSS", result.data);
       const dataGEDS = dataGEDSArray.find((element) => {
-        return true; //element.contactInformation.email === dataDBEmail;
+        return element.contactInformation.email === dataDBEmail;
       });
 
       const organizations = [];
