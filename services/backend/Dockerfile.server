@@ -3,14 +3,14 @@ FROM node:12-alpine
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
-WORKDIR /upskill-backend
+WORKDIR /opt/upskill-backend
 
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN mkdir -p /upskill-backend/.yarn-cache
+RUN mkdir -p /opt/upskill-backend/.yarn-cache
 
-ENV YARN_CACHE_FOLDER=/upskill-backend/.yarn-cache
+ENV YARN_CACHE_FOLDER=/opt/upskill-backend/.yarn-cache
 
 RUN yarn install
 RUN yarn cache clean
