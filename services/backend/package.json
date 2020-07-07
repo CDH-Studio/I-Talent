@@ -9,6 +9,7 @@
     "generate": "cd src/database && prisma generate",
     "migrate": "cd src/database && prisma migrate up --experimental -c",
     "migrate:create": "cd src/database && prisma migrate save --experimental",
+    "deploy": "yarn -s migrate && yarn -s start",
     "dev:docker": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",

@@ -17,8 +17,7 @@ RUN yarn cache clean
 COPY . .
 
 RUN yarn generate
-RUN yarn migrate
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["yarn", "deploy"]
