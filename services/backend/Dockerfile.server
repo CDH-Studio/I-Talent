@@ -7,8 +7,6 @@ RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
 COPY . .
 
-RUN chown -Rh $user:$user /upskill-backend
-
 USER $user
 
 RUN yarn install
