@@ -8,11 +8,15 @@ WORKDIR /upskill-backend
 COPY package.json ./
 COPY yarn.lock ./
 
+RUN mkdir -p /upskill-backend/.yarn-cache
+
+ENV YARN_CACHE_FOLDER=/upskill-backend/.yarn-cache
+
 RUN yarn install
 RUN yarn cache clean
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["yarn", "deploy"]
