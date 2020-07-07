@@ -3,10 +3,10 @@ FROM node:12-alpine
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
+RUN chown -Rh $user:$user /project
 USER $user
 
 WORKDIR /upskill-backend
-RUN npm -g config set user $user
 
 COPY package.json ./
 COPY yarn.lock ./

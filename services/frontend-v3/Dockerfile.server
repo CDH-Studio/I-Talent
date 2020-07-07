@@ -3,8 +3,8 @@ FROM node:12-alpine
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
+RUN chown -Rh $user:$user /project
 USER $user
-RUN npm -g config set user $user
 
 WORKDIR /upskill-frontend
 
