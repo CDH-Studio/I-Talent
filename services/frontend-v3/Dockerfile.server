@@ -6,8 +6,7 @@ ENV NODE_ENV=production
 WORKDIR /upskill-frontend
 COPY . .
 
-RUN chown -Rh $user:$user /upskill-frontend
-USER $user
+RUN npm config set unsafe-perm true yarn
 
 RUN yarn install 
 RUN yarn cache clean
