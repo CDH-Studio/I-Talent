@@ -74,7 +74,7 @@ jobs:
       run: yarn test --forceExit
     
     - name: Upload test coveraget to codecov
-      run: curl -s https://codecov.io/bash
+      run: bash <(curl -s https://codecov.io/bash)
 
     - name: Upload test coverage to github artifacts
       uses: actions/upload-artifact@v2
