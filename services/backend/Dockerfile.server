@@ -11,6 +11,9 @@ RUN chown -Rh node:node /upskill-backend
 
 USER node
 
+RUN mkdir -p /upskill-backend/.yarn-cache
+ENV YARN_CACHE_FOLDER=/upskill-backend/.yarn-cache
+
 RUN yarn install
 RUN yarn cache clean
 RUN yarn generate
