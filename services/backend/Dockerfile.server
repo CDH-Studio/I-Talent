@@ -1,8 +1,6 @@
 FROM node:12-alpine
 
-# USER node
-
-USER $user
+USER node
 
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
