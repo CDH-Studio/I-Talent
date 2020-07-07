@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Skeleton } from "antd";
 import axios from "axios";
-import _ from "lodash";
 import { injectIntl } from "react-intl";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import SchoolTableView from "./SchoolTableView";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
+import {
+  setAdminSchools,
+  setAdminSchoolsLoading,
+} from "../../../redux/slices/adminSlice";
 
 const { backendAddress } = config;
 
@@ -16,61 +18,41 @@ const { backendAddress } = config;
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-const SchoolTable = ({ type, intl }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reset, setReset] = useState(false);
+const SchoolTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const size = "large";
 
-  /* get school information */
+  const dispatch = useDispatch();
+
+  // Fetches the school information
   const getSchools = useCallback(async () => {
-    const results = await axios.get(
-      `${backendAddress}api/admin/options/${type}`
-    );
-    return results.data;
-  }, [type]);
+    try {
+      dispatch(setAdminSchoolsLoading(true));
 
-  /* useEffect will run if statement, when the component is mounted */
-  /* useEffect will run else statement, if an addition, update/edit or deletion occurs in the table */
-  useEffect(() => {
-    if (loading) {
-      const setState = async () => {
-        await getSchools()
-          .then((schools) => setData(schools))
-          .catch((error) => handleError(error, "redirect"));
-        setLoading(false);
-      };
-      setState();
-    } else {
-      const updateState = async () => {
-        await getSchools()
-          .then((schools) => setData(schools))
-          .catch((error) => handleError(error, "redirect"));
-        setReset(false);
-      };
-      updateState();
+      const results = await axios.get(
+        `${backendAddress}api/option/schoolsAllLang`
+      );
+
+      // Formats data from backend into viewable data for the table
+      const formattedData = results.data.map((competency) => ({
+        ...competency,
+        key: competency.id,
+      }));
+
+      dispatch(setAdminSchools(formattedData));
+    } catch (error) {
+      handleError(error, "redirect");
     }
-  }, [getSchools, loading, reset]);
+  }, [dispatch]);
 
-  /* get part of the title for the page */
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.${type}.plural`,
-        defaultMessage: type,
-      });
+  useEffect(() => {
+    getSchools();
+  }, [getSchools]);
 
-    return intl.formatMessage({
-      id: `admin.${type}.singular`,
-      defaultMessage: type,
-    });
-  };
-
-  /* handles the search part of the column search functionality */
+  // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -78,60 +60,58 @@ const SchoolTable = ({ type, intl }) => {
     setSearchedColumn(dataIndex);
   };
 
-  /* handles reset of column search functionality */
+  // Handles reset of column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
 
-  /* handles addition of a school */
+  // Handles addition of a school
   const handleSubmitAdd = async (values) => {
-    const url = `${backendAddress}api/admin/options/${type}`;
-
-    await axios.post(url, {
-      country: values.addSchoolCountry.toUpperCase(),
-      description: values.addSchoolName,
-      state: values.addSchoolState.toUpperCase(),
+    await axios.post(`${backendAddress}api/option/school`, {
+      en: values.addSchoolEn,
+      fr: values.addSchoolFr,
+      abbrCountry: values.addSchoolCountry.toUpperCase(),
+      abbrProvince: values.addSchoolProvince.toUpperCase(),
     });
 
-    setReset(true);
-    return undefined;
+    getSchools();
   };
 
-  /* handles the update/edit of a school */
+  // Handles the update/edit of a school
   const handleSubmitEdit = async (values, id) => {
-    const url = `${backendAddress}api/admin/options/${type}/${id}`;
-
-    await axios.put(url, {
-      country: values.editSchoolCountry.toUpperCase(),
-      description: values.editSchoolName,
-      state: values.editSchoolState.toUpperCase(),
+    await axios.put(`${backendAddress}api/option/school`, {
+      id,
+      en: values.editSchoolEn,
+      fr: values.editSchoolFr,
+      abbrCountry: values.editSchoolCountry.toUpperCase(),
+      abbrProvince: values.editSchoolProvince.toUpperCase(),
     });
 
-    setReset(true);
-    return undefined;
+    getSchools();
   };
 
-  /* handles the deletion of a school */
+  // Handles the deletion of a school
   const handleSubmitDelete = async () => {
-    const url = `${backendAddress}api/admin/delete/${type}`;
-
-    await axios.post(url, { ids: selectedRowKeys });
+    await axios.delete(`${backendAddress}api/option/schools`, {
+      data: {
+        ids: selectedRowKeys,
+      },
+    });
 
     setSelectedRowKeys([]);
-    setReset(true);
-    return undefined;
+    getSchools();
   };
 
-  /* helper function to rowSelection */
+  // Helper function to rowSelection
   // Consult: function taken from Ant Design table components (updated to functional)
   const onSelectChange = (_selectedRowKeys) => {
     // Can access the keys of each school selected in the table
     setSelectedRowKeys(_selectedRowKeys);
   };
 
-  /* handles row selection in the table */
+  // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
     onChange: (_selectedRowKeys) => {
@@ -139,22 +119,21 @@ const SchoolTable = ({ type, intl }) => {
     },
   };
 
-  /* configures data from backend into viewable data for the table */
-  const convertToViewableInformation = () => {
-    const allSchools = _.sortBy(data, "description");
+  useEffect(() => {
+    // Gets part of the title for the page
+    const getDisplayType = (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.school.plural`,
+        });
 
-    for (let i = 0; i < allSchools.length; i += 1) {
-      allSchools[i].key = allSchools[i].id;
-    }
+      return intl.formatMessage({
+        id: `admin.school.singular`,
+      });
+    };
 
-    return allSchools;
-  };
-
-  document.title = `${getDisplayType(true)} - Admin | I-Talent`;
-
-  if (loading) {
-    return <Skeleton active />;
-  }
+    document.title = `${getDisplayType(true)} - Admin | I-Talent`;
+  }, [intl]);
 
   return (
     <SchoolTableView
@@ -168,13 +147,11 @@ const SchoolTable = ({ type, intl }) => {
       searchText={searchText}
       size={size}
       rowSelection={rowSelection}
-      data={convertToViewableInformation()}
     />
   );
 };
 
 SchoolTable.propTypes = {
-  type: PropTypes.string.isRequired,
   intl: IntlPropType,
 };
 

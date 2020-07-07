@@ -1,0 +1,52 @@
+/api/friends/{id}:
+  get:
+    summary: Checks if the user is a friend
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    response:
+      200:
+        schema:
+          $ref: "#/definitions/GetFriend"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [friends]
+  post:
+    summary: Add a user as a friend
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [friends]
+  delete:
+    summary: Remove a user as a friend
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [friends]

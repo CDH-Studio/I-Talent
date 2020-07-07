@@ -83,3 +83,6 @@ yarn-debug.log*
 yarn-error.log*
 tmp
 .DS_Store
+
+# prisma generated client
+client/

@@ -14,49 +14,48 @@ const Profile = ({ history, match }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const userID = useSelector(state => state.user.id);
+  const userID = useSelector((state) => state.user.id);
+  const { locale } = useSelector((state) => state.settings);
 
-  const updateProfileInfo = useCallback(async (id) => {
-    // Send private data to ProfileLayout component, when current user
-    // is looking at his own profile
-    if (id === userID) {
+  const updateProfileInfo = useCallback(
+    async (id) => {
+      // Send private data to ProfileLayout component, when current user
+      // is looking at his own profile
+      if (id === userID) {
+        const fetchedData = await axios
+          .get(`${backendAddress}api/profile/private/${id}?language=${locale}`)
+          .then((res) => res.data)
+          .catch((error) => {
+            throw error;
+          });
+
+        return fetchedData;
+      }
+      // Send public data to ProfileLayout component, when current user
+      // is looking at someone else profile
       const fetchedData = await axios
-        .get(`${backendAddress}api/profile/private/${id}`)
+        .get(`${backendAddress}api/profile/${id}?language=${locale}`)
         .then((res) => res.data)
         .catch((error) => {
-          throw error;
+          if (
+            !error.isAxiosError ||
+            !error.response ||
+            !error.response.status === 404
+          ) {
+            throw error;
+          }
         });
-
       return fetchedData;
-    }
-    // Send public data to ProfileLayout component, when current user
-    // is looking at someone else profile
-    const fetchedData = await axios
-      .get(`${backendAddress}api/profile/${id}`)
-      .then((res) => res.data)
-      .catch((error) => {
-        if (
-          !error.isAxiosError ||
-          !error.response ||
-          !error.response.status === 404
-        ) {
-          throw error;
-        }
-      });
-    return fetchedData;
-  }, [userID]);
-
-  const goto = useCallback((link) => history.push(link), [history]);
+    },
+    [userID, locale]
+  );
 
   useEffect(() => {
     const { id } = match.params;
 
     if (id === undefined) {
-      goto(`/secured/profile/${userID}`);
-      // this.forceUpdate();
-    }
-
-    if (data === null) {
+      history.push(`/secured/profile/${userID}`);
+    } else {
       updateProfileInfo(id)
         .then((fetchedData) => {
           if (fetchedData !== undefined) {
@@ -67,7 +66,7 @@ const Profile = ({ history, match }) => {
         })
         .catch((error) => handleError(error, "redirect"));
     }
-  }, [data, goto, match.params, updateProfileInfo, userID]);
+  }, [history, match.params, updateProfileInfo, userID]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;

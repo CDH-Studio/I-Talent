@@ -6,6 +6,7 @@ const locationSearch = require("./locationSearch");
 const classificationSearch = require("./classificationSearch");
 const skillSearch = require("./skillSearch");
 const branchSearch = require("./branchSearch");
+const getSkillNames = require("./getSkillNames");
 
 module.exports = {
   getAllProfiles,
@@ -16,4 +17,5 @@ module.exports = {
   classificationSearch,
   skillSearch,
   branchSearch,
+  getSkillNames,
 };

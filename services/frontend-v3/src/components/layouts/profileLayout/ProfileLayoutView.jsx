@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-import { PageHeader, Anchor, Typography, Row, Col } from "antd";
-import { TagsTwoTone, RiseOutlined, TrophyOutlined } from "@ant-design/icons";
+import {
+  PageHeader,
+  Anchor,
+  Typography,
+  Row,
+  Col,
+  Button,
+  Popconfirm,
+} from "antd";
+import {
+  TagsTwoTone,
+  RiseOutlined,
+  TrophyOutlined,
+  WarningOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
@@ -19,13 +34,20 @@ import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
+import Friends from "../../friends/Friends";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
 
+import config from "../../../config";
+import handleError from "../../../functions/handleError";
+
+const { backendAddress } = config;
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
 const ProfileLayoutView = ({ data }) => {
+  const [friends, setFriends] = useState(true);
+
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -89,6 +111,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="info"
                 id="card-profile-employee-summary"
                 editUrl="/secured/profile/edit/employment"
+                data={data}
               />
             </Col>
           </Row>
@@ -111,6 +134,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="skills"
                 id="card-profile-skills"
                 editUrl="/secured/profile/edit/talent"
+                data={data}
               />
             </Col>
           </Row>
@@ -122,6 +146,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="mentorshipSkills"
                 id="card-profile-mentorship-skills"
                 editUrl="/secured/profile/edit/talent"
+                data={data}
               />
             </Col>
           </Row>
@@ -134,6 +159,7 @@ const ProfileLayoutView = ({ data }) => {
                   cardName="competencies"
                   id="card-profile-competency"
                   editUrl="/secured/profile/edit/talent"
+                  data={data}
                 />
               </Col>
             </Col>
@@ -157,6 +183,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="developmentalGoals"
                 id="card-profile-dev-goals"
                 editUrl="/secured/profile/edit/personal-growth"
+                data={data}
               />
             </Col>
           </Row>
@@ -172,6 +199,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="talentManagement"
                 id="card-profile-talent-management"
                 editUrl="/secured/profile/edit/personal-growth"
+                data={data}
               />
               <div style={{ paddingTop: "16px" }}>
                 <ProfileCards
@@ -181,6 +209,7 @@ const ProfileLayoutView = ({ data }) => {
                   id="card-profile-ex-feeder"
                   editUrl="/secured/profile/edit/personal-growth"
                   forceDisabled={!data.exFeeder}
+                  data={data}
                 />
               </div>
             </Col>
@@ -191,6 +220,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="careerInterests"
                 id="card-profile-career-interests"
                 editUrl="/secured/profile/edit/personal-growth"
+                data={data}
               />
             </Col>
           </Row>
@@ -213,6 +243,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="education"
                 id="card-profile-education"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
               />
             </Col>
           </Row>
@@ -224,6 +255,7 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="experience"
                 id="card-profile-experience"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
               />
             </Col>
           </Row>
@@ -235,19 +267,34 @@ const ProfileLayoutView = ({ data }) => {
                 cardName="projects"
                 id="card-profile-projects"
                 editUrl="/secured/profile/edit/qualifications"
+                data={data}
+              />
+            </Col>
+          </Row>
+          {/** ********** Friends *********** */}
+          <Title level={2} style={styles.sectionHeader} id="divider-friends">
+            <TeamOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+            <FormattedMessage id="profile.friends" />
+          </Title>
+          <Row style={styles.row}>
+            <Col span={24}>
+              <ProfileCards
+                title={<FormattedMessage id="profile.friends" />}
+                content={<Friends data={data} style={styles.card} />}
+                cardName="friends"
+                id="card-profile-friends"
+                data={data}
               />
             </Col>
           </Row>
         </div>
       );
     }
+
     // Display profile cards when current user looking at other users profiles
     // This only display cards that are visible
     return (
       <div>
-        <h1 className="hidden">
-          <FormattedMessage id="my.profile" />
-        </h1>
         {!visibleCards.info && (
           <Row style={styles.row}>
             <Col span={24}>
@@ -266,6 +313,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<EmployeeSummary data={data} />}
                 cardName="info"
                 id="card-profile-employee-summary"
+                data={data}
               />
             </Col>
           </Row>
@@ -291,6 +339,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Skills data={data} />}
                 cardName="skills"
                 id="card-profile-skills"
+                data={data}
               />
             </Col>
           </Row>
@@ -303,6 +352,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Mentorship data={data} />}
                 cardName="mentorshipSkills"
                 id="card-profile-mentorship-skills"
+                data={data}
               />
             </Col>
           </Row>
@@ -315,6 +365,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Competencies data={data} />}
                 cardName="competencies"
                 id="card-profile-competency"
+                data={data}
               />
             </Col>
           </Row>
@@ -341,6 +392,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<DevelopmentalGoals data={data} />}
                 cardName="developmentalGoals"
                 id="card-profile-dev-goals"
+                data={data}
               />
             </Col>
           </Row>
@@ -361,6 +413,7 @@ const ProfileLayoutView = ({ data }) => {
                   content={<TalentManagement data={data} style={styles.card} />}
                   cardName="talentManagement"
                   id="card-profile-talent-management"
+                  data={data}
                 />
               )}
               {visibleCards.exFeeder && data.exFeeder && (
@@ -374,6 +427,7 @@ const ProfileLayoutView = ({ data }) => {
                     content={null}
                     cardName="exFeeder"
                     id="card-profile-ex-feeder"
+                    data={data}
                   />
                 </div>
               )}
@@ -384,6 +438,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<CareerInterests data={data} style={styles.card} />}
                 cardName="careerInterests"
                 id="card-profile-career-interests"
+                data={data}
               />
             </Col>
           </Row>
@@ -399,6 +454,7 @@ const ProfileLayoutView = ({ data }) => {
                     }
                     cardName="talentManagement"
                     id="card-profile-talent-management"
+                    data={data}
                   />
                 </Col>
               </Row>
@@ -411,6 +467,7 @@ const ProfileLayoutView = ({ data }) => {
                     content={<ExFeeder data={data} style={styles.card} />}
                     cardName="exFeeder"
                     id="card-profile-ex-feeder"
+                    data={data}
                   />
                 </Col>
               </Row>
@@ -425,6 +482,7 @@ const ProfileLayoutView = ({ data }) => {
                     }
                     cardName="careerInterests"
                     id="card-profile-career-interests"
+                    data={data}
                   />
                 </Col>
               </Row>
@@ -452,6 +510,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Education data={data} style={styles.card} />}
                 cardName="education"
                 id="card-profile-education"
+                data={data}
               />
             </Col>
           </Row>
@@ -464,6 +523,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Experience data={data} style={styles.card} />}
                 cardName="experience"
                 id="card-profile-experience"
+                data={data}
               />
             </Col>
           </Row>
@@ -476,6 +536,7 @@ const ProfileLayoutView = ({ data }) => {
                 content={<Projects data={data} style={styles.card} />}
                 cardName="projects"
                 id="card-profile-projects"
+                data={data}
               />
             </Col>
           </Row>
@@ -651,9 +712,68 @@ const ProfileLayoutView = ({ data }) => {
                 )}
               </Link>
             )}
+            {urlID === userID && (
+              <Link
+                href="#card-profile-friends"
+                title={
+                  <Text strong style={styles.sideBarText}>
+                    <FormattedMessage id="profile.friends" />
+                  </Text>
+                }
+              />
+            )}
           </Anchor>
         </Col>
       </Row>
+    );
+  };
+
+  const addFriend = async () => {
+    await axios
+      .post(`${backendAddress}api/friends/${urlID}`)
+      .catch((error) => handleError(error, "message"));
+    setFriends(true);
+  };
+
+  const removeFriend = async () => {
+    await axios
+      .delete(`${backendAddress}api/friends/${urlID}`)
+      .catch((error) => handleError(error, "message"));
+    setFriends(false);
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios
+        .get(`${backendAddress}api/friends/${urlID}`)
+        .catch((error) => handleError(error, "message"));
+      setFriends(response.data.friend);
+    }
+    if (urlID !== userID) fetchData();
+  }, [urlID, userID]);
+
+  const getButton = () => {
+    if (userID === urlID) return "";
+    if (friends) {
+      return (
+        <Popconfirm
+          title={<FormattedMessage id="profile.removeFriend.confirm" />}
+          placement="topRight"
+          okText={<FormattedMessage id="profile.yes" />}
+          cancelText={<FormattedMessage id="profile.no" />}
+          icon={<WarningOutlined style={{ color: "orange" }} />}
+          onConfirm={removeFriend}
+        >
+          <Button type="primary" style={{ float: "right" }}>
+            <FormattedMessage id="profile.removeFriend" />
+          </Button>
+        </Popconfirm>
+      );
+    }
+    return (
+      <Button type="primary" style={{ float: "right" }} onClick={addFriend}>
+        <FormattedMessage id="profile.addFriend" />
+      </Button>
     );
   };
 
@@ -668,6 +788,7 @@ const ProfileLayoutView = ({ data }) => {
             id={userID === urlID ? "my.profile" : "other.profile"}
           />
         }
+        extra={getButton()}
       />
       {data ? displayAllProfileCards() : <ProfileNotFound />}
     </AppLayout>

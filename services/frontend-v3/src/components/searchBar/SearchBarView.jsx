@@ -18,7 +18,7 @@ import {
   DoubleRightOutlined,
 } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
-import { IntlPropType, IdDescriptionPropType } from "../../customPropTypes";
+import { IntlPropType } from "../../customPropTypes";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -148,12 +148,6 @@ const SearchBarView = ({
 
   // Generate the advanced search fields
   const getAdvancedSearchForm = (displayForm) => {
-    // detect language
-    const locale = intl.formatMessage({
-      id: "language.code",
-      defaultMessage: "en",
-    });
-
     if (!displayForm) {
       return null;
     }
@@ -197,7 +191,7 @@ const SearchBarView = ({
               label={
                 <FormattedMessage id="advanced.search.form.classification" />
               }
-              name="classification"
+              name="classifications"
             >
               <Select
                 style={{ width: "100%" }}
@@ -210,7 +204,7 @@ const SearchBarView = ({
                 placeholder={searchLabel}
               >
                 {classOptions.map((value) => {
-                  return <Option key={value.id}>{value.description}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -221,13 +215,15 @@ const SearchBarView = ({
             {/* Location field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.location" />}
-              name="location"
+              name="locations"
             >
               <Select
                 style={{ width: "100%" }}
                 filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
+                  option.children
+                    .join("")
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
                 }
                 mode="multiple"
                 placeholder={searchLabel}
@@ -235,7 +231,10 @@ const SearchBarView = ({
               >
                 {locationOptions.map((value) => {
                   return (
-                    <Option key={value.id}>{value.description[locale]}</Option>
+                    <Option key={value.id}>
+                      {value.streetNumber} {value.streetName}, {value.city},{" "}
+                      {value.province}
+                    </Option>
                   );
                 })}
               </Select>
@@ -243,7 +242,7 @@ const SearchBarView = ({
             {/* branch field */}
             <Form.Item
               label={<FormattedMessage id="advanced.search.form.branch" />}
-              name="branch"
+              name="branches"
             >
               <Select
                 style={{ width: "100%" }}
@@ -257,8 +256,8 @@ const SearchBarView = ({
               >
                 {branchOptions.map((value) => {
                   return (
-                    <Option key={value.description.en}>
-                      {value.description[locale]}
+                    <Option key={value}>
+                      {value}
                     </Option>
                   );
                 })}
@@ -297,7 +296,7 @@ const SearchBarView = ({
               >
                 {skillOptions.map((value) => {
                   return (
-                    <Option key={value.id}>{value.description[locale]}</Option>
+                    <Option key={value.id}>{value.name}</Option>
                   );
                 })}
               </Select>
@@ -307,7 +306,7 @@ const SearchBarView = ({
               label={
                 <FormattedMessage id="advanced.search.form.classification" />
               }
-              name="classification"
+              name="classifications"
             >
               <Select
                 style={{ width: "100%" }}
@@ -320,7 +319,7 @@ const SearchBarView = ({
                 placeholder={searchLabel}
               >
                 {classOptions.map((value) => {
-                  return <Option key={value.id}>{value.description}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -429,22 +428,28 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
-  branchOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
-    })
-  ).isRequired,
+  branchOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      description: PropTypes.string,
+      name: PropTypes.string,
     })
   ).isRequired,
-  locationOptions: IdDescriptionPropType.isRequired,
-  skillOptions: IdDescriptionPropType.isRequired,
+  locationOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      city: PropTypes.string,
+      province: PropTypes.string,
+      streetName: PropTypes.string,
+      streetNumber: PropTypes.number,
+    })
+  ).isRequired,
+  skillOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ).isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType,
 };

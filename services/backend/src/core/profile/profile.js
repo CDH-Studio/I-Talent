@@ -1,1077 +1,1149 @@
-/* eslint-disable no-restricted-syntax */
+const { validationResult } = require("express-validator");
 const moment = require("moment");
+const _ = require("lodash");
+const prisma = require("../../database");
 
-const Models = require("../../database/models");
-
-const Profile = Models.profile;
-const Education = Models.education;
-const Experience = Models.experience;
-const ProfileOrganization = Models.profileOrganization;
-const Project = Models.profileProject;
-const SecLang = Models.secondLanguageProficiency;
-const RelocationLocation = Models.relocationLocation;
-const Location = Models.location;
-
-/* This objects stores the names of the db attributes 
-in relation to the object keys sent from the frontend */
-const mappedValues = require("./util/mappedValues.json");
-
-// TODO: Refactor
-async function createProfile(request, response) {
-  const { id } = request.params;
-  const { body } = request;
-  const dbObject = {};
-
-  // FIXME: fix this error
-  for (const [key, value] of Object.entries(body)) {
-    dbObject[mappedValues[key] ? mappedValues[key] : key] = value;
-  }
-
-  if (dbObject.jobTitle) {
-    dbObject.jobTitleEn = dbObject.jobTitle.en;
-    dbObject.jobTitleFr = dbObject.jobTitle.fr;
-  }
-
-  if (dbObject.locationId.id) dbObject.locationId = dbObject.locationId.id;
-
-  try {
-    const [profile] = await Profile.upsert(
-      { id, ...dbObject },
-      { returning: true }
-    );
-
-    if (dbObject.skills) profile.setSkills(dbObject.skills);
-    if (dbObject.competencies) profile.setCompetencies(dbObject.competencies);
-    if (dbObject.developmentGoals)
-      profile.setDevelopmentGoals(dbObject.developmentGoals);
-    if (dbObject.mentorshipSkills)
-      profile.setMentorshipSkills(dbObject.mentorshipSkills);
-
-    if (dbObject.education) {
-      Education.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.education.forEach(
-          ({ school, diploma, startDate, endDate }) => {
-            Education.create({
-              schoolId: school.id ? school.id : school,
-              diplomaId: diploma.id ? diploma.id : diploma,
-              startDate,
-              endDate,
-            }).then((education) => {
-              profile.addEducation(education);
-            });
-          }
-        );
-      });
-    }
-
-    if (dbObject.experience) {
-      Experience.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.experience.forEach((exp) => {
-          let startDate = moment(exp.startDate);
-          let endDate = moment(exp.endDate);
-          let content;
-          if (!startDate.isValid()) startDate = null;
-          else startDate = startDate.format();
-          if (!endDate.isValid()) endDate = null;
-          else endDate = endDate.format();
-          if (!exp.content) content = "";
-          Experience.create({
-            organization: exp.subheader,
-            jobTitle: exp.header,
-            description: content,
-            startDate: startDate,
-            endDate: endDate,
-          }).then((experience) => {
-            profile.addExperience(experience);
-          });
-        });
-      });
-    }
-
-    if (dbObject.projects) {
-      Project.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.projects.forEach((project) => {
-          Project.create({
-            description: project,
-          }).then((projectData) => {
-            profile.addProfileProject(projectData);
-          });
-        });
-      });
-    }
-
-    if (dbObject.organizations) {
-      ProfileOrganization.destroy({ where: { profileId: profile.id } }).then(
-        () => {
-          dbObject.organizations.forEach(
-            ({ description: { en, fr }, tier }) => {
-              ProfileOrganization.create({
-                descriptionEn: en,
-                descriptionFr: fr,
-                tier,
-              }).then((organization) => {
-                profile.addProfileOrganization(organization);
-              });
-            }
-          );
-        }
-      );
-    }
-
-    if (
-      dbObject.readingProficiency ||
-      dbObject.writingProficiency ||
-      dbObject.oralProficiency ||
-      dbObject.readingDate ||
-      dbObject.writingDate ||
-      dbObject.oralDate
-    ) {
-      let secLangProf;
-      secLangProf = await profile.getSecondLanguageProficiency();
-      if (!secLangProf) {
-        secLangProf = await SecLang.create();
-      }
-
-      const {
-        writingProficiency,
-        oralProficiency,
-        writingDate,
-        readingDate,
-        oralDate,
-        readingProficiency,
-      } = dbObject;
-
-      secLangProf
-        .update(
-          {
-            writingProficiency,
-            oralProficiency,
-            writingDate,
-            readingDate,
-            oralDate,
-            readingProficiency,
-          },
-          { returning: true }
-        )
-        .then((secLangProfValue) => {
-          profile.setSecondLanguageProficiency(secLangProfValue);
-        });
-    }
-    if (!dbObject.gradedOnSecondLanguage) {
-      SecLang.destroy({
-        where: { id: profile.dataValues.secondLanguageProficiencyId },
-      });
-    }
-    response.status(200).send("OK");
-  } catch (error) {
-    console.error(error);
-    response.status(500).json({ error: error.message });
-  }
+function normalizeDate(date, startOf) {
+  return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
 }
 
-// TODO: Refactor
-async function updateProfile(request, response) {
-  const { id } = request.params;
-  const { body } = request;
-  const dbObject = {};
-
-  for (const [key, value] of Object.entries(body)) {
-    dbObject[mappedValues[key] ? mappedValues[key] : key] = value;
-  }
-
-  if (dbObject.jobTitle) {
-    dbObject.jobTitleEn = dbObject.jobTitle.en;
-    dbObject.jobTitleFr = dbObject.jobTitle.fr;
-  }
-
-  try {
-    let [updated] = await Profile.update(dbObject, {
-      where: { id: id },
-    });
-
-    const profile = await Profile.findOne({ where: { id: id } }).then((res) => {
-      updated = true;
-      return res;
-    });
-
-    if (dbObject.skills) profile.setSkills(dbObject.skills);
-    if (dbObject.competencies) profile.setCompetencies(dbObject.competencies);
-    if (dbObject.developmentGoals)
-      profile.setDevelopmentGoals(dbObject.developmentGoals);
-    if (dbObject.mentorshipSkills)
-      profile.setMentorshipSkills(dbObject.mentorshipSkills);
-
-    if (dbObject.education) {
-      Education.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.education.forEach(
-          ({ school, diploma, startDate, endDate }) => {
-            Education.create({
-              schoolId: school.id ? school.id : school,
-              diplomaId: diploma.id ? diploma.id : diploma,
-              startDate,
-              endDate,
-            }).then((education) => {
-              profile.addEducation(education);
-            });
-          }
-        );
-      });
-    }
-
-    if (dbObject.experience) {
-      Experience.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.experience.forEach((exp) => {
-          let startDate = moment(exp.startDate);
-          let endDate = moment(exp.endDate);
-          let { content } = exp;
-          if (!startDate.isValid()) startDate = null;
-          else startDate = startDate.format();
-          if (!exp.endDate || !endDate.isValid()) endDate = null;
-          else endDate = endDate.format();
-          if (!exp.content) content = "";
-          Experience.create({
-            organization: exp.subheader,
-            jobTitle: exp.header,
-            description: content,
-            startDate: startDate,
-            endDate: endDate,
-          }).then((experience) => {
-            profile.addExperience(experience);
-          });
-        });
-      });
-    }
-
-    if (dbObject.projects) {
-      Project.destroy({ where: { profileId: profile.id } }).then(() => {
-        dbObject.projects.forEach((project) => {
-          Project.create({
-            description: project,
-          }).then((projectData) => {
-            profile.addProfileProject(projectData);
-          });
-        });
-      });
-    }
-
-    if (dbObject.organizations) {
-      ProfileOrganization.destroy({ where: { profileId: profile.id } }).then(
-        () => {
-          dbObject.organizations.forEach(
-            ({ description: { en, fr }, tier }) => {
-              ProfileOrganization.create({
-                descriptionEn: en,
-                descriptionFr: fr,
-                tier,
-              }).then((organization) => {
-                profile.addProfileOrganization(organization);
-              });
-            }
-          );
-        }
-      );
-    }
-
-    if (
-      "readingProficiency" in dbObject ||
-      "writingProficiency" in dbObject ||
-      "oralProficiency" in dbObject ||
-      "readingDate" in dbObject ||
-      "writingDate" in dbObject ||
-      "oralDate" in dbObject
-    ) {
-      let secLangProf;
-      secLangProf = await profile.getSecondLanguageProficiency();
-      if (!secLangProf) {
-        secLangProf = await SecLang.create();
-      }
-
-      const {
-        writingProficiency,
-        oralProficiency,
-        writingDate,
-        readingDate,
-        oralDate,
-        readingProficiency,
-      } = dbObject;
-
-      secLangProf
-        .update(
-          {
-            writingProficiency,
-            oralProficiency,
-            writingDate,
-            readingDate,
-            oralDate,
-            readingProficiency,
-          },
-          { returning: true }
-        )
-        .then((selectLangProf) => {
-          profile.setSecondLanguageProficiency(selectLangProf);
-        });
-    }
-    if (dbObject.secondLanguage === null) {
-      SecLang.destroy({
-        where: { id: profile.dataValues.secondLanguageProficiencyId },
-      });
-    }
-
-    if (dbObject.relocationLocations) {
-      await RelocationLocation.destroy({
-        where: { profileId: id },
-      }).then(() =>
-        dbObject.relocationLocations.forEach((element) => {
-          RelocationLocation.create({}).then((relocationLocation) => {
-            profile.addRelocationLocation(relocationLocation).then(() => {
-              Location.findOne({ where: { id: element } }).then((location) => {
-                location.addRelocationLocation(relocationLocation);
-              });
-            });
-          });
-        })
-      );
-    }
-
-    // End of logic~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    if (updated) {
-      return response.status(200).json(profile);
-    }
-    response.status(404).send("Profile not found");
-    throw new Error("Profile not found");
-  } catch (error) {
-    console.error(error);
-    return response.status(500).send(error.message);
-  }
-}
-async function getProfile(response) {
-  response.status(200).json(await Profile.findAll());
-}
-
-async function getProfileStatusById(request, response) {
-  const { id } = request.params;
-  const getProfileFromDB = await Profile.findOne({ where: { id: id } });
-  return response.status(200).json({
-    profile: { exists: !!getProfileFromDB },
-  });
-}
-
-const getPrivateProfileById = async (request, response) => {
-  const { id } = request.params;
-
-  // get user profile
-  const profile = await Profile.findOne({ where: { id: id } });
-  if (!profile) {
-    return response.status(404).json({
-      status: "API Query Error",
-      message: "User profile with the provided ID not found",
-    });
-  }
-
-  // get user info based on profile
-  const user = await profile.getUser();
-  if (!user) {
-    return response.status(404).json({
-      status: "API Query Error",
-      message: "User with the provided ID not found",
-    });
-  }
-
-  if (!profile) response.status(404).send("Profile Not Found");
-  const data = { ...profile.dataValues, ...user.dataValues };
-
-  const tenure = await profile.getTenure().then((res) => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const careerMobility = await profile.getCareerMobility().then((res) => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const talentMatrixResult = await profile
-    .getTalentMatrixResult()
-    .then((res) => {
-      if (res) return res.dataValues;
-      return null;
-    });
-
-  const groupLevel = await profile.getGroupLevel().then((res) => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const securityClearance = await profile.getSecurityClearance().then((res) => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const acting = await profile.getActing().then((res) => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const location = await profile.getLocation().then((res) => {
-    if (res) return res.dataValues;
-    return null;
-  });
-
-  const experiences = await profile.getExperiences({
-    order: [["startDate", "DESC"]],
-  });
-  const careerSummary = experiences.map((experience) => {
-    const startDate = moment(experience.startDate);
-    const endDate = moment(experience.endDate);
-
+function idHelper(id, savedId) {
+  if (id === null && savedId) {
     return {
-      subheader: experience.organization,
-      header: experience.jobTitle,
-      content: experience.description,
-      startDate: startDate,
-      endDate: endDate,
+      disconnect: true,
     };
-  });
+  }
 
-  const dbProjects = await profile.getProfileProjects();
-  const projects = dbProjects.map((project) => {
-    return { text: project.description };
-  });
+  if (id === undefined || (id === null && !savedId)) {
+    return undefined;
+  }
 
-  const education = await profile.getEducation({
-    order: [["startDate", "DESC"]],
-  });
-  const educations = () => {
-    return Promise.all(
-      education.map(async (educ) => {
-        const startDate = moment(educ.startDate);
-        const endDate = moment(educ.endDate);
-        const school = await educ.getSchool().then((res) => {
-          if (res) return res.dataValues;
-          return null;
+  return {
+    connect: { id },
+  };
+}
+
+async function updateProfile(request, response) {
+  try {
+    validationResult(request).throw();
+
+    const userId = request.params.id;
+    const { language } = request.query;
+
+    if (request.kauth.grant.access_token.content.sub === userId) {
+      const {
+        firstName,
+        lastName,
+        teams,
+        telephone,
+        cellphone,
+        linkedin,
+        github,
+        gcconnex,
+        manager,
+        firstLanguage,
+        secondLanguage,
+        preferredLanguage,
+        actingStartDate,
+        actingEndDate,
+        interestedInRemote,
+        exFeeder,
+        avatarColor,
+        status,
+        signupStep,
+
+        projects,
+
+        skills,
+        mentorshipSkills,
+        competencies,
+        developmentalGoals,
+        educations,
+        relocationLocations,
+        experiences,
+        secondLangProfs,
+
+        locationId,
+        careerMobilityId,
+        tenureId,
+        securityClearanceId,
+        lookingForANewJobId,
+        talentMatrixResultId,
+        groupLevelId,
+        actingLevelId,
+        employmentInfoId,
+
+        visibleCards,
+      } = request.body;
+
+      // Used for updating/creating developmental goals
+      let skillIds;
+      let competencyIds;
+      let upsertDevelopmentalGoals;
+      if (developmentalGoals) {
+        skillIds = await prisma.opSkill
+          .findMany({
+            where: { id: { in: developmentalGoals } },
+            select: { id: true },
+          })
+          .then((i) => i.map((j) => j.id));
+
+        competencyIds = await prisma.opCompetency
+          .findMany({
+            where: { id: { in: developmentalGoals } },
+            select: { id: true },
+          })
+          .then((i) => i.map((j) => j.id));
+
+        upsertDevelopmentalGoals = developmentalGoals.map((id) => {
+          const isCompentency = competencyIds.includes(id);
+          const isSkill = skillIds.includes(id);
+
+          if (!isCompentency && !isSkill) {
+            return undefined;
+          }
+
+          return {
+            where: {
+              userId_competencyId: isCompentency
+                ? {
+                    competencyId: id,
+                    userId,
+                  }
+                : undefined,
+              userId_skillId: isSkill
+                ? {
+                    skillId: id,
+                    userId,
+                  }
+                : undefined,
+            },
+            create: {
+              competency: isCompentency
+                ? {
+                    connect: {
+                      id,
+                    },
+                  }
+                : undefined,
+              skill: isSkill
+                ? {
+                    connect: {
+                      id,
+                    },
+                  }
+                : undefined,
+            },
+            update: {},
+          };
         });
-        const diploma = await educ.getDiploma().then((res) => {
-          if (res) return res.dataValues;
-          return null;
-        });
+      }
 
-        return {
-          school: {
-            id: school.id,
-            description: { en: school.description, fr: school.description },
+      // Deletes every experiences and educations if experiences or educations is defined since
+      // there's no way to uniquely identify them solely from the data
+      if (experiences) {
+        await prisma.experience.deleteMany({ where: { userId } });
+      }
+
+      if (educations) {
+        await prisma.education.deleteMany({ where: { userId } });
+      }
+
+      // Queries user ids to check if an id was already defined
+      const userIds = await prisma.user.findOne({
+        where: { id: userId },
+        select: {
+          officeLocationId: true,
+          careerMobilityId: true,
+          tenureId: true,
+          securityClearanceId: true,
+          lookingJobId: true,
+          talentMatrixResultId: true,
+          groupLevelId: true,
+          actingLevelId: true,
+          employmentInfoId: true,
+        },
+      });
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          firstName,
+          lastName,
+          teams: teams
+            ? {
+                set: teams,
+              }
+            : undefined,
+          telephone,
+          cellphone,
+          linkedin,
+          github,
+          gcconnex,
+          manager,
+          firstLanguage,
+          secondLanguage,
+          preferredLanguage,
+          actingStartDate: normalizeDate(actingStartDate, "day"),
+          actingEndDate: normalizeDate(actingEndDate, "day"),
+          interestedInRemote,
+          exFeeder,
+          avatarColor,
+          status,
+          signupStep,
+
+          projects: projects
+            ? {
+                set: projects,
+              }
+            : undefined,
+
+          skills: skills
+            ? {
+                deleteMany: {
+                  skillId: {
+                    notIn: skills,
+                  },
+                },
+                upsert: skills.map((id) => ({
+                  where: {
+                    userId_skillId: {
+                      skillId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    skill: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          mentorshipSkills: mentorshipSkills
+            ? {
+                deleteMany: {
+                  skillId: {
+                    notIn: mentorshipSkills,
+                  },
+                },
+                upsert: mentorshipSkills.map((id) => ({
+                  where: {
+                    userId_skillId: {
+                      skillId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    skill: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          competencies: competencies
+            ? {
+                deleteMany: {
+                  competencyId: {
+                    notIn: competencies,
+                  },
+                },
+                upsert: competencies.map((id) => ({
+                  where: {
+                    userId_competencyId: {
+                      competencyId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    competency: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          developmentalGoals: developmentalGoals
+            ? {
+                deleteMany: {
+                  competencyId: {
+                    notIn: competencyIds,
+                  },
+                  skillId: {
+                    notIn: skillIds,
+                  },
+                },
+                upsert: upsertDevelopmentalGoals,
+              }
+            : undefined,
+          relocationLocations: relocationLocations
+            ? {
+                deleteMany: {
+                  locationId: {
+                    notIn: relocationLocations,
+                  },
+                },
+                upsert: relocationLocations.map((id) => ({
+                  where: {
+                    userId_locationId: {
+                      locationId: id,
+                      userId,
+                    },
+                  },
+                  create: {
+                    location: {
+                      connect: {
+                        id,
+                      },
+                    },
+                  },
+                  update: {},
+                })),
+              }
+            : undefined,
+          educations: educations
+            ? {
+                create: educations.map(
+                  ({ startDate, endDate, diplomaId, schoolId }) => ({
+                    startDate: normalizeDate(startDate, "month"),
+                    endDate: normalizeDate(endDate, "month"),
+                    diploma: {
+                      connect: {
+                        id: diplomaId,
+                      },
+                    },
+                    school: {
+                      connect: {
+                        id: schoolId,
+                      },
+                    },
+                  })
+                ),
+              }
+            : undefined,
+          experiences: experiences
+            ? {
+                create: experiences.map(
+                  ({
+                    startDate,
+                    endDate,
+                    jobTitle,
+                    organization,
+                    description,
+                  }) => ({
+                    startDate,
+                    endDate,
+                    translations: {
+                      create: {
+                        language,
+                        jobTitle,
+                        organization,
+                        description,
+                      },
+                    },
+                  })
+                ),
+              }
+            : undefined,
+          secondLangProfs: secondLangProfs
+            ? {
+                deleteMany: {
+                  proficiency: {
+                    notIn: secondLangProfs.map((i) => i.proficiency),
+                  },
+                },
+                upsert: secondLangProfs.map((i) => ({
+                  where: {
+                    userId_proficiency: {
+                      userId,
+                      proficiency: i.proficiency,
+                    },
+                  },
+                  create: i,
+                  update: {
+                    level: i.level,
+                    date: normalizeDate(i.date, "day"),
+                  },
+                })),
+              }
+            : undefined,
+
+          officeLocation: idHelper(locationId, userIds.officeLocationId),
+          careerMobility: idHelper(careerMobilityId, userIds.careerMobilityId),
+          tenure: idHelper(tenureId, userIds.tenureId),
+          securityClearance: idHelper(
+            securityClearanceId,
+            userIds.securityClearanceId
+          ),
+          lookingJob: idHelper(lookingForANewJobId, userIds.lookingJobId),
+          talentMatrixResult: idHelper(
+            talentMatrixResultId,
+            userIds.talentMatrixResultId
+          ),
+          groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
+          actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
+          employmentInfo: idHelper(employmentInfoId, userIds.employmentInfoId),
+
+          visibleCards: visibleCards
+            ? {
+                update: {
+                  manager: visibleCards.manager,
+                  info: visibleCards.info,
+                  talentManagement: visibleCards.talentManagement,
+                  officialLanguage: visibleCards.officialLanguage,
+                  skills: visibleCards.skills,
+                  competencies: visibleCards.competencies,
+                  developmentalGoals: visibleCards.developmentalGoals,
+                  education: visibleCards.education,
+                  experience: visibleCards.experience,
+                  projects: visibleCards.projects,
+                  careerInterests: visibleCards.careerInterests,
+                  mentorshipSkills: visibleCards.mentorshipSkills,
+                  exFeeder: visibleCards.exFeeder,
+                },
+              }
+            : undefined,
+        },
+      });
+
+      response.status(200).json("Successfully updated profile");
+      return;
+    }
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).json("Unable to create profiles");
+  }
+}
+
+async function getFullProfile(id, language) {
+  return prisma.user.findOne({
+    where: { id },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      name: true,
+      firstName: true,
+      lastName: true,
+      avatarColor: true,
+      email: true,
+      telephone: true,
+      cellphone: true,
+      manager: true,
+      teams: true,
+      firstLanguage: true,
+      secondLanguage: true,
+      preferredLanguage: true,
+      actingStartDate: true,
+      actingEndDate: true,
+      linkedin: true,
+      github: true,
+      gcconnex: true,
+      exFeeder: true,
+      interestedInRemote: true,
+      status: true,
+      projects: true,
+      secondLangProfs: true,
+      skills: {
+        select: {
+          skill: {
+            select: {
+              id: true,
+              category: {
+                select: {
+                  id: true,
+                  translations: {
+                    where: {
+                      language,
+                    },
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                },
+              },
+            },
           },
+        },
+      },
+      competencies: {
+        select: {
+          competency: {
+            select: {
+              id: true,
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      developmentalGoals: {
+        select: {
+          id: true,
+          competency: {
+            select: {
+              id: true,
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          skill: {
+            select: {
+              id: true,
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      educations: {
+        select: {
+          id: true,
+          startDate: true,
+          endDate: true,
           diploma: {
-            id: diploma.id,
-            description: {
-              en: diploma.descriptionEn,
-              fr: diploma.descriptionFr,
+            select: {
+              id: true,
+              translations: {
+                select: {
+                  description: true,
+                  language: true,
+                },
+              },
             },
           },
-          content: "",
-          startDate: { en: startDate, fr: startDate },
-          endDate: { en: endDate, fr: endDate },
-        };
-      })
-    );
-  };
-
-  const educArray = await educations();
-
-  const organizationList = await profile
-    .getProfileOrganizations({ order: [["tier", "ASC"]] })
-    .then((organizations) => {
-      const orgList = organizations.map((organization) => {
-        return {
-          en: organization.descriptionEn,
-          fr: organization.descriptionFr,
-        };
-      });
-      return orgList;
-    });
-
-  const skills = await profile.getSkills().map(async (skill) => {
-    if (skill) {
-      const cats = await skill.getCategory({
-        attributes: ["descriptionEn", "descriptionFr", "id"],
-        require: true,
-      });
-
-      return {
-        id: skill.dataValues.id,
-        description: {
-          en: skill.dataValues.descriptionEn,
-          fr: skill.dataValues.descriptionFr,
-          category: {
-            en: cats.dataValues.descriptionEn,
-            fr: cats.dataValues.descriptionFr,
-          },
-          categoryId: skill.dataValues.categoryId,
-        },
-      };
-    }
-    return null;
-  });
-
-  const competencies = await profile.getCompetencies().map((competency) => {
-    if (competency)
-      return {
-        id: competency.dataValues.id,
-        description: {
-          en: competency.dataValues.descriptionEn,
-          fr: competency.dataValues.descriptionFr,
-        },
-      };
-    return null;
-  });
-
-  const developmentalGoals = await profile.getDevelopmentGoals().map((goal) => {
-    if (goal)
-      return {
-        id: goal.dataValues.id,
-        description: {
-          en: goal.dataValues.descriptionEn,
-          fr: goal.dataValues.descriptionFr,
-        },
-      };
-    return null;
-  });
-
-  const mentorshipSkills = await profile
-    .getMentorshipSkills()
-    .map(async (mentorshipSkill) => {
-      if (mentorshipSkill) {
-        const cats = await mentorshipSkill.getCategory({
-          attributes: ["descriptionEn", "descriptionFr", "id"],
-          require: true,
-        });
-
-        return {
-          id: mentorshipSkill.dataValues.id,
-          description: {
-            en: mentorshipSkill.dataValues.descriptionEn,
-            fr: mentorshipSkill.dataValues.descriptionFr,
-            category: {
-              en: cats.dataValues.descriptionEn,
-              fr: cats.dataValues.descriptionFr,
+          school: {
+            select: {
+              id: true,
+              abbrCountry: true,
+              abbrProvince: true,
+              translations: {
+                select: {
+                  name: true,
+                  language: true,
+                },
+              },
             },
-            categoryId: mentorshipSkill.dataValues.categoryId,
           },
-        };
-      }
-      return null;
-    });
-
-  const secLangProf = await profile
-    .getSecondLanguageProficiency()
-    .then((res) => {
-      if (res) return res.dataValues;
-      return null;
-    });
-
-  const relocationLocations = await profile
-    .getRelocationLocations()
-    .then((relocs) =>
-      Promise.all(
-        relocs.map((element) =>
-          element.getLocation().then((loc) => ({
-            description: {
-              en: `${loc.city}, ${loc.provinceEn}`,
-              fr: `${loc.city}, ${loc.provinceFr}`,
+        },
+      },
+      relocationLocations: {
+        select: {
+          id: true,
+          location: {
+            select: {
+              id: true,
+              streetNumber: true,
+              postalCode: true,
+              city: true,
+              country: true,
+              translations: {
+                where: { language },
+                select: {
+                  province: true,
+                  streetName: true,
+                },
+              },
             },
-            id: element.id,
-            locationId: loc.id,
-          }))
-        )
-      )
-    );
-
-  const lookingForNewJob = await profile
-    .getLookingForANewJob()
-    .then((value) => {
-      if (!value) {
-        return null;
-      }
-      return {
-        id: value.id,
-        description: { en: value.descriptionEn, fr: value.descriptionFr },
-      };
-    });
-
-  // Response Object
-  const resData = {
-    visibleCards: data.visibleCards,
-    acting: {
-      id: acting ? acting.id : null,
-      description: acting ? acting.description : null,
-    },
-    actingPeriodStartDate: data.actingStartDate,
-    actingPeriodEndDate: data.actingEndDate,
-    branch: { en: data.branchEn, fr: data.branchFr },
-    careerMobility: {
-      id: careerMobility ? careerMobility.id : null,
-      description: {
-        en: careerMobility ? careerMobility.descriptionEn : null,
-        fr: careerMobility ? careerMobility.descriptionFr : null,
-      },
-    },
-    careerSummary,
-    competencies,
-    developmentalGoals,
-    education: educArray,
-    email: data.email,
-    exFeeder: data.exFeeder,
-    isMentor: data.isMentor,
-    flagged: data.flagged,
-    firstLanguage: {
-      fr: { en: "French", fr: "Français" },
-      en: { en: "English", fr: "Anglais" },
-    }[data.firstLanguage],
-    firstName: data.firstName,
-    lastName: data.lastName,
-    avatarColor: data.avatarColor,
-    nameInitials: data.nameInitials,
-    githubUrl: data.github,
-    gradedOnSecondLanguage: true,
-    classification: {
-      id: groupLevel ? groupLevel.id : null,
-      description: groupLevel ? groupLevel.description : null,
-    },
-    jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
-
-    linkedinUrl: data.linkedin,
-    location: {
-      id: location ? location.id : null,
-      description: {
-        en: location
-          ? `${location.addressEn}, ${location.city}, ${location.provinceEn}`
-          : null,
-        fr: location
-          ? `${location.addressFr}, ${location.city}, ${location.provinceFr}`
-          : null,
-      },
-    },
-
-    manager: data.manager,
-    cellphone: data.cellphone,
-    organizationList,
-    secondaryOralDate: secLangProf ? secLangProf.oralDate : null,
-    secondaryOralProficiency: secLangProf ? secLangProf.oralProficiency : null,
-    secondaryReadingDate: secLangProf ? secLangProf.readingDate : null,
-    secondaryReadingProficiency: secLangProf
-      ? secLangProf.readingProficiency
-      : null,
-    secondaryWritingDate: secLangProf ? secLangProf.writingDate : null,
-    secondaryWritingProficiency: secLangProf
-      ? secLangProf.writingProficiency
-      : null,
-    secondLanguage: null,
-    security: {
-      id: securityClearance ? securityClearance.id : null,
-      description: {
-        en: securityClearance ? securityClearance.descriptionEn : null,
-        fr: securityClearance ? securityClearance.descriptionFr : null,
-      },
-    },
-    // categories,
-    skills,
-    mentorshipSkills,
-    temporaryRole: {
-      id: tenure ? tenure.id : null,
-      description: {
-        en: tenure ? tenure.descriptionEn : null,
-        fr: tenure ? tenure.descriptionFr : null,
-      },
-    },
-    talentMatrixResult: {
-      id: talentMatrixResult ? talentMatrixResult.id : null,
-      description: {
-        en: talentMatrixResult ? talentMatrixResult.descriptionEn : null,
-        fr: talentMatrixResult ? talentMatrixResult.descriptionFr : null,
-      },
-    },
-    team: data.team,
-    telephone: data.telephone,
-    gcconnexUrl: data.gcconnex,
-    projects: projects,
-    interestedInRemote: data.interestedInRemote,
-    relocationLocations: relocationLocations,
-    lookingForNewJob: lookingForNewJob,
-    indeterminate: data.indeterminate,
-  };
-  return response.status(200).json(resData);
-};
-
-// Get user profile using profile ID
-// eslint-disable-next-line consistent-return
-const getPublicProfileById = async (request, response) => {
-  const { id } = request.params;
-
-  // get user profile
-  const profile = await Profile.findOne({ where: { id: id } });
-  if (!profile) {
-    return response.status(404).json({
-      status: "API Query Error",
-      message: "User profile with the provided ID not found",
-    });
-  }
-
-  // get user info based on profile
-  const user = await profile.getUser();
-  if (!user) {
-    return response.status(404).json({
-      status: "API Query Error",
-      message: "User with the provided ID not found",
-    });
-  }
-
-  // merge info from profile and user
-  const data = { ...profile.dataValues, ...user.dataValues };
-
-  // Get User Tenure (may be empty)
-  const tenure = await profile.getTenure({ raw: true });
-
-  // Get Career Mobility (may be empty)
-  const careerMobility = await profile.getCareerMobility({ raw: true });
-
-  // Get Talent Matrix (may be empty)
-  const talentMatrixResult = await profile.getTalentMatrixResult({ raw: true });
-
-  // Get Group Level (may be empty)
-  const groupLevel = await profile.getGroupLevel({ raw: true });
-
-  // Get Security Clearance (may be empty)
-  const securityClearance = await profile.getSecurityClearance({ raw: true });
-
-  // Get Acting Position (may be empty)
-  const acting = await profile.getActing({ raw: true });
-
-  // Get Location (may be empty)
-  const location = await profile.getLocation({ raw: true });
-
-  // Get Experience (may be empty)
-  // const careerSummary = await profile.getExperiencesHelper(profile);
-  const careerSummary = [];
-
-  // Get Projects (may be empty)
-  const dbProjects = await profile.getProfileProjects();
-  const projects = dbProjects.map((project) => {
-    return { text: project.description };
-  });
-
-  // Get Education (may be empty)
-  // const educArray = await profile.getEducationHelper(profile);
-  const educArray = [];
-
-  const organizationList = await profile
-    .getProfileOrganizations({ order: [["tier", "ASC"]] })
-    .then((organizations) => {
-      const orgList = organizations.map((organization) => {
-        return {
-          en: organization.descriptionEn,
-          fr: organization.descriptionFr,
-        };
-      });
-      return orgList;
-    });
-
-  const skills = await profile.getSkills().map(async (skill) => {
-    if (skill) {
-      const cats = await skill.getCategory({
-        attributes: ["descriptionEn", "descriptionFr", "id"],
-        require: true,
-      });
-      return {
-        id: skill.dataValues.id,
-        description: {
-          en: skill.dataValues.descriptionEn,
-          fr: skill.dataValues.descriptionFr,
-          category: {
-            en: cats.dataValues.descriptionEn,
-            fr: cats.dataValues.descriptionFr,
           },
-          categoryId: skill.dataValues.categoryId,
         },
-      };
-    }
-    return null;
-  });
-
-  const mentorshipSkills = await profile
-    .getMentorshipSkills()
-    .map(async (mentorshipSkill) => {
-      if (mentorshipSkill) {
-        const cats = await mentorshipSkill.getCategory({
-          attributes: ["descriptionEn", "descriptionFr", "id"],
-          require: true,
-        });
-        return {
-          id: mentorshipSkill.dataValues.id,
-          description: {
-            en: mentorshipSkill.dataValues.descriptionEn,
-            fr: mentorshipSkill.dataValues.descriptionFr,
-            category: {
-              en: cats.dataValues.descriptionEn,
-              fr: cats.dataValues.descriptionFr,
+      },
+      experiences: {
+        select: {
+          id: true,
+          startDate: true,
+          endDate: true,
+          translations: {
+            select: {
+              language: true,
+              description: true,
+              jobTitle: true,
+              organization: true,
             },
-            categoryId: mentorshipSkill.dataValues.categoryId,
           },
-        };
-      }
-      return null;
-    });
-
-  const competencies = await profile.getCompetencies().map((competency) => {
-    if (competency)
-      return {
-        id: competency.dataValues.id,
-        description: {
-          en: competency.dataValues.descriptionEn,
-          fr: competency.dataValues.descriptionFr,
         },
-      };
-    return null;
-  });
-
-  const developmentalGoals = await profile.getDevelopmentGoals().map((goal) => {
-    if (goal)
-      return {
-        id: goal.dataValues.id,
-        description: {
-          en: goal.dataValues.descriptionEn,
-          fr: goal.dataValues.descriptionFr,
+      },
+      groupLevel: {
+        select: {
+          id: true,
+          name: true,
         },
-      };
-    return null;
-  });
-
-  const secLangProf = await profile
-    .getSecondLanguageProficiency()
-    .then((res) => {
-      if (res) return res.dataValues;
-      return null;
-    });
-
-  const relocationLocations = await profile
-    .getRelocationLocations()
-    .then((relocs) =>
-      Promise.all(
-        relocs.map((element) =>
-          element.getLocation().then((loc) => ({
-            description: {
-              en: `${loc.city}, ${loc.provinceEn}`,
-              fr: `${loc.city}, ${loc.provinceFr}`,
+      },
+      actingLevel: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      securityClearance: {
+        select: {
+          id: true,
+          translations: {
+            where: {
+              language,
             },
-            id: element.id,
-            locationId: loc.id,
-          }))
-        )
-      )
-    );
-
-  const lookingForNewJob = await profile
-    .getLookingForANewJob()
-    .then((value) => {
-      if (!value) {
-        return null;
-      }
-      return {
-        id: value.id,
-        description: { en: value.descriptionEn, fr: value.descriptionFr },
-      };
-    });
-
-  // Format location address to display (Number and street name, Province)
-  const locationDescription = {
-    en: location
-      ? `${location.addressEn}, ${location.city}, ${location.provinceEn}`
-      : null,
-    fr: location
-      ? `${location.addressFr}, ${location.city}, ${location.provinceFr}`
-      : null,
-  };
-
-  // Response Object
-  const { visibleCards } = data;
-
-  // resData that will be sent by default to the Profile view
-  let resData = {
-    visibleCards,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    avatarColor: data.avatarColor,
-    nameInitials: data.nameInitials,
-    branch: { en: data.branchEn, fr: data.branchFr },
-    organizationList,
-    email: data.email,
-    location: {
-      id: location ? location.id : null,
-      description: locationDescription,
-    },
-    manager: data.manager,
-    telephone: data.telephone,
-    cellphone: data.cellphone,
-    jobTitle: { en: data.jobTitleEn, fr: data.jobTitleFr },
-    flagged: data.flagged,
-    linkedinUrl: data.linkedin,
-    githubUrl: data.github,
-    gcconnexUrl: data.gcconnex,
-    team: data.team,
-  };
-
-  // send resData for EmploymentInfo card only if the card is visible
-  if (visibleCards.info)
-    resData = {
-      ...resData,
-      acting: {
-        id: acting ? acting.id : null,
-        description: acting ? acting.description : null,
-      },
-      actingPeriodStartDate: data.actingStartDate,
-      actingPeriodEndDate: data.actingEndDate,
-      classification: {
-        id: groupLevel ? groupLevel.id : null,
-        description: groupLevel ? groupLevel.description : null,
-      },
-      temporaryRole: {
-        id: tenure ? tenure.id : null,
-        description: {
-          en: tenure ? tenure.descriptionEn : null,
-          fr: tenure ? tenure.descriptionFr : null,
+            select: {
+              description: true,
+            },
+          },
         },
       },
-      security: {
-        id: securityClearance ? securityClearance.id : null,
-        description: {
-          en: securityClearance ? securityClearance.descriptionEn : null,
-          fr: securityClearance ? securityClearance.descriptionFr : null,
+      lookingJob: {
+        select: {
+          id: true,
+          translations: {
+            where: {
+              language,
+            },
+            select: {
+              description: true,
+            },
+          },
         },
       },
-      indeterminate: data.indeterminate,
-    };
-
-  // send resData for TalentManagement card only if the card is visible
-  if (visibleCards.talentManagement)
-    resData = {
-      ...resData,
-
+      tenure: {
+        select: {
+          id: true,
+          translations: {
+            where: {
+              language,
+            },
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
       careerMobility: {
-        id: careerMobility ? careerMobility.id : null,
-        description: {
-          en: careerMobility ? careerMobility.descriptionEn : null,
-          fr: careerMobility ? careerMobility.descriptionFr : null,
+        select: {
+          id: true,
+          translations: {
+            where: {
+              language,
+            },
+            select: {
+              description: true,
+            },
+          },
+        },
+      },
+      employmentInfo: {
+        select: {
+          id: true,
+          translations: {
+            where: {
+              language,
+            },
+            select: {
+              jobTitle: true,
+              branch: true,
+            },
+          },
         },
       },
       talentMatrixResult: {
-        id: talentMatrixResult ? talentMatrixResult.id : null,
-        description: {
-          en: talentMatrixResult ? talentMatrixResult.descriptionEn : null,
-          fr: talentMatrixResult ? talentMatrixResult.descriptionFr : null,
+        select: {
+          id: true,
+          translations: {
+            where: {
+              language,
+            },
+            select: {
+              description: true,
+            },
+          },
         },
       },
-    };
+      officeLocation: {
+        select: {
+          id: true,
+          postalCode: true,
+          streetNumber: true,
+          city: true,
+          country: true,
+          translations: {
+            where: {
+              language,
+            },
+            select: {
+              streetName: true,
+              province: true,
+            },
+          },
+        },
+      },
+      mentorshipSkills: {
+        select: {
+          skill: {
+            select: {
+              id: true,
+              category: {
+                select: {
+                  id: true,
+                  translations: {
+                    where: {
+                      language,
+                    },
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      friends: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+        },
+      },
+      visibleCards: {
+        select: {
+          manager: true,
+          info: true,
+          talentManagement: true,
+          officialLanguage: true,
+          skills: true,
+          competencies: true,
+          developmentalGoals: true,
+          education: true,
+          experience: true,
+          projects: true,
+          careerInterests: true,
+          mentorshipSkills: true,
+          exFeeder: true,
+        },
+      },
+    },
+  });
+}
 
-  // send exFeeder for TalentManagement card only if the card is visible
-  if (visibleCards.exFeeder)
-    resData = {
-      ...resData,
-      exFeeder: data.exFeeder,
-    };
+function filterProfileResult(profile, language) {
+  let filteredProfile = {
+    ...profile,
+    nameInitials: `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`,
+  };
 
-  // send resData for officialLanguage card only if the card is visible
-  if (visibleCards.officialLanguage)
-    resData = {
-      ...resData,
-      gradedOnSecondLanguage: true,
-      firstLanguage: {
-        fr: { en: "French", fr: "Français" },
-        en: { en: "English", fr: "Anglais" },
-      }[data.firstLanguage],
-      secondaryOralDate: secLangProf ? secLangProf.oralDate : null,
-      secondaryOralProficiency: secLangProf
-        ? secLangProf.oralProficiency
+  if (profile.skills) {
+    const skills = profile.skills.map(({ skill }) => {
+      if (skill.translations && skill.category.translations)
+        return {
+          id: skill.id,
+          name: skill.translations[0].name,
+          categoryId: skill.category.id,
+          category: skill.category.translations[0].name,
+        };
+      return null;
+    });
+
+    filteredProfile.skills = _.sortBy(_.remove(skills, null), "name");
+  }
+
+  if (profile.mentorshipSkills) {
+    const skills = profile.mentorshipSkills.map(({ skill }) => {
+      if (skill.translations && skill.category.translations)
+        return {
+          id: skill.id,
+          name: skill.translations[0].name,
+          categoryId: skill.category.id,
+          category: skill.category.translations[0].name,
+        };
+      return null;
+    });
+
+    filteredProfile.mentorshipSkills = _.sortBy(_.remove(skills, null), "name");
+  }
+
+  if (profile.competencies) {
+    const competencies = profile.competencies.map(({ competency }) => {
+      if (competency.translations)
+        return {
+          id: competency.id,
+          name: competency.translations[0].name,
+        };
+      return null;
+    });
+
+    filteredProfile.competencies = _.sortBy(
+      _.remove(competencies, null),
+      "name"
+    );
+  }
+
+  if (profile.developmentalGoals) {
+    const developmentalGoals = profile.developmentalGoals.map((goal) => {
+      const competency =
+        goal.competency && goal.competency.translations
+          ? {
+              id: goal.competency.id,
+              name: goal.competency.translations[0].name,
+            }
+          : null;
+
+      const skill =
+        goal.skill && goal.skill.translations
+          ? {
+              id: goal.skill.id,
+              name: goal.skill.translations[0].name,
+            }
+          : null;
+      return competency || skill;
+    });
+
+    filteredProfile.developmentalGoals = _.sortBy(
+      _.remove(developmentalGoals, null),
+      "name"
+    );
+  }
+
+  if (profile.educations) {
+    filteredProfile.educations = profile.educations.map((education) => {
+      const translatedDiploma =
+        education.diploma.translations.find((i) => i.language === language) ||
+        education.diploma.translations[0];
+
+      const translatedSchool =
+        education.school.translations.find((i) => i.language === language) ||
+        education.school.translations[0];
+
+      return {
+        id: education.id,
+        startDate: education.startDate,
+        endDate: education.endDate,
+        diploma: {
+          id: education.diploma.id,
+          description: translatedDiploma ? translatedDiploma.description : null,
+        },
+        school: {
+          id: education.school.id,
+          country: education.school.abbrCountry,
+          province: education.school.abbrProvince,
+          name: translatedSchool ? translatedSchool.name : null,
+        },
+      };
+    });
+  }
+
+  if (profile.experiences) {
+    filteredProfile.experiences = profile.experiences.map((experience) => {
+      const translatedExperience =
+        experience.translations.find((i) => i.language === language) ||
+        experience.translations[0];
+
+      return {
+        id: experience.id,
+        startDate: experience.startDate,
+        endDate: experience.endDate,
+        description: translatedExperience
+          ? translatedExperience.description
+          : null,
+        jobTitle: translatedExperience ? translatedExperience.jobTitle : null,
+        organization: translatedExperience
+          ? translatedExperience.organization
+          : null,
+      };
+    });
+  }
+
+  if (profile.securityClearance) {
+    filteredProfile.securityClearance = {
+      id: profile.securityClearance.id,
+      description: profile.securityClearance.translations[0]
+        ? profile.securityClearance.translations[0].description
         : null,
-      secondaryReadingDate: secLangProf ? secLangProf.readingDate : null,
-      secondaryReadingProficiency: secLangProf
-        ? secLangProf.readingProficiency
+    };
+  }
+
+  if (profile.lookingJob) {
+    filteredProfile.lookingJob = {
+      id: profile.lookingJob.id,
+      description: profile.lookingJob.translations[0]
+        ? profile.lookingJob.translations[0].description
         : null,
-      secondaryWritingDate: secLangProf ? secLangProf.writingDate : null,
-      secondaryWritingProficiency: secLangProf
-        ? secLangProf.writingProficiency
+    };
+  }
+
+  if (profile.tenure) {
+    filteredProfile.tenure = {
+      id: profile.tenure.id,
+      description: profile.tenure.translations[0]
+        ? profile.tenure.translations[0].name
         : null,
-      secondLanguage: {
-        fr: { en: "French", fr: "Français" },
-        en: { en: "English", fr: "Anglais" },
-      }[data.secondLanguage],
     };
+  }
 
-  // send resData for skills card only if the card is visible
-  if (visibleCards.skills)
-    resData = {
-      ...resData,
-      skills,
+  if (profile.careerMobility) {
+    filteredProfile.careerMobility = {
+      id: profile.careerMobility.id,
+      description: profile.careerMobility.translations[0]
+        ? profile.careerMobility.translations[0].description
+        : null,
     };
+  }
 
-  // send resData for mentorshipSkills card only if the card is visible
-  if (visibleCards.mentorshipSkills)
-    resData = {
-      ...resData,
-      mentorshipSkills,
-      isMentor: data.isMentor,
+  if (profile.employmentInfo) {
+    const trans = profile.employmentInfo.translations[0];
+    filteredProfile.jobTitle = trans ? trans.jobTitle : null;
+    filteredProfile.branch = trans ? trans.branch : null;
+  }
+
+  if (profile.talentMatrixResult) {
+    filteredProfile.talentMatrixResult = {
+      id: profile.talentMatrixResult.id,
+      description: profile.talentMatrixResult.translations[0]
+        ? profile.talentMatrixResult.translations[0].description
+        : null,
     };
+  }
 
-  // send resData for competencies card only if the card is visible
-  if (visibleCards.competencies)
-    resData = {
-      ...resData,
-      competencies,
+  if (profile.officeLocation) {
+    filteredProfile.officeLocation = {
+      id: profile.officeLocation.id,
+      postalCode: profile.officeLocation.postalCode,
+      streetNumber: profile.officeLocation.streetNumber,
+      city: profile.officeLocation.city,
+      country: profile.officeLocation.country,
+      streetName: profile.officeLocation.translations[0]
+        ? profile.officeLocation.translations[0].streetName
+        : null,
+      province: profile.officeLocation.translations[0]
+        ? profile.officeLocation.translations[0].province
+        : null,
     };
+  }
 
-  // send resData for developmentalGoals card only if the card is visible
-  if (visibleCards.developmentalGoals)
-    resData = {
-      ...resData,
-      developmentalGoals,
+  if (profile.relocationLocations) {
+    filteredProfile.relocationLocations = filteredProfile.relocationLocations.map(
+      ({ location }) => ({
+        id: location.id,
+        streetNumber: location.streetNumber,
+        postalCode: location.postalCode,
+        city: location.city,
+        country: location.country,
+        province: location.translations[0]
+          ? location.translations[0].province
+          : null,
+        streetName: location.translations[0]
+          ? location.translations[0].streetName
+          : null,
+      })
+    );
+  }
+
+  filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
+    return {
+      id: prof.id,
+      date: prof.date,
+      proficiency: prof.proficiency,
+      level: prof.level,
     };
+  });
 
-  // send resData for education card only if the card is visible
-  if (visibleCards.education)
-    resData = {
-      ...resData,
-      education: educArray,
-    };
+  return filteredProfile;
+}
 
-  // send resData for experience card only if the card is visible
-  if (visibleCards.experience)
-    resData = {
-      ...resData,
-      careerSummary,
-    };
+async function getPrivateProfileById(request, response) {
+  try {
+    validationResult(request).throw();
 
-  // send resData for projects card only if the card is visible
-  if (visibleCards.projects)
-    resData = {
-      ...resData,
-      projects,
-    };
+    const { id } = request.params;
+    const { language } = request.query;
 
-  // send resData for careerInterests card only if the card is visible
-  if (visibleCards.careerInterests)
-    resData = {
-      ...resData,
-      interestedInRemote: data.interestedInRemote,
-      relocationLocations: relocationLocations,
-      lookingForNewJob: lookingForNewJob,
-    };
+    if (request.kauth.grant.access_token.content.sub === id) {
+      const filter = filterProfileResult(
+        await getFullProfile(id, language),
+        language
+      );
 
-  response.status(200).json(resData);
-};
+      response.status(200).json(filter);
+      return;
+    }
+
+    response
+      .status(403)
+      .json({ data: "Access to private account has be denied." });
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).json("Unable to get profile");
+  }
+}
+
+async function getPublicProfileById(request, response) {
+  try {
+    validationResult(request).throw();
+    const userId = request.kauth.grant.access_token.content.sub;
+    const { id } = request.params;
+    const { language } = request.query;
+
+    if (userId && id) {
+      const result = filterProfileResult(
+        await getFullProfile(id, language),
+        language
+      );
+
+      const isFriends = result.friends.some((item) => item.id === userId);
+
+      if (
+        result.visibleCards.manager === "PRIVATE" ||
+        (result.visibleCards.manager === "FRIENDS" && !isFriends)
+      ) {
+        delete result.manager;
+      }
+
+      if (
+        result.visibleCards.info === "PRIVATE" ||
+        (result.visibleCards.info === "FRIENDS" && !isFriends)
+      ) {
+        delete result.employmentInfo;
+        delete result.securityClearance;
+        delete result.groupLevel;
+        delete result.tenure;
+        delete result.actingLevel;
+        delete result.actingStartDate;
+        delete result.actingEndDate;
+        delete result.firstLanguage;
+        delete result.secondLanguage;
+      }
+
+      if (
+        result.visibleCards.talentManagement === "PRIVATE" ||
+        (result.visibleCards.talentManagement === "FRIENDS" && !isFriends)
+      ) {
+        delete result.careerMobility;
+        delete result.talentMatrixResult;
+      }
+
+      if (
+        result.visibleCards.officialLanguage === "PRIVATE" ||
+        (result.visibleCards.officialLanguage === "FRIENDS" && !isFriends)
+      ) {
+        delete result.firstLanguage;
+        delete result.secondLanguage;
+      }
+      if (
+        result.visibleCards.skills === "PRIVATE" ||
+        (result.visibleCards.skills === "FRIENDS" && !isFriends)
+      ) {
+        delete result.skills;
+      }
+      if (
+        result.visibleCards.competencies === "PRIVATE" ||
+        (result.visibleCards.competencies === "FRIENDS" && !isFriends)
+      ) {
+        delete result.competencies;
+      }
+      if (
+        result.visibleCards.developmentalGoals === "PRIVATE" ||
+        (result.visibleCards.developmentalGoals === "FRIENDS" && !isFriends)
+      ) {
+        delete result.developmentalGoals;
+      }
+      if (
+        result.visibleCards.education === "PRIVATE" ||
+        (result.visibleCards.education === "FRIENDS" && !isFriends)
+      ) {
+        delete result.educations;
+      }
+      if (
+        result.visibleCards.experience === "PRIVATE" ||
+        (result.visibleCards.experience === "FRIENDS" && !isFriends)
+      ) {
+        delete result.experiences;
+      }
+      if (
+        result.visibleCards.projects === "PRIVATE" ||
+        (result.visibleCards.projects === "FRIENDS" && !isFriends)
+      ) {
+        delete result.projects;
+      }
+      if (
+        result.visibleCards.careerInterests === "PRIVATE" ||
+        (result.visibleCards.careerInterests === "FRIENDS" && !isFriends)
+      ) {
+        delete result.interestedInRemote;
+        delete result.lookingJob;
+        delete result.relocationLocations;
+      }
+      if (
+        result.visibleCards.exFeeder === "PRIVATE" ||
+        (result.visibleCards.exFeeder === "FRIENDS" && !isFriends)
+      ) {
+        delete result.exFeeder;
+      }
+
+      response.status(200).json(result);
+    }
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).send("Error getting information about the users");
+  }
+}
 
 module.exports = {
-  getProfile,
+  updateProfile,
   getPublicProfileById,
   getPrivateProfileById,
-  getProfileStatusById,
-  createProfile,
-  updateProfile,
 };

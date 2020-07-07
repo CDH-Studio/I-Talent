@@ -1,0 +1,115 @@
+/api/option/categories:
+  get:
+    summary: Get every skills category option from the database
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+    responses:
+      200:
+        $ref: "#/definitions/IdNameArray"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option.category]
+  delete:
+    summary: Delete multiple category options
+    description: __WARNING__ - this also removes the categories from skills and deletes its translation entries
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/DeleteManyIds"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option.category]
+
+/api/option/category:
+  post:
+    summary: Create a new category option
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/CreateOption"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      409:
+        $ref: "#/definitions/409"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option.category]
+  put:
+    summary: Update an existing category option
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/UpdateOption"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option.category]
+  delete:
+    summary: Delete a specific category option
+    description: __WARNING__ - this also removes the category from skills and deletes its translation entries
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/DeleteOption"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option.category]
+
+/api/option/categoriesAllLang:
+  get:
+    summary: Get every skills category option from the database in both languages
+    produces:
+      - application/json
+    responses:
+      200:
+        $ref: "#/definitions/IdEnFrArray"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option.category]

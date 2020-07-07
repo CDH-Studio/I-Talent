@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12-alpine
 
 ENV TZ=America/Toronto
 
@@ -12,7 +12,5 @@ RUN yarn install
 COPY . .
 
 EXPOSE 8080
-
-# CMD ["yarn", "deploy"]
 
 CMD ["yarn", "dev:docker"]

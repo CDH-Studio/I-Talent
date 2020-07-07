@@ -22,6 +22,8 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { isMobilePhone } from "validator";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -48,6 +50,8 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -126,10 +130,23 @@ const PrimaryInfoFormView = ({
       max: 100,
       message: <FormattedMessage id="profile.rules.max.100" />,
     },
-    telephoneFormat: {
-      pattern: /^\d{3}-\d{3}-\d{4}$/i,
-      message: <FormattedMessage id="profile.rules.phone.number" />,
-    },
+    telephoneFormat: [
+      {
+        pattern: /^\d{3}-\d{3}-\d{4}$/i,
+        message: <FormattedMessage id="profile.rules.phone.number" />,
+      },
+      {
+        validator(rule, value) {
+          if (!value || isMobilePhone(value, "en-CA")) {
+            return Promise.resolve();
+          }
+
+          return Promise.reject(
+            intl.formatMessage({ id: "profile.rules.valid.phone.number" })
+          );
+        },
+      },
+    ],
     emailFormat: {
       pattern: /\S+@\S+\.ca/i,
       message: <FormattedMessage id="profile.rules.email" />,
@@ -138,22 +155,14 @@ const PrimaryInfoFormView = ({
 
   /* Save data */
   const saveDataToDB = async (values) => {
-    if (profileInfo) {
-      // If profile exists then update profile
-      try {
-        await axios.put(`${backendAddress}api/profile/${userId}`, values);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    } else {
-      // If profile does not exists then create profile
-      try {
-        await axios.post(`${backendAddress}api/profile/${userId}`, values);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+    try {
+      await axios.put(
+        `${backendAddress}api/profile/${userId}?language=${locale}`,
+        values
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   };
 
@@ -185,11 +194,13 @@ const PrimaryInfoFormView = ({
         telephone: profile.telephone,
         cellphone: profile.cellphone,
         email: profile.email,
-        location: profile.location.id ? profile.location.id : undefined,
-        team: profile.team,
-        gcconnexUrl: profile.gcconnexUrl,
-        linkedinUrl: profile.linkedinUrl,
-        githubUrl: profile.githubUrl,
+        locationId: profile.officeLocation
+          ? profile.officeLocation.id
+          : undefined,
+        teams: profile.teams,
+        gcconnex: profile.gcconnex,
+        linkedin: profile.linkedin,
+        github: profile.github,
       };
     }
     return { email };
@@ -467,7 +478,7 @@ const PrimaryInfoFormView = ({
             <Form.Item
               name="telephone"
               label={<FormattedMessage id="profile.telephone" />}
-              rules={[Rules.telephoneFormat]}
+              rules={Rules.telephoneFormat}
             >
               <Input />
             </Form.Item>
@@ -497,7 +508,7 @@ const PrimaryInfoFormView = ({
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
-              name="location"
+              name="locationId"
               label={<FormattedMessage id="profile.location" />}
               rules={[Rules.required, Rules.maxChar50]}
             >
@@ -507,24 +518,36 @@ const PrimaryInfoFormView = ({
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
                 filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
+                  option.children
+                    .join("")
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
                 }
               >
                 {locationOptions.map((value) => {
-                  return <Option key={value.id}>{value.description.en}</Option>;
+                  return (
+                    <Option key={value.id}>
+                      {value.streetNumber} {value.streetName}, {value.city},{" "}
+                      {value.province}
+                    </Option>
+                  );
                 })}
               </Select>
             </Form.Item>
           </Col>
-
           <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
             <Form.Item
-              name="team"
-              label={<FormattedMessage id="profile.team" />}
-              rules={[Rules.maxChar50]}
+              name="teams"
+              label={<FormattedMessage id="profile.teams" />}
+              className="custom-bubble-select-style"
             >
-              <Input />
+              <Select
+                mode="tags"
+                style={{ width: "100%" }}
+                notFoundContent={
+                  <FormattedMessage id="setup.teams.placeholder" />
+                }
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -543,7 +566,7 @@ const PrimaryInfoFormView = ({
           </Col>
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
-              name="gcconnexUrl"
+              name="gcconnex"
               label={<FormattedMessage id="profile.gcconnex.url" />}
               rules={[Rules.maxChar100]}
             >
@@ -552,7 +575,7 @@ const PrimaryInfoFormView = ({
           </Col>
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
-              name="linkedinUrl"
+              name="linkedin"
               label={<FormattedMessage id="profile.linkedin.url" />}
               rules={[Rules.maxChar100]}
             >
@@ -561,7 +584,7 @@ const PrimaryInfoFormView = ({
           </Col>
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
-              name="githubUrl"
+              name="github"
               label={<FormattedMessage id="profile.github.url" />}
               rules={[Rules.maxChar100]}
             >

@@ -1,13 +1,13 @@
 version: "3"
 services:
   web-ant:
-    container_name: "upskill-frontend-v3"
+    container_name: "upskill-frontend"
     build: ./services/frontend-v3
     ports:
       - "3000:3000"
     volumes:
       - ./services/frontend-v3:/upskill-frontend
-      - ./upskill-frontend/node_modules
+      - frontend-node-modules:/upskill-backend/node_modules
     env_file:
       - ./env/web.env
 
@@ -16,28 +16,48 @@ services:
     build: ./services/backend
     ports:
       - "8080:8080"
+      - "5555:5555"
     volumes:
       - ./services/backend:/upskill-backend
-      - ./upskill-backend/node_modules
+      - backend-node-modules:/upskill-backend/node_modules
     env_file:
       - ./env/backend.env
+      - .env
+    networks:
+      - redis-net
+      - postgres-net
+    depends_on:
+      - redis
+      - db-postgres
 
   db-postgres:
     container_name: "upskill-database"
-    image: postgres
+    image: "postgres:12-alpine"
     restart: always
+    hostname: db-postgres
     environment:
       POSTGRES_PASSWORD: api
       POSTGRES_USER: api
       POSTGRES_DB: testdb
-    ports:
-      - "5432:5432"
+    networks:
+      - postgres-net
 
-  adminer:
-    container_name: "upskill-adminer"
-    image: adminer
+  redis:
+    container_name: "upskill-redis-session"
+    image: "redis:6-alpine"
+    command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+    hostname: redis
     restart: always
-    depends_on:
-      - db-postgres
-    ports:
-      - "3333:8080"
+    networks:
+      - redis-net
+    volumes:
+      - redis-data:/data
+
+networks:
+  redis-net:
+  postgres-net:
+
+volumes:
+  redis-data:
+  backend-node-modules:
+  frontend-node-modules:

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
@@ -15,10 +15,19 @@ import {
   NotFound,
 } from "../pages";
 import keycloakConfig from "../keycloak";
-import createUser from "../functions/login";
-import { setUserName, setUserEmail } from "../redux/slices/userSlice";
+import {
+  setUserName,
+  setUserEmail,
+  setUserId,
+  setUserAvatarColor,
+  setUserInitials,
+} from "../redux/slices/userSlice";
+import { setLocale } from "../redux/slices/settingsSlice";
+
+import config from "../config";
 
 const { keycloakJSONConfig } = keycloakConfig;
+const { backendAddress } = config;
 
 const Secured = ({ location }) => {
   const dispatch = useDispatch();
@@ -26,30 +35,55 @@ const Secured = ({ location }) => {
   const [keycloak, setKeycloak] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
+  const handleRequest = useCallback(
+    (userInfo, res) => {
+      dispatch(setUserName(userInfo.name));
+      dispatch(setUserEmail(userInfo.email));
+      dispatch(setUserId(res.data.id));
+      dispatch(setUserAvatarColor(res.data.avatarColor));
+      dispatch(setUserInitials(res.data.nameInitials));
+      dispatch(setLocale(res.data.preferredLanguage));
+      return res.data.signupStep;
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     const keycloakInstance = Keycloak(keycloakJSONConfig);
 
     // Check if profile exist for the logged in user
-    const profileExist = () => {
-      return keycloakInstance.loadUserInfo().then(async (userInfo) => {
-        return createUser(userInfo.email, userInfo.name).then((res) => {
-          dispatch(setUserName(userInfo.name));
-          dispatch(setUserEmail(userInfo.email));
-          return res.hasProfile;
-        });
-      });
+    const profileExist = async () => {
+      const userInfo = await keycloakInstance.loadUserInfo();
+
+      try {
+        const res = await axios.get(
+          `${backendAddress}api/user/${userInfo.sub}`
+        );
+        return handleRequest(userInfo, res);
+      } catch (error) {
+        const res = await axios.post(
+          `${backendAddress}api/user/${userInfo.sub}`,
+          {
+            email: userInfo.email,
+            name: userInfo.name,
+            lastName: userInfo.family_name,
+            firstName: userInfo.given_name,
+          }
+        );
+
+        return handleRequest(userInfo, res);
+      }
     };
 
     // Generate redirect if profile does not exist
-    const renderRedirect = () => {
-      return profileExist().then((exists) => {
-        if (!exists) {
-          return (
-            <Redirect from="/old-path" to="/secured/profile/create/step/1" />
-          );
-        }
-        return <div />;
-      });
+    const renderRedirect = async () => {
+      const signupStep = await profileExist();
+
+      if (signupStep === 8) {
+        return null;
+      }
+
+      return <Redirect to="/secured/profile/create/step/1" />;
     };
 
     keycloakInstance
@@ -74,9 +108,9 @@ const Secured = ({ location }) => {
           sessionStorage.removeItem("admin");
         }
 
-        axios.interceptors.request.use((config) =>
+        axios.interceptors.request.use((axiosConfig) =>
           keycloakInstance.updateToken(5).then(() => {
-            const newConfig = config;
+            const newConfig = axiosConfig;
             newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
             return Promise.resolve(newConfig).catch(keycloakInstance.login);
           })
@@ -91,56 +125,32 @@ const Secured = ({ location }) => {
           });
         }
 
-        setKeycloak(keycloakInstance);
-        setAuthenticated(auth);
         // store user info in local storage and redirect to create profile if needed
         renderRedirect().then((redirectLink) => {
           setRedirect(redirectLink);
+          setKeycloak(keycloakInstance);
+          setAuthenticated(auth);
         });
       });
-  }, [dispatch]);
-
-  // Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // const copyToClipboard = e => {
-  //   this.textArea.select();
-  //   document.execCommand("copy");
-  //   e.target.focus();
-  // };
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  }, [dispatch, handleRequest]);
 
   /* detect if the user is on setup page to stop redirect if profile is not found */
-  const currentPath = location.pathname;
-  const regex = /(\/\bprofile\b\/\bcreate\b)/g;
   let redirectToSetup;
-  if (!currentPath.match(regex)) {
+  if (
+    !location.pathname.includes("/secured/profile/create") &&
+    !location.pathname.includes("/secured/logout")
+  ) {
     redirectToSetup = redirect;
   }
 
   if (keycloak) {
     if (authenticated) {
+      if (redirectToSetup) {
+        return redirectToSetup;
+      }
+
       return (
         <div id="view">
-          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-          {/* <div>
-              Keycloak Secret
-              <form>
-                <textarea
-                  ref={textarea => (this.textArea = textarea)}
-                  value={keycloak.token}
-                  readOnly
-                />
-              </form>
-              {document.queryCommandSupported("copy") && (
-                <div>
-                  <button onClick={this.copyToClipboard}>Copy</button>
-                  {copySuccess}
-                </div>
-              )}
-            </div> */}
-          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-
-          {/* redirect to set up page  */}
-          {redirectToSetup}
           <Switch>
             {/* home page with large search bar */}
             <Route
@@ -171,8 +181,8 @@ const Secured = ({ location }) => {
             {/* Profile page based on user ID */}
             <Route
               path="/secured/profile/:id?"
-              render={({ match }) => (
-                <Profile keycloak={keycloak} match={match} />
+              render={({ match, history }) => (
+                <Profile keycloak={keycloak} match={match} history={history} />
               )}
             />
             {/* Logout authorized user */}
@@ -189,7 +199,7 @@ const Secured = ({ location }) => {
     }
     return <div>Unable to authenticate!</div>;
   }
-  return <div />;
+  return null;
 };
 
 Secured.propTypes = {

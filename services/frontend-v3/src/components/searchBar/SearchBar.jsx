@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-lone-blocks */
-import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
 import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
@@ -20,32 +18,36 @@ const SearchBar = () => {
   const [classOptions, setClassOptions] = useState([]);
   const history = useHistory();
 
+  const { locale } = useSelector((state) => state.settings);
+
   // Fetches options for skills select field in advanced search
-  const getSkills = async () => {
+  const getSkills = useCallback(async () => {
     const results = await axios.get(
-      `${backendAddress}api/option/getDevelopmentalGoals`
+      `${backendAddress}api/option/developmentalGoals?language=${locale}`
     );
     setSkillOptions(results.data);
-  };
+  }, [locale]);
 
   // Fetches options for branches select field in advanced search
-  const getBranch = async () => {
-    const results = await axios.get(`${backendAddress}api/option/getBranch`);
-    setBranchOptions(
-      results.data.filter((elem) => elem.description && elem.description.en)
+  const getBranch = useCallback(async () => {
+    const results = await axios.get(
+      `${backendAddress}api/option/branches?language=${locale}`
     );
-  };
+    setBranchOptions(results.data);
+  }, [locale]);
 
   // Fetches options for locations select field in advanced search
-  const getLocation = async () => {
-    const results = await axios.get(`${backendAddress}api/option/getLocation`);
+  const getLocation = useCallback(async () => {
+    const results = await axios.get(
+      `${backendAddress}api/option/locations?language=${locale}`
+    );
     setLocationOptions(results.data);
-  };
+  }, [locale]);
 
   // Fetches options for classifications select field in advanced search
   const getClassification = async () => {
     const results = await axios.get(
-      `${backendAddress}api/option/getGroupLevel`
+      `${backendAddress}api/option/classifications`
     );
     setClassOptions(results.data);
   };
@@ -53,7 +55,7 @@ const SearchBar = () => {
   // turns search values into query, redirects to results page with query
   const handleSearch = (values) => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
-    const url = `/secured/results?${encodeURI(query)}`;
+    const url = `/secured/results?${query}`;
 
     if (query !== "") {
       history.push(url);
@@ -71,7 +73,7 @@ const SearchBar = () => {
     };
 
     updateState();
-  }, []);
+  }, [getBranch, getLocation, getSkills, locale]);
 
   return (
     <SearchBarView
@@ -82,12 +84,6 @@ const SearchBar = () => {
       handleSearch={handleSearch}
     />
   );
-};
-
-SearchBar.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
 };
 
 export default injectIntl(SearchBar);
