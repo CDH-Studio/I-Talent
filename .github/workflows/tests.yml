@@ -21,6 +21,7 @@ jobs:
       KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
       KEYCLOAK_AUTH_SERVER_URL: ${{ secrets.KEYCLOAK_AUTH_SERVER_URL }}
       REDIS_HOST: localhost
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     services:
       postgres:
@@ -71,8 +72,11 @@ jobs:
 
     - name: Run jest tests
       run: yarn test --forceExit
+    
+    - name: Upload test coveraget to codecov
+      run: curl -s https://codecov.io/bash
 
-    - name: Upload a test coverage
+    - name: Upload test coverage to github artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Instanbul coverage
