@@ -3,24 +3,16 @@ FROM node:12-alpine
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
-RUN chown -Rh $user:$user /project
-USER $user
-
+RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
+COPY . .
 
-COPY package.json ./
-COPY yarn.lock ./
+RUN chown -Rh $user:$user /project
 
-# RUN mkdir -p /opt/upskill-backend/.yarn-cache
-# ENV YARN_CACHE_FOLDER=/opt/upskill-backend/.yarn-cache
+USER $user
 
 RUN yarn install
 RUN yarn cache clean
-
-COPY . .
-
 RUN yarn generate
-
-EXPOSE 3000
 
 CMD ["yarn", "deploy"]
