@@ -2,6 +2,7 @@ FROM node:12-alpine
 
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
+ENV YARN_CACHE_FOLDER=/upskill-backend/.yarn-cache
 
 RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
@@ -12,7 +13,9 @@ RUN chown -Rh node:node /upskill-backend
 USER node
 
 RUN mkdir -p /upskill-backend/.yarn-cache
-ENV YARN_CACHE_FOLDER=/upskill-backend/.yarn-cache
+RUN mkdir -p /upskill-backend/.yarn-global
+
+RUN yarn config set global-folder "/upskill-backend/.yarn-global"
 
 RUN yarn install
 RUN yarn cache clean
