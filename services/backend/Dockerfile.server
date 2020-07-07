@@ -8,9 +8,9 @@ RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
 COPY . .
 
-RUN chown -Rh node:node /upskill-backend
+# RUN chown -Rh node:node /upskill-backend
 
-USER node
+# USER node
 
 RUN mkdir -p /upskill-backend/.yarn-cache
 RUN mkdir -p /upskill-backend/.yarn-global
