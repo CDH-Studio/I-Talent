@@ -3,10 +3,13 @@ FROM node:12-alpine
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
+RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
 COPY . .
 
-RUN npm config set unsafe-perm true yarn
+RUN chown -Rh $user:$user /project
+
+USER $user
 
 RUN yarn install 
 RUN yarn cache clean
