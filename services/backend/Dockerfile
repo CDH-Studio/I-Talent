@@ -1,24 +1,16 @@
 FROM node:12-alpine
 
 ENV TZ=America/Toronto
-ENV NODE_ENV=production
 ENV YARN_CACHE_FOLDER=/upskill-backend/.yarn-cache
 
 RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
 COPY . .
 
-# RUN chown -Rh node:node /upskill-backend
-
-# USER node
-
+# Used to fix yarn cache warning in openshift
 RUN mkdir -p /upskill-backend/.yarn-cache
-RUN mkdir -p /upskill-backend/.yarn-global
-
-RUN yarn config set global-folder "/upskill-backend/.yarn-global"
 
 RUN yarn install
-RUN yarn cache clean
 RUN yarn generate
 
-CMD ["yarn", "deploy"]
+CMD ./dockerfileScript.sh
