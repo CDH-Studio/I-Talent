@@ -1,0 +1,18 @@
+FROM node:12-alpine
+
+ENV TZ=America/Toronto
+ENV NODE_ENV=production
+
+WORKDIR /upskill-backend
+
+COPY package.json ./
+COPY yarn.lock ./
+
+RUN yarn install
+RUN yarn cache clean
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["yarn", "deploy"]
