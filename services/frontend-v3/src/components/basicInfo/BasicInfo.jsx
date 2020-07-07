@@ -4,33 +4,33 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 
 const BasicInfo = ({ data }) => {
   const getButtonLinks = () => {
-    const { linkedinUrl, githubUrl, gcconnexUrl, email } = data;
+    const { linkedin, github, gcconnex, email } = data;
     const buttonLinks = { buttons: [] };
 
-    if (linkedinUrl) {
+    if (linkedin) {
       buttonLinks.buttons.push("linkedin");
       buttonLinks.linkedin = {
         icon: "linkedin",
         textId: "profile.linkedin",
-        url: linkedinUrl,
+        url: linkedin,
       };
     }
 
-    if (githubUrl) {
+    if (github) {
       buttonLinks.buttons.push("github");
       buttonLinks.github = {
         icon: "github",
         textId: "profile.github",
-        url: githubUrl,
+        url: github,
       };
     }
 
-    if (gcconnexUrl) {
+    if (gcconnex) {
       buttonLinks.buttons.push("gcconnex");
       buttonLinks.gcconnex = {
         icon: "link",
         textId: "profile.gcconnex",
-        url: gcconnexUrl,
+        url: gcconnex,
       };
     }
 
