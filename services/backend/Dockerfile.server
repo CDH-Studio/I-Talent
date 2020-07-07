@@ -1,12 +1,13 @@
 FROM node:12-alpine
 
-USER node
-
 ENV TZ=America/Toronto
 ENV NODE_ENV=production
 
 RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
+
+USER node
+
 COPY . .
 
 RUN yarn install
