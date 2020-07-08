@@ -356,6 +356,7 @@
   "profile.rules.valid.phone.number": "Must be a valid phone number",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
   "profile.form.clear": "Changes cleared",
+  "profile.form.unsaved": "unsaved",
   "profile.qualifications.select.month": "Select month",
 
   "profile.career.interests": "Job mobility",
