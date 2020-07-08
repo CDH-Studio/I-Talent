@@ -25,6 +25,10 @@ const Education = ({ data }) => {
   };
 
   const getEducationInfo = (dataSource) => {
+    if (!dataSource || !dataSource.experiences) {
+      return [];
+    }
+
     return dataSource.educations.map(
       ({ startDate, endDate, diploma, school }) => ({
         diploma: diploma.description,
