@@ -14,11 +14,11 @@ import {
 } from "antd";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -26,10 +26,8 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -174,10 +172,7 @@ const LangProficiencyFormView = ({
       }
     }
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      dbValues
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 
   /* show message */

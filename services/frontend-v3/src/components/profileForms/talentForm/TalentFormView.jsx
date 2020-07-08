@@ -14,21 +14,19 @@ import {
 } from "antd";
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
 } from "../../../customPropTypes";
 import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;
@@ -150,10 +148,7 @@ const TalentFormView = ({
       values.mentorshipSkills = [];
     }
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      values
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* show message */

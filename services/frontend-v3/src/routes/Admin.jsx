@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import Keycloak from "keycloak-js";
-import axios from "axios";
+import axios from "../axios-instance";
 import {
   AdminDashboard,
   AdminUser,
@@ -11,10 +11,8 @@ import {
   AdminDiploma,
   AdminSchool,
 } from "../pages/admin";
-import config from "../config";
 import keycloakConfig from "../keycloak";
 
-const { backendAddress } = config;
 const { keycloakJSONConfig } = keycloakConfig;
 
 const Admin = () => {
@@ -40,7 +38,7 @@ const Admin = () => {
           })
         );
 
-        axios.get(`${backendAddress}api/admin/check`).then(
+        axios.get(`api/admin/check`).then(
           () => {
             setKeycloak(keycloakInstance);
             setAuthenticated(auth);

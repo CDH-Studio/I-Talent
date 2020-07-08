@@ -3,15 +3,11 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import axios from "../../axios-instance";
 import { IntlPropType } from "../../customPropTypes";
 import { setLocale } from "../../redux/slices/settingsSlice";
 
-import config from "../../config";
-
 import handleError from "../../functions/handleError";
-
-const { backendAddress } = config;
 
 const ChangeLanguageView = ({ intl }) => {
   const languageCode = intl.formatMessage({ id: "lang.db.code" });
@@ -23,12 +19,9 @@ const ChangeLanguageView = ({ intl }) => {
     dispatch(setLocale(languageCode));
     if (userID) {
       await axios
-        .put(
-          `${backendAddress}api/profile/${userID}?language=${languageCode}`,
-          {
-            preferredLanguage: languageCode,
-          }
-        )
+        .put(`api/profile/${userID}?language=${languageCode}`, {
+          preferredLanguage: languageCode,
+        })
         .catch((error) => handleError(error, "message"));
     }
   };

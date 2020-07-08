@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import axios from "../../../axios-instance";
 
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
-
-const { backendAddress } = config;
 
 /**
  *  Personal Growth Form(props)
@@ -69,7 +66,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/profile/private/${id}?language=${locale}`
+      `api/profile/private/${id}?language=${locale}`
     );
 
     setProfileInfo(result.data);
@@ -82,7 +79,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/developmentalGoals?language=${locale}`
+      `api/option/developmentalGoals?language=${locale}`
     );
 
     setDevelopmentalGoalOptions(result.data);
@@ -114,9 +111,7 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of Relocation Options for dropdown treeSelect
    */
   const getRelocationOptions = useCallback(async () => {
-    const result = await axios.get(
-      `${backendAddress}api/option/locations?language=${locale}`
-    );
+    const result = await axios.get(`api/option/locations?language=${locale}`);
 
     setRelocationOptions(result.data);
   }, [locale]);
@@ -127,9 +122,7 @@ const PersonalGrowthForm = ({ formType }) => {
    * get Saved Looking For New Job from user profile
    */
   const getLookingForNewJobOptions = useCallback(async () => {
-    const result = await axios.get(
-      `${backendAddress}api/option/lookingJobs?language=${locale}`
-    );
+    const result = await axios.get(`api/option/lookingJobs?language=${locale}`);
 
     setLookingForNewJobOptions(result.data);
   }, [locale]);
@@ -141,7 +134,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getCareerMobilityOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/careerMobilities?language=${locale}`
+      `api/option/careerMobilities?language=${locale}`
     );
 
     setCareerMobilityOptions(result.data);
@@ -154,7 +147,7 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getTalentMatrixResultOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/talentMatrixResults?language=${locale}`
+      `api/option/talentMatrixResults?language=${locale}`
     );
 
     setTalentMatrixResultOptions(result.data);

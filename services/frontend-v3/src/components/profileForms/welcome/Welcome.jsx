@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import WelcomeView from "./WelcomeView";
-import config from "../../../config";
-
-const { backendAddress } = config;
 
 /**
  *  Welcome(props)
@@ -31,7 +28,7 @@ const Welcome = () => {
      */
     const getGedsProfiles = async () => {
       // Get info from GEDS
-      const result = await axios.get(`${backendAddress}api/profGen/${id}`, {
+      const result = await axios.get(`api/profGen/${id}`, {
         params: {
           name,
         },

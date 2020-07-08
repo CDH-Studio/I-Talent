@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
-import axios from "axios";
 import * as Sentry from "@sentry/browser";
 import { useDispatch } from "react-redux";
+import axios from "../axios-instance";
 import {
   Logout,
   Home,
@@ -24,10 +24,7 @@ import {
 } from "../redux/slices/userSlice";
 import { setLocale } from "../redux/slices/settingsSlice";
 
-import config from "../config";
-
 const { keycloakJSONConfig } = keycloakConfig;
-const { backendAddress } = config;
 
 const Secured = ({ location }) => {
   const dispatch = useDispatch();
@@ -60,20 +57,15 @@ const Secured = ({ location }) => {
       const userInfo = await keycloakInstance.loadUserInfo();
 
       try {
-        const res = await axios.get(
-          `${backendAddress}api/user/${userInfo.sub}`
-        );
+        const res = await axios.get(`api/user/${userInfo.sub}`);
         return handleRequest(userInfo, res);
       } catch (error) {
-        const res = await axios.post(
-          `${backendAddress}api/user/${userInfo.sub}`,
-          {
-            email: userInfo.email,
-            name: userInfo.name,
-            lastName: userInfo.family_name,
-            firstName: userInfo.given_name,
-          }
-        );
+        const res = await axios.post(`api/user/${userInfo.sub}`, {
+          email: userInfo.email,
+          name: userInfo.name,
+          lastName: userInfo.family_name,
+          firstName: userInfo.given_name,
+        });
 
         return handleRequest(userInfo, res);
       }
