@@ -120,7 +120,7 @@ const url = `${
           github: null,
           linkedin: null,
           locationId: location[0].id,
-          teams: [],
+          teams: null,
           email: dataGEDS.contactInformation.email,
           branch: {
             en: branchOrg.description.en,

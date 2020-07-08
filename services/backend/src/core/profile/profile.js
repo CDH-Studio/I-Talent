@@ -769,6 +769,54 @@ async function getFullProfile(id, language) {
           exFeeder: true,
         },
       },
+      organizations: {
+        select: {
+          id: true,
+          organizationTier: {
+            select: {
+              id: true,
+              tier: true,
+              translations: {
+                where: { language },
+                select: {
+                  id: true,
+                  language: true,
+                  description: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      /*
+ organizations: organizations
+            ? {
+                create: organizations.map((organization) => {
+                  return {
+                    organizationTier: {
+                      create: organization.map(({ tier, en, fr }) => {
+                        return {
+                          tier,
+                          translations: {
+                            create: [
+                              {
+                                description: en,
+                                language: "ENGLISH",
+                              },
+                              {
+                                description: fr,
+                                language: "FRENCH",
+                              },
+                            ],
+                          },
+                        };
+                      }),
+                    },
+                  };
+                }),
+              }
+            : undefined,
+     */
     },
   });
 }
@@ -1033,12 +1081,10 @@ async function getPublicProfileById(request, response) {
     const userId = request.kauth.grant.access_token.content.sub;
     const { id } = request.params;
     const { language } = request.query;
-
+    const pro = await getFullProfile(id, language);
+    console.log("PROF", pro);
     if (userId && id) {
-      const result = filterProfileResult(
-        await getFullProfile(id, language),
-        language
-      );
+      const result = filterProfileResult(pro, language);
 
       const isFriends = result.friends.some((item) => item.id === userId);
 

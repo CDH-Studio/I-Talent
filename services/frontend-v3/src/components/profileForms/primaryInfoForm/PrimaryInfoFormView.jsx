@@ -10,7 +10,9 @@ import {
   Input,
   Button,
   message,
+  List,
   Popover,
+  Modal,
 } from "antd";
 import {
   LinkOutlined,
@@ -50,8 +52,10 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [newGedsValues, setNewGedsValues] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const { id, name } = useSelector((state) => state.user);
 
   /* Component Styles */
   const styles = {
@@ -113,6 +117,9 @@ const PrimaryInfoFormView = ({
     },
     popoverStyle: {
       maxWidth: "430px",
+    },
+    rightSpacedButton: {
+      marginRight: "1em",
     },
   };
 
@@ -285,6 +292,19 @@ const PrimaryInfoFormView = ({
       });
   };
 
+  const onSyncGedsInfo = async () => {
+    console.log("CLICK GEDS");
+    const result = await axios.get(`${backendAddress}api/profGen/${id}`, {
+      params: {
+        name,
+      },
+    });
+    if (result) {
+      setNewGedsValues(result.data);
+    }
+    console.log("VALUE", result.data);
+  };
+
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
@@ -299,6 +319,9 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
+            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+              Update GEDS info
+            </Button>
             <Popover
               trigger="click"
               tabIndex="0"
@@ -425,6 +448,111 @@ const PrimaryInfoFormView = ({
     return undefined;
   };
 
+  const handleGedsConfirm = () => {};
+
+  const generateGedsModal = () => {
+    const changes = [];
+
+    /*const profile = {
+      firstName: dataGEDS.givenName,
+      lastName: dataGEDS.surname,
+      gcconnex: null,
+      github: null,
+      linkedin: null,
+      locationId: location[0].id,
+      teams: null,
+      email: dataGEDS.contactInformation.email,
+      branch: {
+        en: branchOrg.description.en,
+        fr: branchOrg.description.en,
+      },
+      telephone: dataGEDS.phoneNumber,
+      cellphone: dataGEDS.altPhoneNumber,
+      jobTitle: {
+        en: dataGEDS.title.en,
+        fr: dataGEDS.title.fr,
+      },
+    };*/
+
+    console.log(
+      "local",
+      locale,
+      newGedsValues && newGedsValues.jobTitle[locale === "FRENCH" ? "fr" : "en"]
+    );
+
+    if (newGedsValues) {
+      if (newGedsValues.firstName !== profileInfo.firstName) {
+        changes.push({ title: <FormattedMessage id="profile.first.name" /> });
+      }
+      if (newGedsValues.lastName !== profileInfo.lastName) {
+        changes.push({ title: <FormattedMessage id="profile.last.name" /> });
+      }
+      if (newGedsValues.locationId !== profileInfo.officeLocation.id) {
+        const locationOption = _.find(
+          locationOptions,
+          (option) => option.id === newGedsValues.locationId
+        );
+        console.log("LOCCCCCC", locationOption);
+        changes.push({
+          title: <FormattedMessage id="profile.location" />,
+          description: `${locationOption.streetNumber} ${locationOption.streetName}
+                  ${locationOption.city}, ${locationOption.province}`,
+        });
+      }
+      if (newGedsValues.email !== profileInfo.email) {
+        changes.push({ title: <FormattedMessage id="profile.telephone" /> });
+      }
+      if (
+        newGedsValues.phoneNumber &&
+        newGedsValues.phoneNumber !== profileInfo.phoneNumber
+      ) {
+        changes.push({ title: <FormattedMessage id="profile.cellphone" /> });
+      }
+      if (
+        newGedsValues.telephone &&
+        newGedsValues.telephone !== profileInfo.telephone
+      ) {
+        changes.push({ title: <FormattedMessage id="profile.telephone" /> });
+      }
+      if (
+        newGedsValues.jobTitle &&
+        newGedsValues.jobTitle !== profileInfo.jobTitle
+      ) {
+        changes.push({
+          title: <FormattedMessage id="profile.job.title" />,
+          description:
+            newGedsValues.jobTitle[locale === "FRENCH" ? "fr" : "en"],
+        });
+      }
+      if (newGedsValues.branch !== profileInfo.branch) {
+        changes.push({
+          title: <FormattedMessage id="profile.branch" />,
+          description: newGedsValues.branch[locale === "FRENCH" ? "fr" : "en"],
+        });
+      }
+    }
+
+    return (
+      <Modal
+        title={<FormattedMessage id="profile.geds.changes" />}
+        visible={newGedsValues}
+        onOk={handleGedsConfirm}
+        onCancel={() => setNewGedsValues(null)}
+      >
+        <List>
+          {changes.map((item) => (
+            <List.Item>
+              <List.Item.Meta
+                title={item.title}
+                description={item.description}
+              />
+            </List.Item>
+          ))}
+        </List>
+      </Modal>
+    );
+  };
+  console.log("data", profileInfo);
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -439,6 +567,7 @@ const PrimaryInfoFormView = ({
   /* Once data had loaded display form */
   return (
     <div style={styles.content}>
+      {generateGedsModal()}
       {/* get form title */}
       {getFormHeader(formType)}
       <Divider style={styles.headerDiv} />
