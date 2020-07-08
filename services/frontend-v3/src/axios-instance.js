@@ -5,7 +5,7 @@ const { backendAddress } = config;
 
 const instance = axios.create({
   baseURL: backendAddress,
-  timeout: 1000,
+  timeout: 5000,
 });
 
 export default instance;
