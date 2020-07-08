@@ -326,6 +326,7 @@
   "profile.rules.valid.phone.number": "Doit être un numéro de téléphone valide",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.form.clear": "Changements effacé",
+  "profile.form.unsaved": "non enregistré",
   "profile.qualifications.select.month": "Sélectionner un mois",
 
   "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
