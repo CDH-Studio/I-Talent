@@ -25,6 +25,10 @@ const Experience = ({ data }) => {
   };
 
   const getExperienceInfo = (dataSource) => {
+    if (!dataSource || !dataSource.experiences) {
+      return [];
+    }
+
     return dataSource.experiences.map(
       ({ startDate, endDate, description, jobTitle, organization }) => ({
         description,
@@ -46,4 +50,5 @@ Experience.propTypes = {
 Experience.defaultProps = {
   data: null,
 };
+
 export default Experience;
