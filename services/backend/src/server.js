@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
+const timeout = require("connect-timeout");
 const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
 const swaggerOptions = require("./docs/swaggerOptions");
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
   next();
 });
-
+app.use(timeout("5s"));
 app.use(keycloak.middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
