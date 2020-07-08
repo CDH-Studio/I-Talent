@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import axios from "../../../axios-instance";
 import DiplomaTableView from "./DiplomaTableView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 import {
   setAdminDiplomas,
   setAdminDiplomasLoading,
 } from "../../../redux/slices/adminSlice";
 import { IntlPropType } from "../../../customPropTypes";
-
-const { backendAddress } = config;
 
 /**
  *  DiplomaTable(props)
@@ -32,9 +29,7 @@ const DiplomaTable = ({ intl }) => {
     try {
       dispatch(setAdminDiplomasLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/option/diplomasAllLang`
-      );
+      const results = await axios.get(`api/option/diplomasAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((competency) => ({
@@ -69,7 +64,7 @@ const DiplomaTable = ({ intl }) => {
 
   // Handles addition of a diploma
   const handleSubmitAdd = async (values) => {
-    await axios.post(`${backendAddress}api/option/diploma`, {
+    await axios.post(`api/option/diploma`, {
       en: values.addDiplomaEn,
       fr: values.addDiplomaFr,
     });
@@ -79,7 +74,7 @@ const DiplomaTable = ({ intl }) => {
 
   // Handles the update/edit of a diploma
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`${backendAddress}api/option/diploma`, {
+    await axios.put(`api/option/diploma`, {
       id,
       en: values.editDiplomaEn,
       fr: values.editDiplomaFr,
@@ -90,7 +85,7 @@ const DiplomaTable = ({ intl }) => {
 
   // Handles the deletion of a diploma
   const handleSubmitDelete = async () => {
-    await axios.delete(`${backendAddress}api/option/diplomas`, {
+    await axios.delete(`api/option/diplomas`, {
       data: {
         ids: selectedRowKeys,
       },

@@ -18,7 +18,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import axios from "../../../axios-instance";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
@@ -38,10 +38,8 @@ import Friends from "../../friends/Friends";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
 
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
@@ -730,14 +728,14 @@ const ProfileLayoutView = ({ data }) => {
 
   const addFriend = async () => {
     await axios
-      .post(`${backendAddress}api/friends/${urlID}`)
+      .post(`api/friends/${urlID}`)
       .catch((error) => handleError(error, "message"));
     setFriends(true);
   };
 
   const removeFriend = async () => {
     await axios
-      .delete(`${backendAddress}api/friends/${urlID}`)
+      .delete(`api/friends/${urlID}`)
       .catch((error) => handleError(error, "message"));
     setFriends(false);
   };
@@ -745,7 +743,7 @@ const ProfileLayoutView = ({ data }) => {
   useEffect(() => {
     async function fetchData() {
       const response = await axios
-        .get(`${backendAddress}api/friends/${urlID}`)
+        .get(`api/friends/${urlID}`)
         .catch((error) => handleError(error, "message"));
       setFriends(response.data.friend);
     }

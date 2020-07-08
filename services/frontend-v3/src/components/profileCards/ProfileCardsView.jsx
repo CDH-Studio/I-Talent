@@ -12,12 +12,9 @@ import { Card, Button, Row, Col, Tooltip, Popconfirm, Radio } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 
-import axios from "axios";
+import axios from "../../axios-instance";
 import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
-import config from "../../config";
 import handleError from "../../functions/handleError";
-
-const { backendAddress } = config;
 
 const ProfileCardsView = ({
   cardName,
@@ -51,7 +48,7 @@ const ProfileCardsView = ({
 
     // save toggle value in db
     await axios
-      .put(`${backendAddress}api/profile/${urlID}?language=${locale}`, {
+      .put(`api/profile/${urlID}?language=${locale}`, {
         visibleCards,
       })
       .catch((error) => handleError(error, "message"));

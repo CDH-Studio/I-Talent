@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import config from "../../config";
+import axios from "../../axios-instance";
 import SearchFilterView from "./SearchFilterView";
 import handleError from "../../functions/handleError";
-
-const { backendAddress } = config;
 
 const SearchFilter = () => {
   const [expand, setExpand] = useState(false);
@@ -66,23 +63,21 @@ const SearchFilter = () => {
     // Fetches options for skills select field in advanced search
     const getSkills = async () => {
       const results = await axios.get(
-        `${backendAddress}api/option/developmentalGoals?language=${locale}`
+        `api/option/developmentalGoals?language=${locale}`
       );
       setSkillOptions(results.data);
     };
 
     // Fetches options for branches select field in advanced search
     const getBranch = async () => {
-      const results = await axios.get(
-        `${backendAddress}api/option/branches?language=${locale}`
-      );
+      const results = await axios.get(`api/option/branches?language=${locale}`);
       setBranchOptions(results.data);
     };
 
     // Fetches options for locations select field in advanced search
     const getLocation = async () => {
       const results = await axios.get(
-        `${backendAddress}api/option/locations?language=${locale}`
+        `api/option/locations?language=${locale}`
       );
 
       setLocationOptions(results.data);
@@ -90,9 +85,7 @@ const SearchFilter = () => {
 
     // Fetches options for classifications select field in advanced search
     const getClassification = async () => {
-      const results = await axios.get(
-        `${backendAddress}api/option/classifications`
-      );
+      const results = await axios.get(`api/option/classifications`);
 
       setClassOptions(results.data);
     };

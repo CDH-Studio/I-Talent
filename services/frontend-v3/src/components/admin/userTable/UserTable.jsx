@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import moment from "moment";
 import { injectIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "../../../axios-instance";
 import { IntlPropType } from "../../../customPropTypes";
 import UserTableView from "./UserTableView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 import {
   setAdminUsers,
   setAdminUsersLoading,
 } from "../../../redux/slices/adminSlice";
-
-const { backendAddress } = config;
 
 /**
  *  UserTable(props)
@@ -35,9 +32,7 @@ function UserTable({ intl }) {
       dispatch(setAdminUsers({ data: [] }));
       dispatch(setAdminUsersLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/admin/users?language=${locale}`
-      );
+      const results = await axios.get(`api/admin/users?language=${locale}`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((user) => ({
@@ -63,7 +58,7 @@ function UserTable({ intl }) {
 
   // Handles profile status change
   const handleApply = async () => {
-    const url = `${backendAddress}api/admin/userStatuses`;
+    const url = `api/admin/userStatuses`;
 
     await axios.put(url, statuses);
 

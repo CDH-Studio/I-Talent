@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import "@ant-design/compatible/assets/index.css";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import axios from "../../axios-instance";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
-import config from "../../config";
 
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
-
-const { backendAddress } = config;
 
 const ResultsCard = () => {
   const [results, setResults] = useState(null);
@@ -25,16 +22,12 @@ const ResultsCard = () => {
       const queryString = urlSections[1];
       if (queryString.includes("searchValue")) {
         axios
-          .get(
-            `${backendAddress}api/search/fuzzy?${queryString}&language=${locale}`
-          )
+          .get(`api/search/fuzzy?${queryString}&language=${locale}`)
           .then((result) => setResults(result.data))
           .catch((error) => handleError(error, "redirect"));
       } else {
         axios
-          .get(
-            `${backendAddress}api/search/filters?${queryString}&language=${locale}`
-          )
+          .get(`api/search/filters?${queryString}&language=${locale}`)
           .then((result) => setResults(result.data))
           .catch((error) => handleError(error, "redirect"));
       }

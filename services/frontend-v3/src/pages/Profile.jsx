@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import { useSelector } from "react-redux";
-import config from "../config";
+import axios from "../axios-instance";
 import handleError from "../functions/handleError";
 import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-
-const { backendAddress } = config;
 
 const Profile = ({ history, match }) => {
   const [name, setName] = useState("Loading");
@@ -23,7 +20,7 @@ const Profile = ({ history, match }) => {
       // is looking at his own profile
       if (id === userID) {
         const fetchedData = await axios
-          .get(`${backendAddress}api/profile/private/${id}?language=${locale}`)
+          .get(`api/profile/private/${id}?language=${locale}`)
           .then((res) => res.data)
           .catch((error) => {
             throw error;
@@ -34,7 +31,7 @@ const Profile = ({ history, match }) => {
       // Send public data to ProfileLayout component, when current user
       // is looking at someone else profile
       const fetchedData = await axios
-        .get(`${backendAddress}api/profile/${id}?language=${locale}`)
+        .get(`api/profile/${id}?language=${locale}`)
         .then((res) => res.data)
         .catch((error) => {
           if (
