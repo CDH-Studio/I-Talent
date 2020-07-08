@@ -42,7 +42,11 @@ const Secured = ({ location }) => {
       dispatch(setUserId(res.data.id));
       dispatch(setUserAvatarColor(res.data.avatarColor));
       dispatch(setUserInitials(res.data.nameInitials));
-      dispatch(setLocale(res.data.preferredLanguage));
+      dispatch(
+        setLocale(
+          res.data.preferredLanguage ? res.data.preferredLanguage : "ENGLISH"
+        )
+      );
       return res.data.signupStep;
     },
     [dispatch]
