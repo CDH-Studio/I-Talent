@@ -98,7 +98,11 @@ async function getTopFiveSkills(request, response) {
 
     const topFiveSkills = await getTopFiveSkillsHelper(skillIds, language);
 
-    const sortedTopFiveSkills = _.orderBy(topFiveSkills, ["count", "name"]);
+    const sortedTopFiveSkills = _.orderBy(
+      topFiveSkills,
+      ["count", "name"],
+      ["desc", "asc"]
+    );
 
     response.status(200).json(sortedTopFiveSkills);
   } catch (error) {
@@ -129,10 +133,11 @@ async function getTopFiveCompetencies(request, response) {
       language
     );
 
-    const sortedTopFiveCompetencies = _.orderBy(topFiveCompetencies, [
-      "count",
-      "name",
-    ]);
+    const sortedTopFiveCompetencies = _.orderBy(
+      topFiveCompetencies,
+      ["count", "name"],
+      ["desc", "asc"]
+    );
 
     response.status(200).json(sortedTopFiveCompetencies);
   } catch (error) {
@@ -183,7 +188,8 @@ async function getTopFiveDevelopmentalGoals(request, response) {
 
     const sortedTopFiveDevelopmentalGoals = _.orderBy(
       topFiveDevelopmentalGoals,
-      ["count", "name"]
+      ["count", "name"],
+      ["desc", "asc"]
     );
 
     response.status(200).json(sortedTopFiveDevelopmentalGoals);
