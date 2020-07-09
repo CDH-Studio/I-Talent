@@ -156,6 +156,7 @@ module.exports = [
     github: "githubUrl",
     gcconnex: "gcconnexUrl",
     interestedInRemote: true,
+    exFeeder: true,
     securityClearance: "Top Secret",
     careerMobility: "Develop in role",
     lookingJob: "Not looking",

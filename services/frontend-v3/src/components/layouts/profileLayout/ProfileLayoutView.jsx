@@ -396,8 +396,7 @@ const ProfileLayoutView = ({ data }) => {
           </Row>
         )}
 
-        {(visibleCards.talentManagement ||
-          (visibleCards.exFeeder && data.exFeeder)) &&
+        {(visibleCards.talentManagement || visibleCards.exFeeder) &&
         visibleCards.careerInterests ? (
           <Row
             style={styles.row}
@@ -414,7 +413,7 @@ const ProfileLayoutView = ({ data }) => {
                   data={data}
                 />
               )}
-              {visibleCards.exFeeder && data.exFeeder && (
+              {visibleCards.exFeeder && (
                 <div
                   style={{
                     paddingTop: visibleCards.talentManagement ? "16px" : "0px",
