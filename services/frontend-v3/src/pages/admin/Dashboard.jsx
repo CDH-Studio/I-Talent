@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { PageHeader } from "antd";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "../../axios-instance";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
@@ -29,8 +29,6 @@ import {
 const AdminDashboard = ({ intl }) => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  const type = "dashboard";
 
   // Get dashboard data for statistic cards
   const getUserCount = useCallback(async () => {
@@ -146,18 +144,19 @@ const AdminDashboard = ({ intl }) => {
   }, [dispatch, locale]);
 
   // Get part of the title for the page
-  const getDisplayType = (plural) => {
-    if (plural)
-      return intl.formatMessage({
-        id: `admin.${type}.plural`,
-        defaultMessage: type,
-      });
+  const getDisplayType = useCallback(
+    (plural) => {
+      if (plural)
+        return intl.formatMessage({
+          id: `admin.dashboard.plural`,
+        });
 
-    return intl.formatMessage({
-      id: `admin.${type}.singular`,
-      defaultMessage: type,
-    });
-  };
+      return intl.formatMessage({
+        id: `admin.dashboard.singular`,
+      });
+    },
+    [intl]
+  );
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -186,16 +185,13 @@ const AdminDashboard = ({ intl }) => {
     getUserCount,
   ]);
 
-  document.title = `${getDisplayType(false)} - Admin | I-Talent`;
+  useEffect(() => {
+    document.title = `${getDisplayType(false)} - Admin | I-Talent`;
+  }, [getDisplayType]);
 
   return (
-    <AdminLayout displaySideBar type={type}>
-      <PageHeader
-        title={intl.formatMessage({
-          id: "admin.dashboard.title",
-          defaultMessage: "Admin Dashboard",
-        })}
-      />
+    <AdminLayout displaySideBar type="dashboard">
+      <PageHeader title={<FormattedMessage id="admin.dashboard.title" />} />
       <StatCards />
       <DashboardGraphs />
     </AdminLayout>
