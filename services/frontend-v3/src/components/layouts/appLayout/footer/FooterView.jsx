@@ -82,9 +82,9 @@ const FooterView = () => {
 
   const urlSections = window.location.toString().split("/");
   // console.log(urlSections);
-  const home = urlSections[urlSections.length - 1];
+  const endURL = urlSections[urlSections.length - 1];
 
-  if (home === "home") {
+  if (endURL === "home" || endURL === "about") {
     return (
       <Footer style={styles.footer}>
         <div style={styles.aroundLinksSmall}>

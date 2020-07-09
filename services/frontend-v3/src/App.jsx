@@ -12,7 +12,7 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { NotFound, LandingPage, UnexpectedError } from "./pages";
+import { NotFound, LandingPage, UnexpectedError, About } from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 import historySingleton from "./history";
@@ -122,6 +122,19 @@ const App = () => {
               const { location, match, staticContext } = routeProps;
               return (
                 <UnexpectedError
+                  location={location}
+                  match={match}
+                  staticContext={staticContext}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/about"
+            render={(routeProps) => {
+              const { location, match, staticContext } = routeProps;
+              return (
+                <About
                   location={location}
                   match={match}
                   staticContext={staticContext}

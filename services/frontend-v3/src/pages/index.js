@@ -7,6 +7,7 @@ import ProfileCreate from "./ProfileCreate";
 import NotFound from "./NotFound";
 import Logout from "./Logout";
 import UnexpectedError from "./UnexpectedError";
+import About from "./About";
 
 export {
   Logout,
@@ -18,4 +19,5 @@ export {
   ProfileCreate,
   NotFound,
   UnexpectedError,
+  About,
 };
