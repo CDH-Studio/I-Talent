@@ -3,6 +3,11 @@ import { Button, List, Result, Space } from "antd";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
+import {
+  HomeOutlined,
+  ReloadOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 
 const UnexpectedError = () => {
   const [showError, setShowError] = useState(false);
@@ -34,12 +39,15 @@ const UnexpectedError = () => {
             <div>
               <Space size="small">
                 <Button type="primary" onClick={() => history.goBack()}>
+                  <ReloadOutlined style={{ marginRight: 10 }} />
                   <FormattedMessage id="error.retry" />
                 </Button>
                 <Button onClick={() => history.push("/")}>
+                  <HomeOutlined style={{ marginRight: 10 }} />
                   <FormattedMessage id="back.to.landing" />
                 </Button>
                 <Button onClick={() => setShowError((oldValue) => !oldValue)}>
+                  <ExclamationCircleOutlined style={{ marginRight: 10 }} />
                   <FormattedMessage
                     id={showError ? "error.hide" : "error.show"}
                   />
