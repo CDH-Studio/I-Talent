@@ -40,17 +40,15 @@ const Admin = () => {
         // Checks if the user has the correct keycloak role (is admin)
         const resources = keycloakInstance.tokenParsed.resource_access;
         if (resources) {
-          const hasAdminAccess = Object.keys(resources).every(
-            (resourceKey) => {
-              const resource = resources[resourceKey];
+          const hasAdminAccess = Object.keys(resources).every((resourceKey) => {
+            const resource = resources[resourceKey];
 
-              return (
-                "role" in resource &&
-                Array.isArray(resource.role) &&
-                resource.role.includes("view-admin-console")
-              );
-            }
-          );
+            return (
+              "role" in resource &&
+              Array.isArray(resource.role) &&
+              resource.role.includes("view-admin-console")
+            );
+          });
 
           setIsAdmin(hasAdminAccess);
         }
@@ -60,11 +58,6 @@ const Admin = () => {
       });
   }, []);
 
-  // If NOT using some version of Internet Explorer
-  if (!/MSIE|Trident/.test(window.navigator.userAgent)) {
-    document.body.style = "background-color: #eeeeee";
-  }
-
   if (!keycloak) {
     return null;
   }
@@ -73,20 +66,28 @@ const Admin = () => {
     return <div>Unable to authenticate!</div>;
   }
 
-  // if (!isAdmin) {
-  //   return <Redirect to="/secured/home" />;
-  // }
+  if (!isAdmin) {
+    return <Redirect to="/forbidden" />;
+  }
 
   return (
     <>
-      <Route exact path="/admin/" render={<Redirect to="/admin/dashboard" />} />
-      <Route exact path="/admin/dashboard" render={<AdminDashboard />} />
-      <Route exact path="/admin/users" render={<AdminUser />} />
-      <Route exact path="/admin/skills" render={<AdminSkill />} />
-      <Route exact path="/admin/categories" render={<AdminCategory />} />
-      <Route exact path="/admin/competencies" render={<AdminCompetency />} />
-      <Route exact path="/admin/diplomas" render={<AdminDiploma />} />
-      <Route exact path="/admin/schools" render={<AdminSchool />} />
+      <Route
+        exact
+        path="/admin/"
+        render={() => <Redirect to="/admin/dashboard" />}
+      />
+      <Route exact path="/admin/dashboard" render={() => <AdminDashboard />} />
+      <Route exact path="/admin/users" render={() => <AdminUser />} />
+      <Route exact path="/admin/skills" render={() => <AdminSkill />} />
+      <Route exact path="/admin/categories" render={() => <AdminCategory />} />
+      <Route
+        exact
+        path="/admin/competencies"
+        render={() => <AdminCompetency />}
+      />
+      <Route exact path="/admin/diplomas" render={() => <AdminDiploma />} />
+      <Route exact path="/admin/schools" render={() => <AdminSchool />} />
     </>
   );
 };

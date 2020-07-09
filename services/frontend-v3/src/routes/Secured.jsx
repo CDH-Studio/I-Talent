@@ -101,7 +101,9 @@ const Secured = ({ location }) => {
           })
         );
 
-        const signupStep = await profileExist(keycloakInstance.loadUserInfo());
+        const keycloakUserInfo = await keycloakInstance.loadUserInfo();
+
+        const signupStep = await profileExist(keycloakUserInfo);
         setUserCompletedSignup(signupStep === 8);
 
         setKeycloak(keycloakInstance);
@@ -129,8 +131,8 @@ const Secured = ({ location }) => {
   return (
     <>
       <Switch>
-        <Route exact path="/secured/home" render={<Home />} />
-        <Route exact path="/secured/results" render={<Results />} />
+        <Route exact path="/secured/home" render={() => <Home />} />
+        <Route exact path="/secured/results" render={() => <Results />} />
         <Route
           path="/secured/profile/create/step/:step"
           render={({ match }) => <ProfileCreate match={match} />}
@@ -148,7 +150,7 @@ const Secured = ({ location }) => {
         <Route
           exact
           path="/secured/logout"
-          render={<Logout keycloak={keycloak} />}
+          render={() => <Logout keycloak={keycloak} />}
         />
         <Route render={() => <NotFound />} />
       </Switch>
