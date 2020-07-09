@@ -24,6 +24,7 @@ const DashboardGraphsView = ({
       alias: intl.formatMessage({
         id: "admin.dashboard.number.of.occurrences",
       }),
+      tickInterval:1,
     },
   };
 
@@ -32,6 +33,7 @@ const DashboardGraphsView = ({
       alias: intl.formatMessage({
         id: "admin.dashboard.number.of.occurrences",
       }),
+      tickInterval:1,
     },
   };
 
@@ -40,6 +42,7 @@ const DashboardGraphsView = ({
       alias: intl.formatMessage({
         id: "admin.dashboard.number.of.occurrences",
       }),
+      tickInterval:1,
     },
   };
 
@@ -93,7 +96,7 @@ const DashboardGraphsView = ({
               <Axis name="name" visible={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" dy={-20} textStyle={{ fontSize: "11" }} />
+              <Legend position="top" dy={-20} textStyle={{ fontSize: "12" }} />
               <Tooltip />
               <Geom type="interval" position="name*count" color="name" />
             </Chart>
