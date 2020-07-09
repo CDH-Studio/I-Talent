@@ -28,6 +28,7 @@ async function getAllUsers(searchValue, language, userId) {
           competencies,
           education,
           experience,
+          exFeeder,
         },
       }) => {
         const Friends = await prisma.user.findOne({
@@ -65,6 +66,10 @@ async function getAllUsers(searchValue, language, userId) {
               experience === "PRIVATE" ||
               (experience === "FRIENDS" && !isFriends)
             ),
+            exFeeder: !(
+              exFeeder === "PRIVATE" ||
+              (exFeeder === "FRIENDS" && !isFriends)
+            ),
           },
         };
       }
@@ -82,6 +87,7 @@ async function getAllUsers(searchValue, language, userId) {
           competencies,
           education,
           experience,
+          exFeeder,
         },
       }) =>
         prisma.user.findOne({
@@ -98,6 +104,7 @@ async function getAllUsers(searchValue, language, userId) {
             teams: true,
             status: true,
             email: true,
+            exFeeder,
             avatarColor: true,
             tenure: {
               select: {

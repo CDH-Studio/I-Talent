@@ -87,7 +87,6 @@ const SearchBarView = ({
 
   const searchLabel = intl.formatMessage({
     id: "button.search",
-    defaultMessage: "Search",
   });
 
   // Toggle expandable advanced search form
@@ -137,10 +136,7 @@ const SearchBarView = ({
             form.resetFields();
           }}
         >
-          {intl.formatMessage({
-            id: "button.clear",
-            defaultMessage: "Clear",
-          })}
+          <FormattedMessage id="button.clear" />
         </Button>
       </div>
     );
@@ -255,11 +251,7 @@ const SearchBarView = ({
                 maxTagCount={3}
               >
                 {branchOptions.map((value) => {
-                  return (
-                    <Option key={value}>
-                      {value}
-                    </Option>
-                  );
+                  return <Option key={value}>{value}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -295,9 +287,7 @@ const SearchBarView = ({
                 maxTagCount={10}
               >
                 {skillOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>{value.name}</Option>
-                  );
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -359,10 +349,7 @@ const SearchBarView = ({
               form.resetFields();
             }}
           >
-            {intl.formatMessage({
-              id: "button.clear",
-              defaultMessage: "clear changes",
-            })}
+            <FormattedMessage id="button.clear" />
           </Button>
         </div>
         <Divider />

@@ -131,7 +131,7 @@ const updateProfileValidator = [
         (i) =>
           isIn(i.level, ["A", "B", "C", "E", "X"]) &&
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
-          ("date" in i ? true : moment(i.date).isValid())
+          ("date" in i ? moment(i.date).isValid() : true)
       )
     )
     .withMessage(
@@ -146,7 +146,7 @@ const updateProfileValidator = [
           isUUID(i.diplomaId) &&
           isUUID(i.schoolId) &&
           moment(i.startDate).isValid() &&
-          ("endDate" in i ? true : moment(i.endDate).isValid())
+          ("endDate" in i ? moment(i.endDate).isValid() : true)
       )
     )
     .withMessage(
@@ -158,15 +158,15 @@ const updateProfileValidator = [
     .custom((array) =>
       array.every(
         (i) =>
-          typeof i.description === "string" &&
-          typeof i.jobTitle === "string" &&
           typeof i.organization === "string" &&
+          typeof i.jobTitle === "string" &&
+          ("description" in i ? typeof i.organization === "string" : true) &&
           moment(i.startDate).isValid() &&
-          ("endDate" in i ? true : moment(i.endDate).isValid())
+          ("endDate" in i ? moment(i.endDate).isValid() : true)
       )
     )
     .withMessage(
-      "must be an array of containing { description: string, jobTitle: string, organization: string, startDate: DateTime, endDate?: DateTime }"
+      "must be an array of containing { description?: string, jobTitle: string, organization: string, startDate: DateTime, endDate?: DateTime }"
     ),
   body("status")
     .optional()

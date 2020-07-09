@@ -82,7 +82,6 @@ const CategoryTableView = ({
           }}
           placeholder={`${intl.formatMessage({
             id: "admin.search",
-            defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
