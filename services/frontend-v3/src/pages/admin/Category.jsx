@@ -4,7 +4,7 @@ import CategoryTable from "../../components/admin/categoryTable/CategoryTable";
 
 const AdminCategory = () => {
   return (
-    <AdminLayout displaySideBar type="category">
+    <AdminLayout displaySideBar type="categories">
       <CategoryTable />
     </AdminLayout>
   );

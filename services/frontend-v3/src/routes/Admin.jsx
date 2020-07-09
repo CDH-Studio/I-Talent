@@ -128,8 +128,8 @@ const Admin = () => {
             path="/admin/competencies"
             render={() => <AdminCompetency />}
           />
-          <Route exact path="/admin/diploma" render={() => <AdminDiploma />} />
-          <Route exact path="/admin/school" render={() => <AdminSchool />} />
+          <Route exact path="/admin/diplomas" render={() => <AdminDiploma />} />
+          <Route exact path="/admin/schools" render={() => <AdminSchool />} />
         </div>
       );
     }
