@@ -1,18 +1,15 @@
 /* eslint-disable no-shadow */
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
 import CompetencyTableView from "./CompetencyTableView";
-import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
 import {
   setAdminCompetenciesLoading,
   setAdminCompetencies,
 } from "../../../redux/slices/adminSlice";
-
-const { backendAddress } = config;
 
 /**
  *  CompetencyTable(props)
@@ -33,9 +30,7 @@ const CompetencyTable = ({ intl }) => {
     try {
       dispatch(setAdminCompetenciesLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/option/competenciesAllLang`
-      );
+      const results = await axios.get(`api/option/competenciesAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((competency) => ({
@@ -70,7 +65,7 @@ const CompetencyTable = ({ intl }) => {
 
   // Handles addition of a competency
   const handleSubmitAdd = async (values) => {
-    await axios.post(`${backendAddress}api/option/competency`, {
+    await axios.post(`api/option/competency`, {
       en: values.addCompetencyEn,
       fr: values.addCompetencyFr,
     });
@@ -80,7 +75,7 @@ const CompetencyTable = ({ intl }) => {
 
   // Handles the update/edit of a competency
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`${backendAddress}api/option/competency`, {
+    await axios.put(`api/option/competency`, {
       id,
       en: values.editCompetencyEn,
       fr: values.editCompetencyFr,
@@ -91,7 +86,7 @@ const CompetencyTable = ({ intl }) => {
 
   // Handles the deletion of a competency
   const handleSubmitDelete = async () => {
-    await axios.delete(`${backendAddress}api/option/competencies`, {
+    await axios.delete(`api/option/competencies`, {
       data: {
         ids: selectedRowKeys,
       },

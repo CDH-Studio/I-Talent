@@ -1,12 +1,11 @@
 import React, { useEffect, useCallback } from "react";
-import axios from "axios";
 import { PageHeader } from "antd";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "../../axios-instance";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
-import config from "../../config";
 import { IntlPropType } from "../../customPropTypes";
 import handleError from "../../functions/handleError";
 import {
@@ -22,8 +21,6 @@ import {
   setTopFiveDevelopmentalGoals,
 } from "../../redux/slices/statsSlice";
 
-const { backendAddress } = config;
-
 /**
  *  AdminDashboard(props)
  *  Controller for StatCards and DashboardGraphs.
@@ -36,7 +33,7 @@ const AdminDashboard = ({ intl }) => {
   // Get dashboard data for statistic cards
   const getUserCount = useCallback(async () => {
     try {
-      const results = await axios.get(`${backendAddress}api/stats/count/users`);
+      const results = await axios.get(`api/stats/count/users`);
 
       dispatch(setCountUsers(results.data));
     } catch (error) {
@@ -46,9 +43,7 @@ const AdminDashboard = ({ intl }) => {
 
   const getHiddenUserCount = useCallback(async () => {
     try {
-      const results = await axios.get(
-        `${backendAddress}api/stats/count/hiddenUsers`
-      );
+      const results = await axios.get(`api/stats/count/hiddenUsers`);
 
       dispatch(setCountHiddenUsers(results.data));
     } catch (error) {
@@ -58,9 +53,7 @@ const AdminDashboard = ({ intl }) => {
 
   const getInactiveUserCount = useCallback(async () => {
     try {
-      const results = await axios.get(
-        `${backendAddress}api/stats/count/inactiveUsers`
-      );
+      const results = await axios.get(`api/stats/count/inactiveUsers`);
 
       dispatch(setCountInactiveUsers(results.data));
     } catch (error) {
@@ -70,9 +63,7 @@ const AdminDashboard = ({ intl }) => {
 
   const getExfeederUserCount = useCallback(async () => {
     try {
-      const results = await axios.get(
-        `${backendAddress}api/stats/count/exFeederUsers`
-      );
+      const results = await axios.get(`api/stats/count/exFeederUsers`);
 
       dispatch(setCountExFeederUsers(results.data));
     } catch (error) {
@@ -82,7 +73,7 @@ const AdminDashboard = ({ intl }) => {
 
   const getHiddenUsers = useCallback(async () => {
     try {
-      const results = await axios.get(`${backendAddress}api/stats/hiddenUsers`);
+      const results = await axios.get(`api/stats/hiddenUsers`);
 
       dispatch(setHiddenUsers(results.data));
     } catch (error) {
@@ -92,9 +83,7 @@ const AdminDashboard = ({ intl }) => {
 
   const getGrowthRateByMonth = useCallback(async () => {
     try {
-      const results = await axios.get(
-        `${backendAddress}api/stats/growthRateByMonth`
-      );
+      const results = await axios.get(`api/stats/growthRateByMonth`);
 
       dispatch(setGrowthRateByMonth(results.data));
     } catch (error) {
@@ -104,9 +93,7 @@ const AdminDashboard = ({ intl }) => {
 
   const getGrowthRateByWeek = useCallback(async () => {
     try {
-      const results = await axios.get(
-        `${backendAddress}api/stats/growthRateByWeek`
-      );
+      const results = await axios.get(`api/stats/growthRateByWeek`);
 
       dispatch(setGrowthRateByWeek(results.data));
     } catch (error) {
@@ -119,7 +106,7 @@ const AdminDashboard = ({ intl }) => {
       dispatch(setTopFiveCompetencies([]));
 
       const results = await axios.get(
-        `${backendAddress}api/stats/topFiveCompetencies?language=${locale}`
+        `api/stats/topFiveCompetencies?language=${locale}`
       );
 
       dispatch(setTopFiveCompetencies(results.data));
@@ -133,7 +120,7 @@ const AdminDashboard = ({ intl }) => {
       dispatch(setTopFiveSkills([]));
 
       const results = await axios.get(
-        `${backendAddress}api/stats/topFiveSkills?language=${locale}`
+        `api/stats/topFiveSkills?language=${locale}`
       );
 
       dispatch(setTopFiveSkills(results.data));
@@ -147,7 +134,7 @@ const AdminDashboard = ({ intl }) => {
       dispatch(setTopFiveDevelopmentalGoals([]));
 
       const results = await axios.get(
-        `${backendAddress}api/stats/topFiveDevelopmentalGoals?language=${locale}`
+        `api/stats/topFiveDevelopmentalGoals?language=${locale}`
       );
 
       dispatch(setTopFiveDevelopmentalGoals(results.data));

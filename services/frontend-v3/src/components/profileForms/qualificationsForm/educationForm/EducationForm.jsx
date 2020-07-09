@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../../axios-instance";
 import handleError from "../../../../functions/handleError";
 import EducationFormView from "./EducationFormView";
 import {
@@ -10,9 +10,6 @@ import {
   ProfileInfoPropType,
   StylesPropType,
 } from "../../../../customPropTypes";
-import config from "../../../../config";
-
-const { backendAddress } = config;
 
 /**
  *  EducationForm
@@ -42,9 +39,7 @@ const EducationForm = ({
    * get a list of diploma options for dropdown
    */
   const getDiplomaOptions = useCallback(async () => {
-    const result = await axios.get(
-      `${backendAddress}api/option/diplomas?language=${locale}`
-    );
+    const result = await axios.get(`api/option/diplomas?language=${locale}`);
 
     setDiplomaOptions(result.data);
   }, [locale]);
@@ -55,9 +50,7 @@ const EducationForm = ({
    * get a list of diploma options for dropdown
    */
   const getSchoolOptions = useCallback(async () => {
-    const result = await axios.get(
-      `${backendAddress}api/option/schools?language=${locale}`
-    );
+    const result = await axios.get(`api/option/schools?language=${locale}`);
 
     setSchoolOptions(result.data);
   }, [locale]);

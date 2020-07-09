@@ -19,21 +19,19 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { isMobilePhone } from "validator";
+import axios from "../../../axios-instance";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -156,10 +154,7 @@ const PrimaryInfoFormView = ({
   /* Save data */
   const saveDataToDB = async (values) => {
     try {
-      await axios.put(
-        `${backendAddress}api/profile/${userId}?language=${locale}`,
-        values
-      );
+      await axios.put(`api/profile/${userId}?language=${locale}`, values);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

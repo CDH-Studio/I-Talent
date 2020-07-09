@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
-import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
 import {
   setAdminCategories,
   setAdminCategoriesLoading,
 } from "../../../redux/slices/adminSlice";
-
-const { backendAddress } = config;
 
 /**
  *  CategoryTable(props)
@@ -32,9 +29,7 @@ function CategoryTable({ intl }) {
     try {
       dispatch(setAdminCategoriesLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/option/categoriesAllLang`
-      );
+      const results = await axios.get(`api/option/categoriesAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((category) => ({
@@ -54,14 +49,11 @@ function CategoryTable({ intl }) {
 
   // Handles the deletion of a category
   const handleSubmitDelete = async () => {
-    const result = await axios.delete(
-      `${backendAddress}api/option/categories`,
-      {
-        data: {
-          ids: selectedRowKeys,
-        },
-      }
-    );
+    const result = await axios.delete(`api/option/categories`, {
+      data: {
+        ids: selectedRowKeys,
+      },
+    });
 
     if (result.data === false) {
       return true;
@@ -73,7 +65,7 @@ function CategoryTable({ intl }) {
 
   // Handles addition of a category
   const handleSubmitAdd = async (values) => {
-    await axios.post(`${backendAddress}api/option/category`, {
+    await axios.post(`api/option/category`, {
       en: values.addCategoryEn,
       fr: values.addCategoryFr,
     });
@@ -83,7 +75,7 @@ function CategoryTable({ intl }) {
 
   // Handles the update/edit of a category
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`${backendAddress}api/option/category`, {
+    await axios.put(`api/option/category`, {
       id,
       en: values.editCategoryEn,
       fr: values.editCategoryFr,

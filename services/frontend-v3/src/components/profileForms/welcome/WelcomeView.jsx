@@ -8,14 +8,12 @@ import {
   RocketOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import axios from "axios";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import { IntlPropType, HistoryPropType } from "../../../customPropTypes";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
 const { Title, Paragraph } = Typography;
-const { backendAddress } = config;
 
 const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
   // get current language code
@@ -96,7 +94,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
       if (value) {
         // create profile
         await axios
-          .post(`${backendAddress}api/profile/${userId}`, value)
+          .post(`api/profile/${userId}`, value)
           .then(() => history.push("/secured/profile/create/step/2"))
           .catch((error) => handleError(error, "message"));
       }

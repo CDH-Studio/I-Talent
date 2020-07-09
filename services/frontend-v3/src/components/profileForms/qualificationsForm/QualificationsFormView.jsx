@@ -13,10 +13,10 @@ import {
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -25,9 +25,7 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import config from "../../../config";
 
-const { backendAddress } = config;
 const { Title, Text } = Typography;
 
 /**
@@ -111,10 +109,7 @@ const QualificationsFormView = ({
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      values
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* show message */
