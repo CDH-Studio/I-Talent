@@ -18,8 +18,7 @@ const { keycloakJSONConfig } = keycloakConfig;
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
-  // const [isAdmin, setIsAdmin] = useState(false);
-  // const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const keycloakInstance = Keycloak(keycloakJSONConfig);
@@ -38,20 +37,26 @@ const Admin = () => {
           })
         );
 
-        axios.get(`api/admin/check`).then(
-          () => {
-            setKeycloak(keycloakInstance);
-            setAuthenticated(auth);
-            // setIsAdmin(true);
-            // setLoading(false);
-          },
-          () => {
-            setKeycloak(keycloakInstance);
-            setAuthenticated(auth);
-            // setIsAdmin(false);
-            // setLoading(false);
-          }
-        );
+        // Checks if the user has the correct keycloak role (is admin)
+        const resources = keycloakInstance.tokenParsed.resource_access;
+        if (resources) {
+          const hasAdminAccess = Object.keys(resources).every(
+            (resourceKey) => {
+              const resource = resources[resourceKey];
+
+              return (
+                "role" in resource &&
+                Array.isArray(resource.role) &&
+                resource.role.includes("view-admin-console")
+              );
+            }
+          );
+
+          setIsAdmin(hasAdminAccess);
+        }
+
+        setKeycloak(keycloakInstance);
+        setAuthenticated(auth);
       });
   }, []);
 
@@ -60,80 +65,30 @@ const Admin = () => {
     document.body.style = "background-color: #eeeeee";
   }
 
-  /** *******
-   * Once admin protection has been implemented,
-   * uncomment this
-   ***************** */
+  if (!keycloak) {
+    return null;
+  }
 
-  // FORBIDDEN PAGE
-  // if (!isAdmin) {
-  //   return <Forbidden />;
-  // }
-
-  // Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // const copyToClipboard = (e) => {
-  //   this.textArea.select();
-  //   document.execCommand("copy");
-  //   e.target.focus();
-  // };
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  if (keycloak) {
-    if (authenticated) {
-      return (
-        <div>
-          {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                <div>
-                {/* Added for copying token ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-          {/* <div>
-                  <form>
-                    <textarea
-                      ref={textarea => (this.textArea = textarea)}
-                      value={keycloak.token}
-                    />
-                  </form>
-                  {document.queryCommandSupported("copy") && (
-                    <div>
-                      <button onClick={this.copyToClipboard}>Copy</button>
-                      {copySuccess}
-                    </div>
-                  )}
-                </div>
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-
-          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-
-          <Route
-            exact
-            path="/admin/"
-            render={() => <Redirect to="/admin/dashboard" />}
-          />
-          <Route
-            exact
-            path="/admin/dashboard"
-            render={() => <AdminDashboard />}
-          />
-          <Route exact path="/admin/users" render={() => <AdminUser />} />
-          <Route exact path="/admin/skills" render={() => <AdminSkill />} />
-          <Route
-            exact
-            path="/admin/categories"
-            render={() => <AdminCategory />}
-          />
-          <Route
-            exact
-            path="/admin/competencies"
-            render={() => <AdminCompetency />}
-          />
-          <Route exact path="/admin/diplomas" render={() => <AdminDiploma />} />
-          <Route exact path="/admin/schools" render={() => <AdminSchool />} />
-        </div>
-      );
-    }
+  if (!authenticated) {
     return <div>Unable to authenticate!</div>;
   }
-  return <div />;
+
+  // if (!isAdmin) {
+  //   return <Redirect to="/secured/home" />;
+  // }
+
+  return (
+    <>
+      <Route exact path="/admin/" render={<Redirect to="/admin/dashboard" />} />
+      <Route exact path="/admin/dashboard" render={<AdminDashboard />} />
+      <Route exact path="/admin/users" render={<AdminUser />} />
+      <Route exact path="/admin/skills" render={<AdminSkill />} />
+      <Route exact path="/admin/categories" render={<AdminCategory />} />
+      <Route exact path="/admin/competencies" render={<AdminCompetency />} />
+      <Route exact path="/admin/diplomas" render={<AdminDiploma />} />
+      <Route exact path="/admin/schools" render={<AdminSchool />} />
+    </>
+  );
 };
 
 export default Admin;
