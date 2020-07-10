@@ -1,8 +1,11 @@
 import React from "react";
+import { useHistory } from "react-router";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
 const BasicInfo = ({ data }) => {
+  const history = useHistory();
+
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
     const buttonLinks = { buttons: [] };
@@ -56,6 +59,7 @@ const BasicInfo = ({ data }) => {
       }}
       jobTitle={data.jobTitle}
       buttonLinks={getButtonLinks()}
+      history={history}
     />
   );
 };
