@@ -31,7 +31,7 @@ const userSlice = createSlice({
     setUser(state, action) {
       const { id, avatarColor, initials, name, email } = action.payload;
 
-      state = {
+      return {
         id: id || state.id,
         avatarColor: avatarColor || state.avatarColor,
         initials: initials || state.initials,
