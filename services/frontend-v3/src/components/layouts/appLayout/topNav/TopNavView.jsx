@@ -11,13 +11,14 @@ import {
 import { Layout, Dropdown, Menu, Button } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
 
 const { Header } = Layout;
 
-const TopNavView = () => {
+const TopNavView = ({ isAdmin }) => {
   /* Component Styles */
   const styles = {
     header: {
@@ -95,14 +96,14 @@ const TopNavView = () => {
           <FormattedMessage id="edit.profile" />
         </a>
       </Menu.Item>
-      {sessionStorage.getItem("admin") === "true" ? (
+      {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/admin/dashboard">
             <DashboardOutlined style={styles.MenuIcon} />
             <FormattedMessage id="admin" />
           </a>
         </Menu.Item>
-      ) : null}
+      )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/logout">
           <LogoutOutlined style={styles.MenuIcon} />
@@ -200,6 +201,10 @@ const TopNavView = () => {
       </Header>
     </>
   );
+};
+
+TopNavView.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default TopNavView;
