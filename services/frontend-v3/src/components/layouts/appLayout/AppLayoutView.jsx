@@ -1,12 +1,17 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Skeleton, Card } from "antd";
 import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import SideNav from "../../sideNav/SideNav";
 
 const { Content } = Layout;
 
-const AppLayoutView = ({ sideBarContent, displaySideBar, children }) => {
+const AppLayoutView = ({
+  sideBarContent,
+  displaySideBar,
+  children,
+  loading,
+}) => {
   const styles = {
     contentLayout: {
       marginTop: "64px",
@@ -21,16 +26,25 @@ const AppLayoutView = ({ sideBarContent, displaySideBar, children }) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Render Top Navigation Bar */}
-      <TopNav />
+      <TopNav loading={loading} />
       <Layout style={{ marginTop: 64 }}>
         {/* Render Side Navigation Bar */}
         <SideNav
           sideBarContent={sideBarContent}
           displaySideBar={displaySideBar}
+          loading={loading}
         />
         {/* Render content */}
         <Layout>
-          <Content style={styles.content}>{children}</Content>
+          <Content style={styles.content}>
+            {loading ? (
+              <Card>
+                <Skeleton />
+              </Card>
+            ) : (
+              children
+            )}
+          </Content>
         </Layout>
       </Layout>
     </Layout>
@@ -41,6 +55,7 @@ AppLayoutView.propTypes = {
   sideBarContent: PropTypes.node,
   displaySideBar: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 AppLayoutView.defaultProps = {

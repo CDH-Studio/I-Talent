@@ -8,17 +8,17 @@ import {
   MenuOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import { Layout, Dropdown, Menu, Button } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
 
 const { Header } = Layout;
 
-const TopNavView = ({ isAdmin }) => {
+const TopNavView = ({ isAdmin, loading }) => {
   /* Component Styles */
   const styles = {
     header: {
@@ -169,6 +169,16 @@ const TopNavView = ({ isAdmin }) => {
     );
   };
 
+  if (loading) {
+    return (
+      <Header style={styles.header}>
+        <div style={styles.aroundNavContent}>
+          <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+        </div>
+      </Header>
+    );
+  }
+
   if (windowWidth > 400) {
     return (
       <Header style={styles.header}>
@@ -205,6 +215,7 @@ const TopNavView = ({ isAdmin }) => {
 
 TopNavView.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default TopNavView;
