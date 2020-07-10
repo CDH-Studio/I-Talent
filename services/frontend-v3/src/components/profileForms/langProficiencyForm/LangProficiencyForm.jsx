@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import LangProficiencyFormView from "./LangProficiencyFormView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
-
-const { backendAddress } = config;
 
 /**
  *  LangProficiencyForm(props)
@@ -27,7 +24,7 @@ const LangProficiencyForm = ({ formType }) => {
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/profile/private/${id}?language=${locale}`
+      `api/profile/private/${id}?language=${locale}`
     );
     setProfileInfo(result.data);
   }, [id, locale]);

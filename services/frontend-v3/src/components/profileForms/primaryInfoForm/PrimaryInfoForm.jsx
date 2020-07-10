@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
-
-const { backendAddress } = config;
 
 const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
@@ -21,17 +18,16 @@ const PrimaryInfoForm = ({ formType }) => {
 
   // Get possible locations for form drop down
   const getLocations = useCallback(async () => {
-    const result = await axios.get(
-      `${backendAddress}api/option/locations?language=${locale}`
-    );
+    const result = await axios.get(`api/option/locations?language=${locale}`);
     setLocationOptions(result.data ? result.data : []);
   }, [locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     if (id) {
-      const url = `${backendAddress}api/profile/private/${id}?language=${locale}`;
-      const result = await axios.get(url);
+      const result = await axios.get(
+        `api/profile/private/${id}?language=${locale}`
+      );
       setProfileInfo(result.data);
     }
   }, [id, locale]);

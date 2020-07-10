@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { Row, Avatar, List, Button } from "antd";
 import { ContainerOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import { IntlPropType } from "../../../customPropTypes";
 
-const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
+const ExperienceItem = ({ expand, item, toggleExpand }) => {
   const styles = {
     avatar: {
       backgroundColor: "#007471",
@@ -48,10 +47,7 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
             >
               {expand ? <UpOutlined /> : <DownOutlined />}
               <span style={styles.expandDescriptionToggleTagText}>
-                {intl.formatMessage({
-                  id: "profile.career.content.name",
-                  defaultMessage: "Description",
-                })}
+                <FormattedMessage id="profile.career.content.name" />
               </span>
             </Button>
           </Row>
@@ -98,11 +94,6 @@ ExperienceItem.propTypes = {
     organization: PropTypes.string,
   }).isRequired,
   toggleExpand: PropTypes.func.isRequired,
-  intl: IntlPropType,
 };
 
-ExperienceItem.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(ExperienceItem);
+export default ExperienceItem;

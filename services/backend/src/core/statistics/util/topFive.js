@@ -13,12 +13,8 @@ async function getTopFiveSkillsHelper(skills, language) {
       };
     });
 
-  const topFiveSkillIdsCount = _(skillsCount)
-    .sortBy("count")
-    .slice(0, 5)
-    .value();
-
-  const topFiveSkillIds = topFiveSkillIdsCount.map((i) => i.skillId);
+  const topFiveSkillIdsCount = skillsCount.orderBy("count", "desc").slice(0, 5);
+  const topFiveSkillIds = topFiveSkillIdsCount.map("skillId").value();
 
   const topFiveSkills = await prisma.opTransSkill.findMany({
     where: {
@@ -54,14 +50,13 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
       };
     });
 
-  const topFiveCompetencyIdsCount = _(competenciesCount)
-    .sortBy("count")
-    .slice(0, 5)
-    .value();
+  const topFiveCompetencyIdsCount = competenciesCount
+    .orderBy("count", "desc")
+    .slice(0, 5);
 
-  const topFiveCompetencyIds = topFiveCompetencyIdsCount.map(
-    (i) => i.competencyId
-  );
+  const topFiveCompetencyIds = topFiveCompetencyIdsCount
+    .map("competencyId")
+    .value();
 
   const topFiveCompetencies = await prisma.opTransCompetency.findMany({
     where: {
@@ -103,7 +98,11 @@ async function getTopFiveSkills(request, response) {
 
     const topFiveSkills = await getTopFiveSkillsHelper(skillIds, language);
 
-    const sortedTopFiveSkills = _.orderBy(topFiveSkills, ["count", "name"]);
+    const sortedTopFiveSkills = _.orderBy(
+      topFiveSkills,
+      ["count", "name"],
+      ["desc", "asc"]
+    );
 
     response.status(200).json(sortedTopFiveSkills);
   } catch (error) {
@@ -134,10 +133,11 @@ async function getTopFiveCompetencies(request, response) {
       language
     );
 
-    const sortedTopFiveCompetencies = _.orderBy(topFiveCompetencies, [
-      "count",
-      "name",
-    ]);
+    const sortedTopFiveCompetencies = _.orderBy(
+      topFiveCompetencies,
+      ["count", "name"],
+      ["desc", "asc"]
+    );
 
     response.status(200).json(sortedTopFiveCompetencies);
   } catch (error) {
@@ -158,7 +158,7 @@ async function getTopFiveDevelopmentalGoals(request, response) {
 
     const competencyIds = await prisma.developmentalGoal.findMany({
       where: {
-        skillId: undefined,
+        skillId: null,
       },
       select: {
         id: true,
@@ -168,7 +168,7 @@ async function getTopFiveDevelopmentalGoals(request, response) {
 
     const skillIds = await prisma.developmentalGoal.findMany({
       where: {
-        competencyId: undefined,
+        competencyId: null,
       },
       select: {
         id: true,
@@ -188,7 +188,8 @@ async function getTopFiveDevelopmentalGoals(request, response) {
 
     const sortedTopFiveDevelopmentalGoals = _.orderBy(
       topFiveDevelopmentalGoals,
-      ["count", "name"]
+      ["count", "name"],
+      ["desc", "asc"]
     );
 
     response.status(200).json(sortedTopFiveDevelopmentalGoals);

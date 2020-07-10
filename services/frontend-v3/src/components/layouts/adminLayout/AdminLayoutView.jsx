@@ -11,58 +11,34 @@ import {
   TrophyOutlined,
   BankFilled,
 } from "@ant-design/icons";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
-import { IntlPropType } from "../../../customPropTypes";
 import AppLayout from "../appLayout/AppLayout";
+import availableTypes from "./adminLayoutTypes";
 
 /**
  *  AdminLayoutView(props)
  *  Render the layout for the Admin Side.
  */
 const AdminLayoutView = (props) => {
-  const { type, intl, keycloak, displaySideBar, children } = props;
+  const { type, keycloak, displaySideBar, children } = props;
 
   const history = useHistory();
 
   /* get corresponding page key based on table type */
   const getPageKey = () => {
-    let key = null;
-    if (type === "dashboard") {
-      key = ["1"];
-    } else if (type === "user") {
-      key = ["2"];
-    } else if (type === "category") {
-      key = ["3"];
-    } else if (type === "skill") {
-      key = ["4"];
-    } else if (type === "competency") {
-      key = ["5"];
-    } else if (type === "diploma") {
-      key = ["6"];
-    } else if (type === "school") {
-      key = ["7"];
+    if (availableTypes.includes(type)) {
+      return type;
     }
-    return key;
+
+    return null;
   };
 
   /* send to corresponding page based on page key */
   const navigationPages = (key) => {
-    if (key === "1") {
-      history.push("/admin/dashboard");
-    } else if (key === "2") {
-      history.push("/admin/users");
-    } else if (key === "3") {
-      history.push("/admin/categories");
-    } else if (key === "4") {
-      history.push("/admin/skills");
-    } else if (key === "5") {
-      history.push("/admin/competencies");
-    } else if (key === "6") {
-      history.push("/admin/diploma");
-    } else if (key === "7") {
-      history.push("/admin/school");
+    if (availableTypes.includes(key)) {
+      history.push(`/admin/${key}`);
     }
   };
 
@@ -76,68 +52,33 @@ const AdminLayoutView = (props) => {
           navigationPages(key);
         }}
       >
-        <Menu.Item key="1">
+        <Menu.Item key="dashboard">
           <DashboardOutlined />
-          <span>
-            {intl.formatMessage({
-              id: "admin.dashboard",
-              defaultMessage: "Dashboard",
-            })}
-          </span>
+          <FormattedMessage id="admin.dashboard" />
         </Menu.Item>
-        <Menu.Item key="2">
+        <Menu.Item key="users">
           <SolutionOutlined />
-          <span>
-            {intl.formatMessage({
-              id: "admin.user.plural",
-              defaultMessage: "Users",
-            })}
-          </span>
+          <FormattedMessage id="admin.user.plural" />
         </Menu.Item>
-        <Menu.Item key="3">
+        <Menu.Item key="categories">
           <AppstoreAddOutlined />
-          <span>
-            {intl.formatMessage({
-              id: "admin.category.plural",
-              defaultMessage: "Categories",
-            })}
-          </span>
+          <FormattedMessage id="admin.category.plural" />
         </Menu.Item>
-        <Menu.Item key="4">
+        <Menu.Item key="skills">
           <ToolOutlined />
-          <span>
-            {intl.formatMessage({
-              id: "admin.skill.plural",
-              defaultMessage: "Skills",
-            })}
-          </span>
+          <FormattedMessage id="admin.skill.plural" />
         </Menu.Item>
-        <Menu.Item key="5">
+        <Menu.Item key="competencies">
           <FlagOutlined />
-          <span>
-            {intl.formatMessage({
-              id: "admin.competency.plural",
-              defaultMessage: "Competencies",
-            })}
-          </span>
+          <FormattedMessage id="admin.competency.plural" />
         </Menu.Item>
-        <Menu.Item key="6">
+        <Menu.Item key="diplomas">
           <TrophyOutlined />
-          <span>
-            {intl.formatMessage({
-              id: "admin.diploma.plural",
-              defaultMessage: "Diplomas",
-            })}
-          </span>
+          <FormattedMessage id="admin.diploma.plural" />
         </Menu.Item>
-        <Menu.Item key="7">
+        <Menu.Item key="schools">
           <BankFilled />
-          <span>
-            {intl.formatMessage({
-              id: "admin.school.plural",
-              defaultMessage: "Schools",
-            })}
-          </span>
+          <FormattedMessage id="admin.school.plural" />
         </Menu.Item>
       </Menu>
     );
@@ -157,23 +98,13 @@ const AdminLayoutView = (props) => {
 
 AdminLayoutView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf([
-    "dashboard",
-    "user",
-    "category",
-    "skill",
-    "competency",
-    "diploma",
-    "school",
-  ]).isRequired,
+  type: PropTypes.oneOf(availableTypes).isRequired,
   children: PropTypes.node.isRequired,
-  intl: IntlPropType,
   keycloak: PropTypes.instanceOf(Keycloak),
 };
 
 AdminLayoutView.defaultProps = {
-  intl: undefined,
   keycloak: undefined,
 };
 
-export default injectIntl(AdminLayoutView);
+export default AdminLayoutView;

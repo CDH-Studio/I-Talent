@@ -4,8 +4,8 @@ import DiplomaTable from "../../components/admin/diplomaTable/DiplomaTable";
 
 const AdminDiploma = () => {
   return (
-    <AdminLayout displaySideBar type="diploma">
-      <DiplomaTable type="diploma" />
+    <AdminLayout displaySideBar type="diplomas">
+      <DiplomaTable />
     </AdminLayout>
   );
 };

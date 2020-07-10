@@ -4,7 +4,7 @@ import CompetencyTable from "../../components/admin/competencyTable/CompetencyTa
 
 const AdminCompetency = () => {
   return (
-    <AdminLayout displaySideBar type="competency">
+    <AdminLayout displaySideBar type="competencies">
       <CompetencyTable />
     </AdminLayout>
   );
