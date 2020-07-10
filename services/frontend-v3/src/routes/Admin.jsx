@@ -19,6 +19,7 @@ const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [keycloak, setKeycloak] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userExists, setUserExists] = useState(false);
 
   useEffect(() => {
     const keycloakInstance = Keycloak(keycloakJSONConfig);
@@ -28,7 +29,7 @@ const Admin = () => {
         promiseType: "native",
         checkLoginIframe: false,
       })
-      .then((auth) => {
+      .then(async (auth) => {
         axios.interceptors.request.use((requestConfig) =>
           keycloakInstance.updateToken(300).then(() => {
             const newConfig = requestConfig;
@@ -36,6 +37,16 @@ const Admin = () => {
             return Promise.resolve(newConfig).catch(keycloakInstance.login);
           })
         );
+
+        const userInfo = await keycloakInstance.loadUserInfo();
+
+        // Checks if user even exists
+        try {
+          const response = await axios.get(`api/user/${userInfo.sub}`);
+          setUserExists(response.data !== null && response.data.signupStep === 8);
+        } catch (e) {
+          setUserExists(false);
+        }
 
         // Checks if the user has the correct keycloak role (is admin)
         const resources = keycloakInstance.tokenParsed.resource_access;
@@ -64,6 +75,10 @@ const Admin = () => {
 
   if (!authenticated) {
     return <div>Unable to authenticate!</div>;
+  }
+
+  if (!userExists) {
+    return <Redirect to="/secured/profile/create/step/1" />;
   }
 
   if (!isAdmin) {

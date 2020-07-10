@@ -25,19 +25,26 @@ const Secured = ({ location }) => {
   const [keycloak, setKeycloak] = useState(null);
   const [userCompletedSignup, setUserCompletedSignup] = useState(false);
 
+  const createUser = async (userInfo) =>
+    axios.post(`api/user/${userInfo.sub}`, {
+      email: userInfo.email,
+      name: userInfo.name,
+      lastName: userInfo.family_name,
+      firstName: userInfo.given_name,
+    });
+
   // Check if profile exist for the logged in user and saves the data of the request into redux
   const profileExist = useCallback(
     async (userInfo) => {
       let response;
       try {
         response = await axios.get(`api/user/${userInfo.sub}`);
+
+        if (response.data === null) {
+          response = await createUser(userInfo);
+        }
       } catch (error) {
-        response = await axios.post(`api/user/${userInfo.sub}`, {
-          email: userInfo.email,
-          name: userInfo.name,
-          lastName: userInfo.family_name,
-          firstName: userInfo.given_name,
-        });
+        response = await createUser(userInfo);
       }
 
       dispatch(
