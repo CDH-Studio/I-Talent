@@ -28,6 +28,17 @@ const userSlice = createSlice({
     setUserEmail(state, action) {
       state.email = action.payload;
     },
+    setUser(state, action) {
+      const { id, avatarColor, initials, name, email } = action.payload;
+
+      state = {
+        id: id || state.id,
+        avatarColor: avatarColor || state.avatarColor,
+        initials: initials || state.initials,
+        name: name || state.name,
+        email: email || state.email,
+      };
+    },
     clearUser() {
       return initialState;
     },
@@ -40,6 +51,7 @@ export const {
   setUserEmail,
   setUserId,
   setUserInitials,
+  setUser,
   clearUser,
 } = userSlice.actions;
 
