@@ -14,7 +14,7 @@ import {
   NotFound,
 } from "../pages";
 import keycloakConfig from "../keycloak";
-import { setUser } from "../redux/slices/userSlice";
+import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
 import { setLocale } from "../redux/slices/settingsSlice";
 
 const { keycloakJSONConfig } = keycloakConfig;
@@ -87,17 +87,13 @@ const Secured = ({ location }) => {
             const resource = resources[resourceKey];
 
             return (
-              "role" in resource &&
-              Array.isArray(resource.role) &&
-              resource.role.includes("view-admin-console")
+              "roles" in resource &&
+              Array.isArray(resource.roles) &&
+              resource.roles.includes("view-admin-console")
             );
           });
 
-          if (hasAdminAccess) {
-            sessionStorage.setItem("admin", true);
-          } else {
-            sessionStorage.removeItem("admin");
-          }
+          dispatch(setUserIsAdmin(hasAdminAccess));
         }
 
         axios.interceptors.request.use((axiosConfig) =>
@@ -116,7 +112,7 @@ const Secured = ({ location }) => {
         setKeycloak(keycloakInstance);
         setAuthenticated(auth);
       });
-  }, [profileExist]);
+  }, [dispatch, profileExist]);
 
   if (!keycloak) {
     return null;
