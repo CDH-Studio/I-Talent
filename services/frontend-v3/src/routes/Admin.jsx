@@ -44,9 +44,9 @@ const Admin = () => {
             const resource = resources[resourceKey];
 
             return (
-              "role" in resource &&
-              Array.isArray(resource.role) &&
-              resource.role.includes("view-admin-console")
+              "roles" in resource &&
+              Array.isArray(resource.roles) &&
+              resource.roles.includes("view-admin-console")
             );
           });
 

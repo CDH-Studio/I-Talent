@@ -7,6 +7,7 @@ const initialState = {
   initials: undefined,
   name: undefined,
   email: undefined,
+  isAdmin: false,
 };
 
 const userSlice = createSlice({
@@ -28,10 +29,14 @@ const userSlice = createSlice({
     setUserEmail(state, action) {
       state.email = action.payload;
     },
+    setUserIsAdmin(state, action) {
+      state.isAdmin = action.payload;
+    },
     setUser(state, action) {
       const { id, avatarColor, initials, name, email } = action.payload;
 
       return {
+        ...state,
         id: id || state.id,
         avatarColor: avatarColor || state.avatarColor,
         initials: initials || state.initials,
@@ -51,6 +56,7 @@ export const {
   setUserEmail,
   setUserId,
   setUserInitials,
+  setUserIsAdmin,
   setUser,
   clearUser,
 } = userSlice.actions;
