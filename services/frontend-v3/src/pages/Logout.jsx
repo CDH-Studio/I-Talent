@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
@@ -7,26 +7,22 @@ import { clearUser } from "../redux/slices/userSlice";
 
 const Logout = ({ keycloak }) => {
   const dispatch = useDispatch();
+  const [loggedOut, setLoggedOut] = useState(false);
 
   useEffect(() => {
     document.title = "logging out...";
-  }, []);
 
-  // log out user and redirect home
-  const logout = async () => {
     try {
       dispatch(clearUser());
       keycloak.logout({ redirectUri: window.location.origin });
-      return 1;
+      setLoggedOut(true);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e);
-      return 0;
     }
-  };
+  }, [dispatch, keycloak]);
 
-  // Check if user logged out successfully
-  if (!logout()) {
+  if (loggedOut) {
     return <Redirect to="/secured/home" />;
   }
 

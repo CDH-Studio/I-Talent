@@ -1,20 +1,3 @@
-/api/admin/check:
-  get:
-    summary: Checks if the requests has admin privileges (has "view-admin-console" keyclock role)
-    produces:
-      - application/json
-    responses:
-      200:
-        schema:
-          type: boolean
-      403:
-        $ref: "#/definitions/403"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [admin]
-
 /api/admin/users:
   get:
     summary: Returns an array of users formatted for the admin dashboard

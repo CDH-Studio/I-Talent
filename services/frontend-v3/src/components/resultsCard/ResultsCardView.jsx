@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Row, Col, Tag, Card, Divider, Avatar, Typography, Empty } from "antd";
 import { HistoryPropType, ProfileInfoPropType } from "../../customPropTypes";
-import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 import prepareInfo from "../../functions/prepareInfo";
 
 const { Meta } = Card;
@@ -93,15 +92,6 @@ const ResultsCardView = ({ history, results, locale }) => {
   };
 
   const renderResultCards = (dataSource) => {
-    if (!dataSource) {
-      return <ProfileSkeleton />;
-    }
-    if (dataSource instanceof Error) {
-      return `An error was encountered! Please try again.\n\n${String(
-        dataSource
-      )}`;
-    }
-
     if (dataSource.length === 0) {
       return (
         <Empty description={<FormattedMessage id="search.no.results" />} />

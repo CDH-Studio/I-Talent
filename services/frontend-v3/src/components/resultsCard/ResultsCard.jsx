@@ -3,15 +3,19 @@ import React, { useState, useEffect } from "react";
 import "@ant-design/compatible/assets/index.css";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
+import { Row } from "antd";
 import axios from "../../axios-instance";
 import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
+import { ReactComponent as YourSvg } from "./online_team_meeting_.svg";
 
 const ResultsCard = () => {
   const [results, setResults] = useState(null);
   const { locale } = useSelector((state) => state.settings);
+  const [emptyQuery, setEmptyQuery] = useState(false);
 
   const history = useHistory();
 
@@ -31,17 +35,31 @@ const ResultsCard = () => {
           .then((result) => setResults(result.data))
           .catch((error) => handleError(error, "redirect"));
       }
+      setEmptyQuery(false);
     } else {
-      setResults(new Error("invalid query"));
+      setEmptyQuery(true);
     }
   }, [locale]);
 
-  if (!results) {
+  if (!results && !emptyQuery) {
     return <ProfileSkeleton />;
   }
-  if (results instanceof Error) {
-    return `An error was encountered! Please try again.\n\n${String(results)}`;
+
+  if (emptyQuery) {
+    return (
+      <>
+        <Row align="middle" justify="center" style={{ marginTop: 40 }}>
+          <YourSvg height={250} />
+        </Row>
+        <Row align="middle" justify="center" style={{ marginTop: 20 }}>
+          <p style={{ textAlign: "center", maxWidth: 250 }}>
+            <FormattedMessage id="search.empty.query"/>
+          </p>
+        </Row>
+      </>
+    );
   }
+
   return (
     <ResultsCardView history={history} results={results} locale={locale} />
   );
