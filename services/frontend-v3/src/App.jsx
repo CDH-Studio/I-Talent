@@ -168,6 +168,19 @@ const App = () => {
               );
             }}
           />
+          <Route
+            path="/help"
+            render={(routeProps) => {
+              const { location, match, staticContext } = routeProps;
+              return (
+                <About
+                  location={location}
+                  match={match}
+                  staticContext={staticContext}
+                />
+              );
+            }}
+          />
           <Route render={() => <NotFound />} />
         </Switch>
       </Router>

@@ -146,6 +146,7 @@
   "count.remaining": "restants",
 
   "footer.about.link": "À propos I-Talent",
+  "footer.about": "À propos",
   "footer.contact.link": "Contactez-nous",
   "footer.terms.and.conditions.link": "Avis",
   "footer.privacy.link": "Confidentialité",
@@ -394,6 +395,8 @@
   "profile.visibleCards.public": "Publique",
   "profile.visibleCards.friends": "Amis seulement",
   "profile.visibleCards.private": "Privée",
+
+  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact",
 
   "error.redirect.title": "Erreur inattendue",
   "error.redirect.subtitle": "Quelque chose a mal tourné",

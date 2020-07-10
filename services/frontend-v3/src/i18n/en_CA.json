@@ -137,6 +137,7 @@
   "count.remaining": "remaining",
 
   "footer.about.link": "About I-Talent",
+  "footer.about": "About",
   "footer.contact.link": "Help/Contact Us",
   "footer.terms.and.conditions.link": "Terms and Conditions",
   "footer.privacy.link": "Privacy",
@@ -386,6 +387,8 @@
   "profile.visibleCards.public": "Public",
   "profile.visibleCards.friends": "Friends only",
   "profile.visibleCards.private": "Private",
+
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
 
   "error.redirect.title": "Unexpected error",
   "error.redirect.subtitle": "Something went wrong",

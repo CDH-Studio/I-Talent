@@ -57,7 +57,7 @@ const FooterView = () => {
           <a
             style={styles.link}
             // href to be changed to route w Contact Us page
-            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+            href="/about/help"
           >
             <FormattedMessage id="footer.contact.link" />
           </a>
@@ -75,7 +75,6 @@ const FooterView = () => {
   }
 
   const urlSections = window.location.toString().split("/");
-  // console.log(urlSections);
   const endURL = urlSections[urlSections.length - 1];
 
   if (
@@ -83,6 +82,7 @@ const FooterView = () => {
     endURL === "about" ||
     endURL === "terms" ||
     endURL === "privacy" ||
+    endURL === "help" ||
     endURL === ""
   ) {
     return (
@@ -99,7 +99,7 @@ const FooterView = () => {
           <a
             style={styles.link}
             // href to be changed to route w Contact Us page
-            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+            href="/about/help"
           >
             <FormattedMessage id="footer.contact.link" />
           </a>
@@ -130,7 +130,7 @@ const FooterView = () => {
         <a
           style={styles.link}
           // href to be changed to route w Contact Us page
-          href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+          href="/about/help"
         >
           <FormattedMessage id="footer.contact.link" />
         </a>

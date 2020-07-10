@@ -39,12 +39,16 @@ function checkURL() {
   if (endURL === "about") {
     numTab = "1";
   }
-  if (endURL === "terms") {
+  if (endURL === "help") {
     numTab = "2";
   }
-  if (endURL === "privacy") {
+  if (endURL === "terms") {
     numTab = "3";
   }
+  if (endURL === "privacy") {
+    numTab = "4";
+  }
+
   return numTab;
 }
 
@@ -71,7 +75,25 @@ const AboutLayoutView = () => {
             key="1"
           >
             <Title style={styles.titles}>
-              <FormattedMessage id="footer.about.link" />
+              <FormattedMessage id="footer.about" />
+            </Title>
+            <Result
+              icon={<SettingTwoTone twoToneColor="#1C807B" />}
+              title={<FormattedMessage id="more.content.soon" />}
+              extra={
+                <Button onClick={handleClick} type="primary">
+                  <FormattedMessage id="error.button" />
+                </Button>
+              }
+            />
+          </TabPane>
+          <TabPane
+            tabIndex="0"
+            tab={<FormattedMessage id="footer.contact.link" />}
+            key="2"
+          >
+            <Title style={styles.titles}>
+              <FormattedMessage id="footer.contact.link" />
             </Title>
             <Result
               icon={<SettingTwoTone twoToneColor="#1C807B" />}
@@ -86,7 +108,7 @@ const AboutLayoutView = () => {
           <TabPane
             tabIndex="0"
             tab={<FormattedMessage id="footer.terms.and.conditions.link" />}
-            key="2"
+            key="3"
           >
             <Title style={styles.titles}>
               <FormattedMessage id="footer.terms.and.conditions.link" />
@@ -104,7 +126,7 @@ const AboutLayoutView = () => {
           <TabPane
             tabIndex="0"
             tab={<FormattedMessage id="footer.privacy.link" />}
-            key="3"
+            key="4"
           >
             <Title style={styles.titles}>
               <FormattedMessage id="footer.privacy.link" />
