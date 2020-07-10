@@ -74,6 +74,9 @@ const FooterView = () => {
     );
   }
 
+  // check ending of url and if url is one of the cases below, apply styling for
+  // footer on pages without sidebar
+
   const urlSections = window.location.toString().split("/");
   const endURL = urlSections[urlSections.length - 1];
 
@@ -115,6 +118,8 @@ const FooterView = () => {
       </Footer>
     );
   }
+
+  // default footer style with sidebar
 
   return (
     <Footer style={styles.footer}>
