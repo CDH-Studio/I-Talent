@@ -11,8 +11,13 @@ import {
   Button,
   TreeSelect,
   message,
+  Popover,
 } from "antd";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
@@ -400,12 +405,22 @@ const TalentFormView = ({
               <Form.Item
                 name="mentorshipSkills"
                 label={
-                  <FormLabelTooltip
-                    labelText={
-                      <FormattedMessage id="profile.mentorship.skills" />
-                    }
-                    tooltipText="Extra information"
-                  />
+                  <Text>
+                    <FormattedMessage id="profile.mentorship.skills" />
+                    <Popover
+                      tabIndex="0"
+                      content={
+                        <div>
+                          <FormattedMessage id="tooltip.extra.info.help" />
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        </div>
+                      }
+                    >
+                      <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                    </Popover>
+                  </Text>
                 }
                 rules={[Rules.required]}
                 extra={
@@ -593,10 +608,22 @@ const TalentFormView = ({
             <Form.Item
               name="competencies"
               label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.competencies" />}
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.competencies" />
+                  <Popover
+                    tabIndex="0"
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                  </Popover>
+                </Text>
               }
             >
               <Select
@@ -619,10 +646,22 @@ const TalentFormView = ({
             <Form.Item
               name="skills"
               label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.skills" />}
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.skills" />
+                  <Popover
+                    tabIndex="0"
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                  </Popover>
+                </Text>
               }
             >
               <TreeSelect
@@ -642,10 +681,25 @@ const TalentFormView = ({
         {/* Form Row Three: mentorship role */}
         <Row style={styles.secondLangRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={<FormattedMessage id="profile.mentorship.available" />}
-              tooltipText="Extra information"
-            />
+            <Text>
+              <FormattedMessage id="profile.mentorship.available" />
+              <Popover
+                tabIndex="0"
+                content={
+                  <div>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                }
+              >
+                <InfoCircleOutlined
+                  style={{ paddingLeft: "5px", paddingRight: "5px" }}
+                />
+              </Popover>
+            </Text>
+
             <Switch
               checked={displayMentorshipForm}
               onChange={toggleMentorshipForm}
