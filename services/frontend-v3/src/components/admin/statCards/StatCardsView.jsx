@@ -29,7 +29,7 @@ const StatCardsView = ({
   return (
     <Row gutter={[8, 8]} type="flex">
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }} loading={countUsers === "-"}>
+        <Card style={{ height: "100%" }} loading={countUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.total.users" />}
             value={countUsers}
@@ -39,11 +39,7 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card
-          hoverable
-          style={{ height: "100%" }}
-          loading={countInactiveUsers === "-"}
-        >
+        <Card style={{ height: "100%" }} loading={countInactiveUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.inactive.users" />}
             value={countInactiveUsers}
@@ -53,11 +49,7 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card
-          hoverable
-          style={{ height: "100%" }}
-          loading={countHiddenUsers === "-"}
-        >
+        <Card style={{ height: "100%" }} loading={countHiddenUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.flagged.profiles" />}
             value={countHiddenUsers}
@@ -67,11 +59,7 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card
-          hoverable
-          style={{ height: "100%" }}
-          loading={countExFeederUsers === "-"}
-        >
+        <Card style={{ height: "100%" }} loading={countExFeederUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.ex.feeders" />}
             value={countExFeederUsers}
@@ -81,7 +69,7 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card hoverable style={{ height: "100%" }} loading={newUsers === "-"}>
+        <Card style={{ height: "100%" }} loading={newUsers === "-"}>
           <Statistic
             title={`${intl.formatMessage({
               id: "admin.dashboard.monthly.added",
@@ -93,11 +81,7 @@ const StatCardsView = ({
         </Card>
       </Col>
       <Col span={4}>
-        <Card
-          hoverable
-          style={{ height: "100%" }}
-          loading={growthRatePrevMonth === "-"}
-        >
+        <Card style={{ height: "100%" }} loading={growthRatePrevMonth === "-"}>
           <Statistic
             title={`${intl.formatMessage({
               id: "admin.dashboard.growth.rate.percentage",
