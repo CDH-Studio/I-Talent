@@ -1,13 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const EmployeeSummary = ({ data }) => {
-  return <EmployeeSummaryView data={data} />;
+const EmployeeSummary = ({ data, title, cardName, id }) => {
+  const [activeTabKey, setActiveTabKey] = useState('1');
+  const [editUrl, setEditUrl] = useState("");
+
+  useEffect(() => {
+    if (activeTabKey === '3') {
+      setEditUrl("/secured/profile/edit/language-proficiency")
+    } else {
+      setEditUrl("/secured/profile/edit/employment")
+    }
+  }, [activeTabKey])
+
+  return (
+    <ProfileCards
+      title={title}
+      content={
+        <EmployeeSummaryView data={data} setActiveTabKey={setActiveTabKey} />
+      }
+      cardName={cardName}
+      id={id}
+      editUrl={editUrl}
+      data={data}
+    />
+  );
 };
 
 EmployeeSummary.propTypes = {
   data: ProfileInfoPropType,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  cardName: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 EmployeeSummary.defaultProps = {

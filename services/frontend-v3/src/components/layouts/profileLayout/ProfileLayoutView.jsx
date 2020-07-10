@@ -103,12 +103,10 @@ const ProfileLayoutView = ({ data }) => {
               <BasicInfo data={data} style={styles.card} />
             </Col>
             <Col xs={24} xl={10}>
-              <ProfileCards
+              <EmployeeSummary
                 title={<FormattedMessage id="profile.employee.summary" />}
-                content={<EmployeeSummary data={data} />}
                 cardName="info"
                 id="card-profile-employee-summary"
-                editUrl="/secured/profile/edit/employment"
                 data={data}
               />
             </Col>
