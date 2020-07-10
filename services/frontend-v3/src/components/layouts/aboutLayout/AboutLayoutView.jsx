@@ -1,10 +1,12 @@
-import React from "react";
-import { Typography, Tabs, Row, Result } from "antd";
+import React, { useState } from "react";
+import { Typography, Tabs, Row, Result, Button } from "antd";
+import { useHistory, Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { SettingTwoTone } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
 
 const { TabPane } = Tabs;
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 /**
  *  AboutLayoutView(props)
@@ -21,19 +23,43 @@ const styles = {
     height: "90%",
   },
   titles: {
+    paddingTop: "20px",
     textAlign: "center",
   },
 };
 
-function callback(key) {
-  console.log(key);
-}
-
 const AboutLayoutView = () => {
+  function callback(key, history) {
+    if (key === "1") {
+      history.push("/about/");
+    }
+    if (key === "2") {
+      history.push("/about/terms");
+    }
+    if (key === "3") {
+      history.push("/about/privacy");
+    }
+  }
+  const [back, setBack] = useState(false);
+
+  const handleClick = () => {
+    setBack(true);
+  };
+
+  const history = useHistory();
+
+  if (back) {
+    return <Redirect to="/secured/home" />;
+  }
+
   return (
     <AppLayout displaySideBar={false}>
       <Row justify="center" style={styles.outerRow}>
-        <Tabs style={styles.outerTabs} defaultActiveKey="1" onChange={callback}>
+        <Tabs
+          style={styles.outerTabs}
+          defaultActiveKey="1"
+          onChange={callback(history)}
+        >
           <TabPane
             tabIndex="0"
             tab={<FormattedMessage id="footer.about.link" />}
@@ -42,6 +68,15 @@ const AboutLayoutView = () => {
             <Title style={styles.titles}>
               <FormattedMessage id="footer.about.link" />
             </Title>
+            <Result
+              icon={<SettingTwoTone twoToneColor="#1C807B" />}
+              title={<FormattedMessage id="more.content.soon" />}
+              extra={
+                <Button onClick={handleClick} type="primary">
+                  <FormattedMessage id="error.button" />
+                </Button>
+              }
+            />
           </TabPane>
           <TabPane
             tabIndex="0"
@@ -51,6 +86,15 @@ const AboutLayoutView = () => {
             <Title style={styles.titles}>
               <FormattedMessage id="footer.terms.and.conditions.link" />
             </Title>
+            <Result
+              icon={<SettingTwoTone twoToneColor="#1C807B" />}
+              title={<FormattedMessage id="more.content.soon" />}
+              extra={
+                <Button onClick={handleClick} type="primary">
+                  <FormattedMessage id="error.button" />
+                </Button>
+              }
+            />
           </TabPane>
           <TabPane
             tabIndex="0"
@@ -60,6 +104,15 @@ const AboutLayoutView = () => {
             <Title style={styles.titles}>
               <FormattedMessage id="footer.privacy.link" />
             </Title>
+            <Result
+              icon={<SettingTwoTone twoToneColor="#1C807B" />}
+              title={<FormattedMessage id="more.content.soon" />}
+              extra={
+                <Button onClick={handleClick} type="primary">
+                  <FormattedMessage id="error.button" />
+                </Button>
+              }
+            />
           </TabPane>
         </Tabs>
       </Row>
