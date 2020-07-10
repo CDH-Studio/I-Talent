@@ -6,14 +6,13 @@ import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
 import axios from "../../axios-instance";
-import ProfileSkeleton from "../profileSkeleton/ProfileSkeleton";
 
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
 import { ReactComponent as YourSvg } from "./online_team_meeting_.svg";
 
 const ResultsCard = () => {
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState(undefined);
   const { locale } = useSelector((state) => state.settings);
   const [emptyQuery, setEmptyQuery] = useState(false);
 
@@ -41,10 +40,6 @@ const ResultsCard = () => {
     }
   }, [locale]);
 
-  if (!results && !emptyQuery) {
-    return <ProfileSkeleton />;
-  }
-
   if (emptyQuery) {
     return (
       <>
@@ -53,7 +48,7 @@ const ResultsCard = () => {
         </Row>
         <Row align="middle" justify="center" style={{ marginTop: 20 }}>
           <p style={{ textAlign: "center", maxWidth: 250 }}>
-            <FormattedMessage id="search.empty.query"/>
+            <FormattedMessage id="search.empty.query" />
           </p>
         </Row>
       </>
@@ -61,7 +56,12 @@ const ResultsCard = () => {
   }
 
   return (
-    <ResultsCardView history={history} results={results} locale={locale} />
+    <ResultsCardView
+      history={history}
+      results={results}
+      locale={locale}
+      loading={!results && !emptyQuery}
+    />
   );
 };
 

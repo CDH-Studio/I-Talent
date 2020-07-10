@@ -16,6 +16,7 @@ import {
 import keycloakConfig from "../keycloak";
 import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
 import { setLocale } from "../redux/slices/settingsSlice";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const { keycloakJSONConfig } = keycloakConfig;
 
@@ -115,7 +116,7 @@ const Secured = ({ location }) => {
   }, [dispatch, profileExist]);
 
   if (!keycloak) {
-    return null;
+    return <AppLayout loading/>;
   }
 
   if (!authenticated) {
