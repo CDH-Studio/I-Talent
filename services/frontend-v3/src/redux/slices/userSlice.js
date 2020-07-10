@@ -36,6 +36,7 @@ const userSlice = createSlice({
       const { id, avatarColor, initials, name, email } = action.payload;
 
       return {
+        ...state,
         id: id || state.id,
         avatarColor: avatarColor || state.avatarColor,
         initials: initials || state.initials,
