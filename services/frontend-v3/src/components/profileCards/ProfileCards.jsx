@@ -24,7 +24,7 @@ ProfileCards.propTypes = {
   data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   content: PropTypes.element,
-  editUrl: PropTypes.string.isRequired,
+  editUrl: PropTypes.string,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
@@ -32,6 +32,7 @@ ProfileCards.propTypes = {
 ProfileCards.defaultProps = {
   data: null,
   content: null,
+  editUrl: null,
 };
 
 export default ProfileCards;
