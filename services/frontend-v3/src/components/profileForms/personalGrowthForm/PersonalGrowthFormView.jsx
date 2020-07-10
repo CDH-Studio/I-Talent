@@ -16,6 +16,7 @@ import {
   RightOutlined,
   CheckOutlined,
   ExclamationCircleOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -28,7 +29,6 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import handleError from "../../../functions/handleError";
 
 const { Option } = Select;
@@ -436,12 +436,22 @@ const PersonalGrowthFormView = ({
               className="custom-bubble-select-style"
               name="developmentalGoals"
               label={
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="setup.developmental.goals" />
-                  }
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.developmental.goals" />
+                  <Popover
+                    tabIndex="0"
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                  </Popover>
+                </Text>
               }
             >
               <Select
@@ -491,12 +501,22 @@ const PersonalGrowthFormView = ({
               className="custom-bubble-select-style"
               name="relocationLocations"
               label={
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="profile.willing.to.relocate.to" />
-                  }
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="profile.willing.to.relocate.to" />
+                  <Popover
+                    tabIndex="0"
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                  </Popover>
+                </Text>
               }
             >
               <Select
@@ -543,7 +563,6 @@ const PersonalGrowthFormView = ({
         <Title level={3} style={styles.formTitle}>
           <FormattedMessage id="setup.talent.management" />
           <Popover
-            trigger="click"
             tabIndex="0"
             content={
               <div>

@@ -29,7 +29,6 @@ import {
   ProfileInfoPropType,
   IntlPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import handleError from "../../../functions/handleError";
 
 const { Option } = Select;

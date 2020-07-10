@@ -16,7 +16,7 @@ import {
   LinkOutlined,
   RightOutlined,
   CheckOutlined,
-  QuestionCircleOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
@@ -307,7 +307,7 @@ const PrimaryInfoFormView = ({
                 </div>
               }
             >
-              <QuestionCircleOutlined />
+              <InfoCircleOutlined />
             </Popover>
           </div>
         </Title>
@@ -330,7 +330,7 @@ const PrimaryInfoFormView = ({
               </div>
             }
           >
-            <QuestionCircleOutlined />
+            <InfoCircleOutlined />
           </Popover>
         </div>
         {fieldsChanged && (
