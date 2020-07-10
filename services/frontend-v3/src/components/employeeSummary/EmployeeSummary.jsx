@@ -10,9 +10,9 @@ const EmployeeSummary = ({ data, title, cardName, id }) => {
 
   useEffect(() => {
     if (activeTabKey === '3') {
-      setEditUrl("/secured/profile/edit/language-proficiency")
+      setEditUrl("language-proficiency")
     } else {
-      setEditUrl("/secured/profile/edit/employment")
+      setEditUrl("employment")
     }
   }, [activeTabKey])
 
@@ -24,7 +24,7 @@ const EmployeeSummary = ({ data, title, cardName, id }) => {
       }
       cardName={cardName}
       id={id}
-      editUrl={editUrl}
+      editUrl={`/secured/profile/edit/${editUrl}`}
       data={data}
     />
   );
