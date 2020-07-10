@@ -23,7 +23,7 @@ import {
   Menu,
 } from "antd";
 import { ProfileInfoPropType } from "../../customPropTypes";
-import OrgTree from "./orgTree/OrgTree";
+import OrgTree from "../orgTree/OrgTree";
 
 const { Text } = Typography;
 

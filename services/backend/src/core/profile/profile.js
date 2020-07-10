@@ -72,6 +72,7 @@ async function updateProfile(request, response) {
         groupLevelId,
         actingLevelId,
         employmentInfoId,
+        organizations,
 
         visibleCards,
       } = request.body;
@@ -1041,6 +1042,17 @@ function filterProfileResult(profile, language) {
       level: prof.level,
     };
   });
+
+  if (profile.organizations) {
+    filteredProfile.organizations = profile.organizations.map((org) => {
+      _.sortBy(org, "tier");
+      return org.organizationTier.map((tier) => ({
+        tier: tier.tier,
+        id: tier.id,
+        title: tier.translations[0].description,
+      }));
+    });
+  }
 
   return filteredProfile;
 }

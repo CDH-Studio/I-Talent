@@ -18,7 +18,7 @@ const url = `${
 
   //nameArray[1]  nameArray[0]
   const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
-
+  console.log(url);
   const res = await axios({
     method: "get",
     url: url,
@@ -44,11 +44,11 @@ const url = `${
     .then(async (result) => {
       const dataGEDSArray = result[0].data;
       const dataDBEmail = result[1].email;
-      console.log("RESSS", result.data);
+
       const dataGEDS = dataGEDSArray.find((element) => {
         return element.contactInformation.email === dataDBEmail;
       });
-
+      console.log("RESSS", dataGEDS);
       const organizations = [];
       let organizationCounter = 0;
       for (
@@ -63,6 +63,7 @@ const url = `${
           addressInformation:
             currentBranch.organizationInformation.organization
               .addressInformation,
+          id: currentBranch.organizationInformation.organization.id,
         };
         organizationCounter += 1;
         organizations.unshift(branchInfo);
@@ -81,7 +82,7 @@ const url = `${
             country: branchOrg.addressInformation.country.en,
             city: branchOrg.addressInformation.city.en,
             postalCode: branchOrg.addressInformation.pc,
-            streetNumber: parseInt(enAddr.split(" ")[0]),
+            streetNumber: parseInt(enAddr.split(" ")[0], 10),
           },
         });
         /*
@@ -97,18 +98,6 @@ const url = `${
               },
             },
         */
-        console.log(
-          "FFFFFF>>>>",
-          branchOrg,
-          "en",
-          enAddr,
-          "fr",
-          frAddr,
-          "locl",
-          location,
-          "locl0",
-          location[0]
-        );
 
         const city = branchOrg.addressInformation.city;
         const province = branchOrg.addressInformation.province;
@@ -132,6 +121,13 @@ const url = `${
             en: dataGEDS.title.en,
             fr: dataGEDS.title.fr,
           },
+          organizations: [
+            organizations.map((org) => ({
+              title: org.description,
+              id: org.id,
+              tier: org.tier,
+            })),
+          ],
         };
         console.log("test", profile);
         response.status(200).send(profile);

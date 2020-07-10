@@ -34,6 +34,7 @@ import {
 } from "../../../customPropTypes";
 import config from "../../../config";
 import handleError from "../../../functions/handleError";
+import OrgTree from "../../orgTree/OrgTree";
 
 const { backendAddress } = config;
 const { Option } = Select;
@@ -448,7 +449,15 @@ const PrimaryInfoFormView = ({
     return undefined;
   };
 
-  const handleGedsConfirm = () => {};
+  const handleGedsConfirm = async () => {
+    await axios
+      .put(
+        `${backendAddress}api/profile/${userId}?language=ENGLISH`,
+        newGedsValues
+      )
+      .catch((error) => handleError(error, "message"));
+    setNewGedsValues(null);
+  };
 
   const generateGedsModal = () => {
     const changes = [];
@@ -474,46 +483,65 @@ const PrimaryInfoFormView = ({
       },
     };*/
 
-    console.log(
-      "local",
-      locale,
-      newGedsValues && newGedsValues.jobTitle[locale === "FRENCH" ? "fr" : "en"]
-    );
+    console.log("local", newGedsValues);
 
     if (newGedsValues) {
       if (newGedsValues.firstName !== profileInfo.firstName) {
-        changes.push({ title: <FormattedMessage id="profile.first.name" /> });
+        changes.push({
+          title: <FormattedMessage id="profile.first.name" />,
+          description: profileInfo.firstName,
+        });
       }
+
       if (newGedsValues.lastName !== profileInfo.lastName) {
-        changes.push({ title: <FormattedMessage id="profile.last.name" /> });
+        changes.push({
+          title: <FormattedMessage id="profile.last.name" />,
+          description: profileInfo.lastName,
+        });
       }
-      if (newGedsValues.locationId !== profileInfo.officeLocation.id) {
+
+      if (
+        newGedsValues.locationId !==
+        (profileInfo.officeLocation && profileInfo.officeLocation.id)
+      ) {
         const locationOption = _.find(
           locationOptions,
           (option) => option.id === newGedsValues.locationId
         );
-        console.log("LOCCCCCC", locationOption);
         changes.push({
           title: <FormattedMessage id="profile.location" />,
           description: `${locationOption.streetNumber} ${locationOption.streetName}
                   ${locationOption.city}, ${locationOption.province}`,
         });
       }
+
       if (newGedsValues.email !== profileInfo.email) {
-        changes.push({ title: <FormattedMessage id="profile.telephone" /> });
+        changes.push({
+          title: <FormattedMessage id="profile.telephone" />,
+          description: profileInfo.email,
+        });
       }
+
       if (
         newGedsValues.phoneNumber &&
         newGedsValues.phoneNumber !== profileInfo.phoneNumber
       ) {
-        changes.push({ title: <FormattedMessage id="profile.cellphone" /> });
+        changes.push({
+          title: <FormattedMessage id="profile.cellphone" />,
+          description: profileInfo.phoneNumber,
+        });
       }
+
       if (
         newGedsValues.telephone &&
         newGedsValues.telephone !== profileInfo.telephone
       ) {
-        changes.push({ title: <FormattedMessage id="profile.telephone" /> });
+        changes.push({
+          title: <FormattedMessage id="profile.telephone" />,
+          description: profileInfo.telephone,
+        });
       }
+
       if (
         newGedsValues.jobTitle &&
         newGedsValues.jobTitle !== profileInfo.jobTitle
@@ -524,10 +552,11 @@ const PrimaryInfoFormView = ({
             newGedsValues.jobTitle[locale === "FRENCH" ? "fr" : "en"],
         });
       }
-      if (newGedsValues.branch !== profileInfo.branch) {
+
+      if (newGedsValues.organizations !== profileInfo.organizations) {
         changes.push({
           title: <FormattedMessage id="profile.branch" />,
-          description: newGedsValues.branch[locale === "FRENCH" ? "fr" : "en"],
+          description: <OrgTree data={newGedsValues} />,
         });
       }
     }
