@@ -142,6 +142,32 @@ const App = () => {
               );
             }}
           />
+          <Route
+            path="/terms"
+            render={(routeProps) => {
+              const { location, match, staticContext } = routeProps;
+              return (
+                <About
+                  location={location}
+                  match={match}
+                  staticContext={staticContext}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/privacy"
+            render={(routeProps) => {
+              const { location, match, staticContext } = routeProps;
+              return (
+                <About
+                  location={location}
+                  match={match}
+                  staticContext={staticContext}
+                />
+              );
+            }}
+          />
           <Route render={() => <NotFound />} />
         </Switch>
       </Router>

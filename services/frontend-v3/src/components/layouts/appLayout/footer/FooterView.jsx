@@ -49,7 +49,7 @@ const FooterView = () => {
           <a
             style={styles.link}
             // href to be changed to route w about page
-            href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+            href="/about"
           >
             <FormattedMessage id="footer.about.link" />
           </a>
@@ -62,17 +62,11 @@ const FooterView = () => {
             <FormattedMessage id="footer.contact.link" />
           </a>
 
-          <a
-            style={styles.link}
-            href="https://www.canada.ca/en/transparency/terms.html"
-          >
+          <a style={styles.link} href="//about/terms">
             <FormattedMessage id="footer.terms.and.conditions.link" />
           </a>
 
-          <a
-            style={styles.link}
-            href="https://www.canada.ca/en/transparency/terms.html"
-          >
+          <a style={styles.link} href="/about/privacy">
             <FormattedMessage id="footer.privacy.link" />
           </a>
         </div>
@@ -84,7 +78,13 @@ const FooterView = () => {
   // console.log(urlSections);
   const endURL = urlSections[urlSections.length - 1];
 
-  if (endURL === "home" || endURL === "about") {
+  if (
+    endURL === "home" ||
+    endURL === "about" ||
+    endURL === "terms" ||
+    endURL === "privacy" ||
+    endURL === ""
+  ) {
     return (
       <Footer style={styles.footer}>
         <div style={styles.aroundLinksSmall}>
@@ -104,11 +104,11 @@ const FooterView = () => {
             <FormattedMessage id="footer.contact.link" />
           </a>
 
-          <a style={styles.link} href="/about">
+          <a style={styles.link} href="/about/terms">
             <FormattedMessage id="footer.terms.and.conditions.link" />
           </a>
 
-          <a style={styles.link} href="/about">
+          <a style={styles.link} href="/about/privacy">
             <FormattedMessage id="footer.privacy.link" />
           </a>
         </div>
@@ -122,7 +122,7 @@ const FooterView = () => {
         <a
           style={styles.link}
           // href to be changed to route w about page
-          href="https://github.com/CDH-Studio/UpSkill#what-is-I-Talent"
+          href="/about"
         >
           <FormattedMessage id="footer.about.link" />
         </a>
@@ -135,17 +135,11 @@ const FooterView = () => {
           <FormattedMessage id="footer.contact.link" />
         </a>
 
-        <a
-          style={styles.link}
-          href="https://www.canada.ca/en/transparency/terms.html"
-        >
+        <a style={styles.link} href="/about/terms">
           <FormattedMessage id="footer.terms.and.conditions.link" />
         </a>
 
-        <a
-          style={styles.link}
-          href="https://www.canada.ca/en/transparency/terms.html"
-        >
+        <a style={styles.link} href="/about/privacy">
           <FormattedMessage id="footer.privacy.link" />
         </a>
       </div>

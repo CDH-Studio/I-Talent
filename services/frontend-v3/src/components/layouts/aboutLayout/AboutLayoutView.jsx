@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Typography, Tabs, Row, Result, Button } from "antd";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { SettingTwoTone } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
-
+let numTab = "1";
 /**
  *  AboutLayoutView(props)
  *
@@ -28,25 +28,34 @@ const styles = {
   },
 };
 
-const AboutLayoutView = () => {
-  function callback(key, history) {
-    if (key === "1") {
-      history.push("/about/");
-    }
-    if (key === "2") {
-      history.push("/about/terms");
-    }
-    if (key === "3") {
-      history.push("/about/privacy");
-    }
+// this function checks the end of the URL for either about, privacy, or terms, to determine what
+// the default tab will be on the about page
+
+function checkURL() {
+  const urlSections = window.location.toString().split("/");
+  // console.log(urlSections);
+  const endURL = urlSections[urlSections.length - 1];
+
+  if (endURL === "about") {
+    numTab = "1";
   }
+  if (endURL === "terms") {
+    numTab = "2";
+  }
+  if (endURL === "privacy") {
+    numTab = "3";
+  }
+  return numTab;
+}
+
+const AboutLayoutView = () => {
   const [back, setBack] = useState(false);
+
+  checkURL();
 
   const handleClick = () => {
     setBack(true);
   };
-
-  const history = useHistory();
 
   if (back) {
     return <Redirect to="/secured/home" />;
@@ -55,11 +64,7 @@ const AboutLayoutView = () => {
   return (
     <AppLayout displaySideBar={false}>
       <Row justify="center" style={styles.outerRow}>
-        <Tabs
-          style={styles.outerTabs}
-          defaultActiveKey="1"
-          onChange={callback(history)}
-        >
+        <Tabs style={styles.outerTabs} defaultActiveKey={checkURL}>
           <TabPane
             tabIndex="0"
             tab={<FormattedMessage id="footer.about.link" />}
