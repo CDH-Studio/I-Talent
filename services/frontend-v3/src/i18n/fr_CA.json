@@ -231,7 +231,7 @@
   "profile.basic": "Information d'employée",
   "profile.diploma": "Diplôme",
   "profile.projects": "Projets",
-  "profile.friends": "Amis",
+  "profile.friends": "Groupe Privé",
   "profile.school": "École",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Poste de travail",
@@ -333,7 +333,7 @@
 
   "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
   "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Sera aussi visible pour les ressources humaines)",
-  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe d'amis? (Sera aussi visible pour les ressources humaines)",
+  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe privé? (Sera aussi visible pour les ressources humaines)",
 
   "lang": "English",
   "lang.code": "en",
@@ -387,7 +387,7 @@
   "home": "Acceuil",
 
   "profile.visibleCards.public": "Publique",
-  "profile.visibleCards.friends": "Amis seulement",
+  "profile.visibleCards.friends": "Groupe privé seulement",
   "profile.visibleCards.private": "Privée",
 
   "error.redirect.title": "Erreur inattendue",
