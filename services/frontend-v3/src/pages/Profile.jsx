@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import axios from "../axios-instance";
 import handleError from "../functions/handleError";
-import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
 const Profile = ({ history, match }) => {
@@ -69,11 +68,7 @@ const Profile = ({ history, match }) => {
     document.title = `${name} | I-Talent`;
   }, [name]);
 
-  if (!loading) {
-    return <ProfileLayout data={data} />;
-  }
-
-  return <ProfileSkeleton />;
+  return <ProfileLayout data={data} loading={loading} />;
 };
 
 Profile.propTypes = {

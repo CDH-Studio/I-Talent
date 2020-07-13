@@ -1,14 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import { Row, Col, Tag, Card, Divider, Avatar, Typography, Empty } from "antd";
+import {
+  Row,
+  Col,
+  Tag,
+  Card,
+  Divider,
+  Avatar,
+  Typography,
+  Empty,
+  Skeleton,
+} from "antd";
 import { HistoryPropType, ProfileInfoPropType } from "../../customPropTypes";
 import prepareInfo from "../../functions/prepareInfo";
 
 const { Meta } = Card;
 const { Text } = Typography;
 
-const ResultsCardView = ({ history, results, locale }) => {
+const ResultsCardView = ({ history, results, locale, loading }) => {
   const styles = {
     smallP: {
       lineHeight: "4px",
@@ -92,7 +102,7 @@ const ResultsCardView = ({ history, results, locale }) => {
   };
 
   const renderResultCards = (dataSource) => {
-    if (dataSource.length === 0) {
+    if (!loading && dataSource.length === 0) {
       return (
         <Empty description={<FormattedMessage id="search.no.results" />} />
       );
@@ -105,13 +115,18 @@ const ResultsCardView = ({ history, results, locale }) => {
 
   return (
     <div>
+      {loading && (
+        <Card>
+          <Skeleton />
+        </Card>
+      )}
       <Row
-        gutter={[16, 16]}
+        gutter={[32, 32]}
         type="flex"
         justify="left"
         align={results.length === 0 ? "center" : "top"}
       >
-        {renderResultCards(results)}
+        {!loading && renderResultCards(results)}
       </Row>
     </div>
   );
@@ -121,10 +136,11 @@ ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
   results: PropTypes.arrayOf(ProfileInfoPropType),
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 ResultsCardView.defaultProps = {
-  results: null,
+  results: [],
 };
 
 export default ResultsCardView;
