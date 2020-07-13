@@ -10,17 +10,18 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import queryString from "query-string";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
+import { IntlPropType } from "../../../../customPropTypes";
 
 const { Header } = Layout;
 
-const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
+const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
 
@@ -173,6 +174,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
         onChange={(e) => setSearchValue(e.target.value)}
         enterButton
         onSearch={search}
+        placeholder={intl.formatMessage({
+          id: "button.search",
+        })}
       />
     );
 
@@ -267,6 +271,11 @@ TopNavView.propTypes = {
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
+  intl: IntlPropType,
 };
 
-export default TopNavView;
+TopNavView.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(TopNavView);
