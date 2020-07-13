@@ -3,11 +3,13 @@ import { Typography, Tabs, Row, Result, Button } from "antd";
 import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { SettingTwoTone } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
+import AboutLayout from "./AboutLayout";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
-let numTab = "1";
+
 /**
  *  AboutLayoutView(props)
  *
@@ -28,34 +30,31 @@ const styles = {
   },
 };
 
-// this function checks the end of the URL for either about, privacy, or terms, to determine what
-// the default tab will be on the about page
+// // this function checks the end of the URL for either about, privacy, or terms, to determine what
+// // the default tab will be on the about page
 
-function checkURL() {
-  const urlSections = window.location.toString().split("/");
-  // console.log(urlSections);
-  const endURL = urlSections[urlSections.length - 1];
+// function checkURL() {
+//   const urlSections = window.location.toString().split("/");
+//   const endURL = urlSections[urlSections.length - 1];
 
-  if (endURL === "about") {
-    numTab = "1";
-  }
-  if (endURL === "help") {
-    numTab = "2";
-  }
-  if (endURL === "terms") {
-    numTab = "3";
-  }
-  if (endURL === "privacy") {
-    numTab = "4";
-  }
+//   if (endURL === "about") {
+//     numTab = "1";
+//   }
+//   if (endURL === "help") {
+//     numTab = "2";
+//   }
+//   if (endURL === "terms") {
+//     numTab = "3";
+//   }
+//   if (endURL === "privacy") {
+//     numTab = "4";
+//   }
 
-  return numTab;
-}
+//   return numTab;
+// }
 
-const AboutLayoutView = () => {
+const AboutLayoutView = (type) => {
   const [back, setBack] = useState(false);
-
-  checkURL();
 
   const handleClick = () => {
     setBack(true);
@@ -68,11 +67,10 @@ const AboutLayoutView = () => {
   return (
     <AppLayout displaySideBar={false}>
       <Row justify="center" style={styles.outerRow}>
-        <Tabs style={styles.outerTabs} defaultActiveKey={checkURL}>
+        <Tabs style={styles.outerTabs} defaultActiveKey={type}>
           <TabPane
-            tabIndex="0"
             tab={<FormattedMessage id="footer.about.link" />}
-            key="1"
+            key="about"
           >
             <Title style={styles.titles}>
               <FormattedMessage id="footer.about" />
@@ -88,9 +86,8 @@ const AboutLayoutView = () => {
             />
           </TabPane>
           <TabPane
-            tabIndex="0"
             tab={<FormattedMessage id="footer.contact.link" />}
-            key="2"
+            key="help"
           >
             <Title style={styles.titles}>
               <FormattedMessage id="footer.contact.link" />
@@ -106,9 +103,8 @@ const AboutLayoutView = () => {
             />
           </TabPane>
           <TabPane
-            tabIndex="0"
             tab={<FormattedMessage id="footer.terms.and.conditions.link" />}
-            key="3"
+            key="terms"
           >
             <Title style={styles.titles}>
               <FormattedMessage id="footer.terms.and.conditions.link" />
@@ -124,9 +120,8 @@ const AboutLayoutView = () => {
             />
           </TabPane>
           <TabPane
-            tabIndex="0"
             tab={<FormattedMessage id="footer.privacy.link" />}
-            key="4"
+            key="privacy"
           >
             <Title style={styles.titles}>
               <FormattedMessage id="footer.privacy.link" />
@@ -145,6 +140,10 @@ const AboutLayoutView = () => {
       </Row>
     </AppLayout>
   );
+};
+
+AboutLayoutView.propTypes = {
+  type: PropTypes.oneOf(["about", "help", "privacy", "terms"]).isRequired,
 };
 
 export default AboutLayoutView;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AboutLayoutView from "./AboutLayoutView";
 
 /**
@@ -6,8 +7,12 @@ import AboutLayoutView from "./AboutLayoutView";
  *
  *  this is the controller for LandingLayoutView
  */
-const AboutLayout = () => {
-  return <AboutLayoutView />;
+const AboutLayout = (type) => {
+  return <AboutLayoutView type={type} />;
+};
+
+AboutLayoutView.propTypes = {
+  type: PropTypes.oneOf(["about", "help", "privacy", "terms"]).isRequired,
 };
 
 export default AboutLayout;

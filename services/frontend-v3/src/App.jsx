@@ -82,59 +82,13 @@ const App = () => {
             path="/secured"
             render={({ location }) => <Secured location={location} />}
           />
-          <Route
-            path="/about"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <About
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
-          />
-          <Route
-            path="/terms"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <About
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
-          />
+          <Route path="/about" render={({ type }) => <About type="about" />} />
+          <Route path="/help" render={({ type }) => <About type="help" />} />
+          <Route path="/terms" render={({ type }) => <About type="terms" />} />
           <Route
             path="/privacy"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <About
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
+            render={({ type }) => <About type="privacy" />}
           />
-          <Route
-            path="/help"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <About
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
-          />
-
           <Route path="/admin" render={() => <Admin />} />
           <Route path="/error" render={() => <UnexpectedError />} />
           <Route path="/forbidden" render={() => <Forbidden />} />
