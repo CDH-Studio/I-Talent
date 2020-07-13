@@ -82,13 +82,10 @@ const App = () => {
             path="/secured"
             render={({ location }) => <Secured location={location} />}
           />
-          <Route path="/about" render={({ type }) => <About type="about" />} />
-          <Route path="/help" render={({ type }) => <About type="help" />} />
-          <Route path="/terms" render={({ type }) => <About type="terms" />} />
-          <Route
-            path="/privacy"
-            render={({ type }) => <About type="privacy" />}
-          />
+          <Route path="/about" render={() => <About type="about" />} />
+          <Route path="/help" render={() => <About type="help" />} />
+          <Route path="/terms" render={() => <About type="terms" />} />
+          <Route path="/privacy" render={() => <About type="privacy" />} />
           <Route path="/admin" render={() => <Admin />} />
           <Route path="/error" render={() => <UnexpectedError />} />
           <Route path="/forbidden" render={() => <Forbidden />} />

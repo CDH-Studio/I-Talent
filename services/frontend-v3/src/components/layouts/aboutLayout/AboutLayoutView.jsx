@@ -5,7 +5,6 @@ import { FormattedMessage } from "react-intl";
 import { SettingTwoTone } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
-import AboutLayout from "./AboutLayout";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -53,7 +52,8 @@ const styles = {
 //   return numTab;
 // }
 
-const AboutLayoutView = (type) => {
+const AboutLayoutView = ({ type }) => {
+  const tabType = type;
   const [back, setBack] = useState(false);
 
   const handleClick = () => {
@@ -67,7 +67,7 @@ const AboutLayoutView = (type) => {
   return (
     <AppLayout displaySideBar={false}>
       <Row justify="center" style={styles.outerRow}>
-        <Tabs style={styles.outerTabs} defaultActiveKey={type}>
+        <Tabs style={styles.outerTabs} defaultActiveKey={tabType}>
           <TabPane
             tab={<FormattedMessage id="footer.about.link" />}
             key="about"
