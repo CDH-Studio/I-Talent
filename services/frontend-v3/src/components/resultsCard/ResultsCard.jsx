@@ -53,14 +53,14 @@ const ResultsCard = () => {
     );
   }, [getConnections, search]);
 
-  const addFriend = async (urlID) => {
+  const addConnection = async (urlID) => {
     await axios
       .post(`api/friends/${urlID}`)
       .catch((error) => handleError(error, "message"));
     getConnections();
   };
 
-  const removeFriend = async (urlID) => {
+  const removeConnection = async (urlID) => {
     await axios
       .delete(`api/friends/${urlID}`)
       .catch((error) => handleError(error, "message"));
@@ -90,8 +90,8 @@ const ResultsCard = () => {
       loading={!results && !emptyQuery}
       userId={id}
       connections={connections}
-      addFriend={addFriend}
-      removeFriend={removeFriend}
+      addConnection={addConnection}
+      removeConnection={removeConnection}
     />
   );
 };

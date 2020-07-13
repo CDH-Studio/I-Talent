@@ -33,8 +33,8 @@ const ResultsCardView = ({
   loading,
   userId,
   connections,
-  addFriend,
-  removeFriend,
+  addConnection,
+  removeConnection,
 }) => {
   const styles = {
     smallP: {
@@ -77,9 +77,9 @@ const ResultsCardView = ({
             e.stopPropagation();
 
             if (isConnection) {
-              removeFriend(person.id);
+              removeConnection(person.id);
             } else {
-              addFriend(person.id);
+              addConnection(person.id);
             }
           }}
         >
@@ -241,8 +241,8 @@ ResultsCardView.propTypes = {
   loading: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
   connections: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addFriend: PropTypes.func.isRequired,
-  removeFriend: PropTypes.func.isRequired,
+  addConnection: PropTypes.func.isRequired,
+  removeConnection: PropTypes.func.isRequired,
 };
 
 ResultsCardView.defaultProps = {
