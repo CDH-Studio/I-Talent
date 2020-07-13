@@ -367,6 +367,9 @@ const EmploymentDataFormView = (props) => {
               <DatePicker
                 disabledDate={disabledDatesAfterEnd}
                 style={styles.datePicker}
+                placeholder={intl.formatMessage({
+                  id: "profile.select.date",
+                })}
               />
             </Form.Item>
           </Col>
@@ -380,8 +383,10 @@ const EmploymentDataFormView = (props) => {
                 style={styles.datePicker}
                 disabledDate={disabledDatesBeforeStart}
                 disabled={!enableEndDate}
-                placeholder="unknown"
-              />
+                  placeholder={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                />
             </Form.Item>
             <div style={{ marginTop: "-10px" }}>
               <Checkbox
