@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FormattedMessage } from "react-intl";
 
 import { Layout } from "antd";
@@ -30,121 +30,22 @@ const FooterView = () => {
     },
   };
 
-  // update width to screen size
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const updateWidth = () => setWindowWidth(window.innerWidth);
-
-  useEffect(() => {
-    window.addEventListener("resize", updateWidth);
-
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  if (windowWidth < 993) {
-    return (
-      <Footer style={styles.footer}>
-        <div style={styles.aroundLinksSmall}>
-          <a
-            style={styles.link}
-            // href to be changed to route w about page
-            href="/about"
-          >
-            <FormattedMessage id="footer.about.link" />
-          </a>
-
-          <a
-            style={styles.link}
-            // href to be changed to route w Contact Us page
-            href="/about/help"
-          >
-            <FormattedMessage id="footer.contact.link" />
-          </a>
-
-          <a style={styles.link} href="//about/terms">
-            <FormattedMessage id="footer.terms.and.conditions.link" />
-          </a>
-
-          <a style={styles.link} href="/about/privacy">
-            <FormattedMessage id="footer.privacy.link" />
-          </a>
-        </div>
-      </Footer>
-    );
-  }
-
-  // check ending of url and if url is one of the cases below, apply styling for
-  // footer on pages without sidebar
-
-  const urlSections = window.location.toString().split("/");
-  const endURL = urlSections[urlSections.length - 1];
-
-  if (
-    endURL === "home" ||
-    endURL === "about" ||
-    endURL === "terms" ||
-    endURL === "privacy" ||
-    endURL === "help" ||
-    endURL === ""
-  ) {
-    return (
-      <Footer style={styles.footer}>
-        <div style={styles.aroundLinksSmall}>
-          <a
-            style={styles.link}
-            // href to be changed to route w about page
-            href="/about"
-          >
-            <FormattedMessage id="footer.about.link" />
-          </a>
-
-          <a
-            style={styles.link}
-            // href to be changed to route w Contact Us page
-            href="/about/help"
-          >
-            <FormattedMessage id="footer.contact.link" />
-          </a>
-
-          <a style={styles.link} href="/about/terms">
-            <FormattedMessage id="footer.terms.and.conditions.link" />
-          </a>
-
-          <a style={styles.link} href="/about/privacy">
-            <FormattedMessage id="footer.privacy.link" />
-          </a>
-        </div>
-      </Footer>
-    );
-  }
-
-  // default footer style with sidebar
-
   return (
     <Footer style={styles.footer}>
-      <div style={styles.aroundLinks}>
-        <a
-          style={styles.link}
-          // href to be changed to route w about page
-          href="/about"
-        >
+      <div style={styles.aroundLinksSmall}>
+        <a style={styles.link} href="/about">
           <FormattedMessage id="footer.about.link" />
         </a>
 
-        <a
-          style={styles.link}
-          // href to be changed to route w Contact Us page
-          href="/about/help"
-        >
+        <a style={styles.link} href="/help">
           <FormattedMessage id="footer.contact.link" />
         </a>
 
-        <a style={styles.link} href="/about/terms">
+        <a style={styles.link} href="/terms">
           <FormattedMessage id="footer.terms.and.conditions.link" />
         </a>
 
-        <a style={styles.link} href="/about/privacy">
+        <a style={styles.link} href="/privacy">
           <FormattedMessage id="footer.privacy.link" />
         </a>
       </div>

@@ -296,7 +296,6 @@ const PrimaryInfoFormView = ({
           <div style={styles.gedsInfoLink}>
             <Popover
               trigger="click"
-              tabIndex="0"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -319,7 +318,6 @@ const PrimaryInfoFormView = ({
         <div style={styles.gedsInfoLink}>
           <Popover
             trigger="click"
-            tabIndex="0"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />

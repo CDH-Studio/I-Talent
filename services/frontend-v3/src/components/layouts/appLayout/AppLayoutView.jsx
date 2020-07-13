@@ -32,9 +32,9 @@ const AppLayoutView = ({ sideBarContent, displaySideBar, children }) => {
         {/* Render content */}
         <Layout>
           <Content style={styles.content}>{children}</Content>
+          <Footer />
         </Layout>
       </Layout>
-      <Footer />
     </Layout>
   );
 };

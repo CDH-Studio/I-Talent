@@ -118,6 +118,10 @@ const LangProficiencyFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -620,7 +624,6 @@ const LangProficiencyFormView = ({
             <Text>
               <FormattedMessage id="profile.graded.on.second.language" />
               <Popover
-                tabIndex="0"
                 content={
                   <div>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -630,9 +633,7 @@ const LangProficiencyFormView = ({
                   </div>
                 }
               >
-                <InfoCircleOutlined
-                  style={{ paddingLeft: "5px", paddingRight: "5px" }}
-                />
+                <InfoCircleOutlined style={styles.iconBySwitch} />
               </Popover>
             </Text>
 

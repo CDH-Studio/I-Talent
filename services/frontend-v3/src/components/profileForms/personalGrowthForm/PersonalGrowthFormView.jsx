@@ -125,6 +125,9 @@ const PersonalGrowthFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconAfterTitle: {
+      paddingLeft: "5px",
+    },
   };
 
   /*
@@ -439,7 +442,6 @@ const PersonalGrowthFormView = ({
                 <Text>
                   <FormattedMessage id="setup.developmental.goals" />
                   <Popover
-                    tabIndex="0"
                     content={
                       <div>
                         <FormattedMessage id="tooltip.extra.info.help" />
@@ -449,7 +451,7 @@ const PersonalGrowthFormView = ({
                       </div>
                     }
                   >
-                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                    <InfoCircleOutlined style={styles.iconAfterTitle} />
                   </Popover>
                 </Text>
               }
@@ -504,7 +506,6 @@ const PersonalGrowthFormView = ({
                 <Text>
                   <FormattedMessage id="profile.willing.to.relocate.to" />
                   <Popover
-                    tabIndex="0"
                     content={
                       <div>
                         <FormattedMessage id="tooltip.extra.info.help" />
@@ -514,7 +515,7 @@ const PersonalGrowthFormView = ({
                       </div>
                     }
                   >
-                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                    <InfoCircleOutlined style={styles.iconAfterTitle} />
                   </Popover>
                 </Text>
               }
@@ -563,7 +564,6 @@ const PersonalGrowthFormView = ({
         <Title level={3} style={styles.formTitle}>
           <FormattedMessage id="setup.talent.management" />
           <Popover
-            tabIndex="0"
             content={
               <div>
                 <FormattedMessage id="profile.talent.management.tooltip" />

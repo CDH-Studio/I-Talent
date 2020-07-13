@@ -407,7 +407,6 @@ const TalentFormView = ({
                   <Text>
                     <FormattedMessage id="profile.mentorship.skills" />
                     <Popover
-                      tabIndex="0"
                       content={
                         <div>
                           <FormattedMessage id="tooltip.extra.info.help" />
@@ -610,7 +609,6 @@ const TalentFormView = ({
                 <Text>
                   <FormattedMessage id="setup.competencies" />
                   <Popover
-                    tabIndex="0"
                     content={
                       <div>
                         <FormattedMessage id="tooltip.extra.info.help" />
@@ -648,7 +646,6 @@ const TalentFormView = ({
                 <Text>
                   <FormattedMessage id="setup.skills" />
                   <Popover
-                    tabIndex="0"
                     content={
                       <div>
                         <FormattedMessage id="tooltip.extra.info.help" />
@@ -683,7 +680,6 @@ const TalentFormView = ({
             <Text>
               <FormattedMessage id="profile.mentorship.available" />
               <Popover
-                tabIndex="0"
                 content={
                   <div>
                     <FormattedMessage id="tooltip.extra.info.help" />

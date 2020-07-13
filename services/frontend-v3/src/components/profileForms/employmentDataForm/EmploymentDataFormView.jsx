@@ -122,6 +122,10 @@ const EmploymentDataFormView = (props) => {
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -628,7 +632,6 @@ const EmploymentDataFormView = (props) => {
             <Text>
               <FormattedMessage id="profile.willing.to.relocate.to" />
               <Popover
-                tabIndex="0"
                 content={
                   <div>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -638,9 +641,7 @@ const EmploymentDataFormView = (props) => {
                   </div>
                 }
               >
-                <InfoCircleOutlined
-                  style={{ paddingLeft: "5px", paddingRight: "5px" }}
-                />
+                <InfoCircleOutlined style={styles.iconBySwitch} />
               </Popover>
             </Text>
             <Switch
