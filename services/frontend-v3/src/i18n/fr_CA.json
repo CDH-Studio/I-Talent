@@ -211,6 +211,8 @@
   "setup.done.view.profile": "Voir mon profil",
 
   "results.title": "Résultats",
+  "search.results.cards.add.connection": "Crée une connexion",
+  "search.results.cards.remove.connection": "Déconnecter",
 
   "other.profile": "Profil",
   "my.profile": "Mon profil",
