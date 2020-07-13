@@ -33,6 +33,8 @@ const ResultsCardView = ({
   loading,
   userId,
   connections,
+  addFriend,
+  removeFriend,
 }) => {
   const styles = {
     smallP: {
@@ -71,11 +73,20 @@ const ResultsCardView = ({
               <UserAddOutlined style={{ fontSize: 16, marginRight: 5 }} />
             )
           }
+          onClick={(e) => {
+            e.stopPropagation();
+
+            if (isConnection) {
+              removeFriend(person.id);
+            } else {
+              addFriend(person.id);
+            }
+          }}
         >
           {isConnection ? (
-            <FormattedMessage id="search.results.cards.add.connection" />
-          ) : (
             <FormattedMessage id="search.results.cards.remove.connection" />
+          ) : (
+            <FormattedMessage id="search.results.cards.add.connection" />
           )}
         </Button>
       );
@@ -230,6 +241,8 @@ ResultsCardView.propTypes = {
   loading: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
   connections: PropTypes.arrayOf(PropTypes.string).isRequired,
+  addFriend: PropTypes.func.isRequired,
+  removeFriend: PropTypes.func.isRequired,
 };
 
 ResultsCardView.defaultProps = {

@@ -53,6 +53,20 @@ const ResultsCard = () => {
     );
   }, [getConnections, search]);
 
+  const addFriend = async (urlID) => {
+    await axios
+      .post(`api/friends/${urlID}`)
+      .catch((error) => handleError(error, "message"));
+    getConnections();
+  };
+
+  const removeFriend = async (urlID) => {
+    await axios
+      .delete(`api/friends/${urlID}`)
+      .catch((error) => handleError(error, "message"));
+    getConnections();
+  };
+
   if (emptyQuery) {
     return (
       <>
@@ -76,6 +90,8 @@ const ResultsCard = () => {
       loading={!results && !emptyQuery}
       userId={id}
       connections={connections}
+      addFriend={addFriend}
+      removeFriend={removeFriend}
     />
   );
 };
