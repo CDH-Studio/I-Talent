@@ -233,13 +233,7 @@ const LangProficiencyFormView = ({
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => {
-      const data = savedValues || getInitialValues(profileInfo);
-      setFieldsChanged(
-        (!data.oralProficiency && !prev) || (data.oralProficiency && prev)
-      );
-      return !prev;
-    });
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /**
@@ -249,12 +243,20 @@ const LangProficiencyFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -328,6 +330,16 @@ const LangProficiencyFormView = ({
     setDisplayMentorshipForm(data.oralProficiency);
     setFieldsChanged(false);
   };
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const data = savedValues || getInitialValues(profileInfo);
+    const oppositeInitialToggle =
+      !!data.oralProficiency !== displayMentorshipForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayMentorshipForm]);
 
   /*
    * Get Form Control Buttons
@@ -583,7 +595,7 @@ const LangProficiencyFormView = ({
         form={form}
         initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
+        onValuesChange={updateIfFormValuesChanged}
       >
         {/* Form Row One */}
         <Row gutter={24}>
