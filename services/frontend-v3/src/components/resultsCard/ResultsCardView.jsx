@@ -41,6 +41,54 @@ const ResultsCardView = ({
       margin: 0,
       marginTop: -10,
     },
+    badge: {
+      backgroundColor: "#565656",
+      borderRadius: 20,
+      padding: 5,
+    },
+    badgeIcon: {
+      color: "#F5F5F5",
+    },
+    divider: {
+      height: "auto",
+      marginRight: 20,
+      marginTop: 4,
+    },
+    tag: {
+      marginBottom: "2px",
+      marginTop: "2px",
+    },
+    meta: {
+      margin: 0,
+      marginRight: 20,
+    },
+    avatarText: {
+      fontSize: "25px",
+      color: "white",
+    },
+    card: {
+      height: "100%",
+      overflowX: "hidden",
+      display: "flex",
+      flexDirection: "column",
+    },
+    cardBody: {
+      flex: 1,
+    },
+    container: {
+      padding: "0 12px",
+      maxWidth: 1600,
+    },
+    buttonIcon: {
+      fontSize: 16,
+      marginRight: 5,
+    },
+    button: {
+      margin: "-10px 0",
+    },
+    skillsContainer: {
+      height: "100%",
+    },
   };
 
   /*
@@ -55,6 +103,41 @@ const ResultsCardView = ({
     }
   };
 
+  const renderAvatar = (person) => {
+    return (
+      <Tooltip
+        align={{ offset: [18, -3] }}
+        title={
+          person.isFriends ? (
+            <FormattedMessage
+              id="search.results.cards.connection.tooltip"
+              values={{ name: person.firstName }}
+            />
+          ) : undefined
+        }
+      >
+        <Badge
+          count={
+            person.isFriends ? (
+              <TeamOutlined style={styles.badgeIcon} />
+            ) : undefined
+          }
+          offset={[-6, 6]}
+          style={styles.badge}
+        >
+          <Avatar
+            size={48}
+            style={{
+              backgroundColor: person.avatarColor,
+            }}
+          >
+            <Text style={styles.avatarText}>{person.nameInitials}</Text>
+          </Avatar>
+        </Badge>
+      </Tooltip>
+    );
+  };
+
   const renderCard = (person, key) => {
     const actions = [];
     const isConnection = connections.includes(person.id);
@@ -67,9 +150,9 @@ const ResultsCardView = ({
           block
           icon={
             isConnection ? (
-              <UserDeleteOutlined style={{ fontSize: 16, marginRight: 5 }} />
+              <UserDeleteOutlined style={styles.buttonIcon} />
             ) : (
-              <UserAddOutlined style={{ fontSize: 16, marginRight: 5 }} />
+              <UserAddOutlined style={styles.buttonIcon} />
             )
           }
           onClick={(e) => {
@@ -81,7 +164,7 @@ const ResultsCardView = ({
               addConnection(person.id);
             }
           }}
-          style={{ margin: "-10px 0" }}
+          style={styles.button}
         >
           {isConnection ? (
             <FormattedMessage id="search.results.cards.remove.connection" />
@@ -92,104 +175,53 @@ const ResultsCardView = ({
       );
     }
 
+    const hasSkills = person.resultSkills.length > 0;
+
+    const cardTitle = person.branch ? <Text>{person.branch}</Text> : undefined;
+    const cardExtra =
+      person.groupLevel && person.groupLevel.name ? (
+        <Text>{`${person.groupLevel.name}`}</Text>
+      ) : undefined;
+
     return (
       <Col span={24} xxl={12} key={key}>
         <Card
           tabIndex="0"
-          style={{
-            height: "100%",
-            overflowX: "hidden",
-            display: "flex",
-            flexDirection: "column",
-          }}
+          style={styles.card}
           size="small"
           hoverable
           bordered
           onClick={() => history.push(`/secured/profile/${person.id}`)}
           onKeyPress={(e) => handleKeyPress(e, person)}
-          title={person.branch ? <Text>{person.branch}</Text> : undefined}
-          extra={
-            person.groupLevel && person.groupLevel.name ? (
-              <Text>{`${person.groupLevel.name}`}</Text>
-            ) : undefined
-          }
+          title={cardTitle}
+          extra={cardExtra}
           actions={actions}
-          bodyStyle={{ flex: 1 }}
+          bodyStyle={styles.cardBody}
         >
           <Row>
             <Col>
               <Row style={{ paddingTop: 4 }}>
                 <Meta
-                  avatar={
-                    <Tooltip
-                      align={{ offset: [18, -3] }}
-                      title={
-                        person.isFriends ? (
-                          <FormattedMessage
-                            id="search.results.cards.connection.tooltip"
-                            values={{ name: person.firstName }}
-                          />
-                        ) : undefined
-                      }
-                    >
-                      <Badge
-                        count={
-                          person.isFriends ? (
-                            <TeamOutlined style={{ color: "#F5F5F5" }} />
-                          ) : undefined
-                        }
-                        offset={[-6, 6]}
-                        style={{
-                          backgroundColor: "#565656",
-                          borderRadius: 20,
-                          padding: 4,
-                        }}
-                      >
-                        <Avatar
-                          size={48}
-                          style={{
-                            backgroundColor: person.avatarColor,
-                          }}
-                        >
-                          <Text style={{ fontSize: "25px", color: "white" }}>
-                            {person.nameInitials}
-                          </Text>
-                        </Avatar>
-                      </Badge>
-                    </Tooltip>
-                  }
+                  style={styles.meta}
+                  avatar={renderAvatar(person)}
                   title={`${person.firstName} ${person.lastName}`}
                   description={
                     <p style={styles.smallP}>
                       {person.jobTitle ? person.jobTitle : "-"}
                     </p>
                   }
-                  style={{ margin: 0, marginRight: 20 }}
                 />
               </Row>
             </Col>
 
-            {person.resultSkills.length > 0 && (
-              <Divider
-                type="vertical"
-                style={{ height: "auto", marginRight: 20, marginTop: 4 }}
-              />
-            )}
+            {hasSkills && <Divider type="vertical" style={styles.divider} />}
 
             <Col flex="1">
-              {person.resultSkills.length > 0 && (
-                <Row align="middle" style={{ height: "100%" }} type="flex">
+              {hasSkills && (
+                <Row align="middle" style={styles.skillsContainer} type="flex">
                   {person.resultSkills.map(({ id, name }) => (
-                    <Col>
-                      <Tag
-                        style={{
-                          marginBottom: "2px",
-                          marginTop: "2px",
-                        }}
-                        key={id}
-                      >
-                        {name}
-                      </Tag>
+                    <Col key={id}>
+                      <Tag style={styles.tag}>{name}</Tag>
                     </Col>
                   ))}
                 </Row>
@@ -214,7 +246,7 @@ const ResultsCardView = ({
   };
 
   return (
-    <div style={{ padding: "0 12px", maxWidth: 1600 }}>
+    <div style={styles.container}>
       {loading && (
         <Card>
           <Skeleton />
