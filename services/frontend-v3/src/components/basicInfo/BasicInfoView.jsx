@@ -21,6 +21,8 @@ import {
   Button,
   Tooltip,
 } from "antd";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 
 const { Text } = Typography;
@@ -33,6 +35,11 @@ const BasicInfoView = ({
   buttonLinks,
   history,
 }) => {
+  // useParams returns an object of key/value pairs from URL parameters
+  const { id } = useParams();
+  const urlID = id;
+  const userID = useSelector((state) => state.user.id);
+
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
@@ -85,20 +92,24 @@ const BasicInfoView = ({
             {jobTitle}
           </Text>
         </Col>
-        <Col xs={1}>
-          <Tooltip
-            placement="top"
-            title={<FormattedMessage id="profile.edit" />}
-          >
-            <Button
-              aria-label="edit card"
-              type="default"
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => history.push("/secured/profile/edit/primary-info")}
-            />
-          </Tooltip>
-        </Col>
+        {urlID === userID && (
+          <Col xs={1}>
+            <Tooltip
+              placement="top"
+              title={<FormattedMessage id="profile.edit" />}
+            >
+              <Button
+                aria-label="edit card"
+                type="default"
+                shape="circle"
+                icon={<EditOutlined />}
+                onClick={() =>
+                  history.push("/secured/profile/edit/primary-info")
+                }
+              />
+            </Tooltip>
+          </Col>
+        )}
       </Row>
     );
   };
