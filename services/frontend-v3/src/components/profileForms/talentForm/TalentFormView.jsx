@@ -137,7 +137,7 @@ const TalentFormView = ({
    * toggle state that controls mentorship form visibility
    */
   const toggleMentorshipForm = () => {
-    setDisplayMentorshipForm(!displayMentorshipForm);
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /*
@@ -202,12 +202,28 @@ const TalentFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    // Cleans up the object for following comparison
+    if (
+      formValues.mentorshipSkills === undefined &&
+      dbValues.mentorshipSkills.length === 0
+    ) {
+      delete dbValues.mentorshipSkills;
+    }
+
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -291,7 +307,7 @@ const TalentFormView = ({
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+    updateIfFormValuesChanged();
   };
 
   /*
@@ -493,6 +509,15 @@ const TalentFormView = ({
     }
   }, [load, form, savedMentorshipSkills, skillOptions, savedSkills]);
 
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const oppositeInitialToggle =
+      savedMentorshipSkills.length > 0 !== displayMentorshipForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayMentorshipForm]);
+
   /*
    * Get Form Control Buttons
    *
@@ -598,7 +623,7 @@ const TalentFormView = ({
         form={form}
         initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
+        onValuesChange={updateIfFormValuesChanged}
       >
         {/* Form Row One:competencies */}
         <Row gutter={24}>

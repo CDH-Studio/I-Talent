@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Affix, Layout } from "antd";
+import { Affix, Layout, Skeleton } from "antd";
 
 const { Sider } = Layout;
 
-const SideNavView = ({ displaySideBar, sideBarContent }) => {
+const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
   /* Component Styles */
   const styles = {
     siderDiv: {
@@ -31,7 +31,13 @@ const SideNavView = ({ displaySideBar, sideBarContent }) => {
           zeroWidthTriggerStyle={{ backgroundColor: "#192e2f" }}
         >
           {/* render content of side bar */}
-          {sideBarContent}
+          {loading ? (
+            <div style={{ margin: 32 }}>
+              <Skeleton />
+            </div>
+          ) : (
+            sideBarContent
+          )}
         </Sider>
       </Affix>
     );
@@ -42,10 +48,12 @@ const SideNavView = ({ displaySideBar, sideBarContent }) => {
 SideNavView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
   sideBarContent: PropTypes.node,
+  loading: PropTypes.bool,
 };
 
 SideNavView.defaultProps = {
   sideBarContent: undefined,
+  loading: false,
 };
 
 export default SideNavView;

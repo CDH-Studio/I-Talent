@@ -8,10 +8,22 @@ import {
   BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { Row, Col, Card, Avatar, List, Typography, Button } from "antd";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import {
+  Row,
+  Col,
+  Card,
+  Avatar,
+  List,
+  Typography,
+  Button,
+  Tooltip,
+} from "antd";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 
 const { Text } = Typography;
 
@@ -21,7 +33,13 @@ const BasicInfoView = ({
   avatar,
   jobTitle,
   buttonLinks,
+  history,
 }) => {
+  // useParams returns an object of key/value pairs from URL parameters
+  const { id } = useParams();
+  const urlID = id;
+  const userID = useSelector((state) => state.user.id);
+
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
@@ -60,7 +78,7 @@ const BasicInfoView = ({
             </Text>
           </Avatar>
         </Col>
-        <Col xs={12} md={19} lg={20} xxl={21} style={{ padding: "11px 10px" }}>
+        <Col xs={11} md={18} lg={19} xxl={20} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -74,6 +92,24 @@ const BasicInfoView = ({
             {jobTitle}
           </Text>
         </Col>
+        {urlID === userID && (
+          <Col xs={1}>
+            <Tooltip
+              placement="top"
+              title={<FormattedMessage id="profile.edit" />}
+            >
+              <Button
+                aria-label="edit card"
+                type="default"
+                shape="circle"
+                icon={<EditOutlined />}
+                onClick={() =>
+                  history.push("/secured/profile/edit/primary-info")
+                }
+              />
+            </Tooltip>
+          </Col>
+        )}
       </Row>
     );
   };
@@ -238,6 +274,7 @@ BasicInfoView.propTypes = {
   }).isRequired,
   jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 BasicInfoView.defaultProps = {

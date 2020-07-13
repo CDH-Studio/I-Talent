@@ -32,7 +32,12 @@ function DevelopmentalGoalsView({ devGoals }) {
 }
 
 DevelopmentalGoalsView.propTypes = {
-  devGoals: PropTypes.arrayOf(PropTypes.string),
+  devGoals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
 };
 
 DevelopmentalGoalsView.defaultProps = {

@@ -18,6 +18,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import axios from "../../../axios-instance";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
@@ -43,7 +44,7 @@ import handleError from "../../../functions/handleError";
 const { Link } = Anchor;
 const { Title, Text } = Typography;
 
-const ProfileLayoutView = ({ data }) => {
+const ProfileLayoutView = ({ data, loading }) => {
   const [friends, setFriends] = useState(true);
 
   // useParams returns an object of key/value pairs from URL parameters
@@ -103,12 +104,10 @@ const ProfileLayoutView = ({ data }) => {
               <BasicInfo data={data} style={styles.card} />
             </Col>
             <Col xs={24} xl={10}>
-              <ProfileCards
+              <EmployeeSummary
                 title={<FormattedMessage id="profile.employee.summary" />}
-                content={<EmployeeSummary data={data} />}
                 cardName="info"
                 id="card-profile-employee-summary"
-                editUrl="/secured/profile/edit/employment"
                 data={data}
               />
             </Col>
@@ -775,7 +774,11 @@ const ProfileLayoutView = ({ data }) => {
   };
 
   return (
-    <AppLayout sideBarContent={generateProfileSidebarContent()} displaySideBar>
+    <AppLayout
+      sideBarContent={generateProfileSidebarContent()}
+      displaySideBar
+      loading={loading}
+    >
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
@@ -794,10 +797,12 @@ const ProfileLayoutView = ({ data }) => {
 
 ProfileLayoutView.propTypes = {
   data: ProfileInfoPropType,
+  loading: PropTypes.bool,
 };
 
 ProfileLayoutView.defaultProps = {
   data: null,
+  loading: null,
 };
 
 export default ProfileLayoutView;

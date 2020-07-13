@@ -32,7 +32,12 @@ const CompetenciesView = ({ competencies }) => {
 };
 
 CompetenciesView.propTypes = {
-  competencies: PropTypes.arrayOf(PropTypes.string),
+  competencies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
 };
 
 CompetenciesView.defaultProps = {

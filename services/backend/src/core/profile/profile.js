@@ -4,6 +4,10 @@ const _ = require("lodash");
 const prisma = require("../../database");
 
 function normalizeDate(date, startOf) {
+  if (date === null) {
+    return date;
+  }
+
   return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
 }
 

@@ -160,6 +160,8 @@ const EmploymentDataFormView = (props) => {
 
     if (!unalteredValues.actingLevelId) {
       values.actingLevelId = null;
+      values.actingStartDate = null;
+      values.actingEndDate = null;
     }
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
@@ -167,7 +169,7 @@ const EmploymentDataFormView = (props) => {
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
-    setDisplayActingRoleForm(!displayActingRoleForm);
+    setDisplayActingRoleForm((prev) => !prev);
   };
 
   /* enable or disable end date field */
@@ -245,12 +247,20 @@ const EmploymentDataFormView = (props) => {
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -326,7 +336,7 @@ const EmploymentDataFormView = (props) => {
     );
 
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+    updateIfFormValuesChanged();
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -365,6 +375,9 @@ const EmploymentDataFormView = (props) => {
               <DatePicker
                 disabledDate={disabledDatesAfterEnd}
                 style={styles.datePicker}
+                placeholder={intl.formatMessage({
+                  id: "profile.select.date",
+                })}
               />
             </Form.Item>
           </Col>
@@ -374,14 +387,18 @@ const EmploymentDataFormView = (props) => {
               label={<FormattedMessage id="profile.acting.period.end.date" />}
               rules={enableEndDate ? [Rules.required] : undefined}
             >
-              <DatePicker
-                style={styles.datePicker}
-                disabledDate={disabledDatesBeforeStart}
-                disabled={!enableEndDate}
-                placeholder="unknown"
-              />
+              {enableEndDate && (
+                <DatePicker
+                  style={styles.datePicker}
+                  disabledDate={disabledDatesBeforeStart}
+                  disabled={!enableEndDate}
+                  placeholder={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                />
+              )}
             </Form.Item>
-            <div style={{ marginTop: "-10px" }}>
+            <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
                 tabIndex="0"
                 onChange={toggleTempEndDate}
@@ -433,6 +450,16 @@ const EmploymentDataFormView = (props) => {
       form.resetFields();
     }
   }, [load, form, profileInfo]);
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const data = savedValues || getInitialValues(profileInfo);
+    const oppositeInitialToggle =
+      !!data.actingLevelId !== displayActingRoleForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayActingRoleForm]);
 
   /*
    * Get Form Control Buttons
@@ -539,7 +566,7 @@ const EmploymentDataFormView = (props) => {
         form={form}
         initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
+        onValuesChange={updateIfFormValuesChanged}
       >
         {/* Form Row One */}
         <Row gutter={24}>
