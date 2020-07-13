@@ -223,7 +223,7 @@ const ResultsCardView = ({
         gutter={[8, 8]}
         type="flex"
         justify="left"
-        align={results.length === 0 ? "center" : "top"}
+        align={results.length === 0 ? "center" : undefined}
       >
         {!loading && renderResultCards(results)}
       </Row>
