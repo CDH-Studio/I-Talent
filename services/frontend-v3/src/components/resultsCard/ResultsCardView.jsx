@@ -131,7 +131,6 @@ const ResultsCardView = ({
                           />
                         ) : undefined
                       }
-                      visible
                     >
                       <Badge
                         count={
