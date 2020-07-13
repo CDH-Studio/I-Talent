@@ -16,6 +16,8 @@ async function getAllUsers(searchValue, language, userId) {
     },
   });
 
+  let isFriends = false;
+
   visibleCards = await Promise.all(
     visibleCards.map(
       async ({
@@ -36,7 +38,7 @@ async function getAllUsers(searchValue, language, userId) {
           select: { friends: true },
         });
 
-        const isFriends = Friends.friends.some((item) => item.id === userId);
+        isFriends = Friends.friends.some((item) => item.id === userId);
 
         return {
           id,
@@ -75,6 +77,7 @@ async function getAllUsers(searchValue, language, userId) {
       }
     )
   );
+
   const users = await Promise.all(
     visibleCards.map(
       ({
@@ -271,6 +274,7 @@ async function getAllUsers(searchValue, language, userId) {
     const info = {
       ...user,
       nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
+      isFriends,
     };
 
     if (info.employmentInfo) {

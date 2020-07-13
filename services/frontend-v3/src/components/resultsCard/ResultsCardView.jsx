@@ -58,7 +58,6 @@ const ResultsCardView = ({
   const renderCard = (person, key) => {
     const actions = [];
     const isConnection = connections.includes(person.id);
-    let isFriend = true;
 
     if (person.id !== userId) {
       actions.push(
@@ -90,8 +89,6 @@ const ResultsCardView = ({
           )}
         </Button>
       );
-    } else {
-      isFriend = false;
     }
 
     return (
@@ -126,7 +123,7 @@ const ResultsCardView = ({
                     <Tooltip
                       align={{ offset: [18, -3] }}
                       title={
-                        isFriend ? (
+                        person.isFriends ? (
                           <FormattedMessage
                             id="search.results.cards.connection.tooltip"
                             values={{ name: person.firstName }}
@@ -136,7 +133,7 @@ const ResultsCardView = ({
                     >
                       <Badge
                         count={
-                          isFriend ? (
+                          person.isFriends ? (
                             <TeamOutlined style={{ color: "#F5F5F5" }} />
                           ) : undefined
                         }
