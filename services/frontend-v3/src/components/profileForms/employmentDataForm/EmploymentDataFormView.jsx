@@ -379,16 +379,18 @@ const EmploymentDataFormView = (props) => {
               label={<FormattedMessage id="profile.acting.period.end.date" />}
               rules={enableEndDate ? [Rules.required] : undefined}
             >
-              <DatePicker
-                style={styles.datePicker}
-                disabledDate={disabledDatesBeforeStart}
-                disabled={!enableEndDate}
+              {enableEndDate && (
+                <DatePicker
+                  style={styles.datePicker}
+                  disabledDate={disabledDatesBeforeStart}
+                  disabled={!enableEndDate}
                   placeholder={intl.formatMessage({
                     id: "profile.select.date",
                   })}
                 />
+              )}
             </Form.Item>
-            <div style={{ marginTop: "-10px" }}>
+            <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
                 tabIndex="0"
                 onChange={toggleTempEndDate}
