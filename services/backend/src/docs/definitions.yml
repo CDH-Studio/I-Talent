@@ -241,6 +241,8 @@ definitions:
             $ref: "#/definitions/StringArray"
           nameInitials:
             type: string
+          isFriends:
+            type: boolean
           branch:
             type: string
           jobTitle:
