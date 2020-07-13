@@ -362,6 +362,7 @@ async function seedUsers() {
       actingStartDate,
       educations,
       relocationLocations,
+      visibleCards,
     }) => {
       const careerMobilityId = await getCareerMobilityId(careerMobility);
       const lookingJobId = await getLookingJobId(lookingJob);
@@ -410,6 +411,25 @@ async function seedUsers() {
           avatarColor,
           actingEndDate,
           actingStartDate,
+          visibleCards: visibleCards
+            ? {
+                create: {
+                  manager: visibleCards.manager,
+                  info: visibleCards.info,
+                  talentManagement: visibleCards.talentManagement,
+                  officialLanguage: visibleCards.officialLanguage,
+                  skills: visibleCards.skills,
+                  competencies: visibleCards.competencies,
+                  developmentalGoals: visibleCards.developmentalGoals,
+                  education: visibleCards.education,
+                  experience: visibleCards.experience,
+                  projects: visibleCards.projects,
+                  careerInterests: visibleCards.careerInterests,
+                  mentorshipSkills: visibleCards.mentorshipSkills,
+                  exFeeder: visibleCards.exFeeder,
+                },
+              }
+            : undefined,
           actingLevel: actingLevel
             ? {
                 connect: {
@@ -624,9 +644,6 @@ async function seedUsers() {
                 };
               }
             ),
-          },
-          visibleCards: {
-            create: {},
           },
         },
       });
