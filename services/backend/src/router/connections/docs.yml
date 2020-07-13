@@ -1,6 +1,6 @@
 /api/friends/{id}:
   get:
-    summary: Checks if the user is a friend
+    summary: Checks if the user is a connection
     produces:
       - application/json
     parameters:
@@ -8,7 +8,7 @@
     response:
       200:
         schema:
-          $ref: "#/definitions/GetFriend"
+          $ref: "#/definitions/GetConnection"
       403:
         $ref: "#/definitions/403"
       422:
@@ -19,7 +19,7 @@
       - Keycloak: []
     tags: [friends]
   post:
-    summary: Add a user as a friend
+    summary: Add a user as a connection
     parameters:
       - $ref: "#/definitions/IdQuery"
     responses:
@@ -35,7 +35,7 @@
       - Keycloak: []
     tags: [friends]
   delete:
-    summary: Remove a user as a friend
+    summary: Remove a user as a connection
     parameters:
       - $ref: "#/definitions/IdQuery"
     responses:
