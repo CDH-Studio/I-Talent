@@ -81,6 +81,7 @@ const ResultsCardView = ({
               addConnection(person.id);
             }
           }}
+          style={{ margin: "-10px 0" }}
         >
           {isConnection ? (
             <FormattedMessage id="search.results.cards.remove.connection" />
@@ -130,6 +131,7 @@ const ResultsCardView = ({
                           />
                         ) : undefined
                       }
+                      visible
                     >
                       <Badge
                         count={
@@ -213,7 +215,7 @@ const ResultsCardView = ({
   };
 
   return (
-    <div style={{ padding: "0 12px", maxWidth: 1500 }}>
+    <div style={{ padding: "0 12px", maxWidth: 1600 }}>
       {loading && (
         <Card>
           <Skeleton />
