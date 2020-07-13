@@ -213,6 +213,7 @@
   "results.title": "Résultats",
   "search.results.cards.add.connection": "Crée une connexion",
   "search.results.cards.remove.connection": "Déconnecter",
+  "search.results.cards.connection.tooltip": "{name} vous as comme connexion",
 
   "other.profile": "Profil",
   "my.profile": "Mon profil",

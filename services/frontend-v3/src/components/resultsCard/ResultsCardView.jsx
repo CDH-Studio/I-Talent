@@ -115,9 +115,12 @@ const ResultsCardView = ({
                     <Tooltip
                       align={{ offset: [18, -3] }}
                       title={
-                        isFriend
-                          ? `You're a connection of ${person.firstName}`
-                          : undefined
+                        isFriend ? (
+                          <FormattedMessage
+                            id="search.results.cards.connection.tooltip"
+                            values={{ name: person.firstName }}
+                          />
+                        ) : undefined
                       }
                     >
                       <Badge
