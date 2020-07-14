@@ -88,10 +88,13 @@ async function writeNewFiles(unusedKeys) {
  * Search React files to know which i18n keys are not being used
  *
  * @param {string} dir Directory to search files
- * @param {string} ext Extension of the files to be searched
+ * @param {string[]} ext Extensions of the files to be searched
  */
 async function searchFilesInDirectory(dir, ext) {
-  const files = await getFilesInDirectory(dir, ext);
+  let files = await Promise.all(
+    ext.map((extension) => getFilesInDirectory(dir, extension))
+  );
+  files = _.flatten(files);
   const filesContent = await Promise.all(
     files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
   );
@@ -124,4 +127,4 @@ async function searchFilesInDirectory(dir, ext) {
   writeNewFiles(unusedKeys);
 }
 
-searchFilesInDirectory("../", ".jsx");
+searchFilesInDirectory(path.join(__dirname, ".."), [".js", ".jsx"]);
