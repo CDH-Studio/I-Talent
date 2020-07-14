@@ -11,8 +11,13 @@ import {
   Button,
   TreeSelect,
   message,
+  Popover,
 } from "antd";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
@@ -24,7 +29,6 @@ import {
   ProfileInfoPropType,
   IntlPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import handleError from "../../../functions/handleError";
 
 const { Option } = Select;
@@ -116,6 +120,13 @@ const TalentFormView = ({
       fontWeight: "normal",
       fontStyle: "italic",
       opacity: 0.5,
+    },
+    infoIcon: {
+      paddingLeft: "5px",
+    },
+    infoIconSwitch: {
+      addingLeft: "5px",
+      paddingRight: "5px",
     },
   };
 
@@ -416,12 +427,21 @@ const TalentFormView = ({
               <Form.Item
                 name="mentorshipSkills"
                 label={
-                  <FormLabelTooltip
-                    labelText={
-                      <FormattedMessage id="profile.mentorship.skills" />
-                    }
-                    tooltipText="Extra information"
-                  />
+                  <Text>
+                    <FormattedMessage id="profile.mentorship.skills" />
+                    <Popover
+                      content={
+                        <div>
+                          <FormattedMessage id="tooltip.extra.info.help" />
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        </div>
+                      }
+                    >
+                      <InfoCircleOutlined style={styles.infoIcon} />
+                    </Popover>
+                  </Text>
                 }
                 rules={[Rules.required]}
                 extra={
@@ -612,16 +632,27 @@ const TalentFormView = ({
         layout="vertical"
         onValuesChange={updateIfFormValuesChanged}
       >
-        {/* Form Row Two: skills */}
+        {/* Form Row One: skills */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
               name="skills"
               label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.skills" />}
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.skills" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.infoIcon} />
+                  </Popover>
+                </Text>
               }
             >
               <TreeSelect
@@ -638,13 +669,25 @@ const TalentFormView = ({
             </Form.Item>
           </Col>
         </Row>
-        {/* Form Row Three: mentorship role */}
+        {/* Form Row Two: mentorship role */}
         <Row style={styles.secondLangRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={<FormattedMessage id="profile.mentorship.available" />}
-              tooltipText="Extra information"
-            />
+            <Text>
+              <FormattedMessage id="profile.mentorship.available" />
+              <Popover
+                content={
+                  <div>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                }
+              >
+                <InfoCircleOutlined style={styles.infoIconSwitch} />
+              </Popover>
+            </Text>
+
             <Switch
               checked={displayMentorshipForm}
               onChange={toggleMentorshipForm}
@@ -652,16 +695,27 @@ const TalentFormView = ({
             {getMentorshipForm(displayMentorshipForm)}
           </Col>
         </Row>
-        {/* Form Row One:competencies */}
+        {/* Form Row Three: competencies */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
               name="competencies"
               label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.competencies" />}
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.competencies" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.infoIcon} />
+                  </Popover>
+                </Text>
               }
             >
               <Select
