@@ -1,22 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TalentManagementView from "./TalentManagementView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import ConnectionsView from "./ConnectionsView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const TalentManagement = ({
-  data,
-  title,
-  cardName,
-  id,
-  type,
-  visible,
-  editUrl,
-}) => {
+const Connections = ({ data, title, cardName, id, type, visible, editUrl }) => {
   return (
     <ProfileCards
       title={title}
-      content={<TalentManagementView data={data} />}
+      content={<ConnectionsView Connections={data.connections} />}
       cardName={cardName}
       id={id}
       editUrl={editUrl}
@@ -27,8 +18,10 @@ const TalentManagement = ({
   );
 };
 
-TalentManagement.propTypes = {
-  data: ProfileInfoPropType,
+Connections.propTypes = {
+  data: PropTypes.shape({
+    connections: PropTypes.array,
+  }).isRequired,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -37,11 +30,10 @@ TalentManagement.propTypes = {
   editUrl: PropTypes.string,
 };
 
-TalentManagement.defaultProps = {
-  data: null,
+Connections.defaultProps = {
   type: null,
   visible: null,
   editUrl: "",
 };
 
-export default TalentManagement;
+export default Connections;

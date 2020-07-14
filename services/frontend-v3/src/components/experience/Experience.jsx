@@ -1,10 +1,12 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import PropTypes from "prop-types";
 import ExperienceView from "./ExperienceView";
 import { ProfileInfoPropType } from "../../customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const Experience = ({ data }) => {
+const Experience = ({ data, title, cardName, id, type, visible, editUrl }) => {
   const getExperienceDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
@@ -40,15 +42,35 @@ const Experience = ({ data }) => {
     );
   };
 
-  return <ExperienceView experienceInfo={getExperienceInfo(data)} />;
+  return (
+    <ProfileCards
+      title={title}
+      content={<ExperienceView experienceInfo={getExperienceInfo(data)} />}
+      cardName={cardName}
+      id={id}
+      editUrl={editUrl}
+      data={data}
+      type={type}
+      visible={visible}
+    />
+  );
 };
 
 Experience.propTypes = {
   data: ProfileInfoPropType,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  cardName: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.bool,
+  visible: PropTypes.bool,
+  editUrl: PropTypes.string,
 };
 
 Experience.defaultProps = {
   data: null,
+  type: null,
+  visible: null,
+  editUrl: "",
 };
 
 export default Experience;

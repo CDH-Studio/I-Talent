@@ -55,14 +55,14 @@ const ResultsCard = () => {
 
   const addConnection = async (urlID) => {
     await axios
-      .post(`api/friends/${urlID}`)
+      .post(`api/connections/${urlID}`)
       .catch((error) => handleError(error, "message"));
     getConnections();
   };
 
   const removeConnection = async (urlID) => {
     await axios
-      .delete(`api/friends/${urlID}`)
+      .delete(`api/connections/${urlID}`)
       .catch((error) => handleError(error, "message"));
     getConnections();
   };

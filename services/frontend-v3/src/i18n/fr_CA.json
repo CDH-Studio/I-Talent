@@ -335,8 +335,6 @@
   "profile.select.date": "Sélectionner une date",
 
   "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
-  "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Sera aussi visible pour les ressources humaines)",
-  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe d'amis? (Sera aussi visible pour les ressources humaines)",
 
   "lang": "English",
   "lang.code": "en",
@@ -380,18 +378,20 @@
   "profile.hide.account.confirm.content": "Votre compte sera rendu inaccessible, mais les personnes disposant d'un lien direct pourront toujours le consulter.",
   "profile.deactivate.account.confirm.content": "Votre compte sera rendu inaccessible, mais vos données resteront stockées.",
 
-  "profile.addFriend": "Ajouter un ami",
-  "profile.removeFriend": "Supprimer un ami",
-  "profile.removeFriend.confirm": "Voulez-vous vraiment supprimer cet utilisateur de votre groupe d'amis ?",
-
   "profile.is.ongoing": "Courant",
 
   "sign.out": "Déconnexion",
   "home": "Acceuil",
 
+  "profile.addConnection": "Ajouter une connexion",
+  "profile.removeConnection": "Supprimer la connexion",
+
+  "profile.privateGroup": "Groupe privé",
+  "profile.connections": "Connexions",
+
   "profile.visibleCards.public": "Publique",
-  "profile.visibleCards.friends": "Amis seulement",
-  "profile.visibleCards.private": "Privée",
+  "profile.visibleCards.connections": "Connexions",
+  "profile.visibleCards.private": "privée",
 
   "error.redirect.title": "Erreur inattendue",
   "error.redirect.subtitle": "Quelque chose a mal tourné",

@@ -1,10 +1,12 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import PropTypes from "prop-types";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import EducationView from "./EducationView";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const Education = ({ data }) => {
+const Education = ({ data, title, cardName, id, type, visible, editUrl }) => {
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
@@ -37,10 +39,34 @@ const Education = ({ data }) => {
       })
     );
   };
-
-  return <EducationView educationInfo={getEducationInfo(data)} />;
+  return (
+    <ProfileCards
+      title={title}
+      content={<EducationView educationInfo={getEducationInfo(data)} />}
+      cardName={cardName}
+      id={id}
+      editUrl={editUrl}
+      data={data}
+      type={type}
+      visible={visible}
+    />
+  );
 };
 
-Education.propTypes = { data: ProfileInfoPropType.isRequired };
+Education.propTypes = {
+  data: ProfileInfoPropType.isRequired,
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  cardName: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.bool,
+  visible: PropTypes.bool,
+  editUrl: PropTypes.string,
+};
+
+Education.defaultProps = {
+  type: null,
+  visible: null,
+  editUrl: "",
+};
 
 export default Education;

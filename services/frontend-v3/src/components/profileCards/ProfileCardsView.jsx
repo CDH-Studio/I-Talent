@@ -25,6 +25,8 @@ const ProfileCardsView = ({
   content,
   style,
   history,
+  type,
+  visible,
 }) => {
   const [status, setStatus] = useState("");
 
@@ -72,9 +74,7 @@ const ProfileCardsView = ({
    */
   // eslint-disable-next-line consistent-return
   const generateSwitchButton = () => {
-    // Check if user is on his own profile (by
-    // comparing the id in storage vs the id in the url)
-    if (userID === urlID && cardName !== "friends") {
+    if (type) {
       return (
         <div style={{ marginTop: "15px" }}>
           <Row type="flex" gutter={[16, 16]}>
@@ -101,41 +101,27 @@ const ProfileCardsView = ({
                 </Tooltip>
                 <Tooltip
                   placement="bottom"
-                  title={<FormattedMessage id="profile.visibleCards.friends" />}
+                  title={
+                    <FormattedMessage id="profile.visibleCards.connections" />
+                  }
                 >
-                  <Popconfirm
-                    title={
-                      <FormattedMessage id="profile.visibility.friends.confirm" />
-                    }
-                    placement="topRight"
-                    okText={<FormattedMessage id="profile.yes" />}
-                    cancelText={<FormattedMessage id="profile.no" />}
-                    icon={<WarningOutlined style={{ color: "orange" }} />}
-                    onConfirm={() => handleVisibilityToggle("FRIENDS")}
+                  <Radio.Button
+                    value="FRIENDS"
+                    onClick={() => handleVisibilityToggle("FRIENDS")}
                   >
-                    <Radio.Button value="FRIENDS">
-                      <TeamOutlined />
-                    </Radio.Button>
-                  </Popconfirm>
+                    <TeamOutlined />
+                  </Radio.Button>
                 </Tooltip>
                 <Tooltip
                   placement="bottom"
                   title={<FormattedMessage id="profile.visibleCards.private" />}
                 >
-                  <Popconfirm
-                    title={
-                      <FormattedMessage id="profile.visibility.hide.confirm" />
-                    }
-                    placement="topRight"
-                    okText={<FormattedMessage id="profile.yes" />}
-                    cancelText={<FormattedMessage id="profile.no" />}
-                    icon={<WarningOutlined style={{ color: "orange" }} />}
-                    onConfirm={() => handleVisibilityToggle("PRIVATE")}
+                  <Radio.Button
+                    value="PRIVATE"
+                    onClick={() => handleVisibilityToggle("PRIVATE")}
                   >
-                    <Radio.Button value="PRIVATE">
-                      <EyeInvisibleOutlined />
-                    </Radio.Button>
-                  </Popconfirm>
+                    <EyeInvisibleOutlined />
+                  </Radio.Button>
                 </Tooltip>
               </Radio.Group>
             </Col>
@@ -207,6 +193,8 @@ ProfileCardsView.propTypes = {
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
   history: HistoryPropType.isRequired,
+  type: PropTypes.bool,
+  visible: PropTypes.bool,
 };
 
 ProfileCardsView.defaultProps = {
@@ -214,6 +202,8 @@ ProfileCardsView.defaultProps = {
   style: undefined,
   content: null,
   editUrl: null,
+  type: null,
+  visible: null,
 };
 
 export default ProfileCardsView;
