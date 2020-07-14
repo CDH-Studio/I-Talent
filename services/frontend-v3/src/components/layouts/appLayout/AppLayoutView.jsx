@@ -2,6 +2,7 @@ import React from "react";
 import { Layout, Skeleton, Card } from "antd";
 import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
+import Footer from "./footer/Footer";
 import SideNav from "../../sideNav/SideNav";
 
 const { Content } = Layout;
@@ -19,7 +20,6 @@ const AppLayoutView = ({
     content: {
       padding: "20px 15px",
       margin: 0,
-      minHeight: "100%",
     },
   };
 
@@ -45,6 +45,7 @@ const AppLayoutView = ({
               children
             )}
           </Content>
+          <Footer />
         </Layout>
       </Layout>
     </Layout>

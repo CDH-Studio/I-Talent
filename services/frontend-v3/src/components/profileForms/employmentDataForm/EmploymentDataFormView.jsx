@@ -13,9 +13,14 @@ import {
   Checkbox,
   Button,
   message,
+  Popover,
 } from "antd";
 import PropTypes from "prop-types";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import _ from "lodash";
@@ -27,7 +32,6 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import handleError from "../../../functions/handleError";
 
 const { Option } = Select;
@@ -117,6 +121,10 @@ const EmploymentDataFormView = (props) => {
       fontWeight: "normal",
       fontStyle: "italic",
       opacity: 0.5,
+    },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
     },
   };
 
@@ -648,10 +656,21 @@ const EmploymentDataFormView = (props) => {
         {/* Form Row Four: Temporary role */}
         <Row style={styles.tempRoleRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={<FormattedMessage id="profile.temporary.role" />}
-              tooltipText="Extra information"
-            />
+            <Text>
+              <FormattedMessage id="profile.willing.to.relocate.to" />
+              <Popover
+                content={
+                  <div>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                }
+              >
+                <InfoCircleOutlined style={styles.iconBySwitch} />
+              </Popover>
+            </Text>
             <Switch
               checked={displayActingRoleForm}
               onChange={toggleTempRoleForm}

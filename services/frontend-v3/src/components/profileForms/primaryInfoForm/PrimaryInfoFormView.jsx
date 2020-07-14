@@ -16,7 +16,7 @@ import {
   LinkOutlined,
   RightOutlined,
   CheckOutlined,
-  QuestionCircleOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
@@ -296,7 +296,6 @@ const PrimaryInfoFormView = ({
           <div style={styles.gedsInfoLink}>
             <Popover
               trigger="click"
-              tabIndex="0"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -307,7 +306,7 @@ const PrimaryInfoFormView = ({
                 </div>
               }
             >
-              <QuestionCircleOutlined />
+              <InfoCircleOutlined />
             </Popover>
           </div>
         </Title>
@@ -319,7 +318,6 @@ const PrimaryInfoFormView = ({
         <div style={styles.gedsInfoLink}>
           <Popover
             trigger="click"
-            tabIndex="0"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
@@ -330,7 +328,7 @@ const PrimaryInfoFormView = ({
               </div>
             }
           >
-            <QuestionCircleOutlined />
+            <InfoCircleOutlined />
           </Popover>
         </div>
         {fieldsChanged && (
