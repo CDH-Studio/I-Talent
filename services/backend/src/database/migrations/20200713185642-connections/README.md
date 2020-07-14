@@ -1,12 +1,12 @@
-# Migration `20200713181956-private-group`
+# Migration `20200713185642-connections`
 
-This migration has been generated at 7/13/2020, 6:19:57 PM.
+This migration has been generated at 7/13/2020, 6:56:42 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
 
 ```sql
-CREATE TYPE "CardVisibilityStatus_new" AS ENUM ('PRIVATE', 'PUBLIC', 'GROUP');
+CREATE TYPE "CardVisibilityStatus_new" AS ENUM ('PRIVATE', 'PUBLIC', 'CONNECTIONS');
 ALTER TABLE "public"."VisibleCard" ALTER COLUMN "careerInterests" DROP DEFAULT,
                         ALTER COLUMN "careerInterests" TYPE "CardVisibilityStatus_new" USING ("careerInterests"::text::"CardVisibilityStatus_new"),
                         ALTER COLUMN "careerInterests" SET DEFAULT 'PRIVATE';
@@ -69,7 +69,7 @@ ALTER COLUMN "talentManagement" SET DEFAULT E'PRIVATE';
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200709114724-experience-desc-optional..20200713181956-private-group
+migration 20200709114724-experience-desc-optional..20200713185642-connections
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -86,7 +86,7 @@ migration 20200709114724-experience-desc-optional..20200713181956-private-group
    PRIVATE
    PUBLIC
 -  FRIENDS
-+  GROUP
++  CONNECTIONS
  }
  model OpTransSecurityClearance {
    id          String   @default(uuid()) @id
@@ -130,7 +130,7 @@ migration 20200709114724-experience-desc-optional..20200713181956-private-group
    experiences          Experience[]
    relocationLocations  RelocationLocation[]
 -  friends              User[]
-+  privateGroup         User[]
++  connections          User[]
    user                 User?                 @relation("UserToUser", fields: [userId])
    userId               String?
  }

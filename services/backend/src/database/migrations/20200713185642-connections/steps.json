@@ -5,7 +5,7 @@
       "tag": "UpdateEnum",
       "enum": "CardVisibilityStatus",
       "createdValues": [
-        "GROUP"
+        "CONNECTIONS"
       ],
       "deletedValues": [
         "FRIENDS"
@@ -196,7 +196,7 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "privateGroup",
+      "field": "connections",
       "type": "User",
       "arity": "List"
     },

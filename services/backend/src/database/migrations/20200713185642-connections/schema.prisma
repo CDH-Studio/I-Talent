@@ -42,7 +42,7 @@ enum ProficiencyLevel {
 enum CardVisibilityStatus {
   PRIVATE
   PUBLIC
-  GROUP
+  CONNECTIONS
 }
 
 model OpTransSecurityClearance {
@@ -519,7 +519,7 @@ model User {
   educations           Education[]
   experiences          Experience[]
   relocationLocations  RelocationLocation[]
-  privateGroup         User[]
+  connections          User[]
   user                 User?                 @relation("UserToUser", fields: [userId])
   userId               String?
 }
