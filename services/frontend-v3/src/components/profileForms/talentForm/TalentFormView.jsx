@@ -612,32 +612,6 @@ const TalentFormView = ({
         layout="vertical"
         onValuesChange={updateIfFormValuesChanged}
       >
-        {/* Form Row One:competencies */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="competencies"
-              label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.competencies" />}
-                  tooltipText="Extra information"
-                />
-              }
-            >
-              <Select
-                className="custom-bubble-select-style"
-                mode="multiple"
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                style={{ width: "100%" }}
-              >
-                {competencyOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
         {/* Form Row Two: skills */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -676,6 +650,32 @@ const TalentFormView = ({
               onChange={toggleMentorshipForm}
             />
             {getMentorshipForm(displayMentorshipForm)}
+          </Col>
+        </Row>
+        {/* Form Row One:competencies */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="competencies"
+              label={
+                <FormLabelTooltip
+                  labelText={<FormattedMessage id="setup.competencies" />}
+                  tooltipText="Extra information"
+                />
+              }
+            >
+              <Select
+                className="custom-bubble-select-style"
+                mode="multiple"
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                style={{ width: "100%" }}
+              >
+                {competencyOptions.map((value) => {
+                  return <Option key={value.id}>{value.name}</Option>;
+                })}
+              </Select>
+            </Form.Item>
           </Col>
         </Row>
         {/* Form Row Four: Submit button */}

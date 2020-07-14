@@ -138,13 +138,13 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.competencies" />
-            </li>
-            <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.skills" />
             </li>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.mentorship.skills" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.competencies" />
             </li>
           </ul>
         </Menu.Item>
