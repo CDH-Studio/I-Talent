@@ -1,9 +1,10 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
-import { Layout } from "antd";
+import { Layout, Typography } from "antd";
 
 const { Footer } = Layout;
+const { Text } = Typography;
 
 const FooterView = () => {
   /* Component Styles */
@@ -28,6 +29,9 @@ const FooterView = () => {
     aroundLinksSmall: {
       textAlign: "center",
     },
+    dashes: {
+      marginLeft: "15px",
+    },
   };
 
   return (
@@ -37,13 +41,19 @@ const FooterView = () => {
           <FormattedMessage id="footer.about.link" />
         </a>
 
+        <Text style={styles.dashes}>-</Text>
+
         <a style={styles.link} href="/help">
           <FormattedMessage id="footer.contact.link" />
         </a>
 
+        <Text style={styles.dashes}>-</Text>
+
         <a style={styles.link} href="/terms">
           <FormattedMessage id="footer.terms.and.conditions.link" />
         </a>
+
+        <Text style={styles.dashes}>-</Text>
 
         <a style={styles.link} href="/privacy">
           <FormattedMessage id="footer.privacy.link" />
