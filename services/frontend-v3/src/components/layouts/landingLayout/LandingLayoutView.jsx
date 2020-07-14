@@ -31,7 +31,7 @@ const LandingLayoutView = () => {
   };
 
   return (
-    <AppLayout displaySideBar={false}>
+    <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>
       <h1 className="hidden" Landing Page>
         <FormattedMessage id="landing.login.and.enter" />
       </h1>
