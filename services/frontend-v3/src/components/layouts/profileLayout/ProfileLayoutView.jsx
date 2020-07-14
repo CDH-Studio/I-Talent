@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
-import ProfileCards from "../../profileCards/ProfileCards";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
 import Mentorship from "../../mentorshipCard/Mentorship";
@@ -38,9 +37,6 @@ const ProfileLayoutView = ({
   loading,
 }) => {
   const styles = {
-    card: {
-      height: "100%",
-    },
     row: {
       marginTop: 15,
     },
@@ -73,7 +69,7 @@ const ProfileLayoutView = ({
         {/* Employee summary */}
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col xs={24} xl={14}>
-            <BasicInfo data={data} style={styles.card} />
+            <BasicInfo data={data} />
           </Col>
           <Col xs={24} xl={10}>
             <EmployeeSummary
@@ -193,7 +189,6 @@ const ProfileLayoutView = ({
           <Col xs={24} xl={12}>
             <CareerInterests
               data={data}
-              style={styles.card}
               title={<FormattedMessage id="profile.career.interests" />}
               cardName="careerInterests"
               id="card-profile-career-interests"
@@ -463,11 +458,17 @@ const ProfileLayoutView = ({
 ProfileLayoutView.propTypes = {
   data: ProfileInfoPropType,
   loading: PropTypes.bool,
+  connectionStatus: PropTypes.bool,
+  privateProfile: PropTypes.bool,
+  changeConnection: PropTypes.func,
 };
 
 ProfileLayoutView.defaultProps = {
   data: null,
   loading: null,
+  connectionStatus: null,
+  privateProfile: null,
+  changeConnection: null,
 };
 
 export default ProfileLayoutView;

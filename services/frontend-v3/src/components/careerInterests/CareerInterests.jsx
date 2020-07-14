@@ -27,9 +27,7 @@ const CareerInterests = ({
     const lookingForNewJob = {
       icon: "mail",
       title: <FormattedMessage id="profile.looking.for.new.job" />,
-      description: (data.lookingJob && data.lookingJob.description) || (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: (data.lookingJob && data.lookingJob.description) || "-",
     };
 
     return [interestedInRemote, lookingForNewJob];
