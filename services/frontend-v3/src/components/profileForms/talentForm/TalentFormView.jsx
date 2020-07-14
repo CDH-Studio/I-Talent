@@ -124,6 +124,10 @@ const TalentFormView = ({
     infoIcon: {
       paddingLeft: "5px",
     },
+    infoIconSwitch: {
+      addingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -646,7 +650,7 @@ const TalentFormView = ({
                       </div>
                     }
                   >
-                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                    <InfoCircleOutlined style={styles.infoIcon} />
                   </Popover>
                 </Text>
               }
@@ -683,7 +687,7 @@ const TalentFormView = ({
                       </div>
                     }
                   >
-                    <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                    <InfoCircleOutlined style={styles.infoIcon} />
                   </Popover>
                 </Text>
               }
@@ -717,9 +721,7 @@ const TalentFormView = ({
                   </div>
                 }
               >
-                <InfoCircleOutlined
-                  style={{ paddingLeft: "5px", paddingRight: "5px" }}
-                />
+                <InfoCircleOutlined style={styles.infoIconSwitch} />
               </Popover>
             </Text>
 
