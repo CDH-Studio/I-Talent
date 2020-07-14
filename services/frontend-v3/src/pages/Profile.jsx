@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import axios from "../axios-instance";
@@ -36,7 +36,7 @@ const Profile = ({ history, match }) => {
             setName(`${profileData.firstName} ${profileData.lastName}`);
             setData(profileData);
             if (userID !== id) {
-              const connectionStatus = result[1].data;
+              const connectionStatus = result[1].data.status;
               const {
                 info,
                 manager,
@@ -100,16 +100,18 @@ const Profile = ({ history, match }) => {
     document.title = `${name} | I-Talent`;
   }, [name]);
 
-  const addConnection = async (urlID) => {
-    await axios
-      .post(`api/connections/${urlID}`)
-      .catch((error) => handleError(error, "message"));
-  };
-
-  const removeConnection = async (urlID) => {
-    await axios
-      .delete(`api/connections/${urlID}`)
-      .catch((error) => handleError(error, "message"));
+  const changeConnection = async () => {
+    if (connectionData) {
+      await axios
+        .delete(`api/connections/${id}`)
+        .catch((error) => handleError(error, "message"));
+      setConnectionData(false);
+    } else {
+      await axios
+        .post(`api/connections/${id}`)
+        .catch((error) => handleError(error, "message"));
+      setConnectionData(true);
+    }
   };
 
   return (
@@ -117,8 +119,7 @@ const Profile = ({ history, match }) => {
       data={data}
       connectionStatus={connectionData}
       privateProfile={id === userID}
-      addConnection={addConnection}
-      removeConnection={removeConnection}
+      changeConnection={changeConnection}
       loading={loading}
     />
   );

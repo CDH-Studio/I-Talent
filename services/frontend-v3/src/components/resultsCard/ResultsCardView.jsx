@@ -102,7 +102,6 @@ const ResultsCardView = ({
       history.push(`/secured/profile/${person.id}`);
     }
   };
-
   const renderAvatar = (person) => {
     return (
       <Tooltip

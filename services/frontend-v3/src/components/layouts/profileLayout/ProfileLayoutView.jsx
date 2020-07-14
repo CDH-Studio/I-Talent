@@ -6,6 +6,8 @@ import {
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
@@ -62,7 +64,15 @@ const ProfileLayoutView = ({
     sideBarText: {
       whiteSpace: "normal",
     },
+    buttonIcon: {
+      fontSize: 16,
+      marginRight: 5,
+    },
+    button: {
+      float: "right",
+    },
   };
+
   const displayAllProfileCards = () => {
     return (
       <div>
@@ -435,9 +445,18 @@ const ProfileLayoutView = ({
         extra={
           !privateProfile && (
             <Button
+              tabIndex="0"
               type="primary"
-              style={{ float: "right" }}
+              block
+              icon={
+                connectionStatus ? (
+                  <UserDeleteOutlined style={styles.buttonIcon} />
+                ) : (
+                  <UserAddOutlined style={styles.buttonIcon} />
+                )
+              }
               onClick={changeConnection}
+              style={styles.button}
             >
               <FormattedMessage
                 id={

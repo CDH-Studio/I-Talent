@@ -44,7 +44,7 @@ const ResultsCard = () => {
       `api/profile/private/${id}?language=${locale}`
     );
 
-    setConnections(_.map(result.data.friends, "id"));
+    setConnections(_.map(result.data.connections, "id"));
   }, [id, locale]);
 
   useEffect(() => {
@@ -81,7 +81,6 @@ const ResultsCard = () => {
       </>
     );
   }
-
   return (
     <ResultsCardView
       history={history}
