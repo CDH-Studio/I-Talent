@@ -1,0 +1,14 @@
+{
+  "name": "i-talent",
+  "version": "1.0.0",
+  "description": "An improved directory and employee search tool",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "i18n:check"
+  ]
+}
