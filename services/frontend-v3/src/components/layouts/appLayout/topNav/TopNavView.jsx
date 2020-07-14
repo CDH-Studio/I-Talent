@@ -64,6 +64,7 @@ const TopNavView = ({ isAdmin, loading }) => {
       display: "flex",
       alignItems: "center",
       height: "100%",
+      margin: "0 20px"
     },
   };
 

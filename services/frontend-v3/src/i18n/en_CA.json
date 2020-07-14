@@ -217,6 +217,9 @@
   "language.french": "French",
 
   "results.title": "Results",
+  "search.results.cards.add.connection": "Add connection",
+  "search.results.cards.remove.connection": "Remove connection",
+  "search.results.cards.connection.tooltip": "You're a connection of {name}",
 
   "other.profile": "Profile",
   "my.profile": "My profile",

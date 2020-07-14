@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import "@ant-design/compatible/assets/index.css";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
+import _ from "lodash";
 import axios from "../../axios-instance";
 
 import ResultsCardView from "./ResultsCardView";
@@ -13,32 +14,58 @@ import { ReactComponent as YourSvg } from "./online_team_meeting_.svg";
 
 const ResultsCard = () => {
   const [results, setResults] = useState(undefined);
-  const { locale } = useSelector((state) => state.settings);
+  const [connections, setConnections] = useState([]);
   const [emptyQuery, setEmptyQuery] = useState(false);
+
+  const { locale } = useSelector((state) => state.settings);
+  const { id } = useSelector((state) => state.user);
 
   const history = useHistory();
 
-  useEffect(() => {
+  const search = useCallback(async () => {
     const urlSections = window.location.toString().split("?");
 
     if (urlSections.length === 2) {
       const queryString = urlSections[1];
-      if (queryString.includes("searchValue")) {
-        axios
-          .get(`api/search/fuzzy?${queryString}&language=${locale}`)
-          .then((result) => setResults(result.data))
-          .catch((error) => handleError(error, "redirect"));
-      } else {
-        axios
-          .get(`api/search/filters?${queryString}&language=${locale}`)
-          .then((result) => setResults(result.data))
-          .catch((error) => handleError(error, "redirect"));
-      }
+      const type = queryString.includes("searchValue") ? "fuzzy" : "filters";
+      const result = await axios.get(
+        `api/search/${type}?${queryString}&language=${locale}`
+      );
+
+      setResults(result.data);
       setEmptyQuery(false);
     } else {
       setEmptyQuery(true);
     }
   }, [locale]);
+
+  const getConnections = useCallback(async () => {
+    const result = await axios.get(
+      `api/profile/private/${id}?language=${locale}`
+    );
+
+    setConnections(_.map(result.data.friends, "id"));
+  }, [id, locale]);
+
+  useEffect(() => {
+    Promise.all([getConnections(), search()]).catch((e) =>
+      handleError(e, "redirect")
+    );
+  }, [getConnections, search]);
+
+  const addConnection = async (urlID) => {
+    await axios
+      .post(`api/friends/${urlID}`)
+      .catch((error) => handleError(error, "message"));
+    getConnections();
+  };
+
+  const removeConnection = async (urlID) => {
+    await axios
+      .delete(`api/friends/${urlID}`)
+      .catch((error) => handleError(error, "message"));
+    getConnections();
+  };
 
   if (emptyQuery) {
     return (
@@ -61,6 +88,10 @@ const ResultsCard = () => {
       results={results}
       locale={locale}
       loading={!results && !emptyQuery}
+      userId={id}
+      connections={connections}
+      addConnection={addConnection}
+      removeConnection={removeConnection}
     />
   );
 };
