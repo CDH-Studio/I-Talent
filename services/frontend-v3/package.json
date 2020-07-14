@@ -43,7 +43,9 @@
     "deploy": "serve -s build -l 8080 ",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src --ext .js,.jsx"
+    "lint": "eslint ./src --ext .js,.jsx",
+    "i18n:check": "node ./src/i18n/check",
+    "i18n:cleanup": "node ./src/i18n/cleanup"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -73,6 +75,11 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.2",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.0.5"
-  }
+  },
+  "pre-commit": [
+    "i18n:check",
+    "lint"
+  ]
 }
