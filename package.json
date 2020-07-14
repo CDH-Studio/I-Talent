@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "An improved directory and employee search tool",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "i18n:check": "cd services/frontend-v3 && yarn -s i18n:check",
+    "lint:frontend": "cd services/frontend-v3 && yarn -s lint",
+    "lint:backend": "cd services/backend && yarn -s lint"
   },
   "devDependencies": {
     "pre-commit": "^1.2.2"
   },
   "pre-commit": [
-    "i18n:check"
+    "i18n:check",
+    "lint:frontend",
+    "lint:backend"
   ]
 }
