@@ -29,29 +29,6 @@ const styles = {
   },
 };
 
-// // this function checks the end of the URL for either about, privacy, or terms, to determine what
-// // the default tab will be on the about page
-
-// function checkURL() {
-//   const urlSections = window.location.toString().split("/");
-//   const endURL = urlSections[urlSections.length - 1];
-
-//   if (endURL === "about") {
-//     numTab = "1";
-//   }
-//   if (endURL === "help") {
-//     numTab = "2";
-//   }
-//   if (endURL === "terms") {
-//     numTab = "3";
-//   }
-//   if (endURL === "privacy") {
-//     numTab = "4";
-//   }
-
-//   return numTab;
-// }
-
 const AboutLayoutView = ({ type }) => {
   const tabType = type;
   const [back, setBack] = useState(false);

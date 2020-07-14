@@ -20,7 +20,6 @@ const AppLayoutView = ({
     content: {
       padding: "20px 15px",
       margin: 0,
-      minHeight: "100%",
     },
   };
 

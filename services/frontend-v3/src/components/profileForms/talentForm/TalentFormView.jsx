@@ -121,6 +121,9 @@ const TalentFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    infoIcon: {
+      paddingLeft: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -432,7 +435,7 @@ const TalentFormView = ({
                         </div>
                       }
                     >
-                      <InfoCircleOutlined style={{ paddingLeft: "5px" }} />
+                      <InfoCircleOutlined style={styles.infoIcon} />
                     </Popover>
                   </Text>
                 }
