@@ -137,6 +137,12 @@
 
   "count.remaining": "remaining",
 
+  "footer.about.link": "About I-Talent",
+  "footer.about": "About",
+  "footer.contact.link": "Help/contact us",
+  "footer.terms.and.conditions.link": "Terms and conditions of use",
+  "footer.privacy.link": "Privacy",
+
   "landing.login.and.enter": "Sign in",
   "landing.welcome": "Welcome",
   "landing.benefits": "Benefits",
@@ -161,6 +167,8 @@
   "landing.contact.us": "Contact us",
   "landing.description": "I-Talent is a platform to showcase your skills and talent within ISED! It is a secure and easy way for you to create and maintain your profile.",
   "landing.call.to.action": "Connect with other talented individuals to learn and grow together.",
+
+  "more.content.soon": "More content coming soon!",
 
   "setup.welcome": "Welcome",
   "setup.welcome.description": "We just need a few bits of information to set up your profile",
@@ -384,6 +392,8 @@
   "profile.visibleCards.public": "Public",
   "profile.visibleCards.friends": "Friends only",
   "profile.visibleCards.private": "Private",
+
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
 
   "error.redirect.title": "Unexpected error",
   "error.redirect.subtitle": "Something went wrong",
