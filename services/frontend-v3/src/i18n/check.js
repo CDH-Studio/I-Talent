@@ -20,7 +20,7 @@ if (!_.isEqual(enKeys, frKeys)) {
     `${missingEnKeys.length} keys that are in fr_CA, but not in en_CA:`,
     missingEnKeys
   );
-  console.error("\nThe en_CA and fr_CA files don't have the same keys! Please fix i18n files manually or with 'yarn i18n:cleanup'");
+  console.error("\nThe en_CA and fr_CA files don't have the same keys! Please fix i18n files manually or with 'yarn i18n:cleanup' in the frontend project");
 
   process.exit(1);
 } else {
