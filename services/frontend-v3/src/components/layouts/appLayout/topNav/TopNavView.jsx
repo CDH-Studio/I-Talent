@@ -163,11 +163,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   };
 
   const getSearchInput = () =>
-    displaySearch && (
+    displaySearch && windowWidth > 800 && (
       <Input.Search
         className="searchInput"
         style={{
-          width: 300,
+          width: 250,
           marginLeft: 30,
         }}
         value={searchValue}
