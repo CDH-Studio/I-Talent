@@ -16,7 +16,7 @@ async function getAllUsers(searchValue, language, userId) {
     },
   });
 
-  let isFriends = false;
+  let isConnection = false;
 
   visibleCards = await Promise.all(
     visibleCards.map(
@@ -33,44 +33,49 @@ async function getAllUsers(searchValue, language, userId) {
           exFeeder,
         },
       }) => {
-        const Friends = await prisma.user.findOne({
+        const userConnections = await prisma.user.findOne({
           where: { id },
-          select: { friends: true },
+          select: { connections: true },
         });
 
-        isFriends = Friends.friends.some((item) => item.id === userId);
+        isConnection = userConnections.connections.some(
+          (item) => item.id === userId
+        );
 
         return {
           id,
           visibleCards: {
-            info: !(info === "PRIVATE" || (info === "FRIENDS" && !isFriends)),
+            info: !(
+              info === "PRIVATE" ||
+              (info === "CONNECTIONS" && !isConnection)
+            ),
             manager: !(
               manager === "PRIVATE" ||
-              (manager === "FRIENDS" && !isFriends)
+              (manager === "CONNECTIONS" && !isConnection)
             ),
             projects: !(
               projects === "PRIVATE" ||
-              (projects === "FRIENDS" && !isFriends)
+              (projects === "CONNECTIONS" && !isConnection)
             ),
             skills: !(
               skills === "PRIVATE" ||
-              (skills === "FRIENDS" && !isFriends)
+              (skills === "CONNECTIONS" && !isConnection)
             ),
             competencies: !(
               competencies === "PRIVATE" ||
-              (competencies === "FRIENDS" && !isFriends)
+              (competencies === "CONNECTIONS" && !isConnection)
             ),
             education: !(
               education === "PRIVATE" ||
-              (education === "FRIENDS" && !isFriends)
+              (education === "CONNECTIONS" && !isConnection)
             ),
             experience: !(
               experience === "PRIVATE" ||
-              (experience === "FRIENDS" && !isFriends)
+              (experience === "CONNECTIONS" && !isConnection)
             ),
             exFeeder: !(
               exFeeder === "PRIVATE" ||
-              (exFeeder === "FRIENDS" && !isFriends)
+              (exFeeder === "CONNECTIONS" && !isConnection)
             ),
           },
         };
@@ -274,7 +279,7 @@ async function getAllUsers(searchValue, language, userId) {
     const info = {
       ...user,
       nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
-      isFriends,
+      isConnection,
     };
 
     if (info.employmentInfo) {

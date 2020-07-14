@@ -9,8 +9,8 @@ const connectionsRouter = Router();
 
 connectionsRouter
   .route("/:id")
-  .get(keycloak.protect(), UUIDValidator, connections.getFriendById)
-  .post(keycloak.protect(), UUIDValidator, connections.addFriend)
-  .delete(keycloak.protect(), UUIDValidator, connections.removeFriend);
+  .get(keycloak.protect(), UUIDValidator, connections.getConnectionById)
+  .post(keycloak.protect(), UUIDValidator, connections.addConnection)
+  .delete(keycloak.protect(), UUIDValidator, connections.removeConnection);
 
 module.exports = connectionsRouter;

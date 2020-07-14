@@ -1,4 +1,4 @@
-/api/friends/{id}:
+/api/connection/{id}:
   get:
     summary: Checks if the user is a connection
     produces:
@@ -17,7 +17,7 @@
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [friends]
+    tags: [connections]
   post:
     summary: Add a user as a connection
     parameters:
@@ -33,7 +33,7 @@
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [friends]
+    tags: [connections]
   delete:
     summary: Remove a user as a connection
     parameters:
@@ -49,4 +49,4 @@
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [friends]
+    tags: [connections]

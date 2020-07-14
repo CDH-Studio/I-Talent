@@ -749,7 +749,7 @@ async function getFullProfile(id, language) {
           },
         },
       },
-      friends: {
+      connections: {
         select: {
           id: true,
           firstName: true,
@@ -1044,96 +1044,100 @@ async function getPublicProfileById(request, response) {
         language
       );
 
-      const isFriends = result.friends.some((item) => item.id === userId);
+      const isConnection = result.connections.some(
+        (item) => item.id === userId
+      );
 
       if (
         result.visibleCards.manager === "PRIVATE" ||
-        (result.visibleCards.manager === "FRIENDS" && !isFriends)
+        (result.visibleCards.manager === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.manager;
+        result.manager = null;
       }
 
       if (
         result.visibleCards.info === "PRIVATE" ||
-        (result.visibleCards.info === "FRIENDS" && !isFriends)
+        (result.visibleCards.info === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.employmentInfo;
-        delete result.securityClearance;
-        delete result.groupLevel;
-        delete result.tenure;
-        delete result.actingLevel;
-        delete result.actingStartDate;
-        delete result.actingEndDate;
-        delete result.firstLanguage;
-        delete result.secondLanguage;
+        result.employmentInfo = null;
+        result.securityClearance = null;
+        result.groupLevel = null;
+        result.tenure = null;
+        result.actingLevel = null;
+        result.actingStartDate = null;
+        result.actingEndDate = null;
+        result.firstLanguage = null;
+        result.secondLanguage = null;
       }
 
       if (
         result.visibleCards.talentManagement === "PRIVATE" ||
-        (result.visibleCards.talentManagement === "FRIENDS" && !isFriends)
+        (result.visibleCards.talentManagement === "CONNECTIONS" &&
+          !isConnection)
       ) {
-        delete result.careerMobility;
-        delete result.talentMatrixResult;
+        result.careerMobility = null;
+        result.talentMatrixResult = null;
       }
 
       if (
         result.visibleCards.officialLanguage === "PRIVATE" ||
-        (result.visibleCards.officialLanguage === "FRIENDS" && !isFriends)
+        (result.visibleCards.officialLanguage === "CONNECTIONS" &&
+          !isConnection)
       ) {
-        delete result.firstLanguage;
-        delete result.secondLanguage;
+        result.firstLanguage = null;
+        result.secondLanguage = null;
       }
       if (
         result.visibleCards.skills === "PRIVATE" ||
-        (result.visibleCards.skills === "FRIENDS" && !isFriends)
+        (result.visibleCards.skills === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.skills;
+        result.skills = [];
       }
       if (
         result.visibleCards.competencies === "PRIVATE" ||
-        (result.visibleCards.competencies === "FRIENDS" && !isFriends)
+        (result.visibleCards.competencies === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.competencies;
+        result.competencies = [];
       }
       if (
         result.visibleCards.developmentalGoals === "PRIVATE" ||
-        (result.visibleCards.developmentalGoals === "FRIENDS" && !isFriends)
+        (result.visibleCards.developmentalGoals === "CONNECTIONS" &&
+          !isConnection)
       ) {
-        delete result.developmentalGoals;
+        result.developmentalGoals = [];
       }
       if (
         result.visibleCards.education === "PRIVATE" ||
-        (result.visibleCards.education === "FRIENDS" && !isFriends)
+        (result.visibleCards.education === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.educations;
+        result.educations = [];
       }
       if (
         result.visibleCards.experience === "PRIVATE" ||
-        (result.visibleCards.experience === "FRIENDS" && !isFriends)
+        (result.visibleCards.experience === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.experiences;
+        result.experiences = [];
       }
       if (
         result.visibleCards.projects === "PRIVATE" ||
-        (result.visibleCards.projects === "FRIENDS" && !isFriends)
+        (result.visibleCards.projects === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.projects;
+        result.projects = [];
       }
       if (
         result.visibleCards.careerInterests === "PRIVATE" ||
-        (result.visibleCards.careerInterests === "FRIENDS" && !isFriends)
+        (result.visibleCards.careerInterests === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.interestedInRemote;
-        delete result.lookingJob;
-        delete result.relocationLocations;
+        result.interestedInRemote = null;
+        result.lookingJob = null;
+        result.relocationLocations = null;
       }
       if (
         result.visibleCards.exFeeder === "PRIVATE" ||
-        (result.visibleCards.exFeeder === "FRIENDS" && !isFriends)
+        (result.visibleCards.exFeeder === "CONNECTIONS" && !isConnection)
       ) {
-        delete result.exFeeder;
+        result.exFeeder = null;
       }
-
       response.status(200).json(result);
     }
   } catch (error) {

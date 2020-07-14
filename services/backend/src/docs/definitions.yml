@@ -241,7 +241,7 @@ definitions:
             $ref: "#/definitions/StringArray"
           nameInitials:
             type: string
-          isFriends:
+          isConnection:
             type: boolean
           branch:
             type: string
@@ -377,9 +377,9 @@ definitions:
       required: [proficiency, level, date]
       properties:
         proficiency:
-          $ref: '#/definitions/ProficiencyEnum'
+          $ref: "#/definitions/ProficiencyEnum"
         level:
-          $ref: '#/definitions/ProficiencyLevelEnum'
+          $ref: "#/definitions/ProficiencyLevelEnum"
         date:
           type: string
           format: date-time
@@ -415,11 +415,11 @@ definitions:
       manager:
         type: string
       firstLanguage:
-        $ref: '#/definitions/LanguageEnum'
+        $ref: "#/definitions/LanguageEnum"
       secondLanguage:
-        $ref: '#/definitions/LanguageEnum'
+        $ref: "#/definitions/LanguageEnum"
       preferredLanguage:
-        $ref: '#/definitions/LanguageEnum'
+        $ref: "#/definitions/LanguageEnum"
       actingStartDate:
         type: string
         format: data-time
@@ -437,7 +437,7 @@ definitions:
       interestedInRemote:
         type: boolean
       status:
-        $ref: '#/definitions/UserStatusEnum'
+        $ref: "#/definitions/UserStatusEnum"
       projects:
         type: array
         items:
@@ -493,7 +493,7 @@ definitions:
             diploma:
               type: object
               properties:
-                id: 
+                id:
                   type: string
                   format: uuid
                 description:
@@ -501,7 +501,7 @@ definitions:
             school:
               type: object
               properties:
-                id: 
+                id:
                   type: string
                   format: uuid
                 country:
