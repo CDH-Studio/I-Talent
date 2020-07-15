@@ -11,7 +11,13 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { NotFound, LandingPage, UnexpectedError, Forbidden } from "./pages";
+import {
+  NotFound,
+  LandingPage,
+  UnexpectedError,
+  Forbidden,
+  About,
+} from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 import historySingleton from "./history";
@@ -76,6 +82,10 @@ const App = () => {
             path="/secured"
             render={({ location }) => <Secured location={location} />}
           />
+          <Route path="/about" render={() => <About type="about" />} />
+          <Route path="/help" render={() => <About type="help" />} />
+          <Route path="/terms" render={() => <About type="terms" />} />
+          <Route path="/privacy" render={() => <About type="privacy" />} />
           <Route path="/admin" render={() => <Admin />} />
           <Route path="/error" render={() => <UnexpectedError />} />
           <Route path="/forbidden" render={() => <Forbidden />} />
