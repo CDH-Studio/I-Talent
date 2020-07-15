@@ -138,9 +138,7 @@ const ProfileCardsView = ({
 };
 
 ProfileCardsView.propTypes = {
-  cardName: PropTypes.string.isRequired,
   editUrl: PropTypes.string,
-  data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
@@ -153,7 +151,6 @@ ProfileCardsView.propTypes = {
 };
 
 ProfileCardsView.defaultProps = {
-  data: {},
   style: undefined,
   content: null,
   editUrl: null,
