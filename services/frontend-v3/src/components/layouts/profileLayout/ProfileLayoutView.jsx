@@ -272,6 +272,7 @@ const ProfileLayoutView = ({
                   title={<FormattedMessage id="profile.connections" />}
                   cardName="privateGroup"
                   id="card-profile-connections"
+                  visible
                 />
               </Col>
             </Row>
