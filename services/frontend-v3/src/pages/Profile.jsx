@@ -29,13 +29,17 @@ const Profile = ({ history, match }) => {
         const connectionStatus = axios.get(`api/connections/${id}`);
         promiseArray.push(connectionStatus);
       }
+
       Promise.all(promiseArray)
         .then((result) => {
           if (result[0].data !== undefined) {
             const profileData = result[0].data;
             setName(`${profileData.firstName} ${profileData.lastName}`);
             setData(profileData);
-            if (userID !== id) {
+            if (result[0].data && userID !== id) {
+              const isConnection = result[0].data.connections
+                ? result[0].data.connections.some((item) => item.id === userID)
+                : false;
               const connectionStatus = result[1].data.status;
               const {
                 info,
@@ -50,35 +54,35 @@ const Profile = ({ history, match }) => {
               profileData.visibleCards = {
                 info: !(
                   info === "PRIVATE" ||
-                  (info === "CONNECTIONS" && !connectionStatus)
+                  (info === "CONNECTIONS" && !isConnection)
                 ),
                 manager: !(
                   manager === "PRIVATE" ||
-                  (manager === "CONNECTIONS" && !connectionStatus)
+                  (manager === "CONNECTIONS" && !isConnection)
                 ),
                 projects: !(
                   projects === "PRIVATE" ||
-                  (projects === "CONNECTIONS" && !connectionStatus)
+                  (projects === "CONNECTIONS" && !isConnection)
                 ),
                 skills: !(
                   skills === "PRIVATE" ||
-                  (skills === "CONNECTIONS" && !connectionStatus)
+                  (skills === "CONNECTIONS" && !isConnection)
                 ),
                 competencies: !(
                   competencies === "PRIVATE" ||
-                  (competencies === "CONNECTIONS" && !connectionStatus)
+                  (competencies === "CONNECTIONS" && !isConnection)
                 ),
                 education: !(
                   education === "PRIVATE" ||
-                  (education === "CONNECTIONS" && !connectionStatus)
+                  (education === "CONNECTIONS" && !isConnection)
                 ),
                 experience: !(
                   experience === "PRIVATE" ||
-                  (experience === "CONNECTIONS" && !connectionStatus)
+                  (experience === "CONNECTIONS" && !isConnection)
                 ),
                 exFeeder: !(
                   exFeeder === "PRIVATE" ||
-                  (exFeeder === "CONNECTIONS" && !connectionStatus)
+                  (exFeeder === "CONNECTIONS" && !isConnection)
                 ),
               };
               setConnectionData(connectionStatus);
