@@ -401,7 +401,6 @@ async function updateProfile(request, response) {
           visibleCards: visibleCards
             ? {
                 update: {
-                  manager: visibleCards.manager,
                   info: visibleCards.info,
                   talentManagement: visibleCards.talentManagement,
                   officialLanguage: visibleCards.officialLanguage,
@@ -758,7 +757,6 @@ async function getFullProfile(id, language) {
       },
       visibleCards: {
         select: {
-          manager: true,
           info: true,
           talentManagement: true,
           officialLanguage: true,
@@ -1048,10 +1046,11 @@ async function getPublicProfileById(request, response) {
         (item) => item.id === userId
       );
 
-      if (
-        result.visibleCards.info === "PRIVATE" ||
-        (result.visibleCards.info === "CONNECTIONS" && !isConnection)
-      ) {
+      const hideCard = (key) =>
+        result.visibleCards[key] === "PRIVATE" ||
+        (result.visibleCards[key] === "CONNECTIONS" && !isConnection);
+
+      if (hideCard("info")) {
         result.employmentInfo = null;
         result.securityClearance = null;
         result.groupLevel = null;
@@ -1063,84 +1062,47 @@ async function getPublicProfileById(request, response) {
         result.secondLanguage = null;
         result.secondLangProfs = null;
       }
-
-      if (
-        result.visibleCards.talentManagement === "PRIVATE" ||
-        (result.visibleCards.talentManagement === "CONNECTIONS" &&
-          !isConnection)
-      ) {
+      if (hideCard("talentManagement")) {
         result.careerMobility = null;
         result.talentMatrixResult = null;
       }
 
-      if (
-        result.visibleCards.officialLanguage === "PRIVATE" ||
-        (result.visibleCards.officialLanguage === "CONNECTIONS" &&
-          !isConnection)
-      ) {
+      if (hideCard("officialLanguage")) {
         result.firstLanguage = null;
         result.secondLanguage = null;
       }
-      if (
-        result.visibleCards.skills === "PRIVATE" ||
-        (result.visibleCards.skills === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("skills")) {
         result.skills = [];
       }
-      if (
-        result.visibleCards.competencies === "PRIVATE" ||
-        (result.visibleCards.competencies === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("competencies")) {
         result.competencies = [];
       }
 
-      if (
-        result.visibleCards.mentorshipSkills === "PRIVATE" ||
-        (result.visibleCards.mentorshipSkills === "CONNECTIONS" &&
-          !isConnection)
-      ) {
+      if (hideCard("mentorshipSkills")) {
         result.mentorshipSkills = [];
       }
 
-      if (
-        result.visibleCards.developmentalGoals === "PRIVATE" ||
-        (result.visibleCards.developmentalGoals === "CONNECTIONS" &&
-          !isConnection)
-      ) {
+      if (hideCard("developmentalGoals")) {
         result.developmentalGoals = [];
       }
-      if (
-        result.visibleCards.education === "PRIVATE" ||
-        (result.visibleCards.education === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("education")) {
         result.educations = [];
       }
-      if (
-        result.visibleCards.experience === "PRIVATE" ||
-        (result.visibleCards.experience === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("experience")) {
         result.experiences = [];
       }
-      if (
-        result.visibleCards.projects === "PRIVATE" ||
-        (result.visibleCards.projects === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("projects")) {
         result.projects = [];
       }
-      if (
-        result.visibleCards.careerInterests === "PRIVATE" ||
-        (result.visibleCards.careerInterests === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("careerInterests")) {
         result.interestedInRemote = null;
         result.lookingJob = null;
         result.relocationLocations = null;
       }
-      if (
-        result.visibleCards.exFeeder === "PRIVATE" ||
-        (result.visibleCards.exFeeder === "CONNECTIONS" && !isConnection)
-      ) {
+      if (hideCard("exFeeder")) {
         result.exFeeder = null;
       }
+
       response.status(200).json(result);
     }
   } catch (error) {

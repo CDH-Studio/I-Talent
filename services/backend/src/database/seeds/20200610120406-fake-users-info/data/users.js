@@ -141,7 +141,6 @@ module.exports = [
     relocationLocations: [],
     visibleCards: {
       info: "PUBLIC",
-      manager: "PUBLIC",
       talentManagement: "PUBLIC",
       officialLanguage: "PUBLIC",
       skills: "PUBLIC",
@@ -224,7 +223,6 @@ module.exports = [
     ],
     visibleCards: {
       info: "PUBLIC",
-      manager: "PUBLIC",
       talentManagement: "PUBLIC",
       officialLanguage: "PUBLIC",
       skills: "PUBLIC",

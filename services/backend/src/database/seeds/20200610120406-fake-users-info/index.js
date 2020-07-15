@@ -414,7 +414,6 @@ async function seedUsers() {
           visibleCards: visibleCards
             ? {
                 create: {
-                  manager: visibleCards.manager,
                   info: visibleCards.info,
                   talentManagement: visibleCards.talentManagement,
                   officialLanguage: visibleCards.officialLanguage,

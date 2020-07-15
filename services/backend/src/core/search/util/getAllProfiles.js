@@ -24,7 +24,6 @@ async function getAllUsers(searchValue, language, userId) {
         id,
         visibleCards: {
           info,
-          manager,
           projects,
           skills,
           competencies,
@@ -42,41 +41,19 @@ async function getAllUsers(searchValue, language, userId) {
           (item) => item.id === userId
         );
 
+        const visibleCardBool = (value) =>
+          !(value === "PRIVATE" || (value === "CONNECTIONS" && !isConnection));
+
         return {
           id,
           visibleCards: {
-            info: !(
-              info === "PRIVATE" ||
-              (info === "CONNECTIONS" && !isConnection)
-            ),
-            manager: !(
-              manager === "PRIVATE" ||
-              (manager === "CONNECTIONS" && !isConnection)
-            ),
-            projects: !(
-              projects === "PRIVATE" ||
-              (projects === "CONNECTIONS" && !isConnection)
-            ),
-            skills: !(
-              skills === "PRIVATE" ||
-              (skills === "CONNECTIONS" && !isConnection)
-            ),
-            competencies: !(
-              competencies === "PRIVATE" ||
-              (competencies === "CONNECTIONS" && !isConnection)
-            ),
-            education: !(
-              education === "PRIVATE" ||
-              (education === "CONNECTIONS" && !isConnection)
-            ),
-            experience: !(
-              experience === "PRIVATE" ||
-              (experience === "CONNECTIONS" && !isConnection)
-            ),
-            exFeeder: !(
-              exFeeder === "PRIVATE" ||
-              (exFeeder === "CONNECTIONS" && !isConnection)
-            ),
+            info: visibleCardBool(info),
+            projects: visibleCardBool(projects),
+            skills: visibleCardBool(skills),
+            competencies: visibleCardBool(competencies),
+            education: visibleCardBool(education),
+            experience: visibleCardBool(experience),
+            exFeeder: visibleCardBool(exFeeder),
           },
         };
       }
@@ -89,7 +66,6 @@ async function getAllUsers(searchValue, language, userId) {
         id,
         visibleCards: {
           info,
-          manager,
           projects,
           skills,
           competencies,
@@ -108,7 +84,7 @@ async function getAllUsers(searchValue, language, userId) {
             lastName: true,
             telephone: true,
             cellphone: true,
-            manager,
+            manager: true,
             teams: true,
             status: true,
             email: true,
