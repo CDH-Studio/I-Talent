@@ -22,27 +22,27 @@ const OfficialLanguage = ({ data }) => {
   };
 
   const getSecondLanguageGradeInfo = (dataSource) => {
-    const reading = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "READING"
-    );
+    const reading = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
+      : null;
 
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
       description: reading ? reading.level : "-",
     };
 
-    const writing = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "WRITING"
-    );
+    const writing = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
+      : null;
 
     const secondaryWritingProficiency = {
       title: <FormattedMessage id="profile.writing" />,
       description: writing ? writing.level : "-",
     };
 
-    const oral = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "ORAL"
-    );
+    const oral = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
+      : null;
 
     const secondaryOralProficiency = {
       title: <FormattedMessage id="profile.oral" />,
@@ -57,17 +57,17 @@ const OfficialLanguage = ({ data }) => {
   };
 
   const getSecondLanguageDateInfo = (dataSource) => {
-    const reading = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "READING"
-    );
+    const reading = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
+      : null;
 
-    const writing = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "WRITING"
-    );
+    const writing = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
+      : null;
 
-    const oral = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "ORAL"
-    );
+    const oral = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
+      : null;
 
     const secondaryReadingDate = {
       title: <FormattedMessage id="profile.reading" />,

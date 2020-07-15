@@ -88,7 +88,7 @@ const ProfileLayoutView = ({
               id="card-profile-employee-summary"
               data={data}
               type={privateProfile}
-              visible={data.visibleCards.skills}
+              visible={data.visibleCards.info}
             />
           </Col>
         </Row>
@@ -101,7 +101,6 @@ const ProfileLayoutView = ({
           <TagsTwoTone twoToneColor="#3CBAB3" style={styles.sectionIcon} />
           <FormattedMessage id="profile.employee.skills.competencies" />
         </Title>
-        {/* Skills */}
         <Row style={styles.row}>
           <Col span={24}>
             <Skills
@@ -115,7 +114,6 @@ const ProfileLayoutView = ({
             />
           </Col>
         </Row>
-        {/* Mentorship */}
         <Row style={styles.row}>
           <Col span={24}>
             <Mentorship
@@ -129,7 +127,6 @@ const ProfileLayoutView = ({
             />
           </Col>
         </Row>
-        {/* competencies */}
         <Row style={styles.row}>
           <Col span={24}>
             <Col span={24}>
@@ -256,6 +253,7 @@ const ProfileLayoutView = ({
             />
           </Col>
         </Row>
+
         {/** ********** Connections *********** */}
         {privateProfile && (
           <div>

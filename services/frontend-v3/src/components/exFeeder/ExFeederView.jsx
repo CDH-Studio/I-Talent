@@ -19,8 +19,10 @@ const ExFeederView = ({ data }) => {
       </>
     );
   }
-
-  return <FormattedMessage id="profile.not.ex.feeder" />;
+  if (data.exFeeder === false) {
+    return <FormattedMessage id="profile.not.ex.feeder" />;
+  }
+  return <FormattedMessage id="profile.private.ex.feeder" />;
 };
 
 ExFeederView.propTypes = {

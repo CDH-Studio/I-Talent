@@ -1049,13 +1049,6 @@ async function getPublicProfileById(request, response) {
       );
 
       if (
-        result.visibleCards.manager === "PRIVATE" ||
-        (result.visibleCards.manager === "CONNECTIONS" && !isConnection)
-      ) {
-        result.manager = null;
-      }
-
-      if (
         result.visibleCards.info === "PRIVATE" ||
         (result.visibleCards.info === "CONNECTIONS" && !isConnection)
       ) {
@@ -1068,6 +1061,7 @@ async function getPublicProfileById(request, response) {
         result.actingEndDate = null;
         result.firstLanguage = null;
         result.secondLanguage = null;
+        result.secondLangProfs = null;
       }
 
       if (
@@ -1099,6 +1093,15 @@ async function getPublicProfileById(request, response) {
       ) {
         result.competencies = [];
       }
+
+      if (
+        result.visibleCards.mentorshipSkills === "PRIVATE" ||
+        (result.visibleCards.mentorshipSkills === "CONNECTIONS" &&
+          !isConnection)
+      ) {
+        result.mentorshipSkills = [];
+      }
+
       if (
         result.visibleCards.developmentalGoals === "PRIVATE" ||
         (result.visibleCards.developmentalGoals === "CONNECTIONS" &&

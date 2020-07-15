@@ -14,15 +14,18 @@ const CareerInterests = ({
   editUrl,
 }) => {
   const getCareerInterestsInfo = () => {
+    let description = "-";
+    if (data.interestedInRemote)
+      if (data.interestedInRemote) {
+        description = <FormattedMessage id="profile.yes" />;
+      } else if (data.interestedInRemote === false) {
+        description = <FormattedMessage id="profile.no" />;
+      }
+
     const interestedInRemote = {
       icon: "mail",
       title: <FormattedMessage id="profile.interested.in.remote" />,
-      description:
-        data.interestedInRemote === true ? (
-          <FormattedMessage id="profile.yes" />
-        ) : (
-          <FormattedMessage id="profile.no" />
-        ),
+      description,
     };
     const lookingForNewJob = {
       icon: "mail",

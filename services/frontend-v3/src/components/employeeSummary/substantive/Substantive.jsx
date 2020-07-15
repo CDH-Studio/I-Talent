@@ -17,7 +17,7 @@ const Substantive = ({ data }) => {
         : "-",
     };
 
-    let substantiveDescription = <FormattedMessage id="profile.term" />;
+    let substantiveDescription = "-";
 
     if (data.tenure && data.tenure.description) {
       substantiveDescription = data.tenure.description;
