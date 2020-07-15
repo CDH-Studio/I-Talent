@@ -24,7 +24,7 @@ const OfficialLanguage = ({ data }) => {
   const getSecondLanguageGradeInfo = (dataSource) => {
     const reading = dataSource.secondLangProfs
       ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
-      : null;
+      : undefined;
 
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
