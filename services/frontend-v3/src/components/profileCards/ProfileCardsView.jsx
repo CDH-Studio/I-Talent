@@ -10,7 +10,7 @@ import {
 import { Card, Button, Row, Col, Tooltip, Radio, Popconfirm } from "antd";
 import { FormattedMessage } from "react-intl";
 
-import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
+import { HistoryPropType } from "../../customPropTypes";
 
 const ProfileCardsView = ({
   editUrl,
