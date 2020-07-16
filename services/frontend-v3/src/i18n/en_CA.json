@@ -137,6 +137,12 @@
 
   "count.remaining": "remaining",
 
+  "footer.about.link": "About I-Talent",
+  "footer.about": "About",
+  "footer.contact.link": "Help/contact us",
+  "footer.terms.and.conditions.link": "Terms and conditions of use",
+  "footer.privacy.link": "Privacy",
+
   "landing.login.and.enter": "Sign in",
   "landing.welcome": "Welcome",
   "landing.benefits": "Benefits",
@@ -161,6 +167,8 @@
   "landing.contact.us": "Contact us",
   "landing.description": "I-Talent is a platform to showcase your skills and talent within ISED! It is a secure and easy way for you to create and maintain your profile.",
   "landing.call.to.action": "Connect with other talented individuals to learn and grow together.",
+
+  "more.content.soon": "More content coming soon!",
 
   "setup.welcome": "Welcome",
   "setup.welcome.description": "We just need a few bits of information to set up your profile",
@@ -232,7 +240,6 @@
   "profile.basic": "Employee information",
   "profile.diploma": "Diploma",
   "profile.projects": "Projects",
-  "profile.friends": "Friends",
   "profile.school": "School",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Job title",
@@ -266,6 +273,7 @@
   "profile.email": "Email",
   "profile.ex.feeder": "I am nominated in the EX-feeder program",
   "profile.not.ex.feeder": "I'm not nominated in the EX-feeder program.",
+  "profile.private.ex.feeder": "EX-feeder is set to private",
   "profile.ex.feeder.title": "EX-feeder",
   "profile.first.language": "First language",
   "profile.first.name": "First name",
@@ -362,8 +370,6 @@
   "profile.career.interests": "Job mobility",
 
   "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
-  "profile.visibility.hide.confirm": "Are you sure you want to make hide this card from your public profile? (Will be only visible to you and HR)",
-  "profile.visibility.friends.confirm": "Are you sure you want to make this card visible only to your friend group (Will be also visible to you and HR)?",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
@@ -377,13 +383,14 @@
   "sign.out": "Logout",
   "home": "Home",
 
-  "profile.addFriend": "Add Friend",
-  "profile.removeFriend": "Remove Friend",
-  "profile.removeFriend.confirm": "Are you sure you want to remove this user from your friend group ?",
+  "profile.privateGroup": "Private group",
+  "profile.connections": "Connections",
 
   "profile.visibleCards.public": "Public",
-  "profile.visibleCards.friends": "Friends only",
+  "profile.visibleCards.connections": "Connections",
   "profile.visibleCards.private": "Private",
+
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
 
   "error.redirect.title": "Unexpected error",
   "error.redirect.subtitle": "Something went wrong",

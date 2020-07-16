@@ -7,23 +7,17 @@ const Substantive = ({ data }) => {
   const formatData = () => {
     const classification = {
       title: <FormattedMessage id="profile.classification" />,
-      description: data.groupLevel ? (
-        data.groupLevel.name
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.groupLevel ? data.groupLevel.name : "-",
     };
 
     const security = {
       title: <FormattedMessage id="profile.security" />,
-      description: data.securityClearance ? (
-        data.securityClearance.description
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.securityClearance
+        ? data.securityClearance.description
+        : "-",
     };
 
-    let substantiveDescription = <FormattedMessage id="profile.term" />;
+    let substantiveDescription = "-";
 
     if (data.tenure && data.tenure.description) {
       substantiveDescription = data.tenure.description;

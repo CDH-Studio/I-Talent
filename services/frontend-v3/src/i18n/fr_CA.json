@@ -146,6 +146,12 @@
 
   "count.remaining": "restants",
 
+  "footer.about.link": "À propos de I-Talent",
+  "footer.about": "À propos",
+  "footer.contact.link": "Contactez-nous",
+  "footer.terms.and.conditions.link": "Avis",
+  "footer.privacy.link": "Confidentialité",
+
   "landing.login.and.enter": "Connexion",
   "landing.welcome": "Bienvenue",
   "landing.benefits": "Avantages",
@@ -170,6 +176,8 @@
   "landing.contact.us": "Contactez-nous",
   "landing.description": "I-Talent est une plateforme pour mettre en valeur votre talent et vos compétences au sein de l'ISDE! C'est un moyen sécuritaire et facile de créer et de maintenir votre profil. ",
   "landing.call.to.action": "Connectez-vous avec d'autres personnes talentueuses pour apprendre et grandir ensemble.",
+
+  "more.content.soon": "Plus de contenu à venir bientôt!",
 
   "setup.welcome": "Bienvenue",
   "setup.welcome.description": "Nous avons besoin de quelques informations pour configurer votre profil",
@@ -234,7 +242,6 @@
   "profile.basic": "Information d'employée",
   "profile.diploma": "Diplôme",
   "profile.projects": "Projets",
-  "profile.friends": "Amis",
   "profile.school": "École",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Poste de travail",
@@ -268,6 +275,7 @@
   "profile.email": "Courriel",
   "profile.ex.feeder": "Je suis nommé dans le programme EX-feeder",
   "profile.not.ex.feeder": "Je ne suis pas nominé dans le programme EX-feeder",
+  "profile.private.ex.feeder": "Le résultat d'EX-feeder est privé",
   "profile.ex.feeder.title": "EX-feeder",
   "profile.first.language": "Première langue",
   "profile.first.name": "Prénom",
@@ -335,8 +343,6 @@
   "profile.select.date": "Sélectionner une date",
 
   "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
-  "profile.visibility.hide.confirm": "Êtes-vous certain de masquer cette carte de votre profil public? (Sera aussi visible pour les ressources humaines)",
-  "profile.visibility.friends.confirm": "Êtes-vous vraiment rendre cette carte visible uniquement à votre groupe d'amis? (Sera aussi visible pour les ressources humaines)",
 
   "lang": "English",
   "lang.code": "en",
@@ -380,18 +386,19 @@
   "profile.hide.account.confirm.content": "Votre compte sera rendu inaccessible, mais les personnes disposant d'un lien direct pourront toujours le consulter.",
   "profile.deactivate.account.confirm.content": "Votre compte sera rendu inaccessible, mais vos données resteront stockées.",
 
-  "profile.addFriend": "Ajouter un ami",
-  "profile.removeFriend": "Supprimer un ami",
-  "profile.removeFriend.confirm": "Voulez-vous vraiment supprimer cet utilisateur de votre groupe d'amis ?",
-
   "profile.is.ongoing": "Courant",
 
   "sign.out": "Déconnexion",
   "home": "Acceuil",
 
+  "profile.privateGroup": "Groupe privé",
+  "profile.connections": "Connexions",
+
   "profile.visibleCards.public": "Publique",
-  "profile.visibleCards.friends": "Amis seulement",
+  "profile.visibleCards.connections": "Connexions",
   "profile.visibleCards.private": "Privée",
+
+  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
 
   "error.redirect.title": "Erreur inattendue",
   "error.redirect.subtitle": "Quelque chose a mal tourné",

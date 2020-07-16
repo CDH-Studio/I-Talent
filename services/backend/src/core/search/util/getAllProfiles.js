@@ -16,7 +16,7 @@ async function getAllUsers(searchValue, language, userId) {
     },
   });
 
-  let isFriends = false;
+  let isConnection = false;
 
   visibleCards = await Promise.all(
     visibleCards.map(
@@ -24,7 +24,6 @@ async function getAllUsers(searchValue, language, userId) {
         id,
         visibleCards: {
           info,
-          manager,
           projects,
           skills,
           competencies,
@@ -33,45 +32,28 @@ async function getAllUsers(searchValue, language, userId) {
           exFeeder,
         },
       }) => {
-        const Friends = await prisma.user.findOne({
+        const userConnections = await prisma.user.findOne({
           where: { id },
-          select: { friends: true },
+          select: { connections: true },
         });
 
-        isFriends = Friends.friends.some((item) => item.id === userId);
+        isConnection = userConnections.connections.some(
+          (item) => item.id === userId
+        );
+
+        const visibleCardBool = (value) =>
+          !(value === "PRIVATE" || (value === "CONNECTIONS" && !isConnection));
 
         return {
           id,
           visibleCards: {
-            info: !(info === "PRIVATE" || (info === "FRIENDS" && !isFriends)),
-            manager: !(
-              manager === "PRIVATE" ||
-              (manager === "FRIENDS" && !isFriends)
-            ),
-            projects: !(
-              projects === "PRIVATE" ||
-              (projects === "FRIENDS" && !isFriends)
-            ),
-            skills: !(
-              skills === "PRIVATE" ||
-              (skills === "FRIENDS" && !isFriends)
-            ),
-            competencies: !(
-              competencies === "PRIVATE" ||
-              (competencies === "FRIENDS" && !isFriends)
-            ),
-            education: !(
-              education === "PRIVATE" ||
-              (education === "FRIENDS" && !isFriends)
-            ),
-            experience: !(
-              experience === "PRIVATE" ||
-              (experience === "FRIENDS" && !isFriends)
-            ),
-            exFeeder: !(
-              exFeeder === "PRIVATE" ||
-              (exFeeder === "FRIENDS" && !isFriends)
-            ),
+            info: visibleCardBool(info),
+            projects: visibleCardBool(projects),
+            skills: visibleCardBool(skills),
+            competencies: visibleCardBool(competencies),
+            education: visibleCardBool(education),
+            experience: visibleCardBool(experience),
+            exFeeder: visibleCardBool(exFeeder),
           },
         };
       }
@@ -84,7 +66,6 @@ async function getAllUsers(searchValue, language, userId) {
         id,
         visibleCards: {
           info,
-          manager,
           projects,
           skills,
           competencies,
@@ -103,7 +84,7 @@ async function getAllUsers(searchValue, language, userId) {
             lastName: true,
             telephone: true,
             cellphone: true,
-            manager,
+            manager: true,
             teams: true,
             status: true,
             email: true,
@@ -274,7 +255,7 @@ async function getAllUsers(searchValue, language, userId) {
     const info = {
       ...user,
       nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
-      isFriends,
+      isConnection,
     };
 
     if (info.employmentInfo) {

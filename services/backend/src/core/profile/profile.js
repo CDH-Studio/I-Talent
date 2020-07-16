@@ -401,7 +401,6 @@ async function updateProfile(request, response) {
           visibleCards: visibleCards
             ? {
                 update: {
-                  manager: visibleCards.manager,
                   info: visibleCards.info,
                   talentManagement: visibleCards.talentManagement,
                   officialLanguage: visibleCards.officialLanguage,
@@ -749,7 +748,7 @@ async function getFullProfile(id, language) {
           },
         },
       },
-      friends: {
+      connections: {
         select: {
           id: true,
           firstName: true,
@@ -758,7 +757,6 @@ async function getFullProfile(id, language) {
       },
       visibleCards: {
         select: {
-          manager: true,
           info: true,
           talentManagement: true,
           officialLanguage: true,
@@ -1044,95 +1042,107 @@ async function getPublicProfileById(request, response) {
         language
       );
 
-      const isFriends = result.friends.some((item) => item.id === userId);
+      const isConnection = result.connections.some(
+        (item) => item.id === userId
+      );
 
-      if (
-        result.visibleCards.manager === "PRIVATE" ||
-        (result.visibleCards.manager === "FRIENDS" && !isFriends)
-      ) {
-        delete result.manager;
+      const tempCards = {
+        info: true,
+        talentManagement: true,
+        officialLanguage: true,
+        skills: true,
+        competencies: true,
+        developmentalGoals: true,
+        education: true,
+        experience: true,
+        projects: true,
+        careerInterests: true,
+        mentorshipSkills: true,
+        exFeeder: true,
+      };
+
+      const hideCard = (key) =>
+        result.visibleCards[key] === "PRIVATE" ||
+        (result.visibleCards[key] === "CONNECTIONS" && !isConnection);
+
+      if (hideCard("info")) {
+        result.employmentInfo = null;
+        result.securityClearance = null;
+        result.groupLevel = null;
+        result.tenure = null;
+        result.actingLevel = null;
+        result.actingStartDate = null;
+        result.actingEndDate = null;
+        result.firstLanguage = null;
+        result.secondLanguage = null;
+        result.secondLangProfs = null;
+
+        tempCards.info = false;
+      }
+      if (hideCard("talentManagement")) {
+        result.careerMobility = null;
+        result.talentMatrixResult = null;
+
+        tempCards.talentManagement = false;
       }
 
-      if (
-        result.visibleCards.info === "PRIVATE" ||
-        (result.visibleCards.info === "FRIENDS" && !isFriends)
-      ) {
-        delete result.employmentInfo;
-        delete result.securityClearance;
-        delete result.groupLevel;
-        delete result.tenure;
-        delete result.actingLevel;
-        delete result.actingStartDate;
-        delete result.actingEndDate;
-        delete result.firstLanguage;
-        delete result.secondLanguage;
+      if (hideCard("officialLanguage")) {
+        result.firstLanguage = null;
+        result.secondLanguage = null;
+
+        tempCards.officialLanguage = false;
+      }
+      if (hideCard("skills")) {
+        result.skills = [];
+
+        tempCards.skills = false;
+      }
+      if (hideCard("competencies")) {
+        result.competencies = [];
+
+        tempCards.competencies = false;
       }
 
-      if (
-        result.visibleCards.talentManagement === "PRIVATE" ||
-        (result.visibleCards.talentManagement === "FRIENDS" && !isFriends)
-      ) {
-        delete result.careerMobility;
-        delete result.talentMatrixResult;
+      if (hideCard("mentorshipSkills")) {
+        result.mentorshipSkills = [];
+
+        tempCards.mentorshipSkills = false;
       }
 
-      if (
-        result.visibleCards.officialLanguage === "PRIVATE" ||
-        (result.visibleCards.officialLanguage === "FRIENDS" && !isFriends)
-      ) {
-        delete result.firstLanguage;
-        delete result.secondLanguage;
+      if (hideCard("developmentalGoals")) {
+        result.developmentalGoals = [];
+
+        tempCards.developmentalGoals = false;
       }
-      if (
-        result.visibleCards.skills === "PRIVATE" ||
-        (result.visibleCards.skills === "FRIENDS" && !isFriends)
-      ) {
-        delete result.skills;
+      if (hideCard("education")) {
+        result.educations = [];
+
+        tempCards.education = false;
       }
-      if (
-        result.visibleCards.competencies === "PRIVATE" ||
-        (result.visibleCards.competencies === "FRIENDS" && !isFriends)
-      ) {
-        delete result.competencies;
+      if (hideCard("experience")) {
+        result.experiences = [];
+
+        tempCards.experience = false;
       }
-      if (
-        result.visibleCards.developmentalGoals === "PRIVATE" ||
-        (result.visibleCards.developmentalGoals === "FRIENDS" && !isFriends)
-      ) {
-        delete result.developmentalGoals;
+      if (hideCard("projects")) {
+        result.projects = [];
+
+        tempCards.projects = false;
       }
-      if (
-        result.visibleCards.education === "PRIVATE" ||
-        (result.visibleCards.education === "FRIENDS" && !isFriends)
-      ) {
-        delete result.educations;
+      if (hideCard("careerInterests")) {
+        result.interestedInRemote = null;
+        result.lookingJob = null;
+        result.relocationLocations = null;
+
+        tempCards.careerInterests = false;
       }
-      if (
-        result.visibleCards.experience === "PRIVATE" ||
-        (result.visibleCards.experience === "FRIENDS" && !isFriends)
-      ) {
-        delete result.experiences;
+      if (hideCard("exFeeder")) {
+        result.exFeeder = null;
+
+        tempCards.exFeeder = false;
       }
-      if (
-        result.visibleCards.projects === "PRIVATE" ||
-        (result.visibleCards.projects === "FRIENDS" && !isFriends)
-      ) {
-        delete result.projects;
-      }
-      if (
-        result.visibleCards.careerInterests === "PRIVATE" ||
-        (result.visibleCards.careerInterests === "FRIENDS" && !isFriends)
-      ) {
-        delete result.interestedInRemote;
-        delete result.lookingJob;
-        delete result.relocationLocations;
-      }
-      if (
-        result.visibleCards.exFeeder === "PRIVATE" ||
-        (result.visibleCards.exFeeder === "FRIENDS" && !isFriends)
-      ) {
-        delete result.exFeeder;
-      }
+
+      result.visibleCards = tempCards;
 
       response.status(200).json(result);
     }

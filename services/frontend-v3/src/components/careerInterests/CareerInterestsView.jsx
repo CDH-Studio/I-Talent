@@ -11,7 +11,10 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
         dataSource={dataSource}
         renderItem={(item) => (
           <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
+            <List.Item.Meta
+              title={item.title}
+              description={item.description}
+            />
           </List.Item>
         )}
       />
@@ -19,7 +22,7 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
   };
 
   const generateRelocationLocationsInfoList = (dataSource) => {
-    if (dataSource.length > 0) {
+    if (dataSource && dataSource.length > 0) {
       return (
         <div style={{ marginBottom: "10px" }}>
           <Typography.Text strong>
