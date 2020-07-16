@@ -8,12 +8,11 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 const CareerInterests = ({ data, type }) => {
   const getCareerInterestsInfo = () => {
     let description = "-";
-    if (data.interestedInRemote)
-      if (data.interestedInRemote) {
-        description = <FormattedMessage id="profile.yes" />;
-      } else if (data.interestedInRemote === false) {
-        description = <FormattedMessage id="profile.no" />;
-      }
+    if (data.interestedInRemote) {
+      description = <FormattedMessage id="profile.yes" />;
+    } else if (data.interestedInRemote === false) {
+      description = <FormattedMessage id="profile.no" />;
+    }
 
     const interestedInRemote = {
       icon: "mail",
@@ -51,7 +50,6 @@ const CareerInterests = ({ data, type }) => {
 
 CareerInterests.propTypes = {
   data: ProfileInfoPropType,
-
   type: PropTypes.bool,
 };
 
