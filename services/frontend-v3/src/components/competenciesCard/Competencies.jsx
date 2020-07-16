@@ -2,16 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-const Competencies = ({
-  data,
-  title,
-  cardName,
-  id,
-  type,
-  visible,
-  editUrl,
-}) => {
+const Competencies = ({ data, title, cardName, id, type, editUrl }) => {
   return (
     <ProfileCards
       title={title}
@@ -21,34 +14,23 @@ const Competencies = ({
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.competencies}
     />
   );
 };
 
 Competencies.propTypes = {
-  data: PropTypes.shape({
-    competencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        description: PropTypes.shape({
-          en: PropTypes.string,
-          fr: PropTypes.string,
-        }),
-        id: PropTypes.string,
-      })
-    ),
-  }).isRequired,
+  data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 Competencies.defaultProps = {
+  data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

@@ -4,7 +4,7 @@ import ExFeederView from "./ExFeederView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const ExFeeder = ({ data, cardName, id, type, visible, editUrl }) => {
+const ExFeeder = ({ data, cardName, id, type, editUrl }) => {
   return (
     <ProfileCards
       title={<ExFeederView data={data} />}
@@ -13,7 +13,7 @@ const ExFeeder = ({ data, cardName, id, type, visible, editUrl }) => {
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.exFeeder}
     />
   );
 };
@@ -22,14 +22,12 @@ ExFeeder.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 ExFeeder.defaultProps = {
   data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

@@ -37,55 +37,7 @@ const Profile = ({ history, match }) => {
             setName(`${profileData.firstName} ${profileData.lastName}`);
             setData(profileData);
             if (result[0].data && userID !== id) {
-              const isConnection = result[0].data.connections
-                ? result[0].data.connections.some((item) => item.id === userID)
-                : false;
-              const connectionStatus = result[1].data.status;
-              const {
-                info,
-                manager,
-                projects,
-                skills,
-                competencies,
-                education,
-                experience,
-                exFeeder,
-              } = profileData.visibleCards;
-              profileData.visibleCards = {
-                info: !(
-                  info === "PRIVATE" ||
-                  (info === "CONNECTIONS" && !isConnection)
-                ),
-                manager: !(
-                  manager === "PRIVATE" ||
-                  (manager === "CONNECTIONS" && !isConnection)
-                ),
-                projects: !(
-                  projects === "PRIVATE" ||
-                  (projects === "CONNECTIONS" && !isConnection)
-                ),
-                skills: !(
-                  skills === "PRIVATE" ||
-                  (skills === "CONNECTIONS" && !isConnection)
-                ),
-                competencies: !(
-                  competencies === "PRIVATE" ||
-                  (competencies === "CONNECTIONS" && !isConnection)
-                ),
-                education: !(
-                  education === "PRIVATE" ||
-                  (education === "CONNECTIONS" && !isConnection)
-                ),
-                experience: !(
-                  experience === "PRIVATE" ||
-                  (experience === "CONNECTIONS" && !isConnection)
-                ),
-                exFeeder: !(
-                  exFeeder === "PRIVATE" ||
-                  (exFeeder === "CONNECTIONS" && !isConnection)
-                ),
-              };
-              setConnectionData(connectionStatus);
+              setConnectionData(result[1].data.status);
             }
           }
           setLoading(false);

@@ -383,9 +383,6 @@
   "sign.out": "Logout",
   "home": "Home",
 
-  "profile.addConnection": "Add connection",
-  "profile.removeConnection": "Remove connection",
-
   "profile.privateGroup": "Private group",
   "profile.connections": "Connections",
 

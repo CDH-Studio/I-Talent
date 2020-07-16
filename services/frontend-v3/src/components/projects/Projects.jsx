@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProjectsView from "./ProjectsView";
 import ProfileCards from "../profileCards/ProfileCards";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-const Projects = ({ data, title, cardName, id, type, visible, editUrl }) => {
+const Projects = ({ data, title, cardName, id, type, editUrl }) => {
   return (
     <ProfileCards
       title={title}
@@ -13,26 +14,23 @@ const Projects = ({ data, title, cardName, id, type, visible, editUrl }) => {
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.projects}
     />
   );
 };
 
 Projects.propTypes = {
-  data: PropTypes.shape({
-    projects: PropTypes.array,
-  }).isRequired,
+  data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 Projects.defaultProps = {
+  data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

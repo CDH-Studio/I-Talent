@@ -4,15 +4,7 @@ import TalentManagementView from "./TalentManagementView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const TalentManagement = ({
-  data,
-  title,
-  cardName,
-  id,
-  type,
-  visible,
-  editUrl,
-}) => {
+const TalentManagement = ({ data, title, cardName, id, type, editUrl }) => {
   return (
     <ProfileCards
       title={title}
@@ -22,7 +14,7 @@ const TalentManagement = ({
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.talentManagement}
     />
   );
 };
@@ -33,14 +25,12 @@ TalentManagement.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 TalentManagement.defaultProps = {
   data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

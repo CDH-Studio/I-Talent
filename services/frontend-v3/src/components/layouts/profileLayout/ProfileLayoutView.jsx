@@ -88,7 +88,6 @@ const ProfileLayoutView = ({
               id="card-profile-employee-summary"
               data={data}
               type={privateProfile}
-              visible={data.visibleCards.info}
             />
           </Col>
         </Row>
@@ -110,7 +109,6 @@ const ProfileLayoutView = ({
               id="card-profile-skills"
               editUrl="/secured/profile/edit/talent"
               type={privateProfile}
-              visible={data.visibleCards.skills}
             />
           </Col>
         </Row>
@@ -123,7 +121,6 @@ const ProfileLayoutView = ({
               id="card-profile-mentorship-skills"
               editUrl="/secured/profile/edit/talent"
               type={privateProfile}
-              visible={data.visibleCards.mentorshipSkills}
             />
           </Col>
         </Row>
@@ -137,7 +134,6 @@ const ProfileLayoutView = ({
                 id="card-profile-competency"
                 editUrl="/secured/profile/edit/talent"
                 type={privateProfile}
-                visible={data.visibleCards.competencies}
               />
             </Col>
           </Col>
@@ -159,7 +155,6 @@ const ProfileLayoutView = ({
               id="card-profile-dev-goals"
               editUrl="/secured/profile/edit/personal-growth"
               type={privateProfile}
-              visible={data.visibleCards.developmentalGoals}
               data={data}
             />
           </Col>
@@ -178,7 +173,6 @@ const ProfileLayoutView = ({
               id="card-profile-talent-management"
               editUrl="/secured/profile/edit/personal-growth"
               type={privateProfile}
-              visible={data.visibleCards.talentManagement}
             />
             <div style={{ paddingTop: "16px" }}>
               <ExFeeder
@@ -189,7 +183,6 @@ const ProfileLayoutView = ({
                 editUrl="/secured/profile/edit/personal-growth"
                 forceDisabled={!data.exFeeder}
                 type={privateProfile}
-                visible={data.visibleCards.exFeeder}
               />
             </div>
           </Col>
@@ -201,7 +194,6 @@ const ProfileLayoutView = ({
               id="card-profile-career-interests"
               editUrl="/secured/profile/edit/personal-growth"
               type={privateProfile}
-              visible={data.visibleCards.careerInterests}
             />
           </Col>
         </Row>
@@ -223,7 +215,6 @@ const ProfileLayoutView = ({
               id="card-profile-education"
               editUrl="/secured/profile/edit/qualifications"
               type={privateProfile}
-              visible={data.visibleCards.education}
             />
           </Col>
         </Row>
@@ -236,7 +227,6 @@ const ProfileLayoutView = ({
               id="card-profile-experience"
               editUrl="/secured/profile/edit/qualifications"
               type={privateProfile}
-              visible={data.visibleCards.experience}
             />
           </Col>
         </Row>
@@ -249,7 +239,6 @@ const ProfileLayoutView = ({
               id="card-profile-projects"
               editUrl="/secured/profile/edit/qualifications"
               type={privateProfile}
-              visible={data.visibleCards.projects}
             />
           </Col>
         </Row>
@@ -272,7 +261,6 @@ const ProfileLayoutView = ({
                   title={<FormattedMessage id="profile.connections" />}
                   cardName="privateGroup"
                   id="card-profile-connections"
-                  visible
                 />
               </Col>
             </Row>
@@ -460,8 +448,8 @@ const ProfileLayoutView = ({
               <FormattedMessage
                 id={
                   connectionStatus
-                    ? "profile.removeConnection"
-                    : "profile.addConnection"
+                    ? "search.results.cards.remove.connection"
+                    : "search.results.cards.add.connection"
                 }
               />
             </Button>

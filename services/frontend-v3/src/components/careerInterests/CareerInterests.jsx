@@ -3,16 +3,9 @@ import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import CareerInterestsView from "./CareerInterestsView";
 import ProfileCards from "../profileCards/ProfileCards";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-const CareerInterests = ({
-  data,
-  title,
-  cardName,
-  id,
-  type,
-  visible,
-  editUrl,
-}) => {
+const CareerInterests = ({ data, title, cardName, id, type, editUrl }) => {
   const getCareerInterestsInfo = () => {
     let description = "-";
     if (data.interestedInRemote)
@@ -51,30 +44,23 @@ const CareerInterests = ({
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.careerInterests}
     />
   );
 };
 
 CareerInterests.propTypes = {
-  data: PropTypes.shape({
-    interestedInRemote: PropTypes.bool,
-    lookingJob: PropTypes.shape({
-      description: PropTypes.string,
-    }),
-    relocationLocations: PropTypes.any,
-  }).isRequired,
+  data: ProfileInfoPropType,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 CareerInterests.defaultProps = {
+  data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

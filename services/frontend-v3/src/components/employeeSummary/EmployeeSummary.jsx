@@ -4,7 +4,7 @@ import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const EmployeeSummary = ({ data, title, cardName, id, type, visible }) => {
+const EmployeeSummary = ({ data, title, cardName, id, type }) => {
   const [activeTabKey, setActiveTabKey] = useState("1");
   const [editUrl, setEditUrl] = useState("");
 
@@ -27,7 +27,7 @@ const EmployeeSummary = ({ data, title, cardName, id, type, visible }) => {
       editUrl={`/secured/profile/edit/${editUrl}`}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.info}
     />
   );
 };
@@ -38,13 +38,11 @@ EmployeeSummary.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
 };
 
 EmployeeSummary.defaultProps = {
   data: null,
   type: null,
-  visible: null,
 };
 
 export default EmployeeSummary;

@@ -38,76 +38,79 @@ const ProfileCardsView = ({
   const generateSwitchButton = () => {
     if (type) {
       return (
-        <Row Row type="flex" gutter={[16, 16]} style={{ marginTop: "15px" }}>
-          <Col>
-            <Radio.Group value={status} buttonStyle="solid" size="middle">
-              <Popconfirm
-                title={
-                  <FormattedMessage id="profile.visibility.show.confirm" />
-                }
-                placement="topRight"
-                okText={<FormattedMessage id="profile.yes" />}
-                cancelText={<FormattedMessage id="profile.no" />}
-                icon={<WarningOutlined style={{ color: "orange" }} />}
-                onConfirm={() => handleVisibilityToggle("PUBLIC")}
-              >
+        <div style={{ marginTop: "15px" }}>
+          <Row Row type="flex" gutter={[16, 16]}>
+            <Col>
+              <Radio.Group value={status} buttonStyle="solid" size="middle">
+                <Popconfirm
+                  title={
+                    <FormattedMessage id="profile.visibility.show.confirm" />
+                  }
+                  placement="topRight"
+                  okText={<FormattedMessage id="profile.yes" />}
+                  cancelText={<FormattedMessage id="profile.no" />}
+                  icon={<WarningOutlined style={{ color: "orange" }} />}
+                  onConfirm={() => handleVisibilityToggle("PUBLIC")}
+                >
+                  <Tooltip
+                    placement="bottom"
+                    title={
+                      <FormattedMessage id="profile.visibleCards.public" />
+                    }
+                  >
+                    <Radio.Button value="PUBLIC">
+                      <EyeOutlined />
+                    </Radio.Button>
+                  </Tooltip>
+                </Popconfirm>
                 <Tooltip
                   placement="bottom"
-                  title={<FormattedMessage id="profile.visibleCards.public" />}
+                  title={
+                    <FormattedMessage id="profile.visibleCards.connections" />
+                  }
                 >
-                  <Radio.Button value="PUBLIC">
-                    <EyeOutlined />
+                  <Radio.Button
+                    value="CONNECTIONS"
+                    onClick={() => handleVisibilityToggle("CONNECTIONS")}
+                  >
+                    <TeamOutlined />
                   </Radio.Button>
                 </Tooltip>
-              </Popconfirm>
-              <Tooltip
-                placement="bottom"
-                title={
-                  <FormattedMessage id="profile.visibleCards.connections" />
-                }
-              >
-                <Radio.Button
-                  value="CONNECTIONS"
-                  onClick={() => handleVisibilityToggle("CONNECTIONS")}
+                <Tooltip
+                  placement="top"
+                  title={<FormattedMessage id="profile.visibleCards.private" />}
                 >
-                  <TeamOutlined />
-                </Radio.Button>
-              </Tooltip>
+                  <Radio.Button
+                    value="PRIVATE"
+                    onClick={() => handleVisibilityToggle("PRIVATE")}
+                  >
+                    <EyeInvisibleOutlined />
+                  </Radio.Button>
+                </Tooltip>
+              </Radio.Group>
+            </Col>
+            <Col>
               <Tooltip
                 placement="top"
                 title={<FormattedMessage id="profile.visibleCards.private" />}
               >
-                <Radio.Button
-                  value="PRIVATE"
-                  onClick={() => handleVisibilityToggle("PRIVATE")}
-                >
-                  <EyeInvisibleOutlined />
-                </Radio.Button>
+                <Button
+                  aria-label="edit card"
+                  type="default"
+                  shape="circle"
+                  icon={<EditOutlined />}
+                  onClick={redirectToEdit}
+                />
               </Tooltip>
-            </Radio.Group>
-          </Col>
-          <Col>
-            <Tooltip
-              placement="top"
-              title={<FormattedMessage id="profile.visibleCards.private" />}
-            >
-              <Button
-                aria-label="edit card"
-                type="default"
-                shape="circle"
-                icon={<EditOutlined />}
-                onClick={redirectToEdit}
-              />
-            </Tooltip>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </div>
       );
     }
     return <></>;
   };
 
   let styles;
-
   if (visible) {
     styles = {
       grayedOut: {

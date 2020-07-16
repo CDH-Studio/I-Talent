@@ -3,22 +3,22 @@ import PropTypes from "prop-types";
 import ConnectionsView from "./ConnectionsView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Connections = ({ data, title, cardName, id, type, visible, editUrl }) => {
+const connections = ({ data, title, cardName, id, type, editUrl }) => {
   return (
     <ProfileCards
       title={title}
-      content={<ConnectionsView Connections={data.connections} />}
+      content={<ConnectionsView connections={data.connections} />}
       cardName={cardName}
       id={id}
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible
     />
   );
 };
 
-Connections.propTypes = {
+connections.propTypes = {
   data: PropTypes.shape({
     connections: PropTypes.array,
   }).isRequired,
@@ -26,14 +26,12 @@ Connections.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
-Connections.defaultProps = {
+connections.defaultProps = {
   type: null,
-  visible: null,
   editUrl: "",
 };
 
-export default Connections;
+export default connections;

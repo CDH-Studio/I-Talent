@@ -4,15 +4,7 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
 
-const DevelopmentalGoals = ({
-  data,
-  title,
-  cardName,
-  id,
-  type,
-  visible,
-  editUrl,
-}) => {
+const DevelopmentalGoals = ({ data, title, cardName, id, type, editUrl }) => {
   return (
     <ProfileCards
       title={title}
@@ -22,7 +14,7 @@ const DevelopmentalGoals = ({
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.developmentalGoals}
     />
   );
 };
@@ -33,14 +25,12 @@ DevelopmentalGoals.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 DevelopmentalGoals.defaultProps = {
   data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

@@ -4,7 +4,7 @@ import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Skills = ({ data, title, cardName, id, type, visible, editUrl }) => {
+const Skills = ({ data, title, cardName, id, type, editUrl }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -78,7 +78,7 @@ const Skills = ({ data, title, cardName, id, type, visible, editUrl }) => {
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.skills}
     />
   );
 };
@@ -89,14 +89,12 @@ Skills.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 Skills.defaultProps = {
   data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 

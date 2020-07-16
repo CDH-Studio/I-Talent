@@ -33,7 +33,7 @@ const OfficialLanguage = ({ data }) => {
 
     const writing = dataSource.secondLangProfs
       ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
-      : null;
+      : undefined;
 
     const secondaryWritingProficiency = {
       title: <FormattedMessage id="profile.writing" />,
@@ -42,7 +42,7 @@ const OfficialLanguage = ({ data }) => {
 
     const oral = dataSource.secondLangProfs
       ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
-      : null;
+      : undefined;
 
     const secondaryOralProficiency = {
       title: <FormattedMessage id="profile.oral" />,
@@ -59,15 +59,15 @@ const OfficialLanguage = ({ data }) => {
   const getSecondLanguageDateInfo = (dataSource) => {
     const reading = dataSource.secondLangProfs
       ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
-      : null;
+      : undefined;
 
     const writing = dataSource.secondLangProfs
       ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
-      : null;
+      : undefined;
 
     const oral = dataSource.secondLangProfs
       ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
-      : null;
+      : undefined;
 
     const secondaryReadingDate = {
       title: <FormattedMessage id="profile.reading" />,

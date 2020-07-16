@@ -4,7 +4,7 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 import MentorshipView from "./MentorshipView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Mentorship = ({ data, title, cardName, id, type, visible, editUrl }) => {
+const Mentorship = ({ data, title, cardName, id, type, editUrl }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -63,7 +63,6 @@ const Mentorship = ({ data, title, cardName, id, type, visible, editUrl }) => {
 
     return mentorshipSkills;
   };
-
   return (
     <ProfileCards
       title={title}
@@ -78,7 +77,7 @@ const Mentorship = ({ data, title, cardName, id, type, visible, editUrl }) => {
       editUrl={editUrl}
       data={data}
       type={type}
-      visible={visible}
+      visible={data.visibleCards.mentorshipSkills}
     />
   );
 };
@@ -89,14 +88,12 @@ Mentorship.propTypes = {
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  visible: PropTypes.bool,
   editUrl: PropTypes.string,
 };
 
 Mentorship.defaultProps = {
   data: null,
   type: null,
-  visible: null,
   editUrl: "",
 };
 
