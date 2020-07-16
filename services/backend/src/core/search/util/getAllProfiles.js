@@ -53,7 +53,7 @@ async function getAllUsers(searchValue, language, userId) {
             experience: visibleCardBool(experience),
             exFeeder: visibleCardBool(exFeeder),
           },
-          isConnection,
+          isConnection: isConnection && id === userId ? false : isConnection,
         };
       }
     )
