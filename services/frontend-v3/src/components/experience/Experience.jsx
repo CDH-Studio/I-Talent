@@ -6,7 +6,7 @@ import ExperienceView from "./ExperienceView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Experience = ({ data, title, cardName, id, type, editUrl }) => {
+const Experience = ({ data, type }) => {
   const getExperienceDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
@@ -58,17 +58,12 @@ const Experience = ({ data, title, cardName, id, type, editUrl }) => {
 
 Experience.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 Experience.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default Experience;

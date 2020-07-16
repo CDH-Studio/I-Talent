@@ -1046,11 +1046,7 @@ async function getPublicProfileById(request, response) {
         (item) => item.id === userId
       );
 
-      const hideCard = (key) =>
-        result.visibleCards[key] === "PRIVATE" ||
-        (result.visibleCards[key] === "CONNECTIONS" && !isConnection);
-
-      result.visibleCards = {
+      const tempCards = {
         info: true,
         talentManagement: true,
         officialLanguage: true,
@@ -1065,6 +1061,10 @@ async function getPublicProfileById(request, response) {
         exFeeder: true,
       };
 
+      const hideCard = (key) =>
+        result.visibleCards[key] === "PRIVATE" ||
+        (result.visibleCards[key] === "CONNECTIONS" && !isConnection);
+
       if (hideCard("info")) {
         result.employmentInfo = null;
         result.securityClearance = null;
@@ -1077,70 +1077,72 @@ async function getPublicProfileById(request, response) {
         result.secondLanguage = null;
         result.secondLangProfs = null;
 
-        result.visibleCards.info = false;
+        tempCards.info = false;
       }
       if (hideCard("talentManagement")) {
         result.careerMobility = null;
         result.talentMatrixResult = null;
 
-        result.visibleCards.talentManagement = false;
+        tempCards.talentManagement = false;
       }
 
       if (hideCard("officialLanguage")) {
         result.firstLanguage = null;
         result.secondLanguage = null;
 
-        result.visibleCards.officialLanguage = false;
+        tempCards.officialLanguage = false;
       }
       if (hideCard("skills")) {
         result.skills = [];
 
-        result.visibleCards.skills = false;
+        tempCards.skills = false;
       }
       if (hideCard("competencies")) {
         result.competencies = [];
 
-        result.visibleCards.competencies = false;
+        tempCards.competencies = false;
       }
 
       if (hideCard("mentorshipSkills")) {
         result.mentorshipSkills = [];
 
-        result.visibleCards.mentorshipSkills = false;
+        tempCards.mentorshipSkills = false;
       }
 
       if (hideCard("developmentalGoals")) {
         result.developmentalGoals = [];
 
-        result.visibleCards.developmentalGoals = false;
+        tempCards.developmentalGoals = false;
       }
       if (hideCard("education")) {
         result.educations = [];
 
-        result.visibleCards.education = false;
+        tempCards.education = false;
       }
       if (hideCard("experience")) {
         result.experiences = [];
 
-        result.visibleCards.experience = false;
+        tempCards.experience = false;
       }
       if (hideCard("projects")) {
         result.projects = [];
 
-        result.visibleCards.projects = false;
+        tempCards.projects = false;
       }
       if (hideCard("careerInterests")) {
         result.interestedInRemote = null;
         result.lookingJob = null;
         result.relocationLocations = null;
 
-        result.visibleCards.careerInterests = false;
+        tempCards.careerInterests = false;
       }
       if (hideCard("exFeeder")) {
         result.exFeeder = null;
 
-        result.visibleCards.exFeeder = false;
+        tempCards.exFeeder = false;
       }
+
+      result.visibleCards = tempCards;
 
       response.status(200).json(result);
     }
