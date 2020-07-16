@@ -4,14 +4,14 @@ import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
-const Competencies = ({ data, title, cardName, id, type, editUrl }) => {
+const Competencies = ({ data, type }) => {
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.competencies"
       content={<CompetenciesView competencies={data.competencies} />}
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="competencies"
+      id="card-profile-competency"
+      editUrl="/secured/profile/edit/talent"
       data={data}
       type={type}
       visible={data.visibleCards.competencies}
@@ -21,17 +21,12 @@ const Competencies = ({ data, title, cardName, id, type, editUrl }) => {
 
 Competencies.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 Competencies.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default Competencies;

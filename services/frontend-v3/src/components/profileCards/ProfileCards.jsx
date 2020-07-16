@@ -9,7 +9,7 @@ import handleError from "../../functions/handleError";
 
 const ProfileCards = ({
   data,
-  title,
+  titleId,
   content,
   editUrl,
   cardName,
@@ -50,7 +50,7 @@ const ProfileCards = ({
 
   return (
     <ProfileCardsView
-      title={title}
+      titleId={titleId}
       content={content}
       data={data}
       editUrl={editUrl}
@@ -67,7 +67,7 @@ const ProfileCards = ({
 
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  titleId: PropTypes.string.isRequired,
   content: PropTypes.element,
   editUrl: PropTypes.string,
   cardName: PropTypes.string.isRequired,

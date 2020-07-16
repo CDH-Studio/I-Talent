@@ -14,7 +14,7 @@ import { HistoryPropType } from "../../customPropTypes";
 
 const ProfileCardsView = ({
   editUrl,
-  title,
+  titleId,
   id,
   content,
   style,
@@ -129,7 +129,7 @@ const ProfileCardsView = ({
     <div>
       <Card
         className={content === null ? "no-content-card" : null}
-        title={title}
+        title={<FormattedMessage id={titleId} />}
         id={id}
         extra={generateSwitchButton()}
         style={(style, styles.grayedOut)}
@@ -142,7 +142,7 @@ const ProfileCardsView = ({
 
 ProfileCardsView.propTypes = {
   editUrl: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  titleId: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),

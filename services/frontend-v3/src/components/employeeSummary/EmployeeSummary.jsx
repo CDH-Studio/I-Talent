@@ -4,7 +4,7 @@ import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const EmployeeSummary = ({ data, title, cardName, id, type }) => {
+const EmployeeSummary = ({ data, type }) => {
   const [activeTabKey, setActiveTabKey] = useState("1");
   const [editUrl, setEditUrl] = useState("");
 
@@ -18,12 +18,12 @@ const EmployeeSummary = ({ data, title, cardName, id, type }) => {
 
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.employee.summary"
       content={
         <EmployeeSummaryView data={data} setActiveTabKey={setActiveTabKey} />
       }
-      cardName={cardName}
-      id={id}
+      cardName="info"
+      id="card-profile-employee-summary"
       editUrl={`/secured/profile/edit/${editUrl}`}
       data={data}
       type={type}
@@ -34,9 +34,6 @@ const EmployeeSummary = ({ data, title, cardName, id, type }) => {
 
 EmployeeSummary.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
 };
 

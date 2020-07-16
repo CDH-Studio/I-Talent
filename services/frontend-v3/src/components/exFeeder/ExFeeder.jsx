@@ -4,13 +4,13 @@ import ExFeederView from "./ExFeederView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const ExFeeder = ({ data, cardName, id, type, editUrl }) => {
+const ExFeeder = ({ data, type }) => {
   return (
     <ProfileCards
-      title={<ExFeederView data={data} />}
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      titleId={<ExFeederView data={data} />}
+      cardName="exFeeder"
+      editUrl="/secured/profile/edit/personal-growth"
+      id="card-profile-ex-feeder"
       data={data}
       type={type}
       visible={data.visibleCards.exFeeder}
@@ -19,16 +19,12 @@ const ExFeeder = ({ data, cardName, id, type, editUrl }) => {
 };
 ExFeeder.propTypes = {
   data: ProfileInfoPropType,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 ExFeeder.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default ExFeeder;

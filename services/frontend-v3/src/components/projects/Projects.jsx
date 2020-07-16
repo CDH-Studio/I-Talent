@@ -4,14 +4,14 @@ import ProjectsView from "./ProjectsView";
 import ProfileCards from "../profileCards/ProfileCards";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
-const Projects = ({ data, title, cardName, id, type, editUrl }) => {
+const Projects = ({ data, type }) => {
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.projects"
       content={<ProjectsView projectsInfo={data.projects} />}
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="projects"
+      id="card-profile-projects"
+      editUrl="/secured/profile/edit/qualifications"
       data={data}
       type={type}
       visible={data.visibleCards.projects}
@@ -21,17 +21,12 @@ const Projects = ({ data, title, cardName, id, type, editUrl }) => {
 
 Projects.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 Projects.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default Projects;

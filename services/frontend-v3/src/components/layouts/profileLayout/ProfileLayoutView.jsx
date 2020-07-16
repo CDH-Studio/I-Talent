@@ -82,13 +82,7 @@ const ProfileLayoutView = ({
             <BasicInfo data={data} />
           </Col>
           <Col xs={24} xl={10}>
-            <EmployeeSummary
-              title={<FormattedMessage id="profile.employee.summary" />}
-              cardName="info"
-              id="card-profile-employee-summary"
-              data={data}
-              type={privateProfile}
-            />
+            <EmployeeSummary data={data} type={privateProfile} />
           </Col>
         </Row>
         {/** ********** Skills and competencies *********** */}
@@ -102,39 +96,18 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <Skills
-              title={<FormattedMessage id="profile.skills" />}
-              data={data}
-              cardName="skills"
-              id="card-profile-skills"
-              editUrl="/secured/profile/edit/talent"
-              type={privateProfile}
-            />
+            <Skills data={data} type={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Mentorship
-              title={<FormattedMessage id="profile.mentorship.skills" />}
-              data={data}
-              cardName="mentorshipSkills"
-              id="card-profile-mentorship-skills"
-              editUrl="/secured/profile/edit/talent"
-              type={privateProfile}
-            />
+            <Mentorship data={data} type={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
             <Col span={24}>
-              <Competencies
-                data={data}
-                title={<FormattedMessage id="profile.competencies" />}
-                cardName="competencies"
-                id="card-profile-competency"
-                editUrl="/secured/profile/edit/talent"
-                type={privateProfile}
-              />
+              <Competencies data={data} type={privateProfile} />
             </Col>
           </Col>
         </Row>
@@ -149,14 +122,7 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <DevelopmentalGoals
-              title={<FormattedMessage id="profile.developmental.goals" />}
-              cardName="developmentalGoals"
-              id="card-profile-dev-goals"
-              editUrl="/secured/profile/edit/personal-growth"
-              type={privateProfile}
-              data={data}
-            />
+            <DevelopmentalGoals type={privateProfile} data={data} />
           </Col>
         </Row>
 
@@ -166,35 +132,13 @@ const ProfileLayoutView = ({
           type="flex"
         >
           <Col xs={24} xl={12}>
-            <TalentManagement
-              data={data}
-              title={<FormattedMessage id="profile.talent.management" />}
-              cardName="talentManagement"
-              id="card-profile-talent-management"
-              editUrl="/secured/profile/edit/personal-growth"
-              type={privateProfile}
-            />
+            <TalentManagement data={data} type={privateProfile} />
             <div style={{ paddingTop: "16px" }}>
-              <ExFeeder
-                data={data}
-                content={null}
-                cardName="exFeeder"
-                id="card-profile-ex-feeder"
-                editUrl="/secured/profile/edit/personal-growth"
-                forceDisabled={!data.exFeeder}
-                type={privateProfile}
-              />
+              <ExFeeder data={data} type={privateProfile} />
             </div>
           </Col>
           <Col xs={24} xl={12}>
-            <CareerInterests
-              data={data}
-              title={<FormattedMessage id="profile.career.interests" />}
-              cardName="careerInterests"
-              id="card-profile-career-interests"
-              editUrl="/secured/profile/edit/personal-growth"
-              type={privateProfile}
-            />
+            <CareerInterests data={data} type={privateProfile} />
           </Col>
         </Row>
         {/** ********** Qualifications *********** */}
@@ -208,38 +152,17 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <Education
-              data={data}
-              title={<FormattedMessage id="profile.education" />}
-              cardName="education"
-              id="card-profile-education"
-              editUrl="/secured/profile/edit/qualifications"
-              type={privateProfile}
-            />
+            <Education data={data} type={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Experience
-              data={data}
-              title={<FormattedMessage id="profile.experience" />}
-              cardName="experience"
-              id="card-profile-experience"
-              editUrl="/secured/profile/edit/qualifications"
-              type={privateProfile}
-            />
+            <Experience data={data} type={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Projects
-              data={data}
-              title={<FormattedMessage id="profile.projects" />}
-              cardName="projects"
-              id="card-profile-projects"
-              editUrl="/secured/profile/edit/qualifications"
-              type={privateProfile}
-            />
+            <Projects data={data} type={privateProfile} />
           </Col>
         </Row>
 
@@ -256,12 +179,7 @@ const ProfileLayoutView = ({
             </Title>
             <Row style={styles.row}>
               <Col span={24}>
-                <Connections
-                  data={data}
-                  title={<FormattedMessage id="profile.connections" />}
-                  cardName="privateGroup"
-                  id="card-profile-connections"
-                />
+                <Connections data={data} />
               </Col>
             </Row>
           </div>

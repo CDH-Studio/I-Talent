@@ -6,7 +6,7 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 import EducationView from "./EducationView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Education = ({ data, title, cardName, id, type, editUrl }) => {
+const Education = ({ data, type }) => {
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
@@ -41,11 +41,11 @@ const Education = ({ data, title, cardName, id, type, editUrl }) => {
   };
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.education"
       content={<EducationView educationInfo={getEducationInfo(data)} />}
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="education"
+      id="card-profile-education"
+      editUrl="/secured/profile/edit/qualifications"
       data={data}
       type={type}
       visible={data.visibleCards.education}
@@ -55,16 +55,11 @@ const Education = ({ data, title, cardName, id, type, editUrl }) => {
 
 Education.propTypes = {
   data: ProfileInfoPropType.isRequired,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 Education.defaultProps = {
   type: null,
-  editUrl: "",
 };
 
 export default Education;

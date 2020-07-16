@@ -4,7 +4,7 @@ import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Skills = ({ data, title, cardName, id, type, editUrl }) => {
+const Skills = ({ data, type }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -66,16 +66,16 @@ const Skills = ({ data, title, cardName, id, type, editUrl }) => {
 
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.skills"
       content={
         <SkillsView
           skills={setUpSkills(data.skills)}
           categoriesSkills={setUpCategories(data.skills)}
         />
       }
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="skills"
+      id="card-profile-skills"
+      editUrl="/secured/profile/edit/talent"
       data={data}
       type={type}
       visible={data.visibleCards.skills}
@@ -85,17 +85,12 @@ const Skills = ({ data, title, cardName, id, type, editUrl }) => {
 
 Skills.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 Skills.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default Skills;

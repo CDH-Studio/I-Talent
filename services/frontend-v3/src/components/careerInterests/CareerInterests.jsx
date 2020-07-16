@@ -5,7 +5,7 @@ import CareerInterestsView from "./CareerInterestsView";
 import ProfileCards from "../profileCards/ProfileCards";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
-const CareerInterests = ({ data, title, cardName, id, type, editUrl }) => {
+const CareerInterests = ({ data, type }) => {
   const getCareerInterestsInfo = () => {
     let description = "-";
     if (data.interestedInRemote)
@@ -31,7 +31,7 @@ const CareerInterests = ({ data, title, cardName, id, type, editUrl }) => {
 
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.career.interests"
       content={
         <CareerInterestsView
           data={data}
@@ -39,9 +39,9 @@ const CareerInterests = ({ data, title, cardName, id, type, editUrl }) => {
           relocationLocationsInfo={data.relocationLocations}
         />
       }
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="careerInterests"
+      id="card-profile-career-interests"
+      editUrl="/secured/profile/edit/personal-growth"
       data={data}
       type={type}
       visible={data.visibleCards.careerInterests}
@@ -51,17 +51,13 @@ const CareerInterests = ({ data, title, cardName, id, type, editUrl }) => {
 
 CareerInterests.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 CareerInterests.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default CareerInterests;

@@ -44,11 +44,11 @@ const Experience = ({ data, title, cardName, id, type, editUrl }) => {
 
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.experience"
       content={<ExperienceView experienceInfo={getExperienceInfo(data)} />}
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="experience"
+      id="card-profile-experience"
+      editUrl="/secured/profile/edit/qualifications"
       data={data}
       type={type}
       visible={data.visibleCards.experience}

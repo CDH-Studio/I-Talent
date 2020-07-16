@@ -4,14 +4,14 @@ import TalentManagementView from "./TalentManagementView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const TalentManagement = ({ data, title, cardName, id, type, editUrl }) => {
+const TalentManagement = ({ data, type }) => {
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.talent.management"
       content={<TalentManagementView data={data} />}
-      cardName={cardName}
-      id={id}
-      editUrl={editUrl}
+      cardName="talentManagement"
+      id="card-profile-talent-management"
+      editUrl="/secured/profile/edit/personal-growth"
       data={data}
       type={type}
       visible={data.visibleCards.talentManagement}
@@ -21,17 +21,12 @@ const TalentManagement = ({ data, title, cardName, id, type, editUrl }) => {
 
 TalentManagement.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   type: PropTypes.bool,
-  editUrl: PropTypes.string,
 };
 
 TalentManagement.defaultProps = {
   data: null,
   type: null,
-  editUrl: "",
 };
 
 export default TalentManagement;
