@@ -12,6 +12,8 @@ const AppLayoutView = ({
   displaySideBar,
   children,
   loading,
+  displayLogo,
+  displaySearch,
 }) => {
   const styles = {
     contentLayout: {
@@ -26,7 +28,11 @@ const AppLayoutView = ({
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Render Top Navigation Bar */}
-      <TopNav loading={loading} />
+      <TopNav
+        loading={loading}
+        displayLogo={displayLogo}
+        displaySearch={displaySearch}
+      />
       <Layout style={{ marginTop: 64 }}>
         {/* Render Side Navigation Bar */}
         <SideNav
@@ -57,6 +63,8 @@ AppLayoutView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
+  displaySearch: PropTypes.bool.isRequired,
+  displayLogo: PropTypes.bool.isRequired,
 };
 
 AppLayoutView.defaultProps = {

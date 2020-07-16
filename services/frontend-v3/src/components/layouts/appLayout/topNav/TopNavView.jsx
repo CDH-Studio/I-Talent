@@ -9,16 +9,22 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { Layout, Dropdown, Menu, Button } from "antd";
-import { FormattedMessage } from "react-intl";
+import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import queryString from "query-string";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
+import { IntlPropType } from "../../../../customPropTypes";
 
 const { Header } = Layout;
 
-const TopNavView = ({ isAdmin, loading }) => {
+const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
+  const history = useHistory();
+  const [searchValue, setSearchValue] = useState("");
+
   /* Component Styles */
   const styles = {
     header: {
@@ -64,7 +70,7 @@ const TopNavView = ({ isAdmin, loading }) => {
       display: "flex",
       alignItems: "center",
       height: "100%",
-      margin: "0 20px"
+      margin: "0 20px",
     },
   };
 
@@ -142,6 +148,38 @@ const TopNavView = ({ isAdmin, loading }) => {
     );
   };
 
+  const search = () => {
+    if (searchValue !== "") {
+      const needsToReload = window.location.pathname.includes(
+        "/secured/results"
+      );
+
+      history.push(`/secured/results?searchValue=${searchValue}`);
+
+      if (needsToReload) {
+        window.location.reload();
+      }
+    }
+  };
+
+  const getSearchInput = () =>
+    displaySearch && windowWidth > 800 && (
+      <Input.Search
+        className="searchInput"
+        style={{
+          width: 250,
+          marginLeft: 30,
+        }}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        enterButton
+        onSearch={search}
+        placeholder={intl.formatMessage({
+          id: "button.search",
+        })}
+      />
+    );
+
   const hamburgerMenu = () =>
     showMenu &&
     menu(
@@ -170,11 +208,19 @@ const TopNavView = ({ isAdmin, loading }) => {
     );
   };
 
+  useEffect(() => {
+    const querySearchData = queryString.parse(history.location.search);
+
+    setSearchValue(querySearchData.searchValue);
+  }, [history.location.search]);
+
   if (loading) {
     return (
       <Header style={styles.header}>
         <div style={styles.aroundNavContent}>
-          <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+          {displayLogo && (
+            <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+          )}
         </div>
       </Header>
     );
@@ -183,19 +229,25 @@ const TopNavView = ({ isAdmin, loading }) => {
   if (windowWidth > 400) {
     return (
       <Header style={styles.header}>
-        <div style={styles.aroundNavContent}>
-          {/* Render logo */}
-          <a tabIndex="0" href="/secured/home">
-            <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
-          </a>
-          {/* Render right sigh of top menu */}
-          <div style={styles.rightMenu}>
-            {/* Render User Profile Dropdown */}
+        <Row
+          style={styles.aroundNavContent}
+          justify="space-between"
+          align="middle"
+        >
+          <Row align="middle">
+            {displayLogo && (
+              <a tabIndex="0" href="/secured/home">
+                <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+              </a>
+            )}
+            {getSearchInput()}
+          </Row>
+
+          <Col style={styles.rightMenu}>
             {getAvatarDropdown(name)}
-            {/* Render change language button */}
             <ChangeLanguage />
-          </div>
-        </div>
+          </Col>
+        </Row>
       </Header>
     );
   }
@@ -217,6 +269,13 @@ const TopNavView = ({ isAdmin, loading }) => {
 TopNavView.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  displaySearch: PropTypes.bool.isRequired,
+  displayLogo: PropTypes.bool.isRequired,
+  intl: IntlPropType,
 };
 
-export default TopNavView;
+TopNavView.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(TopNavView);
