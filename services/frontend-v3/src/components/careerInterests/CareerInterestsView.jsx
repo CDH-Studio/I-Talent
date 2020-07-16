@@ -12,8 +12,8 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              title={item.title || undefined}
-              description={item.description || undefined}
+              title={item.title}
+              description={item.description}
             />
           </List.Item>
         )}
