@@ -36,7 +36,8 @@ async function getAllUsers(searchValue, language, userId) {
         },
         connections,
       }) => {
-        const isConnection = connections.some((item) => item.id === userId);
+        const isConnection =
+          id === userId || connections.some((item) => item.id === userId);
 
         const visibleCardBool = (value) =>
           !(value === "PRIVATE" || (value === "CONNECTIONS" && !isConnection));
