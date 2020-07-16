@@ -102,13 +102,12 @@ const ResultsCardView = ({
       history.push(`/secured/profile/${person.id}`);
     }
   };
-
   const renderAvatar = (person) => {
     return (
       <Tooltip
         align={{ offset: [18, -3] }}
         title={
-          person.isFriends ? (
+          person.isConnection ? (
             <FormattedMessage
               id="search.results.cards.connection.tooltip"
               values={{ name: person.firstName }}
@@ -118,7 +117,7 @@ const ResultsCardView = ({
       >
         <Badge
           count={
-            person.isFriends ? (
+            person.isConnection ? (
               <TeamOutlined style={styles.badgeIcon} />
             ) : undefined
           }

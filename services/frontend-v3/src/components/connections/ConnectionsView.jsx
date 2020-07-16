@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
 
-const FriendsView = ({ friends }) => {
+const ConnectionsView = ({ connections }) => {
   return (
     <Row>
       <Col xs={24} lg={24}>
         <List
           size="small"
           itemLayout="horizontal"
-          dataSource={friends}
+          dataSource={connections}
           renderItem={(item) => (
             <List.Item>
               <a href={`/secured/profile/${item.id}`}>
@@ -23,10 +23,10 @@ const FriendsView = ({ friends }) => {
   );
 };
 
-FriendsView.propTypes = {
-  friends: PropTypes.arrayOf(
+ConnectionsView.propTypes = {
+  connections: PropTypes.arrayOf(
     PropTypes.shape({ projectDescription: PropTypes.string })
   ).isRequired,
 };
 
-export default FriendsView;
+export default ConnectionsView;
