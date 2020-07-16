@@ -10,12 +10,18 @@ async function getAllUsers(searchValue, language, userId) {
     select: {
       id: true,
       visibleCards: true,
-      connections: true,
+      connections: {
+        select: {
+          id: true,
+        },
+      },
     },
     where: {
       status: "ACTIVE",
     },
   });
+
+  console.log("------------");
 
   let visibleCards = await Promise.all(
     data.map(
@@ -32,6 +38,7 @@ async function getAllUsers(searchValue, language, userId) {
         },
         connections,
       }) => {
+        console.log(connections, userId);
         const isConnection = connections.some((item) => item.id === userId);
 
         const visibleCardBool = (value) =>
