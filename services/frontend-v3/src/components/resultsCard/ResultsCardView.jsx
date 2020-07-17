@@ -19,6 +19,7 @@ import {
   UserAddOutlined,
   UserDeleteOutlined,
   TeamOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { HistoryPropType, ProfileInfoPropType } from "../../customPropTypes";
 import prepareInfo from "../../functions/prepareInfo";
@@ -76,7 +77,6 @@ const ResultsCardView = ({
       flex: 1,
     },
     container: {
-      padding: "0 12px",
       maxWidth: 1600,
     },
     buttonIcon: {
@@ -85,9 +85,6 @@ const ResultsCardView = ({
     },
     button: {
       margin: "-10px 0",
-    },
-    skillsContainer: {
-      height: "100%",
     },
   };
 
@@ -172,15 +169,31 @@ const ResultsCardView = ({
           )}
         </Button>
       );
+    } else {
+      actions.push(
+        <Button
+          tabIndex="0"
+          type="link"
+          block
+          icon={<EditOutlined style={styles.buttonIcon} />}
+          onClick={(e) => {
+            e.stopPropagation();
+            history.push("/secured/profile/edit/primary-info");
+          }}
+          style={styles.button}
+        >
+          <FormattedMessage id="edit.profile" />
+        </Button>
+      );
     }
 
     const hasSkills = person.resultSkills.length > 0;
 
-    const cardTitle = person.branch ? <Text>{person.branch}</Text> : undefined;
+    const cardTitle = person.branch ? <Text>{person.branch}</Text> : "";
     const cardExtra =
       person.groupLevel && person.groupLevel.name ? (
         <Text>{`${person.groupLevel.name}`}</Text>
-      ) : undefined;
+      ) : "";
 
     return (
       <Col span={24} xxl={12} key={key}>
@@ -217,7 +230,7 @@ const ResultsCardView = ({
 
             <Col flex="1">
               {hasSkills && (
-                <Row align="middle" style={styles.skillsContainer} type="flex">
+                <Row align="middle" type="flex">
                   {person.resultSkills.map(({ id, name }) => (
                     <Col key={id}>
                       <Tag style={styles.tag}>{name}</Tag>

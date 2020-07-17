@@ -339,13 +339,13 @@ const ProfileLayoutView = ({
       loading={loading}
     >
       <PageHeader
-        style={{
-          padding: "0 0 15px 7px",
-        }}
+        style={{ padding: "0 0 15px 7px" }}
         title={
-          <FormattedMessage
-            id={privateProfile ? "my.profile" : "other.profile"}
-          />
+          <span style={{ color: "#192e2f" }}>
+            <FormattedMessage
+              id={privateProfile ? "my.profile" : "other.profile"}
+            />
+          </span>
         }
         extra={
           !privateProfile && (
