@@ -16,36 +16,31 @@ const AppLayoutView = ({
   displaySearch,
 }) => {
   const styles = {
-    contentLayout: {
-      marginTop: "64px",
-    },
     content: {
       padding: "20px 15px",
       margin: 0,
+      marginTop: 64,
     },
   };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {/* Render Top Navigation Bar */}
       <TopNav
         loading={loading}
         displayLogo={displayLogo}
         displaySearch={displaySearch}
       />
-      <Layout style={{ marginTop: 64 }}>
-        {/* Render Side Navigation Bar */}
+      <Layout>
         <SideNav
           sideBarContent={sideBarContent}
           displaySideBar={displaySideBar}
           loading={loading}
         />
-        {/* Render content */}
         <Layout>
           <Content style={styles.content}>
             {loading ? (
               <Card>
-                <Skeleton />
+                <Skeleton active />
               </Card>
             ) : (
               children
