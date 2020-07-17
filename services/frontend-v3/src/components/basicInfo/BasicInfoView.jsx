@@ -165,7 +165,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
         <Dropdown overlay={<OrgTree data={data} />} trigger={["click"]}>
           <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
             <DownOutlined />
-            <span style={styles.leftSpacing}>data.branch</span>
+            <span style={styles.leftSpacing}>{data.branch}</span>
           </a>
         </Dropdown>
       ) : (

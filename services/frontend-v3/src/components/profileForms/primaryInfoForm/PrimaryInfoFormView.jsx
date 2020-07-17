@@ -13,12 +13,14 @@ import {
   List,
   Popover,
   Modal,
+  Spin,
 } from "antd";
 import {
   LinkOutlined,
   RightOutlined,
   CheckOutlined,
   QuestionCircleOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import axios from "axios";
@@ -54,6 +56,7 @@ const PrimaryInfoFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [newGedsValues, setNewGedsValues] = useState(null);
+  const [gatheringGedsData, setGatheringGedsData] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
@@ -294,16 +297,105 @@ const PrimaryInfoFormView = ({
   };
 
   const onSyncGedsInfo = async () => {
-    console.log("CLICK GEDS");
-    const result = await axios.get(`${backendAddress}api/profGen/${id}`, {
-      params: {
-        name,
-      },
-    });
-    if (result) {
-      setNewGedsValues(result.data);
-    }
-    console.log("VALUE", result.data);
+    console.log("CLICK GEDS", profileInfo);
+    setGatheringGedsData(true);
+    await axios
+      .get(`${backendAddress}api/profGen/${id}`, {
+        params: {
+          name,
+        },
+      })
+      .then((result) => {
+        if (result) {
+          const newGedsData = {};
+          console.log(result.data);
+          Object.keys(result.data).forEach((key) => {
+            console.log("key", key);
+            if (result.data[key]) {
+              if (key === "locationId") {
+                if (
+                  result.data.locationId !==
+                  (profileInfo.officeLocation && profileInfo.officeLocation.id)
+                ) {
+                  newGedsData.locationId = result.data.locationId;
+                }
+              } else if (key === "jobTitle") {
+                if (result.data.jobTitle[locale] === profileInfo.jobTitle) {
+                  newGedsData.jobTitle = result.data.jobTitle;
+                }
+              } else if (key === "organizations") {
+                //Check for same amount of organizations
+                let identical =
+                  profileInfo.organizations &&
+                  result.data.organizations.length ===
+                    profileInfo.organizations.length;
+                console.log(
+                  "same org",
+                  identical,
+                  profileInfo.organizations,
+                  profileInfo.organizations &&
+                    result.data.organizations.length ===
+                      profileInfo.organizations.length
+                );
+                if (identical) {
+                  //Check each organization chain is the same length
+                  for (
+                    let i = 0;
+                    i < profileInfo.organizations.length;
+                    i += 1
+                  ) {
+                    identical =
+                      result.data.organizations[i].length ===
+                      profileInfo.organizations[i].length;
+                    console.log("same TIER", i, identical);
+                    if (identical) {
+                      //Check each organization chain has the same title
+                      for (
+                        let j = 0;
+                        j < profileInfo.organizations[i].length;
+                        j += 1
+                      ) {
+                        identical =
+                          profileInfo.organizations[i][j].title ===
+                          result.data.organizations[i][j].title[locale];
+                        console.log(
+                          "same TITLE",
+                          i,
+                          j,
+                          identical,
+                          "xxxxxxxpi",
+                          profileInfo.organizations,
+                          profileInfo.organizations[i][j].title,
+                          "rdxxxxxxxxx",
+                          result.data.organizations,
+                          result.data.organizations[i][j].title[locale]
+                        );
+                        if (!identical) {
+                          break;
+                        }
+                      }
+                    } else {
+                      break;
+                    }
+                  }
+                }
+                if (!identical) {
+                  newGedsData.organizations = result.data.organizations;
+                }
+              } else if (result.data[key] !== profileInfo[key]) {
+                newGedsData[key] = result.data[key];
+              }
+            }
+          });
+          if (Object.keys(newGedsData).length) {
+            setNewGedsValues(newGedsData);
+          } else {
+            message.info(<FormattedMessage id="data.up.to.date" />);
+          }
+        }
+      })
+      .catch((error) => console.log("err", error));
+    setGatheringGedsData(false);
   };
 
   /* reset form fields */
@@ -455,6 +547,17 @@ const PrimaryInfoFormView = ({
         `${backendAddress}api/profile/${userId}?language=ENGLISH`,
         newGedsValues
       )
+      .then(() => {
+        if (gatheringGedsData) {
+          const newFormValues = Object.keys(
+            Object.keys(newGedsValues).map((key) => ({
+              name: key,
+              value: newGedsValues[key],
+            }))
+          );
+          form.setFields(newFormValues);
+        }
+      })
       .catch((error) => handleError(error, "message"));
     setNewGedsValues(null);
   };
@@ -462,48 +565,22 @@ const PrimaryInfoFormView = ({
   const generateGedsModal = () => {
     const changes = [];
 
-    /*const profile = {
-      firstName: dataGEDS.givenName,
-      lastName: dataGEDS.surname,
-      gcconnex: null,
-      github: null,
-      linkedin: null,
-      locationId: location[0].id,
-      teams: null,
-      email: dataGEDS.contactInformation.email,
-      branch: {
-        en: branchOrg.description.en,
-        fr: branchOrg.description.en,
-      },
-      telephone: dataGEDS.phoneNumber,
-      cellphone: dataGEDS.altPhoneNumber,
-      jobTitle: {
-        en: dataGEDS.title.en,
-        fr: dataGEDS.title.fr,
-      },
-    };*/
-
-    console.log("local", newGedsValues);
-
     if (newGedsValues) {
-      if (newGedsValues.firstName !== profileInfo.firstName) {
+      if (newGedsValues.firstName) {
         changes.push({
           title: <FormattedMessage id="profile.first.name" />,
           description: profileInfo.firstName,
         });
       }
 
-      if (newGedsValues.lastName !== profileInfo.lastName) {
+      if (newGedsValues.lastName) {
         changes.push({
           title: <FormattedMessage id="profile.last.name" />,
           description: profileInfo.lastName,
         });
       }
 
-      if (
-        newGedsValues.locationId !==
-        (profileInfo.officeLocation && profileInfo.officeLocation.id)
-      ) {
+      if (newGedsValues.locationId) {
         const locationOption = _.find(
           locationOptions,
           (option) => option.id === newGedsValues.locationId
@@ -515,37 +592,28 @@ const PrimaryInfoFormView = ({
         });
       }
 
-      if (newGedsValues.email !== profileInfo.email) {
+      if (newGedsValues.email) {
         changes.push({
           title: <FormattedMessage id="profile.telephone" />,
           description: profileInfo.email,
         });
       }
 
-      if (
-        newGedsValues.phoneNumber &&
-        newGedsValues.phoneNumber !== profileInfo.phoneNumber
-      ) {
+      if (newGedsValues.phoneNumber) {
         changes.push({
           title: <FormattedMessage id="profile.cellphone" />,
           description: profileInfo.phoneNumber,
         });
       }
 
-      if (
-        newGedsValues.telephone &&
-        newGedsValues.telephone !== profileInfo.telephone
-      ) {
+      if (newGedsValues.telephone) {
         changes.push({
           title: <FormattedMessage id="profile.telephone" />,
           description: profileInfo.telephone,
         });
       }
 
-      if (
-        newGedsValues.jobTitle &&
-        newGedsValues.jobTitle !== profileInfo.jobTitle
-      ) {
+      if (newGedsValues.jobTitle) {
         changes.push({
           title: <FormattedMessage id="profile.job.title" />,
           description:
@@ -553,7 +621,7 @@ const PrimaryInfoFormView = ({
         });
       }
 
-      if (newGedsValues.organizations !== profileInfo.organizations) {
+      if (newGedsValues.organizations) {
         changes.push({
           title: <FormattedMessage id="profile.branch" />,
           description: <OrgTree data={newGedsValues} />,
@@ -564,24 +632,36 @@ const PrimaryInfoFormView = ({
     return (
       <Modal
         title={<FormattedMessage id="profile.geds.changes" />}
-        visible={newGedsValues}
-        onOk={handleGedsConfirm}
-        onCancel={() => setNewGedsValues(null)}
+        visible={gatheringGedsData || newGedsValues}
+        onOk={handleGedsConfirm && handleGedsConfirm}
+        onCancel={() => {
+          setNewGedsValues(null);
+          setGatheringGedsData(null);
+        }}
+        okButtonProps={!newGedsValues ? { disabled: true } : null}
       >
-        <List>
-          {changes.map((item) => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          ))}
-        </List>
+        {newGedsValues ? (
+          <List>
+            {changes.map((item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.title}
+                  description={item.description}
+                />
+              </List.Item>
+            ))}
+          </List>
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
       </Modal>
     );
   };
-  console.log("data", profileInfo);
+
   /** **********************************
    ********* Render Component *********
    *********************************** */

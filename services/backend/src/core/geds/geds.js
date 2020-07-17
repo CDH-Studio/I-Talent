@@ -5,6 +5,7 @@ require("dotenv").config();
 const prisma = new PrismaClient();
 
 async function getGedsAssist(request, response) {
+  console.log("GET GEDS@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   const { id } = request.params;
   const { name } = request.query;
   const nameArray = name.split(" ");
@@ -19,7 +20,7 @@ const url = `${
   //nameArray[1]  nameArray[0]
   const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
   console.log(url);
-  const res = await axios({
+  /*const res = await axios({
     method: "get",
     url: url,
     headers: {
@@ -27,7 +28,7 @@ const url = `${
       Accept: "application/json",
     },
   });
-
+*/
   const promises = [
     axios({
       method: "get",
@@ -48,7 +49,7 @@ const url = `${
       const dataGEDS = dataGEDSArray.find((element) => {
         return element.contactInformation.email === dataDBEmail;
       });
-      console.log("RESSS", dataGEDS);
+
       const organizations = [];
       let organizationCounter = 0;
       for (
@@ -69,8 +70,6 @@ const url = `${
         organizations.unshift(branchInfo);
       }
 
-      console.log("ORGS", organizations);
-
       const branchOrg = organizations[Math.min(2, organizations.length - 1)];
 
       const enAddr = branchOrg.addressInformation.address.en;
@@ -85,19 +84,6 @@ const url = `${
             streetNumber: parseInt(enAddr.split(" ")[0], 10),
           },
         });
-        /*
-            translations: {
-              some: {
-                province: branchOrg.addressInformation.province,
-                streetName: {
-                  some: {
-                    en: enAddr.slice(enAddr.indexOf(" ") + 1),
-                    fr: frAddr.slice(frAddr.indexOf(",") + 2),
-                  },
-                },
-              },
-            },
-        */
 
         const city = branchOrg.addressInformation.city;
         const province = branchOrg.addressInformation.province;
@@ -105,40 +91,43 @@ const url = `${
         const profile = {
           firstName: dataGEDS.givenName,
           lastName: dataGEDS.surname,
-          gcconnex: null,
-          github: null,
-          linkedin: null,
+
           locationId: location[0].id,
-          teams: null,
           email: dataGEDS.contactInformation.email,
           branch: {
-            en: branchOrg.description.en,
-            fr: branchOrg.description.en,
+            ENGLISH: branchOrg.description.en,
+            FRENCH: branchOrg.description.en,
           },
           telephone: dataGEDS.phoneNumber,
           cellphone: dataGEDS.altPhoneNumber,
           jobTitle: {
-            en: dataGEDS.title.en,
-            fr: dataGEDS.title.fr,
+            ENGLISH: dataGEDS.title.en,
+            FRENCH: dataGEDS.title.fr,
           },
           organizations: [
             organizations.map((org) => ({
-              title: org.description,
+              title: {
+                ENGLISH: org.description.en,
+                FRENCH: org.description.fr,
+              },
               id: org.id,
               tier: org.tier,
             })),
           ],
         };
-        console.log("test", profile);
+        /*
+          gcconnex: null,
+          github: null,
+          linkedin: null,
+          teams: null,
+        */
         response.status(200).send(profile);
       } catch (error) {
-        console.log("LOCATION ERROR");
         console.log(error);
         response.status(500).json("Unable to get location");
       }
     })
     .catch((error) => {
-      console.log("GET GEDS PROFILE");
       console.log(error);
       response.status(500).json("Unable to get geds Profile");
     });
