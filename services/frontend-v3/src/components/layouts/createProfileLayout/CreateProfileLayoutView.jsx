@@ -149,13 +149,13 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             description={
               <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.competencies" />
-                </li>
-                <li>
                   - <FormattedMessage id="setup.skills" />
                 </li>
                 <li>
                   - <FormattedMessage id="profile.mentorship.skills" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.competencies" />
                 </li>
               </ul>
             }
@@ -212,16 +212,21 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const form = profileFormSelect(formStep);
 
   return (
-    <AppLayout sideBarContent={sideBarContent} displaySideBar>
-      <h1 className="hidden">
-        <FormattedMessage id="create.profile" />
-      </h1>
+    <AppLayout
+      sideBarContent={sideBarContent}
+      displaySideBar
+      displaySearch={false}
+    >
       <PageHeader
         style={{
           padding: "0 0 15px 7px",
           textTransform: locale === "ENGLIS" ? "capitalize" : "",
         }}
-        title={<FormattedMessage id="create.profile" />}
+        title={
+          <span style={{ color: "#192e2f" }}>
+            <FormattedMessage id="create.profile" />
+          </span>
+        }
       />
       {form}
     </AppLayout>

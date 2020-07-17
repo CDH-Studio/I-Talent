@@ -138,13 +138,13 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.competencies" />
-            </li>
-            <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.skills" />
             </li>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.mentorship.skills" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.competencies" />
             </li>
           </ul>
         </Menu.Item>
@@ -197,14 +197,13 @@ const EditProfileLayoutView = ({ formStep, history }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
-      <h1 className="hidden">
-        <FormattedMessage id="edit.profile" />{" "}
-      </h1>
       <PageHeader
-        style={{
-          padding: "0 0 15px 7px",
-        }}
-        title={<FormattedMessage id="edit.profile" />}
+        style={{ padding: "0 0 15px 7px" }}
+        title={
+          <span style={{ color: "#192e2f" }}>
+            <FormattedMessage id="edit.profile" />
+          </span>
+        }
       />
       {form}
     </AppLayout>

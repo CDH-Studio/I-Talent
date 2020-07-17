@@ -36,30 +36,26 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       width: "100%",
     },
     aroundNavContent: {
-      marginLeft: "25px",
+      margin: "0 25px",
     },
     navBrand: {
-      height: "25px",
-    },
-    rightMenu: {
-      float: "right",
-      margin: "0px 20px",
+      height: 25,
     },
     profileAvatar: {
-      marginRight: "8px",
+      marginRight: 8,
     },
     dropDownMenu: {
-      marginTop: "23px",
-      padding: "0px",
+      padding: 0,
+      marginTop: 6,
     },
     dropDownItem: {
       padding: "10px 20px",
     },
     MenuIcon: {
-      marginRight: "10px",
+      marginRight: 10,
     },
     signInBtn: {
-      marginRight: "20px",
+      marginRight: 20,
     },
     hamburgerMenu: {
       paddingBottom: 23,
@@ -131,11 +127,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <Button
             type="link"
             className="ant-dropdown-link"
-            style={{ color: "#fff", padding: "10px 20px" }}
+            style={{ color: "#fff", height: 35, padding: 0, marginRight: 15 }}
           >
             <CustomAvatar style={styles.profileAvatar} />
             <div className="navProfileName">
-              {userName} <DownOutlined />
+              {userName} <DownOutlined style={{ marginLeft: 5 }} />
             </div>
           </Button>
         </Dropdown>
@@ -163,12 +159,15 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   };
 
   const getSearchInput = () =>
-    displaySearch && windowWidth > 800 && (
+    displaySearch &&
+    windowWidth > 800 && (
       <Input.Search
         className="searchInput"
         style={{
-          width: 250,
-          marginLeft: 30,
+          width: "30%",
+          minWidth: windowWidth > 900 ? 400 : undefined,
+          flex: windowWidth > 900 ? undefined : 1,
+          margin: "0 20px",
         }}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
@@ -217,11 +216,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   if (loading) {
     return (
       <Header style={styles.header}>
-        <div style={styles.aroundNavContent}>
-          {displayLogo && (
-            <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
-          )}
-        </div>
+        <div style={styles.aroundNavContent} />
       </Header>
     );
   }
@@ -240,8 +235,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
                 <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
               </a>
             )}
-            {getSearchInput()}
           </Row>
+
+          {getSearchInput()}
 
           <Col style={styles.rightMenu}>
             {getAvatarDropdown(name)}
