@@ -13,7 +13,9 @@ async function fuzzySearch(request, response) {
     const profiles = await utils.getAllProfiles(value, language, userId);
     const results = await utils.fuzzySearch(profiles, value);
 
-    response.status(200).json(results);
+    const responseData = utils.cleanResults(results);
+
+    response.status(200).json(responseData);
   } catch (error) {
     console.log(error);
     if (error.errors) {
@@ -74,7 +76,9 @@ async function filterSearch(request, response) {
       results = utils.exFeederSearch(results);
     }
 
-    response.status(200).json(results);
+    const responseData = utils.cleanResults(results);
+
+    response.status(200).json(responseData);
   } catch (error) {
     console.log(error);
     if (error.errors) {
