@@ -33,7 +33,7 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
           {/* render content of side bar */}
           {loading ? (
             <div style={{ margin: 32 }}>
-              <Skeleton />
+              <Skeleton active />
             </div>
           ) : (
             sideBarContent
