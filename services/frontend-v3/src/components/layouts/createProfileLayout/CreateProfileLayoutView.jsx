@@ -149,13 +149,13 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             description={
               <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.competencies" />
-                </li>
-                <li>
                   - <FormattedMessage id="setup.skills" />
                 </li>
                 <li>
                   - <FormattedMessage id="profile.mentorship.skills" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.competencies" />
                 </li>
               </ul>
             }
