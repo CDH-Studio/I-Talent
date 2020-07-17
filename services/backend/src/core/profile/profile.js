@@ -91,6 +91,11 @@ async function updateProfile(request, response) {
           })
           .then((i) => i.map((j) => j.id));
 
+        console.log(
+          "dev goalsxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          developmentalGoals
+        );
+
         competencyIds = await prisma.opCompetency
           .findMany({
             where: { id: { in: developmentalGoals } },
@@ -158,12 +163,20 @@ async function updateProfile(request, response) {
           where: { userId },
           select: { id: true },
         });
+        console.log("orgIds", relatedOrgs);
+        //await prisma.organization.deleteMany({ where: { userId } });
+
+        console.log(
+          "rel orgszzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          relatedOrgs.map((org) => org.id)
+        );
 
         ////////// TIERS
         const orgTiers = await prisma.organizationTier.findMany({
           where: { organizationId: { in: relatedOrgs.map((org) => org.id) } },
           select: { id: true },
         });
+        console.log("orgTierIds", orgTiers);
 
         /////// TRANS
 
@@ -479,42 +492,20 @@ async function updateProfile(request, response) {
           employmentInfo:
             jobTitle || branch
               ? {
-                  upsert: {
-                    create: {
-                      translations: {
-                        create: [
-                          {
-                            language: "ENGLISH",
-                            jobTitle: jobTitle ? jobTitle["ENGLISH"] : "",
-                            branch: branch ? branch["ENGLISH"] : "",
-                          },
-                          {
-                            language: "FRENCH",
-                            jobTitle: jobTitle ? jobTitle["FRENCH"] : "",
-                            branch: branch ? branch["FRENCH"] : "",
-                          },
-                        ],
-                      },
-                    },
-                    update: {
-                      translations: {
-                        upsert: ["ENGLISH", "FRENCH"].map((lang) => ({
-                          where: {
-                            employmentInfoId: employmentInfoId,
-                            language: lang,
-                          },
-                          create: {
-                            language: lang,
-                            jobTitle: jobTitle ? jobTitle[lang] : "",
-                            branch: branch ? branch[lang] : "",
-                          },
-                          update: {
-                            language: "ENGLISH",
-                            jobTitle: jobTitle && jobTitle[lang],
-                            branch: branch && branch[lang],
-                          },
-                        })),
-                      },
+                  create: {
+                    translations: {
+                      create: [
+                        {
+                          language: "ENGLISH",
+                          jobTitle: jobTitle && jobTitle["en"],
+                          branch: branch && branch["en"],
+                        },
+                        {
+                          language: "FRENCH",
+                          jobTitle: jobTitle && jobTitle["fr"],
+                          branch: branch && branch["fr"],
+                        },
+                      ],
                     },
                   },
                 }
@@ -526,15 +517,19 @@ async function updateProfile(request, response) {
                   organizationTier: {
                     create: org.map((orgTier) => ({
                       tier: orgTier.tier,
+                      //id: orgTier.id,
+                      //organization: { connect: { id: org.id } },
                       translations: {
                         create: [
                           {
                             language: "ENGLISH",
-                            description: orgTier.title["ENGLISH"],
+                            description: orgTier.title["en"],
+                            //organizationTier: { connect: { id: orgTier.id } },
                           },
                           {
                             language: "FRENCH",
-                            description: orgTier.title["FRENCH"],
+                            description: orgTier.title["fr"],
+                            //organizationTier: { connect: { id: orgTier.id } },
                           },
                         ],
                       },
@@ -543,6 +538,28 @@ async function updateProfile(request, response) {
                 })),
               }
             : undefined,
+
+          /*
+ organizations: {
+        select: {
+          id: true,
+          organizationTier: {
+            select: {
+              id: true,
+              tier: true,
+              translations: {
+                where: { language },
+                select: {
+                  id: true,
+                  language: true,
+                  description: true,
+                },
+              },
+            },
+          },
+        },
+      },
+            */
 
           visibleCards: visibleCards
             ? {
@@ -938,6 +955,35 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      /*
+ organizations: organizations
+            ? {
+                create: organizations.map((organization) => {
+                  return {
+                    organizationTier: {
+                      create: organization.map(({ tier, en, fr }) => {
+                        return {
+                          tier,
+                          translations: {
+                            create: [
+                              {
+                                description: en,
+                                language: "ENGLISH",
+                              },
+                              {
+                                description: fr,
+                                language: "FRENCH",
+                              },
+                            ],
+                          },
+                        };
+                      }),
+                    },
+                  };
+                }),
+              }
+            : undefined,
+     */
     },
   });
   return fullProfile;
@@ -1187,7 +1233,9 @@ async function getPrivateProfileById(request, response) {
 
     if (request.kauth.grant.access_token.content.sub === id) {
       const fullProfile = await getFullProfile(id, language);
+      console.log("============ FULL ============", fullProfile);
       const filter = filterProfileResult(fullProfile, language);
+      console.log("============ FILT ============ ", filter);
       response.status(200).json(filter);
       return;
     }
@@ -1212,8 +1260,10 @@ async function getPublicProfileById(request, response) {
     const { id } = request.params;
     const { language } = request.query;
     const pro = await getFullProfile(id, language);
+    console.log("======= PUB PROF ==============", pro);
     if (userId && id) {
       const result = filterProfileResult(pro, language);
+      console.log(" ====== PUB FILTER ===========", pro);
       const isFriends = result.friends.some((item) => item.id === userId);
 
       if (
