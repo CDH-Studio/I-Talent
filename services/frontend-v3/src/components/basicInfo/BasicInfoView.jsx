@@ -9,6 +9,7 @@ import {
   EnvironmentOutlined,
   UserOutlined,
   EditOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -20,6 +21,7 @@ import {
   Typography,
   Button,
   Tooltip,
+  Tag,
 } from "antd";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -53,6 +55,29 @@ const BasicInfoView = ({
     userAvatar: {
       verticalAlign: "middle",
     },
+    rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
+  };
+
+  const generateTeamInfo = () => {
+    const teams = {
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="profile.teams" />,
+      description:
+        data.teams && data.teams.length ? (
+          <List>
+            {Object.values(data.teams).map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Tag color="#727272" key={index}>
+                {item}
+              </Tag>
+            ))}
+          </List>
+        ) : (
+          "-"
+        ),
+    };
+
+    return [teams];
   };
 
   /*
@@ -230,6 +255,9 @@ const BasicInfoView = ({
         <Col xs={24} lg={12}>
           {generateInfoList(getLocationInfo())}
         </Col>
+      </Row>
+      <Row style={styles.rowTopSplitter}>
+        {generateInfoList(generateTeamInfo())}
       </Row>
     </Card>
   );
