@@ -21,12 +21,10 @@ import availableTypes from "./adminLayoutTypes";
  *  AdminLayoutView(props)
  *  Render the layout for the Admin Side.
  */
-const AdminLayoutView = (props) => {
-  const { type, keycloak, displaySideBar, children } = props;
-
+const AdminLayoutView = ({ type, keycloak, displaySideBar, children }) => {
   const history = useHistory();
 
-  /* get corresponding page key based on table type */
+  // get corresponding page key based on table type
   const getPageKey = () => {
     if (availableTypes.includes(type)) {
       return type;
@@ -35,14 +33,13 @@ const AdminLayoutView = (props) => {
     return null;
   };
 
-  /* send to corresponding page based on page key */
+  // send to corresponding page based on page key
   const navigationPages = (key) => {
     if (availableTypes.includes(key)) {
       history.push(`/admin/${key}`);
     }
   };
 
-  /* Sets up the side bar for the Admin Side */
   const sideBarContent = () => {
     return (
       <Menu
@@ -84,7 +81,6 @@ const AdminLayoutView = (props) => {
     );
   };
 
-  /* Uses the AppLayout */
   return (
     <AppLayout
       keycloak={keycloak}
