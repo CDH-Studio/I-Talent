@@ -8,26 +8,36 @@ async function getSchools(request, response) {
 
     const { language } = request.query;
 
-    const schoolsQuery = await prisma.opTransSchool.findMany({
-      where: {
-        language,
-      },
+    const schoolsQuery = await prisma.opSchool.findMany({
       select: {
-        opSchoolId: true,
-        name: true,
-      },
-      orderBy: {
-        name: "asc",
+        id: true,
+        translations: {
+          select: {
+            name: true,
+            language: true,
+          },
+        },
       },
     });
 
-    const schools = _.sortBy(
-      schoolsQuery.map((i) => ({
-        id: i.opSchoolId,
-        name: i.name,
-      })),
-      "name"
-    );
+    const schoolsData = schoolsQuery.map(({ id, translations }) => {
+      const desiredTrans = translations.filter((i) => i.language === language);
+
+      let name = "";
+
+      if (desiredTrans.length > 0) {
+        name = desiredTrans[0].name;
+      } else if (translations.length > 0) {
+        name = translations[0].name;
+      }
+
+      return {
+        id,
+        name,
+      };
+    });
+
+    const schools = _.sortBy(schoolsData, "name");
 
     response.status(200).json(schools);
   } catch (error) {
