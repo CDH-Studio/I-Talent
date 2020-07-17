@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { ProfileInfoPropType } from "../../customPropTypes";
 import MentorshipView from "./MentorshipView";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const Mentorship = ({ data }) => {
+const Mentorship = ({ data, type }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -62,19 +63,33 @@ const Mentorship = ({ data }) => {
 
     return mentorshipSkills;
   };
-
   return (
-    <MentorshipView
-      mentoring={setUpMentorshipSkills()}
-      mentoringCategories={setUpCategories(data.mentorshipSkills)}
+    <ProfileCards
+      titleId="profile.mentorship.skills"
+      content={
+        <MentorshipView
+          mentoring={setUpMentorshipSkills()}
+          mentoringCategories={setUpCategories(data.mentorshipSkills)}
+        />
+      }
+      cardName="mentorshipSkills"
+      id="card-profile-mentorship-skills"
+      editUrl="/secured/profile/edit/talent"
+      data={data}
+      type={type}
+      visible={data.visibleCards.mentorshipSkills}
     />
   );
 };
 
 Mentorship.propTypes = {
-  data: PropTypes.shape({
-    mentorshipSkills: PropTypes.any,
-  }).isRequired,
+  data: ProfileInfoPropType,
+  type: PropTypes.bool,
+};
+
+Mentorship.defaultProps = {
+  data: null,
+  type: null,
 };
 
 export default Mentorship;

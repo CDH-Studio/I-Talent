@@ -7,20 +7,14 @@ const TalentManagementView = ({ data }) => {
   const getTalentManagementDatasource = () => {
     const careerMobility = {
       title: <FormattedMessage id="profile.career.mobility" />,
-      description: data.careerMobility ? (
-        data.careerMobility.description
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.careerMobility ? data.careerMobility.description : "-",
     };
 
     const talentMatrixResult = {
       title: <FormattedMessage id="profile.talent.matrix.result" />,
-      description: data.talentMatrixResult ? (
-        data.talentMatrixResult.description
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.talentMatrixResult
+        ? data.talentMatrixResult.description
+        : "-",
     };
 
     return [careerMobility, talentMatrixResult];

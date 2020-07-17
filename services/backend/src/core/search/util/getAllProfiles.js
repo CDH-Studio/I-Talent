@@ -6,25 +6,27 @@ const prisma = require("../../../database");
 const NUMBER_OF_SKILL_RESULT = 4;
 
 async function getAllUsers(searchValue, language, userId) {
-  let visibleCards = await prisma.user.findMany({
+  let data = await prisma.user.findMany({
     select: {
       id: true,
       visibleCards: true,
+      connections: {
+        select: {
+          id: true,
+        },
+      },
     },
     where: {
       status: "ACTIVE",
     },
   });
 
-  let isFriends = false;
-
-  visibleCards = await Promise.all(
-    visibleCards.map(
+  let visibleCards = await Promise.all(
+    data.map(
       async ({
         id,
         visibleCards: {
           info,
-          manager,
           projects,
           skills,
           competencies,
@@ -32,47 +34,26 @@ async function getAllUsers(searchValue, language, userId) {
           experience,
           exFeeder,
         },
+        connections,
       }) => {
-        const Friends = await prisma.user.findOne({
-          where: { id },
-          select: { friends: true },
-        });
+        const isConnection =
+          id === userId || connections.some((item) => item.id === userId);
 
-        isFriends = Friends.friends.some((item) => item.id === userId);
+        const visibleCardBool = (value) =>
+          !(value === "PRIVATE" || (value === "CONNECTIONS" && !isConnection));
 
         return {
           id,
           visibleCards: {
-            info: !(info === "PRIVATE" || (info === "FRIENDS" && !isFriends)),
-            manager: !(
-              manager === "PRIVATE" ||
-              (manager === "FRIENDS" && !isFriends)
-            ),
-            projects: !(
-              projects === "PRIVATE" ||
-              (projects === "FRIENDS" && !isFriends)
-            ),
-            skills: !(
-              skills === "PRIVATE" ||
-              (skills === "FRIENDS" && !isFriends)
-            ),
-            competencies: !(
-              competencies === "PRIVATE" ||
-              (competencies === "FRIENDS" && !isFriends)
-            ),
-            education: !(
-              education === "PRIVATE" ||
-              (education === "FRIENDS" && !isFriends)
-            ),
-            experience: !(
-              experience === "PRIVATE" ||
-              (experience === "FRIENDS" && !isFriends)
-            ),
-            exFeeder: !(
-              exFeeder === "PRIVATE" ||
-              (exFeeder === "FRIENDS" && !isFriends)
-            ),
+            info: visibleCardBool(info),
+            projects: visibleCardBool(projects),
+            skills: visibleCardBool(skills),
+            competencies: visibleCardBool(competencies),
+            education: visibleCardBool(education),
+            experience: visibleCardBool(experience),
+            exFeeder: visibleCardBool(exFeeder),
           },
+          isConnection: isConnection && id === userId ? false : isConnection,
         };
       }
     )
@@ -80,11 +61,10 @@ async function getAllUsers(searchValue, language, userId) {
 
   const users = await Promise.all(
     visibleCards.map(
-      ({
+      async ({
         id,
         visibleCards: {
           info,
-          manager,
           projects,
           skills,
           competencies,
@@ -92,8 +72,9 @@ async function getAllUsers(searchValue, language, userId) {
           experience,
           exFeeder,
         },
-      }) =>
-        prisma.user.findOne({
+        isConnection,
+      }) => {
+        const userData = await prisma.user.findOne({
           where: {
             id,
           },
@@ -103,13 +84,13 @@ async function getAllUsers(searchValue, language, userId) {
             lastName: true,
             telephone: true,
             cellphone: true,
-            manager,
+            manager: true,
             teams: true,
             status: true,
             email: true,
             exFeeder,
             avatarColor: true,
-            tenure: {
+            tenure: info && {
               select: {
                 id: true,
                 translations: {
@@ -265,7 +246,12 @@ async function getAllUsers(searchValue, language, userId) {
               },
             },
           },
-        })
+        });
+
+        userData.isConnection = isConnection;
+
+        return userData;
+      }
     )
   );
 
@@ -274,7 +260,6 @@ async function getAllUsers(searchValue, language, userId) {
     const info = {
       ...user,
       nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
-      isFriends,
     };
 
     if (info.employmentInfo) {

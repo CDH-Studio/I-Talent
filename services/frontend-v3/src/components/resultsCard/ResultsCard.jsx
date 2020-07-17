@@ -44,7 +44,7 @@ const ResultsCard = () => {
       `api/profile/private/${id}?language=${locale}`
     );
 
-    setConnections(_.map(result.data.friends, "id"));
+    setConnections(_.map(result.data.connections, "id"));
   }, [id, locale]);
 
   useEffect(() => {
@@ -55,14 +55,14 @@ const ResultsCard = () => {
 
   const addConnection = async (urlID) => {
     await axios
-      .post(`api/friends/${urlID}`)
+      .post(`api/connections/${urlID}`)
       .catch((error) => handleError(error, "message"));
     getConnections();
   };
 
   const removeConnection = async (urlID) => {
     await axios
-      .delete(`api/friends/${urlID}`)
+      .delete(`api/connections/${urlID}`)
       .catch((error) => handleError(error, "message"));
     getConnections();
   };
@@ -81,7 +81,6 @@ const ResultsCard = () => {
       </>
     );
   }
-
   return (
     <ResultsCardView
       history={history}

@@ -45,10 +45,6 @@ const BasicInfoView = ({
     profileHeaderRow: {
       margin: "25px 0",
     },
-    card: {
-      borderTopColor: "#007471",
-      borderTopWidth: "5px",
-    },
     avatar: {
       backgroundColor: "#fff",
       color: "#007471",
@@ -149,31 +145,19 @@ const BasicInfoView = ({
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="profile.email" />,
-      description: data.email ? (
-        data.email
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.email ? data.email : "-",
     };
 
     const tel = {
       icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
-      description: data.telephone ? (
-        data.telephone
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.telephone ? data.telephone : "-",
     };
 
     const cel = {
       icon: <MobileOutlined />,
       title: <FormattedMessage id="profile.cellphone" />,
-      description: data.cellphone ? (
-        data.cellphone
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.cellphone ? data.cellphone : "-",
     };
 
     return [email, tel, cel];
@@ -188,32 +172,22 @@ const BasicInfoView = ({
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.branch" />,
-      description: data.branch ? (
-        data.branch
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.branch ? data.branch : "-",
     };
 
     const location = data.officeLocation;
     const address = {
       icon: <EnvironmentOutlined />,
       title: <FormattedMessage id="profile.address" />,
-      description: location ? (
-        `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: location
+        ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
+        : "-",
     };
 
     const manager = {
       icon: <UserOutlined />,
       title: <FormattedMessage id="profile.manager" />,
-      description: data.manager ? (
-        data.manager
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.manager ? data.manager : "-",
     };
 
     return [branch, address, manager];
@@ -247,11 +221,7 @@ const BasicInfoView = ({
   };
 
   return (
-    <Card
-      id="card-profile-basic-info"
-      actions={generateActions()}
-      style={styles.card}
-    >
+    <Card id="card-profile-basic-info" actions={generateActions()}>
       {generateProfileHeader()}
       <Row>
         <Col xs={24} lg={12}>
