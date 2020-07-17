@@ -30,7 +30,7 @@
     "express-validator": "^6.6.0",
     "fuse.js": "^6.4.0",
     "keycloak-connect": "^10.0.2",
-    "lodash": "^4.17.17",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "redis": "^3.0.2",
     "swagger-jsdoc": "^4.0.0",
