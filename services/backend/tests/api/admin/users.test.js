@@ -25,6 +25,7 @@ describe(`Test ${path}`, () => {
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
+      expect(console.log).not.toHaveBeenCalled();
 
       done();
     });
