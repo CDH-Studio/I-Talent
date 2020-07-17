@@ -1,6 +1,7 @@
 import React from "react";
-import { Row, Col, Avatar, List } from "antd";
+import { Row, Col, Avatar, List, Empty } from "antd";
 import { BankOutlined } from "@ant-design/icons";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
 function EducationView({ educationInfo }) {
@@ -38,13 +39,20 @@ function EducationView({ educationInfo }) {
       />
     );
   };
-
+  if (educationInfo.length > 0) {
+    return (
+      <Row>
+        <Col xs={24} lg={24}>
+          {generateEducationInfoList(educationInfo)}
+        </Col>
+      </Row>
+    );
+  }
   return (
-    <Row>
-      <Col xs={24} lg={24}>
-        {generateEducationInfoList(educationInfo)}
-      </Col>
-    </Row>
+    <Empty
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
+      description={<FormattedMessage id="profile.education.empty" />}
+    />
   );
 }
 
