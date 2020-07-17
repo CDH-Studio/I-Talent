@@ -1,9 +1,8 @@
 import React from "react";
-import { PageHeader, Steps } from "antd";
+import {  Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import {
   Welcome,
@@ -15,6 +14,7 @@ import {
   QualificationsForm,
   DoneSetup,
 } from "../../profileForms";
+import Header from "../../header/Header";
 
 const { Step } = Steps;
 
@@ -24,9 +24,6 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
-
-  // get current language code
-  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -217,17 +214,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       displaySideBar
       displaySearch={false}
     >
-      <PageHeader
-        style={{
-          padding: "0 0 15px 7px",
-          textTransform: locale === "ENGLIS" ? "capitalize" : "",
-        }}
-        title={
-          <span style={{ color: "#192e2f" }}>
-            <FormattedMessage id="create.profile" />
-          </span>
-        }
-      />
+      <Header title={<FormattedMessage id="create.profile" />} />
       {form}
     </AppLayout>
   );
