@@ -89,7 +89,7 @@ describe(`Test ${path}`, () => {
           });
         });
 
-        test("should return expected result", () => {
+        test("should return expected sorted result", () => {
           const expected = prismaData.map((i) => {
             const info = {
               ...i,
@@ -102,12 +102,8 @@ describe(`Test ${path}`, () => {
             return info;
           });
 
-          expect(res.body).toStrictEqual(expected);
-        });
-
-        test("should return alphabetically", () => {
           expect(res.body).toStrictEqual(
-            _.orderBy(res.body, ["firstName", "lastName", "status"])
+            _.orderBy(expected, ["firstName", "lastName", "status"])
           );
         });
       });
