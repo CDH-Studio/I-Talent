@@ -18,6 +18,7 @@ const connections = ({ data }) => {
 
 connections.propTypes = {
   data: PropTypes.shape({
+    // eslint-disable-next-line react/forbid-prop-types
     connections: PropTypes.array,
   }).isRequired,
 };
