@@ -297,7 +297,6 @@ const PrimaryInfoFormView = ({
   };
 
   const onSyncGedsInfo = async () => {
-    console.log("CLICK GEDS", profileInfo);
     setGatheringGedsData(true);
     await axios
       .get(`${backendAddress}api/profGen/${id}`, {
@@ -308,9 +307,7 @@ const PrimaryInfoFormView = ({
       .then((result) => {
         if (result) {
           const newGedsData = {};
-          console.log(result.data);
           Object.keys(result.data).forEach((key) => {
-            console.log("key", key);
             if (result.data[key]) {
               if (key === "locationId") {
                 if (
@@ -320,7 +317,7 @@ const PrimaryInfoFormView = ({
                   newGedsData.locationId = result.data.locationId;
                 }
               } else if (key === "jobTitle") {
-                if (result.data.jobTitle[locale] === profileInfo.jobTitle) {
+                if (result.data.jobTitle[locale] !== profileInfo.jobTitle) {
                   newGedsData.jobTitle = result.data.jobTitle;
                 }
               } else if (key === "organizations") {
@@ -329,14 +326,6 @@ const PrimaryInfoFormView = ({
                   profileInfo.organizations &&
                   result.data.organizations.length ===
                     profileInfo.organizations.length;
-                console.log(
-                  "same org",
-                  identical,
-                  profileInfo.organizations,
-                  profileInfo.organizations &&
-                    result.data.organizations.length ===
-                      profileInfo.organizations.length
-                );
                 if (identical) {
                   //Check each organization chain is the same length
                   for (
@@ -347,7 +336,6 @@ const PrimaryInfoFormView = ({
                     identical =
                       result.data.organizations[i].length ===
                       profileInfo.organizations[i].length;
-                    console.log("same TIER", i, identical);
                     if (identical) {
                       //Check each organization chain has the same title
                       for (
@@ -358,18 +346,6 @@ const PrimaryInfoFormView = ({
                         identical =
                           profileInfo.organizations[i][j].title ===
                           result.data.organizations[i][j].title[locale];
-                        console.log(
-                          "same TITLE",
-                          i,
-                          j,
-                          identical,
-                          "xxxxxxxpi",
-                          profileInfo.organizations,
-                          profileInfo.organizations[i][j].title,
-                          "rdxxxxxxxxx",
-                          result.data.organizations,
-                          result.data.organizations[i][j].title[locale]
-                        );
                         if (!identical) {
                           break;
                         }
@@ -394,7 +370,7 @@ const PrimaryInfoFormView = ({
           }
         }
       })
-      .catch((error) => console.log("err", error));
+      .catch((error) => handleError(error, "message"));
     setGatheringGedsData(false);
   };
 
@@ -616,8 +592,7 @@ const PrimaryInfoFormView = ({
       if (newGedsValues.jobTitle) {
         changes.push({
           title: <FormattedMessage id="profile.job.title" />,
-          description:
-            newGedsValues.jobTitle[locale === "FRENCH" ? "fr" : "en"],
+          description: newGedsValues.jobTitle[locale],
         });
       }
 

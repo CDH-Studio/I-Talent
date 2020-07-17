@@ -5,30 +5,13 @@ require("dotenv").config();
 const prisma = new PrismaClient();
 
 async function getGedsAssist(request, response) {
-  console.log("GET GEDS@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   const { id } = request.params;
   const { name } = request.query;
   const nameArray = name.split(" ");
 
-  /*
-const url = `${
-    process.env.GEDSAPIURL
-  }employees?searchValue=${"Machado"}%2C%20${"Mena"}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
-
-*/
-
   //nameArray[1]  nameArray[0]
   const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
-  console.log(url);
-  /*const res = await axios({
-    method: "get",
-    url: url,
-    headers: {
-      "user-key": process.env.GEDSAPIKEY,
-      Accept: "application/json",
-    },
-  });
-*/
+
   const promises = [
     axios({
       method: "get",
@@ -85,9 +68,6 @@ const url = `${
           },
         });
 
-        const city = branchOrg.addressInformation.city;
-        const province = branchOrg.addressInformation.province;
-
         const profile = {
           firstName: dataGEDS.givenName,
           lastName: dataGEDS.surname,
@@ -115,12 +95,7 @@ const url = `${
             })),
           ],
         };
-        /*
-          gcconnex: null,
-          github: null,
-          linkedin: null,
-          teams: null,
-        */
+
         response.status(200).send(profile);
       } catch (error) {
         console.log(error);

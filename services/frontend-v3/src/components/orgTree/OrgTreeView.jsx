@@ -11,11 +11,11 @@ const OrgTreeView = ({ data }) => {
 
   const titleString = (title) => {
     if (typeof title === "object") {
-      return title[locale === "FRENCH" ? "fr" : "en"];
+      return title[locale];
     }
     return title;
   };
-  console.log("org tree", data, locale);
+
   const genTreeBranch = (orgData) => {
     let retVal = [];
     const branchSize = orgData.length;
@@ -45,3 +45,5 @@ const OrgTreeView = ({ data }) => {
 };
 
 export default OrgTreeView;
+
+OrgTreeView.propTypes = {};

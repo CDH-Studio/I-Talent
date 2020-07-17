@@ -20,7 +20,6 @@ import {
   List,
   Typography,
   Button,
-  Menu,
 } from "antd";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import OrgTree from "../orgTree/OrgTree";
@@ -47,6 +46,10 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
     },
     leftSpacing: {
       paddingLeft: "0.5em",
+    },
+    orgButton: {
+      margin: "-10px 0px",
+      padding: "0px",
     },
   };
 
@@ -163,10 +166,10 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
       title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
         <Dropdown overlay={<OrgTree data={data} />} trigger={["click"]}>
-          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          <Button style={styles.orgButton} type="link">
             <DownOutlined />
             <span style={styles.leftSpacing}>{data.branch}</span>
-          </a>
+          </Button>
         </Dropdown>
       ) : (
         <FormattedMessage id="profile.not.specified" />
