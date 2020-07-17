@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {
   Table,
   Button,
-  PageHeader,
   Row,
   Col,
   Input,
@@ -22,6 +21,7 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import Header from "../../header/Header";
 
 /**
  *  UserTableView(props)
@@ -29,7 +29,6 @@ import handleError from "../../../functions/handleError";
  */
 const UserTableView = ({
   intl,
-  size,
   searchText,
   searchedColumn,
   handleApply,
@@ -174,7 +173,7 @@ const UserTableView = ({
           popUpCancel();
         }}
       >
-        <Button type="primary" size={size}>
+        <Button type="primary">
           <CheckCircleOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.apply" />
         </Button>
@@ -269,7 +268,7 @@ const UserTableView = ({
 
   return (
     <>
-      <PageHeader
+      <Header
         title={<FormattedMessage id="admin.user.table" />}
         extra={applyButton()}
       />
@@ -296,7 +295,6 @@ UserTableView.propTypes = {
   profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
 };
 
 UserTableView.defaultProps = {

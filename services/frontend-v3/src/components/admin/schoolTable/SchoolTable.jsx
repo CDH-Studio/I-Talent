@@ -20,8 +20,6 @@ const SchoolTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const size = "large";
-
   const dispatch = useDispatch();
 
   // Fetches the school information
@@ -140,7 +138,6 @@ const SchoolTable = ({ intl }) => {
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      size={size}
       rowSelection={rowSelection}
     />
   );
