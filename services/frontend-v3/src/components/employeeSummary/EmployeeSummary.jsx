@@ -4,41 +4,42 @@ import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const EmployeeSummary = ({ data, title, cardName, id }) => {
-  const [activeTabKey, setActiveTabKey] = useState('1');
+const EmployeeSummary = ({ data, type }) => {
+  const [activeTabKey, setActiveTabKey] = useState("1");
   const [editUrl, setEditUrl] = useState("");
 
   useEffect(() => {
-    if (activeTabKey === '3') {
-      setEditUrl("language-proficiency")
+    if (activeTabKey === "3") {
+      setEditUrl("language-proficiency");
     } else {
-      setEditUrl("employment")
+      setEditUrl("employment");
     }
-  }, [activeTabKey])
+  }, [activeTabKey]);
 
   return (
     <ProfileCards
-      title={title}
+      titleId="profile.employee.summary"
       content={
         <EmployeeSummaryView data={data} setActiveTabKey={setActiveTabKey} />
       }
-      cardName={cardName}
-      id={id}
+      cardName="info"
+      id="card-profile-employee-summary"
       editUrl={`/secured/profile/edit/${editUrl}`}
       data={data}
+      type={type}
+      visible={data.visibleCards.info}
     />
   );
 };
 
 EmployeeSummary.propTypes = {
   data: ProfileInfoPropType,
-  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
-  cardName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  type: PropTypes.bool,
 };
 
 EmployeeSummary.defaultProps = {
   data: null,
+  type: null,
 };
 
 export default EmployeeSummary;

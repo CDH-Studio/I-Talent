@@ -195,7 +195,7 @@
   "setup.projects": "Projects",
   "setup.projects.placeholder": "press enter to add",
   "setup.teams.placeholder": "press enter to add",
-  "setup.select": "Select",
+  "setup.select": "Search",
   "setup.career.interests": "Job mobility",
   "setup.save.and.finish": "Save and finish",
   "setup.save.and.next": "Save and next",
@@ -240,7 +240,6 @@
   "profile.basic": "Employee information",
   "profile.diploma": "Diploma",
   "profile.projects": "Projects",
-  "profile.friends": "Friends",
   "profile.school": "School",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Job title",
@@ -274,6 +273,7 @@
   "profile.email": "Email",
   "profile.ex.feeder": "I am nominated in the EX-feeder program",
   "profile.not.ex.feeder": "I'm not nominated in the EX-feeder program.",
+  "profile.private.ex.feeder": "EX-feeder is set to private",
   "profile.ex.feeder.title": "EX-feeder",
   "profile.first.language": "First language",
   "profile.first.name": "First name",
@@ -370,8 +370,6 @@
   "profile.career.interests": "Job mobility",
 
   "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
-  "profile.visibility.hide.confirm": "Are you sure you want to make hide this card from your public profile? (Will be only visible to you and HR)",
-  "profile.visibility.friends.confirm": "Are you sure you want to make this card visible only to your friend group (Will be also visible to you and HR)?",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
@@ -385,12 +383,11 @@
   "sign.out": "Logout",
   "home": "Home",
 
-  "profile.addFriend": "Add Friend",
-  "profile.removeFriend": "Remove Friend",
-  "profile.removeFriend.confirm": "Are you sure you want to remove this user from your friend group ?",
+  "profile.privateGroup": "Private group",
+  "profile.connections": "Connections",
 
   "profile.visibleCards.public": "Public",
-  "profile.visibleCards.friends": "Friends only",
+  "profile.visibleCards.connections": "Connections",
   "profile.visibleCards.private": "Private",
 
   "tooltip.extra.info.help": "For more information, visit our help and contact page: ",

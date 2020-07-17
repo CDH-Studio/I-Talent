@@ -2,47 +2,60 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import CareerInterestsView from "./CareerInterestsView";
+import ProfileCards from "../profileCards/ProfileCards";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-const CareerInterests = ({ data }) => {
+const CareerInterests = ({ data, type }) => {
   const getCareerInterestsInfo = () => {
+    let description = "-";
+    if (data.interestedInRemote) {
+      description = <FormattedMessage id="profile.yes" />;
+    } else if (data.interestedInRemote === false) {
+      description = <FormattedMessage id="profile.no" />;
+    }
+
     const interestedInRemote = {
       icon: "mail",
       title: <FormattedMessage id="profile.interested.in.remote" />,
-      description:
-        data.interestedInRemote === true ? (
-          <FormattedMessage id="profile.yes" />
-        ) : (
-          <FormattedMessage id="profile.no" />
-        ),
+      description,
     };
     const lookingForNewJob = {
       icon: "mail",
       title: <FormattedMessage id="profile.looking.for.new.job" />,
-      description: (data.lookingJob && data.lookingJob.description) || (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: (data.lookingJob && data.lookingJob.description) || "-",
     };
 
     return [interestedInRemote, lookingForNewJob];
   };
 
   return (
-    <CareerInterestsView
+    <ProfileCards
+      titleId="profile.career.interests"
+      content={
+        <CareerInterestsView
+          data={data}
+          info={getCareerInterestsInfo()}
+          relocationLocationsInfo={data.relocationLocations}
+        />
+      }
+      cardName="careerInterests"
+      id="card-profile-career-interests"
+      editUrl="/secured/profile/edit/personal-growth"
       data={data}
-      info={getCareerInterestsInfo()}
-      relocationLocationsInfo={data.relocationLocations}
+      type={type}
+      visible={data.visibleCards.careerInterests}
     />
   );
 };
 
 CareerInterests.propTypes = {
-  data: PropTypes.shape({
-    interestedInRemote: PropTypes.bool,
-    lookingJob: PropTypes.shape({
-      description: PropTypes.string,
-    }),
-    relocationLocations: PropTypes.any,
-  }).isRequired,
+  data: ProfileInfoPropType,
+  type: PropTypes.bool,
+};
+
+CareerInterests.defaultProps = {
+  data: null,
+  type: null,
 };
 
 export default CareerInterests;

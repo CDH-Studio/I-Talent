@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model DbSeed {
@@ -317,6 +317,7 @@ model VisibleCard {
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   info               CardVisibilityStatus @default(PRIVATE)
+  manager            CardVisibilityStatus @default(PRIVATE)
   talentManagement   CardVisibilityStatus @default(PRIVATE)
   officialLanguage   CardVisibilityStatus @default(PRIVATE)
   skills             CardVisibilityStatus @default(PRIVATE)

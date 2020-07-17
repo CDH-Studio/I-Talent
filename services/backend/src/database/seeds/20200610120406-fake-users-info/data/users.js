@@ -139,6 +139,20 @@ module.exports = [
       },
     ],
     relocationLocations: [],
+    visibleCards: {
+      info: "PUBLIC",
+      talentManagement: "PUBLIC",
+      officialLanguage: "PUBLIC",
+      skills: "PUBLIC",
+      competencies: "PUBLIC",
+      developmentalGoals: "PUBLIC",
+      education: "PUBLIC",
+      experience: "PUBLIC",
+      projects: "PUBLIC",
+      careerInterests: "PUBLIC",
+      mentorshipSkills: "PUBLIC",
+      exFeeder: "PUBLIC",
+    },
   },
   {
     name: "Mary Doe",
@@ -207,6 +221,20 @@ module.exports = [
         },
       },
     ],
+    visibleCards: {
+      info: "PUBLIC",
+      talentManagement: "PUBLIC",
+      officialLanguage: "PUBLIC",
+      skills: "PUBLIC",
+      competencies: "PUBLIC",
+      developmentalGoals: "PUBLIC",
+      education: "PUBLIC",
+      experience: "PUBLIC",
+      projects: "PUBLIC",
+      careerInterests: "PUBLIC",
+      mentorshipSkills: "PUBLIC",
+      exFeeder: "PUBLIC",
+    },
     organizations: [
       [
         {
