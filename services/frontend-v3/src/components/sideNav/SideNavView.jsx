@@ -22,7 +22,7 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
 
   if (displaySideBar) {
     return (
-      <Affix offsetTop={64}>
+      <Affix offsetTop={64} style={{ marginTop: 64 }}>
         <Sider
           width="270"
           style={styles.sider}
