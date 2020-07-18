@@ -42,19 +42,17 @@ const { Title, Text } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = (props) => {
-  const {
-    classificationOptions,
-    formType,
-    load,
-    profileInfo,
-    securityOptions,
-    substantiveOptions,
-    intl,
-    history,
-    userId,
-  } = props;
-
+const EmploymentDataFormView = ({
+  classificationOptions,
+  formType,
+  load,
+  profileInfo,
+  securityOptions,
+  substantiveOptions,
+  intl,
+  history,
+  userId,
+}) => {
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
