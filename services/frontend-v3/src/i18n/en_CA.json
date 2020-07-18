@@ -295,6 +295,7 @@
   "profile.linkedin.username": "LinkedIn username",
   "profile.github.username": "GitHub username",
   "profile.gcconnex.username": "GCconnex username",
+  "profile.username.help": "It's this part of your profile link<br></br>{url}<b>username</b>",
   "profile.location": "Location",
   "profile.manager": "Manager",
   "profile.official.language": "Official language",

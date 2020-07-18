@@ -112,6 +112,9 @@ const PrimaryInfoFormView = ({
     popoverStyle: {
       maxWidth: "430px",
     },
+    infoIcon: {
+      marginLeft: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -422,6 +425,25 @@ const PrimaryInfoFormView = ({
     return undefined;
   };
 
+  const urlPopover = (url) => (
+    <Popover
+      content={
+        <div style={{ textAlign: "center" }}>
+          <FormattedMessage
+            id="profile.username.help"
+            values={{
+              url,
+              b: (chunks) => <b>{chunks}</b>,
+              br: () => <br />,
+            }}
+          />
+        </div>
+      }
+    >
+      <InfoCircleOutlined style={styles.infoIcon} />
+    </Popover>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -564,7 +586,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="gcconnex"
-              label={<FormattedMessage id="profile.gcconnex.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.gcconnex.username" />
+                  {urlPopover("https://gcconnex.gc.ca/profile/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />
@@ -573,7 +600,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="linkedin"
-              label={<FormattedMessage id="profile.linkedin.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.linkedin.username" />
+                  {urlPopover("https://linkedin.com/in/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />
@@ -582,7 +614,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="github"
-              label={<FormattedMessage id="profile.github.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.github.username" />
+                  {urlPopover("https://github.com/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />

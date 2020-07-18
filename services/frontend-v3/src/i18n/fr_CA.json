@@ -299,6 +299,7 @@
   "profile.linkedin.username": "Identifiant LinkedIn ",
   "profile.github.username": "Identifiant GitHub",
   "profile.gcconnex.username": "Identifiant GCconnex",
+  "profile.username.help": "C'est la partie suivante du lien de votre profil<br></br>{url}<b>identifiant</b>",
   "profile.location": "Emplacement",
   "profile.manager": "Gestionnaire",
   "profile.official.language": "Langue officielle",
