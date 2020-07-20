@@ -36,11 +36,17 @@ describe(`Test ${path}`, () => {
           const seedData = [];
 
           seed.forEach((i) => {
-            if (language === "ENGLISH" && i.translations.en) {
+            if (
+              (language === "ENGLISH" && i.translations.en) ||
+              !i.translations.fr
+            ) {
               seedData.push(i.translations.en.name);
             }
 
-            if (language === "FRENCH" && i.translations.fr) {
+            if (
+              (language === "FRENCH" && i.translations.fr) ||
+              !i.translations.en
+            ) {
               seedData.push(i.translations.fr.name);
             }
           });
