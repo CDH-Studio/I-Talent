@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import {
-  PageHeader,
   Row,
   Col,
   Input,
@@ -24,6 +23,7 @@ import { useSelector } from "react-redux";
 import _ from "lodash";
 
 import handleError from "../../../functions/handleError";
+import Header from "../../header/Header";
 
 /**
  *  DiplomaTableView(props)
@@ -38,7 +38,6 @@ const DiplomaTableView = ({
   selectedRowKeys,
   searchedColumn,
   searchText,
-  size,
   rowSelection,
   intl,
 }) => {
@@ -167,11 +166,7 @@ const DiplomaTableView = ({
           popUpCancel();
         }}
       >
-        <Button
-          type="primary"
-          size={size}
-          disabled={selectedRowKeys.length === 0}
-        >
+        <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.delete" />
         </Button>
@@ -405,12 +400,12 @@ const DiplomaTableView = ({
     <>
       {addDiplomaModal()}
       {editDiplomaModal()}
-      <PageHeader
+      <Header
         title={<FormattedMessage id="admin.diploma.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" size={size} onClick={handleAddModal}>
+            <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined style={{ marginRight: 10 }} />
               <FormattedMessage id="admin.add" />
             </Button>
@@ -447,7 +442,6 @@ DiplomaTableView.propTypes = {
   searchText: PropTypes.string.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
-  size: PropTypes.string.isRequired,
 };
 
 export default injectIntl(DiplomaTableView);
