@@ -1,5 +1,5 @@
 import React from "react";
-import { PageHeader, Menu } from "antd";
+import { Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
@@ -13,6 +13,7 @@ import {
   PersonalGrowthForm,
   QualificationsForm,
 } from "../../profileForms";
+import Header from "../../header/Header";
 
 /*
  *  EditProfileLayoutView(props)
@@ -197,14 +198,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
-      <PageHeader
-        style={{ padding: "0 0 15px 7px" }}
-        title={
-          <span style={{ color: "#192e2f" }}>
-            <FormattedMessage id="edit.profile" />
-          </span>
-        }
-      />
+      <Header title={<FormattedMessage id="edit.profile" />} />
       {form}
     </AppLayout>
   );

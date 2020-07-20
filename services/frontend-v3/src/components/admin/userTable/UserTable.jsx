@@ -21,8 +21,6 @@ function UserTable({ intl }) {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
-  const size = "large";
-
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
@@ -129,7 +127,6 @@ function UserTable({ intl }) {
 
   return (
     <UserTableView
-      size={size}
       searchText={searchText}
       searchedColumn={searchedColumn}
       handleApply={handleApply}

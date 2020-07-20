@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
-  PageHeader,
   Row,
   Col,
   Input,
@@ -27,6 +26,7 @@ import _ from "lodash";
 
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import Header from "../../header/Header";
 
 /**
  *  SkillTableView(props)
@@ -41,7 +41,6 @@ const SkillTableView = ({
   selectedRowKeys,
   searchedColumn,
   searchText,
-  size,
   rowSelection,
   intl,
 }) => {
@@ -223,11 +222,7 @@ const SkillTableView = ({
           popUpCancel();
         }}
       >
-        <Button
-          type="primary"
-          size={size}
-          disabled={selectedRowKeys.length === 0}
-        >
+        <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.delete" />
         </Button>
@@ -499,12 +494,12 @@ const SkillTableView = ({
     <>
       {addSkillButton()}
       {editSkillButton()}
-      <PageHeader
+      <Header
         title={<FormattedMessage id="admin.skill.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" size={size} onClick={handleAddModal}>
+            <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined style={{ marginRight: 10 }} />
               <FormattedMessage id="admin.add" />
             </Button>
@@ -536,7 +531,6 @@ SkillTableView.propTypes = {
   selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
