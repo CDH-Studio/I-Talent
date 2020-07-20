@@ -373,7 +373,7 @@ const PrimaryInfoFormView = ({
         }
       })
       .catch(() =>
-        message.info(
+        message.warning(
           intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
         )
       );
@@ -535,15 +535,22 @@ const PrimaryInfoFormView = ({
         newGedsValues
       )
       .then(() => {
-        if (gatheringGedsData) {
-          const newFormValues = Object.keys(
-            Object.keys(newGedsValues).map((key) => ({
-              name: key,
-              value: newGedsValues[key],
-            }))
-          );
-          form.setFields(newFormValues);
-        }
+        console.log("SAVED NEW GEDS VALUES", newGedsValues);
+        const possibleKeys = [
+          "firstName",
+          "lastName",
+          "cellphone",
+          "telephone",
+          "locationId",
+        ];
+
+        const newFieldVals = [];
+        possibleKeys.forEach((key) => {
+          if (key in newGedsValues) {
+            newFieldVals.push({ name: key, value: newGedsValues[key] });
+          }
+        });
+        form.setFields(newFieldVals);
       })
       .catch((error) => handleError(error, "message"));
     setNewGedsValues(null);
@@ -602,7 +609,7 @@ const PrimaryInfoFormView = ({
 
       if (newGedsValues.jobTitle) {
         changes.push({
-          title: <FormattedMessage id="profile.job.title" />,
+          title: <FormattedMessage id="profile.career.header.name" />,
           description: newGedsValues.jobTitle[locale],
         });
       }
