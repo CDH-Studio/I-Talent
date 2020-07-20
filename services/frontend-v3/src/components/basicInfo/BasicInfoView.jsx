@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import {
   MailOutlined,
   PhoneOutlined,
@@ -270,4 +270,4 @@ BasicInfoView.defaultProps = {
   jobTitle: null,
 };
 
-export default BasicInfoView;
+export default injectIntl(BasicInfoView);

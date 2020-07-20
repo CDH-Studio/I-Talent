@@ -19,7 +19,6 @@ import {
   LinkOutlined,
   RightOutlined,
   CheckOutlined,
-  QuestionCircleOutlined,
   LoadingOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
@@ -319,7 +318,7 @@ const PrimaryInfoFormView = ({
                 ) {
                   newGedsData.locationId = result.data.locationId;
                 }
-              } else if (key === "jobTitle" || key == "branch") {
+              } else if (key === "jobTitle" || key === "branch") {
                 if (result.data[key][locale] !== profileInfo[key]) {
                   newGedsData[key] = result.data[key];
                 }
@@ -367,7 +366,7 @@ const PrimaryInfoFormView = ({
             }
           });
           if (Object.keys(newGedsData).length) {
-            setNewGedsValues({ newGedsData });
+            setNewGedsValues(newGedsData);
           } else {
             message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
           }
