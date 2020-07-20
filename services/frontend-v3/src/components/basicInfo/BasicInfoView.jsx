@@ -1,6 +1,5 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Icon as LegacyIcon } from "@ant-design/compatible";
 import {
   MailOutlined,
   PhoneOutlined,
@@ -225,18 +224,11 @@ const BasicInfoView = ({
    * This includes links to: email, linkedin, and github
    */
   const generateActions = () => {
-    const buttons = buttonLinks.buttons.map((buttonName) => {
-      const button = buttonLinks[buttonName];
+    const buttons = Object.keys(buttonLinks).map((key) => {
+      const button = buttonLinks[key];
 
       return (
-        <Button
-          block
-          type="link"
-          icon={
-            <LegacyIcon type={button.icon} style={{ marginRight: "3px" }} />
-          }
-          href={button.url}
-        >
+        <Button block type="link" icon={button.icon} href={button.url}>
           <FormattedMessage id={button.textId} />
         </Button>
       );

@@ -41,6 +41,8 @@ services:
       POSTGRES_DB: testdb
     networks:
       - postgres-net
+    ports:
+      - "5432:5432"
 
   redis:
     container_name: "upskill-redis-session"

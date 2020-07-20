@@ -23,8 +23,6 @@ const SkillTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const size = "large";
-
   const dispatch = useDispatch();
 
   // Fetches the skill information
@@ -161,7 +159,6 @@ const SkillTable = ({ intl }) => {
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      size={size}
       rowSelection={rowSelection}
     />
   );

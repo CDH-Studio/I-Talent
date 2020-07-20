@@ -42,7 +42,7 @@ function SkillsView({ categoriesSkills, skills }) {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="profile.mentorship.empty" />}
+        description={<FormattedMessage id="profile.skills.empty" />}
       />
     );
   };

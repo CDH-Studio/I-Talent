@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { PageHeader, Anchor, Typography, Row, Col, Button } from "antd";
+import { Anchor, Typography, Row, Col, Button } from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
@@ -27,6 +27,7 @@ import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
+import Header from "../../header/Header";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -338,10 +339,7 @@ const ProfileLayoutView = ({
       displaySideBar
       loading={loading}
     >
-      <PageHeader
-        style={{
-          padding: "0 0 15px 7px",
-        }}
+      <Header
         title={
           <FormattedMessage
             id={privateProfile ? "my.profile" : "other.profile"}
