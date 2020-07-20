@@ -357,7 +357,12 @@
   "profile.do.not.specify": "Do not specify",
   "profile.not.specified": "Not specified",
   "profile.not.found": "Invalid profile URL",
+
   "profile.geds.changes": "Confirm changes",
+  "profile.geds.sync.button": "Sync GCDirectory Data",
+  "profile.geds.up.to.date": "Information up to date",
+  "profile.geds.failed.to.retrieve": "Failed to retrieve information",
+
   "profile.end.date.present": "Present",
   "profile.relocation.locations": "I am willing to relocate to",
   "profile.rules.required": "Required",

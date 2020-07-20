@@ -1,6 +1,6 @@
 import React from "react";
 import { Tree } from "antd";
-import _ from "lodash";
+import PropTypes from "prop-types";
 
 import { useSelector } from "react-redux";
 
@@ -34,16 +34,19 @@ const OrgTreeView = ({ data }) => {
     treeData.push(genTreeBranch(org));
   });
 
-  return (
-    <Tree
-      style={{ borderStyle: "1px solid #f0f0f0" }}
-      defaultExpandAll
-      defaultExpandParent
-      treeData={treeData}
-    />
-  );
+  return <Tree defaultExpandAll defaultExpandParent treeData={treeData} />;
 };
 
 export default OrgTreeView;
 
-OrgTreeView.propTypes = {};
+OrgTreeView.propTypes = {
+  data: PropTypes.shape({
+    organizations: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        key: PropTypes.string,
+        tier: PropTypes.number,
+      })
+    ),
+  }).isRequired,
+};

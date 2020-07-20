@@ -377,6 +377,12 @@
   "profile.do.not.specify": "Ne pas spécifié",
   "profile.not.specified": "Non spécifié",
   "profile.not.found": "Profil non trouvé",
+
+  "profile.geds.changes": "Confirmer les modifications",
+  "profile.geds.sync.button": "Synchroniser les données GCDirectory",
+  "profile.geds.up.to.date": "Informations à jour",
+  "profile.geds.failed.to.retrieve": "Échec de la récupération des informations",
+
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transferé à",
   "profile.career.interests": "Mobilité de l'emploi",

@@ -502,18 +502,11 @@ async function updateProfile(request, response) {
                     },
                     update: {
                       translations: {
-                        upsert: ["ENGLISH", "FRENCH"].map((lang) => ({
+                        updateMany: ["ENGLISH", "FRENCH"].map((lang) => ({
                           where: {
-                            employmentInfoId: employmentInfoId,
                             language: lang,
                           },
-                          create: {
-                            language: lang,
-                            jobTitle: jobTitle ? jobTitle[lang] : "",
-                            branch: branch ? branch[lang] : "",
-                          },
-                          update: {
-                            language: "ENGLISH",
+                          data: {
                             jobTitle: jobTitle && jobTitle[lang],
                             branch: branch && branch[lang],
                           },

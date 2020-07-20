@@ -183,7 +183,14 @@ const BasicInfoView = ({
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
-        <Dropdown overlay={<OrgTree data={data} />} trigger={["click"]}>
+        <Dropdown
+          overlay={
+            <div className="org-dropdown">
+              <OrgTree data={data} />
+            </div>
+          }
+          trigger={["click"]}
+        >
           <Button style={styles.orgButton} type="link">
             <DownOutlined />
             <span style={styles.leftSpacing}>{data.branch}</span>

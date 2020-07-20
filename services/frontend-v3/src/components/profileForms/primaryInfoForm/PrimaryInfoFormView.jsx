@@ -319,9 +319,9 @@ const PrimaryInfoFormView = ({
                 ) {
                   newGedsData.locationId = result.data.locationId;
                 }
-              } else if (key === "jobTitle") {
-                if (result.data.jobTitle[locale] !== profileInfo.jobTitle) {
-                  newGedsData.jobTitle = result.data.jobTitle;
+              } else if (key === "jobTitle" || key == "branch") {
+                if (result.data[key][locale] !== profileInfo[key]) {
+                  newGedsData[key] = result.data[key];
                 }
               } else if (key === "organizations") {
                 // Check for same amount of organizations
@@ -367,13 +367,17 @@ const PrimaryInfoFormView = ({
             }
           });
           if (Object.keys(newGedsData).length) {
-            setNewGedsValues(newGedsData);
+            setNewGedsValues({ newGedsData });
           } else {
-            message.info(<FormattedMessage id="data.up.to.date" />);
+            message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
           }
         }
       })
-      .catch((error) => handleError(error, "message"));
+      .catch(() =>
+        message.info(
+          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
+        )
+      );
     setGatheringGedsData(false);
   };
 
@@ -392,7 +396,7 @@ const PrimaryInfoFormView = ({
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
             <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-              Update GEDS info
+              <FormattedMessage id="profile.geds.sync.button" />
             </Button>
             <Popover
               trigger="click"
@@ -416,6 +420,9 @@ const PrimaryInfoFormView = ({
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
+          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+            <FormattedMessage id="profile.geds.sync.button" />
+          </Button>
           <Popover
             trigger="click"
             content={
@@ -598,6 +605,13 @@ const PrimaryInfoFormView = ({
         changes.push({
           title: <FormattedMessage id="profile.job.title" />,
           description: newGedsValues.jobTitle[locale],
+        });
+      }
+
+      if (newGedsValues.branch) {
+        changes.push({
+          title: <FormattedMessage id="profile.branch" />,
+          description: newGedsValues.branch[locale],
         });
       }
 
