@@ -1,6 +1,5 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Icon as LegacyIcon } from "@ant-design/compatible";
 import {
   MailOutlined,
   PhoneOutlined,
@@ -9,6 +8,7 @@ import {
   EnvironmentOutlined,
   UserOutlined,
   DownOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -20,21 +20,33 @@ import {
   List,
   Typography,
   Button,
+  Tooltip,
 } from "antd";
-import { ProfileInfoPropType } from "../../customPropTypes";
+
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 import OrgTree from "../orgTree/OrgTree";
+import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
+const BasicInfoView = ({
+  data,
+  name,
+  avatar,
+  jobTitle,
+  buttonLinks,
+  history,
+}) => {
+  // useParams returns an object of key/value pairs from URL parameters
+  const { id } = useParams();
+  const urlID = id;
+  const userID = useSelector((state) => state.user.id);
+
   /* Component Styles */
   const styles = {
     profileHeaderRow: {
       margin: "25px 0",
-    },
-    card: {
-      borderTopColor: "#007471",
-      borderTopWidth: "5px",
     },
     avatar: {
       backgroundColor: "#fff",
@@ -72,7 +84,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
             </Text>
           </Avatar>
         </Col>
-        <Col xs={12} md={19} lg={20} xxl={21} style={{ padding: "11px 10px" }}>
+        <Col xs={11} md={18} lg={19} xxl={20} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -86,6 +98,24 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
             {jobTitle}
           </Text>
         </Col>
+        {urlID === userID && (
+          <Col xs={1}>
+            <Tooltip
+              placement="top"
+              title={<FormattedMessage id="profile.edit" />}
+            >
+              <Button
+                aria-label="edit card"
+                type="default"
+                shape="circle"
+                icon={<EditOutlined />}
+                onClick={() =>
+                  history.push("/secured/profile/edit/primary-info")
+                }
+              />
+            </Tooltip>
+          </Col>
+        )}
       </Row>
     );
   };
@@ -125,31 +155,19 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="profile.email" />,
-      description: data.email ? (
-        data.email
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.email ? data.email : "-",
     };
 
     const tel = {
       icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
-      description: data.telephone ? (
-        data.telephone
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.telephone ? data.telephone : "-",
     };
 
     const cel = {
       icon: <MobileOutlined />,
       title: <FormattedMessage id="profile.cellphone" />,
-      description: data.cellphone ? (
-        data.cellphone
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.cellphone ? data.cellphone : "-",
     };
 
     return [email, tel, cel];
@@ -180,21 +198,15 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
     const address = {
       icon: <EnvironmentOutlined />,
       title: <FormattedMessage id="profile.address" />,
-      description: location ? (
-        `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: location
+        ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
+        : "-",
     };
 
     const manager = {
       icon: <UserOutlined />,
       title: <FormattedMessage id="profile.manager" />,
-      description: data.manager ? (
-        data.manager
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.manager ? data.manager : "-",
     };
 
     return [branch, address, manager];
@@ -207,18 +219,11 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
    * This includes links to: email, linkedin, and github
    */
   const generateActions = () => {
-    const buttons = buttonLinks.buttons.map((buttonName) => {
-      const button = buttonLinks[buttonName];
+    const buttons = Object.keys(buttonLinks).map((key) => {
+      const button = buttonLinks[key];
 
       return (
-        <Button
-          block
-          type="link"
-          icon={
-            <LegacyIcon type={button.icon} style={{ marginRight: "3px" }} />
-          }
-          href={button.url}
-        >
+        <Button block type="link" icon={button.icon} href={button.url}>
           <FormattedMessage id={button.textId} />
         </Button>
       );
@@ -228,11 +233,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
   };
 
   return (
-    <Card
-      id="card-profile-basic-info"
-      actions={generateActions()}
-      style={styles.card}
-    >
+    <Card id="card-profile-basic-info" actions={generateActions()}>
       {generateProfileHeader()}
       <Row>
         <Col xs={24} lg={12}>
@@ -255,6 +256,7 @@ BasicInfoView.propTypes = {
   }).isRequired,
   jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: HistoryPropType.isRequired,
 };
 
 BasicInfoView.defaultProps = {

@@ -164,83 +164,14 @@ definitions:
             type: string
           lastName:
             type: string
-          telephone:
-            type: string
-          cellphone:
-            type: string
-          manager:
-            type: string
-          team:
-            type: string
-          exFeeder:
-            type: boolean
-          status:
-            $ref: "#/definitions/UserStatusEnum"
-          email:
-            type: string
-            format: email
           avatarColor:
             type: string
-          projects:
-            $ref: "#/definitions/StringArray"
           groupLevel:
             $ref: "#/definitions/IdName"
-          actingLevel:
-            $ref: "#/definitions/IdName"
-          officeLocation:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              city:
-                type: string
-              streetNumber:
-                type: number
-              province:
-                type: string
-              streetName:
-                type: string
-          experiences:
-            type: array
-            items:
-              type: object
-              properties:
-                startDate:
-                  type: string
-                  format: date-time
-                endDate:
-                  type: string
-                  format: date-time
-                description:
-                  type: string
-                jobTitle:
-                  type: string
-                organization:
-                  type: string
-          educations:
-            type: array
-            items:
-              type: object
-              properties:
-                startDate:
-                  type: string
-                  format: date-time
-                endDate:
-                  type: string
-                  format: date-time
-                diploma:
-                  type: string
-                school:
-                  type: string
-          skills:
-            $ref: "#/definitions/IdNameArray"
-          competencies:
-            $ref: "#/definitions/IdNameArray"
-          organizations:
-            $ref: "#/definitions/StringArray"
           nameInitials:
             type: string
+          isConnection:
+            type: boolean
           branch:
             type: string
           jobTitle:
@@ -375,9 +306,9 @@ definitions:
       required: [proficiency, level, date]
       properties:
         proficiency:
-          $ref: '#/definitions/ProficiencyEnum'
+          $ref: "#/definitions/ProficiencyEnum"
         level:
-          $ref: '#/definitions/ProficiencyLevelEnum'
+          $ref: "#/definitions/ProficiencyLevelEnum"
         date:
           type: string
           format: date-time
@@ -413,11 +344,11 @@ definitions:
       manager:
         type: string
       firstLanguage:
-        $ref: '#/definitions/LanguageEnum'
+        $ref: "#/definitions/LanguageEnum"
       secondLanguage:
-        $ref: '#/definitions/LanguageEnum'
+        $ref: "#/definitions/LanguageEnum"
       preferredLanguage:
-        $ref: '#/definitions/LanguageEnum'
+        $ref: "#/definitions/LanguageEnum"
       actingStartDate:
         type: string
         format: data-time
@@ -435,7 +366,7 @@ definitions:
       interestedInRemote:
         type: boolean
       status:
-        $ref: '#/definitions/UserStatusEnum'
+        $ref: "#/definitions/UserStatusEnum"
       projects:
         type: array
         items:
@@ -491,7 +422,7 @@ definitions:
             diploma:
               type: object
               properties:
-                id: 
+                id:
                   type: string
                   format: uuid
                 description:
@@ -499,7 +430,7 @@ definitions:
             school:
               type: object
               properties:
-                id: 
+                id:
                   type: string
                   format: uuid
                 country:

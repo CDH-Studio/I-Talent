@@ -11,25 +11,28 @@ import {
   DatePicker,
   Button,
   message,
+  Popover,
 } from "antd";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
+
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -115,6 +118,10 @@ const LangProficiencyFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -174,10 +181,7 @@ const LangProficiencyFormView = ({
       }
     }
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      dbValues
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 
   /* show message */
@@ -238,13 +242,7 @@ const LangProficiencyFormView = ({
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => {
-      const data = savedValues || getInitialValues(profileInfo);
-      setFieldsChanged(
-        (!data.oralProficiency && !prev) || (data.oralProficiency && prev)
-      );
-      return !prev;
-    });
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /**
@@ -254,12 +252,20 @@ const LangProficiencyFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -333,6 +339,16 @@ const LangProficiencyFormView = ({
     setDisplayMentorshipForm(data.oralProficiency);
     setFieldsChanged(false);
   };
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const data = savedValues || getInitialValues(profileInfo);
+    const oppositeInitialToggle =
+      !!data.oralProficiency !== displayMentorshipForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayMentorshipForm]);
 
   /*
    * Get Form Control Buttons
@@ -549,7 +565,11 @@ const LangProficiencyFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.language.proficiency" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -584,7 +604,7 @@ const LangProficiencyFormView = ({
         form={form}
         initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
+        onValuesChange={updateIfFormValuesChanged}
       >
         {/* Form Row One */}
         <Row gutter={24}>
@@ -613,12 +633,22 @@ const LangProficiencyFormView = ({
         {/* Form Row Four: Temporary role */}
         <Row style={styles.secondLangRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={
-                <FormattedMessage id="profile.graded.on.second.language" />
-              }
-              tooltipText="Extra information"
-            />
+            <Text>
+              <FormattedMessage id="profile.graded.on.second.language" />
+              <Popover
+                content={
+                  <div>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                }
+              >
+                <InfoCircleOutlined style={styles.iconBySwitch} />
+              </Popover>
+            </Text>
+
             <Switch
               checked={displayMentorshipForm}
               onChange={toggleSecLangForm}

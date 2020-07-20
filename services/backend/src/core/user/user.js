@@ -42,6 +42,7 @@ async function getUserById(request, response) {
           createdAt: true,
           updatedAt: true,
           signupStep: true,
+          preferredLanguage: true,
         },
       });
 

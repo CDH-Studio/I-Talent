@@ -16,23 +16,21 @@ import {
   RightOutlined,
   CheckOutlined,
   ExclamationCircleOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
 import handleError from "../../../functions/handleError";
-import config from "../../../config";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -127,6 +125,9 @@ const PersonalGrowthFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconAfterTitle: {
+      paddingLeft: "5px",
+    },
   };
 
   /*
@@ -152,10 +153,7 @@ const PersonalGrowthFormView = ({
       values.savedLookingForNewJob = null;
     }
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      values
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* show message */
@@ -391,7 +389,11 @@ const PersonalGrowthFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="profile.employee.growth.interests" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -437,12 +439,21 @@ const PersonalGrowthFormView = ({
               className="custom-bubble-select-style"
               name="developmentalGoals"
               label={
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="setup.developmental.goals" />
-                  }
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.developmental.goals" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.iconAfterTitle} />
+                  </Popover>
+                </Text>
               }
             >
               <Select
@@ -492,12 +503,21 @@ const PersonalGrowthFormView = ({
               className="custom-bubble-select-style"
               name="relocationLocations"
               label={
-                <FormLabelTooltip
-                  labelText={
-                    <FormattedMessage id="profile.willing.to.relocate.to" />
-                  }
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="profile.willing.to.relocate.to" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.iconAfterTitle} />
+                  </Popover>
+                </Text>
               }
             >
               <Select
@@ -544,8 +564,6 @@ const PersonalGrowthFormView = ({
         <Title level={3} style={styles.formTitle}>
           <FormattedMessage id="setup.talent.management" />
           <Popover
-            trigger="click"
-            tabIndex="0"
             content={
               <div>
                 <FormattedMessage id="profile.talent.management.tooltip" />

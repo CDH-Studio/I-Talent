@@ -3,25 +3,25 @@ const { PrismaClient } = require("../../database/client");
 
 const prisma = new PrismaClient();
 
-async function addFriend(request, response) {
+async function addConnection(request, response) {
   try {
     validationResult(request).throw();
-    const friendId = request.params.id;
+    const publicUserId = request.params.id;
     const userId = request.kauth.grant.access_token.content.sub;
-    if (userId && friendId) {
+    if (userId && publicUserId) {
       await prisma.user.update({
         where: {
           id: userId,
         },
         data: {
-          friends: {
+          connections: {
             connect: {
-              id: friendId,
+              id: publicUserId,
             },
           },
         },
       });
-      response.status(200).json("Successfully added friend");
+      response.status(200).json("Successfully added connection");
       return;
     }
     response
@@ -33,29 +33,29 @@ async function addFriend(request, response) {
       response.status(422).json(error.errors);
       return;
     }
-    response.status(500).json("Unable to add friend");
+    response.status(500).json("Unable to add connection");
   }
 }
 
-async function removeFriend(request, response) {
+async function removeConnection(request, response) {
   try {
     validationResult(request).throw();
-    const friendId = request.params.id;
+    const publicUserId = request.params.id;
     const userId = request.kauth.grant.access_token.content.sub;
-    if (userId && friendId) {
+    if (userId && publicUserId) {
       await prisma.user.update({
         where: {
           id: userId,
         },
         data: {
-          friends: {
+          connections: {
             disconnect: {
-              id: friendId,
+              id: publicUserId,
             },
           },
         },
       });
-      response.status(200).json("Successfully deleted friend");
+      response.status(200).json("Successfully deleted connection");
       return;
     }
     response
@@ -67,26 +67,28 @@ async function removeFriend(request, response) {
       response.status(422).json(error.errors);
       return;
     }
-    response.status(500).json("Unable to remove friend");
+    response.status(500).json("Unable to remove connection");
   }
 }
 
-async function getFriendById(request, response) {
+async function getConnectionById(request, response) {
   try {
     validationResult(request).throw();
-    const friendId = request.params.id;
+    const publicUserId = request.params.id;
     const userId = request.kauth.grant.access_token.content.sub;
-    if (userId && friendId) {
-      const friends = await prisma.user.findOne({
+    if (userId && publicUserId) {
+      const connections = await prisma.user.findOne({
         where: {
           id: userId,
         },
         select: {
-          friends: { select: { id: true } },
+          connections: { select: { id: true } },
         },
       });
       response.status(200).json({
-        friend: friends.friends.some((item) => item.id === friendId),
+        status: connections.connections.some(
+          (item) => item.id === publicUserId
+        ),
       });
       return;
     }
@@ -99,12 +101,12 @@ async function getFriendById(request, response) {
       response.status(422).json(error.errors);
       return;
     }
-    response.status(500).json("Unable to get friend");
+    response.status(500).json("Unable to get connection");
   }
 }
 
 module.exports = {
-  addFriend,
-  removeFriend,
-  getFriendById,
+  addConnection,
+  removeConnection,
+  getConnectionById,
 };

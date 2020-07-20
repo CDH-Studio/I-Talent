@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import axios from "../../../axios-instance";
 import { IntlPropType } from "../../../customPropTypes";
 import SchoolTableView from "./SchoolTableView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 import {
   setAdminSchools,
   setAdminSchoolsLoading,
 } from "../../../redux/slices/adminSlice";
-
-const { backendAddress } = config;
 
 /**
  *  SchoolTable(props)
@@ -23,8 +20,6 @@ const SchoolTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const size = "large";
-
   const dispatch = useDispatch();
 
   // Fetches the school information
@@ -32,9 +27,7 @@ const SchoolTable = ({ intl }) => {
     try {
       dispatch(setAdminSchoolsLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/option/schoolsAllLang`
-      );
+      const results = await axios.get(`api/option/schoolsAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((competency) => ({
@@ -69,7 +62,7 @@ const SchoolTable = ({ intl }) => {
 
   // Handles addition of a school
   const handleSubmitAdd = async (values) => {
-    await axios.post(`${backendAddress}api/option/school`, {
+    await axios.post(`api/option/school`, {
       en: values.addSchoolEn,
       fr: values.addSchoolFr,
       abbrCountry: values.addSchoolCountry.toUpperCase(),
@@ -81,7 +74,7 @@ const SchoolTable = ({ intl }) => {
 
   // Handles the update/edit of a school
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`${backendAddress}api/option/school`, {
+    await axios.put(`api/option/school`, {
       id,
       en: values.editSchoolEn,
       fr: values.editSchoolFr,
@@ -94,7 +87,7 @@ const SchoolTable = ({ intl }) => {
 
   // Handles the deletion of a school
   const handleSubmitDelete = async () => {
-    await axios.delete(`${backendAddress}api/option/schools`, {
+    await axios.delete(`api/option/schools`, {
       data: {
         ids: selectedRowKeys,
       },
@@ -145,7 +138,6 @@ const SchoolTable = ({ intl }) => {
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      size={size}
       rowSelection={rowSelection}
     />
   );

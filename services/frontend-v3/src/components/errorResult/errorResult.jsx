@@ -3,6 +3,7 @@ import { Button } from "antd";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { HomeOutlined } from "@ant-design/icons";
 import ErrorResultView from "./errorResultView";
 
 const ErrorResult = ({ errorCode }) => {
@@ -19,6 +20,7 @@ const ErrorResult = ({ errorCode }) => {
       subTitle: <FormattedMessage id="error.404.subtitle" />,
       extra: (
         <Button onClick={handleClick} type="primary">
+          <HomeOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="error.button" />
         </Button>
       ),
@@ -29,6 +31,7 @@ const ErrorResult = ({ errorCode }) => {
       subTitle: <FormattedMessage id="error.403.subtitle" />,
       extra: (
         <Button onClick={handleClick} type="primary">
+          <HomeOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="error.button" />
         </Button>
       ),

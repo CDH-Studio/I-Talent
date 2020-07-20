@@ -1,20 +1,16 @@
-FROM node:12
+FROM node:12-alpine
 
 ENV TZ=America/Toronto
 
+# Copies code into container
+RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
-
-COPY package.json ./
-COPY yarn.lock ./
-
-RUN yarn install 
-
 COPY . .
 
-# RUN npm run build
+RUN chmod +x ./scripts/*.sh
 
-EXPOSE 3000
+# Runs build script
+RUN ./scripts/build.sh
 
-# CMD ["npm", "run", "deploy"]
-
-CMD ["yarn", "start"]
+# Runs start script
+CMD ./scripts/start.sh

@@ -6,7 +6,6 @@
     "@ant-design/compatible": "^1.0.2",
     "@ant-design/icons": "^4.0.5",
     "@reduxjs/toolkit": "^1.3.6",
-    "@sentry/browser": "^5.15.5",
     "@testing-library/jest-dom": "5.8.0",
     "@testing-library/react": "^10.0.4",
     "@testing-library/user-event": "10.3.2",
@@ -35,7 +34,7 @@
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
-    "serve": "^11.3.0",
+    "serve": "^11.3.2",
     "validator": "^13.1.1"
   },
   "scripts": {

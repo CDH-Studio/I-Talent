@@ -22,10 +22,10 @@ describe(`Test ${path}`, () => {
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toStrictEqual([
+        { name: "Career Ambition", count: 2 },
+        { name: "Compassion", count: 2 },
         { name: "Achieve Results", count: 1 },
         { name: "Budget", count: 1 },
-        { name: "Business Acumen", count: 1 },
-        { name: "Delegation", count: 1 },
         { name: "Mobilize People", count: 1 },
       ]);
 
@@ -39,11 +39,11 @@ describe(`Test ${path}`, () => {
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toStrictEqual([
-        { name: "Avoir le sens des affaires", count: 1 },
+        { name: "Avoir de l’ambition", count: 2 },
+        { name: "Faire preuve de compassion", count: 2 },
         { name: "Budget", count: 1 },
         { name: "Mobiliser les personnes", count: 1 },
         { name: "Obtenir des résultats", count: 1 },
-        { name: "Savoir déléguer", count: 1 },
       ]);
 
       done();

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
-  PageHeader,
   Row,
   Col,
   Input,
@@ -26,6 +25,7 @@ import _ from "lodash";
 
 import handleError from "../../../functions/handleError";
 import { IntlPropType } from "../../../customPropTypes";
+import Header from "../../header/Header";
 
 /**
  *  CategoryTableView(props)
@@ -41,7 +41,6 @@ const CategoryTableView = ({
   selectedRowKeys,
   searchedColumn,
   searchText,
-  size,
   rowSelection,
 }) => {
   const [addForm] = Form.useForm();
@@ -82,7 +81,6 @@ const CategoryTableView = ({
           }}
           placeholder={`${intl.formatMessage({
             id: "admin.search",
-            defaultMessage: "Search for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -336,11 +334,7 @@ const CategoryTableView = ({
         }}
         onCancel={popUpCancel}
       >
-        <Button
-          type="primary"
-          size={size}
-          disabled={selectedRowKeys.length === 0}
-        >
+        <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.delete" />
         </Button>
@@ -408,12 +402,12 @@ const CategoryTableView = ({
     <>
       {addCategoryButton()}
       {editCategoryButton()}
-      <PageHeader
+      <Header
         title={<FormattedMessage id="admin.category.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" size={size} onClick={handleAddModal}>
+            <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined style={{ marginRight: 10 }} />
               <FormattedMessage id="admin.add" />
             </Button>
@@ -445,7 +439,6 @@ CategoryTableView.propTypes = {
   selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any),
 };
 

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import axios from "axios";
 import { useSelector } from "react-redux";
+import axios from "../axios-instance";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 import { IntlPropType } from "../customPropTypes";
-import config from "../config";
-
-const { backendAddress } = config;
 
 const ProfileCreate = ({ intl, match }) => {
   const [highestStep, setHighestStep] = useState(1);
@@ -21,7 +18,7 @@ const ProfileCreate = ({ intl, match }) => {
 
       setHighestStep(signupStep);
 
-      axios.put(`${backendAddress}api/profile/${id}?language=${locale}`, {
+      axios.put(`api/profile/${id}?language=${locale}`, {
         signupStep,
       });
     }

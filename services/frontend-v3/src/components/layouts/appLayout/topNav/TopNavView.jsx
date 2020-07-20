@@ -8,16 +8,23 @@ import {
   MenuOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
-import { Layout, Dropdown, Menu, Button } from "antd";
-import { FormattedMessage } from "react-intl";
+import PropTypes from "prop-types";
+import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import queryString from "query-string";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
+import { IntlPropType } from "../../../../customPropTypes";
 
 const { Header } = Layout;
 
-const TopNavView = () => {
+const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
+  const history = useHistory();
+  const [searchValue, setSearchValue] = useState("");
+
   /* Component Styles */
   const styles = {
     header: {
@@ -29,30 +36,26 @@ const TopNavView = () => {
       width: "100%",
     },
     aroundNavContent: {
-      marginLeft: "25px",
+      margin: "0 25px",
     },
     navBrand: {
-      height: "25px",
-    },
-    rightMenu: {
-      float: "right",
-      margin: "0px 20px",
+      height: 25,
     },
     profileAvatar: {
-      marginRight: "8px",
+      marginRight: 8,
     },
     dropDownMenu: {
-      marginTop: "23px",
-      padding: "0px",
+      padding: 0,
+      marginTop: 6,
     },
     dropDownItem: {
       padding: "10px 20px",
     },
     MenuIcon: {
-      marginRight: "10px",
+      marginRight: 10,
     },
     signInBtn: {
-      marginRight: "20px",
+      marginRight: 20,
     },
     hamburgerMenu: {
       paddingBottom: 23,
@@ -63,6 +66,7 @@ const TopNavView = () => {
       display: "flex",
       alignItems: "center",
       height: "100%",
+      margin: "0 20px",
     },
   };
 
@@ -95,14 +99,14 @@ const TopNavView = () => {
           <FormattedMessage id="edit.profile" />
         </a>
       </Menu.Item>
-      {sessionStorage.getItem("admin") === "true" ? (
+      {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/admin/dashboard">
             <DashboardOutlined style={styles.MenuIcon} />
             <FormattedMessage id="admin" />
           </a>
         </Menu.Item>
-      ) : null}
+      )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/logout">
           <LogoutOutlined style={styles.MenuIcon} />
@@ -123,11 +127,11 @@ const TopNavView = () => {
           <Button
             type="link"
             className="ant-dropdown-link"
-            style={{ color: "#fff", padding: "10px 20px" }}
+            style={{ color: "#fff", height: 35, padding: 0, marginRight: 15 }}
           >
             <CustomAvatar style={styles.profileAvatar} />
             <div className="navProfileName">
-              {userName} <DownOutlined />
+              {userName} <DownOutlined style={{ marginLeft: 5 }} />
             </div>
           </Button>
         </Dropdown>
@@ -139,6 +143,41 @@ const TopNavView = () => {
       </Button>
     );
   };
+
+  const search = () => {
+    if (searchValue !== "") {
+      const needsToReload = window.location.pathname.includes(
+        "/secured/results"
+      );
+
+      history.push(`/secured/results?searchValue=${searchValue}`);
+
+      if (needsToReload) {
+        window.location.reload();
+      }
+    }
+  };
+
+  const getSearchInput = () =>
+    displaySearch &&
+    windowWidth > 800 && (
+      <Input.Search
+        className="searchInput"
+        style={{
+          width: "30%",
+          minWidth: windowWidth > 900 ? 400 : undefined,
+          flex: windowWidth > 900 ? undefined : 1,
+          margin: "0 20px",
+        }}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        enterButton
+        onSearch={search}
+        placeholder={intl.formatMessage({
+          id: "button.search",
+        })}
+      />
+    );
 
   const hamburgerMenu = () =>
     showMenu &&
@@ -168,22 +207,43 @@ const TopNavView = () => {
     );
   };
 
+  useEffect(() => {
+    const querySearchData = queryString.parse(history.location.search);
+
+    setSearchValue(querySearchData.searchValue);
+  }, [history.location.search]);
+
+  if (loading) {
+    return (
+      <Header style={styles.header}>
+        <div style={styles.aroundNavContent} />
+      </Header>
+    );
+  }
+
   if (windowWidth > 400) {
     return (
       <Header style={styles.header}>
-        <div style={styles.aroundNavContent}>
-          {/* Render logo */}
-          <a tabIndex="0" href="/secured/home">
-            <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
-          </a>
-          {/* Render right sigh of top menu */}
-          <div style={styles.rightMenu}>
-            {/* Render User Profile Dropdown */}
+        <Row
+          style={styles.aroundNavContent}
+          justify="space-between"
+          align="middle"
+        >
+          <Row align="middle">
+            {displayLogo && (
+              <a tabIndex="0" href="/secured/home">
+                <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+              </a>
+            )}
+          </Row>
+
+          {getSearchInput()}
+
+          <Col style={styles.rightMenu}>
             {getAvatarDropdown(name)}
-            {/* Render change language button */}
             <ChangeLanguage />
-          </div>
-        </div>
+          </Col>
+        </Row>
       </Header>
     );
   }
@@ -202,4 +262,16 @@ const TopNavView = () => {
   );
 };
 
-export default TopNavView;
+TopNavView.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  displaySearch: PropTypes.bool.isRequired,
+  displayLogo: PropTypes.bool.isRequired,
+  intl: IntlPropType,
+};
+
+TopNavView.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(TopNavView);

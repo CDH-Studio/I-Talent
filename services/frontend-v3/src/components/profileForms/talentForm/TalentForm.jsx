@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import TalentFormView from "./TalentFormView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
-
-const { backendAddress } = config;
 
 /**
  *  LangProficiencyForm(props)
@@ -31,7 +28,7 @@ const TalentForm = ({ formType }) => {
    */
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/profile/private/${id}?language=${locale}`
+      `api/profile/private/${id}?language=${locale}`
     );
     setProfileInfo(result.data);
   }, [id, locale]);
@@ -43,7 +40,7 @@ const TalentForm = ({ formType }) => {
    */
   const getCompetencyOptions = useCallback(async () => {
     const result = await axios.get(
-      `${backendAddress}api/option/competencies?language=${locale}`
+      `api/option/competencies?language=${locale}`
     );
 
     setCompetencyOptions(result.data);
@@ -55,13 +52,9 @@ const TalentForm = ({ formType }) => {
    * generate the dataTree of skills and skill categories for the TreeSelect
    */
   const getSkillOptions = useCallback(async () => {
-    const categoriesUrl = `${backendAddress}api/option/categories?language=${locale}`;
-
-    const skillsUrl = `${backendAddress}api/option/skills?language=${locale}`;
-
     const [categoriesResult, skillsResults] = await Promise.all([
-      axios.get(categoriesUrl),
-      axios.get(skillsUrl),
+      axios.get(`api/option/categories?language=${locale}`),
+      axios.get(`api/option/skills?language=${locale}`),
     ]);
 
     // Loop through all skill categories

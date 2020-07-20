@@ -21,24 +21,27 @@ import {
   CheckOutlined,
   QuestionCircleOutlined,
   LoadingOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { isMobilePhone } from "validator";
+import axios from "../../../axios-instance";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 
+import config from "../../../config";
+
 const { backendAddress } = config;
+
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -125,6 +128,9 @@ const PrimaryInfoFormView = ({
     rightSpacedButton: {
       marginRight: "1em",
     },
+    infoIcon: {
+      marginLeft: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -167,10 +173,7 @@ const PrimaryInfoFormView = ({
   /* Save data */
   const saveDataToDB = async (values) => {
     try {
-      await axios.put(
-        `${backendAddress}api/profile/${userId}?language=${locale}`,
-        values
-      );
+      await axios.put(`api/profile/${userId}?language=${locale}`, values);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -321,13 +324,13 @@ const PrimaryInfoFormView = ({
                   newGedsData.jobTitle = result.data.jobTitle;
                 }
               } else if (key === "organizations") {
-                //Check for same amount of organizations
+                // Check for same amount of organizations
                 let identical =
                   profileInfo.organizations &&
                   result.data.organizations.length ===
                     profileInfo.organizations.length;
                 if (identical) {
-                  //Check each organization chain is the same length
+                  // Check each organization chain is the same length
                   for (
                     let i = 0;
                     i < profileInfo.organizations.length;
@@ -337,7 +340,7 @@ const PrimaryInfoFormView = ({
                       result.data.organizations[i].length ===
                       profileInfo.organizations[i].length;
                     if (identical) {
-                      //Check each organization chain has the same title
+                      // Check each organization chain has the same title
                       for (
                         let j = 0;
                         j < profileInfo.organizations[i].length;
@@ -393,7 +396,6 @@ const PrimaryInfoFormView = ({
             </Button>
             <Popover
               trigger="click"
-              tabIndex="0"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -404,7 +406,7 @@ const PrimaryInfoFormView = ({
                 </div>
               }
             >
-              <QuestionCircleOutlined />
+              <InfoCircleOutlined />
             </Popover>
           </div>
         </Title>
@@ -416,7 +418,6 @@ const PrimaryInfoFormView = ({
         <div style={styles.gedsInfoLink}>
           <Popover
             trigger="click"
-            tabIndex="0"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
@@ -427,10 +428,14 @@ const PrimaryInfoFormView = ({
               </div>
             }
           >
-            <QuestionCircleOutlined />
+            <InfoCircleOutlined />
           </Popover>
         </div>
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -637,6 +642,25 @@ const PrimaryInfoFormView = ({
     );
   };
 
+  const urlPopover = (url) => (
+    <Popover
+      content={
+        <div style={{ textAlign: "center" }}>
+          <FormattedMessage
+            id="profile.username.help"
+            values={{
+              url,
+              b: (chunks) => <b>{chunks}</b>,
+              br: () => <br />,
+            }}
+          />
+        </div>
+      }
+    >
+      <InfoCircleOutlined style={styles.infoIcon} />
+    </Popover>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -780,7 +804,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="gcconnex"
-              label={<FormattedMessage id="profile.gcconnex.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.gcconnex.username" />
+                  {urlPopover("https://gcconnex.gc.ca/profile/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />
@@ -789,7 +818,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="linkedin"
-              label={<FormattedMessage id="profile.linkedin.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.linkedin.username" />
+                  {urlPopover("https://linkedin.com/in/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />
@@ -798,7 +832,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="github"
-              label={<FormattedMessage id="profile.github.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.github.username" />
+                  {urlPopover("https://github.com/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />

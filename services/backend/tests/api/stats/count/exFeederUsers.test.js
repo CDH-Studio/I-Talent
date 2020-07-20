@@ -19,7 +19,7 @@ describe(`Test ${path}`, () => {
       const res = await request(mockedKeycloakApp).get(path);
 
       expect(res.statusCode).toBe(200);
-      expect(res.body).toBe(0);
+      expect(res.body).toBe(1);
 
       done();
     });

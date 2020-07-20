@@ -6,7 +6,7 @@ import { ProfileInfoPropType } from "../../../customPropTypes";
 
 const OfficialLanguage = ({ data }) => {
   const getFirstLanguageInfo = (dataSource) => {
-    let description = <FormattedMessage id="profile.not.specified" />;
+    let description = "-";
 
     if (dataSource.firstLanguage === "ENGLISH") {
       description = <FormattedMessage id="language.english" />;
@@ -22,43 +22,31 @@ const OfficialLanguage = ({ data }) => {
   };
 
   const getSecondLanguageGradeInfo = (dataSource) => {
-    const reading = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "READING"
-    );
+    const reading = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
+      : undefined;
 
     const secondaryReadingProficiency = {
       title: <FormattedMessage id="profile.reading" />,
-      description: reading ? (
-        reading.level
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: reading ? reading.level : "-",
     };
 
-    const writing = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "WRITING"
-    );
+    const writing = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
+      : undefined;
 
     const secondaryWritingProficiency = {
       title: <FormattedMessage id="profile.writing" />,
-      description: writing ? (
-        writing.level
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: writing ? writing.level : "-",
     };
 
-    const oral = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "ORAL"
-    );
+    const oral = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
+      : undefined;
 
     const secondaryOralProficiency = {
       title: <FormattedMessage id="profile.oral" />,
-      description: oral ? (
-        oral.level
-      ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: oral ? oral.level : "-",
     };
 
     return [
@@ -69,46 +57,33 @@ const OfficialLanguage = ({ data }) => {
   };
 
   const getSecondLanguageDateInfo = (dataSource) => {
-    const reading = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "READING"
-    );
+    const reading = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
+      : undefined;
 
-    const writing = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "WRITING"
-    );
+    const writing = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
+      : undefined;
 
-    const oral = dataSource.secondLangProfs.find(
-      (i) => i.proficiency === "ORAL"
-    );
+    const oral = dataSource.secondLangProfs
+      ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
+      : undefined;
 
     const secondaryReadingDate = {
       title: <FormattedMessage id="profile.reading" />,
       description:
-        reading && reading.date ? (
-          moment(reading.date).format("ll")
-        ) : (
-          <FormattedMessage id="profile.not.specified" />
-        ),
+        reading && reading.date ? moment(reading.date).format("ll") : "-",
     };
 
     const secondaryWritingDate = {
       title: <FormattedMessage id="profile.writing" />,
       description:
-        writing && writing.date ? (
-          moment(writing.date).format("ll")
-        ) : (
-          <FormattedMessage id="profile.not.specified" />
-        ),
+        writing && writing.date ? moment(writing.date).format("ll") : "-",
     };
 
     const secondaryOralDate = {
       title: <FormattedMessage id="profile.oral" />,
-      description:
-        oral && oral.date ? (
-          moment(oral.date).format("ll")
-        ) : (
-          <FormattedMessage id="profile.not.specified" />
-        ),
+      description: oral && oral.date ? moment(oral.date).format("ll") : "-",
     };
 
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];

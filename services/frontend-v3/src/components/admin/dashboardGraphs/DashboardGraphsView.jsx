@@ -24,6 +24,7 @@ const DashboardGraphsView = ({
       alias: intl.formatMessage({
         id: "admin.dashboard.number.of.occurrences",
       }),
+      tickInterval: 1,
     },
   };
 
@@ -32,6 +33,7 @@ const DashboardGraphsView = ({
       alias: intl.formatMessage({
         id: "admin.dashboard.number.of.occurrences",
       }),
+      tickInterval: 1,
     },
   };
 
@@ -40,6 +42,7 @@ const DashboardGraphsView = ({
       alias: intl.formatMessage({
         id: "admin.dashboard.number.of.occurrences",
       }),
+      tickInterval: 1,
     },
   };
 
@@ -57,7 +60,6 @@ const DashboardGraphsView = ({
       <Row gutter={[8, 8]}>
         <Col span={8}>
           <Card
-            hoverable
             title={<FormattedMessage id="admin.dashboard.popular.skills" />}
             loading={topFiveSkills.length === 0}
           >
@@ -78,7 +80,6 @@ const DashboardGraphsView = ({
         </Col>
         <Col span={8}>
           <Card
-            hoverable
             title={
               <FormattedMessage id="admin.dashboard.popular.competencies" />
             }
@@ -93,7 +94,7 @@ const DashboardGraphsView = ({
               <Axis name="name" visible={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" dy={-20} textStyle={{ fontSize: "11" }} />
+              <Legend position="top" dy={-20} textStyle={{ fontSize: "12" }} />
               <Tooltip />
               <Geom type="interval" position="name*count" color="name" />
             </Chart>
@@ -101,7 +102,6 @@ const DashboardGraphsView = ({
         </Col>
         <Col span={8}>
           <Card
-            hoverable
             title={
               <FormattedMessage id="admin.dashboard.popular.development.goals" />
             }
@@ -126,7 +126,6 @@ const DashboardGraphsView = ({
       <Row gutter={[8, 8]}>
         <Col span={24}>
           <Card
-            hoverable
             title={
               <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
             }

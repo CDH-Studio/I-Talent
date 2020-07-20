@@ -8,14 +8,14 @@ import {
   RocketOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import axios from "axios";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import { IntlPropType, HistoryPropType } from "../../../customPropTypes";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
+import config from "../../../config";
 
-const { Title, Paragraph } = Typography;
 const { backendAddress } = config;
+const { Title, Paragraph } = Typography;
 
 const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
   // get current language code

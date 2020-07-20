@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import axios from "../../../axios-instance";
 
 import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
-import config from "../../../config";
 import { IntlPropType } from "../../../customPropTypes";
 import {
   setAdminCategoriesLoading,
@@ -13,8 +12,6 @@ import {
   setAdminSkills,
   setAdminSkillsLoading,
 } from "../../../redux/slices/adminSlice";
-
-const { backendAddress } = config;
 
 /**
  *  SkillTable(props)
@@ -26,8 +23,6 @@ const SkillTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const size = "large";
-
   const dispatch = useDispatch();
 
   // Fetches the skill information
@@ -35,9 +30,7 @@ const SkillTable = ({ intl }) => {
     try {
       dispatch(setAdminSkillsLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/option/skillsAllLang`
-      );
+      const results = await axios.get(`api/option/skillsAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((category) => ({
@@ -56,9 +49,7 @@ const SkillTable = ({ intl }) => {
     try {
       dispatch(setAdminCategoriesLoading(true));
 
-      const results = await axios.get(
-        `${backendAddress}api/option/categoriesAllLang`
-      );
+      const results = await axios.get(`api/option/categoriesAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((category) => ({
@@ -94,7 +85,7 @@ const SkillTable = ({ intl }) => {
 
   // Handles addition of a skill
   const handleSubmitAdd = async (values) => {
-    await axios.post(`${backendAddress}api/option/skill`, {
+    await axios.post(`api/option/skill`, {
       en: values.addSkillEn,
       fr: values.addSkillFr,
       categoryId: values.addSkillCategory,
@@ -105,7 +96,7 @@ const SkillTable = ({ intl }) => {
 
   // Handles the update/edit of a skill
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`${backendAddress}api/option/skill`, {
+    await axios.put(`api/option/skill`, {
       id,
       en: values.editSkillEn,
       fr: values.editSkillFr,
@@ -117,7 +108,7 @@ const SkillTable = ({ intl }) => {
 
   // Handles the deletion of a skill
   const handleSubmitDelete = async () => {
-    await axios.delete(`${backendAddress}api/option/skills`, {
+    await axios.delete(`api/option/skills`, {
       data: {
         ids: selectedRowKeys,
       },
@@ -168,7 +159,6 @@ const SkillTable = ({ intl }) => {
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      size={size}
       rowSelection={rowSelection}
     />
   );

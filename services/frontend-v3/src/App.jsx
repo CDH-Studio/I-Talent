@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { Provider as ReduxProvider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import * as Sentry from "@sentry/browser";
 
 import { IntlProvider } from "react-intl";
 import moment from "moment";
@@ -12,7 +11,13 @@ import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
 
 import "./App.css";
-import { NotFound, LandingPage, UnexpectedError } from "./pages";
+import {
+  NotFound,
+  LandingPage,
+  UnexpectedError,
+  Forbidden,
+  About,
+} from "./pages";
 import { Secured, Admin } from "./routes";
 import store, { persistor } from "./redux";
 import historySingleton from "./history";
@@ -45,10 +50,6 @@ const App = () => {
     setI18nConfig(i18nConfigBuilder(locale));
     moment.locale(`${locale === "ENGLISH" ? "en" : "fr"}-ca`);
 
-    Sentry.configureScope((scope) => {
-      scope.setTag("locale", `${locale}-ca`);
-    });
-
     // This statement should be temporary, and be removed in the future
     if (localStorage.getItem("userId")) {
       const attributes = ["userId", "color", "email", "name", "acronym"];
@@ -76,59 +77,18 @@ const App = () => {
     >
       <Router history={historySingleton}>
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <LandingPage
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
-          />
+          <Route exact path="/" render={() => <LandingPage />} />
           <Route
             path="/secured"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <Secured
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
+            render={({ location }) => <Secured location={location} />}
           />
-          <Route
-            path="/admin"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <Admin
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
-          />
-          <Route
-            path="/error"
-            render={(routeProps) => {
-              const { location, match, staticContext } = routeProps;
-              return (
-                <UnexpectedError
-                  location={location}
-                  match={match}
-                  staticContext={staticContext}
-                />
-              );
-            }}
-          />
+          <Route path="/about" render={() => <About type="about" />} />
+          <Route path="/help" render={() => <About type="help" />} />
+          <Route path="/terms" render={() => <About type="terms" />} />
+          <Route path="/privacy" render={() => <About type="privacy" />} />
+          <Route path="/admin" render={() => <Admin />} />
+          <Route path="/error" render={() => <UnexpectedError />} />
+          <Route path="/forbidden" render={() => <Forbidden />} />
           <Route render={() => <NotFound />} />
         </Switch>
       </Router>

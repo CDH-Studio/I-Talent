@@ -13,25 +13,27 @@ import {
   Checkbox,
   Button,
   message,
+  Popover,
 } from "antd";
 import PropTypes from "prop-types";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -40,19 +42,17 @@ const { Title, Text } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = (props) => {
-  const {
-    classificationOptions,
-    formType,
-    load,
-    profileInfo,
-    securityOptions,
-    substantiveOptions,
-    intl,
-    history,
-    userId,
-  } = props;
-
+const EmploymentDataFormView = ({
+  classificationOptions,
+  formType,
+  load,
+  profileInfo,
+  securityOptions,
+  substantiveOptions,
+  intl,
+  history,
+  userId,
+}) => {
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
@@ -120,6 +120,10 @@ const EmploymentDataFormView = (props) => {
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -154,17 +158,16 @@ const EmploymentDataFormView = (props) => {
 
     if (!unalteredValues.actingLevelId) {
       values.actingLevelId = null;
+      values.actingStartDate = null;
+      values.actingEndDate = null;
     }
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      values
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
-    setDisplayActingRoleForm(!displayActingRoleForm);
+    setDisplayActingRoleForm((prev) => !prev);
   };
 
   /* enable or disable end date field */
@@ -242,12 +245,20 @@ const EmploymentDataFormView = (props) => {
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -323,7 +334,7 @@ const EmploymentDataFormView = (props) => {
     );
 
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+    updateIfFormValuesChanged();
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -362,6 +373,9 @@ const EmploymentDataFormView = (props) => {
               <DatePicker
                 disabledDate={disabledDatesAfterEnd}
                 style={styles.datePicker}
+                placeholder={intl.formatMessage({
+                  id: "profile.select.date",
+                })}
               />
             </Form.Item>
           </Col>
@@ -371,14 +385,18 @@ const EmploymentDataFormView = (props) => {
               label={<FormattedMessage id="profile.acting.period.end.date" />}
               rules={enableEndDate ? [Rules.required] : undefined}
             >
-              <DatePicker
-                style={styles.datePicker}
-                disabledDate={disabledDatesBeforeStart}
-                disabled={!enableEndDate}
-                placeholder="unknown"
-              />
+              {enableEndDate && (
+                <DatePicker
+                  style={styles.datePicker}
+                  disabledDate={disabledDatesBeforeStart}
+                  disabled={!enableEndDate}
+                  placeholder={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                />
+              )}
             </Form.Item>
-            <div style={{ marginTop: "-10px" }}>
+            <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
                 tabIndex="0"
                 onChange={toggleTempEndDate}
@@ -407,7 +425,11 @@ const EmploymentDataFormView = (props) => {
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.employment" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -426,6 +448,16 @@ const EmploymentDataFormView = (props) => {
       form.resetFields();
     }
   }, [load, form, profileInfo]);
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const data = savedValues || getInitialValues(profileInfo);
+    const oppositeInitialToggle =
+      !!data.actingLevelId !== displayActingRoleForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayActingRoleForm]);
 
   /*
    * Get Form Control Buttons
@@ -532,7 +564,7 @@ const EmploymentDataFormView = (props) => {
         form={form}
         initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
+        onValuesChange={updateIfFormValuesChanged}
       >
         {/* Form Row One */}
         <Row gutter={24}>
@@ -622,10 +654,21 @@ const EmploymentDataFormView = (props) => {
         {/* Form Row Four: Temporary role */}
         <Row style={styles.tempRoleRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={<FormattedMessage id="profile.temporary.role" />}
-              tooltipText="Extra information"
-            />
+            <Text>
+              <FormattedMessage id="profile.willing.to.relocate.to" />
+              <Popover
+                content={
+                  <div>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                }
+              >
+                <InfoCircleOutlined style={styles.iconBySwitch} />
+              </Popover>
+            </Text>
             <Switch
               checked={displayActingRoleForm}
               onChange={toggleTempRoleForm}

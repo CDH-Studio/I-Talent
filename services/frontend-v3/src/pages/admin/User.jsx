@@ -4,7 +4,7 @@ import UserTable from "../../components/admin/userTable/UserTable";
 
 const AdminUser = () => {
   return (
-    <AdminLayout displaySideBar type="user">
+    <AdminLayout displaySideBar type="users">
       <UserTable />
     </AdminLayout>
   );

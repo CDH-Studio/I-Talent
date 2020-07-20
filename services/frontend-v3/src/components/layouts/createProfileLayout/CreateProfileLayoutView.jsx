@@ -1,9 +1,8 @@
 import React from "react";
-import { PageHeader, Steps } from "antd";
+import {  Steps } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import {
   Welcome,
@@ -15,6 +14,7 @@ import {
   QualificationsForm,
   DoneSetup,
 } from "../../profileForms";
+import Header from "../../header/Header";
 
 const { Step } = Steps;
 
@@ -24,9 +24,6 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
-
-  // get current language code
-  const { locale } = useSelector((state) => state.settings);
 
   /* Component Styles */
   const styles = {
@@ -149,13 +146,13 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             description={
               <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.competencies" />
-                </li>
-                <li>
                   - <FormattedMessage id="setup.skills" />
                 </li>
                 <li>
                   - <FormattedMessage id="profile.mentorship.skills" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.competencies" />
                 </li>
               </ul>
             }
@@ -212,17 +209,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const form = profileFormSelect(formStep);
 
   return (
-    <AppLayout sideBarContent={sideBarContent} displaySideBar>
-      <h1 className="hidden">
-        <FormattedMessage id="create.profile" />
-      </h1>
-      <PageHeader
-        style={{
-          padding: "0 0 15px 7px",
-          textTransform: locale === "ENGLIS" ? "capitalize" : "",
-        }}
-        title={<FormattedMessage id="create.profile" />}
-      />
+    <AppLayout
+      sideBarContent={sideBarContent}
+      displaySideBar
+      displaySearch={false}
+    >
+      <Header title={<FormattedMessage id="create.profile" />} />
       {form}
     </AppLayout>
   );

@@ -11,24 +11,26 @@ import {
   Button,
   TreeSelect,
   message,
+  Popover,
 } from "antd";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;
@@ -119,6 +121,13 @@ const TalentFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    infoIcon: {
+      paddingLeft: "5px",
+    },
+    infoIconSwitch: {
+      addingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -135,7 +144,7 @@ const TalentFormView = ({
    * toggle state that controls mentorship form visibility
    */
   const toggleMentorshipForm = () => {
-    setDisplayMentorshipForm(!displayMentorshipForm);
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /*
@@ -150,10 +159,7 @@ const TalentFormView = ({
       values.mentorshipSkills = [];
     }
 
-    await axios.put(
-      `${backendAddress}api/profile/${userId}?language=${locale}`,
-      values
-    );
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* show message */
@@ -203,12 +209,28 @@ const TalentFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    // Cleans up the object for following comparison
+    if (
+      formValues.mentorshipSkills === undefined &&
+      dbValues.mentorshipSkills.length === 0
+    ) {
+      delete dbValues.mentorshipSkills;
+    }
+
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -292,7 +314,7 @@ const TalentFormView = ({
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+    updateIfFormValuesChanged();
   };
 
   /*
@@ -405,12 +427,21 @@ const TalentFormView = ({
               <Form.Item
                 name="mentorshipSkills"
                 label={
-                  <FormLabelTooltip
-                    labelText={
-                      <FormattedMessage id="profile.mentorship.skills" />
-                    }
-                    tooltipText="Extra information"
-                  />
+                  <Text>
+                    <FormattedMessage id="profile.mentorship.skills" />
+                    <Popover
+                      content={
+                        <div>
+                          <FormattedMessage id="tooltip.extra.info.help" />
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        </div>
+                      }
+                    >
+                      <InfoCircleOutlined style={styles.infoIcon} />
+                    </Popover>
+                  </Text>
                 }
                 rules={[Rules.required]}
                 extra={
@@ -455,7 +486,11 @@ const TalentFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.talent" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -480,6 +515,15 @@ const TalentFormView = ({
       form.resetFields();
     }
   }, [load, form, savedMentorshipSkills, skillOptions, savedSkills]);
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const oppositeInitialToggle =
+      savedMentorshipSkills.length > 0 !== displayMentorshipForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayMentorshipForm]);
 
   /*
    * Get Form Control Buttons
@@ -586,44 +630,29 @@ const TalentFormView = ({
         form={form}
         initialValues={savedValues || getInitialValues(profileInfo)}
         layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
+        onValuesChange={updateIfFormValuesChanged}
       >
-        {/* Form Row One:competencies */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="competencies"
-              label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.competencies" />}
-                  tooltipText="Extra information"
-                />
-              }
-            >
-              <Select
-                className="custom-bubble-select-style"
-                mode="multiple"
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                style={{ width: "100%" }}
-              >
-                {competencyOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
         {/* Form Row Two: skills */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
               name="skills"
               label={
-                <FormLabelTooltip
-                  labelText={<FormattedMessage id="setup.skills" />}
-                  tooltipText="Extra information"
-                />
+                <Text>
+                  <FormattedMessage id="setup.skills" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.infoIcon} />
+                  </Popover>
+                </Text>
               }
             >
               <TreeSelect
@@ -640,18 +669,67 @@ const TalentFormView = ({
             </Form.Item>
           </Col>
         </Row>
-        {/* Form Row Three: mentorship role */}
+        {/* Form Row Two: mentorship role */}
         <Row style={styles.secondLangRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={<FormattedMessage id="profile.mentorship.available" />}
-              tooltipText="Extra information"
-            />
+            <Text>
+              <FormattedMessage id="profile.mentorship.available" />
+              <Popover
+                content={
+                  <div>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                }
+              >
+                <InfoCircleOutlined style={styles.infoIconSwitch} />
+              </Popover>
+            </Text>
+
             <Switch
               checked={displayMentorshipForm}
               onChange={toggleMentorshipForm}
             />
             {getMentorshipForm(displayMentorshipForm)}
+          </Col>
+        </Row>
+        {/* Form Row Three: competencies */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              name="competencies"
+              label={
+                <Text>
+                  <FormattedMessage id="setup.competencies" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.infoIcon} />
+                  </Popover>
+                </Text>
+              }
+            >
+              <Select
+                className="custom-bubble-select-style"
+                mode="multiple"
+                optionFilterProp="children"
+                placeholder={<FormattedMessage id="setup.select" />}
+                style={{ width: "100%" }}
+              >
+                {competencyOptions.map((value) => {
+                  return <Option key={value.id}>{value.name}</Option>;
+                })}
+              </Select>
+            </Form.Item>
           </Col>
         </Row>
         {/* Form Row Four: Submit button */}

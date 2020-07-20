@@ -4,7 +4,7 @@ import SchoolTable from "../../components/admin/schoolTable/SchoolTable";
 
 const AdminSchool = () => {
   return (
-    <AdminLayout displaySideBar type="school">
+    <AdminLayout displaySideBar type="schools">
       <SchoolTable />
     </AdminLayout>
   );

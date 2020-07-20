@@ -42,7 +42,7 @@ enum ProficiencyLevel {
 enum CardVisibilityStatus {
   PRIVATE
   PUBLIC
-  FRIENDS
+  CONNECTIONS
 }
 
 model OpTransSecurityClearance {
@@ -316,19 +316,18 @@ model VisibleCard {
   id                 String               @default(uuid()) @id
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  info               CardVisibilityStatus @default(PUBLIC)
-  manager            CardVisibilityStatus @default(PUBLIC)
-  talentManagement   CardVisibilityStatus @default(PUBLIC)
-  officialLanguage   CardVisibilityStatus @default(PUBLIC)
-  skills             CardVisibilityStatus @default(PUBLIC)
-  competencies       CardVisibilityStatus @default(PUBLIC)
-  developmentalGoals CardVisibilityStatus @default(PUBLIC)
-  education          CardVisibilityStatus @default(PUBLIC)
-  experience         CardVisibilityStatus @default(PUBLIC)
-  projects           CardVisibilityStatus @default(PUBLIC)
-  careerInterests    CardVisibilityStatus @default(PUBLIC)
-  mentorshipSkills   CardVisibilityStatus @default(PUBLIC)
-  exFeeder           CardVisibilityStatus @default(PUBLIC)
+  info               CardVisibilityStatus @default(PRIVATE)
+  talentManagement   CardVisibilityStatus @default(PRIVATE)
+  officialLanguage   CardVisibilityStatus @default(PRIVATE)
+  skills             CardVisibilityStatus @default(PRIVATE)
+  competencies       CardVisibilityStatus @default(PRIVATE)
+  developmentalGoals CardVisibilityStatus @default(PRIVATE)
+  education          CardVisibilityStatus @default(PRIVATE)
+  experience         CardVisibilityStatus @default(PRIVATE)
+  projects           CardVisibilityStatus @default(PRIVATE)
+  careerInterests    CardVisibilityStatus @default(PRIVATE)
+  mentorshipSkills   CardVisibilityStatus @default(PRIVATE)
+  exFeeder           CardVisibilityStatus @default(PRIVATE)
   users              User[]
 }
 
@@ -434,7 +433,7 @@ model TransExperience {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   language     Language
-  description  String
+  description  String?
   jobTitle     String
   organization String
   experience   Experience? @relation(fields: [experienceId])
@@ -519,7 +518,7 @@ model User {
   educations           Education[]
   experiences          Experience[]
   relocationLocations  RelocationLocation[]
-  friends              User[]
+  connections          User[]
   user                 User?                 @relation("UserToUser", fields: [userId])
   userId               String?
 }
