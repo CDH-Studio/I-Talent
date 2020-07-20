@@ -37,7 +37,9 @@ const ExperienceItem = ({ expand, item, toggleExpand }) => {
       return (
         <>
           {expand && (
-            <Row style={{ display: "block" }}>{generateDescriptionBody()}</Row>
+            <Row style={{ display: "block", overflowWrap: "anywhere" }}>
+              <div>{generateDescriptionBody()}</div>
+            </Row>
           )}
           <Row>
             <Button
@@ -67,7 +69,7 @@ const ExperienceItem = ({ expand, item, toggleExpand }) => {
   };
 
   return (
-    <List.Item extra={item.duration}>
+    <List.Item className="experience-item-list" extra={item.duration}>
       <List.Item.Meta
         avatar={
           <Avatar

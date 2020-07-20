@@ -45,7 +45,7 @@ services:
   redis:
     container_name: "upskill-redis-session"
     image: "redis:6-alpine"
-    command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+    command: "redis-server --appendonly yes --requirepass aabbccddee"
     hostname: redis
     restart: always
     networks:
