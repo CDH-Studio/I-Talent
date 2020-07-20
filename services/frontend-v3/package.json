@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.2.1",
     "@reduxjs/toolkit": "^1.4.0",
     "antd": "^4.4.3",
     "axios": "^0.19.2",
