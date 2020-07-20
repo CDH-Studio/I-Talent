@@ -157,20 +157,14 @@ async function updateProfile(request, response) {
       }
 
       if (organizations) {
-        //////////ORGS
         const relatedOrgs = await prisma.organization.findMany({
           where: { userId },
           select: { id: true },
         });
-
-        ////////// TIERS
         const orgTiers = await prisma.organizationTier.findMany({
           where: { organizationId: { in: relatedOrgs.map((org) => org.id) } },
           select: { id: true },
         });
-
-        /////// TRANS
-
         await prisma.transOrganization.deleteMany({
           where: {
             organizationTierId: {
@@ -435,50 +429,6 @@ async function updateProfile(request, response) {
           ),
           groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
           actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
-          //employmentInfo: idHelper(employmentInfoId, userIds.employmentInfoId),
-
-          /*employmentInfo:
-            jobTitle || branch
-              ? {
-                  upsert: {
-                    where: {
-                      id: employmentInfoId,
-                    },
-                    create: {
-                      translations: {
-                        create: [
-                          {
-                            language: "ENGLISH",
-                            jobTitle: jobTitle && jobTitle["en"],
-                            branch: branch && branch["en"],
-                          },
-                          {
-                            language: "FRENCH",
-                            jobTitle: jobTitle && jobTitle["fr"],
-                            branch: branch && branch["fr"],
-                          },
-                        ],
-                      },
-                    },
-                    update: {
-                      translations: {
-                        create: [
-                          {
-                            language: "ENGLISH",
-                            jobTitle: jobTitle && jobTitle["en"],
-                            branch: branch && branch["en"],
-                          },
-                          {
-                            language: "FRENCH",
-                            jobTitle: jobTitle && jobTitle["fr"],
-                            branch: branch && branch["fr"],
-                          },
-                        ],
-                      },
-                    },
-                  },
-                }
-              : undefined,*/
 
           employmentInfo:
             jobTitle || branch
@@ -486,18 +436,11 @@ async function updateProfile(request, response) {
                   upsert: {
                     create: {
                       translations: {
-                        create: [
-                          {
-                            language: "ENGLISH",
-                            jobTitle: jobTitle ? jobTitle["ENGLISH"] : "",
-                            branch: branch ? branch["ENGLISH"] : "",
-                          },
-                          {
-                            language: "FRENCH",
-                            jobTitle: jobTitle ? jobTitle["FRENCH"] : "",
-                            branch: branch ? branch["FRENCH"] : "",
-                          },
-                        ],
+                        create: ["ENGLISH", "FRENCH"].map((lang) => ({
+                          language: lang,
+                          jobTitle: jobTitle ? jobTitle[lang] : "",
+                          branch: branch ? branch[lang] : "",
+                        })),
                       },
                     },
                     update: {

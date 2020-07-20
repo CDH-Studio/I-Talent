@@ -6,7 +6,6 @@ async function getGedsAssist(request, response) {
   const { name } = request.query;
   const nameArray = name.split(" ");
 
-  //nameArray[1]  nameArray[0]
   const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
   const promises = [
