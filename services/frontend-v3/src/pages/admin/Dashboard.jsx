@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from "react";
-import { PageHeader } from "antd";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "../../axios-instance";
@@ -20,6 +19,7 @@ import {
   setTopFiveSkills,
   setTopFiveDevelopmentalGoals,
 } from "../../redux/slices/statsSlice";
+import Header from "../../components/header/Header";
 
 /**
  *  AdminDashboard(props)
@@ -191,7 +191,7 @@ const AdminDashboard = ({ intl }) => {
 
   return (
     <AdminLayout displaySideBar type="dashboard">
-      <PageHeader title={<FormattedMessage id="admin.dashboard.title" />} />
+      <Header title={<FormattedMessage id="admin.dashboard.title" />}/>
       <StatCards />
       <DashboardGraphs />
     </AdminLayout>

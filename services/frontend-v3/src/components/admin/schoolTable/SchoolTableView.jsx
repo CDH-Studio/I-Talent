@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  PageHeader,
   Row,
   Col,
   Input,
@@ -25,6 +24,7 @@ import _ from "lodash";
 
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import Header from "../../header/Header";
 
 /**
  *  SchoolTableView(props)
@@ -40,7 +40,6 @@ const SchoolTableView = ({
   selectedRowKeys,
   searchedColumn,
   searchText,
-  size,
   rowSelection,
 }) => {
   const [addForm] = Form.useForm();
@@ -196,11 +195,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           popUpCancel();
         }}
       >
-        <Button
-          type="primary"
-          size={size}
-          disabled={selectedRowKeys.length === 0}
-        >
+        <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.delete" />
         </Button>
@@ -546,12 +541,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     <>
       {addSchoolModal()}
       {editSchoolModal()}
-      <PageHeader
+      <Header
         title={<FormattedMessage id="admin.school.table" />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" size={size} onClick={handleAddModal}>
+            <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined style={{ marginRight: 10 }} />
               <FormattedMessage id="admin.add" />
             </Button>
@@ -583,7 +578,6 @@ SchoolTableView.propTypes = {
   selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
   rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
 };
 
