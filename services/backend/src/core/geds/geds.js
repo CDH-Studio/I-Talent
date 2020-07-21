@@ -52,7 +52,6 @@ async function getGedsAssist(request, response) {
       const branchOrg = organizations[Math.min(2, organizations.length - 1)];
 
       const enAddr = branchOrg.addressInformation.address.en;
-      const frAddr = branchOrg.addressInformation.address.fr;
 
       try {
         const location = await prisma.opOfficeLocation.findMany({

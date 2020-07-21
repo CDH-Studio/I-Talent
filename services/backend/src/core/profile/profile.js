@@ -77,7 +77,6 @@ async function updateProfile(request, response) {
         talentMatrixResultId,
         groupLevelId,
         actingLevelId,
-        employmentInfoId,
         organizations,
 
         visibleCards,
@@ -370,26 +369,18 @@ async function updateProfile(request, response) {
             : undefined,
           experiences: experiences
             ? {
-                create: experiences.map(
-                  ({
-                    startDate,
-                    endDate,
-                    jobTitle,
-                    organization,
-                    description,
-                  }) => ({
-                    startDate,
-                    endDate,
-                    translations: {
-                      create: {
-                        language,
-                        jobTitle,
-                        organization,
-                        description,
-                      },
+                create: experiences.map((expItem) => ({
+                  startDate: expItem.startDate,
+                  endDate: expItem.endDate,
+                  translations: {
+                    create: {
+                      language,
+                      jobTitle: expItem.jobTitle,
+                      organization: expItem.organization,
+                      description: expItem.description,
                     },
-                  })
-                ),
+                  },
+                })),
               }
             : undefined,
           secondLangProfs: secondLangProfs
@@ -470,11 +461,11 @@ async function updateProfile(request, response) {
                         create: [
                           {
                             language: "ENGLISH",
-                            description: orgTier.title["ENGLISH"],
+                            description: orgTier.title.ENGLISH,
                           },
                           {
                             language: "FRENCH",
-                            description: orgTier.title["FRENCH"],
+                            description: orgTier.title.FRENCH,
                           },
                         ],
                       },
