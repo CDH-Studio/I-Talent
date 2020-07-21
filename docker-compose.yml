@@ -33,6 +33,8 @@ services:
   db-postgres:
     container_name: "upskill-database"
     image: "postgres:12-alpine"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     restart: always
     hostname: db-postgres
     environment:
@@ -55,11 +57,27 @@ services:
     volumes:
       - redis-data:/data
 
+  keycloak:
+    container_name: "upskill-keycloak"
+    image: "jboss/keycloak"
+    volumes:
+      - ./keycloak:/opt/jboss/keycloak/keycloak
+    command:
+      - "-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8180:8080"
+
 networks:
   redis-net:
   postgres-net:
 
 volumes:
+  postgres_data:
+    driver: local
   redis-data:
+    driver: local
   backend-node-modules:
   frontend-node-modules:

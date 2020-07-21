@@ -1,0 +1,77 @@
+{
+  "id": "individual",
+  "realm": "individual",
+  "enabled": true,
+  "accessTokenLifespan": 60,
+  "accessCodeLifespan": 60,
+  "accessCodeLifespanUserAction": 300,
+  "ssoSessionIdleTimeout": 600,
+  "ssoSessionMaxLifespan": 36000,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "requiredCredentials": ["password"],
+  "roles": {
+    "realm": [
+      {
+        "name": "manage-users"
+      },
+      {
+        "name": "view-admin-console"
+      },
+      {
+        "name": "manage-options"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "administrator",
+      "enabled": true,
+      "email": "admin@canada.ca",
+      "firstName": "Admin",
+      "lastName": "Account",
+      "credentials": [{ "type": "password", "value": "password" }],
+      "clientRoles": {
+        "upskill-api": ["manage-users", "view-admin-console", "manage-options"],
+        "upskill-client": [
+          "manage-users",
+          "view-admin-console",
+          "manage-options"
+        ]
+      }
+    },
+    {
+      "username": "standard",
+      "enabled": true,
+      "email": "test@canada.ca",
+      "firstName": "Standard",
+      "lastName": "Account",
+      "credentials": [{ "type": "password", "value": "password" }]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "upskill-api",
+      "enabled": true,
+      "publicClient": false,
+      "bearerOnly": true
+    },
+    {
+      "clientId": "upskill-client",
+      "enabled": true,
+      "redirectUris": ["*"],
+      "webOrigins": ["*"],
+      "publicClient": true
+    }
+  ],
+  "scopeMappings": [
+    {
+      "client": "upskill-api",
+      "roles": ["manage-users", "view-admin-console", "manage-options"]
+    },
+    {
+      "client": "upskill-client",
+      "roles": ["manage-users", "view-admin-console", "manage-options"]
+    }
+  ]
+}
