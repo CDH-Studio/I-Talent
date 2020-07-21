@@ -25,7 +25,7 @@
   },
   "users": [
     {
-      "username": "administrator",
+      "username": "admin",
       "enabled": true,
       "email": "admin@canada.ca",
       "firstName": "Admin",
