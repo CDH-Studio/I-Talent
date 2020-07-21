@@ -294,9 +294,9 @@ const SearchBarView = ({
             {/* classification field */}
             <Form.Item
               label={
-                <FormattedMessage id="advanced.search.form.classification" />
+                <FormattedMessage id="advanced.search.form.mentor.skills" />
               }
-              name="classifications"
+              name="mentorSkills"
             >
               <Select
                 style={{ width: "100%" }}
@@ -305,10 +305,10 @@ const SearchBarView = ({
                   0
                 }
                 mode="multiple"
-                maxTagCount={10}
                 placeholder={searchLabel}
+                maxTagCount={10}
               >
-                {classOptions.map((value) => {
+                {skillOptions.map((value) => {
                   return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
