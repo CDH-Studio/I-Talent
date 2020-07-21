@@ -359,7 +359,7 @@
   "profile.not.found": "Invalid profile URL",
 
   "profile.geds.changes": "Confirm changes",
-  "profile.geds.sync.button": "Sync GCDirectory Data",
+  "profile.geds.sync.button": "Sync GCdirectory Data",
   "profile.geds.up.to.date": "Information up to date",
   "profile.geds.failed.to.retrieve": "Failed to retrieve information",
 
