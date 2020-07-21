@@ -18,11 +18,11 @@
   "author": "I-Talent team",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "2.2.0",
+    "@prisma/client": "2.2.2",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "concurrently": "^5.2.0",
-    "connect-redis": "^4.0.4",
+    "connect-redis": "^5.0.0",
     "connect-timeout": "^1.9.0",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
@@ -30,7 +30,7 @@
     "express-validator": "^6.6.0",
     "fuse.js": "^6.4.0",
     "keycloak-connect": "^10.0.2",
-    "lodash": "^4.17.17",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "redis": "^3.0.2",
     "swagger-jsdoc": "^4.0.0",
@@ -38,8 +38,8 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
-    "@prisma/cli": "2.2.0",
-    "eslint": "^7.4.0",
+    "@prisma/cli": "2.2.2",
+    "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.11.0",
