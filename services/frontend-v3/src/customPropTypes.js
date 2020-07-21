@@ -40,7 +40,6 @@ const FormInstancePropType = PropTypes.shape({
 });
 
 const IntlPropType = PropTypes.shape({
-  defaultFormats: PropTypes.object,
   defaultLocale: PropTypes.string,
   formatDate: PropTypes.func,
   formatDateToParts: PropTypes.func,
@@ -54,13 +53,9 @@ const IntlPropType = PropTypes.shape({
   formatRelativeTime: PropTypes.func,
   formatTime: PropTypes.func,
   formatTimeToParts: PropTypes.func,
-  formats: PropTypes.object,
-  formatters: PropTypes.object,
   locale: PropTypes.string,
-  messages: PropTypes.object,
   onError: PropTypes.func,
   textComponent: PropTypes.symbol,
-  timeZone: PropTypes.any,
 });
 
 const ProfileInfoPropType = PropTypes.shape({
@@ -77,7 +72,12 @@ const ProfileInfoPropType = PropTypes.shape({
   manager: PropTypes.string,
   telephone: PropTypes.string,
   cellphone: PropTypes.string,
-  location: PropTypes.any,
+  officeLocation: PropTypes.shape({
+    streetNumber: PropTypes.number,
+    streetName: PropTypes.string,
+    city: PropTypes.string,
+    province: PropTypes.string,
+  }),
   teams: PropTypes.arrayOf(PropTypes.string),
 });
 
@@ -100,7 +100,6 @@ const HistoryPropType = PropTypes.shape({
     pathname: PropTypes.string,
     search: PropTypes.string,
     hash: PropTypes.string,
-    state: PropTypes.object,
   }),
   push: PropTypes.func,
   replace: PropTypes.func,
