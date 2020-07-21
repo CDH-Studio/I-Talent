@@ -9,6 +9,7 @@ import {
   Col,
   Button,
   Popconfirm,
+  Popover,
 } from "antd";
 import {
   TagsTwoTone,
@@ -16,6 +17,7 @@ import {
   TrophyOutlined,
   WarningOutlined,
   TeamOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -51,6 +53,7 @@ const ProfileLayoutView = ({ data, loading }) => {
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
+  const { name } = data.firstName;
 
   // Visibility values
   const visibleCards = data ? data.visibleCards : null;
@@ -85,6 +88,7 @@ const ProfileLayoutView = ({ data, loading }) => {
     sideBarText: {
       whiteSpace: "normal",
     },
+    addFriendTip: { minWidth: "40px" },
   };
 
   /*
@@ -289,7 +293,7 @@ const ProfileLayoutView = ({ data, loading }) => {
     }
 
     // Display profile cards when current user looking at other users profiles
-    // This only display cards that are visible
+    // This only displays cards that are visible
     return (
       <div>
         {!visibleCards.info && (
@@ -766,10 +770,27 @@ const ProfileLayoutView = ({ data, loading }) => {
         </Popconfirm>
       );
     }
+    console.log("{}.firstname " + { data }.firstName);
     return (
-      <Button type="primary" style={{ float: "right" }} onClick={addFriend}>
-        <FormattedMessage id="profile.addFriend" />
-      </Button>
+      <>
+        <Popover
+          content={
+            <div>
+              <FormattedMessage id="profile.friends.tooltip.1" />
+              <Text>{name}</Text>
+              <FormattedMessage id="profile.friends.tooltip.2" />
+              <a href="/about/help">
+                <FormattedMessage id="footer.contact.link" />
+              </a>
+            </div>
+          }
+        >
+          <QuestionCircleOutlined style={styles.addFriendTip} />
+        </Popover>
+        <Button type="primary" style={{ float: "right" }} onClick={addFriend}>
+          <FormattedMessage id="profile.addFriend" />
+        </Button>
+      </>
     );
   };
 

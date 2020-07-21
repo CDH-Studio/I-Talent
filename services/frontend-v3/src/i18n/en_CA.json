@@ -241,6 +241,8 @@
   "profile.diploma": "Diploma",
   "profile.projects": "Projects",
   "profile.friends": "Friends",
+  "profile.friends.tooltip.1": "By clicking 'Add Friend', you will be adding ",
+  "profile.friends.tooltip.2": "to your Private Group. To learn more, visit: ",
   "profile.school": "School",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Job title",
