@@ -86,7 +86,9 @@ Profile.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   match: PropTypes.shape({
-    params: PropTypes.any,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
   }).isRequired,
 };
 

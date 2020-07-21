@@ -522,9 +522,9 @@ QualificationsFormView.propTypes = {
   savedEducation: PropTypes.arrayOf(
     PropTypes.shape({
       diploma: PropTypes.string,
-      endDate: PropTypes.PropTypes.object,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
       school: PropTypes.string,
-      startDate: PropTypes.object,
     })
   ),
   savedExperience: PropTypes.arrayOf(
@@ -532,7 +532,7 @@ QualificationsFormView.propTypes = {
       content: PropTypes.string,
       endDate: PropTypes.oneOfType([PropTypes.object]),
       header: PropTypes.string,
-      startDate: PropTypes.object,
+      startDate: PropTypes.oneOfType([PropTypes.object]),
       subheader: PropTypes.string,
     })
   ),
