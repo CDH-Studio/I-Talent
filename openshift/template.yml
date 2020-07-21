@@ -1,0 +1,501 @@
+kind: "Template"
+apiVersion: v1
+metadata:
+  name: "ITalent UAT template"
+parameters:
+  - name: PROJECT_NAME
+    displayName: Project Name
+    description: "The namespace of the project"
+    required: true
+objects:
+  - apiVersion: v1
+    data:
+      password:
+      uri:
+    kind: Secret
+    metadata:
+      name: geds
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/geds
+    type: Opaque
+  - apiVersion: v1
+    data:
+      password:
+      uri:
+    kind: Secret
+    metadata:
+      name: keycloak
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/keycloak
+    type: Opaque
+  - apiVersion: v1
+    data:
+      database-name:
+      database-password:
+      database-user:
+    kind: Secret
+    metadata:
+      name: postgresql
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/postgresql
+    type: Opaque
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    metadata:
+      generation: 1
+      name: backend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/image.openshift.io/v1/namespaces/${PROJECT_NAME}/imagestreams/backend
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    metadata:
+      generation: 1
+      name: frontend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/image.openshift.io/v1/namespaces/${PROJECT_NAME}/imagestreams/frontend
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      annotations:
+        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
+      finalizers:
+        - kubernetes.io/pvc-protection
+      name: postgresql
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/persistentvolumeclaims/postgresql
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: gp2-resize-encrypted
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      labels:
+        app: backend
+      name: backend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/build.openshift.io/v1/namespaces/${PROJECT_NAME}/buildconfigs/backend
+    spec:
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: backend:latest
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: /services/backend
+        git:
+          ref: master
+          uri: https://github.com/CDH-Studio/UpSkill.git
+        type: Git
+      strategy:
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: nodejs:10
+            namespace: openshift
+        type: Source
+      triggers:
+        - generic:
+            secret: 7a2dd9b3f08948d1
+          type: Generic
+        - github:
+            secret: 9a227c66836bd098
+          type: GitHub
+        - imageChange:
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/build.openshift.io/v1/namespaces/${PROJECT_NAME}/buildconfigs/frontend
+    spec:
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: frontend:latest
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: /services/frontend-v3
+        git:
+          ref: master
+          uri: https://github.com/CDH-Studio/UpSkill.git
+        type: Git
+      strategy:
+        sourceStrategy:
+          env:
+            - name: NPM_RUN
+              value: deploy
+            - name: REACT_APP_API_ADDRESS
+              value: https://backend-${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca/
+            - name: REACT_APP_KEYCLOAK_AUTH_SERVER_URL
+              value: https://sso.ised-isde.canada.ca/auth
+          from:
+            kind: ImageStreamTag
+            name: nodejs:10
+            namespace: openshift
+        type: Source
+      triggers:
+        - generic:
+            secret: 3d080b0f35ccc23e
+          type: Generic
+        - github:
+            secret: fdd0e6caad43f650
+          type: GitHub
+        - imageChange:
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      generation: 1
+      labels:
+        app: backend
+      name: backend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/backend
+    spec:
+      replicas: 1
+      selector:
+        deploymentconfig: backend
+      strategy:
+        activeDeadlineSeconds: 21600
+        resources: {}
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          labels:
+            app: backend
+            deploymentconfig: backend
+        spec:
+          containers:
+            - env:
+                - name: PLATFORM
+                  value: OPENSHIFT
+                - name: DATABASE_URL
+                  value: postgres://postgresql:5432
+                - name: PGDATABASE
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-name
+                      name: postgresql
+                - name: PGUSERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-user
+                      name: postgresql
+                - name: PGPASS
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: postgresql
+                - name: PORT
+                  value: "8080"
+                - name: GEDSAPIURL
+                  valueFrom:
+                    secretKeyRef:
+                      key: uri
+                      name: geds
+                - name: GEDSAPIKEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: geds
+                - name: KEYCLOAK_AUTH_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: uri
+                      name: keycloak
+                - name: KEYCLOAK_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: keycloak
+              imagePullPolicy: Always
+              name: backend
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - backend
+            from:
+              kind: ImageStreamTag
+              name: backend:latest
+              namespace: ${PROJECT_NAME}
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      generation: 1
+      labels:
+        app: frontend
+      name: frontend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/frontend
+    spec:
+      replicas: 1
+      selector:
+        deploymentconfig: frontend
+      strategy:
+        activeDeadlineSeconds: 21600
+        resources: {}
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          labels:
+            app: frontend
+            deploymentconfig: frontend
+        spec:
+          containers:
+            - imagePullPolicy: Always
+              name: frontend
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - frontend
+            from:
+              kind: ImageStreamTag
+              name: frontend:latest
+              namespace: ${PROJECT_NAME}
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+        template.alpha.openshift.io/wait-for-ready: "true"
+      generation: 1
+      name: postgresql
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/postgresql
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        name: postgresql
+      strategy:
+        activeDeadlineSeconds: 21600
+        recreateParams:
+          timeoutSeconds: 600
+        resources: {}
+        type: Recreate
+      template:
+        metadata:
+          labels:
+            name: postgresql
+        spec:
+          containers:
+            - env:
+                - name: POSTGRESQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-user
+                      name: postgresql
+                - name: POSTGRESQL_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: postgresql
+                - name: POSTGRESQL_DATABASE
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-name
+                      name: postgresql
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                exec:
+                  command:
+                    - /usr/libexec/check-container
+                    - --live
+                failureThreshold: 3
+                initialDelaySeconds: 120
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 10
+              name: postgresql
+              ports:
+                - containerPort: 5432
+                  protocol: TCP
+              readinessProbe:
+                exec:
+                  command:
+                    - /usr/libexec/check-container
+                failureThreshold: 3
+                initialDelaySeconds: 5
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  memory: 512Mi
+              securityContext:
+                capabilities: {}
+                privileged: false
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /var/lib/pgsql/data
+                  name: postgresql-data
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - name: postgresql-data
+              persistentVolumeClaim:
+                claimName: postgresql
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - postgresql
+            from:
+              kind: ImageStreamTag
+              name: postgresql:9.6
+              namespace: openshift
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: backend
+      name: backend
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/backend
+    spec:
+      ports:
+        - name: 8080-tcp
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        deploymentconfig: backend
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/frontend
+    spec:
+      ports:
+        - name: 8080-tcp
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        deploymentconfig: frontend
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: postgresql
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/postgresql
+    spec:
+      ports:
+        - name: postgresql
+          port: 5432
+          protocol: TCP
+          targetPort: 5432
+      selector:
+        name: postgresql
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      labels:
+        app: backend
+      name: backend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/route.openshift.io/v1/namespaces/${PROJECT_NAME}/routes/backend
+    spec:
+      host: backend-${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      port:
+        targetPort: 8080-tcp
+      to:
+        kind: Service
+        name: backend
+        weight: 100
+      wildcardPolicy: None
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/route.openshift.io/v1/namespaces/${PROJECT_NAME}/routes/frontend
+    spec:
+      host: frontend-${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      port:
+        targetPort: 8080-tcp
+      to:
+        kind: Service
+        name: frontend
+        weight: 100
+      wildcardPolicy: None
