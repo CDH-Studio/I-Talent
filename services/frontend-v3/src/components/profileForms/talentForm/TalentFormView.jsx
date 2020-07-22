@@ -518,8 +518,8 @@ const TalentFormView = ({
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
-    const oppositeInitialToggle =
-      savedMentorshipSkills.length > 0 !== displayMentorshipForm;
+    const hasMentorshipSkills = savedMentorshipSkills.length > 0;
+    const oppositeInitialToggle = hasMentorshipSkills !== displayMentorshipForm;
 
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
