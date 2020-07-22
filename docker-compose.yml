@@ -26,8 +26,6 @@ services:
     depends_on:
       - redis
       - db-postgres
-      - keycloak
-    network_mode: "host"
 
   db-postgres:
     container_name: "upskill-database"
@@ -53,20 +51,6 @@ services:
     restart: always
     volumes:
       - redis-data:/data
-
-  keycloak:
-    container_name: "upskill-keycloak"
-    image: "jboss/keycloak"
-    ports:
-      - "8180:8180"
-    volumes:
-      - ./keycloak:/opt/jboss/keycloak/keycloak
-    hostname: keycloak
-    command:
-      - "-Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json -Djboss.http.port=8180"
-    environment:
-      KEYCLOAK_USER: administrator
-      KEYCLOAK_PASSWORD: password
 
 volumes:
   postgres_data:
