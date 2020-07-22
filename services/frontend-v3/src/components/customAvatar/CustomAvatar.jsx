@@ -12,7 +12,9 @@ const CustomAvatar = ({ style }) => {
 };
 
 CustomAvatar.propTypes = {
-  style: PropTypes.objectOf(PropTypes.string).isRequired,
+  style: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
 };
 
 export default CustomAvatar;

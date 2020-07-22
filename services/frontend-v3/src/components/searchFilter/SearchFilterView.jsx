@@ -188,14 +188,7 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
-  branchOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
-    })
-  ).isRequired,
+  branchOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
