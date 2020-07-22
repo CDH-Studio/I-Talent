@@ -6,8 +6,6 @@ const OrgTree = ({ data }) => {
   return <OrgTreeView data={data} />;
 };
 
-export default OrgTree;
-
 OrgTree.propTypes = {
   data: PropTypes.shape({
     organizations: PropTypes.arrayOf(
@@ -19,3 +17,5 @@ OrgTree.propTypes = {
     ),
   }).isRequired,
 };
+
+export default OrgTree;

@@ -96,10 +96,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
       if (value) {
         // create profile
         await axios
-          .post(
-            `${backendAddress}api/profile/${userId}?language=ENGLISH`,
-            value
-          )
+          .put(`${backendAddress}api/profile/${userId}?language=ENGLISH`, value)
           .then(() => history.push("/secured/profile/create/step/2"))
           .catch((error) => handleError(error, "message"));
       }

@@ -301,75 +301,17 @@ const PrimaryInfoFormView = ({
   const onSyncGedsInfo = async () => {
     setGatheringGedsData(true);
     await axios
-      .get(`${backendAddress}api/profGen/${id}`, {
+      .get(`${backendAddress}api/profGen/sync/${id}`, {
         params: {
           name,
         },
       })
       .then((result) => {
-        if (result) {
-          const newGedsData = {};
-          Object.keys(result.data).forEach((key) => {
-            if (result.data[key]) {
-              if (key === "locationId") {
-                if (
-                  result.data.locationId !==
-                  (profileInfo.officeLocation && profileInfo.officeLocation.id)
-                ) {
-                  newGedsData.locationId = result.data.locationId;
-                }
-              } else if (key === "jobTitle" || key === "branch") {
-                if (result.data[key][locale] !== profileInfo[key]) {
-                  newGedsData[key] = result.data[key];
-                }
-              } else if (key === "organizations") {
-                // Check for same amount of organizations
-                let identical =
-                  profileInfo.organizations &&
-                  result.data.organizations.length ===
-                    profileInfo.organizations.length;
-                if (identical) {
-                  // Check each organization chain is the same length
-                  for (
-                    let i = 0;
-                    i < profileInfo.organizations.length;
-                    i += 1
-                  ) {
-                    identical =
-                      result.data.organizations[i].length ===
-                      profileInfo.organizations[i].length;
-                    if (identical) {
-                      // Check each organization chain has the same title
-                      for (
-                        let j = 0;
-                        j < profileInfo.organizations[i].length;
-                        j += 1
-                      ) {
-                        identical =
-                          profileInfo.organizations[i][j].title ===
-                          result.data.organizations[i][j].title[locale];
-                        if (!identical) {
-                          break;
-                        }
-                      }
-                    } else {
-                      break;
-                    }
-                  }
-                }
-                if (!identical) {
-                  newGedsData.organizations = result.data.organizations;
-                }
-              } else if (result.data[key] !== profileInfo[key]) {
-                newGedsData[key] = result.data[key];
-              }
-            }
-          });
-          if (Object.keys(newGedsData).length) {
-            setNewGedsValues(newGedsData);
-          } else {
-            message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
-          }
+        if (Object.keys(result.data).length) {
+          setNewGedsValues(result.data);
+          console.log("GEDS DATA SETTTTTTTTTTTTT", result.data);
+        } else {
+          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
         }
       })
       .catch(() =>

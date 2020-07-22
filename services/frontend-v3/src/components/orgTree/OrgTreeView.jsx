@@ -37,8 +37,6 @@ const OrgTreeView = ({ data }) => {
   return <Tree defaultExpandAll defaultExpandParent treeData={treeData} />;
 };
 
-export default OrgTreeView;
-
 OrgTreeView.propTypes = {
   data: PropTypes.shape({
     organizations: PropTypes.arrayOf(
@@ -50,3 +48,5 @@ OrgTreeView.propTypes = {
     ),
   }).isRequired,
 };
+
+export default OrgTreeView;
