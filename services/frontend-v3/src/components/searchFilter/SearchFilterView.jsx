@@ -206,9 +206,9 @@ SearchBarView.propTypes = {
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   urlSearchFieldValues: PropTypes.shape({
-    classification: PropTypes.array,
-    location: PropTypes.array,
-    skills: PropTypes.array,
+    classification: PropTypes.arrayOf(PropTypes.string),
+    location: PropTypes.arrayOf(PropTypes.string),
+    skills: PropTypes.arrayOf(PropTypes.string),
     exFeeder: PropTypes.bool,
     name: PropTypes.string,
   }),
