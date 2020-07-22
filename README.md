@@ -91,6 +91,7 @@ You can access different components of the web application:
 - API documentation at `localhost:8080/api-docs`.
 - Postgres database at `localhost:5432`.
 - Prisma studio at `localhost:5555`.
+- Keycloak at `localhost:8180`.
 
 Checkout the `docker-compose.yml` file for information on which ports to use to access all of the other services.
 

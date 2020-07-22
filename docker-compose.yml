@@ -23,43 +23,53 @@ services:
     env_file:
       - ./env/backend.env
       - .env
-    networks:
-      - redis-net
-      - postgres-net
     depends_on:
       - redis
       - db-postgres
+      - keycloak
+    network_mode: "host"
 
   db-postgres:
     container_name: "upskill-database"
     image: "postgres:12-alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     restart: always
     hostname: db-postgres
     environment:
       POSTGRES_PASSWORD: api
       POSTGRES_USER: api
       POSTGRES_DB: testdb
-    networks:
-      - postgres-net
-    ports:
-      - "5432:5432"
 
   redis:
     container_name: "upskill-redis-session"
     image: "redis:6-alpine"
+    ports:
+      - "6379:6379"
     command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
     hostname: redis
     restart: always
-    networks:
-      - redis-net
     volumes:
       - redis-data:/data
 
-networks:
-  redis-net:
-  postgres-net:
+  keycloak:
+    container_name: "upskill-keycloak"
+    image: "jboss/keycloak"
+    ports:
+      - "8180:8180"
+    volumes:
+      - ./keycloak:/opt/jboss/keycloak/keycloak
+    hostname: keycloak
+    command:
+      - "-Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json -Djboss.http.port=8180"
+    environment:
+      KEYCLOAK_USER: administrator
+      KEYCLOAK_PASSWORD: password
 
 volumes:
+  postgres_data:
   redis-data:
   backend-node-modules:
   frontend-node-modules:
