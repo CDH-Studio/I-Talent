@@ -288,17 +288,18 @@ async function getGedsSync(request, response) {
         ) {
           updateOrgs = true;
         } else {
-          for (let i = 0; i < organizations.length; i++) {
-            user.organizations[0].organizationTier[i].translations.forEach(
-              (translation) => {
-                if (
-                  organizations[i].description[translation.language] !=
-                  translation.title
-                ) {
-                  updateOrgs = true;
-                }
+          for (let i = 0; i < organizations.length; i += 1) {
+            for (let j = 0; j < 2; j += 1) {
+              const translation =
+                user.organizations[0].organizationTier[i].translations[j];
+              if (
+                organizations[i].description[translation.language] !==
+                translation.title
+              ) {
+                updateOrgs = true;
+                break;
               }
-            );
+            }
             if (updateOrgs) {
               break;
             }
