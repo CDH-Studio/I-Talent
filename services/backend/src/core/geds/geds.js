@@ -16,6 +16,7 @@ async function getGedsSetup(request, response) {
         "user-key": process.env.GEDSAPIKEY,
         Accept: "application/json",
       },
+      timeout: 5000,
     }),
     prisma.user.findOne({ where: { id }, select: { email: true } }),
   ];

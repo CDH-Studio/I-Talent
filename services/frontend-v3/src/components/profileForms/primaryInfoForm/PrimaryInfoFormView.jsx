@@ -37,10 +37,6 @@ import {
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 
-import config from "../../../config";
-
-const { backendAddress } = config;
-
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -301,7 +297,7 @@ const PrimaryInfoFormView = ({
   const onSyncGedsInfo = async () => {
     setGatheringGedsData(true);
     await axios
-      .get(`${backendAddress}api/profGen/sync/${id}`, {
+      .get(`api/profGen/sync/${id}`, {
         params: {
           name,
         },
@@ -309,7 +305,6 @@ const PrimaryInfoFormView = ({
       .then((result) => {
         if (Object.keys(result.data).length) {
           setNewGedsValues(result.data);
-          console.log("GEDS DATA SETTTTTTTTTTTTT", result.data);
         } else {
           message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
         }
@@ -472,12 +467,8 @@ const PrimaryInfoFormView = ({
 
   const handleGedsConfirm = async () => {
     await axios
-      .put(
-        `${backendAddress}api/profile/${userId}?language=ENGLISH`,
-        newGedsValues
-      )
+      .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
       .then(() => {
-        console.log("SAVED NEW GEDS VALUES", newGedsValues);
         const possibleKeys = [
           "firstName",
           "lastName",

@@ -21,6 +21,7 @@ import {
   Typography,
   Button,
   Tooltip,
+  Menu,
 } from "antd";
 
 import { useParams } from "react-router";
@@ -185,9 +186,9 @@ const BasicInfoView = ({
       description: data.branch ? (
         <Dropdown
           overlay={
-            <div className="org-dropdown">
+            <Menu>
               <OrgTree data={data} />
-            </div>
+            </Menu>
           }
           trigger={["click"]}
         >

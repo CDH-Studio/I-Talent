@@ -21,11 +21,14 @@ const OrgTreeView = ({ data }) => {
     const branchSize = orgData.length;
     for (let i = 0; i < branchSize; i += 1) {
       const val = orgData[branchSize - i - 1];
-      retVal = {
+      const object = {
         title: titleString(val.title),
         key: val.id,
-        children: [retVal],
       };
+      if (retVal.length !== 0) {
+        object.children = [retVal];
+      }
+      retVal = object;
     }
     return retVal;
   };
