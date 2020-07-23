@@ -240,7 +240,7 @@ async function getGedsSync(request, response) {
         }
 
         if (dataGEDS.cellphone && dataGEDS.cellphone !== user.cellphone) {
-          profile.cellphone = dataGeds.cellphone;
+          profile.cellphone = dataGEDS.cellphone;
         }
 
         if (!user.officeLocation || location[0].id !== user.officeLocation.id) {
