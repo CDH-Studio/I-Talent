@@ -39,7 +39,7 @@ const ProfileCardsView = ({
     if (type) {
       return (
         <div style={{ marginTop: "15px" }}>
-          <Row Row type="flex" gutter={[16, 16]}>
+          <Row type="flex" gutter={[16, 16]}>
             <Col>
               <Radio.Group value={status} buttonStyle="solid" size="middle">
                 <Popconfirm
@@ -110,29 +110,24 @@ const ProfileCardsView = ({
     return <></>;
   };
 
-  let styles;
-  if (visible) {
-    styles = {
-      grayedOut: {
-        backgroundColor: "",
-      },
-    };
-  } else {
-    styles = {
-      grayedOut: {
-        backgroundColor: "#D3D3D3",
-      },
-    };
-  }
+  const grayedOut = {
+    backgroundColor: visible ? "": "#D3D3D3",
+  };
 
   return (
     <div>
       <Card
         className={content === null ? "no-content-card" : null}
-        title={<FormattedMessage id={titleId} />}
+        title={
+          typeof titleId === "string" ? (
+            <FormattedMessage id={titleId} />
+          ) : (
+            titleId
+          )
+        }
         id={id}
         extra={generateSwitchButton()}
-        style={(style, styles.grayedOut)}
+        style={(style, grayedOut)}
       >
         {content}
       </Card>
@@ -142,7 +137,7 @@ const ProfileCardsView = ({
 
 ProfileCardsView.propTypes = {
   editUrl: PropTypes.string,
-  titleId: PropTypes.string.isRequired,
+  titleId: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),

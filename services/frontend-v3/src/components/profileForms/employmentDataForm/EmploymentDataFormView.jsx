@@ -453,7 +453,7 @@ const EmploymentDataFormView = ({
   useEffect(() => {
     const data = savedValues || getInitialValues(profileInfo);
     const oppositeInitialToggle =
-      !!data.actingLevelId !== displayActingRoleForm;
+      !!data.actingLevelId !== !!displayActingRoleForm;
 
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
