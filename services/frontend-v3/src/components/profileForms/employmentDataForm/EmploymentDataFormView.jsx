@@ -564,6 +564,7 @@ const EmploymentDataFormView = ({
           <CardVisibilityToggle
             visibleCards={profileInfo.visibleCards}
             cardName="info"
+            type="form"
           />
         </div>
       </Row>

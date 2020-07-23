@@ -9,10 +9,12 @@ import { Tooltip, Radio, Popconfirm } from "antd";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-const CardVisibilityToggleView = ({ status, handleVisibilityToggle }) => (
+const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => (
   <Radio.Group value={status} buttonStyle="solid" size="middle">
     <Popconfirm
-      title={<FormattedMessage id="profile.visibility.show.confirm" />}
+      title={
+        <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
+      }
       placement="topRight"
       okText={<FormattedMessage id="profile.yes" />}
       cancelText={<FormattedMessage id="profile.no" />}
@@ -21,7 +23,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle }) => (
     >
       <Tooltip
         placement="bottom"
-        title={<FormattedMessage id="profile.visibleCards.public" />}
+        title={<FormattedMessage id={`profile.visibility.${type}.public`} />}
       >
         <Radio.Button value="PUBLIC">
           <EyeOutlined />
@@ -30,7 +32,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle }) => (
     </Popconfirm>
     <Tooltip
       placement="top"
-      title={<FormattedMessage id="profile.visibleCards.connections" />}
+      title={<FormattedMessage id={`profile.visibility.${type}.connections`} />}
     >
       <Radio.Button
         value="CONNECTIONS"
@@ -41,7 +43,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle }) => (
     </Tooltip>
     <Tooltip
       placement="top"
-      title={<FormattedMessage id="profile.visibleCards.private" />}
+      title={<FormattedMessage id={`profile.visibility.${type}.private`} />}
     >
       <Radio.Button
         value="PRIVATE"
@@ -56,6 +58,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle }) => (
 CardVisibilityToggleView.propTypes = {
   status: PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]).isRequired,
   handleVisibilityToggle: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(["info", "card"]).isRequired,
 };
 
 export default CardVisibilityToggleView;

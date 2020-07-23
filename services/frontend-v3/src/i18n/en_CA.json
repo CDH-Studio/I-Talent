@@ -381,7 +381,6 @@
 
   "profile.career.interests": "Job mobility",
 
-  "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
@@ -398,9 +397,15 @@
   "profile.privateGroup": "Private group",
   "profile.connections": "Connections",
 
-  "profile.visibleCards.public": "Public",
-  "profile.visibleCards.connections": "Connections",
-  "profile.visibleCards.private": "Private",
+  "profile.visibility.card.public": "Card visible to everyone",
+  "profile.visibility.card.connections": "Card visible to connections only",
+  "profile.visibility.card.private": "Card only visible to you",
+  "profile.visibility.card.show.confirm": "Are you sure you want to make this card visible to everyone?",
+
+  "profile.visibility.form.public": "Information visible to everyone",
+  "profile.visibility.form.connections": "Information visible to connections only",
+  "profile.visibility.form.private": "Information only visible to you",
+  "profile.visibility.form.show.confirm": "Are you sure you want to make this information visible to everyone?",
 
   "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
 

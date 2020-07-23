@@ -604,6 +604,7 @@ const LangProficiencyFormView = ({
           <CardVisibilityToggle
             visibleCards={profileInfo.visibleCards}
             cardName="officialLanguage"
+            type="form"
           />
         </div>
       </Row>

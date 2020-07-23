@@ -447,6 +447,7 @@ const PersonalGrowthFormView = ({
           <CardVisibilityToggle
             visibleCards={profileInfo.visibleCards}
             cardName="developmentalGoals"
+            type="form"
           />
         </Row>
         <Row gutter={24}>
@@ -495,6 +496,7 @@ const PersonalGrowthFormView = ({
           <CardVisibilityToggle
             visibleCards={profileInfo.visibleCards}
             cardName="careerInterests"
+            type="form"
           />
         </Row>
         {/* Form Row One: Remote Work */}
@@ -602,6 +604,7 @@ const PersonalGrowthFormView = ({
           <CardVisibilityToggle
             visibleCards={profileInfo.visibleCards}
             cardName="talentManagement"
+            type="form"
           />
         </Row>
 
@@ -659,6 +662,7 @@ const PersonalGrowthFormView = ({
           <CardVisibilityToggle
             visibleCards={profileInfo.visibleCards}
             cardName="exFeeder"
+            type="form"
           />
         </Row>
 

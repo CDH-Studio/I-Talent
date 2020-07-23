@@ -636,6 +636,7 @@ const TalentFormView = ({
       <CardVisibilityToggle
         visibleCards={profileInfo.visibleCards}
         cardName={cardName}
+        type="form"
       />
     </Row>
   );
@@ -713,6 +714,7 @@ const TalentFormView = ({
               <CardVisibilityToggle
                 visibleCards={profileInfo.visibleCards}
                 cardName="mentorshipSkills"
+                type="form"
               />
             </Row>
             {getMentorshipForm(displayMentorshipForm)}

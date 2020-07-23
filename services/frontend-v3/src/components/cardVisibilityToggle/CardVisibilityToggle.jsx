@@ -6,7 +6,7 @@ import CardVisibilityToggleView from "./CardVisibilityToggleView";
 import axios from "../../axios-instance";
 import handleError from "../../functions/handleError";
 
-const CardVisibilityToggle = ({ visibleCards, cardName }) => {
+const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   const [status, setStatus] = useState("");
 
   const urlID = useParams().id;
@@ -41,6 +41,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName }) => {
     <CardVisibilityToggleView
       status={status}
       handleVisibilityToggle={handleVisibilityToggle}
+      type={type}
     />
   );
 };
@@ -50,6 +51,11 @@ CardVisibilityToggle.propTypes = {
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
   cardName: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["info", "card"]),
+};
+
+CardVisibilityToggle.defaultProps = {
+  type: "card",
 };
 
 export default CardVisibilityToggle;

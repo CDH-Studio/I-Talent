@@ -394,6 +394,7 @@ const QualificationsFormView = ({
       <CardVisibilityToggle
         visibleCards={profileInfo.visibleCards}
         cardName={cardName}
+        type="form"
       />
     </Row>
   );

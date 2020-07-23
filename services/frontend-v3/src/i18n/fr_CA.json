@@ -348,8 +348,6 @@
   "profile.qualifications.select.month": "Sélectionner un mois",
   "profile.select.date": "Sélectionner une date",
 
-  "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
-
   "lang": "English",
   "lang.code": "en",
   "lang.db.code": "ENGLISH",
@@ -406,9 +404,15 @@
   "profile.privateGroup": "Groupe privé",
   "profile.connections": "Connexions",
 
-  "profile.visibleCards.public": "Publique",
-  "profile.visibleCards.connections": "Connexions",
-  "profile.visibleCards.private": "Privée",
+  "profile.visibility.card.public": "Carte visible pour tout le monde",
+  "profile.visibility.card.connections": "Carte visible seulement pour vos connections",
+  "profile.visibility.card.private": "Carte visible seulement pour vous",
+  "profile.visibility.card.show.confirm": "Êtes-vous certain de rendre cette carte visible sur votre profil public?",
+
+  "profile.visibility.form.public": "Information visible pour tout le monde",
+  "profile.visibility.form.connections": "Information visible seulement pour vos connections",
+  "profile.visibility.form.private": "Information visible seulement pour vous",
+  "profile.visibility.form.show.confirm": "Êtes-vous certain de rendre cette information visible sur votre profil public?",
 
   "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
 
