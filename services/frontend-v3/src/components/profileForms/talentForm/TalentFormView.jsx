@@ -82,6 +82,7 @@ const TalentFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -609,6 +610,36 @@ const TalentFormView = ({
     return undefined;
   };
 
+  const getSectionHeader = (titleId, cardName) => (
+    <Row
+      justify="space-between"
+      style={{
+        marginBottom: 10,
+      }}
+      align="middle"
+    >
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+        <Popover
+          content={
+            <div>
+              <FormattedMessage id="tooltip.extra.info.help" />
+              <a href="/about/help">
+                <FormattedMessage id="footer.contact.link" />
+              </a>
+            </div>
+          }
+        >
+          <InfoCircleOutlined style={styles.infoIcon} />
+        </Popover>
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+      />
+    </Row>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -637,32 +668,8 @@ const TalentFormView = ({
         {/* Form Row Two: skills */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Row justify="end">
-              <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="skills"
-              />
-            </Row>
-            <Form.Item
-              name="skills"
-              label={
-                <Text>
-                  <FormattedMessage id="setup.skills" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <a href="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined style={styles.infoIcon} />
-                  </Popover>
-                </Text>
-              }
-            >
+            {getSectionHeader("setup.skills", "skills")}
+            <Form.Item name="skills">
               <TreeSelect
                 className="custom-bubble-select-style"
                 treeData={skillOptions}
@@ -714,32 +721,8 @@ const TalentFormView = ({
         {/* Form Row Three: competencies */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Row justify="end">
-              <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="competencies"
-              />
-            </Row>
-            <Form.Item
-              name="competencies"
-              label={
-                <Text>
-                  <FormattedMessage id="setup.competencies" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <a href="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined style={styles.infoIcon} />
-                  </Popover>
-                </Text>
-              }
-            >
+            {getSectionHeader("setup.competencies", "competencies")}
+            <Form.Item name="competencies">
               <Select
                 className="custom-bubble-select-style"
                 mode="multiple"

@@ -378,11 +378,11 @@ const QualificationsFormView = ({
     );
   };
 
-  const getSectionHeader = (titleId, cardName, addMargins = true) => (
+  const getSectionHeader = (titleId, cardName) => (
     <Row
       justify="space-between"
       style={{
-        marginBottom: addMargins && 10,
+        marginBottom: 10,
       }}
       align="middle"
     >
@@ -504,15 +504,11 @@ const QualificationsFormView = ({
         </Row>
         {/* *************** Projects ************** */}
         <Divider style={styles.headerDiv} />
-        {getSectionHeader("setup.projects", "projects", false)}
+        {getSectionHeader("setup.projects", "projects")}
         {/* Form Row Three: career mobility */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="projects"
-              label={<FormattedMessage id="setup.projects" />}
-              className="custom-bubble-select-style"
-            >
+            <Form.Item name="projects" className="custom-bubble-select-style">
               <Select
                 mode="tags"
                 style={{ width: "100%" }}
