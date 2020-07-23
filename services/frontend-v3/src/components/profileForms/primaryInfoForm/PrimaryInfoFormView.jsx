@@ -10,12 +10,16 @@ import {
   Input,
   Button,
   message,
+  List,
   Popover,
+  Modal,
+  Spin,
 } from "antd";
 import {
   LinkOutlined,
   RightOutlined,
   CheckOutlined,
+  LoadingOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -31,6 +35,7 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import OrgTree from "../../orgTree/OrgTree";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -48,8 +53,11 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [newGedsValues, setNewGedsValues] = useState(null);
+  const [gatheringGedsData, setGatheringGedsData] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const { id, name } = useSelector((state) => state.user);
 
   /* Component Styles */
   const styles = {
@@ -111,6 +119,12 @@ const PrimaryInfoFormView = ({
     },
     popoverStyle: {
       maxWidth: "430px",
+    },
+    rightSpacedButton: {
+      marginRight: "1em",
+    },
+    infoIcon: {
+      marginLeft: "5px",
     },
   };
 
@@ -280,6 +294,29 @@ const PrimaryInfoFormView = ({
       });
   };
 
+  const onSyncGedsInfo = async () => {
+    setGatheringGedsData(true);
+    await axios
+      .get(`api/profGen/sync/${id}`, {
+        params: {
+          name,
+        },
+      })
+      .then((result) => {
+        if (Object.keys(result.data).length) {
+          setNewGedsValues(result.data);
+        } else {
+          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
+        }
+      })
+      .catch(() =>
+        message.warning(
+          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
+        )
+      );
+    setGatheringGedsData(false);
+  };
+
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
@@ -294,6 +331,9 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
+            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </Button>
             <Popover
               trigger="click"
               content={
@@ -316,6 +356,9 @@ const PrimaryInfoFormView = ({
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
+          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+            <FormattedMessage id="profile.geds.sync.button" />
+          </Button>
           <Popover
             trigger="click"
             content={
@@ -422,6 +465,155 @@ const PrimaryInfoFormView = ({
     return undefined;
   };
 
+  const handleGedsConfirm = async () => {
+    await axios
+      .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
+      .then(() => {
+        const possibleKeys = [
+          "firstName",
+          "lastName",
+          "cellphone",
+          "telephone",
+          "locationId",
+        ];
+
+        const newFieldVals = [];
+        possibleKeys.forEach((key) => {
+          if (key in newGedsValues) {
+            newFieldVals.push({ name: key, value: newGedsValues[key] });
+          }
+        });
+        form.setFields(newFieldVals);
+      })
+      .catch((error) => handleError(error, "message"));
+    setNewGedsValues(null);
+  };
+
+  const generateGedsModal = () => {
+    const changes = [];
+
+    if (newGedsValues) {
+      if (newGedsValues.firstName) {
+        changes.push({
+          title: <FormattedMessage id="profile.first.name" />,
+          description: profileInfo.firstName,
+        });
+      }
+
+      if (newGedsValues.lastName) {
+        changes.push({
+          title: <FormattedMessage id="profile.last.name" />,
+          description: profileInfo.lastName,
+        });
+      }
+
+      if (newGedsValues.locationId) {
+        const locationOption = _.find(
+          locationOptions,
+          (option) => option.id === newGedsValues.locationId
+        );
+        changes.push({
+          title: <FormattedMessage id="profile.location" />,
+          description: `${locationOption.streetNumber} ${locationOption.streetName}
+                  ${locationOption.city}, ${locationOption.province}`,
+        });
+      }
+
+      if (newGedsValues.email) {
+        changes.push({
+          title: <FormattedMessage id="profile.telephone" />,
+          description: profileInfo.email,
+        });
+      }
+
+      if (newGedsValues.phoneNumber) {
+        changes.push({
+          title: <FormattedMessage id="profile.cellphone" />,
+          description: profileInfo.phoneNumber,
+        });
+      }
+
+      if (newGedsValues.telephone) {
+        changes.push({
+          title: <FormattedMessage id="profile.telephone" />,
+          description: profileInfo.telephone,
+        });
+      }
+
+      if (newGedsValues.jobTitle) {
+        changes.push({
+          title: <FormattedMessage id="profile.career.header.name" />,
+          description: newGedsValues.jobTitle[locale],
+        });
+      }
+
+      if (newGedsValues.branch) {
+        changes.push({
+          title: <FormattedMessage id="profile.branch" />,
+          description: newGedsValues.branch[locale],
+        });
+      }
+
+      if (newGedsValues.organizations) {
+        changes.push({
+          title: <FormattedMessage id="profile.branch" />,
+          description: <OrgTree data={newGedsValues} />,
+        });
+      }
+    }
+
+    return (
+      <Modal
+        title={<FormattedMessage id="profile.geds.changes" />}
+        visible={gatheringGedsData || newGedsValues}
+        onOk={handleGedsConfirm && handleGedsConfirm}
+        onCancel={() => {
+          setNewGedsValues(null);
+          setGatheringGedsData(null);
+        }}
+        okButtonProps={!newGedsValues ? { disabled: true } : null}
+      >
+        {newGedsValues ? (
+          <List>
+            {changes.map((item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.title}
+                  description={item.description}
+                />
+              </List.Item>
+            ))}
+          </List>
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
+      </Modal>
+    );
+  };
+
+  const urlPopover = (url) => (
+    <Popover
+      content={
+        <div style={{ textAlign: "center" }}>
+          <FormattedMessage
+            id="profile.username.help"
+            values={{
+              url,
+              b: (chunks) => <b>{chunks}</b>,
+              br: () => <br />,
+            }}
+          />
+        </div>
+      }
+    >
+      <InfoCircleOutlined style={styles.infoIcon} />
+    </Popover>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -436,6 +628,7 @@ const PrimaryInfoFormView = ({
   /* Once data had loaded display form */
   return (
     <div style={styles.content}>
+      {generateGedsModal()}
       {/* get form title */}
       {getFormHeader(formType)}
       <Divider style={styles.headerDiv} />
@@ -564,7 +757,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="gcconnex"
-              label={<FormattedMessage id="profile.gcconnex.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.gcconnex.username" />
+                  {urlPopover("https://gcconnex.gc.ca/profile/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />
@@ -573,7 +771,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="linkedin"
-              label={<FormattedMessage id="profile.linkedin.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.linkedin.username" />
+                  {urlPopover("https://linkedin.com/in/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />
@@ -582,7 +785,12 @@ const PrimaryInfoFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
             <Form.Item
               name="github"
-              label={<FormattedMessage id="profile.github.url" />}
+              label={
+                <>
+                  <FormattedMessage id="profile.github.username" />
+                  {urlPopover("https://github.com/")}
+                </>
+              }
               rules={[Rules.maxChar100]}
             >
               <Input />

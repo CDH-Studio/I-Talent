@@ -126,6 +126,4 @@ const SearchFilter = () => {
   );
 };
 
-SearchFilter.propTypes = {};
-
 export default injectIntl(SearchFilter);

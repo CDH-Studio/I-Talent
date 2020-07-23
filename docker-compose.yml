@@ -23,9 +23,6 @@ services:
     env_file:
       - ./env/backend.env
       - .env
-    networks:
-      - redis-net
-      - postgres-net
     depends_on:
       - redis
       - db-postgres
@@ -33,31 +30,30 @@ services:
   db-postgres:
     container_name: "upskill-database"
     image: "postgres:12-alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     restart: always
     hostname: db-postgres
     environment:
       POSTGRES_PASSWORD: api
       POSTGRES_USER: api
       POSTGRES_DB: testdb
-    networks:
-      - postgres-net
 
   redis:
     container_name: "upskill-redis-session"
     image: "redis:6-alpine"
+    ports:
+      - "6379:6379"
     command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
     hostname: redis
     restart: always
-    networks:
-      - redis-net
     volumes:
       - redis-data:/data
 
-networks:
-  redis-net:
-  postgres-net:
-
 volumes:
+  postgres_data:
   redis-data:
   backend-node-modules:
   frontend-node-modules:

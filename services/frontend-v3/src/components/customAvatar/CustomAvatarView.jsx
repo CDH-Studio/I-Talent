@@ -25,7 +25,9 @@ function CustomAvatarView({ color, style, initials }) {
 
 CustomAvatarView.propTypes = {
   color: PropTypes.string.isRequired,
-  style: PropTypes.objectOf(PropTypes.string).isRequired,
+  style: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
   initials: PropTypes.string.isRequired,
 };
 

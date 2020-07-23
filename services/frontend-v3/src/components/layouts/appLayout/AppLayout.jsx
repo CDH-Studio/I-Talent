@@ -24,19 +24,21 @@ const AppLayout = ({
 };
 
 AppLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   sideBarContent: PropTypes.node,
-  displaySideBar: PropTypes.bool.isRequired,
+  displaySideBar: PropTypes.bool,
   loading: PropTypes.bool,
   displaySearch: PropTypes.bool,
   displayLogo: PropTypes.bool,
 };
 
 AppLayout.defaultProps = {
-  sideBarContent: undefined,
+  children: false,
+  sideBarContent: '',
+  displaySideBar: false,
   loading: false,
-  displayLogo: undefined,
-  displaySearch: undefined,
+  displayLogo: true,
+  displaySearch: true,
 };
 
 export default AppLayout;

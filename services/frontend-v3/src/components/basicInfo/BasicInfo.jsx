@@ -1,5 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router";
+import {
+  LinkedinOutlined,
+  GithubOutlined,
+  LinkOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
@@ -8,41 +14,37 @@ const BasicInfo = ({ data }) => {
 
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
-    const buttonLinks = { buttons: [] };
+    const buttonLinks = {
+      email: {
+        textId: "profile.email",
+        url: `mailto:${email}`,
+        icon: <MailOutlined style={{ marginRight: 5 }} />,
+      },
+    };
 
     if (linkedin) {
-      buttonLinks.buttons.push("linkedin");
       buttonLinks.linkedin = {
-        icon: "linkedin",
         textId: "profile.linkedin",
-        url: linkedin,
+        url: `https://linkedin.com/in/${linkedin}`,
+        icon: <LinkedinOutlined style={{ marginRight: 5 }} />,
       };
     }
 
     if (github) {
-      buttonLinks.buttons.push("github");
       buttonLinks.github = {
-        icon: "github",
         textId: "profile.github",
-        url: github,
+        url: `https://github.com/${github}`,
+        icon: <GithubOutlined style={{ marginRight: 5 }} />,
       };
     }
 
     if (gcconnex) {
-      buttonLinks.buttons.push("gcconnex");
       buttonLinks.gcconnex = {
-        icon: "link",
         textId: "profile.gcconnex",
-        url: gcconnex,
+        url: `https://gcconnex.gc.ca/profile/${gcconnex}`,
+        icon: <LinkOutlined style={{ marginRight: 5 }} />,
       };
     }
-
-    buttonLinks.buttons.push("email");
-    buttonLinks.email = {
-      icon: "mail",
-      textId: "profile.email",
-      url: `mailto:${email}`,
-    };
 
     return buttonLinks;
   };

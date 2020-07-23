@@ -20,8 +20,6 @@ function CategoryTable({ intl }) {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const size = "large";
-
   const dispatch = useDispatch();
 
   // Fetches the category information
@@ -140,7 +138,6 @@ function CategoryTable({ intl }) {
       selectedRowKeys={selectedRowKeys}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      size={size}
       rowSelection={rowSelection}
     />
   );

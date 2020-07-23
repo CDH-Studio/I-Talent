@@ -12,7 +12,9 @@ import { useSelector } from "react-redux";
 import axios from "../../../axios-instance";
 import { IntlPropType, HistoryPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import config from "../../../config";
 
+const { backendAddress } = config;
 const { Title, Paragraph } = Typography;
 
 const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
@@ -39,7 +41,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
       width: "20px !important",
       color: "red",
     },
-    btn: { width: "180px", height: "180px", margin: "10px" },
+    btn: { minWidth: "180px", height: "180px", margin: "10px" },
     btnIcon: {
       opacity: 0.7,
       fontSize: "65px",
@@ -94,7 +96,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
       if (value) {
         // create profile
         await axios
-          .post(`api/profile/${userId}`, value)
+          .put(`${backendAddress}api/profile/${userId}?language=ENGLISH`, value)
           .then(() => history.push("/secured/profile/create/step/2"))
           .catch((error) => handleError(error, "message"));
       }
