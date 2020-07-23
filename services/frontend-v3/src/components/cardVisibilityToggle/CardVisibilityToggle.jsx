@@ -21,13 +21,11 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   }, [visibleCards, urlID, userID, cardName]);
 
   const handleVisibilityToggle = async (value) => {
-    const modifiedCardVisibility = {
-      ...visibleCards,
-      [cardName]: value,
-    };
+    // eslint-disable-next-line no-param-reassign
+    visibleCards[cardName] = value;
     await axios
       .put(`api/profile/${urlID || userID}?language=${locale}`, {
-        visibleCards: modifiedCardVisibility,
+        visibleCards,
       })
       .catch((error) => handleError(error, "message"));
     setStatus(value);
