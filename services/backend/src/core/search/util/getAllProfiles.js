@@ -225,6 +225,23 @@ async function getAllUsers(searchValue, language, userId) {
                 },
               },
             },
+            mentorshipSkills: mentorSkills && {
+              select: {
+                skill: {
+                  select: {
+                    id: true,
+                    translations: {
+                      where: {
+                        language,
+                      },
+                      select: {
+                        name: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
             organizations: {
               select: {
                 organizationTier: {
