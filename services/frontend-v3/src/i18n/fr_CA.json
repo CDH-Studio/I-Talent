@@ -336,7 +336,7 @@
   "profile.rules.max.50": "Maximum de 50 caractères",
   "profile.rules.max.60": "Maximum de 60 caractères",
   "profile.rules.max.100": "Maximum de 100 caractères",
-  "profile.rules.max.250": "Maximum de 250 caractères",
+  "profile.rules.max.1500": "Maximum de 1500 caractères",
   "profile.rules.max.exceeded": "Longueur max dépassée",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.valid.phone.number": "Doit être un numéro de téléphone valide",
