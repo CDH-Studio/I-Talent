@@ -390,6 +390,7 @@
 
   "profile.privateGroup": "Private group",
   "profile.connections": "Connections",
+  "profile.connections.tooltip1": "By clicking 'Add connection' you will be adding this user to your Private Group. To learn more, visit: ",
 
   "profile.visibleCards.public": "Public",
   "profile.visibleCards.connections": "Connections",

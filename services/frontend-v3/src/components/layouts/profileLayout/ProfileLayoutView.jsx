@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Anchor, Typography, Row, Col, Button } from "antd";
+import { Anchor, Typography, Row, Col, Button, Popover } from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
@@ -8,6 +8,7 @@ import {
   TeamOutlined,
   UserAddOutlined,
   UserDeleteOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
@@ -71,6 +72,12 @@ const ProfileLayoutView = ({
     },
     button: {
       float: "right",
+    },
+    popContent: { maxWidth: "300px" },
+    colStyle: {
+      paddingRight: "8px",
+      maxWidth: "20px",
+      paddingTop: "5px",
     },
   };
 
@@ -340,6 +347,7 @@ const ProfileLayoutView = ({
       loading={loading}
     >
       <Header
+        style={styles.headerStyle}
         title={
           <FormattedMessage
             id={privateProfile ? "my.profile" : "other.profile"}
@@ -347,28 +355,46 @@ const ProfileLayoutView = ({
         }
         extra={
           !privateProfile && (
-            <Button
-              tabIndex="0"
-              type="primary"
-              block
-              icon={
-                connectionStatus ? (
-                  <UserDeleteOutlined style={styles.buttonIcon} />
-                ) : (
-                  <UserAddOutlined style={styles.buttonIcon} />
-                )
-              }
-              onClick={changeConnection}
-              style={styles.button}
-            >
-              <FormattedMessage
-                id={
-                  connectionStatus
-                    ? "search.results.cards.remove.connection"
-                    : "search.results.cards.add.connection"
-                }
-              />
-            </Button>
+            <Row>
+              <Col style={styles.colStyle}>
+                <Popover
+                  content={
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip1" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  }
+                >
+                  <QuestionCircleOutlined style={styles.addFriendTip} />
+                </Popover>
+              </Col>
+              <Col>
+                <Button
+                  tabIndex="0"
+                  type="primary"
+                  block
+                  icon={
+                    connectionStatus ? (
+                      <UserDeleteOutlined style={styles.buttonIcon} />
+                    ) : (
+                      <UserAddOutlined style={styles.buttonIcon} />
+                    )
+                  }
+                  onClick={changeConnection}
+                  style={styles.button}
+                >
+                  <FormattedMessage
+                    id={
+                      connectionStatus
+                        ? "search.results.cards.remove.connection"
+                        : "search.results.cards.add.connection"
+                    }
+                  />
+                </Button>
+              </Col>
+            </Row>
           )
         }
       />

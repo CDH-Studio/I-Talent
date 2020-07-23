@@ -398,6 +398,7 @@
 
   "profile.privateGroup": "Groupe privé",
   "profile.connections": "Connexions",
+  "profile.connections.tooltip1": "En cliquant sur «Crée une connexion», vous ajouterez cet utilisateur à votre groupe privé. Pour en savoir plus, visitez : ",
 
   "profile.visibleCards.public": "Publique",
   "profile.visibleCards.connections": "Connexions",
