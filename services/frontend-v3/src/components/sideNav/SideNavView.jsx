@@ -47,13 +47,8 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
 
 SideNavView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
-  sideBarContent: PropTypes.node,
-  loading: PropTypes.bool,
-};
-
-SideNavView.defaultProps = {
-  sideBarContent: undefined,
-  loading: false,
+  sideBarContent: PropTypes.node.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SideNavView;

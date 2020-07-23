@@ -20,17 +20,17 @@ const ProfileCards = ({
   const history = useHistory();
   const [status, setStatus] = useState("");
 
-  const newId = useParams().id;
-  const urlID = newId;
+  const urlID = useParams().id;
   const { locale } = useSelector((state) => state.settings);
+  const userID = useSelector((state) => state.user.id);
 
   const getCardStatus = useCallback(async () => {
-    if (data) {
+    if (data && urlID === userID) {
       const { visibleCards } = data;
       const modifiedCard = cardName;
       setStatus(visibleCards[modifiedCard]);
     }
-  }, [data, cardName]);
+  }, [data, urlID, userID, cardName]);
 
   const handleVisibilityToggle = async (value) => {
     const { visibleCards } = data;
@@ -67,7 +67,7 @@ const ProfileCards = ({
 
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
-  titleId: PropTypes.string.isRequired,
+  titleId: PropTypes.node.isRequired,
   content: PropTypes.element,
   editUrl: PropTypes.string,
   cardName: PropTypes.string.isRequired,

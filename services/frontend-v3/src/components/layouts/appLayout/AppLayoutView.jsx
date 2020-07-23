@@ -54,16 +54,12 @@ const AppLayoutView = ({
 };
 
 AppLayoutView.propTypes = {
-  sideBarContent: PropTypes.node,
+  sideBarContent: PropTypes.node.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
-};
-
-AppLayoutView.defaultProps = {
-  sideBarContent: undefined,
 };
 
 export default AppLayoutView;

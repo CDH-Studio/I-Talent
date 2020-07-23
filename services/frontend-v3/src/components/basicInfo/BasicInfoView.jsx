@@ -7,21 +7,28 @@ import {
   BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  DownOutlined,
   EditOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
   Row,
   Col,
   Card,
+  Dropdown,
   Avatar,
   List,
   Typography,
   Button,
   Tooltip,
+  Menu,
+  Tag,
 } from "antd";
+
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
+import OrgTree from "../orgTree/OrgTree";
 import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
 
 const { Text } = Typography;
@@ -52,6 +59,36 @@ const BasicInfoView = ({
     userAvatar: {
       verticalAlign: "middle",
     },
+    leftSpacing: {
+      paddingLeft: "0.5em",
+    },
+    orgButton: {
+      margin: "-10px 0px",
+      padding: "0px",
+    },
+    rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
+  };
+
+  const generateTeamInfo = () => {
+    const teams = {
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="profile.teams" />,
+      description:
+        data.teams && data.teams.length ? (
+          <List>
+            {Object.values(data.teams).map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Tag color="#727272" key={index}>
+                {item}
+              </Tag>
+            ))}
+          </List>
+        ) : (
+          "-"
+        ),
+    };
+
+    return [teams];
   };
 
   /*
@@ -170,8 +207,24 @@ const BasicInfoView = ({
   const getLocationInfo = () => {
     const branch = {
       icon: <BranchesOutlined />,
-      title: <FormattedMessage id="profile.branch" />,
-      description: data.branch ? data.branch : "-",
+      title: <FormattedMessage id="profile.org.tree" />,
+      description: data.branch ? (
+        <Dropdown
+          overlay={
+            <Menu>
+              <OrgTree data={data} />
+            </Menu>
+          }
+          trigger={["click"]}
+        >
+          <Button style={styles.orgButton} type="link">
+            <DownOutlined />
+            <span style={styles.leftSpacing}>{data.branch}</span>
+          </Button>
+        </Dropdown>
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
 
     const location = data.officeLocation;
@@ -222,6 +275,9 @@ const BasicInfoView = ({
         <Col xs={24} lg={12}>
           {generateInfoList(getLocationInfo())}
         </Col>
+      </Row>
+      <Row style={styles.rowTopSplitter}>
+        {generateInfoList(generateTeamInfo())}
       </Row>
     </Card>
   );

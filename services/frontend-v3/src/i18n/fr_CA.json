@@ -239,6 +239,7 @@
   "profile.acting.period.start.date": "Date de début intérimaire",
   "profile.address": "Adresse",
   "profile.branch": "Branche",
+  "profile.org.tree": "Organisation",
   "profile.basic": "Information d'employée",
   "profile.diploma": "Diplôme",
   "profile.projects": "Projets",
@@ -377,6 +378,12 @@
   "profile.do.not.specify": "Ne pas spécifié",
   "profile.not.specified": "Non spécifié",
   "profile.not.found": "Profil non trouvé",
+
+  "profile.geds.changes": "Confirmer les modifications",
+  "profile.geds.sync.button": "Synchroniser les données avec GCannuaire",
+  "profile.geds.up.to.date": "Informations à jour",
+  "profile.geds.failed.to.retrieve": "Échec de la récupération des données",
+
   "profile.end.date.present": "Présent",
   "profile.relocation.locations": "Je suis disposé à transferé à",
   "profile.career.interests": "Mobilité de l'emploi",

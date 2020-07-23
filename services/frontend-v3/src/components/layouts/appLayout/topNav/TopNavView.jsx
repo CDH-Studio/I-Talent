@@ -51,7 +51,16 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     dropDownItem: {
       padding: "10px 20px",
     },
-    MenuIcon: {
+    dropDownButton: {
+      color: "#fff",
+      height: 35,
+      padding: 0,
+      marginRight: 15,
+    },
+    dropDownArrow: {
+      marginLeft: 5,
+    },
+    menuIcon: {
       marginRight: 10,
     },
     signInBtn: {
@@ -89,27 +98,27 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {optionalStartMenuItems}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href={`/secured/profile/${id}`}>
-          <UserOutlined style={styles.MenuIcon} />
+          <UserOutlined style={styles.menuIcon} />
           <FormattedMessage id="my.profile" />
         </a>
       </Menu.Item>
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/profile/edit/primary-info">
-          <EditOutlined style={styles.MenuIcon} />
+          <EditOutlined style={styles.menuIcon} />
           <FormattedMessage id="edit.profile" />
         </a>
       </Menu.Item>
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <a rel="noopener noreferrer" href="/admin/dashboard">
-            <DashboardOutlined style={styles.MenuIcon} />
+            <DashboardOutlined style={styles.menuIcon} />
             <FormattedMessage id="admin" />
           </a>
         </Menu.Item>
       )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <a rel="noopener noreferrer" href="/secured/logout">
-          <LogoutOutlined style={styles.MenuIcon} />
+          <LogoutOutlined style={styles.menuIcon} />
           <FormattedMessage id="sign.out" />
         </a>
       </Menu.Item>
@@ -127,11 +136,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <Button
             type="link"
             className="ant-dropdown-link"
-            style={{ color: "#fff", height: 35, padding: 0, marginRight: 15 }}
+            style={styles.dropDownButton}
           >
             <CustomAvatar style={styles.profileAvatar} />
             <div className="navProfileName">
-              {userName} <DownOutlined style={{ marginLeft: 5 }} />
+              {userName} <DownOutlined style={styles.dropDownArrow} />
             </div>
           </Button>
         </Dropdown>
@@ -185,7 +194,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       false,
       <Menu.Item style={styles.dropDownItem}>
         <a tabIndex="0" rel="noopener noreferrer" href="/secured/home">
-          <HomeOutlined style={styles.MenuIcon} />
+          <HomeOutlined style={styles.menuIcon} />
           <FormattedMessage id="Home" />
         </a>
       </Menu.Item>

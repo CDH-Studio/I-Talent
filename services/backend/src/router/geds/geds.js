@@ -9,7 +9,14 @@ profileGenRouter.get(
   "/:id",
   keycloak.protect(),
   [UUIDValidator],
-  profileGen.getGedsAssist
+  profileGen.getGedsSetup
+);
+
+profileGenRouter.get(
+  "/sync/:id",
+  keycloak.protect(),
+  [UUIDValidator],
+  profileGen.getGedsSync
 );
 
 module.exports = profileGenRouter;

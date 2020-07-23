@@ -31,7 +31,7 @@ const SubstantiveView = ({ values }) => {
 SubstantiveView.propTypes = {
   values: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.string,
+      title: PropTypes.node,
       description: PropTypes.string,
     })
   ).isRequired,
