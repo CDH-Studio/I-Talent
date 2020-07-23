@@ -12,6 +12,7 @@ import {
   TreeSelect,
   message,
   Popover,
+  Space,
 } from "antd";
 import {
   RightOutlined,
@@ -30,6 +31,7 @@ import {
   IntlPropType,
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -125,7 +127,7 @@ const TalentFormView = ({
       paddingLeft: "5px",
     },
     infoIconSwitch: {
-      addingLeft: "5px",
+      paddingLeft: "5px",
       paddingRight: "5px",
     },
   };
@@ -635,6 +637,12 @@ const TalentFormView = ({
         {/* Form Row Two: skills */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Row justify="end">
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="skills"
+              />
+            </Row>
             <Form.Item
               name="skills"
               label={
@@ -672,32 +680,46 @@ const TalentFormView = ({
         {/* Form Row Two: mentorship role */}
         <Row style={styles.secondLangRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <Text>
-              <FormattedMessage id="profile.mentorship.available" />
-              <Popover
-                content={
-                  <div>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                }
-              >
-                <InfoCircleOutlined style={styles.infoIconSwitch} />
-              </Popover>
-            </Text>
+            <Row justify="space-between" align="middle">
+              <Space>
+                <Text>
+                  <FormattedMessage id="profile.mentorship.available" />
+                  <Popover
+                    content={
+                      <div>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined style={styles.infoIconSwitch} />
+                  </Popover>
+                </Text>
 
-            <Switch
-              checked={displayMentorshipForm}
-              onChange={toggleMentorshipForm}
-            />
+                <Switch
+                  checked={displayMentorshipForm}
+                  onChange={toggleMentorshipForm}
+                />
+              </Space>
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="mentorshipSkills"
+              />
+            </Row>
             {getMentorshipForm(displayMentorshipForm)}
           </Col>
         </Row>
         {/* Form Row Three: competencies */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Row justify="end">
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="competencies"
+              />
+            </Row>
             <Form.Item
               name="competencies"
               label={

@@ -33,6 +33,7 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -78,6 +79,7 @@ const EmploymentDataFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -556,7 +558,15 @@ const EmploymentDataFormView = ({
   return (
     <div style={styles.content}>
       {/* get form title */}
-      {getFormHeader(formType)}
+      <Row justify="space-between" style={{ marginBottom: -5 }}>
+        {getFormHeader(formType)}
+        <div style={{ marginTop: -5 }}>
+          <CardVisibilityToggle
+            visibleCards={profileInfo.visibleCards}
+            cardName="info"
+          />
+        </div>
+      </Row>
       <Divider style={styles.headerDiv} />
       {/* Create for with initial values */}
       <Form

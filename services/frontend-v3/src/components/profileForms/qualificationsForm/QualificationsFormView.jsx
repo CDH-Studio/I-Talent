@@ -25,6 +25,7 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Title, Text } = Typography;
 
@@ -69,6 +70,7 @@ const QualificationsFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
     },
     entryTitle: {
       fontSize: "1em",
@@ -376,6 +378,24 @@ const QualificationsFormView = ({
     );
   };
 
+  const getSectionHeader = (titleId, cardName, addMargins = true) => (
+    <Row
+      justify="space-between"
+      style={{
+        marginBottom: addMargins && 10,
+      }}
+      align="middle"
+    >
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+      />
+    </Row>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -403,9 +423,7 @@ const QualificationsFormView = ({
         onValuesChange={checkIfFormValuesChanged}
       >
         {/* *************** Education ************** */}
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.education" />
-        </Title>
+        {getSectionHeader("setup.education", "education")}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.List name="educations">
@@ -445,9 +463,7 @@ const QualificationsFormView = ({
         </Row>
         {/* *************** Work Experience ************** */}
         <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.experience" />
-        </Title>
+        {getSectionHeader("setup.experience", "experience")}
         {/* Form Row One: Remote Work */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -488,9 +504,7 @@ const QualificationsFormView = ({
         </Row>
         {/* *************** Projects ************** */}
         <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.projects" />
-        </Title>
+        {getSectionHeader("setup.projects", "projects", false)}
         {/* Form Row Three: career mobility */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>

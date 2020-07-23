@@ -30,6 +30,7 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -83,6 +84,7 @@ const PersonalGrowthFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -430,9 +432,15 @@ const PersonalGrowthFormView = ({
       >
         {/* *************** Developmental ************** */}
         {/* Form Row One: Developmental Goals */}
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.developmental.goals" />
-        </Title>
+        <Row justify="space-between" align="middle">
+          <Title level={3} style={styles.formTitle}>
+            <FormattedMessage id="setup.developmental.goals" />
+          </Title>
+          <CardVisibilityToggle
+            visibleCards={profileInfo.visibleCards}
+            cardName="developmentalGoals"
+          />
+        </Row>
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.Item
@@ -472,9 +480,15 @@ const PersonalGrowthFormView = ({
 
         {/* *************** Career Interest ************** */}
         <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.career.interests" />
-        </Title>
+        <Row justify="space-between" align="middle">
+          <Title level={3} style={styles.formTitle}>
+            <FormattedMessage id="setup.career.interests" />
+          </Title>
+          <CardVisibilityToggle
+            visibleCards={profileInfo.visibleCards}
+            cardName="careerInterests"
+          />
+        </Row>
         {/* Form Row One: Remote Work */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -561,21 +575,27 @@ const PersonalGrowthFormView = ({
 
         {/* *************** Talent Management ************** */}
         <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.talent.management" />
-          <Popover
-            content={
-              <div>
-                <FormattedMessage id="profile.talent.management.tooltip" />
-                <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
-                  Talent Management Tool
-                </a>
-              </div>
-            }
-          >
-            <ExclamationCircleOutlined style={styles.TMTooltip} />
-          </Popover>
-        </Title>
+        <Row justify="space-between" align="middle">
+          <Title level={3} style={styles.formTitle}>
+            <FormattedMessage id="setup.talent.management" />
+            <Popover
+              content={
+                <div>
+                  <FormattedMessage id="profile.talent.management.tooltip" />
+                  <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
+                    Talent Management Tool
+                  </a>
+                </div>
+              }
+            >
+              <ExclamationCircleOutlined style={styles.TMTooltip} />
+            </Popover>
+          </Title>
+          <CardVisibilityToggle
+            visibleCards={profileInfo.visibleCards}
+            cardName="talentManagement"
+          />
+        </Row>
 
         {/* Form Row Three: career mobility */}
         <Row gutter={24}>
@@ -620,14 +640,18 @@ const PersonalGrowthFormView = ({
         </Row>
 
         {/* Form Row Three: ex feeder */}
-        <Row gutter={24} style={{ marginBottom: "15px" }}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Row style={{ margin: "5px 0" }} justify="space-between">
+          <Col className="gutter-row">
             <Form.Item name="exFeeder" valuePropName="checked">
               <Checkbox>
                 <FormattedMessage id="profile.ex.feeder" />
               </Checkbox>
             </Form.Item>
           </Col>
+          <CardVisibilityToggle
+            visibleCards={profileInfo.visibleCards}
+            cardName="exFeeder"
+          />
         </Row>
 
         {/* *************** Control Buttons ************** */}
