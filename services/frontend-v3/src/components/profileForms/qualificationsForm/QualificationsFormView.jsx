@@ -72,19 +72,27 @@ const QualificationsFormView = ({
       fontSize: "1.2em",
       margin: 0,
     },
+    sectionHeader: {
+      marginBottom: 10,
+    },
     entryTitle: {
       fontSize: "1em",
     },
     headerDiv: {
       margin: "15px 0 15px 0",
     },
-    datePicker: { width: "100%" },
+    datePicker: {
+      width: "100%",
+    },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -379,13 +387,7 @@ const QualificationsFormView = ({
   };
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row
-      justify="space-between"
-      style={{
-        marginBottom: 10,
-      }}
-      align="middle"
-    >
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
       <Title level={3} style={styles.formTitle}>
         <FormattedMessage id={titleId} />
       </Title>

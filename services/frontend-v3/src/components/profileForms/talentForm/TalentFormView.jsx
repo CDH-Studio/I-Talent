@@ -82,7 +82,10 @@ const TalentFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
-      margin: 0
+      margin: 0,
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -107,7 +110,10 @@ const TalentFormView = ({
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -611,13 +617,7 @@ const TalentFormView = ({
   };
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row
-      justify="space-between"
-      style={{
-        marginBottom: 10,
-      }}
-      align="middle"
-    >
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
       <Title level={3} style={styles.formTitle}>
         <FormattedMessage id={titleId} />
         <Popover

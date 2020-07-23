@@ -109,7 +109,10 @@ const PersonalGrowthFormView = ({
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -120,7 +123,9 @@ const PersonalGrowthFormView = ({
       marginBottom: "1rem",
       minWidth: "100%",
     },
-    TMTooltip: { paddingLeft: "5px" },
+    TMTooltip: {
+      paddingLeft: "5px",
+    },
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
@@ -129,6 +134,9 @@ const PersonalGrowthFormView = ({
     },
     iconAfterTitle: {
       paddingLeft: "5px",
+    },
+    exFeeder: {
+      margin: "5px 0",
     },
   };
 
@@ -640,7 +648,7 @@ const PersonalGrowthFormView = ({
         </Row>
 
         {/* Form Row Three: ex feeder */}
-        <Row style={{ margin: "5px 0" }} justify="space-between">
+        <Row style={styles.exFeeder} justify="space-between">
           <Col className="gutter-row">
             <Form.Item name="exFeeder" valuePropName="checked">
               <Checkbox>
