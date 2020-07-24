@@ -23,6 +23,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
@@ -468,9 +469,9 @@ const PersonalGrowthFormView = ({
                       content={
                         <div>
                           <FormattedMessage id="tooltip.extra.info.help" />
-                          <a href="/about/help">
+                          <Link to="/about/help">
                             <FormattedMessage id="footer.contact.link" />
-                          </a>
+                          </Link>
                         </div>
                       }
                     >
@@ -539,9 +540,9 @@ const PersonalGrowthFormView = ({
                       content={
                         <div>
                           <FormattedMessage id="tooltip.extra.info.help" />
-                          <a href="/about/help">
+                          <Link to="/about/help">
                             <FormattedMessage id="footer.contact.link" />
-                          </a>
+                          </Link>
                         </div>
                       }
                     >
@@ -598,9 +599,9 @@ const PersonalGrowthFormView = ({
                 content={
                   <div>
                     <FormattedMessage id="profile.talent.management.tooltip" />
-                    <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
+                    <Link href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
                       Talent Management Tool
-                    </a>
+                    </Link>
                   </div>
                 }
               >

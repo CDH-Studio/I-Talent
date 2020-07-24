@@ -28,6 +28,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "../../../axios-instance";
 import {
   IdDescriptionPropType,
@@ -340,9 +341,9 @@ const PrimaryInfoFormView = ({
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
-                  <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>
+                  </Link>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -365,9 +366,9 @@ const PrimaryInfoFormView = ({
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
-                <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>
+                </Link>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }

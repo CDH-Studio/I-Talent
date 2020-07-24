@@ -24,6 +24,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
@@ -657,9 +658,9 @@ const LangProficiencyFormView = ({
                   content={
                     <div>
                       <FormattedMessage id="tooltip.extra.info.help" />
-                      <a href="/about/help">
+                      <Link to="/about/help">
                         <FormattedMessage id="footer.contact.link" />
-                      </a>
+                      </Link>
                     </div>
                   }
                 >

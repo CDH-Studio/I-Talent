@@ -22,7 +22,7 @@ import {
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { useHistory, Prompt } from "react-router-dom";
+import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "../../../axios-instance";
 import {
@@ -442,9 +442,9 @@ const TalentFormView = ({
                       content={
                         <div>
                           <FormattedMessage id="tooltip.extra.info.help" />
-                          <a href="/about/help">
+                          <Link to="/about/help">
                             <FormattedMessage id="footer.contact.link" />
-                          </a>
+                          </Link>
                         </div>
                       }
                     >
@@ -624,9 +624,9 @@ const TalentFormView = ({
           content={
             <div>
               <FormattedMessage id="tooltip.extra.info.help" />
-              <a href="/about/help">
+              <Link to="/about/help">
                 <FormattedMessage id="footer.contact.link" />
-              </a>
+              </Link>
             </div>
           }
         >
@@ -701,9 +701,9 @@ const TalentFormView = ({
                       content={
                         <div>
                           <FormattedMessage id="tooltip.extra.info.help" />
-                          <a href="/about/help">
+                          <Link to="/about/help">
                             <FormattedMessage id="footer.contact.link" />
-                          </a>
+                          </Link>
                         </div>
                       }
                     >
