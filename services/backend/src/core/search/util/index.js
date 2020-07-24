@@ -8,10 +8,12 @@ const skillSearch = require("./skillSearch");
 const branchSearch = require("./branchSearch");
 const getSkillNames = require("./getSkillNames");
 const cleanResults = require("./cleanResults");
-const mentorSkills = require("./mentorSkillsSearch");
+const mentorSkillsSearch = require("./mentorSkillsSearch");
+const anyMentorSkillsSearch = require("./anyMentorSkillsSearch");
 
 module.exports = {
-  mentorSkills,
+  anyMentorSkillsSearch,
+  mentorSkillsSearch,
   getAllProfiles,
   fuzzySearch,
   nameSearch,

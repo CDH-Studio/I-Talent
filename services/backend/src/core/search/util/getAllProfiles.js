@@ -71,6 +71,7 @@ async function getAllUsers(searchValue, language, userId) {
           education,
           experience,
           exFeeder,
+          mentorshipSkills,
         },
         isConnection,
       }) => {
@@ -225,7 +226,7 @@ async function getAllUsers(searchValue, language, userId) {
                 },
               },
             },
-            mentorshipSkills: mentorSkills && {
+            mentorshipSkills: mentorshipSkills && {
               select: {
                 skill: {
                   select: {

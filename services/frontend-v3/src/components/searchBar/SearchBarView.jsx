@@ -11,6 +11,8 @@ import {
   Switch,
   Select,
   Divider,
+  Checkbox,
+  TreeSelect,
 } from "antd";
 import {
   SearchOutlined,
@@ -20,16 +22,19 @@ import {
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
 import { IntlPropType } from "../../customPropTypes";
 
+const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;
 const { Title } = Typography;
 
 const SearchBarView = ({
+  anyMentorSkills,
   intl,
   locationOptions,
   skillOptions,
   classOptions,
   branchOptions,
   handleSearch,
+  handleAnyMentorSkillsChange,
 }) => {
   const [expandAdvancedSearch, setExpandAdvancedSearch] = useState(false);
   const [form] = Form.useForm();
@@ -276,42 +281,40 @@ const SearchBarView = ({
               label={<FormattedMessage id="advanced.search.form.skills" />}
               name="skills"
             >
-              <Select
-                style={{ width: "100%" }}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={10}
-              >
-                {skillOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
+              <TreeSelect
+                className="custom-bubble-select-style"
+                treeData={skillOptions}
+                treeCheckable
+                showCheckedStrategy={SHOW_CHILD}
+                placeholder={<FormattedMessage id="setup.select" />}
+                treeNodeFilterProp="title"
+                showSearch
+                maxTagCount={15}
+              />
             </Form.Item>
             {/* classification field */}
             <Form.Item
               label={
-                <FormattedMessage id="advanced.search.form.mentor.skills" />
+                <FormattedMessage id="advanced.search.form.mentorship.skills" />
               }
               name="mentorSkills"
             >
-              <Select
-                style={{ width: "100%" }}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={10}
-              >
-                {skillOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
+              <TreeSelect
+                className="custom-bubble-select-style"
+                treeData={skillOptions}
+                treeCheckable
+                showCheckedStrategy={SHOW_CHILD}
+                placeholder={<FormattedMessage id="setup.select" />}
+                treeNodeFilterProp="title"
+                showSearch
+                maxTagCount={15}
+                disabled={anyMentorSkills}
+              />
+            </Form.Item>
+            <Form.Item name="anyMentorSkills" valuePropName="checked">
+              <Checkbox onChange={handleAnyMentorSkillsChange}>
+                <FormattedMessage id="select.any" />
+              </Checkbox>
             </Form.Item>
             {/* exFeeder field */}
             <Form.Item
@@ -439,6 +442,8 @@ SearchBarView.propTypes = {
   ).isRequired,
   handleSearch: PropTypes.func.isRequired,
   intl: IntlPropType,
+  anyMentorSkills: PropTypes.bool.isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 SearchBarView.defaultProps = {

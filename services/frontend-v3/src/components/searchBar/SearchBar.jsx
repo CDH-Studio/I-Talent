@@ -8,6 +8,7 @@ import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
 const SearchBar = () => {
+  const [anyMentorSkills, setAnyMentorSkills] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
@@ -16,12 +17,39 @@ const SearchBar = () => {
 
   const { locale } = useSelector((state) => state.settings);
 
-  // Fetches options for skills select field in advanced search
+  /**
+   * Get all skill options
+   *
+   * generate the dataTree of skills and skill categories for the TreeSelect
+   */
   const getSkills = useCallback(async () => {
-    const results = await axios.get(
-      `api/option/developmentalGoals?language=${locale}`
-    );
-    setSkillOptions(results.data);
+    const [categoriesResult, skillsResults] = await Promise.all([
+      axios.get(`api/option/categories?language=${locale}`),
+      axios.get(`api/option/skills?language=${locale}`),
+    ]);
+
+    // Loop through all skill categories
+    const dataTree = categoriesResult.data.map((category) => {
+      const children = [];
+
+      skillsResults.data.forEach((skill) => {
+        if (skill.categoryId === category.id) {
+          children.push({
+            title: `${category.name}: ${skill.name}`,
+            value: skill.id,
+            key: skill.id,
+          });
+        }
+      });
+
+      return {
+        title: category.name,
+        value: category.id,
+        children,
+      };
+    });
+
+    setSkillOptions(dataTree);
   }, [locale]);
 
   // Fetches options for branches select field in advanced search
@@ -52,6 +80,10 @@ const SearchBar = () => {
     }
   };
 
+  const handleAnyMentorSkillsChange = (e) => {
+    setAnyMentorSkills(e.target.checked);
+  };
+
   useEffect(() => {
     const updateState = async () => {
       Promise.all([
@@ -72,6 +104,8 @@ const SearchBar = () => {
       classOptions={classOptions}
       branchOptions={branchOptions}
       handleSearch={handleSearch}
+      anyMentorSkills={anyMentorSkills}
+      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
     />
   );
 };
