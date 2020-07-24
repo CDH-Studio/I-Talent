@@ -290,6 +290,7 @@ const EmploymentDataFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/4");
       })
       .catch((error) => {
@@ -312,6 +313,7 @@ const EmploymentDataFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {

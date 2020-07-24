@@ -251,6 +251,7 @@ const PersonalGrowthFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/7");
       })
       .catch((error) => {
@@ -277,6 +278,7 @@ const PersonalGrowthFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {

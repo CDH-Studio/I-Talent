@@ -257,6 +257,7 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
       })
       .then(() => history.push("/secured/profile/create/step/3"))
       .catch((error) => {
@@ -281,6 +282,7 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
       })
       .then(() => {
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
