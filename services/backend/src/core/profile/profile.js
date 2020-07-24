@@ -55,6 +55,8 @@ async function updateProfile(request, response) {
         avatarColor,
         status,
         signupStep,
+        branch,
+        jobTitle,
 
         projects,
 
@@ -75,7 +77,7 @@ async function updateProfile(request, response) {
         talentMatrixResultId,
         groupLevelId,
         actingLevelId,
-        employmentInfoId,
+        organizations,
 
         visibleCards,
       } = request.body;
@@ -153,6 +155,28 @@ async function updateProfile(request, response) {
         await prisma.education.deleteMany({ where: { userId } });
       }
 
+      if (organizations) {
+        const relatedOrgs = await prisma.organization.findMany({
+          where: { userId },
+          select: { id: true },
+        });
+        const orgTiers = await prisma.organizationTier.findMany({
+          where: { organizationId: { in: relatedOrgs.map((org) => org.id) } },
+          select: { id: true },
+        });
+        await prisma.transOrganization.deleteMany({
+          where: {
+            organizationTierId: {
+              in: orgTiers.map((orgTier) => orgTier.id),
+            },
+          },
+        });
+        await prisma.organizationTier.deleteMany({
+          where: { id: { in: orgTiers.map((orgTier) => orgTier.id) } },
+        });
+        await prisma.organization.deleteMany({ where: { userId } });
+      }
+
       // Queries user ids to check if an id was already defined
       const userIds = await prisma.user.findOne({
         where: { id: userId },
@@ -168,6 +192,14 @@ async function updateProfile(request, response) {
           employmentInfoId: true,
         },
       });
+
+      if (branch && jobTitle && userIds.employmentInfoId) {
+        prisma.employmentInfo.delete({
+          where: {
+            id: userIds.employmentInfoId,
+          },
+        });
+      }
 
       await prisma.user.update({
         where: { id: userId },
@@ -337,26 +369,18 @@ async function updateProfile(request, response) {
             : undefined,
           experiences: experiences
             ? {
-                create: experiences.map(
-                  ({
-                    startDate,
-                    endDate,
-                    jobTitle,
-                    organization,
-                    description,
-                  }) => ({
-                    startDate,
-                    endDate,
-                    translations: {
-                      create: {
-                        language,
-                        jobTitle,
-                        organization,
-                        description,
-                      },
+                create: experiences.map((expItem) => ({
+                  startDate: expItem.startDate,
+                  endDate: expItem.endDate,
+                  translations: {
+                    create: {
+                      language,
+                      jobTitle: expItem.jobTitle,
+                      organization: expItem.organization,
+                      description: expItem.description,
                     },
-                  })
-                ),
+                  },
+                })),
               }
             : undefined,
           secondLangProfs: secondLangProfs
@@ -396,7 +420,60 @@ async function updateProfile(request, response) {
           ),
           groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
           actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
-          employmentInfo: idHelper(employmentInfoId, userIds.employmentInfoId),
+
+          employmentInfo:
+            jobTitle || branch
+              ? {
+                  upsert: {
+                    create: {
+                      translations: {
+                        create: ["ENGLISH", "FRENCH"].map((lang) => ({
+                          language: lang,
+                          jobTitle: jobTitle ? jobTitle[lang] : "",
+                          branch: branch ? branch[lang] : "",
+                        })),
+                      },
+                    },
+                    update: {
+                      translations: {
+                        updateMany: ["ENGLISH", "FRENCH"].map((lang) => ({
+                          where: {
+                            language: lang,
+                          },
+                          data: {
+                            jobTitle: jobTitle && jobTitle[lang],
+                            branch: branch && branch[lang],
+                          },
+                        })),
+                      },
+                    },
+                  },
+                }
+              : undefined,
+
+          organizations: organizations
+            ? {
+                create: organizations.map((org) => ({
+                  organizationTier: {
+                    create: org.map((orgTier) => ({
+                      tier: orgTier.tier,
+                      translations: {
+                        create: [
+                          {
+                            language: "ENGLISH",
+                            description: orgTier.title.ENGLISH,
+                          },
+                          {
+                            language: "FRENCH",
+                            description: orgTier.title.FRENCH,
+                          },
+                        ],
+                      },
+                    })),
+                  },
+                })),
+              }
+            : undefined,
 
           visibleCards: visibleCards
             ? {
@@ -436,7 +513,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  return prisma.user.findOne({
+  const fullProfile = await prisma.user.findOne({
     where: { id },
     select: {
       id: true,
@@ -771,8 +848,28 @@ async function getFullProfile(id, language) {
           exFeeder: true,
         },
       },
+      organizations: {
+        select: {
+          id: true,
+          organizationTier: {
+            select: {
+              id: true,
+              tier: true,
+              translations: {
+                where: { language },
+                select: {
+                  id: true,
+                  language: true,
+                  description: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
+  return fullProfile;
 }
 
 function filterProfileResult(profile, language) {
@@ -996,6 +1093,17 @@ function filterProfileResult(profile, language) {
     };
   });
 
+  if (profile.organizations) {
+    filteredProfile.organizations = profile.organizations.map((org) => {
+      _.sortBy(org, "tier");
+      return org.organizationTier.map((tier) => ({
+        tier: tier.tier,
+        id: tier.id,
+        title: tier.translations[0].description,
+      }));
+    });
+  }
+
   return filteredProfile;
 }
 
@@ -1007,11 +1115,8 @@ async function getPrivateProfileById(request, response) {
     const { language } = request.query;
 
     if (request.kauth.grant.access_token.content.sub === id) {
-      const filter = filterProfileResult(
-        await getFullProfile(id, language),
-        language
-      );
-
+      const fullProfile = await getFullProfile(id, language);
+      const filter = filterProfileResult(fullProfile, language);
       response.status(200).json(filter);
       return;
     }
@@ -1035,7 +1140,6 @@ async function getPublicProfileById(request, response) {
     const userId = request.kauth.grant.access_token.content.sub;
     const { id } = request.params;
     const { language } = request.query;
-
     if (userId && id) {
       const result = filterProfileResult(
         await getFullProfile(id, language),

@@ -39,7 +39,7 @@ ProfileCreate.propTypes = {
   intl: IntlPropType,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      step: PropTypes.any,
+      step: PropTypes.string,
     }),
   }),
 };

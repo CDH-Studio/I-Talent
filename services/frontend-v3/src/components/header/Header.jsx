@@ -10,7 +10,7 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  extra: undefined,
+  extra: '',
 };
 
 export default Header;

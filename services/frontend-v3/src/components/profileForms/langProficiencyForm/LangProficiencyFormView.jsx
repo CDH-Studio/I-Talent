@@ -23,6 +23,8 @@ import moment from "moment";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
@@ -32,6 +34,7 @@ import {
 } from "../../../customPropTypes";
 
 import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -76,6 +79,7 @@ const LangProficiencyFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -293,6 +297,7 @@ const LangProficiencyFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/5");
       })
       .catch((error) => {
@@ -315,6 +320,7 @@ const LangProficiencyFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
@@ -594,72 +600,88 @@ const LangProficiencyFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        form={form}
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        onValuesChange={updateIfFormValuesChanged}
-      >
-        {/* Form Row One */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="firstLanguage"
-              label={<FormattedMessage id="profile.first.language" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {languageOptions.map((value) => {
-                  return <Option key={value.key}>{value.text}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Four: Temporary role */}
-        <Row style={styles.secondLangRow} gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <Text>
-              <FormattedMessage id="profile.graded.on.second.language" />
-              <Popover
-                content={
-                  <div>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                }
-              >
-                <InfoCircleOutlined style={styles.iconBySwitch} />
-              </Popover>
-            </Text>
-
-            <Switch
-              checked={displayMentorshipForm}
-              onChange={toggleSecLangForm}
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        <Row justify="space-between" style={{ marginBottom: -5 }}>
+          {getFormHeader(formType)}
+          <div style={{ marginTop: -5 }}>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="officialLanguage"
+              type="form"
             />
-            {getSecondLanguageForm(displayMentorshipForm)}
-          </Col>
+          </div>
         </Row>
-        {/* Form Row Five: Submit button */}
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+        <Divider style={styles.headerDiv} />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          onValuesChange={updateIfFormValuesChanged}
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="firstLanguage"
+                label={<FormattedMessage id="profile.first.language" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {languageOptions.map((value) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.secondLangRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Text>
+                <FormattedMessage id="profile.graded.on.second.language" />
+                <Popover
+                  content={
+                    <div>
+                      <FormattedMessage id="tooltip.extra.info.help" />
+                      <Link to="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </Link>
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                </Popover>
+              </Text>
+
+              <Switch
+                checked={displayMentorshipForm}
+                onChange={toggleSecLangForm}
+              />
+              {getSecondLanguageForm(displayMentorshipForm)}
+            </Col>
+          </Row>
+          {/* Form Row Five: Submit button */}
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 

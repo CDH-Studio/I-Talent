@@ -27,9 +27,7 @@ const ProjectsView = ({ projectsInfo }) => {
 };
 
 ProjectsView.propTypes = {
-  projectsInfo: PropTypes.arrayOf(
-    PropTypes.shape({ projectDescription: PropTypes.string })
-  ).isRequired,
+  projectsInfo: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default ProjectsView;

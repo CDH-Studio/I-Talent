@@ -7,33 +7,32 @@ import {
   BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
-  EditOutlined,
+  DownOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
   Row,
   Col,
   Card,
+  Dropdown,
   Avatar,
   List,
   Typography,
   Button,
-  Tooltip,
+  Menu,
+  Tag,
 } from "antd";
+
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
+import OrgTree from "../orgTree/OrgTree";
+import { ProfileInfoPropType } from "../../customPropTypes";
+import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({
-  data,
-  name,
-  avatar,
-  jobTitle,
-  buttonLinks,
-  history,
-}) => {
+const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -52,6 +51,36 @@ const BasicInfoView = ({
     userAvatar: {
       verticalAlign: "middle",
     },
+    leftSpacing: {
+      paddingLeft: "0.5em",
+    },
+    orgButton: {
+      margin: "-10px 0px",
+      padding: "0px",
+    },
+    rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
+  };
+
+  const generateTeamInfo = () => {
+    const teams = {
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="profile.teams" />,
+      description:
+        data.teams && data.teams.length ? (
+          <List>
+            {Object.values(data.teams).map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Tag color="#727272" key={index}>
+                {item}
+              </Tag>
+            ))}
+          </List>
+        ) : (
+          "-"
+        ),
+    };
+
+    return [teams];
   };
 
   /*
@@ -89,20 +118,7 @@ const BasicInfoView = ({
         </Col>
         {urlID === userID && (
           <Col xs={1}>
-            <Tooltip
-              placement="top"
-              title={<FormattedMessage id="profile.edit" />}
-            >
-              <Button
-                aria-label="edit card"
-                type="default"
-                shape="circle"
-                icon={<EditOutlined />}
-                onClick={() =>
-                  history.push("/secured/profile/edit/primary-info")
-                }
-              />
-            </Tooltip>
+            <EditCardButton editUrl="/secured/profile/edit/primary-info" />
           </Col>
         )}
       </Row>
@@ -170,8 +186,24 @@ const BasicInfoView = ({
   const getLocationInfo = () => {
     const branch = {
       icon: <BranchesOutlined />,
-      title: <FormattedMessage id="profile.branch" />,
-      description: data.branch ? data.branch : "-",
+      title: <FormattedMessage id="profile.org.tree" />,
+      description: data.branch ? (
+        <Dropdown
+          overlay={
+            <Menu>
+              <OrgTree data={data} />
+            </Menu>
+          }
+          trigger={["click"]}
+        >
+          <Button style={styles.orgButton} type="link">
+            <DownOutlined />
+            <span style={styles.leftSpacing}>{data.branch}</span>
+          </Button>
+        </Dropdown>
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
 
     const location = data.officeLocation;
@@ -223,6 +255,9 @@ const BasicInfoView = ({
           {generateInfoList(getLocationInfo())}
         </Col>
       </Row>
+      <Row style={styles.rowTopSplitter}>
+        <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
+      </Row>
     </Card>
   );
 };
@@ -236,7 +271,6 @@ BasicInfoView.propTypes = {
   }).isRequired,
   jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  history: HistoryPropType.isRequired,
 };
 
 BasicInfoView.defaultProps = {

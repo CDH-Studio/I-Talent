@@ -94,6 +94,29 @@ You can access different components of the web application:
 
 Checkout the `docker-compose.yml` file for information on which ports to use to access all of the other services.
 
+## To run keycloak locally
+1. Add the network_mode to the backend container to "host" (in docker-compose.yml)
+2. And add the following docker-compose service
+```yml
+  keycloak:
+    container_name: "upskill-keycloak"
+    image: "jboss/keycloak"
+    ports:
+      - "8180:8180"
+    volumes:
+      - ./keycloak:/opt/jboss/keycloak/keycloak
+    hostname: keycloak
+    command:
+      - "-Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json -Djboss.http.port=8180"
+    environment:
+      KEYCLOAK_USER: administrator
+      KEYCLOAK_PASSWORD: password
+```
+3. You'll need to make everything linking a container in the backend to refer localhost instead (i.e. redis and postgres)
+4. You'll also need to update the keycloak environment variables in the frontend and in the backend to refer to http://localhost:8180/auth
+
+The credentials for the users when using the local keycloak are specified in the [realm-export.json](./keycloak/realm-export.json) file
+
 # Wiki
 
 In order to contribute to I-Talent, see our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki) to understand our Way of Working.

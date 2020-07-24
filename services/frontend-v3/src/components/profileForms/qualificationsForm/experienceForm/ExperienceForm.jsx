@@ -29,12 +29,12 @@ const ExperienceForm = ({
       profileInfo.careerSummary &&
       profileInfo.careerSummary[field.key] &&
       profileInfo.careerSummary[field.key].content
-      ? 250 - profileInfo.careerSummary[field.key].content.length
-      : 250
+      ? 1500 - profileInfo.careerSummary[field.key].content.length
+      : 1500
   );
 
   const handleContentChange = (e) => {
-    setCharsLeft(250 - e.currentTarget.value.length);
+    setCharsLeft(1500 - e.currentTarget.value.length);
   };
 
   return (

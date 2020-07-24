@@ -10,12 +10,16 @@ import {
   Input,
   Button,
   message,
+  List,
   Popover,
+  Modal,
+  Spin,
 } from "antd";
 import {
   LinkOutlined,
   RightOutlined,
   CheckOutlined,
+  LoadingOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -23,6 +27,8 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { isMobilePhone } from "validator";
+import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "../../../axios-instance";
 import {
   IdDescriptionPropType,
@@ -31,6 +37,7 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import OrgTree from "../../orgTree/OrgTree";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -48,8 +55,11 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [newGedsValues, setNewGedsValues] = useState(null);
+  const [gatheringGedsData, setGatheringGedsData] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const { id, name } = useSelector((state) => state.user);
 
   /* Component Styles */
   const styles = {
@@ -111,6 +121,9 @@ const PrimaryInfoFormView = ({
     },
     popoverStyle: {
       maxWidth: "430px",
+    },
+    rightSpacedButton: {
+      marginRight: "1em",
     },
     infoIcon: {
       marginLeft: "5px",
@@ -244,6 +257,7 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
       })
       .then(() => history.push("/secured/profile/create/step/3"))
       .catch((error) => {
@@ -268,6 +282,7 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
       })
       .then(() => {
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
@@ -281,6 +296,29 @@ const PrimaryInfoFormView = ({
           openNotificationWithIcon("error");
         }
       });
+  };
+
+  const onSyncGedsInfo = async () => {
+    setGatheringGedsData(true);
+    await axios
+      .get(`api/profGen/sync/${id}`, {
+        params: {
+          name,
+        },
+      })
+      .then((result) => {
+        if (Object.keys(result.data).length) {
+          setNewGedsValues(result.data);
+        } else {
+          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
+        }
+      })
+      .catch(() =>
+        message.warning(
+          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
+        )
+      );
+    setGatheringGedsData(false);
   };
 
   /* reset form fields */
@@ -297,14 +335,17 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
+            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </Button>
             <Popover
               trigger="click"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
-                  <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>
+                  </Link>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -319,14 +360,17 @@ const PrimaryInfoFormView = ({
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
+          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+            <FormattedMessage id="profile.geds.sync.button" />
+          </Button>
           <Popover
             trigger="click"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
-                <a href="https://userprofile.prod.prv/icpup.asp?lang=E">
+                <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>
+                </Link>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }
@@ -425,6 +469,136 @@ const PrimaryInfoFormView = ({
     return undefined;
   };
 
+  const handleGedsConfirm = async () => {
+    await axios
+      .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
+      .then(() => {
+        const possibleKeys = [
+          "firstName",
+          "lastName",
+          "cellphone",
+          "telephone",
+          "locationId",
+        ];
+
+        const newFieldVals = [];
+        possibleKeys.forEach((key) => {
+          if (key in newGedsValues) {
+            newFieldVals.push({ name: key, value: newGedsValues[key] });
+          }
+        });
+        form.setFields(newFieldVals);
+      })
+      .catch((error) => handleError(error, "message"));
+    setNewGedsValues(null);
+  };
+
+  const generateGedsModal = () => {
+    const changes = [];
+
+    if (newGedsValues) {
+      if (newGedsValues.firstName) {
+        changes.push({
+          title: <FormattedMessage id="profile.first.name" />,
+          description: profileInfo.firstName,
+        });
+      }
+
+      if (newGedsValues.lastName) {
+        changes.push({
+          title: <FormattedMessage id="profile.last.name" />,
+          description: profileInfo.lastName,
+        });
+      }
+
+      if (newGedsValues.locationId) {
+        const locationOption = _.find(
+          locationOptions,
+          (option) => option.id === newGedsValues.locationId
+        );
+        changes.push({
+          title: <FormattedMessage id="profile.location" />,
+          description: `${locationOption.streetNumber} ${locationOption.streetName}
+                  ${locationOption.city}, ${locationOption.province}`,
+        });
+      }
+
+      if (newGedsValues.email) {
+        changes.push({
+          title: <FormattedMessage id="profile.telephone" />,
+          description: profileInfo.email,
+        });
+      }
+
+      if (newGedsValues.phoneNumber) {
+        changes.push({
+          title: <FormattedMessage id="profile.cellphone" />,
+          description: profileInfo.phoneNumber,
+        });
+      }
+
+      if (newGedsValues.telephone) {
+        changes.push({
+          title: <FormattedMessage id="profile.telephone" />,
+          description: profileInfo.telephone,
+        });
+      }
+
+      if (newGedsValues.jobTitle) {
+        changes.push({
+          title: <FormattedMessage id="profile.career.header.name" />,
+          description: newGedsValues.jobTitle[locale],
+        });
+      }
+
+      if (newGedsValues.branch) {
+        changes.push({
+          title: <FormattedMessage id="profile.branch" />,
+          description: newGedsValues.branch[locale],
+        });
+      }
+
+      if (newGedsValues.organizations) {
+        changes.push({
+          title: <FormattedMessage id="profile.branch" />,
+          description: <OrgTree data={newGedsValues} />,
+        });
+      }
+    }
+
+    return (
+      <Modal
+        title={<FormattedMessage id="profile.geds.changes" />}
+        visible={gatheringGedsData || newGedsValues}
+        onOk={handleGedsConfirm && handleGedsConfirm}
+        onCancel={() => {
+          setNewGedsValues(null);
+          setGatheringGedsData(null);
+        }}
+        okButtonProps={!newGedsValues ? { disabled: true } : null}
+      >
+        {newGedsValues ? (
+          <List>
+            {changes.map((item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.title}
+                  description={item.description}
+                />
+              </List.Item>
+            ))}
+          </List>
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
+      </Modal>
+    );
+  };
+
   const urlPopover = (url) => (
     <Popover
       content={
@@ -457,178 +631,185 @@ const PrimaryInfoFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        form={form}
-        onValuesChange={checkIfFormValuesChanged}
-      >
-        {/* Form Row One */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              name="firstName"
-              label={<FormattedMessage id="profile.first.name" />}
-              rules={[Rules.required, Rules.maxChar50]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              name="lastName"
-              label={<FormattedMessage id="profile.last.name" />}
-              rules={[Rules.required, Rules.maxChar50]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Two */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-            <Form.Item
-              name="telephone"
-              label={<FormattedMessage id="profile.telephone" />}
-              rules={Rules.telephoneFormat}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-            <Form.Item
-              name="cellphone"
-              label={<FormattedMessage id="profile.cellphone" />}
-              rules={[Rules.telephoneFormat]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-            <Form.Item
-              name="email"
-              label={<FormattedMessage id="profile.email" />}
-              rules={[Rules.emailFormat, Rules.maxChar50]}
-            >
-              <Input disabled />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Three */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              name="locationId"
-              label={<FormattedMessage id="profile.location" />}
-              rules={[Rules.required, Rules.maxChar50]}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children
-                    .join("")
-                    .toLowerCase()
-                    .indexOf(input.toLowerCase()) >= 0
-                }
-              >
-                {locationOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city},{" "}
-                      {value.province}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              name="teams"
-              label={<FormattedMessage id="profile.teams" />}
-              className="custom-bubble-select-style"
-            >
-              <Select
-                mode="tags"
-                style={{ width: "100%" }}
-                notFoundContent={
-                  <FormattedMessage id="setup.teams.placeholder" />
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Four */}
-        <Row
-          gutter={24}
-          style={{
-            backgroundColor: "#dfe5e4",
-            paddingTop: "15px",
-            marginBottom: "20px",
-            marginTop: "10px",
-          }}
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {generateGedsModal()}
+        {/* get form title */}
+        {getFormHeader(formType)}
+        <Divider style={styles.headerDiv} />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          form={form}
+          onValuesChange={checkIfFormValuesChanged}
         >
-          <Col className="gutter-row" span={24}>
-            <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-            <Form.Item
-              name="gcconnex"
-              label={
-                <>
-                  <FormattedMessage id="profile.gcconnex.username" />
-                  {urlPopover("https://gcconnex.gc.ca/profile/")}
-                </>
-              }
-              rules={[Rules.maxChar100]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-            <Form.Item
-              name="linkedin"
-              label={
-                <>
-                  <FormattedMessage id="profile.linkedin.username" />
-                  {urlPopover("https://linkedin.com/in/")}
-                </>
-              }
-              rules={[Rules.maxChar100]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
-            <Form.Item
-              name="github"
-              label={
-                <>
-                  <FormattedMessage id="profile.github.username" />
-                  {urlPopover("https://github.com/")}
-                </>
-              }
-              rules={[Rules.maxChar100]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="firstName"
+                label={<FormattedMessage id="profile.first.name" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="lastName"
+                label={<FormattedMessage id="profile.last.name" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                rules={Rules.telephoneFormat}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="email"
+                label={<FormattedMessage id="profile.email" />}
+                rules={[Rules.emailFormat, Rules.maxChar50]}
+              >
+                <Input disabled />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="locationId"
+                label={<FormattedMessage id="profile.location" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .join("")
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {locationOptions.map((value) => {
+                    return (
+                      <Option key={value.id}>
+                        {value.streetNumber} {value.streetName}, {value.city},{" "}
+                        {value.province}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="teams"
+                label={<FormattedMessage id="profile.teams" />}
+                className="custom-bubble-select-style"
+              >
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={
+                    <FormattedMessage id="setup.teams.placeholder" />
+                  }
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four */}
+          <Row
+            gutter={24}
+            style={{
+              backgroundColor: "#dfe5e4",
+              paddingTop: "15px",
+              marginBottom: "20px",
+              marginTop: "10px",
+            }}
+          >
+            <Col className="gutter-row" span={24}>
+              <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="gcconnex"
+                label={
+                  <>
+                    <FormattedMessage id="profile.gcconnex.username" />
+                    {urlPopover("https://gcconnex.gc.ca/profile/")}
+                  </>
+                }
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="linkedin"
+                label={
+                  <>
+                    <FormattedMessage id="profile.linkedin.username" />
+                    {urlPopover("https://linkedin.com/in/")}
+                  </>
+                }
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="github"
+                label={
+                  <>
+                    <FormattedMessage id="profile.github.username" />
+                    {urlPopover("https://github.com/")}
+                  </>
+                }
+                rules={[Rules.maxChar100]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 

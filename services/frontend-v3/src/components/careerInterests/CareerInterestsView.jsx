@@ -11,10 +11,7 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
         dataSource={dataSource}
         renderItem={(item) => (
           <List.Item>
-            <List.Item.Meta
-              title={item.title}
-              description={item.description}
-            />
+            <List.Item.Meta title={item.title} description={item.description} />
           </List.Item>
         )}
       />
@@ -67,7 +64,13 @@ CareerInterestsView.propTypes = {
       ]),
     })
   ).isRequired,
-  relocationLocationsInfo: PropTypes.arrayOf(PropTypes.string),
+  relocationLocationsInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      city: PropTypes.string,
+      province: PropTypes.string,
+    })
+  ),
 };
 
 CareerInterestsView.defaultProps = {

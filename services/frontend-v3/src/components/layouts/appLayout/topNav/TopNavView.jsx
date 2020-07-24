@@ -14,6 +14,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import queryString from "query-string";
+import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
@@ -51,7 +52,16 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     dropDownItem: {
       padding: "10px 20px",
     },
-    MenuIcon: {
+    dropDownButton: {
+      color: "#fff",
+      height: 35,
+      padding: 0,
+      marginRight: 15,
+    },
+    dropDownArrow: {
+      marginLeft: 5,
+    },
+    menuIcon: {
       marginRight: 10,
     },
     signInBtn: {
@@ -88,30 +98,30 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
       {optionalStartMenuItems}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href={`/secured/profile/${id}`}>
-          <UserOutlined style={styles.MenuIcon} />
+        <Link rel="noopener noreferrer" to={`/secured/profile/${id}`}>
+          <UserOutlined style={styles.menuIcon} />
           <FormattedMessage id="my.profile" />
-        </a>
+        </Link>
       </Menu.Item>
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/profile/edit/primary-info">
-          <EditOutlined style={styles.MenuIcon} />
+        <Link rel="noopener noreferrer" to="/secured/profile/edit/primary-info">
+          <EditOutlined style={styles.menuIcon} />
           <FormattedMessage id="edit.profile" />
-        </a>
+        </Link>
       </Menu.Item>
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-          <a rel="noopener noreferrer" href="/admin/dashboard">
-            <DashboardOutlined style={styles.MenuIcon} />
+          <Link rel="noopener noreferrer" to="/admin/dashboard">
+            <DashboardOutlined style={styles.menuIcon} />
             <FormattedMessage id="admin" />
-          </a>
+          </Link>
         </Menu.Item>
       )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/logout">
-          <LogoutOutlined style={styles.MenuIcon} />
+        <Link rel="noopener noreferrer" to="/secured/logout">
+          <LogoutOutlined style={styles.menuIcon} />
           <FormattedMessage id="sign.out" />
-        </a>
+        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -127,11 +137,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <Button
             type="link"
             className="ant-dropdown-link"
-            style={{ color: "#fff", height: 35, padding: 0, marginRight: 15 }}
+            style={styles.dropDownButton}
           >
             <CustomAvatar style={styles.profileAvatar} />
             <div className="navProfileName">
-              {userName} <DownOutlined style={{ marginLeft: 5 }} />
+              {userName} <DownOutlined style={styles.dropDownArrow} />
             </div>
           </Button>
         </Dropdown>
@@ -184,10 +194,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     menu(
       false,
       <Menu.Item style={styles.dropDownItem}>
-        <a tabIndex="0" rel="noopener noreferrer" href="/secured/home">
-          <HomeOutlined style={styles.MenuIcon} />
+        <Link tabIndex="0" rel="noopener noreferrer" to="/secured/home">
+          <HomeOutlined style={styles.menuIcon} />
           <FormattedMessage id="Home" />
-        </a>
+        </Link>
       </Menu.Item>
     );
 
@@ -231,9 +241,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         >
           <Row align="middle">
             {displayLogo && (
-              <a tabIndex="0" href="/secured/home">
+              <Link tabIndex="0" to="/secured/home">
                 <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
-              </a>
+              </Link>
             )}
           </Row>
 

@@ -59,8 +59,8 @@ const ExperienceFormView = ({
       max: 60,
       message: <FormattedMessage id="profile.rules.max.60" />,
     },
-    maxChar250: {
-      max: 250,
+    maxChar1500: {
+      max: 1500,
       message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
@@ -240,10 +240,10 @@ const ExperienceFormView = ({
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
           label={<FormattedMessage id="profile.career.content.name" />}
-          rules={[Rules.maxChar250]}
+          rules={[Rules.maxChar1500]}
           extra={
             <div>
-              <FormattedMessage id="profile.rules.max.250" />
+              <FormattedMessage id="profile.rules.max.1500" />
               {charsLeft >= 0 && (
                 <span style={styles.space}>
                   ({charsLeft}

@@ -242,14 +242,7 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
-  branchOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.shape({
-        en: PropTypes.string,
-        fr: PropTypes.string,
-      }),
-    })
-  ).isRequired,
+  branchOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -260,9 +253,9 @@ SearchBarView.propTypes = {
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   urlSearchFieldValues: PropTypes.shape({
-    classification: PropTypes.array,
-    location: PropTypes.array,
-    skills: PropTypes.array,
+    classification: PropTypes.arrayOf(PropTypes.string),
+    location: PropTypes.arrayOf(PropTypes.string),
+    skills: PropTypes.arrayOf(PropTypes.string),
     exFeeder: PropTypes.bool,
     name: PropTypes.string,
   }),
