@@ -22,6 +22,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
@@ -426,251 +427,257 @@ const PersonalGrowthFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        form={form}
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
-      >
-        {/* *************** Developmental ************** */}
-        {/* Form Row One: Developmental Goals */}
-        <Row justify="space-between" align="middle">
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.developmental.goals" />
-          </Title>
-          <CardVisibilityToggle
-            visibleCards={profileInfo.visibleCards}
-            cardName="developmentalGoals"
-            type="form"
-          />
-        </Row>
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              className="custom-bubble-select-style"
-              name="developmentalGoals"
-              label={
-                <Text>
-                  <FormattedMessage id="setup.developmental.goals" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <a href="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined style={styles.iconAfterTitle} />
-                  </Popover>
-                </Text>
-              }
-            >
-              <Select
-                mode="multiple"
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                style={{ width: "100%" }}
-              >
-                {developmentalGoalOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-
-        {/* *************** Career Interest ************** */}
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        {getFormHeader(formType)}
         <Divider style={styles.headerDiv} />
-        <Row justify="space-between" align="middle">
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.career.interests" />
-          </Title>
-          <CardVisibilityToggle
-            visibleCards={profileInfo.visibleCards}
-            cardName="careerInterests"
-            type="form"
-          />
-        </Row>
-        {/* Form Row One: Remote Work */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="interestedInRemote"
-              label={<FormattedMessage id="profile.interested.in.remote" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          onValuesChange={checkIfFormValuesChanged}
+        >
+          {/* *************** Developmental ************** */}
+          {/* Form Row One: Developmental Goals */}
+          <Row justify="space-between" align="middle">
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.developmental.goals" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="developmentalGoals"
+              type="form"
+            />
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                className="custom-bubble-select-style"
+                name="developmentalGoals"
+                label={
+                  <Text>
+                    <FormattedMessage id="setup.developmental.goals" />
+                    <Popover
+                      content={
+                        <div>
+                          <FormattedMessage id="tooltip.extra.info.help" />
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        </div>
+                      }
+                    >
+                      <InfoCircleOutlined style={styles.iconAfterTitle} />
+                    </Popover>
+                  </Text>
+                }
               >
-                {interestedInRemoteOptions.map((value) => {
-                  return <Option key={value.key}>{value.text}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+                <Select
+                  mode="multiple"
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  style={{ width: "100%" }}
+                >
+                  {developmentalGoalOptions.map((value) => {
+                    return <Option key={value.id}>{value.name}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
 
-        {/* Form Row Two: Relocation */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              className="custom-bubble-select-style"
-              name="relocationLocations"
-              label={
-                <Text>
-                  <FormattedMessage id="profile.willing.to.relocate.to" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <a href="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined style={styles.iconAfterTitle} />
-                  </Popover>
-                </Text>
-              }
-            >
-              <Select
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder={<FormattedMessage id="setup.select" />}
-                optionFilterProp="children"
+          {/* *************** Career Interest ************** */}
+          <Divider style={styles.headerDiv} />
+          <Row justify="space-between" align="middle">
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.career.interests" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="careerInterests"
+              type="form"
+            />
+          </Row>
+          {/* Form Row One: Remote Work */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="interestedInRemote"
+                label={<FormattedMessage id="profile.interested.in.remote" />}
               >
-                {relocationOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                >
+                  {interestedInRemoteOptions.map((value) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
 
-        {/* Form Row Three: new job */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="lookingForANewJobId"
-              label={<FormattedMessage id="profile.looking.for.new.job" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
+          {/* Form Row Two: Relocation */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                className="custom-bubble-select-style"
+                name="relocationLocations"
+                label={
+                  <Text>
+                    <FormattedMessage id="profile.willing.to.relocate.to" />
+                    <Popover
+                      content={
+                        <div>
+                          <FormattedMessage id="tooltip.extra.info.help" />
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        </div>
+                      }
+                    >
+                      <InfoCircleOutlined style={styles.iconAfterTitle} />
+                    </Popover>
+                  </Text>
+                }
               >
-                {lookingForNewJobOptions.map((value) => {
-                  return <Option key={value.id}>{value.description}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  optionFilterProp="children"
+                >
+                  {relocationOptions.map((value) => {
+                    return (
+                      <Option key={value.id}>
+                        {value.streetNumber} {value.streetName}, {value.city}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
 
-        {/* *************** Talent Management ************** */}
-        <Divider style={styles.headerDiv} />
-        <Row justify="space-between" align="middle">
-          <Title level={3} style={styles.formTitle}>
-            <FormattedMessage id="setup.talent.management" />
-            <Popover
-              content={
-                <div>
-                  <FormattedMessage id="profile.talent.management.tooltip" />
-                  <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
-                    Talent Management Tool
-                  </a>
-                </div>
-              }
-            >
-              <ExclamationCircleOutlined style={styles.TMTooltip} />
-            </Popover>
-          </Title>
-          <CardVisibilityToggle
-            visibleCards={profileInfo.visibleCards}
-            cardName="talentManagement"
-            type="form"
-          />
-        </Row>
-
-        {/* Form Row Three: career mobility */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="careerMobilityId"
-              label={<FormattedMessage id="profile.career.mobility" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
+          {/* Form Row Three: new job */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="lookingForANewJobId"
+                label={<FormattedMessage id="profile.looking.for.new.job" />}
               >
-                {careerMobilityOptions.map((value) => {
-                  return <Option key={value.id}>{value.description}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                >
+                  {lookingForNewJobOptions.map((value) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
 
-        {/* Form Row Three: talent matrix */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="talentMatrixResultId"
-              label={<FormattedMessage id="profile.talent.matrix.result" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
+          {/* *************** Talent Management ************** */}
+          <Divider style={styles.headerDiv} />
+          <Row justify="space-between" align="middle">
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.talent.management" />
+              <Popover
+                content={
+                  <div>
+                    <FormattedMessage id="profile.talent.management.tooltip" />
+                    <a href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
+                      Talent Management Tool
+                    </a>
+                  </div>
+                }
               >
-                {talentMatrixResultOptions.map((value) => {
-                  return <Option key={value.id}>{value.description}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+                <ExclamationCircleOutlined style={styles.TMTooltip} />
+              </Popover>
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="talentManagement"
+              type="form"
+            />
+          </Row>
 
-        {/* Form Row Three: ex feeder */}
-        <Row style={styles.exFeeder} justify="space-between">
-          <Col className="gutter-row">
-            <Form.Item name="exFeeder" valuePropName="checked">
-              <Checkbox>
-                <FormattedMessage id="profile.ex.feeder" />
-              </Checkbox>
-            </Form.Item>
-          </Col>
-          <CardVisibilityToggle
-            visibleCards={profileInfo.visibleCards}
-            cardName="exFeeder"
-            type="form"
-          />
-        </Row>
+          {/* Form Row Three: career mobility */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="careerMobilityId"
+                label={<FormattedMessage id="profile.career.mobility" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                >
+                  {careerMobilityOptions.map((value) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
 
-        {/* *************** Control Buttons ************** */}
-        {/* Form Row Four: Submit button */}
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+          {/* Form Row Three: talent matrix */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="talentMatrixResultId"
+                label={<FormattedMessage id="profile.talent.matrix.result" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                >
+                  {talentMatrixResultOptions.map((value) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* Form Row Three: ex feeder */}
+          <Row style={styles.exFeeder} justify="space-between">
+            <Col className="gutter-row">
+              <Form.Item name="exFeeder" valuePropName="checked">
+                <Checkbox>
+                  <FormattedMessage id="profile.ex.feeder" />
+                </Checkbox>
+              </Form.Item>
+            </Col>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="exFeeder"
+              type="form"
+            />
+          </Row>
+
+          {/* *************** Control Buttons ************** */}
+          {/* Form Row Four: Submit button */}
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 
