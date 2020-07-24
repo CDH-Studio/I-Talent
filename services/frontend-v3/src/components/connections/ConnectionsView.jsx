@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, List, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom";
 
 const ConnectionsView = ({ connections }) => {
   if (connections.length > 0) {
@@ -14,9 +15,9 @@ const ConnectionsView = ({ connections }) => {
             dataSource={connections}
             renderItem={(item) => (
               <List.Item>
-                <a href={`/secured/profile/${item.id}`}>
+                <Link to={`/secured/profile/${item.id}`}>
                   {item.lastName}, {item.firstName}
-                </a>
+                </Link>
               </List.Item>
             )}
           />

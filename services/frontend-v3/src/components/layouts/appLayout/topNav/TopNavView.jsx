@@ -14,6 +14,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import queryString from "query-string";
+import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
@@ -97,30 +98,30 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
       {optionalStartMenuItems}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href={`/secured/profile/${id}`}>
+        <Link rel="noopener noreferrer" to={`/secured/profile/${id}`}>
           <UserOutlined style={styles.menuIcon} />
           <FormattedMessage id="my.profile" />
-        </a>
+        </Link>
       </Menu.Item>
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/profile/edit/primary-info">
+        <Link rel="noopener noreferrer" to="/secured/profile/edit/primary-info">
           <EditOutlined style={styles.menuIcon} />
           <FormattedMessage id="edit.profile" />
-        </a>
+        </Link>
       </Menu.Item>
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-          <a rel="noopener noreferrer" href="/admin/dashboard">
+          <Link rel="noopener noreferrer" to="/admin/dashboard">
             <DashboardOutlined style={styles.menuIcon} />
             <FormattedMessage id="admin" />
-          </a>
+          </Link>
         </Menu.Item>
       )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <a rel="noopener noreferrer" href="/secured/logout">
+        <Link rel="noopener noreferrer" to="/secured/logout">
           <LogoutOutlined style={styles.menuIcon} />
           <FormattedMessage id="sign.out" />
-        </a>
+        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -193,10 +194,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     menu(
       false,
       <Menu.Item style={styles.dropDownItem}>
-        <a tabIndex="0" rel="noopener noreferrer" href="/secured/home">
+        <Link tabIndex="0" rel="noopener noreferrer" to="/secured/home">
           <HomeOutlined style={styles.menuIcon} />
           <FormattedMessage id="Home" />
-        </a>
+        </Link>
       </Menu.Item>
     );
 
@@ -240,9 +241,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         >
           <Row align="middle">
             {displayLogo && (
-              <a tabIndex="0" href="/secured/home">
+              <Link tabIndex="0" to="/secured/home">
                 <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
-              </a>
+              </Link>
             )}
           </Row>
 

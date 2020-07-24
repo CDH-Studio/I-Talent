@@ -381,7 +381,6 @@
 
   "profile.career.interests": "Job mobility",
 
-
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
   "profile.preview.public.view": "Preview public view",
@@ -417,5 +416,9 @@
   "error.show": "Show error log",
   "error.hide": "Hide error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
-  "error.403.subtitle": "Looks like someone doesn't belong"
+  "error.403.subtitle": "Looks like someone doesn't belong",
+
+  "profile.form.unsaved.alert": "You have unsaved changes, are you sure you want to leave?",
+  "profile.form.unsaved.alert.title": "You have unsaved changes",
+  "profile.form.unsaved.alert.content": "Are you sure you want to leave?"
 }

@@ -22,7 +22,7 @@ import {
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "../../../axios-instance";
 import {
@@ -271,6 +271,7 @@ const TalentFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/6");
       })
       .catch((error) => {
@@ -297,6 +298,7 @@ const TalentFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
@@ -442,9 +444,9 @@ const TalentFormView = ({
                       content={
                         <div>
                           <FormattedMessage id="tooltip.extra.info.help" />
-                          <a href="/about/help">
+                          <Link to="/about/help">
                             <FormattedMessage id="footer.contact.link" />
-                          </a>
+                          </Link>
                         </div>
                       }
                     >
@@ -624,9 +626,9 @@ const TalentFormView = ({
           content={
             <div>
               <FormattedMessage id="tooltip.extra.info.help" />
-              <a href="/about/help">
+              <Link to="/about/help">
                 <FormattedMessage id="footer.contact.link" />
-              </a>
+              </Link>
             </div>
           }
         >
@@ -654,95 +656,101 @@ const TalentFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        form={form}
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        onValuesChange={updateIfFormValuesChanged}
-      >
-        {/* Form Row Two: skills */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            {getSectionHeader("setup.skills", "skills")}
-            <Form.Item name="skills">
-              <TreeSelect
-                className="custom-bubble-select-style"
-                treeData={skillOptions}
-                onChange={onChangeSkills}
-                treeCheckable
-                showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
-                treeNodeFilterProp="title"
-                showSearch
-                maxTagCount={15}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Two: mentorship role */}
-        <Row style={styles.secondLangRow} gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <Row justify="space-between" align="middle">
-              <Space>
-                <Text>
-                  <FormattedMessage id="profile.mentorship.available" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <a href="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined style={styles.infoIconSwitch} />
-                  </Popover>
-                </Text>
-
-                <Switch
-                  checked={displayMentorshipForm}
-                  onChange={toggleMentorshipForm}
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        {getFormHeader(formType)}
+        <Divider style={styles.headerDiv} />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          onValuesChange={updateIfFormValuesChanged}
+        >
+          {/* Form Row Two: skills */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              {getSectionHeader("setup.skills", "skills")}
+              <Form.Item name="skills">
+                <TreeSelect
+                  className="custom-bubble-select-style"
+                  treeData={skillOptions}
+                  onChange={onChangeSkills}
+                  treeCheckable
+                  showCheckedStrategy={SHOW_CHILD}
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  treeNodeFilterProp="title"
+                  showSearch
+                  maxTagCount={15}
                 />
-              </Space>
-              <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="mentorshipSkills"
-                type="form"
-              />
-            </Row>
-            {getMentorshipForm(displayMentorshipForm)}
-          </Col>
-        </Row>
-        {/* Form Row Three: competencies */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            {getSectionHeader("setup.competencies", "competencies")}
-            <Form.Item name="competencies">
-              <Select
-                className="custom-bubble-select-style"
-                mode="multiple"
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                style={{ width: "100%" }}
-              >
-                {competencyOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Four: Submit button */}
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two: mentorship role */}
+          <Row style={styles.secondLangRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Row justify="space-between" align="middle">
+                <Space>
+                  <Text>
+                    <FormattedMessage id="profile.mentorship.available" />
+                    <Popover
+                      content={
+                        <div>
+                          <FormattedMessage id="tooltip.extra.info.help" />
+                          <Link to="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </Link>
+                        </div>
+                      }
+                    >
+                      <InfoCircleOutlined style={styles.infoIconSwitch} />
+                    </Popover>
+                  </Text>
+
+                  <Switch
+                    checked={displayMentorshipForm}
+                    onChange={toggleMentorshipForm}
+                  />
+                </Space>
+                <CardVisibilityToggle
+                  visibleCards={profileInfo.visibleCards}
+                  cardName="mentorshipSkills"
+                  type="form"
+                />
+              </Row>
+              {getMentorshipForm(displayMentorshipForm)}
+            </Col>
+          </Row>
+          {/* Form Row Three: competencies */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              {getSectionHeader("setup.competencies", "competencies")}
+              <Form.Item name="competencies">
+                <Select
+                  className="custom-bubble-select-style"
+                  mode="multiple"
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  style={{ width: "100%" }}
+                >
+                  {competencyOptions.map((value) => {
+                    return <Option key={value.id}>{value.name}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Submit button */}
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 
