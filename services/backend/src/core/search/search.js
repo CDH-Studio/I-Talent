@@ -39,6 +39,8 @@ async function filterSearch(request, response) {
       classifications,
       exFeeder,
       language,
+      mentorSkills,
+      anyMentorSkills,
     } = request.query;
 
     let skillSearchValue = "";
@@ -70,6 +72,12 @@ async function filterSearch(request, response) {
 
     if (classifications) {
       results = await utils.classificationSearch(results, classifications);
+    }
+
+    if (anyMentorSkills === "true") {
+      results = await utils.anyMentorSkillsSearch(results);
+    } else if (mentorSkills) {
+      results = await utils.mentorSkillsSearch(results, mentorSkills);
     }
 
     if (exFeeder === "true") {
