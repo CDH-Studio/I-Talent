@@ -12,6 +12,7 @@ import {
   AdminSchool,
 } from "../pages/admin";
 import keycloakConfig from "../keycloak";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const { keycloakJSONConfig } = keycloakConfig;
 
@@ -70,7 +71,7 @@ const Admin = () => {
   }, []);
 
   if (!keycloak) {
-    return null;
+    return <AppLayout loading />;
   }
 
   if (!authenticated) {

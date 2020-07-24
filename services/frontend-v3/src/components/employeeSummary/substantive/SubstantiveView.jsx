@@ -6,7 +6,7 @@ import { injectIntl } from "react-intl";
 const SubstantiveView = ({ values }) => {
   return (
     <Row>
-      <Col xs={24} lg={24}>
+      <Col span={24}>
         <List
           itemLayout="horizontal"
           dataSource={values}

@@ -5,7 +5,7 @@ import { Row, Col, List } from "antd";
 const ActingView = ({ values }) => {
   return (
     <Row>
-      <Col xs={24} lg={24}>
+      <Col span={24}>
         <List
           itemLayout="horizontal"
           dataSource={values}
