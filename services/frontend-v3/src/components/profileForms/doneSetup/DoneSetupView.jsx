@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Skeleton } from "antd";
+import { Typography, Button } from "antd";
 import {
   SearchOutlined,
   UserOutlined,
@@ -15,7 +15,7 @@ const { Title, Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ load, userId }) => {
+const DoneSetupView = ({ userId }) => {
   /* Component Styles */
   const styles = {
     skeleton: {
@@ -39,15 +39,6 @@ const DoneSetupView = ({ load, userId }) => {
     },
   };
 
-  if (!load) {
-    return (
-      /* If form data is loading then wait */
-      <div style={styles.skeleton}>
-        <Skeleton active />
-      </div>
-    );
-  }
-  /* Once data had loaded display form */
   return (
     <div style={styles.content}>
       <CheckCircleOutlined
@@ -97,7 +88,6 @@ const DoneSetupView = ({ load, userId }) => {
 };
 
 DoneSetupView.propTypes = {
-  load: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
 };
 

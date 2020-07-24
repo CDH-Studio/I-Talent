@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ProjectsView from "./ProjectsView";
+import ProfileCards from "../profileCards/ProfileCards";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-const Projects = ({ data }) => {
-  const [projectsInfo, setProjectsInfo] = useState([]);
-
-  useEffect(() => {
-    if (data.projects != null) {
-      const tempProjects = [];
-      data.projects.forEach((projectElement) => {
-        const projects = {
-          projectDescription: projectElement.text,
-        };
-        tempProjects.push(projects);
-      });
-      setProjectsInfo(tempProjects);
-    }
-  }, [data]);
-
+const Projects = ({ data, type }) => {
   return (
-    <ProjectsView data={data} projectsInfo={projectsInfo} />
+    <ProfileCards
+      titleId="profile.projects"
+      content={<ProjectsView projectsInfo={data.projects} />}
+      cardName="projects"
+      id="card-profile-projects"
+      editUrl="/secured/profile/edit/qualifications"
+      data={data}
+      type={type}
+      visible={data.visibleCards.projects}
+    />
   );
 };
 
 Projects.propTypes = {
-  data: PropTypes.shape({
-    projects: PropTypes.array,
-  }).isRequired,
+  data: ProfileInfoPropType,
+  type: PropTypes.bool,
+};
+
+Projects.defaultProps = {
+  data: null,
+  type: null,
 };
 
 export default Projects;

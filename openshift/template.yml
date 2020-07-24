@@ -1,13 +1,22 @@
 kind: "Template"
 apiVersion: v1
 metadata:
-  name: "ITalent UAT template"
+  name: "ITalent template"
 parameters:
   - name: PROJECT_NAME
     displayName: Project Name
     description: "The namespace of the project"
     required: true
 objects:
+  - apiVersion: v1
+    data:
+      database-password:
+    kind: Secret
+    metadata:
+      name: redis
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/redis
+    type: Opaque
   - apiVersion: v1
     data:
       password:
@@ -33,6 +42,7 @@ objects:
       database-name:
       database-password:
       database-user:
+      database-url:
     kind: Secret
     metadata:
       name: postgresql
@@ -76,6 +86,23 @@ objects:
         requests:
           storage: 1Gi
       storageClassName: gp2-resize-encrypted
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      annotations:
+        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
+      finalizers:
+        - kubernetes.io/pvc-protection
+      name: redis
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/persistentvolumeclaims/redis
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: gp2-resize-encrypted
   - apiVersion: build.openshift.io/v1
     kind: BuildConfig
     metadata:
@@ -100,12 +127,13 @@ objects:
           uri: https://github.com/CDH-Studio/UpSkill.git
         type: Git
       strategy:
-        sourceStrategy:
-          from:
-            kind: ImageStreamTag
-            name: nodejs:10
-            namespace: openshift
-        type: Source
+        dockerStrategy:
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: YARN_CACHE_FOLDER
+              value: /upskill-backend/.yarn-cache
+        type: Docker
       triggers:
         - generic:
             secret: 7a2dd9b3f08948d1
@@ -140,19 +168,17 @@ objects:
           uri: https://github.com/CDH-Studio/UpSkill.git
         type: Git
       strategy:
-        sourceStrategy:
+        dockerStrategy:
           env:
-            - name: NPM_RUN
-              value: deploy
+            - name: NODE_ENV
+              value: production
+            - name: YARN_CACHE_FOLDER
+              value: /upskill-frontend/.yarn-cache
             - name: REACT_APP_API_ADDRESS
-              value: https://backend-${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca/
+              value: https://${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca/
             - name: REACT_APP_KEYCLOAK_AUTH_SERVER_URL
-              value: https://sso.ised-isde.canada.ca/auth
-          from:
-            kind: ImageStreamTag
-            name: nodejs:10
-            namespace: openshift
-        type: Source
+              value: https://sso-dev.ised-isde.canada.ca/auth
+        type: Docker
       triggers:
         - generic:
             secret: 3d080b0f35ccc23e
@@ -194,27 +220,13 @@ objects:
         spec:
           containers:
             - env:
-                - name: PLATFORM
-                  value: OPENSHIFT
                 - name: DATABASE_URL
-                  value: postgres://postgresql:5432
-                - name: PGDATABASE
                   valueFrom:
                     secretKeyRef:
-                      key: database-name
-                      name: postgresql
-                - name: PGUSERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-user
-                      name: postgresql
-                - name: PGPASS
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-password
+                      key: database-url
                       name: postgresql
                 - name: PORT
-                  value: "8080"
+                  value: "3000"
                 - name: GEDSAPIURL
                   valueFrom:
                     secretKeyRef:
@@ -235,10 +247,17 @@ objects:
                     secretKeyRef:
                       key: password
                       name: keycloak
+                - name: REDIS_HOST
+                  value: "redis"
+                - name: REDIS_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: redis
               imagePullPolicy: Always
               name: backend
               ports:
-                - containerPort: 8080
+                - containerPort: 3000
                   protocol: TCP
               resources: {}
               terminationMessagePath: /dev/termination-log
@@ -413,6 +432,95 @@ objects:
               namespace: openshift
           type: ImageChange
         - type: ConfigChange
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+        template.alpha.openshift.io/wait-for-ready: "true"
+      name: redis
+      namespace: ${PROJECT_NAME}
+      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/redis
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        name: redis
+      strategy:
+        activeDeadlineSeconds: 21600
+        recreateParams:
+          timeoutSeconds: 600
+        resources: {}
+        type: Recreate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            name: redis
+        spec:
+          containers:
+            - env:
+                - name: REDIS_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: redis
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 3
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 6379
+                timeoutSeconds: 1
+              name: redis
+              ports:
+                - containerPort: 6379
+                  protocol: TCP
+              readinessProbe:
+                exec:
+                  command:
+                    - /bin/sh
+                    - -i
+                    - -c
+                    - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
+                failureThreshold: 3
+                initialDelaySeconds: 5
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  memory: 512Mi
+              securityContext:
+                capabilities: {}
+                privileged: false
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /var/lib/redis/data
+                  name: redis-data
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - name: redis-data
+              persistentVolumeClaim:
+                claimName: redis
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - redis
+            from:
+              kind: ImageStreamTag
+              name: redis:3.2
+              namespace: openshift
+          type: ImageChange
+        - type: ConfigChange
   - apiVersion: v1
     kind: Service
     metadata:
@@ -423,10 +531,10 @@ objects:
       selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/backend
     spec:
       ports:
-        - name: 8080-tcp
-          port: 8080
+        - name: 3000-tcp
+          port: 3000
           protocol: TCP
-          targetPort: 8080
+          targetPort: 3000
       selector:
         deploymentconfig: backend
       sessionAffinity: None
@@ -465,6 +573,22 @@ objects:
         name: postgresql
       sessionAffinity: None
       type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: redis
+      namespace: ${PROJECT_NAME}
+      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/redis
+    spec:
+      ports:
+        - name: redis
+          port: 6379
+          protocol: TCP
+          targetPort: 6379
+      selector:
+        name: redis
+      sessionAffinity: None
+      type: ClusterIP
   - apiVersion: route.openshift.io/v1
     kind: Route
     metadata:
@@ -474,9 +598,10 @@ objects:
       namespace: ${PROJECT_NAME}
       selfLink: /apis/route.openshift.io/v1/namespaces/${PROJECT_NAME}/routes/backend
     spec:
-      host: backend-${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      host: ${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      path: /api
       port:
-        targetPort: 8080-tcp
+        targetPort: 3000-tcp
       to:
         kind: Service
         name: backend
@@ -491,7 +616,7 @@ objects:
       namespace: ${PROJECT_NAME}
       selfLink: /apis/route.openshift.io/v1/namespaces/${PROJECT_NAME}/routes/frontend
     spec:
-      host: frontend-${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      host: ${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
       port:
         targetPort: 8080-tcp
       to:

@@ -1,55 +1,103 @@
-const { skill } = require("../../database/models");
-
+const { validationResult } = require("express-validator");
 const utils = require("./util");
 
-// FIXME refactor this form
-async function getSkillNames(searchSkill) {
-  return Promise.all(
-    searchSkill.map(async (skillId) => {
-      const findSkills = await skill
-        .findOne({ where: { id: skillId } })
-        .then((data) => data.dataValues);
+async function fuzzySearch(request, response) {
+  try {
+    validationResult(request).throw();
+    const userId = request.kauth.grant.access_token.content.sub;
 
-      return `${findSkills.descriptionEn}`;
-    })
-  );
+    const { language, searchValue } = request.query;
+
+    const value = searchValue || "";
+
+    const profiles = await utils.getAllProfiles(value, language, userId);
+    const results = await utils.fuzzySearch(profiles, value);
+
+    const responseData = utils.cleanResults(results);
+
+    response.status(200).json(responseData);
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).send("Error doing a fuzzy search");
+  }
 }
 
-async function search(request, response) {
-  const { query } = request;
+async function filterSearch(request, response) {
+  try {
+    validationResult(request).throw();
+    const userId = request.kauth.grant.access_token.content.sub;
 
-  const searchSkill = query.skills;
+    const {
+      skills,
+      name,
+      branches,
+      locations,
+      classifications,
+      exFeeder,
+      language,
+      mentorSkills,
+      anyMentorSkills,
+    } = request.query;
 
-  let skillSearchValue = query.searchValue || "";
+    let skillSearchValue = "";
+    if (skills) {
+      skillSearchValue = await utils.getSkillNames(skills);
+    }
 
-  if (searchSkill) {
-    skillSearchValue = (
-      await getSkillNames(searchSkill, skillSearchValue)
-    ).join(" ");
+    let results = await utils.getAllProfiles(
+      skillSearchValue,
+      language,
+      userId
+    );
+
+    if (skills) {
+      results = await utils.skillSearch(results, skills);
+    }
+
+    if (name) {
+      results = await utils.nameSearch(results, name);
+    }
+
+    if (branches) {
+      results = await utils.branchSearch(results, branches);
+    }
+
+    if (locations) {
+      results = await utils.locationSearch(results, locations);
+    }
+
+    if (classifications) {
+      results = await utils.classificationSearch(results, classifications);
+    }
+
+    if (anyMentorSkills === "true") {
+      results = await utils.anyMentorSkillsSearch(results);
+    } else if (mentorSkills) {
+      results = await utils.mentorSkillsSearch(results, mentorSkills);
+    }
+
+    if (exFeeder === "true") {
+      results = utils.exFeederSearch(results);
+    }
+
+    const responseData = utils.cleanResults(results);
+
+    response.status(200).json(responseData);
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).send("Error doing a filter search");
   }
-
-  let results = await utils.getAllProfiles(skillSearchValue);
-
-  if (query.searchValue)
-    results = await utils.fuzzySearch(results, query.searchValue);
-
-  if (query.skills) results = await utils.skillSearch(results, query.skills);
-
-  if (query.name) results = await utils.nameSearch(results, query.name);
-
-  if (query.branch) results = await utils.branchSearch(results, query.branch);
-
-  if (query.location)
-    results = await utils.locationSearch(results, query.location);
-
-  if (query.classification)
-    results = await utils.classificationSearch(results, query.classification);
-
-  if (query.exFeeder === "true") results = utils.exFeederSearch(results);
-
-  response.status(200).json(results);
 }
 
 module.exports = {
-  search,
+  fuzzySearch,
+  filterSearch,
 };

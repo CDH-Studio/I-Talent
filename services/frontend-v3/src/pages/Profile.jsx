@@ -1,83 +1,86 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import { useSelector } from "react-redux";
-import config from "../config";
+import axios from "../axios-instance";
 import handleError from "../functions/handleError";
-import ProfileSkeleton from "../components/profileSkeleton/ProfileSkeleton";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-
-const { backendAddress } = config;
 
 const Profile = ({ history, match }) => {
   const [name, setName] = useState("Loading");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [connectionData, setConnectionData] = useState(null);
 
-  const userID = useSelector(state => state.user.id);
-
-  const updateProfileInfo = useCallback(async (id) => {
-    // Send private data to ProfileLayout component, when current user
-    // is looking at his own profile
-    if (id === userID) {
-      const fetchedData = await axios
-        .get(`${backendAddress}api/profile/private/${id}`)
-        .then((res) => res.data)
-        .catch((error) => {
-          throw error;
-        });
-
-      return fetchedData;
-    }
-    // Send public data to ProfileLayout component, when current user
-    // is looking at someone else profile
-    const fetchedData = await axios
-      .get(`${backendAddress}api/profile/${id}`)
-      .then((res) => res.data)
-      .catch((error) => {
-        if (
-          !error.isAxiosError ||
-          !error.response ||
-          !error.response.status === 404
-        ) {
-          throw error;
-        }
-      });
-    return fetchedData;
-  }, [userID]);
-
-  const goto = useCallback((link) => history.push(link), [history]);
+  const userID = useSelector((state) => state.user.id);
+  const { locale } = useSelector((state) => state.settings);
+  const { savedFormContent } = useSelector((state) => state.state);
+  const { id } = match.params;
 
   useEffect(() => {
-    const { id } = match.params;
+    const fetchProfile = async () => {
+      const promiseArray = [];
+      const profile =
+        id === userID
+          ? axios.get(`api/profile/private/${id}?language=${locale}`)
+          : axios.get(`api/profile/${id}?language=${locale}`);
 
-    if (id === undefined) {
-      goto(`/secured/profile/${userID}`);
-      // this.forceUpdate();
-    }
+      promiseArray.push(profile);
 
-    if (data === null) {
-      updateProfileInfo(id)
-        .then((fetchedData) => {
-          if (fetchedData !== undefined) {
-            setName(`${fetchedData.firstName} ${fetchedData.lastName}`);
+      if (id !== userID) {
+        const connectionStatus = axios.get(`api/connections/${id}`);
+        promiseArray.push(connectionStatus);
+      }
+
+      Promise.all(promiseArray)
+        .then((result) => {
+          if (result[0].data !== undefined) {
+            const profileData = result[0].data;
+            setName(`${profileData.firstName} ${profileData.lastName}`);
+            setData(profileData);
+            if (result[0].data && userID !== id) {
+              setConnectionData(result[1].data.status);
+            }
           }
-          setData(fetchedData);
           setLoading(false);
         })
         .catch((error) => handleError(error, "redirect"));
+    };
+
+    if (id === undefined) {
+      history.push(`/secured/profile/${userID}`);
+    } else {
+      fetchProfile();
     }
-  }, [data, goto, match.params, updateProfileInfo, userID]);
+  }, [history, id, locale, userID]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;
   }, [name]);
 
-  if (!loading) {
-    return <ProfileLayout data={data} />;
-  }
+  const changeConnection = async () => {
+    if (connectionData) {
+      await axios
+        .delete(`api/connections/${id}`)
+        .catch((error) => handleError(error, "message"));
+      setConnectionData(false);
+    } else {
+      await axios
+        .post(`api/connections/${id}`)
+        .catch((error) => handleError(error, "message"));
+      setConnectionData(true);
+    }
+  };
 
-  return <ProfileSkeleton />;
+  return (
+    <ProfileLayout
+      data={data}
+      connectionStatus={connectionData}
+      privateProfile={id === userID}
+      changeConnection={changeConnection}
+      loading={loading}
+      savedFormContent={savedFormContent}
+    />
+  );
 };
 
 Profile.propTypes = {
@@ -85,7 +88,9 @@ Profile.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   match: PropTypes.shape({
-    params: PropTypes.any,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
   }).isRequired,
 };
 

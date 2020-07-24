@@ -70,7 +70,7 @@ const EducationFormView = ({
   const toggleEndDate = () => {
     if (!disableEndDate) {
       const educationFieldValues = form.getFieldsValue();
-      educationFieldValues.education[field.fieldKey].endDate = undefined;
+      educationFieldValues.educations[field.fieldKey].endDate = undefined;
       form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate((prev) => !prev);
@@ -84,7 +84,7 @@ const EducationFormView = ({
    * This is used for the end date field
    */
   const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["education", field.fieldKey, "startDate"];
+    const fieldPath = ["educations", field.fieldKey, "startDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -101,7 +101,7 @@ const EducationFormView = ({
    * This is used for the start date field
    */
   const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["education", field.fieldKey, "endDate"];
+    const fieldPath = ["educations", field.fieldKey, "endDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -116,8 +116,8 @@ const EducationFormView = ({
     if (
       profileInfo &&
       field &&
-      profileInfo.education[field.fieldKey] &&
-      profileInfo.education[field.fieldKey].endDate.en
+      profileInfo.educations[field.fieldKey] &&
+      profileInfo.educations[field.fieldKey].endDate
     ) {
       toggleEndDate();
     }
@@ -164,8 +164,8 @@ const EducationFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Diploma Dropdown */}
         <Form.Item
-          name={[field.name, "diploma"]}
-          fieldKey={[field.fieldKey, "diploma"]}
+          name={[field.name, "diplomaId"]}
+          fieldKey={[field.fieldKey, "diplomaId"]}
           label={<FormattedMessage id="profile.diploma" />}
           style={style.formItem}
           rules={[Rules.required]}
@@ -177,7 +177,7 @@ const EducationFormView = ({
             allowClear
           >
             {diplomaOptions.map((value) => {
-              return <Option key={value.key}>{value.title}</Option>;
+              return <Option key={value.id}>{value.description}</Option>;
             })}
           </Select>
         </Form.Item>
@@ -185,8 +185,8 @@ const EducationFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* School Dropdown */}
         <Form.Item
-          name={[field.name, "school"]}
-          fieldKey={[field.fieldKey, "school"]}
+          name={[field.name, "schoolId"]}
+          fieldKey={[field.fieldKey, "schoolId"]}
           label={<FormattedMessage id="profile.school" />}
           rules={[Rules.required]}
           style={style.formItem}
@@ -198,7 +198,7 @@ const EducationFormView = ({
             allowClear
           >
             {schoolOptions.map((value) => {
-              return <Option key={value.key}>{value.title}</Option>;
+              return <Option key={value.id}>{value.name}</Option>;
             })}
           </Select>
         </Form.Item>

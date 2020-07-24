@@ -13,9 +13,11 @@ import {
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { Prompt } from "react-router";
+import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -24,9 +26,9 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import config from "../../../config";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
-const { backendAddress } = config;
 const { Title, Text } = Typography;
 
 /**
@@ -50,6 +52,9 @@ const QualificationsFormView = ({
   const [savedValues, setSavedValues] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
 
+  const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
+
   /* Component Styles */
   const styles = {
     skeleton: {
@@ -68,6 +73,10 @@ const QualificationsFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
     entryTitle: {
       fontSize: "1em",
@@ -75,13 +84,18 @@ const QualificationsFormView = ({
     headerDiv: {
       margin: "15px 0 15px 0",
     },
-    datePicker: { width: "100%" },
+    datePicker: {
+      width: "100%",
+    },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -107,44 +121,8 @@ const QualificationsFormView = ({
    */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    // format education date for DB storage
-    if (values.education) {
-      for (let i = 0; i < values.education.length; i += 1) {
-        if (values.education[i].startDate) {
-          values.education[i].startDate = values.education[i].startDate.startOf(
-            "month"
-          );
-        }
-        if (values.education[i].endDate) {
-          values.education[i].endDate = values.education[i].endDate.startOf(
-            "month"
-          );
-        }
-      }
-    }
 
-    if (values.experience) {
-      for (let i = 0; i < values.experience.length; i += 1) {
-        if (values.experience[i].startDate) {
-          values.experience[i].startDate = values.experience[
-            i
-          ].startDate.startOf("month");
-        }
-        if (values.experience[i].endDate) {
-          values.experience[i].endDate = values.experience[i].endDate.startOf(
-            "month"
-          );
-        }
-      }
-    }
-
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* show message */
@@ -178,8 +156,8 @@ const QualificationsFormView = ({
       profileInfo
     ) {
       setInitialValues({
-        education: savedEducation,
-        experience: savedExperience,
+        educations: savedEducation,
+        experiences: savedExperience,
         projects: savedProjects,
       });
     }
@@ -212,36 +190,36 @@ const QualificationsFormView = ({
 
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
-    if (formValues.education) {
-      formValues.education = formValues.education.map((i) =>
+    if (formValues.educations) {
+      formValues.educations = formValues.educations.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      formValues.education = _.filter(formValues.education, _.size);
+      formValues.educations = _.filter(formValues.educations, _.size);
     }
 
-    if (formValues.experience) {
-      formValues.experience = formValues.experience.map((i) =>
+    if (formValues.experiences) {
+      formValues.experiences = formValues.experiences.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      formValues.experience = _.filter(formValues.experience, _.size);
+      formValues.experiences = _.filter(formValues.experiences, _.size);
     }
 
-    if (dbValues.education) {
-      dbValues.education = dbValues.education.map((i) =>
+    if (dbValues.educations) {
+      dbValues.educations = dbValues.educations.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      dbValues.education = _.filter(dbValues.education, _.size);
+      dbValues.educations = _.filter(dbValues.educations, _.size);
     }
 
-    if (dbValues.experience) {
-      dbValues.experience = dbValues.experience.map((i) =>
+    if (dbValues.experiences) {
+      dbValues.experiences = dbValues.experiences.map((i) =>
         _.pickBy(i, _.identity)
       );
 
-      dbValues.experience = _.filter(dbValues.experience, _.size);
+      dbValues.experiences = _.filter(dbValues.experiences, _.size);
     }
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
@@ -285,13 +263,16 @@ const QualificationsFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -402,10 +383,27 @@ const QualificationsFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="profile.employee.qualifications" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
+
+  const getSectionHeader = (titleId, cardName) => (
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+        type="form"
+      />
+    </Row>
+  );
 
   /** **********************************
    ********* Render Component *********
@@ -420,131 +418,127 @@ const QualificationsFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        {getFormHeader(formType)}
+        <Divider style={styles.headerDiv} />
 
-      {/* Create form with initial values */}
-      <Form
-        name="QualificationForm"
-        form={form}
-        initialValues={savedValues || initialValues}
-        layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
-      >
-        {/* *************** Education ************** */}
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.education" />
-        </Title>
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.List name="education">
-              {(fields, { add, remove }) => {
-                return (
-                  <div>
-                    {/* generate education form for each education item */}
-                    {fields.map((field) => (
-                      <EducationForm
-                        key={field.fieldKey}
-                        form={form}
-                        field={field}
-                        remove={remove}
-                        profileInfo={profileInfo}
-                        style={styles}
-                        checkIfFormValuesChanged={checkIfFormValuesChanged}
-                      />
-                    ))}
-                    <Form.Item>
-                      {/* add education field button */}
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                        style={{ width: "100%" }}
-                      >
-                        <PlusOutlined />
-                        <FormattedMessage id="setup.add.item" />
-                      </Button>
-                    </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Col>
-        </Row>
-        {/* *************** Work Experience ************** */}
-        <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.experience" />
-        </Title>
-        {/* Form Row One: Remote Work */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.List name="experience">
-              {(fields, { add, remove }) => {
-                return (
-                  <div>
-                    {/* generate education form for each education item */}
-                    {fields.map((field) => (
-                      <ExperienceForm
-                        key={field.fieldKey}
-                        form={form}
-                        field={field}
-                        remove={remove}
-                        profileInfo={profileInfo}
-                        style={styles}
-                        checkIfFormValuesChanged={checkIfFormValuesChanged}
-                      />
-                    ))}
-                    <Form.Item>
-                      {/* add education field button */}
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                        style={{ width: "100%" }}
-                      >
-                        <PlusOutlined />
-                        <FormattedMessage id="setup.add.item" />
-                      </Button>
-                    </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Col>
-        </Row>
-        {/* *************** Projects ************** */}
-        <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.projects" />
-        </Title>
-        {/* Form Row Three: career mobility */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="projects"
-              label={<FormattedMessage id="setup.projects" />}
-              className="custom-bubble-select-style"
-            >
-              <Select
-                mode="tags"
-                style={{ width: "100%" }}
-                notFoundContent={
-                  <FormattedMessage id="setup.projects.placeholder" />
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* *************** Control Buttons ************** */}
-        {/* Form Row Four: Submit button */}
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+        {/* Create form with initial values */}
+        <Form
+          name="QualificationForm"
+          form={form}
+          initialValues={savedValues || initialValues}
+          layout="vertical"
+          onValuesChange={checkIfFormValuesChanged}
+        >
+          {/* *************** Education ************** */}
+          {getSectionHeader("setup.education", "education")}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.List name="educations">
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {/* generate education form for each education item */}
+                      {fields.map((field) => (
+                        <EducationForm
+                          key={field.fieldKey}
+                          form={form}
+                          field={field}
+                          remove={remove}
+                          profileInfo={profileInfo}
+                          style={styles}
+                          checkIfFormValuesChanged={checkIfFormValuesChanged}
+                        />
+                      ))}
+                      <Form.Item>
+                        {/* add education field button */}
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <PlusOutlined />
+                          <FormattedMessage id="setup.add.item" />
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+          </Row>
+          {/* *************** Work Experience ************** */}
+          <Divider style={styles.headerDiv} />
+          {getSectionHeader("setup.experience", "experience")}
+          {/* Form Row One: Remote Work */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.List name="experiences">
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {/* generate education form for each education item */}
+                      {fields.map((field) => (
+                        <ExperienceForm
+                          key={field.fieldKey}
+                          form={form}
+                          field={field}
+                          remove={remove}
+                          profileInfo={profileInfo}
+                          style={styles}
+                          checkIfFormValuesChanged={checkIfFormValuesChanged}
+                        />
+                      ))}
+                      <Form.Item>
+                        {/* add education field button */}
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <PlusOutlined />
+                          <FormattedMessage id="setup.add.item" />
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+          </Row>
+          {/* *************** Projects ************** */}
+          <Divider style={styles.headerDiv} />
+          {getSectionHeader("setup.projects", "projects")}
+          {/* Form Row Three: career mobility */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item name="projects" className="custom-bubble-select-style">
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={
+                    <FormattedMessage id="setup.projects.placeholder" />
+                  }
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* *************** Control Buttons ************** */}
+          {/* Form Row Four: Submit button */}
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 
@@ -553,18 +547,17 @@ QualificationsFormView.propTypes = {
   savedEducation: PropTypes.arrayOf(
     PropTypes.shape({
       diploma: PropTypes.string,
-      endDate: PropTypes.PropTypes.object,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
       school: PropTypes.string,
-      startDate: PropTypes.object,
     })
   ),
   savedExperience: PropTypes.arrayOf(
     PropTypes.shape({
       content: PropTypes.string,
-      // Note: PropTypes doesn't have a good way to specify null, you have to use number instead
-      endDate: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+      endDate: PropTypes.oneOfType([PropTypes.object]),
       header: PropTypes.string,
-      startDate: PropTypes.object,
+      startDate: PropTypes.oneOfType([PropTypes.object]),
       subheader: PropTypes.string,
     })
   ),

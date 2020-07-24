@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { Row, Avatar, List, Button } from "antd";
 import { ContainerOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import { IntlPropType } from "../../../customPropTypes";
 
-const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
+const ExperienceItem = ({ expand, item, toggleExpand }) => {
   const styles = {
     avatar: {
       backgroundColor: "#007471",
@@ -38,7 +37,9 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
       return (
         <>
           {expand && (
-            <Row style={{ display: "block" }}>{generateDescriptionBody()}</Row>
+            <Row style={{ display: "block", overflowWrap: "anywhere" }}>
+              <div>{generateDescriptionBody()}</div>
+            </Row>
           )}
           <Row>
             <Button
@@ -48,10 +49,7 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
             >
               {expand ? <UpOutlined /> : <DownOutlined />}
               <span style={styles.expandDescriptionToggleTagText}>
-                {intl.formatMessage({
-                  id: "profile.career.content.name",
-                  defaultMessage: "Description",
-                })}
+                <FormattedMessage id="profile.career.content.name" />
               </span>
             </Button>
           </Row>
@@ -64,14 +62,14 @@ const ExperienceItem = ({ expand, item, toggleExpand, intl }) => {
   const generateDescription = () => {
     return (
       <>
-        <Row>{item.organizationName}</Row>
+        <Row>{item.organization}</Row>
         {generateDescriptionContent()}
       </>
     );
   };
 
   return (
-    <List.Item extra={item.duration}>
+    <List.Item className="experience-item-list" extra={item.duration}>
       <List.Item.Meta
         avatar={
           <Avatar
@@ -95,14 +93,9 @@ ExperienceItem.propTypes = {
     duration: PropTypes.string,
     icon: PropTypes.string,
     jobTitle: PropTypes.string,
-    organizationName: PropTypes.string,
+    organization: PropTypes.string,
   }).isRequired,
   toggleExpand: PropTypes.func.isRequired,
-  intl: IntlPropType,
 };
 
-ExperienceItem.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(ExperienceItem);
+export default ExperienceItem;

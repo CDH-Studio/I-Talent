@@ -15,6 +15,31 @@ const { Text, Title } = Typography;
  *  this component renders the landing page.
  */
 const LandingLayoutView = () => {
+  const styles = {
+    logo: {
+      width: "250px",
+      marginTop: "30px",
+    },
+    text: {
+      display: "block",
+      margin: "20px 0",
+      fontSize: "15px",
+    },
+    title: {
+      display: "block",
+      margin: "25px 0 10px 0",
+      color: "#404040",
+    },
+    image: {
+      maxWidth: "70%",
+      maxHeight: "400px",
+      marginTop: "20px",
+    },
+    imageContainer: {
+      textAlign: "center",
+    },
+  };
+
   /**
    * Random Picture Select
    *
@@ -31,37 +56,20 @@ const LandingLayoutView = () => {
   };
 
   return (
-    <AppLayout displaySideBar={false}>
+    <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>
       <h1 className="hidden" Landing Page>
         <FormattedMessage id="landing.login.and.enter" />
       </h1>
       <Row justify="center" style={{ marginTop: "120px" }}>
         <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
-          <img
-            src={logo}
-            alt="I-Talent Logo"
-            style={{ width: "250px", marginTop: "30px" }}
-          />
-          <Title
-            level={1}
-            style={{
-              display: "block",
-              margin: "25px 0 10px 0",
-              color: "#404040",
-            }}
-          >
+          <img src={logo} alt="I-Talent Logo" style={styles.logo} />
+          <Title level={1} style={styles.title}>
             <FormattedMessage id="landing.welcome" />
           </Title>
-          <Text
-            style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
-            strong
-          >
+          <Text style={styles.text} strong>
             <FormattedMessage id="landing.description" />
           </Text>
-          <Text
-            style={{ display: "block", margin: "20px 0", fontSize: "15px" }}
-            strong
-          >
+          <Text style={styles.text} strong>
             <FormattedMessage id="landing.call.to.action" />
           </Text>
           <Button type="primary" href="/secured/home" size="large">
@@ -71,13 +79,13 @@ const LandingLayoutView = () => {
         <Col
           sm={24}
           md={10}
-          style={{ textAlign: "center" }}
+          style={styles.imageContainer}
           className="landingPicture"
         >
           <img
             src={randomPictureSelect()}
             alt="I-Talent Logo"
-            style={{ maxWidth: "70%", maxHeight: "400px", marginTop: "20px" }}
+            style={styles.image}
           />
         </Col>
       </Row>

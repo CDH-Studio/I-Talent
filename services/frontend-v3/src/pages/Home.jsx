@@ -10,7 +10,7 @@ const Home = () => {
   }, []);
 
   return (
-    <AppLayout displaySideBar={false}>
+    <AppLayout displaySideBar={false} displayLogo={false} displaySearch={false}>
       <h1 className="hidden">
         <FormattedMessage id="home" />
       </h1>
@@ -20,7 +20,5 @@ const Home = () => {
     </AppLayout>
   );
 };
-
-Home.propTypes = {};
 
 export default Home;

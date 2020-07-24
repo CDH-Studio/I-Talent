@@ -2,19 +2,27 @@ import React from "react";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "../../axios-instance";
 import { IntlPropType } from "../../customPropTypes";
 import { setLocale } from "../../redux/slices/settingsSlice";
 
+import handleError from "../../functions/handleError";
+
 const ChangeLanguageView = ({ intl }) => {
-  const languageCode = intl.formatMessage({ id: "lang.code" });
+  const languageCode = intl.formatMessage({ id: "lang.db.code" });
+  const userID = useSelector((state) => state.user.id);
+
   const dispatch = useDispatch();
 
-  const handleKeyPress = (e, lang) => {
-    if (e.charCode === 32 || e.charCode === 13) {
-      // Prevent the default action to stop scrolling when space is pressed
-      e.preventDefault();
-      dispatch(setLocale(lang));
+  const handleLanguageChange = async () => {
+    dispatch(setLocale(languageCode));
+    if (userID) {
+      await axios
+        .put(`api/profile/${userID}?language=${languageCode}`, {
+          preferredLanguage: languageCode,
+        })
+        .catch((error) => handleError(error, "message"));
     }
   };
 
@@ -23,8 +31,7 @@ const ChangeLanguageView = ({ intl }) => {
       ghost="true"
       type="default"
       tabIndex="0"
-      onKeyPress={(e) => handleKeyPress(e, languageCode)}
-      onClick={() => dispatch(setLocale(languageCode))}
+      onClick={handleLanguageChange}
       style={{ textTransform: "uppercase" }}
     >
       <GlobalOutlined />{" "}

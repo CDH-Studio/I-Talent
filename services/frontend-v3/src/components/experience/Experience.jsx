@@ -1,13 +1,15 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import PropTypes from "prop-types";
 import ExperienceView from "./ExperienceView";
 import { ProfileInfoPropType } from "../../customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const Experience = ({ data }) => {
+const Experience = ({ data, type }) => {
   const getExperienceDuration = (startDate, endDate) => {
-    const formatedStartDate = moment(startDate).format("ll");
-    const formatedEndDate = moment(endDate).format("ll");
+    const formatedStartDate = moment(startDate).format("MMMM YYYY");
+    const formatedEndDate = moment(endDate).format("MMMM YYYY");
 
     const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
 
@@ -24,36 +26,44 @@ const Experience = ({ data }) => {
     return duration;
   };
 
-  const getExperienceInfo = dataSource => {
-    const experienceInfo = [];
-    if (dataSource.education != null) {
-      dataSource.careerSummary.forEach(expElement => {
-        const { startDate } = expElement;
-        const { endDate } = expElement;
-
-        const experience = {
-          description: expElement.content,
-          duration: getExperienceDuration(startDate, endDate),
-          icon: "solution",
-          jobTitle: expElement.header,
-          organizationName: expElement.subheader,
-        };
-
-        experienceInfo.push(experience);
-      });
+  const getExperienceInfo = (dataSource) => {
+    if (!dataSource || !dataSource.experiences) {
+      return [];
     }
 
-    return [...experienceInfo];
+    return dataSource.experiences.map(
+      ({ startDate, endDate, description, jobTitle, organization }) => ({
+        description,
+        duration: getExperienceDuration(startDate, endDate),
+        icon: "solution",
+        jobTitle,
+        organization,
+      })
+    );
   };
 
-  return <ExperienceView experienceInfo={getExperienceInfo(data)} />;
+  return (
+    <ProfileCards
+      titleId="profile.experience"
+      content={<ExperienceView experienceInfo={getExperienceInfo(data)} />}
+      cardName="experience"
+      id="card-profile-experience"
+      editUrl="/secured/profile/edit/qualifications"
+      data={data}
+      type={type}
+      visible={data.visibleCards.experience}
+    />
+  );
 };
 
 Experience.propTypes = {
   data: ProfileInfoPropType,
+  type: PropTypes.bool,
 };
 
 Experience.defaultProps = {
   data: null,
+  type: null,
 };
+
 export default Experience;

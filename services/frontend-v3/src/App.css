@@ -15,6 +15,11 @@
   }
 }
 
+.experience-item-list .ant-list-item-extra {
+  margin-top: 0px !important;
+  margin-left: 0.25em !important;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -251,4 +256,12 @@ button.ant-btn.ant-btn-dangerous:focus {
 
 *[tabIndex]:focus {
   outline: #08bab3;
+}
+
+span.searchInput span.ant-input-group-addon {
+  background: none;
+}
+
+.org-dropdown {
+  border: 2px solid #f0f0f0 !important;
 }

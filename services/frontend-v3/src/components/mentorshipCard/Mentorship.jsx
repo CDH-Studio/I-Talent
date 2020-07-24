@@ -1,22 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-
+import { ProfileInfoPropType } from "../../customPropTypes";
 import MentorshipView from "./MentorshipView";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const Mentorship = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
+const Mentorship = ({ data, type }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
+
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }
@@ -32,19 +31,15 @@ const Mentorship = ({ data }) => {
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
           if (categoriesTemp[k] == null) {
-            if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category.en];
-            } else {
-              categoriesTemp[k] = [listElement.description.category.fr];
-            }
+            categoriesTemp[k] = [listElement.category];
             k += 1;
           }
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }
@@ -68,19 +63,33 @@ const Mentorship = ({ data }) => {
 
     return mentorshipSkills;
   };
-
   return (
-    <MentorshipView
-      mentoring={setUpMentorshipSkills()}
-      mentoringCategories={setUpCategories(data.mentorshipSkills)}
+    <ProfileCards
+      titleId="profile.mentorship.skills"
+      content={
+        <MentorshipView
+          mentoring={setUpMentorshipSkills()}
+          mentoringCategories={setUpCategories(data.mentorshipSkills)}
+        />
+      }
+      cardName="mentorshipSkills"
+      id="card-profile-mentorship-skills"
+      editUrl="/secured/profile/edit/talent"
+      data={data}
+      type={type}
+      visible={data.visibleCards.mentorshipSkills}
     />
   );
 };
 
 Mentorship.propTypes = {
-  data: PropTypes.shape({
-    mentorshipSkills: PropTypes.any,
-  }).isRequired,
+  data: ProfileInfoPropType,
+  type: PropTypes.bool,
+};
+
+Mentorship.defaultProps = {
+  data: null,
+  type: null,
 };
 
 export default Mentorship;

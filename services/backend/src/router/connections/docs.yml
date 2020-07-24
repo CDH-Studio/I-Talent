@@ -1,0 +1,52 @@
+/api/connection/{id}:
+  get:
+    summary: Checks if the user is a connection
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    response:
+      200:
+        schema:
+          $ref: "#/definitions/GetConnection"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [connections]
+  post:
+    summary: Add a user as a connection
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [connections]
+  delete:
+    summary: Remove a user as a connection
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [connections]

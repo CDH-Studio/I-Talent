@@ -2,11 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import AppLayoutView from "./AppLayoutView";
 
-const AppLayout = ({ displaySideBar, sideBarContent, children }) => {
+const AppLayout = ({
+  displaySideBar,
+  sideBarContent,
+  children,
+  loading,
+  displayLogo,
+  displaySearch,
+}) => {
   return (
     <AppLayoutView
       displaySideBar={displaySideBar}
       sideBarContent={sideBarContent}
+      loading={loading}
+      displayLogo={displayLogo}
+      displaySearch={displaySearch}
     >
       {children}
     </AppLayoutView>
@@ -14,13 +24,21 @@ const AppLayout = ({ displaySideBar, sideBarContent, children }) => {
 };
 
 AppLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   sideBarContent: PropTypes.node,
-  displaySideBar: PropTypes.bool.isRequired,
+  displaySideBar: PropTypes.bool,
+  loading: PropTypes.bool,
+  displaySearch: PropTypes.bool,
+  displayLogo: PropTypes.bool,
 };
 
 AppLayout.defaultProps = {
-  sideBarContent: undefined,
+  children: false,
+  sideBarContent: '',
+  displaySideBar: false,
+  loading: false,
+  displayLogo: true,
+  displaySearch: true,
 };
 
 export default AppLayout;

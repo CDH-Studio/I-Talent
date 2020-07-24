@@ -1,30 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Layout, PageHeader } from "antd";
-import { injectIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import AppLayout from "../appLayout/AppLayout";
 import ResultsCard from "../../resultsCard/ResultsCard";
 import SearchFilter from "../../searchFilter/SearchFilter";
+import Header from "../../header/Header";
 
-const ResultLayoutView = ({ intl }) => {
-  const resultsTitle = intl.formatMessage({
-    id: "results.title",
-    defaultMessage: "Results",
-  });
-  return (
-    <Layout>
-      <AppLayout displaySideBar sideBarContent={<SearchFilter />}>
-        <PageHeader title={resultsTitle} />
-        <ResultsCard />
-      </AppLayout>
-    </Layout>
-  );
-};
+const ResultLayoutView = () => (
+  <AppLayout displaySideBar sideBarContent={<SearchFilter />}>
+    <Header title={<FormattedMessage id="results.title" />} />
+    <ResultsCard />
+  </AppLayout>
+);
 
-ResultLayoutView.propTypes = {
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
-};
-
-export default injectIntl(ResultLayoutView);
+export default ResultLayoutView;

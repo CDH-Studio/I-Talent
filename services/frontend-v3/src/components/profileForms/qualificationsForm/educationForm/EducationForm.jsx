@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../../axios-instance";
 import handleError from "../../../../functions/handleError";
 import EducationFormView from "./EducationFormView";
 import {
@@ -10,9 +10,6 @@ import {
   ProfileInfoPropType,
   StylesPropType,
 } from "../../../../customPropTypes";
-import config from "../../../../config";
-
-const { backendAddress } = config;
 
 /**
  *  EducationForm
@@ -41,48 +38,26 @@ const EducationForm = ({
    *
    * get a list of diploma options for dropdown
    */
-  const getDiplomaOptions = async () => {
-    const url = `${backendAddress}api/option/getDiploma`;
-    const result = await axios.get(url);
-    const options = [];
+  const getDiplomaOptions = useCallback(async () => {
+    const result = await axios.get(`api/option/diplomas?language=${locale}`);
 
-    // Generate the data format required for treeSelect
-    for (let i = 0; i < result.data.length; i += 1) {
-      const option = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      options.push(option);
-    }
-    setDiplomaOptions(options);
-    return 1;
-  };
+    setDiplomaOptions(result.data);
+  }, [locale]);
 
   /**
    * Get School Options
    *
    * get a list of diploma options for dropdown
    */
-  const getSchoolOptions = async () => {
-    const url = `${backendAddress}api/option/getSchool`;
-    const result = await axios.get(url);
-    const dataTree = [];
+  const getSchoolOptions = useCallback(async () => {
+    const result = await axios.get(`api/option/schools?language=${locale}`);
 
-    // Generate the data format required for treeSelect
-    for (let i = 0; i < result.data.length; i += 1) {
-      const goal = {
-        title: result.data[i].description,
-        key: result.data[i].id,
-      };
-      dataTree.push(goal);
-    }
-    setSchoolOptions(dataTree);
-    return 1;
-  };
+    setSchoolOptions(result.data);
+  }, [locale]);
 
   // useEffect to run once component is mounted
+  // Get all required data component
   useEffect(() => {
-    // Get all required data component
     Promise.all([getDiplomaOptions(), getSchoolOptions()])
       .then(() => {
         setLoad(true);
@@ -91,8 +66,7 @@ const EducationForm = ({
         setLoad(false);
         handleError(error, "redirect");
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locale]);
+  }, [getDiplomaOptions, getSchoolOptions, locale]);
 
   return (
     <EducationFormView
