@@ -369,7 +369,7 @@
   "profile.rules.max.50": "Max length 50 characters",
   "profile.rules.max.60": "Max length 60 characters",
   "profile.rules.max.100": "Max length 100 characters",
-  "profile.rules.max.250": "Max length 250 characters",
+  "profile.rules.max.1500": "Max length 1500 characters",
   "profile.rules.max.exceeded": "Max length exceeded",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.valid.phone.number": "Must be a valid phone number",
@@ -381,7 +381,6 @@
 
   "profile.career.interests": "Job mobility",
 
-  "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
@@ -399,9 +398,15 @@
   "profile.connections": "Connections",
   "profile.connections.tooltip1": "By clicking 'Add connection' you will be adding this user to your Private Group. To learn more, visit: ",
 
-  "profile.visibleCards.public": "Public",
-  "profile.visibleCards.connections": "Connections",
-  "profile.visibleCards.private": "Private",
+  "profile.visibility.card.public": "Card visible to everyone",
+  "profile.visibility.card.connections": "Card visible to connections only",
+  "profile.visibility.card.private": "Card only visible to you",
+  "profile.visibility.card.show.confirm": "Are you sure you want to make this card visible to everyone?",
+
+  "profile.visibility.form.public": "Information visible to everyone",
+  "profile.visibility.form.connections": "Information visible to connections only",
+  "profile.visibility.form.private": "Information only visible to you",
+  "profile.visibility.form.show.confirm": "Are you sure you want to make this information visible to everyone?",
 
   "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
 

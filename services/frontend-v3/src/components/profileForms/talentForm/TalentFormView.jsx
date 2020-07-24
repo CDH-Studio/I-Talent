@@ -12,6 +12,7 @@ import {
   TreeSelect,
   message,
   Popover,
+  Space,
 } from "antd";
 import {
   RightOutlined,
@@ -30,6 +31,7 @@ import {
   IntlPropType,
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -80,6 +82,10 @@ const TalentFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -104,7 +110,10 @@ const TalentFormView = ({
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -125,7 +134,7 @@ const TalentFormView = ({
       paddingLeft: "5px",
     },
     infoIconSwitch: {
-      addingLeft: "5px",
+      paddingLeft: "5px",
       paddingRight: "5px",
     },
   };
@@ -607,6 +616,31 @@ const TalentFormView = ({
     return undefined;
   };
 
+  const getSectionHeader = (titleId, cardName) => (
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+        <Popover
+          content={
+            <div>
+              <FormattedMessage id="tooltip.extra.info.help" />
+              <a href="/about/help">
+                <FormattedMessage id="footer.contact.link" />
+              </a>
+            </div>
+          }
+        >
+          <InfoCircleOutlined style={styles.infoIcon} />
+        </Popover>
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+        type="form"
+      />
+    </Row>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -635,26 +669,8 @@ const TalentFormView = ({
         {/* Form Row Two: skills */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="skills"
-              label={
-                <Text>
-                  <FormattedMessage id="setup.skills" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <a href="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined style={styles.infoIcon} />
-                  </Popover>
-                </Text>
-              }
-            >
+            {getSectionHeader("setup.skills", "skills")}
+            <Form.Item name="skills">
               <TreeSelect
                 className="custom-bubble-select-style"
                 treeData={skillOptions}
@@ -672,37 +688,10 @@ const TalentFormView = ({
         {/* Form Row Two: mentorship role */}
         <Row style={styles.secondLangRow} gutter={24}>
           <Col className="gutter-row" span={24}>
-            <Text>
-              <FormattedMessage id="profile.mentorship.available" />
-              <Popover
-                content={
-                  <div>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                }
-              >
-                <InfoCircleOutlined style={styles.infoIconSwitch} />
-              </Popover>
-            </Text>
-
-            <Switch
-              checked={displayMentorshipForm}
-              onChange={toggleMentorshipForm}
-            />
-            {getMentorshipForm(displayMentorshipForm)}
-          </Col>
-        </Row>
-        {/* Form Row Three: competencies */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="competencies"
-              label={
+            <Row justify="space-between" align="middle">
+              <Space>
                 <Text>
-                  <FormattedMessage id="setup.competencies" />
+                  <FormattedMessage id="profile.mentorship.available" />
                   <Popover
                     content={
                       <div>
@@ -713,11 +702,29 @@ const TalentFormView = ({
                       </div>
                     }
                   >
-                    <InfoCircleOutlined style={styles.infoIcon} />
+                    <InfoCircleOutlined style={styles.infoIconSwitch} />
                   </Popover>
                 </Text>
-              }
-            >
+
+                <Switch
+                  checked={displayMentorshipForm}
+                  onChange={toggleMentorshipForm}
+                />
+              </Space>
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="mentorshipSkills"
+                type="form"
+              />
+            </Row>
+            {getMentorshipForm(displayMentorshipForm)}
+          </Col>
+        </Row>
+        {/* Form Row Three: competencies */}
+        <Row gutter={24}>
+          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            {getSectionHeader("setup.competencies", "competencies")}
+            <Form.Item name="competencies">
               <Select
                 className="custom-bubble-select-style"
                 mode="multiple"

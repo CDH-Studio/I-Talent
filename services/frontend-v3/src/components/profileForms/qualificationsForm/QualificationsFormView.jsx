@@ -25,6 +25,7 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Title, Text } = Typography;
 
@@ -69,6 +70,10 @@ const QualificationsFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
     entryTitle: {
       fontSize: "1em",
@@ -76,13 +81,18 @@ const QualificationsFormView = ({
     headerDiv: {
       margin: "15px 0 15px 0",
     },
-    datePicker: { width: "100%" },
+    datePicker: {
+      width: "100%",
+    },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -376,6 +386,19 @@ const QualificationsFormView = ({
     );
   };
 
+  const getSectionHeader = (titleId, cardName) => (
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+        type="form"
+      />
+    </Row>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -403,9 +426,7 @@ const QualificationsFormView = ({
         onValuesChange={checkIfFormValuesChanged}
       >
         {/* *************** Education ************** */}
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.education" />
-        </Title>
+        {getSectionHeader("setup.education", "education")}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
             <Form.List name="educations">
@@ -445,9 +466,7 @@ const QualificationsFormView = ({
         </Row>
         {/* *************** Work Experience ************** */}
         <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.experience" />
-        </Title>
+        {getSectionHeader("setup.experience", "experience")}
         {/* Form Row One: Remote Work */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -488,17 +507,11 @@ const QualificationsFormView = ({
         </Row>
         {/* *************** Projects ************** */}
         <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.projects" />
-        </Title>
+        {getSectionHeader("setup.projects", "projects")}
         {/* Form Row Three: career mobility */}
         <Row gutter={24}>
           <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="projects"
-              label={<FormattedMessage id="setup.projects" />}
-              className="custom-bubble-select-style"
-            >
+            <Form.Item name="projects" className="custom-bubble-select-style">
               <Select
                 mode="tags"
                 style={{ width: "100%" }}
