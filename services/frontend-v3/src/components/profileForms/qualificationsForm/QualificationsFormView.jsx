@@ -15,7 +15,7 @@ import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
@@ -27,6 +27,7 @@ import {
   HistoryPropType,
 } from "../../../customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Title, Text } = Typography;
 
@@ -52,6 +53,7 @@ const QualificationsFormView = ({
   const [initialValues, setInitialValues] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
   /* Component Styles */
   const styles = {
@@ -265,10 +267,12 @@ const QualificationsFormView = ({
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {

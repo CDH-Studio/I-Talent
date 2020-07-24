@@ -23,7 +23,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
@@ -32,6 +32,7 @@ import {
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -63,6 +64,7 @@ const TalentFormView = ({
   const [savedValues, setSavedValues] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
   /* Component Styles */
   const styles = {
@@ -302,10 +304,12 @@ const TalentFormView = ({
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {

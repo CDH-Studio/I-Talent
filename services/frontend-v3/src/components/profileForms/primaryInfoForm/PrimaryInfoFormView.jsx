@@ -25,7 +25,7 @@ import {
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -38,6 +38,7 @@ import {
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -60,6 +61,7 @@ const PrimaryInfoFormView = ({
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   /* Component Styles */
   const styles = {
@@ -286,10 +288,12 @@ const PrimaryInfoFormView = ({
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {

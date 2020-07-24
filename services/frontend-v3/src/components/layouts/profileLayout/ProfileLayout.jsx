@@ -10,6 +10,7 @@ const ProfileLayout = ({
   privateProfile,
   changeConnection,
   loading,
+  savedFormContent,
 }) => {
   return (
     <ProfileLayoutView
@@ -18,6 +19,7 @@ const ProfileLayout = ({
       privateProfile={privateProfile}
       changeConnection={changeConnection}
       loading={loading}
+      savedFormContent={savedFormContent}
     />
   );
 };
@@ -28,6 +30,7 @@ ProfileLayout.propTypes = {
   privateProfile: propTypes.bool,
   changeConnection: propTypes.func,
   loading: propTypes.bool,
+  savedFormContent: propTypes.bool,
 };
 
 ProfileLayout.defaultProps = {
@@ -36,6 +39,7 @@ ProfileLayout.defaultProps = {
   privateProfile: null,
   changeConnection: null,
   loading: null,
+  savedFormContent: undefined,
 };
 
 export default ProfileLayout;

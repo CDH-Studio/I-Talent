@@ -13,6 +13,7 @@ const Profile = ({ history, match }) => {
 
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
+  const { savedFormContent } = useSelector((state) => state.state);
   const { id } = match.params;
 
   useEffect(() => {
@@ -77,6 +78,7 @@ const Profile = ({ history, match }) => {
       privateProfile={id === userID}
       changeConnection={changeConnection}
       loading={loading}
+      savedFormContent={savedFormContent}
     />
   );
 };
