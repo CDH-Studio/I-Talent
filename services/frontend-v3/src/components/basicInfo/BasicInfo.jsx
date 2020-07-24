@@ -1,48 +1,53 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import {
+  LinkedinOutlined,
+  GithubOutlined,
+  LinkOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
+const styles = {
+  icon: {
+    marginRight: 5,
+  },
+};
+
 const BasicInfo = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
   const getButtonLinks = () => {
-    const { linkedinUrl, githubUrl, gcconnexUrl, email } = data;
-    const buttonLinks = { buttons: [] };
-
-    if (linkedinUrl) {
-      buttonLinks.buttons.push("linkedin");
-      buttonLinks.linkedin = {
-        icon: "linkedin",
-        textId: "profile.linkedin",
-        url: linkedinUrl,
-      };
-    }
-
-    if (githubUrl) {
-      buttonLinks.buttons.push("github");
-      buttonLinks.github = {
-        icon: "github",
-        textId: "profile.github",
-        url: githubUrl,
-      };
-    }
-
-    if (gcconnexUrl) {
-      buttonLinks.buttons.push("gcconnex");
-      buttonLinks.gcconnex = {
-        icon: "link",
-        textId: "profile.gcconnex",
-        url: gcconnexUrl,
-      };
-    }
-
-    buttonLinks.buttons.push("email");
-    buttonLinks.email = {
-      icon: "mail",
-      textId: "profile.email",
-      url: `mailto:${email}`,
+    const { linkedin, github, gcconnex, email } = data;
+    const buttonLinks = {
+      email: {
+        textId: "profile.email",
+        url: `mailto:${email}`,
+        icon: <MailOutlined style={styles.icon} />,
+      },
     };
+
+    if (linkedin) {
+      buttonLinks.linkedin = {
+        textId: "profile.linkedin",
+        url: `https://linkedin.com/in/${linkedin}`,
+        icon: <LinkedinOutlined style={styles.icon} />,
+      };
+    }
+
+    if (github) {
+      buttonLinks.github = {
+        textId: "profile.github",
+        url: `https://github.com/${github}`,
+        icon: <GithubOutlined style={styles.icon} />,
+      };
+    }
+
+    if (gcconnex) {
+      buttonLinks.gcconnex = {
+        textId: "profile.gcconnex",
+        url: `https://gcconnex.gc.ca/profile/${gcconnex}`,
+        icon: <LinkOutlined style={styles.icon} />,
+      };
+    }
 
     return buttonLinks;
   };
@@ -57,8 +62,7 @@ const BasicInfo = ({ data }) => {
         acr: data.nameInitials,
         color: data.avatarColor,
       }}
-      jobTitle={data.jobTitle[locale]}
-      locale={locale}
+      jobTitle={data.jobTitle}
       buttonLinks={getButtonLinks()}
     />
   );

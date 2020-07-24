@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
-import config from "../../config";
+import { useSelector } from "react-redux";
+import axios from "../../axios-instance";
 import SearchFilterView from "./SearchFilterView";
 import handleError from "../../functions/handleError";
-
-const { backendAddress } = config;
 
 const SearchFilter = () => {
   const [expand, setExpand] = useState(false);
@@ -16,8 +14,10 @@ const SearchFilter = () => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+  const [anyMentorSkills, setAnyMentorSkills] = useState(false);
 
   const history = useHistory();
+  const { locale } = useSelector((state) => state.settings);
 
   const toggle = () => {
     setExpand(!expand);
@@ -58,29 +58,55 @@ const SearchFilter = () => {
     );
 
     setUrlSearchFieldValues(formatedQuerySearchData);
+    setAnyMentorSkills(formatedQuerySearchData.anyMentorSkills);
   }, [history.location.search]);
+
+  const handleAnyMentorSkillsChange = (e) => {
+    setAnyMentorSkills(e.target.checked);
+  };
 
   useEffect(() => {
     // Fetches options for skills select field in advanced search
     const getSkills = async () => {
-      const results = await axios.get(
-        `${backendAddress}api/option/getDevelopmentalGoals`
-      );
-      setSkillOptions(results.data);
+      const [categoriesResult, skillsResults] = await Promise.all([
+        axios.get(`api/option/categories?language=${locale}`),
+        axios.get(`api/option/skills?language=${locale}`),
+      ]);
+
+      // Loop through all skill categories
+      const dataTree = categoriesResult.data.map((category) => {
+        const children = [];
+
+        skillsResults.data.forEach((skill) => {
+          if (skill.categoryId === category.id) {
+            children.push({
+              title: `${category.name}: ${skill.name}`,
+              value: skill.id,
+              key: skill.id,
+            });
+          }
+        });
+
+        return {
+          title: category.name,
+          value: category.id,
+          children,
+        };
+      });
+
+      setSkillOptions(dataTree);
     };
 
     // Fetches options for branches select field in advanced search
     const getBranch = async () => {
-      const results = await axios.get(`${backendAddress}api/option/getBranch`);
-      setBranchOptions(
-        results.data.filter((elem) => elem.description && elem.description.en)
-      );
+      const results = await axios.get(`api/option/branches?language=${locale}`);
+      setBranchOptions(results.data);
     };
 
     // Fetches options for locations select field in advanced search
     const getLocation = async () => {
       const results = await axios.get(
-        `${backendAddress}api/option/getLocation`
+        `api/option/locations?language=${locale}`
       );
 
       setLocationOptions(results.data);
@@ -88,9 +114,7 @@ const SearchFilter = () => {
 
     // Fetches options for classifications select field in advanced search
     const getClassification = async () => {
-      const results = await axios.get(
-        `${backendAddress}api/option/getGroupLevel`
-      );
+      const results = await axios.get(`api/option/classifications`);
 
       setClassOptions(results.data);
     };
@@ -107,7 +131,7 @@ const SearchFilter = () => {
 
     getSearchFieldValues();
     updateState();
-  }, [getSearchFieldValues]);
+  }, [getSearchFieldValues, locale]);
 
   // page with query
   const handleSearch = (values) => {
@@ -127,10 +151,10 @@ const SearchFilter = () => {
       handleSearch={handleSearch}
       toggle={toggle}
       urlSearchFieldValues={urlSearchFieldValues}
+      anyMentorSkills={anyMentorSkills}
+      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
     />
   );
 };
-
-SearchFilter.propTypes = {};
 
 export default injectIntl(SearchFilter);

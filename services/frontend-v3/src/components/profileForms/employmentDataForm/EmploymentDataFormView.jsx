@@ -13,24 +13,31 @@ import {
   Checkbox,
   Button,
   message,
+  Popover,
 } from "antd";
 import PropTypes from "prop-types";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
+import { useSelector, useDispatch } from "react-redux";
+import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
-const { backendAddress } = config;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -39,24 +46,25 @@ const { Title, Text } = Typography;
  *  this component renders the employment information form.
  *  It contains a toggle to set the acting role
  */
-const EmploymentDataFormView = (props) => {
-  const {
-    classificationOptions,
-    formType,
-    load,
-    profileInfo,
-    securityOptions,
-    substantiveOptions,
-    intl,
-    history,
-    userId,
-  } = props;
-
+const EmploymentDataFormView = ({
+  classificationOptions,
+  formType,
+  load,
+  profileInfo,
+  securityOptions,
+  substantiveOptions,
+  intl,
+  history,
+  userId,
+}) => {
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+
+  const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
   /* Component Styles */
   const styles = {
@@ -75,6 +83,7 @@ const EmploymentDataFormView = (props) => {
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -117,6 +126,10 @@ const EmploymentDataFormView = (props) => {
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -133,41 +146,34 @@ const EmploymentDataFormView = (props) => {
 
   /* Save data */
   const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-    // If dropdown value is undefined then clear value in DB
-    values.tenureId = values.tenureId ? values.tenureId : null;
-    values.groupLevelId = values.groupLevelId ? values.groupLevelId : null;
-    values.securityClearanceId = values.securityClearanceId
-      ? values.securityClearanceId
-      : null;
+    const values = {
+      ...unalteredValues,
+    };
 
-    if (!displayActingRoleForm) {
-      // if temp role toggle isn't active clear data
-      values.actingId = null;
+    if (!unalteredValues.securityClearanceId) {
+      values.securityClearanceId = null;
+    }
+
+    if (!unalteredValues.tenureId) {
+      values.tenureId = null;
+    }
+
+    if (!unalteredValues.groupLevelId) {
+      values.groupLevelId = null;
+    }
+
+    if (!unalteredValues.actingLevelId) {
+      values.actingLevelId = null;
       values.actingStartDate = null;
       values.actingEndDate = null;
-    } else {
-      // format dates before submit
-      if (values.actingStartDate) {
-        values.actingStartDate = values.actingStartDate.startOf("day");
-      }
-      if (values.actingEndDate) {
-        values.actingEndDate = values.actingEndDate.endOf("day");
-      }
     }
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
-    setDisplayActingRoleForm(!displayActingRoleForm);
+    setDisplayActingRoleForm((prev) => !prev);
   };
 
   /* enable or disable end date field */
@@ -220,22 +226,18 @@ const EmploymentDataFormView = (props) => {
   const getInitialValues = (profile) => {
     if (profile) {
       return {
-        groupLevelId: profile.classification.id
-          ? profile.classification.id
-          : undefined,
-        tenureId: profile.temporaryRole.id
-          ? profile.temporaryRole.id
-          : undefined,
-        securityClearanceId: profile.security.id
-          ? profile.security.id
+        groupLevelId: profile.groupLevel ? profile.groupLevel.id : undefined,
+        tenureId: profile.tenure ? profile.tenure.id : undefined,
+        securityClearanceId: profile.securityClearance
+          ? profile.securityClearance.id
           : undefined,
         manager: profile.manager,
-        actingId: profile.acting.id ? profile.acting.id : undefined,
-        actingStartDate: profile.actingPeriodStartDate
-          ? moment(profile.actingPeriodStartDate)
+        actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
+        actingStartDate: profile.actingStartDate
+          ? moment.utc(profile.actingStartDate)
           : undefined,
-        actingEndDate: profile.actingPeriodEndDate
-          ? moment(profile.actingPeriodEndDate)
+        actingEndDate: profile.actingStartDate
+          ? moment.utc(profile.actingStartDate)
           : undefined,
       };
     }
@@ -249,12 +251,20 @@ const EmploymentDataFormView = (props) => {
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -282,6 +292,7 @@ const EmploymentDataFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/4");
       })
       .catch((error) => {
@@ -304,13 +315,16 @@ const EmploymentDataFormView = (props) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -326,11 +340,11 @@ const EmploymentDataFormView = (props) => {
 
     // check if user has acting information in db to expand acting form
     setDisplayActingRoleForm(
-      profileInfo && profileInfo.acting && !!profileInfo.acting.id
+      profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
-    checkIfFormValuesChanged();
+    updateIfFormValuesChanged();
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -340,7 +354,7 @@ const EmploymentDataFormView = (props) => {
         <Row gutter={24} style={{ marginTop: "10px" }}>
           <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
             <Form.Item
-              name="actingId"
+              name="actingLevelId"
               label={<FormattedMessage id="profile.acting" />}
               rules={[Rules.required]}
             >
@@ -355,7 +369,7 @@ const EmploymentDataFormView = (props) => {
                 }
               >
                 {classificationOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
+                  return <Option key={value.id}>{value.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -369,6 +383,9 @@ const EmploymentDataFormView = (props) => {
               <DatePicker
                 disabledDate={disabledDatesAfterEnd}
                 style={styles.datePicker}
+                placeholder={intl.formatMessage({
+                  id: "profile.select.date",
+                })}
               />
             </Form.Item>
           </Col>
@@ -378,14 +395,18 @@ const EmploymentDataFormView = (props) => {
               label={<FormattedMessage id="profile.acting.period.end.date" />}
               rules={enableEndDate ? [Rules.required] : undefined}
             >
-              <DatePicker
-                style={styles.datePicker}
-                disabledDate={disabledDatesBeforeStart}
-                disabled={!enableEndDate}
-                placeholder="unknown"
-              />
+              {enableEndDate && (
+                <DatePicker
+                  style={styles.datePicker}
+                  disabledDate={disabledDatesBeforeStart}
+                  disabled={!enableEndDate}
+                  placeholder={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                />
+              )}
             </Form.Item>
-            <div style={{ marginTop: "-10px" }}>
+            <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
                 tabIndex="0"
                 onChange={toggleTempEndDate}
@@ -414,7 +435,11 @@ const EmploymentDataFormView = (props) => {
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.employment" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -422,19 +447,27 @@ const EmploymentDataFormView = (props) => {
   useEffect(() => {
     /* check if user has acting information in db to expand acting form */
     setDisplayActingRoleForm(
-      profileInfo && profileInfo.acting && !!profileInfo.acting.id
+      profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
     /* check if user has acting end date to enable the date felid on load */
-    setEnableEndDate(
-      profileInfo ? Boolean(profileInfo.actingPeriodEndDate) : false
-    );
+    setEnableEndDate(profileInfo ? Boolean(profileInfo.actingEndDate) : false);
 
     // if props change then reset form fields
     if (load) {
       form.resetFields();
     }
   }, [load, form, profileInfo]);
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const data = savedValues || getInitialValues(profileInfo);
+    const oppositeInitialToggle =
+      !!data.actingLevelId !== !!displayActingRoleForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayActingRoleForm]);
 
   /*
    * Get Form Control Buttons
@@ -531,120 +564,149 @@ const EmploymentDataFormView = (props) => {
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        form={form}
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
-      >
-        {/* Form Row One */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              tabIndex="0"
-              name="tenureId"
-              label={<FormattedMessage id="profile.substantive" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        <Row justify="space-between" style={{ marginBottom: -5 }}>
+          {getFormHeader(formType)}
+          <div style={{ marginTop: -5 }}>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="info"
+              type="form"
+            />
+          </div>
+        </Row>
+        <Divider style={styles.headerDiv} />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          onValuesChange={updateIfFormValuesChanged}
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                tabIndex="0"
+                name="tenureId"
+                label={<FormattedMessage id="profile.substantive" />}
               >
-                {substantiveOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {substantiveOptions.map((value) => {
+                    return <Option key={value.id}>{value.name}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
 
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              tabIndex="0"
-              name="groupLevelId"
-              label={<FormattedMessage id="profile.classification" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                tabIndex="0"
+                name="groupLevelId"
+                label={<FormattedMessage id="profile.classification" />}
               >
-                {classificationOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Two */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              tabIndex="0"
-              name="securityClearanceId"
-              label={<FormattedMessage id="profile.security" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {classificationOptions.map((value) => {
+                    return <Option key={value.id}>{value.name}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                tabIndex="0"
+                name="securityClearanceId"
+                label={<FormattedMessage id="profile.security" />}
               >
-                {securityOptions.map((value) => {
-                  return <Option key={value.key}>{value.title}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Three */}
-        <Row gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <Form.Item
-              name="manager"
-              label={<FormattedMessage id="profile.manager" />}
-              rules={[Rules.maxChar50]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Four: Temporary role */}
-        <Row style={styles.tempRoleRow} gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={<FormattedMessage id="profile.temporary.role" />}
-              tooltipText="Extra information"
-            />
-            <Switch
-              checked={displayActingRoleForm}
-              onChange={toggleTempRoleForm}
-            />
-            {getTempRoleForm(displayActingRoleForm)}
-          </Col>
-        </Row>
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {securityOptions.map((value) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item
+                name="manager"
+                label={<FormattedMessage id="profile.manager" />}
+                rules={[Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.tempRoleRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Text>
+                <FormattedMessage id="profile.willing.to.relocate.to" />
+                <Popover
+                  content={
+                    <div>
+                      <FormattedMessage id="tooltip.extra.info.help" />
+                      <Link to="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </Link>
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                </Popover>
+              </Text>
+              <Switch
+                checked={displayActingRoleForm}
+                onChange={toggleTempRoleForm}
+              />
+              {getTempRoleForm(displayActingRoleForm)}
+            </Col>
+          </Row>
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 

@@ -40,7 +40,6 @@ const FormInstancePropType = PropTypes.shape({
 });
 
 const IntlPropType = PropTypes.shape({
-  defaultFormats: PropTypes.object,
   defaultLocale: PropTypes.string,
   formatDate: PropTypes.func,
   formatDateToParts: PropTypes.func,
@@ -54,13 +53,9 @@ const IntlPropType = PropTypes.shape({
   formatRelativeTime: PropTypes.func,
   formatTime: PropTypes.func,
   formatTimeToParts: PropTypes.func,
-  formats: PropTypes.object,
-  formatters: PropTypes.object,
   locale: PropTypes.string,
-  messages: PropTypes.object,
   onError: PropTypes.func,
   textComponent: PropTypes.symbol,
-  timeZone: PropTypes.any,
 });
 
 const ProfileInfoPropType = PropTypes.shape({
@@ -68,22 +63,22 @@ const ProfileInfoPropType = PropTypes.shape({
   lastName: PropTypes.string,
   nameInitials: PropTypes.string,
   avatarColor: PropTypes.string,
-  linkedinUrl: PropTypes.string,
-  githubUrl: PropTypes.string,
-  gcconnexUrl: PropTypes.string,
+  linkedin: PropTypes.string,
+  github: PropTypes.string,
+  gcconnex: PropTypes.string,
   email: PropTypes.string,
-  jobTitle: PropTypes.shape({
-    en: PropTypes.string,
-    fr: PropTypes.string,
-  }),
-  branch: PropTypes.shape({
-    en: PropTypes.string,
-    fr: PropTypes.string,
-  }),
+  jobTitle: PropTypes.string,
+  branch: PropTypes.string,
   manager: PropTypes.string,
   telephone: PropTypes.string,
   cellphone: PropTypes.string,
-  location: PropTypes.any,
+  officeLocation: PropTypes.shape({
+    streetNumber: PropTypes.number,
+    streetName: PropTypes.string,
+    city: PropTypes.string,
+    province: PropTypes.string,
+  }),
+  teams: PropTypes.arrayOf(PropTypes.string),
 });
 
 const FieldPropType = PropTypes.shape({
@@ -105,7 +100,6 @@ const HistoryPropType = PropTypes.shape({
     pathname: PropTypes.string,
     search: PropTypes.string,
     hash: PropTypes.string,
-    state: PropTypes.object,
   }),
   push: PropTypes.func,
   replace: PropTypes.func,

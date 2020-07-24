@@ -1,40 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-
+import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
+import { ProfileInfoPropType } from "../../customPropTypes";
 
-const Competencies = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
-  const formatData = () => {
-    const competencies = [];
-    let key = 0;
-
-    if (data.competencies) {
-      data.competencies.forEach((element) => {
-        competencies[key] = element.description[locale];
-        key += 1;
-      });
-    }
-
-    return competencies;
-  };
-  return <CompetenciesView competencies={formatData()} />;
+const Competencies = ({ data, type }) => {
+  return (
+    <ProfileCards
+      titleId="profile.competencies"
+      content={<CompetenciesView competencies={data.competencies} />}
+      cardName="competencies"
+      id="card-profile-competency"
+      editUrl="/secured/profile/edit/talent"
+      data={data}
+      type={type}
+      visible={data.visibleCards.competencies}
+    />
+  );
 };
 
 Competencies.propTypes = {
-  data: PropTypes.shape({
-    competencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        description: PropTypes.shape({
-          en: PropTypes.string,
-          fr: PropTypes.string,
-        }),
-        id: PropTypes.string,
-      })
-    ),
-  }).isRequired,
+  data: ProfileInfoPropType,
+  type: PropTypes.bool,
+};
+
+Competencies.defaultProps = {
+  data: null,
+  type: null,
 };
 
 export default Competencies;

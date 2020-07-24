@@ -1,23 +1,20 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Row, Col, List } from "antd";
 import { ProfileInfoPropType } from "../../customPropTypes";
 
-const TalentManagementView = ({ locale, data }) => {
+const TalentManagementView = ({ data }) => {
   const getTalentManagementDatasource = () => {
     const careerMobility = {
       title: <FormattedMessage id="profile.career.mobility" />,
-      description: data.careerMobility.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.careerMobility ? data.careerMobility.description : "-",
     };
 
     const talentMatrixResult = {
       title: <FormattedMessage id="profile.talent.matrix.result" />,
-      description: data.talentMatrixResult.description[locale] || (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+      description: data.talentMatrixResult
+        ? data.talentMatrixResult.description
+        : "-",
     };
 
     return [careerMobility, talentMatrixResult];
@@ -45,7 +42,6 @@ const TalentManagementView = ({ locale, data }) => {
 
 TalentManagementView.propTypes = {
   data: ProfileInfoPropType,
-  locale: PropTypes.oneOf(["fr", "en"]).isRequired,
 };
 
 TalentManagementView.defaultProps = {

@@ -1,28 +1,64 @@
-const Models = require("../../../database/models");
+const prisma = require("../../../database");
 
-const User = Models.user;
-const Profile = Models.profile;
-
-async function dashboardCount() {
+async function countHiddenUsers(request, response) {
   try {
-    const flagged = await Profile.count({
-      where: { flagged: true },
+    const hiddenUserCount = await prisma.user.count({
+      where: {
+        status: "HIDDEN",
+      },
     });
 
-    const inactive = await User.count({
-      where: { inactive: true },
-    });
-
-    const user = await Profile.count();
-
-    const exFeeder = await Profile.count({
-      where: { exFeeder: true },
-    });
-
-    return { user, exFeeder, flagged, inactive };
+    response.status(200).json(hiddenUserCount);
   } catch (error) {
-    throw new Error("Count failed");
+    console.log(error);
+    response.status(500).send("Error getting hidden user count");
   }
 }
 
-module.exports = dashboardCount;
+async function countInactiveUsers(request, response) {
+  try {
+    const inactiveUserCount = await prisma.user.count({
+      where: {
+        status: "INACTIVE",
+      },
+    });
+
+    response.status(200).json(inactiveUserCount);
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Error getting inactive user count");
+  }
+}
+
+async function countUsers(request, response) {
+  try {
+    const userCount = await prisma.user.count();
+
+    response.status(200).json(userCount);
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Error getting user count");
+  }
+}
+
+async function countExFeederUsers(request, response) {
+  try {
+    const exFeederUserCount = await prisma.user.count({
+      where: {
+        exFeeder: true,
+      },
+    });
+
+    response.status(200).json(exFeederUserCount);
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Error getting exFeeder user count");
+  }
+}
+
+module.exports = {
+  countHiddenUsers,
+  countInactiveUsers,
+  countUsers,
+  countExFeederUsers,
+};

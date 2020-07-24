@@ -28,7 +28,7 @@ function prepareInfo(
       info.forEach(element => returnArray.push(prepareInfo(element, language)));
       return returnArray;
     }
-    if ("en" in info) {
+    if ("ENGLISH" in info) {
       return info[language];
     }
     const returnObject = {};

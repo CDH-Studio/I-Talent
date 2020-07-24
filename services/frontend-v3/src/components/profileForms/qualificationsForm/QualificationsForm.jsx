@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
 import QualificationsFormView from "./QualificationsFormView";
-import config from "../../../config";
-
-const { backendAddress } = config;
 
 /**
  *  QualificationsForm
@@ -24,6 +21,7 @@ const QualificationsForm = ({ formType }) => {
   const [savedProjects, setSavedProjects] = useState();
 
   const { id } = useSelector((state) => state.user);
+  const { locale } = useSelector((state) => state.settings);
 
   const history = useHistory();
 
@@ -32,16 +30,16 @@ const QualificationsForm = ({ formType }) => {
    */
   const getProfileInfo = useCallback(async () => {
     try {
-      const url = `${backendAddress}api/profile/private/${id}`;
-      const result = await axios.get(url);
+      const result = await axios.get(
+        `api/profile/private/${id}?language=${locale}`
+      );
       setProfileInfo(result.data);
       setLoad(true);
-      return 1;
     } catch (error) {
       setLoad(false);
       throw error;
     }
-  }, [id]);
+  }, [id, locale]);
 
   /**
    * Get Saved Education Information
@@ -49,22 +47,15 @@ const QualificationsForm = ({ formType }) => {
    * get saved education items
    */
   const getSavedEducation = () => {
-    const selected = [];
-
     // Generate an array of education items
-    for (let i = 0; i < profileInfo.education.length; i += 1) {
-      const child = {
-        school: profileInfo.education[i].school.id,
-        diploma: profileInfo.education[i].diploma.id,
-        startDate: moment(profileInfo.education[i].startDate.en),
-        endDate: profileInfo.education[i].endDate.en
-          ? moment(profileInfo.education[i].endDate.en)
-          : null,
-      };
-      selected.push(child);
-    }
+    const educations = profileInfo.educations.map((i) => ({
+      schoolId: i.school.id,
+      diplomaId: i.diploma.id,
+      startDate: i.startDate ? moment.utc(i.startDate) : undefined,
+      endDate: i.endDate ? moment.utc(i.endDate) : undefined,
+    }));
 
-    setSavedEducation(selected);
+    setSavedEducation(educations);
   };
 
   /**
@@ -73,21 +64,14 @@ const QualificationsForm = ({ formType }) => {
    * get saved experience items
    */
   const getSavedExperience = () => {
-    const selected = [];
-
     // Generate an array of education items
-    for (let i = 0; i < profileInfo.careerSummary.length; i += 1) {
-      const child = {
-        header: profileInfo.careerSummary[i].header,
-        subheader: profileInfo.careerSummary[i].subheader,
-        content: profileInfo.careerSummary[i].content,
-        startDate: moment(profileInfo.careerSummary[i].startDate),
-        endDate: profileInfo.careerSummary[i].endDate
-          ? moment(profileInfo.careerSummary[i].endDate)
-          : null,
-      };
-      selected.push(child);
-    }
+    const selected = profileInfo.experiences.map((i) => ({
+      jobTitle: i.jobTitle,
+      organization: i.organization,
+      description: i.description,
+      startDate: i.startDate ? moment.utc(i.startDate) : undefined,
+      endDate: i.endDate ? moment.utc(i.endDate) : undefined,
+    }));
 
     setSavedExperience(selected);
   };
@@ -98,12 +82,7 @@ const QualificationsForm = ({ formType }) => {
    * get saved projects
    */
   const getSavedProjects = () => {
-    const selected = [];
-
-    for (let i = 0; i < profileInfo.projects.length; i += 1) {
-      selected.push(profileInfo.projects[i].text);
-    }
-    setSavedProjects(selected);
+    setSavedProjects(profileInfo.projects);
   };
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)

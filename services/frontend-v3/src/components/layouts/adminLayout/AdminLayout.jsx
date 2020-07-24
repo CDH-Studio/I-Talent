@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import AdminLayoutView from "./AdminLayoutView";
+import availableTypes from "./adminLayoutTypes";
 
 /**
  *  AdminLayout(props)
@@ -16,15 +17,7 @@ const AdminLayout = ({ displaySideBar, type, children }) => {
 
 AdminLayout.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf([
-    "dashboard",
-    "user",
-    "category",
-    "skill",
-    "competency",
-    "diploma",
-    "school",
-  ]).isRequired,
+  type: PropTypes.oneOf(availableTypes).isRequired,
   children: PropTypes.node.isRequired,
 };
 

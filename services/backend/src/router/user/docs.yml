@@ -1,0 +1,50 @@
+/api/user/{id}:
+  get:
+    summary: Returns a specific profile
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        $ref: "#/definitions/UserResponse"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [user]
+  post:
+    summary: Returns geds profile information
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+      - name: body
+        in: body
+        description: User ID used to fetch the email from the database
+        required: true
+        type: object
+        properties:
+          name:
+            type: string
+          firstName:
+            type: string
+          lastName:
+            type: string
+          email:
+            type: string
+            format: email
+    responses:
+      200:
+        $ref: "#/definitions/UserResponse"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [user]

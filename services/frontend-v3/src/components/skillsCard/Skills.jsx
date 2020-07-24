@@ -1,22 +1,21 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const Skills = ({ data }) => {
-  const { locale } = useSelector((state) => state.settings);
-
+const Skills = ({ data, type }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
 
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }
@@ -33,19 +32,15 @@ const Skills = ({ data }) => {
 
     if (list) {
       list.forEach((listElement) => {
-        const key = listElement.description.categoryId;
+        const key = listElement.categoryId;
         if (categorizedList[key] == null) {
-          categorizedList[key] = [listElement.description[locale]];
+          categorizedList[key] = [listElement.name];
           if (categoriesTemp[k] == null) {
-            if (locale === "en") {
-              categoriesTemp[k] = [listElement.description.category.en];
-            } else {
-              categoriesTemp[k] = [listElement.description.category.fr];
-            }
+            categoriesTemp[k] = [listElement.category];
             k += 1;
           }
         } else {
-          categorizedList[key].push(listElement.description[locale]);
+          categorizedList[key].push(listElement.name);
         }
       });
     }
@@ -70,19 +65,32 @@ const Skills = ({ data }) => {
   };
 
   return (
-    <SkillsView
-      skills={setUpSkills(data.skills)}
-      categoriesSkills={setUpCategories(data.skills)}
+    <ProfileCards
+      titleId="profile.skills"
+      content={
+        <SkillsView
+          skills={setUpSkills(data.skills)}
+          categoriesSkills={setUpCategories(data.skills)}
+        />
+      }
+      cardName="skills"
+      id="card-profile-skills"
+      editUrl="/secured/profile/edit/talent"
+      data={data}
+      type={type}
+      visible={data.visibleCards.skills}
     />
   );
 };
 
 Skills.propTypes = {
   data: ProfileInfoPropType,
+  type: PropTypes.bool,
 };
 
 Skills.defaultProps = {
   data: null,
+  type: null,
 };
 
 export default Skills;

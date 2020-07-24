@@ -11,24 +11,32 @@ import {
   DatePicker,
   Button,
   message,
+  Popover,
 } from "antd";
-import { RightOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  CheckOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import axios from "axios";
 import moment from "moment";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
+import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
-import FormLabelTooltip from "../../formLabelTooltip/FormLabelTooltip";
-import config from "../../../config";
-import handleError from "../../../functions/handleError";
 
-const { backendAddress } = config;
+import handleError from "../../../functions/handleError";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -52,6 +60,9 @@ const LangProficiencyFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
 
+  const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
+
   /* Component Styles */
   const styles = {
     skeleton: {
@@ -70,6 +81,7 @@ const LangProficiencyFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -112,6 +124,10 @@ const LangProficiencyFormView = ({
       fontStyle: "italic",
       opacity: 0.5,
     },
+    iconBySwitch: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
   };
 
   /* Component Rules for form fields */
@@ -123,47 +139,55 @@ const LangProficiencyFormView = ({
   };
 
   /* Save data */
-  const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
+  const saveDataToDB = async (values) => {
+    const dbValues = {
+      secondLangProfs: [],
+    };
+
     // If firstLanguage is undefined then clear value in DB
-    values.firstLanguage = values.firstLanguage ? values.firstLanguage : null;
-
-    if (!displayMentorshipForm) {
-      // if second language tab is not opened clear values before submission
-      values.secondLanguage = null;
-      values.readingProficiency = null;
-      values.writingProficiency = null;
-      values.oralProficiency = null;
-      values.secondaryReadingDate = null;
-      values.secondaryWritingDate = null;
-      values.secondaryOralDate = null;
+    if (values.firstLanguage) {
+      dbValues.firstLanguage = values.firstLanguage;
     } else {
+      dbValues.firstLanguage = null;
+    }
+
+    if (displayMentorshipForm) {
       // set second language based on first language
-      values.secondLanguage = values.firstLanguage === "en" ? "fr" : "en";
+      dbValues.secondLanguage =
+        values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
 
-      // format dates before submit
-      if (values.secondaryReadingDate) {
-        values.secondaryReadingDate = values.secondaryReadingDate.startOf(
-          "day"
-        );
-      }
-      if (values.secondaryWritingDate) {
-        values.secondaryWritingDate = values.secondaryWritingDate.startOf(
-          "day"
-        );
-      }
-      if (values.secondaryOralDate) {
-        values.secondaryWritingDate = values.secondaryOralDate.startOf("day");
+      if (
+        values.oralProficiency ||
+        values.writingProficiency ||
+        values.readingProficiency
+      ) {
+        if (values.oralProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "ORAL",
+            level: values.oralProficiency,
+            date: values.secondaryOralDate,
+          });
+        }
+
+        if (values.writingProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "WRITING",
+            level: values.writingProficiency,
+            date: values.secondaryWritingDate,
+          });
+        }
+
+        if (values.readingProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "READING",
+            level: values.readingProficiency,
+            date: values.secondaryReadingDate,
+          });
+        }
       }
     }
 
-    if (profileInfo) {
-      // If profile exists then update profile
-      await axios.put(`${backendAddress}api/profile/${userId}`, values);
-    } else {
-      // If profile does not exists then create profile
-      await axios.post(`${backendAddress}api/profile/${userId}`, values);
-    }
+    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 
   /* show message */
@@ -188,48 +212,43 @@ const LangProficiencyFormView = ({
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     // Get default language from API and convert to dropdown key
-    let firstLanguage = null;
     if (profile) {
-      if (profile.firstLanguage) {
-        firstLanguage = profile.firstLanguage.en === "English" ? "en" : "fr";
-      } else {
-        firstLanguage = undefined;
+      const data = {
+        firstLanguage: profile.firstLanguage,
+      };
+
+      if (profile.secondLangProfs) {
+        profile.secondLangProfs.forEach(({ date, level, proficiency }) => {
+          switch (proficiency) {
+            case "ORAL":
+              data.oralProficiency = level;
+              data.secondaryOralDate = date ? moment(date) : undefined;
+              break;
+
+            case "WRITING":
+              data.writingProficiency = level;
+              data.secondaryWritingDate = date ? moment(date) : undefined;
+              break;
+
+            case "READING":
+              data.readingProficiency = level;
+              data.secondaryReadingDate = date ? moment(date) : undefined;
+              break;
+
+            default:
+              break;
+          }
+        });
       }
 
-      return {
-        firstLanguage,
-        ...(profile.secondaryReadingProficiency && {
-          readingProficiency: profile.secondaryReadingProficiency,
-        }),
-        ...(profile.secondaryWritingProficiency && {
-          writingProficiency: profile.secondaryWritingProficiency,
-        }),
-        ...(profile.secondaryOralProficiency && {
-          oralProficiency: profile.secondaryOralProficiency,
-        }),
-        ...(profile.secondaryReadingDate && {
-          secondaryReadingDate: moment(profile.secondaryReadingDate),
-        }),
-        ...(profile.secondaryWritingDate && {
-          secondaryWritingDate: moment(profile.secondaryWritingDate),
-        }),
-        ...(profile.secondaryOralDate && {
-          secondaryOralDate: moment(profile.secondaryOralDate),
-        }),
-      };
+      return data;
     }
     return {};
   };
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => {
-      const data = savedValues || getInitialValues(profileInfo);
-      setFieldsChanged(
-        (!data.oralProficiency && !prev) || (data.oralProficiency && prev)
-      );
-      return !prev;
-    });
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /**
@@ -239,12 +258,20 @@ const LangProficiencyFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    if (_.isEmpty(formValues)) {
+      return false;
+    }
+
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    return !_.isEqual(formValues, dbValues);
+  };
+
+  const updateIfFormValuesChanged = () => {
+    setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /* save and show success notification */
@@ -272,6 +299,7 @@ const LangProficiencyFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/5");
       })
       .catch((error) => {
@@ -294,13 +322,16 @@ const LangProficiencyFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -318,6 +349,16 @@ const LangProficiencyFormView = ({
     setDisplayMentorshipForm(data.oralProficiency);
     setFieldsChanged(false);
   };
+
+  // Updates the unsaved indicator based on the toggle and form values
+  useEffect(() => {
+    const data = savedValues || getInitialValues(profileInfo);
+    const oppositeInitialToggle =
+      !!data.oralProficiency !== displayMentorshipForm;
+
+    setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayMentorshipForm]);
 
   /*
    * Get Form Control Buttons
@@ -534,7 +575,11 @@ const LangProficiencyFormView = ({
     return (
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.language.proficiency" />
-        {fieldsChanged && <Text style={styles.unsavedText}>(unsaved)</Text>}
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
       </Title>
     );
   };
@@ -542,7 +587,7 @@ const LangProficiencyFormView = ({
   useEffect(() => {
     /* check if user has a second language */
     setDisplayMentorshipForm(
-      profileInfo ? !!profileInfo.secondaryOralProficiency : false
+      profileInfo ? profileInfo.secondLangProfs.length !== 0 : false
     );
   }, [profileInfo]);
 
@@ -559,62 +604,88 @@ const LangProficiencyFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        form={form}
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
-      >
-        {/* Form Row One */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="firstLanguage"
-              label={<FormattedMessage id="profile.first.language" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        <Row justify="space-between" style={{ marginBottom: -5 }}>
+          {getFormHeader(formType)}
+          <div style={{ marginTop: -5 }}>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="officialLanguage"
+              type="form"
+            />
+          </div>
+        </Row>
+        <Divider style={styles.headerDiv} />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          onValuesChange={updateIfFormValuesChanged}
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                name="firstLanguage"
+                label={<FormattedMessage id="profile.first.language" />}
               >
-                {languageOptions.map((value) => {
-                  return <Option key={value.key}>{value.text}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Four: Temporary role */}
-        <Row style={styles.secondLangRow} gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <FormLabelTooltip
-              labelText={
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {languageOptions.map((value) => {
+                    return <Option key={value.key}>{value.text}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.secondLangRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Text>
                 <FormattedMessage id="profile.graded.on.second.language" />
-              }
-              tooltipText="Extra information"
-            />
-            <Switch
-              checked={displayMentorshipForm}
-              onChange={toggleSecLangForm}
-            />
-            {getSecondLanguageForm(displayMentorshipForm)}
-          </Col>
-        </Row>
-        {/* Form Row Five: Submit button */}
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+                <Popover
+                  content={
+                    <div>
+                      <FormattedMessage id="tooltip.extra.info.help" />
+                      <Link to="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </Link>
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                </Popover>
+              </Text>
+
+              <Switch
+                checked={displayMentorshipForm}
+                onChange={toggleSecLangForm}
+              />
+              {getSecondLanguageForm(displayMentorshipForm)}
+            </Col>
+          </Row>
+          {/* Form Row Five: Submit button */}
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 

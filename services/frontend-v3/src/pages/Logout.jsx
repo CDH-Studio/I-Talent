@@ -12,21 +12,12 @@ const Logout = ({ keycloak }) => {
     document.title = "logging out...";
   }, []);
 
-  // log out user and redirect home
-  const logout = async () => {
-    try {
-      dispatch(clearUser());
-      keycloak.logout({ redirectUri: window.location.origin });
-      return 1;
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e);
-      return 0;
-    }
-  };
-
-  // Check if user logged out successfully
-  if (!logout()) {
+  try {
+    dispatch(clearUser());
+    keycloak.logout({ redirectUri: window.location.origin });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     return <Redirect to="/secured/home" />;
   }
 

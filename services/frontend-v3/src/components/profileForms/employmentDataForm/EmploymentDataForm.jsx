@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
-import config from "../../../config";
 import EmploymentDataFormView from "./EmploymentDataFormView";
-
-const { backendAddress } = config;
 
 /**
  *  EmploymentDataForm(props)
@@ -29,64 +26,37 @@ const EmploymentDataForm = ({ formType }) => {
 
   // Get substantive level options
   const getSubstantiveOptions = useCallback(async () => {
-    const result = await axios.get(`${backendAddress}api/option/getTenure`);
+    const result = await axios.get(`api/option/tenures?language=${locale}`);
 
-    const options = [];
-    // Generate the data for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const option = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      options.push(option);
-    }
-    setSubstantiveOptions(options);
-    return 1;
+    setSubstantiveOptions(result.data);
   }, [locale]);
 
   // Get classification options
-  const getClassificationOptions = async () => {
-    const url = `${backendAddress}api/option/getGroupLevel`;
-    const result = await axios.get(url);
-    const options = [];
+  const getClassificationOptions = useCallback(async () => {
+    const result = await axios.get(
+      `api/option/classifications?language=${locale}`
+    );
 
-    // Generate the data for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const option = {
-        title: result.data[i].description,
-        key: result.data[i].id,
-      };
-      options.push(option);
-    }
-    setClassificationOptions(options);
-    return 1;
-  };
+    setClassificationOptions(result.data);
+  }, [locale]);
 
   // Get security options
   const getSecurityOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getSecurityClearance`;
-    const result = await axios.get(url);
-    const options = [];
+    const result = await axios.get(
+      `api/option/securityClearances?language=${locale}`
+    );
 
-    // Generate the data for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const option = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      options.push(option);
-    }
-    setSecurityOptions(options);
-    return 1;
+    setSecurityOptions(result.data);
   }, [locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const url = `${backendAddress}api/profile/private/${id}`;
-    const result = await axios.get(url);
+    const result = await axios.get(
+      `api/profile/private/${id}?language=${locale}`
+    );
+
     setProfileInfo(result.data);
-    return 1;
-  }, [id]);
+  }, [id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -104,7 +74,12 @@ const EmploymentDataForm = ({ formType }) => {
         setLoad(false);
         handleError(error, "redirect");
       });
-  }, [getProfileInfo, getSecurityOptions, getSubstantiveOptions]);
+  }, [
+    getClassificationOptions,
+    getProfileInfo,
+    getSecurityOptions,
+    getSubstantiveOptions,
+  ]);
 
   return (
     <EmploymentDataFormView

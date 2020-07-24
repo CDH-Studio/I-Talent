@@ -10,34 +10,38 @@ const CompetenciesView = ({ competencies }) => {
    * Generate a list of Competency Tags
    * If no competencies are found for the profile then display friendly message
    */
-  const generateCompetenciesTagList = () => {
-    if (competencies.length > 0) {
-      return (
-        <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
-          <List>
-            {Object.values(competencies).map((competency, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Tag color="#003d74" key={index}>
-                {competency}
-              </Tag>
-            ))}
-          </List>
-        </Row>
-      );
-    }
+  if (competencies.length > 0) {
     return (
-      <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="profile.competencies.empty" />}
-      />
+      <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
+        <List>
+          {competencies.map(({ id, name }) => (
+            <Tag color="#003d74" key={id}>
+              {name}
+            </Tag>
+          ))}
+        </List>
+      </Row>
     );
-  };
-
-  return generateCompetenciesTagList();
+  }
+  return (
+    <Empty
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
+      description={<FormattedMessage id="profile.competencies.empty" />}
+    />
+  );
 };
 
 CompetenciesView.propTypes = {
-  competencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  competencies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
+};
+
+CompetenciesView.defaultProps = {
+  competencies: [],
 };
 
 export default CompetenciesView;

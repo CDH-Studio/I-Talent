@@ -10,35 +10,38 @@ function DevelopmentalGoalsView({ devGoals }) {
    * Generate a list of Developmental Goals
    * If no competencies are found for the profile then display friendly message
    */
-  const GenerateDevGoalsList = (_devGoals) => {
-    if (_devGoals.length > 0) {
-      return (
-        <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
-          <List>
-            {Object.values(_devGoals).map((devGoal, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Tag color="#114541" key={index}>
-                {devGoal}
-              </Tag>
-            ))}
-          </List>
-        </Row>
-      );
-    }
+  if (devGoals.length > 0) {
     return (
-      <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={
-          <FormattedMessage id="profile.developmental.goals.empty" />
-        }
-      />
+      <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
+        <List>
+          {Object.values(devGoals).map(({ name, id }) => (
+            <Tag color="#114541" key={id}>
+              {name}
+            </Tag>
+          ))}
+        </List>
+      </Row>
     );
-  };
-  return GenerateDevGoalsList(devGoals);
+  }
+  return (
+    <Empty
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
+      description={<FormattedMessage id="profile.developmental.goals.empty" />}
+    />
+  );
 }
 
 DevelopmentalGoalsView.propTypes = {
-  devGoals: PropTypes.arrayOf(PropTypes.string).isRequired,
+  devGoals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
+};
+
+DevelopmentalGoalsView.defaultProps = {
+  devGoals: [],
 };
 
 export default DevelopmentalGoalsView;

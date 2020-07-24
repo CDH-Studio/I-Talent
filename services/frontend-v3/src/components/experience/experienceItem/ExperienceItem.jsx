@@ -24,7 +24,7 @@ ExperienceItem.propTypes = {
     duration: PropTypes.string,
     icon: PropTypes.string,
     jobTitle: PropTypes.string,
-    organizationName: PropTypes.string,
+    organization: PropTypes.string,
   }).isRequired,
 };
 

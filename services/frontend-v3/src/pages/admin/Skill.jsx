@@ -4,8 +4,8 @@ import SkillTable from "../../components/admin/skillTable/SkillTable";
 
 const AdminSkill = () => {
   return (
-    <AdminLayout displaySideBar type="skill">
-      <SkillTable type="skill" />
+    <AdminLayout displaySideBar type="skills">
+      <SkillTable />
     </AdminLayout>
   );
 };

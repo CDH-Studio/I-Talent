@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import axios from "../../../axios-instance";
 import TalentFormView from "./TalentFormView";
-import config from "../../../config";
 import handleError from "../../../functions/handleError";
-
-const { backendAddress } = config;
 
 /**
  *  LangProficiencyForm(props)
@@ -30,11 +27,11 @@ const TalentForm = ({ formType }) => {
    * Get user profile
    */
   const getProfileInfo = useCallback(async () => {
-    const url = `${backendAddress}api/profile/private/${id}`;
-    const result = await axios.get(url);
+    const result = await axios.get(
+      `api/profile/private/${id}?language=${locale}`
+    );
     setProfileInfo(result.data);
-    return 1;
-  }, [id]);
+  }, [id, locale]);
 
   /**
    * Get all competency options
@@ -42,21 +39,11 @@ const TalentForm = ({ formType }) => {
    * competency options for drop down
    */
   const getCompetencyOptions = useCallback(async () => {
-    const url = `${backendAddress}api/option/getCompetency`;
-    const result = await axios.get(url);
-    const options = [];
+    const result = await axios.get(
+      `api/option/competencies?language=${locale}`
+    );
 
-    // Generate the data for dropdown
-    for (let i = 0; i < result.data.length; i += 1) {
-      const option = {
-        title: result.data[i].description[locale],
-        key: result.data[i].id,
-      };
-      options.push(option);
-    }
-
-    setCompetencyOptions(options);
-    return 1;
+    setCompetencyOptions(result.data);
   }, [locale]);
 
   /**
@@ -65,34 +52,33 @@ const TalentForm = ({ formType }) => {
    * generate the dataTree of skills and skill categories for the TreeSelect
    */
   const getSkillOptions = useCallback(async () => {
-    const dataTree = [];
-
-    // Get user profile
-    const url = `${backendAddress}api/option/getCategory`;
-    const result = await axios.get(url);
+    const [categoriesResult, skillsResults] = await Promise.all([
+      axios.get(`api/option/categories?language=${locale}`),
+      axios.get(`api/option/skills?language=${locale}`),
+    ]);
 
     // Loop through all skill categories
-    for (let i = 0; i < result.data.length; i += 1) {
-      const parent = {
-        title: result.data[i].description[locale],
-        value: result.data[i].id,
-        children: [],
-      };
+    const dataTree = categoriesResult.data.map((category) => {
+      const children = [];
 
-      dataTree.push(parent);
-      // Loop through skills in each category
-      for (let w = 0; w < result.data[i].skills.length; w += 1) {
-        const child = {
-          title: `${result.data[i].description[locale]}: ${result.data[i].skills[w].description[locale]}`,
-          value: result.data[i].skills[w].id,
-          key: result.data[i].skills[w].id,
-        };
-        dataTree[i].children.push(child);
-      }
-    }
+      skillsResults.data.forEach((skill) => {
+        if (skill.categoryId === category.id) {
+          children.push({
+            title: `${category.name}: ${skill.name}`,
+            value: skill.id,
+            key: skill.id,
+          });
+        }
+      });
+
+      return {
+        title: category.name,
+        value: category.id,
+        children,
+      };
+    });
 
     setSkillOptions(dataTree);
-    return 1;
   }, [locale]);
 
   /**
@@ -101,11 +87,7 @@ const TalentForm = ({ formType }) => {
    * get saved competencies from profile
    */
   const getSavedCompetencies = () => {
-    const selected = [];
-    for (let i = 0; i < profileInfo.competencies.length; i += 1) {
-      selected.push(profileInfo.competencies[i].id);
-    }
-    setSavedCompetencies(selected);
+    setSavedCompetencies(profileInfo.competencies.map((i) => i.id));
   };
 
   /**
@@ -114,11 +96,7 @@ const TalentForm = ({ formType }) => {
    * generate an array of skill ids saved in profile
    */
   const getSavedSkills = () => {
-    const selected = [];
-    for (let i = 0; i < profileInfo.skills.length; i += 1) {
-      selected.push(profileInfo.skills[i].id);
-    }
-    setSavedSkills(selected);
+    setSavedSkills(profileInfo.skills.map((i) => i.id));
   };
 
   /**
