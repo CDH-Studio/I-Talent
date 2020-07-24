@@ -6,23 +6,19 @@ import { injectIntl } from "react-intl";
 const SubstantiveView = ({ values }) => {
   return (
     <Row>
-      <Col xs={24} lg={24} style={{ width: "100%" }}>
-        <Row>
-          <Col>
-            <List
-              itemLayout="horizontal"
-              dataSource={values}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={item.title}
-                    description={item.description}
-                  />
-                </List.Item>
-              )}
-            />
-          </Col>
-        </Row>
+      <Col xs={24} lg={24}>
+        <List
+          itemLayout="horizontal"
+          dataSource={values}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                title={item.title}
+                description={item.description}
+              />
+            </List.Item>
+          )}
+        />
       </Col>
     </Row>
   );
