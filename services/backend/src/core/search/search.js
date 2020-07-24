@@ -74,12 +74,10 @@ async function filterSearch(request, response) {
       results = await utils.classificationSearch(results, classifications);
     }
 
-    if (!anyMentorSkills && mentorSkills) {
-      results = await utils.mentorSkillsSearch(results, mentorSkills);
-    }
-
-    if (anyMentorSkills) {
+    if (anyMentorSkills === "true") {
       results = await utils.anyMentorSkillsSearch(results);
+    } else if (mentorSkills) {
+      results = await utils.mentorSkillsSearch(results, mentorSkills);
     }
 
     if (exFeeder === "true") {
