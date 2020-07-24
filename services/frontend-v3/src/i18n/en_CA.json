@@ -418,5 +418,7 @@
   "error.404.subtitle": "Looks like someone is in the wrong place",
   "error.403.subtitle": "Looks like someone doesn't belong",
 
-  "profile.form.unsaved.alert": "You have unsaved changes, are you sure you want to leave?"
+  "profile.form.unsaved.alert": "You have unsaved changes, are you sure you want to leave?",
+  "profile.form.unsaved.alert.title": "You have unsaved changes",
+  "profile.form.unsaved.alert.content": "Are you sure you want to leave?"
 }
