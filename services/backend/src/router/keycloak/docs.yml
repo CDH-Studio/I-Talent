@@ -1,0 +1,28 @@
+/api/keycloak/users:
+  get:
+    summary: Returns keycloak roles user information
+    produces:
+      - application/json
+    responses:
+      200:
+        description: The object key is either "admin" or "manager" or another keycloak role, with its value being a list of user ids having that role
+        schema:
+          type: object
+          properties:
+            admin:
+              type: array
+              items:
+                type: string
+                format: uuid
+            manager:
+              type: array
+              items:
+                type: string
+                format: uuid
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [keycloak]
