@@ -8,6 +8,7 @@ const searchRouter = require("./search/search");
 const userRouter = require("./user/user");
 const statsRouter = require("./statistics/statistics");
 const connectionsRouter = require("./connections/connections");
+const keycloakRouter = require("./keycloak/keycloak");
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use("/search/", searchRouter);
 router.use("/user/", userRouter);
 router.use("/stats/", statsRouter);
 router.use("/connections/", connectionsRouter);
+router.use("/keycloak/", keycloakRouter);
 
 module.exports = router;
