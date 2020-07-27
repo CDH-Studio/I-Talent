@@ -2,6 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 
 import { Layout, Typography } from "antd";
+import { Link } from "react-router-dom";
 
 const { Footer } = Layout;
 const { Text } = Typography;
@@ -37,27 +38,27 @@ const FooterView = () => {
   return (
     <Footer style={styles.footer}>
       <div style={styles.aroundLinksSmall}>
-        <a style={styles.link} href="/about">
+        <Link style={styles.link} to="/about">
           <FormattedMessage id="footer.about.link" />
-        </a>
+        </Link>
 
         <Text style={styles.dashes}>-</Text>
 
-        <a style={styles.link} href="/help">
+        <Link style={styles.link} to="/help">
           <FormattedMessage id="footer.contact.link" />
-        </a>
+        </Link>
 
         <Text style={styles.dashes}>-</Text>
 
-        <a style={styles.link} href="/terms">
+        <Link style={styles.link} to="/terms">
           <FormattedMessage id="footer.terms.and.conditions.link" />
-        </a>
+        </Link>
 
         <Text style={styles.dashes}>-</Text>
 
-        <a style={styles.link} href="/privacy">
+        <Link style={styles.link} to="/privacy">
           <FormattedMessage id="footer.privacy.link" />
-        </a>
+        </Link>
       </div>
     </Footer>
   );

@@ -32,13 +32,7 @@ import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({
-  data,
-  name,
-  avatar,
-  jobTitle,
-  buttonLinks,
-}) => {
+const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -262,7 +256,7 @@ const BasicInfoView = ({
         </Col>
       </Row>
       <Row style={styles.rowTopSplitter}>
-        {generateInfoList(generateTeamInfo())}
+        <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
       </Row>
     </Card>
   );

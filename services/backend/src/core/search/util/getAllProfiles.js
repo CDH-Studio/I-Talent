@@ -71,6 +71,7 @@ async function getAllUsers(searchValue, language, userId) {
           education,
           experience,
           exFeeder,
+          mentorshipSkills,
         },
         isConnection,
       }) => {
@@ -211,6 +212,23 @@ async function getAllUsers(searchValue, language, userId) {
             competencies: competencies && {
               select: {
                 competency: {
+                  select: {
+                    id: true,
+                    translations: {
+                      where: {
+                        language,
+                      },
+                      select: {
+                        name: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            mentorshipSkills: mentorshipSkills && {
+              select: {
+                skill: {
                   select: {
                     id: true,
                     translations: {
