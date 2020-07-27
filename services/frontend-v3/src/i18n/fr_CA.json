@@ -25,6 +25,7 @@
   "admin.editHeader": "Modifier",
   "admin.registered": "Inscrit",
   "admin.last.updated": "Dernière mise à jour",
+  "admin.manage.keycloak": "Gérer les rôles de keycloak",
   "admin.job.title": "Profession",
   "admin.profileStatus": "Statu de profil",
   "admin.tenure": "Mandat",

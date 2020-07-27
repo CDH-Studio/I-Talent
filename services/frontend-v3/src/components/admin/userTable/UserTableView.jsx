@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
+import config from "../../../config";
 
 /**
  *  UserTableView(props)
@@ -178,6 +179,16 @@ const UserTableView = ({
           <FormattedMessage id="admin.apply" />
         </Button>
       </Popconfirm>
+    );
+  };
+
+  /* Renders the apply button and confirmation prompt */
+  const keycloakButton = () => {
+    return (
+      <Button href={config.manageKeycloakAddress}>
+        <TeamOutlined style={{ marginRight: 10 }} />
+        <FormattedMessage id="admin.manage.keycloak" />
+      </Button>
     );
   };
 
