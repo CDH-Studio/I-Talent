@@ -18,6 +18,9 @@
               createdAt:
                 type: string
                 format: date-time
+              updatedAt:
+                type: string
+                format: date-time
               firstName:
                 type: string
               lastName:
