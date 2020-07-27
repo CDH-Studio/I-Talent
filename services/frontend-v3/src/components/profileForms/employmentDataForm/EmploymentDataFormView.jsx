@@ -24,7 +24,9 @@ import {
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import _ from "lodash";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "../../../axios-instance";
 import {
   KeyTitleOptionsPropType,
@@ -34,6 +36,7 @@ import {
 } from "../../../customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -61,6 +64,7 @@ const EmploymentDataFormView = ({
   const [savedValues, setSavedValues] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
   /* Component Styles */
   const styles = {
@@ -288,6 +292,7 @@ const EmploymentDataFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         history.push("/secured/profile/create/step/4");
       })
       .catch((error) => {
@@ -310,13 +315,16 @@ const EmploymentDataFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -556,140 +564,149 @@ const EmploymentDataFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      <Row justify="space-between" style={{ marginBottom: -5 }}>
-        {getFormHeader(formType)}
-        <div style={{ marginTop: -5 }}>
-          <CardVisibilityToggle
-            visibleCards={profileInfo.visibleCards}
-            cardName="info"
-            type="form"
-          />
-        </div>
-      </Row>
-      <Divider style={styles.headerDiv} />
-      {/* Create for with initial values */}
-      <Form
-        name="basicForm"
-        form={form}
-        initialValues={savedValues || getInitialValues(profileInfo)}
-        layout="vertical"
-        onValuesChange={updateIfFormValuesChanged}
-      >
-        {/* Form Row One */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              tabIndex="0"
-              name="tenureId"
-              label={<FormattedMessage id="profile.substantive" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {substantiveOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-            <Form.Item
-              tabIndex="0"
-              name="groupLevelId"
-              label={<FormattedMessage id="profile.classification" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {classificationOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Two */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              tabIndex="0"
-              name="securityClearanceId"
-              label={<FormattedMessage id="profile.security" />}
-            >
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder={<FormattedMessage id="setup.select" />}
-                allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {securityOptions.map((value) => {
-                  return <Option key={value.id}>{value.description}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Three */}
-        <Row gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <Form.Item
-              name="manager"
-              label={<FormattedMessage id="profile.manager" />}
-              rules={[Rules.maxChar50]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* Form Row Four: Temporary role */}
-        <Row style={styles.tempRoleRow} gutter={24}>
-          <Col className="gutter-row" span={24}>
-            <Text>
-              <FormattedMessage id="profile.willing.to.relocate.to" />
-              <Popover
-                content={
-                  <div>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                }
-              >
-                <InfoCircleOutlined style={styles.iconBySwitch} />
-              </Popover>
-            </Text>
-            <Switch
-              checked={displayActingRoleForm}
-              onChange={toggleTempRoleForm}
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        <Row justify="space-between" style={{ marginBottom: -5 }}>
+          {getFormHeader(formType)}
+          <div style={{ marginTop: -5 }}>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="info"
+              type="form"
             />
-            {getTempRoleForm(displayActingRoleForm)}
-          </Col>
+          </div>
         </Row>
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+        <Divider style={styles.headerDiv} />
+        {/* Create for with initial values */}
+        <Form
+          name="basicForm"
+          form={form}
+          initialValues={savedValues || getInitialValues(profileInfo)}
+          layout="vertical"
+          onValuesChange={updateIfFormValuesChanged}
+        >
+          {/* Form Row One */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                tabIndex="0"
+                name="tenureId"
+                label={<FormattedMessage id="profile.substantive" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {substantiveOptions.map((value) => {
+                    return <Option key={value.id}>{value.name}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                tabIndex="0"
+                name="groupLevelId"
+                label={<FormattedMessage id="profile.classification" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {classificationOptions.map((value) => {
+                    return <Option key={value.id}>{value.name}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Two */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item
+                tabIndex="0"
+                name="securityClearanceId"
+                label={<FormattedMessage id="profile.security" />}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {securityOptions.map((value) => {
+                    return <Option key={value.id}>{value.description}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item
+                name="manager"
+                label={<FormattedMessage id="profile.manager" />}
+                rules={[Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.tempRoleRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Text>
+                <FormattedMessage id="profile.temporary.role" />
+                <Popover
+                  content={
+                    <div>
+                      <FormattedMessage id="tooltip.extra.info.help" />
+                      <Link to="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </Link>
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                </Popover>
+              </Text>
+              <Switch
+                checked={displayActingRoleForm}
+                onChange={toggleTempRoleForm}
+              />
+              {getTempRoleForm(displayActingRoleForm)}
+            </Col>
+          </Row>
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 

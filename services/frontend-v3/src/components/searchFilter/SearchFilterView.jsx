@@ -1,10 +1,20 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import { Form, Button, Input, Switch, Select, Typography } from "antd";
+import {
+  Form,
+  Button,
+  Input,
+  Switch,
+  Select,
+  Typography,
+  Checkbox,
+  TreeSelect,
+} from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { IdDescriptionPropType } from "../../customPropTypes";
 
+const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;
 
 const SearchBarView = ({
@@ -14,6 +24,8 @@ const SearchBarView = ({
   classOptions,
   locationOptions,
   urlSearchFieldValues,
+  handleAnyMentorSkillsChange,
+  anyMentorSkills,
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -48,18 +60,22 @@ const SearchBarView = ({
   const searchLabel = <FormattedMessage id="button.search" />;
   const searchTitles = [
     "name",
+    "classification",
+    "location",
+    "branch",
     "skills",
-    "branches",
-    "locations",
-    "classifications",
+    "mentorSkills",
+    "anyMentorSkills",
     "exFeeder",
   ];
   const labelArr = [
     <FormattedMessage id="advanced.search.form.name" />,
-    <FormattedMessage id="advanced.search.form.skills" />,
-    <FormattedMessage id="advanced.search.form.branch" />,
-    <FormattedMessage id="advanced.search.form.location" />,
     <FormattedMessage id="advanced.search.form.classification" />,
+    <FormattedMessage id="advanced.search.form.location" />,
+    <FormattedMessage id="advanced.search.form.branch" />,
+    <FormattedMessage id="advanced.search.form.skills" />,
+    <FormattedMessage id="advanced.search.form.mentorship.skills" />,
+    null,
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
@@ -77,6 +93,7 @@ const SearchBarView = ({
         onFinish={onFinish}
         style={styles.form}
       >
+        {/* name */}
         <Form.Item
           label={labelArr[0]}
           name={searchTitles[0]}
@@ -84,6 +101,8 @@ const SearchBarView = ({
         >
           <Input style={styles.w100} />
         </Form.Item>
+
+        {/* classification */}
         <Form.Item
           style={styles.w100}
           label={labelArr[1]}
@@ -97,33 +116,17 @@ const SearchBarView = ({
             mode="multiple"
             maxTagCount={3}
           >
-            {skillOptions.map((value) => {
+            {classOptions.map((value) => {
               return <Option key={value.id}>{value.name}</Option>;
             })}
           </Select>
         </Form.Item>
+
+        {/* location */}
         <Form.Item
           style={styles.w100}
           label={labelArr[2]}
           name={searchTitles[2]}
-        >
-          <Select
-            style={styles.w100}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            mode="multiple"
-            maxTagCount={3}
-          >
-            {branchOptions.map((value) => {
-              return <Option key={value}>{value}</Option>;
-            })}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          style={styles.w100}
-          label={labelArr[3]}
-          name={searchTitles[3]}
         >
           <Select
             style={styles.w100}
@@ -146,10 +149,12 @@ const SearchBarView = ({
             })}
           </Select>
         </Form.Item>
+
+        {/* branch */}
         <Form.Item
           style={styles.w100}
-          label={labelArr[4]}
-          name={searchTitles[4]}
+          label={labelArr[3]}
+          name={searchTitles[3]}
         >
           <Select
             style={styles.w100}
@@ -159,15 +164,64 @@ const SearchBarView = ({
             mode="multiple"
             maxTagCount={3}
           >
-            {classOptions.map((value) => {
-              return <Option key={value.id}>{value.name}</Option>;
+            {branchOptions.map((value) => {
+              return <Option key={value}>{value}</Option>;
             })}
           </Select>
         </Form.Item>
+
+        {/* skills */}
         <Form.Item
           style={styles.w100}
-          name={searchTitles[5]}
+          label={labelArr[4]}
+          name={searchTitles[4]}
+        >
+          <TreeSelect
+            style={styles.w100}
+            treeData={skillOptions}
+            treeCheckable
+            treeNodeFilterProp="title"
+            showCheckedStrategy={SHOW_CHILD}
+            showSearch
+            mode="multiple"
+            maxTagCount={15}
+          />
+        </Form.Item>
+
+        {/* mentor skills */}
+        <Form.Item
+          style={styles.w100}
           label={labelArr[5]}
+          name={searchTitles[5]}
+        >
+          <TreeSelect
+            style={styles.w100}
+            treeData={skillOptions}
+            treeCheckable
+            treeNodeFilterProp="title"
+            showCheckedStrategy={SHOW_CHILD}
+            showSearch
+            mode="multiple"
+            maxTagCount={15}
+            disabled={anyMentorSkills}
+          />
+        </Form.Item>
+        <Form.Item
+          style={styles.w100}
+          name={searchTitles[6]}
+          label={labelArr[6]}
+          valuePropName="checked"
+        >
+          <Checkbox onChange={handleAnyMentorSkillsChange}>
+            <FormattedMessage id="select.any" />
+          </Checkbox>
+        </Form.Item>
+
+        {/* exFeeder */}
+        <Form.Item
+          style={styles.w100}
+          name={searchTitles[7]}
+          label={labelArr[7]}
           valuePropName="checked"
         >
           <Switch />
@@ -205,6 +259,8 @@ SearchBarView.propTypes = {
     exFeeder: PropTypes.bool,
     name: PropTypes.string,
   }),
+  anyMentorSkills: PropTypes.bool.isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 SearchBarView.defaultProps = {

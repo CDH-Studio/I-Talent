@@ -23,6 +23,11 @@
   "admin.country": "Country",
   "admin.editHeader": "Edit",
   "admin.registered": "Registered",
+  "admin.last.updated": "Last updated",
+  "admin.manage.keycloak": "Manage keycloak roles",
+  "admin.roles": "Roles",
+  "admin.roles.admin": "Admin",
+  "admin.roles.manager": "Manager",
   "admin.job.title": "Job title",
   "admin.profileStatus": "Profile status",
   "admin.tenure": "Tenure",
@@ -104,6 +109,7 @@
 
   "advanced.search.button.text": "Advanced search",
   "advanced.search.description": "Use the filters below to search for employees in the I-Talent directory that match your specific needs.",
+  "advanced.search.form.mentorship.skills": "Mentorship Skills",
   "advanced.search.form.name": "Name",
   "advanced.search.form.skills": "Skills",
   "advanced.search.form.location": "Location",
@@ -169,6 +175,8 @@
   "landing.call.to.action": "Connect with other talented individuals to learn and grow together.",
 
   "more.content.soon": "More content coming soon!",
+
+  "select.any": "Any",
 
   "setup.welcome": "Welcome",
   "setup.welcome.description": "We just need a few bits of information to set up your profile",
@@ -418,5 +426,9 @@
   "error.show": "Show error log",
   "error.hide": "Hide error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
-  "error.403.subtitle": "Looks like someone doesn't belong"
+  "error.403.subtitle": "Looks like someone doesn't belong",
+
+  "profile.form.unsaved.alert": "You have unsaved changes, are you sure you want to leave?",
+  "profile.form.unsaved.alert.title": "You have unsaved changes",
+  "profile.form.unsaved.alert.content": "Are you sure you want to leave?"
 }
