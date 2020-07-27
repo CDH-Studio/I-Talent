@@ -53,10 +53,12 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
     },
     leftSpacing: {
       paddingLeft: "0.5em",
+      whiteSpace: "normal",
     },
     orgButton: {
       margin: "-10px 0px",
       padding: "0px",
+      height: "100%",
     },
     rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
   };
