@@ -30,10 +30,13 @@ function UserTable({ intl }) {
       dispatch(setAdminUsers({ data: [] }));
       dispatch(setAdminUsersLoading(true));
 
-      const results = await axios.get(`api/admin/users?language=${locale}`);
+      const results = await Promise.all([
+        axios.get(`api/admin/users?language=${locale}`),
+        axios.get(`api/keycloak/users?language=${locale}`),
+      ]);
 
       // Formats data from backend into viewable data for the table
-      const formattedData = results.data.map((user) => ({
+      const formattedData = results[0].data.map((user) => ({
         key: user.id,
         profileLink: `/secured/profile/${user.id}`,
         fullName: `${user.firstName} ${user.lastName}`,
@@ -42,6 +45,8 @@ function UserTable({ intl }) {
         formatCreatedAt: moment(user.createdAt).format("LL"),
         formatUpdatedAt: moment(user.updatedAt).format("LL"),
         status: user.status,
+        isAdmin: results[1].data.admin.includes(user.id),
+        isManager: results[1].data.manager.includes(user.id),
       }));
 
       dispatch(setAdminUsers({ data: formattedData, locale }));

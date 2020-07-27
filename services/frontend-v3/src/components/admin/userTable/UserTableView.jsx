@@ -9,11 +9,13 @@ import {
   Select,
   message,
   Popconfirm,
+  Tag,
 } from "antd";
 import {
   CheckCircleOutlined,
   LinkOutlined,
   SearchOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import Highlighter from "react-highlight-words";
@@ -286,6 +288,30 @@ const UserTableView = ({
       ),
     },
     {
+      title: <FormattedMessage id="admin.roles" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.roles.admin" />,
+          value: "isAdmin",
+        },
+        {
+          text: <FormattedMessage id="admin.roles.manager" />,
+          value: "isManager",
+        },
+      ],
+      onFilter: (value, record) => record[value],
+      render: (record) => (
+        <>
+          <Tag visible={record.isAdmin} color="magenta">
+            <FormattedMessage id="admin.roles.admin" />
+          </Tag>
+          <Tag visible={record.isManager} color="geekblue">
+            <FormattedMessage id="admin.roles.manager" />
+          </Tag>
+        </>
+      ),
+    },
+    {
       title: <FormattedMessage id="admin.profileStatus" />,
       render: (record) => {
         return renderStatusDropdown(record.key, record.status);
@@ -297,7 +323,12 @@ const UserTableView = ({
     <>
       <Header
         title={<FormattedMessage id="admin.user.table" />}
-        extra={applyButton()}
+        extra={
+          <>
+            {keycloakButton()}
+            {applyButton()}
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
