@@ -245,6 +245,22 @@ const UserTableView = ({
       ),
     },
     {
+      title: <FormattedMessage id="admin.last.updated" />,
+      dataIndex: "formatUpdatedAt",
+      key: "updated",
+      sorter: (a, b) => {
+        return (
+          moment(a.formatUpdatedAt).unix() - moment(b.formatUpdatedAt).unix()
+        );
+      },
+      ...getColumnSearchProps(
+        "formatUpdatedAt",
+        intl.formatMessage({
+          id: "admin.last.updated",
+        })
+      ),
+    },
+    {
       title: <FormattedMessage id="admin.tenure" />,
       dataIndex: "tenure",
       key: "tenure",

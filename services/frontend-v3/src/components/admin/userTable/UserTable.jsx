@@ -39,7 +39,8 @@ function UserTable({ intl }) {
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
-        formatCreatedAt: moment(user.createdAt).format("LLL"),
+        formatCreatedAt: moment(user.createdAt).format("LL"),
+        formatUpdatedAt: moment(user.updatedAt).format("LL"),
         status: user.status,
       }));
 
