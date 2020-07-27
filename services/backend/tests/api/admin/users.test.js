@@ -69,6 +69,7 @@ describe(`Test ${path}`, () => {
           const data = { ...i };
           delete data.id;
           delete data.createdAt;
+          delete data.updatedAt;
 
           return data;
         });
