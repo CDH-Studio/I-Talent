@@ -73,11 +73,15 @@ const ProfileLayoutView = ({
     button: {
       float: "right",
     },
-    popContent: { maxWidth: "300px" },
+    popContent: { maxWidth: "350px" },
     colStyle: {
-      paddingRight: "8px",
-      maxWidth: "20px",
+      paddingRight: "10px",
+      maxWidth: "40px",
       paddingTop: "5px",
+    },
+    privateGroupInfo: {
+      paddingLeft: "8px",
+      display: "inline",
     },
   };
 
@@ -184,6 +188,20 @@ const ProfileLayoutView = ({
             >
               <TeamOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
               <FormattedMessage id="profile.privateGroup" />
+              <div style={styles.privateGroupInfo}>
+                <Popover
+                  content={
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip3" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  }
+                >
+                  <QuestionCircleOutlined />
+                </Popover>
+              </div>
             </Title>
             <Row style={styles.row}>
               <Col span={24}>
@@ -359,15 +377,24 @@ const ProfileLayoutView = ({
               <Col style={styles.colStyle}>
                 <Popover
                   content={
-                    <div style={styles.popContent}>
-                      <FormattedMessage id="profile.connections.tooltip1" />
-                      <a href="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </a>
-                    </div>
+                    connectionStatus ? (
+                      <div style={styles.popContent}>
+                        <FormattedMessage id="profile.connections.tooltip2" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    ) : (
+                      <div style={styles.popContent}>
+                        <FormattedMessage id="profile.connections.tooltip1" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    )
                   }
                 >
-                  <QuestionCircleOutlined style={styles.addFriendTip} />
+                  <QuestionCircleOutlined />
                 </Popover>
               </Col>
               <Col>
