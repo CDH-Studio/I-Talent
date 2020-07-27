@@ -50,20 +50,7 @@ const Admin = () => {
         }
 
         // Checks if the user has the correct keycloak role (is admin)
-        const resources = keycloakInstance.tokenParsed.resource_access;
-        if (resources) {
-          const hasAdminAccess = Object.keys(resources).every((resourceKey) => {
-            const resource = resources[resourceKey];
-
-            return (
-              "roles" in resource &&
-              Array.isArray(resource.roles) &&
-              resource.roles.includes("view-admin-console")
-            );
-          });
-
-          setIsAdmin(hasAdminAccess);
-        }
+        setIsAdmin(keycloakInstance.hasResourceRole("view-admin-console"));
 
         setKeycloak(keycloakInstance);
         setAuthenticated(auth);

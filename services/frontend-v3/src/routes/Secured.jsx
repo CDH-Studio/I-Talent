@@ -82,20 +82,9 @@ const Secured = ({ location }) => {
       })
       .then(async (auth) => {
         // Checks if the user has the correct keycloak role (is admin)
-        const resources = keycloakInstance.tokenParsed.resource_access;
-        if (resources) {
-          const hasAdminAccess = Object.keys(resources).every((resourceKey) => {
-            const resource = resources[resourceKey];
-
-            return (
-              "roles" in resource &&
-              Array.isArray(resource.roles) &&
-              resource.roles.includes("view-admin-console")
-            );
-          });
-
-          dispatch(setUserIsAdmin(hasAdminAccess));
-        }
+        dispatch(
+          setUserIsAdmin(keycloakInstance.hasResourceRole("view-admin-console"))
+        );
 
         axios.interceptors.request.use((axiosConfig) =>
           keycloakInstance.updateToken(5).then(() => {
@@ -116,7 +105,7 @@ const Secured = ({ location }) => {
   }, [dispatch, profileExist]);
 
   if (!keycloak) {
-    return <AppLayout loading/>;
+    return <AppLayout loading />;
   }
 
   if (!authenticated) {
