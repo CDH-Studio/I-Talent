@@ -37,7 +37,14 @@ const OrgTreeView = ({ data }) => {
     treeData.push(genTreeBranch(org));
   });
 
-  return <Tree defaultExpandAll defaultExpandParent treeData={treeData} />;
+  return (
+    <Tree
+      defaultExpandAll
+      defaultExpandParent
+      treeData={treeData}
+      selectable={false}
+    />
+  );
 };
 
 OrgTreeView.propTypes = {
