@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../utils/axios-instance";
@@ -20,20 +20,21 @@ const Admin = () => {
   const axios = useAxios();
   const [keycloak] = useKeycloak();
 
+  const getInfo = useCallback(async () => {
+    const userInfo = await keycloak.loadUserInfo();
+    try {
+      const response = await axios.get(`api/user/${userInfo.sub}`);
+      setUserExists(response.data !== null && response.data.signupStep === 8);
+    } catch (e) {
+      setUserExists(false);
+    }
+    setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
+    setAuthenticated(keycloak.authenticated);
+  }, [axios, keycloak]);
+
   useEffect(() => {
-    const getInfo = async () => {
-      const userInfo = await keycloak.loadUserInfo();
-      try {
-        const response = await axios.get(`api/user/${userInfo.sub}`);
-        setUserExists(response.data !== null && response.data.signupStep === 8);
-      } catch (e) {
-        setUserExists(false);
-      }
-      setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
-      setAuthenticated(keycloak.authenticated);
-    };
     getInfo();
-  }, []);
+  }, [getInfo]);
 
   if (!authenticated) {
     return <AppLayout loading displaySideBar />;

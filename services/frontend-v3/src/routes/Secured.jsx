@@ -67,22 +67,21 @@ const Secured = ({ location }) => {
     [dispatch]
   );
 
-  useEffect(() => {
-    const getInfo = async () => {
-      dispatch(setUserIsAdmin(keycloak.hasResourceRole("view-admin-console")));
-      const keycloakUserInfo = await keycloak.loadUserInfo();
-      const signupStep = await profileExist(keycloakUserInfo);
-      setUserCompletedSignup(signupStep === 8);
-      setAuthenticated(keycloak.authenticated);
-    };
-    if (keycloak) {
-      if (keycloak.authenticated) {
-        getInfo();
-      } else {
-        keycloak.login();
-      }
-    }
+  const getInfo = useCallback(async () => {
+    dispatch(setUserIsAdmin(keycloak.hasResourceRole("view-admin-console")));
+    const keycloakUserInfo = await keycloak.loadUserInfo();
+    const signupStep = await profileExist(keycloakUserInfo);
+    setUserCompletedSignup(signupStep === 8);
+    setAuthenticated(keycloak.authenticated);
   }, [dispatch, keycloak, profileExist]);
+
+  useEffect(() => {
+    if (keycloak.authenticated) {
+      getInfo();
+    } else {
+      keycloak.login();
+    }
+  }, [getInfo, keycloak]);
 
   if (!authenticated) {
     return <AppLayout loading />;
