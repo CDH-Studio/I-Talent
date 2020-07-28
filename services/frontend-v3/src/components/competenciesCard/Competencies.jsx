@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const Competencies = ({ data, type }) => {
   return (

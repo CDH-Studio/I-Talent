@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProjectsView from "./ProjectsView";
 import ProfileCards from "../profileCards/ProfileCards";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const Projects = ({ data, type }) => {
   return (

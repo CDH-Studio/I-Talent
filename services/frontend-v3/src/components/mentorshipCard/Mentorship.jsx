@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import MentorshipView from "./MentorshipView";
 import ProfileCards from "../profileCards/ProfileCards";
 

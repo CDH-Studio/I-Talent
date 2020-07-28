@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import OfficialLanguageView from "./OfficialLanguageView";
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 const OfficialLanguage = ({ data }) => {
   const getFirstLanguageInfo = (dataSource) => {

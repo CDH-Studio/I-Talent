@@ -3,7 +3,7 @@ import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
@@ -14,6 +14,7 @@ const SearchBar = () => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const history = useHistory();
+  const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
 

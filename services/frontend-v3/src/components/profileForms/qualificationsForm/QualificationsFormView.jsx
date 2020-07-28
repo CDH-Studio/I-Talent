@@ -17,7 +17,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -25,7 +25,7 @@ import {
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
-} from "../../../customPropTypes";
+} from "../../../utils/customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
@@ -51,7 +51,7 @@ const QualificationsFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
-
+  const axios = useAxios();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 

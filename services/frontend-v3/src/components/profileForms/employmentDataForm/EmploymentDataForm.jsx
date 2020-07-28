@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import EmploymentDataFormView from "./EmploymentDataFormView";
 
@@ -17,6 +17,7 @@ const EmploymentDataForm = ({ formType }) => {
   const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const axios = useAxios();
 
   const history = useHistory();
 

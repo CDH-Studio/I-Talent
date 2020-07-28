@@ -4,7 +4,7 @@ import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
-import { HistoryPropType } from "../../../customPropTypes";
+import { HistoryPropType } from "../../../utils/customPropTypes";
 import {
   EmploymentDataForm,
   LangProficiencyForm,

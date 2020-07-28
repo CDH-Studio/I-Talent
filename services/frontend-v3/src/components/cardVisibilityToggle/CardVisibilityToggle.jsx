@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import CardVisibilityToggleView from "./CardVisibilityToggleView";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 import handleError from "../../functions/handleError";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   const [status, setStatus] = useState("");
+  const axios = useAxios();
 
   const urlID = useParams().id;
   const { locale } = useSelector((state) => state.settings);

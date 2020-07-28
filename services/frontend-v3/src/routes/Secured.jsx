@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import axios from "../axios-instance";
+import { useKeycloak } from "@react-keycloak/web";
+import useAxios from "../utils/axios-instance";
 import {
   Logout,
   Home,
@@ -11,20 +11,18 @@ import {
   Profile,
   ProfileEdit,
   ProfileCreate,
-  NotFound,
 } from "../pages";
-import keycloakConfig from "../keycloak";
 import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
 import { setLocale } from "../redux/slices/settingsSlice";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 
-const { keycloakJSONConfig } = keycloakConfig;
-
 const Secured = ({ location }) => {
   const dispatch = useDispatch();
   const [authenticated, setAuthenticated] = useState(false);
-  const [keycloak, setKeycloak] = useState(null);
+  const [keycloakInstance, setKeycloakInstance] = useState(null);
   const [userCompletedSignup, setUserCompletedSignup] = useState(false);
+  const axios = useAxios();
+  const [keycloak] = useKeycloak();
 
   const createUser = async (userInfo) =>
     axios.post(`api/user/${userInfo.sub}`, {
@@ -34,7 +32,6 @@ const Secured = ({ location }) => {
       firstName: userInfo.given_name,
     });
 
-  // Check if profile exist for the logged in user and saves the data of the request into redux
   const profileExist = useCallback(
     async (userInfo) => {
       let response;
@@ -72,39 +69,18 @@ const Secured = ({ location }) => {
   );
 
   useEffect(() => {
-    const keycloakInstance = Keycloak(keycloakJSONConfig);
+    const getInfo = async () => {
+      dispatch(setUserIsAdmin(keycloak.hasResourceRole("view-admin-console")));
+      const keycloakUserInfo = await keycloak.loadUserInfo();
+      const signupStep = await profileExist(keycloakUserInfo);
+      setUserCompletedSignup(signupStep === 8);
+      setKeycloakInstance(keycloak);
+      setAuthenticated(keycloak.authenticated);
+    };
+    if (keycloak && keycloak.authenticated) getInfo();
+  }, [dispatch, keycloak, profileExist]);
 
-    keycloakInstance
-      .init({
-        onLoad: "login-required",
-        promiseType: "native",
-        checkLoginIframe: false,
-      })
-      .then(async (auth) => {
-        // Checks if the user has the correct keycloak role (is admin)
-        dispatch(
-          setUserIsAdmin(keycloakInstance.hasResourceRole("view-admin-console"))
-        );
-
-        axios.interceptors.request.use((axiosConfig) =>
-          keycloakInstance.updateToken(5).then(() => {
-            const newConfig = axiosConfig;
-            newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
-            return Promise.resolve(newConfig).catch(keycloakInstance.login);
-          })
-        );
-
-        const keycloakUserInfo = await keycloakInstance.loadUserInfo();
-
-        const signupStep = await profileExist(keycloakUserInfo);
-        setUserCompletedSignup(signupStep === 8);
-
-        setKeycloak(keycloakInstance);
-        setAuthenticated(auth);
-      });
-  }, [dispatch, profileExist]);
-
-  if (!keycloak) {
+  if (!keycloakInstance) {
     return <AppLayout loading />;
   }
 
@@ -112,7 +88,6 @@ const Secured = ({ location }) => {
     return <div>Unable to authenticate!</div>;
   }
 
-  // If user didn't finish the creation of his profile and is not, redirect him to finish it
   if (
     !location.pathname.includes("/secured/profile/create") &&
     !location.pathname.includes("/secured/logout") &&
@@ -145,7 +120,6 @@ const Secured = ({ location }) => {
           path="/secured/logout"
           render={() => <Logout keycloak={keycloak} />}
         />
-        <Route render={() => <NotFound />} />
       </Switch>
     </>
   );

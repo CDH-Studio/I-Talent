@@ -2,7 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import ProfileLayoutView from "./ProfileLayoutView";
 
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 const ProfileLayout = ({
   data,

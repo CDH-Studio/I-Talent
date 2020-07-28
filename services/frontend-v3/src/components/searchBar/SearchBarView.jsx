@@ -20,7 +20,7 @@ import {
   DoubleRightOutlined,
 } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
-import { IntlPropType } from "../../customPropTypes";
+import { IntlPropType } from "../../utils/customPropTypes";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;

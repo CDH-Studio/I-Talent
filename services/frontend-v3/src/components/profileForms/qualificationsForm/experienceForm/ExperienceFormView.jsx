@@ -20,7 +20,7 @@ import {
   ProfileInfoPropType,
   StylesPropType,
   IntlPropType,
-} from "../../../../customPropTypes";
+} from "../../../../utils/customPropTypes";
 
 const { Title } = Typography;
 const { TextArea } = Input;

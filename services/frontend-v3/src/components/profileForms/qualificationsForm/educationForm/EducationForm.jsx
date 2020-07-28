@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import axios from "../../../../axios-instance";
+import useAxios from "../../../../utils/axios-instance";
 import handleError from "../../../../functions/handleError";
 import EducationFormView from "./EducationFormView";
 import {
@@ -9,7 +9,7 @@ import {
   FormInstancePropType,
   ProfileInfoPropType,
   StylesPropType,
-} from "../../../../customPropTypes";
+} from "../../../../utils/customPropTypes";
 
 /**
  *  EducationForm
@@ -32,6 +32,7 @@ const EducationForm = ({
 
   // get current language code
   const { locale } = useSelector((state) => state.settings);
+  const axios = useAxios();
 
   /**
    * Get Diploma Options

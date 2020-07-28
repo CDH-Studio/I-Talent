@@ -12,7 +12,7 @@ import {
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";

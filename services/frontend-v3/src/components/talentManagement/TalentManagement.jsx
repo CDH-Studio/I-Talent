@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TalentManagementView from "./TalentManagementView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const TalentManagement = ({ data, type }) => {

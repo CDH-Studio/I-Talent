@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ProfileCardsView from "./ProfileCardsView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const ProfileCards = ({
   data,

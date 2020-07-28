@@ -9,6 +9,7 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
+import { useKeycloak } from "@react-keycloak/web";
 import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
@@ -18,13 +19,14 @@ import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
-import { IntlPropType } from "../../../../customPropTypes";
+import { IntlPropType } from "../../../../utils/customPropTypes";
 
 const { Header } = Layout;
 
 const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
+  const [keycloak] = useKeycloak();
 
   /* Component Styles */
   const styles = {
@@ -148,7 +150,12 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       );
     }
     return (
-      <Button type="primary" href="/secured/home" style={styles.signInBtn}>
+      <Button
+        type="primary"
+        href="/secured/home"
+        onClick={() => keycloak.login()}
+        style={styles.signInBtn}
+      >
         <FormattedMessage id="landing.login.button" />
       </Button>
     );
@@ -211,7 +218,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     }
 
     return (
-      <Button type="primary" href="/secured/home">
+      <Button
+        type="primary"
+        href="/secured/home"
+        onClick={() => keycloak.login()}
+      >
         <FormattedMessage id="landing.login.button" />
       </Button>
     );

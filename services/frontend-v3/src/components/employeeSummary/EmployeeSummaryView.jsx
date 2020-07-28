@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Substantive from "./substantive/Substantive";
 import Acting from "./acting/Acting";
 import OfficialLanguage from "./officialLanguage/OfficialLanguage";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const { TabPane } = Tabs;
 

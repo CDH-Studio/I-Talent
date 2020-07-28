@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import handleError from "../../../functions/handleError";
@@ -34,6 +34,7 @@ const PersonalGrowthForm = ({ formType }) => {
     undefined
   );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
+  const axios = useAxios();
 
   // Get current language code
   const { locale } = useSelector((state) => state.settings);

@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Router, Route, Switch } from "react-router-dom";
 import { Provider as ReduxProvider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-
+import { KeycloakProvider } from "@react-keycloak/web";
 import { IntlProvider } from "react-intl";
 import moment from "moment";
 import messagesEn from "./i18n/en_CA.json";
 import messagesFr from "./i18n/fr_CA.json";
 import "moment/locale/en-ca";
 import "moment/locale/fr-ca";
+import AppLayout from "./components/layouts/appLayout/AppLayout";
+import keycloak from "./auth/keycloak";
+import keycloakConfig from "./utils/keycloakConfig";
+import Routes from "./routes/Routes";
 
 import "./App.css";
-import {
-  NotFound,
-  LandingPage,
-  UnexpectedError,
-  Forbidden,
-  About,
-} from "./pages";
-import { Secured, Admin } from "./routes";
+
 import store, { persistor } from "./redux";
-import historySingleton from "./history";
 import {
   setUserId,
   setUserAvatarColor,
@@ -75,33 +70,23 @@ const App = () => {
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
-      <Router history={historySingleton}>
-        <Switch>
-          <Route exact path="/" render={() => <LandingPage />} />
-          <Route
-            path="/secured"
-            render={({ location }) => <Secured location={location} />}
-          />
-          <Route path="/about" render={() => <About type="about" />} />
-          <Route path="/help" render={() => <About type="help" />} />
-          <Route path="/terms" render={() => <About type="terms" />} />
-          <Route path="/privacy" render={() => <About type="privacy" />} />
-          <Route path="/admin" render={() => <Admin />} />
-          <Route path="/error" render={() => <UnexpectedError />} />
-          <Route path="/forbidden" render={() => <Forbidden />} />
-          <Route render={() => <NotFound />} />
-        </Switch>
-      </Router>
+      <Routes />
     </IntlProvider>
   );
 };
 
 const ReduxWrappedApp = () => (
-  <ReduxProvider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-  </ReduxProvider>
+  <KeycloakProvider
+    keycloak={keycloak}
+    initConfig={keycloakConfig}
+    LoadingComponent={() => <AppLayout loading />}
+  >
+    <ReduxProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </ReduxProvider>
+  </KeycloakProvider>
 );
 
 export default ReduxWrappedApp;

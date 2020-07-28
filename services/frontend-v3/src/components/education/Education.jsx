@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EducationView from "./EducationView";
 import ProfileCards from "../profileCards/ProfileCards";
 

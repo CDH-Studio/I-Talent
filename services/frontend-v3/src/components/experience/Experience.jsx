@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
 import ExperienceView from "./ExperienceView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Experience = ({ data, type }) => {

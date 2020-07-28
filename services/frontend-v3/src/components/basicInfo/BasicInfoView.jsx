@@ -27,7 +27,7 @@ import {
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import OrgTree from "../orgTree/OrgTree";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;

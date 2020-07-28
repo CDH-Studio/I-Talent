@@ -21,7 +21,10 @@ import {
   TeamOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { HistoryPropType, ProfileInfoPropType } from "../../customPropTypes";
+import {
+  HistoryPropType,
+  ProfileInfoPropType,
+} from "../../utils/customPropTypes";
 import prepareInfo from "../../functions/prepareInfo";
 
 const { Meta } = Card;
@@ -193,7 +196,9 @@ const ResultsCardView = ({
     const cardExtra =
       person.groupLevel && person.groupLevel.name ? (
         <Text>{`${person.groupLevel.name}`}</Text>
-      ) : "";
+      ) : (
+        ""
+      );
 
     return (
       <Col span={24} xxl={12} key={key}>

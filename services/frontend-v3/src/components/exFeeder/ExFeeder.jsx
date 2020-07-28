@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ExFeederView from "./ExFeederView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const ExFeeder = ({ data, type }) => {

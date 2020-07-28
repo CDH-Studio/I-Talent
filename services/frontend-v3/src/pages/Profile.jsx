@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import axios from "../axios-instance";
+import useAxios from "../utils/axios-instance";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 
@@ -15,6 +15,7 @@ const Profile = ({ history, match }) => {
   const { locale } = useSelector((state) => state.settings);
   const { savedFormContent } = useSelector((state) => state.state);
   const { id } = match.params;
+  const axios = useAxios();
 
   useEffect(() => {
     const fetchProfile = async () => {

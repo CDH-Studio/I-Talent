@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import TalentFormView from "./TalentFormView";
 import handleError from "../../../functions/handleError";
 
@@ -22,6 +22,7 @@ const TalentForm = ({ formType }) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);
+  const axios = useAxios();
 
   /**
    * Get user profile

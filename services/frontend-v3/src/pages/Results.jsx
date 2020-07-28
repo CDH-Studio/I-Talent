@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { injectIntl } from "react-intl";
 import ResultLayout from "../components/layouts/resultsLayout/ResultLayout";
-import { IntlPropType } from "../customPropTypes";
+import { IntlPropType } from "../utils/customPropTypes";
 
 const Results = ({ intl }) => {
   useEffect(() => {

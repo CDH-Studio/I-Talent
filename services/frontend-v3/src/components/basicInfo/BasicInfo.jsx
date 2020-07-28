@@ -6,7 +6,7 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import BasicInfoView from "./BasicInfoView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const styles = {
   icon: {

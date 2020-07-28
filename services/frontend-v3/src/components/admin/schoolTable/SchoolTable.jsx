@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import axios from "../../../axios-instance";
-import { IntlPropType } from "../../../customPropTypes";
+import useAxios from "../../../utils/axios-instance";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import SchoolTableView from "./SchoolTableView";
 import handleError from "../../../functions/handleError";
 import {
@@ -19,6 +19,7 @@ const SchoolTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const axios = useAxios();
 
   const dispatch = useDispatch();
 

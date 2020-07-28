@@ -1,11 +1,14 @@
 import React from "react";
 import { Button } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useKeycloak } from "@react-keycloak/web";
 import backgroundImage from "../../assets/myTalentLandingBackground.png";
 import LandingNavBarController from "./landingNavBar/landingNavBarController";
 
 /** UI for the landing route layout */
 const LandingLayoutView = () => {
+  const [keycloak] = useKeycloak();
+
   return (
     <>
       <div
@@ -48,6 +51,7 @@ const LandingLayoutView = () => {
           <Button
             as="a"
             href="/secured/home"
+            onClick={() => keycloak.login()}
             inverted
             style={{
               margin: "0 auto",
