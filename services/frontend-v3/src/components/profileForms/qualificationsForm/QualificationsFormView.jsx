@@ -15,7 +15,8 @@ import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Prompt } from "react-router";
 import axios from "../../../axios-instance";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
@@ -25,6 +26,8 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../customPropTypes";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Title, Text } = Typography;
 
@@ -50,6 +53,7 @@ const QualificationsFormView = ({
   const [initialValues, setInitialValues] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
   /* Component Styles */
   const styles = {
@@ -69,6 +73,10 @@ const QualificationsFormView = ({
     },
     formTitle: {
       fontSize: "1.2em",
+      margin: 0,
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
     entryTitle: {
       fontSize: "1em",
@@ -76,13 +84,18 @@ const QualificationsFormView = ({
     headerDiv: {
       margin: "15px 0 15px 0",
     },
-    datePicker: { width: "100%" },
+    datePicker: {
+      width: "100%",
+    },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
       marginBottom: "1rem",
     },
-    clearBtn: { float: "left", marginBottom: "1rem" },
+    clearBtn: {
+      float: "left",
+      marginBottom: "1rem",
+    },
     finishAndNextBtn: {
       width: "100%",
       float: "right",
@@ -250,13 +263,16 @@ const QualificationsFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        setFieldsChanged(false);
         if (formType === "create") {
           history.push("/secured/profile/create/step/8");
         } else {
+          dispatch(setSavedFormContent(true));
           onFinish();
         }
       })
       .catch((error) => {
+        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
@@ -376,6 +392,19 @@ const QualificationsFormView = ({
     );
   };
 
+  const getSectionHeader = (titleId, cardName) => (
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+        type="form"
+      />
+    </Row>
+  );
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -389,131 +418,127 @@ const QualificationsFormView = ({
   }
   /* Once data had loaded display form */
   return (
-    <div style={styles.content}>
-      {/* get form title */}
-      {getFormHeader(formType)}
-      <Divider style={styles.headerDiv} />
+    <>
+      <Prompt
+        when={fieldsChanged}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <div style={styles.content}>
+        {/* get form title */}
+        {getFormHeader(formType)}
+        <Divider style={styles.headerDiv} />
 
-      {/* Create form with initial values */}
-      <Form
-        name="QualificationForm"
-        form={form}
-        initialValues={savedValues || initialValues}
-        layout="vertical"
-        onValuesChange={checkIfFormValuesChanged}
-      >
-        {/* *************** Education ************** */}
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.education" />
-        </Title>
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.List name="educations">
-              {(fields, { add, remove }) => {
-                return (
-                  <div>
-                    {/* generate education form for each education item */}
-                    {fields.map((field) => (
-                      <EducationForm
-                        key={field.fieldKey}
-                        form={form}
-                        field={field}
-                        remove={remove}
-                        profileInfo={profileInfo}
-                        style={styles}
-                        checkIfFormValuesChanged={checkIfFormValuesChanged}
-                      />
-                    ))}
-                    <Form.Item>
-                      {/* add education field button */}
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                        style={{ width: "100%" }}
-                      >
-                        <PlusOutlined />
-                        <FormattedMessage id="setup.add.item" />
-                      </Button>
-                    </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Col>
-        </Row>
-        {/* *************** Work Experience ************** */}
-        <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.experience" />
-        </Title>
-        {/* Form Row One: Remote Work */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.List name="experiences">
-              {(fields, { add, remove }) => {
-                return (
-                  <div>
-                    {/* generate education form for each education item */}
-                    {fields.map((field) => (
-                      <ExperienceForm
-                        key={field.fieldKey}
-                        form={form}
-                        field={field}
-                        remove={remove}
-                        profileInfo={profileInfo}
-                        style={styles}
-                        checkIfFormValuesChanged={checkIfFormValuesChanged}
-                      />
-                    ))}
-                    <Form.Item>
-                      {/* add education field button */}
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                        style={{ width: "100%" }}
-                      >
-                        <PlusOutlined />
-                        <FormattedMessage id="setup.add.item" />
-                      </Button>
-                    </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Col>
-        </Row>
-        {/* *************** Projects ************** */}
-        <Divider style={styles.headerDiv} />
-        <Title level={3} style={styles.formTitle}>
-          <FormattedMessage id="setup.projects" />
-        </Title>
-        {/* Form Row Three: career mobility */}
-        <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              name="projects"
-              label={<FormattedMessage id="setup.projects" />}
-              className="custom-bubble-select-style"
-            >
-              <Select
-                mode="tags"
-                style={{ width: "100%" }}
-                notFoundContent={
-                  <FormattedMessage id="setup.projects.placeholder" />
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        {/* *************** Control Buttons ************** */}
-        {/* Form Row Four: Submit button */}
-        {getFormControlButtons(formType)}
-      </Form>
-    </div>
+        {/* Create form with initial values */}
+        <Form
+          name="QualificationForm"
+          form={form}
+          initialValues={savedValues || initialValues}
+          layout="vertical"
+          onValuesChange={checkIfFormValuesChanged}
+        >
+          {/* *************** Education ************** */}
+          {getSectionHeader("setup.education", "education")}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.List name="educations">
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {/* generate education form for each education item */}
+                      {fields.map((field) => (
+                        <EducationForm
+                          key={field.fieldKey}
+                          form={form}
+                          field={field}
+                          remove={remove}
+                          profileInfo={profileInfo}
+                          style={styles}
+                          checkIfFormValuesChanged={checkIfFormValuesChanged}
+                        />
+                      ))}
+                      <Form.Item>
+                        {/* add education field button */}
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <PlusOutlined />
+                          <FormattedMessage id="setup.add.item" />
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+          </Row>
+          {/* *************** Work Experience ************** */}
+          <Divider style={styles.headerDiv} />
+          {getSectionHeader("setup.experience", "experience")}
+          {/* Form Row One: Remote Work */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.List name="experiences">
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {/* generate education form for each education item */}
+                      {fields.map((field) => (
+                        <ExperienceForm
+                          key={field.fieldKey}
+                          form={form}
+                          field={field}
+                          remove={remove}
+                          profileInfo={profileInfo}
+                          style={styles}
+                          checkIfFormValuesChanged={checkIfFormValuesChanged}
+                        />
+                      ))}
+                      <Form.Item>
+                        {/* add education field button */}
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <PlusOutlined />
+                          <FormattedMessage id="setup.add.item" />
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+          </Row>
+          {/* *************** Projects ************** */}
+          <Divider style={styles.headerDiv} />
+          {getSectionHeader("setup.projects", "projects")}
+          {/* Form Row Three: career mobility */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Form.Item name="projects" className="custom-bubble-select-style">
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={
+                    <FormattedMessage id="setup.projects.placeholder" />
+                  }
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* *************** Control Buttons ************** */}
+          {/* Form Row Four: Submit button */}
+          {getFormControlButtons(formType)}
+        </Form>
+      </div>
+    </>
   );
 };
 

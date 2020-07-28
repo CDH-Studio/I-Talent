@@ -16,7 +16,7 @@ const keycloak = new KeycloakConnect(
     "bearer-only": true,
     "auth-server-url": process.env.KEYCLOAK_AUTH_SERVER_URL,
     "ssl-required": "external",
-    resource: "upskill-api",
+    resource: process.env.KEYCLOAK_CLIENT_ID,
     "confidential-port": 0,
   }
 );

@@ -1,16 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  EyeOutlined,
-  EyeInvisibleOutlined,
-  EditOutlined,
-  TeamOutlined,
-  WarningOutlined,
-} from "@ant-design/icons";
-import { Card, Button, Row, Col, Tooltip, Radio, Popconfirm } from "antd";
+import { Card, Col, Row } from "antd";
 import { FormattedMessage } from "react-intl";
 
-import { HistoryPropType } from "../../customPropTypes";
+import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
+import EditCardButton from "../editCardButton/EditCardButton";
 
 const ProfileCardsView = ({
   editUrl,
@@ -18,97 +12,25 @@ const ProfileCardsView = ({
   id,
   content,
   style,
-  history,
   type,
   visible,
-  handleVisibilityToggle,
-  status,
+  visibleCards,
+  cardName,
 }) => {
-  /*
-   * Handle Visibility Toggle
-   *
-   * Handle card visibility toggle by updating state and saving state to backend
-   */
-  const redirectToEdit = () => {
-    if (editUrl) {
-      history.push(editUrl);
-    }
-  };
-
-  const generateSwitchButton = () => {
-    if (type) {
-      return (
-        <div style={{ marginTop: "15px" }}>
-          <Row type="flex" gutter={[16, 16]}>
-            <Col>
-              <Radio.Group value={status} buttonStyle="solid" size="middle">
-                <Popconfirm
-                  title={
-                    <FormattedMessage id="profile.visibility.show.confirm" />
-                  }
-                  placement="topRight"
-                  okText={<FormattedMessage id="profile.yes" />}
-                  cancelText={<FormattedMessage id="profile.no" />}
-                  icon={<WarningOutlined style={{ color: "orange" }} />}
-                  onConfirm={() => handleVisibilityToggle("PUBLIC")}
-                >
-                  <Tooltip
-                    placement="bottom"
-                    title={
-                      <FormattedMessage id="profile.visibleCards.public" />
-                    }
-                  >
-                    <Radio.Button value="PUBLIC">
-                      <EyeOutlined />
-                    </Radio.Button>
-                  </Tooltip>
-                </Popconfirm>
-                <Tooltip
-                  placement="bottom"
-                  title={
-                    <FormattedMessage id="profile.visibleCards.connections" />
-                  }
-                >
-                  <Radio.Button
-                    value="CONNECTIONS"
-                    onClick={() => handleVisibilityToggle("CONNECTIONS")}
-                  >
-                    <TeamOutlined />
-                  </Radio.Button>
-                </Tooltip>
-                <Tooltip
-                  placement="top"
-                  title={<FormattedMessage id="profile.visibleCards.private" />}
-                >
-                  <Radio.Button
-                    value="PRIVATE"
-                    onClick={() => handleVisibilityToggle("PRIVATE")}
-                  >
-                    <EyeInvisibleOutlined />
-                  </Radio.Button>
-                </Tooltip>
-              </Radio.Group>
-            </Col>
-            <Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="profile.visibleCards.private" />}
-              >
-                <Button
-                  aria-label="edit card"
-                  type="default"
-                  shape="circle"
-                  icon={<EditOutlined />}
-                  onClick={redirectToEdit}
-                />
-              </Tooltip>
-            </Col>
-          </Row>
-        </div>
-      );
-    }
-    return <></>;
-  };
+  const generateSwitchButton = () =>
+    type && (
+      <Row>
+        <Col>
+          <CardVisibilityToggle
+            visibleCards={visibleCards}
+            cardName={cardName}
+          />
+        </Col>
+        <Col style={{ marginLeft: 20 }}>
+          <EditCardButton editUrl={editUrl} />
+        </Col>
+      </Row>
+    );
 
   const grayedOut = {
     backgroundColor: visible ? "": "#D3D3D3",
@@ -141,11 +63,12 @@ ProfileCardsView.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
-  history: HistoryPropType.isRequired,
   type: PropTypes.bool,
   visible: PropTypes.bool,
-  handleVisibilityToggle: PropTypes.func,
-  status: PropTypes.string,
+  cardName: PropTypes.string.isRequired,
+  visibleCards: PropTypes.objectOf(
+    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
+  ),
 };
 
 ProfileCardsView.defaultProps = {
@@ -154,8 +77,7 @@ ProfileCardsView.defaultProps = {
   editUrl: null,
   type: null,
   visible: null,
-  handleVisibilityToggle: null,
-  status: "",
+  visibleCards: {},
 };
 
 export default ProfileCardsView;

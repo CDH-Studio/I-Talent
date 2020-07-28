@@ -1,6 +1,6 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Anchor, Typography, Row, Col, Button } from "antd";
+import React, { useEffect } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { Anchor, Typography, Row, Col, Button, message } from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
@@ -10,6 +10,7 @@ import {
   UserDeleteOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../customPropTypes";
 
@@ -28,6 +29,7 @@ import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
 import Header from "../../header/Header";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -38,7 +40,11 @@ const ProfileLayoutView = ({
   privateProfile,
   changeConnection,
   loading,
+  savedFormContent,
 }) => {
+  const intl = useIntl();
+  const dispatch = useDispatch();
+
   const styles = {
     row: {
       marginTop: 15,
@@ -73,6 +79,16 @@ const ProfileLayoutView = ({
       float: "right",
     },
   };
+
+  useEffect(() => {
+    if (savedFormContent === false) {
+      message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+    } else if (savedFormContent === true) {
+      message.success(intl.formatMessage({ id: "profile.edit.save.success" }));
+    }
+
+    dispatch(setSavedFormContent(undefined));
+  }, [savedFormContent, dispatch, intl]);
 
   const displayAllProfileCards = () => {
     return (
@@ -383,6 +399,7 @@ ProfileLayoutView.propTypes = {
   connectionStatus: PropTypes.bool,
   privateProfile: PropTypes.bool,
   changeConnection: PropTypes.func,
+  savedFormContent: PropTypes.bool,
 };
 
 ProfileLayoutView.defaultProps = {
@@ -391,6 +408,7 @@ ProfileLayoutView.defaultProps = {
   connectionStatus: null,
   privateProfile: null,
   changeConnection: null,
+  savedFormContent: undefined,
 };
 
 export default ProfileLayoutView;

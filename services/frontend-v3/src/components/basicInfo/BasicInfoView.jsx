@@ -8,7 +8,6 @@ import {
   EnvironmentOutlined,
   UserOutlined,
   DownOutlined,
-  EditOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
@@ -21,7 +20,6 @@ import {
   List,
   Typography,
   Button,
-  Tooltip,
   Menu,
   Tag,
 } from "antd";
@@ -29,18 +27,12 @@ import {
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import OrgTree from "../orgTree/OrgTree";
-import { ProfileInfoPropType, HistoryPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../customPropTypes";
+import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({
-  data,
-  name,
-  avatar,
-  jobTitle,
-  buttonLinks,
-  history,
-}) => {
+const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -126,20 +118,7 @@ const BasicInfoView = ({
         </Col>
         {urlID === userID && (
           <Col xs={1}>
-            <Tooltip
-              placement="top"
-              title={<FormattedMessage id="profile.edit" />}
-            >
-              <Button
-                aria-label="edit card"
-                type="default"
-                shape="circle"
-                icon={<EditOutlined />}
-                onClick={() =>
-                  history.push("/secured/profile/edit/primary-info")
-                }
-              />
-            </Tooltip>
+            <EditCardButton editUrl="/secured/profile/edit/primary-info" />
           </Col>
         )}
       </Row>
@@ -277,7 +256,7 @@ const BasicInfoView = ({
         </Col>
       </Row>
       <Row style={styles.rowTopSplitter}>
-        {generateInfoList(generateTeamInfo())}
+        <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
       </Row>
     </Card>
   );
@@ -292,7 +271,6 @@ BasicInfoView.propTypes = {
   }).isRequired,
   jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  history: HistoryPropType.isRequired,
 };
 
 BasicInfoView.defaultProps = {

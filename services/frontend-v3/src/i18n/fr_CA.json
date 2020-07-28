@@ -24,6 +24,11 @@
   "admin.country": "Pays",
   "admin.editHeader": "Modifier",
   "admin.registered": "Inscrit",
+  "admin.last.updated": "Dernière mise à jour",
+  "admin.manage.keycloak": "Gérer les rôles de keycloak",
+  "admin.roles": "Rôles",
+  "admin.roles.admin": "Administrateur",
+  "admin.roles.manager": "Gestionnaire",
   "admin.job.title": "Profession",
   "admin.profileStatus": "Statu de profil",
   "admin.tenure": "Mandat",
@@ -113,6 +118,7 @@
   "button.search": "Rechercher",
   "advanced.search.button.text": "Recherche avancée",
   "advanced.search.description": "Utilisez les filtres ci-dessous pour rechercher des employés dans le répertoire I-Talent qui correspondent à vos besoins.",
+  "advanced.search.form.mentorship.skills": "Compétences de mentorat",
   "advanced.search.form.name": "Nom",
   "advanced.search.form.skills": "Compétences",
   "advanced.search.form.broad.search": "Recherche générale",
@@ -178,6 +184,8 @@
   "landing.call.to.action": "Connectez-vous avec d'autres personnes talentueuses pour apprendre et grandir ensemble.",
 
   "more.content.soon": "Plus de contenu à venir bientôt!",
+
+  "select.any": "Ayant des compétences de mentorat",
 
   "setup.welcome": "Bienvenue",
   "setup.welcome.description": "Nous avons besoin de quelques informations pour configurer votre profil",
@@ -338,7 +346,7 @@
   "profile.rules.max.50": "Maximum de 50 caractères",
   "profile.rules.max.60": "Maximum de 60 caractères",
   "profile.rules.max.100": "Maximum de 100 caractères",
-  "profile.rules.max.250": "Maximum de 250 caractères",
+  "profile.rules.max.1500": "Maximum de 1500 caractères",
   "profile.rules.max.exceeded": "Longueur max dépassée",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.valid.phone.number": "Doit être un numéro de téléphone valide",
@@ -347,8 +355,6 @@
   "profile.form.unsaved": "non enregistré",
   "profile.qualifications.select.month": "Sélectionner un mois",
   "profile.select.date": "Sélectionner une date",
-
-  "profile.visibility.show.confirm": "Êtes-vous certain de vouloir rendre cette carte visible sur votre profil public?",
 
   "lang": "English",
   "lang.code": "en",
@@ -406,9 +412,15 @@
   "profile.privateGroup": "Groupe privé",
   "profile.connections": "Connexions",
 
-  "profile.visibleCards.public": "Publique",
-  "profile.visibleCards.connections": "Connexions",
-  "profile.visibleCards.private": "Privée",
+  "profile.visibility.card.public": "Carte visible pour tout le monde",
+  "profile.visibility.card.connections": "Carte visible seulement pour vos connections",
+  "profile.visibility.card.private": "Carte visible seulement pour vous",
+  "profile.visibility.card.show.confirm": "Êtes-vous certain de rendre cette carte visible sur votre profil public?",
+
+  "profile.visibility.form.public": "Information visible pour tout le monde",
+  "profile.visibility.form.connections": "Information visible seulement pour vos connections",
+  "profile.visibility.form.private": "Information visible seulement pour vous",
+  "profile.visibility.form.show.confirm": "Êtes-vous certain de rendre cette information visible sur votre profil public?",
 
   "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
 
@@ -420,5 +432,9 @@
   "error.show": "Afficher le journal des erreurs",
   "error.hide": "Masquer le journal des erreurs",
   "error.404.subtitle": "On dirait que quelqu'un est au mauvais endroit",
-  "error.403.subtitle": "On dirait que quelqu'un n'appartient pas"
+  "error.403.subtitle": "On dirait que quelqu'un n'appartient pas",
+
+  "profile.form.unsaved.alert": "Vous avez des modifications non enregistrées, êtes-vous certain de vouloir changer de page?",
+  "profile.form.unsaved.alert.title": "Vous avez des modifications non enregistrées",
+  "profile.form.unsaved.alert.content": "Êtes-vous certain de vouloir changer de page?"
 }

@@ -23,6 +23,11 @@
   "admin.country": "Country",
   "admin.editHeader": "Edit",
   "admin.registered": "Registered",
+  "admin.last.updated": "Last updated",
+  "admin.manage.keycloak": "Manage keycloak roles",
+  "admin.roles": "Roles",
+  "admin.roles.admin": "Admin",
+  "admin.roles.manager": "Manager",
   "admin.job.title": "Job title",
   "admin.profileStatus": "Profile status",
   "admin.tenure": "Tenure",
@@ -104,6 +109,7 @@
 
   "advanced.search.button.text": "Advanced search",
   "advanced.search.description": "Use the filters below to search for employees in the I-Talent directory that match your specific needs.",
+  "advanced.search.form.mentorship.skills": "Mentorship Skills",
   "advanced.search.form.name": "Name",
   "advanced.search.form.skills": "Skills",
   "advanced.search.form.location": "Location",
@@ -169,6 +175,8 @@
   "landing.call.to.action": "Connect with other talented individuals to learn and grow together.",
 
   "more.content.soon": "More content coming soon!",
+
+  "select.any": "Any",
 
   "setup.welcome": "Welcome",
   "setup.welcome.description": "We just need a few bits of information to set up your profile",
@@ -369,7 +377,7 @@
   "profile.rules.max.50": "Max length 50 characters",
   "profile.rules.max.60": "Max length 60 characters",
   "profile.rules.max.100": "Max length 100 characters",
-  "profile.rules.max.250": "Max length 250 characters",
+  "profile.rules.max.1500": "Max length 1500 characters",
   "profile.rules.max.exceeded": "Max length exceeded",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.valid.phone.number": "Must be a valid phone number",
@@ -380,8 +388,6 @@
   "profile.select.date": "Select date",
 
   "profile.career.interests": "Job mobility",
-
-  "profile.visibility.show.confirm": "Are you sure you want to make this card visible to everyone?",
 
   "profile.gathering.profile.info": "Gathering profile info...",
   "profile.settings.and.privacy": "Settings & Privacy",
@@ -398,9 +404,15 @@
   "profile.privateGroup": "Private group",
   "profile.connections": "Connections",
 
-  "profile.visibleCards.public": "Public",
-  "profile.visibleCards.connections": "Connections",
-  "profile.visibleCards.private": "Private",
+  "profile.visibility.card.public": "Card visible to everyone",
+  "profile.visibility.card.connections": "Card visible to connections only",
+  "profile.visibility.card.private": "Card only visible to you",
+  "profile.visibility.card.show.confirm": "Are you sure you want to make this card visible to everyone?",
+
+  "profile.visibility.form.public": "Information visible to everyone",
+  "profile.visibility.form.connections": "Information visible to connections only",
+  "profile.visibility.form.private": "Information only visible to you",
+  "profile.visibility.form.show.confirm": "Are you sure you want to make this information visible to everyone?",
 
   "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
 
@@ -412,5 +424,9 @@
   "error.show": "Show error log",
   "error.hide": "Hide error log",
   "error.404.subtitle": "Looks like someone is in the wrong place",
-  "error.403.subtitle": "Looks like someone doesn't belong"
+  "error.403.subtitle": "Looks like someone doesn't belong",
+
+  "profile.form.unsaved.alert": "You have unsaved changes, are you sure you want to leave?",
+  "profile.form.unsaved.alert.title": "You have unsaved changes",
+  "profile.form.unsaved.alert.content": "Are you sure you want to leave?"
 }

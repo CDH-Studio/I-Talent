@@ -69,6 +69,7 @@ describe(`Test ${path}`, () => {
           const data = { ...i };
           delete data.id;
           delete data.createdAt;
+          delete data.updatedAt;
 
           return data;
         });
@@ -81,10 +82,11 @@ describe(`Test ${path}`, () => {
         done();
       });
 
-      test("should process request and have an id and createdAt for every user - 200", async (done) => {
+      test("should process request and have an id, createdAt, and updatedAt for every user - 200", async (done) => {
         expect(res.statusCode).toBe(200);
         expect(res.body.every((i) => "id" in i)).toBeTruthy();
         expect(res.body.every((i) => "createdAt" in i)).toBeTruthy();
+        expect(res.body.every((i) => "updatedAt" in i)).toBeTruthy();
 
         done();
       });
