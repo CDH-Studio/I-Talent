@@ -14,6 +14,7 @@ import {
 } from "../pages";
 import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
 import { setLocale } from "../redux/slices/settingsSlice";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const Secured = ({ location }) => {
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ const Secured = ({ location }) => {
   }, [dispatch, keycloak, profileExist]);
 
   if (!authenticated) {
-    return <div>Unable to authenticate!</div>;
+    return <AppLayout loading />;
   }
 
   if (

@@ -11,6 +11,7 @@ import {
   AdminDiploma,
   AdminSchool,
 } from "../pages/admin";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -35,7 +36,7 @@ const Admin = () => {
   }, []);
 
   if (!authenticated) {
-    return <div>Unable to authenticate!</div>;
+    return <AppLayout loading displaySideBar />;
   }
 
   if (!userExists) {
