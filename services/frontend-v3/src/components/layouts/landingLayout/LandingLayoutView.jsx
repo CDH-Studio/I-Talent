@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col, Typography, Button } from "antd";
 import { FormattedMessage } from "react-intl";
-import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
@@ -56,7 +55,6 @@ const LandingLayoutView = () => {
     return imageOptions[randomIndex];
   };
 
-  const [keycloak] = useKeycloak();
   return (
     <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>
       <h1 className="hidden" Landing Page>
@@ -77,7 +75,6 @@ const LandingLayoutView = () => {
           <Button
             type="primary"
             href="/secured/home"
-            onClick={() => keycloak.login()}
             size="large"
           >
             <FormattedMessage id="landing.login.button" />

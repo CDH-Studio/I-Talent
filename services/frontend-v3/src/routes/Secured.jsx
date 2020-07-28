@@ -77,7 +77,13 @@ const Secured = ({ location }) => {
       setKeycloakInstance(keycloak);
       setAuthenticated(keycloak.authenticated);
     };
-    if (keycloak && keycloak.authenticated) getInfo();
+    if (keycloak) {
+      if (keycloak.authenticated) {
+        getInfo();
+      } else {
+        keycloak.login();
+      }
+    }
   }, [dispatch, keycloak, profileExist]);
 
   if (!keycloakInstance) {
