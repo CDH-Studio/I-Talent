@@ -201,6 +201,7 @@ const PrimaryInfoFormView = ({
         firstName: profile.firstName,
         lastName: profile.lastName,
         telephone: profile.telephone,
+        jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
         email: profile.email,
         locationId: profile.officeLocation
@@ -474,6 +475,7 @@ const PrimaryInfoFormView = ({
           "lastName",
           "cellphone",
           "telephone",
+          "jobTitle",
           "locationId",
         ];
 
@@ -543,7 +545,8 @@ const PrimaryInfoFormView = ({
       if (newGedsValues.jobTitle) {
         changes.push({
           title: <FormattedMessage id="profile.career.header.name" />,
-          description: newGedsValues.jobTitle[locale],
+          // description: newGedsValues.jobTitle[locale],
+          description: profileInfo.jobTitle,
         });
       }
 
@@ -664,7 +667,25 @@ const PrimaryInfoFormView = ({
         </Row>
         {/* Form Row Two */}
         <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+            <Form.Item
+              name="jobTitle"
+              label={<FormattedMessage id="profile.career.header.name" />}
+              rules={[Rules.maxChar50]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+            <Form.Item
+              name="email"
+              label={<FormattedMessage id="profile.email" />}
+              rules={[Rules.emailFormat, Rules.maxChar50]}
+            >
+              <Input disabled />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
             <Form.Item
               name="telephone"
               label={<FormattedMessage id="profile.telephone" />}
@@ -673,24 +694,13 @@ const PrimaryInfoFormView = ({
               <Input />
             </Form.Item>
           </Col>
-
-          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
             <Form.Item
               name="cellphone"
               label={<FormattedMessage id="profile.cellphone" />}
               rules={[Rules.telephoneFormat]}
             >
               <Input />
-            </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-            <Form.Item
-              name="email"
-              label={<FormattedMessage id="profile.email" />}
-              rules={[Rules.emailFormat, Rules.maxChar50]}
-            >
-              <Input disabled />
             </Form.Item>
           </Col>
         </Row>
