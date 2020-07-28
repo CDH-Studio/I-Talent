@@ -50,7 +50,7 @@ const LandingLayoutView = () => {
           />
           <Button
             as="a"
-            href="/home"
+            href="/"
             onClick={() => keycloak.login()}
             inverted
             style={{

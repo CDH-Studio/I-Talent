@@ -38,7 +38,7 @@ const AboutLayoutView = ({ type }) => {
   };
 
   if (back) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/" />;
   }
 
   return (

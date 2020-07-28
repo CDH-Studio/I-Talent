@@ -67,7 +67,7 @@ const DoneSetupView = ({ userId }) => {
         icon={<SearchOutlined />}
         size="large"
         style={{ marginRight: "25px" }}
-        href="/home"
+        href="/"
       >
         <span>
           <FormattedMessage id="setup.done.search" />

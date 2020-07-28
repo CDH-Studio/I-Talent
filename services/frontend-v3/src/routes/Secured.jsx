@@ -1,79 +1,29 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useKeycloak } from "@react-keycloak/web";
-import useAxios from "../utils/axios-instance";
 import {
-  Logout,
-  Home,
   Results,
   Profile,
   ProfileEdit,
   ProfileCreate,
+  NotFound,
 } from "../pages";
-import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
-import { setLocale } from "../redux/slices/settingsSlice";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import login from "../utils/login";
+import useAxios from "../utils/axios-instance";
 
 const Secured = ({ location }) => {
-  const dispatch = useDispatch();
   const [authenticated, setAuthenticated] = useState(false);
   const [userCompletedSignup, setUserCompletedSignup] = useState(false);
-  const axios = useAxios();
   const [keycloak] = useKeycloak();
-
-  const createUser = async (userInfo) =>
-    axios.post(`api/user/${userInfo.sub}`, {
-      email: userInfo.email,
-      name: userInfo.name,
-      lastName: userInfo.family_name,
-      firstName: userInfo.given_name,
-    });
-
-  const profileExist = useCallback(
-    async (userInfo) => {
-      let response;
-      try {
-        response = await axios.get(`api/user/${userInfo.sub}`);
-
-        if (response.data === null) {
-          response = await createUser(userInfo);
-        }
-      } catch (error) {
-        response = await createUser(userInfo);
-      }
-
-      dispatch(
-        setUser({
-          id: response.data.id,
-          avatarColor: response.data.avatarColor,
-          initials: response.data.nameInitials,
-          name: userInfo.name,
-          email: userInfo.email,
-        })
-      );
-
-      dispatch(
-        setLocale(
-          response.data.preferredLanguage
-            ? response.data.preferredLanguage
-            : "ENGLISH"
-        )
-      );
-
-      return response.data.signupStep;
-    },
-    [dispatch]
-  );
+  const axios = useAxios();
 
   const getInfo = useCallback(async () => {
-    dispatch(setUserIsAdmin(keycloak.hasResourceRole("view-admin-console")));
-    const keycloakUserInfo = await keycloak.loadUserInfo();
-    const signupStep = await profileExist(keycloakUserInfo);
+    const signupStep = await login(keycloak, axios);
     setUserCompletedSignup(signupStep === 8);
     setAuthenticated(keycloak.authenticated);
-  }, [dispatch, keycloak, profileExist]);
+  }, [axios, keycloak]);
 
   useEffect(() => {
     if (keycloak.authenticated) {
@@ -98,7 +48,6 @@ const Secured = ({ location }) => {
   return (
     <>
       <Switch>
-        <Route exact path="/home" render={() => <Home />} />
         <Route exact path="/results" render={() => <Results />} />
         <Route
           path="/profile/create/step/:step"
@@ -114,11 +63,7 @@ const Secured = ({ location }) => {
             <Profile match={match} history={history} />
           )}
         />
-        <Route
-          exact
-          path="/logout"
-          render={() => <Logout keycloak={keycloak} />}
-        />
+        <Route render={() => <NotFound />} />
       </Switch>
     </>
   );

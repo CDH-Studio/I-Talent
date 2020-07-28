@@ -152,7 +152,6 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     return (
       <Button
         type="primary"
-        href="/home"
         onClick={() => keycloak.login()}
         style={styles.signInBtn}
       >
@@ -201,7 +200,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     menu(
       false,
       <Menu.Item style={styles.dropDownItem}>
-        <Link tabIndex="0" rel="noopener noreferrer" to="/home">
+        <Link tabIndex="0" rel="noopener noreferrer" to="/">
           <HomeOutlined style={styles.menuIcon} />
           <FormattedMessage id="Home" />
         </Link>
@@ -220,7 +219,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     return (
       <Button
         type="primary"
-        href="/home"
+        href="/"
         onClick={() => keycloak.login()}
       >
         <FormattedMessage id="landing.login.button" />
@@ -252,7 +251,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         >
           <Row align="middle">
             {displayLogo && (
-              <Link tabIndex="0" to="/home">
+              <Link tabIndex="0" to="/">
                 <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
               </Link>
             )}
