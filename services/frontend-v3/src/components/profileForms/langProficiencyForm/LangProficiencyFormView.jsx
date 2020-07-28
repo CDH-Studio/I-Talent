@@ -12,6 +12,7 @@ import {
   Button,
   message,
   Popover,
+  Checkbox,
 } from "antd";
 import {
   RightOutlined,
@@ -54,6 +55,8 @@ const LangProficiencyFormView = ({
   intl,
   history,
   userId,
+  handleExpiredCheckboxChange,
+  expiredSecondaryGradings,
 }) => {
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -156,6 +159,8 @@ const LangProficiencyFormView = ({
       dbValues.secondLanguage =
         values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
 
+      console.log("FORM VALUES", values);
+
       if (
         values.oralProficiency ||
         values.writingProficiency ||
@@ -165,7 +170,9 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "ORAL",
             level: values.oralProficiency,
-            date: values.secondaryOralDate,
+            date: values.secondaryOralExpired
+              ? moment.unix(0)
+              : values.secondaryOralDate,
           });
         }
 
@@ -173,7 +180,9 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "WRITING",
             level: values.writingProficiency,
-            date: values.secondaryWritingDate,
+            date: values.secondaryWritingExpired
+              ? moment.unix(0)
+              : values.secondaryWritingDate,
           });
         }
 
@@ -181,7 +190,9 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "READING",
             level: values.readingProficiency,
-            date: values.secondaryReadingDate,
+            date: values.secondaryReadingExpired
+              ? moment.unix(0)
+              : values.secondaryReadingDate,
           });
         }
       }
@@ -222,17 +233,40 @@ const LangProficiencyFormView = ({
           switch (proficiency) {
             case "ORAL":
               data.oralProficiency = level;
-              data.secondaryOralDate = date ? moment(date) : undefined;
+
+              if (date) {
+                const momentDate = moment(date);
+                if (momentDate.unix() === 0) {
+                  data.secondaryOralExpired = true;
+                } else {
+                  data.secondaryOralDate = momentDate;
+                }
+              }
+
               break;
 
             case "WRITING":
               data.writingProficiency = level;
-              data.secondaryWritingDate = date ? moment(date) : undefined;
+              if (date) {
+                const momentDate = moment(date);
+                if (momentDate.unix() === 0) {
+                  data.secondaryWritingExpired = true;
+                } else {
+                  data.secondaryWritingDate = momentDate;
+                }
+              }
               break;
 
             case "READING":
               data.readingProficiency = level;
-              data.secondaryReadingDate = date ? moment(date) : undefined;
+              if (date) {
+                const momentDate = moment(date);
+                if (momentDate.unix() === 0) {
+                  data.secondaryReadingExpired = true;
+                } else {
+                  data.secondaryReadingDate = momentDate;
+                }
+              }
               break;
 
             default:
@@ -479,7 +513,24 @@ const LangProficiencyFormView = ({
                 name="secondaryReadingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
               >
-                <DatePicker style={styles.datePicker} />
+                <DatePicker
+                  disabled={expiredSecondaryGradings.secondaryReadingDate}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+              <Form.Item name="secondaryReadingExpired" valuePropName="checked">
+                <Checkbox
+                  onChange={(event) =>
+                    handleExpiredCheckboxChange(
+                      event.target.checked,
+                      "secondaryReadingDate"
+                    )
+                  }
+                  valuePropName="checked"
+                  defaultChecked={expiredSecondaryGradings.secondaryReadingDate}
+                >
+                  <FormattedMessage id="date.unknown.expired" />
+                </Checkbox>
               </Form.Item>
             </Col>
           </Row>
@@ -516,7 +567,24 @@ const LangProficiencyFormView = ({
                 name="secondaryWritingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
               >
-                <DatePicker style={styles.datePicker} />
+                <DatePicker
+                  disabled={expiredSecondaryGradings.secondaryWritingDate}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+              <Form.Item name="secondaryWritingExpired" valuePropName="checked">
+                <Checkbox
+                  onChange={(event) =>
+                    handleExpiredCheckboxChange(
+                      event.target.checked,
+                      "secondaryWritingDate"
+                    )
+                  }
+                  valuePropName="checked"
+                  defaultChecked={expiredSecondaryGradings.secondaryWritingDate}
+                >
+                  <FormattedMessage id="date.unknown.expired" />
+                </Checkbox>
               </Form.Item>
             </Col>
           </Row>
@@ -551,9 +619,26 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="secondaryOralDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                label={<FormattedMessage id="profile.secondary.oral.date" />}
               >
-                <DatePicker style={styles.datePicker} />
+                <DatePicker
+                  disabled={expiredSecondaryGradings.secondaryOralDate}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+              <Form.Item name="secondaryOralExpired" valuePropName="checked">
+                <Checkbox
+                  onChange={(event) =>
+                    handleExpiredCheckboxChange(
+                      event.target.checked,
+                      "secondaryOralDate"
+                    )
+                  }
+                  valuePropName="checked"
+                  defaultChecked={expiredSecondaryGradings.secondaryOralDate}
+                >
+                  <FormattedMessage id="date.unknown.expired" />
+                </Checkbox>
               </Form.Item>
             </Col>
           </Row>

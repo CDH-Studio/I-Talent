@@ -2,9 +2,10 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import OfficialLanguageView from "./OfficialLanguageView";
-import { ProfileInfoPropType } from "../../../customPropTypes";
+import { ProfileInfoPropType } from "../../customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
 
-const OfficialLanguage = ({ data }) => {
+const OfficialLanguage = ({ data, type }) => {
   const getFirstLanguageInfo = (dataSource) => {
     let description = "-";
 
@@ -90,10 +91,21 @@ const OfficialLanguage = ({ data }) => {
   };
 
   return (
-    <OfficialLanguageView
-      firstLanguageInfo={getFirstLanguageInfo(data)}
-      secondLanguageGradeInfo={getSecondLanguageGradeInfo(data)}
-      secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
+    <ProfileCards
+      titleId="profile.DescriptionCard"
+      cardName="DescriptionCard"
+      content={
+        <OfficialLanguageView
+          firstLanguageInfo={getFirstLanguageInfo(data)}
+          secondLanguageGradeInfo={getSecondLanguageGradeInfo(data)}
+          secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
+        />
+      }
+      id="card-profile-competency"
+      editUrl="/secured/profile/edit/talent"
+      data={data}
+      type={type}
+      visible={data.visibleCards.competencies}
     />
   );
 };

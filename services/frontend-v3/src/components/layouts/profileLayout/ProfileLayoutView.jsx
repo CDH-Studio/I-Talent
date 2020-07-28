@@ -16,6 +16,7 @@ import { ProfileInfoPropType } from "../../../customPropTypes";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
@@ -28,6 +29,7 @@ import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import ProfileNotFound from "../../profileNotFound/profileNotFound";
+import DescriptionCard from "../../descriptionCard/DescriptionCard";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
@@ -100,6 +102,16 @@ const ProfileLayoutView = ({
           </Col>
           <Col xs={24} xl={10}>
             <EmployeeSummary data={data} type={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <DescriptionCard data={data} type={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <OfficialLanguage data={data} type={privateProfile} />
           </Col>
         </Row>
         {/** ********** Skills and competencies *********** */}

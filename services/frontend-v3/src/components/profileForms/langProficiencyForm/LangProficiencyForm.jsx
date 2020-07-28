@@ -14,6 +14,7 @@ import handleError from "../../../functions/handleError";
 const LangProficiencyForm = ({ formType }) => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
+  const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const history = useHistory();
@@ -27,7 +28,17 @@ const LangProficiencyForm = ({ formType }) => {
       `api/profile/private/${id}?language=${locale}`
     );
     setProfileInfo(result.data);
+    console.log("PROFILE IUNFOOO", result.data);
   }, [id, locale]);
+
+  const handleExpiredCheckboxChange = (checked, name) => {
+    setExpiredSecondaryGradings((oldVal) => {
+      const newVal = Object.assign({}, oldVal);
+      newVal[name] = checked;
+      console.log("NEW VAL", newVal);
+      return newVal;
+    });
+  };
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -57,6 +68,10 @@ const LangProficiencyForm = ({ formType }) => {
     // Get all required data component
     getProfileInfo()
       .then(() => {
+        //console.log("SET EXPIRED HERE", profileInfo);
+        //      setExpiredSecondaryGradings(profileInfo)
+      })
+      .then(() => {
         setLoad(true);
       })
       .catch((error) => {
@@ -67,6 +82,8 @@ const LangProficiencyForm = ({ formType }) => {
 
   return (
     <LangProficiencyFormView
+      handleExpiredCheckboxChange={handleExpiredCheckboxChange}
+      expiredSecondaryGradings={expiredSecondaryGradings}
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}

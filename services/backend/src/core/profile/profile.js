@@ -29,7 +29,7 @@ function idHelper(id, savedId) {
 
 async function updateProfile(request, response) {
   try {
-    validationResult(request).throw();
+    //validationResult(request).throw();
 
     const userId = request.params.id;
     const { language } = request.query;
@@ -400,7 +400,7 @@ async function updateProfile(request, response) {
                   create: i,
                   update: {
                     level: i.level,
-                    date: normalizeDate(i.date, "day"),
+                    date: i.date && normalizeDate(i.date, "day"),
                   },
                 })),
               }
