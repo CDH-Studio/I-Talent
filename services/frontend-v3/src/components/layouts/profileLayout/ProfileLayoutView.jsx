@@ -209,7 +209,7 @@ const ProfileLayoutView = ({
                 <Popover
                   content={
                     <div style={styles.popContent}>
-                      <FormattedMessage id="profile.connections.tooltip3" />
+                      <FormattedMessage id="profile.connections.tooltip.header" />
                       <a href="/about/help">
                         <FormattedMessage id="footer.contact.link" />
                       </a>
@@ -396,14 +396,14 @@ const ProfileLayoutView = ({
                   content={
                     connectionStatus ? (
                       <div style={styles.popContent}>
-                        <FormattedMessage id="profile.connections.tooltip2" />
+                        <FormattedMessage id="profile.connections.tooltip.remove.connection" />
                         <a href="/about/help">
                           <FormattedMessage id="footer.contact.link" />
                         </a>
                       </div>
                     ) : (
                       <div style={styles.popContent}>
-                        <FormattedMessage id="profile.connections.tooltip1" />
+                        <FormattedMessage id="profile.connections.tooltip.add.connection" />
                         <a href="/about/help">
                           <FormattedMessage id="footer.contact.link" />
                         </a>
