@@ -11,11 +11,9 @@ import {
   AdminDiploma,
   AdminSchool,
 } from "../pages/admin";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [keycloakInstance, setKeycloakInstance] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userExists, setUserExists] = useState(false);
   const axios = useAxios();
@@ -31,22 +29,17 @@ const Admin = () => {
         setUserExists(false);
       }
       setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
-      setKeycloakInstance(keycloak);
       setAuthenticated(keycloak.authenticated);
     };
     getInfo();
   }, []);
-
-  if (!keycloakInstance) {
-    return <AppLayout loading />;
-  }
 
   if (!authenticated) {
     return <div>Unable to authenticate!</div>;
   }
 
   if (!userExists) {
-    return <Redirect to="/secured/profile/create/step/1" />;
+    return <Redirect to="/profile/create/step/1" />;
   }
 
   if (!isAdmin) {

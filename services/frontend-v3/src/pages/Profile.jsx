@@ -48,7 +48,7 @@ const Profile = ({ history, match }) => {
     };
 
     if (id === undefined) {
-      history.push(`/secured/profile/${userID}`);
+      history.push(`/profile/${userID}`);
     } else {
       fetchProfile();
     }

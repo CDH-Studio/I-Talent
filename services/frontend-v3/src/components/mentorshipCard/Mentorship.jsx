@@ -74,7 +74,7 @@ const Mentorship = ({ data, type }) => {
       }
       cardName="mentorshipSkills"
       id="card-profile-mentorship-skills"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/profile/edit/talent"
       data={data}
       type={type}
       visible={data.visibleCards.mentorshipSkills}

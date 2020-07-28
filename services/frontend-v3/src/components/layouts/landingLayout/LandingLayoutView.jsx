@@ -74,7 +74,7 @@ const LandingLayoutView = () => {
           </Text>
           <Button
             type="primary"
-            href="/secured/home"
+            href="/home"
             size="large"
           >
             <FormattedMessage id="landing.login.button" />

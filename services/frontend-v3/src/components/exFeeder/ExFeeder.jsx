@@ -9,7 +9,7 @@ const ExFeeder = ({ data, type }) => {
     <ProfileCards
       titleId={<ExFeederView data={data} />}
       cardName="exFeeder"
-      editUrl="/secured/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth"
       id="card-profile-ex-feeder"
       data={data}
       type={type}

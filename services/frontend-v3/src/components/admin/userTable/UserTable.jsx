@@ -39,7 +39,7 @@ function UserTable({ intl }) {
       // Formats data from backend into viewable data for the table
       const formattedData = results[0].data.map((user) => ({
         key: user.id,
-        profileLink: `/secured/profile/${user.id}`,
+        profileLink: `/profile/${user.id}`,
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),

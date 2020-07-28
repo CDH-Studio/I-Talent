@@ -18,7 +18,7 @@ const Logout = ({ keycloak }) => {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
-    return <Redirect to="/secured/home" />;
+    return <Redirect to="/home" />;
   }
 
   return null;

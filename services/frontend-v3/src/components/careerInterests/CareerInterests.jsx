@@ -40,7 +40,7 @@ const CareerInterests = ({ data, type }) => {
       }
       cardName="careerInterests"
       id="card-profile-career-interests"
-      editUrl="/secured/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth"
       data={data}
       type={type}
       visible={data.visibleCards.careerInterests}

@@ -45,7 +45,7 @@ const Education = ({ data, type }) => {
       content={<EducationView educationInfo={getEducationInfo(data)} />}
       cardName="education"
       id="card-profile-education"
-      editUrl="/secured/profile/edit/qualifications"
+      editUrl="/profile/edit/qualifications"
       data={data}
       type={type}
       visible={data.visibleCards.education}

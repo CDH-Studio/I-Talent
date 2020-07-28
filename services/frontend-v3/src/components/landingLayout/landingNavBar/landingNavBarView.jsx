@@ -15,7 +15,7 @@ const LandingNavBarView = () => {
       </Menu.Item>
       <Menu.Item
         position="right"
-        href="/secured/home"
+        href="/home"
         onClick={() => keycloak.login()}
         tabIndex="0"
       >

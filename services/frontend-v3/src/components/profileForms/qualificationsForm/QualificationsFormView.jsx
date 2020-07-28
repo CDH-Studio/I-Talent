@@ -250,7 +250,7 @@ const QualificationsFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${userId}`);
+    history.push(`/profile/${userId}`);
   };
 
   /*
@@ -265,7 +265,7 @@ const QualificationsFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         if (formType === "create") {
-          history.push("/secured/profile/create/step/8");
+          history.push("/profile/create/step/8");
         } else {
           dispatch(setSavedFormContent(true));
           onFinish();

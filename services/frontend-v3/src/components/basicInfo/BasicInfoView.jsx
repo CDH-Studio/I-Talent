@@ -120,7 +120,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
         </Col>
         {urlID === userID && (
           <Col xs={1}>
-            <EditCardButton editUrl="/secured/profile/edit/primary-info" />
+            <EditCardButton editUrl="/profile/edit/primary-info" />
           </Col>
         )}
       </Row>

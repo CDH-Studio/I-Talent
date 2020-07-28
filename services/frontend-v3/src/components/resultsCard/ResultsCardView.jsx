@@ -99,7 +99,7 @@ const ResultsCardView = ({
   const handleKeyPress = (e, person) => {
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
-      history.push(`/secured/profile/${person.id}`);
+      history.push(`/profile/${person.id}`);
     }
   };
   const renderAvatar = (person) => {
@@ -181,7 +181,7 @@ const ResultsCardView = ({
           icon={<EditOutlined style={styles.buttonIcon} />}
           onClick={(e) => {
             e.stopPropagation();
-            history.push("/secured/profile/edit/primary-info");
+            history.push("/profile/edit/primary-info");
           }}
           style={styles.button}
         >
@@ -208,7 +208,7 @@ const ResultsCardView = ({
           size="small"
           hoverable
           bordered
-          onClick={() => history.push(`/secured/profile/${person.id}`)}
+          onClick={() => history.push(`/profile/${person.id}`)}
           onKeyPress={(e) => handleKeyPress(e, person)}
           title={cardTitle}
           extra={cardExtra}

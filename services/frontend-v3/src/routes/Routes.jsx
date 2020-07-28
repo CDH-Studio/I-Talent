@@ -15,17 +15,17 @@ const Routes = () => {
     <Router history={historySingleton}>
       <Switch>
         <Route exact path="/" render={() => <LandingPage />} />
-        <Route
-          path="/secured"
-          render={({ location }) => <Secured location={location} />}
-        />
+        <Route path="/admin" render={() => <Admin />} />
         <Route path="/about" render={() => <About type="about" />} />
         <Route path="/help" render={() => <About type="help" />} />
         <Route path="/terms" render={() => <About type="terms" />} />
         <Route path="/privacy" render={() => <About type="privacy" />} />
-        <Route path="/admin" render={() => <Admin />} />
         <Route path="/error" render={() => <UnexpectedError />} />
         <Route path="/forbidden" render={() => <Forbidden />} />
+        <Route
+          path="/"
+          render={({ location }) => <Secured location={location} />}
+        />
         <Route render={() => <NotFound />} />
       </Switch>
     </Router>

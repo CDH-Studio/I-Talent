@@ -24,7 +24,7 @@ const EmployeeSummary = ({ data, type }) => {
       }
       cardName="info"
       id="card-profile-employee-summary"
-      editUrl={`/secured/profile/edit/${editUrl}`}
+      editUrl={`/profile/edit/${editUrl}`}
       data={data}
       type={type}
       visible={data.visibleCards.info}

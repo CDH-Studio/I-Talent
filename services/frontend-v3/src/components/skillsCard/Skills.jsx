@@ -75,7 +75,7 @@ const Skills = ({ data, type }) => {
       }
       cardName="skills"
       id="card-profile-skills"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/profile/edit/talent"
       data={data}
       type={type}
       visible={data.visibleCards.skills}
