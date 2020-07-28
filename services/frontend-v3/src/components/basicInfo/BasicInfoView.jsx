@@ -11,6 +11,7 @@ import {
   TeamOutlined,
   UserDeleteOutlined,
   UserAddOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -110,7 +111,7 @@ const BasicInfoView = ({
   const generateProfileHeader = () => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
-        <Col xs={12} md={5} lg={4} xxl={3} align="center">
+        <Col xs={6} md={5} lg={4} xxl={3} align="center">
           <Avatar
             size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
@@ -120,7 +121,7 @@ const BasicInfoView = ({
             </Text>
           </Avatar>
         </Col>
-        <Col xs={10} md={17} lg={18} xxl={19} style={{ padding: "11px 10px" }}>
+        <Col xs={13} md={15} lg={17} xl={16} xxl={18} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -135,30 +136,33 @@ const BasicInfoView = ({
           </Text>
         </Col>
         {urlID === userID ? (
-          <Col xs={2}>
+          <Col span={1}>
             <EditCardButton editUrl="/secured/profile/edit/primary-info" />
           </Col>
         ) : (
-          <Col xs={2}>
-            <Popover
-              content={
-                connectionStatus ? (
-                  <div style={styles.popContent}>
-                    <FormattedMessage id="profile.connections.tooltip.remove.connection" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                ) : (
-                  <div style={styles.popContent}>
-                    <FormattedMessage id="profile.connections.tooltip.add.connection" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                )
-              }
-            >
+          <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
+            <Row type="flex" align="middle">
+              <Popover
+                content={
+                  connectionStatus ? (
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip.remove.connection" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  ) : (
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip.add.connection" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  )
+                }
+              >
+                <QuestionCircleOutlined />
+              </Popover>
               <Button
                 tabIndex="0"
                 type={connectionStatus ? "default" : "primary"}
@@ -172,9 +176,9 @@ const BasicInfoView = ({
                   )
                 }
                 onClick={changeConnection}
-                style={styles.button}
+                style={{ marginLeft: 10 }}
               />
-            </Popover>
+            </Row>
           </Col>
         )}
       </Row>
