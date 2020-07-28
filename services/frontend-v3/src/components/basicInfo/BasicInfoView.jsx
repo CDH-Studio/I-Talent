@@ -9,6 +9,8 @@ import {
   UserOutlined,
   DownOutlined,
   TeamOutlined,
+  UserDeleteOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -22,6 +24,7 @@ import {
   Button,
   Menu,
   Tag,
+  Popover,
 } from "antd";
 
 import { useParams } from "react-router";
@@ -32,7 +35,15 @@ import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
+const BasicInfoView = ({
+  data,
+  name,
+  avatar,
+  jobTitle,
+  buttonLinks,
+  connectionStatus,
+  changeConnection,
+}) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -60,7 +71,12 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
       padding: 0,
       height: "100%",
     },
-    rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
+    rowTopSplitter: {
+      borderTop: "1px solid #f0f0f0",
+    },
+    popContent: {
+      maxWidth: "350px",
+    },
   };
 
   const generateTeamInfo = () => {
@@ -104,7 +120,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
             </Text>
           </Avatar>
         </Col>
-        <Col xs={11} md={18} lg={19} xxl={20} style={{ padding: "11px 10px" }}>
+        <Col xs={10} md={17} lg={18} xxl={19} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -118,9 +134,47 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
             {jobTitle}
           </Text>
         </Col>
-        {urlID === userID && (
-          <Col xs={1}>
+        {urlID === userID ? (
+          <Col xs={2}>
             <EditCardButton editUrl="/secured/profile/edit/primary-info" />
+          </Col>
+        ) : (
+          <Col xs={2}>
+            <Popover
+              content={
+                connectionStatus ? (
+                  <div style={styles.popContent}>
+                    <FormattedMessage id="profile.connections.tooltip.remove.connection" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                ) : (
+                  <div style={styles.popContent}>
+                    <FormattedMessage id="profile.connections.tooltip.add.connection" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                )
+              }
+            >
+              <Button
+                tabIndex="0"
+                type={connectionStatus ? "default" : "primary"}
+                shape="circle"
+                size="large"
+                icon={
+                  connectionStatus ? (
+                    <UserDeleteOutlined style={styles.buttonIcon} />
+                  ) : (
+                    <UserAddOutlined style={styles.buttonIcon} />
+                  )
+                }
+                onClick={changeConnection}
+                style={styles.button}
+              />
+            </Popover>
           </Col>
         )}
       </Row>
@@ -273,6 +327,8 @@ BasicInfoView.propTypes = {
   }).isRequired,
   jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  changeConnection: PropTypes.func.isRequired,
 };
 
 BasicInfoView.defaultProps = {
