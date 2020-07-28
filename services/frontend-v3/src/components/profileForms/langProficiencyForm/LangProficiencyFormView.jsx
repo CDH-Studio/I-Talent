@@ -585,11 +585,14 @@ const LangProficiencyFormView = ({
   };
 
   useEffect(() => {
-    /* check if user has a second language */
-    setDisplayMentorshipForm(
-      profileInfo ? profileInfo.secondLangProfs.length !== 0 : false
-    );
-  }, [profileInfo]);
+    if (!displayMentorshipForm) {
+      /* check if user has a second language */
+      const hasSubformData = profileInfo
+        ? profileInfo.secondLangProfs.length !== 0
+        : false;
+      setDisplayMentorshipForm(hasSubformData);
+    }
+  }, [displayMentorshipForm, profileInfo]);
 
   /** **********************************
    ********* Render Component *********
