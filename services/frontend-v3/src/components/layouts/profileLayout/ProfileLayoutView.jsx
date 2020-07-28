@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Anchor, Typography, Row, Col, Button, message } from "antd";
+import { Anchor, Typography, Row, Col, Button, message, Popover } from "antd";
+
 import {
   TagsTwoTone,
   RiseOutlined,
@@ -8,6 +9,7 @@ import {
   TeamOutlined,
   UserAddOutlined,
   UserDeleteOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -77,6 +79,16 @@ const ProfileLayoutView = ({
     },
     button: {
       float: "right",
+    },
+    popContent: { maxWidth: "350px" },
+    colStyle: {
+      paddingRight: "10px",
+      maxWidth: "40px",
+      paddingTop: "5px",
+    },
+    privateGroupInfo: {
+      paddingLeft: "8px",
+      display: "inline",
     },
   };
 
@@ -193,6 +205,20 @@ const ProfileLayoutView = ({
             >
               <TeamOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
               <FormattedMessage id="profile.privateGroup" />
+              <div style={styles.privateGroupInfo}>
+                <Popover
+                  content={
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip.header" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  }
+                >
+                  <QuestionCircleOutlined />
+                </Popover>
+              </div>
             </Title>
             <Row style={styles.row}>
               <Col span={24}>
@@ -356,6 +382,7 @@ const ProfileLayoutView = ({
       loading={loading}
     >
       <Header
+        style={styles.headerStyle}
         title={
           <FormattedMessage
             id={privateProfile ? "my.profile" : "other.profile"}
@@ -363,28 +390,55 @@ const ProfileLayoutView = ({
         }
         extra={
           !privateProfile && (
-            <Button
-              tabIndex="0"
-              type="primary"
-              block
-              icon={
-                connectionStatus ? (
-                  <UserDeleteOutlined style={styles.buttonIcon} />
-                ) : (
-                  <UserAddOutlined style={styles.buttonIcon} />
-                )
-              }
-              onClick={changeConnection}
-              style={styles.button}
-            >
-              <FormattedMessage
-                id={
-                  connectionStatus
-                    ? "search.results.cards.remove.connection"
-                    : "search.results.cards.add.connection"
-                }
-              />
-            </Button>
+            <Row>
+              <Col style={styles.colStyle}>
+                <Popover
+                  content={
+                    connectionStatus ? (
+                      <div style={styles.popContent}>
+                        <FormattedMessage id="profile.connections.tooltip.remove.connection" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    ) : (
+                      <div style={styles.popContent}>
+                        <FormattedMessage id="profile.connections.tooltip.add.connection" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    )
+                  }
+                >
+                  <QuestionCircleOutlined />
+                </Popover>
+              </Col>
+              <Col>
+                <Button
+                  tabIndex="0"
+                  type="primary"
+                  block
+                  icon={
+                    connectionStatus ? (
+                      <UserDeleteOutlined style={styles.buttonIcon} />
+                    ) : (
+                      <UserAddOutlined style={styles.buttonIcon} />
+                    )
+                  }
+                  onClick={changeConnection}
+                  style={styles.button}
+                >
+                  <FormattedMessage
+                    id={
+                      connectionStatus
+                        ? "search.results.cards.remove.connection"
+                        : "search.results.cards.add.connection"
+                    }
+                  />
+                </Button>
+              </Col>
+            </Row>
           )
         }
       />
