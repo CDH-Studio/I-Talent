@@ -682,7 +682,7 @@ const EmploymentDataFormView = ({
           <Row style={styles.tempRoleRow} gutter={24}>
             <Col className="gutter-row" span={24}>
               <Text>
-                <FormattedMessage id="profile.willing.to.relocate.to" />
+                <FormattedMessage id="profile.temporary.role" />
                 <Popover
                   content={
                     <div>
