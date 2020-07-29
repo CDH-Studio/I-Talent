@@ -164,6 +164,7 @@ const CompetencyTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
+        disabled={selectedRowKeys.length === 0}
       >
         <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />
