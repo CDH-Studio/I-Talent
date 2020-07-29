@@ -40,6 +40,7 @@ const UserTableView = ({
   profileStatusValue,
   handleSearch,
   handleReset,
+  modifiedStatus,
 }) => {
   let searchInput;
 
@@ -125,7 +126,9 @@ const UserTableView = ({
           defaultValue={profileStatusValue(status)}
           style={{ width: 120 }}
           onChange={(value) => {
-            handleDropdownChange(value, id);
+            const user = data.find(({ key }) => key === id);
+            const valueToBeSaved = value === user.status ? undefined : value;
+            handleDropdownChange(valueToBeSaved, id);
           }}
         >
           <Option key="active" value="ACTIVE">
@@ -176,8 +179,9 @@ const UserTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
+        disabled={!modifiedStatus}
       >
-        <Button type="primary">
+        <Button type="primary" disabled={!modifiedStatus}>
           <CheckCircleOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.apply" />
         </Button>
@@ -365,6 +369,7 @@ UserTableView.propTypes = {
   profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
+  modifiedStatus: PropTypes.bool.isRequired,
 };
 
 UserTableView.defaultProps = {
