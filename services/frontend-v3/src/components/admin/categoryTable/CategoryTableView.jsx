@@ -334,6 +334,7 @@ const CategoryTableView = ({
         }}
         onCancel={popUpCancel}
         disabled={selectedRowKeys.length === 0}
+        overlayStyle={{ maxWidth: 350 }}
       >
         <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />
