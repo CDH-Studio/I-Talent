@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import useAxios from "../../../utils/axios-instance";
-
 import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
 import { IntlPropType } from "../../../utils/customPropTypes";

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
