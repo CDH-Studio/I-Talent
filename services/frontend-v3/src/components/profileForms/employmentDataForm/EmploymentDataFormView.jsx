@@ -62,6 +62,7 @@ const EmploymentDataFormView = ({
   const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [loadedData, setLoadedData] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -445,19 +446,21 @@ const EmploymentDataFormView = ({
   };
 
   useEffect(() => {
-    /* check if user has acting information in db to expand acting form */
-    setDisplayActingRoleForm(
-      profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
-    );
+    if (!loadedData && load) {
+      /* check if user has acting information in db to expand acting form */
+      setDisplayActingRoleForm(
+        profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
+      );
 
-    /* check if user has acting end date to enable the date felid on load */
-    setEnableEndDate(profileInfo ? Boolean(profileInfo.actingEndDate) : false);
+      /* check if user has acting end date to enable the date felid on load */
+      setEnableEndDate(
+        profileInfo ? Boolean(profileInfo.actingEndDate) : false
+      );
 
-    // if props change then reset form fields
-    if (load) {
-      form.resetFields();
+      // Makes the subform not reset on language change
+      setLoadedData(true);
     }
-  }, [load, form, profileInfo]);
+  }, [load, form, profileInfo, loadedData]);
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
