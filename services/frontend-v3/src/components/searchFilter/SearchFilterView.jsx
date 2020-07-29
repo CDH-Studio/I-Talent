@@ -60,9 +60,9 @@ const SearchBarView = ({
   const searchLabel = <FormattedMessage id="button.search" />;
   const searchTitles = [
     "name",
-    "classification",
-    "location",
-    "branch",
+    "classifications",
+    "locations",
+    "branches",
     "skills",
     "mentorSkills",
     "anyMentorSkills",
