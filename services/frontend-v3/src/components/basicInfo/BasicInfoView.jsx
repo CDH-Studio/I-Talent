@@ -31,7 +31,7 @@ import {
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import OrgTree from "../orgTree/OrgTree";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
@@ -137,7 +137,7 @@ const BasicInfoView = ({
         </Col>
         {urlID === userID ? (
           <Col span={1}>
-            <EditCardButton editUrl="/secured/profile/edit/primary-info" />
+            <EditCardButton editUrl="/profile/edit/primary-info" />
           </Col>
         ) : (
           <Col xs={5} md={4} lg={3} xl={4} xxl={3}>

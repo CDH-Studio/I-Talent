@@ -9,10 +9,10 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import axios from "../../../axios-instance";
-import { IntlPropType, HistoryPropType } from "../../../customPropTypes";
+import useAxios from "../../../utils/axios-instance";
+import { IntlPropType, HistoryPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
-import config from "../../../config";
+import config from "../../../utils/config";
 
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;
@@ -20,6 +20,7 @@ const { Title, Paragraph } = Typography;
 const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
+  const axios = useAxios();
 
   /* Component Styles */
   const styles = {
@@ -97,10 +98,10 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
         // create profile
         await axios
           .put(`${backendAddress}api/profile/${userId}?language=ENGLISH`, value)
-          .then(() => history.push("/secured/profile/create/step/2"))
+          .then(() => history.push("/profile/create/step/2"))
           .catch((error) => handleError(error, "message"));
       }
-      history.push("/secured/profile/create/step/2");
+      history.push("/profile/create/step/2");
     };
 
     return (

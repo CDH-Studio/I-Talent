@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
@@ -14,6 +15,7 @@ const SearchBar = () => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const history = useHistory();
+  const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
 
@@ -73,7 +75,7 @@ const SearchBar = () => {
   // turns search values into query, redirects to results page with query
   const handleSearch = (values) => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
-    const url = `/secured/results?${query}`;
+    const url = `/results?${query}`;
 
     if (query  && query.length > 0) {
       history.push(url);

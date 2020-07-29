@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import WelcomeView from "./WelcomeView";
 
 /**
@@ -16,6 +17,7 @@ const Welcome = () => {
   const [gedsProfiles, setGedsProfiles] = useState();
 
   const { id, name } = useSelector((state) => state.user);
+  const axios = useAxios();
 
   const history = useHistory();
 

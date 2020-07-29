@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import _ from "lodash";
 
 import handleError from "../../../functions/handleError";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
 
 /**

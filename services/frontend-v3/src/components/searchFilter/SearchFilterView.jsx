@@ -12,7 +12,7 @@ import {
   TreeSelect,
 } from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
-import { IdDescriptionPropType } from "../../customPropTypes";
+import { IdDescriptionPropType } from "../../utils/customPropTypes";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;

@@ -24,7 +24,7 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import _ from "lodash";
 
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 

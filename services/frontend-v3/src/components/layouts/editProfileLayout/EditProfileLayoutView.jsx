@@ -4,7 +4,7 @@ import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
-import { HistoryPropType } from "../../../customPropTypes";
+import { HistoryPropType } from "../../../utils/customPropTypes";
 import {
   EmploymentDataForm,
   LangProficiencyForm,
@@ -50,7 +50,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    * Redirect to form based on sidebar selection
    */
   const redirectToForm = (data) => {
-    const url = `/secured/profile/edit/${data.key}`;
+    const url = `/profile/edit/${data.key}`;
     history.push(url);
   };
 

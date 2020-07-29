@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TalentManagementView from "./TalentManagementView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const TalentManagement = ({ data, type }) => {
@@ -11,7 +11,7 @@ const TalentManagement = ({ data, type }) => {
       content={<TalentManagementView data={data} />}
       cardName="talentManagement"
       id="card-profile-talent-management"
-      editUrl="/secured/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth"
       data={data}
       type={type}
       visible={data.visibleCards.talentManagement}

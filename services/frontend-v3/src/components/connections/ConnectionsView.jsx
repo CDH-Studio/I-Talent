@@ -15,7 +15,7 @@ const ConnectionsView = ({ connections }) => {
             dataSource={connections}
             renderItem={(item) => (
               <List.Item>
-                <Link to={`/secured/profile/${item.id}`}>
+                <Link to={`/profile/${item.id}`}>
                   {item.lastName}, {item.firstName}
                 </Link>
               </List.Item>

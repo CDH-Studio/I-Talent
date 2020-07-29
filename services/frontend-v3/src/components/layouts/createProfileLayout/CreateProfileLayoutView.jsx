@@ -40,7 +40,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * action to take if sidebar steps are clicked
    */
   const onChange = (current) => {
-    const url = `/secured/profile/create/step/${current + 1}`;
+    const url = `/profile/create/step/${current + 1}`;
     history.push(url);
   };
 
@@ -53,7 +53,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const handleKeyPress = (e, current) => {
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
-      const url = `/secured/profile/create/step/${current + 2}`;
+      const url = `/profile/create/step/${current + 2}`;
       history.push(url);
     }
   };

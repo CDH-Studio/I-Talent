@@ -1,11 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
-
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
 import _ from "lodash";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
@@ -15,6 +15,7 @@ const ResultsCard = () => {
   const [results, setResults] = useState(undefined);
   const [connections, setConnections] = useState([]);
   const [emptyQuery, setEmptyQuery] = useState(false);
+  const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);

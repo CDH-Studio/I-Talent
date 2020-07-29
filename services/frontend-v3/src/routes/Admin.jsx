@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect } from "react-router-dom";
-import Keycloak from "keycloak-js";
-import axios from "../axios-instance";
+import { useKeycloak } from "@react-keycloak/web";
+import useAxios from "../utils/axios-instance";
 import {
   AdminDashboard,
   AdminUser,
@@ -11,62 +11,37 @@ import {
   AdminDiploma,
   AdminSchool,
 } from "../pages/admin";
-import keycloakConfig from "../keycloak";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
-
-const { keycloakJSONConfig } = keycloakConfig;
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [keycloak, setKeycloak] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userExists, setUserExists] = useState(false);
+  const axios = useAxios();
+  const [keycloak] = useKeycloak();
+
+  const getInfo = useCallback(async () => {
+    const userInfo = await keycloak.loadUserInfo();
+    try {
+      const response = await axios.get(`api/user/${userInfo.sub}`);
+      setUserExists(response.data !== null && response.data.signupStep === 8);
+    } catch (e) {
+      setUserExists(false);
+    }
+    setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
+    setAuthenticated(keycloak.authenticated);
+  }, [axios, keycloak]);
 
   useEffect(() => {
-    const keycloakInstance = Keycloak(keycloakJSONConfig);
-    keycloakInstance
-      .init({
-        onLoad: "login-required",
-        promiseType: "native",
-        checkLoginIframe: false,
-      })
-      .then(async (auth) => {
-        axios.interceptors.request.use((requestConfig) =>
-          keycloakInstance.updateToken(300).then(() => {
-            const newConfig = requestConfig;
-            newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
-            return Promise.resolve(newConfig).catch(keycloakInstance.login);
-          })
-        );
-
-        const userInfo = await keycloakInstance.loadUserInfo();
-
-        // Checks if user even exists
-        try {
-          const response = await axios.get(`api/user/${userInfo.sub}`);
-          setUserExists(response.data !== null && response.data.signupStep === 8);
-        } catch (e) {
-          setUserExists(false);
-        }
-
-        // Checks if the user has the correct keycloak role (is admin)
-        setIsAdmin(keycloakInstance.hasResourceRole("view-admin-console"));
-
-        setKeycloak(keycloakInstance);
-        setAuthenticated(auth);
-      });
-  }, []);
-
-  if (!keycloak) {
-    return <AppLayout loading />;
-  }
+    getInfo();
+  }, [getInfo]);
 
   if (!authenticated) {
-    return <div>Unable to authenticate!</div>;
+    return <AppLayout loading displaySideBar />;
   }
 
   if (!userExists) {
-    return <Redirect to="/secured/profile/create/step/1" />;
+    return <Redirect to="/profile/create/step/1" />;
   }
 
   if (!isAdmin) {

@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import BasicInfoView from "./BasicInfoView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const styles = {
   icon: {

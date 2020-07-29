@@ -29,13 +29,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
-} from "../../../customPropTypes";
+} from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -53,6 +53,7 @@ const PrimaryInfoFormView = ({
   userId,
   email,
 }) => {
+  const axios = useAxios();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -261,7 +262,7 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
       })
-      .then(() => history.push("/secured/profile/create/step/3"))
+      .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
@@ -273,7 +274,7 @@ const PrimaryInfoFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${userId}`);
+    history.push(`/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -286,7 +287,7 @@ const PrimaryInfoFormView = ({
       .then(() => {
         setFieldsChanged(false);
         if (formType === "create") {
-          history.push("/secured/profile/create/step/8");
+          history.push("/profile/create/step/8");
         } else {
           dispatch(setSavedFormContent(true));
           onFinish();

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ExFeederView from "./ExFeederView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const ExFeeder = ({ data, type }) => {
@@ -9,7 +9,7 @@ const ExFeeder = ({ data, type }) => {
     <ProfileCards
       titleId={<ExFeederView data={data} />}
       cardName="exFeeder"
-      editUrl="/secured/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth"
       id="card-profile-ex-feeder"
       data={data}
       type={type}
