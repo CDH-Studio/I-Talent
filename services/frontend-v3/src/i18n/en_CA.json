@@ -403,7 +403,9 @@
 
   "profile.privateGroup": "Private group",
   "profile.connections": "Connections",
-
+  "profile.connections.tooltip.add.connection": "By clicking you will be adding this user to your Private Group. To learn more, visit: ",
+  "profile.connections.tooltip.remove.connection": "By clicking you will be removing this user from your Private Group. To learn more, visit: ",
+  "profile.connections.tooltip.header": "To add other I-Talent users to your Private group, visit their profiles and click the 'Add connection' button on the top of their profile. To learn more about Private groups, visit: ",
   "profile.visibility.card.public": "Card visible to everyone",
   "profile.visibility.card.connections": "Card visible to connections only",
   "profile.visibility.card.private": "Card only visible to you",

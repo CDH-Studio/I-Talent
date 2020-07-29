@@ -77,7 +77,7 @@ const SearchBar = () => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/results?${query}`;
 
-    if (query !== "") {
+    if (query  && query.length > 0) {
       history.push(url);
     }
   };

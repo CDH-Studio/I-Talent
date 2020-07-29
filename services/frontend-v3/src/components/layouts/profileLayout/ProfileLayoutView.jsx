@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Anchor, Typography, Row, Col, Button, message } from "antd";
+import { Anchor, Typography, Row, Col, message, Popover } from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
-  UserAddOutlined,
-  UserDeleteOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -71,12 +70,9 @@ const ProfileLayoutView = ({
     sideBarText: {
       whiteSpace: "normal",
     },
-    buttonIcon: {
-      fontSize: 16,
-      marginRight: 5,
-    },
-    button: {
-      float: "right",
+    privateGroupInfo: {
+      paddingLeft: "8px",
+      display: "inline",
     },
   };
 
@@ -96,7 +92,11 @@ const ProfileLayoutView = ({
         {/* Employee summary */}
         <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
           <Col xs={24} xl={14}>
-            <BasicInfo data={data} />
+            <BasicInfo
+              data={data}
+              connectionStatus={connectionStatus}
+              changeConnection={changeConnection}
+            />
           </Col>
           <Col xs={24} xl={10}>
             <EmployeeSummary data={data} type={privateProfile} />
@@ -193,6 +193,20 @@ const ProfileLayoutView = ({
             >
               <TeamOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
               <FormattedMessage id="profile.privateGroup" />
+              <div style={styles.privateGroupInfo}>
+                <Popover
+                  content={
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip.header" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  }
+                >
+                  <QuestionCircleOutlined />
+                </Popover>
+              </div>
             </Title>
             <Row style={styles.row}>
               <Col span={24}>
@@ -356,36 +370,11 @@ const ProfileLayoutView = ({
       loading={loading}
     >
       <Header
+        style={styles.headerStyle}
         title={
           <FormattedMessage
             id={privateProfile ? "my.profile" : "other.profile"}
           />
-        }
-        extra={
-          !privateProfile && (
-            <Button
-              tabIndex="0"
-              type="primary"
-              block
-              icon={
-                connectionStatus ? (
-                  <UserDeleteOutlined style={styles.buttonIcon} />
-                ) : (
-                  <UserAddOutlined style={styles.buttonIcon} />
-                )
-              }
-              onClick={changeConnection}
-              style={styles.button}
-            >
-              <FormattedMessage
-                id={
-                  connectionStatus
-                    ? "search.results.cards.remove.connection"
-                    : "search.results.cards.add.connection"
-                }
-              />
-            </Button>
-          )
         }
       />
       {data ? displayAllProfileCards() : <ProfileNotFound />}

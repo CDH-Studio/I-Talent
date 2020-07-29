@@ -22,6 +22,7 @@ import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { IntlPropType } from "../../../utils/customPropTypes";
+import _ from "lodash";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/config";
@@ -277,15 +278,11 @@ const UserTableView = ({
       title: <FormattedMessage id="admin.tenure" />,
       dataIndex: "tenure",
       key: "tenure",
-      sorter: (a, b) => {
-        return a.tenure.localeCompare(b.tenure);
-      },
-      ...getColumnSearchProps(
-        "tenure",
-        intl.formatMessage({
-          id: "admin.tenure",
-        })
-      ),
+      filters: _.uniq(data.map((i) => i.tenure)).map((i) => ({
+        text: i,
+        value: i,
+      })),
+      onFilter: (value, record) => record.tenure === value,
     },
     {
       title: <FormattedMessage id="admin.roles" />,
@@ -313,6 +310,21 @@ const UserTableView = ({
     },
     {
       title: <FormattedMessage id="admin.profileStatus" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.active" />,
+          value: "ACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.inactive" />,
+          value: "INACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.flagged" />,
+          value: "HIDDEN",
+        },
+      ],
+      onFilter: (value, record) => record.status === value,
       render: (record) => {
         return renderStatusDropdown(record.key, record.status);
       },

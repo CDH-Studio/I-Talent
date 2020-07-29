@@ -63,6 +63,7 @@ const TalentFormView = ({
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [loadedData, setLoadedData] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -514,23 +515,21 @@ const TalentFormView = ({
   useEffect(() => {
     /* check if user has a skills to mentor */
     if (savedMentorshipSkills) {
-      // toggle mentorship switch if there are mentorship skills saved
-      setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+      if (!loadedData) {
+        // toggle mentorship switch if there are mentorship skills saved
+        setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+        setLoadedData(true);
+      }
 
       // generate a treeData to represent the skills chosen
       const generatedSelectedSkills = generateMentorshipOptions(
         skillOptions,
-        savedSkills
+        form.getFieldsValue().mentorshipSkills || savedSkills
       );
 
       setSelectedSkills(generatedSelectedSkills);
     }
-
-    // if props change then reset form fields
-    if (load) {
-      form.resetFields();
-    }
-  }, [load, form, savedMentorshipSkills, skillOptions, savedSkills]);
+  }, [form, loadedData, savedMentorshipSkills, savedSkills, skillOptions]);
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {

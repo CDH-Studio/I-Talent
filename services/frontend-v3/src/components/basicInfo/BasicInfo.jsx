@@ -5,6 +5,7 @@ import {
   LinkOutlined,
   MailOutlined,
 } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
@@ -14,7 +15,7 @@ const styles = {
   },
 };
 
-const BasicInfo = ({ data }) => {
+const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
     const buttonLinks = {
@@ -64,12 +65,16 @@ const BasicInfo = ({ data }) => {
       }}
       jobTitle={data.jobTitle}
       buttonLinks={getButtonLinks()}
+      connectionStatus={connectionStatus}
+      changeConnection={changeConnection}
     />
   );
 };
 
 BasicInfo.propTypes = {
   data: ProfileInfoPropType.isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  changeConnection: PropTypes.func.isRequired,
 };
 
 export default BasicInfo;

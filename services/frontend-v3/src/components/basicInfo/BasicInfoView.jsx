@@ -9,6 +9,9 @@ import {
   UserOutlined,
   DownOutlined,
   TeamOutlined,
+  UserDeleteOutlined,
+  UserAddOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -22,6 +25,7 @@ import {
   Button,
   Menu,
   Tag,
+  Popover,
 } from "antd";
 
 import { useParams } from "react-router";
@@ -32,7 +36,15 @@ import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
+const BasicInfoView = ({
+  data,
+  name,
+  avatar,
+  jobTitle,
+  buttonLinks,
+  connectionStatus,
+  changeConnection,
+}) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
@@ -60,7 +72,12 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
       padding: 0,
       height: "100%",
     },
-    rowTopSplitter: { borderTop: "1px solid #f0f0f0" },
+    rowTopSplitter: {
+      borderTop: "1px solid #f0f0f0",
+    },
+    popContent: {
+      maxWidth: "350px",
+    },
   };
 
   const generateTeamInfo = () => {
@@ -94,7 +111,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
   const generateProfileHeader = () => {
     return (
       <Row type="flex" style={styles.profileHeaderRow}>
-        <Col xs={12} md={5} lg={4} xxl={3} align="center">
+        <Col xs={6} md={5} lg={4} xxl={3} align="center">
           <Avatar
             size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
@@ -104,7 +121,7 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
             </Text>
           </Avatar>
         </Col>
-        <Col xs={11} md={18} lg={19} xxl={20} style={{ padding: "11px 10px" }}>
+        <Col xs={13} md={15} lg={17} xl={16} xxl={18} style={{ padding: "11px 10px" }}>
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -118,9 +135,50 @@ const BasicInfoView = ({ data, name, avatar, jobTitle, buttonLinks }) => {
             {jobTitle}
           </Text>
         </Col>
-        {urlID === userID && (
-          <Col xs={1}>
+        {urlID === userID ? (
+          <Col span={1}>
             <EditCardButton editUrl="/profile/edit/primary-info" />
+          </Col>
+        ) : (
+          <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
+            <Row type="flex" align="middle">
+              <Popover
+                content={
+                  connectionStatus ? (
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip.remove.connection" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  ) : (
+                    <div style={styles.popContent}>
+                      <FormattedMessage id="profile.connections.tooltip.add.connection" />
+                      <a href="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </a>
+                    </div>
+                  )
+                }
+              >
+                <QuestionCircleOutlined />
+              </Popover>
+              <Button
+                tabIndex="0"
+                type={connectionStatus ? "default" : "primary"}
+                shape="circle"
+                size="large"
+                icon={
+                  connectionStatus ? (
+                    <UserDeleteOutlined style={styles.buttonIcon} />
+                  ) : (
+                    <UserAddOutlined style={styles.buttonIcon} />
+                  )
+                }
+                onClick={changeConnection}
+                style={{ marginLeft: 10 }}
+              />
+            </Row>
           </Col>
         )}
       </Row>
@@ -273,6 +331,8 @@ BasicInfoView.propTypes = {
   }).isRequired,
   jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  changeConnection: PropTypes.func.isRequired,
 };
 
 BasicInfoView.defaultProps = {
