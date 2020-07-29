@@ -155,7 +155,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   };
 
   const search = () => {
-    if (searchValue !== "") {
+    if (searchValue && searchValue.length > 0) {
       const needsToReload = window.location.pathname.includes(
         "/secured/results"
       );
