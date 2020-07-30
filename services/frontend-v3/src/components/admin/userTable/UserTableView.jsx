@@ -10,6 +10,7 @@ import {
   message,
   Popconfirm,
   Tag,
+  Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
@@ -26,6 +27,17 @@ import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/config";
+
+const { Text } = Typography;
+
+const styles = {
+  unsavedText: {
+    marginLeft: "10px",
+    fontWeight: "normal",
+    fontStyle: "italic",
+    opacity: 0.5,
+  },
+};
 
 /**
  *  UserTableView(props)
@@ -338,7 +350,16 @@ const UserTableView = ({
   return (
     <>
       <Header
-        title={<FormattedMessage id="admin.user.table" />}
+        title={
+          <>
+            <FormattedMessage id="admin.user.table" />
+            {modifiedStatus && (
+              <Text style={styles.unsavedText}>
+                (<FormattedMessage id="profile.form.unsaved" />)
+              </Text>
+            )}
+          </>
+        }
         extra={
           <>
             {keycloakButton()}
