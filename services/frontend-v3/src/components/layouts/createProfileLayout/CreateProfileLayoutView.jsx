@@ -1,7 +1,7 @@
 import React from "react";
-import {  Steps } from "antd";
+import { Steps } from "antd";
 import { FormattedMessage } from "react-intl";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
 import {
@@ -83,7 +83,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       case 8:
         return <DoneSetup formType="create" />;
       default:
-        return <div>Hello</div>;
+        return <Redirect to={`/profile/create/step/${highestStep}`} />;
     }
   };
 
