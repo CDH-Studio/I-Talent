@@ -20,6 +20,7 @@ function UserTable({ intl }) {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [modifiedStatus, setModifiedStatus] = useState(false);
   const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
@@ -91,7 +92,13 @@ function UserTable({ intl }) {
   const handleDropdownChange = (status, id) => {
     const addStatus = statuses;
 
-    addStatus[id] = status;
+    if (status) {
+      addStatus[id] = status;
+    } else {
+      delete addStatus[id];
+    }
+
+    setModifiedStatus(Object.keys(addStatus).length > 0);
 
     setStatuses(addStatus);
   };
@@ -141,6 +148,7 @@ function UserTable({ intl }) {
       profileStatusValue={profileStatusValue}
       handleSearch={handleSearch}
       handleReset={handleReset}
+      modifiedStatus={modifiedStatus}
     />
   );
 }

@@ -12,36 +12,35 @@ import {
   AdminSchool,
 } from "../pages/admin";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import login from "../utils/login";
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [userExists, setUserExists] = useState(false);
+  const [signupStep, setSignupStep] = useState(1);
   const axios = useAxios();
   const [keycloak] = useKeycloak();
 
   const getInfo = useCallback(async () => {
-    const userInfo = await keycloak.loadUserInfo();
-    try {
-      const response = await axios.get(`api/user/${userInfo.sub}`);
-      setUserExists(response.data !== null && response.data.signupStep === 8);
-    } catch (e) {
-      setUserExists(false);
-    }
+    setSignupStep(await login(keycloak, axios));
     setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
     setAuthenticated(keycloak.authenticated);
   }, [axios, keycloak]);
 
   useEffect(() => {
-    getInfo();
-  }, [getInfo]);
+    if (keycloak.authenticated) {
+      getInfo();
+    } else {
+      keycloak.login();
+    }
+  }, [getInfo, keycloak]);
 
   if (!authenticated) {
     return <AppLayout loading displaySideBar />;
   }
 
-  if (!userExists) {
-    return <Redirect to="/profile/create/step/1" />;
+  if (signupStep !== 8) {
+    return <Redirect to={`/profile/create/step/${signupStep}`} />;
   }
 
   if (!isAdmin) {
