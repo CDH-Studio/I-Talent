@@ -78,6 +78,7 @@ const ResultsCardView = ({
     },
     cardBody: {
       flex: 1,
+      flexBasis: "auto",
     },
     container: {
       maxWidth: 1600,
