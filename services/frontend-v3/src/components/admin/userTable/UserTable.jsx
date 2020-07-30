@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import { injectIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
+import { Prompt } from "react-router";
 import useAxios from "../../../utils/axios-instance";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import UserTableView from "./UserTableView";
@@ -69,6 +70,7 @@ function UserTable({ intl }) {
     await axios.put(url, statuses);
 
     setStatuses({});
+    setModifiedStatus(false);
     getUserInformation();
   };
 
@@ -140,16 +142,22 @@ function UserTable({ intl }) {
   }, [intl]);
 
   return (
-    <UserTableView
-      searchText={searchText}
-      searchedColumn={searchedColumn}
-      handleApply={handleApply}
-      handleDropdownChange={handleDropdownChange}
-      profileStatusValue={profileStatusValue}
-      handleSearch={handleSearch}
-      handleReset={handleReset}
-      modifiedStatus={modifiedStatus}
-    />
+    <>
+      <Prompt
+        when={modifiedStatus}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <UserTableView
+        searchText={searchText}
+        searchedColumn={searchedColumn}
+        handleApply={handleApply}
+        handleDropdownChange={handleDropdownChange}
+        profileStatusValue={profileStatusValue}
+        handleSearch={handleSearch}
+        handleReset={handleReset}
+        modifiedStatus={modifiedStatus}
+      />
+    </>
   );
 }
 
