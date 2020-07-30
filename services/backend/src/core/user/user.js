@@ -67,6 +67,10 @@ async function getUserById(request, response) {
   }
 }
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 async function createUser(request, response) {
   try {
     validationResult(request).throw();
@@ -80,8 +84,8 @@ async function createUser(request, response) {
           id,
           name,
           email,
-          firstName,
-          lastName,
+          firstName: capitalizeFirstLetter(firstName),
+          lastName: capitalizeFirstLetter(lastName),
           avatarColor: generateAvatarColor(),
           visibleCards: { create: {} },
         },
