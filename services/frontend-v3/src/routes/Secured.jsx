@@ -15,13 +15,12 @@ import useAxios from "../utils/axios-instance";
 
 const Secured = ({ location }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [userCompletedSignup, setUserCompletedSignup] = useState(false);
+  const [signupStep, setSignupStep] = useState(1);
   const [keycloak] = useKeycloak();
   const axios = useAxios();
 
   const getInfo = useCallback(async () => {
-    const signupStep = await login(keycloak, axios);
-    setUserCompletedSignup(signupStep === 8);
+    setSignupStep(await login(keycloak, axios));
     setAuthenticated(keycloak.authenticated);
   }, [axios, keycloak]);
 
@@ -40,9 +39,9 @@ const Secured = ({ location }) => {
   if (
     !location.pathname.includes("/profile/create") &&
     !location.pathname.includes("/logout") &&
-    !userCompletedSignup
+    signupStep !== 8
   ) {
-    return <Redirect to="/profile/create/step/1" />;
+    return <Redirect to={`/profile/create/step/${signupStep}`} />;
   }
 
   return (
