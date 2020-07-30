@@ -50,16 +50,38 @@ const Secured = ({ location }) => {
         <Route exact path="/results" render={() => <Results />} />
         <Route
           path="/profile/create/step/:step"
-          render={({ match }) => <ProfileCreate match={match} />}
+          render={({ match }) => {
+            const { step } = match.params;
+
+            if (
+              !Number.isNaN(step) &&
+              parseInt(step, 10) > 0 &&
+              parseInt(step, 10) < 9
+            ) {
+              return <ProfileCreate match={match} />;
+            }
+
+            return <Redirect to={`/profile/create/step/${signupStep}`} />;
+          }}
         />
         <Route
           path="/profile/edit/:step"
           render={({ match }) => <ProfileEdit match={match} />}
         />
         <Route
+          path="/profile/create"
+          render={() => <Redirect to={`/profile/create/step/${signupStep}`} />}
+        />
+        <Route
           path="/profile/:id?"
           render={({ match, history }) => (
             <Profile match={match} history={history} />
+          )}
+        />
+        <Route
+          path="/results"
+          render={({ location: { search } }) => (
+            <Redirect to={{ search, pathname: "/results" }} />
           )}
         />
         <Route render={() => <NotFound />} />

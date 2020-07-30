@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { Redirect } from "react-router";
 import useAxios from "../utils/axios-instance";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
@@ -11,6 +12,7 @@ const Profile = ({ history, match }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [connectionData, setConnectionData] = useState(null);
+  const [loadingError, setLoadingError] = useState(false);
 
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
@@ -18,36 +20,39 @@ const Profile = ({ history, match }) => {
   const { id } = match.params;
   const axios = useAxios();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const promiseArray = [];
-      const profile =
-        id === userID
-          ? axios.get(`api/profile/private/${id}?language=${locale}`)
-          : axios.get(`api/profile/${id}?language=${locale}`);
+  const fetchProfile = async () => {
+    const promiseArray = [];
+    const profile =
+      id === userID
+        ? axios.get(`api/profile/private/${id}?language=${locale}`)
+        : axios.get(`api/profile/${id}?language=${locale}`);
 
-      promiseArray.push(profile);
+    promiseArray.push(profile);
 
-      if (id !== userID) {
-        const connectionStatus = axios.get(`api/connections/${id}`);
-        promiseArray.push(connectionStatus);
-      }
+    if (id !== userID) {
+      const connectionStatus = axios.get(`api/connections/${id}`);
+      promiseArray.push(connectionStatus);
+    }
 
-      Promise.all(promiseArray)
-        .then((result) => {
-          if (result[0].data !== undefined) {
-            const profileData = result[0].data;
-            setName(`${profileData.firstName} ${profileData.lastName}`);
-            setData(profileData);
-            if (result[0].data && userID !== id) {
-              setConnectionData(result[1].data.status);
-            }
+    Promise.all(promiseArray)
+      .then((result) => {
+        if (result[0].data !== undefined) {
+          const profileData = result[0].data;
+          setName(`${profileData.firstName} ${profileData.lastName}`);
+          setData(profileData);
+          if (result[0].data && userID !== id) {
+            setConnectionData(result[1].data.status);
           }
-          setLoading(false);
-        })
-        .catch((error) => handleError(error, "redirect"));
-    };
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoadingError(true);
+      });
+  };
 
+  useEffect(() => {
+    setLoadingError(false);
     if (id === undefined) {
       history.push(`/profile/${userID}`);
     } else {
@@ -72,6 +77,10 @@ const Profile = ({ history, match }) => {
       setConnectionData(true);
     }
   };
+
+  if (loadingError) {
+    return <Redirect to={`/profile/${userID}`} />;
+  }
 
   return (
     <ProfileLayout
