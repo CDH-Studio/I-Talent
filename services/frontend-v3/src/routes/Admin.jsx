@@ -49,11 +49,6 @@ const Admin = () => {
 
   return (
     <>
-      <Route
-        exact
-        path="/admin/"
-        render={() => <Redirect to="/admin/dashboard" />}
-      />
       <Route exact path="/admin/dashboard" render={() => <AdminDashboard />} />
       <Route exact path="/admin/users" render={() => <AdminUser />} />
       <Route exact path="/admin/skills" render={() => <AdminSkill />} />
@@ -65,6 +60,7 @@ const Admin = () => {
       />
       <Route exact path="/admin/diplomas" render={() => <AdminDiploma />} />
       <Route exact path="/admin/schools" render={() => <AdminSchool />} />
+      <Route path="/admin/" render={() => <Redirect to="/admin/dashboard" />} />
     </>
   );
 };
