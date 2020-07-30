@@ -90,19 +90,50 @@ const OfficialLanguage = ({ data, type }) => {
     return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];
   };
 
+  const generateSecondLanguageInfo = (dataSource) => {
+    const languageInfo = [];
+
+    ["READING", "WRITING", "ORAL"].forEach((profType) => {
+      const nextData = {};
+      const info = dataSource.secondLangProfs
+        ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
+        : undefined;
+      console.log("lang info", info);
+      if (info) {
+        nextData.level = info.level ? info.level : "-";
+        if (info.date) {
+          nextData.expiryInfo = moment(info.date).format("ll");
+        } else if (info.expired !== undefined) {
+          nextData.expiryInfo = info.expired ? (
+            <FormattedMessage id="profile.expired" />
+          ) : (
+            <FormattedMessage id="profile.unexpired" />
+          );
+        }
+      } else {
+        nextData.level = "-";
+      }
+      console.log("PUSH", nextData, profType);
+      languageInfo.push(nextData);
+    });
+    console.log("Language Info:", languageInfo);
+    return languageInfo;
+  };
+
   return (
     <ProfileCards
-      titleId="profile.DescriptionCard"
-      cardName="DescriptionCard"
+      titleId="profile.official.language"
+      cardName="OfficialLanguage"
       content={
         <OfficialLanguageView
           firstLanguageInfo={getFirstLanguageInfo(data)}
+          secondLanguageInfo={generateSecondLanguageInfo(data)}
           secondLanguageGradeInfo={getSecondLanguageGradeInfo(data)}
           secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
         />
       }
       id="card-profile-competency"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/secured/profile/edit/language-proficiency"
       data={data}
       type={type}
       visible={data.visibleCards.competencies}

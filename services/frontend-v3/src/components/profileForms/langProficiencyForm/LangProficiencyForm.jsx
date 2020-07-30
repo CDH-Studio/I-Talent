@@ -14,7 +14,8 @@ import handleError from "../../../functions/handleError";
 const LangProficiencyForm = ({ formType }) => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
-  const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
+
+  // const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const history = useHistory();
@@ -24,21 +25,19 @@ const LangProficiencyForm = ({ formType }) => {
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
-    );
-    setProfileInfo(result.data);
-    console.log("PROFILE IUNFOOO", result.data);
+    await axios
+      .get(`api/profile/private/${id}?language=${locale}`)
+      .then((result) => setProfileInfo(result.data));
   }, [id, locale]);
 
-  const handleExpiredCheckboxChange = (checked, name) => {
+  /* const handleExpiredCheckboxChange = (checked, name) => {
     setExpiredSecondaryGradings((oldVal) => {
       const newVal = Object.assign({}, oldVal);
       newVal[name] = checked;
       console.log("NEW VAL", newVal);
       return newVal;
     });
-  };
+  }; */
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -68,10 +67,6 @@ const LangProficiencyForm = ({ formType }) => {
     // Get all required data component
     getProfileInfo()
       .then(() => {
-        //console.log("SET EXPIRED HERE", profileInfo);
-        //      setExpiredSecondaryGradings(profileInfo)
-      })
-      .then(() => {
         setLoad(true);
       })
       .catch((error) => {
@@ -80,10 +75,19 @@ const LangProficiencyForm = ({ formType }) => {
       });
   }, [getProfileInfo]);
 
+  console.log(
+    "RENDER LANG FORM VIEW",
+    profileInfo,
+    languageOptions,
+    proficiencyOptions,
+    formType,
+    load,
+    history,
+    id
+  );
+
   return (
     <LangProficiencyFormView
-      handleExpiredCheckboxChange={handleExpiredCheckboxChange}
-      expiredSecondaryGradings={expiredSecondaryGradings}
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}

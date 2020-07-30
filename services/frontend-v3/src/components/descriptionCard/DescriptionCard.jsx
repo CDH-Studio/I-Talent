@@ -7,7 +7,7 @@ import { ProfileInfoPropType } from "../../customPropTypes";
 const DescriptionCard = ({ data, type }) => {
   return (
     <ProfileCards
-      titleId="profile.DescriptionCard"
+      titleId="profile.description"
       cardName="DescriptionCard"
       content={<DescriptionCardView data={data} />}
       id="card-profile-competency"

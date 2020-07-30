@@ -869,6 +869,22 @@ async function getFullProfile(id, language) {
       },
     },
   });
+
+  fullProfile.secondLangProfs.forEach((value, index) => {
+    let expiredValue;
+    if (value.date) {
+      if (moment(value.date).isBefore()) {
+        expiredValue = true;
+      } else {
+        expiredValue = false;
+      }
+    } else {
+      expiredValue = null;
+    }
+
+    fullProfile.secondLangProfs[index].expired = expiredValue;
+  });
+
   return fullProfile;
 }
 
@@ -1089,6 +1105,7 @@ function filterProfileResult(profile, language) {
       id: prof.id,
       date: prof.date,
       proficiency: prof.proficiency,
+      expired: prof.expired,
       level: prof.level,
     };
   });
@@ -1178,8 +1195,8 @@ async function getPublicProfileById(request, response) {
         result.actingStartDate = null;
         result.actingEndDate = null;
         result.firstLanguage = null;
-        result.secondLanguage = null;
-        result.secondLangProfs = null;
+        //result.secondLanguage = null;
+        //result.secondLangProfs = null;
 
         tempCards.info = false;
       }
@@ -1195,7 +1212,14 @@ async function getPublicProfileById(request, response) {
         result.secondLanguage = null;
 
         tempCards.officialLanguage = false;
+      } else {
+        if (result.secondLangProfs) {
+          result.secondLangProfs.forEach((lang, index) => {
+            //delete result.secondLanguage[index].date;
+          });
+        }
       }
+
       if (hideCard("skills")) {
         result.skills = [];
 

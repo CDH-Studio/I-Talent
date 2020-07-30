@@ -55,8 +55,6 @@ const LangProficiencyFormView = ({
   intl,
   history,
   userId,
-  handleExpiredCheckboxChange,
-  expiredSecondaryGradings,
 }) => {
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
@@ -274,7 +272,6 @@ const LangProficiencyFormView = ({
           }
         });
       }
-
       return data;
     }
     return {};
@@ -389,7 +386,7 @@ const LangProficiencyFormView = ({
     const data = savedValues || getInitialValues(profileInfo);
     const oppositeInitialToggle =
       !!data.oralProficiency !== displayMentorshipForm;
-
+    console.log("YYYYYYY DISPLAY MENTORSHIP FORm");
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMentorshipForm]);
@@ -478,7 +475,28 @@ const LangProficiencyFormView = ({
 
   /* Get temporary role form based on if the form switch is toggled */
   const getSecondLanguageForm = (expandMentorshipForm) => {
+    let formValues = form.getFieldsValue(); /* [
+      "oralProficiency",
+      "readingProficiency",
+      "writingProficiency",
+      "secondaryOralExpired",
+      "secondaryReadingExpired",
+      "secondaryWritingExpired",
+      "secondaryWritingDate",
+      "secondaryReadingDate",
+      "secondaryOralDate",
+    ]); */
+
     if (expandMentorshipForm) {
+      console.log(
+        "EXPANDED MENTORSHIP FORM",
+        "IasV",
+        getInitialValues(profileInfo),
+        "FV",
+        formValues
+      );
+      formValues = Object.assign(getInitialValues(profileInfo), formValues);
+
       return (
         <div>
           {/* Reading Proficiency */}
@@ -514,20 +532,14 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
               >
                 <DatePicker
-                  disabled={expiredSecondaryGradings.secondaryReadingDate}
+                  disabled={formValues.secondaryReadingExpired}
                   style={styles.datePicker}
                 />
               </Form.Item>
               <Form.Item name="secondaryReadingExpired" valuePropName="checked">
                 <Checkbox
-                  onChange={(event) =>
-                    handleExpiredCheckboxChange(
-                      event.target.checked,
-                      "secondaryReadingDate"
-                    )
-                  }
                   valuePropName="checked"
-                  defaultChecked={expiredSecondaryGradings.secondaryReadingDate}
+                  defaultChecked={formValues.secondaryReadingDate}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -568,20 +580,14 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
               >
                 <DatePicker
-                  disabled={expiredSecondaryGradings.secondaryWritingDate}
+                  disabled={formValues.secondaryWritingExpired}
                   style={styles.datePicker}
                 />
               </Form.Item>
               <Form.Item name="secondaryWritingExpired" valuePropName="checked">
                 <Checkbox
-                  onChange={(event) =>
-                    handleExpiredCheckboxChange(
-                      event.target.checked,
-                      "secondaryWritingDate"
-                    )
-                  }
                   valuePropName="checked"
-                  defaultChecked={expiredSecondaryGradings.secondaryWritingDate}
+                  defaultChecked={formValues.secondaryWritingDate}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -622,20 +628,14 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="profile.secondary.oral.date" />}
               >
                 <DatePicker
-                  disabled={expiredSecondaryGradings.secondaryOralDate}
+                  disabled={formValues.secondaryOralExpired}
                   style={styles.datePicker}
                 />
               </Form.Item>
               <Form.Item name="secondaryOralExpired" valuePropName="checked">
                 <Checkbox
-                  onChange={(event) =>
-                    handleExpiredCheckboxChange(
-                      event.target.checked,
-                      "secondaryOralDate"
-                    )
-                  }
                   valuePropName="checked"
-                  defaultChecked={expiredSecondaryGradings.secondaryOralDate}
+                  defaultChecked={formValues.secondaryOralDate}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -671,6 +671,7 @@ const LangProficiencyFormView = ({
 
   useEffect(() => {
     /* check if user has a second language */
+    console.log("xxxxxxxxxTOGLE SEC LANG FORM");
     setDisplayMentorshipForm(
       profileInfo ? profileInfo.secondLangProfs.length !== 0 : false
     );
@@ -679,6 +680,7 @@ const LangProficiencyFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
+
   if (!load) {
     return (
       /* If form data is loading then wait */
@@ -687,6 +689,12 @@ const LangProficiencyFormView = ({
       </div>
     );
   }
+  console.log(
+    "LOADED PAGE",
+    savedValues,
+    "INIT VALS",
+    savedValues || getInitialValues(profileInfo)
+  );
   /* Once data had loaded display form */
   return (
     <>
