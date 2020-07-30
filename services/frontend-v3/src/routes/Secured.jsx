@@ -80,8 +80,8 @@ const Secured = ({ location }) => {
         />
         <Route
           path="/results"
-          render={({ location }) => (
-            <Redirect to={{ search: location.search, pathname: "/results" }} />
+          render={({ location: { search } }) => (
+            <Redirect to={{ search, pathname: "/results" }} />
           )}
         />
         <Route render={() => <NotFound />} />
