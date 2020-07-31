@@ -624,6 +624,7 @@ async function getFullProfile(id, language) {
       educations: {
         select: {
           id: true,
+          updatedAt: true,
           startDate: true,
           endDate: true,
           diploma: {
@@ -676,6 +677,7 @@ async function getFullProfile(id, language) {
       experiences: {
         select: {
           id: true,
+          updatedAt: true,
           startDate: true,
           endDate: true,
           translations: {
@@ -1003,6 +1005,11 @@ function filterProfileResult(profile, language) {
         },
       };
     });
+
+    filteredProfile.educationsUpdatedAt = profile.educations.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.experiences) {
@@ -1024,6 +1031,11 @@ function filterProfileResult(profile, language) {
           : null,
       };
     });
+
+    filteredProfile.experiencesUpdatedAt = profile.experiences.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.securityClearance) {
