@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const timeout = require("connect-timeout");
+const cors = require("cors");
 const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
 const swaggerOptions = require("./docs/swaggerOptions");
@@ -10,6 +11,7 @@ const app = express();
 
 const port = process.env.PORT || 8080;
 
+app.use(cors());
 app.use(sessionInstance);
 
 app.use((req, res, next) => {
