@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../database");
 
 function generateAvatarColor() {
@@ -67,10 +68,6 @@ async function getUserById(request, response) {
   }
 }
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 async function createUser(request, response) {
   try {
     validationResult(request).throw();
@@ -84,8 +81,8 @@ async function createUser(request, response) {
           id,
           name,
           email,
-          firstName: capitalizeFirstLetter(firstName),
-          lastName: capitalizeFirstLetter(lastName),
+          firstName: _.upperFirst(firstName),
+          lastName: _.upperFirst(lastName),
           avatarColor: generateAvatarColor(),
           visibleCards: { create: {} },
         },

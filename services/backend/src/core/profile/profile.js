@@ -27,10 +27,6 @@ function idHelper(id, savedId) {
   };
 }
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 async function updateProfile(request, response) {
   try {
     validationResult(request).throw();
@@ -208,8 +204,8 @@ async function updateProfile(request, response) {
       await prisma.user.update({
         where: { id: userId },
         data: {
-          firstName: firstName ? capitalizeFirstLetter(firstName) : undefined,
-          lastName: lastName ? capitalizeFirstLetter(lastName) : undefined,
+          firstName: firstName ? _.upperFirst(firstName) : undefined,
+          lastName: lastName ? _.upperFirst(lastName) : undefined,
           teams: teams
             ? {
                 set: teams,
