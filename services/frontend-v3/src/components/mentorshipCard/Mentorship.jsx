@@ -78,6 +78,7 @@ const Mentorship = ({ data, type }) => {
       data={data}
       type={type}
       visible={data.visibleCards.mentorshipSkills}
+      lastUpdated={data.mentorshipSkillsUpdatedAt}
     />
   );
 };

@@ -15,6 +15,7 @@ const Competencies = ({ data, type }) => {
       data={data}
       type={type}
       visible={data.visibleCards.competencies}
+      lastUpdated={data.competenciesUpdatedAt}
     />
   );
 };

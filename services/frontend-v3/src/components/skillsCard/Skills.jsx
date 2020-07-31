@@ -79,6 +79,7 @@ const Skills = ({ data, type }) => {
       data={data}
       type={type}
       visible={data.visibleCards.skills}
+      lastUpdated={data.skillsUpdatedAt}
     />
   );
 };
