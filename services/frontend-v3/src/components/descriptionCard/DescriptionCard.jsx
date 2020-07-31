@@ -10,7 +10,7 @@ const DescriptionCard = ({ data, type }) => {
       titleId="profile.description"
       cardName="DescriptionCard"
       content={<DescriptionCardView data={data} />}
-      id="card-profile-competency"
+      id="card-profile-description"
       editUrl="/secured/profile/edit/talent"
       data={data}
       type={type}

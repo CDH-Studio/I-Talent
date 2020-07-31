@@ -67,7 +67,7 @@ const OfficialLanguage = ({ data, type, intl }) => {
           secondLanguageInfo={generateSecondLanguageInfo(data)}
         />
       }
-      id="card-profile-competency"
+      id="card-profile-official-language"
       editUrl="/secured/profile/edit/language-proficiency"
       data={data}
       type={type}

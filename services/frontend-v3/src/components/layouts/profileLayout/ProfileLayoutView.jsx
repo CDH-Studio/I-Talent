@@ -228,7 +228,33 @@ const ProfileLayoutView = ({
                   <FormattedMessage id="profile.basic" />
                 </Text>
               }
-            />
+            >
+              <Link
+                href="#card-profile-employee-summary"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employee.summary" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-description"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.description" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-official-language"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.official.language" />
+                  </Text>
+                }
+              />
+            </Link>
+
             <Link
               href="#divider-skills-and-comp"
               title={

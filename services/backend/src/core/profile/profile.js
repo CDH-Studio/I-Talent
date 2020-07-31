@@ -839,7 +839,7 @@ async function getFullProfile(id, language) {
           info: true,
           talentManagement: true,
           officialLanguage: true,
-          description: true,
+          // description: true,
           skills: true,
           competencies: true,
           developmentalGoals: true,
@@ -1214,9 +1214,9 @@ async function getPublicProfileById(request, response) {
         tempCards.talentManagement = false;
       }
 
-      if (hideCard("description")) {
+      /* if (hideCard("description")) {
         result.description = null;
-      }
+      } */
 
       if (hideCard("officialLanguage")) {
         result.firstLanguage = null;
