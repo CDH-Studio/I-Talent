@@ -44,16 +44,14 @@ const profileExist = async (userInfo, axios) => {
 
   store.dispatch(
     setLocale(
-      preferredLanguage
-        ? preferredLanguage
-        : "ENGLISH"
+      preferredLanguage || "ENGLISH"
     )
   );
 
   const { signupStep } = response.data;
 
   if (signupStep > 0 && signupStep < 9) {
-      return signupStep;
+    return signupStep;
   }
 
   return 1;
