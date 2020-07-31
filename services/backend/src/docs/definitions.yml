@@ -535,11 +535,17 @@ definitions:
       developmentalGoalsUpdatedAt:
         type: string
         format: date-time
+      educationsUpdatedAt:
+        type: string
+        format: date-time
+      experiencesUpdatedAt:
+        type: string
+        format: date-time
       visibleCards:
         $ref: "#/definitions/VisibleCards"
       nameInitials:
         type: string
-      
+
   200:
     description: Success
   403:
