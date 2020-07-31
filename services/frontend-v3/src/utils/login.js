@@ -50,7 +50,13 @@ const profileExist = async (userInfo, axios) => {
     )
   );
 
-  return response.data.signupStep;
+  const { signupStep } = response.data;
+
+  if (signupStep > 0 && signupStep < 9) {
+      return signupStep;
+  }
+
+  return 1;
 };
 
 const login = async (keycloak, axios) => {
