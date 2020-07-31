@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../database");
 
 function generateAvatarColor() {
@@ -80,8 +81,8 @@ async function createUser(request, response) {
           id,
           name,
           email,
-          firstName,
-          lastName,
+          firstName: _.upperFirst(firstName),
+          lastName: _.upperFirst(lastName),
           avatarColor: generateAvatarColor(),
           visibleCards: { create: {} },
         },

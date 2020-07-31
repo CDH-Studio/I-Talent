@@ -204,8 +204,8 @@ async function updateProfile(request, response) {
       await prisma.user.update({
         where: { id: userId },
         data: {
-          firstName,
-          lastName,
+          firstName: firstName ? _.upperFirst(firstName) : undefined,
+          lastName: lastName ? _.upperFirst(lastName) : undefined,
           teams: teams
             ? {
                 set: teams,
