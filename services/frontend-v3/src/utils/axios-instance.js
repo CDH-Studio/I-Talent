@@ -10,6 +10,7 @@ const useAxios = () => {
     timeout: 5000,
     headers: {
       Authorization: initialized ? `Bearer ${keycloak.token}` : undefined,
+      Pragma: "no-cache",
     },
   });
   return instance;
