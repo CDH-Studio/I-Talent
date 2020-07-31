@@ -878,7 +878,8 @@ async function getFullProfile(id, language) {
 }
 
 function updatedAtReducer(accumulator, { updatedAt }) {
-  if ((!accumulator || moment(updatedAt).isAfter(moment(accumulator)), "day")) {
+  if (!accumulator || moment(updatedAt).isAfter(moment(accumulator), "day")) {
+    // eslint-disable-next-line no-param-reassign
     accumulator = updatedAt;
   }
 
