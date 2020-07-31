@@ -43,11 +43,11 @@ const AdminLayoutView = ({ type, keycloak, displaySideBar, children }) => {
   const sideBarContent = () => {
     return (
       <Menu
-        defaultSelectedKeys={getPageKey()}
         mode="inline"
         onClick={({ key }) => {
           navigationPages(key);
         }}
+        selectedKeys={getPageKey()}
       >
         <Menu.Item key="dashboard">
           <DashboardOutlined />

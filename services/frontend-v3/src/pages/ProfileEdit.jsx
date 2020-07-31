@@ -1,7 +1,7 @@
 import React from "react";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { IntlPropType } from "../customPropTypes";
+import { IntlPropType } from "../utils/customPropTypes";
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
 const ProfileEdit = ({ intl, match }) => {

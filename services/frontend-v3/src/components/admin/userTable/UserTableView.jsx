@@ -10,6 +10,7 @@ import {
   message,
   Popconfirm,
   Tag,
+  Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
@@ -21,10 +22,22 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { IntlPropType } from "../../../customPropTypes";
+import _ from "lodash";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
-import config from "../../../config";
+import config from "../../../utils/config";
+
+const { Text } = Typography;
+
+const styles = {
+  unsavedText: {
+    marginLeft: "10px",
+    fontWeight: "normal",
+    fontStyle: "italic",
+    opacity: 0.5,
+  },
+};
 
 /**
  *  UserTableView(props)
@@ -39,6 +52,7 @@ const UserTableView = ({
   profileStatusValue,
   handleSearch,
   handleReset,
+  modifiedStatus,
 }) => {
   let searchInput;
 
@@ -124,7 +138,9 @@ const UserTableView = ({
           defaultValue={profileStatusValue(status)}
           style={{ width: 120 }}
           onChange={(value) => {
-            handleDropdownChange(value, id);
+            const user = data.find(({ key }) => key === id);
+            const valueToBeSaved = value === user.status ? undefined : value;
+            handleDropdownChange(valueToBeSaved, id);
           }}
         >
           <Option key="active" value="ACTIVE">
@@ -175,8 +191,9 @@ const UserTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
+        disabled={!modifiedStatus}
       >
-        <Button type="primary">
+        <Button type="primary" disabled={!modifiedStatus}>
           <CheckCircleOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.apply" />
         </Button>
@@ -277,15 +294,11 @@ const UserTableView = ({
       title: <FormattedMessage id="admin.tenure" />,
       dataIndex: "tenure",
       key: "tenure",
-      sorter: (a, b) => {
-        return a.tenure.localeCompare(b.tenure);
-      },
-      ...getColumnSearchProps(
-        "tenure",
-        intl.formatMessage({
-          id: "admin.tenure",
-        })
-      ),
+      filters: _.uniq(data.map((i) => i.tenure)).map((i) => ({
+        text: i,
+        value: i,
+      })),
+      onFilter: (value, record) => record.tenure === value,
     },
     {
       title: <FormattedMessage id="admin.roles" />,
@@ -313,6 +326,21 @@ const UserTableView = ({
     },
     {
       title: <FormattedMessage id="admin.profileStatus" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.active" />,
+          value: "ACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.inactive" />,
+          value: "INACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.flagged" />,
+          value: "HIDDEN",
+        },
+      ],
+      onFilter: (value, record) => record.status === value,
       render: (record) => {
         return renderStatusDropdown(record.key, record.status);
       },
@@ -322,7 +350,16 @@ const UserTableView = ({
   return (
     <>
       <Header
-        title={<FormattedMessage id="admin.user.table" />}
+        title={
+          <>
+            <FormattedMessage id="admin.user.table" />
+            {modifiedStatus && (
+              <Text style={styles.unsavedText}>
+                (<FormattedMessage id="profile.form.unsaved" />)
+              </Text>
+            )}
+          </>
+        }
         extra={
           <>
             {keycloakButton()}
@@ -353,6 +390,7 @@ UserTableView.propTypes = {
   profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
+  modifiedStatus: PropTypes.bool.isRequired,
 };
 
 UserTableView.defaultProps = {

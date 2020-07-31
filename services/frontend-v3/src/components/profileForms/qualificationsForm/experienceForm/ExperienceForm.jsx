@@ -6,7 +6,7 @@ import {
   FormInstancePropType,
   ProfileInfoPropType,
   StylesPropType,
-} from "../../../../customPropTypes";
+} from "../../../../utils/customPropTypes";
 
 /**
  *  ExperienceForm(props)

@@ -67,7 +67,7 @@ const DoneSetupView = ({ userId }) => {
         icon={<SearchOutlined />}
         size="large"
         style={{ marginRight: "25px" }}
-        href="/secured/home"
+        href="/"
       >
         <span>
           <FormattedMessage id="setup.done.search" />
@@ -77,7 +77,7 @@ const DoneSetupView = ({ userId }) => {
         icon={<UserOutlined />}
         size="large"
         type="primary"
-        href={`/secured/profile/${userId}`}
+        href={`/profile/${userId}`}
       >
         <span>
           <FormattedMessage id="setup.done.view.profile" />

@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
 import ExperienceView from "./ExperienceView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Experience = ({ data, type }) => {
@@ -48,7 +48,7 @@ const Experience = ({ data, type }) => {
       content={<ExperienceView experienceInfo={getExperienceInfo(data)} />}
       cardName="experience"
       id="card-profile-experience"
-      editUrl="/secured/profile/edit/qualifications"
+      editUrl="/profile/edit/qualifications"
       data={data}
       type={type}
       visible={data.visibleCards.experience}

@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import handleError from "../../../functions/handleError";
 
@@ -13,6 +14,7 @@ const PrimaryInfoForm = ({ formType }) => {
 
   const { id, email } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
+  const axios = useAxios();
 
   const history = useHistory();
 

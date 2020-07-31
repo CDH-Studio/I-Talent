@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import { injectIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "../../../axios-instance";
-import { IntlPropType } from "../../../customPropTypes";
+import { Prompt } from "react-router";
+import useAxios from "../../../utils/axios-instance";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import UserTableView from "./UserTableView";
 import handleError from "../../../functions/handleError";
 import {
@@ -20,6 +21,8 @@ function UserTable({ intl }) {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [modifiedStatus, setModifiedStatus] = useState(false);
+  const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -38,7 +41,7 @@ function UserTable({ intl }) {
       // Formats data from backend into viewable data for the table
       const formattedData = results[0].data.map((user) => ({
         key: user.id,
-        profileLink: `/secured/profile/${user.id}`,
+        profileLink: `/profile/${user.id}`,
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
@@ -67,6 +70,7 @@ function UserTable({ intl }) {
     await axios.put(url, statuses);
 
     setStatuses({});
+    setModifiedStatus(false);
     getUserInformation();
   };
 
@@ -90,7 +94,13 @@ function UserTable({ intl }) {
   const handleDropdownChange = (status, id) => {
     const addStatus = statuses;
 
-    addStatus[id] = status;
+    if (status) {
+      addStatus[id] = status;
+    } else {
+      delete addStatus[id];
+    }
+
+    setModifiedStatus(Object.keys(addStatus).length > 0);
 
     setStatuses(addStatus);
   };
@@ -132,15 +142,22 @@ function UserTable({ intl }) {
   }, [intl]);
 
   return (
-    <UserTableView
-      searchText={searchText}
-      searchedColumn={searchedColumn}
-      handleApply={handleApply}
-      handleDropdownChange={handleDropdownChange}
-      profileStatusValue={profileStatusValue}
-      handleSearch={handleSearch}
-      handleReset={handleReset}
-    />
+    <>
+      <Prompt
+        when={modifiedStatus}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <UserTableView
+        searchText={searchText}
+        searchedColumn={searchedColumn}
+        handleApply={handleApply}
+        handleDropdownChange={handleDropdownChange}
+        profileStatusValue={profileStatusValue}
+        handleSearch={handleSearch}
+        handleReset={handleReset}
+        modifiedStatus={modifiedStatus}
+      />
+    </>
   );
 }
 

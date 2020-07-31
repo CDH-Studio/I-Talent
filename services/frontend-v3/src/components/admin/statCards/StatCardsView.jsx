@@ -11,7 +11,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { Card, Row, Col, Statistic } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 
 /**
  *  StatCardsView(props)

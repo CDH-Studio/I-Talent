@@ -3,8 +3,8 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "../../axios-instance";
-import { IntlPropType } from "../../customPropTypes";
+import useAxios from "../../utils/axios-instance";
+import { IntlPropType } from "../../utils/customPropTypes";
 import { setLocale } from "../../redux/slices/settingsSlice";
 
 import handleError from "../../functions/handleError";
@@ -12,6 +12,7 @@ import handleError from "../../functions/handleError";
 const ChangeLanguageView = ({ intl }) => {
   const languageCode = intl.formatMessage({ id: "lang.db.code" });
   const userID = useSelector((state) => state.user.id);
+  const axios = useAxios();
 
   const dispatch = useDispatch();
 

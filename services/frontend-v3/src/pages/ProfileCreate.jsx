@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import axios from "../axios-instance";
+import useAxios from "../utils/axios-instance";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
-import { IntlPropType } from "../customPropTypes";
+import { IntlPropType } from "../utils/customPropTypes";
 
 const ProfileCreate = ({ intl, match }) => {
   const [highestStep, setHighestStep] = useState(1);
+  const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);
