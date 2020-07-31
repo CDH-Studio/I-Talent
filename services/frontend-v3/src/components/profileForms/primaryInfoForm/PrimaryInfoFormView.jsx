@@ -575,11 +575,16 @@ const PrimaryInfoFormView = ({
       }
     }
 
+    // Fixes scrollbar disabling after pressing ok button
+    if (!(gatheringGedsData || newGedsValues)) {
+      return undefined;
+    }
+
     return (
       <Modal
         title={<FormattedMessage id="profile.geds.changes" />}
         visible={gatheringGedsData || newGedsValues}
-        onOk={handleGedsConfirm && handleGedsConfirm}
+        onOk={handleGedsConfirm}
         onCancel={() => {
           setNewGedsValues(null);
           setGatheringGedsData(null);
