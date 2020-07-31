@@ -22,28 +22,36 @@ const profileExist = async (userInfo, axios) => {
     response = await createUser(userInfo, axios);
   }
 
+  const {
+    id,
+    avatarColor,
+    nameInitials: initials,
+    firstName,
+    lastName,
+    preferredLanguage,
+    email,
+  } = response.data;
+
   store.dispatch(
     setUser({
-      id: response.data.id,
-      avatarColor: response.data.avatarColor,
-      initials: response.data.nameInitials,
-      name: userInfo.name,
-      email: userInfo.email,
+      id,
+      avatarColor,
+      initials,
+      name: `${firstName} ${lastName}`,
+      email,
     })
   );
 
   store.dispatch(
     setLocale(
-      response.data.preferredLanguage
-        ? response.data.preferredLanguage
-        : "ENGLISH"
+      preferredLanguage || "ENGLISH"
     )
   );
 
   const { signupStep } = response.data;
 
   if (signupStep > 0 && signupStep < 9) {
-      return signupStep;
+    return signupStep;
   }
 
   return 1;

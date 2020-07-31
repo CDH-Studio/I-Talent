@@ -168,6 +168,10 @@ const PrimaryInfoFormView = ({
       pattern: /\S+@\S+\.ca/i,
       message: <FormattedMessage id="profile.rules.email" />,
     },
+    nameFormat: {
+      pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+-[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
+      message: <FormattedMessage id="profile.rules.name" />,
+    }
   };
 
   /* Save data */
@@ -462,8 +466,8 @@ const PrimaryInfoFormView = ({
               {fieldsChanged ? (
                 <FormattedMessage id="setup.save.and.finish" />
               ) : (
-                <FormattedMessage id="button.finish" />
-              )}
+                  <FormattedMessage id="button.finish" />
+                )}
             </Button>
           </Col>
         </Row>
@@ -594,12 +598,12 @@ const PrimaryInfoFormView = ({
             ))}
           </List>
         ) : (
-          <div style={{ textAlign: "center" }}>
-            <Spin
-              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-            />
-          </div>
-        )}
+            <div style={{ textAlign: "center" }}>
+              <Spin
+                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+              />
+            </div>
+          )}
       </Modal>
     );
   };
@@ -660,7 +664,7 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 name="firstName"
                 label={<FormattedMessage id="profile.first.name" />}
-                rules={[Rules.required, Rules.maxChar50]}
+                rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input />
               </Form.Item>
@@ -670,7 +674,7 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 name="lastName"
                 label={<FormattedMessage id="profile.last.name" />}
-                rules={[Rules.required, Rules.maxChar50]}
+                rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input />
               </Form.Item>
