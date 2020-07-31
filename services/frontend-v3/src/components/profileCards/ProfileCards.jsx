@@ -12,6 +12,7 @@ const ProfileCards = ({
   id,
   type,
   visible,
+  lastUpdated
 }) => (
   <ProfileCardsView
     titleId={titleId}
@@ -22,6 +23,7 @@ const ProfileCards = ({
     type={type}
     visible={visible}
     visibleCards={data.visibleCards}
+    lastUpdated={lastUpdated}
   />
 );
 
@@ -34,6 +36,7 @@ ProfileCards.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.bool,
   visible: PropTypes.bool,
+  lastUpdated: PropTypes.string,
 };
 
 ProfileCards.defaultProps = {
@@ -42,6 +45,7 @@ ProfileCards.defaultProps = {
   editUrl: null,
   type: null,
   visible: null,
+  lastUpdated: null,
 };
 
 export default ProfileCards;
