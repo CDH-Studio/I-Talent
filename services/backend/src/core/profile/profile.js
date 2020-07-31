@@ -193,12 +193,18 @@ async function updateProfile(request, response) {
         },
       });
 
-      if (branch && jobTitle && userIds.employmentInfoId) {
-        prisma.employmentInfo.delete({
-          where: {
-            id: userIds.employmentInfoId,
-          },
-        });
+      let employmentInfoLangs = undefined;
+      if ((branch || jobTitle) && userIds.employmentInfoId) {
+        if (branch && jobTitle) {
+          employmentInfoLangs = _.uniq([
+            ...Object.keys(branch),
+            ...Object.keys(jobTitle),
+          ]);
+        } else if (branch) {
+          employmentInfoLangs = Object.keys(branch);
+        } else {
+          employmentInfoLangs = Object.keys(jobTitle);
+        }
       }
 
       await prisma.user.update({
@@ -421,35 +427,34 @@ async function updateProfile(request, response) {
           groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
           actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
 
-          employmentInfo:
-            jobTitle || branch
-              ? {
-                  upsert: {
-                    create: {
-                      translations: {
-                        create: ["ENGLISH", "FRENCH"].map((lang) => ({
-                          language: lang,
-                          jobTitle: jobTitle ? jobTitle[lang] : "",
-                          branch: branch ? branch[lang] : "",
-                        })),
-                      },
-                    },
-                    update: {
-                      translations: {
-                        updateMany: ["ENGLISH", "FRENCH"].map((lang) => ({
-                          where: {
-                            language: lang,
-                          },
-                          data: {
-                            jobTitle: jobTitle && jobTitle[lang],
-                            branch: branch && branch[lang],
-                          },
-                        })),
-                      },
+          employmentInfo: employmentInfoLangs
+            ? {
+                upsert: {
+                  create: {
+                    translations: {
+                      create: employmentInfoLangs.map((lang) => ({
+                        language: lang,
+                        jobTitle: jobTitle ? jobTitle[lang] : undefined,
+                        branch: branch ? branch[lang] : undefined,
+                      })),
                     },
                   },
-                }
-              : undefined,
+                  update: {
+                    translations: {
+                      updateMany: employmentInfoLangs.map((lang) => ({
+                        where: {
+                          language: lang,
+                        },
+                        data: {
+                          jobTitle: jobTitle ? jobTitle[lang] : undefined,
+                          branch: branch ? branch[lang] : undefined,
+                        },
+                      })),
+                    },
+                  },
+                },
+              }
+            : undefined,
 
           organizations: organizations
             ? {
