@@ -517,7 +517,6 @@ async function getFullProfile(id, language) {
     where: { id },
     select: {
       id: true,
-      createdAt: true,
       updatedAt: true,
       name: true,
       firstName: true,
