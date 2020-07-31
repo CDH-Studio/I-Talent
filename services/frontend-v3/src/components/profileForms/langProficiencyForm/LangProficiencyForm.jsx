@@ -30,15 +30,6 @@ const LangProficiencyForm = ({ formType }) => {
       .then((result) => setProfileInfo(result.data));
   }, [id, locale]);
 
-  /* const handleExpiredCheckboxChange = (checked, name) => {
-    setExpiredSecondaryGradings((oldVal) => {
-      const newVal = Object.assign({}, oldVal);
-      newVal[name] = checked;
-      console.log("NEW VAL", newVal);
-      return newVal;
-    });
-  }; */
-
   // useEffect to run once component is mounted
   useEffect(() => {
     // Set proficiency options
@@ -74,17 +65,6 @@ const LangProficiencyForm = ({ formType }) => {
         handleError(error, "redirect");
       });
   }, [getProfileInfo]);
-
-  console.log(
-    "RENDER LANG FORM VIEW",
-    profileInfo,
-    languageOptions,
-    proficiencyOptions,
-    formType,
-    load,
-    history,
-    id
-  );
 
   return (
     <LangProficiencyFormView

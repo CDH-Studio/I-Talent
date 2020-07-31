@@ -484,6 +484,8 @@ async function updateProfile(request, response) {
                   skills: visibleCards.skills,
                   competencies: visibleCards.competencies,
                   developmentalGoals: visibleCards.developmentalGoals,
+                  description: visibleCards.description,
+                  officialLanguage: visibleCards.officialLanguage,
                   education: visibleCards.education,
                   experience: visibleCards.experience,
                   projects: visibleCards.projects,
@@ -837,6 +839,7 @@ async function getFullProfile(id, language) {
           info: true,
           talentManagement: true,
           officialLanguage: true,
+          description: true,
           skills: true,
           competencies: true,
           developmentalGoals: true,
@@ -873,8 +876,12 @@ async function getFullProfile(id, language) {
   fullProfile.secondLangProfs.forEach((value, index) => {
     let expiredValue;
     if (value.date) {
-      if (moment(value.date).isBefore()) {
+      const dateMoment = moment(value.date);
+      if (dateMoment.isBefore()) {
         expiredValue = true;
+        if (dateMoment.unix() === 0) {
+          fullProfile.secondLangProfs[index].date = null;
+        }
       } else {
         expiredValue = false;
       }
@@ -1194,7 +1201,7 @@ async function getPublicProfileById(request, response) {
         result.actingLevel = null;
         result.actingStartDate = null;
         result.actingEndDate = null;
-        result.firstLanguage = null;
+        //result.firstLanguage = null;
         //result.secondLanguage = null;
         //result.secondLangProfs = null;
 
@@ -1207,15 +1214,19 @@ async function getPublicProfileById(request, response) {
         tempCards.talentManagement = false;
       }
 
+      if (hideCard("description")) {
+        result.description = null;
+      }
+
       if (hideCard("officialLanguage")) {
         result.firstLanguage = null;
         result.secondLanguage = null;
-
+        result.secondLangProfs = null;
         tempCards.officialLanguage = false;
       } else {
         if (result.secondLangProfs) {
           result.secondLangProfs.forEach((lang, index) => {
-            //delete result.secondLanguage[index].date;
+            delete result.secondLangProfs[index].date;
           });
         }
       }

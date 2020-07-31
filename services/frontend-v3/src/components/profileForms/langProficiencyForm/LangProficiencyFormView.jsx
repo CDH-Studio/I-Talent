@@ -227,50 +227,32 @@ const LangProficiencyFormView = ({
       };
 
       if (profile.secondLangProfs) {
-        profile.secondLangProfs.forEach(({ date, level, proficiency }) => {
-          switch (proficiency) {
-            case "ORAL":
-              data.oralProficiency = level;
+        profile.secondLangProfs.forEach(
+          ({ date, level, expired, proficiency }) => {
+            switch (proficiency) {
+              case "ORAL":
+                data.oralProficiency = level;
+                data.secondaryOralDate = date ? moment(date) : undefined;
+                data.secondaryOralExpired = expired;
+                break;
 
-              if (date) {
-                const momentDate = moment(date);
-                if (momentDate.unix() === 0) {
-                  data.secondaryOralExpired = true;
-                } else {
-                  data.secondaryOralDate = momentDate;
-                }
-              }
+              case "WRITING":
+                data.writingProficiency = level;
+                data.secondaryWritingDate = date ? moment(date) : undefined;
+                data.secondaryWritingExpired = expired;
+                break;
 
-              break;
+              case "READING":
+                data.readingProficiency = level;
+                data.secondaryReadingDate = date ? moment(date) : undefined;
+                data.secondaryReadingExpired = expired;
+                break;
 
-            case "WRITING":
-              data.writingProficiency = level;
-              if (date) {
-                const momentDate = moment(date);
-                if (momentDate.unix() === 0) {
-                  data.secondaryWritingExpired = true;
-                } else {
-                  data.secondaryWritingDate = momentDate;
-                }
-              }
-              break;
-
-            case "READING":
-              data.readingProficiency = level;
-              if (date) {
-                const momentDate = moment(date);
-                if (momentDate.unix() === 0) {
-                  data.secondaryReadingExpired = true;
-                } else {
-                  data.secondaryReadingDate = momentDate;
-                }
-              }
-              break;
-
-            default:
-              break;
+              default:
+                break;
+            }
           }
-        });
+        );
       }
       return data;
     }

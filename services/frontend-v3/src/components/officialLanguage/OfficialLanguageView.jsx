@@ -1,12 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
+import { FormattedMessage } from "react-intl";
 
-const OfficialLanguageView = ({
-  firstLanguageInfo,
-  secondLanguageGradeInfo,
-  secondLanguageDateInfo,
-}) => {
+const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   const generateFirstLanguage = (dataSource) => {
     return (
       <List
@@ -21,14 +18,21 @@ const OfficialLanguageView = ({
     );
   };
 
-  const generateSecondLanguageProficiency = (dataSource) => {
+  const generateSecondLanguageData = () => {
     return (
       <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
+        grid={{ column: 3 }}
+        dataSource={secondLanguageInfo}
+        renderItem={(i) => (
           <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
+            <List.Item.Meta
+              title={<FormattedMessage id={i.titleId} />}
+              description={
+                <>
+                  {i.level} {i.expiryInfo}
+                </>
+              }
+            />
           </List.Item>
         )}
       />
@@ -42,14 +46,7 @@ const OfficialLanguageView = ({
           {generateFirstLanguage(firstLanguageInfo)}
         </Col>
       </Row>
-      <Row>
-        <Col xs={24} lg={12}>
-          {generateSecondLanguageProficiency(secondLanguageGradeInfo)}
-        </Col>
-        <Col xs={24} lg={12}>
-          {generateSecondLanguageProficiency(secondLanguageDateInfo)}
-        </Col>
-      </Row>
+      {generateSecondLanguageData()}
     </>
   );
 };

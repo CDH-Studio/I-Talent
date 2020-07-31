@@ -1,11 +1,11 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const OfficialLanguage = ({ data, type }) => {
+const OfficialLanguage = ({ data, type, intl }) => {
   const getFirstLanguageInfo = (dataSource) => {
     let description = "-";
 
@@ -22,74 +22,6 @@ const OfficialLanguage = ({ data, type }) => {
     return [firstLanguage];
   };
 
-  const getSecondLanguageGradeInfo = (dataSource) => {
-    const reading = dataSource.secondLangProfs
-      ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
-      : undefined;
-
-    const secondaryReadingProficiency = {
-      title: <FormattedMessage id="profile.reading" />,
-      description: reading ? reading.level : "-",
-    };
-
-    const writing = dataSource.secondLangProfs
-      ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
-      : undefined;
-
-    const secondaryWritingProficiency = {
-      title: <FormattedMessage id="profile.writing" />,
-      description: writing ? writing.level : "-",
-    };
-
-    const oral = dataSource.secondLangProfs
-      ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
-      : undefined;
-
-    const secondaryOralProficiency = {
-      title: <FormattedMessage id="profile.oral" />,
-      description: oral ? oral.level : "-",
-    };
-
-    return [
-      secondaryReadingProficiency,
-      secondaryWritingProficiency,
-      secondaryOralProficiency,
-    ];
-  };
-
-  const getSecondLanguageDateInfo = (dataSource) => {
-    const reading = dataSource.secondLangProfs
-      ? dataSource.secondLangProfs.find((i) => i.proficiency === "READING")
-      : undefined;
-
-    const writing = dataSource.secondLangProfs
-      ? dataSource.secondLangProfs.find((i) => i.proficiency === "WRITING")
-      : undefined;
-
-    const oral = dataSource.secondLangProfs
-      ? dataSource.secondLangProfs.find((i) => i.proficiency === "ORAL")
-      : undefined;
-
-    const secondaryReadingDate = {
-      title: <FormattedMessage id="profile.reading" />,
-      description:
-        reading && reading.date ? moment(reading.date).format("ll") : "-",
-    };
-
-    const secondaryWritingDate = {
-      title: <FormattedMessage id="profile.writing" />,
-      description:
-        writing && writing.date ? moment(writing.date).format("ll") : "-",
-    };
-
-    const secondaryOralDate = {
-      title: <FormattedMessage id="profile.oral" />,
-      description: oral && oral.date ? moment(oral.date).format("ll") : "-",
-    };
-
-    return [secondaryReadingDate, secondaryWritingDate, secondaryOralDate];
-  };
-
   const generateSecondLanguageInfo = (dataSource) => {
     const languageInfo = [];
 
@@ -98,25 +30,30 @@ const OfficialLanguage = ({ data, type }) => {
       const info = dataSource.secondLangProfs
         ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
         : undefined;
-      console.log("lang info", info);
+      nextData.titleId = `profile.${profType.toLowerCase()}`;
+
       if (info) {
         nextData.level = info.level ? info.level : "-";
         if (info.date) {
-          nextData.expiryInfo = moment(info.date).format("ll");
-        } else if (info.expired !== undefined) {
-          nextData.expiryInfo = info.expired ? (
-            <FormattedMessage id="profile.expired" />
-          ) : (
-            <FormattedMessage id="profile.unexpired" />
-          );
+          nextData.expiryInfo = ` (${
+            info.expired
+              ? intl.formatMessage({ id: "profile.expired.date" })
+              : intl.formatMessage({ id: "profile.expires.date" })
+          } ${moment(info.date).format("ll")})`;
+        } else if (info.expired !== null) {
+          nextData.expiryInfo = `(${
+            info.expired
+              ? intl.formatMessage({ id: "profile.expired" })
+              : intl.formatMessage({ id: "profile.unexpired" })
+          })`;
         }
       } else {
         nextData.level = "-";
       }
-      console.log("PUSH", nextData, profType);
+
       languageInfo.push(nextData);
     });
-    console.log("Language Info:", languageInfo);
+
     return languageInfo;
   };
 
@@ -128,8 +65,6 @@ const OfficialLanguage = ({ data, type }) => {
         <OfficialLanguageView
           firstLanguageInfo={getFirstLanguageInfo(data)}
           secondLanguageInfo={generateSecondLanguageInfo(data)}
-          secondLanguageGradeInfo={getSecondLanguageGradeInfo(data)}
-          secondLanguageDateInfo={getSecondLanguageDateInfo(data)}
         />
       }
       id="card-profile-competency"
@@ -149,4 +84,4 @@ OfficialLanguage.defaultProps = {
   data: null,
 };
 
-export default OfficialLanguage;
+export default injectIntl(OfficialLanguage);
