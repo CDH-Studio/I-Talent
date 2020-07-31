@@ -2,11 +2,13 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import LandingLayout from "../components/layouts/landingLayout/LandingLayout";
 import Home from "./Home";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
 import useAxios from "../utils/axios-instance";
+import { clearUser } from "../redux/slices/userSlice";
 
 /** UI for the landing route layout */
 const LandingPage = ({ location }) => {
@@ -14,6 +16,7 @@ const LandingPage = ({ location }) => {
   const [savedLoginInfo, setSavedLoginInfo] = useState(false);
   const [signupStep, setSignupStep] = useState(1);
   const axios = useAxios();
+  const dispatch = useDispatch();
 
   const setLoginInfo = useCallback(async () => {
     setSignupStep(await login(keycloak, axios));
@@ -23,8 +26,10 @@ const LandingPage = ({ location }) => {
   useEffect(() => {
     if (keycloak.authenticated) {
       setLoginInfo();
+    } else {
+      dispatch(clearUser());
     }
-  }, [keycloak.authenticated, setLoginInfo]);
+  }, [keycloak.authenticated, setLoginInfo, dispatch]);
 
   if (keycloak.authenticated) {
     if (savedLoginInfo) {
