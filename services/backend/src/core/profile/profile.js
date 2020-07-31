@@ -522,7 +522,6 @@ async function getFullProfile(id, language) {
     where: { id },
     select: {
       id: true,
-      createdAt: true,
       updatedAt: true,
       name: true,
       firstName: true,
@@ -548,6 +547,7 @@ async function getFullProfile(id, language) {
       secondLangProfs: true,
       skills: {
         select: {
+          updatedAt: true,
           skill: {
             select: {
               id: true,
@@ -578,6 +578,7 @@ async function getFullProfile(id, language) {
       },
       competencies: {
         select: {
+          updatedAt: true,
           competency: {
             select: {
               id: true,
@@ -596,6 +597,7 @@ async function getFullProfile(id, language) {
       developmentalGoals: {
         select: {
           id: true,
+          updatedAt: true,
           competency: {
             select: {
               id: true,
@@ -627,6 +629,7 @@ async function getFullProfile(id, language) {
       educations: {
         select: {
           id: true,
+          updatedAt: true,
           startDate: true,
           endDate: true,
           diploma: {
@@ -679,6 +682,7 @@ async function getFullProfile(id, language) {
       experiences: {
         select: {
           id: true,
+          updatedAt: true,
           startDate: true,
           endDate: true,
           translations: {
@@ -802,6 +806,7 @@ async function getFullProfile(id, language) {
       },
       mentorshipSkills: {
         select: {
+          updatedAt: true,
           skill: {
             select: {
               id: true,
@@ -877,6 +882,15 @@ async function getFullProfile(id, language) {
   return fullProfile;
 }
 
+function updatedAtReducer(accumulator, { updatedAt }) {
+  if (!accumulator || moment(updatedAt).isAfter(moment(accumulator), "day")) {
+    // eslint-disable-next-line no-param-reassign
+    accumulator = updatedAt;
+  }
+
+  return accumulator;
+}
+
 function filterProfileResult(profile, language) {
   let filteredProfile = {
     ...profile,
@@ -896,6 +910,10 @@ function filterProfileResult(profile, language) {
     });
 
     filteredProfile.skills = _.sortBy(_.remove(skills, null), "name");
+    filteredProfile.skillsUpdatedAt = profile.skills.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.mentorshipSkills) {
@@ -911,6 +929,10 @@ function filterProfileResult(profile, language) {
     });
 
     filteredProfile.mentorshipSkills = _.sortBy(_.remove(skills, null), "name");
+    filteredProfile.mentorshipSkillsUpdatedAt = profile.mentorshipSkills.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.competencies) {
@@ -926,6 +948,10 @@ function filterProfileResult(profile, language) {
     filteredProfile.competencies = _.sortBy(
       _.remove(competencies, null),
       "name"
+    );
+    filteredProfile.competenciesUpdatedAt = profile.competencies.reduce(
+      updatedAtReducer,
+      undefined
     );
   }
 
@@ -952,6 +978,10 @@ function filterProfileResult(profile, language) {
     filteredProfile.developmentalGoals = _.sortBy(
       _.remove(developmentalGoals, null),
       "name"
+    );
+    filteredProfile.developmentalGoalsUpdatedAt = profile.developmentalGoals.reduce(
+      updatedAtReducer,
+      undefined
     );
   }
 
@@ -981,6 +1011,11 @@ function filterProfileResult(profile, language) {
         },
       };
     });
+
+    filteredProfile.educationsUpdatedAt = profile.educations.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.experiences) {
@@ -1002,6 +1037,11 @@ function filterProfileResult(profile, language) {
           : null,
       };
     });
+
+    filteredProfile.experiencesUpdatedAt = profile.experiences.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.securityClearance) {

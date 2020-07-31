@@ -235,6 +235,7 @@
   "my.profile": "Mon profil",
   "edit.profile": "Modifier mon profil",
   "create.profile": "Créer un profil",
+  "profile.last.updated": "Dernière modification : ",
   "profile.edit.primary.information": "Modifier les informations primaires",
   "profile.edit.dropdown.no.results.found": "Aucun résultat trouvé!",
   "profile.edit.dropdown.add.items": "Tapez pour ajouter des éléments.",

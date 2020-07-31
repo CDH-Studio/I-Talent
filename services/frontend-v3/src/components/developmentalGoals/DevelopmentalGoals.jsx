@@ -15,6 +15,7 @@ const DevelopmentalGoals = ({ data, type }) => {
       data={data}
       type={type}
       visible={data.visibleCards.developmentalGoals}
+      lastUpdated={data.developmentalGoalsUpdatedAt}
     />
   );
 };
