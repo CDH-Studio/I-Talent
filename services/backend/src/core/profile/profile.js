@@ -193,7 +193,7 @@ async function updateProfile(request, response) {
         },
       });
 
-      let employmentInfoLangs = undefined;
+      let employmentInfoLangs;
       if ((branch || jobTitle) && userIds.employmentInfoId) {
         if (branch && jobTitle) {
           employmentInfoLangs = _.uniq([
