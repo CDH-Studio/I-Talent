@@ -49,6 +49,7 @@ const Education = ({ data, type }) => {
       data={data}
       type={type}
       visible={data.visibleCards.education}
+      lastUpdated={data.educationsUpdatedAt}
     />
   );
 };

@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -73,6 +74,11 @@ const ProfileLayoutView = ({
     privateGroupInfo: {
       paddingLeft: "8px",
       display: "inline",
+    },
+    headerSubtitle: {
+      fontSize: "0.7em",
+      fontStyle: "italic",
+      fontWeight: "normal",
     },
   };
 
@@ -372,9 +378,19 @@ const ProfileLayoutView = ({
       <Header
         style={styles.headerStyle}
         title={
-          <FormattedMessage
-            id={privateProfile ? "my.profile" : "other.profile"}
-          />
+          <Col>
+            <Row>
+              <FormattedMessage
+                id={privateProfile ? "my.profile" : "other.profile"}
+              />
+            </Row>
+            <Row>
+              <Text type="secondary" style={styles.headerSubtitle}>
+                <FormattedMessage id="profile.last.updated" />
+                {data && moment(data.updatedAt).format("LL")}
+              </Text>
+            </Row>
+          </Col>
         }
       />
       {data ? displayAllProfileCards() : <ProfileNotFound />}
