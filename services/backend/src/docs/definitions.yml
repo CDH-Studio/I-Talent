@@ -320,9 +320,6 @@ definitions:
       id:
         type: string
         format: uuid
-      createdAt:
-        type: string
-        format: date-time
       updatedAt:
         type: string
         format: date-time
@@ -530,10 +527,29 @@ definitions:
               $ref: "#/definitions/ProficiencyEnum"
             level:
               $ref: "#/definitions/ProficiencyLevelEnum"
+      skillsUpdatedAt:
+        type: string
+        format: date-time
+      mentorshipSkillsUpdatedAt:
+        type: string
+        format: date-time
+      competenciesUpdatedAt:
+        type: string
+        format: date-time
+      developmentalGoalsUpdatedAt:
+        type: string
+        format: date-time
+      educationsUpdatedAt:
+        type: string
+        format: date-time
+      experiencesUpdatedAt:
+        type: string
+        format: date-time
       visibleCards:
         $ref: "#/definitions/VisibleCards"
       nameInitials:
         type: string
+
   200:
     description: Success
   403:

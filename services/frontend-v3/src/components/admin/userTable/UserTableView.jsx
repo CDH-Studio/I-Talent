@@ -9,19 +9,35 @@ import {
   Select,
   message,
   Popconfirm,
+  Tag,
+  Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
   LinkOutlined,
   SearchOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { IntlPropType } from "../../../customPropTypes";
+import _ from "lodash";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
+import config from "../../../utils/config";
+
+const { Text } = Typography;
+
+const styles = {
+  unsavedText: {
+    marginLeft: "10px",
+    fontWeight: "normal",
+    fontStyle: "italic",
+    opacity: 0.5,
+  },
+};
 
 /**
  *  UserTableView(props)
@@ -36,6 +52,7 @@ const UserTableView = ({
   profileStatusValue,
   handleSearch,
   handleReset,
+  modifiedStatus,
 }) => {
   let searchInput;
 
@@ -121,7 +138,9 @@ const UserTableView = ({
           defaultValue={profileStatusValue(status)}
           style={{ width: 120 }}
           onChange={(value) => {
-            handleDropdownChange(value, id);
+            const user = data.find(({ key }) => key === id);
+            const valueToBeSaved = value === user.status ? undefined : value;
+            handleDropdownChange(valueToBeSaved, id);
           }}
         >
           <Option key="active" value="ACTIVE">
@@ -172,12 +191,23 @@ const UserTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
+        disabled={!modifiedStatus}
       >
-        <Button type="primary">
+        <Button type="primary" disabled={!modifiedStatus}>
           <CheckCircleOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.apply" />
         </Button>
       </Popconfirm>
+    );
+  };
+
+  /* Renders the apply button and confirmation prompt */
+  const keycloakButton = () => {
+    return (
+      <Button href={config.manageKeycloakAddress}>
+        <TeamOutlined style={{ marginRight: 10 }} />
+        <FormattedMessage id="admin.manage.keycloak" />
+      </Button>
     );
   };
 
@@ -245,21 +275,72 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="admin.tenure" />,
-      dataIndex: "tenure",
-      key: "tenure",
+      title: <FormattedMessage id="admin.last.updated" />,
+      dataIndex: "formatUpdatedAt",
+      key: "updated",
       sorter: (a, b) => {
-        return a.tenure.localeCompare(b.tenure);
+        return (
+          moment(a.formatUpdatedAt).unix() - moment(b.formatUpdatedAt).unix()
+        );
       },
       ...getColumnSearchProps(
-        "tenure",
+        "formatUpdatedAt",
         intl.formatMessage({
-          id: "admin.tenure",
+          id: "admin.last.updated",
         })
       ),
     },
     {
+      title: <FormattedMessage id="admin.tenure" />,
+      dataIndex: "tenure",
+      key: "tenure",
+      filters: _.uniq(data.map((i) => i.tenure)).map((i) => ({
+        text: i,
+        value: i,
+      })),
+      onFilter: (value, record) => record.tenure === value,
+    },
+    {
+      title: <FormattedMessage id="admin.roles" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.roles.admin" />,
+          value: "isAdmin",
+        },
+        {
+          text: <FormattedMessage id="admin.roles.manager" />,
+          value: "isManager",
+        },
+      ],
+      onFilter: (value, record) => record[value],
+      render: (record) => (
+        <>
+          <Tag visible={record.isAdmin} color="magenta">
+            <FormattedMessage id="admin.roles.admin" />
+          </Tag>
+          <Tag visible={record.isManager} color="geekblue">
+            <FormattedMessage id="admin.roles.manager" />
+          </Tag>
+        </>
+      ),
+    },
+    {
       title: <FormattedMessage id="admin.profileStatus" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.active" />,
+          value: "ACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.inactive" />,
+          value: "INACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.flagged" />,
+          value: "HIDDEN",
+        },
+      ],
+      onFilter: (value, record) => record.status === value,
       render: (record) => {
         return renderStatusDropdown(record.key, record.status);
       },
@@ -269,8 +350,22 @@ const UserTableView = ({
   return (
     <>
       <Header
-        title={<FormattedMessage id="admin.user.table" />}
-        extra={applyButton()}
+        title={
+          <>
+            <FormattedMessage id="admin.user.table" />
+            {modifiedStatus && (
+              <Text style={styles.unsavedText}>
+                (<FormattedMessage id="profile.form.unsaved" />)
+              </Text>
+            )}
+          </>
+        }
+        extra={
+          <>
+            {keycloakButton()}
+            {applyButton()}
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
@@ -295,6 +390,7 @@ UserTableView.propTypes = {
   profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
+  modifiedStatus: PropTypes.bool.isRequired,
 };
 
 UserTableView.defaultProps = {

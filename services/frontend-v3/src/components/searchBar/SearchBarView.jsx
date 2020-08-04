@@ -20,7 +20,7 @@ import {
   DoubleRightOutlined,
 } from "@ant-design/icons";
 import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
-import { IntlPropType } from "../../customPropTypes";
+import { IntlPropType } from "../../utils/customPropTypes";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;
@@ -313,7 +313,7 @@ const SearchBarView = ({
             </Form.Item>
             <Form.Item name="anyMentorSkills" valuePropName="checked">
               <Checkbox onChange={handleAnyMentorSkillsChange}>
-                <FormattedMessage id="select.any" />
+                <FormattedMessage id="select.any.mentors" />
               </Checkbox>
             </Form.Item>
             {/* exFeeder field */}

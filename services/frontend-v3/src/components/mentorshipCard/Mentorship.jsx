@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import MentorshipView from "./MentorshipView";
 import ProfileCards from "../profileCards/ProfileCards";
 
@@ -74,10 +74,11 @@ const Mentorship = ({ data, type }) => {
       }
       cardName="mentorshipSkills"
       id="card-profile-mentorship-skills"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/profile/edit/talent"
       data={data}
       type={type}
       visible={data.visibleCards.mentorshipSkills}
+      lastUpdated={data.mentorshipSkillsUpdatedAt}
     />
   );
 };

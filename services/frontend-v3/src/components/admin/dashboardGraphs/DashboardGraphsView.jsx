@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 
 /**
  *  DashboardGraphsView(props)

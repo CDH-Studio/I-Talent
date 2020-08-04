@@ -498,7 +498,7 @@ model User {
   exFeeder             Boolean               @default(false)
   interestedInRemote   Boolean               @default(false)
   status               UserStatus            @default(ACTIVE)
-  signupStep           Int                   @default(0)
+  signupStep           Int                   @default(1)
   projects             String[]
   teams                String[]
   groupLevel           OpClassification?     @relation(fields: [groupLevelId], name: "groupLevels")

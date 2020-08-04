@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import DiplomaTableView from "./DiplomaTableView";
 import handleError from "../../../functions/handleError";
 import {
   setAdminDiplomas,
   setAdminDiplomasLoading,
 } from "../../../redux/slices/adminSlice";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 
 /**
  *  DiplomaTable(props)
@@ -19,6 +20,7 @@ const DiplomaTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const axios = useAxios();
 
   const dispatch = useDispatch();
 

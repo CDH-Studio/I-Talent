@@ -24,12 +24,12 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
-} from "../../../customPropTypes";
+} from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -56,12 +56,14 @@ const TalentFormView = ({
   userId,
 }) => {
   const history = useHistory();
+  const axios = useAxios();
 
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [loadedData, setLoadedData] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -274,7 +276,7 @@ const TalentFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         setFieldsChanged(false);
-        history.push("/secured/profile/create/step/6");
+        history.push("/profile/create/step/6");
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -287,7 +289,7 @@ const TalentFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${userId}`);
+    history.push(`/profile/${userId}`);
   };
 
   /*
@@ -302,7 +304,7 @@ const TalentFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         if (formType === "create") {
-          history.push("/secured/profile/create/step/8");
+          history.push("/profile/create/step/8");
         } else {
           dispatch(setSavedFormContent(true));
           onFinish();
@@ -513,23 +515,21 @@ const TalentFormView = ({
   useEffect(() => {
     /* check if user has a skills to mentor */
     if (savedMentorshipSkills) {
-      // toggle mentorship switch if there are mentorship skills saved
-      setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+      if (!loadedData) {
+        // toggle mentorship switch if there are mentorship skills saved
+        setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+        setLoadedData(true);
+      }
 
       // generate a treeData to represent the skills chosen
       const generatedSelectedSkills = generateMentorshipOptions(
         skillOptions,
-        savedSkills
+        form.getFieldsValue().mentorshipSkills || savedSkills
       );
 
       setSelectedSkills(generatedSelectedSkills);
     }
-
-    // if props change then reset form fields
-    if (load) {
-      form.resetFields();
-    }
-  }, [load, form, savedMentorshipSkills, skillOptions, savedSkills]);
+  }, [form, loadedData, savedMentorshipSkills, savedSkills, skillOptions]);
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {

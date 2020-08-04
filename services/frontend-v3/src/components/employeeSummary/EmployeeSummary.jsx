@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import EmployeeSummaryView from "./EmployeeSummaryView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const EmployeeSummary = ({ data, type }) => {
@@ -11,7 +11,7 @@ const EmployeeSummary = ({ data, type }) => {
       content={<EmployeeSummaryView data={data} />}
       cardName="info"
       id="card-profile-employee-summary"
-      editUrl="/secured/profile/edit/employment"
+      editUrl={`/profile/edit/${editUrl}`}
       data={data}
       type={type}
       visible={data.visibleCards.info}

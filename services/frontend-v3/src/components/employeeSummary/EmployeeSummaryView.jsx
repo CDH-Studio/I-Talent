@@ -4,7 +4,8 @@ import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import Substantive from "./substantive/Substantive";
 import Acting from "./acting/Acting";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import OfficialLanguage from "./officialLanguage/OfficialLanguage";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const { TabPane } = Tabs;
 

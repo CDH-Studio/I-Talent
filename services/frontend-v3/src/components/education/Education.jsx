@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EducationView from "./EducationView";
 import ProfileCards from "../profileCards/ProfileCards";
 
@@ -45,10 +45,11 @@ const Education = ({ data, type }) => {
       content={<EducationView educationInfo={getEducationInfo(data)} />}
       cardName="education"
       id="card-profile-education"
-      editUrl="/secured/profile/edit/qualifications"
+      editUrl="/profile/edit/qualifications"
       data={data}
       type={type}
       visible={data.visibleCards.education}
+      lastUpdated={data.educationsUpdatedAt}
     />
   );
 };

@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import _ from "lodash";
 
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -194,6 +194,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onCancel={() => {
           popUpCancel();
         }}
+        disabled={selectedRowKeys.length === 0}
+        overlayStyle={{ maxWidth: 350 }}
       >
         <Button type="primary" disabled={selectedRowKeys.length === 0}>
           <DeleteOutlined style={{ marginRight: 10 }} />

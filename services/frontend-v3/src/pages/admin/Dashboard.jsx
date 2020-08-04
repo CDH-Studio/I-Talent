@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
-import { IntlPropType } from "../../customPropTypes";
+import { IntlPropType } from "../../utils/customPropTypes";
 import handleError from "../../functions/handleError";
 import {
   setCountUsers,
@@ -29,6 +30,7 @@ import Header from "../../components/header/Header";
 const AdminDashboard = ({ intl }) => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+  const axios = useAxios();
 
   // Get dashboard data for statistic cards
   const getUserCount = useCallback(async () => {
@@ -191,7 +193,7 @@ const AdminDashboard = ({ intl }) => {
 
   return (
     <AdminLayout displaySideBar type="dashboard">
-      <Header title={<FormattedMessage id="admin.dashboard.title" />}/>
+      <Header title={<FormattedMessage id="admin.dashboard.title" />} />
       <StatCards />
       <DashboardGraphs />
     </AdminLayout>

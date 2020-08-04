@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import QualificationsFormView from "./QualificationsFormView";
 
@@ -22,6 +23,7 @@ const QualificationsForm = ({ formType }) => {
 
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
+  const axios = useAxios();
 
   const history = useHistory();
 

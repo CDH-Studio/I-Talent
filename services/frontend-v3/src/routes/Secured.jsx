@@ -1,160 +1,88 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import Keycloak from "keycloak-js";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import axios from "../axios-instance";
+import { useKeycloak } from "@react-keycloak/web";
 import {
-  Logout,
-  Home,
   Results,
   Profile,
   ProfileEdit,
   ProfileCreate,
   NotFound,
 } from "../pages";
-import keycloakConfig from "../keycloak";
-import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
-import { setLocale } from "../redux/slices/settingsSlice";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
-
-const { keycloakJSONConfig } = keycloakConfig;
+import login from "../utils/login";
+import useAxios from "../utils/axios-instance";
 
 const Secured = ({ location }) => {
-  const dispatch = useDispatch();
   const [authenticated, setAuthenticated] = useState(false);
-  const [keycloak, setKeycloak] = useState(null);
-  const [userCompletedSignup, setUserCompletedSignup] = useState(false);
+  const [signupStep, setSignupStep] = useState(1);
+  const [keycloak] = useKeycloak();
+  const axios = useAxios();
 
-  const createUser = async (userInfo) =>
-    axios.post(`api/user/${userInfo.sub}`, {
-      email: userInfo.email,
-      name: userInfo.name,
-      lastName: userInfo.family_name,
-      firstName: userInfo.given_name,
-    });
-
-  // Check if profile exist for the logged in user and saves the data of the request into redux
-  const profileExist = useCallback(
-    async (userInfo) => {
-      let response;
-      try {
-        response = await axios.get(`api/user/${userInfo.sub}`);
-
-        if (response.data === null) {
-          response = await createUser(userInfo);
-        }
-      } catch (error) {
-        response = await createUser(userInfo);
-      }
-
-      dispatch(
-        setUser({
-          id: response.data.id,
-          avatarColor: response.data.avatarColor,
-          initials: response.data.nameInitials,
-          name: userInfo.name,
-          email: userInfo.email,
-        })
-      );
-
-      dispatch(
-        setLocale(
-          response.data.preferredLanguage
-            ? response.data.preferredLanguage
-            : "ENGLISH"
-        )
-      );
-
-      return response.data.signupStep;
-    },
-    [dispatch]
-  );
+  const getInfo = useCallback(async () => {
+    setSignupStep(await login(keycloak, axios));
+    setAuthenticated(keycloak.authenticated);
+  }, [axios, keycloak]);
 
   useEffect(() => {
-    const keycloakInstance = Keycloak(keycloakJSONConfig);
-
-    keycloakInstance
-      .init({
-        onLoad: "login-required",
-        promiseType: "native",
-        checkLoginIframe: false,
-      })
-      .then(async (auth) => {
-        // Checks if the user has the correct keycloak role (is admin)
-        const resources = keycloakInstance.tokenParsed.resource_access;
-        if (resources) {
-          const hasAdminAccess = Object.keys(resources).every((resourceKey) => {
-            const resource = resources[resourceKey];
-
-            return (
-              "roles" in resource &&
-              Array.isArray(resource.roles) &&
-              resource.roles.includes("view-admin-console")
-            );
-          });
-
-          dispatch(setUserIsAdmin(hasAdminAccess));
-        }
-
-        axios.interceptors.request.use((axiosConfig) =>
-          keycloakInstance.updateToken(5).then(() => {
-            const newConfig = axiosConfig;
-            newConfig.headers.Authorization = `Bearer ${keycloakInstance.token}`;
-            return Promise.resolve(newConfig).catch(keycloakInstance.login);
-          })
-        );
-
-        const keycloakUserInfo = await keycloakInstance.loadUserInfo();
-
-        const signupStep = await profileExist(keycloakUserInfo);
-        setUserCompletedSignup(signupStep === 8);
-
-        setKeycloak(keycloakInstance);
-        setAuthenticated(auth);
-      });
-  }, [dispatch, profileExist]);
-
-  if (!keycloak) {
-    return <AppLayout loading/>;
-  }
+    if (keycloak.authenticated) {
+      getInfo();
+    } else {
+      keycloak.login();
+    }
+  }, [getInfo, keycloak]);
 
   if (!authenticated) {
-    return <div>Unable to authenticate!</div>;
+    return <AppLayout loading />;
   }
 
-  // If user didn't finish the creation of his profile and is not, redirect him to finish it
   if (
-    !location.pathname.includes("/secured/profile/create") &&
-    !location.pathname.includes("/secured/logout") &&
-    !userCompletedSignup
+    !location.pathname.includes("/profile/create") &&
+    !location.pathname.includes("/logout") &&
+    signupStep !== 8
   ) {
-    return <Redirect to="/secured/profile/create/step/1" />;
+    return <Redirect to={`/profile/create/step/${signupStep}`} />;
   }
 
   return (
     <>
       <Switch>
-        <Route exact path="/secured/home" render={() => <Home />} />
-        <Route exact path="/secured/results" render={() => <Results />} />
+        <Route exact path="/results" render={() => <Results />} />
         <Route
-          path="/secured/profile/create/step/:step"
-          render={({ match }) => <ProfileCreate match={match} />}
+          path="/profile/create/step/:step"
+          render={({ match }) => {
+            const { step } = match.params;
+
+            if (
+              !Number.isNaN(step) &&
+              parseInt(step, 10) > 0 &&
+              parseInt(step, 10) < 9
+            ) {
+              return <ProfileCreate match={match} />;
+            }
+
+            return <Redirect to={`/profile/create/step/${signupStep}`} />;
+          }}
         />
         <Route
-          path="/secured/profile/edit/:step"
+          path="/profile/edit/:step"
           render={({ match }) => <ProfileEdit match={match} />}
         />
         <Route
-          path="/secured/profile/:id?"
+          path="/profile/create"
+          render={() => <Redirect to={`/profile/create/step/${signupStep}`} />}
+        />
+        <Route
+          path="/profile/:id?"
           render={({ match, history }) => (
             <Profile match={match} history={history} />
           )}
         />
         <Route
-          exact
-          path="/secured/logout"
-          render={() => <Logout keycloak={keycloak} />}
+          path="/results"
+          render={({ location: { search } }) => (
+            <Redirect to={{ search, pathname: "/results" }} />
+          )}
         />
         <Route render={() => <NotFound />} />
       </Switch>

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SkillsView from "./SkillsView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Skills = ({ data, type }) => {
@@ -75,10 +75,11 @@ const Skills = ({ data, type }) => {
       }
       cardName="skills"
       id="card-profile-skills"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/profile/edit/talent"
       data={data}
       type={type}
       visible={data.visibleCards.skills}
+      lastUpdated={data.skillsUpdatedAt}
     />
   );
 };

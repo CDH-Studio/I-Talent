@@ -4,9 +4,9 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { createIntl, createIntlCache } from "react-intl";
 
-import messagesEn from "./i18n/en_CA.json";
-import messagesFr from "./i18n/fr_CA.json";
-import store from "./redux";
+import messagesEn from "../i18n/en_CA.json";
+import messagesFr from "../i18n/fr_CA.json";
+import store from "../redux";
 
 const cache = createIntlCache();
 
@@ -21,8 +21,8 @@ const history = createBrowserHistory({
     }
 
     Modal.confirm({
-      title: intl.formatMessage({id: "profile.form.unsaved.alert.title"}),
-      content: intl.formatMessage({id: "profile.form.unsaved.alert.content"}),
+      title: intl.formatMessage({ id: "profile.form.unsaved.alert.title" }),
+      content: intl.formatMessage({ id: "profile.form.unsaved.alert.content" }),
       icon: <ExclamationCircleOutlined />,
       onOk: () => {
         callback(true);
@@ -30,8 +30,8 @@ const history = createBrowserHistory({
       onCancel: () => {
         callback(false);
       },
-      okText: intl.formatMessage({id: "profile.yes"}),
-      cancelText: intl.formatMessage({id: "profile.no"}),
+      okText: intl.formatMessage({ id: "profile.yes" }),
+      cancelText: intl.formatMessage({ id: "profile.no" }),
     });
   },
 });
