@@ -63,7 +63,19 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdNameArray"
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              categoryId:
+                type: string
+                format: uuid
       403:
         $ref: "#/definitions/403"
       422:
