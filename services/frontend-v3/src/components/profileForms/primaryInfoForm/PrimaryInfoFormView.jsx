@@ -559,8 +559,8 @@ const PrimaryInfoFormView = ({
       if (newGedsValues.jobTitle) {
         changes.push({
           title: <FormattedMessage id="profile.career.header.name" />,
-          description: profileInfo.jobTitle,
-          //    description: newGedsValues.jobTitle[locale],
+          // description: profileInfo.jobTitle,
+          description: newGedsValues.jobTitle[locale],
         });
       }
 
