@@ -63,6 +63,7 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
+        description: Returns a categoryId if the corresponding developmental goal is a skill
         schema:
           type: array
           items:
