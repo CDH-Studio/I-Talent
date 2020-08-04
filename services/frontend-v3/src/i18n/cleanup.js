@@ -6,6 +6,8 @@ const path = require("path");
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
 
+const blacklistedKeys = require("./blacklistKeys");
+
 const enKeys = Object.keys(en);
 const frKeys = Object.keys(fr);
 
@@ -106,7 +108,8 @@ async function searchFilesInDirectory(dir, ext) {
       (content) =>
         content.includes(`"${key}"`) ||
         content.includes(`'${key}'`) ||
-        content.includes(`\`${key}\``)
+        content.includes(`\`${key}\``) ||
+        blacklistedKeys.includes(key)
     );
 
   await Promise.all(
