@@ -41,7 +41,9 @@
     "deploy": "serve -s build -l 8080 ",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src --ext .js,.jsx"
+    "lint": "eslint ./src --ext .js,.jsx",
+    "i18n:check": "node ./src/i18n/check",
+    "i18n:cleanup": "node ./src/i18n/cleanup"
   },
   "eslintConfig": {
     "extends": "react-app"
