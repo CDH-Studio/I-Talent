@@ -7,6 +7,7 @@ import {
   DashboardOutlined,
   MenuOutlined,
   HomeOutlined,
+  AreaChartOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
@@ -119,6 +120,14 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           </Link>
         </Menu.Item>
       )}
+      {!isAdmin && (
+        <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+          <Link rel="noopener noreferrer" to="/statistics">
+            <AreaChartOutlined style={styles.menuIcon} />
+            <FormattedMessage id="stats.view" />
+          </Link>
+        </Menu.Item>
+      )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <Link rel="noopener noreferrer" to="/logout">
           <LogoutOutlined style={styles.menuIcon} />
@@ -162,9 +171,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   const search = () => {
     if (searchValue && searchValue.length > 0) {
-      const needsToReload = window.location.pathname.includes(
-        "/results"
-      );
+      const needsToReload = window.location.pathname.includes("/results");
 
       history.push(`/results?searchValue=${searchValue}`);
 
@@ -217,11 +224,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     }
 
     return (
-      <Button
-        type="primary"
-        href="/"
-        onClick={() => keycloak.login()}
-      >
+      <Button type="primary" href="/" onClick={() => keycloak.login()}>
         <FormattedMessage id="landing.login.button" />
       </Button>
     );

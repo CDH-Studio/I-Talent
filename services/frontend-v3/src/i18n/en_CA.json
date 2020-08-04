@@ -432,5 +432,8 @@
 
   "profile.form.unsaved.alert": "You have unsaved changes, are you sure you want to leave?",
   "profile.form.unsaved.alert.title": "You have unsaved changes",
-  "profile.form.unsaved.alert.content": "Are you sure you want to leave?"
+  "profile.form.unsaved.alert.content": "Are you sure you want to leave?",
+
+  "stats.view": "View stats",
+  "stats.title": "Statistics"
 }
