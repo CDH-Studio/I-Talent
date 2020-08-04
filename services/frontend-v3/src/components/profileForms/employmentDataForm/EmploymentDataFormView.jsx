@@ -694,6 +694,43 @@ const EmploymentDataFormView = ({
             </Col>
           </Row>
 
+          {/* Form Row Four: Temporary role */}
+          <Row style={styles.tempRoleRow} gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Text>
+                <FormattedMessage id="profile.temporary.role" />
+                <Popover
+                  content={
+                    <div>
+                      <FormattedMessage id="tooltip.extra.info.help" />
+                      <Link to="/about/help">
+                        <FormattedMessage id="footer.contact.link" />
+                      </Link>
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                </Popover>
+              </Text>
+              <Switch
+                checked={displayActingRoleForm}
+                onChange={toggleTempRoleForm}
+              />
+              {getTempRoleForm(displayActingRoleForm)}
+            </Col>
+          </Row>
+
+          <Divider style={styles.headerDiv} />
+          <Row justify="space-between" align="middle">
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="setup.career.interests" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="description"
+              type="form"
+            />
+          </Row>
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
@@ -725,31 +762,6 @@ const EmploymentDataFormView = ({
             </Col>
           </Row>
 
-          {/* Form Row Four: Temporary role */}
-          <Row style={styles.tempRoleRow} gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <Text>
-                <FormattedMessage id="profile.temporary.role" />
-                <Popover
-                  content={
-                    <div>
-                      <FormattedMessage id="tooltip.extra.info.help" />
-                      <Link to="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </Link>
-                    </div>
-                  }
-                >
-                  <InfoCircleOutlined style={styles.iconBySwitch} />
-                </Popover>
-              </Text>
-              <Switch
-                checked={displayActingRoleForm}
-                onChange={toggleTempRoleForm}
-              />
-              {getTempRoleForm(displayActingRoleForm)}
-            </Col>
-          </Row>
           {getFormControlButtons(formType)}
         </Form>
       </div>

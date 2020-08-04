@@ -68,7 +68,7 @@ const OfficialLanguage = ({ data, type, intl }) => {
         />
       }
       id="card-profile-official-language"
-      editUrl="/secured/profile/edit/language-proficiency"
+      editUrl="/profile/edit/language-proficiency"
       data={data}
       type={type}
       visible={data.visibleCards.officialLanguage}
