@@ -8,6 +8,7 @@ import {
   ProfileEdit,
   ProfileCreate,
   NotFound,
+  Stats,
 } from "../pages";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
@@ -48,6 +49,7 @@ const Secured = ({ location }) => {
     <>
       <Switch>
         <Route exact path="/results" render={() => <Results />} />
+        <Route exact path="/statistics" render={() => <Stats />} />
         <Route
           path="/profile/create/step/:step"
           render={({ match }) => {
@@ -83,6 +85,10 @@ const Secured = ({ location }) => {
           render={({ location: { search } }) => (
             <Redirect to={{ search, pathname: "/results" }} />
           )}
+        />
+        <Route
+          path="/statistics"
+          render={() => <Redirect to="/statistics" />}
         />
         <Route render={() => <NotFound />} />
       </Switch>

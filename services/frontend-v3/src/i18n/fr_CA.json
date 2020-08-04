@@ -441,5 +441,8 @@
 
   "profile.form.unsaved.alert": "Vous avez des modifications non enregistrées, êtes-vous certain de vouloir changer de page?",
   "profile.form.unsaved.alert.title": "Vous avez des modifications non enregistrées",
-  "profile.form.unsaved.alert.content": "Êtes-vous certain de vouloir changer de page?"
+  "profile.form.unsaved.alert.content": "Êtes-vous certain de vouloir changer de page?",
+
+  "stats.view": "Voir statistiques",
+  "stats.title": "Statistiques"
 }
