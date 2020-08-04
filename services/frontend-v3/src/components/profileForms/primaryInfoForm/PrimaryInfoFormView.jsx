@@ -125,6 +125,9 @@ const PrimaryInfoFormView = ({
     popoverStyle: {
       maxWidth: "430px",
     },
+    popoverStyleCareer: {
+      marginLeft: "8px",
+    },
     rightSpacedButton: {
       marginRight: "1em",
     },
@@ -171,7 +174,7 @@ const PrimaryInfoFormView = ({
     nameFormat: {
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+-[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="profile.rules.name" />,
-    }
+    },
   };
 
   /* Save data */
@@ -349,7 +352,6 @@ const PrimaryInfoFormView = ({
               <FormattedMessage id="profile.geds.sync.button" />
             </Button>
             <Popover
-              trigger="click"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -374,7 +376,6 @@ const PrimaryInfoFormView = ({
             <FormattedMessage id="profile.geds.sync.button" />
           </Button>
           <Popover
-            trigger="click"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
@@ -467,8 +468,8 @@ const PrimaryInfoFormView = ({
               {fieldsChanged ? (
                 <FormattedMessage id="setup.save.and.finish" />
               ) : (
-                  <FormattedMessage id="button.finish" />
-                )}
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -558,8 +559,8 @@ const PrimaryInfoFormView = ({
       if (newGedsValues.jobTitle) {
         changes.push({
           title: <FormattedMessage id="profile.career.header.name" />,
-          // description: newGedsValues.jobTitle[locale],
           description: profileInfo.jobTitle,
+          //    description: newGedsValues.jobTitle[locale],
         });
       }
 
@@ -606,12 +607,12 @@ const PrimaryInfoFormView = ({
             ))}
           </List>
         ) : (
-            <div style={{ textAlign: "center" }}>
-              <Spin
-                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-              />
-            </div>
-          )}
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
       </Modal>
     );
   };
@@ -690,43 +691,58 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
-            <Form.Item
-              name="jobTitle"
-              label={<FormattedMessage id="profile.career.header.name" />}
-              rules={[Rules.maxChar50]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
-            <Form.Item
-              name="email"
-              label={<FormattedMessage id="profile.email" />}
-              rules={[Rules.emailFormat, Rules.maxChar50]}
-            >
-              <Input disabled />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
-            <Form.Item
-              name="telephone"
-              label={<FormattedMessage id="profile.telephone" />}
-              rules={Rules.telephoneFormat}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
-            <Form.Item
-              name="cellphone"
-              label={<FormattedMessage id="profile.cellphone" />}
-              rules={[Rules.telephoneFormat]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
+            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+              <Form.Item
+                name="jobTitle"
+                label={
+                  <>
+                    <FormattedMessage id="profile.career.header.name" />
+                    <div style={styles.popoverStyleCareer}>
+                      <Popover
+                        content={
+                          <div style={styles.popoverStyle}>
+                            <FormattedMessage id="profile.career.header.tooltip" />
+                          </div>
+                        }
+                      >
+                        <InfoCircleOutlined />
+                      </Popover>
+                    </div>
+                  </>
+                }
+                rules={[Rules.maxChar50]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+              <Form.Item
+                name="email"
+                label={<FormattedMessage id="profile.email" />}
+                rules={[Rules.emailFormat, Rules.maxChar50]}
+              >
+                <Input disabled />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+              <Form.Item
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                rules={Rules.telephoneFormat}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
@@ -795,7 +811,6 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="profile.gcconnex.username" />
                     {urlPopover("https://gcconnex.gc.ca/profile/")}
                   </>
-
                 }
                 rules={[Rules.maxChar100]}
               >

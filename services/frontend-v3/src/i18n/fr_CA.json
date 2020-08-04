@@ -255,6 +255,7 @@
   "profile.school": "École",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Poste de travail",
+  "profile.career.header.tooltip": "Il est recommandé d'utiliser les informations synchronisées depuis SAGE. Cependant, si vous modifiez l'intitulé de votre poste, afin d'afficher un titre personnalisé en français et en anglais, vous devez changer la langue de l'application et enregistrer chaque titre dans le formulaire en conséquence.",
   "profile.career.mobility": "Mobilité de carrière",
   "profile.experience": "Expérience",
   "profile.experience.empty": "aucune expérience fournie",

@@ -253,6 +253,7 @@
   "profile.school": "School",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Job title",
+  "profile.career.header.tooltip": "It is recommended to use the information synced from GEDS. However if you edit your job title, in order to display both a customized French and English title, you must change the app language and save each title in the form accordingly.",
   "profile.career.mobility": "Career mobility",
   "profile.experience": "Experience",
   "profile.career.subheader.name": "Company or government branch name",
