@@ -8,13 +8,13 @@ const DescriptionCard = ({ data, type }) => {
   return (
     <ProfileCards
       titleId="profile.description"
-      cardName="DescriptionCard"
+      cardName="description"
       content={<DescriptionCardView data={data} />}
       id="card-profile-description"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/secured/profile/edit/employment"
       data={data}
       type={type}
-      visible={data.visibleCards.competencies}
+      visible={data.visibleCards.description}
     />
   );
 };

@@ -38,6 +38,7 @@ import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
+const { TextArea } = Input;
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -55,6 +56,8 @@ const EmploymentDataFormView = ({
   substantiveOptions,
   intl,
   history,
+  handleDescriptionChange,
+  charsLeft,
   userId,
 }) => {
   const [form] = Form.useForm();
@@ -130,6 +133,9 @@ const EmploymentDataFormView = ({
       paddingLeft: "5px",
       paddingRight: "5px",
     },
+    space: {
+      paddingLeft: "0.25em",
+    },
   };
 
   /* Component Rules for form fields */
@@ -141,6 +147,10 @@ const EmploymentDataFormView = ({
     maxChar50: {
       max: 50,
       message: <FormattedMessage id="profile.rules.max.50" />,
+    },
+    maxChar1000: {
+      max: 1000,
+      message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
 
@@ -226,6 +236,7 @@ const EmploymentDataFormView = ({
   const getInitialValues = (profile) => {
     if (profile) {
       return {
+        description: profile.description,
         groupLevelId: profile.groupLevel ? profile.groupLevel.id : undefined,
         tenureId: profile.tenure ? profile.tenure.id : undefined,
         securityClearanceId: profile.securityClearance
@@ -678,6 +689,38 @@ const EmploymentDataFormView = ({
               </Form.Item>
             </Col>
           </Row>
+
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item
+                name="description"
+                fieldKey="description"
+                label={<FormattedMessage id="profile.description" />}
+                rules={[Rules.maxChar1000]}
+                extra={
+                  <div>
+                    <FormattedMessage id="profile.rules.max.1000" />
+                    {charsLeft >= 0 && (
+                      <span style={styles.space}>
+                        ({charsLeft}
+                        <span style={styles.space}>
+                          <FormattedMessage id="count.remaining" />
+                        </span>
+                        )
+                      </span>
+                    )}
+                  </div>
+                }
+              >
+                <TextArea
+                  name="content"
+                  onChange={(e) => handleDescriptionChange(e)}
+                  rows={4}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
           {/* Form Row Four: Temporary role */}
           <Row style={styles.tempRoleRow} gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -720,6 +763,8 @@ EmploymentDataFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  handleDescriptionChange: PropTypes.func.isRequired,
+  charsLeft: PropTypes.number.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {

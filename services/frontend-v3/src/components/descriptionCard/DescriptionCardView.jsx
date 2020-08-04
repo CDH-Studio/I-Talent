@@ -1,38 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { List, Tag, Row, Empty } from "antd";
-import { FormattedMessage } from "react-intl";
 
-const CompetenciesView = ({ data }) => {
+const DescriptionView = ({ data }) => {
   /**
    * Generate Competencies Tag List
    *
    * Generate a list of Competency Tags
    * If no competencies are found for the profile then display friendly message
    */
+  const styles = {
+    bodyStyle: {
+      overflowWrap: "break-word",
+      whiteSpace: "pre-wrap",
+      overflow: "auto",
+      maxHeight: "225px",
+    },
+  };
 
-  return (
-    data.description ||
-    "Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder or filler text. It's a convenient tool for mock-ups.Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder or filler text. It's a convenient tool for mock-ups.Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder or filler text. It's a convenient tool for mock-ups.Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder or filler text. It's a convenient tool for mock-ups. Lorem ipsum is a pseudo-Latin text used in web design, typography wasd"
-  );
-  /*
-<Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
-      DESCRIPTION HERE
-    </Row>
-  */
+  const generateDescriptionBody = () => {
+    if (!data.description) {
+      return null;
+    }
+
+    const lineStrings = data.description.split(" ").join("\u00A0").split("\n");
+    return lineStrings.map((line, index) => (
+      <>
+        {index > 0 ? <br /> : null} {line}
+      </>
+    ));
+  };
+
+  return <div style={styles.bodyStyle}>{generateDescriptionBody()}</div>;
 };
 
-CompetenciesView.propTypes = {
-  competencies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-    })
-  ),
+DescriptionView.propTypes = {
+  data: PropTypes.objectOf({ description: PropTypes.string }),
 };
 
-CompetenciesView.defaultProps = {
-  competencies: [],
+DescriptionView.defaultProps = {
+  data: null,
 };
 
-export default CompetenciesView;
+export default DescriptionView;

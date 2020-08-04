@@ -18,6 +18,12 @@ const EmploymentDataForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
+  const [charsLeft, setCharsLeft] = useState(1000);
+
+  const handleDescriptionChange = (e) => {
+    setCharsLeft(1000 - e.currentTarget.value.length);
+  };
+
   const history = useHistory();
 
   // Get current language code
@@ -56,6 +62,10 @@ const EmploymentDataForm = ({ formType }) => {
     );
 
     setProfileInfo(result.data);
+
+    if (result.data.description) {
+      setCharsLeft(1000 - result.data.description.length);
+    }
   }, [id, locale]);
 
   // useEffect to run once component is mounted
@@ -91,6 +101,8 @@ const EmploymentDataForm = ({ formType }) => {
       locale={locale}
       load={load}
       history={history}
+      handleDescriptionChange={handleDescriptionChange}
+      charsLeft={charsLeft}
       userId={id}
     />
   );

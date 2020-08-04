@@ -57,6 +57,7 @@ async function updateProfile(request, response) {
         signupStep,
         branch,
         jobTitle,
+        description,
 
         projects,
 
@@ -227,6 +228,7 @@ async function updateProfile(request, response) {
           avatarColor,
           status,
           signupStep,
+          description,
 
           projects: projects
             ? {
@@ -480,7 +482,6 @@ async function updateProfile(request, response) {
                 update: {
                   info: visibleCards.info,
                   talentManagement: visibleCards.talentManagement,
-                  officialLanguage: visibleCards.officialLanguage,
                   skills: visibleCards.skills,
                   competencies: visibleCards.competencies,
                   developmentalGoals: visibleCards.developmentalGoals,
@@ -590,6 +591,7 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      description: true,
       developmentalGoals: {
         select: {
           id: true,
@@ -839,7 +841,7 @@ async function getFullProfile(id, language) {
           info: true,
           talentManagement: true,
           officialLanguage: true,
-          // description: true,
+          description: true,
           skills: true,
           competencies: true,
           developmentalGoals: true,
@@ -1181,6 +1183,7 @@ async function getPublicProfileById(request, response) {
         skills: true,
         competencies: true,
         developmentalGoals: true,
+        description: true,
         education: true,
         experience: true,
         projects: true,
@@ -1201,9 +1204,6 @@ async function getPublicProfileById(request, response) {
         result.actingLevel = null;
         result.actingStartDate = null;
         result.actingEndDate = null;
-        //result.firstLanguage = null;
-        //result.secondLanguage = null;
-        //result.secondLangProfs = null;
 
         tempCards.info = false;
       }
@@ -1214,9 +1214,9 @@ async function getPublicProfileById(request, response) {
         tempCards.talentManagement = false;
       }
 
-      /* if (hideCard("description")) {
+      if (hideCard("description")) {
         result.description = null;
-      } */
+      }
 
       if (hideCard("officialLanguage")) {
         result.firstLanguage = null;

@@ -60,7 +60,7 @@ const OfficialLanguage = ({ data, type, intl }) => {
   return (
     <ProfileCards
       titleId="profile.official.language"
-      cardName="OfficialLanguage"
+      cardName="officialLanguage"
       content={
         <OfficialLanguageView
           firstLanguageInfo={getFirstLanguageInfo(data)}
@@ -71,7 +71,7 @@ const OfficialLanguage = ({ data, type, intl }) => {
       editUrl="/secured/profile/edit/language-proficiency"
       data={data}
       type={type}
-      visible={data.visibleCards.competencies}
+      visible={data.visibleCards.officialLanguage}
     />
   );
 };
