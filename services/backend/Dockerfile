@@ -9,8 +9,6 @@ WORKDIR /upskill-backend
 # Copy app
 COPY . .
 
-COPY ./scripts ./scripts/
-
 RUN chmod +x ./scripts/*.sh
 
 # Runs build script
