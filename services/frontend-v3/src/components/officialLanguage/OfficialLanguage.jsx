@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import OfficialLanguageView from "./OfficialLanguageView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const OfficialLanguage = ({ data, type, intl }) => {

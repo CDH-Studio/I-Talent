@@ -11,7 +11,7 @@ const EmployeeSummary = ({ data, type }) => {
       content={<EmployeeSummaryView data={data} />}
       cardName="info"
       id="card-profile-employee-summary"
-      editUrl={`/profile/edit/${editUrl}`}
+      editUrl="profile/edit/employment"
       data={data}
       type={type}
       visible={data.visibleCards.info}

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProfileCards from "../profileCards/ProfileCards";
 import DescriptionCardView from "./DescriptionCardView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const DescriptionCard = ({ data, type }) => {
   return (
@@ -11,7 +11,7 @@ const DescriptionCard = ({ data, type }) => {
       cardName="description"
       content={<DescriptionCardView data={data} />}
       id="card-profile-description"
-      editUrl="/secured/profile/edit/employment"
+      editUrl="/profile/edit/employment"
       data={data}
       type={type}
       visible={data.visibleCards.description}
