@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
+import { useSelector, useDispatch } from "react-redux";
 import { IntlPropType } from "../utils/customPropTypes";
 import StatsLayout from "../components/layouts/statsLayout/StatsLayout";
-import { useSelector, useDispatch } from "react-redux";
 import useAxios from "../utils/axios-instance";
 import { setTopFiveDevelopmentalGoals, setTopFiveCompetencies, setTopFiveSkills } from "../redux/slices/statsSlice";
 import handleError from "../functions/handleError";
