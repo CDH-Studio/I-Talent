@@ -157,8 +157,6 @@ const LangProficiencyFormView = ({
       dbValues.secondLanguage =
         values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
 
-      console.log("FORM VALUES", values);
-
       if (
         values.oralProficiency ||
         values.writingProficiency ||
@@ -368,7 +366,6 @@ const LangProficiencyFormView = ({
     const data = savedValues || getInitialValues(profileInfo);
     const oppositeInitialToggle =
       !!data.oralProficiency !== displayMentorshipForm;
-    console.log("YYYYYYY DISPLAY MENTORSHIP FORm");
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMentorshipForm]);
@@ -653,7 +650,6 @@ const LangProficiencyFormView = ({
 
   useEffect(() => {
     /* check if user has a second language */
-    console.log("xxxxxxxxxTOGLE SEC LANG FORM");
     setDisplayMentorshipForm(
       profileInfo ? profileInfo.secondLangProfs.length !== 0 : false
     );
@@ -671,12 +667,7 @@ const LangProficiencyFormView = ({
       </div>
     );
   }
-  console.log(
-    "LOADED PAGE",
-    savedValues,
-    "INIT VALS",
-    savedValues || getInitialValues(profileInfo)
-  );
+
   /* Once data had loaded display form */
   return (
     <>
