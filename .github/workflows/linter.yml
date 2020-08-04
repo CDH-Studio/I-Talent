@@ -38,6 +38,9 @@ jobs:
       - name: Installing Yarn dependencies
         run: yarn
 
+      - name: Run i18n linter
+        run: yarn i18n:check
+
       - name: Run linter
         run: yarn lint
 
