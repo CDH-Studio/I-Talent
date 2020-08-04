@@ -6,10 +6,11 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
 
-# Copy app dependencies and scripts
+# Copy app dependencies
 COPY package*.json ./
-COPY ./scripts ./scripts/
 
+# Copy scripts and make runable
+COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh
 
 # Runs build script

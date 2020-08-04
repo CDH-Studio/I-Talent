@@ -6,13 +6,21 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
 
-# Copy app
-COPY . .
+# Copy app dependencies
+COPY package*.json ./
 
+# Copy database directory for 'yarn geenrate'
+COPY ./src/database ./src/database
+
+# Copy scripts and make runable
+COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh
 
 # Runs build script
 RUN ./scripts/build.sh
+
+# Copy app
+COPY . .
 
 # Runs start script
 CMD ./scripts/start.sh
