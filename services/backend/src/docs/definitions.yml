@@ -242,6 +242,8 @@ definitions:
         type: boolean
       developmentalGoals:
         type: boolean
+      description:
+        type: Boolean
       education:
         type: boolean
       experience:
@@ -342,6 +344,8 @@ definitions:
       team:
         type: string
       manager:
+        type: string
+      description:
         type: string
       firstLanguage:
         $ref: "#/definitions/LanguageEnum"
