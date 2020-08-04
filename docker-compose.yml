@@ -7,7 +7,7 @@ services:
       - "3000:3000"
     volumes:
       - ./services/frontend-v3:/upskill-frontend
-      - frontend-node-modules:/upskill-backend/node_modules
+      - frontend-node-modules:/upskill-frontend/node_modules
     env_file:
       - ./env/web.env
 
