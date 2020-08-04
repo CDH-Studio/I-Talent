@@ -9,7 +9,7 @@ WORKDIR /upskill-backend
 # Copy app dependencies
 COPY package*.json ./
 
-# Copy database directory for 'yarn geenrate'
+# Copy database directory for 'yarn generate'
 COPY ./src/database ./src/database
 
 # Copy scripts and make runable
