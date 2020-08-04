@@ -2,10 +2,14 @@ FROM node:12-alpine
 
 ENV TZ=America/Toronto
 
-# Copies code into container
+# Set working directory
 RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
+
+# Copy app
 COPY . .
+
+COPY ./scripts ./scripts/
 
 RUN chmod +x ./scripts/*.sh
 
