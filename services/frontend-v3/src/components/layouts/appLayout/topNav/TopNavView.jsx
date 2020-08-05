@@ -18,7 +18,7 @@ import queryString from "query-string";
 import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
-import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
+import Logo from "../../../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../../../utils/customPropTypes";
 
 const { Header } = Layout;
@@ -42,7 +42,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       margin: "0 25px",
     },
     navBrand: {
-      height: 25,
+      height: 40,
     },
     profileAvatar: {
       marginRight: 8,
@@ -162,9 +162,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   const search = () => {
     if (searchValue && searchValue.length > 0) {
-      const needsToReload = window.location.pathname.includes(
-        "/results"
-      );
+      const needsToReload = window.location.pathname.includes("/results");
 
       history.push(`/results?searchValue=${searchValue}`);
 
@@ -217,11 +215,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     }
 
     return (
-      <Button
-        type="primary"
-        href="/"
-        onClick={() => keycloak.login()}
-      >
+      <Button type="primary" href="/" onClick={() => keycloak.login()}>
         <FormattedMessage id="landing.login.button" />
       </Button>
     );
