@@ -496,7 +496,12 @@ const PrimaryInfoFormView = ({
         const newFieldVals = [];
         possibleKeys.forEach((key) => {
           if (key in newGedsValues) {
-            newFieldVals.push({ name: key, value: newGedsValues[key] });
+            if (key === "jobTitle") {
+              const tempVal = newGedsValues[key];
+              newFieldVals.push({ name: key, value: tempVal[locale] });
+            } else {
+              newFieldVals.push({ name: key, value: newGedsValues[key] });
+            }
           }
         });
         form.setFields(newFieldVals);
@@ -559,7 +564,6 @@ const PrimaryInfoFormView = ({
       if (newGedsValues.jobTitle) {
         changes.push({
           title: <FormattedMessage id="profile.career.header.name" />,
-          // description: profileInfo.jobTitle,
           description: newGedsValues.jobTitle[locale],
         });
       }
