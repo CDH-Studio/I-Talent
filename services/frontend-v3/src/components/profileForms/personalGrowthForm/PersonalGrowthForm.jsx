@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useIntl } from "react-intl";
 import useAxios from "../../../utils/axios-instance";
 
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
@@ -43,6 +45,8 @@ const PersonalGrowthForm = ({ formType }) => {
 
   const history = useHistory();
 
+  const intl = useIntl();
+
   /**
    * Get saved Developmental Goals
    *
@@ -80,11 +84,39 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of developmental goal options for treeSelect dropdown
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/developmentalGoals?language=${locale}`
-    );
+    const [categoriesResult, devGoalsResults] = await Promise.all([
+      axios.get(`api/option/categories?language=${locale}`),
+      axios.get(`api/option/developmentalGoals?language=${locale}`),
+    ]);
 
-    setDevelopmentalGoalOptions(result.data);
+    // To handle the competencies category
+    categoriesResult.data.push({
+      id: undefined,
+      name: intl.formatMessage({ id: "setup.competencies" }),
+    });
+
+    // Loop through all skill categories
+    const dataTree = categoriesResult.data.map((category) => {
+      const children = [];
+
+      devGoalsResults.data.forEach((devGoal) => {
+        if (devGoal.categoryId === category.id) {
+          children.push({
+            title: `${category.name}: ${devGoal.name}`,
+            value: devGoal.id,
+            key: devGoal.id,
+          });
+        }
+      });
+
+      return {
+        title: category.name,
+        value: category.id || category.name,
+        children,
+      };
+    });
+
+    setDevelopmentalGoalOptions(_.sortBy(dataTree, "title"));
   }, [locale]);
 
   /**
