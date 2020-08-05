@@ -5,6 +5,8 @@ const {
   KEYCLOAK_SECRET,
   KEYCLOAK_CLIENT_ID,
   KEYCLOAK_AUTH_SERVER_URL,
+  TEST_DATABASE,
+  TEST_DATABASE_URL,
   DOCS_KEYCLOAK_CLIENT_ID,
   DOCS_KEYCLOAK_AUTH_URL,
   DOCS_KEYCLOAK_TOKEN_URL,
@@ -33,7 +35,12 @@ const production = {
 const test = {
   ENV: "test",
   PORT: "",
-  DATABASE_URL: DATABASE_URL || "",
+  TEST_DATABASE: TEST_DATABASE || "jesttest",
+  TEST_DATABASE_URL:
+    TEST_DATABASE_URL ||
+    "postgres://api:api@localhost:5432/jesttest?schema=public",
+  DATABASE_URL:
+    DATABASE_URL || "postgres://api:api@db-postgres:5432/testdb?schema=public",
   KEYCLOAK_SECRET: "",
   KEYCLOAK_CLIENT_ID: "",
   KEYCLOAK_AUTH_SERVER_URL: "",
