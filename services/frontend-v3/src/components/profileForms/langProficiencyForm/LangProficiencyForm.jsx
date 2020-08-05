@@ -36,16 +36,20 @@ const LangProficiencyForm = ({ formType }) => {
       .get(`api/profile/private/${id}?language=${locale}`)
       .then((result) => {
         if (result.data && result.data.secondLangProfs) {
+          const readingObj = result.data.secondLangProfs.find(
+            (grading) => grading.proficiency === "READING"
+          );
+          const writingObj = result.data.secondLangProfs.find(
+            (grading) => grading.proficiency === "WRITING"
+          );
+          const oralObj = result.data.secondLangProfs.find(
+            (grading) => grading.proficiency === "ORAL"
+          );
+
           setExpiredGrades({
-            reading: result.data.secondLangProfs.find(
-              (grading) => grading.proficiency === "READING"
-            ).expired,
-            writing: result.data.secondLangProfs.find(
-              (grading) => grading.proficiency === "WRITING"
-            ).expired,
-            oral: result.data.secondLangProfs.find(
-              (grading) => grading.proficiency === "ORAL"
-            ).expired,
+            reading: readingObj && readingObj.expired,
+            writing: writingObj && writingObj.expired,
+            oral: oralObj && oralObj.expired,
           });
         }
 
