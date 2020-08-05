@@ -32,7 +32,7 @@ const getUsers = async (request, response: Response) => {
           select: {
             translations: {
               where: {
-                language: "ENGLISH",
+                language,
               },
               select: {
                 name: true,
