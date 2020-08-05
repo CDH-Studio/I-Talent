@@ -138,6 +138,9 @@ const EmploymentDataFormView = ({
     space: {
       paddingLeft: "0.25em",
     },
+    sectionHeader: {
+      marginBottom: 10,
+    },
   };
 
   /* Component Rules for form fields */
@@ -721,9 +724,13 @@ const EmploymentDataFormView = ({
           </Row>
 
           <Divider style={styles.headerDiv} />
-          <Row justify="space-between" align="middle">
+          <Row
+            justify="space-between"
+            style={styles.sectionHeader}
+            align="middle"
+          >
             <Title level={3} style={styles.formTitle}>
-              <FormattedMessage id="setup.career.interests" />
+              <FormattedMessage id="profile.description" />
             </Title>
             <CardVisibilityToggle
               visibleCards={profileInfo.visibleCards}
@@ -731,12 +738,12 @@ const EmploymentDataFormView = ({
               type="form"
             />
           </Row>
+
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
                 name="description"
                 fieldKey="description"
-                label={<FormattedMessage id="profile.description" />}
                 rules={[Rules.maxChar1000]}
                 extra={
                   <div>

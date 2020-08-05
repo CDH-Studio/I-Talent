@@ -468,13 +468,6 @@ const LangProficiencyFormView = ({
     ]); */
 
     if (expandMentorshipForm) {
-      console.log(
-        "EXPANDED MENTORSHIP FORM",
-        "IasV",
-        getInitialValues(profileInfo),
-        "FV",
-        formValues
-      );
       formValues = Object.assign(getInitialValues(profileInfo), formValues);
 
       return (
@@ -510,6 +503,7 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryReadingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
+                className="language-date-item"
               >
                 <DatePicker
                   disabled={formValues.secondaryReadingExpired}
@@ -558,6 +552,7 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryWritingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
+                className="language-date-item"
               >
                 <DatePicker
                   disabled={formValues.secondaryWritingExpired}
@@ -606,6 +601,7 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryOralDate"
                 label={<FormattedMessage id="profile.secondary.oral.date" />}
+                className="language-date-item"
               >
                 <DatePicker
                   disabled={formValues.secondaryOralExpired}
