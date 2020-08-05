@@ -19,6 +19,12 @@ const LangProficiencyForm = ({ formType }) => {
   // const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [expiredGrades, setExpiredGrades] = useState({
+    reading: false,
+    writing: false,
+    oral: false,
+  });
+
   const history = useHistory();
   const axios = useAxios();
   const { id } = useSelector((state) => state.user);
@@ -28,7 +34,23 @@ const LangProficiencyForm = ({ formType }) => {
   const getProfileInfo = useCallback(async () => {
     await axios
       .get(`api/profile/private/${id}?language=${locale}`)
-      .then((result) => setProfileInfo(result.data));
+      .then((result) => {
+        if (result.data && result.data.secondLangProfs) {
+          setExpiredGrades({
+            reading: result.data.secondLangProfs.find(
+              (grading) => grading.proficiency === "READING"
+            ).expired,
+            writing: result.data.secondLangProfs.find(
+              (grading) => grading.proficiency === "WRITING"
+            ).expired,
+            oral: result.data.secondLangProfs.find(
+              (grading) => grading.proficiency === "ORAL"
+            ).expired,
+          });
+        }
+
+        setProfileInfo(result.data);
+      });
   }, [id, locale]);
 
   // useEffect to run once component is mounted
@@ -76,6 +98,8 @@ const LangProficiencyForm = ({ formType }) => {
       load={load}
       history={history}
       userId={id}
+      expiredGrades={expiredGrades}
+      setExpiredGrades={setExpiredGrades}
     />
   );
 };
