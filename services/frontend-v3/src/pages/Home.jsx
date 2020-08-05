@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { Row } from "antd";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import SearchBar from "../components/searchBar/SearchBar";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const Home = () => {
+  const intl = useIntl();
+
   useEffect(() => {
-    document.title = "Home | I-Talent";
-  }, []);
+    document.title = `${intl.formatMessage({ id: "home" })} | I-Talent`;
+  }, [intl]);
 
   return (
     <AppLayout displaySideBar={false} displayLogo={false} displaySearch={false}>

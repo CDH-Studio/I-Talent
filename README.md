@@ -1,8 +1,9 @@
-<img src="services/frontend-v3/src/assets/MyTalent-Logo-Full-v2-dark.svg" alt="I-Talent Logo" width="170" />
+<img src="services/frontend-v3/src/assets/I-talent-logo.png" alt="I-Talent Logo" width="250" />
 
 An improved directory and employee search tool.
 
-Development version of I-Talent can be accessed [here](http://italent-dev.apps.dev.openshift.ised-isde.canada.ca/).<br>
+Development version of I-Talent can be accessed [here](http://italent-development.apps.dev.openshift.ised-isde.canada.ca/).<br>
+UAT version of I-Talent can be accessed [here](http://italent-uat.apps.dev.openshift.ised-isde.canada.ca/).<br>
 API documentation can be accessed locally [here](http://localhost:8080/api-docs) (needs the backend server running).
 
 # Table of Contents

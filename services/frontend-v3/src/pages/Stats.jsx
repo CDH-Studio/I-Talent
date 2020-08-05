@@ -1,17 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from "react";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import { IntlPropType } from "../utils/customPropTypes";
 import StatsLayout from "../components/layouts/statsLayout/StatsLayout";
 import useAxios from "../utils/axios-instance";
-import { setTopFiveDevelopmentalGoals, setTopFiveCompetencies, setTopFiveSkills } from "../redux/slices/statsSlice";
+import {
+  setTopFiveDevelopmentalGoals,
+  setTopFiveCompetencies,
+  setTopFiveSkills,
+} from "../redux/slices/statsSlice";
 import handleError from "../functions/handleError";
 
-const Stats = ({ intl }) => {
+const Stats = () => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const axios = useAxios();
+  const intl = useIntl();
 
   const getTopFiveCompentencies = useCallback(async () => {
     try {
@@ -73,12 +77,4 @@ const Stats = ({ intl }) => {
   return <StatsLayout displaySideBar />;
 };
 
-Stats.propTypes = {
-  intl: IntlPropType,
-};
-
-Stats.defaultProps = {
-  intl: null,
-};
-
-export default injectIntl(Stats);
+export default Stats;
