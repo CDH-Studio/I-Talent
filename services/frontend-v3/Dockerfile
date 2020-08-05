@@ -14,7 +14,7 @@ RUN chmod +x ./scripts/*.sh
 COPY package*.json ./
 
 # Runs install script
-RUN ./scripts/intall.sh
+RUN ./scripts/install.sh
 
 # Copy app
 COPY . .
