@@ -33,7 +33,7 @@ const production = {
 const test = {
   ENV: "test",
   PORT: "",
-  DATABASE_URL: "",
+  DATABASE_URL: KEYCLOAK_CLIENT_ID || "",
   KEYCLOAK_SECRET: "",
   KEYCLOAK_CLIENT_ID: "",
   KEYCLOAK_AUTH_SERVER_URL: "",
