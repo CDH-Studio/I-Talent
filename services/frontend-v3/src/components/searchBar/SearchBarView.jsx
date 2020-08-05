@@ -50,7 +50,7 @@ const SearchBarView = ({
       margin: "auto",
     },
     mainSearchDiv: {
-      backgroundColor: "#001C1A",
+      backgroundColor: "rgb(25, 46, 47)",
       borderRadius: "5px 5px 0 0",
       padding: "50px 80px 40px 80px",
       boxShadow: "10px 10px 10px #cccccc",
