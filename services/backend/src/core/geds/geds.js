@@ -1,19 +1,20 @@
 const axios = require("axios");
 const prisma = require("../../database");
+const config = require("../../config");
 
 async function getGedsSetup(request, response) {
   const { id } = request.params;
   const { name } = request.query;
   const nameArray = name.split(" ");
 
-  const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
+  const url = `${config.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
   const promises = [
     axios({
       method: "get",
       url: url,
       headers: {
-        "user-key": process.env.GEDSAPIKEY,
+        "user-key": config.GEDSAPIKEY,
         Accept: "application/json",
       },
       timeout: 5000,
@@ -109,14 +110,14 @@ async function getGedsSync(request, response) {
   const { name } = request.query;
   const nameArray = name.split(" ");
 
-  const url = `${process.env.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
+  const url = `${config.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
   const promises = [
     axios({
       method: "get",
       url: url,
       headers: {
-        "user-key": process.env.GEDSAPIKEY,
+        "user-key": config.GEDSAPIKEY,
         Accept: "application/json",
       },
     }),

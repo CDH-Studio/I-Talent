@@ -1,26 +1,27 @@
 const { PrismaClient } = require("../src/database/client");
 const { execSync } = require("child_process");
+const config = require("../src/config");
 
 async function setupTestDB() {
   const prisma = new PrismaClient({
-    datasources: process.env.DATABASE_URL,
+    datasources: config.DATABASE_URL,
   });
 
   try {
-    await prisma.executeRaw(`DROP DATABASE ${process.env.TEST_DATABASE};`);
+    await prisma.executeRaw(`DROP DATABASE ${config.TEST_DATABASE};`);
     console.log("Dropped testing database");
   } catch (e) {}
 
-  await prisma.executeRaw(`CREATE DATABASE ${process.env.TEST_DATABASE};`);
+  await prisma.executeRaw(`CREATE DATABASE ${config.TEST_DATABASE};`);
   console.log("Created testing database");
 
-  execSync(`DATABASE_URL=${process.env.TEST_DATABASE_URL} yarn migrate`);
+  execSync(`DATABASE_URL=${config.TEST_DATABASE_URL} yarn migrate`);
   console.log("Migrated testing database");
 
-  execSync(`DATABASE_URL=${process.env.TEST_DATABASE_URL} yarn generate`);
+  execSync(`DATABASE_URL=${config.TEST_DATABASE_URL} yarn generate`);
   console.log("Generated testing database client");
 
-  execSync(`DATABASE_URL=${process.env.TEST_DATABASE_URL} yarn seed`);
+  execSync(`DATABASE_URL=${config.TEST_DATABASE_URL} yarn seed`);
   console.log("Seeded testing database");
 
   await prisma.disconnect();

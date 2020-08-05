@@ -1,5 +1,6 @@
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
+const config = require("../config");
 
 const specs = swaggerJsdoc({
   swaggerDefinition: {
@@ -20,8 +21,10 @@ const specs = swaggerJsdoc({
     securityDefinitions: {
       Keycloak: {
         type: "oauth2",
-        authorizationUrl: process.env.DOCS_KEYCLOAK_AUTH_URL,
-        tokenUrl: process.env.DOCS_KEYCLOAK_TOKEN_URL,
+        authorizationUrl:
+          config.KEYCLOAK_AUTH_SERVER_URL + config.DOCS_KEYCLOAK_AUTH_URL,
+        tokenUrl:
+          config.KEYCLOAK_AUTH_SERVER_URL + config.DOCS_KEYCLOAK_TOKEN_URL,
         flow: "accessCode",
       },
     },
@@ -39,8 +42,8 @@ module.exports = swaggerUi.setup(specs, {
     ".swagger-ui .topbar { display: none } .swagger-ui .scheme-container { background: none; box-shadow: none }",
   swaggerOptions: {
     oauth: {
-      clientId: process.env.DOCS_KEYCLOAK_CLIENT_ID,
-      clientSecret: process.env.KEYCLOAK_SECRET,
+      clientId: config.DOCS_KEYCLOAK_CLIENT_ID,
+      clientSecret: config.KEYCLOAK_SECRET,
     },
     defaultModelsExpandDepth: -1,
     filter: true,

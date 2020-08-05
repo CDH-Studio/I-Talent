@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const _ = require("lodash");
 const prisma = require("../../../database");
 
 const getUsers = async (request, response) => {
@@ -61,7 +62,9 @@ const getUsers = async (request, response) => {
       };
     });
 
-    response.status(200).json(users);
+    const sortedUsers = _.orderBy(users, ["firstName", "lastName", "status"]);
+
+    response.status(200).json(sortedUsers);
   } catch (error) {
     console.log(error);
     if (error.errors) {
