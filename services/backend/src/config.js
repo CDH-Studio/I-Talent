@@ -41,7 +41,7 @@ const test = {
     "postgres://api:api@localhost:5432/jesttest?schema=public",
   DATABASE_URL:
     DATABASE_URL || "postgres://api:api@db-postgres:5432/testdb?schema=public",
-  KEYCLOAK_SECRET: "",
+  KEYCLOAK_SECRET: "secret",
   KEYCLOAK_CLIENT_ID: "",
   KEYCLOAK_AUTH_SERVER_URL: "",
   DOCS_KEYCLOAK_CLIENT_ID: "",
