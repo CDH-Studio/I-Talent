@@ -55,21 +55,21 @@ statsRouter.get(
 
 statsRouter.get(
   "/topFiveCompetencies",
-  keycloak.protect("view-admin-console"),
+  keycloak.protect(),
   langValidator,
   topFive.getTopFiveCompetencies
 );
 
 statsRouter.get(
   "/topFiveSkills",
-  keycloak.protect("view-admin-console"),
+  keycloak.protect(),
   langValidator,
   topFive.getTopFiveSkills
 );
 
 statsRouter.get(
   "/topFiveDevelopmentalGoals",
-  keycloak.protect("view-admin-console"),
+  keycloak.protect(),
   langValidator,
   topFive.getTopFiveDevelopmentalGoals
 );

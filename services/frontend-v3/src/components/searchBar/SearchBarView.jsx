@@ -169,7 +169,7 @@ const SearchBarView = ({
         <Row style={{ padding: "15px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              General Info
+              <FormattedMessage id="search.advanced.general.title" />
             </Title>
           </Col>
         </Row>
@@ -266,7 +266,7 @@ const SearchBarView = ({
         <Row style={{ padding: "5px 5% 5px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              Skills and Talent
+              <FormattedMessage id="search.advanced.skill.title" />
             </Title>
           </Col>
         </Row>

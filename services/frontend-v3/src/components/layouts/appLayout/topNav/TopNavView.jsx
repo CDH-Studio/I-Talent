@@ -7,6 +7,7 @@ import {
   DashboardOutlined,
   MenuOutlined,
   HomeOutlined,
+  AreaChartOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
@@ -116,6 +117,14 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <Link rel="noopener noreferrer" to="/admin/dashboard">
             <DashboardOutlined style={styles.menuIcon} />
             <FormattedMessage id="admin" />
+          </Link>
+        </Menu.Item>
+      )}
+      {!isAdmin && (
+        <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+          <Link rel="noopener noreferrer" to="/statistics">
+            <AreaChartOutlined style={styles.menuIcon} />
+            <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
