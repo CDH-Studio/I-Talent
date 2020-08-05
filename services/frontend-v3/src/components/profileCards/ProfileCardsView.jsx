@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Col, Row, Typography } from "antd";
+import { Card, Col, Row, Typography, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
@@ -52,13 +52,18 @@ const ProfileCardsView = ({
               titleId
             )}
             {lastUpdated && (
-              <Text
-                style={{ marginLeft: 10, fontStyle: "italic" }}
-                type="secondary"
-              >
-                (<FormattedMessage id="profile.last.updated" />
-                {moment(lastUpdated).format("LL")})
-              </Text>
+              <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    fontStyle: "italic",
+                    fontWeight: "normal",
+                  }}
+                  type="secondary"
+                >
+                  {moment(lastUpdated).format("LL")}
+                </Text>
+              </Tooltip>
             )}
           </>
         }
