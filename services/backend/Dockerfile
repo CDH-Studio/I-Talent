@@ -16,8 +16,8 @@ COPY ./src/database ./src/database
 COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh
 
-# Runs build script
-RUN ./scripts/build.sh
+# Runs install script
+RUN ./scripts/install.sh
 
 # Copy app
 COPY . .
