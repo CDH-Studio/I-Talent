@@ -1,5 +1,6 @@
-const axios = require("axios");
-const qs = require("querystring");
+import axios from "axios";
+import qs from "querystring";
+import { Response, Request } from "express";
 
 const getAccessToken = async () => {
   const data = qs.stringify({
@@ -22,7 +23,7 @@ const getAccessToken = async () => {
   return response.data.access_token;
 };
 
-const getGroupIds = async (accessToken) => {
+const getGroupIds = async (accessToken: String) => {
   const groups = await axios({
     method: "get",
     baseURL: process.env.KEYCLOAK_AUTH_SERVER_URL,
@@ -55,7 +56,7 @@ const filterName = (name) => {
   return name;
 };
 
-const getMembers = async (accessToken, id, name) => {
+const getMembers = async (accessToken: String, id: String, name: String) => {
   const members = await axios({
     method: "get",
     baseURL: process.env.KEYCLOAK_AUTH_SERVER_URL,
@@ -72,7 +73,7 @@ const getMembers = async (accessToken, id, name) => {
   };
 };
 
-const getUsers = async (request, response) => {
+const getUsers = async (_request: Request, response: Response) => {
   try {
     const accessToken = await getAccessToken();
     const groupIds = await getGroupIds(accessToken);
@@ -93,6 +94,4 @@ const getUsers = async (request, response) => {
   }
 };
 
-module.exports = {
-  getUsers,
-};
+export { getUsers };
