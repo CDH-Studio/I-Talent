@@ -1,12 +1,11 @@
-const { Router } = require("express");
-const { keycloak } = require("../../auth/keycloak");
-const profile = require("../../core/profile/profile");
-
-const {
+import { Router } from "express";
+import { keycloak } from "../../auth/keycloak";
+import profile from "../../core/profile/profile";
+import {
   langValidator,
   UUIDValidator,
   updateProfileValidator,
-} = require("./validator");
+} from "./validator";
 
 const profileRouter = Router();
 
@@ -27,4 +26,4 @@ profileRouter
     profile.getPrivateProfileById
   );
 
-module.exports = profileRouter;
+export default profileRouter;

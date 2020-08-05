@@ -1,7 +1,7 @@
-const { Router } = require("express");
-const { keycloak } = require("../../auth/keycloak");
-const profileGen = require("../../core/geds/geds");
-const { UUIDValidator } = require("./validator");
+import { Router } from "express";
+import { keycloak } from "../../auth/keycloak";
+import profileGen from "../../core/geds/geds";
+import { UUIDValidator } from "./validator";
 
 const profileGenRouter = Router();
 
@@ -19,4 +19,4 @@ profileGenRouter.get(
   profileGen.getGedsSync
 );
 
-module.exports = profileGenRouter;
+export default profileGenRouter;

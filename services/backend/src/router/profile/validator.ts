@@ -1,6 +1,8 @@
-const { query, param, body } = require("express-validator");
-const { isUUID, isIn, isMobilePhone } = require("validator");
-const moment = require("moment");
+import { query, param, body } from "express-validator";
+import validator from "validator";
+import moment from "moment";
+
+const { isUUID, isIn, isMobilePhone } = validator;
 
 const langValidator = query("language")
   .trim()
@@ -55,13 +57,13 @@ const updateProfileUUIDBody = [
 const updateProfileValidator = [
   langValidator,
   UUIDValidator,
-  updateProfileStringBody.map((i) =>
+  ...updateProfileStringBody.map((i) =>
     body(i)
       .optional()
       .custom((value) => typeof value === "string" || value === null)
       .withMessage("must be a string")
   ),
-  updateProfileNumberBody.map((i) =>
+  ...updateProfileNumberBody.map((i) =>
     body(i)
       .optional()
       .trim()
@@ -69,26 +71,26 @@ const updateProfileValidator = [
       .isNumeric()
       .withMessage("must be a number")
   ),
-  updateProfilePhoneNumberBody.map((i) =>
+  ...updateProfilePhoneNumberBody.map((i) =>
     body(i)
       .optional()
       .trim()
       .custom((value) => !value || isMobilePhone(value, "en-CA"))
       .withMessage("must be a valid phone number")
   ),
-  updateProfileUUIDBody.map((i) =>
+  ...updateProfileUUIDBody.map((i) =>
     body(i)
       .optional()
       .custom((value) => value === null || isUUID(value))
       .withMessage("must be a UUID or null")
   ),
-  updateProfileDateBody.map((i) =>
+  ...updateProfileDateBody.map((i) =>
     body(i)
       .optional()
       .custom((j) => j === null || moment(j).isValid())
       .withMessage("must be a date")
   ),
-  updateProfileBooleanBody.map((i) =>
+  ...updateProfileBooleanBody.map((i) =>
     body(i)
       .optional()
       .trim()
@@ -96,27 +98,27 @@ const updateProfileValidator = [
       .isBoolean()
       .withMessage("must be a boolean")
   ),
-  updateProfileLanguageBody.map((i) =>
+  ...updateProfileLanguageBody.map((i) =>
     body(i)
       .optional()
       .trim()
       .isIn(["ENGLISH", "FRENCH"])
       .withMessage("must be 'ENGLISH' or 'FRENCH'")
   ),
-  updateProfileOptionalLanguageBody.map((i) =>
+  ...updateProfileOptionalLanguageBody.map((i) =>
     body(i)
       .optional()
       .isIn(["ENGLISH", "FRENCH", null])
       .withMessage("must be 'ENGLISH' or 'FRENCH' or null")
   ),
-  updateProfileStringArrayBody.map((i) =>
+  ...updateProfileStringArrayBody.map((i) =>
     body(i)
       .optional()
       .isArray()
       .custom((array) => array.every((j) => typeof j === "string"))
       .withMessage("must be a string array")
   ),
-  updateProfileUUIDArrayBody.map((i) =>
+  ...updateProfileUUIDArrayBody.map((i) =>
     body(i)
       .optional()
       .isArray()
@@ -175,8 +177,4 @@ const updateProfileValidator = [
     .withMessage("must be 'ACTIVE' or 'INACTIVE' or 'HIDDEN'"),
 ];
 
-module.exports = {
-  langValidator,
-  UUIDValidator,
-  updateProfileValidator,
-};
+export { langValidator, UUIDValidator, updateProfileValidator };

@@ -1,9 +1,7 @@
-const { Router } = require("express");
-const { keycloak } = require("../../auth/keycloak");
-
-const connections = require("../../core/connections/connections");
-
-const { UUIDValidator } = require("./validator");
+import { Router } from "express";
+import { keycloak } from "../../auth/keycloak";
+import connections from "../../core/connections/connections";
+import { UUIDValidator } from "./validator";
 
 const connectionsRouter = Router();
 
@@ -13,4 +11,4 @@ connectionsRouter
   .post(keycloak.protect(), UUIDValidator, connections.addConnection)
   .delete(keycloak.protect(), UUIDValidator, connections.removeConnection);
 
-module.exports = connectionsRouter;
+export default connectionsRouter;

@@ -1,5 +1,7 @@
-const { query, body } = require("express-validator");
-const { isUUID } = require("validator");
+import { query, body } from "express-validator";
+import validator from "validator";
+
+const { isUUID } = validator;
 
 const langValidator = [
   query("language")
@@ -49,7 +51,7 @@ const skillValidator = body("categoryId")
 const createSkillValidator = [...createValidator, skillValidator];
 const updateSkillValidator = [...updateValidator, skillValidator];
 
-module.exports = {
+export {
   langValidator,
   deleteManyValidator,
   deleteOneValidator,

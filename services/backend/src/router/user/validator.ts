@@ -1,4 +1,4 @@
-const { param, body } = require("express-validator");
+import { param, body } from "express-validator";
 
 const UUIDValidator = param("id").trim().isUUID().withMessage("must be a UUID");
 
@@ -10,7 +10,4 @@ const createUserValidator = [
   body("email").isEmail().withMessage("must provide valid email"),
 ];
 
-module.exports = {
-  createUserValidator,
-  UUIDValidator,
-};
+export { createUserValidator, UUIDValidator };

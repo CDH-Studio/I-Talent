@@ -1,7 +1,7 @@
-const { Router } = require("express");
-const { keycloak } = require("../../auth/keycloak");
-const admin = require("../../core/admin/admin");
-const { langValidator, updateUserStatusValidator } = require("./validator");
+import { Router } from "express";
+import { keycloak } from "../../auth/keycloak";
+import admin from "../../core/admin/admin";
+import { langValidator, updateUserStatusValidator } from "./validator";
 
 const adminRouter = Router();
 
@@ -19,4 +19,4 @@ adminRouter.put(
   admin.updateUserStatuses
 );
 
-module.exports = adminRouter;
+export default adminRouter;

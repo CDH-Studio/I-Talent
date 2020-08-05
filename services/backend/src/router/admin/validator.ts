@@ -1,5 +1,7 @@
-const { query, body } = require("express-validator");
-const { isUUID, isIn } = require("validator");
+import { query, body } from "express-validator";
+import validator from "validator";
+
+const { isUUID, isIn } = validator;
 
 const langValidator = [
   query("language")
@@ -21,7 +23,4 @@ const updateUserStatusValidator = [
     ),
 ];
 
-module.exports = {
-  langValidator,
-  updateUserStatusValidator,
-};
+export { langValidator, updateUserStatusValidator };

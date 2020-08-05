@@ -1,6 +1,6 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const {
+import {
   branches,
   careerMobilities,
   categories,
@@ -15,8 +15,8 @@ const {
   skills,
   talentMatrixResults,
   tenures,
-} = require("../../core/options/options");
-const {
+} from "../../core/options/options";
+import {
   langValidator,
   deleteManyValidator,
   deleteOneValidator,
@@ -26,8 +26,8 @@ const {
   updateSchoolValidator,
   createSkillValidator,
   updateSkillValidator,
-} = require("./validator");
-const { keycloak } = require("../../auth/keycloak");
+} from "./validator";
+import { keycloak } from "../../auth/keycloak";
 
 const optionsRouter = Router();
 
@@ -247,4 +247,4 @@ optionsRouter.get(
   tenures.getTenures
 );
 
-module.exports = optionsRouter;
+export default optionsRouter;

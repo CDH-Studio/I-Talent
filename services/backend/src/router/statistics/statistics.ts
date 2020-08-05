@@ -1,12 +1,12 @@
-const { Router } = require("express");
-const { keycloak } = require("../../auth/keycloak");
-const {
+import { Router } from "express";
+import { keycloak } from "../../auth/keycloak";
+import {
   dashboardCount,
   flaggedProfiles,
   growthRate,
   topFive,
-} = require("../../core/statistics");
-const { langValidator } = require("./validator");
+} from "../../core/statistics";
+import { langValidator } from "./validator";
 
 const statsRouter = Router();
 
@@ -74,4 +74,4 @@ statsRouter.get(
   topFive.getTopFiveDevelopmentalGoals
 );
 
-module.exports = statsRouter;
+export default statsRouter;

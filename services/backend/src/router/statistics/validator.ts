@@ -1,4 +1,4 @@
-const { query } = require("express-validator");
+import { query } from "express-validator";
 
 const langValidator = [
   query("language")
@@ -7,6 +7,4 @@ const langValidator = [
     .withMessage("must be 'ENGLISH' or 'FRENCH'"),
 ];
 
-module.exports = {
-  langValidator,
-};
+export { langValidator };
