@@ -37,4 +37,4 @@ app.use(keycloak.middleware({ logout: "/" }));
 if (process.env.NODE_ENV !== "test")
   app.listen(port, () => console.log(`Backend port is ${port}.`));
 
-export default app;
+export { app };

@@ -1,0 +1,8 @@
+{
+  "globals": {
+    "app": "readonly",
+    "mockedKeycloakApp": "readonly",
+    "mockedPrismaApp": "readonly",
+    "prisma": "readonly"
+  }
+}
