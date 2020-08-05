@@ -86,3 +86,6 @@ tmp
 
 # prisma generated client
 client/
+
+# typescript build folder
+dist/
