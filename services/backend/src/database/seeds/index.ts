@@ -1,6 +1,6 @@
-const { readdirSync } = require("fs");
-const path = require("path");
-const prisma = require("..");
+import { readdirSync } from "fs";
+import path from "path";
+import prisma from "..";
 
 /**
  * Gets a list of directories in the for the seeds

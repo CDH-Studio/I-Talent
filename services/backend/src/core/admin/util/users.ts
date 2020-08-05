@@ -1,7 +1,8 @@
-const { validationResult } = require("express-validator");
-const prisma = require("../../../database");
+import { validationResult } from "express-validator";
+import { Response } from "express";
+import prisma from "../../../database";
 
-const getUsers = async (request, response) => {
+const getUsers = async (request, response: Response) => {
   try {
     validationResult(request).throw();
 
@@ -19,7 +20,7 @@ const getUsers = async (request, response) => {
           select: {
             translations: {
               where: {
-                language: language,
+                language,
               },
               select: {
                 jobTitle: true,
@@ -31,7 +32,7 @@ const getUsers = async (request, response) => {
           select: {
             translations: {
               where: {
-                language,
+                language: "ENGLISH",
               },
               select: {
                 name: true,
@@ -72,7 +73,7 @@ const getUsers = async (request, response) => {
   }
 };
 
-const updateUserStatuses = async (request, response) => {
+const updateUserStatuses = async (request, response: Response) => {
   try {
     validationResult(request).throw();
 
@@ -102,4 +103,4 @@ const updateUserStatuses = async (request, response) => {
   }
 };
 
-module.exports = { getUsers, updateUserStatuses };
+export { getUsers, updateUserStatuses };

@@ -1,9 +1,8 @@
-const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../database/client");
+import { validationResult } from "express-validator";
+import { Response } from "express";
+import prisma from "../../database";
 
-const prisma = new PrismaClient();
-
-async function addConnection(request, response) {
+async function addConnection(request, response: Response) {
   try {
     validationResult(request).throw();
     const publicUserId = request.params.id;
@@ -37,7 +36,7 @@ async function addConnection(request, response) {
   }
 }
 
-async function removeConnection(request, response) {
+async function removeConnection(request, response: Response) {
   try {
     validationResult(request).throw();
     const publicUserId = request.params.id;
@@ -71,7 +70,7 @@ async function removeConnection(request, response) {
   }
 }
 
-async function getConnectionById(request, response) {
+async function getConnectionById(request, response: Response) {
   try {
     validationResult(request).throw();
     const publicUserId = request.params.id;
@@ -105,8 +104,4 @@ async function getConnectionById(request, response) {
   }
 }
 
-module.exports = {
-  addConnection,
-  removeConnection,
-  getConnectionById,
-};
+export { addConnection, removeConnection, getConnectionById };
