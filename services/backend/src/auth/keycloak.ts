@@ -1,13 +1,13 @@
-const redis = require("redis");
-const KeycloakConnect = require("keycloak-connect");
-const session = require("express-session");
-const RedisStore = require("connect-redis")(session);
+import * as redis from "redis";
+import KeycloakConnect from "keycloak-connect";
+import session from "express-session";
+import RedisStore from "connect-redis";
 
 let redisClient = redis.createClient({
   host: process.env.REDIS_HOST,
   auth_pass: process.env.REDIS_PASSWORD,
 });
-const store = new RedisStore({ client: redisClient });
+const store = new (RedisStore(session))({ client: redisClient });
 
 const keycloak = new KeycloakConnect(
   { store },
@@ -28,4 +28,4 @@ const sessionInstance = session({
   store,
 });
 
-module.exports = { keycloak, sessionInstance };
+export { keycloak, sessionInstance };

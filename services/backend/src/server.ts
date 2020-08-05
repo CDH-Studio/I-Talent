@@ -1,11 +1,11 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const swaggerUi = require("swagger-ui-express");
-const timeout = require("connect-timeout");
-const cors = require("cors");
-const { keycloak, sessionInstance } = require("./auth/keycloak");
-const router = require("./router/router");
-const swaggerOptions = require("./docs/swaggerOptions");
+import express from "express";
+import bodyParser from "body-parser";
+import swaggerUi from "swagger-ui-express";
+import timeout from "connect-timeout";
+import cors from "cors";
+import { keycloak, sessionInstance } from "./auth/keycloak";
+import router from "./router/router";
+import swaggerOptions from "./docs/swaggerOptions";
 
 const app = express();
 
@@ -37,4 +37,4 @@ app.use(keycloak.middleware({ logout: "/" }));
 if (process.env.NODE_ENV !== "test")
   app.listen(port, () => console.log(`Backend port is ${port}.`));
 
-module.exports = app;
+export default app;

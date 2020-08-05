@@ -1,5 +1,5 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
 
 const specs = swaggerJsdoc({
   swaggerDefinition: {
@@ -8,14 +8,6 @@ const specs = swaggerJsdoc({
       version: "1.0.0",
       description:
         "Exposed [express](https://expressjs.com/) node.js API endpoints for the I-Talent frontend querying a PostgreSQL database with [prisma.io](https://www.prisma.io/). \n\n Select a tag (category) to reveal information about the endpoints and select an endpoint to test them. To query the API, you'll need to authenticate yourself with your ISED account below or by clicking on any locks. \n\n __Note:__ You will need to request a new token every minute (log out and re-authenticate yourself)",
-      license: {
-        name: "MIT",
-        url: "https://opensource.org/licenses/MIT",
-      },
-      contact: {
-        name: "GitHub",
-        url: "https://github.com/CDH-Studio/UpSkill",
-      },
     },
     securityDefinitions: {
       Keycloak: {
@@ -33,7 +25,7 @@ const specs = swaggerJsdoc({
   ],
 });
 
-module.exports = swaggerUi.setup(specs, {
+export default swaggerUi.setup(specs, {
   customSiteTitle: "I-Talent API Docs",
   customCss:
     ".swagger-ui .topbar { display: none } .swagger-ui .scheme-container { background: none; box-shadow: none }",
