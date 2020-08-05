@@ -1,7 +1,8 @@
-const moment = require("moment");
-const prisma = require("../../../database");
+import moment from "moment";
+import { Request, Response } from "express";
+import prisma from "../../../database";
 
-async function growthRateByWeek(request, response) {
+async function growthRateByWeek(_request: Request, response: Response) {
   try {
     const userCreationPerWeek = {};
 
@@ -32,7 +33,7 @@ async function growthRateByWeek(request, response) {
   }
 }
 
-async function growthRateByMonth(request, response) {
+async function growthRateByMonth(_request: Request, response: Response) {
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -115,7 +116,7 @@ async function growthRateByMonth(request, response) {
   }
 }
 
-module.exports = {
+export default {
   growthRateByWeek,
   growthRateByMonth,
 };

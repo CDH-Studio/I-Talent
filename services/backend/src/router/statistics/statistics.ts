@@ -2,7 +2,7 @@ import { Router } from "express";
 import { keycloak } from "../../auth/keycloak";
 import {
   dashboardCount,
-  flaggedProfiles,
+  getHiddenUsers,
   growthRate,
   topFive,
 } from "../../core/statistics";
@@ -38,7 +38,7 @@ statsRouter.use("/count", countRouter);
 statsRouter.get(
   "/hiddenUsers",
   keycloak.protect("view-admin-console"),
-  flaggedProfiles.getHiddenUsers
+  getHiddenUsers
 );
 
 statsRouter.get(

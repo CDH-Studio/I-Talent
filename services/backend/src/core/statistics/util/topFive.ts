@@ -1,6 +1,7 @@
-const _ = require("lodash");
-const { validationResult } = require("express-validator");
-const prisma = require("../../../database");
+import _ from "lodash";
+import { validationResult } from "express-validator";
+import { Request, Response } from "express";
+import prisma from "../../../database";
 
 async function getTopFiveSkillsHelper(skills, language) {
   const skillsCount = _(skills)
@@ -83,7 +84,7 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
   return topFiveCompetenciesCount;
 }
 
-async function getTopFiveSkills(request, response) {
+async function getTopFiveSkills(request: Request, response: Response) {
   try {
     validationResult(request).throw();
 
@@ -115,7 +116,7 @@ async function getTopFiveSkills(request, response) {
   }
 }
 
-async function getTopFiveCompetencies(request, response) {
+async function getTopFiveCompetencies(request: Request, response: Response) {
   try {
     validationResult(request).throw();
 
@@ -150,7 +151,10 @@ async function getTopFiveCompetencies(request, response) {
   }
 }
 
-async function getTopFiveDevelopmentalGoals(request, response) {
+async function getTopFiveDevelopmentalGoals(
+  request: Request,
+  response: Response
+) {
   try {
     validationResult(request).throw();
 
@@ -203,7 +207,7 @@ async function getTopFiveDevelopmentalGoals(request, response) {
   }
 }
 
-module.exports = {
+export default {
   getTopFiveSkills,
   getTopFiveCompetencies,
   getTopFiveDevelopmentalGoals,

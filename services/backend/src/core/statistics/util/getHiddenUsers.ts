@@ -1,6 +1,7 @@
-const prisma = require("../../../database");
+import { Request, Response } from "express";
+import prisma from "../../../database";
 
-async function getHiddenUsers(request, response) {
+async function getHiddenUsers(_request: Request, response: Response) {
   try {
     const hiddenUsers = await prisma.user.findMany({
       where: {
@@ -20,6 +21,4 @@ async function getHiddenUsers(request, response) {
   }
 }
 
-module.exports = {
-  getHiddenUsers,
-};
+export default getHiddenUsers;
