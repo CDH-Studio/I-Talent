@@ -19,7 +19,7 @@ import {
   SettingOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
-import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
+import logo from "../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../utils/customPropTypes";
 
 const { SHOW_CHILD } = TreeSelect;
@@ -372,7 +372,7 @@ const SearchBarView = ({
           <img
             src={logo}
             alt="I-Talent Logo"
-            style={{ width: "80%", maxWidth: "300px" }}
+            style={{ width: "80%", maxWidth: "370px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
           {getBasicSearchForm(!expandAdvancedSearch)}
