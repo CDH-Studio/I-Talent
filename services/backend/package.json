@@ -74,8 +74,8 @@
     ],
     "coverageThreshold": {
       "global": {
-        "lines": 45,
-        "statements": 45
+        "lines": 40,
+        "statements": 40
       }
     },
     "coverageDirectory": "./tests/coverage"
