@@ -9,6 +9,7 @@ import {
   ProfileCreate,
   NotFound,
   Stats,
+  Settings,
 } from "../pages";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
@@ -50,6 +51,7 @@ const Secured = ({ location }) => {
       <Switch>
         <Route exact path="/results" render={() => <Results />} />
         <Route exact path="/statistics" render={() => <Stats />} />
+        <Route exact path="/settings" render={() => <Settings />} />
         <Route
           path="/profile/create/step/:step"
           render={({ match }) => {
@@ -90,6 +92,7 @@ const Secured = ({ location }) => {
           path="/statistics"
           render={() => <Redirect to="/statistics" />}
         />
+        <Route path="/settings" render={() => <Redirect to="/settings" />} />
         <Route render={() => <NotFound />} />
       </Switch>
     </>

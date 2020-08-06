@@ -8,6 +8,7 @@ const userRouter = Router();
 userRouter
   .route("/:id")
   .get(keycloak.protect(), [UUIDValidator], user.getUserById)
-  .post(keycloak.protect(), createUserValidator, user.createUser);
+  .post(keycloak.protect(), createUserValidator, user.createUser)
+  .delete(keycloak.protect(), [UUIDValidator], user.deleteUser);
 
 module.exports = userRouter;
