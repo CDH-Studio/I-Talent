@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../utils/axios-instance";
 import {
@@ -49,18 +49,16 @@ const Admin = () => {
 
   return (
     <>
-      <Route exact path="/admin/dashboard" render={() => <AdminDashboard />} />
-      <Route exact path="/admin/users" render={() => <AdminUser />} />
-      <Route exact path="/admin/skills" render={() => <AdminSkill />} />
-      <Route exact path="/admin/categories" render={() => <AdminCategory />} />
-      <Route
-        exact
-        path="/admin/competencies"
-        render={() => <AdminCompetency />}
-      />
-      <Route exact path="/admin/diplomas" render={() => <AdminDiploma />} />
-      <Route exact path="/admin/schools" render={() => <AdminSchool />} />
-      <Route path="/admin/" render={() => <Redirect to="/admin/dashboard" />} />
+      <Switch>
+        <Route path="/admin/dashboard" render={() => <AdminDashboard />} />
+        <Route path="/admin/users" render={() => <AdminUser />} />
+        <Route path="/admin/skills" render={() => <AdminSkill />} />
+        <Route path="/admin/categories" render={() => <AdminCategory />} />
+        <Route path="/admin/competencies" render={() => <AdminCompetency />} />
+        <Route path="/admin/diplomas" render={() => <AdminDiploma />} />
+        <Route path="/admin/schools" render={() => <AdminSchool />} />
+        <Route path="/admin/" render={() => <Redirect to="/admin/dashboard" />} />
+      </Switch>
     </>
   );
 };
