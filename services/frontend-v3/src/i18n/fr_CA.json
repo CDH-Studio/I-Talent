@@ -51,6 +51,7 @@
   "admin.delete.diploma": "Êtes-vous certain de vouloir supprimer tout les diplômes sélectionnées? Ceci supprimera aussi les diplômes associés aux utilisateurs ayant une éducation avec ce type de diplôme.",
   "admin.delete.school": "Êtes-vous certain de vouloir supprimer tout les écoles sélectionnées? Ceci supprimera aussi les écoles associés aux utilisateurs ayant une éducation avec cet école.",
   "admin.delete.skill": "Êtes-vous certain de vouloir supprimer toutes les compétences sélectionnées? Ceci supprimera aussi les compétences et objectifs de développement associés aux utilisateurs relié aux compétences sélectionné.",
+  "admin.delete.user": "Êtes-vous certain de vouloir supprimer tout les utilisateurs sélectionnées? Ceci supprimera aussi tout contenu relié à l'utilisateur.",
   "admin.diploma.plural": "Diplômes",
   "admin.diploma.singular": "Diplôme",
   "admin.diploma.table": "Tableau de diplômes",

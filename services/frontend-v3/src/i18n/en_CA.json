@@ -51,6 +51,7 @@
   "admin.delete.diploma": "Are you sure that you want to delete all the selected diplomas? This will consequently delete the users associated diplomas to their education.",
   "admin.delete.school": "Are you sure that you want to delete all the selected schools? This will consequently delete the users associated schools to their education.",
   "admin.delete.skill": "Are you sure that you want to delete all the selected skills? This will consequently delete the users skills and developmental goals associated to those skills.",
+  "admin.delete.user": "Are you sure that you want to delete all the selected users? This will consequently delete all related user content.",
   "admin.diploma.plural": "Diplomas",
   "admin.diploma.singular": "Diploma",
   "admin.diploma.table": "Diplomas table",
