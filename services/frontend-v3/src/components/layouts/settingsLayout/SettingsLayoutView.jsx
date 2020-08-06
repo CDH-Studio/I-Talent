@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Card, List, Button, Modal } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
@@ -12,25 +12,26 @@ import handleError from "../../../functions/handleError";
 const StatsLayoutView = () => {
   const axios = useAxios();
   const history = useHistory();
+  const intl = useIntl();
   const { id } = useSelector((state) => state.user);
 
   const listData = [
     {
-      title: "Permanently delete account",
-      description:
-        "This will delete everything related to your account. Performing this action is irreversable! ",
+      title: <FormattedMessage id="settings.delete.title" />,
+      description: <FormattedMessage id="settings.delete.description" />,
       extra: (
         <Button
           danger
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined style={{ marginRight: 5 }} />}
           onClick={() => {
             Modal.confirm({
-              title: "Are you sure?",
-              content:
-                "Proceeding will delete your account and you will be redirected to the home screen",
-              okText: "Yes",
+              title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+              content: intl.formatMessage({
+                id: "settings.delete.modal.content",
+              }),
+              okText: intl.formatMessage({ id: "profile.yes" }),
               okType: "danger",
-              cancelText: "No",
+              cancelText: intl.formatMessage({ id: "profile.no" }),
               autoFocusButton: null,
               onOk: async () => {
                 try {
@@ -43,7 +44,7 @@ const StatsLayoutView = () => {
             });
           }}
         >
-          Delete account
+          <FormattedMessage id="settings.delete.button" />
         </Button>
       ),
     },
