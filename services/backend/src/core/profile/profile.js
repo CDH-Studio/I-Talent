@@ -358,9 +358,16 @@ async function updateProfile(request, response) {
           educations: educations
             ? {
                 create: educations.map(
-                  ({ startDate, endDate, diplomaId, schoolId }) => ({
+                  ({
+                    startDate,
+                    endDate,
+                    description,
+                    diplomaId,
+                    schoolId,
+                  }) => ({
                     startDate: normalizeDate(startDate, "month"),
                     endDate: normalizeDate(endDate, "month"),
+                    description: description,
                     diploma: {
                       connect: {
                         id: diplomaId,
@@ -636,6 +643,7 @@ async function getFullProfile(id, language) {
           updatedAt: true,
           startDate: true,
           endDate: true,
+          description: true,
           diploma: {
             select: {
               id: true,
@@ -1024,6 +1032,7 @@ function filterProfileResult(profile, language) {
         id: education.id,
         startDate: education.startDate,
         endDate: education.endDate,
+        description: education.description,
         diploma: {
           id: education.diploma.id,
           description: translatedDiploma ? translatedDiploma.description : null,

@@ -4,6 +4,8 @@ import { BankOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
+import DescriptionText from "../descriptionText/DescriptionText";
+
 function EducationView({ educationInfo }) {
   /* Component Styles */
   const styles = {
@@ -14,6 +16,19 @@ function EducationView({ educationInfo }) {
       backgroundColor: "#007471",
     },
   };
+
+  const generateEducationItemDescription = (item) => (
+    <>
+      <Row>
+        <Col>{item.school}</Col>
+      </Row>
+      <Row>
+        <Col>
+          <DescriptionText text={item.description} expandable />
+        </Col>
+      </Row>
+    </>
+  );
 
   const generateEducationInfoList = (dataSource) => {
     return (
@@ -32,7 +47,7 @@ function EducationView({ educationInfo }) {
                 />
               }
               title={item.diploma}
-              description={item.school}
+              description={generateEducationItemDescription(item)}
             />
           </List.Item>
         )}

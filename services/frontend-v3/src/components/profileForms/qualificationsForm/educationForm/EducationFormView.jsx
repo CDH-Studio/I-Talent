@@ -15,6 +15,8 @@ import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
+
+import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
   FieldPropType,
   FormInstancePropType,
@@ -59,6 +61,10 @@ const EducationFormView = ({
     maxChar100: {
       max: 100,
       message: <FormattedMessage id="profile.rules.max.100" />,
+    },
+    maxChar1500: {
+      max: 1500,
+      message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
 
@@ -241,12 +247,24 @@ const EducationFormView = ({
             />
           )}
         </Form.Item>
+
         <div style={{ marginTop: disableEndDate ? "-38px" : "-10px" }}>
           {/* Checkbox if event is on-going */}
           <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
             <FormattedMessage id="profile.is.ongoing" />
           </Checkbox>
         </div>
+      </Col>
+      <Col span={24}>
+        <DescriptionFormItem
+          name={[field.name, "description"]}
+          fieldKey={[field.fieldKey, "description"]}
+          rule={Rules.maxChar1500}
+          value={
+            profileInfo.educations[field.fieldKey] &&
+            profileInfo.educations[field.fieldKey].description
+          }
+        />
       </Col>
     </Row>
   );

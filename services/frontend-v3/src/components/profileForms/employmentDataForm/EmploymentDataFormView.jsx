@@ -38,7 +38,8 @@ import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
-const { TextArea } = Input;
+import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
+
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -56,8 +57,6 @@ const EmploymentDataFormView = ({
   substantiveOptions,
   intl,
   history,
-  handleDescriptionChange,
-  charsLeft,
   userId,
 }) => {
   const axios = useAxios();
@@ -741,7 +740,7 @@ const EmploymentDataFormView = ({
 
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
-              <Form.Item
+              {/* <Form.Item
                 name="description"
                 fieldKey="description"
                 rules={[Rules.maxChar1000]}
@@ -765,7 +764,13 @@ const EmploymentDataFormView = ({
                   onChange={(e) => handleDescriptionChange(e)}
                   rows={4}
                 />
-              </Form.Item>
+              </Form.Item> */}
+              <DescriptionFormItem
+                name="description"
+                fieldKey="description"
+                rule={Rules.maxChar1000}
+                value={profileInfo.description}
+              />
             </Col>
           </Row>
 
