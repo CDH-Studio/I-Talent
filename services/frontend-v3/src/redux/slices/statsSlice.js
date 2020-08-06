@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   count: {},
-  hiddenUsers: [],
   topFive: {
     competencies: [],
     skills: [],
@@ -31,9 +30,6 @@ const statsSlice = createSlice({
     setCountExFeederUsers(state, action) {
       state.count.exFeederUsers = action.payload;
     },
-    setHiddenUsers(state, action) {
-      state.hiddenUsers = action.payload;
-    },
     setTopFiveCompetencies(state, action) {
       state.topFive.competencies = action.payload;
     },
@@ -60,7 +56,6 @@ export const {
   setCountHiddenUsers,
   setCountInactiveUsers,
   setCountExFeederUsers,
-  setHiddenUsers,
   setTopFiveCompetencies,
   setTopFiveSkills,
   setTopFiveDevelopmentalGoals,
