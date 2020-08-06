@@ -10,6 +10,7 @@ import UnexpectedError from "./UnexpectedError";
 import About from "./About";
 import Forbidden from "./Forbidden";
 import Stats from "./Stats";
+import Settings from "./Settings";
 
 export {
   Logout,
@@ -24,4 +25,5 @@ export {
   About,
   Forbidden,
   Stats,
+  Settings,
 };

@@ -8,10 +8,11 @@ import {
   MenuOutlined,
   HomeOutlined,
   AreaChartOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
+import { Layout, Dropdown, Menu, Button, Input, Row, Col, Divider } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -81,6 +82,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       height: "100%",
       margin: "0 20px",
     },
+    divider: {
+      margin: 0,
+    },
   };
 
   const { id, name } = useSelector((state) => state.user);
@@ -112,6 +116,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
+      <Divider style={styles.divider} />
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <Link rel="noopener noreferrer" to="/admin/dashboard">
@@ -128,6 +133,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           </Link>
         </Menu.Item>
       )}
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+        <Link rel="noopener noreferrer" to="/settings">
+          <SettingOutlined style={styles.menuIcon} />
+          <FormattedMessage id="settings.title" />
+        </Link>
+      </Menu.Item>
+      <Divider style={styles.divider} />
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <Link rel="noopener noreferrer" to="/logout">
           <LogoutOutlined style={styles.menuIcon} />
@@ -209,7 +221,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Menu.Item style={styles.dropDownItem}>
         <Link tabIndex="0" rel="noopener noreferrer" to="/">
           <HomeOutlined style={styles.menuIcon} />
-          <FormattedMessage id="Home" />
+          <FormattedMessage id="home" />
         </Link>
       </Menu.Item>
     );
