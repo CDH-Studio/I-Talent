@@ -20,12 +20,15 @@ const DescriptionTextView = ({
       paddingLeft: "5px",
     },
     bodyStyle: {
-      overflowWrap: "break-word",
       whiteSpace: "pre-wrap",
       overflow: "auto",
       maxHeight: "225px",
+
+      //wordWrap: "break-word",
+      wordBreak: "break-all",
     },
   };
+  // overflowWrap: "break-word",
 
   const generateDescriptionBody = () => {
     if (text && (expanded || !expandable)) {

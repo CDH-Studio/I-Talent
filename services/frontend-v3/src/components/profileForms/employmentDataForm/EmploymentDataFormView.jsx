@@ -791,8 +791,6 @@ EmploymentDataFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
-  handleDescriptionChange: PropTypes.func.isRequired,
-  charsLeft: PropTypes.number.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {
