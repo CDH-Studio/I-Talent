@@ -136,7 +136,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <Link rel="noopener noreferrer" to="/settings">
           <SettingOutlined style={styles.menuIcon} />
-          <FormattedMessage id="settings" />
+          <FormattedMessage id="settings.title" />
         </Link>
       </Menu.Item>
       <Divider style={styles.divider} />
