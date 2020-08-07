@@ -705,35 +705,32 @@ const TalentFormView = ({
               tab={<FormattedMessage id="profile.mentorship.skills" />}
               key="2"
             >
-              <Row style={styles.secondLangRow} gutter={24}>
-                <Col className="gutter-row" span={24}>
-                  <Row justify="space-between" align="middle">
-                    <Space>
-                      <Text>
-                        <FormattedMessage id="profile.mentorship.available" />
-                        <Popover
-                          content={
-                            <div>
-                              <FormattedMessage id="tooltip.extra.info.help" />
-                              <Link to="/about/help">
-                                <FormattedMessage id="footer.contact.link" />
-                              </Link>
-                            </div>
-                          }
-                        >
-                          <InfoCircleOutlined style={styles.infoIconSwitch} />
-                        </Popover>
-                      </Text>
-
-                      <Switch
-                        checked={displayMentorshipForm}
-                        onChange={toggleMentorshipForm}
-                      />
-                    </Space>
-                    <CardVisibilityToggle
-                      visibleCards={profileInfo.visibleCards}
-                      cardName="mentorshipSkills"
-                      type="form"
+              {/* Form Row Two: skills */}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  {getSectionHeader(
+                    "profile.mentorship.skills",
+                    "mentorshipSkills"
+                  )}
+                  <Row>
+                    <Text>
+                      <FormattedMessage id="profile.mentorship.available" />
+                      <Popover
+                        content={
+                          <div>
+                            <FormattedMessage id="tooltip.extra.info.help" />
+                            <Link to="/about/help">
+                              <FormattedMessage id="footer.contact.link" />
+                            </Link>
+                          </div>
+                        }
+                      >
+                        <InfoCircleOutlined style={styles.infoIconSwitch} />
+                      </Popover>
+                    </Text>
+                    <Switch
+                      checked={displayMentorshipForm}
+                      onChange={toggleMentorshipForm}
                     />
                   </Row>
                   {getMentorshipForm(displayMentorshipForm)}

@@ -84,16 +84,22 @@ const PersonalGrowthFormView = ({
       background: "#fff",
       padding: "30px 30px",
     },
+    formTitle: {
+      fontSize: "1.2em",
+      margin: 0,
+    },
+    infoIcon: {
+      paddingLeft: "5px",
+    },
+    sectionHeader: {
+      marginBottom: 10,
+    },
     content: {
       textAlign: "left",
       width: "100%",
       maxWidth: "900px",
       background: "#fff",
       padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
     },
     headerDiv: {
       margin: "15px 0 15px 0",
@@ -421,10 +427,30 @@ const PersonalGrowthFormView = ({
     );
   };
 
-  /* TODO: check if user has a skills to mentor 
-  useEffect(() => {
-  }, []);
-  */
+  const getSectionHeader = (titleId, cardName) => (
+    <Row justify="space-between" style={styles.sectionHeader} align="middle">
+      <Title level={3} style={styles.formTitle}>
+        <FormattedMessage id={titleId} />
+        <Popover
+          content={
+            <div>
+              <FormattedMessage id="tooltip.extra.info.help" />
+              <Link to="/about/help">
+                <FormattedMessage id="footer.contact.link" />
+              </Link>
+            </div>
+          }
+        >
+          <InfoCircleOutlined style={styles.infoIcon} />
+        </Popover>
+      </Title>
+      <CardVisibilityToggle
+        visibleCards={profileInfo.visibleCards}
+        cardName={cardName}
+        type="form"
+      />
+    </Row>
+  );
 
   /** **********************************
    ********* Render Component *********
@@ -462,39 +488,15 @@ const PersonalGrowthFormView = ({
               key="1"
             >
               {/* *************** Developmental ************** */}
-
-              <Row justify="space-between" align="middle">
-                <Title level={3} style={styles.formTitle}>
-                  <FormattedMessage id="setup.developmental.goals" />
-                </Title>
-                <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="developmentalGoals"
-                  type="form"
-                />
-              </Row>
+              {getSectionHeader(
+                "setup.developmental.goals",
+                "developmentalGoals"
+              )}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     className="custom-bubble-select-style"
                     name="developmentalGoals"
-                    label={
-                      <Text>
-                        <FormattedMessage id="setup.developmental.goals" />
-                        <Popover
-                          content={
-                            <div>
-                              <FormattedMessage id="tooltip.extra.info.help" />
-                              <Link to="/about/help">
-                                <FormattedMessage id="footer.contact.link" />
-                              </Link>
-                            </div>
-                          }
-                        >
-                          <InfoCircleOutlined style={styles.iconAfterTitle} />
-                        </Popover>
-                      </Text>
-                    }
                   >
                     <TreeSelect
                       className="custom-bubble-select-style"
@@ -515,16 +517,8 @@ const PersonalGrowthFormView = ({
               key="2"
             >
               {/* *************** Career Interest ************** */}
-              <Row justify="space-between" align="middle">
-                <Title level={3} style={styles.formTitle}>
-                  <FormattedMessage id="setup.career.interests" />
-                </Title>
-                <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="careerInterests"
-                  type="form"
-                />
-              </Row>
+
+              {getSectionHeader("setup.career.interests", "careerInterests")}
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -621,6 +615,7 @@ const PersonalGrowthFormView = ({
               key="3"
             >
               {/* *************** Talent Management ************** */}
+
               <Row justify="space-between" align="middle">
                 <Title level={3} style={styles.formTitle}>
                   <FormattedMessage id="setup.talent.management" />
