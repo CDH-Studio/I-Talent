@@ -41,7 +41,7 @@ const ErrorResult = ({ errorCode }) => {
       ),
     },
     profileNotExist: {
-      status: "403",
+      status: "404",
       title: <FormattedMessage id="profile.not.found" />,
       subTitle: <FormattedMessage id="profile.not.found.description" />,
       extra: (
@@ -68,7 +68,7 @@ const ErrorResult = ({ errorCode }) => {
   }
 
   return (
-    <AppLayout>
+    <AppLayout displaySearch={false}>
       <ErrorResultView resultProps={propMap[errorCode]} />
     </AppLayout>
   );
