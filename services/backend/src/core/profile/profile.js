@@ -986,7 +986,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.educations) {
-    filteredProfile.educations = profile.educations.map((education) => {
+    const educations = profile.educations.map((education) => {
       const translatedDiploma =
         education.diploma.translations.find((i) => i.language === language) ||
         education.diploma.translations[0];
@@ -1012,6 +1012,8 @@ function filterProfileResult(profile, language) {
       };
     });
 
+    filteredProfile.educations = _.orderBy(educations, "startDate", "desc");
+
     filteredProfile.educationsUpdatedAt = profile.educations.reduce(
       updatedAtReducer,
       undefined
@@ -1019,7 +1021,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.experiences) {
-    filteredProfile.experiences = profile.experiences.map((experience) => {
+    const experiences = profile.experiences.map((experience) => {
       const translatedExperience =
         experience.translations.find((i) => i.language === language) ||
         experience.translations[0];
@@ -1037,6 +1039,8 @@ function filterProfileResult(profile, language) {
           : null,
       };
     });
+
+    filteredProfile.experiences = _.orderBy(experiences, "startDate", "desc");
 
     filteredProfile.experiencesUpdatedAt = profile.experiences.reduce(
       updatedAtReducer,
