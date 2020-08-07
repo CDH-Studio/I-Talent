@@ -10,7 +10,9 @@ const DescriptionFormItem = ({
   fieldKey,
   rule,
   charsLeft,
+  maxLengthMessage,
   handleDescriptionChange,
+  label,
 }) => {
   const styles = {
     space: {
@@ -23,9 +25,10 @@ const DescriptionFormItem = ({
       name={name}
       fieldKey={fieldKey}
       rules={[rule]}
+      label={label}
       extra={
         <div>
-          <FormattedMessage id="profile.rules.max.1000" />
+          {maxLengthMessage}
           {charsLeft >= 0 && (
             <span style={styles.space}>
               ({charsLeft}
@@ -50,6 +53,12 @@ DescriptionFormItem.propTypes = {
     .isRequired,
   charsLeft: PropTypes.number.isRequired,
   handleDescriptionChange: PropTypes.func.isRequired,
+  label: PropTypes.element,
+  maxLengthMessage: PropTypes.element.isRequired,
+};
+
+DescriptionFormItem.defaultProps = {
+  label: null,
 };
 
 export default DescriptionFormItem;

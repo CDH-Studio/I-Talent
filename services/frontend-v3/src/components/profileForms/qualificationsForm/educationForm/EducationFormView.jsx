@@ -264,6 +264,8 @@ const EducationFormView = ({
             profileInfo.educations[field.fieldKey] &&
             profileInfo.educations[field.fieldKey].description
           }
+          label={<FormattedMessage id="profile.qualification.description" />}
+          maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>
     </Row>

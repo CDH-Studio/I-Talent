@@ -237,6 +237,8 @@ const ExperienceFormView = ({
             profileInfo.experiences[field.fieldKey] &&
             profileInfo.experiences[field.fieldKey].description
           }
+          label={<FormattedMessage id="profile.qualification.description" />}
+          maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>
     </Row>

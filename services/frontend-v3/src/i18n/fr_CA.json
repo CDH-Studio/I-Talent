@@ -233,6 +233,7 @@
   "profile.privateGroup": "Groupe privé",
   "profile.projects": "Projets",
   "profile.projects.empty": "aucun projet fourni",
+  "profile.qualification.description": "La description",
   "profile.qualifications.select.month": "Sélectionner un mois",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.rules.max.100": "Maximum de 100 caractères",

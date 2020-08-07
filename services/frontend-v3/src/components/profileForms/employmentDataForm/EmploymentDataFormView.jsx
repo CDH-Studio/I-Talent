@@ -740,36 +740,14 @@ const EmploymentDataFormView = ({
 
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
-              {/* <Form.Item
-                name="description"
-                fieldKey="description"
-                rules={[Rules.maxChar1000]}
-                extra={
-                  <div>
-                    <FormattedMessage id="profile.rules.max.1000" />
-                    {charsLeft >= 0 && (
-                      <span style={styles.space}>
-                        ({charsLeft}
-                        <span style={styles.space}>
-                          <FormattedMessage id="count.remaining" />
-                        </span>
-                        )
-                      </span>
-                    )}
-                  </div>
-                }
-              >
-                <TextArea
-                  name="content"
-                  onChange={(e) => handleDescriptionChange(e)}
-                  rows={4}
-                />
-              </Form.Item> */}
               <DescriptionFormItem
                 name="description"
                 fieldKey="description"
                 rule={Rules.maxChar1000}
                 value={profileInfo.description}
+                maxLengthMessage={
+                  <FormattedMessage id="profile.rules.max.1000" />
+                }
               />
             </Col>
           </Row>

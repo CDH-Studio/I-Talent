@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 
 import DescriptionFormItemView from "./DescriptionFormItemView";
 
-const DescriptionFormItem = ({ name, fieldKey, rule, value }) => {
+const DescriptionFormItem = ({
+  name,
+  fieldKey,
+  rule,
+  maxLengthMessage,
+  value,
+  label,
+}) => {
   const [charsLeft, setCharsLeft] = useState(
     value ? rule.max - value.length : rule.max
   );
@@ -17,9 +24,11 @@ const DescriptionFormItem = ({ name, fieldKey, rule, value }) => {
       name={name}
       fieldKey={fieldKey}
       rule={rule}
+      maxLengthMessage={maxLengthMessage}
       value={value}
       charsLeft={charsLeft}
       handleDescriptionChange={handleDescriptionChange}
+      label={label}
     />
   );
 };
@@ -30,10 +39,13 @@ DescriptionFormItem.propTypes = {
   rule: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
     .isRequired,
   value: PropTypes.string,
+  label: PropTypes.element,
+  maxLengthMessage: PropTypes.element.isRequired,
 };
 
 DescriptionFormItem.defaultProps = {
   value: undefined,
+  label: null,
 };
 
 export default DescriptionFormItem;

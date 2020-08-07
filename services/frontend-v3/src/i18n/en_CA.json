@@ -233,6 +233,7 @@
   "profile.privateGroup": "Private group",
   "profile.projects": "Projects",
   "profile.projects.empty": "no projects provided",
+  "profile.qualification.description": "Description",
   "profile.qualifications.select.month": "Select month",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
   "profile.rules.max.100": "Max length 100 characters",
