@@ -549,21 +549,7 @@ const PersonalGrowthFormView = ({
                     className="custom-bubble-select-style"
                     name="relocationLocations"
                     label={
-                      <Text>
-                        <FormattedMessage id="profile.willing.to.relocate.to" />
-                        <Popover
-                          content={
-                            <div>
-                              <FormattedMessage id="tooltip.extra.info.help" />
-                              <Link to="/about/help">
-                                <FormattedMessage id="footer.contact.link" />
-                              </Link>
-                            </div>
-                          }
-                        >
-                          <InfoCircleOutlined style={styles.iconAfterTitle} />
-                        </Popover>
-                      </Text>
+                      <FormattedMessage id="profile.willing.to.relocate.to" />
                     }
                   >
                     <Select
@@ -698,6 +684,7 @@ const PersonalGrowthFormView = ({
               key="4"
             >
               {/* Form Row Three: ex feeder */}
+              {getSectionHeader("profile.ex.feeder.title", "exFeeder")}
               <Row style={styles.exFeeder} justify="space-between">
                 <Col className="gutter-row">
                   <Form.Item name="exFeeder" valuePropName="checked">
@@ -706,15 +693,9 @@ const PersonalGrowthFormView = ({
                     </Checkbox>
                   </Form.Item>
                 </Col>
-                <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="exFeeder"
-                  type="form"
-                />
               </Row>
             </TabPane>
           </Tabs>
-          {/* *************** Control Buttons ************** */}
           {/* Form Row Four: Submit button */}
           {getFormControlButtons(formType)}
         </Form>

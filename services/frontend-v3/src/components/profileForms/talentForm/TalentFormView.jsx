@@ -712,27 +712,14 @@ const TalentFormView = ({
                     "profile.mentorship.skills",
                     "mentorshipSkills"
                   )}
-                  <Row>
-                    <Text>
-                      <FormattedMessage id="profile.mentorship.available" />
-                      <Popover
-                        content={
-                          <div>
-                            <FormattedMessage id="tooltip.extra.info.help" />
-                            <Link to="/about/help">
-                              <FormattedMessage id="footer.contact.link" />
-                            </Link>
-                          </div>
-                        }
-                      >
-                        <InfoCircleOutlined style={styles.infoIconSwitch} />
-                      </Popover>
-                    </Text>
+                  <Row justify="space-between" align="middle">
+                    <FormattedMessage id="profile.mentorship.available" />
                     <Switch
                       checked={displayMentorshipForm}
                       onChange={toggleMentorshipForm}
                     />
                   </Row>
+
                   {getMentorshipForm(displayMentorshipForm)}
                 </Col>
               </Row>
