@@ -16,7 +16,7 @@ import {
  *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-function CategoryTable({ intl }) {
+const CategoryTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -142,7 +142,7 @@ function CategoryTable({ intl }) {
       rowSelection={rowSelection}
     />
   );
-}
+};
 
 CategoryTable.propTypes = {
   intl: IntlPropType,
