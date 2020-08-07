@@ -13,6 +13,7 @@ import {
   message,
   Popover,
   Space,
+  Tabs,
 } from "antd";
 import {
   RightOutlined,
@@ -37,6 +38,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 const { Option } = Select;
 const { Title, Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;
+const { TabPane } = Tabs;
 
 /**
  *  TalentFormView(props)
@@ -443,23 +445,7 @@ const TalentFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="mentorshipSkills"
-                label={
-                  <Text>
-                    <FormattedMessage id="profile.mentorship.skills" />
-                    <Popover
-                      content={
-                        <div>
-                          <FormattedMessage id="tooltip.extra.info.help" />
-                          <Link to="/about/help">
-                            <FormattedMessage id="footer.contact.link" />
-                          </Link>
-                        </div>
-                      }
-                    >
-                      <InfoCircleOutlined style={styles.infoIcon} />
-                    </Popover>
-                  </Text>
-                }
+                label={<FormattedMessage id="profile.mentorship.skills" />}
                 rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0 ? (
@@ -677,79 +663,79 @@ const TalentFormView = ({
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
         >
-          {/* Form Row Two: skills */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              {getSectionHeader("setup.skills", "skills")}
-              <Form.Item name="skills">
-                <TreeSelect
-                  className="custom-bubble-select-style"
-                  treeData={skillOptions}
-                  onChange={onChangeSkills}
-                  treeCheckable
-                  showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  treeNodeFilterProp="title"
-                  showSearch
-                  maxTagCount={15}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* Form Row Two: mentorship role */}
-          <Row style={styles.secondLangRow} gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <Row justify="space-between" align="middle">
-                <Space>
-                  <Text>
-                    <FormattedMessage id="profile.mentorship.available" />
-                    <Popover
-                      content={
-                        <div>
-                          <FormattedMessage id="tooltip.extra.info.help" />
-                          <Link to="/about/help">
-                            <FormattedMessage id="footer.contact.link" />
-                          </Link>
-                        </div>
-                      }
-                    >
-                      <InfoCircleOutlined style={styles.infoIconSwitch} />
-                    </Popover>
-                  </Text>
-
-                  <Switch
-                    checked={displayMentorshipForm}
-                    onChange={toggleMentorshipForm}
-                  />
-                </Space>
-                <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="mentorshipSkills"
-                  type="form"
-                />
+          <Tabs type="card">
+            <TabPane tab={<FormattedMessage id="setup.skills" />} key="1">
+              {/* Form Row Two: skills */}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  {getSectionHeader("setup.skills", "skills")}
+                  <Form.Item name="skills">
+                    <TreeSelect
+                      className="custom-bubble-select-style"
+                      treeData={skillOptions}
+                      onChange={onChangeSkills}
+                      treeCheckable
+                      showCheckedStrategy={SHOW_CHILD}
+                      placeholder={<FormattedMessage id="setup.select" />}
+                      treeNodeFilterProp="title"
+                      showSearch
+                      maxTagCount={15}
+                    />
+                  </Form.Item>
+                </Col>
               </Row>
-              {getMentorshipForm(displayMentorshipForm)}
-            </Col>
-          </Row>
-          {/* Form Row Three: competencies */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              {getSectionHeader("setup.competencies", "competencies")}
-              <Form.Item name="competencies">
-                <Select
-                  className="custom-bubble-select-style"
-                  mode="multiple"
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  style={{ width: "100%" }}
-                >
-                  {competencyOptions.map((value) => {
-                    return <Option key={value.id}>{value.name}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
+            </TabPane>
+            <TabPane
+              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              key="2"
+            >
+              {/* Form Row Two: skills */}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  {getSectionHeader(
+                    "profile.mentorship.skills",
+                    "mentorshipSkills"
+                  )}
+                  <Form.Item name="mentorship">
+                    <Space>
+                      <Text>
+                        <FormattedMessage id="profile.mentorship.available" />
+                      </Text>
+                      <Switch
+                        checked={displayMentorshipForm}
+                        onChange={toggleMentorshipForm}
+                      />
+                    </Space>
+                  </Form.Item>
+                  <Form.Item name="displayMentorship">
+                    {getMentorshipForm(displayMentorshipForm)}
+                  </Form.Item>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tab={<FormattedMessage id="setup.competencies" />} key="3">
+              {/* Form Row Three: competencies */}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  {getSectionHeader("setup.competencies", "competencies")}
+                  <Form.Item name="competencies">
+                    <Select
+                      className="custom-bubble-select-style"
+                      mode="multiple"
+                      optionFilterProp="children"
+                      placeholder={<FormattedMessage id="setup.select" />}
+                      style={{ width: "100%" }}
+                    >
+                      {competencyOptions.map((value) => {
+                        return <Option key={value.id}>{value.name}</Option>;
+                      })}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </TabPane>
+          </Tabs>
+
           {/* Form Row Four: Submit button */}
           {getFormControlButtons(formType)}
         </Form>
