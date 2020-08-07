@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const moment = require("moment");
 const _ = require("lodash");
 const prisma = require("../../database");
+const config = require("../../config");
 
 function normalizeDate(date, startOf) {
   if (date === null) {
@@ -1190,10 +1191,21 @@ async function getPublicProfileById(request, response) {
     const { id } = request.params;
     const { language } = request.query;
     if (userId && id) {
-      const result = filterProfileResult(
-        await getFullProfile(id, language),
-        language
-      );
+      const fullProfile = await getFullProfile(id, language);
+
+      const isAdmin =
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ] &&
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ].roles.includes("manage-users");
+
+      if (fullProfile.status !== "ACTIVE" && !isAdmin) {
+        response.sendStatus(404);
+      }
+
+      const result = filterProfileResult(fullProfile, language);
 
       const isConnection = result.connections.some(
         (item) => item.id === userId
