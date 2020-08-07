@@ -454,7 +454,7 @@ const TalentFormView = ({
                 }
               >
                 <TreeSelect
-                  className="talent-skill-select"
+                  className="custom-bubble-select-style"
                   treeData={selectedSkills}
                   treeCheckable
                   showCheckedStrategy={SHOW_CHILD}
