@@ -11,6 +11,7 @@ import {
   Checkbox,
   message,
   Popover,
+  TreeSelect,
 } from "antd";
 import {
   RightOutlined,
@@ -37,6 +38,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
+const { SHOW_CHILD } = TreeSelect;
 
 /**
  *  TalentFormView(props)
@@ -487,16 +489,16 @@ const PersonalGrowthFormView = ({
                   </Text>
                 }
               >
-                <Select
-                  mode="multiple"
-                  optionFilterProp="children"
+                <TreeSelect
+                  className="custom-bubble-select-style"
+                  treeData={developmentalGoalOptions}
+                  treeCheckable
+                  showCheckedStrategy={SHOW_CHILD}
                   placeholder={<FormattedMessage id="setup.select" />}
-                  style={{ width: "100%" }}
-                >
-                  {developmentalGoalOptions.map((value) => {
-                    return <Option key={value.id}>{value.name}</Option>;
-                  })}
-                </Select>
+                  treeNodeFilterProp="title"
+                  showSearch
+                  maxTagCount={15}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -606,9 +608,15 @@ const PersonalGrowthFormView = ({
                 content={
                   <div>
                     <FormattedMessage id="profile.talent.management.tooltip" />
-                    <Link href="http://icintra.ic.gc.ca/eforms/forms/ISED-ISDE3730E.pdf">
-                      Talent Management Tool
-                    </Link>
+                    {locale === "ENGLISH" ? (
+                      <Link href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html">
+                        <FormattedMessage id="profile.talent.management.link" />
+                      </Link>
+                    ) : (
+                      <Link href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html">
+                        <FormattedMessage id="profile.talent.management.link" />
+                      </Link>
+                    )}
                   </div>
                 }
               >

@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const _ = require("lodash");
 const prisma = require("../../database");
+const config = require("../../config");
 
 function generateAvatarColor() {
   const colours = [
@@ -108,7 +109,53 @@ async function createUser(request, response) {
     }
     response
       .status(403)
-      .json({ data: "Access to private account has be denied." });
+      .json({ data: "Access to private account has been denied." });
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).json("Unable to create profiles");
+  }
+}
+
+async function deleteUser(request, response) {
+  try {
+    validationResult(request).throw();
+
+    const { id } = request.params;
+
+    const isAdmin =
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ] &&
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ].roles.includes("manage-users");
+    const isUser = request.kauth.grant.access_token.content.sub === id;
+
+    if (isAdmin || isUser) {
+      await Promise.all([
+        prisma.competency.deleteMany({ where: { userId: id } }),
+        prisma.mentorshipSkill.deleteMany({ where: { userId: id } }),
+        prisma.skill.deleteMany({ where: { userId: id } }),
+        prisma.developmentalGoal.deleteMany({ where: { userId: id } }),
+        prisma.secondLangProf.deleteMany({ where: { userId: id } }),
+        prisma.organization.deleteMany({ where: { userId: id } }),
+        prisma.education.deleteMany({ where: { userId: id } }),
+        prisma.experience.deleteMany({ where: { userId: id } }),
+        prisma.relocationLocation.deleteMany({ where: { userId: id } }),
+      ]);
+      await prisma.user.delete({ where: { id } });
+    } else {
+      response
+        .status(403)
+        .json({ data: "Access to delete specified account has been denied." });
+      return;
+    }
+
+    response.status(200).send("Successfully deleted the specified account");
   } catch (error) {
     console.log(error);
     if (error.errors) {
@@ -122,4 +169,5 @@ async function createUser(request, response) {
 module.exports = {
   getUserById,
   createUser,
+  deleteUser,
 };

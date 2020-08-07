@@ -415,7 +415,7 @@ async function updateProfile(request, response) {
                   create: i,
                   update: {
                     level: i.level,
-                    date: i.date && normalizeDate(i.date, "day"),
+                    date: normalizeDate(i.date, "day"),
                   },
                 })),
               }
@@ -528,7 +528,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  const fullProfile = await prisma.user.findOne({
+  return prisma.user.findOne({
     where: { id },
     select: {
       id: true,
@@ -892,27 +892,6 @@ async function getFullProfile(id, language) {
       },
     },
   });
-
-  fullProfile.secondLangProfs.forEach((value, index) => {
-    let expiredValue;
-    if (value.date) {
-      const dateMoment = moment(value.date);
-      if (dateMoment.isBefore()) {
-        expiredValue = true;
-        if (dateMoment.unix() === 0) {
-          fullProfile.secondLangProfs[index].date = null;
-        }
-      } else {
-        expiredValue = false;
-      }
-    } else {
-      expiredValue = null;
-    }
-
-    fullProfile.secondLangProfs[index].expired = expiredValue;
-  });
-
-  return fullProfile;
 }
 
 function updatedAtReducer(accumulator, { updatedAt }) {
@@ -1163,15 +1142,37 @@ function filterProfileResult(profile, language) {
     );
   }
 
-  filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
-    return {
-      id: prof.id,
-      date: prof.date,
-      proficiency: prof.proficiency,
-      expired: prof.expired,
-      level: prof.level,
-    };
-  });
+  if (profile.secondLangProfs) {
+    filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
+      let expiredValue;
+      let dateValue;
+      if (prof.date) {
+        const dateMoment = moment(prof.date);
+        if (dateMoment.isBefore()) {
+          expiredValue = true;
+          if (dateMoment.unix() === 0) {
+            dateValue = null;
+          } else {
+            dateValue = dateMoment;
+          }
+        } else {
+          dateValue = dateMoment;
+          expiredValue = false;
+        }
+      } else {
+        expiredValue = null;
+        dateValue = null;
+      }
+
+      return {
+        id: prof.id,
+        date: dateValue,
+        proficiency: prof.proficiency,
+        expired: expiredValue,
+        level: prof.level,
+      };
+    });
+  }
 
   if (profile.organizations) {
     filteredProfile.organizations = profile.organizations.map((org) => {
@@ -1277,12 +1278,10 @@ async function getPublicProfileById(request, response) {
         result.secondLanguage = null;
         result.secondLangProfs = null;
         tempCards.officialLanguage = false;
-      } else {
-        if (result.secondLangProfs) {
-          result.secondLangProfs.forEach((lang, index) => {
-            delete result.secondLangProfs[index].date;
-          });
-        }
+      } else if (result.secondLangProfs) {
+        result.secondLangProfs.forEach((lang, index) => {
+          delete result.secondLangProfs[index].date;
+        });
       }
 
       if (hideCard("skills")) {
@@ -1331,7 +1330,6 @@ async function getPublicProfileById(request, response) {
       }
       if (hideCard("exFeeder")) {
         result.exFeeder = null;
-
         tempCards.exFeeder = false;
       }
 

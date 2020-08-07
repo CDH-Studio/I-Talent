@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Anchor, Typography, Row, Col, message, Popover } from "antd";
+import { Anchor, Typography, Row, Col, message, Popover, Tooltip } from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
@@ -424,8 +424,9 @@ const ProfileLayoutView = ({
             </Row>
             <Row>
               <Text type="secondary" style={styles.headerSubtitle}>
-                <FormattedMessage id="profile.last.updated" />
-                {data && moment(data.updatedAt).format("LL")}
+                <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+                  {data && moment(data.updatedAt).format("LL")}
+                </Tooltip>
               </Text>
             </Row>
           </Col>

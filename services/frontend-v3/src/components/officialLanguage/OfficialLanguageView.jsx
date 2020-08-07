@@ -53,8 +53,17 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
 
 OfficialLanguageView.propTypes = {
   firstLanguageInfo: PropTypes.isRequired,
-  secondLanguageDateInfo: PropTypes.isRequired,
-  secondLanguageGradeInfo: PropTypes.isRequired,
+  secondLanguageInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      titleId: PropTypes.string,
+      level: PropTypes.string,
+      expiryInfo: PropTypes.string,
+    })
+  ),
+};
+
+OfficialLanguageView.defaultProps = {
+  secondLanguageInfo: null,
 };
 
 export default OfficialLanguageView;
