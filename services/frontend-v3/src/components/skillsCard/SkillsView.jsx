@@ -7,7 +7,7 @@ import { FormattedMessage } from "react-intl";
 
 const { Panel } = Collapse;
 
-function SkillsView({ categoriesSkills, skills }) {
+const SkillsView = ({ categoriesSkills, skills }) => {
   /*
    * Generate Skills Collapse
    *

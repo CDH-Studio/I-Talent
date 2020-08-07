@@ -3,7 +3,7 @@ import { List, Tag, Row, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
 import { PropTypes } from "prop-types";
 
-function DevelopmentalGoalsView({ devGoals }) {
+const DevelopmentalGoalsView = ({ devGoals }) => {
   /*
    * Generate Developmental Goals List
    *
@@ -29,7 +29,7 @@ function DevelopmentalGoalsView({ devGoals }) {
       description={<FormattedMessage id="profile.developmental.goals.empty" />}
     />
   );
-}
+};
 
 DevelopmentalGoalsView.propTypes = {
   devGoals: PropTypes.arrayOf(
