@@ -548,7 +548,7 @@ definitions:
 
   200:
     description: Success
-  403:
+  400:
     description: Request processed, but specified item was not found
   403:
     description: Request not authenticated with keycloak or user does not have access to certain information
