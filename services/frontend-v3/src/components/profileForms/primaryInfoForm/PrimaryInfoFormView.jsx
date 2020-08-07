@@ -56,6 +56,7 @@ const PrimaryInfoFormView = ({
   const axios = useAxios();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [titleChanged, setTitleChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
@@ -239,7 +240,10 @@ const PrimaryInfoFormView = ({
       savedValues || getInitialValues(profileInfo),
       _.identity
     );
+    const jobValue = form.getFieldValue("jobTitle");
+    const savedTitled = Object.values(getInitialValues(profileInfo.email));
 
+    setTitleChanged(!_.isEqual(jobValue, savedTitled));
     setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
@@ -269,6 +273,7 @@ const PrimaryInfoFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         setFieldsChanged(false);
+        setTitleChanged(false);
       })
       .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
@@ -294,6 +299,7 @@ const PrimaryInfoFormView = ({
       })
       .then(() => {
         setFieldsChanged(false);
+        setTitleChanged(false);
         if (formType === "create") {
           history.push("/profile/create/step/8");
         } else {
