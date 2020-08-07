@@ -121,7 +121,14 @@ const BasicInfoView = ({
             </Text>
           </Avatar>
         </Col>
-        <Col xs={13} md={15} lg={17} xl={16} xxl={18} style={{ padding: "11px 10px" }}>
+        <Col
+          xs={13}
+          md={15}
+          lg={17}
+          xl={16}
+          xxl={18}
+          style={{ padding: "11px 10px" }}
+        >
           <Text
             strong
             style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
@@ -293,9 +300,14 @@ const BasicInfoView = ({
   const generateActions = () => {
     const buttons = Object.keys(buttonLinks).map((key) => {
       const button = buttonLinks[key];
-
       return (
-        <Button block type="link" icon={button.icon} href={button.url}>
+        <Button
+          block
+          type="link"
+          target="_blank"
+          icon={button.icon}
+          href={button.url}
+        >
           <FormattedMessage id={button.textId} />
         </Button>
       );
