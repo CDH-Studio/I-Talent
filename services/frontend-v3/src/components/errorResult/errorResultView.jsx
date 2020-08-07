@@ -2,25 +2,14 @@ import React from "react";
 import { Result } from "antd";
 import PropTypes from "prop-types";
 
-const ErrorResultView = ({ resultProps }) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <Result
-        status={resultProps.status}
-        title={resultProps.title}
-        subTitle={resultProps.subTitle}
-        extra={resultProps.extra}
-      />
-    </div>
-  );
-};
+const ErrorResultView = ({ resultProps }) => (
+  <Result
+    status={resultProps.status}
+    title={resultProps.title}
+    subTitle={resultProps.subTitle}
+    extra={resultProps.extra}
+  />
+);
 
 ErrorResultView.propTypes = {
   resultProps: PropTypes.shape({
