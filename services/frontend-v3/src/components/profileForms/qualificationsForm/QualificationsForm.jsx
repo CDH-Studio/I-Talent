@@ -53,8 +53,8 @@ const QualificationsForm = ({ formType }) => {
     const educations = profileInfo.educations.map((i) => ({
       schoolId: i.school.id,
       diplomaId: i.diploma.id,
-      startDate: i.startDate ? moment.utc(i.startDate) : undefined,
-      endDate: i.endDate ? moment.utc(i.endDate) : undefined,
+      startDate: i.startDate ? moment(i.startDate) : undefined,
+      endDate: i.endDate ? moment(i.endDate) : undefined,
     }));
 
     setSavedEducation(educations);
@@ -71,8 +71,8 @@ const QualificationsForm = ({ formType }) => {
       jobTitle: i.jobTitle,
       organization: i.organization,
       description: i.description,
-      startDate: i.startDate ? moment.utc(i.startDate) : undefined,
-      endDate: i.endDate ? moment.utc(i.endDate) : undefined,
+      startDate: i.startDate ? moment(i.startDate) : undefined,
+      endDate: i.endDate ? moment(i.endDate) : undefined,
     }));
 
     setSavedExperience(selected);
