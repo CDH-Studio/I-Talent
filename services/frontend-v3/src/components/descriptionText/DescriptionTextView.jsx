@@ -22,26 +22,27 @@ const DescriptionTextView = ({
     bodyStyle: {
       whiteSpace: "pre-wrap",
       overflow: "auto",
-      maxHeight: "225px",
-
-      //wordWrap: "break-word",
+      maxHeight: "400px",
       wordBreak: "break-all",
     },
   };
-  // overflowWrap: "break-word",
 
   const generateDescriptionBody = () => {
-    if (text && (expanded || !expandable)) {
-      const lineStrings = text.split(" ").join("\u00A0").split("\n");
-      return (
-        <div style={styles.bodyStyle}>
-          {lineStrings.map((line, index) => (
-            <>
-              {index > 0 ? <br /> : null} {line}
-            </>
-          ))}
-        </div>
-      );
+    if (expanded || !expandable) {
+      if (text) {
+        const lineStrings = text.split(" ").join("\u00A0").split("\n");
+        return (
+          <div style={styles.bodyStyle}>
+            {lineStrings.map((line, index) => (
+              <>
+                {index > 0 ? <br /> : null} {line}
+              </>
+            ))}
+          </div>
+        );
+      }
+
+      return "-";
     }
 
     return undefined;

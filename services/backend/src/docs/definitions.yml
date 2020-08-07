@@ -284,6 +284,8 @@ definitions:
         schoolId:
           type: string
           format: uuid
+        description:
+          type: string
   Experiences:
     type: array
     items:

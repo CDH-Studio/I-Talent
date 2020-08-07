@@ -255,7 +255,7 @@ const EducationFormView = ({
           </Checkbox>
         </div>
       </Col>
-      <Col span={24}>
+      <Col className="gutter-row" span={24}>
         <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
