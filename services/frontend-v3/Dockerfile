@@ -11,7 +11,7 @@ COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh
 
 # Copy app dependencies
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 # Runs install script
 RUN ./scripts/install.sh
