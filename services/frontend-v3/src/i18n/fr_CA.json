@@ -220,7 +220,8 @@
   "profile.mentorship.skills.empty": "Vous devez d'abord sélectionner les compétences pour leur fournir un mentorat",
   "profile.no": "Non",
   "profile.not.ex.feeder": "Je ne suis pas nominé dans le programme EX-feeder",
-  "profile.not.found": "Profil non trouvé",
+  "profile.not.found": "Ce profil n'existe pas",
+  "profile.not.found.description": "S'il vous plait vérifier le lien",
   "profile.not.specified": "Non spécifié",
   "profile.official.language": "Langue officielle",
   "profile.oral": "Oral",
@@ -328,5 +329,7 @@
   "sign.out": "Déconnexion",
   "stats.title": "Statistiques",
   "stats.view": "Voir statistiques",
-  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : "
+  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
+  "loading": "Chargement",
+  "not.found": "Not found"
 }
