@@ -4,7 +4,7 @@ import { BankOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-function EducationView({ educationInfo }) {
+const EducationView = ({ educationInfo }) => {
   /* Component Styles */
   const styles = {
     card: {

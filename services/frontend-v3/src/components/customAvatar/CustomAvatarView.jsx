@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar } from "antd";
 import { PropTypes } from "prop-types";
 
-function CustomAvatarView({ color, style, initials }) {
+const CustomAvatarView = ({ color, style, initials }) => {
   // set icon color based on name
   const iconColor = {
     backgroundColor: color,
@@ -21,7 +21,7 @@ function CustomAvatarView({ color, style, initials }) {
   };
 
   return <Avatar style={mergedStyles}>{initials}</Avatar>;
-}
+};
 
 CustomAvatarView.propTypes = {
   color: PropTypes.string.isRequired,
