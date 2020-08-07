@@ -73,7 +73,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
   );
 
   return (
-    <AppLayout sideBarContent={sideBarContent} displaySideBar={displaySideBar} isAdmin>
+    <AppLayout sideBarContent={sideBarContent} displaySideBar={displaySideBar}>
       {children}
     </AppLayout>
   );

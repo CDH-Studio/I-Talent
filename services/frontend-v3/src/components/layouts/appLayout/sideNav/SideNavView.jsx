@@ -4,7 +4,7 @@ import { Affix, Layout, Skeleton } from "antd";
 
 const { Sider } = Layout;
 
-const SideNavView = ({ displaySideBar, sideBarContent, loading, isAdmin }) => {
+const SideNavView = ({ displaySideBar, sideBarContent, loading, adminView }) => {
   const styles = {
     sider: {
       background: "#fff",
@@ -14,7 +14,7 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading, isAdmin }) => {
 
   if (displaySideBar) {
     return (
-      <Affix offsetTop={64} style={{ marginTop: isAdmin && 64 }}>
+      <Affix offsetTop={64} style={{ marginTop: adminView && 64 }}>
         <Sider
           width="270"
           style={styles.sider}
@@ -41,7 +41,7 @@ SideNavView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
   sideBarContent: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  adminView: PropTypes.bool.isRequired,
 };
 
 export default SideNavView;
