@@ -27,9 +27,9 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import ProfileNotFound from "../../profileNotFound/profileNotFound";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import ErrorResult from "../../errorResult/errorResult";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -394,7 +394,7 @@ const ProfileLayoutView = ({
           </Col>
         }
       />
-      {data ? displayAllProfileCards() : <ProfileNotFound />}
+      {data ? displayAllProfileCards() : <ErrorResult errorCode="profileNotExist" />}
     </AppLayout>
   );
 };
