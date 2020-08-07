@@ -1,16 +1,17 @@
 const axios = require("axios");
 const qs = require("querystring");
+const config = require("../../config");
 
 const getAccessToken = async () => {
   const data = qs.stringify({
     grant_type: "client_credentials",
-    client_secret: process.env.KEYCLOAK_SECRET,
+    client_secret: config.KEYCLOAK_SECRET,
     client_id: "upskill-api",
   });
 
   const response = await axios({
     method: "post",
-    baseURL: process.env.KEYCLOAK_AUTH_SERVER_URL,
+    baseURL: config.KEYCLOAK_AUTH_SERVER_URL,
     url: "/realms/individual/protocol/openid-connect/token",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -25,7 +26,7 @@ const getAccessToken = async () => {
 const getGroupIds = async (accessToken) => {
   const groups = await axios({
     method: "get",
-    baseURL: process.env.KEYCLOAK_AUTH_SERVER_URL,
+    baseURL: config.KEYCLOAK_AUTH_SERVER_URL,
     url: "/admin/realms/individual/groups?search=upskill",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -58,7 +59,7 @@ const filterName = (name) => {
 const getMembers = async (accessToken, id, name) => {
   const members = await axios({
     method: "get",
-    baseURL: process.env.KEYCLOAK_AUTH_SERVER_URL,
+    baseURL: config.KEYCLOAK_AUTH_SERVER_URL,
     url: `/admin/realms/individual/groups/${id}/members`,
     headers: {
       Authorization: `Bearer ${accessToken}`,

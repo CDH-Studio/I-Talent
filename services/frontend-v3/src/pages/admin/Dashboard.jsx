@@ -13,7 +13,6 @@ import {
   setCountHiddenUsers,
   setCountInactiveUsers,
   setCountExFeederUsers,
-  setHiddenUsers,
   setGrowthRateByMonth,
   setGrowthRateByWeek,
   setTopFiveCompetencies,
@@ -68,16 +67,6 @@ const AdminDashboard = ({ intl }) => {
       const results = await axios.get(`api/stats/count/exFeederUsers`);
 
       dispatch(setCountExFeederUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect");
-    }
-  }, [dispatch]);
-
-  const getHiddenUsers = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/hiddenUsers`);
-
-      dispatch(setHiddenUsers(results.data));
     } catch (error) {
       handleError(error, "redirect");
     }
@@ -167,7 +156,6 @@ const AdminDashboard = ({ intl }) => {
       getHiddenUserCount(),
       getInactiveUserCount(),
       getExfeederUserCount(),
-      getHiddenUsers(),
       getGrowthRateByMonth(),
       getGrowthRateByWeek(),
       getTopFiveCompentencies(),
@@ -179,7 +167,6 @@ const AdminDashboard = ({ intl }) => {
     getGrowthRateByMonth,
     getGrowthRateByWeek,
     getHiddenUserCount,
-    getHiddenUsers,
     getInactiveUserCount,
     getTopFiveCompentencies,
     getTopFiveDevelopmentalGoals,

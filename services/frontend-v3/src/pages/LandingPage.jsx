@@ -27,6 +27,7 @@ const LandingPage = ({ location }) => {
     if (keycloak.authenticated) {
       setLoginInfo();
     } else {
+      document.title = "I-Talent";
       dispatch(clearUser());
     }
   }, [keycloak.authenticated, setLoginInfo, dispatch]);
