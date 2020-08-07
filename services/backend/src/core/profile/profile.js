@@ -521,7 +521,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  return await prisma.user.findOne({
+  return prisma.user.findOne({
     where: { id },
     select: {
       id: true,
@@ -1269,12 +1269,10 @@ async function getPublicProfileById(request, response) {
         result.secondLanguage = null;
         result.secondLangProfs = null;
         tempCards.officialLanguage = false;
-      } else {
-        if (result.secondLangProfs) {
-          result.secondLangProfs.forEach((lang, index) => {
-            delete result.secondLangProfs[index].date;
-          });
-        }
+      } else if (result.secondLangProfs) {
+        result.secondLangProfs.forEach((lang, index) => {
+          delete result.secondLangProfs[index].date;
+        });
       }
 
       if (hideCard("skills")) {
