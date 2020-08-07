@@ -6,7 +6,7 @@ const config = require("../config");
 
 let redisClient = redis.createClient({
   host: config.REDIS_HOST,
-  auth_pass: config.REDIS_PASSWORD,
+  auth_pass: "aabbccdd",
 });
 const store = new RedisStore({ client: redisClient });
 

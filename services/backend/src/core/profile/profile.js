@@ -1133,51 +1133,37 @@ function filterProfileResult(profile, language) {
     );
   }
 
-  fullProfile.secondLangProfs.forEach((value, index) => {
-    let expiredValue;
-    if (value.date) {
-      const dateMoment = moment(value.date);
-      if (dateMoment.isBefore()) {
-        expiredValue = true;
-        if (dateMoment.unix() === 0) {
-          fullProfile.secondLangProfs[index].date = null;
+  if (profile.secondLangProfs) {
+    filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
+      let expiredValue;
+      let dateValue;
+      if (prof.date) {
+        const dateMoment = moment(prof.date);
+        if (dateMoment.isBefore()) {
+          expiredValue = true;
+          if (dateMoment.unix() === 0) {
+            dateValue = null;
+          } else {
+            dateValue = dateMoment;
+          }
+        } else {
+          dateValue = dateMoment;
+          expiredValue = false;
         }
       } else {
-        expiredValue = false;
+        expiredValue = null;
+        dateValue = null;
       }
-    } else {
-      expiredValue = null;
-    }
 
-    fullProfile.secondLangProfs[index].expired = expiredValue;
-  });
-
-  filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
-    let expiredValue;
-    let dateValue;
-    if (prof.date) {
-      const dateMoment = moment(prof.date);
-      if (dateMoment.isBefore()) {
-        expiredValue = true;
-        if (dateMoment.unix() === 0) {
-          dateValue = null;
-        }
-      } else {
-        expiredValue = false;
-      }
-    } else {
-      expiredValue = null;
-      dateValue = null;
-    }
-
-    return {
-      id: prof.id,
-      date: dateValue,
-      proficiency: prof.proficiency,
-      expired: expiredValue,
-      level: prof.level,
-    };
-  });
+      return {
+        id: prof.id,
+        date: dateValue,
+        proficiency: prof.proficiency,
+        expired: expiredValue,
+        level: prof.level,
+      };
+    });
+  }
 
   if (profile.organizations) {
     filteredProfile.organizations = profile.organizations.map((org) => {

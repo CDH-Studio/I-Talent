@@ -235,33 +235,33 @@ definitions:
       - exFeeder
     properties:
       manager:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       info:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       talentManagement:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       officialLanguage:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       skills:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       competencies:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       developmentalGoals:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       description:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       education:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       experience:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       projects:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       careerInterests:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       mentorshipSkills:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       exFeeder:
-        type: $ref: "#/definitions/CardVisibilityStatusEnum"
+        $ref: "#/definitions/CardVisibilityStatusEnum"
   Educations:
     type: array
     items:
