@@ -445,23 +445,7 @@ const TalentFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="mentorshipSkills"
-                label={
-                  <Text>
-                    <FormattedMessage id="profile.mentorship.skills" />
-                    <Popover
-                      content={
-                        <div>
-                          <FormattedMessage id="tooltip.extra.info.help" />
-                          <Link to="/about/help">
-                            <FormattedMessage id="footer.contact.link" />
-                          </Link>
-                        </div>
-                      }
-                    >
-                      <InfoCircleOutlined style={styles.infoIcon} />
-                    </Popover>
-                  </Text>
-                }
+                label={<FormattedMessage id="profile.mentorship.skills" />}
                 rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0 ? (
@@ -712,14 +696,16 @@ const TalentFormView = ({
                     "profile.mentorship.skills",
                     "mentorshipSkills"
                   )}
-                  <Row justify="space-between" align="middle">
-                    <FormattedMessage id="profile.mentorship.available" />
+                  <Space>
+                    <Text>
+                      <FormattedMessage id="profile.mentorship.available" />
+                    </Text>
+
                     <Switch
                       checked={displayMentorshipForm}
                       onChange={toggleMentorshipForm}
                     />
-                  </Row>
-
+                  </Space>
                   {getMentorshipForm(displayMentorshipForm)}
                 </Col>
               </Row>
