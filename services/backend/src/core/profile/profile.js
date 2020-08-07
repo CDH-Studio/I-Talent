@@ -1199,7 +1199,7 @@ async function getPublicProfileById(request, response) {
         ] &&
         request.kauth.grant.access_token.content.resource_access[
           config.KEYCLOAK_CLIENT_ID
-        ].roles.includes("manage-users");
+        ].roles.includes("view-private-profile");
 
       if (fullProfile.status !== "ACTIVE" && !isAdmin) {
         response.sendStatus(404);
