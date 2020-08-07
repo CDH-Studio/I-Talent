@@ -315,6 +315,7 @@
   "setup.step.4.description": "Première et deuxième langue",
   "setup.talent": "Habiletés et compétences",
   "setup.talent.management": "Résultats récents de la gestion de talents",
+  "setup.talent.management.title": "Gestion de talents",
   "setup.teams.placeholder": "appuyez sur la touche d'entrée pour ajouter",
   "setup.welcome": "Bienvenue",
   "setup.welcome.action": "Veuillez sélectionner un profil SAGE pour automatiquement remplir vos informations ou commencer de zéro",

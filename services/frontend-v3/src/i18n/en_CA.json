@@ -315,6 +315,7 @@
   "setup.step.4.description": "First and second language",
   "setup.talent": "Competencies and skills",
   "setup.talent.management": "Recent talent management results",
+  "setup.talent.management.title": "Talent management",
   "setup.teams.placeholder": "press enter to add",
   "setup.welcome": "Welcome",
   "setup.welcome.action": "Please select a GEDS profile to pre-populate your information or start from scratch",
