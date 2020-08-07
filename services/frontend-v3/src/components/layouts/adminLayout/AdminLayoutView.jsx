@@ -13,7 +13,6 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import Keycloak from "keycloak-js";
 import AppLayout from "../appLayout/AppLayout";
 import availableTypes from "./adminLayoutTypes";
 
@@ -21,7 +20,7 @@ import availableTypes from "./adminLayoutTypes";
  *  AdminLayoutView(props)
  *  Render the layout for the Admin Side.
  */
-const AdminLayoutView = ({ type, keycloak, displaySideBar, children }) => {
+const AdminLayoutView = ({ type, displaySideBar, children }) => {
   const history = useHistory();
 
   // get corresponding page key based on table type
@@ -34,59 +33,47 @@ const AdminLayoutView = ({ type, keycloak, displaySideBar, children }) => {
   };
 
   // send to corresponding page based on page key
-  const navigationPages = (key) => {
+  const navigationPages = ({ key }) => {
     if (availableTypes.includes(key)) {
       history.push(`/admin/${key}`);
     }
   };
 
-  const sideBarContent = () => {
-    return (
-      <Menu
-        mode="inline"
-        onClick={({ key }) => {
-          navigationPages(key);
-        }}
-        selectedKeys={getPageKey()}
-      >
-        <Menu.Item key="dashboard">
-          <DashboardOutlined />
-          <FormattedMessage id="admin.dashboard" />
-        </Menu.Item>
-        <Menu.Item key="users">
-          <SolutionOutlined />
-          <FormattedMessage id="admin.user.plural" />
-        </Menu.Item>
-        <Menu.Item key="categories">
-          <AppstoreAddOutlined />
-          <FormattedMessage id="admin.category.plural" />
-        </Menu.Item>
-        <Menu.Item key="skills">
-          <ToolOutlined />
-          <FormattedMessage id="admin.skill.plural" />
-        </Menu.Item>
-        <Menu.Item key="competencies">
-          <FlagOutlined />
-          <FormattedMessage id="admin.competency.plural" />
-        </Menu.Item>
-        <Menu.Item key="diplomas">
-          <TrophyOutlined />
-          <FormattedMessage id="admin.diploma.plural" />
-        </Menu.Item>
-        <Menu.Item key="schools">
-          <BankFilled />
-          <FormattedMessage id="admin.school.plural" />
-        </Menu.Item>
-      </Menu>
-    );
-  };
+  const sideBarContent = (
+    <Menu onClick={navigationPages} selectedKeys={getPageKey()}>
+      <Menu.Item key="dashboard">
+        <DashboardOutlined />
+        <FormattedMessage id="admin.dashboard" />
+      </Menu.Item>
+      <Menu.Item key="users">
+        <SolutionOutlined />
+        <FormattedMessage id="admin.user.plural" />
+      </Menu.Item>
+      <Menu.Item key="categories">
+        <AppstoreAddOutlined />
+        <FormattedMessage id="admin.category.plural" />
+      </Menu.Item>
+      <Menu.Item key="skills">
+        <ToolOutlined />
+        <FormattedMessage id="admin.skill.plural" />
+      </Menu.Item>
+      <Menu.Item key="competencies">
+        <FlagOutlined />
+        <FormattedMessage id="admin.competency.plural" />
+      </Menu.Item>
+      <Menu.Item key="diplomas">
+        <TrophyOutlined />
+        <FormattedMessage id="admin.diploma.plural" />
+      </Menu.Item>
+      <Menu.Item key="schools">
+        <BankFilled />
+        <FormattedMessage id="admin.school.plural" />
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
-    <AppLayout
-      keycloak={keycloak}
-      displaySideBar={displaySideBar}
-      sideBarContent={sideBarContent()}
-    >
+    <AppLayout sideBarContent={sideBarContent} displaySideBar={displaySideBar} isAdmin>
       {children}
     </AppLayout>
   );
@@ -96,11 +83,6 @@ AdminLayoutView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(availableTypes).isRequired,
   children: PropTypes.node.isRequired,
-  keycloak: PropTypes.instanceOf(Keycloak),
-};
-
-AdminLayoutView.defaultProps = {
-  keycloak: undefined,
 };
 
 export default AdminLayoutView;

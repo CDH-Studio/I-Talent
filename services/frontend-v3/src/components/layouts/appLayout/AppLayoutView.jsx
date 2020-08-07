@@ -3,7 +3,7 @@ import { Layout, Skeleton, Card } from "antd";
 import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
-import SideNav from "../../sideNav/SideNav";
+import SideNav from "./sideNav/SideNav";
 
 const { Content } = Layout;
 
@@ -14,6 +14,7 @@ const AppLayoutView = ({
   loading,
   displayLogo,
   displaySearch,
+  isAdmin,
 }) => {
   const styles = {
     content: {
@@ -35,6 +36,7 @@ const AppLayoutView = ({
           sideBarContent={sideBarContent}
           displaySideBar={displaySideBar}
           loading={loading}
+          isAdmin={isAdmin}
         />
         <Layout>
           <Content style={styles.content}>
@@ -60,6 +62,7 @@ AppLayoutView.propTypes = {
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default AppLayoutView;
