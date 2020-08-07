@@ -21,6 +21,7 @@ function UserTable({ intl }) {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [modifiedStatus, setModifiedStatus] = useState(false);
   const axios = useAxios();
 
@@ -125,6 +126,23 @@ function UserTable({ intl }) {
     }
   };
 
+  // Handles the deletion of a user
+  const handleSubmitDelete = async () => {
+    await Promise.all(
+      selectedRowKeys.map((id) => axios.delete(`api/user/${id}`))
+    );
+
+    setSelectedRowKeys([]);
+    getUserInformation();
+  };
+
+  // Handles row selection in the table
+  const rowSelection = {
+    onChange: (_selectedRowKeys) => {
+      setSelectedRowKeys(_selectedRowKeys);
+    },
+  };
+
   useEffect(() => {
     // Gets part of the title for the page
     const getDisplayType = (plural) => {
@@ -156,6 +174,9 @@ function UserTable({ intl }) {
         handleSearch={handleSearch}
         handleReset={handleReset}
         modifiedStatus={modifiedStatus}
+        selectedRowKeys={selectedRowKeys}
+        rowSelection={rowSelection}
+        handleSubmitDelete={handleSubmitDelete}
       />
     </>
   );
