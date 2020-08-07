@@ -260,7 +260,7 @@ async function seed() {
     console.log(`---- Finished seeding: ${folderName} ----\n`);
   }
 
-  await prisma.disconnect();
+  await prisma.$disconnect();
 }
 
 module.exports = seed;
