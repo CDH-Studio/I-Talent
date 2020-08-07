@@ -408,7 +408,7 @@ async function updateProfile(request, response) {
                   create: i,
                   update: {
                     level: i.level,
-                    date: i.date && normalizeDate(i.date, "day"),
+                    date: normalizeDate(i.date, "day"),
                   },
                 })),
               }
@@ -521,7 +521,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  const fullProfile = await prisma.user.findOne({
+  return await prisma.user.findOne({
     where: { id },
     select: {
       id: true,
@@ -884,27 +884,6 @@ async function getFullProfile(id, language) {
       },
     },
   });
-
-  fullProfile.secondLangProfs.forEach((value, index) => {
-    let expiredValue;
-    if (value.date) {
-      const dateMoment = moment(value.date);
-      if (dateMoment.isBefore()) {
-        expiredValue = true;
-        if (dateMoment.unix() === 0) {
-          fullProfile.secondLangProfs[index].date = null;
-        }
-      } else {
-        expiredValue = false;
-      }
-    } else {
-      expiredValue = null;
-    }
-
-    fullProfile.secondLangProfs[index].expired = expiredValue;
-  });
-
-  return fullProfile;
 }
 
 function updatedAtReducer(accumulator, { updatedAt }) {
@@ -1154,12 +1133,48 @@ function filterProfileResult(profile, language) {
     );
   }
 
+  fullProfile.secondLangProfs.forEach((value, index) => {
+    let expiredValue;
+    if (value.date) {
+      const dateMoment = moment(value.date);
+      if (dateMoment.isBefore()) {
+        expiredValue = true;
+        if (dateMoment.unix() === 0) {
+          fullProfile.secondLangProfs[index].date = null;
+        }
+      } else {
+        expiredValue = false;
+      }
+    } else {
+      expiredValue = null;
+    }
+
+    fullProfile.secondLangProfs[index].expired = expiredValue;
+  });
+
   filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
+    let expiredValue;
+    let dateValue;
+    if (prof.date) {
+      const dateMoment = moment(prof.date);
+      if (dateMoment.isBefore()) {
+        expiredValue = true;
+        if (dateMoment.unix() === 0) {
+          dateValue = null;
+        }
+      } else {
+        expiredValue = false;
+      }
+    } else {
+      expiredValue = null;
+      dateValue = null;
+    }
+
     return {
       id: prof.id,
-      date: prof.date,
+      date: dateValue,
       proficiency: prof.proficiency,
-      expired: prof.expired,
+      expired: expiredValue,
       level: prof.level,
     };
   });
@@ -1322,7 +1337,6 @@ async function getPublicProfileById(request, response) {
       }
       if (hideCard("exFeeder")) {
         result.exFeeder = null;
-
         tempCards.exFeeder = false;
       }
 

@@ -1,11 +1,15 @@
 import React from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import moment from "moment";
+import PropTypes from "prop-types";
+
 import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const OfficialLanguage = ({ data, type, intl }) => {
+const OfficialLanguage = ({ data, type }) => {
+  const intl = useIntl();
+
   const getFirstLanguageInfo = (dataSource) => {
     let description = "-";
 
@@ -30,7 +34,7 @@ const OfficialLanguage = ({ data, type, intl }) => {
       const info = dataSource.secondLangProfs
         ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
         : undefined;
-      nextData.titleId = `profile.${profType.toLowerCase()}`;
+      nextData.titleId = `profile.secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
         nextData.level = info.level ? info.level : "-";
@@ -78,10 +82,12 @@ const OfficialLanguage = ({ data, type, intl }) => {
 
 OfficialLanguage.propTypes = {
   data: ProfileInfoPropType,
+  type: PropTypes.bool,
 };
 
 OfficialLanguage.defaultProps = {
   data: null,
+  type: null,
 };
 
-export default injectIntl(OfficialLanguage);
+export default OfficialLanguage;
