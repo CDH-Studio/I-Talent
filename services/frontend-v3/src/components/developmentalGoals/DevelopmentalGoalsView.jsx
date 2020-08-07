@@ -15,7 +15,7 @@ const DevelopmentalGoalsView = ({ devGoals }) => {
       <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
         <List>
           {Object.values(devGoals).map(({ name, id }) => (
-            <Tag color="#114541" key={id}>
+            <Tag color="#00605e" key={id}>
               {name}
             </Tag>
           ))}

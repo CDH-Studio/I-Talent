@@ -15,7 +15,7 @@ const CompetenciesView = ({ competencies }) => {
       <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
         <List>
           {competencies.map(({ id, name }) => (
-            <Tag color="#003d74" key={id}>
+            <Tag color="#00605e" key={id}>
               {name}
             </Tag>
           ))}
