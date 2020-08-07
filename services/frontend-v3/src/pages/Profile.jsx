@@ -6,7 +6,7 @@ import { useIntl } from "react-intl";
 import useAxios from "../utils/axios-instance";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-import ErrorResult from "../components/errorResult/errorResult";
+import ErrorProfileNotFound from "../components/errorResult/errorProfileNotFound";
 
 const Profile = ({ history, match }) => {
   const intl = useIntl();
@@ -94,7 +94,7 @@ const Profile = ({ history, match }) => {
   };
 
   if (loadingError) {
-    return <ErrorResult errorCode="profileNotExist" />;
+    return <ErrorProfileNotFound />;
   }
 
   return (

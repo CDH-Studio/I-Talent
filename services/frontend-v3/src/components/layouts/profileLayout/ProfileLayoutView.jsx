@@ -29,7 +29,7 @@ import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import ErrorResult from "../../errorResult/errorResult";
+import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -394,7 +394,7 @@ const ProfileLayoutView = ({
           </Col>
         }
       />
-      {data ? displayAllProfileCards() : <ErrorResult errorCode="profileNotExist" />}
+      {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
     </AppLayout>
   );
 };
