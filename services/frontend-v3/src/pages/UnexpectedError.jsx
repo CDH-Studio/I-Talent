@@ -8,6 +8,7 @@ import {
   ReloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const UnexpectedError = () => {
   const [showError, setShowError] = useState(false);
@@ -22,14 +23,7 @@ const UnexpectedError = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-      }}
-    >
+    <AppLayout>
       <Result
         title={<FormattedMessage id="error.redirect.title" />}
         subTitle={<FormattedMessage id="error.redirect.subtitle" />}
@@ -78,7 +72,7 @@ const UnexpectedError = () => {
           </div>
         }
       />
-    </div>
+    </AppLayout>
   );
 };
 
