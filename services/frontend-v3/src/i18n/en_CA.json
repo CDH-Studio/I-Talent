@@ -117,8 +117,8 @@
   "count.remaining": "remaining",
   "create.profile": "Create profile",
   "edit.profile": "Edit profile",
-  "error.403.subtitle": "Looks like someone doesn't belong",
-  "error.404.subtitle": "Looks like someone is in the wrong place",
+  "error.403.subtitle": "You do not have the correct permissions to view the following page",
+  "error.404.subtitle": "This page does not currently exist",
   "error.button": "Back to Home",
   "error.hide": "Hide error log",
   "error.redirect.subtitle": "Something went wrong",
@@ -141,8 +141,10 @@
   "lang.db.code": "FRENCH",
   "language.english": "English",
   "language.french": "French",
+  "loading": "Loading",
   "more.content.soon": "More content coming soon!",
   "my.profile": "My profile",
+  "not.found": "Not found",
   "other.profile": "Profile",
   "profile.acting": "Acting classification",
   "profile.acting.date": "Acting date",
@@ -329,7 +331,5 @@
   "sign.out": "Logout",
   "stats.title": "Statistics",
   "stats.view": "View stats",
-  "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
-  "loading": "Loading",
-  "not.found": "Not found"
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: "
 }

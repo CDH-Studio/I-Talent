@@ -117,8 +117,8 @@
   "count.remaining": "restants",
   "create.profile": "Créer un profil",
   "edit.profile": "Modifier mon profil",
-  "error.403.subtitle": "On dirait que quelqu'un n'appartient pas",
-  "error.404.subtitle": "On dirait que quelqu'un est au mauvais endroit",
+  "error.403.subtitle": "Vous ne disposez pas des autorisations appropriées pour afficher la page suivante",
+  "error.404.subtitle": "Cette page n'existe pas actuellement",
   "error.button": "Retour à l'acceuil",
   "error.hide": "Masquer le journal des erreurs",
   "error.redirect.subtitle": "Quelque chose a mal tourné",
@@ -141,8 +141,10 @@
   "lang.db.code": "ENGLISH",
   "language.english": "Anglais",
   "language.french": "Français",
+  "loading": "Chargement",
   "more.content.soon": "Plus de contenu à venir bientôt!",
   "my.profile": "Mon profil",
+  "not.found": "Not found",
   "other.profile": "Profil",
   "profile.acting": "Rôle intérimaire",
   "profile.acting.date": "Date de intérimaire",
@@ -329,7 +331,5 @@
   "sign.out": "Déconnexion",
   "stats.title": "Statistiques",
   "stats.view": "Voir statistiques",
-  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
-  "loading": "Chargement",
-  "not.found": "Not found"
+  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : "
 }
