@@ -696,17 +696,20 @@ const TalentFormView = ({
                     "profile.mentorship.skills",
                     "mentorshipSkills"
                   )}
-                  <Space>
-                    <Text>
-                      <FormattedMessage id="profile.mentorship.available" />
-                    </Text>
-
-                    <Switch
-                      checked={displayMentorshipForm}
-                      onChange={toggleMentorshipForm}
-                    />
-                  </Space>
-                  {getMentorshipForm(displayMentorshipForm)}
+                  <Form.Item name="mentorship">
+                    <Space>
+                      <Text>
+                        <FormattedMessage id="profile.mentorship.available" />
+                      </Text>
+                      <Switch
+                        checked={displayMentorshipForm}
+                        onChange={toggleMentorshipForm}
+                      />
+                    </Space>
+                  </Form.Item>
+                  <Form.Item name="displayMentorship">
+                    {getMentorshipForm(displayMentorshipForm)}
+                  </Form.Item>
                 </Col>
               </Row>
             </TabPane>
