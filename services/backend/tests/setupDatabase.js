@@ -24,7 +24,7 @@ async function setupTestDB() {
   execSync(`DATABASE_URL=${config.TEST_DATABASE_URL} yarn seed`);
   console.log("Seeded testing database");
 
-  await prisma.disconnect();
+  await prisma.$disconnect();
 
   process.exit(0);
 }
