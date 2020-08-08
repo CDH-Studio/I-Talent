@@ -500,23 +500,23 @@ const TalentFormView = ({
   };
 
   useEffect(() => {
-    /* check if user has a skills to mentor */
-    if (savedMentorshipSkills) {
-      if (!loadedData) {
-        // toggle mentorship switch if there are mentorship skills saved
-        setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-        setLoadedData(true);
-      }
-
-      // generate a treeData to represent the skills chosen
-      const generatedSelectedSkills = generateMentorshipOptions(
-        skillOptions,
-        form.getFieldsValue().mentorshipSkills || savedSkills
-      );
-
-      setSelectedSkills(generatedSelectedSkills);
+    // set to page loaded if data comes in
+    if (!loadedData) {
+      setLoadedData(true);
     }
-  }, [form, loadedData, savedMentorshipSkills, savedSkills, skillOptions]);
+    // toggle mentorship switch if there are mentorship skills saved
+    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+  }, [loadedData, savedMentorshipSkills, savedSkills]);
+
+  useEffect(() => {
+    // generate a treeData to represent the skills chosen
+    const generatedSelectedSkills = generateMentorshipOptions(
+      skillOptions,
+      form.getFieldsValue().mentorshipSkills || savedSkills
+    );
+
+    setSelectedSkills(generatedSelectedSkills);
+  }, [form, savedSkills, skillOptions]);
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
