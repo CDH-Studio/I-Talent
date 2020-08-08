@@ -10,7 +10,6 @@ import {
   Switch,
   Button,
   TreeSelect,
-  message,
   Popover,
   Tabs,
   notification,
@@ -339,7 +338,10 @@ const TalentFormView = ({
     form.resetFields();
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    //message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     updateIfFormValuesChanged();
     setTabErrorsBool([]);
   };
