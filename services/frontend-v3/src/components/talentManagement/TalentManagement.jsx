@@ -11,7 +11,7 @@ const TalentManagement = ({ data, type }) => {
       content={<TalentManagementView data={data} />}
       cardName="talentManagement"
       id="card-profile-talent-management"
-      editUrl="/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth?tab=talent-management"
       data={data}
       type={type}
       visible={data.visibleCards.talentManagement}

@@ -11,7 +11,7 @@ const Projects = ({ data, type }) => {
       content={<ProjectsView projectsInfo={data.projects} />}
       cardName="projects"
       id="card-profile-projects"
-      editUrl="/profile/edit/qualifications"
+      editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
       type={type}
       visible={data.visibleCards.projects}

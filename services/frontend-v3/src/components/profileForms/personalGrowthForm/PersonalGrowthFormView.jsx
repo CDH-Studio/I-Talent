@@ -62,6 +62,7 @@ const PersonalGrowthFormView = ({
   savedTalentMatrixResult,
   savedExFeederBool,
   formType,
+  currentTab,
   load,
   intl,
   history,
@@ -482,10 +483,10 @@ const PersonalGrowthFormView = ({
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
         >
-          <Tabs type="card">
+          <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
               tab={<FormattedMessage id="setup.developmental.goals" />}
-              key="1"
+              key="developmental-goals"
             >
               {/* *************** Developmental ************** */}
               {getSectionHeader(
@@ -514,7 +515,7 @@ const PersonalGrowthFormView = ({
             </TabPane>
             <TabPane
               tab={<FormattedMessage id="setup.career.interests" />}
-              key="2"
+              key="career-interests"
             >
               {/* *************** Career Interest ************** */}
 
@@ -598,7 +599,7 @@ const PersonalGrowthFormView = ({
             </TabPane>
             <TabPane
               tab={<FormattedMessage id="setup.talent.management.title" />}
-              key="3"
+              key="talent-management"
             >
               {/* *************** Talent Management ************** */}
 
@@ -681,7 +682,7 @@ const PersonalGrowthFormView = ({
 
             <TabPane
               tab={<FormattedMessage id="profile.ex.feeder.title" />}
-              key="4"
+              key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
               {getSectionHeader("profile.ex.feeder.title", "exFeeder")}
@@ -721,6 +722,7 @@ PersonalGrowthFormView.propTypes = {
   savedTalentMatrixResult: PropTypes.string,
   savedExFeederBool: PropTypes.bool,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  currentTab: PropTypes.string.isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
