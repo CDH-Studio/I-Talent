@@ -13,6 +13,7 @@ import {
   message,
   Popover,
   Tabs,
+  notification,
 } from "antd";
 import {
   RightOutlined,
@@ -135,8 +136,11 @@ const TalentFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
     },
+  };
+
+  const validateMessages = {
+    required: "'${label}' is required!",
   };
 
   /*
@@ -164,20 +168,23 @@ const TalentFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -243,13 +250,16 @@ const TalentFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: form.getFieldError("mentorshipSkills"),
+          });
         }
       });
   };
@@ -271,7 +281,10 @@ const TalentFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: form.getFieldError("mentorshipSkills"),
+          });
         }
       });
   };
@@ -304,7 +317,10 @@ const TalentFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: form.getFieldError("mentorshipSkills"),
+          });
         }
       });
   };
@@ -432,7 +448,7 @@ const TalentFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="mentorshipSkills"
-                label={<FormattedMessage id="profile.mentorship.skills" />}
+                label="Mentorship Skills"
                 rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0 ? (
@@ -649,6 +665,7 @@ const TalentFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
+          validateMessages={validateMessages}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane tab={<FormattedMessage id="setup.skills" />} key="skills">
@@ -704,7 +721,7 @@ const TalentFormView = ({
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   {getSectionHeader("setup.competencies", "competencies")}
-                  <Form.Item name="competencies">
+                  <Form.Item name="competencies" label="Competencies">
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
