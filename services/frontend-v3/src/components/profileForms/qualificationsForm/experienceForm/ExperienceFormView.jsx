@@ -46,15 +46,12 @@ const ExperienceFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar60: {
       max: 60,
-      message: <FormattedMessage id="profile.rules.max.60" />,
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
 
@@ -160,7 +157,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "jobTitle"]}
           fieldKey={[field.fieldKey, "jobTitle"]}
-          label={<FormattedMessage id="admin.job.title" />}
+          label={"Experience " + (field.name + 1) + " Title"}
           style={style.formItem}
           rules={[Rules.required, Rules.maxChar60]}
         >
@@ -173,7 +170,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "organization"]}
           fieldKey={[field.fieldKey, "organization"]}
-          label={<FormattedMessage id="profile.career.subheader.name" />}
+          label={"Experience " + (field.name + 1) + " Company"}
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -185,7 +182,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "startDate"]}
           fieldKey={[field.fieldKey, "startDate"]}
-          label={<FormattedMessage id="profile.history.item.start.date" />}
+          label={"Experience " + (field.name + 1) + " Start Date"}
           rules={[Rules.required]}
         >
           <DatePicker
@@ -204,7 +201,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "endDate"]}
           fieldKey={[field.fieldKey, "endDate"]}
-          label={<FormattedMessage id="profile.history.item.end.date" />}
+          label={"Experience " + (field.name + 1) + " End Date"}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
           {!disableEndDate && (
@@ -232,7 +229,8 @@ const ExperienceFormView = ({
         <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          rule={Rules.maxChar1500}
+          label={"Experience " + (field.name + 1) + " Description"}
+          rules={[Rules.maxChar1500]}
           value={
             profileInfo.experiences[field.fieldKey] &&
             profileInfo.experiences[field.fieldKey].description

@@ -8,8 +8,8 @@ import {
   Form,
   Select,
   Button,
-  message,
   Tabs,
+  notification,
 } from "antd";
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
@@ -117,6 +117,16 @@ const QualificationsFormView = ({
     },
   };
 
+  const validateMessages = {
+    required: "'${label}' is required!",
+    string: {
+      len: "'${label}' must be exactly ${len} characters",
+      min: "'${label}' must be at least ${min} characters",
+      max: "'${label}' cannot be longer than ${max} characters",
+      range: "'${label}' must be between ${min} and ${max} characters",
+    },
+  };
+
   /*
    * save data to DB
    *
@@ -129,20 +139,23 @@ const QualificationsFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -240,13 +253,16 @@ const QualificationsFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrors(),
+          });
         }
       });
   };
@@ -279,7 +295,10 @@ const QualificationsFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrors(),
+          });
         }
       });
   };
@@ -291,8 +310,32 @@ const QualificationsFormView = ({
    */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrors = () => {
+    const errors = form.getFieldsError();
+    console.log(errors);
+    return (
+      <div>
+        <strong>Following issues found:</strong>
+        <ul>
+          {errors.map((value) => {
+            if (value.errors.length > 0) {
+              return <li key={value.name}>{value.errors[0]}</li>;
+            }
+          })}
+        </ul>
+      </div>
+    );
   };
 
   /*
@@ -438,6 +481,7 @@ const QualificationsFormView = ({
           initialValues={savedValues || initialValues}
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
+          validateMessages={validateMessages}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane

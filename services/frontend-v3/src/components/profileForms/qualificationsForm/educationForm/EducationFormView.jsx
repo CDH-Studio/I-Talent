@@ -53,7 +53,6 @@ const EducationFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar50: {
       max: 50,
@@ -173,7 +172,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "diplomaId"]}
           fieldKey={[field.fieldKey, "diplomaId"]}
-          label={<FormattedMessage id="profile.diploma" />}
+          label={"Education " + (field.name + 1) + " Diploma"}
           style={style.formItem}
           rules={[Rules.required]}
         >
@@ -194,7 +193,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "schoolId"]}
           fieldKey={[field.fieldKey, "schoolId"]}
-          label={<FormattedMessage id="profile.school" />}
+          label={"Education " + (field.name + 1) + " School"}
           rules={[Rules.required]}
           style={style.formItem}
         >
@@ -215,7 +214,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "startDate"]}
           fieldKey={[field.fieldKey, "startDate"]}
-          label={<FormattedMessage id="profile.history.item.start.date" />}
+          label={"Education " + (field.name + 1) + " Start Date"}
           rules={[Rules.required]}
         >
           <DatePicker
@@ -233,7 +232,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "endDate"]}
           fieldKey={[field.fieldKey, "endDate"]}
-          label={<FormattedMessage id="profile.history.item.end.date" />}
+          label={"Education " + (field.name + 1) + " End Date"}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
           {!disableEndDate && (
