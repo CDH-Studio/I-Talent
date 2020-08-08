@@ -378,11 +378,7 @@ const TalentFormView = ({
 
     // loop through errors to see where each error belongs
     errors.map((value) => {
-      if (
-        String(value.name) === "mentorship" ||
-        String(value.name) === "displayMentorship" ||
-        String(value.name) === "mentorshipSkills"
-      ) {
+      if (String(value.name).includes("mentor") && value.errors.length > 0) {
         setTabErrorsBool({ ["mentorship"]: true });
       } else if (value.name === "skills") {
         setTabErrorsBool({ ["skills"]: true });
