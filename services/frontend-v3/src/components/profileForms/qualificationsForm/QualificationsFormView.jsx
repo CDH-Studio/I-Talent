@@ -44,6 +44,7 @@ const QualificationsFormView = ({
   savedExperience,
   savedProjects,
   formType,
+  currentTab,
   load,
   intl,
   history,
@@ -438,8 +439,11 @@ const QualificationsFormView = ({
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
         >
-          <Tabs type="card">
-            <TabPane tab={<FormattedMessage id="setup.education" />} key="1">
+          <Tabs type="card" defaultActiveKey={currentTab}>
+            <TabPane
+              tab={<FormattedMessage id="setup.education" />}
+              key="education"
+            >
               {getSectionHeader("setup.education", "education")}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -481,7 +485,10 @@ const QualificationsFormView = ({
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tab={<FormattedMessage id="setup.experience" />} key="2">
+            <TabPane
+              tab={<FormattedMessage id="setup.experience" />}
+              key="experience"
+            >
               {getSectionHeader("setup.experience", "experience")}
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
@@ -575,6 +582,7 @@ QualificationsFormView.propTypes = {
   ),
   savedProjects: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  currentTab: PropTypes.string.isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,

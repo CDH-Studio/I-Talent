@@ -53,6 +53,7 @@ const TalentFormView = ({
   savedSkills,
   savedMentorshipSkills,
   formType,
+  currentTab,
   load,
   intl,
   userId,
@@ -499,23 +500,23 @@ const TalentFormView = ({
   };
 
   useEffect(() => {
-    /* check if user has a skills to mentor */
-    if (savedMentorshipSkills) {
-      if (!loadedData) {
-        // toggle mentorship switch if there are mentorship skills saved
-        setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-        setLoadedData(true);
-      }
-
-      // generate a treeData to represent the skills chosen
-      const generatedSelectedSkills = generateMentorshipOptions(
-        skillOptions,
-        form.getFieldsValue().mentorshipSkills || savedSkills
-      );
-
-      setSelectedSkills(generatedSelectedSkills);
+    // set to page loaded if data comes in
+    if (!loadedData) {
+      setLoadedData(true);
     }
-  }, [form, loadedData, savedMentorshipSkills, savedSkills, skillOptions]);
+    // toggle mentorship switch if there are mentorship skills saved
+    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+  }, [loadedData, savedMentorshipSkills, savedSkills]);
+
+  useEffect(() => {
+    // generate a treeData to represent the skills chosen
+    const generatedSelectedSkills = generateMentorshipOptions(
+      skillOptions,
+      form.getFieldsValue().mentorshipSkills || savedSkills
+    );
+
+    setSelectedSkills(generatedSelectedSkills);
+  }, [form, savedSkills, skillOptions]);
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
@@ -663,8 +664,8 @@ const TalentFormView = ({
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
         >
-          <Tabs type="card">
-            <TabPane tab={<FormattedMessage id="setup.skills" />} key="1">
+          <Tabs type="card" defaultActiveKey={currentTab}>
+            <TabPane tab={<FormattedMessage id="setup.skills" />} key="skills">
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -687,7 +688,7 @@ const TalentFormView = ({
             </TabPane>
             <TabPane
               tab={<FormattedMessage id="profile.mentorship.skills" />}
-              key="2"
+              key="mentorship"
             >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
@@ -713,7 +714,10 @@ const TalentFormView = ({
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tab={<FormattedMessage id="setup.competencies" />} key="3">
+            <TabPane
+              tab={<FormattedMessage id="setup.competencies" />}
+              key="competencies"
+            >
               {/* Form Row Three: competencies */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -764,6 +768,7 @@ TalentFormView.propTypes = {
   savedSkills: PropTypes.arrayOf(PropTypes.string),
   savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  currentTab: PropTypes.string.isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   userId: PropTypes.string.isRequired,

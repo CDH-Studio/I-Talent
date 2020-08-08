@@ -11,7 +11,7 @@ const DevelopmentalGoals = ({ data, type }) => {
       content={<DevelopmentalGoalsView devGoals={data.developmentalGoals} />}
       cardName="developmentalGoals"
       id="card-profile-dev-goals"
-      editUrl="/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth?tab=developmental-goals"
       data={data}
       type={type}
       visible={data.visibleCards.developmentalGoals}

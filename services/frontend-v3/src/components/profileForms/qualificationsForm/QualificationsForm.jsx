@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import QualificationsFormView from "./QualificationsFormView";
@@ -17,14 +17,16 @@ const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [currentTab, setCurrentTab] = useState(null);
   const [savedEducation, setSavedEducation] = useState();
   const [savedExperience, setSavedExperience] = useState();
   const [savedProjects, setSavedProjects] = useState();
 
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
-  const axios = useAxios();
 
+  const axios = useAxios();
+  const location = useLocation();
   const history = useHistory();
 
   /**
@@ -87,6 +89,21 @@ const QualificationsForm = ({ formType }) => {
     setSavedProjects(profileInfo.projects);
   };
 
+  /**
+   * Get default form tab
+   *
+   * get the default selected form tab based on url query params
+   */
+  const getDefaultFormTab = () => {
+    const searchParams = new URLSearchParams(location.search);
+    setCurrentTab(searchParams.get("tab"));
+  };
+
+  // useEffect when url path is updated
+  useEffect(() => {
+    getDefaultFormTab();
+  }, [location]);
+
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
     if (profileInfo) {
@@ -110,6 +127,7 @@ const QualificationsForm = ({ formType }) => {
       savedExperience={savedExperience}
       savedProjects={savedProjects}
       formType={formType}
+      currentTab={currentTab}
       load={load}
       history={history}
       userId={id}

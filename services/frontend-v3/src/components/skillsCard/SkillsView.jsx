@@ -29,7 +29,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
                 >
                   {skills[categorySkill.index].val.map((skill, indexTag) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <Tag color="#007471" key={indexTag}>
+                    <Tag color="#00605e" key={indexTag}>
                       {skill}
                     </Tag>
                   ))}
@@ -48,7 +48,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
   };
 
   return generateSkillsCollapse(categoriesSkills, skills);
-}
+};
 
 SkillsView.propTypes = {
   categoriesSkills: PropTypes.oneOfType([

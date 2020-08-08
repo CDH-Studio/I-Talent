@@ -27,7 +27,7 @@ const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
           </Typography.Text>
           <div style={{ marginTop: "7px" }}>
             {dataSource.map(({ id, city, province }) => (
-              <Tag color="#00c15b" key={id}>
+              <Tag color="rgb(114, 114, 114)" key={id}>
                 {city}, {province}
               </Tag>
             ))}
