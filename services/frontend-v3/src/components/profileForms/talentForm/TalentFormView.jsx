@@ -258,7 +258,7 @@ const TalentFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: form.getFieldError("mentorshipSkills"),
+            description: getAllValidationErrors(),
           });
         }
       });
@@ -283,7 +283,7 @@ const TalentFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: form.getFieldError("mentorshipSkills"),
+            description: getAllValidationErrors(),
           });
         }
       });
@@ -319,7 +319,7 @@ const TalentFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: form.getFieldError("mentorshipSkills"),
+            description: getAllValidationErrors(),
           });
         }
       });
@@ -337,6 +337,27 @@ const TalentFormView = ({
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
     updateIfFormValuesChanged();
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrors = () => {
+    const errors = form.getFieldsError();
+    return (
+      <div>
+        <strong>Following issues found:</strong>
+        <ul>
+          {errors.map((value) => {
+            if (value.errors.length > 0) {
+              return <li key={value.name}>{value.errors[0]}</li>;
+            }
+          })}
+        </ul>
+      </div>
+    );
   };
 
   /*
@@ -775,6 +796,7 @@ TalentFormView.propTypes = {
 
 TalentFormView.defaultProps = {
   profileInfo: null,
+  currentTab: null,
   skillOptions: [],
   competencyOptions: [],
   savedCompetencies: [],
