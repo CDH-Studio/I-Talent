@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useIntl } from "react-intl";
 import useAxios from "../../../utils/axios-instance";
 
@@ -19,6 +19,7 @@ const PersonalGrowthForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [currentTab, setCurrentTab] = useState(null);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
@@ -44,8 +45,8 @@ const PersonalGrowthForm = ({ formType }) => {
   const { id } = useSelector((state) => state.user);
 
   const history = useHistory();
-
   const intl = useIntl();
+  const location = useLocation();
 
   /**
    * Get saved Developmental Goals
@@ -187,6 +188,21 @@ const PersonalGrowthForm = ({ formType }) => {
     setTalentMatrixResultOptions(result.data);
   }, [locale]);
 
+  /**
+   * Get default form tab
+   *
+   * get the default selected form tab based on url query params
+   */
+  const getDefaultFormTab = () => {
+    const searchParams = new URLSearchParams(location.search);
+    setCurrentTab(searchParams.get("tab"));
+  };
+
+  // useEffect when url path is updated
+  useEffect(() => {
+    getDefaultFormTab();
+  }, [location]);
+
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
     if (profileInfo) {
@@ -255,6 +271,7 @@ const PersonalGrowthForm = ({ formType }) => {
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
       formType={formType}
+      currentTab={currentTab}
       load={load}
       history={history}
       userId={id}

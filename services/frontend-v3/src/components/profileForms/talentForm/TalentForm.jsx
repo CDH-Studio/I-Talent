@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import useAxios from "../../../utils/axios-instance";
 import TalentFormView from "./TalentFormView";
 import handleError from "../../../functions/handleError";
@@ -16,6 +17,7 @@ const TalentForm = ({ formType }) => {
   const [skillOptions, setSkillOptions] = useState([]);
   const [competencyOptions, setCompetencyOptions] = useState([]);
   const [load, setLoad] = useState(false);
+  const [currentTab, setCurrentTab] = useState(null);
   const [savedCompetencies, setSavedCompetencies] = useState([]);
   const [savedSkills, setSavedSkills] = useState([]);
   const [savedMentorshipSkills, setSavedMentorshipSkills] = useState([]);
@@ -24,6 +26,7 @@ const TalentForm = ({ formType }) => {
   const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);
   const axios = useAxios();
+  const location = useLocation();
 
   /**
    * Get user profile
@@ -114,6 +117,21 @@ const TalentForm = ({ formType }) => {
     setSavedMentorshipSkills(selected);
   };
 
+  /**
+   * Get default form tab
+   *
+   * get the default selected form tab based on url query params
+   */
+  const getDefaultFormTab = () => {
+    const searchParams = new URLSearchParams(location.search);
+    setCurrentTab(searchParams.get("tab"));
+  };
+
+  // useEffect when url path is updated
+  useEffect(() => {
+    getDefaultFormTab();
+  }, [location]);
+
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
     if (profileInfo) {
@@ -146,6 +164,7 @@ const TalentForm = ({ formType }) => {
       savedSkills={savedSkills}
       savedMentorshipSkills={savedMentorshipSkills}
       formType={formType}
+      currentTab={currentTab}
       load={load}
       userId={id}
     />

@@ -11,7 +11,7 @@ const Competencies = ({ data, type }) => {
       content={<CompetenciesView competencies={data.competencies} />}
       cardName="competencies"
       id="card-profile-competency"
-      editUrl="/profile/edit/talent"
+      editUrl="/profile/edit/talent?tab=competencies"
       data={data}
       type={type}
       visible={data.visibleCards.competencies}
