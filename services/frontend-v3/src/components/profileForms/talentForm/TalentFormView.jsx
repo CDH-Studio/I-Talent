@@ -68,6 +68,7 @@ const TalentFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
+  const [tabErrorsBool, setTabErrorsBool] = useState([]);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -260,6 +261,7 @@ const TalentFormView = ({
             type: "error",
             description: getAllValidationErrors(),
           });
+          findErrorTabs();
         }
       });
   };
@@ -285,6 +287,7 @@ const TalentFormView = ({
             type: "error",
             description: getAllValidationErrors(),
           });
+          findErrorTabs();
         }
       });
   };
@@ -321,6 +324,7 @@ const TalentFormView = ({
             type: "error",
             description: getAllValidationErrors(),
           });
+          findErrorTabs();
         }
       });
   };
@@ -337,6 +341,7 @@ const TalentFormView = ({
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
     updateIfFormValuesChanged();
+    setTabErrorsBool([]);
   };
 
   /*
@@ -354,10 +359,46 @@ const TalentFormView = ({
             if (value.errors.length > 0) {
               return <li key={value.name}>{value.errors[0]}</li>;
             }
+            return false;
           })}
         </ul>
       </div>
     );
+  };
+
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errors = form.getFieldsError();
+
+    // loop through errors to see where each error belongs
+    errors.map((value) => {
+      if (
+        String(value.name) === "mentorship" ||
+        String(value.name) === "displayMentorship" ||
+        String(value.name) === "mentorshipSkills"
+      ) {
+        setTabErrorsBool({ ["mentorship"]: true });
+      } else if (value.name === "skills") {
+        setTabErrorsBool({ ["skills"]: true });
+      }
+      return false;
+    });
+  };
+
+  /*
+   * Get Tab Title
+   *
+   * Get formatted tab title base on existence of error in the contained form
+   */
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
+    }
+    return message;
   };
 
   /*
@@ -689,7 +730,13 @@ const TalentFormView = ({
           validateMessages={validateMessages}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
-            <TabPane tab={<FormattedMessage id="setup.skills" />} key="skills">
+            <TabPane
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.skills" />,
+                errorBool: tabErrorsBool["skills"],
+              })}
+              key="skills"
+            >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -711,7 +758,10 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.mentorship.skills" />,
+                errorBool: tabErrorsBool["mentorship"],
+              })}
               key="mentorship"
             >
               {/* Form Row Two: skills */}
@@ -735,7 +785,10 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.competencies" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.competencies" />,
+                errorBool: tabErrorsBool["competencies"],
+              })}
               key="competencies"
             >
               {/* Form Row Three: competencies */}
