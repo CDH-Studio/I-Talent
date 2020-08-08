@@ -57,6 +57,7 @@ const QualificationsFormView = ({
   const axios = useAxios();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+  const [tabErrorsBool, setTabErrorsBool] = useState([]);
 
   /* Component Styles */
   const styles = {
@@ -263,6 +264,7 @@ const QualificationsFormView = ({
             type: "error",
             description: getAllValidationErrors(),
           });
+          findErrorTabs();
         }
       });
   };
@@ -299,6 +301,7 @@ const QualificationsFormView = ({
             type: "error",
             description: getAllValidationErrors(),
           });
+          findErrorTabs();
         }
       });
   };
@@ -314,6 +317,7 @@ const QualificationsFormView = ({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
     checkIfFormValuesChanged();
+    setTabErrorsBool([]);
   };
 
   /*
@@ -332,10 +336,49 @@ const QualificationsFormView = ({
             if (value.errors.length > 0) {
               return <li key={value.name}>{value.errors[0]}</li>;
             }
+            return false;
           })}
         </ul>
       </div>
     );
+  };
+
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errors = form.getFieldsError();
+    let errorArray = [];
+    console.log(errors);
+    // loop through errors to see where each error belongs
+    errors.map((value) => {
+      if (String(value.name).includes("exp") && value.errors.length > 0) {
+        errorArray["experience"] = true;
+      } else if (
+        String(value.name).includes("edu") &&
+        value.errors.length > 0
+      ) {
+        errorArray["education"] = true;
+      }
+      return false;
+    });
+
+    // save results to state
+    setTabErrorsBool(errorArray);
+  };
+
+  /*
+   * Get Tab Title
+   *
+   * Get formatted tab title base on existence of error in the contained form
+   */
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
+    }
+    return message;
   };
 
   /*
@@ -485,7 +528,10 @@ const QualificationsFormView = ({
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
-              tab={<FormattedMessage id="setup.education" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.education" />,
+                errorBool: tabErrorsBool["education"],
+              })}
               key="education"
             >
               {getSectionHeader("setup.education", "education")}
@@ -530,7 +576,10 @@ const QualificationsFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.experience" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.experience" />,
+                errorBool: tabErrorsBool["experience"],
+              })}
               key="experience"
             >
               {getSectionHeader("setup.experience", "experience")}
