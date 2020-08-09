@@ -9,10 +9,10 @@ import {
   Select,
   Button,
   Checkbox,
-  message,
   Popover,
   TreeSelect,
   Tabs,
+  notification,
 } from "antd";
 import {
   RightOutlined,
@@ -157,6 +157,16 @@ const PersonalGrowthFormView = ({
     },
   };
 
+  const validateMessages = {
+    required: "'${label}' is required!",
+    string: {
+      len: "'${label}' must be exactly ${len} characters",
+      min: "'${label}' must be at least ${min} characters",
+      max: "'${label}' cannot be longer than ${max} characters",
+      range: "'${label}' must be between ${min} and ${max} characters",
+    },
+  };
+
   /*
    * save data to DB
    *
@@ -188,20 +198,23 @@ const PersonalGrowthFormView = ({
   };
 
   /* show message */
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -250,13 +263,16 @@ const PersonalGrowthFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrors(),
+          });
         }
       });
   };
@@ -278,7 +294,10 @@ const PersonalGrowthFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrors(),
+          });
         }
       });
   };
@@ -311,7 +330,10 @@ const PersonalGrowthFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrors(),
+          });
         }
       });
   };
@@ -323,8 +345,31 @@ const PersonalGrowthFormView = ({
    */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrors = () => {
+    const errors = form.getFieldsError();
+    return (
+      <div>
+        <strong>Following issues found:</strong>
+        <ul>
+          {errors.map((value) => {
+            if (value.errors.length > 0) {
+              return <li key={value.name}>{value.errors[0]}</li>;
+            }
+          })}
+        </ul>
+      </div>
+    );
   };
 
   /*
@@ -488,6 +533,7 @@ const PersonalGrowthFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
+          validateMessages={validateMessages}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane

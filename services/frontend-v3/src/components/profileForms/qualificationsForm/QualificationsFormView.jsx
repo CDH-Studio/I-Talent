@@ -327,7 +327,6 @@ const QualificationsFormView = ({
    */
   const getAllValidationErrors = () => {
     const errors = form.getFieldsError();
-    console.log(errors);
     return (
       <div>
         <strong>Following issues found:</strong>
