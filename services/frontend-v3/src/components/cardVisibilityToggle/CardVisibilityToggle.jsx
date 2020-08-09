@@ -49,7 +49,7 @@ CardVisibilityToggle.propTypes = {
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
   cardName: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["info", "card"]),
+  type: PropTypes.oneOf(["form", "card"]),
 };
 
 CardVisibilityToggle.defaultProps = {
