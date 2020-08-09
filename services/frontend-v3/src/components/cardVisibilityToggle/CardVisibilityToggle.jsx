@@ -7,7 +7,7 @@ import useAxios from "../../utils/axios-instance";
 import handleError from "../../functions/handleError";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("PRIVATE");
   const axios = useAxios();
 
   const urlID = useParams().id;
@@ -35,7 +35,6 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   useEffect(() => {
     getCardStatus();
   }, [getCardStatus]);
-
   return (
     <CardVisibilityToggleView
       status={status}
