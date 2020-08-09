@@ -427,7 +427,7 @@ const TalentFormView = ({
       return (
         <div>
           {/* Select Mentorship Skills */}
-          <Row gutter={24}>
+          <Row gutter={24} style={{ marginTop: "10px" }}>
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="mentorshipSkills"
@@ -456,7 +456,7 @@ const TalentFormView = ({
         </div>
       );
     }
-    return <div />;
+    return <div style={{ height: "15px" }} />;
   };
 
   /*
@@ -691,9 +691,7 @@ const TalentFormView = ({
                     style={styles.mentorshipToggle}
                   />
 
-                  <Form.Item name="displayMentorship">
-                    {getMentorshipForm(displayMentorshipForm)}
-                  </Form.Item>
+                  {getMentorshipForm(displayMentorshipForm)}
                 </Col>
               </Row>
             </TabPane>
