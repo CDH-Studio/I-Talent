@@ -58,7 +58,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => (
 CardVisibilityToggleView.propTypes = {
   status: PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]).isRequired,
   handleVisibilityToggle: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(["info", "card"]).isRequired,
+  type: PropTypes.oneOf(["form", "card"]).isRequired,
 };
 
 export default CardVisibilityToggleView;
