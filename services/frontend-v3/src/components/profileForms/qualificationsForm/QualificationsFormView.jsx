@@ -350,7 +350,6 @@ const QualificationsFormView = ({
   const findErrorTabs = () => {
     const errors = form.getFieldsError();
     let errorArray = [];
-    console.log(errors);
     // loop through errors to see where each error belongs
     errors.map((value) => {
       if (String(value.name).includes("exp") && value.errors.length > 0) {

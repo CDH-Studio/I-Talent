@@ -375,16 +375,19 @@ const TalentFormView = ({
    */
   const findErrorTabs = () => {
     const errors = form.getFieldsError();
-
+    let errorArray = [];
     // loop through errors to see where each error belongs
     errors.map((value) => {
       if (String(value.name).includes("mentor") && value.errors.length > 0) {
-        setTabErrorsBool({ ["mentorship"]: true });
-      } else if (value.name === "skills") {
-        setTabErrorsBool({ ["skills"]: true });
+        errorArray["mentorship"] = true;
+      } else if (String(value.name) === "skills" && value.errors.length > 0) {
+        errorArray["skills"] = true;
       }
       return false;
     });
+
+    // save results to state
+    setTabErrorsBool(errorArray);
   };
 
   /*
