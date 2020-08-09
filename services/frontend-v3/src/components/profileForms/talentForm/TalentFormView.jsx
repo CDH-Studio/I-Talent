@@ -768,7 +768,7 @@ TalentFormView.propTypes = {
   savedSkills: PropTypes.arrayOf(PropTypes.string),
   savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string.isRequired,
+  currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   userId: PropTypes.string.isRequired,
@@ -781,6 +781,7 @@ TalentFormView.defaultProps = {
   savedCompetencies: [],
   savedSkills: [],
   savedMentorshipSkills: [],
+  currentTab: null,
   intl: null,
 };
 
