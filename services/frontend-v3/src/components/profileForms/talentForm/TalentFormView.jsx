@@ -97,21 +97,6 @@ const TalentFormView = ({
     headerDiv: {
       margin: "15px 0 15px 0",
     },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    secondLangRow: {
-      backgroundColor: "#dfe5e4",
-      paddingTop: "15px",
-      paddingBottom: "15px",
-      marginBottom: "20px",
-      marginTop: "10px",
-    },
     finishAndSaveBtn: {
       float: "left",
       marginRight: "1rem",
@@ -140,9 +125,9 @@ const TalentFormView = ({
     infoIcon: {
       paddingLeft: "5px",
     },
-    infoIconSwitch: {
-      paddingLeft: "5px",
-      paddingRight: "5px",
+    mentorshipToggle: {
+      marginLeft: "7px",
+      paddingRight: "7px",
     },
   };
 
@@ -692,22 +677,20 @@ const TalentFormView = ({
             >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" span={24}>
                   {getSectionHeader(
                     "profile.mentorship.skills",
                     "mentorshipSkills"
                   )}
-                  <Form.Item name="mentorship">
-                    <Space>
-                      <Text>
-                        <FormattedMessage id="profile.mentorship.available" />
-                      </Text>
-                      <Switch
-                        checked={displayMentorshipForm}
-                        onChange={toggleMentorshipForm}
-                      />
-                    </Space>
-                  </Form.Item>
+                  <Text>
+                    <FormattedMessage id="profile.mentorship.available" />
+                  </Text>
+                  <Switch
+                    checked={displayMentorshipForm}
+                    onChange={toggleMentorshipForm}
+                    style={styles.mentorshipToggle}
+                  />
+
                   <Form.Item name="displayMentorship">
                     {getMentorshipForm(displayMentorshipForm)}
                   </Form.Item>
