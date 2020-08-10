@@ -14,6 +14,8 @@ import PropTypes from "prop-types";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
+
+import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
   FieldPropType,
   FormInstancePropType,
@@ -23,7 +25,6 @@ import {
 } from "../../../../utils/customPropTypes";
 
 const { Title } = Typography;
-const { TextArea } = Input;
 
 /**
  *  ExperienceFormView(props)
@@ -39,16 +40,8 @@ const ExperienceFormView = ({
   style,
   checkIfFormValuesChanged,
   intl,
-  charsLeft,
-  handleContentChange,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
-
-  const styles = {
-    space: {
-      paddingLeft: "0.25em",
-    },
-  };
 
   const Rules = {
     required: {
@@ -236,32 +229,17 @@ const ExperienceFormView = ({
 
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
-        <Form.Item
+        <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          label={<FormattedMessage id="profile.career.content.name" />}
-          rules={[Rules.maxChar1500]}
-          extra={
-            <div>
-              <FormattedMessage id="profile.rules.max.1500" />
-              {charsLeft >= 0 && (
-                <span style={styles.space}>
-                  ({charsLeft}
-                  <span style={styles.space}>
-                    <FormattedMessage id="count.remaining" />
-                  </span>
-                  )
-                </span>
-              )}
-            </div>
+          rule={Rules.maxChar1500}
+          value={
+            profileInfo.experiences[field.fieldKey] &&
+            profileInfo.experiences[field.fieldKey].description
           }
-        >
-          <TextArea
-            name="content"
-            onChange={(e) => handleContentChange(e)}
-            rows={4}
-          />
-        </Form.Item>
+          label={<FormattedMessage id="profile.qualification.description" />}
+          maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
+        />
       </Col>
     </Row>
   );
@@ -275,8 +253,6 @@ ExperienceFormView.propTypes = {
   style: StylesPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
-  charsLeft: PropTypes.number.isRequired,
-  handleContentChange: PropTypes.func.isRequired,
 };
 
 ExperienceFormView.defaultProps = {

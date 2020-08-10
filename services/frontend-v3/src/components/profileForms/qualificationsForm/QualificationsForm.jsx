@@ -57,6 +57,7 @@ const QualificationsForm = ({ formType }) => {
       diplomaId: i.diploma.id,
       startDate: i.startDate ? moment(i.startDate) : undefined,
       endDate: i.endDate ? moment(i.endDate) : undefined,
+      description: i.description,
     }));
 
     setSavedEducation(educations);

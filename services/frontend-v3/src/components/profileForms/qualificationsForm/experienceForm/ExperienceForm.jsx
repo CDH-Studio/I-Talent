@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ExperienceFormView from "./ExperienceFormView";
+
 import {
   FieldPropType,
   FormInstancePropType,
@@ -22,21 +23,6 @@ const ExperienceForm = ({
   style,
   checkIfFormValuesChanged,
 }) => {
-  const [charsLeft, setCharsLeft] = useState(
-    field &&
-      field.key !== undefined &&
-      profileInfo &&
-      profileInfo.careerSummary &&
-      profileInfo.careerSummary[field.key] &&
-      profileInfo.careerSummary[field.key].content
-      ? 1500 - profileInfo.careerSummary[field.key].content.length
-      : 1500
-  );
-
-  const handleContentChange = (e) => {
-    setCharsLeft(1500 - e.currentTarget.value.length);
-  };
-
   return (
     <ExperienceFormView
       form={form}
@@ -45,8 +31,6 @@ const ExperienceForm = ({
       profileInfo={profileInfo}
       style={style}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
-      charsLeft={charsLeft}
-      handleContentChange={handleContentChange}
     />
   );
 };

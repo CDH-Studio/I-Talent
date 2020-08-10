@@ -32,10 +32,11 @@ const Education = ({ data, type }) => {
     }
 
     return dataSource.educations.map(
-      ({ startDate, endDate, diploma, school }) => ({
+      ({ startDate, endDate, diploma, school, description }) => ({
         diploma: diploma.description,
         school: school.name,
         duration: getEducationDuration(startDate, endDate),
+        description,
       })
     );
   };

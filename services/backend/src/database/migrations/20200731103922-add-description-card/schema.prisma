@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model DbSeed {
@@ -414,18 +414,17 @@ model TransOrganization {
 }
 
 model Education {
-  id          String     @default(uuid()) @id
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  userId      String
-  schoolId    String?
-  diplomaId   String?
-  endDate     DateTime?
-  startDate   DateTime
-  description String?
-  user        User       @relation(fields: [userId])
-  school      OpSchool?  @relation(fields: [schoolId])
-  diploma     OpDiploma? @relation(fields: [diplomaId])
+  id        String     @default(uuid()) @id
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userId    String
+  schoolId  String?
+  diplomaId String?
+  endDate   DateTime?
+  startDate DateTime
+  user      User       @relation(fields: [userId])
+  school    OpSchool?  @relation(fields: [schoolId])
+  diploma   OpDiploma? @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, startDate])
 }
