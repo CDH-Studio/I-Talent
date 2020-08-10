@@ -317,10 +317,10 @@ const ProfileLayoutView = ({
               }
             >
               <Link
-                href="#card-profile-dev-goals"
+                href="#card-profile-learning-development"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.developmental.goals" />
+                    <FormattedMessage id="profile.learning.development" />
                   </Text>
                 }
               />

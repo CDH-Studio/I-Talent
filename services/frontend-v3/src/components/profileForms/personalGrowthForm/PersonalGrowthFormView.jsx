@@ -490,8 +490,8 @@ const PersonalGrowthFormView = ({
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
-              tab={<FormattedMessage id="setup.developmental.goals" />}
-              key="developmental-goals"
+              tab={<FormattedMessage id="profile.learning.development" />}
+              key="learning-development"
             >
               {/* *************** Developmental ************** */}
               {getSectionHeader(

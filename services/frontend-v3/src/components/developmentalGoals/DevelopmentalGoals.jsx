@@ -7,11 +7,11 @@ import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
 const DevelopmentalGoals = ({ data, type }) => {
   return (
     <ProfileCards
-      titleId="profile.developmental.goals"
+      titleId="profile.learning.development"
       content={<DevelopmentalGoalsView devGoals={data.developmentalGoals} />}
       cardName="developmentalGoals"
-      id="card-profile-dev-goals"
-      editUrl="/profile/edit/personal-growth?tab=developmental-goals"
+      id="card-profile-learning-development"
+      editUrl="/profile/edit/personal-growth?tab=learning-development"
       data={data}
       type={type}
       visible={data.visibleCards.developmentalGoals}
