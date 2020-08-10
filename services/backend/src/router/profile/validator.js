@@ -103,11 +103,7 @@ const updateProfileValidator = [
             return j;
         }
       })
-      .custom((j) => {
-        console.log(j);
-
-        return j === null || j === true || j === false;
-      })
+      .custom((j) => j === null || j === true || j === false)
       .withMessage("must be a boolean or null")
   ),
   updateProfileLanguageBody.map((i) =>
