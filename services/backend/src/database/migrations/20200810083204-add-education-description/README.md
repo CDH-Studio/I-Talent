@@ -1,6 +1,6 @@
-# Migration `20200806102543-add-education-description`
+# Migration `20200810083204-add-education-description`
 
-This migration has been generated at 8/6/2020, 10:25:43 AM.
+This migration has been generated at 8/10/2020, 8:32:04 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -13,7 +13,7 @@ ALTER TABLE "public"."Education" ADD COLUMN "description" text   ;
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200731103922-add-description-card..20200806102543-add-education-description
+migration 20200731103922-add-description-card..20200810083204-add-education-description
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -54,17 +54,6 @@ migration 20200731103922-add-description-card..20200806102543-add-education-desc
 +  diploma     OpDiploma? @relation(fields: [diplomaId])
    @@unique([userId, schoolId, diplomaId, startDate])
  }
-@@ -497,9 +498,9 @@
-   gcconnex             String?
-   exFeeder             Boolean               @default(false)
-   interestedInRemote   Boolean               @default(false)
-   status               UserStatus            @default(ACTIVE)
--  signupStep           Int                   @default(0)
-+  signupStep           Int                   @default(1)
-   projects             String[]
-   teams                String[]
-   groupLevel           OpClassification?     @relation(fields: [groupLevelId], name: "groupLevels")
-   actingLevel          OpClassification?     @relation(fields: [actingLevelId], name: "actingLevels")
 ```
 
 
