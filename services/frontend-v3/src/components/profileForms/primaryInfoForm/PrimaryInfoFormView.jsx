@@ -171,7 +171,7 @@ const PrimaryInfoFormView = ({
     nameFormat: {
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+-[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="profile.rules.name" />,
-    }
+    },
   };
 
   /* Save data */
@@ -466,8 +466,8 @@ const PrimaryInfoFormView = ({
               {fieldsChanged ? (
                 <FormattedMessage id="setup.save.and.finish" />
               ) : (
-                  <FormattedMessage id="button.finish" />
-                )}
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -539,10 +539,10 @@ const PrimaryInfoFormView = ({
         });
       }
 
-      if (newGedsValues.phoneNumber) {
+      if (newGedsValues.cellphone) {
         changes.push({
           title: <FormattedMessage id="profile.cellphone" />,
-          description: profileInfo.phoneNumber,
+          description: profileInfo.cellphone,
         });
       }
 
@@ -603,12 +603,12 @@ const PrimaryInfoFormView = ({
             ))}
           </List>
         ) : (
-            <div style={{ textAlign: "center" }}>
-              <Spin
-                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-              />
-            </div>
-          )}
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
       </Modal>
     );
   };
