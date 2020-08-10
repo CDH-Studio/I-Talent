@@ -731,7 +731,7 @@ PersonalGrowthFormView.propTypes = {
   savedTalentMatrixResult: PropTypes.string,
   savedExFeederBool: PropTypes.bool,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string.isRequired,
+  currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
@@ -739,6 +739,7 @@ PersonalGrowthFormView.propTypes = {
 };
 
 PersonalGrowthFormView.defaultProps = {
+  currentTab: null,
   careerMobilityOptions: [],
   developmentalGoalOptions: [],
   interestedInRemoteOptions: [],
