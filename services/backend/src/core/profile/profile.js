@@ -358,29 +358,21 @@ async function updateProfile(request, response) {
             : undefined,
           educations: educations
             ? {
-                create: educations.map(
-                  ({
-                    startDate,
-                    endDate,
-                    description,
-                    diplomaId,
-                    schoolId,
-                  }) => ({
-                    startDate: normalizeDate(startDate, "month"),
-                    endDate: normalizeDate(endDate, "month"),
-                    description: description,
-                    diploma: {
-                      connect: {
-                        id: diplomaId,
-                      },
+                create: educations.map((educationItem) => ({
+                  startDate: normalizeDate(educationItem.startDate, "month"),
+                  endDate: normalizeDate(educationItem.endDate, "month"),
+                  description: educationItem.description,
+                  diploma: {
+                    connect: {
+                      id: educationItem.diplomaId,
                     },
-                    school: {
-                      connect: {
-                        id: schoolId,
-                      },
+                  },
+                  school: {
+                    connect: {
+                      id: educationItem.schoolId,
                     },
-                  })
-                ),
+                  },
+                })),
               }
             : undefined,
           experiences: experiences
