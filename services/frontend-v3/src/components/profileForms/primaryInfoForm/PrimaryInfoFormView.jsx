@@ -60,6 +60,8 @@ const PrimaryInfoFormView = ({
   const [savedValues, setSavedValues] = useState(null);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [formRef, setFormRef] = useState(null);
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
@@ -247,8 +249,56 @@ const PrimaryInfoFormView = ({
     setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
+  // const handleJobTitleConfirm = async () => {
+
+  //   await axios
+  //     .put(`api/profile/${userId}?language=ENGLISH`, newJobTitle)
+  //     .then(() => {
+  //       formRef.validateFields((err, values) => {
+  //        (values === null) ? {
+
+  //       } : {
+  //        // sodnajdnwin
+
+  //     })
+  //     .catch((error) => handleError(error, "message"));
+  //   setFieldsChanged(false);
+  // };
+
+  /* When position title is edited, generate a modal to alternate language title upon saving form */
+  const generateJobTitleModal = () => {
+    console.log("in generateJobTItleModal");
+    if (titleChanged) {
+      console.log("TitleChanged is true");
+      return (
+        <Modal
+          title={<FormattedMessage id="profile.change.career.title.modal" />}
+          visible={visible}
+          okText={<FormattedMessage id="setup.save" />}
+          // onOk={handleJobTitleConfirm}
+          onCancel={() => {
+            setTitleChanged(false);
+            setVisible(false);
+          }}
+        >
+          <Text>
+            <FormattedMessage id="profile.change.career.title.desc.modal" />
+          </Text>
+          <Form.Item
+            name="profile.change.career.title.modal"
+            // label={<FormattedMessage id="profile.change.career.title.modal" />}
+            rules={[Rules.maxChar50]}
+          >
+            <Input />
+          </Form.Item>
+        </Modal>
+      );
+    }
+  };
+
   /* save and show success notification */
   const onSave = async () => {
+    generateJobTitleModal();
     form
       .validateFields()
       .then(async (values) => {
@@ -268,6 +318,7 @@ const PrimaryInfoFormView = ({
 
   /* save and redirect to next step in setup */
   const onSaveAndNext = async () => {
+    generateJobTitleModal();
     form
       .validateFields()
       .then(async (values) => {
@@ -292,6 +343,7 @@ const PrimaryInfoFormView = ({
 
   /* save and redirect to home */
   const onSaveAndFinish = async () => {
+    generateJobTitleModal();
     form
       .validateFields()
       .then(async (values) => {
@@ -702,28 +754,16 @@ const PrimaryInfoFormView = ({
           {/* Form Row Two */}
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
-              <Form.Item
-                name="jobTitle"
-                label={
-                  <>
-                    <FormattedMessage id="profile.career.header.name" />
-                    <div style={styles.popoverStyleCareer}>
-                      <Popover
-                        content={
-                          <div style={styles.popoverStyle}>
-                            <FormattedMessage id="profile.career.header.tooltip" />
-                          </div>
-                        }
-                      >
-                        <InfoCircleOutlined />
-                      </Popover>
-                    </div>
-                  </>
-                }
-                rules={[Rules.maxChar50]}
-              >
-                <Input />
-              </Form.Item>
+              <>
+                <Form.Item
+                  name="jobTitle"
+                  label={<FormattedMessage id="profile.career.header.name" />}
+                  rules={[Rules.maxChar50]}
+                >
+                  <Input />
+                </Form.Item>
+                {console.log(`titleChanged value before save: ${titleChanged}`)}
+              </>
             </Col>
             <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
               <Form.Item
