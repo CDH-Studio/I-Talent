@@ -87,7 +87,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     },
   };
 
-  const { id, name } = useSelector((state) => state.user);
+  const { id, name, status } = useSelector((state) => state.user);
 
   const [showMenu, setShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -162,7 +162,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
             className="ant-dropdown-link"
             style={styles.dropDownButton}
           >
-            <CustomAvatar style={styles.profileAvatar} />
+            <CustomAvatar
+              style={styles.profileAvatar}
+              hidden={status === "HIDDEN" || status === "INACTIVE"}
+            />
             <div className="navProfileName">
               {userName} <DownOutlined style={styles.dropDownArrow} />
             </div>
