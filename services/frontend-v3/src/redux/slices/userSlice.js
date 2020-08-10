@@ -33,6 +33,9 @@ const userSlice = createSlice({
     setUserIsAdmin(state, action) {
       state.isAdmin = action.payload;
     },
+    setUserStatus(state, action) {
+      state.status = action.payload;
+    },
     setUser(state, action) {
       const { id, avatarColor, initials, name, email, status } = action.payload;
 
@@ -59,6 +62,7 @@ export const {
   setUserId,
   setUserInitials,
   setUserIsAdmin,
+  setUserStatus,
   setUser,
   clearUser,
 } = userSlice.actions;

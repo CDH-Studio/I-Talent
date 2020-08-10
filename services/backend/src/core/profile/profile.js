@@ -35,6 +35,14 @@ async function updateProfile(request, response) {
     const userId = request.params.id;
     const { language } = request.query;
 
+    const isAdmin =
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ] &&
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ].roles.includes("manage-users");
+
     if (request.kauth.grant.access_token.content.sub === userId) {
       const {
         firstName,
@@ -209,6 +217,21 @@ async function updateProfile(request, response) {
         }
       }
 
+      // Does not let the user override the Admin INACTIVE status
+      let statusValue = status;
+      if (status && !isAdmin) {
+        const currentStatus = await prisma.user.findOne({
+          where: { id: userId },
+          select: {
+            status: true,
+          },
+        });
+
+        if (currentStatus.status === "INACTIVE") {
+          statusValue = undefined;
+        }
+      }
+
       await prisma.user.update({
         where: { id: userId },
         data: {
@@ -233,7 +256,7 @@ async function updateProfile(request, response) {
           interestedInRemote,
           exFeeder,
           avatarColor,
-          status,
+          status: statusValue,
           signupStep,
           description,
 
