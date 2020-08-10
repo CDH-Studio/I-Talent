@@ -1245,6 +1245,7 @@ async function getPublicProfileById(request, response) {
       const fullProfile = await getFullProfile(id, language);
 
       const isAdmin =
+        request.kauth.grant.access_token.content.resource_access &&
         request.kauth.grant.access_token.content.resource_access[
           config.KEYCLOAK_CLIENT_ID
         ] &&
@@ -1254,6 +1255,7 @@ async function getPublicProfileById(request, response) {
 
       if (fullProfile.status !== "ACTIVE" && !isAdmin) {
         response.sendStatus(404);
+        return;
       }
 
       const result = filterProfileResult(fullProfile, language);
