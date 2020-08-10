@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const moment = require("moment");
 const _ = require("lodash");
 const prisma = require("../../database");
+const config = require("../../config");
 
 function normalizeDate(date, startOf) {
   if (date === null) {
@@ -193,19 +194,25 @@ async function updateProfile(request, response) {
         },
       });
 
-      if (branch && jobTitle && userIds.employmentInfoId) {
-        prisma.employmentInfo.delete({
-          where: {
-            id: userIds.employmentInfoId,
-          },
-        });
+      let employmentInfoLangs;
+      if ((branch || jobTitle) && userIds.employmentInfoId) {
+        if (branch && jobTitle) {
+          employmentInfoLangs = _.uniq([
+            ...Object.keys(branch),
+            ...Object.keys(jobTitle),
+          ]);
+        } else if (branch) {
+          employmentInfoLangs = Object.keys(branch);
+        } else {
+          employmentInfoLangs = Object.keys(jobTitle);
+        }
       }
 
       await prisma.user.update({
         where: { id: userId },
         data: {
-          firstName,
-          lastName,
+          firstName: firstName ? _.upperFirst(firstName) : undefined,
+          lastName: lastName ? _.upperFirst(lastName) : undefined,
           teams: teams
             ? {
                 set: teams,
@@ -421,35 +428,34 @@ async function updateProfile(request, response) {
           groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
           actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
 
-          employmentInfo:
-            jobTitle || branch
-              ? {
-                  upsert: {
-                    create: {
-                      translations: {
-                        create: ["ENGLISH", "FRENCH"].map((lang) => ({
-                          language: lang,
-                          jobTitle: jobTitle ? jobTitle[lang] : "",
-                          branch: branch ? branch[lang] : "",
-                        })),
-                      },
-                    },
-                    update: {
-                      translations: {
-                        updateMany: ["ENGLISH", "FRENCH"].map((lang) => ({
-                          where: {
-                            language: lang,
-                          },
-                          data: {
-                            jobTitle: jobTitle && jobTitle[lang],
-                            branch: branch && branch[lang],
-                          },
-                        })),
-                      },
+          employmentInfo: employmentInfoLangs
+            ? {
+                upsert: {
+                  create: {
+                    translations: {
+                      create: employmentInfoLangs.map((lang) => ({
+                        language: lang,
+                        jobTitle: jobTitle ? jobTitle[lang] : undefined,
+                        branch: branch ? branch[lang] : undefined,
+                      })),
                     },
                   },
-                }
-              : undefined,
+                  update: {
+                    translations: {
+                      updateMany: employmentInfoLangs.map((lang) => ({
+                        where: {
+                          language: lang,
+                        },
+                        data: {
+                          jobTitle: jobTitle ? jobTitle[lang] : undefined,
+                          branch: branch ? branch[lang] : undefined,
+                        },
+                      })),
+                    },
+                  },
+                },
+              }
+            : undefined,
 
           organizations: organizations
             ? {
@@ -517,7 +523,6 @@ async function getFullProfile(id, language) {
     where: { id },
     select: {
       id: true,
-      createdAt: true,
       updatedAt: true,
       name: true,
       firstName: true,
@@ -543,6 +548,7 @@ async function getFullProfile(id, language) {
       secondLangProfs: true,
       skills: {
         select: {
+          updatedAt: true,
           skill: {
             select: {
               id: true,
@@ -573,6 +579,7 @@ async function getFullProfile(id, language) {
       },
       competencies: {
         select: {
+          updatedAt: true,
           competency: {
             select: {
               id: true,
@@ -591,6 +598,7 @@ async function getFullProfile(id, language) {
       developmentalGoals: {
         select: {
           id: true,
+          updatedAt: true,
           competency: {
             select: {
               id: true,
@@ -622,6 +630,7 @@ async function getFullProfile(id, language) {
       educations: {
         select: {
           id: true,
+          updatedAt: true,
           startDate: true,
           endDate: true,
           diploma: {
@@ -674,6 +683,7 @@ async function getFullProfile(id, language) {
       experiences: {
         select: {
           id: true,
+          updatedAt: true,
           startDate: true,
           endDate: true,
           translations: {
@@ -797,6 +807,7 @@ async function getFullProfile(id, language) {
       },
       mentorshipSkills: {
         select: {
+          updatedAt: true,
           skill: {
             select: {
               id: true,
@@ -872,6 +883,15 @@ async function getFullProfile(id, language) {
   return fullProfile;
 }
 
+function updatedAtReducer(accumulator, { updatedAt }) {
+  if (!accumulator || moment(updatedAt).isAfter(moment(accumulator), "day")) {
+    // eslint-disable-next-line no-param-reassign
+    accumulator = updatedAt;
+  }
+
+  return accumulator;
+}
+
 function filterProfileResult(profile, language) {
   let filteredProfile = {
     ...profile,
@@ -891,6 +911,10 @@ function filterProfileResult(profile, language) {
     });
 
     filteredProfile.skills = _.sortBy(_.remove(skills, null), "name");
+    filteredProfile.skillsUpdatedAt = profile.skills.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.mentorshipSkills) {
@@ -906,6 +930,10 @@ function filterProfileResult(profile, language) {
     });
 
     filteredProfile.mentorshipSkills = _.sortBy(_.remove(skills, null), "name");
+    filteredProfile.mentorshipSkillsUpdatedAt = profile.mentorshipSkills.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.competencies) {
@@ -921,6 +949,10 @@ function filterProfileResult(profile, language) {
     filteredProfile.competencies = _.sortBy(
       _.remove(competencies, null),
       "name"
+    );
+    filteredProfile.competenciesUpdatedAt = profile.competencies.reduce(
+      updatedAtReducer,
+      undefined
     );
   }
 
@@ -948,10 +980,14 @@ function filterProfileResult(profile, language) {
       _.remove(developmentalGoals, null),
       "name"
     );
+    filteredProfile.developmentalGoalsUpdatedAt = profile.developmentalGoals.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.educations) {
-    filteredProfile.educations = profile.educations.map((education) => {
+    const educations = profile.educations.map((education) => {
       const translatedDiploma =
         education.diploma.translations.find((i) => i.language === language) ||
         education.diploma.translations[0];
@@ -976,10 +1012,17 @@ function filterProfileResult(profile, language) {
         },
       };
     });
+
+    filteredProfile.educations = _.orderBy(educations, "startDate", "desc");
+
+    filteredProfile.educationsUpdatedAt = profile.educations.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.experiences) {
-    filteredProfile.experiences = profile.experiences.map((experience) => {
+    const experiences = profile.experiences.map((experience) => {
       const translatedExperience =
         experience.translations.find((i) => i.language === language) ||
         experience.translations[0];
@@ -997,6 +1040,13 @@ function filterProfileResult(profile, language) {
           : null,
       };
     });
+
+    filteredProfile.experiences = _.orderBy(experiences, "startDate", "desc");
+
+    filteredProfile.experiencesUpdatedAt = profile.experiences.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.securityClearance) {
@@ -1141,10 +1191,21 @@ async function getPublicProfileById(request, response) {
     const { id } = request.params;
     const { language } = request.query;
     if (userId && id) {
-      const result = filterProfileResult(
-        await getFullProfile(id, language),
-        language
-      );
+      const fullProfile = await getFullProfile(id, language);
+
+      const isAdmin =
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ] &&
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ].roles.includes("view-private-profile");
+
+      if (fullProfile.status !== "ACTIVE" && !isAdmin) {
+        response.sendStatus(404);
+      }
+
+      const result = filterProfileResult(fullProfile, language);
 
       const isConnection = result.connections.some(
         (item) => item.id === userId

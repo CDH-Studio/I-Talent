@@ -2,7 +2,6 @@ const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const {
   dashboardCount,
-  flaggedProfiles,
   growthRate,
   topFive,
 } = require("../../core/statistics");
@@ -36,12 +35,6 @@ countRouter.get(
 statsRouter.use("/count", countRouter);
 
 statsRouter.get(
-  "/hiddenUsers",
-  keycloak.protect("view-admin-console"),
-  flaggedProfiles.getHiddenUsers
-);
-
-statsRouter.get(
   "/growthRateByMonth",
   keycloak.protect("view-admin-console"),
   growthRate.growthRateByMonth
@@ -55,21 +48,21 @@ statsRouter.get(
 
 statsRouter.get(
   "/topFiveCompetencies",
-  keycloak.protect("view-admin-console"),
+  keycloak.protect(),
   langValidator,
   topFive.getTopFiveCompetencies
 );
 
 statsRouter.get(
   "/topFiveSkills",
-  keycloak.protect("view-admin-console"),
+  keycloak.protect(),
   langValidator,
   topFive.getTopFiveSkills
 );
 
 statsRouter.get(
   "/topFiveDevelopmentalGoals",
-  keycloak.protect("view-admin-console"),
+  keycloak.protect(),
   langValidator,
   topFive.getTopFiveDevelopmentalGoals
 );

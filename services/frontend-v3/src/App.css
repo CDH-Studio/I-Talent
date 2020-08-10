@@ -1,5 +1,3 @@
-@import "~antd/dist/antd.css";
-
 .App {
   text-align: center;
 }
@@ -79,6 +77,10 @@
 
 .ant-form-item-label {
   padding: 0px !important;
+}
+
+.ant-form-item-control-input-content {
+  width: 100%;
 }
 
 .ant-list-item-meta-title {

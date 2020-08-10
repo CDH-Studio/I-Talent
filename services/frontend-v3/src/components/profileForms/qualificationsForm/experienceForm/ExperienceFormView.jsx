@@ -20,7 +20,7 @@ import {
   ProfileInfoPropType,
   StylesPropType,
   IntlPropType,
-} from "../../../../customPropTypes";
+} from "../../../../utils/customPropTypes";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -87,7 +87,7 @@ const ExperienceFormView = ({
    * This is used for the end date field
    */
   const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["experience", field.fieldKey, "startDate"];
+    const fieldPath = ["experiences", field.fieldKey, "startDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -104,7 +104,7 @@ const ExperienceFormView = ({
    * This is used for the start date field
    */
   const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["experience", field.fieldKey, "endDate"];
+    const fieldPath = ["experiences", field.fieldKey, "endDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&

@@ -22,7 +22,7 @@ import {
   ProfileInfoPropType,
   StylesPropType,
   IntlPropType,
-} from "../../../../customPropTypes";
+} from "../../../../utils/customPropTypes";
 
 const { Option } = Select;
 const { Title } = Typography;

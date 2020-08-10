@@ -26,8 +26,13 @@ async function getDevelopmentalGoals(request, response) {
         language,
       },
       select: {
-        opSkillId: true,
         name: true,
+        opSkill: {
+          select: {
+            id: true,
+            categoryId: true,
+          },
+        },
       },
       orderBy: {
         name: "asc",
@@ -40,8 +45,9 @@ async function getDevelopmentalGoals(request, response) {
     }));
 
     const skills = skillsQuery.map((i) => ({
-      id: i.opSkillId,
+      id: i.opSkill.id,
       name: i.name,
+      categoryId: i.opSkill.categoryId,
     }));
 
     const developmentalGoals = _.sortBy([...competencies, ...skills], "name");

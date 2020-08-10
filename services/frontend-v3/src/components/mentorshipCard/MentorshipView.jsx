@@ -25,14 +25,12 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
                   key={index + 1}
                   extra={<TagTwoTone twoToneColor="#3CBAB3" />}
                 >
-                  {mentoring[mentoringCategory.index].val.map(
-                    (mentor) => (
-                      // eslint-disable-next-line react/no-array-index-key
-                      <Tag color="#005a74" key={index}>
-                        {mentor}
-                      </Tag>
-                    )
-                  )}
+                  {mentoring[mentoringCategory.index].val.map((mentor) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <Tag color="#00605e" key={index}>
+                      {mentor}
+                    </Tag>
+                  ))}
                 </Panel>
               )
           )}

@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import {
   setAdminCategories,
   setAdminCategoriesLoading,
@@ -15,11 +16,11 @@ import {
  *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-function CategoryTable({ intl }) {
+const CategoryTable = ({ intl }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
+  const axios = useAxios();
   const dispatch = useDispatch();
 
   // Fetches the category information
@@ -141,7 +142,7 @@ function CategoryTable({ intl }) {
       rowSelection={rowSelection}
     />
   );
-}
+};
 
 CategoryTable.propTypes = {
   intl: IntlPropType,

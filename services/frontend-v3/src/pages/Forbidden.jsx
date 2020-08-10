@@ -1,8 +1,8 @@
 import React from "react";
-import ErrorResult from "../components/errorResult/errorResult";
+import Error403 from "../components/errorResult/error403";
 
 const Forbidden = () => {
-  return <ErrorResult errorCode={403} />;
+  return <Error403 />;
 };
 
 export default Forbidden;

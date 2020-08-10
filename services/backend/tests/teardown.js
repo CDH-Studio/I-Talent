@@ -1,3 +1,3 @@
 afterAll(() => {
-  global.prisma.disconnect();
+  global.prisma.$disconnect();
 });

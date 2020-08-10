@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import _ from "lodash";
 
 import handleError from "../../../functions/handleError";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
 
 /**
@@ -333,8 +333,10 @@ const CategoryTableView = ({
           checkDelete().catch((error) => handleError(error, "message"));
         }}
         onCancel={popUpCancel}
+        disabled={selectedRowKeys.length === 0}
+        overlayStyle={{ maxWidth: 350 }}
       >
-        <Button type="primary" disabled={selectedRowKeys.length === 0}>
+        <Button disabled={selectedRowKeys.length === 0} danger>
           <DeleteOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.delete" />
         </Button>

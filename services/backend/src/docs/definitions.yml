@@ -318,9 +318,6 @@ definitions:
       id:
         type: string
         format: uuid
-      createdAt:
-        type: string
-        format: date-time
       updatedAt:
         type: string
         format: date-time
@@ -526,12 +523,33 @@ definitions:
               $ref: "#/definitions/ProficiencyEnum"
             level:
               $ref: "#/definitions/ProficiencyLevelEnum"
+      skillsUpdatedAt:
+        type: string
+        format: date-time
+      mentorshipSkillsUpdatedAt:
+        type: string
+        format: date-time
+      competenciesUpdatedAt:
+        type: string
+        format: date-time
+      developmentalGoalsUpdatedAt:
+        type: string
+        format: date-time
+      educationsUpdatedAt:
+        type: string
+        format: date-time
+      experiencesUpdatedAt:
+        type: string
+        format: date-time
       visibleCards:
         $ref: "#/definitions/VisibleCards"
       nameInitials:
         type: string
+
   200:
     description: Success
+  400:
+    description: Request processed, but specified item was not found
   403:
     description: Request not authenticated with keycloak or user does not have access to certain information
   409:

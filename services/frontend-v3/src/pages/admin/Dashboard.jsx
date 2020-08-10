@@ -1,18 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
-import { IntlPropType } from "../../customPropTypes";
+import { IntlPropType } from "../../utils/customPropTypes";
 import handleError from "../../functions/handleError";
 import {
   setCountUsers,
   setCountHiddenUsers,
   setCountInactiveUsers,
   setCountExFeederUsers,
-  setHiddenUsers,
   setGrowthRateByMonth,
   setGrowthRateByWeek,
   setTopFiveCompetencies,
@@ -29,6 +29,7 @@ import Header from "../../components/header/Header";
 const AdminDashboard = ({ intl }) => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+  const axios = useAxios();
 
   // Get dashboard data for statistic cards
   const getUserCount = useCallback(async () => {
@@ -66,16 +67,6 @@ const AdminDashboard = ({ intl }) => {
       const results = await axios.get(`api/stats/count/exFeederUsers`);
 
       dispatch(setCountExFeederUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect");
-    }
-  }, [dispatch]);
-
-  const getHiddenUsers = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/hiddenUsers`);
-
-      dispatch(setHiddenUsers(results.data));
     } catch (error) {
       handleError(error, "redirect");
     }
@@ -165,7 +156,6 @@ const AdminDashboard = ({ intl }) => {
       getHiddenUserCount(),
       getInactiveUserCount(),
       getExfeederUserCount(),
-      getHiddenUsers(),
       getGrowthRateByMonth(),
       getGrowthRateByWeek(),
       getTopFiveCompentencies(),
@@ -177,7 +167,6 @@ const AdminDashboard = ({ intl }) => {
     getGrowthRateByMonth,
     getGrowthRateByWeek,
     getHiddenUserCount,
-    getHiddenUsers,
     getInactiveUserCount,
     getTopFiveCompentencies,
     getTopFiveDevelopmentalGoals,
@@ -191,7 +180,7 @@ const AdminDashboard = ({ intl }) => {
 
   return (
     <AdminLayout displaySideBar type="dashboard">
-      <Header title={<FormattedMessage id="admin.dashboard.title" />}/>
+      <Header title={<FormattedMessage id="admin.dashboard.title" />} />
       <StatCards />
       <DashboardGraphs />
     </AdminLayout>

@@ -9,6 +9,7 @@ import {
   Select,
   Button,
   message,
+  Tabs,
 } from "antd";
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
@@ -17,7 +18,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -25,11 +26,12 @@ import {
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
-} from "../../../customPropTypes";
+} from "../../../utils/customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
 const { Title, Text } = Typography;
+const { TabPane } = Tabs;
 
 /**
  *  QualificationsFormView(props)
@@ -42,6 +44,7 @@ const QualificationsFormView = ({
   savedExperience,
   savedProjects,
   formType,
+  currentTab,
   load,
   intl,
   history,
@@ -51,7 +54,7 @@ const QualificationsFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
-
+  const axios = useAxios();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
@@ -250,7 +253,7 @@ const QualificationsFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${userId}`);
+    history.push(`/profile/${userId}`);
   };
 
   /*
@@ -265,7 +268,7 @@ const QualificationsFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         if (formType === "create") {
-          history.push("/secured/profile/create/step/8");
+          history.push("/profile/create/step/8");
         } else {
           dispatch(setSavedFormContent(true));
           onFinish();
@@ -436,103 +439,119 @@ const QualificationsFormView = ({
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
         >
-          {/* *************** Education ************** */}
-          {getSectionHeader("setup.education", "education")}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.List name="educations">
-                {(fields, { add, remove }) => {
-                  return (
-                    <div>
-                      {/* generate education form for each education item */}
-                      {fields.map((field) => (
-                        <EducationForm
-                          key={field.fieldKey}
-                          form={form}
-                          field={field}
-                          remove={remove}
-                          profileInfo={profileInfo}
-                          style={styles}
-                          checkIfFormValuesChanged={checkIfFormValuesChanged}
-                        />
-                      ))}
-                      <Form.Item>
-                        {/* add education field button */}
-                        <Button
-                          type="dashed"
-                          onClick={() => {
-                            add();
-                          }}
-                          style={{ width: "100%" }}
-                        >
-                          <PlusOutlined />
-                          <FormattedMessage id="setup.add.item" />
-                        </Button>
-                      </Form.Item>
-                    </div>
-                  );
-                }}
-              </Form.List>
-            </Col>
-          </Row>
-          {/* *************** Work Experience ************** */}
-          <Divider style={styles.headerDiv} />
-          {getSectionHeader("setup.experience", "experience")}
-          {/* Form Row One: Remote Work */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.List name="experiences">
-                {(fields, { add, remove }) => {
-                  return (
-                    <div>
-                      {/* generate education form for each education item */}
-                      {fields.map((field) => (
-                        <ExperienceForm
-                          key={field.fieldKey}
-                          form={form}
-                          field={field}
-                          remove={remove}
-                          profileInfo={profileInfo}
-                          style={styles}
-                          checkIfFormValuesChanged={checkIfFormValuesChanged}
-                        />
-                      ))}
-                      <Form.Item>
-                        {/* add education field button */}
-                        <Button
-                          type="dashed"
-                          onClick={() => {
-                            add();
-                          }}
-                          style={{ width: "100%" }}
-                        >
-                          <PlusOutlined />
-                          <FormattedMessage id="setup.add.item" />
-                        </Button>
-                      </Form.Item>
-                    </div>
-                  );
-                }}
-              </Form.List>
-            </Col>
-          </Row>
-          {/* *************** Projects ************** */}
-          <Divider style={styles.headerDiv} />
-          {getSectionHeader("setup.projects", "projects")}
-          {/* Form Row Three: career mobility */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-              <Form.Item name="projects" className="custom-bubble-select-style">
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={
-                    <FormattedMessage id="setup.projects.placeholder" />
-                  }
-                />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Tabs type="card" defaultActiveKey={currentTab}>
+            <TabPane
+              tab={<FormattedMessage id="setup.education" />}
+              key="education"
+            >
+              {getSectionHeader("setup.education", "education")}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  <Form.List name="educations">
+                    {(fields, { add, remove }) => {
+                      return (
+                        <div>
+                          {/* generate education form for each education item */}
+                          {fields.map((field) => (
+                            <EducationForm
+                              key={field.fieldKey}
+                              form={form}
+                              field={field}
+                              remove={remove}
+                              profileInfo={profileInfo}
+                              style={styles}
+                              checkIfFormValuesChanged={
+                                checkIfFormValuesChanged
+                              }
+                            />
+                          ))}
+                          <Form.Item>
+                            {/* add education field button */}
+                            <Button
+                              type="dashed"
+                              onClick={() => {
+                                add();
+                              }}
+                              style={{ width: "100%" }}
+                            >
+                              <PlusOutlined />
+                              <FormattedMessage id="setup.add.item" />
+                            </Button>
+                          </Form.Item>
+                        </div>
+                      );
+                    }}
+                  </Form.List>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane
+              tab={<FormattedMessage id="setup.experience" />}
+              key="experience"
+            >
+              {getSectionHeader("setup.experience", "experience")}
+              {/* Form Row One: Remote Work */}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  <Form.List name="experiences">
+                    {(fields, { add, remove }) => {
+                      return (
+                        <div>
+                          {/* generate education form for each education item */}
+                          {fields.map((field) => (
+                            <ExperienceForm
+                              key={field.fieldKey}
+                              form={form}
+                              field={field}
+                              remove={remove}
+                              profileInfo={profileInfo}
+                              style={styles}
+                              checkIfFormValuesChanged={
+                                checkIfFormValuesChanged
+                              }
+                            />
+                          ))}
+                          <Form.Item>
+                            {/* add education field button */}
+                            <Button
+                              type="dashed"
+                              onClick={() => {
+                                add();
+                              }}
+                              style={{ width: "100%" }}
+                            >
+                              <PlusOutlined />
+                              <FormattedMessage id="setup.add.item" />
+                            </Button>
+                          </Form.Item>
+                        </div>
+                      );
+                    }}
+                  </Form.List>
+                </Col>
+              </Row>
+              {/* *************** Projects ************** */}
+              <Divider style={styles.headerDiv} />
+              {getSectionHeader("setup.projects", "projects")}
+              {/* Form Row Three: career mobility */}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  <Form.Item
+                    name="projects"
+                    className="custom-bubble-select-style"
+                  >
+                    <Select
+                      mode="tags"
+                      style={{ width: "100%" }}
+                      notFoundContent={
+                        <FormattedMessage id="setup.projects.placeholder" />
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </TabPane>
+          </Tabs>
           {/* *************** Control Buttons ************** */}
           {/* Form Row Four: Submit button */}
           {getFormControlButtons(formType)}
@@ -563,6 +582,7 @@ QualificationsFormView.propTypes = {
   ),
   savedProjects: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  currentTab: PropTypes.string.isRequired,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,

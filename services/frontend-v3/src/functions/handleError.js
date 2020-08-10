@@ -1,13 +1,13 @@
 import { message } from "antd";
 
 import { addError } from "../redux/slices/errorsSlice";
-import history from "../history";
+import history from "../utils/history";
 import store from "../redux";
 
 import enIntlMessages from "../i18n/en_CA.json";
 import frIntlMessages from "../i18n/fr_CA.json";
 
-import config from "../config";
+import config from "../utils/config";
 
 const { enableErrorRedirect } = config;
 
