@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button } from "antd";
+import { Typography, Button, Modal } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import {
@@ -7,6 +7,7 @@ import {
   UserAddOutlined,
   RocketOutlined,
   LoadingOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import useAxios from "../../../utils/axios-instance";
@@ -17,7 +18,14 @@ import config from "../../../utils/config";
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;
 
-const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
+const WelcomeView = ({
+  gedsProfiles,
+  intl,
+  load,
+  userId,
+  history,
+  skipProfileCreation,
+}) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
@@ -67,6 +75,10 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
       display: "block",
       fontStyle: "italic",
       marginTop: "-4px",
+    },
+    skipButton: {
+      marginTop: 20,
+      opacity: 0.7,
     },
   };
 
@@ -231,6 +243,17 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
     );
   };
 
+  const showSkipModal = () => {
+    Modal.confirm({
+      title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+      content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
+      icon: <ExclamationCircleOutlined />,
+      onOk: skipProfileCreation,
+      okText: intl.formatMessage({ id: "profile.yes" }),
+      cancelText: intl.formatMessage({ id: "profile.no" }),
+    });
+  };
+
   return (
     <div style={styles.content}>
       <Title level={1} style={styles.welcome}>
@@ -243,6 +266,11 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
         <FormattedMessage id="setup.welcome.action" />
       </Paragraph>
       {generateGedsProfileList()}
+      <div style={styles.skipButton}>
+        <Button type="text" onClick={showSkipModal}>
+          <FormattedMessage id="setup.welcome.skip" />
+        </Button>
+      </div>
     </div>
   );
 };
@@ -254,6 +282,7 @@ WelcomeView.propTypes = {
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  skipProfileCreation: PropTypes.func.isRequired,
 };
 
 WelcomeView.defaultProps = {

@@ -339,6 +339,8 @@
   "setup.welcome.geds.title": "Récupération de profils",
   "setup.welcome.new.description": "débuter",
   "setup.welcome.new.title": "Nouveau utilisateur",
+  "setup.welcome.skip": "Sauter la création de profil ...",
+  "setup.welcome.skip.modal": "Sauter la création de profil rendra votre profil caché et ne sera pas visible ou recherchable par autres utilisateurs.",
   "sidebar.search.description": "Vous pouvez mettre à jour vos filtres de recherche",
   "sidebar.search.title": "Filtres de recherche",
   "sign.out": "Déconnexion",
