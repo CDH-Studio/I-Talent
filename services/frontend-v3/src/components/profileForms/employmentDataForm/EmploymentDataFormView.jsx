@@ -249,10 +249,10 @@ const EmploymentDataFormView = ({
         manager: profile.manager,
         actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
         actingStartDate: profile.actingStartDate
-          ? moment.utc(profile.actingStartDate)
+          ? moment(profile.actingStartDate)
           : undefined,
         actingEndDate: profile.actingStartDate
-          ? moment.utc(profile.actingStartDate)
+          ? moment(profile.actingStartDate)
           : undefined,
       };
     }

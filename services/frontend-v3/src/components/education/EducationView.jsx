@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import DescriptionText from "../descriptionText/DescriptionText";
 
-function EducationView({ educationInfo }) {
+const EducationView = ({ educationInfo }) => {
   /* Component Styles */
   const styles = {
     card: {
@@ -69,7 +69,7 @@ function EducationView({ educationInfo }) {
       description={<FormattedMessage id="profile.education.empty" />}
     />
   );
-}
+};
 
 EducationView.propTypes = {
   educationInfo: PropTypes.arrayOf(

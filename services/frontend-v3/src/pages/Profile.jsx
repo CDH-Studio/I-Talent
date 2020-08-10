@@ -2,13 +2,16 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { useIntl } from "react-intl";
 import useAxios from "../utils/axios-instance";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
+import ErrorProfileNotFound from "../components/errorResult/errorProfileNotFound";
 
 const Profile = ({ history, match }) => {
-  const [name, setName] = useState("Loading");
+  const intl = useIntl();
+
+  const [name, setName] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [connectionData, setConnectionData] = useState(null);
@@ -21,6 +24,7 @@ const Profile = ({ history, match }) => {
   const axios = useAxios();
 
   const fetchProfile = async () => {
+    setLoadingError(false);
     const promiseArray = [];
     const profile =
       id === userID
@@ -52,13 +56,24 @@ const Profile = ({ history, match }) => {
   };
 
   useEffect(() => {
-    setLoadingError(false);
     if (id === undefined) {
       history.push(`/profile/${userID}`);
     } else {
       fetchProfile();
     }
   }, [history, id, locale, userID]);
+
+  useEffect(() => {
+    setLoadingError(false);
+  }, [history]);
+
+  useEffect(() => {
+    if (loadingError) {
+      setName(intl.formatMessage({ id: "not.found" }));
+    } else if (loading) {
+      setName(intl.formatMessage({ id: "loading" }));
+    }
+  }, [locale, loadingError, loading]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;
@@ -79,7 +94,7 @@ const Profile = ({ history, match }) => {
   };
 
   if (loadingError) {
-    return <Redirect to={`/profile/${userID}`} />;
+    return <ErrorProfileNotFound />;
   }
 
   return (

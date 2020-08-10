@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const moment = require("moment");
 const _ = require("lodash");
 const prisma = require("../../database");
+const config = require("../../config");
 
 function normalizeDate(date, startOf) {
   if (date === null) {
@@ -998,7 +999,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.educations) {
-    filteredProfile.educations = profile.educations.map((education) => {
+    const educations = profile.educations.map((education) => {
       const translatedDiploma =
         education.diploma.translations.find((i) => i.language === language) ||
         education.diploma.translations[0];
@@ -1025,6 +1026,8 @@ function filterProfileResult(profile, language) {
       };
     });
 
+    filteredProfile.educations = _.orderBy(educations, "startDate", "desc");
+
     filteredProfile.educationsUpdatedAt = profile.educations.reduce(
       updatedAtReducer,
       undefined
@@ -1032,7 +1035,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.experiences) {
-    filteredProfile.experiences = profile.experiences.map((experience) => {
+    const experiences = profile.experiences.map((experience) => {
       const translatedExperience =
         experience.translations.find((i) => i.language === language) ||
         experience.translations[0];
@@ -1050,6 +1053,8 @@ function filterProfileResult(profile, language) {
           : null,
       };
     });
+
+    filteredProfile.experiences = _.orderBy(experiences, "startDate", "desc");
 
     filteredProfile.experiencesUpdatedAt = profile.experiences.reduce(
       updatedAtReducer,
@@ -1222,10 +1227,21 @@ async function getPublicProfileById(request, response) {
     const { id } = request.params;
     const { language } = request.query;
     if (userId && id) {
-      const result = filterProfileResult(
-        await getFullProfile(id, language),
-        language
-      );
+      const fullProfile = await getFullProfile(id, language);
+
+      const isAdmin =
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ] &&
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ].roles.includes("view-private-profile");
+
+      if (fullProfile.status !== "ACTIVE" && !isAdmin) {
+        response.sendStatus(404);
+      }
+
+      const result = filterProfileResult(fullProfile, language);
 
       const isConnection = result.connections.some(
         (item) => item.id === userId

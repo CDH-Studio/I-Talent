@@ -7,7 +7,7 @@ RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
 
 # Copy app dependencies
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 # Copy database directory for 'yarn generate'
 COPY ./src/database ./src/database

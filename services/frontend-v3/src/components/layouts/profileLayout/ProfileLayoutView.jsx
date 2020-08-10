@@ -19,6 +19,7 @@ import Skills from "../../skillsCard/Skills";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
+import DescriptionCard from "../../descriptionCard/DescriptionCard";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
@@ -28,10 +29,9 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import ProfileNotFound from "../../profileNotFound/profileNotFound";
-import DescriptionCard from "../../descriptionCard/DescriptionCard";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -432,7 +432,7 @@ const ProfileLayoutView = ({
           </Col>
         }
       />
-      {data ? displayAllProfileCards() : <ProfileNotFound />}
+      {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
     </AppLayout>
   );
 };
