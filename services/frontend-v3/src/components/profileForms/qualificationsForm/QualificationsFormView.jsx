@@ -582,7 +582,7 @@ QualificationsFormView.propTypes = {
   ),
   savedProjects: PropTypes.arrayOf(PropTypes.string),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string.isRequired,
+  currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
@@ -590,6 +590,7 @@ QualificationsFormView.propTypes = {
 };
 
 QualificationsFormView.defaultProps = {
+  currentTab: null,
   profileInfo: null,
   savedEducation: undefined,
   savedExperience: undefined,
