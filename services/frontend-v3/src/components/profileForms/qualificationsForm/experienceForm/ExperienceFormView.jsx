@@ -20,9 +20,10 @@ import {
   FieldPropType,
   FormInstancePropType,
   ProfileInfoPropType,
-  StylesPropType,
   IntlPropType,
 } from "../../../../utils/customPropTypes";
+
+import "./ExperienceFormView.scss";
 
 const { Title } = Typography;
 
@@ -37,7 +38,6 @@ const ExperienceFormView = ({
   field,
   remove,
   profileInfo,
-  style,
   checkIfFormValuesChanged,
   intl,
 }) => {
@@ -124,17 +124,10 @@ const ExperienceFormView = ({
    ********* Render Component *********
    *********************************** */
   return (
-    <Row
-      gutter={24}
-      style={{
-        backgroundColor: "#dfe5e4",
-        padding: "15px 10px 15px 10px",
-        marginBottom: "17px",
-      }}
-    >
+    <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-        <Title level={4} style={style.entryTitle}>
-          <FormOutlined style={{ marginRight: "0.5em" }} />
+        <Title level={4} className="entryTitle">
+          <FormOutlined />
           <FormattedMessage id="setup.experience" />
           {`: ${field.name + 1}`}
           <Tooltip
@@ -161,7 +154,7 @@ const ExperienceFormView = ({
           name={[field.name, "jobTitle"]}
           fieldKey={[field.fieldKey, "jobTitle"]}
           label={<FormattedMessage id="admin.job.title" />}
-          style={style.formItem}
+          className="formItem"
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -191,7 +184,6 @@ const ExperienceFormView = ({
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
-            style={style.datePicker}
             placeholder={intl.formatMessage({
               id: "profile.qualifications.select.month",
             })}
@@ -210,7 +202,6 @@ const ExperienceFormView = ({
           {!disableEndDate && (
             <DatePicker
               picker="month"
-              style={style.datePicker}
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
               placeholder={intl.formatMessage({
@@ -250,7 +241,6 @@ ExperienceFormView.propTypes = {
   field: FieldPropType.isRequired,
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
 };

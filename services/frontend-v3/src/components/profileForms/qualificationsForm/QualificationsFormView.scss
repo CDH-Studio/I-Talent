@@ -1,0 +1,51 @@
+Skeleton {
+  width: 100%;
+  max-width: 900px;
+  min-height: 400px;
+  background: #fff;
+  padding: 30px 30px;
+}
+.content {
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  padding: 30px 30px;
+}
+
+.formTitle {
+  font-size: 1.2em !important;
+  margin: 0;
+}
+
+.sectionHeader {
+  margin-bottom: 10;
+}
+
+.headerDiv {
+  margin: 15px 0 15px 0;
+}
+
+.finishAndSaveBtn {
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.clearBtn {
+  float: left;
+  margin-bottom: 1rem;
+}
+
+.saveBtn {
+  float: right;
+  margin-bottom: 1rem;
+  min-width: 100%;
+}
+
+.unsavedText {
+  margin-left: 10px;
+  font-weight: normal;
+  font-style: italic;
+  opacity: 0.5;
+}

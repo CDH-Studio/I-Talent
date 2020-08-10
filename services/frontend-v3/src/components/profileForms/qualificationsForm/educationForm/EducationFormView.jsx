@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "antd";
 
-import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
+import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -22,9 +22,11 @@ import {
   FormInstancePropType,
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  StylesPropType,
   IntlPropType,
 } from "../../../../utils/customPropTypes";
+
+import "./EducationFormView.scss";
+import LinkAttachment from "../linkAttachment/LinkAttachment";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -42,7 +44,6 @@ const EducationFormView = ({
   diplomaOptions,
   schoolOptions,
   profileInfo,
-  style,
   load,
   checkIfFormValuesChanged,
   intl,
@@ -137,17 +138,10 @@ const EducationFormView = ({
     return <div />;
   }
   return (
-    <Row
-      gutter={24}
-      style={{
-        backgroundColor: "#dfe5e4",
-        padding: "15px 10px 15px 10px",
-        marginBottom: "17px",
-      }}
-    >
+    <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-        <Title level={4} style={style.entryTitle}>
-          <FormOutlined style={{ marginRight: "0.5em" }} />
+        <Title level={4} className="entryTitle">
+          <FormOutlined />
           <FormattedMessage id="setup.education" />
           {`: ${field.name + 1}`}
           <Tooltip
@@ -162,7 +156,7 @@ const EducationFormView = ({
                 remove(field.name);
               }}
               size="small"
-              style={{ float: "right" }}
+              className="deleteButton"
             />
           </Tooltip>
         </Title>
@@ -173,8 +167,8 @@ const EducationFormView = ({
           name={[field.name, "diplomaId"]}
           fieldKey={[field.fieldKey, "diplomaId"]}
           label={<FormattedMessage id="profile.diploma" />}
-          style={style.formItem}
           rules={[Rules.required]}
+          className="formItem"
         >
           <Select
             showSearch
@@ -195,7 +189,7 @@ const EducationFormView = ({
           fieldKey={[field.fieldKey, "schoolId"]}
           label={<FormattedMessage id="profile.school" />}
           rules={[Rules.required]}
-          style={style.formItem}
+          className="formItem"
         >
           <Select
             showSearch
@@ -220,7 +214,6 @@ const EducationFormView = ({
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
-            style={style.datePicker}
             placeholder={intl.formatMessage({
               id: "profile.qualifications.select.month",
             })}
@@ -238,7 +231,6 @@ const EducationFormView = ({
           {!disableEndDate && (
             <DatePicker
               picker="month"
-              style={style.datePicker}
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
               placeholder={intl.formatMessage({
@@ -268,6 +260,39 @@ const EducationFormView = ({
           maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Form.List name="links">
+          {(fields, { add, remove }) => {
+            return (
+              <div>
+                {/* generate education form for each education item */}
+                {fields.map((field) => (
+                  <LinkAttachment
+                    key={field.fieldKey}
+                    form={form}
+                    field={field}
+                    remove={remove}
+                    profileInfo={profileInfo}
+                    checkIfFormValuesChanged={checkIfFormValuesChanged}
+                  />
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      add();
+                    }}
+                    style={{ width: "100%" }}
+                  >
+                    <PlusOutlined />
+                    <FormattedMessage id="setup.add.item" />
+                  </Button>
+                </Form.Item>
+              </div>
+            );
+          }}
+        </Form.List>
+      </Col>
     </Row>
   );
 };
@@ -278,7 +303,6 @@ EducationFormView.propTypes = {
   remove: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
   profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
   diplomaOptions: KeyTitleOptionsPropType,
   load: PropTypes.bool.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,

@@ -6,7 +6,6 @@ import {
   FieldPropType,
   FormInstancePropType,
   ProfileInfoPropType,
-  StylesPropType,
 } from "../../../../utils/customPropTypes";
 
 /**
@@ -20,7 +19,6 @@ const ExperienceForm = ({
   field,
   remove,
   profileInfo,
-  style,
   checkIfFormValuesChanged,
 }) => {
   return (
@@ -29,7 +27,6 @@ const ExperienceForm = ({
       field={field}
       remove={remove}
       profileInfo={profileInfo}
-      style={style}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
     />
   );
@@ -40,7 +37,6 @@ ExperienceForm.propTypes = {
   field: FieldPropType.isRequired,
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
 };
 

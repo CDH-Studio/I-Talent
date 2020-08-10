@@ -9,21 +9,13 @@ import {
   FieldPropType,
   FormInstancePropType,
   ProfileInfoPropType,
-  StylesPropType,
 } from "../../../../utils/customPropTypes";
 
-/**
- *  EducationForm
- *  Controller for the EducationFormView.
- *  This component is strongly linked ot Qualifications Form.
- *  It generated the form fields for each education item the user creates in the qualifications form.
- */
 const EducationForm = ({
   form,
   field,
   remove,
   profileInfo,
-  style,
   checkIfFormValuesChanged,
 }) => {
   // Define States
@@ -78,7 +70,6 @@ const EducationForm = ({
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
       profileInfo={profileInfo}
-      style={style}
       load={load}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
     />
@@ -90,7 +81,6 @@ EducationForm.propTypes = {
   field: FieldPropType.isRequired,
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
 };
 

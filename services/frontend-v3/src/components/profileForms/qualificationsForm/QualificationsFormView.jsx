@@ -29,6 +29,7 @@ import {
 } from "../../../utils/customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import "./QualificationsFormView.scss";
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -57,65 +58,6 @@ const QualificationsFormView = ({
   const axios = useAxios();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
-    },
-    sectionHeader: {
-      marginBottom: 10,
-    },
-    entryTitle: {
-      fontSize: "1em",
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    datePicker: {
-      width: "100%",
-    },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: {
-      float: "left",
-      marginBottom: "1rem",
-    },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-  };
 
   /*
    * save data to DB
@@ -306,7 +248,7 @@ const QualificationsFormView = ({
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
             <Button
-              style={styles.clearBtn}
+              className="clearBtn"
               htmlType="button"
               onClick={onReset}
               danger
@@ -316,7 +258,7 @@ const QualificationsFormView = ({
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
             <Button
-              style={styles.saveBtn}
+              className="saveBtn"
               onClick={onSaveAndFinish}
               type="primary"
             >
@@ -332,14 +274,14 @@ const QualificationsFormView = ({
         <Row gutter={24} style={{ marginTop: "20px" }}>
           <Col xs={24} md={24} lg={18} xl={18}>
             <Button
-              style={styles.finishAndSaveBtn}
+              className="finishAndSaveBtn"
               onClick={onSave}
               disabled={!fieldsChanged}
             >
               <FormattedMessage id="setup.save" />
             </Button>
             <Button
-              style={styles.clearBtn}
+              className="clearBtn"
               htmlType="button"
               onClick={onReset}
               danger
@@ -350,7 +292,7 @@ const QualificationsFormView = ({
           </Col>
           <Col xs={24} md={24} lg={6} xl={6}>
             <Button
-              style={styles.saveBtn}
+              className="saveBtn"
               type="primary"
               onClick={fieldsChanged ? onSaveAndFinish : onFinish}
             >
@@ -378,16 +320,16 @@ const QualificationsFormView = ({
   const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
-        <Title level={2} style={styles.formTitle}>
+        <Title level={2} className="formTitle">
           7. <FormattedMessage id="profile.employee.qualifications" />
         </Title>
       );
     }
     return (
-      <Title level={2} style={styles.formTitle}>
+      <Title level={2} className="formTitle">
         <FormattedMessage id="profile.employee.qualifications" />
         {fieldsChanged && (
-          <Text style={styles.unsavedText}>
+          <Text className="unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -396,8 +338,8 @@ const QualificationsFormView = ({
   };
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" style={styles.sectionHeader} align="middle">
-      <Title level={3} style={styles.formTitle}>
+    <Row justify="space-between" className="sectionHeader" align="middle">
+      <Title level={3} className="formTitle">
         <FormattedMessage id={titleId} />
       </Title>
       <CardVisibilityToggle
@@ -412,12 +354,7 @@ const QualificationsFormView = ({
    ********* Render Component *********
    *********************************** */
   if (!load) {
-    return (
-      /* If form data is loading then wait */
-      <div style={styles.skeleton}>
-        <Skeleton active />
-      </div>
-    );
+    return <Skeleton active />;
   }
   /* Once data had loaded display form */
   return (
@@ -426,10 +363,10 @@ const QualificationsFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div style={styles.content}>
+      <div className="content">
         {/* get form title */}
         {getFormHeader(formType)}
-        <Divider style={styles.headerDiv} />
+        <Divider className="headerDiv" />
 
         {/* Create form with initial values */}
         <Form
@@ -459,7 +396,6 @@ const QualificationsFormView = ({
                               field={field}
                               remove={remove}
                               profileInfo={profileInfo}
-                              style={styles}
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
                               }
@@ -505,7 +441,6 @@ const QualificationsFormView = ({
                               field={field}
                               remove={remove}
                               profileInfo={profileInfo}
-                              style={styles}
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
                               }
@@ -531,7 +466,7 @@ const QualificationsFormView = ({
                 </Col>
               </Row>
               {/* *************** Projects ************** */}
-              <Divider style={styles.headerDiv} />
+              <Divider className="headerDiv" />
               {getSectionHeader("setup.projects", "projects")}
               {/* Form Row Three: career mobility */}
               <Row gutter={24}>
