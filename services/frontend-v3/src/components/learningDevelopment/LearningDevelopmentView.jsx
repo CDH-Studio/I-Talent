@@ -3,7 +3,7 @@ import { List, Tag, Row, Empty, Col } from "antd";
 import { FormattedMessage } from "react-intl";
 import { PropTypes } from "prop-types";
 
-const DevelopmentalGoalsView = ({ devGoals }) => {
+const LearningDevelopmentView = ({ devGoals }) => {
   const dataSource = [
     {
       title: <FormattedMessage id="profile.developmental.goals" />,
@@ -50,7 +50,7 @@ const DevelopmentalGoalsView = ({ devGoals }) => {
   );
 };
 
-DevelopmentalGoalsView.propTypes = {
+LearningDevelopmentView.propTypes = {
   devGoals: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -59,8 +59,8 @@ DevelopmentalGoalsView.propTypes = {
   ),
 };
 
-DevelopmentalGoalsView.defaultProps = {
+LearningDevelopmentView.defaultProps = {
   devGoals: [],
 };
 
-export default DevelopmentalGoalsView;
+export default LearningDevelopmentView;

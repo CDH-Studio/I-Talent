@@ -20,7 +20,7 @@ import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DescriptionCard from "../../descriptionCard/DescriptionCard";
-import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
+import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
@@ -157,7 +157,7 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <DevelopmentalGoals type={privateProfile} data={data} />
+            <LearningDevelopment type={privateProfile} data={data} />
           </Col>
         </Row>
 
