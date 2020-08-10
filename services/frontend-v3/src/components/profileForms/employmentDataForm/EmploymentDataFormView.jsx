@@ -38,6 +38,8 @@ import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 
+import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
+
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -132,6 +134,12 @@ const EmploymentDataFormView = ({
       paddingLeft: "5px",
       paddingRight: "5px",
     },
+    space: {
+      paddingLeft: "0.25em",
+    },
+    sectionHeader: {
+      marginBottom: 10,
+    },
   };
 
   /* Component Rules for form fields */
@@ -143,6 +151,10 @@ const EmploymentDataFormView = ({
     maxChar50: {
       max: 50,
       message: <FormattedMessage id="profile.rules.max.50" />,
+    },
+    maxChar1000: {
+      max: 1000,
+      message: <FormattedMessage id="profile.rules.max.exceeded" />,
     },
   };
 
@@ -228,6 +240,7 @@ const EmploymentDataFormView = ({
   const getInitialValues = (profile) => {
     if (profile) {
       return {
+        description: profile.description,
         groupLevelId: profile.groupLevel ? profile.groupLevel.id : undefined,
         tenureId: profile.tenure ? profile.tenure.id : undefined,
         securityClearanceId: profile.securityClearance
@@ -682,6 +695,7 @@ const EmploymentDataFormView = ({
               </Form.Item>
             </Col>
           </Row>
+
           {/* Form Row Four: Temporary role */}
           <Row style={styles.tempRoleRow} gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -707,6 +721,37 @@ const EmploymentDataFormView = ({
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
           </Row>
+
+          <Divider style={styles.headerDiv} />
+          <Row
+            justify="space-between"
+            style={styles.sectionHeader}
+            align="middle"
+          >
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="profile.description" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="description"
+              type="form"
+            />
+          </Row>
+
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <DescriptionFormItem
+                name="description"
+                fieldKey="description"
+                rule={Rules.maxChar1000}
+                value={profileInfo.description}
+                maxLengthMessage={
+                  <FormattedMessage id="profile.rules.max.1000" />
+                }
+              />
+            </Col>
+          </Row>
+
           {getFormControlButtons(formType)}
         </Form>
       </div>

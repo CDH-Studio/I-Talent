@@ -1,0 +1,44 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "VisibleCard",
+      "field": "description",
+      "type": "CardVisibilityStatus",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "description"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "description"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "PRIVATE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "description",
+      "type": "String",
+      "arity": "Optional"
+    }
+  ]
+}
