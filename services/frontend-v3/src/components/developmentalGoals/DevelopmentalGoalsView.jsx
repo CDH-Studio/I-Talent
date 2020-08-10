@@ -10,11 +10,13 @@ const DevelopmentalGoalsView = ({ devGoals }) => {
       render: (
         <>
           {devGoals.length > 0 ? (
-            Object.values(devGoals).map(({ name, id }) => (
-              <Tag color="#00605e" key={id}>
-                {name}
-              </Tag>
-            ))
+            <div style={{ marginTop: 7 }}>
+              {Object.values(devGoals).map(({ name, id }) => (
+                <Tag color="#00605e" key={id}>
+                  {name}
+                </Tag>
+              ))}
+            </div>
           ) : (
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
