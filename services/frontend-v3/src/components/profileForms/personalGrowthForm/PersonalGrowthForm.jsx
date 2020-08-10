@@ -131,10 +131,12 @@ const PersonalGrowthForm = ({ formType }) => {
       {
         key: "true",
         text: locale === "ENGLISH" ? "Yes" : "Oui",
+        value: true,
       },
       {
         key: "false",
         text: locale === "ENGLISH" ? "No" : "Non",
+        value: false,
       },
     ];
     setInterestedInRemoteOptions(options);

@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model DbSeed {
@@ -322,7 +322,6 @@ model VisibleCard {
   skills             CardVisibilityStatus @default(PRIVATE)
   competencies       CardVisibilityStatus @default(PRIVATE)
   developmentalGoals CardVisibilityStatus @default(PRIVATE)
-  description        CardVisibilityStatus @default(PRIVATE)
   education          CardVisibilityStatus @default(PRIVATE)
   experience         CardVisibilityStatus @default(PRIVATE)
   projects           CardVisibilityStatus @default(PRIVATE)
@@ -414,18 +413,17 @@ model TransOrganization {
 }
 
 model Education {
-  id          String     @default(uuid()) @id
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  userId      String
-  schoolId    String?
-  diplomaId   String?
-  endDate     DateTime?
-  startDate   DateTime
-  description String?
-  user        User       @relation(fields: [userId])
-  school      OpSchool?  @relation(fields: [schoolId])
-  diploma     OpDiploma? @relation(fields: [diplomaId])
+  id        String     @default(uuid()) @id
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userId    String
+  schoolId  String?
+  diplomaId String?
+  endDate   DateTime?
+  startDate DateTime
+  user      User       @relation(fields: [userId])
+  school    OpSchool?  @relation(fields: [schoolId])
+  diploma   OpDiploma? @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, startDate])
 }
@@ -487,7 +485,6 @@ model User {
   telephone            String?
   cellphone            String?
   manager              String?
-  description          String?
   firstLanguage        Language?
   secondLanguage       Language?
   preferredLanguage    Language              @default(ENGLISH)

@@ -164,8 +164,11 @@ const PersonalGrowthFormView = ({
   const saveDataToDB = async (unalteredValues) => {
     const values = {
       ...unalteredValues,
-      interestedInRemote: unalteredValues.interestedInRemote === "true",
     };
+
+    if (unalteredValues.interestedInRemote === undefined) {
+      values.interestedInRemote = null;
+    }
 
     if (!unalteredValues.talentMatrixResultId) {
       values.talentMatrixResultId = null;
@@ -175,8 +178,9 @@ const PersonalGrowthFormView = ({
       values.careerMobilityId = null;
     }
 
-    if (!unalteredValues.savedLookingForNewJob) {
-      values.savedLookingForNewJob = null;
+
+    if (!unalteredValues.lookingForANewJobId) {
+      values.lookingForANewJobId = null;
     }
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
@@ -208,9 +212,10 @@ const PersonalGrowthFormView = ({
     if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
-        interestedInRemote: profile.interestedInRemote
-          ? profile.interestedInRemote.toString()
-          : undefined,
+        interestedInRemote:
+          profile.interestedInRemote === null
+            ? undefined
+            : profile.interestedInRemote,
         relocationLocations: savedRelocationLocations,
         lookingForANewJobId: savedLookingForNewJob,
         careerMobilityId: savedCareerMobility,
@@ -228,9 +233,9 @@ const PersonalGrowthFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(
+    const dbValues = _.omitBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      _.isNil
     );
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
@@ -485,8 +490,8 @@ const PersonalGrowthFormView = ({
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
-              tab={<FormattedMessage id="setup.developmental.goals" />}
-              key="developmental-goals"
+              tab={<FormattedMessage id="profile.learning.development" />}
+              key="learning-development"
             >
               {/* *************** Developmental ************** */}
               {getSectionHeader(
@@ -535,9 +540,11 @@ const PersonalGrowthFormView = ({
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
                     >
-                      {interestedInRemoteOptions.map((value) => {
-                        return <Option key={value.key}>{value.text}</Option>;
-                      })}
+                      {interestedInRemoteOptions.map(({ key, value, text }) => (
+                        <Option key={key} value={value}>
+                          {text}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -611,13 +618,22 @@ const PersonalGrowthFormView = ({
                       <div>
                         <FormattedMessage id="profile.talent.management.tooltip" />
                         {locale === "ENGLISH" ? (
-                          <Link href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html">
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
+                          >
                             <FormattedMessage id="profile.talent.management.link" />
-                          </Link>
+                          </a>
                         ) : (
-                          <Link href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html">
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                          >
                             <FormattedMessage id="profile.talent.management.link" />
-                          </Link>
+                          </a>
+
                         )}
                       </div>
                     }
@@ -722,7 +738,7 @@ PersonalGrowthFormView.propTypes = {
   savedTalentMatrixResult: PropTypes.string,
   savedExFeederBool: PropTypes.bool,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string.isRequired,
+  currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
@@ -730,6 +746,7 @@ PersonalGrowthFormView.propTypes = {
 };
 
 PersonalGrowthFormView.defaultProps = {
+  currentTab: null,
   careerMobilityOptions: [],
   developmentalGoalOptions: [],
   interestedInRemoteOptions: [],
