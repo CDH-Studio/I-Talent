@@ -164,8 +164,11 @@ const PersonalGrowthFormView = ({
   const saveDataToDB = async (unalteredValues) => {
     const values = {
       ...unalteredValues,
-      interestedInRemote: unalteredValues.interestedInRemote === "true",
     };
+
+    if (unalteredValues.interestedInRemote === undefined) {
+      values.interestedInRemote = null;
+    }
 
     if (!unalteredValues.talentMatrixResultId) {
       values.talentMatrixResultId = null;
@@ -175,8 +178,9 @@ const PersonalGrowthFormView = ({
       values.careerMobilityId = null;
     }
 
-    if (!unalteredValues.savedLookingForNewJob) {
-      values.savedLookingForNewJob = null;
+
+    if (!unalteredValues.lookingForANewJobId) {
+      values.lookingForANewJobId = null;
     }
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
@@ -208,9 +212,10 @@ const PersonalGrowthFormView = ({
     if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
-        interestedInRemote: profile.interestedInRemote
-          ? profile.interestedInRemote.toString()
-          : undefined,
+        interestedInRemote:
+          profile.interestedInRemote === null
+            ? undefined
+            : profile.interestedInRemote,
         relocationLocations: savedRelocationLocations,
         lookingForANewJobId: savedLookingForNewJob,
         careerMobilityId: savedCareerMobility,
@@ -228,9 +233,9 @@ const PersonalGrowthFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(
+    const dbValues = _.omitBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      _.isNil
     );
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
@@ -535,9 +540,11 @@ const PersonalGrowthFormView = ({
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
                     >
-                      {interestedInRemoteOptions.map((value) => {
-                        return <Option key={value.key}>{value.text}</Option>;
-                      })}
+                      {interestedInRemoteOptions.map(({ key, value, text }) => (
+                        <Option key={key} value={value}>
+                          {text}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>

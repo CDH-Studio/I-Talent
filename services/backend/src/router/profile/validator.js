@@ -91,10 +91,20 @@ const updateProfileValidator = [
   updateProfileBooleanBody.map((i) =>
     body(i)
       .optional()
-      .trim()
-      .toBoolean(true)
-      .isBoolean()
-      .withMessage("must be a boolean")
+      .customSanitizer((j) => {
+        switch (j) {
+          case "true":
+            return true;
+          case "false":
+            return false;
+          case "null":
+            return null;
+          default:
+            return j;
+        }
+      })
+      .custom((j) => j === null || j === true || j === false)
+      .withMessage("must be a boolean or null")
   ),
   updateProfileLanguageBody.map((i) =>
     body(i)
