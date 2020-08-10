@@ -194,7 +194,7 @@ async function updateProfile(request, response) {
       });
 
       let employmentInfoLangs;
-      if ((branch || jobTitle) && userIds.employmentInfoId) {
+      if (branch || jobTitle) {
         if (branch && jobTitle) {
           employmentInfoLangs = _.uniq([
             ...Object.keys(branch),
