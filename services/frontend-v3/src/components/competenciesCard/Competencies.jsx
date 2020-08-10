@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const Competencies = ({ data, type }) => {
   return (
@@ -11,10 +11,11 @@ const Competencies = ({ data, type }) => {
       content={<CompetenciesView competencies={data.competencies} />}
       cardName="competencies"
       id="card-profile-competency"
-      editUrl="/secured/profile/edit/talent"
+      editUrl="/profile/edit/talent?tab=competencies"
       data={data}
       type={type}
       visible={data.visibleCards.competencies}
+      lastUpdated={data.competenciesUpdatedAt}
     />
   );
 };

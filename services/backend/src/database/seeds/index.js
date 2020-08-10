@@ -30,7 +30,7 @@ async function seed() {
 
   console.log("---- FINISHED SEEDING, all seeds were applied ----");
 
-  await prisma.disconnect();
+  await prisma.$disconnect();
 
   process.exit(0);
 }

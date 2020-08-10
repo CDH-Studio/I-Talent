@@ -1,6 +1,6 @@
 /api/user/{id}:
   get:
-    summary: Returns a specific profile
+    summary: Returns a specific user
     produces:
       - application/json
     parameters:
@@ -18,7 +18,7 @@
       - Keycloak: []
     tags: [user]
   post:
-    summary: Returns geds profile information
+    summary: Create a new user
     produces:
       - application/json
     parameters:
@@ -43,6 +43,24 @@
         $ref: "#/definitions/UserResponse"
       403:
         $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [user]
+  delete:
+    summary: Deletes the specified user
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
       500:
         $ref: "#/definitions/500"
     security:

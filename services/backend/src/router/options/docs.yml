@@ -63,7 +63,20 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdNameArray"
+        description: Returns a categoryId if the corresponding developmental goal is a skill
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              categoryId:
+                type: string
+                format: uuid
       403:
         $ref: "#/definitions/403"
       422:

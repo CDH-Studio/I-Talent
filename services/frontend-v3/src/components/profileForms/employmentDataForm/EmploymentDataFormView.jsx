@@ -27,13 +27,13 @@ import _ from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
-import axios from "../../../axios-instance";
+import useAxios from "../../../utils/axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
-} from "../../../customPropTypes";
+} from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -57,11 +57,13 @@ const EmploymentDataFormView = ({
   history,
   userId,
 }) => {
+  const axios = useAxios();
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [loadedData, setLoadedData] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -234,10 +236,10 @@ const EmploymentDataFormView = ({
         manager: profile.manager,
         actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
         actingStartDate: profile.actingStartDate
-          ? moment.utc(profile.actingStartDate)
+          ? moment(profile.actingStartDate)
           : undefined,
         actingEndDate: profile.actingStartDate
-          ? moment.utc(profile.actingStartDate)
+          ? moment(profile.actingStartDate)
           : undefined,
       };
     }
@@ -293,7 +295,7 @@ const EmploymentDataFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         setFieldsChanged(false);
-        history.push("/secured/profile/create/step/4");
+        history.push("/profile/create/step/4");
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -306,7 +308,7 @@ const EmploymentDataFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/secured/profile/${userId}`);
+    history.push(`/profile/${userId}`);
   };
 
   /* save and redirect to home */
@@ -317,7 +319,7 @@ const EmploymentDataFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         if (formType === "create") {
-          history.push("/secured/profile/create/step/8");
+          history.push("/profile/create/step/8");
         } else {
           dispatch(setSavedFormContent(true));
           onFinish();
@@ -445,19 +447,21 @@ const EmploymentDataFormView = ({
   };
 
   useEffect(() => {
-    /* check if user has acting information in db to expand acting form */
-    setDisplayActingRoleForm(
-      profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
-    );
+    if (!loadedData && load) {
+      /* check if user has acting information in db to expand acting form */
+      setDisplayActingRoleForm(
+        profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
+      );
 
-    /* check if user has acting end date to enable the date felid on load */
-    setEnableEndDate(profileInfo ? Boolean(profileInfo.actingEndDate) : false);
+      /* check if user has acting end date to enable the date felid on load */
+      setEnableEndDate(
+        profileInfo ? Boolean(profileInfo.actingEndDate) : false
+      );
 
-    // if props change then reset form fields
-    if (load) {
-      form.resetFields();
+      // Makes the subform not reset on language change
+      setLoadedData(true);
     }
-  }, [load, form, profileInfo]);
+  }, [load, form, profileInfo, loadedData]);
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
@@ -682,7 +686,7 @@ const EmploymentDataFormView = ({
           <Row style={styles.tempRoleRow} gutter={24}>
             <Col className="gutter-row" span={24}>
               <Text>
-                <FormattedMessage id="profile.willing.to.relocate.to" />
+                <FormattedMessage id="profile.temporary.role" />
                 <Popover
                   content={
                     <div>

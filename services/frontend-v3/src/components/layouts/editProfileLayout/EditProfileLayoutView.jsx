@@ -3,8 +3,9 @@ import { Menu } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router";
 import AppLayout from "../appLayout/AppLayout";
-import { HistoryPropType } from "../../../customPropTypes";
+import { HistoryPropType } from "../../../utils/customPropTypes";
 import {
   EmploymentDataForm,
   LangProficiencyForm,
@@ -40,7 +41,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       case "qualifications":
         return <QualificationsForm formType="edit" />;
       default:
-        return <div>Hello</div>;
+        return <Redirect to="/profile/edit/primary-info" />;
     }
   };
 
@@ -50,7 +51,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    * Redirect to form based on sidebar selection
    */
   const redirectToForm = (data) => {
-    const url = `/secured/profile/edit/${data.key}`;
+    const url = `/profile/edit/${data.key}`;
     history.push(url);
   };
 

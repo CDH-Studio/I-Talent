@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import CareerInterestsView from "./CareerInterestsView";
 import ProfileCards from "../profileCards/ProfileCards";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const CareerInterests = ({ data, type }) => {
   const getCareerInterestsInfo = () => {
@@ -40,7 +40,7 @@ const CareerInterests = ({ data, type }) => {
       }
       cardName="careerInterests"
       id="card-profile-career-interests"
-      editUrl="/secured/profile/edit/personal-growth"
+      editUrl="/profile/edit/personal-growth?tab=career-interests"
       data={data}
       type={type}
       visible={data.visibleCards.careerInterests}

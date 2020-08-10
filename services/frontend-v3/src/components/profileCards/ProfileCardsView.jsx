@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Typography, Tooltip } from "antd";
 import { FormattedMessage } from "react-intl";
+import moment from "moment";
 
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import EditCardButton from "../editCardButton/EditCardButton";
+
+const { Text } = Typography;
 
 const ProfileCardsView = ({
   editUrl,
@@ -16,6 +19,7 @@ const ProfileCardsView = ({
   visible,
   visibleCards,
   cardName,
+  lastUpdated,
 }) => {
   const generateSwitchButton = () =>
     type && (
@@ -33,7 +37,7 @@ const ProfileCardsView = ({
     );
 
   const grayedOut = {
-    backgroundColor: visible ? "": "#D3D3D3",
+    backgroundColor: visible ? "" : "#D3D3D3",
   };
 
   return (
@@ -41,11 +45,27 @@ const ProfileCardsView = ({
       <Card
         className={content === null ? "no-content-card" : null}
         title={
-          typeof titleId === "string" ? (
-            <FormattedMessage id={titleId} />
-          ) : (
-            titleId
-          )
+          <>
+            {typeof titleId === "string" ? (
+              <FormattedMessage id={titleId} />
+            ) : (
+              titleId
+            )}
+            {lastUpdated && (
+              <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    fontStyle: "italic",
+                    fontWeight: "normal",
+                  }}
+                  type="secondary"
+                >
+                  {moment(lastUpdated).format("LL")}
+                </Text>
+              </Tooltip>
+            )}
+          </>
         }
         id={id}
         extra={generateSwitchButton()}
@@ -69,6 +89,7 @@ ProfileCardsView.propTypes = {
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ),
+  lastUpdated: PropTypes.string,
 };
 
 ProfileCardsView.defaultProps = {
@@ -78,6 +99,7 @@ ProfileCardsView.defaultProps = {
   type: null,
   visible: null,
   visibleCards: {},
+  lastUpdated: null,
 };
 
 export default ProfileCardsView;

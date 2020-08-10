@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProjectsView from "./ProjectsView";
 import ProfileCards from "../profileCards/ProfileCards";
-import { ProfileInfoPropType } from "../../customPropTypes";
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const Projects = ({ data, type }) => {
   return (
@@ -11,7 +11,7 @@ const Projects = ({ data, type }) => {
       content={<ProjectsView projectsInfo={data.projects} />}
       cardName="projects"
       id="card-profile-projects"
-      editUrl="/secured/profile/edit/qualifications"
+      editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
       type={type}
       visible={data.visibleCards.projects}

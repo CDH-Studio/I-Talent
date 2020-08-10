@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "../../axios-instance";
+import useAxios from "../../utils/axios-instance";
 import SearchFilterView from "./SearchFilterView";
 import handleError from "../../functions/handleError";
 
@@ -15,6 +16,7 @@ const SearchFilter = () => {
   const [classOptions, setClassOptions] = useState([]);
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
   const [anyMentorSkills, setAnyMentorSkills] = useState(false);
+  const axios = useAxios();
 
   const history = useHistory();
   const { locale } = useSelector((state) => state.settings);
@@ -136,7 +138,7 @@ const SearchFilter = () => {
   // page with query
   const handleSearch = (values) => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
-    const url = `/secured/results?${query}`;
+    const url = `/results?${query}`;
     history.push(url);
     window.location.reload();
   };

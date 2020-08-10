@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { IntlPropType } from "../../../customPropTypes";
+import { IntlPropType } from "../../../utils/customPropTypes";
 
 /**
  *  DashboardGraphsView(props)
@@ -123,45 +123,47 @@ const DashboardGraphsView = ({
           </Card>
         </Col>
       </Row>
-      <Row gutter={[8, 8]}>
-        <Col span={24}>
-          <Card
-            title={
-              <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
-            }
-            loading={monthlyGrowth.length === 0}
-          >
-            <Chart
-              data={monthlyGrowth}
-              scale={growthRateByMonthColumns}
-              padding="auto"
-              forceFit
+      {monthlyGrowth && (
+        <Row gutter={[8, 8]}>
+          <Col span={24}>
+            <Card
+              title={
+                <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
+              }
+              loading={monthlyGrowth.length === 0}
             >
-              <Legend />
-              <Axis name="monthName" />
-              <Axis name="count" />
-              <Tooltip crosshairs={{ type: "y" }} />
-              <Geom
-                type="line"
-                position="monthName*count"
-                size={2}
-                color="year"
-              />
-              <Geom
-                type="point"
-                position="monthName*count"
-                size={4}
-                shape="circle"
-                color="year"
-                style={{
-                  stroke: "#fff",
-                  lineWidth: 1,
-                }}
-              />
-            </Chart>
-          </Card>
-        </Col>
-      </Row>
+              <Chart
+                data={monthlyGrowth}
+                scale={growthRateByMonthColumns}
+                padding="auto"
+                forceFit
+              >
+                <Legend />
+                <Axis name="monthName" />
+                <Axis name="count" />
+                <Tooltip crosshairs={{ type: "y" }} />
+                <Geom
+                  type="line"
+                  position="monthName*count"
+                  size={2}
+                  color="year"
+                />
+                <Geom
+                  type="point"
+                  position="monthName*count"
+                  size={4}
+                  shape="circle"
+                  color="year"
+                  style={{
+                    stroke: "#fff",
+                    lineWidth: 1,
+                  }}
+                />
+              </Chart>
+            </Card>
+          </Col>
+        </Row>
+      )}
     </>
   );
 };
@@ -191,12 +193,13 @@ DashboardGraphsView.propTypes = {
       count: PropTypes.number,
       monthName: PropTypes.string,
     })
-  ).isRequired,
+  ),
   intl: IntlPropType,
 };
 
 DashboardGraphsView.defaultProps = {
   intl: undefined,
+  monthlyGrowth: null,
 };
 
 export default injectIntl(DashboardGraphsView);

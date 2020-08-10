@@ -9,7 +9,7 @@ import DashboardGraphsView from "./DashboardGraphsView";
  *  It setups the data (bridge) for rendering the component in the view.
  */
 const DashboardGraphs = () => {
-  const [graphicalData, setGraphicalData] = useState([]);
+  const [graphicalData, setGraphicalData] = useState();
 
   const { topFive, growthRate } = useSelector((state) => state.stats);
 

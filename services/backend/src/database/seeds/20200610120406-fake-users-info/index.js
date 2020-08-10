@@ -1,6 +1,7 @@
 const path = require("path");
 const prisma = require("../..");
 const users = require("./data/users");
+const config = require("../../../config");
 
 async function getSecurityClearanceId(description) {
   let securityClearanceId;
@@ -652,7 +653,7 @@ async function seedUsers() {
 }
 
 async function seed() {
-  if (process.env.NODE_ENV === "production") {
+  if (config.ENV === "production") {
     return;
   }
 
@@ -673,7 +674,7 @@ async function seed() {
     console.log(`---- Finished seeding: ${folderName} ----\n`);
   }
 
-  await prisma.disconnect();
+  await prisma.$disconnect();
 }
 
 module.exports = seed;

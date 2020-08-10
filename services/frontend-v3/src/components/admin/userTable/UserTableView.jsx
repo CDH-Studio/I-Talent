@@ -9,19 +9,36 @@ import {
   Select,
   message,
   Popconfirm,
+  Tag,
+  Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
   LinkOutlined,
   SearchOutlined,
+  TeamOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { IntlPropType } from "../../../customPropTypes";
+import _ from "lodash";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
+import config from "../../../utils/config";
+
+const { Text } = Typography;
+
+const styles = {
+  unsavedText: {
+    marginLeft: "10px",
+    fontWeight: "normal",
+    fontStyle: "italic",
+    opacity: 0.5,
+  },
+};
 
 /**
  *  UserTableView(props)
@@ -36,6 +53,10 @@ const UserTableView = ({
   profileStatusValue,
   handleSearch,
   handleReset,
+  modifiedStatus,
+  selectedRowKeys,
+  rowSelection,
+  handleSubmitDelete,
 }) => {
   let searchInput;
 
@@ -121,7 +142,9 @@ const UserTableView = ({
           defaultValue={profileStatusValue(status)}
           style={{ width: 120 }}
           onChange={(value) => {
-            handleDropdownChange(value, id);
+            const user = data.find(({ key }) => key === id);
+            const valueToBeSaved = value === user.status ? undefined : value;
+            handleDropdownChange(valueToBeSaved, id);
           }}
         >
           <Option key="active" value="ACTIVE">
@@ -172,12 +195,50 @@ const UserTableView = ({
         onCancel={() => {
           popUpCancel();
         }}
+        disabled={!modifiedStatus}
       >
-        <Button type="primary">
+        <Button type="primary" disabled={!modifiedStatus}>
           <CheckCircleOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.apply" />
         </Button>
       </Popconfirm>
+    );
+  };
+
+  /* Renders the delete button and confirmation prompt */
+  const deleteConfirm = () => {
+    return (
+      <Popconfirm
+        placement="left"
+        title={<FormattedMessage id="admin.delete.user" />}
+        okText={<FormattedMessage id="admin.delete" />}
+        cancelText={<FormattedMessage id="admin.cancel" />}
+        onConfirm={() => {
+          handleSubmitDelete()
+            .then(popUpSuccesss)
+            .catch((error) => handleError(error, "message"));
+        }}
+        onCancel={() => {
+          popUpCancel();
+        }}
+        disabled={selectedRowKeys.length === 0}
+        overlayStyle={{ maxWidth: 350 }}
+      >
+        <Button disabled={selectedRowKeys.length === 0} danger>
+          <DeleteOutlined style={{ marginRight: 10 }} />
+          <FormattedMessage id="admin.delete" />
+        </Button>
+      </Popconfirm>
+    );
+  };
+
+  /* Renders the keycloak button */
+  const keycloakButton = () => {
+    return (
+      <Button href={config.manageKeycloakAddress}>
+        <TeamOutlined style={{ marginRight: 10 }} />
+        <FormattedMessage id="admin.manage.keycloak" />
+      </Button>
     );
   };
 
@@ -186,19 +247,6 @@ const UserTableView = ({
 
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => [
-    {
-      title: <FormattedMessage id="admin.view" />,
-      render: (record) => (
-        <span>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<LinkOutlined />}
-            onClick={() => window.open(record.profileLink)}
-          />
-        </span>
-      ),
-    },
     {
       title: <FormattedMessage id="admin.name" />,
       dataIndex: "fullName",
@@ -245,37 +293,115 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="admin.tenure" />,
-      dataIndex: "tenure",
-      key: "tenure",
+      title: <FormattedMessage id="admin.last.updated" />,
+      dataIndex: "formatUpdatedAt",
+      key: "updated",
       sorter: (a, b) => {
-        return a.tenure.localeCompare(b.tenure);
+        return (
+          moment(a.formatUpdatedAt).unix() - moment(b.formatUpdatedAt).unix()
+        );
       },
       ...getColumnSearchProps(
-        "tenure",
+        "formatUpdatedAt",
         intl.formatMessage({
-          id: "admin.tenure",
+          id: "admin.last.updated",
         })
       ),
     },
     {
+      title: <FormattedMessage id="admin.tenure" />,
+      dataIndex: "tenure",
+      key: "tenure",
+      filters: _.uniq(data.map((i) => i.tenure)).map((i) => ({
+        text: i,
+        value: i,
+      })),
+      onFilter: (value, record) => record.tenure === value,
+    },
+    {
+      title: <FormattedMessage id="admin.roles" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.roles.admin" />,
+          value: "isAdmin",
+        },
+        {
+          text: <FormattedMessage id="admin.roles.manager" />,
+          value: "isManager",
+        },
+      ],
+      onFilter: (value, record) => record[value],
+      render: (record) => (
+        <>
+          <Tag visible={record.isAdmin} color="magenta">
+            <FormattedMessage id="admin.roles.admin" />
+          </Tag>
+          <Tag visible={record.isManager} color="geekblue">
+            <FormattedMessage id="admin.roles.manager" />
+          </Tag>
+        </>
+      ),
+    },
+    {
       title: <FormattedMessage id="admin.profileStatus" />,
+      filters: [
+        {
+          text: <FormattedMessage id="admin.active" />,
+          value: "ACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.inactive" />,
+          value: "INACTIVE",
+        },
+        {
+          text: <FormattedMessage id="admin.flagged" />,
+          value: "HIDDEN",
+        },
+      ],
+      onFilter: (value, record) => record.status === value,
       render: (record) => {
         return renderStatusDropdown(record.key, record.status);
       },
+    },
+    {
+      title: <FormattedMessage id="admin.view" />,
+      render: (record) => (
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<LinkOutlined />}
+          onClick={() => window.open(record.profileLink)}
+        />
+      ),
     },
   ];
 
   return (
     <>
       <Header
-        title={<FormattedMessage id="admin.user.table" />}
-        extra={applyButton()}
+        title={
+          <>
+            <FormattedMessage id="admin.user.table" />
+            {modifiedStatus && (
+              <Text style={styles.unsavedText}>
+                (<FormattedMessage id="profile.form.unsaved" />)
+              </Text>
+            )}
+          </>
+        }
+        extra={
+          <>
+            {deleteConfirm()}
+            {applyButton()}
+            {keycloakButton()}
+          </>
+        }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
             showSorterTooltip={false}
+            rowSelection={rowSelection}
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
@@ -291,10 +417,14 @@ UserTableView.propTypes = {
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
   handleDropdownChange: PropTypes.func.isRequired,
   profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
+  modifiedStatus: PropTypes.bool.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
+  rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UserTableView.defaultProps = {

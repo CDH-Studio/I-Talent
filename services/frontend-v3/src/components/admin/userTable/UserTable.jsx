@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "../../../axios-instance";
-import { IntlPropType } from "../../../customPropTypes";
+import { Prompt } from "react-router";
+import useAxios from "../../../utils/axios-instance";
 import UserTableView from "./UserTableView";
 import handleError from "../../../functions/handleError";
 import {
@@ -16,10 +16,14 @@ import {
  *  Controller for the UserTableView.
  *  It gathers the required data for rendering the component.
  */
-function UserTable({ intl }) {
+const UserTable = () => {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [modifiedStatus, setModifiedStatus] = useState(false);
+  const axios = useAxios();
+  const intl = useIntl();
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -30,17 +34,23 @@ function UserTable({ intl }) {
       dispatch(setAdminUsers({ data: [] }));
       dispatch(setAdminUsersLoading(true));
 
-      const results = await axios.get(`api/admin/users?language=${locale}`);
+      const results = await Promise.all([
+        axios.get(`api/admin/users?language=${locale}`),
+        axios.get(`api/keycloak/users?language=${locale}`),
+      ]);
 
       // Formats data from backend into viewable data for the table
-      const formattedData = results.data.map((user) => ({
+      const formattedData = results[0].data.map((user) => ({
         key: user.id,
-        profileLink: `/secured/profile/${user.id}`,
+        profileLink: `/profile/${user.id}`,
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
-        formatCreatedAt: moment(user.createdAt).format("LLL"),
+        formatCreatedAt: moment(user.createdAt).format("LL"),
+        formatUpdatedAt: moment(user.updatedAt).format("LL"),
         status: user.status,
+        isAdmin: results[1].data.admin.includes(user.id),
+        isManager: results[1].data.manager.includes(user.id),
       }));
 
       dispatch(setAdminUsers({ data: formattedData, locale }));
@@ -61,6 +71,7 @@ function UserTable({ intl }) {
     await axios.put(url, statuses);
 
     setStatuses({});
+    setModifiedStatus(false);
     getUserInformation();
   };
 
@@ -84,7 +95,13 @@ function UserTable({ intl }) {
   const handleDropdownChange = (status, id) => {
     const addStatus = statuses;
 
-    addStatus[id] = status;
+    if (status) {
+      addStatus[id] = status;
+    } else {
+      delete addStatus[id];
+    }
+
+    setModifiedStatus(Object.keys(addStatus).length > 0);
 
     setStatuses(addStatus);
   };
@@ -109,6 +126,25 @@ function UserTable({ intl }) {
     }
   };
 
+  // Handles the deletion of a user
+  const handleSubmitDelete = async () => {
+    await Promise.all(
+      selectedRowKeys.map((id) => axios.delete(`api/user/${id}`))
+    );
+
+    setSelectedRowKeys([]);
+    getUserInformation();
+  };
+
+  // Handles row selection in the table
+  const rowSelection = {
+    onChange: (_selectedRowKeys) => {
+      setSelectedRowKeys(_selectedRowKeys);
+    },
+    hideSelectAll: true,
+    columnTitle: intl.formatMessage({ id: "admin.delete" }),
+  };
+
   useEffect(() => {
     // Gets part of the title for the page
     const getDisplayType = (plural) => {
@@ -126,24 +162,26 @@ function UserTable({ intl }) {
   }, [intl]);
 
   return (
-    <UserTableView
-      searchText={searchText}
-      searchedColumn={searchedColumn}
-      handleApply={handleApply}
-      handleDropdownChange={handleDropdownChange}
-      profileStatusValue={profileStatusValue}
-      handleSearch={handleSearch}
-      handleReset={handleReset}
-    />
+    <>
+      <Prompt
+        when={modifiedStatus}
+        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+      />
+      <UserTableView
+        searchText={searchText}
+        searchedColumn={searchedColumn}
+        handleApply={handleApply}
+        handleDropdownChange={handleDropdownChange}
+        profileStatusValue={profileStatusValue}
+        handleSearch={handleSearch}
+        handleReset={handleReset}
+        modifiedStatus={modifiedStatus}
+        selectedRowKeys={selectedRowKeys}
+        rowSelection={rowSelection}
+        handleSubmitDelete={handleSubmitDelete}
+      />
+    </>
   );
-}
-
-UserTable.propTypes = {
-  intl: IntlPropType,
 };
 
-UserTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(UserTable);
+export default UserTable;

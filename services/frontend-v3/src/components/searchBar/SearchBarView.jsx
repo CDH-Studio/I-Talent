@@ -19,8 +19,8 @@ import {
   SettingOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
-import logo from "../../assets/MyTalent-Logo-Full-v2.svg";
-import { IntlPropType } from "../../customPropTypes";
+import logo from "../../assets/I-talent-logo.png";
+import { IntlPropType } from "../../utils/customPropTypes";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;
@@ -50,7 +50,7 @@ const SearchBarView = ({
       margin: "auto",
     },
     mainSearchDiv: {
-      backgroundColor: "#001C1A",
+      backgroundColor: "rgb(25, 46, 47)",
       borderRadius: "5px 5px 0 0",
       padding: "50px 80px 40px 80px",
       boxShadow: "10px 10px 10px #cccccc",
@@ -169,7 +169,7 @@ const SearchBarView = ({
         <Row style={{ padding: "15px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              General Info
+              <FormattedMessage id="search.advanced.general.title" />
             </Title>
           </Col>
         </Row>
@@ -266,7 +266,7 @@ const SearchBarView = ({
         <Row style={{ padding: "5px 5% 5px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              Skills and Talent
+              <FormattedMessage id="search.advanced.skill.title" />
             </Title>
           </Col>
         </Row>
@@ -313,7 +313,7 @@ const SearchBarView = ({
             </Form.Item>
             <Form.Item name="anyMentorSkills" valuePropName="checked">
               <Checkbox onChange={handleAnyMentorSkillsChange}>
-                <FormattedMessage id="select.any" />
+                <FormattedMessage id="select.any.mentors" />
               </Checkbox>
             </Form.Item>
             {/* exFeeder field */}
@@ -372,7 +372,7 @@ const SearchBarView = ({
           <img
             src={logo}
             alt="I-Talent Logo"
-            style={{ width: "80%", maxWidth: "300px" }}
+            style={{ width: "80%", maxWidth: "370px" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
           {getBasicSearchForm(!expandAdvancedSearch)}

@@ -48,19 +48,23 @@ async function growthRateByMonth(request, response) {
       response.status(500).send("No users in the database");
     }
 
-    // OLD Object Structure: [{year, data: [{month, count: # of Occurrences}]}]
-    // NEW object Structure: {year: {month: # of Occurrences}}
+    // Structure: { year: { month: # of Occurrences } }
     const growthRate = {};
 
-    // Populate emptry data in monthlyGrowthRate according to the oldest user
+    // Populate empty data in monthlyGrowthRate according to the oldest user
     const currentDate = moment();
     const oldestUserDate = moment(users[0].createdAt);
 
-    while (oldestUserDate.isSameOrBefore(currentDate)) {
+    while (oldestUserDate.isSameOrBefore(currentDate, "month")) {
       const currentYear = oldestUserDate.year();
       const currentMonth = oldestUserDate.month();
 
-      growthRate[currentYear] = { [currentMonth]: 0 };
+      if (!growthRate[currentYear]) {
+        growthRate[currentYear] = {};
+      }
+
+      growthRate[currentYear][currentMonth] = 0;
+
       oldestUserDate.add(1, "month");
     }
 
