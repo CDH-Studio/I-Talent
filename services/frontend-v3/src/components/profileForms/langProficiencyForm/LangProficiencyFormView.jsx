@@ -60,7 +60,7 @@ const LangProficiencyFormView = ({
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
-  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
+  const [displaySecondLangForm, setDisplaySecondLangForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
 
@@ -89,14 +89,6 @@ const LangProficiencyFormView = ({
     },
     headerDiv: {
       margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
     },
     secondLangRow: {
       backgroundColor: "#dfe5e4",
@@ -155,7 +147,7 @@ const LangProficiencyFormView = ({
       dbValues.firstLanguage = null;
     }
 
-    if (displayMentorshipForm) {
+    if (displaySecondLangForm) {
       // set second language based on first language
       dbValues.secondLanguage =
         values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
@@ -263,7 +255,7 @@ const LangProficiencyFormView = ({
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => !prev);
+    setDisplaySecondLangForm((prev) => !prev);
   };
 
   /**
@@ -367,7 +359,7 @@ const LangProficiencyFormView = ({
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
 
     const data = savedValues || getInitialValues(profileInfo);
-    setDisplayMentorshipForm(data.oralProficiency);
+    setDisplaySecondLangForm(data.oralProficiency);
     setFieldsChanged(false);
   };
 
@@ -375,10 +367,10 @@ const LangProficiencyFormView = ({
   useEffect(() => {
     const data = savedValues || getInitialValues(profileInfo);
     const oppositeInitialToggle =
-      !!data.oralProficiency !== displayMentorshipForm;
+      !!data.oralProficiency !== displaySecondLangForm;
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayMentorshipForm]);
+  }, [displaySecondLangForm]);
 
   /*
    * Get Form Control Buttons
@@ -645,14 +637,14 @@ const LangProficiencyFormView = ({
   };
 
   useEffect(() => {
-    if (!displayMentorshipForm) {
+    if (!displaySecondLangForm) {
       /* check if user has a second language */
       const hasSubformData = profileInfo
         ? profileInfo.secondLangProfs.length !== 0
         : false;
-      setDisplayMentorshipForm(hasSubformData);
+      setDisplaySecondLangForm(hasSubformData);
     }
-  }, [displayMentorshipForm, profileInfo]);
+  }, [displaySecondLangForm, profileInfo]);
 
   /** **********************************
    ********* Render Component *********
@@ -740,10 +732,10 @@ const LangProficiencyFormView = ({
               </Text>
 
               <Switch
-                checked={displayMentorshipForm}
+                checked={displaySecondLangForm}
                 onChange={toggleSecLangForm}
               />
-              {getSecondLanguageForm(displayMentorshipForm)}
+              {getSecondLanguageForm(displaySecondLangForm)}
             </Col>
           </Row>
           {/* Form Row Five: Submit button */}
