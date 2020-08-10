@@ -24,6 +24,12 @@ definitions:
       - C
       - E
       - X
+  CardVisibilityStatusEnum:
+    type: string
+    enum:
+      - PRIVATE
+      - PUBLIC
+      - CONNECTIONS
   LanguageQuery:
     name: language
     in: query
@@ -229,31 +235,33 @@ definitions:
       - exFeeder
     properties:
       manager:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       info:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       talentManagement:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       officialLanguage:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       skills:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       competencies:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       developmentalGoals:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      description:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       education:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       experience:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       projects:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       careerInterests:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       mentorshipSkills:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
       exFeeder:
-        type: boolean
+        $ref: "#/definitions/CardVisibilityStatusEnum"
   Educations:
     type: array
     items:
@@ -276,6 +284,8 @@ definitions:
         schoolId:
           type: string
           format: uuid
+        description:
+          type: string
   Experiences:
     type: array
     items:
@@ -339,6 +349,8 @@ definitions:
       team:
         type: string
       manager:
+        type: string
+      description:
         type: string
       firstLanguage:
         $ref: "#/definitions/LanguageEnum"
@@ -548,6 +560,8 @@ definitions:
 
   200:
     description: Success
+  400:
+    description: Request processed, but specified item was not found
   403:
     description: Request not authenticated with keycloak or user does not have access to certain information
   409:

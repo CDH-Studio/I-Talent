@@ -1,10 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, List, Empty } from "antd";
+import { Avatar, Row, Col, List, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
-import ExperienceItem from "./experienceItem/ExperienceItem";
+import { ContainerOutlined } from "@ant-design/icons";
+import DescriptionText from "../descriptionText/DescriptionText";
 
 const ExperienceView = ({ experienceInfo }) => {
+  const styles = {
+    avatar: {
+      backgroundColor: "#007471",
+    },
+  };
+
   if (experienceInfo.length > 0) {
     return (
       <Row>
@@ -12,7 +19,31 @@ const ExperienceView = ({ experienceInfo }) => {
           <List
             itemLayout="vertical"
             dataSource={experienceInfo}
-            renderItem={(item) => <ExperienceItem item={item} />}
+            renderItem={(item) => (
+              <List.Item className="experience-item-list" extra={item.duration}>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      style={styles.avatar}
+                      size="large"
+                      icon={<ContainerOutlined />}
+                      shape="square"
+                    />
+                  }
+                  title={item.jobTitle}
+                  description={
+                    <>
+                      <Row>{item.organization}</Row>
+                      <Row>
+                        <Col>
+                          <DescriptionText text={item.description} expandable />
+                        </Col>
+                      </Row>
+                    </>
+                  }
+                />
+              </List.Item>
+            )}
           />
         </Col>
       </Row>

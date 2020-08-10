@@ -1,12 +1,8 @@
 import React from "react";
-import ErrorResult from "../components/errorResult/errorResult";
+import Error404 from "../components/errorResult/error404";
 
 const NotFound = () => {
-  return (
-    <ErrorResult errorCode={404}>
-      <h1 className="hidden">Error - Code 400</h1>
-    </ErrorResult>
-  );
+  return <Error404 />;
 };
 
 export default NotFound;

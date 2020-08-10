@@ -32,10 +32,11 @@ const Education = ({ data, type }) => {
     }
 
     return dataSource.educations.map(
-      ({ startDate, endDate, diploma, school }) => ({
+      ({ startDate, endDate, diploma, school, description }) => ({
         diploma: diploma.description,
         school: school.name,
         duration: getEducationDuration(startDate, endDate),
+        description,
       })
     );
   };
@@ -45,7 +46,7 @@ const Education = ({ data, type }) => {
       content={<EducationView educationInfo={getEducationInfo(data)} />}
       cardName="education"
       id="card-profile-education"
-      editUrl="/profile/edit/qualifications"
+      editUrl="/profile/edit/qualifications?tab=education"
       data={data}
       type={type}
       visible={data.visibleCards.education}

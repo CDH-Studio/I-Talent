@@ -34,7 +34,7 @@ AppLayout.propTypes = {
 
 AppLayout.defaultProps = {
   children: false,
-  sideBarContent: '',
+  sideBarContent: "",
   displaySideBar: false,
   loading: false,
   displayLogo: true,

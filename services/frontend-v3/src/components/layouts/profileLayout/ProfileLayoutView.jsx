@@ -16,8 +16,10 @@ import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
+import DescriptionCard from "../../descriptionCard/DescriptionCard";
 import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
@@ -27,9 +29,9 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import ProfileNotFound from "../../profileNotFound/profileNotFound";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -106,6 +108,16 @@ const ProfileLayoutView = ({
           </Col>
           <Col xs={24} xl={10}>
             <EmployeeSummary data={data} type={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <DescriptionCard data={data} type={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <OfficialLanguage data={data} type={privateProfile} />
           </Col>
         </Row>
         {/** ********** Skills and competencies *********** */}
@@ -236,7 +248,33 @@ const ProfileLayoutView = ({
                   <FormattedMessage id="profile.basic" />
                 </Text>
               }
-            />
+            >
+              <Link
+                href="#card-profile-employee-summary"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employee.summary" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-description"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.description" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-official-language"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.official.language" />
+                  </Text>
+                }
+              />
+            </Link>
+
             <Link
               href="#divider-skills-and-comp"
               title={
@@ -394,7 +432,7 @@ const ProfileLayoutView = ({
           </Col>
         }
       />
-      {data ? displayAllProfileCards() : <ProfileNotFound />}
+      {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
     </AppLayout>
   );
 };

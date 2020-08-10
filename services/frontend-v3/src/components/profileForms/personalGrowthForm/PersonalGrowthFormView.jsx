@@ -626,6 +626,7 @@ const PersonalGrowthFormView = ({
                           >
                             <FormattedMessage id="profile.talent.management.link" />
                           </a>
+
                         )}
                       </div>
                     }
