@@ -178,7 +178,8 @@ const PersonalGrowthFormView = ({
       values.careerMobilityId = null;
     }
 
-    if (!unalteredValues.savedLookingForNewJob) {
+
+    if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
 
@@ -211,9 +212,10 @@ const PersonalGrowthFormView = ({
     if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
-        interestedInRemote: profile.interestedInRemote
-          ? profile.interestedInRemote.toString()
-          : undefined,
+        interestedInRemote:
+          profile.interestedInRemote === null
+            ? undefined
+            : profile.interestedInRemote,
         relocationLocations: savedRelocationLocations,
         lookingForANewJobId: savedLookingForNewJob,
         careerMobilityId: savedCareerMobility,
@@ -538,13 +540,11 @@ const PersonalGrowthFormView = ({
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
                     >
-                      {interestedInRemoteOptions.map((value) => {
-                        return (
-                          <Option key={value.key} value={value.value}>
-                            {value.text}
-                          </Option>
-                        );
-                      })}
+                      {interestedInRemoteOptions.map(({ key, value, text }) => (
+                        <Option key={key} value={value}>
+                          {text}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
