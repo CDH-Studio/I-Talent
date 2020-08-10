@@ -133,11 +133,7 @@ const UserTableView = ({
         );
 
       if (linkKey && record[linkKey]) {
-        return (
-          <Link to={record[linkKey]} target="_blank">
-            {view}
-          </Link>
-        );
+        return <Link to={record[linkKey]}>{view}</Link>;
       }
 
       return view;
