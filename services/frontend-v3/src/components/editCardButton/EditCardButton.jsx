@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import EditCardButtonView from "./EditCardButtonView";
 
-const EditCardButton = ({ editUrl, floatRight }) => {
+const EditCardButton = ({ editUrl }) => {
   const history = useHistory();
 
   /*
@@ -17,21 +17,11 @@ const EditCardButton = ({ editUrl, floatRight }) => {
     }
   };
 
-  return (
-    <EditCardButtonView
-      redirectToEdit={redirectToEdit}
-      floatRight={floatRight}
-    />
-  );
+  return <EditCardButtonView redirectToEdit={redirectToEdit} />;
 };
 
 EditCardButton.propTypes = {
   editUrl: PropTypes.string.isRequired,
-  floatRight: PropTypes.bool,
-};
-
-EditCardButton.defaultProps = {
-  floatRight: false,
 };
 
 export default EditCardButton;
