@@ -14,6 +14,7 @@ import useAxios from "../../../utils/axios-instance";
 import { IntlPropType, HistoryPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import config from "../../../utils/config";
+import "./WelcomeView.scss";
 
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;
@@ -29,59 +30,6 @@ const WelcomeView = ({
   // get current language code
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
-
-  /* Component Styles */
-  const styles = {
-    content: {
-      textAlign: "center",
-      width: "100%",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "80px 10px",
-    },
-    welcome: {
-      color: "#001529",
-      opacity: 0.7,
-    },
-    subHeading: {
-      fontSize: "1.3em",
-      maxWidth: 1000,
-    },
-    divider: {
-      width: "20px !important",
-      color: "red",
-    },
-    btn: { minWidth: "180px", height: "180px", margin: "10px" },
-    btnIcon: {
-      opacity: 0.7,
-      fontSize: "65px",
-      display: "block",
-      marginTop: "-15px",
-    },
-    btnFirstTitle: {
-      opacity: 0.7,
-      fontSize: "17px",
-      display: "block",
-      marginTop: "-13px",
-    },
-    btnSecondTitle: {
-      opacity: 0.7,
-      fontSize: "15px",
-      display: "block",
-      marginTop: "-4px",
-    },
-    btnThirdTitle: {
-      opacity: 0.7,
-      fontSize: "15px",
-      display: "block",
-      fontStyle: "italic",
-      marginTop: "-4px",
-    },
-    skipButton: {
-      marginTop: 20,
-      opacity: 0.7,
-    },
-  };
 
   /*
    * Generate Profile Button
@@ -119,19 +67,19 @@ const WelcomeView = ({
 
     return (
       <Button
-        style={styles.btn}
+        className="btn"
         onClick={type !== "loading" ? createProfile : null}
       >
         {/* icon */}
-        <div style={styles.btnIcon}>{icon}</div>
+        <div className="btnIcon">{icon}</div>
 
         {/* first title */}
-        <div style={styles.btnFirstTitle}>
+        <div className="btnFirstTitle">
           <strong>{truncateString(firstTitle, 17)}</strong>
         </div>
 
         {/* second title */}
-        <div style={styles.btnSecondTitle}>
+        <div className="btnSecondTitle">
           {secondTitle ? (
             truncateString(secondTitle, 17)
           ) : (
@@ -140,7 +88,7 @@ const WelcomeView = ({
         </div>
 
         {/* third title */}
-        <div style={styles.btnThirdTitle}>
+        <div className="btnThirdTitle">
           {thirdTitle ? (
             truncateString(thirdTitle, 19)
           ) : (
@@ -256,22 +204,22 @@ const WelcomeView = ({
   };
 
   return (
-    <Col style={styles.content}>
-      <Title level={1} style={styles.welcome}>
+    <Col className="content">
+      <Title level={1} className="welcome">
         <RocketOutlined rotate="45" /> <FormattedMessage id="setup.welcome" />
       </Title>
       <Row justify="center">
-        <Paragraph style={styles.subHeading}>
+        <Paragraph className="subHeading">
           <FormattedMessage id="setup.welcome.description" />
         </Paragraph>
       </Row>
       <Row justify="center">
-        <Paragraph style={styles.subHeading} strong>
+        <Paragraph className="subHeading" strong>
           <FormattedMessage id="setup.welcome.action" />
         </Paragraph>
       </Row>
       {generateGedsProfileList()}
-      <div style={styles.skipButton}>
+      <div className="skipButton">
         <Button type="text" onClick={showSkipModal}>
           <FormattedMessage id="setup.welcome.skip" />
         </Button>
