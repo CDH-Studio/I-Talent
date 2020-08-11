@@ -159,9 +159,6 @@ const UserTableView = ({
           <Option key="inactive" value="INACTIVE">
             <FormattedMessage id="admin.inactive" />
           </Option>
-          <Option key="hidden" value="HIDDEN">
-            <FormattedMessage id="admin.flagged" />
-          </Option>
         </Select>
       </div>
     );
