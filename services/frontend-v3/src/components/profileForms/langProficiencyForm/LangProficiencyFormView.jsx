@@ -63,6 +63,7 @@ const LangProficiencyFormView = ({
   const [displaySecondLangForm, setDisplaySecondLangForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [loadedData, setLoadedData] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -634,14 +635,17 @@ const LangProficiencyFormView = ({
   };
 
   useEffect(() => {
-    if (!displaySecondLangForm) {
+    if (!loadedData && load) {
       /* check if user has a second language */
       const hasSubformData = profileInfo
         ? profileInfo.secondLangProfs.length !== 0
         : false;
       setDisplaySecondLangForm(hasSubformData);
+
+      // Makes the subform not reset on language change
+      setLoadedData(true);
     }
-  }, [displaySecondLangForm, profileInfo]);
+  }, [displaySecondLangForm, load, loadedData, profileInfo]);
 
   /** **********************************
    ********* Render Component *********
