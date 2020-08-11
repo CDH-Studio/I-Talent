@@ -39,6 +39,6 @@ Optional for now, since tests are not working correctly
 If the UI has been modified:
 - [ ] It is translated in both language (with no hard coded text)
 <!-- To sort the keys and remove unused keys in the translation files, run `yarn i18n:cleanup` -->
-- [ ] It works on IE
+- [ ] Has been tested on IE
 - [ ] The modifications are tab friendly
 - [ ] It is accessible
