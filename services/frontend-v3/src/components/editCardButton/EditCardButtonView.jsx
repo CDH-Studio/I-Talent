@@ -19,6 +19,11 @@ const EditCardButtonView = ({ redirectToEdit, floatRight }) => (
 
 EditCardButtonView.propTypes = {
   redirectToEdit: PropTypes.func.isRequired,
+  floatRight: PropTypes.bool,
+};
+
+EditCardButtonView.defaultProps = {
+  floatRight: false,
 };
 
 export default EditCardButtonView;
