@@ -11,7 +11,12 @@ async function fuzzySearch(request, response) {
 
     const value = searchValue || "";
 
-    const profiles = await utils.getAllProfiles(value, language, userId);
+    const profiles = await utils.getAllProfiles(
+      value,
+      language,
+      userId,
+      request
+    );
     const results = await utils.fuzzySearch(profiles, value);
 
     const responseData = utils.cleanResults(results);
@@ -52,7 +57,8 @@ async function filterSearch(request, response) {
     let results = await utils.getAllProfiles(
       skillSearchValue,
       language,
-      userId
+      userId,
+      request
     );
 
     if (skills) {

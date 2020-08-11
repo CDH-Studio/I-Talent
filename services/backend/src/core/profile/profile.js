@@ -81,7 +81,7 @@ async function getPublicProfileById(request, response) {
       }
 
       const result = filterProfileResult(fullProfile, language);
-      const filteredResults = filterProfileVisibility(result, userId);
+      const filteredResults = filterProfileVisibility(request, result, userId);
 
       response.status(200).json(filteredResults);
       return;
