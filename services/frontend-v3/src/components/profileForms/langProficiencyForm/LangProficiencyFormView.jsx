@@ -265,9 +265,6 @@ const LangProficiencyFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    if (_.isEmpty(formValues)) {
-      return false;
-    }
 
     const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
