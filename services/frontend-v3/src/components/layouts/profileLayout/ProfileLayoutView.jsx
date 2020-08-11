@@ -1,12 +1,23 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Anchor, Typography, Row, Col, message, Popover, Tooltip } from "antd";
+import {
+  Anchor,
+  Typography,
+  Row,
+  Col,
+  message,
+  Popover,
+  Tooltip,
+  Alert,
+} from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
   QuestionCircleOutlined,
+  EyeInvisibleOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -407,12 +418,42 @@ const ProfileLayoutView = ({
     );
   };
 
+  const displayHiddenAlert = () => {
+    if (
+      privateProfile &&
+      data &&
+      data.status &&
+      ["INACTIVE", "HIDDEN"].includes(data.status)
+    ) {
+      const isHidden = data.status === "HIDDEN";
+
+      return (
+        <Alert
+          message={
+            <FormattedMessage
+              id={
+                isHidden ? "profile.hidden.message" : "profile.inactive.message"
+              }
+            />
+          }
+          type={isHidden ? "warning" : "error"}
+          showIcon
+          style={{ marginBottom: 5 }}
+          icon={isHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
+        />
+      );
+    }
+
+    return undefined;
+  };
+
   return (
     <AppLayout
       sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
     >
+      {displayHiddenAlert()}
       <Header
         style={styles.headerStyle}
         title={

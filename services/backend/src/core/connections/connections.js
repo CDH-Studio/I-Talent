@@ -1,14 +1,15 @@
 const { validationResult } = require("express-validator");
-const { PrismaClient } = require("../../database/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function addConnection(request, response) {
   try {
     validationResult(request).throw();
-    const publicUserId = request.params.id;
-    const userId = request.kauth.grant.access_token.content.sub;
-    if (userId && publicUserId) {
+
+    const { id } = request.params;
+    const userId = getKeycloakUserId(request);
+
+    if (userId && id) {
       await prisma.user.update({
         where: {
           id: userId,
@@ -16,14 +17,16 @@ async function addConnection(request, response) {
         data: {
           connections: {
             connect: {
-              id: publicUserId,
+              id,
             },
           },
         },
       });
+
       response.status(200).json("Successfully added connection");
       return;
     }
+
     response
       .status(403)
       .json({ data: "Access to private account has be denied." });
@@ -40,9 +43,11 @@ async function addConnection(request, response) {
 async function removeConnection(request, response) {
   try {
     validationResult(request).throw();
-    const publicUserId = request.params.id;
-    const userId = request.kauth.grant.access_token.content.sub;
-    if (userId && publicUserId) {
+
+    const { id } = request.params;
+    const userId = getKeycloakUserId(request);
+
+    if (userId && id) {
       await prisma.user.update({
         where: {
           id: userId,
@@ -50,14 +55,16 @@ async function removeConnection(request, response) {
         data: {
           connections: {
             disconnect: {
-              id: publicUserId,
+              id,
             },
           },
         },
       });
+
       response.status(200).json("Successfully deleted connection");
       return;
     }
+
     response
       .status(403)
       .json({ data: "Access to private account has be denied." });
@@ -74,9 +81,11 @@ async function removeConnection(request, response) {
 async function getConnectionById(request, response) {
   try {
     validationResult(request).throw();
-    const publicUserId = request.params.id;
-    const userId = request.kauth.grant.access_token.content.sub;
-    if (userId && publicUserId) {
+
+    const { id } = request.params;
+    const userId = getKeycloakUserId(request);
+
+    if (userId && id) {
       const connections = await prisma.user.findOne({
         where: {
           id: userId,
@@ -85,13 +94,13 @@ async function getConnectionById(request, response) {
           connections: { select: { id: true } },
         },
       });
+
       response.status(200).json({
-        status: connections.connections.some(
-          (item) => item.id === publicUserId
-        ),
+        status: connections.connections.some((item) => item.id === id),
       });
       return;
     }
+
     response
       .status(403)
       .json({ data: "Access to private account has be denied." });
