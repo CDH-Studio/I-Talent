@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Modal } from "antd";
+import { Typography, Button, Modal, Col, Row } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import {
@@ -45,6 +45,7 @@ const WelcomeView = ({
     },
     subHeading: {
       fontSize: "1.3em",
+      maxWidth: 1000,
     },
     divider: {
       width: "20px !important",
@@ -255,23 +256,27 @@ const WelcomeView = ({
   };
 
   return (
-    <div style={styles.content}>
+    <Col style={styles.content}>
       <Title level={1} style={styles.welcome}>
         <RocketOutlined rotate="45" /> <FormattedMessage id="setup.welcome" />
       </Title>
-      <Paragraph style={styles.subHeading}>
-        <FormattedMessage id="setup.welcome.description" />
-      </Paragraph>
-      <Paragraph style={styles.subHeading} strong>
-        <FormattedMessage id="setup.welcome.action" />
-      </Paragraph>
+      <Row justify="center">
+        <Paragraph style={styles.subHeading}>
+          <FormattedMessage id="setup.welcome.description" />
+        </Paragraph>
+      </Row>
+      <Row justify="center">
+        <Paragraph style={styles.subHeading} strong>
+          <FormattedMessage id="setup.welcome.action" />
+        </Paragraph>
+      </Row>
       {generateGedsProfileList()}
       <div style={styles.skipButton}>
         <Button type="text" onClick={showSkipModal}>
           <FormattedMessage id="setup.welcome.skip" />
         </Button>
       </div>
-    </div>
+    </Col>
   );
 };
 
