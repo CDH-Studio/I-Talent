@@ -707,7 +707,22 @@ const PrimaryInfoFormView = ({
               <>
                 <Form.Item
                   name="jobTitle"
-                  label={<FormattedMessage id="profile.career.header.name" />}
+                  label={
+                    <>
+                      <FormattedMessage id="profile.career.header.name" />
+                      <div style={styles.popoverStyleCareer}>
+                        <Popover
+                          content={
+                            <div style={styles.popoverStyle}>
+                              <FormattedMessage id="profile.career.header.tooltip" />
+                            </div>
+                          }
+                        >
+                          <InfoCircleOutlined />
+                        </Popover>
+                      </div>
+                    </>
+                  }
                   rules={[Rules.maxChar50]}
                 >
                   <Input />
