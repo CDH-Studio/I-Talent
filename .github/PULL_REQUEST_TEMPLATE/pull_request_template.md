@@ -16,15 +16,20 @@
 
 #### Checklist
 If the database has been modified:
-- [ ] Updated database diagram
-- [ ] Created new migration
+- [ ] Update database diagram
+- [ ] Create new migration
 
 If API endpoints has been modified:
-- [ ] Updated backend documentation
-- [ ] Created/Updated validators for the API endpoints
-- [ ] Make sure the API endpoints are properly secured with keycloak
+- [ ] Update backend documentation
+- [ ] Create/Update validators for the API endpoints
+- [ ] The API endpoints are properly secured with keycloak
+<!-- optional for now, since they are not working
+- [ ] Create tests for your changes
+- [ ] Make sure the tests are passing 
+-->
 
 If the UI has been modified:
-- [ ] Make sure the modifications are tab friendly
-- [ ] Make sure it is accessible
-- [ ] Make sure it is translated in both language (with no hard coded text)
+- [ ] It is translated in both language (with no hard coded text)
+- [ ] It works on IE
+- [ ] The modifications are tab friendly
+- [ ] It is accessible
