@@ -209,6 +209,8 @@
   "profile.github": "Github",
   "profile.github.username": "Identifiant GitHub",
   "profile.graded.on.second.language": "Mes compétences en langue seconde ont été évaluées",
+  "profile.hidden": "Ce profil est caché",
+  "profile.hidden.description": "Cet utilisateur a mis son profil caché des autres",
   "profile.hidden.message": "Votre profil est caché, veuillez accéder à vos paramètres pour le mettre visible aux autres utilisateurs",
   "profile.history.item.end.date": "Date de fin",
   "profile.history.item.start.date": "Date de début",

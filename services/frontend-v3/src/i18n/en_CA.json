@@ -209,6 +209,8 @@
   "profile.github": "Github",
   "profile.github.username": "GitHub username",
   "profile.graded.on.second.language": "I have been graded on second language proficiency",
+  "profile.hidden": "Profile is hidden",
+  "profile.hidden.description": "This user has set their profile hidden from others",
   "profile.hidden.message": "Your profile is currently hidden, please go in your settings to unhide it from others",
   "profile.history.item.end.date": "End date",
   "profile.history.item.start.date": "Start date",

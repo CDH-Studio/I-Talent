@@ -221,6 +221,7 @@ const TalentFormView = ({
     // Cleans up the object for following comparison
     if (
       formValues.mentorshipSkills === undefined &&
+      dbValues.mentorshipSkills &&
       dbValues.mentorshipSkills.length === 0
     ) {
       delete dbValues.mentorshipSkills;
