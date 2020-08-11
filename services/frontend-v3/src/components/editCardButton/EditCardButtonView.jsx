@@ -4,17 +4,15 @@ import { Tooltip, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
-const EditCardButtonView = ({ redirectToEdit }) => (
-  <Tooltip
-    placement="top"
-    title={<FormattedMessage id="profile.edit" />}
-  >
+const EditCardButtonView = ({ redirectToEdit, floatRight }) => (
+  <Tooltip placement="top" title={<FormattedMessage id="profile.edit" />}>
     <Button
       aria-label="edit card"
       type="default"
       shape="circle"
       icon={<EditOutlined />}
       onClick={redirectToEdit}
+      style={floatRight ? { float: "right" } : null}
     />
   </Tooltip>
 );
