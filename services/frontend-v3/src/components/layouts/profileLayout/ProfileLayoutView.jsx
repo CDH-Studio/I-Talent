@@ -419,7 +419,12 @@ const ProfileLayoutView = ({
   };
 
   const displayHiddenAlert = () => {
-    if (data && data.status && ["INACTIVE", "HIDDEN"].includes(data.status)) {
+    if (
+      privateProfile &&
+      data &&
+      data.status &&
+      ["INACTIVE", "HIDDEN"].includes(data.status)
+    ) {
       const isHidden = data.status === "HIDDEN";
 
       return (

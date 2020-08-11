@@ -1,0 +1,62 @@
+.content {
+  text-align: center;
+  width: 100%;
+  min-height: 400px;
+  background: #fff;
+  padding: 80px 10px;
+}
+
+.welcome {
+  color: #001529;
+  opacity: 0.7;
+}
+
+.subHeading {
+  font-size: 1.3em;
+  max-width: 1000px;
+}
+
+.divider {
+  width: 20px !important;
+  color: red;
+}
+
+.btn {
+  min-width: 180px;
+  height: 180px;
+  margin: 10px;
+}
+
+.btnIcon {
+  opacity: 0.7;
+  font-size: 65px;
+  display: block;
+  margin-top: -15px;
+}
+
+.btnFirstTitle {
+  opacity: 0.7;
+  font-size: 17px;
+  display: block;
+  margin-top: -13px;
+}
+
+.btnSecondTitle {
+  opacity: 0.7;
+  font-size: 15px;
+  display: block;
+  margin-top: -4px;
+}
+
+.btnThirdTitle {
+  opacity: 0.7;
+  font-size: 15px;
+  display: block;
+  font-style: italic;
+  margin-top: -4px;
+}
+
+.skipButton {
+  margin-top: 20px;
+  opacity: 0.7;
+}

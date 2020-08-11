@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button } from "antd";
+import { Typography, Button, Modal, Col, Row } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import {
@@ -7,68 +7,29 @@ import {
   UserAddOutlined,
   RocketOutlined,
   LoadingOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import useAxios from "../../../utils/axios-instance";
 import { IntlPropType, HistoryPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import config from "../../../utils/config";
+import "./WelcomeView.scss";
 
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;
 
-const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
+const WelcomeView = ({
+  gedsProfiles,
+  intl,
+  load,
+  userId,
+  history,
+  skipProfileCreation,
+}) => {
   // get current language code
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
-
-  /* Component Styles */
-  const styles = {
-    content: {
-      textAlign: "center",
-      width: "100%",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "80px 10px",
-    },
-    welcome: {
-      color: "#001529",
-      opacity: 0.7,
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    divider: {
-      width: "20px !important",
-      color: "red",
-    },
-    btn: { minWidth: "180px", height: "180px", margin: "10px" },
-    btnIcon: {
-      opacity: 0.7,
-      fontSize: "65px",
-      display: "block",
-      marginTop: "-15px",
-    },
-    btnFirstTitle: {
-      opacity: 0.7,
-      fontSize: "17px",
-      display: "block",
-      marginTop: "-13px",
-    },
-    btnSecondTitle: {
-      opacity: 0.7,
-      fontSize: "15px",
-      display: "block",
-      marginTop: "-4px",
-    },
-    btnThirdTitle: {
-      opacity: 0.7,
-      fontSize: "15px",
-      display: "block",
-      fontStyle: "italic",
-      marginTop: "-4px",
-    },
-  };
 
   /*
    * Generate Profile Button
@@ -106,19 +67,19 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
 
     return (
       <Button
-        style={styles.btn}
+        className="btn"
         onClick={type !== "loading" ? createProfile : null}
       >
         {/* icon */}
-        <div style={styles.btnIcon}>{icon}</div>
+        <div className="btnIcon">{icon}</div>
 
         {/* first title */}
-        <div style={styles.btnFirstTitle}>
+        <div className="btnFirstTitle">
           <strong>{truncateString(firstTitle, 24)}</strong>
         </div>
 
         {/* second title */}
-        <div style={styles.btnSecondTitle}>
+        <div className="btnSecondTitle">
           {secondTitle ? (
             truncateString(secondTitle, 28)
           ) : (
@@ -127,7 +88,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
         </div>
 
         {/* third title */}
-        <div style={styles.btnThirdTitle}>
+        <div className="btnThirdTitle">
           {thirdTitle ? (
             truncateString(thirdTitle, 28)
           ) : (
@@ -230,19 +191,39 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
     );
   };
 
+  const showSkipModal = () => {
+    Modal.confirm({
+      title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+      content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
+      icon: <ExclamationCircleOutlined />,
+      onOk: skipProfileCreation,
+      okText: intl.formatMessage({ id: "profile.yes" }),
+      cancelText: intl.formatMessage({ id: "profile.no" }),
+    });
+  };
+
   return (
-    <div style={styles.content}>
-      <Title level={1} style={styles.welcome}>
+    <Col className="content">
+      <Title level={1} className="welcome">
         <RocketOutlined rotate="45" /> <FormattedMessage id="setup.welcome" />
       </Title>
-      <Paragraph style={styles.subHeading}>
-        <FormattedMessage id="setup.welcome.description" />
-      </Paragraph>
-      <Paragraph style={styles.subHeading} strong>
-        <FormattedMessage id="setup.welcome.action" />
-      </Paragraph>
+      <Row justify="center">
+        <Paragraph className="subHeading">
+          <FormattedMessage id="setup.welcome.description" />
+        </Paragraph>
+      </Row>
+      <Row justify="center">
+        <Paragraph className="subHeading" strong>
+          <FormattedMessage id="setup.welcome.action" />
+        </Paragraph>
+      </Row>
       {generateGedsProfileList()}
-    </div>
+      <div className="skipButton">
+        <Button type="text" onClick={showSkipModal}>
+          <FormattedMessage id="setup.welcome.skip" />
+        </Button>
+      </div>
+    </Col>
   );
 };
 
@@ -253,6 +234,7 @@ WelcomeView.propTypes = {
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  skipProfileCreation: PropTypes.func.isRequired,
 };
 
 WelcomeView.defaultProps = {

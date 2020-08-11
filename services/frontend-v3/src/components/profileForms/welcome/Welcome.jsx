@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useAxios from "../../../utils/axios-instance";
 import WelcomeView from "./WelcomeView";
+import handleError from "../../../functions/handleError";
 
 /**
  *  Welcome(props)
@@ -17,9 +18,22 @@ const Welcome = () => {
   const [gedsProfiles, setGedsProfiles] = useState();
 
   const { id, name } = useSelector((state) => state.user);
+  const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
 
   const history = useHistory();
+
+  const skipProfileCreation = async () => {
+    try {
+      await axios.put(`/api/profile/${id}?language=${locale}`, {
+        signupStep: 8,
+        status: "HIDDEN",
+      });
+      history.push("/");
+    } catch (error) {
+      handleError(error, "message");
+    }
+  };
 
   /* useEffect to run once component is mounted */
   useEffect(() => {
@@ -62,6 +76,7 @@ const Welcome = () => {
       load={load}
       userId={id}
       history={history}
+      skipProfileCreation={skipProfileCreation}
     />
   );
 };
