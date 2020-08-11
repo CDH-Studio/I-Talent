@@ -217,11 +217,15 @@ const PrimaryInfoFormView = ({
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     if (profile) {
+      const employmentInfo =
+        profile.employmentInfo &&
+        profile.employmentInfo.find((i) => i.language === locale);
+
       return {
         firstName: profile.firstName,
         lastName: profile.lastName,
         telephone: profile.telephone,
-        jobTitle: profile.jobTitle,
+        jobTitle: employmentInfo ? employmentInfo.jobTitle : undefined,
         cellphone: profile.cellphone,
         email: profile.email,
         locationId: profile.officeLocation

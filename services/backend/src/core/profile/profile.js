@@ -792,10 +792,8 @@ async function getFullProfile(id, language) {
         select: {
           id: true,
           translations: {
-            where: {
-              language,
-            },
             select: {
+              language: true,
               jobTitle: true,
               branch: true,
             },
@@ -1115,9 +1113,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.employmentInfo) {
-    const trans = profile.employmentInfo.translations[0];
-    filteredProfile.jobTitle = trans ? trans.jobTitle : null;
-    filteredProfile.branch = trans ? trans.branch : null;
+    filteredProfile.employmentInfo = profile.employmentInfo.translations;
   }
 
   if (profile.talentMatrixResult) {

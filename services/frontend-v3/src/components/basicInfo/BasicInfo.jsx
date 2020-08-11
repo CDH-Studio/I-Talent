@@ -6,6 +6,7 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
@@ -16,6 +17,8 @@ const styles = {
 };
 
 const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
+  const { locale } = useSelector((state) => state.settings);
+
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
     const buttonLinks = {
@@ -63,7 +66,11 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
         acr: data.nameInitials,
         color: data.avatarColor,
       }}
-      jobTitle={data.jobTitle}
+      employmentInfo={
+        data.employmentInfo &&
+        (data.employmentInfo.find((i) => i.language === locale) ||
+          data.employmentInfo[0])
+      }
       buttonLinks={getButtonLinks()}
       connectionStatus={connectionStatus}
       changeConnection={changeConnection}
