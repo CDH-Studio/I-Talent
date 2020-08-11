@@ -114,13 +114,13 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
 
         {/* first title */}
         <div style={styles.btnFirstTitle}>
-          <strong>{truncateString(firstTitle, 17)}</strong>
+          <strong>{truncateString(firstTitle, 24)}</strong>
         </div>
 
         {/* second title */}
         <div style={styles.btnSecondTitle}>
           {secondTitle ? (
-            truncateString(secondTitle, 17)
+            truncateString(secondTitle, 28)
           ) : (
             <div style={{ opacity: 0 }}>empty</div>
           )}
@@ -129,7 +129,7 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
         {/* third title */}
         <div style={styles.btnThirdTitle}>
           {thirdTitle ? (
-            truncateString(thirdTitle, 19)
+            truncateString(thirdTitle, 28)
           ) : (
             <div style={{ opacity: 0 }}>empty</div>
           )}
@@ -190,10 +190,9 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
           {/* generate list of GEDS profiles */}
           {generateProfileBtn({
             icon: <UserOutlined />,
-            firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-            secondTitle:
-              gedsProfiles.jobTitle[locale === "ENGLISH" ? "en" : "fr"],
-            thirdTitle: gedsProfiles.email,
+            firstTitle: "123456789 123456789 123456789", //`${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
+            secondTitle: "123456789 123456789 123456789", //gedsProfiles.jobTitle[locale],
+            thirdTitle: "123456789012345678901234567890@canada.ca", //gedsProfiles.email,
             value: gedsProfiles,
           })}
           {/* new user button */}
