@@ -75,13 +75,13 @@ const WelcomeView = ({
 
         {/* first title */}
         <div className="btnFirstTitle">
-          <strong>{truncateString(firstTitle, 17)}</strong>
+          <strong>{truncateString(firstTitle, 24)}</strong>
         </div>
 
         {/* second title */}
         <div className="btnSecondTitle">
           {secondTitle ? (
-            truncateString(secondTitle, 17)
+            truncateString(secondTitle, 28)
           ) : (
             <div style={{ opacity: 0 }}>empty</div>
           )}
@@ -90,7 +90,7 @@ const WelcomeView = ({
         {/* third title */}
         <div className="btnThirdTitle">
           {thirdTitle ? (
-            truncateString(thirdTitle, 19)
+            truncateString(thirdTitle, 28)
           ) : (
             <div style={{ opacity: 0 }}>empty</div>
           )}
@@ -152,8 +152,7 @@ const WelcomeView = ({
           {generateProfileBtn({
             icon: <UserOutlined />,
             firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-            secondTitle:
-              gedsProfiles.jobTitle[locale === "ENGLISH" ? "en" : "fr"],
+            secondTitle: gedsProfiles.jobTitle[locale],
             thirdTitle: gedsProfiles.email,
             value: gedsProfiles,
           })}
