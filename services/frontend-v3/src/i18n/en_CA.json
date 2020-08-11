@@ -157,7 +157,7 @@
   "profile.branch": "Branch",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Job title",
-  "profile.career.header.tooltip": "It is recommended to use the information synced from GEDS. However if you edit your job title, in order to display both a customized French and English title, you must change the app language and save each title in the form accordingly.",
+  "profile.career.header.tooltip": "It is recommended to use the information synced from GCdirectory. However if you edit your job title, in order to display both a customized French and English title, you must change the app language and save each title in the form accordingly.",
   "profile.change.career.title.modal": "French job title",
   "profile.change.career.title.desc.modal": "Enter a French translation of your job title to be displayed on your French profile, or if you've synced with GEDS and would like to keep that title, leave this field blank. If you leave this field blank and have not synced your job title from GEDS then your job title on your French profile will be empty.",
   "profile.career.interests": "Job mobility",
