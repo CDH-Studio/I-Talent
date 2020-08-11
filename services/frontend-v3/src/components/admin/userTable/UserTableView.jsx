@@ -14,15 +14,16 @@ import {
 } from "antd";
 import {
   CheckCircleOutlined,
-  LinkOutlined,
   SearchOutlined,
   TeamOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
@@ -53,6 +54,7 @@ const UserTableView = ({
   handleSearch,
   handleReset,
   modifiedStatus,
+  handleSubmitDelete,
 }) => {
   let searchInput;
 
@@ -65,7 +67,7 @@ const UserTableView = ({
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const getColumnSearchProps = (dataIndex, title) => ({
+  const getColumnSearchProps = (dataIndex, title, linkKey) => ({
     filterDropdown: ({
       /* eslint-disable react/prop-types */
       setSelectedKeys,
@@ -117,17 +119,25 @@ const UserTableView = ({
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
-      ) : (
-        text
-      ),
+    render: (text, record) => {
+      const view =
+        searchedColumn === dataIndex ? (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />
+        ) : (
+          text
+        );
+
+      if (linkKey && record[linkKey]) {
+        return <Link to={record[linkKey]}>{view}</Link>;
+      }
+
+      return view;
+    },
   });
 
   /* Renders the dropdown for profile status options */
@@ -201,7 +211,7 @@ const UserTableView = ({
     );
   };
 
-  /* Renders the apply button and confirmation prompt */
+  /* Renders the keycloak button */
   const keycloakButton = () => {
     return (
       <Button href={config.manageKeycloakAddress}>
@@ -217,19 +227,6 @@ const UserTableView = ({
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => [
     {
-      title: <FormattedMessage id="admin.view" />,
-      render: (record) => (
-        <span>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<LinkOutlined />}
-            onClick={() => window.open(record.profileLink)}
-          />
-        </span>
-      ),
-    },
-    {
       title: <FormattedMessage id="admin.name" />,
       dataIndex: "fullName",
       key: "name",
@@ -241,7 +238,8 @@ const UserTableView = ({
         "fullName",
         intl.formatMessage({
           id: "admin.name",
-        })
+        }),
+        "profileLink"
       ),
     },
     {
@@ -321,6 +319,9 @@ const UserTableView = ({
           <Tag visible={record.isManager} color="geekblue">
             <FormattedMessage id="admin.roles.manager" />
           </Tag>
+          <Tag visible={!record.isManager && !record.isAdmin} color="green">
+            <FormattedMessage id="admin.roles.standard" />
+          </Tag>
         </>
       ),
     },
@@ -345,6 +346,28 @@ const UserTableView = ({
         return renderStatusDropdown(record.key, record.status);
       },
     },
+    {
+      title: <FormattedMessage id="admin.delete" />,
+      render: (record) => (
+        <Popconfirm
+          placement="left"
+          title={<FormattedMessage id="admin.delete.user" />}
+          okText={<FormattedMessage id="admin.delete" />}
+          cancelText={<FormattedMessage id="admin.cancel" />}
+          onConfirm={() => {
+            handleSubmitDelete(record.key)
+              .then(popUpSuccesss)
+              .catch((error) => handleError(error, "message"));
+          }}
+          onCancel={() => {
+            popUpCancel();
+          }}
+          overlayStyle={{ maxWidth: 350 }}
+        >
+          <Button shape="circle" icon={<DeleteOutlined />} danger />
+        </Popconfirm>
+      ),
+    },
   ];
 
   return (
@@ -362,15 +385,14 @@ const UserTableView = ({
         }
         extra={
           <>
-            {keycloakButton()}
             {applyButton()}
+            {keycloakButton()}
           </>
         }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            showSorterTooltip={false}
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
@@ -386,6 +408,7 @@ UserTableView.propTypes = {
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
   handleDropdownChange: PropTypes.func.isRequired,
   profileStatusValue: PropTypes.func.isRequired,
   searchedColumn: PropTypes.string.isRequired,

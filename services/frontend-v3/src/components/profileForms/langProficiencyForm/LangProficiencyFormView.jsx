@@ -12,6 +12,7 @@ import {
   Button,
   message,
   Popover,
+  Checkbox,
 } from "antd";
 import {
   RightOutlined,
@@ -54,10 +55,12 @@ const LangProficiencyFormView = ({
   intl,
   history,
   userId,
+  expiredGrades,
+  setExpiredGrades,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
-  const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
+  const [displaySecondLangForm, setDisplaySecondLangForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
 
@@ -86,14 +89,6 @@ const LangProficiencyFormView = ({
     },
     headerDiv: {
       margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
     },
     secondLangRow: {
       backgroundColor: "#dfe5e4",
@@ -152,7 +147,7 @@ const LangProficiencyFormView = ({
       dbValues.firstLanguage = null;
     }
 
-    if (displayMentorshipForm) {
+    if (displaySecondLangForm) {
       // set second language based on first language
       dbValues.secondLanguage =
         values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
@@ -166,7 +161,9 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "ORAL",
             level: values.oralProficiency,
-            date: values.secondaryOralDate,
+            date: values.secondaryOralExpired
+              ? moment.unix(0)
+              : values.secondaryOralDate,
           });
         }
 
@@ -174,7 +171,9 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "WRITING",
             level: values.writingProficiency,
-            date: values.secondaryWritingDate,
+            date: values.secondaryWritingExpired
+              ? moment.unix(0)
+              : values.secondaryWritingDate,
           });
         }
 
@@ -182,7 +181,9 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "READING",
             level: values.readingProficiency,
-            date: values.secondaryReadingDate,
+            date: values.secondaryReadingExpired
+              ? moment.unix(0)
+              : values.secondaryReadingDate,
           });
         }
       }
@@ -219,27 +220,32 @@ const LangProficiencyFormView = ({
       };
 
       if (profile.secondLangProfs) {
-        profile.secondLangProfs.forEach(({ date, level, proficiency }) => {
-          switch (proficiency) {
-            case "ORAL":
-              data.oralProficiency = level;
-              data.secondaryOralDate = date ? moment(date) : undefined;
-              break;
+        profile.secondLangProfs.forEach(
+          ({ date, level, expired, proficiency }) => {
+            switch (proficiency) {
+              case "ORAL":
+                data.oralProficiency = level;
+                data.secondaryOralDate = date ? moment(date) : undefined;
+                data.secondaryOralExpired = expired;
+                break;
 
-            case "WRITING":
-              data.writingProficiency = level;
-              data.secondaryWritingDate = date ? moment(date) : undefined;
-              break;
+              case "WRITING":
+                data.writingProficiency = level;
+                data.secondaryWritingDate = date ? moment(date) : undefined;
+                data.secondaryWritingExpired = expired;
+                break;
 
-            case "READING":
-              data.readingProficiency = level;
-              data.secondaryReadingDate = date ? moment(date) : undefined;
-              break;
+              case "READING":
+                data.readingProficiency = level;
+                data.secondaryReadingDate = date ? moment(date) : undefined;
+                data.secondaryReadingExpired = expired;
+                break;
 
-            default:
-              break;
+              default:
+                break;
+            }
           }
-        });
+        );
       }
 
       return data;
@@ -249,7 +255,7 @@ const LangProficiencyFormView = ({
 
   /* toggle temporary role form */
   const toggleSecLangForm = () => {
-    setDisplayMentorshipForm((prev) => !prev);
+    setDisplaySecondLangForm((prev) => !prev);
   };
 
   /**
@@ -273,6 +279,12 @@ const LangProficiencyFormView = ({
 
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
+    const formFields = form.getFieldsValue();
+    setExpiredGrades({
+      reading: formFields.secondaryReadingExpired,
+      writing: formFields.secondaryWritingExpired,
+      oral: formFields.secondaryOralExpired,
+    });
   };
 
   /* save and show success notification */
@@ -347,7 +359,7 @@ const LangProficiencyFormView = ({
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
 
     const data = savedValues || getInitialValues(profileInfo);
-    setDisplayMentorshipForm(data.oralProficiency);
+    setDisplaySecondLangForm(data.oralProficiency);
     setFieldsChanged(false);
   };
 
@@ -355,11 +367,10 @@ const LangProficiencyFormView = ({
   useEffect(() => {
     const data = savedValues || getInitialValues(profileInfo);
     const oppositeInitialToggle =
-      !!data.oralProficiency !== displayMentorshipForm;
-
+      !!data.oralProficiency !== displaySecondLangForm;
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayMentorshipForm]);
+  }, [displaySecondLangForm]);
 
   /*
    * Get Form Control Buttons
@@ -445,7 +456,11 @@ const LangProficiencyFormView = ({
 
   /* Get temporary role form based on if the form switch is toggled */
   const getSecondLanguageForm = (expandMentorshipForm) => {
+    let formValues = form.getFieldsValue();
+
     if (expandMentorshipForm) {
+      formValues = Object.assign(getInitialValues(profileInfo), formValues);
+
       return (
         <div>
           {/* Reading Proficiency */}
@@ -479,8 +494,20 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryReadingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
+                className="language-date-item"
               >
-                <DatePicker style={styles.datePicker} />
+                <DatePicker
+                  disabled={expiredGrades.reading}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+              <Form.Item name="secondaryReadingExpired" valuePropName="checked">
+                <Checkbox
+                  valuePropName="checked"
+                  defaultChecked={formValues.secondaryReadingDate}
+                >
+                  <FormattedMessage id="date.unknown.expired" />
+                </Checkbox>
               </Form.Item>
             </Col>
           </Row>
@@ -516,8 +543,20 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="secondaryWritingDate"
                 label={<FormattedMessage id="profile.secondary.writing.date" />}
+                className="language-date-item"
               >
-                <DatePicker style={styles.datePicker} />
+                <DatePicker
+                  disabled={expiredGrades.writing}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+              <Form.Item name="secondaryWritingExpired" valuePropName="checked">
+                <Checkbox
+                  valuePropName="checked"
+                  defaultChecked={formValues.secondaryWritingDate}
+                >
+                  <FormattedMessage id="date.unknown.expired" />
+                </Checkbox>
               </Form.Item>
             </Col>
           </Row>
@@ -552,9 +591,21 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="secondaryOralDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                label={<FormattedMessage id="profile.secondary.oral.date" />}
+                className="language-date-item"
               >
-                <DatePicker style={styles.datePicker} />
+                <DatePicker
+                  disabled={expiredGrades.oral}
+                  style={styles.datePicker}
+                />
+              </Form.Item>
+              <Form.Item name="secondaryOralExpired" valuePropName="checked">
+                <Checkbox
+                  valuePropName="checked"
+                  defaultChecked={formValues.secondaryOralDate}
+                >
+                  <FormattedMessage id="date.unknown.expired" />
+                </Checkbox>
               </Form.Item>
             </Col>
           </Row>
@@ -586,18 +637,19 @@ const LangProficiencyFormView = ({
   };
 
   useEffect(() => {
-    if (!displayMentorshipForm) {
+    if (!displaySecondLangForm) {
       /* check if user has a second language */
       const hasSubformData = profileInfo
         ? profileInfo.secondLangProfs.length !== 0
         : false;
-      setDisplayMentorshipForm(hasSubformData);
+      setDisplaySecondLangForm(hasSubformData);
     }
-  }, [displayMentorshipForm, profileInfo]);
+  }, [displaySecondLangForm, profileInfo]);
 
   /** **********************************
    ********* Render Component *********
    *********************************** */
+
   if (!load) {
     return (
       /* If form data is loading then wait */
@@ -606,6 +658,7 @@ const LangProficiencyFormView = ({
       </div>
     );
   }
+
   /* Once data had loaded display form */
   return (
     <>
@@ -679,10 +732,10 @@ const LangProficiencyFormView = ({
               </Text>
 
               <Switch
-                checked={displayMentorshipForm}
+                checked={displaySecondLangForm}
                 onChange={toggleSecLangForm}
               />
-              {getSecondLanguageForm(displayMentorshipForm)}
+              {getSecondLanguageForm(displaySecondLangForm)}
             </Col>
           </Row>
           {/* Form Row Five: Submit button */}
@@ -702,6 +755,12 @@ LangProficiencyFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  expiredGrades: PropTypes.shape({
+    reading: PropTypes.bool,
+    writing: PropTypes.bool,
+    oral: PropTypes.bool,
+  }).isRequired,
+  setExpiredGrades: PropTypes.func.isRequired,
 };
 
 LangProficiencyFormView.defaultProps = {

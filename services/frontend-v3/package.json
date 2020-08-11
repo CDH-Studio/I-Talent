@@ -18,6 +18,7 @@
     "less-loader": "^5.0.0",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
@@ -41,7 +42,9 @@
     "deploy": "serve -s build -l 8080 ",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src --ext .js,.jsx"
+    "lint": "eslint ./src --ext .js,.jsx",
+    "i18n:check": "node ./src/i18n/check",
+    "i18n:cleanup": "node ./src/i18n/cleanup"
   },
   "eslintConfig": {
     "extends": "react-app"

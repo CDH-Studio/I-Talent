@@ -4,7 +4,9 @@ import { BankOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-function EducationView({ educationInfo }) {
+import DescriptionText from "../descriptionText/DescriptionText";
+
+const EducationView = ({ educationInfo }) => {
   /* Component Styles */
   const styles = {
     card: {
@@ -14,6 +16,19 @@ function EducationView({ educationInfo }) {
       backgroundColor: "#007471",
     },
   };
+
+  const generateEducationItemDescription = (item) => (
+    <>
+      <Row>
+        <Col>{item.school}</Col>
+      </Row>
+      <Row>
+        <Col>
+          <DescriptionText text={item.description} expandable />
+        </Col>
+      </Row>
+    </>
+  );
 
   const generateEducationInfoList = (dataSource) => {
     return (
@@ -32,7 +47,7 @@ function EducationView({ educationInfo }) {
                 />
               }
               title={item.diploma}
-              description={item.school}
+              description={generateEducationItemDescription(item)}
             />
           </List.Item>
         )}
@@ -54,7 +69,7 @@ function EducationView({ educationInfo }) {
       description={<FormattedMessage id="profile.education.empty" />}
     />
   );
-}
+};
 
 EducationView.propTypes = {
   educationInfo: PropTypes.arrayOf(

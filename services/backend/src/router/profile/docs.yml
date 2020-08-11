@@ -12,6 +12,8 @@
           $ref: "#/definitions/GetProfile"
       403:
         $ref: "#/definitions/403"
+      404:
+        $ref: "#/definitions/404"
       422:
         $ref: "#/definitions/422"
       500:

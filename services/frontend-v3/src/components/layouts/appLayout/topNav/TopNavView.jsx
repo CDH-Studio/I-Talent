@@ -7,10 +7,12 @@ import {
   DashboardOutlined,
   MenuOutlined,
   HomeOutlined,
+  AreaChartOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
+import { Layout, Dropdown, Menu, Button, Input, Row, Col, Divider } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -18,7 +20,7 @@ import queryString from "query-string";
 import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
-import Logo from "../../../../assets/MyTalent-Logo-Full-v2.svg";
+import Logo from "../../../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../../../utils/customPropTypes";
 
 const { Header } = Layout;
@@ -42,7 +44,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       margin: "0 25px",
     },
     navBrand: {
-      height: 25,
+      height: 40,
     },
     profileAvatar: {
       marginRight: 8,
@@ -80,9 +82,12 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       height: "100%",
       margin: "0 20px",
     },
+    divider: {
+      margin: 0,
+    },
   };
 
-  const { id, name } = useSelector((state) => state.user);
+  const { id, name, status } = useSelector((state) => state.user);
 
   const [showMenu, setShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -111,6 +116,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
+      <Divider style={styles.divider} />
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <Link rel="noopener noreferrer" to="/admin/dashboard">
@@ -119,6 +125,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           </Link>
         </Menu.Item>
       )}
+      {!isAdmin && (
+        <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+          <Link rel="noopener noreferrer" to="/statistics">
+            <AreaChartOutlined style={styles.menuIcon} />
+            <FormattedMessage id="stats.view" />
+          </Link>
+        </Menu.Item>
+      )}
+      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+        <Link rel="noopener noreferrer" to="/settings">
+          <SettingOutlined style={styles.menuIcon} />
+          <FormattedMessage id="settings.title" />
+        </Link>
+      </Menu.Item>
+      <Divider style={styles.divider} />
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <Link rel="noopener noreferrer" to="/logout">
           <LogoutOutlined style={styles.menuIcon} />
@@ -141,7 +162,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
             className="ant-dropdown-link"
             style={styles.dropDownButton}
           >
-            <CustomAvatar style={styles.profileAvatar} />
+            <CustomAvatar
+              style={styles.profileAvatar}
+              hidden={status === "HIDDEN" || status === "INACTIVE"}
+            />
             <div className="navProfileName">
               {userName} <DownOutlined style={styles.dropDownArrow} />
             </div>
@@ -162,9 +186,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   const search = () => {
     if (searchValue && searchValue.length > 0) {
-      const needsToReload = window.location.pathname.includes(
-        "/results"
-      );
+      const needsToReload = window.location.pathname.includes("/results");
 
       history.push(`/results?searchValue=${searchValue}`);
 
@@ -202,7 +224,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Menu.Item style={styles.dropDownItem}>
         <Link tabIndex="0" rel="noopener noreferrer" to="/">
           <HomeOutlined style={styles.menuIcon} />
-          <FormattedMessage id="Home" />
+          <FormattedMessage id="home" />
         </Link>
       </Menu.Item>
     );
@@ -217,11 +239,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     }
 
     return (
-      <Button
-        type="primary"
-        href="/"
-        onClick={() => keycloak.login()}
-      >
+      <Button type="primary" href="/" onClick={() => keycloak.login()}>
         <FormattedMessage id="landing.login.button" />
       </Button>
     );

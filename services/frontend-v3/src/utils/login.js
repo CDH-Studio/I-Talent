@@ -30,6 +30,7 @@ const profileExist = async (userInfo, axios) => {
     lastName,
     preferredLanguage,
     email,
+    status,
   } = response.data;
 
   store.dispatch(
@@ -39,6 +40,7 @@ const profileExist = async (userInfo, axios) => {
       initials,
       name: `${firstName} ${lastName}`,
       email,
+      status,
     })
   );
 

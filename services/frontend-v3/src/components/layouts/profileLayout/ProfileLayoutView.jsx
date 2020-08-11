@@ -1,12 +1,23 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Anchor, Typography, Row, Col, message, Popover } from "antd";
+import {
+  Anchor,
+  Typography,
+  Row,
+  Col,
+  message,
+  Popover,
+  Tooltip,
+  Alert,
+} from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
   QuestionCircleOutlined,
+  EyeInvisibleOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -16,9 +27,11 @@ import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Skills from "../../skillsCard/Skills";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
-import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
+import DescriptionCard from "../../descriptionCard/DescriptionCard";
+import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
@@ -27,9 +40,9 @@ import Education from "../../education/Education";
 import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import ProfileNotFound from "../../profileNotFound/profileNotFound";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -108,6 +121,16 @@ const ProfileLayoutView = ({
             <EmployeeSummary data={data} type={privateProfile} />
           </Col>
         </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <DescriptionCard data={data} type={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <OfficialLanguage data={data} type={privateProfile} />
+          </Col>
+        </Row>
         {/** ********** Skills and competencies *********** */}
         <Title
           level={2}
@@ -145,7 +168,7 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <DevelopmentalGoals type={privateProfile} data={data} />
+            <LearningDevelopment type={privateProfile} data={data} />
           </Col>
         </Row>
 
@@ -236,7 +259,33 @@ const ProfileLayoutView = ({
                   <FormattedMessage id="profile.basic" />
                 </Text>
               }
-            />
+            >
+              <Link
+                href="#card-profile-employee-summary"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employee.summary" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-description"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.description" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-official-language"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.official.language" />
+                  </Text>
+                }
+              />
+            </Link>
+
             <Link
               href="#divider-skills-and-comp"
               title={
@@ -279,10 +328,10 @@ const ProfileLayoutView = ({
               }
             >
               <Link
-                href="#card-profile-dev-goals"
+                href="#card-profile-learning-development"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.developmental.goals" />
+                    <FormattedMessage id="profile.learning.development" />
                   </Text>
                 }
               />
@@ -369,12 +418,42 @@ const ProfileLayoutView = ({
     );
   };
 
+  const displayHiddenAlert = () => {
+    if (
+      privateProfile &&
+      data &&
+      data.status &&
+      ["INACTIVE", "HIDDEN"].includes(data.status)
+    ) {
+      const isHidden = data.status === "HIDDEN";
+
+      return (
+        <Alert
+          message={
+            <FormattedMessage
+              id={
+                isHidden ? "profile.hidden.message" : "profile.inactive.message"
+              }
+            />
+          }
+          type={isHidden ? "warning" : "error"}
+          showIcon
+          style={{ marginBottom: 5 }}
+          icon={isHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
+        />
+      );
+    }
+
+    return undefined;
+  };
+
   return (
     <AppLayout
       sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
     >
+      {displayHiddenAlert()}
       <Header
         style={styles.headerStyle}
         title={
@@ -386,14 +465,15 @@ const ProfileLayoutView = ({
             </Row>
             <Row>
               <Text type="secondary" style={styles.headerSubtitle}>
-                <FormattedMessage id="profile.last.updated" />
-                {data && moment(data.updatedAt).format("LL")}
+                <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+                  {data && moment(data.updatedAt).format("LL")}
+                </Tooltip>
               </Text>
             </Row>
           </Col>
         }
       />
-      {data ? displayAllProfileCards() : <ProfileNotFound />}
+      {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
     </AppLayout>
   );
 };

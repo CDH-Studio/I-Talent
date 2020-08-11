@@ -2,17 +2,22 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { useIntl } from "react-intl";
 import useAxios from "../utils/axios-instance";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
+import ErrorProfileNotFound from "../components/errorResult/errorProfileNotFound";
+import ErrorProfileHidden from "../components/errorResult/errorProfileHidden";
 
 const Profile = ({ history, match }) => {
-  const [name, setName] = useState("Loading");
+  const intl = useIntl();
+
+  const [name, setName] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [connectionData, setConnectionData] = useState(null);
-  const [loadingError, setLoadingError] = useState(false);
+  const [userDoesNotExist, setUserDoesNotExist] = useState(false);
+  const [userIsHidden, setUserIsHidden] = useState(false);
 
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
@@ -21,44 +26,63 @@ const Profile = ({ history, match }) => {
   const axios = useAxios();
 
   const fetchProfile = async () => {
-    const promiseArray = [];
+    setUserDoesNotExist(false);
+    setUserIsHidden(false);
+    const apiCalls = [];
     const profile =
       id === userID
         ? axios.get(`api/profile/private/${id}?language=${locale}`)
         : axios.get(`api/profile/${id}?language=${locale}`);
 
-    promiseArray.push(profile);
+    apiCalls.push(profile);
 
     if (id !== userID) {
-      const connectionStatus = axios.get(`api/connections/${id}`);
-      promiseArray.push(connectionStatus);
+      apiCalls.push(axios.get(`api/connections/${id}`));
     }
 
-    Promise.all(promiseArray)
-      .then((result) => {
-        if (result[0].data !== undefined) {
-          const profileData = result[0].data;
-          setName(`${profileData.firstName} ${profileData.lastName}`);
-          setData(profileData);
-          if (result[0].data && userID !== id) {
-            setConnectionData(result[1].data.status);
-          }
+    try {
+      const [profileData, connectionsData] = await Promise.all(apiCalls);
+
+      if (profileData.data !== undefined) {
+        setName(`${profileData.data.firstName} ${profileData.data.lastName}`);
+        setData(profileData.data);
+        if (profileData.data && userID !== id) {
+          setConnectionData(connectionsData.data.status);
         }
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoadingError(true);
-      });
+      }
+
+      setLoading(false);
+    } catch (error) {
+      if (error.message.includes("404")) {
+        setUserIsHidden(true);
+      } else {
+        setUserDoesNotExist(true);
+      }
+    }
   };
 
   useEffect(() => {
-    setLoadingError(false);
     if (id === undefined) {
       history.push(`/profile/${userID}`);
     } else {
       fetchProfile();
     }
   }, [history, id, locale, userID]);
+
+  useEffect(() => {
+    setUserDoesNotExist(false);
+    setUserIsHidden(false);
+  }, [history]);
+
+  useEffect(() => {
+    if (userDoesNotExist) {
+      setName(intl.formatMessage({ id: "not.found" }));
+    } else if (userIsHidden) {
+      setName(intl.formatMessage({ id: "profile.hidden" }));
+    } else if (loading) {
+      setName(intl.formatMessage({ id: "loading" }));
+    }
+  }, [locale, userDoesNotExist, userIsHidden, loading]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;
@@ -78,8 +102,12 @@ const Profile = ({ history, match }) => {
     }
   };
 
-  if (loadingError) {
-    return <Redirect to={`/profile/${userID}`} />;
+  if (userDoesNotExist) {
+    return <ErrorProfileNotFound />;
+  }
+
+  if (userIsHidden) {
+    return <ErrorProfileHidden />;
   }
 
   return (

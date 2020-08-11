@@ -6,7 +6,7 @@ import AppLayout from "../appLayout/AppLayout";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
 import backgroundOptionThree from "../../../assets/landing-3.svg";
-import logo from "../../../assets/MyTalent-Logo-Full-v2-dark.svg";
+import logo from "../../../assets/I-talent-logo.png";
 
 const { Text, Title } = Typography;
 
@@ -18,8 +18,8 @@ const { Text, Title } = Typography;
 const LandingLayoutView = () => {
   const styles = {
     logo: {
-      width: "250px",
-      marginTop: "30px",
+      width: "270px",
+      marginTop: "50px",
     },
     text: {
       display: "block",
@@ -75,11 +75,7 @@ const LandingLayoutView = () => {
           <Text style={styles.text} strong>
             <FormattedMessage id="landing.call.to.action" />
           </Text>
-          <Button
-            type="primary"
-            onClick={() => keycloak.login()}
-            size="large"
-          >
+          <Button type="primary" onClick={() => keycloak.login()} size="large">
             <FormattedMessage id="landing.login.button" />
           </Button>
         </Col>

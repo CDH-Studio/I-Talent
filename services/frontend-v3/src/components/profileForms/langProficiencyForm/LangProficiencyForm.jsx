@@ -15,8 +15,16 @@ import handleError from "../../../functions/handleError";
 const LangProficiencyForm = ({ formType }) => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
+
+  // const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [expiredGrades, setExpiredGrades] = useState({
+    reading: false,
+    writing: false,
+    oral: false,
+  });
+
   const history = useHistory();
   const axios = useAxios();
   const { id } = useSelector((state) => state.user);
@@ -24,10 +32,29 @@ const LangProficiencyForm = ({ formType }) => {
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
-    );
-    setProfileInfo(result.data);
+    await axios
+      .get(`api/profile/private/${id}?language=${locale}`)
+      .then((result) => {
+        if (result.data && result.data.secondLangProfs) {
+          const readingObj = result.data.secondLangProfs.find(
+            (grading) => grading.proficiency === "READING"
+          );
+          const writingObj = result.data.secondLangProfs.find(
+            (grading) => grading.proficiency === "WRITING"
+          );
+          const oralObj = result.data.secondLangProfs.find(
+            (grading) => grading.proficiency === "ORAL"
+          );
+
+          setExpiredGrades({
+            reading: readingObj && readingObj.expired,
+            writing: writingObj && writingObj.expired,
+            oral: oralObj && oralObj.expired,
+          });
+        }
+
+        setProfileInfo(result.data);
+      });
   }, [id, locale]);
 
   // useEffect to run once component is mounted
@@ -75,6 +102,8 @@ const LangProficiencyForm = ({ formType }) => {
       load={load}
       history={history}
       userId={id}
+      expiredGrades={expiredGrades}
+      setExpiredGrades={setExpiredGrades}
     />
   );
 };

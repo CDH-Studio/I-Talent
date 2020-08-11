@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import useAxios from "../../../utils/axios-instance";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import UserTableView from "./UserTableView";
 import handleError from "../../../functions/handleError";
 import {
@@ -17,12 +16,13 @@ import {
  *  Controller for the UserTableView.
  *  It gathers the required data for rendering the component.
  */
-function UserTable({ intl }) {
+const UserTable = () => {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [modifiedStatus, setModifiedStatus] = useState(false);
   const axios = useAxios();
+  const intl = useIntl();
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -45,8 +45,8 @@ function UserTable({ intl }) {
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
-        formatCreatedAt: moment(user.createdAt).format("LL"),
-        formatUpdatedAt: moment(user.updatedAt).format("LL"),
+        formatCreatedAt: moment(user.createdAt).format("YYYY-MM-DD"),
+        formatUpdatedAt: moment(user.updatedAt).format("YYYY-MM-DD"),
         status: user.status,
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),
@@ -125,6 +125,13 @@ function UserTable({ intl }) {
     }
   };
 
+  // Handles the deletion of a user
+  const handleSubmitDelete = async (id) => {
+    await axios.delete(`api/user/${id}`);
+
+    getUserInformation();
+  };
+
   useEffect(() => {
     // Gets part of the title for the page
     const getDisplayType = (plural) => {
@@ -156,17 +163,10 @@ function UserTable({ intl }) {
         handleSearch={handleSearch}
         handleReset={handleReset}
         modifiedStatus={modifiedStatus}
+        handleSubmitDelete={handleSubmitDelete}
       />
     </>
   );
-}
-
-UserTable.propTypes = {
-  intl: IntlPropType,
 };
 
-UserTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(UserTable);
+export default UserTable;

@@ -9,10 +9,12 @@ import {
 } from "../pages";
 import { Secured, Admin } from "./index";
 import historySingleton from "../utils/history";
+import ScrollToTop from "./ScrollTopTop";
 
 const Routes = () => {
   return (
     <Router history={historySingleton}>
+      <ScrollToTop />
       <Switch>
         <Route
           exact

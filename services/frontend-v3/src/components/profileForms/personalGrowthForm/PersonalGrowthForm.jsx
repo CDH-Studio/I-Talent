@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { useIntl } from "react-intl";
 import useAxios from "../../../utils/axios-instance";
 
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
@@ -17,6 +19,7 @@ const PersonalGrowthForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
+  const [currentTab, setCurrentTab] = useState(null);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
@@ -42,6 +45,8 @@ const PersonalGrowthForm = ({ formType }) => {
   const { id } = useSelector((state) => state.user);
 
   const history = useHistory();
+  const intl = useIntl();
+  const location = useLocation();
 
   /**
    * Get saved Developmental Goals
@@ -80,11 +85,39 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of developmental goal options for treeSelect dropdown
    */
   const getDevelopmentalGoalOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/developmentalGoals?language=${locale}`
-    );
+    const [categoriesResult, devGoalsResults] = await Promise.all([
+      axios.get(`api/option/categories?language=${locale}`),
+      axios.get(`api/option/developmentalGoals?language=${locale}`),
+    ]);
 
-    setDevelopmentalGoalOptions(result.data);
+    // To handle the competencies category
+    categoriesResult.data.push({
+      id: undefined,
+      name: intl.formatMessage({ id: "setup.competencies" }),
+    });
+
+    // Loop through all skill categories
+    const dataTree = categoriesResult.data.map((category) => {
+      const children = [];
+
+      devGoalsResults.data.forEach((devGoal) => {
+        if (devGoal.categoryId === category.id) {
+          children.push({
+            title: `${category.name}: ${devGoal.name}`,
+            value: devGoal.id,
+            key: devGoal.id,
+          });
+        }
+      });
+
+      return {
+        title: category.name,
+        value: category.id || category.name,
+        children,
+      };
+    });
+
+    setDevelopmentalGoalOptions(_.sortBy(dataTree, "title"));
   }, [locale]);
 
   /**
@@ -98,10 +131,12 @@ const PersonalGrowthForm = ({ formType }) => {
       {
         key: "true",
         text: locale === "ENGLISH" ? "Yes" : "Oui",
+        value: true,
       },
       {
         key: "false",
         text: locale === "ENGLISH" ? "No" : "Non",
+        value: false,
       },
     ];
     setInterestedInRemoteOptions(options);
@@ -154,6 +189,21 @@ const PersonalGrowthForm = ({ formType }) => {
 
     setTalentMatrixResultOptions(result.data);
   }, [locale]);
+
+  /**
+   * Get default form tab
+   *
+   * get the default selected form tab based on url query params
+   */
+  const getDefaultFormTab = () => {
+    const searchParams = new URLSearchParams(location.search);
+    setCurrentTab(searchParams.get("tab"));
+  };
+
+  // useEffect when url path is updated
+  useEffect(() => {
+    getDefaultFormTab();
+  }, [location]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
@@ -223,6 +273,7 @@ const PersonalGrowthForm = ({ formType }) => {
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
       formType={formType}
+      currentTab={currentTab}
       load={load}
       history={history}
       userId={id}

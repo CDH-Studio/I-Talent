@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const moment = require("moment");
 const _ = require("lodash");
 const prisma = require("../../database");
+const config = require("../../config");
 
 function normalizeDate(date, startOf) {
   if (date === null) {
@@ -34,6 +35,15 @@ async function updateProfile(request, response) {
     const userId = request.params.id;
     const { language } = request.query;
 
+    const isAdmin =
+      request.kauth.grant.access_token.content.resource_access &&
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ] &&
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ].roles.includes("manage-users");
+
     if (request.kauth.grant.access_token.content.sub === userId) {
       const {
         firstName,
@@ -57,6 +67,7 @@ async function updateProfile(request, response) {
         signupStep,
         branch,
         jobTitle,
+        description,
 
         projects,
 
@@ -207,6 +218,21 @@ async function updateProfile(request, response) {
         }
       }
 
+      // Does not let the user override the Admin INACTIVE status
+      let statusValue = status;
+      if (status && !isAdmin) {
+        const currentStatus = await prisma.user.findOne({
+          where: { id: userId },
+          select: {
+            status: true,
+          },
+        });
+
+        if (currentStatus.status === "INACTIVE") {
+          statusValue = undefined;
+        }
+      }
+
       await prisma.user.update({
         where: { id: userId },
         data: {
@@ -231,8 +257,9 @@ async function updateProfile(request, response) {
           interestedInRemote,
           exFeeder,
           avatarColor,
-          status,
+          status: statusValue,
           signupStep,
+          description,
 
           projects: projects
             ? {
@@ -355,22 +382,21 @@ async function updateProfile(request, response) {
             : undefined,
           educations: educations
             ? {
-                create: educations.map(
-                  ({ startDate, endDate, diplomaId, schoolId }) => ({
-                    startDate: normalizeDate(startDate, "month"),
-                    endDate: normalizeDate(endDate, "month"),
-                    diploma: {
-                      connect: {
-                        id: diplomaId,
-                      },
+                create: educations.map((educationItem) => ({
+                  startDate: normalizeDate(educationItem.startDate, "month"),
+                  endDate: normalizeDate(educationItem.endDate, "month"),
+                  description: educationItem.description,
+                  diploma: {
+                    connect: {
+                      id: educationItem.diplomaId,
                     },
-                    school: {
-                      connect: {
-                        id: schoolId,
-                      },
+                  },
+                  school: {
+                    connect: {
+                      id: educationItem.schoolId,
                     },
-                  })
-                ),
+                  },
+                })),
               }
             : undefined,
           experiences: experiences
@@ -485,10 +511,11 @@ async function updateProfile(request, response) {
                 update: {
                   info: visibleCards.info,
                   talentManagement: visibleCards.talentManagement,
-                  officialLanguage: visibleCards.officialLanguage,
                   skills: visibleCards.skills,
                   competencies: visibleCards.competencies,
                   developmentalGoals: visibleCards.developmentalGoals,
+                  description: visibleCards.description,
+                  officialLanguage: visibleCards.officialLanguage,
                   education: visibleCards.education,
                   experience: visibleCards.experience,
                   projects: visibleCards.projects,
@@ -518,7 +545,7 @@ async function updateProfile(request, response) {
 }
 
 async function getFullProfile(id, language) {
-  const fullProfile = await prisma.user.findOne({
+  return prisma.user.findOne({
     where: { id },
     select: {
       id: true,
@@ -594,6 +621,7 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      description: true,
       developmentalGoals: {
         select: {
           id: true,
@@ -632,6 +660,7 @@ async function getFullProfile(id, language) {
           updatedAt: true,
           startDate: true,
           endDate: true,
+          description: true,
           diploma: {
             select: {
               id: true,
@@ -847,6 +876,7 @@ async function getFullProfile(id, language) {
           info: true,
           talentManagement: true,
           officialLanguage: true,
+          description: true,
           skills: true,
           competencies: true,
           developmentalGoals: true,
@@ -879,7 +909,6 @@ async function getFullProfile(id, language) {
       },
     },
   });
-  return fullProfile;
 }
 
 function updatedAtReducer(accumulator, { updatedAt }) {
@@ -986,7 +1015,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.educations) {
-    filteredProfile.educations = profile.educations.map((education) => {
+    const educations = profile.educations.map((education) => {
       const translatedDiploma =
         education.diploma.translations.find((i) => i.language === language) ||
         education.diploma.translations[0];
@@ -999,6 +1028,7 @@ function filterProfileResult(profile, language) {
         id: education.id,
         startDate: education.startDate,
         endDate: education.endDate,
+        description: education.description,
         diploma: {
           id: education.diploma.id,
           description: translatedDiploma ? translatedDiploma.description : null,
@@ -1012,6 +1042,8 @@ function filterProfileResult(profile, language) {
       };
     });
 
+    filteredProfile.educations = _.orderBy(educations, "startDate", "desc");
+
     filteredProfile.educationsUpdatedAt = profile.educations.reduce(
       updatedAtReducer,
       undefined
@@ -1019,7 +1051,7 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.experiences) {
-    filteredProfile.experiences = profile.experiences.map((experience) => {
+    const experiences = profile.experiences.map((experience) => {
       const translatedExperience =
         experience.translations.find((i) => i.language === language) ||
         experience.translations[0];
@@ -1037,6 +1069,8 @@ function filterProfileResult(profile, language) {
           : null,
       };
     });
+
+    filteredProfile.experiences = _.orderBy(experiences, "startDate", "desc");
 
     filteredProfile.experiencesUpdatedAt = profile.experiences.reduce(
       updatedAtReducer,
@@ -1129,14 +1163,37 @@ function filterProfileResult(profile, language) {
     );
   }
 
-  filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
-    return {
-      id: prof.id,
-      date: prof.date,
-      proficiency: prof.proficiency,
-      level: prof.level,
-    };
-  });
+  if (profile.secondLangProfs) {
+    filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
+      let expiredValue;
+      let dateValue;
+      if (prof.date) {
+        const dateMoment = moment(prof.date);
+        if (dateMoment.isBefore()) {
+          expiredValue = true;
+          if (dateMoment.unix() === 0) {
+            dateValue = null;
+          } else {
+            dateValue = dateMoment;
+          }
+        } else {
+          dateValue = dateMoment;
+          expiredValue = false;
+        }
+      } else {
+        expiredValue = null;
+        dateValue = null;
+      }
+
+      return {
+        id: prof.id,
+        date: dateValue,
+        proficiency: prof.proficiency,
+        expired: expiredValue,
+        level: prof.level,
+      };
+    });
+  }
 
   if (profile.organizations) {
     filteredProfile.organizations = profile.organizations.map((org) => {
@@ -1186,10 +1243,23 @@ async function getPublicProfileById(request, response) {
     const { id } = request.params;
     const { language } = request.query;
     if (userId && id) {
-      const result = filterProfileResult(
-        await getFullProfile(id, language),
-        language
-      );
+      const fullProfile = await getFullProfile(id, language);
+
+      const isAdmin =
+        request.kauth.grant.access_token.content.resource_access &&
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ] &&
+        request.kauth.grant.access_token.content.resource_access[
+          config.KEYCLOAK_CLIENT_ID
+        ].roles.includes("view-private-profile");
+
+      if (fullProfile.status !== "ACTIVE" && !isAdmin) {
+        response.sendStatus(404);
+        return;
+      }
+
+      const result = filterProfileResult(fullProfile, language);
 
       const isConnection = result.connections.some(
         (item) => item.id === userId
@@ -1202,6 +1272,7 @@ async function getPublicProfileById(request, response) {
         skills: true,
         competencies: true,
         developmentalGoals: true,
+        description: true,
         education: true,
         experience: true,
         projects: true,
@@ -1222,9 +1293,6 @@ async function getPublicProfileById(request, response) {
         result.actingLevel = null;
         result.actingStartDate = null;
         result.actingEndDate = null;
-        result.firstLanguage = null;
-        result.secondLanguage = null;
-        result.secondLangProfs = null;
 
         tempCards.info = false;
       }
@@ -1235,12 +1303,21 @@ async function getPublicProfileById(request, response) {
         tempCards.talentManagement = false;
       }
 
+      if (hideCard("description")) {
+        result.description = null;
+      }
+
       if (hideCard("officialLanguage")) {
         result.firstLanguage = null;
         result.secondLanguage = null;
-
+        result.secondLangProfs = null;
         tempCards.officialLanguage = false;
+      } else if (result.secondLangProfs) {
+        result.secondLangProfs.forEach((lang, index) => {
+          delete result.secondLangProfs[index].date;
+        });
       }
+
       if (hideCard("skills")) {
         result.skills = [];
 
@@ -1287,7 +1364,6 @@ async function getPublicProfileById(request, response) {
       }
       if (hideCard("exFeeder")) {
         result.exFeeder = null;
-
         tempCards.exFeeder = false;
       }
 
