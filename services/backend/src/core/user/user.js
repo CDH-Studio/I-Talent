@@ -127,6 +127,7 @@ async function deleteUser(request, response) {
     const { id } = request.params;
 
     const isAdmin =
+      request.kauth.grant.access_token.content.resource_access &&
       request.kauth.grant.access_token.content.resource_access[
         config.KEYCLOAK_CLIENT_ID
       ] &&
