@@ -190,9 +190,9 @@ const WelcomeView = ({ gedsProfiles, intl, load, userId, history }) => {
           {/* generate list of GEDS profiles */}
           {generateProfileBtn({
             icon: <UserOutlined />,
-            firstTitle: "123456789 123456789 123456789", //`${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-            secondTitle: "123456789 123456789 123456789", //gedsProfiles.jobTitle[locale],
-            thirdTitle: "123456789012345678901234567890@canada.ca", //gedsProfiles.email,
+            firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
+            secondTitle: gedsProfiles.jobTitle[locale],
+            thirdTitle: gedsProfiles.email,
             value: gedsProfiles,
           })}
           {/* new user button */}
