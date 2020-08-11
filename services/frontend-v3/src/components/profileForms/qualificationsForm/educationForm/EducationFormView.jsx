@@ -141,7 +141,7 @@ const EducationFormView = ({
     <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         <Title level={4} className="entryTitle">
-          <FormOutlined />
+          <FormOutlined className="formOutlined" />
           <FormattedMessage id="setup.education" />
           {`: ${field.name + 1}`}
           <Tooltip
@@ -214,6 +214,7 @@ const EducationFormView = ({
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
+            className="datePicker"
             placeholder={intl.formatMessage({
               id: "profile.qualifications.select.month",
             })}
@@ -233,6 +234,7 @@ const EducationFormView = ({
               picker="month"
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
+              className="datePicker"
               placeholder={intl.formatMessage({
                 id: "profile.qualifications.select.month",
               })}

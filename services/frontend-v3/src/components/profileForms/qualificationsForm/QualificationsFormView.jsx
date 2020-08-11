@@ -354,7 +354,11 @@ const QualificationsFormView = ({
    ********* Render Component *********
    *********************************** */
   if (!load) {
-    return <Skeleton active />;
+    return (
+      <div className="skeleton">
+        <Skeleton active />
+      </div>
+    );
   }
   /* Once data had loaded display form */
   return (

@@ -127,7 +127,7 @@ const ExperienceFormView = ({
     <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         <Title level={4} className="entryTitle">
-          <FormOutlined />
+          <FormOutlined className="formOutlined" />
           <FormattedMessage id="setup.experience" />
           {`: ${field.name + 1}`}
           <Tooltip
@@ -184,6 +184,7 @@ const ExperienceFormView = ({
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
+            className="datePicker"
             placeholder={intl.formatMessage({
               id: "profile.qualifications.select.month",
             })}
@@ -204,6 +205,7 @@ const ExperienceFormView = ({
               picker="month"
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
+              className="datePicker"
               placeholder={intl.formatMessage({
                 id: "profile.qualifications.select.month",
               })}

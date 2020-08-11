@@ -16,6 +16,11 @@ import QualificationsFormView from "./QualificationsFormView";
 const QualificationsForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
+  const [diplomas, setDiplomas] = useState(null);
+  const [schools, setSchools] = useState(null);
+  const [attachmentNamesEdu, setAttachmentNamesEdu] = useState(null);
+  const [attachmentNamesExp, setAttachmentNamesExp] = useState(null);
+
   const [load, setLoad] = useState(false);
   const [currentTab, setCurrentTab] = useState(null);
   const [savedEducation, setSavedEducation] = useState();
@@ -29,21 +34,37 @@ const QualificationsForm = ({ formType }) => {
   const location = useLocation();
   const history = useHistory();
 
-  /**
-   * Get User Profile
-   */
-  const getProfileInfo = useCallback(async () => {
+  const getBackendInfo = useCallback(async () => {
     try {
-      const result = await axios.get(
-        `api/profile/private/${id}?language=${locale}`
-      );
-      setProfileInfo(result.data);
+      const [
+        profileQuery,
+        diplomasQuery,
+        schoolsQuery,
+        attachmentNamesEduQuery,
+        attachmentNamesExpQuery,
+      ] = await Promise.all([
+        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`api/option/diplomas?language=${locale}`),
+        axios.get(`api/option/schools?language=${locale}`),
+        axios.get(`api/option/attachmentNames?language=${locale}&type=Edu`),
+        axios.get(`api/option/attachmentNames?language=${locale}&type=Exp`),
+      ]);
+      setProfileInfo(profileQuery.data);
+      setDiplomas(diplomasQuery.data);
+      setSchools(schoolsQuery.data);
+      setAttachmentNamesEdu(attachmentNamesEduQuery.data);
+      setAttachmentNamesExp(attachmentNamesExpQuery.data);
       setLoad(true);
     } catch (error) {
       setLoad(false);
       throw error;
     }
-  }, [id, locale]);
+  });
+
+  /**
+   * Get User Profile
+   */
+  const getProfileInfo = useCallback(async () => {}, [id, locale]);
 
   /**
    * Get Saved Education Information
@@ -100,26 +121,15 @@ const QualificationsForm = ({ formType }) => {
     setCurrentTab(searchParams.get("tab"));
   };
 
-  // useEffect when url path is updated
   useEffect(() => {
     getDefaultFormTab();
-  }, [location]);
-
-  // useEffect when profileInfo changes (extracts info from the profileInfo object)
-  useEffect(() => {
+    getBackendInfo().catch((error) => handleError(error, "redirect"));
     if (profileInfo) {
       getSavedEducation();
       getSavedExperience();
       getSavedProjects();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo]);
-
-  // useEffect to run once component is mounted
-  useEffect(() => {
-    /* Get all required data component */
-    getProfileInfo().catch((error) => handleError(error, "redirect"));
-  }, [getProfileInfo]);
+  }, [location, getProfileInfo, profileInfo]);
 
   return (
     <QualificationsFormView
@@ -132,6 +142,10 @@ const QualificationsForm = ({ formType }) => {
       load={load}
       history={history}
       userId={id}
+      attachmentNamesTypeEdu={attachmentNamesEdu}
+      attachmentNamesTypeExp={attachmentNamesExp}
+      diplomas={diplomas}
+      schools={schools}
     />
   );
 };
