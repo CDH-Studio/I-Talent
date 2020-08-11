@@ -55,8 +55,8 @@ const LangProficiencyFormView = ({
   intl,
   history,
   userId,
-  expiredGrades,
-  setExpiredGrades,
+  unknownExpiredGrades,
+  setUnknownExpiredGrades,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
@@ -162,7 +162,7 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "ORAL",
             level: values.oralProficiency,
-            date: values.secondaryOralExpired
+            date: values.secondaryOralUnknownExpired
               ? moment.unix(0)
               : values.secondaryOralDate,
           });
@@ -172,7 +172,7 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "WRITING",
             level: values.writingProficiency,
-            date: values.secondaryWritingExpired
+            date: values.secondaryWritingUnknownExpired
               ? moment.unix(0)
               : values.secondaryWritingDate,
           });
@@ -182,7 +182,7 @@ const LangProficiencyFormView = ({
           dbValues.secondLangProfs.push({
             proficiency: "READING",
             level: values.readingProficiency,
-            date: values.secondaryReadingExpired
+            date: values.secondaryReadingUnknownExpired
               ? moment.unix(0)
               : values.secondaryReadingDate,
           });
@@ -227,19 +227,19 @@ const LangProficiencyFormView = ({
               case "ORAL":
                 data.oralProficiency = level;
                 data.secondaryOralDate = date ? moment(date) : undefined;
-                data.secondaryOralExpired = expired;
+                data.secondaryOralUnknownExpired = expired && !date;
                 break;
 
               case "WRITING":
                 data.writingProficiency = level;
                 data.secondaryWritingDate = date ? moment(date) : undefined;
-                data.secondaryWritingExpired = expired;
+                data.secondaryWritingUnknownExpired = expired && !date;
                 break;
 
               case "READING":
                 data.readingProficiency = level;
                 data.secondaryReadingDate = date ? moment(date) : undefined;
-                data.secondaryReadingExpired = expired;
+                data.secondaryReadingUnknownExpired = expired && !date;
                 break;
 
               default:
@@ -278,10 +278,10 @@ const LangProficiencyFormView = ({
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
     const formFields = form.getFieldsValue();
-    setExpiredGrades({
-      reading: formFields.secondaryReadingExpired,
-      writing: formFields.secondaryWritingExpired,
-      oral: formFields.secondaryOralExpired,
+    setUnknownExpiredGrades({
+      reading: formFields.secondaryReadingUnknownExpired,
+      writing: formFields.secondaryWritingUnknownExpired,
+      oral: formFields.secondaryOralUnknownExpired,
     });
   };
 
@@ -495,11 +495,14 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={expiredGrades.reading}
+                  disabled={unknownExpiredGrades.reading}
                   style={styles.datePicker}
                 />
               </Form.Item>
-              <Form.Item name="secondaryReadingExpired" valuePropName="checked">
+              <Form.Item
+                name="secondaryReadingUnknownExpired"
+                valuePropName="checked"
+              >
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryReadingDate}
@@ -544,11 +547,14 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={expiredGrades.writing}
+                  disabled={unknownExpiredGrades.writing}
                   style={styles.datePicker}
                 />
               </Form.Item>
-              <Form.Item name="secondaryWritingExpired" valuePropName="checked">
+              <Form.Item
+                name="secondaryWritingUnknownExpired"
+                valuePropName="checked"
+              >
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryWritingDate}
@@ -593,11 +599,14 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={expiredGrades.oral}
+                  disabled={unknownExpiredGrades.oral}
                   style={styles.datePicker}
                 />
               </Form.Item>
-              <Form.Item name="secondaryOralExpired" valuePropName="checked">
+              <Form.Item
+                name="secondaryOralUnknownExpired"
+                valuePropName="checked"
+              >
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryOralDate}
@@ -756,12 +765,12 @@ LangProficiencyFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
-  expiredGrades: PropTypes.shape({
+  unknownExpiredGrades: PropTypes.shape({
     reading: PropTypes.bool,
     writing: PropTypes.bool,
     oral: PropTypes.bool,
   }).isRequired,
-  setExpiredGrades: PropTypes.func.isRequired,
+  setUnknownExpiredGrades: PropTypes.func.isRequired,
 };
 
 LangProficiencyFormView.defaultProps = {
