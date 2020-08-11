@@ -11,6 +11,7 @@ function cleanResults(profiles) {
       resultSkills,
       groupLevel,
       nameInitials,
+      status,
     }) => ({
       id,
       avatarColor,
@@ -22,6 +23,7 @@ function cleanResults(profiles) {
       resultSkills,
       groupLevel,
       nameInitials,
+      status,
     })
   );
 }
