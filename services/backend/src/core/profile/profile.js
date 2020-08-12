@@ -204,20 +204,6 @@ async function updateProfile(request, response) {
         },
       });
 
-      let employmentInfoLangs;
-      if (branch || jobTitle) {
-        if (branch && jobTitle) {
-          employmentInfoLangs = _.uniq([
-            ...Object.keys(branch),
-            ...Object.keys(jobTitle),
-          ]);
-        } else if (branch) {
-          employmentInfoLangs = Object.keys(branch);
-        } else {
-          employmentInfoLangs = Object.keys(jobTitle);
-        }
-      }
-
       // Does not let the user override the Admin INACTIVE status
       let statusValue = status;
       if (status && !isAdmin) {
@@ -453,34 +439,35 @@ async function updateProfile(request, response) {
           groupLevel: idHelper(groupLevelId, userIds.groupLevelId),
           actingLevel: idHelper(actingLevelId, userIds.actingLevelId),
 
-          employmentInfo: employmentInfoLangs
-            ? {
-                upsert: {
-                  create: {
-                    translations: {
-                      create: employmentInfoLangs.map((lang) => ({
-                        language: lang,
-                        jobTitle: jobTitle ? jobTitle[lang] : undefined,
-                        branch: branch ? branch[lang] : undefined,
-                      })),
+          employmentInfo:
+            jobTitle || branch
+              ? {
+                  upsert: {
+                    create: {
+                      translations: {
+                        create: {
+                          language,
+                          jobTitle: jobTitle || undefined,
+                          branch: branch || undefined,
+                        },
+                      },
+                    },
+                    update: {
+                      translations: {
+                        update: {
+                          where: {
+                            language,
+                          },
+                          data: {
+                            jobTitle: jobTitle || undefined,
+                            branch: branch || undefined,
+                          },
+                        },
+                      },
                     },
                   },
-                  update: {
-                    translations: {
-                      updateMany: employmentInfoLangs.map((lang) => ({
-                        where: {
-                          language: lang,
-                        },
-                        data: {
-                          jobTitle: jobTitle ? jobTitle[lang] : undefined,
-                          branch: branch ? branch[lang] : undefined,
-                        },
-                      })),
-                    },
-                  },
-                },
-              }
-            : undefined,
+                }
+              : undefined,
 
           organizations: organizations
             ? {
