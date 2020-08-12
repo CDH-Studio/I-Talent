@@ -620,7 +620,7 @@ const PersonalGrowthFormView = ({
                         {locale === "ENGLISH" ? (
                           <a
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
                           >
                             <FormattedMessage id="profile.talent.management.link" />
@@ -628,12 +628,11 @@ const PersonalGrowthFormView = ({
                         ) : (
                           <a
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
                           >
                             <FormattedMessage id="profile.talent.management.link" />
                           </a>
-
                         )}
                       </div>
                     }
