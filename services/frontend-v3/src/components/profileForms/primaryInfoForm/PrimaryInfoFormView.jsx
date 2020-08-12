@@ -220,7 +220,7 @@ const PrimaryInfoFormView = ({
       const employmentInfo =
         profile.employmentInfo &&
         profile.employmentInfo.find((i) => i.language === locale);
-
+      console.log(profile.employmentInfo);
       return {
         firstName: profile.firstName,
         lastName: profile.lastName,
