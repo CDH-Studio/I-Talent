@@ -22,6 +22,7 @@ import {
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -57,6 +58,7 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const [keycloak] = useKeycloak();
 
   const styles = {
     row: {
@@ -419,23 +421,32 @@ const ProfileLayoutView = ({
   };
 
   const displayHiddenAlert = () => {
+    const canViewHiddenProfiles = keycloak.hasResourceRole(
+      "view-private-profile"
+    );
     if (
-      privateProfile &&
+      (canViewHiddenProfiles || privateProfile) &&
       data &&
       data.status &&
       ["INACTIVE", "HIDDEN"].includes(data.status)
     ) {
       const isHidden = data.status === "HIDDEN";
 
+      let messageId;
+
+      if (privateProfile) {
+        messageId = isHidden
+          ? "profile.hidden.message"
+          : "profile.inactive.message";
+      } else if (canViewHiddenProfiles) {
+        messageId = isHidden
+          ? "profile.hidden.message.other"
+          : "profile.inactive.message.other";
+      }
+
       return (
         <Alert
-          message={
-            <FormattedMessage
-              id={
-                isHidden ? "profile.hidden.message" : "profile.inactive.message"
-              }
-            />
-          }
+          message={<FormattedMessage id={messageId} />}
           type={isHidden ? "warning" : "error"}
           showIcon
           style={{ marginBottom: 5 }}
