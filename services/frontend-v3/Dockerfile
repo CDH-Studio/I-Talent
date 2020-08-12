@@ -6,6 +6,10 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
 
+# Make group permissions equal to the owner user permissions
+RUN chgrp -R 0 /upskill-frontend && \ 
+  chmod -R g=u /upskill-frontend
+
 # Copy scripts and make runable
 COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh

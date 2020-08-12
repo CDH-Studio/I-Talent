@@ -6,6 +6,10 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-backend
 WORKDIR /upskill-backend
 
+# Make group permissions equal to the owner user permissions
+RUN chgrp -R 0 /upskill-backend && \ 
+  chmod -R g=u /upskill-backend
+
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
