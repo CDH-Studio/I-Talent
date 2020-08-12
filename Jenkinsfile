@@ -18,17 +18,18 @@ pipeline {
     }
 
     stages {
-        stage('build') {
+        stage('build-backend') {
             steps {
 			    dir("${BACKEND_DIR}") {
                     script {
-                        sh"""
-                            ls -la
-                        """
                         builder.buildApp(BACKEND_IMAGE_NAME)
                     }
                 }
-
+            }
+        }
+        
+        stage('build-frontend') {
+            steps {
 			    dir("${FRONTEND_DIR}") {
                     script {
                         builder.buildApp(FRONTEND_IMAGE_NAME)
