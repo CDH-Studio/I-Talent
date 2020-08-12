@@ -6,6 +6,7 @@ import {
   FieldPropType,
   FormInstancePropType,
   ProfileInfoPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 /**
@@ -20,6 +21,7 @@ const ExperienceForm = ({
   remove,
   profileInfo,
   checkIfFormValuesChanged,
+  attachmentNamesTypeExpOptions,
 }) => {
   return (
     <ExperienceFormView
@@ -28,6 +30,7 @@ const ExperienceForm = ({
       remove={remove}
       profileInfo={profileInfo}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
+      attachmentNamesTypeExpOptions={attachmentNamesTypeExpOptions}
     />
   );
 };
@@ -38,6 +41,7 @@ ExperienceForm.propTypes = {
   remove: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
+  attachmentNamesTypeExpOptions: KeyNameOptionsPropType.isRequired,
 };
 
 export default ExperienceForm;

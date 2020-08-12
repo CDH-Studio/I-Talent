@@ -59,12 +59,17 @@ const QualificationsForm = ({ formType }) => {
       setLoad(false);
       throw error;
     }
-  });
+  }, [id, locale]);
 
-  /**
-   * Get User Profile
+  /*
+   * save data to DB
+   *
+   * update profile in DB or create profile if it is not found
    */
-  const getProfileInfo = useCallback(async () => {}, [id, locale]);
+  const saveDataToDB = async (unalteredValues) => {
+    const values = { ...unalteredValues };
+    await axios.put(`profile/${id}?language=${locale}`, values);
+  };
 
   /**
    * Get Saved Education Information
@@ -121,15 +126,25 @@ const QualificationsForm = ({ formType }) => {
     setCurrentTab(searchParams.get("tab"));
   };
 
+  // useEffect when url path is updated
   useEffect(() => {
     getDefaultFormTab();
-    getBackendInfo().catch((error) => handleError(error, "redirect"));
+  }, [location]);
+
+  // useEffect when profileInfo changes (extracts info from the profileInfo object)
+  useEffect(() => {
     if (profileInfo) {
       getSavedEducation();
       getSavedExperience();
       getSavedProjects();
     }
-  }, [location, getProfileInfo, profileInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileInfo]);
+
+  // useEffect to run once component is mounted
+  useEffect(() => {
+    getBackendInfo().catch((error) => handleError(error, "redirect"));
+  }, [getBackendInfo]);
 
   return (
     <QualificationsFormView
@@ -142,10 +157,11 @@ const QualificationsForm = ({ formType }) => {
       load={load}
       history={history}
       userId={id}
-      attachmentNamesTypeEdu={attachmentNamesEdu}
-      attachmentNamesTypeExp={attachmentNamesExp}
-      diplomas={diplomas}
-      schools={schools}
+      attachmentNamesTypeEduOptions={attachmentNamesEdu}
+      attachmentNamesTypeExpOptions={attachmentNamesExp}
+      diplomaOptions={diplomas}
+      schoolOptions={schools}
+      saveDataToDB={saveDataToDB}
     />
   );
 };

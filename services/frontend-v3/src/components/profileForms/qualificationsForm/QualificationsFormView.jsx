@@ -16,9 +16,8 @@ import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
@@ -26,6 +25,8 @@ import {
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
+  KeyNameOptionsPropType,
+  KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -34,11 +35,6 @@ import "./QualificationsFormView.scss";
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
-/**
- *  QualificationsFormView(props)
- *  this component renders the talent form.
- *  It contains competencies, skills, and mentorship TreeSelects.
- */
 const QualificationsFormView = ({
   profileInfo,
   savedEducation,
@@ -50,13 +46,16 @@ const QualificationsFormView = ({
   intl,
   history,
   userId,
+  attachmentNamesTypeEduOptions,
+  attachmentNamesTypeExpOptions,
+  diplomaOptions,
+  schoolOptions,
+  saveDataToDB,
 }) => {
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
-  const axios = useAxios();
-  const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
   /*
@@ -64,11 +63,6 @@ const QualificationsFormView = ({
    *
    * update profile in DB or create profile if it is not found
    */
-  const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
-  };
 
   /* show message */
   const openNotificationWithIcon = (type) => {
@@ -392,14 +386,18 @@ const QualificationsFormView = ({
                     {(fields, { add, remove }) => {
                       return (
                         <div>
-                          {/* generate education form for each education item */}
                           {fields.map((field) => (
                             <EducationForm
                               key={field.fieldKey}
                               form={form}
-                              field={field}
-                              remove={remove}
+                              fieldElement={field}
+                              removeElement={remove}
                               profileInfo={profileInfo}
+                              diplomaOptions={diplomaOptions}
+                              schoolOptions={schoolOptions}
+                              attachmentNamesTypeEduOptions={
+                                attachmentNamesTypeEduOptions
+                              }
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
                               }
@@ -442,11 +440,14 @@ const QualificationsFormView = ({
                             <ExperienceForm
                               key={field.fieldKey}
                               form={form}
-                              field={field}
-                              remove={remove}
+                              fieldElement={field}
+                              removeElement={remove}
                               profileInfo={profileInfo}
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
+                              }
+                              attachmentNamesTypeExpOptions={
+                                attachmentNamesTypeExpOptions
                               }
                             />
                           ))}
@@ -526,6 +527,11 @@ QualificationsFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  attachmentNamesTypeEduOptions: KeyNameOptionsPropType,
+  attachmentNamesTypeExpOptions: KeyNameOptionsPropType,
+  diplomaOptions: KeyTitleOptionsPropType,
+  schoolOptions: KeyTitleOptionsPropType,
+  saveDataToDB: PropTypes.func.isRequired,
 };
 
 QualificationsFormView.defaultProps = {
@@ -535,6 +541,10 @@ QualificationsFormView.defaultProps = {
   savedExperience: undefined,
   savedProjects: undefined,
   intl: null,
+  attachmentNamesTypeEduOptions: undefined,
+  attachmentNamesTypeExpOptions: undefined,
+  diplomaOptions: undefined,
+  schoolOptions: undefined,
 };
 
 export default injectIntl(QualificationsFormView);

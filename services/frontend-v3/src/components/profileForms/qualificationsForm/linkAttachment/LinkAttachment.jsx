@@ -1,17 +1,37 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import useAxios from "../../../../utils/axios-instance";
-import handleError from "../../../../functions/handleError";
-
 import LinkAttachmentView from "./LinkAttachmentView";
+import {
+  FieldPropType,
+  FormInstancePropType,
+  ProfileInfoPropType,
+  KeyNameOptionsPropType,
+} from "../../../../utils/customPropTypes";
 
-const LinkAttachment = () => {
-  const [load, setLoad] = useState(false);
-  const [linkNames, setLinkNames] = useState([]);
-  const { locale } = useSelector((state) => state.settings);
-  const axios = useAxios();
-
-  return <LinkAttachmentView />;
+const LinkAttachment = ({
+  formElement,
+  fieldElement,
+  removeElement,
+  profileInfo,
+  NameOptions,
+}) => {
+  return (
+    <LinkAttachmentView
+      form={formElement}
+      fieldElement={fieldElement}
+      removeElement={removeElement}
+      profileInfo={profileInfo}
+      NameOptions={NameOptions}
+    />
+  );
 };
+
+LinkAttachment.propTypes = {
+  formElement: FormInstancePropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
+  profileInfo: ProfileInfoPropType.isRequired,
+  NameOptions: KeyNameOptionsPropType.isRequired,
+};
+
 export default LinkAttachment;

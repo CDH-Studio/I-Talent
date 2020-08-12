@@ -21,6 +21,7 @@ import {
   FormInstancePropType,
   ProfileInfoPropType,
   IntlPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 import "./ExperienceFormView.scss";
@@ -40,6 +41,7 @@ const ExperienceFormView = ({
   profileInfo,
   checkIfFormValuesChanged,
   intl,
+  attachmentNamesTypeExpOptions,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
@@ -245,6 +247,7 @@ ExperienceFormView.propTypes = {
   profileInfo: ProfileInfoPropType.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
+  attachmentNamesTypeExpOptions: KeyNameOptionsPropType.isRequired,
 };
 
 ExperienceFormView.defaultProps = {

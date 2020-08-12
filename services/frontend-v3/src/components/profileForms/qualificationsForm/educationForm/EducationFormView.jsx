@@ -23,6 +23,7 @@ import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   IntlPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 import "./EducationFormView.scss";
@@ -38,17 +39,18 @@ const { Title } = Typography;
  *  It contains diploma, school, start date, and end date.
  */
 const EducationFormView = ({
-  form,
-  field,
-  remove,
+  formElement,
+  fieldElement,
+  removeElement,
   diplomaOptions,
   schoolOptions,
   profileInfo,
-  load,
   checkIfFormValuesChanged,
   intl,
+  attachmentNamesTypeEduOptions,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
+  const [form] = Form.useForm();
 
   const Rules = {
     required: {
@@ -76,9 +78,11 @@ const EducationFormView = ({
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = form.getFieldsValue();
-      educationFieldValues.educations[field.fieldKey].endDate = undefined;
-      form.setFieldsValue(educationFieldValues);
+      const educationFieldValues = formElement.getFieldsValue();
+      educationFieldValues.educations[
+        fieldElement.fieldKey
+      ].endDate = undefined;
+      formElement.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate((prev) => !prev);
     checkIfFormValuesChanged();
@@ -91,11 +95,11 @@ const EducationFormView = ({
    * This is used for the end date field
    */
   const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["educations", field.fieldKey, "startDate"];
-    if (form.getFieldValue(fieldPath)) {
+    const fieldPath = ["educations", fieldElement.fieldKey, "startDate"];
+    if (formElement.getFieldValue(fieldPath)) {
       return (
         current &&
-        current < moment(form.getFieldValue(fieldPath).startOf("month"))
+        current < moment(formElement.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -108,11 +112,11 @@ const EducationFormView = ({
    * This is used for the start date field
    */
   const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["educations", field.fieldKey, "endDate"];
-    if (form.getFieldValue(fieldPath)) {
+    const fieldPath = ["educations", fieldElement.fieldKey, "endDate"];
+    if (formElement.getFieldValue(fieldPath)) {
       return (
         current &&
-        current > moment(form.getFieldValue(fieldPath).startOf("month"))
+        current > moment(formElement.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -122,28 +126,22 @@ const EducationFormView = ({
     // set the default status of "ongoing" checkbox
     if (
       profileInfo &&
-      field &&
-      profileInfo.educations[field.fieldKey] &&
-      profileInfo.educations[field.fieldKey].endDate
+      fieldElement &&
+      profileInfo.educations[fieldElement.fieldKey] &&
+      profileInfo.educations[fieldElement.fieldKey].endDate
     ) {
       toggleEndDate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
-  /** **********************************
-   ********* Render Component *********
-   *********************************** */
-  if (!load) {
-    return <div />;
-  }
   return (
     <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         <Title level={4} className="entryTitle">
           <FormOutlined className="formOutlined" />
           <FormattedMessage id="setup.education" />
-          {`: ${field.name + 1}`}
+          {`: ${fieldElement.name + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -153,7 +151,7 @@ const EducationFormView = ({
               shape="circle"
               icon={<DeleteOutlined />}
               onClick={() => {
-                remove(field.name);
+                removeElement(fieldElement.name);
               }}
               size="small"
               className="deleteButton"
@@ -164,8 +162,8 @@ const EducationFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Diploma Dropdown */}
         <Form.Item
-          name={[field.name, "diplomaId"]}
-          fieldKey={[field.fieldKey, "diplomaId"]}
+          name={[fieldElement.name, "diplomaId"]}
+          fieldKey={[fieldElement.fieldKey, "diplomaId"]}
           label={<FormattedMessage id="profile.diploma" />}
           rules={[Rules.required]}
           className="formItem"
@@ -185,8 +183,8 @@ const EducationFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* School Dropdown */}
         <Form.Item
-          name={[field.name, "schoolId"]}
-          fieldKey={[field.fieldKey, "schoolId"]}
+          name={[fieldElement.name, "schoolId"]}
+          fieldKey={[fieldElement.fieldKey, "schoolId"]}
           label={<FormattedMessage id="profile.school" />}
           rules={[Rules.required]}
           className="formItem"
@@ -206,8 +204,8 @@ const EducationFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Start Date */}
         <Form.Item
-          name={[field.name, "startDate"]}
-          fieldKey={[field.fieldKey, "startDate"]}
+          name={[fieldElement.name, "startDate"]}
+          fieldKey={[fieldElement.fieldKey, "startDate"]}
           label={<FormattedMessage id="profile.history.item.start.date" />}
           rules={[Rules.required]}
         >
@@ -224,8 +222,8 @@ const EducationFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* End Date */}
         <Form.Item
-          name={[field.name, "endDate"]}
-          fieldKey={[field.fieldKey, "endDate"]}
+          name={[fieldElement.name, "endDate"]}
+          fieldKey={[fieldElement.fieldKey, "endDate"]}
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
@@ -251,12 +249,12 @@ const EducationFormView = ({
       </Col>
       <Col className="gutter-row" span={24}>
         <DescriptionFormItem
-          name={[field.name, "description"]}
-          fieldKey={[field.fieldKey, "description"]}
+          name={[fieldElement.name, "description"]}
+          fieldKey={[fieldElement.fieldKey, "description"]}
           rule={Rules.maxChar1500}
           value={
-            profileInfo.educations[field.fieldKey] &&
-            profileInfo.educations[field.fieldKey].description
+            profileInfo.educations[fieldElement.fieldKey] &&
+            profileInfo.educations[fieldElement.fieldKey].description
           }
           label={<FormattedMessage id="profile.qualification.description" />}
           maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
@@ -267,15 +265,14 @@ const EducationFormView = ({
           {(fields, { add, remove }) => {
             return (
               <div>
-                {/* generate education form for each education item */}
                 {fields.map((field) => (
                   <LinkAttachment
                     key={field.fieldKey}
-                    form={form}
-                    field={field}
-                    remove={remove}
+                    formElement={form}
+                    fieldElement={field}
+                    removeElement={remove}
                     profileInfo={profileInfo}
-                    checkIfFormValuesChanged={checkIfFormValuesChanged}
+                    NameOptions={attachmentNamesTypeEduOptions}
                   />
                 ))}
                 <Form.Item>
@@ -300,15 +297,15 @@ const EducationFormView = ({
 };
 
 EducationFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
-  field: FieldPropType.isRequired,
-  remove: PropTypes.func.isRequired,
+  formElement: FormInstancePropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
   profileInfo: ProfileInfoPropType.isRequired,
   diplomaOptions: KeyTitleOptionsPropType,
-  load: PropTypes.bool.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
+  attachmentNamesTypeEduOptions: KeyNameOptionsPropType.isRequired,
 };
 
 EducationFormView.defaultProps = {

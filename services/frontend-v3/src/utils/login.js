@@ -44,11 +44,7 @@ const profileExist = async (userInfo, axios) => {
     })
   );
 
-  store.dispatch(
-    setLocale(
-      preferredLanguage || "ENGLISH"
-    )
-  );
+  store.dispatch(setLocale(preferredLanguage || "ENGLISH"));
 
   const { signupStep } = response.data;
 
