@@ -259,7 +259,7 @@ const EducationFormView = ({
         <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          rule={Rules.maxChar1500}
+          rules={Rules.maxChar1500}
           value={
             profileInfo.educations[field.fieldKey] &&
             profileInfo.educations[field.fieldKey].description
