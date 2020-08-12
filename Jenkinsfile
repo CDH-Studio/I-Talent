@@ -13,8 +13,8 @@ pipeline {
         // GLobal Vars
         BACKEND_IMAGE_NAME = "dsd-italent-backend"
         FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
-        BACKEND_DIR = "backend"
-        FRONTEND_DIR = "frontend-v3"
+        BACKEND_DIR = "services/backend"
+        FRONTEND_DIR = "services/frontend-v3"
     }
 
     stages {
@@ -29,7 +29,7 @@ pipeline {
                     }
                 }
 
-			    dir(FRONTEND_DIR) {
+			    dir("${FRONTEND_DIR}") {
                     script {
                         builder.buildApp(FRONTEND_IMAGE_NAME)
                     }
