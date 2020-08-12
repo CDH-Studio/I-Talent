@@ -305,6 +305,7 @@ const BasicInfoView = ({
           block
           type="link"
           target="_blank"
+          rel="noopener noreferrer"
           icon={button.icon}
           href={button.url}
         >

@@ -105,13 +105,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
       {optionalStartMenuItems}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <Link rel="noopener noreferrer" to={`/profile/${id}`}>
+        <Link to={`/profile/${id}`}>
           <UserOutlined style={styles.menuIcon} />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <Link rel="noopener noreferrer" to="/profile/edit/primary-info">
+        <Link to="/profile/edit/primary-info">
           <EditOutlined style={styles.menuIcon} />
           <FormattedMessage id="edit.profile" />
         </Link>
@@ -119,7 +119,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Divider style={styles.divider} />
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-          <Link rel="noopener noreferrer" to="/admin/dashboard">
+          <Link to="/admin/dashboard">
             <DashboardOutlined style={styles.menuIcon} />
             <FormattedMessage id="admin" />
           </Link>
@@ -127,21 +127,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       )}
       {!isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-          <Link rel="noopener noreferrer" to="/statistics">
+          <Link to="/statistics">
             <AreaChartOutlined style={styles.menuIcon} />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <Link rel="noopener noreferrer" to="/settings">
+        <Link to="/settings">
           <SettingOutlined style={styles.menuIcon} />
           <FormattedMessage id="settings.title" />
         </Link>
       </Menu.Item>
       <Divider style={styles.divider} />
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
-        <Link rel="noopener noreferrer" to="/logout">
+        <Link to="/logout">
           <LogoutOutlined style={styles.menuIcon} />
           <FormattedMessage id="sign.out" />
         </Link>
@@ -222,7 +222,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     menu(
       false,
       <Menu.Item style={styles.dropDownItem}>
-        <Link tabIndex="0" rel="noopener noreferrer" to="/">
+        <Link tabIndex="0" to="/">
           <HomeOutlined style={styles.menuIcon} />
           <FormattedMessage id="home" />
         </Link>
