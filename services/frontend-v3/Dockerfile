@@ -19,8 +19,5 @@ RUN ./scripts/install.sh
 # Copy app
 COPY . .
 
-# Runs build script
-RUN ./scripts/build.sh
-
 # Runs start script
 CMD ./scripts/start.sh

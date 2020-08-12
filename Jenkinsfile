@@ -15,6 +15,7 @@ pipeline {
         FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
         BACKEND_DIR = "services/backend"
         FRONTEND_DIR = "services/frontend-v3"
+        NODE_ENV = "production"
     }
 
     stages {
