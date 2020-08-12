@@ -414,18 +414,19 @@ model TransOrganization {
 }
 
 model Education {
-  id          String     @default(uuid()) @id
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  userId      String
-  schoolId    String?
-  diplomaId   String?
-  endDate     DateTime?
-  startDate   DateTime
-  description String?
-  user        User       @relation(fields: [userId])
-  school      OpSchool?  @relation(fields: [schoolId])
-  diploma     OpDiploma? @relation(fields: [diplomaId])
+  id              String           @default(uuid()) @id
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  userId          String
+  schoolId        String?
+  diplomaId       String?
+  endDate         DateTime?
+  startDate       DateTime
+  description     String?
+  attachmentLinks AttachmentLink[]
+  user            User             @relation(fields: [userId])
+  school          OpSchool?        @relation(fields: [schoolId])
+  diploma         OpDiploma?       @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, startDate])
 }
@@ -443,14 +444,15 @@ model TransExperience {
 }
 
 model Experience {
-  id           String            @default(uuid()) @id
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  translations TransExperience[]
-  userId       String
-  startDate    DateTime
-  endDate      DateTime?
-  user         User              @relation(fields: [userId])
+  id              String            @default(uuid()) @id
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  translations    TransExperience[]
+  userId          String
+  startDate       DateTime
+  endDate         DateTime?
+  attachmentLinks AttachmentLink[]
+  user            User              @relation(fields: [userId])
 }
 
 model RelocationLocation {
@@ -503,6 +505,10 @@ model AttachmentLink {
   createdAt    DateTime              @default(now())
   updatedAt    DateTime              @updatedAt
   translations TransAttachmentLink[]
+  Experience   Experience?           @relation(fields: [experienceId], references: [id])
+  experienceId String?
+  Education    Education?            @relation(fields: [educationId], references: [id])
+  educationId  String?
 }
 
 model User {

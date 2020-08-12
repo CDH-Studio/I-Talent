@@ -584,6 +584,126 @@
       "arity": "List"
     },
     {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "Experience",
+      "type": "Experience",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Experience"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Experience"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[experienceId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Experience"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "experienceId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "Education",
+      "type": "Education",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Education"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Education"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[educationId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Education"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "educationId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Education",
+      "field": "attachmentLinks",
+      "type": "AttachmentLink",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Experience",
+      "field": "attachmentLinks",
+      "type": "AttachmentLink",
+      "arity": "List"
+    },
+    {
       "tag": "CreateDirective",
       "location": {
         "path": {
