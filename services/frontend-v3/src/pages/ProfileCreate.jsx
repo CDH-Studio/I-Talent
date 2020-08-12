@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -24,7 +23,7 @@ const ProfileCreate = ({ match }) => {
         signupStep,
       });
     }
-  }, [highestStep, id, match, locale]);
+  }, [highestStep, id, match, locale, axios]);
 
   useEffect(() => {
     document.title = `${intl.formatMessage({

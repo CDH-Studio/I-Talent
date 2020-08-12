@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -41,7 +40,7 @@ const DiplomaTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch]);
+  }, [axios, dispatch]);
 
   useEffect(() => {
     getDiplomas();
