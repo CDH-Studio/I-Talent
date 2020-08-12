@@ -27,9 +27,9 @@ RUN chgrp -R 0 /upskill-backend/src && \
   chmod -R g=u /upskill-backend/src
 
 # Fix yarn cache permissions
-RUN mkdir -p /.cache/yarn
-RUN chgrp -R 0 /.cache/yarn && \ 
-  chmod -R g=u /.cache/yarn
+RUN mkdir -p /usr/local/share/.config/yarn
+RUN chgrp -R 0 /usr/local/share/.config/yarn && \ 
+  chmod -R g=u /usr/local/share/.config/yarn
 
 # Runs start script
 CMD ./scripts/start.sh
