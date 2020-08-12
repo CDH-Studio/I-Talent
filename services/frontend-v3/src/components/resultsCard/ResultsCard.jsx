@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -37,7 +36,7 @@ const ResultsCard = () => {
     } else {
       setEmptyQuery(true);
     }
-  }, [locale]);
+  }, [axios, locale]);
 
   const getConnections = useCallback(async () => {
     const result = await axios.get(
@@ -45,7 +44,7 @@ const ResultsCard = () => {
     );
 
     setConnections(_.map(result.data.connections, "id"));
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
   useEffect(() => {
     Promise.all([getConnections(), search()]).catch((e) =>

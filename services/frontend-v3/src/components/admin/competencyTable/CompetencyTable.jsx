@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -42,7 +40,7 @@ const CompetencyTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch]);
+  }, [axios, dispatch]);
 
   useEffect(() => {
     getCompetencies();
@@ -96,18 +94,11 @@ const CompetencyTable = ({ intl }) => {
     getCompetencies();
   };
 
-  // Helper function to rowSelection
-  // Consult: function taken from Ant Design table components (updated to functional)
-  const onSelectChange = (selectedRowKeys) => {
-    // Can access the keys of each competency selected in the table
-    setSelectedRowKeys(selectedRowKeys);
-  };
-
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
-    onChange: (selectedRowKeys) => {
-      onSelectChange(selectedRowKeys);
+    onChange: (_selectedRowKeys) => {
+      setSelectedRowKeys(_selectedRowKeys);
     },
   };
 

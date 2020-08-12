@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -37,7 +36,7 @@ const EmploymentDataForm = ({ formType }) => {
     const result = await axios.get(`api/option/tenures?language=${locale}`);
 
     setSubstantiveOptions(result.data);
-  }, [locale]);
+  }, [axios, locale]);
 
   // Get classification options
   const getClassificationOptions = useCallback(async () => {
@@ -46,7 +45,7 @@ const EmploymentDataForm = ({ formType }) => {
     );
 
     setClassificationOptions(result.data);
-  }, [locale]);
+  }, [axios, locale]);
 
   // Get security options
   const getSecurityOptions = useCallback(async () => {
@@ -55,7 +54,7 @@ const EmploymentDataForm = ({ formType }) => {
     );
 
     setSecurityOptions(result.data);
-  }, [locale]);
+  }, [axios, locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
@@ -68,7 +67,7 @@ const EmploymentDataForm = ({ formType }) => {
     if (result.data.description) {
       setCharsLeft(1000 - result.data.description.length);
     }
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {

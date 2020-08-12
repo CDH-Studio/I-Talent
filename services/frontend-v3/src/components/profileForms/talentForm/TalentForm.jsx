@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -36,7 +35,7 @@ const TalentForm = ({ formType }) => {
       `api/profile/private/${id}?language=${locale}`
     );
     setProfileInfo(result.data);
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
   /**
    * Get all competency options
@@ -49,7 +48,7 @@ const TalentForm = ({ formType }) => {
     );
 
     setCompetencyOptions(result.data);
-  }, [locale]);
+  }, [axios, locale]);
 
   /**
    * Get all skill options
@@ -84,7 +83,7 @@ const TalentForm = ({ formType }) => {
     });
 
     setSkillOptions(dataTree);
-  }, [locale]);
+  }, [axios, locale]);
 
   /**
    * Get saved competencies
@@ -122,15 +121,15 @@ const TalentForm = ({ formType }) => {
    *
    * get the default selected form tab based on url query params
    */
-  const getDefaultFormTab = () => {
+  const getDefaultFormTab = useCallback(() => {
     const searchParams = new URLSearchParams(location.search);
     setCurrentTab(searchParams.get("tab"));
-  };
+  }, [location.search]);
 
   // useEffect when url path is updated
   useEffect(() => {
     getDefaultFormTab();
-  }, [location]);
+  }, [getDefaultFormTab, location]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
