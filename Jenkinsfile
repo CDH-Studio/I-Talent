@@ -20,7 +20,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-			    dir(BACKEND_DIR) {
+			    dir("${BACKEND_DIR}") {
                     script {
                         sh"""
                             ls -la
