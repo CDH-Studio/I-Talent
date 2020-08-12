@@ -721,11 +721,12 @@ const EmploymentDataFormView = ({
               <DescriptionFormItem
                 name="description"
                 fieldKey="description"
-                rule={Rules.maxChar1000}
-                value={profileInfo.description}
+                rules={[Rules.maxChar1000]}
+                maxLength={1000}
                 maxLengthMessage={
                   <FormattedMessage id="profile.rules.max.1000" />
                 }
+                value={profileInfo.description}
               />
             </Col>
           </Row>

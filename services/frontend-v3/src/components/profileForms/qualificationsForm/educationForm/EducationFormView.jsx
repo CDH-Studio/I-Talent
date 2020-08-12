@@ -258,15 +258,16 @@ const EducationFormView = ({
       </Col>
       <Col className="gutter-row" span={24}>
         <DescriptionFormItem
+          label={<FormattedMessage id="profile.qualification.description" />}
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          rule={Rules.maxChar1500}
+          rules={[Rules.maxChar1500]}
+          maxLength={1500}
+          maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
           value={
             profileInfo.educations[field.fieldKey] &&
             profileInfo.educations[field.fieldKey].description
           }
-          label={<FormattedMessage id="profile.qualification.description" />}
-          maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>
     </Row>

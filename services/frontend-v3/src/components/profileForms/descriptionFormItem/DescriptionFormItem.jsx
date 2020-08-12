@@ -4,48 +4,50 @@ import PropTypes from "prop-types";
 import DescriptionFormItemView from "./DescriptionFormItemView";
 
 const DescriptionFormItem = ({
+  label,
   name,
   fieldKey,
-  rule,
+  rules,
+  maxLength,
   maxLengthMessage,
   value,
-  label,
 }) => {
   const [charsLeft, setCharsLeft] = useState(
-    value ? rule.max - value.length : rule.max
+    value ? maxLength - value.length : maxLength
   );
 
   const handleDescriptionChange = (e) => {
-    setCharsLeft(rule.max - e.currentTarget.value.length);
+    setCharsLeft(maxLength - e.currentTarget.value.length);
   };
 
   return (
     <DescriptionFormItemView
+      label={label}
       name={name}
       fieldKey={fieldKey}
-      rule={rule}
+      rules={rules}
       maxLengthMessage={maxLengthMessage}
       value={value}
       charsLeft={charsLeft}
       handleDescriptionChange={handleDescriptionChange}
-      label={label}
     />
   );
 };
 
 DescriptionFormItem.propTypes = {
+  label: PropTypes.element,
   name: PropTypes.string.isRequired,
   fieldKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
-  rule: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
-    .isRequired,
-  value: PropTypes.string,
-  label: PropTypes.element,
+  rules: PropTypes.arrayOf(PropTypes.object).isRequired,
+  maxLength: PropTypes.number,
   maxLengthMessage: PropTypes.element.isRequired,
+  value: PropTypes.string,
 };
 
 DescriptionFormItem.defaultProps = {
   value: undefined,
   label: null,
+  maxLength: 1000,
 };
 
 export default DescriptionFormItem;
