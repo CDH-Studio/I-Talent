@@ -22,6 +22,9 @@ pipeline {
             steps {
 			    dir(BACKEND_DIR) {
                     script {
+                        sh"""
+                            ls -la
+                        """
                         builder.buildApp(BACKEND_IMAGE_NAME)
                     }
                 }
