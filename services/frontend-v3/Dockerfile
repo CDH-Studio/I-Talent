@@ -6,10 +6,6 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
 
-# Make group permissions equal to the owner user permissions
-RUN chgrp -R 0 /upskill-frontend && \ 
-  chmod -R g=u /upskill-frontend
-
 # Copy scripts and make runable
 COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh
@@ -22,6 +18,15 @@ RUN ./scripts/install.sh
 
 # Copy app
 COPY . .
+
+# Make group permissions equal to the owner user permissions
+RUN chgrp -R 0 /upskill-frontend/src && \ 
+  chmod -R g=u /upskill-frontend/src
+
+# Fix yarn cache permissions
+RUN mkdir -p /.cache/yarn
+RUN chgrp -R 0 /.cache/yarn && \ 
+  chmod -R g=u /.cache/yarn
 
 # Runs start script
 CMD ./scripts/start.sh
