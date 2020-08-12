@@ -36,6 +36,7 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import filterOption from "../../../functions/filterSelectInput";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -536,9 +537,9 @@ const PersonalGrowthFormView = ({
                   >
                     <Select
                       showSearch
-                      optionFilterProp="children"
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
+                      filterOption={filterOption}
                     >
                       {interestedInRemoteOptions.map(({ key, value, text }) => (
                         <Option key={key} value={value}>
@@ -564,7 +565,7 @@ const PersonalGrowthFormView = ({
                       mode="multiple"
                       style={{ width: "100%" }}
                       placeholder={<FormattedMessage id="setup.select" />}
-                      optionFilterProp="children"
+                      filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => {
                         return (
@@ -590,9 +591,9 @@ const PersonalGrowthFormView = ({
                   >
                     <Select
                       showSearch
-                      optionFilterProp="children"
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
+                      filterOption={filterOption}
                     >
                       {lookingForNewJobOptions.map((value) => {
                         return (
@@ -656,9 +657,9 @@ const PersonalGrowthFormView = ({
                   >
                     <Select
                       showSearch
-                      optionFilterProp="children"
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
+                      filterOption={filterOption}
                     >
                       {careerMobilityOptions.map((value) => {
                         return (
@@ -681,9 +682,9 @@ const PersonalGrowthFormView = ({
                   >
                     <Select
                       showSearch
-                      optionFilterProp="children"
                       placeholder={<FormattedMessage id="setup.select" />}
                       allowClear
+                      filterOption={filterOption}
                     >
                       {talentMatrixResultOptions.map((value) => {
                         return (

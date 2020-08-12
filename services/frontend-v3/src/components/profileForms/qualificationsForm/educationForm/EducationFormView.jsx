@@ -25,6 +25,7 @@ import {
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import filterOption from "../../../../functions/filterSelectInput";
 
 import "./EducationFormView.scss";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
@@ -170,9 +171,9 @@ const EducationFormView = ({
         >
           <Select
             showSearch
-            optionFilterProp="children"
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
+            filterOption={filterOption}
           >
             {diplomaOptions.map((value) => {
               return <Option key={value.id}>{value.description}</Option>;
@@ -191,9 +192,9 @@ const EducationFormView = ({
         >
           <Select
             showSearch
-            optionFilterProp="children"
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
+            filterOption={filterOption}
           >
             {schoolOptions.map((value) => {
               return <Option key={value.id}>{value.name}</Option>;

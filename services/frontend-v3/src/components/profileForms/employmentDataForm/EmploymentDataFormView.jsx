@@ -37,8 +37,8 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-
 import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
+import filterOption from "../../../functions/filterSelectInput";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -372,13 +372,9 @@ const EmploymentDataFormView = ({
             >
               <Select
                 showSearch
-                optionFilterProp="children"
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+                filterOption={filterOption}
               >
                 {classificationOptions.map((value) => {
                   return <Option key={value.id}>{value.name}</Option>;
@@ -614,14 +610,9 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {substantiveOptions.map((value) => {
                     return <Option key={value.id}>{value.name}</Option>;
@@ -638,14 +629,9 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {classificationOptions.map((value) => {
                     return <Option key={value.id}>{value.name}</Option>;
@@ -664,14 +650,9 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {securityOptions.map((value) => {
                     return <Option key={value.id}>{value.description}</Option>;
