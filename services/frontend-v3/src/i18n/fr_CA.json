@@ -174,6 +174,7 @@
   "profile.diploma": "Diplôme",
   "profile.edit": "Modifier",
   "profile.edit.save.error": "Données non enregistrées",
+  "profile.edit.save.error.intro": "Les éléments suivants nécessitent votre attention:",
   "profile.edit.save.problem": "Il peut y avoir un problème",
   "profile.edit.save.success": "Changements sauvegardés",
   "profile.education": "Éducation",

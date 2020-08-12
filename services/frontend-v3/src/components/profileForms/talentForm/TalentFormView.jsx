@@ -136,11 +136,8 @@ const TalentFormView = ({
   const Rules = {
     required: {
       required: true,
+      message: <FormattedMessage id="profile.rules.required" />,
     },
-  };
-
-  const validateMessages = {
-    required: "'${label}' is required!",
   };
 
   /*
@@ -149,6 +146,7 @@ const TalentFormView = ({
    * toggle state that controls mentorship form visibility
    */
   const toggleMentorshipForm = () => {
+    findErrorTabs();
     setDisplayMentorshipForm((prev) => !prev);
   };
 
@@ -242,7 +240,15 @@ const TalentFormView = ({
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
-  /* save and show success notification */
+  const onFieldsChange = () => {
+    findErrorTabs();
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -258,15 +264,14 @@ const TalentFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
-          findErrorTabs();
         }
       });
   };
 
   /*
-   * save and next
+   * Save and next
    *
    * save and redirect to next step in setup
    */
@@ -284,20 +289,23 @@ const TalentFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
-          findErrorTabs();
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
   /*
-   * save and finish
+   * Save and finish
    *
    * Save form data and redirect home
    */
@@ -314,16 +322,15 @@ const TalentFormView = ({
           onFinish();
         }
       })
-      .catch((error) => {
+      .catch(async (error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
-          findErrorTabs();
         }
       });
   };
@@ -338,7 +345,6 @@ const TalentFormView = ({
     form.resetFields();
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    //message.info(intl.formatMessage({ id: "profile.form.clear" }));
     notification.info({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
@@ -351,17 +357,25 @@ const TalentFormView = ({
    *
    * Print out list of validation errors in a list for notification
    */
-  const getAllValidationErrors = () => {
-    const errors = form.getFieldsError();
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    let messages = [];
+    if (formsWithErrorsList["mentorship"]) {
+      messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
+    }
+    if (formsWithErrorsList["skills"]) {
+      messages.push(intl.formatMessage({ id: "profile.skills" }));
+    }
+    if (formsWithErrorsList["competencies"]) {
+      messages.push(intl.formatMessage({ id: "profile.competencies" }));
+    }
     return (
       <div>
-        <strong>Following issues found:</strong>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
         <ul>
-          {errors.map((value) => {
-            if (value.errors.length > 0) {
-              return <li key={value.name}>{value.errors[0]}</li>;
-            }
-            return false;
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
           })}
         </ul>
       </div>
@@ -377,17 +391,16 @@ const TalentFormView = ({
     const errors = form.getFieldsError();
     let errorArray = [];
     // loop through errors to see where each error belongs
-    errors.map((value) => {
-      if (String(value.name).includes("mentor") && value.errors.length > 0) {
-        errorArray["mentorship"] = true;
-      } else if (String(value.name) === "skills" && value.errors.length > 0) {
-        errorArray["skills"] = true;
-      }
-      return false;
+    errors.forEach((value) => {
+      errorArray["mentorship"] =
+        String(value.name).includes("mentor") && value.errors.length > 0;
+      errorArray["skills"] =
+        String(value.name) === "skills" && value.errors.length > 0;
     });
 
     // save results to state
     setTabErrorsBool(errorArray);
+    return errorArray;
   };
 
   /*
@@ -728,7 +741,7 @@ const TalentFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
-          validateMessages={validateMessages}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
