@@ -27,6 +27,7 @@ import _ from "lodash";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
+import filterOption from "../../../functions/filterSelectInput";
 
 /**
  *  SkillTableView(props)
@@ -299,10 +300,7 @@ const SkillTableView = ({
               })} ${intl.formatMessage({
                 id: "admin.category",
               })}`}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              filterOption={filterOption}
             >
               {categories.data.map((category) => {
                 return (
@@ -473,10 +471,7 @@ const SkillTableView = ({
               })} ${intl.formatMessage({
                 id: "admin.category",
               })}`}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              filterOption={filterOption}
             >
               {categories.data.map((category) => {
                 return (

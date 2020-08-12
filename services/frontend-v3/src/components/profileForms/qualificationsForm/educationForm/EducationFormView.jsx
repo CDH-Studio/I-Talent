@@ -25,6 +25,7 @@ import {
   StylesPropType,
   IntlPropType,
 } from "../../../../utils/customPropTypes";
+import filterOption from "../../../../functions/filterSelectInput";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -178,9 +179,9 @@ const EducationFormView = ({
         >
           <Select
             showSearch
-            optionFilterProp="children"
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
+            filterOption={filterOption}
           >
             {diplomaOptions.map((value) => {
               return <Option key={value.id}>{value.description}</Option>;
@@ -199,9 +200,9 @@ const EducationFormView = ({
         >
           <Select
             showSearch
-            optionFilterProp="children"
             placeholder={<FormattedMessage id="setup.select" />}
             allowClear
+            filterOption={filterOption}
           >
             {schoolOptions.map((value) => {
               return <Option key={value.id}>{value.name}</Option>;

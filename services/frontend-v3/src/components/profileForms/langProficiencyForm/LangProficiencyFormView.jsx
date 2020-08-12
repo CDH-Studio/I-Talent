@@ -37,6 +37,7 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import filterOption from "../../../functions/filterSelectInput";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -473,14 +474,9 @@ const LangProficiencyFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {proficiencyOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
@@ -522,14 +518,9 @@ const LangProficiencyFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {proficiencyOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
@@ -571,14 +562,9 @@ const LangProficiencyFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {proficiencyOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
@@ -697,14 +683,9 @@ const LangProficiencyFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {languageOptions.map((value) => {
                     return <Option key={value.key}>{value.text}</Option>;
