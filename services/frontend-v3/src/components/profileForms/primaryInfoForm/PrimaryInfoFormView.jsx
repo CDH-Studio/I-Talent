@@ -39,6 +39,7 @@ import {
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import filterOption from "../../../functions/filterSelectInput";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -727,15 +728,9 @@ const PrimaryInfoFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .join("")
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {locationOptions.map((value) => {
                     return (

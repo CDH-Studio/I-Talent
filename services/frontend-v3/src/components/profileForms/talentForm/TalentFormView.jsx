@@ -33,6 +33,7 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import filterOption from "../../../functions/filterSelectInput";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -707,9 +708,9 @@ const TalentFormView = ({
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
-                      optionFilterProp="children"
                       placeholder={<FormattedMessage id="setup.select" />}
                       style={{ width: "100%" }}
+                      filterOption={filterOption}
                     >
                       {competencyOptions.map((value) => {
                         return <Option key={value.id}>{value.name}</Option>;
