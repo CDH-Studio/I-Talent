@@ -160,7 +160,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "jobTitle"]}
           fieldKey={[field.fieldKey, "jobTitle"]}
-          label={`Experience ${  field.name + 1  } Title`}
+          label={<FormattedMessage id="admin.job.title" />}
           style={style.formItem}
           rules={[Rules.required, Rules.maxChar60]}
         >
@@ -173,7 +173,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "organization"]}
           fieldKey={[field.fieldKey, "organization"]}
-          label={`Experience ${  field.name + 1  } Company`}
+          label={<FormattedMessage id="profile.career.subheader.name" />}
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -185,7 +185,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "startDate"]}
           fieldKey={[field.fieldKey, "startDate"]}
-          label={`Experience ${  field.name + 1  } Start Date`}
+          label={<FormattedMessage id="profile.history.item.start.date" />}
           rules={[Rules.required]}
         >
           <DatePicker
@@ -204,7 +204,7 @@ const ExperienceFormView = ({
         <Form.Item
           name={[field.name, "endDate"]}
           fieldKey={[field.fieldKey, "endDate"]}
-          label={`Experience ${  field.name + 1  } End Date`}
+          label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
           {!disableEndDate && (
@@ -232,7 +232,7 @@ const ExperienceFormView = ({
         <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          label={`Experience ${  field.name + 1  } Description`}
+          label={<FormattedMessage id="profile.qualification.description" />}
           rules={[Rules.maxChar1500]}
           value={
             profileInfo.experiences[field.fieldKey] &&

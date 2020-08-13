@@ -531,7 +531,7 @@ const TalentFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="mentorshipSkills"
-                label="Mentorship Skills"
+                label={<FormattedMessage id="profile.mentorship.skills" />}
                 rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0 ? (
@@ -816,7 +816,10 @@ const TalentFormView = ({
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   {getSectionHeader("setup.competencies", "competencies")}
-                  <Form.Item name="competencies" label="Competencies">
+                  <Form.Item
+                    name="competencies"
+                    label={<FormattedMessage id="setup.competencies" />}
+                  >
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
