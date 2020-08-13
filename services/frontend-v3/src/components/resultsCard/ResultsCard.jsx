@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
-import { map } from "lodash-es";
+import { map } from "lodash";
 import useAxios from "../../utils/axios-instance";
 
 import ResultsCardView from "./ResultsCardView";

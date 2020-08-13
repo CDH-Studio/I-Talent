@@ -14,7 +14,7 @@ import {
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy, size, filter } from "lodash-es";
+import { isEqual, identity, pickBy, size, filter } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";

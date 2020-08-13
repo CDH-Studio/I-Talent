@@ -22,7 +22,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash-es";
+import { sortBy } from "lodash";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";

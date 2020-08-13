@@ -23,7 +23,7 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy, find } from "lodash-es";
+import { isEqual, identity, pickBy, find } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";

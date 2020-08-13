@@ -23,7 +23,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
-import { isEqual, identity, pickBy } from "lodash-es";
+import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -262,7 +262,7 @@ const EmploymentDataFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);

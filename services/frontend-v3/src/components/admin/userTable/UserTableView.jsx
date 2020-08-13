@@ -22,7 +22,7 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { uniq } from "lodash-es";
+import { uniq } from "lodash";
 import { Link } from "react-router-dom";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";

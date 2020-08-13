@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { isEqual, isNil, pickBy, omitBy, identity } from "lodash-es";
+import { isEqual, isNil, pickBy, omitBy, identity } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";

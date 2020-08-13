@@ -16,7 +16,7 @@
     "keycloak-js": "^10.0.1",
     "less": "^3.12.2",
     "less-loader": "^5.0.0",
-    "lodash-es": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
@@ -66,7 +66,7 @@
   "devDependencies": {
     "@testing-library/react": "^10.4.7",
     "@testing-library/user-event": "12.0.11",
-    "eslint": "6.8.0",
+    "eslint": "7.6.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -74,7 +74,7 @@
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.8",
     "prettier": "^2.0.5"
   }

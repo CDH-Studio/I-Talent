@@ -21,7 +21,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
-import { pickBy, identity, isEqual } from "lodash-es";
+import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
