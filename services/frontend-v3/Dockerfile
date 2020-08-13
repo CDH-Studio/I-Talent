@@ -13,6 +13,9 @@ RUN chmod +x ./scripts/*.sh
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
+# Create buld folder
+RUN mkdir ./build
+
 # Make group permissions equal to the owner user permissions
 RUN chgrp -R 0 /upskill-frontend && \ 
   chmod -R g=u /upskill-frontend
