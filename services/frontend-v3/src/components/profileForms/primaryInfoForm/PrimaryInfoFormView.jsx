@@ -21,6 +21,7 @@ import {
   CheckOutlined,
   LoadingOutlined,
   InfoCircleOutlined,
+  SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { isEqual, identity, pickBy, find } from "lodash";
@@ -28,7 +29,6 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/axios-instance";
 import {
   IdDescriptionPropType,
@@ -345,17 +345,18 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
-            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </Button>
             <Popover
               trigger="click"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
-                  <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                  >
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </Link>
+                  </a>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -371,16 +372,23 @@ const PrimaryInfoFormView = ({
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
           <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-            <FormattedMessage id="profile.geds.sync.button" />
+            <SyncOutlined />
+            <span>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </span>
           </Button>
           <Popover
             trigger="click"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
-                <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                >
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </Link>
+                </a>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }
