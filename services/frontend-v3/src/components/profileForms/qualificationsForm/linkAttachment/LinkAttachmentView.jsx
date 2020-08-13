@@ -31,7 +31,7 @@ const Rules = {
   },
 };
 const LinkAttachmentView = ({
-  form,
+  formElement,
   fieldElement,
   removeElement,
   profileInfo,
@@ -52,21 +52,31 @@ const LinkAttachmentView = ({
 
   return (
     <Row span={24}>
-      <Col className="gutter-row" span={18}>
-        <Form.Item name="website" className="formItem" rules={[Rules.required]}>
-          <Input placeholder="Attachment URL - ex. www.google.com" />
-        </Form.Item>
-      </Col>
       <Col className="gutter-row" span={5}>
-        <Form.Item rules={[Rules.required]} className="formItem">
+        <Form.Item
+          rules={[Rules.required]}
+          className="formItem"
+          name={[fieldElement.name, "nameId"]}
+          fieldKey={[fieldElement.fieldKey, "nameId"]}
+        >
           <Select
             optionFilterProp="children"
-            placeholder={<FormattedMessage id="setup.select" />}
+            placeholder={<FormattedMessage id="admin.select" />}
           >
             {NameOptions.map((value) => {
               return <Option key={value.id}>{value.name}</Option>;
             })}
           </Select>
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" span={18}>
+        <Form.Item
+          name={[fieldElement.name, "attachmentURL"]}
+          fieldKey={[fieldElement.fieldKey, "attachmentURL"]}
+          className="formItem"
+          rules={[Rules.required]}
+        >
+          <Input placeholder="Attachment URL - ex. www.google.com" />
         </Form.Item>
       </Col>
       <Col className="gutter-row" span={1}>

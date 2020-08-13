@@ -147,6 +147,21 @@ async function getFullProfile(id, language) {
               },
             },
           },
+          attachmentLinks: {
+            select: {
+              id: true,
+              translations: {
+                where: {
+                  language,
+                },
+                select: {
+                  name: true,
+                  nameId: true,
+                  url: true,
+                },
+              },
+            },
+          },
         },
       },
       relocationLocations: {
@@ -182,6 +197,19 @@ async function getFullProfile(id, language) {
               description: true,
               jobTitle: true,
               organization: true,
+            },
+          },
+          attachmentLinks: {
+            select: {
+              id: true,
+              translations: {
+                where: { language },
+                select: {
+                  name: true,
+                  nameId: true,
+                  url: true,
+                },
+              },
             },
           },
         },

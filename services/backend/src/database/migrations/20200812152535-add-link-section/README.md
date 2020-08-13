@@ -1,6 +1,6 @@
-# Migration `20200812132856-add-link-section`
+# Migration `20200812152535-add-link-section`
 
-This migration has been generated at 8/12/2020, 9:28:56 AM.
+This migration has been generated at 8/12/2020, 11:25:35 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -26,6 +26,7 @@ CREATE TABLE "public"."TransAttachmentLink" (
 "id" text  NOT NULL ,
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,
 "updatedAt" timestamp(3)  NOT NULL ,
+"language" "Language" NOT NULL ,
 "nameId" text  NOT NULL ,
 "url" text  NOT NULL ,
 "attachmentLinkId" text   ,
@@ -54,7 +55,7 @@ ALTER TABLE "public"."AttachmentLink" ADD FOREIGN KEY ("educationId")REFERENCES 
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200810152146-optional-interested-in-remote..20200812132856-add-link-section
+migration 20200810152146-optional-interested-in-remote..20200812152535-add-link-section
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -130,7 +131,7 @@ migration 20200810152146-optional-interested-in-remote..20200812132856-add-link-
  }
  model RelocationLocation {
    id         String           @default(uuid()) @id
-@@ -462,8 +466,52 @@
+@@ -462,8 +466,53 @@
    @@unique([userId, locationId])
  }
 +model OpTransAttachmentLinkName {
@@ -157,9 +158,9 @@ migration 20200810152146-optional-interested-in-remote..20200812132856-add-link-
 +  id        String   @default(uuid()) @id
 +  createdAt DateTime @default(now())
 +  updatedAt DateTime @updatedAt
-+
-+  nameId String
-+  url    String
++  language  Language
++  nameId    String
++  url       String
 +
 +  name             OpAttachmentLinkName @relation(fields: [nameId])
 +  AttachmentLink   AttachmentLink?      @relation(fields: [attachmentLinkId], references: [id])
@@ -171,9 +172,10 @@ migration 20200810152146-optional-interested-in-remote..20200812132856-add-link-
 +  createdAt    DateTime              @default(now())
 +  updatedAt    DateTime              @updatedAt
 +  translations TransAttachmentLink[]
-+  Experience   Experience?           @relation(fields: [experienceId], references: [id])
++
++  Experience   Experience? @relation(fields: [experienceId], references: [id])
 +  experienceId String?
-+  Education    Education?            @relation(fields: [educationId], references: [id])
++  Education    Education?  @relation(fields: [educationId], references: [id])
 +  educationId  String?
 +}
 +
@@ -181,7 +183,7 @@ migration 20200810152146-optional-interested-in-remote..20200812132856-add-link-
    id                   String                @default(uuid()) @id
    createdAt            DateTime              @default(now())
    updatedAt            DateTime              @updatedAt
-@@ -484,8 +532,9 @@
+@@ -484,8 +533,9 @@
    email                String?
    telephone            String?
    cellphone            String?
@@ -191,7 +193,7 @@ migration 20200810152146-optional-interested-in-remote..20200812132856-add-link-
    secondLanguage       Language?
    preferredLanguage    Language              @default(ENGLISH)
    actingStartDate      DateTime?
-@@ -517,8 +566,8 @@
+@@ -517,8 +567,8 @@
    organizations        Organization[]
    educations           Education[]
    experiences          Experience[]

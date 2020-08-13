@@ -58,16 +58,6 @@ const QualificationsFormView = ({
   const [initialValues, setInitialValues] = useState(null);
   const dispatch = useDispatch();
 
-  /*
-   * save data to DB
-   *
-   * update profile in DB or create profile if it is not found
-   */
-  const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
-  };
-
   /* show message */
   const openNotificationWithIcon = (type) => {
     switch (type) {
@@ -408,6 +398,7 @@ const QualificationsFormView = ({
                             {/* add education field button */}
                             <Button
                               type="dashed"
+                              disabled={fields.length === 3}
                               onClick={() => {
                                 add();
                               }}
@@ -456,6 +447,7 @@ const QualificationsFormView = ({
                             {/* add education field button */}
                             <Button
                               type="dashed"
+                              disabled={fields.length === 3}
                               onClick={() => {
                                 add();
                               }}

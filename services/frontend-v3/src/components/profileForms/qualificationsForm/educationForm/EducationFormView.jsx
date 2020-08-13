@@ -51,7 +51,6 @@ const EducationFormView = ({
   attachmentNamesTypeEduOptions,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
-  const [form] = Form.useForm();
 
   const Rules = {
     required: {
@@ -269,7 +268,7 @@ const EducationFormView = ({
                 {fields.map((field) => (
                   <LinkAttachment
                     key={field.fieldKey}
-                    formElement={form}
+                    formElement={formElement}
                     fieldElement={field}
                     removeElement={remove}
                     profileInfo={profileInfo}
@@ -282,10 +281,11 @@ const EducationFormView = ({
                     onClick={() => {
                       add();
                     }}
+                    disabled={fields.length === 3}
                     style={{ width: "100%" }}
                   >
                     <PlusOutlined />
-                    <FormattedMessage id="setup.add.item" />
+                    <FormattedMessage id="setup.add.attachment" />
                   </Button>
                 </Form.Item>
               </div>

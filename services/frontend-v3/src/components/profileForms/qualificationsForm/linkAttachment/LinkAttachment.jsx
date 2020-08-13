@@ -17,7 +17,7 @@ const LinkAttachment = ({
 }) => {
   return (
     <LinkAttachmentView
-      form={formElement}
+      formElement={formElement}
       fieldElement={fieldElement}
       removeElement={removeElement}
       profileInfo={profileInfo}

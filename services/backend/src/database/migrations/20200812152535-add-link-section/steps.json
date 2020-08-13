@@ -383,6 +383,13 @@
     {
       "tag": "CreateField",
       "model": "TransAttachmentLink",
+      "field": "language",
+      "type": "Language",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
       "field": "nameId",
       "type": "String",
       "arity": "Required"

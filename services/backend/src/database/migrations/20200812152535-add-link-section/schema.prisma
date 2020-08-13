@@ -491,9 +491,9 @@ model TransAttachmentLink {
   id        String   @default(uuid()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  nameId String
-  url    String
+  language  Language
+  nameId    String
+  url       String
 
   name             OpAttachmentLinkName @relation(fields: [nameId])
   AttachmentLink   AttachmentLink?      @relation(fields: [attachmentLinkId], references: [id])
@@ -505,9 +505,10 @@ model AttachmentLink {
   createdAt    DateTime              @default(now())
   updatedAt    DateTime              @updatedAt
   translations TransAttachmentLink[]
-  Experience   Experience?           @relation(fields: [experienceId], references: [id])
+
+  Experience   Experience? @relation(fields: [experienceId], references: [id])
   experienceId String?
-  Education    Education?            @relation(fields: [educationId], references: [id])
+  Education    Education?  @relation(fields: [educationId], references: [id])
   educationId  String?
 }
 

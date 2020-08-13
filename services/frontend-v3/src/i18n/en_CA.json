@@ -352,5 +352,6 @@
   "sign.out": "Logout",
   "stats.title": "Statistics",
   "stats.view": "View stats",
-  "tooltip.extra.info.help": "For more information, visit our help and contact page: "
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
+  "setup.add.attachment": "Add attachment"
 }

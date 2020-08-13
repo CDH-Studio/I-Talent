@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
@@ -14,13 +13,11 @@ import QualificationsFormView from "./QualificationsFormView";
  *  It gathers the required data for rendering the component
  */
 const QualificationsForm = ({ formType }) => {
-  // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [diplomas, setDiplomas] = useState(null);
   const [schools, setSchools] = useState(null);
   const [attachmentNamesEdu, setAttachmentNamesEdu] = useState(null);
   const [attachmentNamesExp, setAttachmentNamesExp] = useState(null);
-
   const [load, setLoad] = useState(false);
   const [currentTab, setCurrentTab] = useState(null);
   const [savedEducation, setSavedEducation] = useState();
@@ -36,115 +33,83 @@ const QualificationsForm = ({ formType }) => {
 
   const getBackendInfo = useCallback(async () => {
     try {
-      const [
-        profileQuery,
-        diplomasQuery,
-        schoolsQuery,
-        attachmentNamesEduQuery,
-        attachmentNamesExpQuery,
-      ] = await Promise.all([
+      return await Promise.all([
         axios.get(`api/profile/private/${id}?language=${locale}`),
         axios.get(`api/option/diplomas?language=${locale}`),
         axios.get(`api/option/schools?language=${locale}`),
         axios.get(`api/option/attachmentNames?language=${locale}&type=Edu`),
         axios.get(`api/option/attachmentNames?language=${locale}&type=Exp`),
       ]);
-      setProfileInfo(profileQuery.data);
-      setDiplomas(diplomasQuery.data);
-      setSchools(schoolsQuery.data);
-      setAttachmentNamesEdu(attachmentNamesEduQuery.data);
-      setAttachmentNamesExp(attachmentNamesExpQuery.data);
-      setLoad(true);
     } catch (error) {
       setLoad(false);
       throw error;
     }
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
-  /*
-   * save data to DB
-   *
-   * update profile in DB or create profile if it is not found
-   */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    await axios.put(`profile/${id}?language=${locale}`, values);
+    await axios.put(`api/profile/${id}?language=${locale}`, values);
   };
 
-  /**
-   * Get Saved Education Information
-   *
-   * get saved education items
-   */
-  const getSavedEducation = () => {
-    // Generate an array of education items
-    const educations = profileInfo.educations.map((i) => ({
+  const getSavedEducation = useCallback(async (info) => {
+    const educations = info.educations.map((i) => ({
       schoolId: i.school.id,
       diplomaId: i.diploma.id,
       startDate: i.startDate ? moment(i.startDate) : undefined,
       endDate: i.endDate ? moment(i.endDate) : undefined,
       description: i.description,
     }));
-
     setSavedEducation(educations);
-  };
+  }, []);
 
-  /**
-   * Get Saved Experience Information
-   *
-   * get saved experience items
-   */
-  const getSavedExperience = () => {
-    // Generate an array of education items
-    const selected = profileInfo.experiences.map((i) => ({
+  const getSavedExperience = useCallback(async (info) => {
+    const selected = info.experiences.map((i) => ({
       jobTitle: i.jobTitle,
       organization: i.organization,
       description: i.description,
       startDate: i.startDate ? moment(i.startDate) : undefined,
       endDate: i.endDate ? moment(i.endDate) : undefined,
     }));
-
     setSavedExperience(selected);
-  };
+  }, []);
 
-  /**
-   * Get Saved Projects
-   *
-   * get saved projects
-   */
-  const getSavedProjects = () => {
-    setSavedProjects(profileInfo.projects);
-  };
+  const getSavedProjects = useCallback(async (info) => {
+    setSavedProjects(info.projects);
+  }, []);
 
-  /**
-   * Get default form tab
-   *
-   * get the default selected form tab based on url query params
-   */
-  const getDefaultFormTab = () => {
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setCurrentTab(searchParams.get("tab"));
-  };
-
-  // useEffect when url path is updated
-  useEffect(() => {
-    getDefaultFormTab();
-  }, [location]);
-
-  // useEffect when profileInfo changes (extracts info from the profileInfo object)
-  useEffect(() => {
-    if (profileInfo) {
-      getSavedEducation();
-      getSavedExperience();
-      getSavedProjects();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo]);
-
-  // useEffect to run once component is mounted
-  useEffect(() => {
-    getBackendInfo().catch((error) => handleError(error, "redirect"));
-  }, [getBackendInfo]);
+    getBackendInfo()
+      .then(
+        ([
+          profileQuery,
+          diplomasQuery,
+          schoolsQuery,
+          attachmentNamesEduQuery,
+          attachmentNamesExpQuery,
+        ]) => {
+          setProfileInfo(profileQuery.data);
+          setDiplomas(diplomasQuery.data);
+          setSchools(schoolsQuery.data);
+          setAttachmentNamesEdu(attachmentNamesEduQuery.data);
+          setAttachmentNamesExp(attachmentNamesExpQuery.data);
+          if (profileQuery.data) {
+            getSavedEducation(profileQuery.data);
+            getSavedExperience(profileQuery.data);
+            getSavedProjects(profileQuery.data);
+          }
+          setLoad(true);
+        }
+      )
+      .catch((error) => handleError(error, "redirect"));
+  }, [
+    getBackendInfo,
+    getSavedEducation,
+    getSavedExperience,
+    getSavedProjects,
+    location.search,
+  ]);
 
   return (
     <QualificationsFormView
