@@ -5,7 +5,7 @@ import {
   Typography,
   Row,
   Col,
-  message,
+  notification,
   Popover,
   Tooltip,
   Alert,
@@ -99,9 +99,13 @@ const ProfileLayoutView = ({
 
   useEffect(() => {
     if (savedFormContent === false) {
-      message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+      notification.error({
+        message: intl.formatMessage({ id: "profile.edit.save.error" }),
+      });
     } else if (savedFormContent === true) {
-      message.success(intl.formatMessage({ id: "profile.edit.save.success" }));
+      notification.success({
+        message: intl.formatMessage({ id: "profile.edit.save.success" }),
+      });
     }
 
     dispatch(setSavedFormContent(undefined));
