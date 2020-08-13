@@ -244,6 +244,29 @@ const TalentFormView = ({
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errors = form.getFieldsError();
+    let errorArray = [];
+    // loop through errors to see where each error belongs
+    errors.forEach((value) => {
+      errorArray["mentorship"] =
+        errorArray["mentorship"] ||
+        (String(value.name).includes("mentor") && value.errors.length > 0);
+      errorArray["skills"] =
+        errorArray["skills"] ||
+        (String(value.name).includes("skills") && value.errors.length > 0);
+    });
+
+    // save results to state
+    setTabErrorsBool(errorArray);
+    return errorArray;
+  };
+
   const onFieldsChange = () => {
     findErrorTabs();
   };
@@ -384,29 +407,6 @@ const TalentFormView = ({
         </ul>
       </div>
     );
-  };
-
-  /*
-   * Find Error Tabs
-   *
-   * Find all tabs that have validation errors
-   */
-  const findErrorTabs = () => {
-    const errors = form.getFieldsError();
-    let errorArray = [];
-    // loop through errors to see where each error belongs
-    errors.forEach((value) => {
-      errorArray["mentorship"] =
-        errorArray["mentorship"] ||
-        (String(value.name).includes("mentor") && value.errors.length > 0);
-      errorArray["skills"] =
-        errorArray["skills"] ||
-        (String(value.name).includes("skills") && value.errors.length > 0);
-    });
-
-    // save results to state
-    setTabErrorsBool(errorArray);
-    return errorArray;
   };
 
   /*

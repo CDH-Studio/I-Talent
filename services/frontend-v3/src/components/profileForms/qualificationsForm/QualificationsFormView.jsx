@@ -156,41 +156,6 @@ const QualificationsFormView = ({
   };
 
   /**
-   * Get the initial values for the form (once)
-   */
-  useEffect(() => {
-    if (
-      !initialValues &&
-      savedEducation &&
-      savedExperience &&
-      savedProjects &&
-      profileInfo
-    ) {
-      setInitialValues({
-        educations: savedEducation,
-        experiences: savedExperience,
-        projects: savedProjects,
-      });
-    }
-  }, [
-    savedEducation,
-    savedExperience,
-    savedProjects,
-    profileInfo,
-    initialValues,
-  ]);
-
-  /**
-   * Sets the value of the form according to the initial values (once, when the initial values are initially set)
-   */
-  useEffect(() => {
-    if (initialValues) {
-      form.resetFields();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValues]);
-
-  /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
    * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
@@ -234,6 +199,30 @@ const QualificationsFormView = ({
     }
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
+  };
+
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errors = form.getFieldsError();
+    let errorArray = [];
+
+    // loop through errors to see where each error belongs
+    errors.forEach((value) => {
+      errorArray["experience"] =
+        errorArray["experience"] ||
+        (String(value.name[0]).includes("exp") && value.errors.length > 0);
+      errorArray["education"] =
+        errorArray["education"] ||
+        (String(value.name[0]).includes("edu") && value.errors.length > 0);
+    });
+
+    // save results to state
+    setTabErrorsBool(errorArray);
+    return errorArray;
   };
 
   const onFieldsChange = () => {
@@ -342,30 +331,6 @@ const QualificationsFormView = ({
         </ul>
       </div>
     );
-  };
-
-  /*
-   * Find Error Tabs
-   *
-   * Find all tabs that have validation errors
-   */
-  const findErrorTabs = () => {
-    const errors = form.getFieldsError();
-    let errorArray = [];
-
-    // loop through errors to see where each error belongs
-    errors.forEach((value) => {
-      errorArray["experience"] =
-        errorArray["experience"] ||
-        (String(value.name[0]).includes("exp") && value.errors.length > 0);
-      errorArray["education"] =
-        errorArray["education"] ||
-        (String(value.name[0]).includes("edu") && value.errors.length > 0);
-    });
-
-    // save results to state
-    setTabErrorsBool(errorArray);
-    return errorArray;
   };
 
   /*
@@ -492,6 +457,41 @@ const QualificationsFormView = ({
       />
     </Row>
   );
+
+  /**
+   * Get the initial values for the form (once)
+   */
+  useEffect(() => {
+    if (
+      !initialValues &&
+      savedEducation &&
+      savedExperience &&
+      savedProjects &&
+      profileInfo
+    ) {
+      setInitialValues({
+        educations: savedEducation,
+        experiences: savedExperience,
+        projects: savedProjects,
+      });
+    }
+  }, [
+    savedEducation,
+    savedExperience,
+    savedProjects,
+    profileInfo,
+    initialValues,
+  ]);
+
+  /**
+   * Sets the value of the form according to the initial values (once, when the initial values are initially set)
+   */
+  useEffect(() => {
+    if (initialValues) {
+      form.resetFields();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues]);
 
   /** **********************************
    ********* Render Component *********

@@ -294,6 +294,26 @@ const LangProficiencyFormView = ({
   };
 
   /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">
+            {intl.formatMessage({ id: "setup.language.proficiency" })}
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
    * Save
    *
    * save and show success notification
@@ -398,26 +418,6 @@ const LangProficiencyFormView = ({
     const data = savedValues || getInitialValues(profileInfo);
     setDisplaySecondLangForm(data.oralProficiency);
     setFieldsChanged(false);
-  };
-
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = () => {
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">
-            {intl.formatMessage({ id: "setup.language.proficiency" })}
-          </li>
-        </ul>
-      </div>
-    );
   };
 
   // Updates the unsaved indicator based on the toggle and form values

@@ -248,6 +248,26 @@ const PrimaryInfoFormView = ({
   };
 
   /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">
+            {intl.formatMessage({ id: "setup.primary.information" })}
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
    * Save
    *
    * save and show success notification
@@ -374,26 +394,6 @@ const PrimaryInfoFormView = ({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
     checkIfFormValuesChanged();
-  };
-
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = () => {
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">
-            {intl.formatMessage({ id: "setup.primary.information" })}
-          </li>
-        </ul>
-      </div>
-    );
   };
 
   /* Generate form header based on form type */

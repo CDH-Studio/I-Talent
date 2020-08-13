@@ -257,6 +257,71 @@ const PersonalGrowthFormView = ({
     setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errors = form.getFieldsError();
+    let errorArray = [];
+    // loop through errors to see where each error belongs
+    // (this is not functional for this for since there are no current validations)
+    errors.forEach((value) => {
+      errorArray["learningDevelopment"] =
+        errorArray["learningDevelopment"] ||
+        (String(value.name).includes("learning") && value.errors.length > 0);
+      errorArray["careerInterests"] =
+        errorArray["careerInterests"] ||
+        (String(value.name).includes("career") && value.errors.length > 0);
+      errorArray["talentManagement"] =
+        errorArray["talentManagement"] ||
+        (String(value.name).includes("talent") && value.errors.length > 0);
+      errorArray["exFeeder"] =
+        errorArray["exFeeder"] ||
+        (String(value.name).includes("ex") && value.errors.length > 0);
+    });
+
+    // save results to state
+    setTabErrorsBool(errorArray);
+    return errorArray;
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    let messages = [];
+    if (formsWithErrorsList["learningDevelopment"]) {
+      messages.push(intl.formatMessage({ id: "profile.learning.development" }));
+    }
+    if (formsWithErrorsList["careerInterests"]) {
+      messages.push(intl.formatMessage({ id: "setup.career.interests" }));
+    }
+    if (formsWithErrorsList["talentManagement"]) {
+      messages.push(
+        intl.formatMessage({ id: "setup.talent.management.title" })
+      );
+    }
+    if (formsWithErrorsList["exFeeder"]) {
+      messages.push(intl.formatMessage({ id: "profile.ex.feeder.title" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  };
+
   const onFieldsChange = () => {
     findErrorTabs();
   };
@@ -363,71 +428,6 @@ const PersonalGrowthFormView = ({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
     checkIfFormValuesChanged();
-  };
-
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = (formsWithErrorsList) => {
-    let messages = [];
-    if (formsWithErrorsList["learningDevelopment"]) {
-      messages.push(intl.formatMessage({ id: "profile.learning.development" }));
-    }
-    if (formsWithErrorsList["careerInterests"]) {
-      messages.push(intl.formatMessage({ id: "setup.career.interests" }));
-    }
-    if (formsWithErrorsList["talentManagement"]) {
-      messages.push(
-        intl.formatMessage({ id: "setup.talent.management.title" })
-      );
-    }
-    if (formsWithErrorsList["exFeeder"]) {
-      messages.push(intl.formatMessage({ id: "profile.ex.feeder.title" }));
-    }
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          {messages.map((value) => {
-            return <li key={value}>{value}</li>;
-          })}
-        </ul>
-      </div>
-    );
-  };
-
-  /*
-   * Find Error Tabs
-   *
-   * Find all tabs that have validation errors
-   */
-  const findErrorTabs = () => {
-    const errors = form.getFieldsError();
-    let errorArray = [];
-    // loop through errors to see where each error belongs
-    // (this is not functional for this for since there are no current validations)
-    errors.forEach((value) => {
-      errorArray["learningDevelopment"] =
-        errorArray["learningDevelopment"] ||
-        (String(value.name).includes("learning") && value.errors.length > 0);
-      errorArray["careerInterests"] =
-        errorArray["careerInterests"] ||
-        (String(value.name).includes("career") && value.errors.length > 0);
-      errorArray["talentManagement"] =
-        errorArray["talentManagement"] ||
-        (String(value.name).includes("talent") && value.errors.length > 0);
-      errorArray["exFeeder"] =
-        errorArray["exFeeder"] ||
-        (String(value.name).includes("ex") && value.errors.length > 0);
-    });
-
-    // save results to state
-    setTabErrorsBool(errorArray);
-    return errorArray;
   };
 
   /*

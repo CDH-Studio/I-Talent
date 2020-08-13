@@ -297,6 +297,24 @@ const EmploymentDataFormView = ({
   };
 
   /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
    * Save
    *
    * save and show success notification
@@ -405,24 +423,6 @@ const EmploymentDataFormView = ({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
     updateIfFormValuesChanged();
-  };
-
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = () => {
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
-        </ul>
-      </div>
-    );
   };
 
   /* Get temporary role form based on if the form switch is toggled */
