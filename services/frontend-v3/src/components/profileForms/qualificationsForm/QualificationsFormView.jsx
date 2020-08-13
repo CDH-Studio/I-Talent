@@ -14,7 +14,7 @@ import {
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { isEqual, identity, pickBy, size, filter } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -124,7 +124,6 @@ const QualificationsFormView = ({
    */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
@@ -185,47 +184,44 @@ const QualificationsFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(savedValues || initialValues, _.identity);
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    const dbValues = pickBy(savedValues || initialValues, identity);
 
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
     if (formValues.educations) {
       formValues.educations = formValues.educations.map((i) =>
-        _.pickBy(i, _.identity)
+        pickBy(i, identity)
       );
 
-      formValues.educations = _.filter(formValues.educations, _.size);
+      formValues.educations = filter(formValues.educations, size);
     }
 
     if (formValues.experiences) {
       formValues.experiences = formValues.experiences.map((i) =>
-        _.pickBy(i, _.identity)
+        pickBy(i, identity)
       );
 
-      formValues.experiences = _.filter(formValues.experiences, _.size);
+      formValues.experiences = filter(formValues.experiences, size);
     }
 
     if (dbValues.educations) {
-      dbValues.educations = dbValues.educations.map((i) =>
-        _.pickBy(i, _.identity)
-      );
-
-      dbValues.educations = _.filter(dbValues.educations, _.size);
+      dbValues.educations = dbValues.educations.map((i) => pickBy(i, identity));
+      dbValues.educations = filter(dbValues.educations, size);
     }
 
     if (dbValues.experiences) {
       dbValues.experiences = dbValues.experiences.map((i) =>
-        _.pickBy(i, _.identity)
+        pickBy(i, identity)
       );
 
-      dbValues.experiences = _.filter(dbValues.experiences, _.size);
+      dbValues.experiences = filter(dbValues.experiences, size);
     }
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
   /*
