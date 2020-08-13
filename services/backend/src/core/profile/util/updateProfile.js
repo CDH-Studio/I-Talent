@@ -11,6 +11,15 @@ function normalizeDate(date, startOf) {
   return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
 }
 
+function normalizeLanguageProficiencyDate(date, startOf) {
+  if (date === undefined) {
+    return null;
+  } else if (date === null) {
+    return normalizeDate(moment.unix(0), startOf);
+  }
+  return normalizeDate(date, startOf);
+}
+
 function idHelper(id, savedId) {
   if (id === null && savedId) {
     return {
@@ -422,7 +431,7 @@ async function updateProfile(request, userId, language) {
               create: i,
               update: {
                 level: i.level,
-                date: i.date ? normalizeDate(i.date, "day") : null,
+                date: normalizeLanguageProficiencyDate(i.date, "day"),
               },
             })),
           }

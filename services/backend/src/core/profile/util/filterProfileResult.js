@@ -265,20 +265,15 @@ function filterProfileResult(profile, language) {
       let dateValue;
       if (prof.date) {
         const dateMoment = moment(prof.date);
+        dateValue = dateMoment.unix() === 0 ? null : dateMoment;
         if (dateMoment.isBefore()) {
           expiredValue = true;
-          if (dateMoment.unix() === 0) {
-            dateValue = null;
-          } else {
-            dateValue = dateMoment;
-          }
         } else {
-          dateValue = dateMoment;
           expiredValue = false;
         }
       } else {
-        expiredValue = null;
         dateValue = null;
+        expiredValue = null;
       }
 
       return {
