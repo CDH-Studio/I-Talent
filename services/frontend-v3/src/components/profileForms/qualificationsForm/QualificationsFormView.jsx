@@ -219,7 +219,9 @@ const QualificationsFormView = ({
       }, {});
 
     // save results to state
-    setTabErrorsBool(errorObject);
+    if (!_.isEqual(errorObject, tabErrorsBool)) {
+      setTabErrorsBool(errorObject);
+    }
     return errorObject;
   };
 
@@ -251,7 +253,7 @@ const QualificationsFormView = ({
   };
 
   const onFieldsChange = () => {
-    //findErrorTabs();
+    findErrorTabs();
   };
 
   /*
@@ -527,7 +529,7 @@ const QualificationsFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.education" />,
-                errorBool: tabErrorsBool.education,
+                errorBool: tabErrorsBool.educations,
               })}
               key="education"
             >
@@ -575,7 +577,7 @@ const QualificationsFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.experience" />,
-                errorBool: tabErrorsBool.experience,
+                errorBool: tabErrorsBool.experiences,
               })}
               key="experience"
             >
