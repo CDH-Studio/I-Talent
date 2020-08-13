@@ -410,10 +410,11 @@ const TalentFormView = ({
     setTabErrorsBool([]);
   };
 
-  /*
+  /**
    * Get Tab Title
-   *
-   * Get formatted tab title base on existence of error in the contained form
+   * @param {Object} tabTitleInfo - tab title info.
+   * @param {string} tabTitleInfo.message - Tab title.
+   * @param {bool} tabTitleInfo.errorBool - Bool to show error in tab.
    */
   const getTabTitle = ({ message, errorBool }) => {
     if (errorBool) {
