@@ -185,10 +185,11 @@ const PrimaryInfoFormView = ({
     }
   };
 
-  /*
+  /**
    * Open Notification
-   *
-   * open notification to show status to user
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
    */
   const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
