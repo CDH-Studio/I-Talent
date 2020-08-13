@@ -353,5 +353,6 @@
   "sidebar.search.title": "Search filters",
   "sign.out": "Logout",
   "stats.title": "Statistics",
-  "stats.view": "View stats"
+  "stats.view": "View stats",
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: "
 }
