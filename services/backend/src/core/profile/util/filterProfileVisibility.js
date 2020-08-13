@@ -1,10 +1,13 @@
+const { viewPrivateProfile } = require("../../../utils/keycloak");
+
 /**
  * Hide information from the profile, regarding visible cards
  *
+ * @param {Object} request
  * @param {Object} profileResult User object information - from the database
  * @param {string} userId User id making the request
  */
-function filterProfileVisibility(profileResult, userId) {
+function filterProfileVisibility(request, profileResult, userId) {
   const result = {
     ...profileResult,
   };
@@ -28,8 +31,9 @@ function filterProfileVisibility(profileResult, userId) {
   };
 
   const hideCard = (key) =>
-    result.visibleCards[key] === "PRIVATE" ||
-    (result.visibleCards[key] === "CONNECTIONS" && !isConnection);
+    (result.visibleCards[key] === "PRIVATE" ||
+      (result.visibleCards[key] === "CONNECTIONS" && !isConnection)) &&
+    !viewPrivateProfile(request);
 
   if (hideCard("info")) {
     result.employmentInfo = null;
@@ -52,6 +56,8 @@ function filterProfileVisibility(profileResult, userId) {
 
   if (hideCard("description")) {
     result.description = null;
+
+    tempCards.description = false;
   }
 
   if (hideCard("officialLanguage")) {

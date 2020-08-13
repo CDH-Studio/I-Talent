@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -43,7 +42,7 @@ const SkillTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch]);
+  }, [axios, dispatch]);
 
   // Fetches the category information
   const getCategories = useCallback(async () => {
@@ -62,7 +61,7 @@ const SkillTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch]);
+  }, [axios, dispatch]);
 
   useEffect(() => {
     getSkill();
