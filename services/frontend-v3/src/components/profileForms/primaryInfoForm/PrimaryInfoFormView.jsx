@@ -23,7 +23,7 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { isEqual, identity, pickBy, find } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
@@ -172,7 +172,7 @@ const PrimaryInfoFormView = ({
     nameFormat: {
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+-[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="profile.rules.name" />,
-    }
+    },
   };
 
   /* Save data */
@@ -228,16 +228,16 @@ const PrimaryInfoFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */
@@ -467,8 +467,8 @@ const PrimaryInfoFormView = ({
               {fieldsChanged ? (
                 <FormattedMessage id="setup.save.and.finish" />
               ) : (
-                  <FormattedMessage id="button.finish" />
-                )}
+                <FormattedMessage id="button.finish" />
+              )}
             </Button>
           </Col>
         </Row>
@@ -522,7 +522,7 @@ const PrimaryInfoFormView = ({
       }
 
       if (newGedsValues.locationId) {
-        const locationOption = _.find(
+        const locationOption = find(
           locationOptions,
           (option) => option.id === newGedsValues.locationId
         );
@@ -604,12 +604,12 @@ const PrimaryInfoFormView = ({
             ))}
           </List>
         ) : (
-            <div style={{ textAlign: "center" }}>
-              <Spin
-                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-              />
-            </div>
-          )}
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
       </Modal>
     );
   };

@@ -20,7 +20,7 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -206,17 +206,17 @@ const TalentFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    if (_.isEmpty(formValues)) {
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    if (isEmpty(formValues)) {
       return false;
     }
 
-    const dbValues = _.pickBy(
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
     // Cleans up the object for following comparison
@@ -228,7 +228,7 @@ const TalentFormView = ({
       delete dbValues.mentorshipSkills;
     }
 
-    return !_.isEqual(formValues, dbValues);
+    return !isEqual(formValues, dbValues);
   };
 
   const updateIfFormValuesChanged = () => {
