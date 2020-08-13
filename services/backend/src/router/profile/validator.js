@@ -145,7 +145,7 @@ const updateProfileValidator = [
       )
     )
     .withMessage(
-      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X', date?: DateTime | null }"
+      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X', date?: DateTime }"
     ),
   body("educations")
     .optional()
