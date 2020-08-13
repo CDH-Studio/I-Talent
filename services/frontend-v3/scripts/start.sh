@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [[ ! -z $NODE_ENV ]] && [[ $NODE_ENV = 'production' ]]; then
-  yarn build;
-  yarn deploy;
+  npm run build;
+  npm run deploy;
 else
   yarn start;
 fi
