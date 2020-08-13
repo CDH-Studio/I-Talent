@@ -53,18 +53,18 @@ const EducationFormView = ({
   const Rules = {
     required: {
       required: true,
-    },
-    maxChar50: {
-      max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
-    },
-    maxChar100: {
-      max: 100,
-      message: <FormattedMessage id="profile.rules.max.100" />,
+      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 1500,
+          }}
+        />
+      ),
     },
   };
 

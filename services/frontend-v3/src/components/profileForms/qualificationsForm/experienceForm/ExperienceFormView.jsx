@@ -46,12 +46,15 @@ const ExperienceFormView = ({
   const Rules = {
     required: {
       required: true,
+      message: <FormattedMessage id="profile.rules.required" />,
     },
     maxChar60: {
       max: 60,
+      message: <FormattedMessage id="profile.rules.max.60" />,
     },
     maxChar1500: {
       max: 1500,
+      message: <FormattedMessage id="profile.rules.max.100" />,
     },
   };
 
@@ -235,7 +238,6 @@ const ExperienceFormView = ({
             profileInfo.experiences[field.fieldKey] &&
             profileInfo.experiences[field.fieldKey].description
           }
-          label={<FormattedMessage id="profile.qualification.description" />}
           maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>

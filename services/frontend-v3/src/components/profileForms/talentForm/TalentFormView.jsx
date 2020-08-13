@@ -165,7 +165,11 @@ const TalentFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
+  /*
+   * Open Notification
+   *
+   * open notification to show status to user
+   */
   const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
@@ -322,7 +326,7 @@ const TalentFormView = ({
           onFinish();
         }
       })
-      .catch(async (error) => {
+      .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message");
@@ -393,9 +397,11 @@ const TalentFormView = ({
     // loop through errors to see where each error belongs
     errors.forEach((value) => {
       errorArray["mentorship"] =
-        String(value.name).includes("mentor") && value.errors.length > 0;
+        errorArray["mentorship"] ||
+        (String(value.name).includes("mentor") && value.errors.length > 0);
       errorArray["skills"] =
-        String(value.name) === "skills" && value.errors.length > 0;
+        errorArray["skills"] ||
+        (String(value.name).includes("skills") && value.errors.length > 0);
     });
 
     // save results to state
@@ -869,7 +875,6 @@ TalentFormView.defaultProps = {
   savedCompetencies: [],
   savedSkills: [],
   savedMentorshipSkills: [],
-  currentTab: null,
   intl: null,
 };
 

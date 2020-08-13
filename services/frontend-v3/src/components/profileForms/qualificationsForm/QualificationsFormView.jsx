@@ -118,16 +118,6 @@ const QualificationsFormView = ({
     },
   };
 
-  const validateMessages = {
-    required: "'${label}' is required!",
-    string: {
-      len: "'${label}' must be exactly ${len} characters",
-      min: "'${label}' must be at least ${min} characters",
-      max: "'${label}' cannot be longer than ${max} characters",
-      range: "'${label}' must be between ${min} and ${max} characters",
-    },
-  };
-
   /*
    * save data to DB
    *
@@ -139,7 +129,11 @@ const QualificationsFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
+  /*
+   * Open Notification
+   *
+   * open notification to show status to user
+   */
   const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
@@ -242,6 +236,10 @@ const QualificationsFormView = ({
     setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
+  const onFieldsChange = () => {
+    findErrorTabs();
+  };
+
   /*
    * save
    *
@@ -262,9 +260,8 @@ const QualificationsFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
-          findErrorTabs();
         }
       });
   };
@@ -299,9 +296,8 @@ const QualificationsFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
-          findErrorTabs();
         }
       });
   };
@@ -325,17 +321,23 @@ const QualificationsFormView = ({
    *
    * Print out list of validation errors in a list for notification
    */
-  const getAllValidationErrors = () => {
-    const errors = form.getFieldsError();
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    console.log(formsWithErrorsList);
+    let messages = [];
+    if (formsWithErrorsList["experience"]) {
+      messages.push(intl.formatMessage({ id: "profile.experience" }));
+    }
+    if (formsWithErrorsList["education"]) {
+      messages.push(intl.formatMessage({ id: "profile.education" }));
+    }
     return (
       <div>
-        <strong>Following issues found:</strong>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
         <ul>
-          {errors.map((value) => {
-            if (value.errors.length > 0) {
-              return <li key={value.name}>{value.errors[0]}</li>;
-            }
-            return false;
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
           })}
         </ul>
       </div>
@@ -350,21 +352,20 @@ const QualificationsFormView = ({
   const findErrorTabs = () => {
     const errors = form.getFieldsError();
     let errorArray = [];
+
     // loop through errors to see where each error belongs
-    errors.map((value) => {
-      if (String(value.name).includes("exp") && value.errors.length > 0) {
-        errorArray["experience"] = true;
-      } else if (
-        String(value.name).includes("edu") &&
-        value.errors.length > 0
-      ) {
-        errorArray["education"] = true;
-      }
-      return false;
+    errors.forEach((value) => {
+      errorArray["experience"] =
+        errorArray["experience"] ||
+        (String(value.name[0]).includes("exp") && value.errors.length > 0);
+      errorArray["education"] =
+        errorArray["education"] ||
+        (String(value.name[0]).includes("edu") && value.errors.length > 0);
     });
 
     // save results to state
     setTabErrorsBool(errorArray);
+    return errorArray;
   };
 
   /*
@@ -522,7 +523,7 @@ const QualificationsFormView = ({
           initialValues={savedValues || initialValues}
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
-          validateMessages={validateMessages}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane

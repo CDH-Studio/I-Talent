@@ -72,6 +72,7 @@ const PersonalGrowthFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [tabErrorsBool, setTabErrorsBool] = useState([]);
   const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
@@ -157,13 +158,11 @@ const PersonalGrowthFormView = ({
     },
   };
 
-  const validateMessages = {
-    required: "'${label}' is required!",
-    string: {
-      len: "'${label}' must be exactly ${len} characters",
-      min: "'${label}' must be at least ${min} characters",
-      max: "'${label}' cannot be longer than ${max} characters",
-      range: "'${label}' must be between ${min} and ${max} characters",
+  /* Component Rules for form fields */
+  const Rules = {
+    required: {
+      required: true,
+      message: <FormattedMessage id="profile.rules.required" />,
     },
   };
 
@@ -189,7 +188,6 @@ const PersonalGrowthFormView = ({
       values.careerMobilityId = null;
     }
 
-
     if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
@@ -197,7 +195,11 @@ const PersonalGrowthFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
+  /*
+   * Open Notification
+   *
+   * open notification to show status to user
+   */
   const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
@@ -255,7 +257,15 @@ const PersonalGrowthFormView = ({
     setFieldsChanged(!_.isEqual(formValues, dbValues));
   };
 
-  /* save and show success notification */
+  const onFieldsChange = () => {
+    findErrorTabs();
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -271,7 +281,7 @@ const PersonalGrowthFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -296,13 +306,17 @@ const PersonalGrowthFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
@@ -332,7 +346,7 @@ const PersonalGrowthFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrors(),
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -356,20 +370,76 @@ const PersonalGrowthFormView = ({
    *
    * Print out list of validation errors in a list for notification
    */
-  const getAllValidationErrors = () => {
-    const errors = form.getFieldsError();
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    let messages = [];
+    if (formsWithErrorsList["learningDevelopment"]) {
+      messages.push(intl.formatMessage({ id: "profile.learning.development" }));
+    }
+    if (formsWithErrorsList["careerInterests"]) {
+      messages.push(intl.formatMessage({ id: "setup.career.interests" }));
+    }
+    if (formsWithErrorsList["talentManagement"]) {
+      messages.push(
+        intl.formatMessage({ id: "setup.talent.management.title" })
+      );
+    }
+    if (formsWithErrorsList["exFeeder"]) {
+      messages.push(intl.formatMessage({ id: "profile.ex.feeder.title" }));
+    }
     return (
       <div>
-        <strong>Following issues found:</strong>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
         <ul>
-          {errors.map((value) => {
-            if (value.errors.length > 0) {
-              return <li key={value.name}>{value.errors[0]}</li>;
-            }
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
           })}
         </ul>
       </div>
     );
+  };
+
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errors = form.getFieldsError();
+    let errorArray = [];
+    // loop through errors to see where each error belongs
+    // (this is not functional for this for since there are no current validations)
+    errors.forEach((value) => {
+      errorArray["learningDevelopment"] =
+        errorArray["learningDevelopment"] ||
+        (String(value.name).includes("learning") && value.errors.length > 0);
+      errorArray["careerInterests"] =
+        errorArray["careerInterests"] ||
+        (String(value.name).includes("career") && value.errors.length > 0);
+      errorArray["talentManagement"] =
+        errorArray["talentManagement"] ||
+        (String(value.name).includes("talent") && value.errors.length > 0);
+      errorArray["exFeeder"] =
+        errorArray["exFeeder"] ||
+        (String(value.name).includes("ex") && value.errors.length > 0);
+    });
+
+    // save results to state
+    setTabErrorsBool(errorArray);
+    return errorArray;
+  };
+
+  /*
+   * Get Tab Title
+   *
+   * Get formatted tab title base on existence of error in the contained form
+   */
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
+    }
+    return message;
   };
 
   /*
@@ -533,11 +603,14 @@ const PersonalGrowthFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
-          validateMessages={validateMessages}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
-              tab={<FormattedMessage id="profile.learning.development" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.learning.development" />,
+                errorBool: tabErrorsBool["learningDevelopment"],
+              })}
               key="learning-development"
             >
               {/* *************** Developmental ************** */}
@@ -566,7 +639,10 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.career.interests" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.career.interests" />,
+                errorBool: tabErrorsBool["careerInterests"],
+              })}
               key="career-interests"
             >
               {/* *************** Career Interest ************** */}
@@ -652,7 +728,12 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.talent.management.title" />}
+              tab={getTabTitle({
+                message: (
+                  <FormattedMessage id="setup.talent.management.title" />
+                ),
+                errorBool: tabErrorsBool["talentManagement"],
+              })}
               key="talent-management"
             >
               {/* *************** Talent Management ************** */}
@@ -743,7 +824,10 @@ const PersonalGrowthFormView = ({
             </TabPane>
 
             <TabPane
-              tab={<FormattedMessage id="profile.ex.feeder.title" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.ex.feeder.title" />,
+                errorBool: tabErrorsBool["exFeeder"],
+              })}
               key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
