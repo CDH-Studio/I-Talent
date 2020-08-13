@@ -213,14 +213,16 @@ const QualificationsFormView = ({
 
     // loop through errors to see where each error belongs
     errors.forEach((value) => {
-      errorArray.experience =
-        errorArray.experience ||
-        (String(value.name[0]).includes("exp") && value.errors.length > 0);
-      errorArray.education =
-        errorArray.education ||
-        (String(value.name[0]).includes("edu") && value.errors.length > 0);
+      if (String(!errorArray.experience && value.name[0]).includes("exp")) {
+        errorArray.experience = value.errors.length > 0;
+      } else if (
+        !errorArray.education &&
+        String(value.name[0]).includes("edu")
+      ) {
+        errorArray.education = value.errors.length > 0;
+      }
     });
-
+    //console.log(errorArray);
     // save results to state
     setTabErrorsBool(errorArray);
     return errorArray;
@@ -254,7 +256,7 @@ const QualificationsFormView = ({
   };
 
   const onFieldsChange = () => {
-    findErrorTabs();
+    //findErrorTabs();
   };
 
   /*
