@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import _ from "lodash";
+import { sortBy } from "lodash-es";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -116,7 +116,7 @@ const PersonalGrowthForm = ({ formType }) => {
       };
     });
 
-    setDevelopmentalGoalOptions(_.sortBy(dataTree, "title"));
+    setDevelopmentalGoalOptions(sortBy(dataTree, "title"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axios, locale]);
 

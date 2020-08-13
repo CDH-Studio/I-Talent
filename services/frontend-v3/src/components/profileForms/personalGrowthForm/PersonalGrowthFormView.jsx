@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import { isEqual, isNil, pickBy, omitBy, identity } from "lodash-es";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -179,7 +179,6 @@ const PersonalGrowthFormView = ({
       values.careerMobilityId = null;
     }
 
-
     if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
@@ -230,16 +229,16 @@ const PersonalGrowthFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.omitBy(
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    const dbValues = omitBy(
       savedValues || getInitialValues(profileInfo),
-      _.isNil
+      isNil
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
   /* save and show success notification */

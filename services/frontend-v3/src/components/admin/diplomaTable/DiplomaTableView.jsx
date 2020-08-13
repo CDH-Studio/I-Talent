@@ -20,7 +20,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import _ from "lodash";
+import { sortBy } from "lodash-es";
 
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
@@ -57,7 +57,7 @@ const DiplomaTableView = ({
 
   useEffect(() => {
     if (data && locale) {
-      setSortedData(_.sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
+      setSortedData(sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
 

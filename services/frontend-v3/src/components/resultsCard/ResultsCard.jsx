@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
-import _ from "lodash";
+import { map } from "lodash-es";
 import useAxios from "../../utils/axios-instance";
 
 import ResultsCardView from "./ResultsCardView";
@@ -43,7 +43,7 @@ const ResultsCard = () => {
       `api/profile/private/${id}?language=${locale}`
     );
 
-    setConnections(_.map(result.data.connections, "id"));
+    setConnections(map(result.data.connections, "id"));
   }, [axios, id, locale]);
 
   useEffect(() => {

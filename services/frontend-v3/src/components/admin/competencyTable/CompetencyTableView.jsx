@@ -21,7 +21,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import _ from "lodash";
+import { sortBy } from "lodash-es";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
@@ -59,7 +59,7 @@ const CompetencyTableView = ({
 
   useEffect(() => {
     if (data && locale) {
-      setSortedData(_.sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
+      setSortedData(sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
 

@@ -21,7 +21,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
-import _ from "lodash";
+import { pickBy, identity, isEqual } from "lodash-es";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -263,17 +263,17 @@ const LangProficiencyFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const formValues = pickBy(form.getFieldsValue(), identity);
 
-    const dbValues = _.pickBy(
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
-    return !_.isEqual(formValues, dbValues);
+    return !isEqual(formValues, dbValues);
   };
 
   const updateIfFormValuesChanged = () => {
