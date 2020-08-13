@@ -172,7 +172,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "diplomaId"]}
           fieldKey={[field.fieldKey, "diplomaId"]}
-          label={"Education " + (field.name + 1) + " Diploma"}
+          label={`Education ${  field.name + 1  } Diploma`}
           style={style.formItem}
           rules={[Rules.required]}
         >
@@ -193,7 +193,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "schoolId"]}
           fieldKey={[field.fieldKey, "schoolId"]}
-          label={"Education " + (field.name + 1) + " School"}
+          label={`Education ${  field.name + 1  } School`}
           rules={[Rules.required]}
           style={style.formItem}
         >
@@ -214,7 +214,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "startDate"]}
           fieldKey={[field.fieldKey, "startDate"]}
-          label={"Education " + (field.name + 1) + " Start Date"}
+          label={`Education ${  field.name + 1  } Start Date`}
           rules={[Rules.required]}
         >
           <DatePicker
@@ -232,7 +232,7 @@ const EducationFormView = ({
         <Form.Item
           name={[field.name, "endDate"]}
           fieldKey={[field.fieldKey, "endDate"]}
-          label={"Education " + (field.name + 1) + " End Date"}
+          label={`Education ${  field.name + 1  } End Date`}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
           {!disableEndDate && (

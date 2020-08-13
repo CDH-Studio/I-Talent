@@ -141,16 +141,6 @@ const TalentFormView = ({
   };
 
   /*
-   * toggle mentorship form
-   *
-   * toggle state that controls mentorship form visibility
-   */
-  const toggleMentorshipForm = () => {
-    findErrorTabs();
-    setDisplayMentorshipForm((prev) => !prev);
-  };
-
-  /*
    * save data to DB
    *
    * update profile in DB or create profile if it is not found
@@ -251,14 +241,14 @@ const TalentFormView = ({
    */
   const findErrorTabs = () => {
     const errors = form.getFieldsError();
-    let errorArray = [];
+    const errorArray = [];
     // loop through errors to see where each error belongs
     errors.forEach((value) => {
-      errorArray["mentorship"] =
-        errorArray["mentorship"] ||
+      errorArray.mentorship =
+        errorArray.mentorship ||
         (String(value.name).includes("mentor") && value.errors.length > 0);
-      errorArray["skills"] =
-        errorArray["skills"] ||
+      errorArray.skills =
+        errorArray.skills ||
         (String(value.name).includes("skills") && value.errors.length > 0);
     });
 
@@ -267,8 +257,48 @@ const TalentFormView = ({
     return errorArray;
   };
 
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    const messages = [];
+    if (formsWithErrorsList.mentorship) {
+      messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
+    }
+    if (formsWithErrorsList.skills) {
+      messages.push(intl.formatMessage({ id: "profile.skills" }));
+    }
+    if (formsWithErrorsList.competencies) {
+      messages.push(intl.formatMessage({ id: "profile.competencies" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  };
+
   const onFieldsChange = () => {
     findErrorTabs();
+  };
+
+  /*
+   * toggle mentorship form
+   *
+   * toggle state that controls mentorship form visibility
+   */
+  const toggleMentorshipForm = () => {
+    findErrorTabs();
+    setDisplayMentorshipForm((prev) => !prev);
   };
 
   /*
@@ -377,36 +407,6 @@ const TalentFormView = ({
     });
     updateIfFormValuesChanged();
     setTabErrorsBool([]);
-  };
-
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = (formsWithErrorsList) => {
-    let messages = [];
-    if (formsWithErrorsList["mentorship"]) {
-      messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
-    }
-    if (formsWithErrorsList["skills"]) {
-      messages.push(intl.formatMessage({ id: "profile.skills" }));
-    }
-    if (formsWithErrorsList["competencies"]) {
-      messages.push(intl.formatMessage({ id: "profile.competencies" }));
-    }
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          {messages.map((value) => {
-            return <li key={value}>{value}</li>;
-          })}
-        </ul>
-      </div>
-    );
   };
 
   /*
@@ -753,7 +753,7 @@ const TalentFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.skills" />,
-                errorBool: tabErrorsBool["skills"],
+                errorBool: tabErrorsBool.skills,
               })}
               key="skills"
             >
@@ -780,7 +780,7 @@ const TalentFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.mentorship.skills" />,
-                errorBool: tabErrorsBool["mentorship"],
+                errorBool: tabErrorsBool.mentorship,
               })}
               key="mentorship"
             >
@@ -807,7 +807,7 @@ const TalentFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.competencies" />,
-                errorBool: tabErrorsBool["competencies"],
+                errorBool: tabErrorsBool.competencies,
               })}
               key="competencies"
             >

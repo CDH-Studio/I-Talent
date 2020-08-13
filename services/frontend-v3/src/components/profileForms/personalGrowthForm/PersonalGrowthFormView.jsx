@@ -158,13 +158,13 @@ const PersonalGrowthFormView = ({
     },
   };
 
-  /* Component Rules for form fields */
-  const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
-    },
-  };
+  /* Component Rules for form fields (commented out as example) */
+  // const Rules = {
+  //   required: {
+  //     required: true,
+  //     message: <FormattedMessage id="profile.rules.required" />,
+  //   },
+  // };
 
   /*
    * save data to DB
@@ -263,25 +263,16 @@ const PersonalGrowthFormView = ({
    * Find all tabs that have validation errors
    */
   const findErrorTabs = () => {
-    const errors = form.getFieldsError();
-    let errorArray = [];
     // loop through errors to see where each error belongs
-    // (this is not functional for this for since there are no current validations)
-    errors.forEach((value) => {
-      errorArray["learningDevelopment"] =
-        errorArray["learningDevelopment"] ||
-        (String(value.name).includes("learning") && value.errors.length > 0);
-      errorArray["careerInterests"] =
-        errorArray["careerInterests"] ||
-        (String(value.name).includes("career") && value.errors.length > 0);
-      errorArray["talentManagement"] =
-        errorArray["talentManagement"] ||
-        (String(value.name).includes("talent") && value.errors.length > 0);
-      errorArray["exFeeder"] =
-        errorArray["exFeeder"] ||
-        (String(value.name).includes("ex") && value.errors.length > 0);
-    });
+    // (commented out as an example)
+    // const errors = form.getFieldsError();
+    // errors.forEach((value) => {
+    //   errorArray["learningDevelopment"] =
+    //     errorArray["learningDevelopment"] ||
+    //     (String(value.name).includes("learning") && value.errors.length > 0);
+    // });
 
+    const errorArray = [];
     // save results to state
     setTabErrorsBool(errorArray);
     return errorArray;
@@ -293,19 +284,19 @@ const PersonalGrowthFormView = ({
    * Print out list of validation errors in a list for notification
    */
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
-    let messages = [];
-    if (formsWithErrorsList["learningDevelopment"]) {
+    const messages = [];
+    if (formsWithErrorsList.learningDevelopment) {
       messages.push(intl.formatMessage({ id: "profile.learning.development" }));
     }
-    if (formsWithErrorsList["careerInterests"]) {
+    if (formsWithErrorsList.careerInterests) {
       messages.push(intl.formatMessage({ id: "setup.career.interests" }));
     }
-    if (formsWithErrorsList["talentManagement"]) {
+    if (formsWithErrorsList.talentManagement) {
       messages.push(
         intl.formatMessage({ id: "setup.talent.management.title" })
       );
     }
-    if (formsWithErrorsList["exFeeder"]) {
+    if (formsWithErrorsList.exFeeder) {
       messages.push(intl.formatMessage({ id: "profile.ex.feeder.title" }));
     }
     return (
@@ -609,7 +600,7 @@ const PersonalGrowthFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.learning.development" />,
-                errorBool: tabErrorsBool["learningDevelopment"],
+                errorBool: tabErrorsBool.learningDevelopment,
               })}
               key="learning-development"
             >
@@ -641,7 +632,7 @@ const PersonalGrowthFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.career.interests" />,
-                errorBool: tabErrorsBool["careerInterests"],
+                errorBool: tabErrorsBool.careerInterests,
               })}
               key="career-interests"
             >
@@ -732,7 +723,7 @@ const PersonalGrowthFormView = ({
                 message: (
                   <FormattedMessage id="setup.talent.management.title" />
                 ),
-                errorBool: tabErrorsBool["talentManagement"],
+                errorBool: tabErrorsBool.talentManagement,
               })}
               key="talent-management"
             >
@@ -826,7 +817,7 @@ const PersonalGrowthFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.ex.feeder.title" />,
-                errorBool: tabErrorsBool["exFeeder"],
+                errorBool: tabErrorsBool.exFeeder,
               })}
               key="ex-feeder"
             >

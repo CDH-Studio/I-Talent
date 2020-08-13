@@ -208,21 +208,48 @@ const QualificationsFormView = ({
    */
   const findErrorTabs = () => {
     const errors = form.getFieldsError();
-    let errorArray = [];
+    const errorArray = [];
 
     // loop through errors to see where each error belongs
     errors.forEach((value) => {
-      errorArray["experience"] =
-        errorArray["experience"] ||
+      errorArray.experience =
+        errorArray.experience ||
         (String(value.name[0]).includes("exp") && value.errors.length > 0);
-      errorArray["education"] =
-        errorArray["education"] ||
+      errorArray.education =
+        errorArray.education ||
         (String(value.name[0]).includes("edu") && value.errors.length > 0);
     });
 
     // save results to state
     setTabErrorsBool(errorArray);
     return errorArray;
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    const messages = [];
+    if (formsWithErrorsList.experience) {
+      messages.push(intl.formatMessage({ id: "profile.experience" }));
+    }
+    if (formsWithErrorsList.education) {
+      messages.push(intl.formatMessage({ id: "profile.education" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
+          })}
+        </ul>
+      </div>
+    );
   };
 
   const onFieldsChange = () => {
@@ -303,34 +330,6 @@ const QualificationsFormView = ({
     });
     checkIfFormValuesChanged();
     setTabErrorsBool([]);
-  };
-
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = (formsWithErrorsList) => {
-    console.log(formsWithErrorsList);
-    let messages = [];
-    if (formsWithErrorsList["experience"]) {
-      messages.push(intl.formatMessage({ id: "profile.experience" }));
-    }
-    if (formsWithErrorsList["education"]) {
-      messages.push(intl.formatMessage({ id: "profile.education" }));
-    }
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          {messages.map((value) => {
-            return <li key={value}>{value}</li>;
-          })}
-        </ul>
-      </div>
-    );
   };
 
   /*
@@ -529,7 +528,7 @@ const QualificationsFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.education" />,
-                errorBool: tabErrorsBool["education"],
+                errorBool: tabErrorsBool.education,
               })}
               key="education"
             >
@@ -577,7 +576,7 @@ const QualificationsFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.experience" />,
-                errorBool: tabErrorsBool["experience"],
+                errorBool: tabErrorsBool.experience,
               })}
               key="experience"
             >
