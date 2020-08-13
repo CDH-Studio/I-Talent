@@ -37,7 +37,11 @@ const OfficialLanguage = ({ data, type }) => {
       nextData.titleId = `profile.secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
-        nextData.level = info.level ? info.level : "-";
+        nextData.level =
+          info.level === "NA"
+            ? intl.formatMessage({ id: "grade.not.applicable" })
+            : info.level;
+
         if (info.date) {
           nextData.expiryInfo = ` (${
             info.expired
