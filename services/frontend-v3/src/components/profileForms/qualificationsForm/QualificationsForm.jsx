@@ -51,32 +51,6 @@ const QualificationsForm = ({ formType }) => {
     await axios.put(`api/profile/${id}?language=${locale}`, values);
   };
 
-  const getSavedEducation = useCallback(async (info) => {
-    const educations = info.educations.map((i) => ({
-      schoolId: i.school.id,
-      diplomaId: i.diploma.id,
-      startDate: i.startDate ? moment(i.startDate) : undefined,
-      endDate: i.endDate ? moment(i.endDate) : undefined,
-      description: i.description,
-    }));
-    setSavedEducation(educations);
-  }, []);
-
-  const getSavedExperience = useCallback(async (info) => {
-    const selected = info.experiences.map((i) => ({
-      jobTitle: i.jobTitle,
-      organization: i.organization,
-      description: i.description,
-      startDate: i.startDate ? moment(i.startDate) : undefined,
-      endDate: i.endDate ? moment(i.endDate) : undefined,
-    }));
-    setSavedExperience(selected);
-  }, []);
-
-  const getSavedProjects = useCallback(async (info) => {
-    setSavedProjects(info.projects);
-  }, []);
-
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setCurrentTab(searchParams.get("tab"));
@@ -95,21 +69,31 @@ const QualificationsForm = ({ formType }) => {
           setAttachmentNamesEdu(attachmentNamesEduQuery.data);
           setAttachmentNamesExp(attachmentNamesExpQuery.data);
           if (profileQuery.data) {
-            getSavedEducation(profileQuery.data);
-            getSavedExperience(profileQuery.data);
-            getSavedProjects(profileQuery.data);
+            setSavedEducation(
+              profileQuery.data.educations.map((i) => ({
+                schoolId: i.school.id,
+                diplomaId: i.diploma.id,
+                startDate: i.startDate ? moment(i.startDate) : undefined,
+                endDate: i.endDate ? moment(i.endDate) : undefined,
+                description: i.description,
+              }))
+            );
+            setSavedExperience(
+              profileQuery.data.experiences.map((i) => ({
+                jobTitle: i.jobTitle,
+                organization: i.organization,
+                description: i.description,
+                startDate: i.startDate ? moment(i.startDate) : undefined,
+                endDate: i.endDate ? moment(i.endDate) : undefined,
+              }))
+            );
+            setSavedProjects(profileQuery.data.projects);
           }
           setLoad(true);
         }
       )
       .catch((error) => handleError(error, "redirect"));
-  }, [
-    getBackendInfo,
-    getSavedEducation,
-    getSavedExperience,
-    getSavedProjects,
-    location.search,
-  ]);
+  }, [getBackendInfo, location.search]);
 
   return (
     <QualificationsFormView

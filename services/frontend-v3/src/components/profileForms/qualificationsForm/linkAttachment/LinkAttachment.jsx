@@ -14,6 +14,7 @@ const LinkAttachment = ({
   removeElement,
   profileInfo,
   NameOptions,
+  parentField,
 }) => {
   return (
     <LinkAttachmentView
@@ -22,6 +23,7 @@ const LinkAttachment = ({
       removeElement={removeElement}
       profileInfo={profileInfo}
       NameOptions={NameOptions}
+      parentField={parentField}
     />
   );
 };

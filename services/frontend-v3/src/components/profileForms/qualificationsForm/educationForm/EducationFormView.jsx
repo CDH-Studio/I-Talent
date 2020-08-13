@@ -272,6 +272,7 @@ const EducationFormView = ({
                     fieldElement={field}
                     removeElement={remove}
                     profileInfo={profileInfo}
+                    parentField={fieldElement}
                     NameOptions={attachmentNamesTypeEduOptions}
                   />
                 ))}

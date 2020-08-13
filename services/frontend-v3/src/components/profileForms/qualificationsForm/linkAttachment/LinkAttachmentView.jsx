@@ -24,31 +24,20 @@ import {
 
 const { Option } = Select;
 
-const Rules = {
-  required: {
-    required: true,
-    message: <FormattedMessage id="profile.rules.required" />,
-  },
-};
 const LinkAttachmentView = ({
   formElement,
   fieldElement,
   removeElement,
   profileInfo,
   NameOptions,
+  parentField,
 }) => {
-  // useEffect(() => {
-  //   // set the default status of "ongoing" checkbox
-  //   if (
-  //     profileInfo &&
-  //     fieldElement &&
-  //     profileInfo.educations[fieldElement.fieldKey] &&
-  //     profileInfo.educations[fieldElement.fieldKey].endDate
-  //   ) {
-  //     toggleEndDate();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [profileInfo]);
+  const Rules = {
+    required: {
+      required: true,
+      message: <FormattedMessage id="profile.rules.required" />,
+    },
+  };
 
   return (
     <Row span={24}>
