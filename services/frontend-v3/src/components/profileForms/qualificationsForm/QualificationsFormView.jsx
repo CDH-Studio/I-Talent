@@ -13,7 +13,7 @@ import {
 } from "antd";
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, injectIntl, useIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -46,10 +46,10 @@ const QualificationsFormView = ({
   formType,
   currentTab,
   load,
-  intl,
   history,
   userId,
 }) => {
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -57,7 +57,7 @@ const QualificationsFormView = ({
   const axios = useAxios();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-  const [tabErrorsBool, setTabErrorsBool] = useState([]);
+  const [tabErrorsBool, setTabErrorsBool] = useState({});
 
   /* Component Styles */
   const styles = {
@@ -208,24 +208,19 @@ const QualificationsFormView = ({
    * Find all tabs that have validation errors
    */
   const findErrorTabs = () => {
-    const errors = form.getFieldsError();
-    const errorArray = [];
+    const errorObject = form
+      .getFieldsError()
+      .reduce((acc, { name, errors }) => {
+        if (errors.length > 0) {
+          acc[name[0]] = true;
+        }
 
-    // loop through errors to see where each error belongs
-    errors.forEach((value) => {
-      if (String(!errorArray.experience && value.name[0]).includes("exp")) {
-        errorArray.experience = value.errors.length > 0;
-      } else if (
-        !errorArray.education &&
-        String(value.name[0]).includes("edu")
-      ) {
-        errorArray.education = value.errors.length > 0;
-      }
-    });
-    //console.log(errorArray);
+        return acc;
+      }, {});
+
     // save results to state
-    setTabErrorsBool(errorArray);
-    return errorArray;
+    setTabErrorsBool(errorObject);
+    return errorObject;
   };
 
   /*
@@ -235,10 +230,10 @@ const QualificationsFormView = ({
    */
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
-    if (formsWithErrorsList.experience) {
+    if (formsWithErrorsList.experiences) {
       messages.push(intl.formatMessage({ id: "profile.experience" }));
     }
-    if (formsWithErrorsList.education) {
+    if (formsWithErrorsList.educations) {
       messages.push(intl.formatMessage({ id: "profile.education" }));
     }
     return (
@@ -247,9 +242,9 @@ const QualificationsFormView = ({
           {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
         </strong>
         <ul>
-          {messages.map((value) => {
-            return <li key={value}>{value}</li>;
-          })}
+          {messages.map((value) => (
+            <li key={value}>{value}</li>
+          ))}
         </ul>
       </div>
     );
@@ -332,7 +327,7 @@ const QualificationsFormView = ({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
     checkIfFormValuesChanged();
-    setTabErrorsBool([]);
+    setTabErrorsBool({});
   };
 
   /**
@@ -679,7 +674,6 @@ QualificationsFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
 };
@@ -690,7 +684,6 @@ QualificationsFormView.defaultProps = {
   savedEducation: undefined,
   savedExperience: undefined,
   savedProjects: undefined,
-  intl: null,
 };
 
-export default injectIntl(QualificationsFormView);
+export default QualificationsFormView;
