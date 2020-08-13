@@ -144,6 +144,10 @@ const EmploymentDataFormView = ({
 
   /* Component Rules for form fields */
   const Rules = {
+    required: {
+      required: true,
+      message: <FormattedMessage id="profile.rules.required" />,
+    },
     maxChar50: {
       max: 50,
       message: (
