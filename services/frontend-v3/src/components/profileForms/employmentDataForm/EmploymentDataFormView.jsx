@@ -12,7 +12,7 @@ import {
   DatePicker,
   Checkbox,
   Button,
-  message,
+  notification,
   Popover,
 } from "antd";
 import PropTypes from "prop-types";
@@ -144,17 +144,27 @@ const EmploymentDataFormView = ({
 
   /* Component Rules for form fields */
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
-    },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 50,
+          }}
+        />
+      ),
     },
     maxChar1000: {
       max: 1000,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 1000,
+          }}
+        />
+      ),
     },
   };
 
@@ -217,21 +227,28 @@ const EmploymentDataFormView = ({
     return undefined;
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /*
+   * Open Notification
+   *
+   * open notification to show status to user
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -293,7 +310,10 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
@@ -311,7 +331,10 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
@@ -340,12 +363,19 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* on form reset */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
     // reset form fields
     form.resetFields();
@@ -355,8 +385,28 @@ const EmploymentDataFormView = ({
       profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     updateIfFormValuesChanged();
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
+        </ul>
+      </div>
+    );
   };
 
   /* Get temporary role form based on if the form switch is toggled */
@@ -721,7 +771,7 @@ const EmploymentDataFormView = ({
               <DescriptionFormItem
                 name="description"
                 fieldKey="description"
-                rule={Rules.maxChar1000}
+                rules={Rules.maxChar1000}
                 value={profileInfo.description}
                 maxLengthMessage={
                   <FormattedMessage id="profile.rules.max.1000" />
