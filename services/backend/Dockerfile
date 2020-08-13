@@ -16,15 +16,15 @@ COPY ./src/database ./src/database
 COPY ./scripts ./scripts/
 RUN chmod +x ./scripts/*.sh
 
+# Make group permissions equal to the owner user permissions
+RUN chgrp -R 0 /upskill-backend && \ 
+  chmod -R g=u /upskill-backend
+
 # Runs install script
 RUN ./scripts/install.sh
 
 # Copy app
 COPY . .
-
-# Make group permissions equal to the owner user permissions
-RUN chgrp -R 0 /upskill-backend/src && \ 
-  chmod -R g=u /upskill-backend/src
 
 # Runs start script
 CMD ./scripts/start.sh
