@@ -52,7 +52,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
 };
 
 OfficialLanguageView.propTypes = {
-  firstLanguageInfo: PropTypes.isRequired,
+  firstLanguageInfo: PropTypes.array.isRequired,
   secondLanguageInfo: PropTypes.arrayOf(
     PropTypes.shape({
       titleId: PropTypes.string,
