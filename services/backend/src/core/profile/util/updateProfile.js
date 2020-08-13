@@ -422,7 +422,7 @@ async function updateProfile(request, userId, language) {
               create: i,
               update: {
                 level: i.level,
-                date: normalizeDate(i.date, "day"),
+                date: i.date ? normalizeDate(i.date, "day") : null,
               },
             })),
           }
