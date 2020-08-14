@@ -163,13 +163,18 @@ const LangProficiencyFormView = ({
           const oralValue = {
             proficiency: "ORAL",
             level: values.oralProficiency,
-            unknownExpiredDate: values.secondaryOralUnknownExpired,
           };
 
-          if (!oralValue.unknownExpiredDate && values.secondaryOralDate) {
-            oralValue.date = values.secondaryOralDate;
-          } else {
+          if (oralValue.level === "NA") {
+            oralValue.unknownExpiredDate = false;
             oralValue.date = null;
+          } else {
+            oralValue.unknownExpiredDate = values.secondaryOralUnknownExpired;
+            if (!oralValue.unknownExpiredDate && values.secondaryOralDate) {
+              oralValue.date = values.secondaryOralDate;
+            } else {
+              oralValue.date = null;
+            }
           }
 
           dbValues.secondLangProfs.push(oralValue);
@@ -179,13 +184,22 @@ const LangProficiencyFormView = ({
           const writingValue = {
             proficiency: "WRITING",
             level: values.writingProficiency,
-            unknownExpiredDate: values.secondaryWritingUnknownExpired,
           };
 
-          if (!writingValue.unknownExpiredDate && values.secondaryWritingDate) {
-            writingValue.date = values.secondaryWritingDate;
-          } else {
+          if (writingValue.level === "NA") {
+            writingValue.unknownExpiredDate = false;
             writingValue.date = null;
+          } else {
+            writingValue.unknownExpiredDate =
+              values.secondaryWritingUnknownExpired;
+            if (
+              !writingValue.unknownExpiredDate &&
+              values.secondaryWritingDate
+            ) {
+              writingValue.date = values.secondaryWritingDate;
+            } else {
+              writingValue.date = null;
+            }
           }
 
           dbValues.secondLangProfs.push(writingValue);
@@ -195,13 +209,22 @@ const LangProficiencyFormView = ({
           const readingValue = {
             proficiency: "READING",
             level: values.readingProficiency,
-            unknownExpiredDate: values.secondaryReadingUnknownExpired,
           };
 
-          if (!readingValue.unknownExpiredDate && values.secondaryReadingDate) {
-            readingValue.date = values.secondaryReadingDate;
-          } else {
+          if (readingValue.level === "NA") {
+            readingValue.unknownExpiredDate = false;
             readingValue.date = null;
+          } else {
+            readingValue.unknownExpiredDate =
+              values.secondaryReadingUnknownExpired;
+            if (
+              !readingValue.unknownExpiredDate &&
+              values.secondaryReadingDate
+            ) {
+              readingValue.date = values.secondaryReadingDate;
+            } else {
+              readingValue.date = null;
+            }
           }
 
           dbValues.secondLangProfs.push(readingValue);
@@ -509,7 +532,10 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={unknownExpiredGrades.reading}
+                  disabled={
+                    unknownExpiredGrades.reading ||
+                    formValues.readingProficiency === "NA"
+                  }
                   style={styles.datePicker}
                 />
               </Form.Item>
@@ -520,6 +546,7 @@ const LangProficiencyFormView = ({
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryReadingDate}
+                  disabled={formValues.readingProficiency === "NA"}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -556,7 +583,10 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={unknownExpiredGrades.writing}
+                  disabled={
+                    unknownExpiredGrades.writing ||
+                    formValues.writingProficiency === "NA"
+                  }
                   style={styles.datePicker}
                 />
               </Form.Item>
@@ -567,6 +597,7 @@ const LangProficiencyFormView = ({
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryWritingDate}
+                  disabled={formValues.writingProficiency === "NA"}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -603,7 +634,10 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={unknownExpiredGrades.oral}
+                  disabled={
+                    unknownExpiredGrades.oral ||
+                    formValues.oralProficiency === "NA"
+                  }
                   style={styles.datePicker}
                 />
               </Form.Item>
@@ -614,6 +648,7 @@ const LangProficiencyFormView = ({
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryOralDate}
+                  disabled={formValues.oralProficiency === "NA"}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
