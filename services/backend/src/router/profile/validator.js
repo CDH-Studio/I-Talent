@@ -141,7 +141,7 @@ const updateProfileValidator = [
         (i) =>
           isIn(i.level, ["A", "B", "C", "E", "X"]) &&
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
-          ("date" in i ? moment(i.date).isValid() : true)
+          ("date" in i ? i.date === null || moment(i.date).isValid() : true)
       )
     )
     .withMessage(

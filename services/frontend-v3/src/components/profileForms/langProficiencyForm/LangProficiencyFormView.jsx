@@ -160,33 +160,51 @@ const LangProficiencyFormView = ({
         values.readingProficiency
       ) {
         if (values.oralProficiency) {
-          dbValues.secondLangProfs.push({
+          const oralValue = {
             proficiency: "ORAL",
             level: values.oralProficiency,
-            date: values.secondaryOralUnknownExpired
-              ? moment.unix(0)
-              : values.secondaryOralDate,
-          });
+            unknownExpiredDate: values.secondaryOralUnknownExpired,
+          };
+
+          if (!oralValue.unknownExpiredDate && values.secondaryOralDate) {
+            oralValue.date = values.secondaryOralDate;
+          } else {
+            oralValue.date = null;
+          }
+
+          dbValues.secondLangProfs.push(oralValue);
         }
 
         if (values.writingProficiency) {
-          dbValues.secondLangProfs.push({
+          const writingValue = {
             proficiency: "WRITING",
             level: values.writingProficiency,
-            date: values.secondaryWritingUnknownExpired
-              ? moment.unix(0)
-              : values.secondaryWritingDate,
-          });
+            unknownExpiredDate: values.secondaryWritingUnknownExpired,
+          };
+
+          if (!writingValue.unknownExpiredDate && values.secondaryWritingDate) {
+            writingValue.date = values.secondaryWritingDate;
+          } else {
+            writingValue.date = null;
+          }
+
+          dbValues.secondLangProfs.push(writingValue);
         }
 
         if (values.readingProficiency) {
-          dbValues.secondLangProfs.push({
+          const readingValue = {
             proficiency: "READING",
             level: values.readingProficiency,
-            date: values.secondaryReadingUnknownExpired
-              ? moment.unix(0)
-              : values.secondaryReadingDate,
-          });
+            unknownExpiredDate: values.secondaryReadingUnknownExpired,
+          };
+
+          if (!readingValue.unknownExpiredDate && values.secondaryReadingDate) {
+            readingValue.date = values.secondaryReadingDate;
+          } else {
+            readingValue.date = null;
+          }
+
+          dbValues.secondLangProfs.push(readingValue);
         }
       }
     }
