@@ -431,7 +431,8 @@ async function updateProfile(request, userId, language) {
               create: i,
               update: {
                 level: i.level,
-                date: normalizeLanguageProficiencyDate(i.date, "day"),
+                date: normalizeDate(i.date, "day"),
+                unknownExpiredDate: i.unknownExpiredDate,
               },
             })),
           }

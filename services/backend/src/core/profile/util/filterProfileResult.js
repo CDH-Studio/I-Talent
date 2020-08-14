@@ -261,19 +261,16 @@ function filterProfileResult(profile, language) {
 
   if (profile.secondLangProfs) {
     filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
-      let expiredValue;
-      let dateValue;
-      if (prof.date) {
-        const dateMoment = moment(prof.date);
-        dateValue = dateMoment.unix() === 0 ? null : dateMoment;
-        if (dateMoment.isBefore()) {
+      let expiredValue = prof.unknownExpiredDate;
+
+      let dateValue = null;
+      if (!prof.unknownExpiredDate && prof.date) {
+        dateValue = moment(prof.date);
+        if (dateValue.isBefore()) {
           expiredValue = true;
         } else {
           expiredValue = false;
         }
-      } else {
-        dateValue = null;
-        expiredValue = null;
       }
 
       return {

@@ -44,7 +44,7 @@ const OfficialLanguage = ({ data, type }) => {
               ? intl.formatMessage({ id: "profile.expired.date" })
               : intl.formatMessage({ id: "profile.expires.date" })
           } ${moment(info.date).format("ll")})`;
-        } else if (info.expired !== null) {
+        } else if (!info.expired) {
           nextData.expiryInfo = `(${
             info.expired
               ? intl.formatMessage({ id: "profile.expired" })
