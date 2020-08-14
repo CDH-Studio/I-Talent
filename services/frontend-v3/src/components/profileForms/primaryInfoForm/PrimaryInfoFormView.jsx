@@ -56,6 +56,7 @@ const PrimaryInfoFormView = ({
   const axios = useAxios();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
+  const [singleJobTitleChanged, setSingleJobTitleChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
@@ -206,6 +207,16 @@ const PrimaryInfoFormView = ({
       case "error":
         message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
+      case "jobTitleLangEN":
+        message.error(
+          intl.formatMessage({ id: "profile.edit.save.jobTitle.warning.en" })
+        );
+        break;
+      case "jobTitleLangFR":
+        message.error(
+          intl.formatMessage({ id: "profile.edit.save.jobTitle.warning.fr" })
+        );
+        break;
       default:
         message.warning(
           intl.formatMessage({ id: "profile.edit.save.problem" })
@@ -217,15 +228,11 @@ const PrimaryInfoFormView = ({
   /* Get the initial values for the form */
   const getInitialValues = (profile) => {
     if (profile) {
-      const employmentInfo =
-        profile.employmentInfo &&
-        profile.employmentInfo.find((i) => i.language === locale);
-      console.log(profile.employmentInfo);
       return {
         firstName: profile.firstName,
         lastName: profile.lastName,
         telephone: profile.telephone,
-        jobTitle: employmentInfo ? employmentInfo.jobTitle : undefined,
+        jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
         email: profile.email,
         locationId: profile.officeLocation
@@ -243,7 +250,7 @@ const PrimaryInfoFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * _.pickBy({}, _.identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = _.pickBy(form.getFieldsValue(), _.identity);
@@ -253,6 +260,20 @@ const PrimaryInfoFormView = ({
     );
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
+
+    if (locale === "ENGLISH") {
+      const notLocale = "FRENCH";
+      if (fieldsChanged && profileInfo.jobTitle[notLocale] === null) {
+        setSingleJobTitleChanged(true);
+      }
+    } else {
+      const notLocale = "ENGLISH";
+      if (fieldsChanged && profileInfo.jobTitle[notLocale] === null) {
+        setSingleJobTitleChanged(true);
+      }
+    }
+
+    setSingleJobTitleChanged(false);
   };
 
   /* save and show success notification */
@@ -268,6 +289,12 @@ const PrimaryInfoFormView = ({
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
+        } else if (singleJobTitleChanged) {
+          if (locale === "ENGLISH") {
+            openNotificationWithIcon("jobTitleLangEN");
+          } else {
+            openNotificationWithIcon("jobTitleLangFR");
+          }
         } else {
           openNotificationWithIcon("error");
         }

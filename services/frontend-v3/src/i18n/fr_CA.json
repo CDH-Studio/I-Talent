@@ -177,6 +177,8 @@
   "profile.diploma": "Diplôme",
   "profile.edit": "Modifier",
   "profile.edit.save.error": "Données non enregistrées",
+  "profile.edit.save.jobTitle.warning.fr": "Il semble que vous n'ayez pas défini l'intitulé de votre poste en français. Veuillez enregistrer le formulaire et changer la langue de l'application pour entrer votre titre français.",
+  "profile.edit.save.jobTitle.warning.en": "Il semble que vous n'ayez pas défini le titre de votre poste en anglais. Veuillez enregistrer le formulaire et changer la langue de l'application pour entrer votre titre en anglais.",
   "profile.edit.save.problem": "Il peut y avoir un problème",
   "profile.edit.save.success": "Changements sauvegardés",
   "profile.education": "Éducation",

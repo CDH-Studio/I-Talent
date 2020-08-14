@@ -480,17 +480,10 @@ definitions:
         $ref: "#/definitions/IdDescription"
       careerMobility:
         $ref: "#/definitions/IdDescription"
-      employmentInfo:
-        type: array
-        items:
-          type: object
-          properties:
-            language:
-              $ref: '#/definitions/LanguageEnum'
-            jobTitle:
-              type: string
-            branch:
-              type: string
+      jobTitle:
+        type: string
+      branch:
+        type: string
       talentMatrixResult:
         $ref: "#/definitions/IdDescription"
       officeLocation:

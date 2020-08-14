@@ -40,7 +40,7 @@ const BasicInfoView = ({
   data,
   name,
   avatar,
-  employmentInfo,
+  jobTitle,
   buttonLinks,
   connectionStatus,
   changeConnection,
@@ -139,7 +139,7 @@ const BasicInfoView = ({
             type="secondary"
             style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
           >
-            {employmentInfo && employmentInfo.jobTitle}
+            {jobTitle}
           </Text>
         </Col>
         {urlID === userID ? (
@@ -254,24 +254,23 @@ const BasicInfoView = ({
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
-      description:
-        employmentInfo && employmentInfo.branch ? (
-          <Dropdown
-            overlay={
-              <Menu>
-                <OrgTree data={data} />
-              </Menu>
-            }
-            trigger={["click"]}
-          >
-            <Button style={styles.orgButton} type="link">
-              <DownOutlined />
-              <span style={styles.leftSpacing}>{data.branch}</span>
-            </Button>
-          </Dropdown>
-        ) : (
-          <FormattedMessage id="profile.not.specified" />
-        ),
+      description: data.branch ? (
+        <Dropdown
+          overlay={
+            <Menu>
+              <OrgTree data={data} />
+            </Menu>
+          }
+          trigger={["click"]}
+        >
+          <Button style={styles.orgButton} type="link">
+            <DownOutlined />
+            <span style={styles.leftSpacing}>{data.branch}</span>
+          </Button>
+        </Dropdown>
+      ) : (
+        <FormattedMessage id="profile.not.specified" />
+      ),
     };
 
     const location = data.officeLocation;
@@ -342,20 +341,14 @@ BasicInfoView.propTypes = {
     acr: PropTypes.string,
     color: PropTypes.string,
   }).isRequired,
-  employmentInfo: PropTypes.arrayOf(
-    PropTypes.shape({
-      jobTitle: PropTypes.string,
-      branch: PropTypes.string,
-      language: PropTypes.oneOf(["ENGLISH", "FRENCH"]),
-    })
-  ),
+  jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
   connectionStatus: PropTypes.bool.isRequired,
   changeConnection: PropTypes.func.isRequired,
 };
 
 BasicInfoView.defaultProps = {
-  employmentInfo: null,
+  jobTitle: null,
 };
 
 export default BasicInfoView;
