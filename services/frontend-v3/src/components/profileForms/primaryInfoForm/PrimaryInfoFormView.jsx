@@ -707,7 +707,7 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <>
                 <Form.Item
                   name="jobTitle"
@@ -733,7 +733,7 @@ const PrimaryInfoFormView = ({
                 </Form.Item>
               </>
             </Col>
-            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="email"
                 label={<FormattedMessage id="profile.email" />}
@@ -742,28 +742,25 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
-                name="telephone"
-                label={<FormattedMessage id="profile.telephone" />}
-                rules={Rules.telephoneFormat}
+                name="teams"
+                label={<FormattedMessage id="profile.teams" />}
+                className="custom-bubble-select-style"
               >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={6} lg={6} xl={6}>
-              <Form.Item
-                name="cellphone"
-                label={<FormattedMessage id="profile.cellphone" />}
-                rules={[Rules.telephoneFormat]}
-              >
-                <Input />
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={
+                    <FormattedMessage id="setup.teams.placeholder" />
+                  }
+                />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="locationId"
                 label={<FormattedMessage id="profile.location" />}
@@ -792,19 +789,22 @@ const PrimaryInfoFormView = ({
                 </Select>
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
-                name="teams"
-                label={<FormattedMessage id="profile.teams" />}
-                className="custom-bubble-select-style"
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                rules={Rules.telephoneFormat}
               >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={
-                    <FormattedMessage id="setup.teams.placeholder" />
-                  }
-                />
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
               </Form.Item>
             </Col>
           </Row>
