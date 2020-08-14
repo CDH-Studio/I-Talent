@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import EducationFormView from "./EducationFormView";
 import {
   FieldPropType,
   FormInstancePropType,
-  ProfileInfoPropType,
   KeyTitleOptionsPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
@@ -13,7 +12,7 @@ const EducationForm = ({
   form,
   fieldElement,
   removeElement,
-  profileInfo,
+  savedEducation,
   checkIfFormValuesChanged,
   diplomaOptions,
   schoolOptions,
@@ -24,7 +23,7 @@ const EducationForm = ({
       form={form}
       fieldElement={fieldElement}
       removeElement={removeElement}
-      profileInfo={profileInfo}
+      savedEducation={savedEducation}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
@@ -37,7 +36,14 @@ EducationForm.propTypes = {
   form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  profileInfo: ProfileInfoPropType.isRequired,
+  savedEducation: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
+      school: PropTypes.string,
+    })
+  ).isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   diplomaOptions: KeyTitleOptionsPropType.isRequired,
   schoolOptions: KeyTitleOptionsPropType.isRequired,

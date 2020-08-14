@@ -21,7 +21,6 @@ import {
   FieldPropType,
   FormInstancePropType,
   KeyTitleOptionsPropType,
-  ProfileInfoPropType,
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
@@ -45,7 +44,7 @@ const EducationFormView = ({
   removeElement,
   diplomaOptions,
   schoolOptions,
-  profileInfo,
+  savedEducation,
   checkIfFormValuesChanged,
   intl,
   attachmentNamesTypeEduOptions,
@@ -125,15 +124,14 @@ const EducationFormView = ({
   useEffect(() => {
     // set the default status of "ongoing" checkbox
     if (
-      profileInfo &&
       fieldElement &&
-      profileInfo.educations[fieldElement.fieldKey] &&
-      profileInfo.educations[fieldElement.fieldKey].endDate
+      savedEducation[fieldElement.fieldKey] &&
+      savedEducation[fieldElement.fieldKey].endDate
     ) {
       toggleEndDate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo]);
+  }, [savedEducation]);
 
   return (
     <Row gutter={24} className="topRow">
@@ -253,8 +251,8 @@ const EducationFormView = ({
           fieldKey={[fieldElement.fieldKey, "description"]}
           rule={Rules.maxChar1500}
           value={
-            profileInfo.educations[fieldElement.fieldKey] &&
-            profileInfo.educations[fieldElement.fieldKey].description
+            savedEducation[fieldElement.fieldKey] &&
+            savedEducation[fieldElement.fieldKey].description
           }
           label={<FormattedMessage id="profile.qualification.description" />}
           maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
@@ -274,7 +272,7 @@ const EducationFormView = ({
                     form={form}
                     fieldElement={field}
                     removeElement={remove}
-                    profileInfo={profileInfo}
+                    profileInfo={savedEducation}
                     NameOptions={attachmentNamesTypeEduOptions}
                   />
                 ))}
@@ -305,7 +303,14 @@ EducationFormView.propTypes = {
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
-  profileInfo: ProfileInfoPropType.isRequired,
+  savedEducation: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
+      school: PropTypes.string,
+    })
+  ).isRequired,
   diplomaOptions: KeyTitleOptionsPropType,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,

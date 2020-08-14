@@ -76,6 +76,10 @@ const QualificationsForm = ({ formType }) => {
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
                 description: i.description,
+                attachmentLinks: i.attachmentLinks.map((link) => ({
+                  nameId: link.name.id,
+                  url: link.url,
+                })),
               }))
             );
             setSavedExperience(

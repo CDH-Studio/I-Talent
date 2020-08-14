@@ -297,7 +297,6 @@ const QualificationsFormView = ({
               key="education"
             >
               {getSectionHeader("setup.education", "education")}
-
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="educations">
@@ -310,7 +309,7 @@ const QualificationsFormView = ({
                               form={form}
                               fieldElement={field}
                               removeElement={remove}
-                              profileInfo={profileInfo}
+                              savedEducation={savedEducation}
                               diplomaOptions={diplomaOptions}
                               schoolOptions={schoolOptions}
                               attachmentNamesTypeEduOptions={
