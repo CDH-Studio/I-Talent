@@ -25,16 +25,6 @@ migration 20200810152146-optional-interested-in-remote..20200813192343-add-unkno
  }
  model DbSeed {
    id        String   @id
-@@ -321,8 +321,9 @@
-   officialLanguage   CardVisibilityStatus @default(PRIVATE)
-   skills             CardVisibilityStatus @default(PRIVATE)
-   competencies       CardVisibilityStatus @default(PRIVATE)
-   developmentalGoals CardVisibilityStatus @default(PRIVATE)
-+  description        CardVisibilityStatus @default(PRIVATE)
-   education          CardVisibilityStatus @default(PRIVATE)
-   experience         CardVisibilityStatus @default(PRIVATE)
-   projects           CardVisibilityStatus @default(PRIVATE)
-   careerInterests    CardVisibilityStatus @default(PRIVATE)
 @@ -370,16 +371,17 @@
    @@unique([userId, competencyId])
  }
@@ -87,16 +77,4 @@ migration 20200810152146-optional-interested-in-remote..20200813192343-add-unkno
 +  diploma     OpDiploma? @relation(fields: [diplomaId])
    @@unique([userId, schoolId, diplomaId, startDate])
  }
-@@ -484,8 +487,9 @@
-   email                String?
-   telephone            String?
-   cellphone            String?
-   manager              String?
-+  description          String?
-   firstLanguage        Language?
-   secondLanguage       Language?
-   preferredLanguage    Language              @default(ENGLISH)
-   actingStartDate      DateTime?
 ```
-
-
