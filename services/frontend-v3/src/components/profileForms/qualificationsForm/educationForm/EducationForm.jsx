@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import EducationFormView from "./EducationFormView";
 import {
@@ -16,7 +16,7 @@ const EducationForm = ({
   checkIfFormValuesChanged,
   diplomaOptions,
   schoolOptions,
-  attachmentNamesTypeEduOptions,
+  attachmentNames,
 }) => {
   return (
     <EducationFormView
@@ -27,7 +27,7 @@ const EducationForm = ({
       checkIfFormValuesChanged={checkIfFormValuesChanged}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
-      attachmentNamesTypeEduOptions={attachmentNamesTypeEduOptions}
+      attachmentNames={attachmentNames}
     />
   );
 };
@@ -47,7 +47,7 @@ EducationForm.propTypes = {
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   diplomaOptions: KeyTitleOptionsPropType.isRequired,
   schoolOptions: KeyTitleOptionsPropType.isRequired,
-  attachmentNamesTypeEduOptions: KeyNameOptionsPropType.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 export default EducationForm;

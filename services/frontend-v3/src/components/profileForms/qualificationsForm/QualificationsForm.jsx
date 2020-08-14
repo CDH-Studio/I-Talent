@@ -14,15 +14,10 @@ import QualificationsFormView from "./QualificationsFormView";
  */
 const QualificationsForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
-  const [diplomas, setDiplomas] = useState(null);
-  const [schools, setSchools] = useState(null);
-  const [attachmentNamesEdu, setAttachmentNamesEdu] = useState(null);
-  const [attachmentNamesExp, setAttachmentNamesExp] = useState(null);
   const [load, setLoad] = useState(false);
   const [currentTab, setCurrentTab] = useState(null);
-  const [savedEducation, setSavedEducation] = useState();
-  const [savedExperience, setSavedExperience] = useState();
-  const [savedProjects, setSavedProjects] = useState();
+  const [initialValues, setInitialValues] = useState(null);
+  const [options, setOptions] = useState(null);
 
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
@@ -64,13 +59,15 @@ const QualificationsForm = ({ formType }) => {
           attachmentNamesExpQuery,
         ]) => {
           setProfileInfo(profileQuery.data);
-          setDiplomas(diplomasQuery.data);
-          setSchools(schoolsQuery.data);
-          setAttachmentNamesEdu(attachmentNamesEduQuery.data);
-          setAttachmentNamesExp(attachmentNamesExpQuery.data);
+          setOptions({
+            diplomas: diplomasQuery.data,
+            schools: schoolsQuery.data,
+            attachmentNamesEdu: attachmentNamesEduQuery.data,
+            attachmentNamesExp: attachmentNamesExpQuery.data,
+          });
           if (profileQuery.data) {
-            setSavedEducation(
-              profileQuery.data.educations.map((i) => ({
+            setInitialValues({
+              educations: profileQuery.data.educations.map((i) => ({
                 schoolId: i.school.id,
                 diplomaId: i.diploma.id,
                 startDate: i.startDate ? moment(i.startDate) : undefined,
@@ -80,18 +77,16 @@ const QualificationsForm = ({ formType }) => {
                   nameId: link.name.id,
                   url: link.url,
                 })),
-              }))
-            );
-            setSavedExperience(
-              profileQuery.data.experiences.map((i) => ({
+              })),
+              experiences: profileQuery.data.experiences.map((i) => ({
                 jobTitle: i.jobTitle,
                 organization: i.organization,
                 description: i.description,
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
-              }))
-            );
-            setSavedProjects(profileQuery.data.projects);
+              })),
+              projects: profileQuery.data.projects,
+            });
           }
           setLoad(true);
         }
@@ -102,18 +97,13 @@ const QualificationsForm = ({ formType }) => {
   return (
     <QualificationsFormView
       profileInfo={profileInfo}
-      savedEducation={savedEducation}
-      savedExperience={savedExperience}
-      savedProjects={savedProjects}
+      initialValues={initialValues}
       formType={formType}
       currentTab={currentTab}
       load={load}
       history={history}
       userId={id}
-      attachmentNamesTypeEduOptions={attachmentNamesEdu}
-      attachmentNamesTypeExpOptions={attachmentNamesExp}
-      diplomaOptions={diplomas}
-      schoolOptions={schools}
+      options={options}
       saveDataToDB={saveDataToDB}
     />
   );

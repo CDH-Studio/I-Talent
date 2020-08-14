@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -38,25 +38,19 @@ const { TabPane } = Tabs;
 
 const QualificationsFormView = ({
   profileInfo,
-  savedEducation,
-  savedExperience,
-  savedProjects,
+  initialValues,
   formType,
   currentTab,
   load,
-  intl,
   history,
   userId,
-  attachmentNamesTypeEduOptions,
-  attachmentNamesTypeExpOptions,
-  diplomaOptions,
-  schoolOptions,
+  options,
   saveDataToDB,
+  intl,
 }) => {
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
-  const [initialValues, setInitialValues] = useState(null);
   const dispatch = useDispatch();
 
   /* show message */
@@ -77,41 +71,6 @@ const QualificationsFormView = ({
         break;
     }
   };
-
-  /**
-   * Get the initial values for the form (once)
-   */
-  useEffect(() => {
-    if (
-      !initialValues &&
-      savedEducation &&
-      savedExperience &&
-      savedProjects &&
-      profileInfo
-    ) {
-      setInitialValues({
-        educations: savedEducation,
-        experiences: savedExperience,
-        projects: savedProjects,
-      });
-    }
-  }, [
-    savedEducation,
-    savedExperience,
-    savedProjects,
-    profileInfo,
-    initialValues,
-  ]);
-
-  /**
-   * Sets the value of the form according to the initial values (once, when the initial values are initially set)
-   */
-  useEffect(() => {
-    if (initialValues) {
-      form.resetFields();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValues]);
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
@@ -309,12 +268,10 @@ const QualificationsFormView = ({
                               form={form}
                               fieldElement={field}
                               removeElement={remove}
-                              savedEducation={savedEducation}
-                              diplomaOptions={diplomaOptions}
-                              schoolOptions={schoolOptions}
-                              attachmentNamesTypeEduOptions={
-                                attachmentNamesTypeEduOptions
-                              }
+                              savedEducation={initialValues.educations}
+                              diplomaOptions={options.diplomas}
+                              schoolOptions={options.schools}
+                              attachmentNames={options.attachmentNamesEdu}
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
                               }
@@ -364,9 +321,7 @@ const QualificationsFormView = ({
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
                               }
-                              attachmentNamesTypeExpOptions={
-                                attachmentNamesTypeExpOptions
-                              }
+                              attachmentNames={options.attachmentNamesExp}
                             />
                           ))}
                           <Form.Item>
@@ -427,48 +382,47 @@ const QualificationsFormView = ({
 
 QualificationsFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
-  savedEducation: PropTypes.arrayOf(
-    PropTypes.shape({
-      diploma: PropTypes.string,
-      endDate: PropTypes.oneOfType([PropTypes.object]),
-      startDate: PropTypes.oneOfType([PropTypes.object]),
-      school: PropTypes.string,
-    })
-  ),
-  savedExperience: PropTypes.arrayOf(
-    PropTypes.shape({
-      content: PropTypes.string,
-      endDate: PropTypes.oneOfType([PropTypes.object]),
-      header: PropTypes.string,
-      startDate: PropTypes.oneOfType([PropTypes.object]),
-      subheader: PropTypes.string,
-    })
-  ),
-  savedProjects: PropTypes.arrayOf(PropTypes.string),
+  initialValues: {
+    educations: PropTypes.arrayOf(
+      PropTypes.shape({
+        diploma: PropTypes.string,
+        endDate: PropTypes.oneOfType([PropTypes.object]),
+        startDate: PropTypes.oneOfType([PropTypes.object]),
+        school: PropTypes.string,
+      })
+    ),
+    experiences: PropTypes.arrayOf(
+      PropTypes.shape({
+        content: PropTypes.string,
+        endDate: PropTypes.oneOfType([PropTypes.object]),
+        header: PropTypes.string,
+        startDate: PropTypes.oneOfType([PropTypes.object]),
+        subheader: PropTypes.string,
+      })
+    ),
+    projects: PropTypes.arrayOf(PropTypes.string),
+  },
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
-  attachmentNamesTypeEduOptions: KeyNameOptionsPropType,
-  attachmentNamesTypeExpOptions: KeyNameOptionsPropType,
-  diplomaOptions: KeyTitleOptionsPropType,
-  schoolOptions: KeyTitleOptionsPropType,
+  options: {
+    diplomas: KeyTitleOptionsPropType,
+    schools: KeyTitleOptionsPropType,
+    attachmentNamesEdu: KeyNameOptionsPropType,
+    attachmentNamesExp: KeyNameOptionsPropType,
+  },
   saveDataToDB: PropTypes.func.isRequired,
 };
 
 QualificationsFormView.defaultProps = {
   currentTab: null,
   profileInfo: null,
-  savedEducation: undefined,
-  savedExperience: undefined,
-  savedProjects: undefined,
+  initialValues: undefined,
   intl: null,
-  attachmentNamesTypeEduOptions: undefined,
-  attachmentNamesTypeExpOptions: undefined,
-  diplomaOptions: undefined,
-  schoolOptions: undefined,
+  options: undefined,
 };
 
 export default injectIntl(QualificationsFormView);

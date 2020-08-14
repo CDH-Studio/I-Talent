@@ -47,7 +47,7 @@ const EducationFormView = ({
   savedEducation,
   checkIfFormValuesChanged,
   intl,
-  attachmentNamesTypeEduOptions,
+  attachmentNames,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
 
@@ -273,7 +273,7 @@ const EducationFormView = ({
                     fieldElement={field}
                     removeElement={remove}
                     profileInfo={savedEducation}
-                    NameOptions={attachmentNamesTypeEduOptions}
+                    NameOptions={attachmentNames}
                   />
                 ))}
                 <Form.Item>
@@ -314,7 +314,7 @@ EducationFormView.propTypes = {
   diplomaOptions: KeyTitleOptionsPropType,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
-  attachmentNamesTypeEduOptions: KeyNameOptionsPropType.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 EducationFormView.defaultProps = {
