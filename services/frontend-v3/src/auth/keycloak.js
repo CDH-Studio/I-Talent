@@ -1,14 +1,19 @@
-import Keycloak from "keycloak-js";
+import config from "../utils/config";
 
 const keycloakConfig = {
   realm: "individual",
-  url: process.env.REACT_APP_KEYCLOAK_AUTH_SERVER_URL,
+  url: config.keycloakServerUrl,
   "ssl-required": "external",
-  clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
+  clientId: config.keycloakClientId,
   "public-client": true,
   "confidential-port": 0,
 };
 
-const keycloak = new Keycloak(keycloakConfig);
+const keycloak = typeof window !== "undefined" ? (() => {
+  // eslint-disable-next-line global-require
+  const Keycloak = require("keycloak-js");
+
+  return new Keycloak(keycloakConfig);
+})() : {};
 
 export default keycloak;
