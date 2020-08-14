@@ -18,8 +18,6 @@ const updateProfileStringBody = [
   "gcconnex",
   "manager",
   "avatarColor",
-  "jobTitle",
-  "branch",
 ];
 
 const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
@@ -33,6 +31,8 @@ const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
 const updateProfileLanguageBody = ["preferredLanguage"];
 
 const updateProfileBooleanBody = ["interestedInRemote", "exFeeder"];
+
+const updateProfileEmploymentBody = ["jobTitle", "branch"];
 
 const updateProfileUUIDArrayBody = [
   "skills",
@@ -134,6 +134,18 @@ const updateProfileValidator = [
       .isArray()
       .custom((array) => array.every((j) => isUUID(j)))
       .withMessage("must be a UUID array")
+  ),
+  updateProfileEmploymentBody.map((i) =>
+    body(i)
+      .optional()
+      .custom(
+        (object) =>
+          typeof object === "object" &&
+          Object.keys(object).every((key) =>
+            ["ENGLISH", "FRENCH"].includes(key)
+          )
+      )
+      .withMessage("must be an object containing ENGLISH or/and FRENCH as keys")
   ),
   body("secondLangProfs")
     .optional()
