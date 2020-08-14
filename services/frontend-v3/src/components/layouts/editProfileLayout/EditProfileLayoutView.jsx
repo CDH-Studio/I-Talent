@@ -167,6 +167,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.talent.management" />
             </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.ex.feeder.title" />
+            </li>
           </ul>
         </Menu.Item>
         <Menu.Item tabIndex="0" key="qualifications" style={styles.menuItem}>
