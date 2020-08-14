@@ -291,9 +291,9 @@ const PrimaryInfoFormView = ({
           handleError(error, "message");
         } else if (singleJobTitleChanged) {
           if (locale === "ENGLISH") {
-            openNotificationWithIcon("jobTitleLangEN");
-          } else {
             openNotificationWithIcon("jobTitleLangFR");
+          } else {
+            openNotificationWithIcon("jobTitleLangEN");
           }
         } else {
           openNotificationWithIcon("error");
