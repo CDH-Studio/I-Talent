@@ -21,7 +21,7 @@ const EducationForm = ({
 }) => {
   return (
     <EducationFormView
-      formElement={form}
+      form={form}
       fieldElement={fieldElement}
       removeElement={removeElement}
       profileInfo={profileInfo}

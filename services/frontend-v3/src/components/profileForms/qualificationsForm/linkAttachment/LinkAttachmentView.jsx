@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Row,
   Col,
@@ -23,14 +23,14 @@ import {
 } from "../../../../utils/customPropTypes";
 
 const { Option } = Select;
+const { Title, Text } = Typography;
 
 const LinkAttachmentView = ({
-  formElement,
+  form,
   fieldElement,
   removeElement,
   profileInfo,
   NameOptions,
-  parentField,
 }) => {
   const Rules = {
     required: {
@@ -60,8 +60,8 @@ const LinkAttachmentView = ({
       </Col>
       <Col className="gutter-row" span={18}>
         <Form.Item
-          name={[fieldElement.name, "attachmentURL"]}
-          fieldKey={[fieldElement.fieldKey, "attachmentURL"]}
+          name={[fieldElement.name, "url"]}
+          fieldKey={[fieldElement.fieldKey, "url"]}
           className="formItem"
           rules={[Rules.required]}
         >

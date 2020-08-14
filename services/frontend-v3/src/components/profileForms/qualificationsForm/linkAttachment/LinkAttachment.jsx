@@ -9,27 +9,25 @@ import {
 } from "../../../../utils/customPropTypes";
 
 const LinkAttachment = ({
-  formElement,
+  form,
   fieldElement,
   removeElement,
   profileInfo,
   NameOptions,
-  parentField,
 }) => {
   return (
     <LinkAttachmentView
-      formElement={formElement}
+      form={form}
       fieldElement={fieldElement}
       removeElement={removeElement}
       profileInfo={profileInfo}
       NameOptions={NameOptions}
-      parentField={parentField}
     />
   );
 };
 
 LinkAttachment.propTypes = {
-  formElement: FormInstancePropType.isRequired,
+  form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   profileInfo: ProfileInfoPropType.isRequired,

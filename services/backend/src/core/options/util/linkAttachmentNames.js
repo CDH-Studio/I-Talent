@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const _ = require("lodash");
+const { sortBy } = require("lodash");
 const prisma = require("../../../database");
 
 async function getNames(request, response) {
@@ -11,22 +11,22 @@ async function getNames(request, response) {
         type,
       },
       select: {
+        id: true,
         translations: {
           where: {
             language,
           },
           select: {
-            id: true,
             name: true,
           },
         },
       },
     });
 
-    const name = _.sortBy(
+    const name = sortBy(
       nameQuery.map((i) => {
         return {
-          id: i.translations[0].id,
+          id: i.id,
           name: i.translations[0].name,
         };
       }),

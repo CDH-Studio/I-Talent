@@ -40,7 +40,7 @@ const { Title } = Typography;
  *  It contains diploma, school, start date, and end date.
  */
 const EducationFormView = ({
-  formElement,
+  form,
   fieldElement,
   removeElement,
   diplomaOptions,
@@ -78,11 +78,11 @@ const EducationFormView = ({
    */
   const toggleEndDate = () => {
     if (!disableEndDate) {
-      const educationFieldValues = formElement.getFieldsValue();
+      const educationFieldValues = form.getFieldsValue();
       educationFieldValues.educations[
         fieldElement.fieldKey
       ].endDate = undefined;
-      formElement.setFieldsValue(educationFieldValues);
+      form.setFieldsValue(educationFieldValues);
     }
     setDisableEndDate((prev) => !prev);
     checkIfFormValuesChanged();
@@ -96,10 +96,10 @@ const EducationFormView = ({
    */
   const disabledDatesBeforeStart = (current) => {
     const fieldPath = ["educations", fieldElement.fieldKey, "startDate"];
-    if (formElement.getFieldValue(fieldPath)) {
+    if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current < moment(formElement.getFieldValue(fieldPath).startOf("month"))
+        current < moment(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -113,10 +113,10 @@ const EducationFormView = ({
    */
   const disabledDatesAfterEnd = (current) => {
     const fieldPath = ["educations", fieldElement.fieldKey, "endDate"];
-    if (formElement.getFieldValue(fieldPath)) {
+    if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current > moment(formElement.getFieldValue(fieldPath).startOf("month"))
+        current > moment(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -261,18 +261,20 @@ const EducationFormView = ({
         />
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-        <Form.List name="links">
+        <Form.List
+          name={[fieldElement.name, "attachmentLinks"]}
+          fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+        >
           {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field) => (
                   <LinkAttachment
                     key={field.fieldKey}
-                    formElement={formElement}
+                    form={form}
                     fieldElement={field}
                     removeElement={remove}
                     profileInfo={profileInfo}
-                    parentField={fieldElement}
                     NameOptions={attachmentNamesTypeEduOptions}
                   />
                 ))}
@@ -299,7 +301,7 @@ const EducationFormView = ({
 };
 
 EducationFormView.propTypes = {
-  formElement: FormInstancePropType.isRequired,
+  form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,

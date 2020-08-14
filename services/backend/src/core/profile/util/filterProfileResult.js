@@ -120,6 +120,18 @@ function filterProfileResult(profile, language) {
         education.school.translations.find((i) => i.language === language) ||
         education.school.translations[0];
 
+      const attachmentLinks = education.attachmentLinks.map((link) => {
+        const translatedLink =
+          link.translations.find((i) => i.language === language) ||
+          link.translations[0];
+        return {
+          id: link.id,
+          url: translatedLink.url,
+          name: {
+            id: translatedLink.name.id,
+          },
+        };
+      });
       return {
         id: education.id,
         startDate: education.startDate,
@@ -135,6 +147,7 @@ function filterProfileResult(profile, language) {
           province: education.school.abbrProvince,
           name: translatedSchool ? translatedSchool.name : null,
         },
+        attachmentLinks,
       };
     });
 

@@ -371,6 +371,7 @@ const QualificationsFormView = ({
               key="education"
             >
               {getSectionHeader("setup.education", "education")}
+
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="educations">
