@@ -13,7 +13,7 @@ import {
 } from "antd";
 
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl, useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,7 +24,6 @@ import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import {
   ProfileInfoPropType,
-  IntlPropType,
   HistoryPropType,
 } from "../../../utils/customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
@@ -214,7 +213,6 @@ const QualificationsFormView = ({
         if (errors.length > 0) {
           acc[name[0]] = true;
         }
-
         return acc;
       }, {});
 

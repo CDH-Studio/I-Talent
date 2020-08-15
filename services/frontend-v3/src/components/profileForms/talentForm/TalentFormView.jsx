@@ -19,7 +19,7 @@ import {
   CheckOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
@@ -28,7 +28,6 @@ import useAxios from "../../../utils/axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
@@ -55,12 +54,11 @@ const TalentFormView = ({
   formType,
   currentTab,
   load,
-  intl,
   userId,
 }) => {
   const history = useHistory();
   const axios = useAxios();
-
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
@@ -241,21 +239,21 @@ const TalentFormView = ({
    * Find all tabs that have validation errors
    */
   const findErrorTabs = () => {
-    const errors = form.getFieldsError();
-    const errorArray = [];
-    // loop through errors to see where each error belongs
-    errors.forEach((value) => {
-      errorArray.mentorship =
-        errorArray.mentorship ||
-        (String(value.name).includes("mentor") && value.errors.length > 0);
-      errorArray.skills =
-        errorArray.skills ||
-        (String(value.name).includes("skills") && value.errors.length > 0);
-    });
+    const errorObject = form
+      .getFieldsError()
+      .reduce((acc, { name, errors }) => {
+        if (errors.length > 0) {
+          acc[name[0]] = true;
+        }
+        return acc;
+      }, {});
 
     // save results to state
-    setTabErrorsBool(errorArray);
-    return errorArray;
+    if (!_.isEqual(errorObject, tabErrorsBool)) {
+      setTabErrorsBool(errorObject);
+    }
+
+    return errorObject;
   };
 
   /*
@@ -265,7 +263,7 @@ const TalentFormView = ({
    */
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
-    if (formsWithErrorsList.mentorship) {
+    if (formsWithErrorsList.mentorshipSkills) {
       messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
     }
     if (formsWithErrorsList.skills) {
@@ -782,7 +780,7 @@ const TalentFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.mentorship.skills" />,
-                errorBool: tabErrorsBool.mentorship,
+                errorBool: tabErrorsBool.mentorshipSkills,
               })}
               key="mentorship"
             >
@@ -868,7 +866,6 @@ TalentFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  intl: IntlPropType,
   userId: PropTypes.string.isRequired,
 };
 
@@ -880,7 +877,6 @@ TalentFormView.defaultProps = {
   savedCompetencies: [],
   savedSkills: [],
   savedMentorshipSkills: [],
-  intl: null,
 };
 
-export default injectIntl(TalentFormView);
+export default TalentFormView;
