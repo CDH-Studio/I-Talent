@@ -14,7 +14,7 @@ const Profile = ({ history, match }) => {
   const [name, setName] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [connectionData, setConnectionData] = useState(null);
+  const [connectionData, setConnectionData] = useState(true);
   const [userDoesNotExist, setUserDoesNotExist] = useState(false);
   const [userIsHidden, setUserIsHidden] = useState(false);
 

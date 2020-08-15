@@ -270,7 +270,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-employee-summary"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.employee.summary" />
+                    <FormattedMessage id="profile.employee.status" />
                   </Text>
                 }
               />

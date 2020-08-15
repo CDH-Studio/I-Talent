@@ -487,13 +487,13 @@ const EmploymentDataFormView = ({
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
-          3. <FormattedMessage id="setup.employment" />
+          3. <FormattedMessage id="profile.employee.status" />
         </Title>
       );
     }
     return (
       <Title level={2} style={styles.formTitle}>
-        <FormattedMessage id="setup.employment" />
+        <FormattedMessage id="profile.employee.status" />
         {fieldsChanged && (
           <Text style={styles.unsavedText}>
             (<FormattedMessage id="profile.form.unsaved" />)
