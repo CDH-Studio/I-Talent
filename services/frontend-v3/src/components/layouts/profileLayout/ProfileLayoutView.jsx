@@ -253,7 +253,7 @@ const ProfileLayoutView = ({
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor offsetTop="75">
+          <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
               title={
