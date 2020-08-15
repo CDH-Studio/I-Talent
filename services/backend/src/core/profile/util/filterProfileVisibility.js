@@ -56,6 +56,8 @@ function filterProfileVisibility(request, profileResult, userId) {
 
   if (hideCard("description")) {
     result.description = null;
+
+    tempCards.description = false;
   }
 
   if (hideCard("officialLanguage")) {

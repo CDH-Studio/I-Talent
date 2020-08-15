@@ -12,9 +12,9 @@ import {
   Tabs,
 } from "antd";
 
-import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { isEqual, identity, pickBy, size, filter } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -29,6 +29,7 @@ import {
 } from "../../../utils/customPropTypes";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -90,25 +91,6 @@ const QualificationsFormView = ({
     datePicker: {
       width: "100%",
     },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: {
-      float: "left",
-      marginBottom: "1rem",
-    },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
@@ -124,7 +106,6 @@ const QualificationsFormView = ({
    */
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
@@ -185,47 +166,44 @@ const QualificationsFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(savedValues || initialValues, _.identity);
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    const dbValues = pickBy(savedValues || initialValues, identity);
 
     // This needs to be done since the remove from the Form.List does not delete the
     // object, but rather returns an object that contains undefined values
     if (formValues.educations) {
       formValues.educations = formValues.educations.map((i) =>
-        _.pickBy(i, _.identity)
+        pickBy(i, identity)
       );
 
-      formValues.educations = _.filter(formValues.educations, _.size);
+      formValues.educations = filter(formValues.educations, size);
     }
 
     if (formValues.experiences) {
       formValues.experiences = formValues.experiences.map((i) =>
-        _.pickBy(i, _.identity)
+        pickBy(i, identity)
       );
 
-      formValues.experiences = _.filter(formValues.experiences, _.size);
+      formValues.experiences = filter(formValues.experiences, size);
     }
 
     if (dbValues.educations) {
-      dbValues.educations = dbValues.educations.map((i) =>
-        _.pickBy(i, _.identity)
-      );
-
-      dbValues.educations = _.filter(dbValues.educations, _.size);
+      dbValues.educations = dbValues.educations.map((i) => pickBy(i, identity));
+      dbValues.educations = filter(dbValues.educations, size);
     }
 
     if (dbValues.experiences) {
       dbValues.experiences = dbValues.experiences.map((i) =>
-        _.pickBy(i, _.identity)
+        pickBy(i, identity)
       );
 
-      dbValues.experiences = _.filter(dbValues.experiences, _.size);
+      dbValues.experiences = filter(dbValues.experiences, size);
     }
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
   /*
@@ -293,81 +271,6 @@ const QualificationsFormView = ({
     form.resetFields();
     message.info(intl.formatMessage({ id: "profile.form.clear" }));
     checkIfFormValuesChanged();
-  };
-
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              onClick={onSaveAndFinish}
-              type="primary"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    if (_formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                <FormattedMessage id="button.finish" />
-              )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
   };
 
   /*
@@ -552,9 +455,14 @@ const QualificationsFormView = ({
               </Row>
             </TabPane>
           </Tabs>
-          {/* *************** Control Buttons ************** */}
-          {/* Form Row Four: Submit button */}
-          {getFormControlButtons(formType)}
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>
