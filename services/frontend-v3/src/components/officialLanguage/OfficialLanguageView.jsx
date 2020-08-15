@@ -56,15 +56,15 @@ OfficialLanguageView.propTypes = {
     PropTypes.shape({
       title: PropTypes.node,
       description: PropTypes.node,
-    }).isRequired
-  ),
+    })
+  ).isRequired,
   secondLanguageInfo: PropTypes.arrayOf(
     PropTypes.shape({
       titleId: PropTypes.string,
       level: PropTypes.string,
       expiryInfo: PropTypes.string,
-    }).isRequired
-  ),
+    })
+  ).isRequired,
 };
 
 export default OfficialLanguageView;
