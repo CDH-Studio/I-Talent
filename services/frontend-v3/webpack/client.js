@@ -12,7 +12,6 @@ module.exports = (config) => ({
         loader: "babel-loader",
         options: {
           presets: ["@babel/react", "@babel/preset-env"],
-          //   plugins: [["import", { libraryName: "antd", style: true }]],
         },
       },
       {
