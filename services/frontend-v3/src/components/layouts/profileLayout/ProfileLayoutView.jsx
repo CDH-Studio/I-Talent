@@ -5,7 +5,7 @@ import {
   Typography,
   Row,
   Col,
-  message,
+  notification,
   Popover,
   Tooltip,
   Alert,
@@ -99,9 +99,13 @@ const ProfileLayoutView = ({
 
   useEffect(() => {
     if (savedFormContent === false) {
-      message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+      notification.error({
+        message: intl.formatMessage({ id: "profile.edit.save.error" }),
+      });
     } else if (savedFormContent === true) {
-      message.success(intl.formatMessage({ id: "profile.edit.save.success" }));
+      notification.success({
+        message: intl.formatMessage({ id: "profile.edit.save.success" }),
+      });
     }
 
     dispatch(setSavedFormContent(undefined));
@@ -253,7 +257,7 @@ const ProfileLayoutView = ({
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor offsetTop="75">
+          <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
               title={
@@ -274,7 +278,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-employee-summary"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.employee.summary" />
+                    <FormattedMessage id="profile.employee.status" />
                   </Text>
                 }
               />
