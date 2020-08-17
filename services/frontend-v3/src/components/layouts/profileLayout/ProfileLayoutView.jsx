@@ -267,6 +267,14 @@ const ProfileLayoutView = ({
               }
             >
               <Link
+                href="#card-profile-basic-info"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="setup.primary.information" />
+                  </Text>
+                }
+              />
+              <Link
                 href="#card-profile-employee-summary"
                 title={
                   <Text style={styles.sideBarText}>
