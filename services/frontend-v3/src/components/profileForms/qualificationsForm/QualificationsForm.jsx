@@ -74,18 +74,28 @@ const QualificationsForm = ({ formType }) => {
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
                 description: i.description,
-                attachmentLinks: i.attachmentLinks.map((link) => ({
-                  id: link.id,
-                  nameId: link.name.id,
-                  url: link.url,
-                })),
+                attachmentLinks: i.attachmentLinks
+                  ? i.attachmentLinks.map((link) => ({
+                      id: link.id,
+                      nameId: link.name.id,
+                      url: link.url,
+                    }))
+                  : [],
               })),
               experiences: profileQuery.data.experiences.map((i) => ({
+                id: i.id,
                 jobTitle: i.jobTitle,
                 organization: i.organization,
                 description: i.description,
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
+                attachmentLinks: i.attachmentLinks
+                  ? i.attachmentLinks.map((link) => ({
+                      id: link.id,
+                      nameId: link.name.id,
+                      url: link.url,
+                    }))
+                  : [],
               })),
               projects: profileQuery.data.projects,
             });

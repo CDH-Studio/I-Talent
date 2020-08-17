@@ -1,5 +1,5 @@
 const moment = require("moment");
-const { uniq, upperFirst, flattenDeep } = require("lodash");
+const { uniq, upperFirst, flattenDeep, flatten } = require("lodash");
 const prisma = require("../../../database");
 const { manageUsers } = require("../../../utils/keycloak");
 
@@ -148,70 +148,92 @@ async function updateProfile(request, userId, language) {
 
   // Deletes every experiences and educations if experiences or educations is defined since
   // there's no way to uniquely identify them solely from the data
+  let deleteAll = [];
 
   if (experiences) {
-    const attachmentLinkId = await Promise.all(
-      experiences.map((ex) =>
-        prisma.attachmentLink.findMany({
-          where: { experienceId: ex.id },
-          select: { id: true },
-        })
+    const attachmentLinkId = flatten(
+      await Promise.all(
+        experiences.map((ed) =>
+          prisma.attachmentLink.findMany({
+            where: { experienceId: ed.id },
+            select: { id: true },
+          })
+        )
       )
     );
-    const attachmentLinkTransId = await Promise.all(
-      attachmentLinkId.map((at) =>
-        prisma.transAttachmentLink.findMany({
-          where: { attachmentLinkId: at.id },
-          select: { id: true },
-        })
-      )
-    );
-    await Promise.all([
-      Promise.all(
-        attachmentLinkId.map((a) =>
-          prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+    if (attachmentLinkId.length > 0) {
+      deleteAll.push(
+        Promise.all(
+          attachmentLinkId.map((a) =>
+            prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+          )
         )
-      ),
-      Promise.all(
-        attachmentLinkTransId.map((a) =>
-          prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+      );
+      const attachmentLinkTransId = flatten(
+        await Promise.all(
+          attachmentLinkId.map((at) =>
+            prisma.transAttachmentLink.findMany({
+              where: { attachmentLinkId: at.id },
+              select: { id: true },
+            })
+          )
         )
-      ),
-      prisma.experience.deleteMany({ where: { userId } }),
-    ]);
+      );
+      if (attachmentLinkTransId.length > 0)
+        deleteAll.push(
+          Promise.all(
+            attachmentLinkTransId.map((a) =>
+              prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+            )
+          )
+        );
+    }
+    deleteAll.push(prisma.experience.deleteMany({ where: { userId } }));
   }
 
   if (educations) {
-    const attachmentLinkId = await Promise.all(
-      educations.map((ed) =>
-        prisma.attachmentLink.findMany({
-          where: { educationId: ed.id },
-          select: { id: true },
-        })
+    const attachmentLinkId = flatten(
+      await Promise.all(
+        educations.map((ed) =>
+          prisma.attachmentLink.findMany({
+            where: { educationId: ed.id },
+            select: { id: true },
+          })
+        )
       )
     );
-    const attachmentLinkTransId = await Promise.all(
-      attachmentLinkId.map((at) =>
-        prisma.transAttachmentLink.findMany({
-          where: { attachmentLinkId: at.id },
-          select: { id: true },
-        })
-      )
-    );
-    await Promise.all([
-      Promise.all(
-        attachmentLinkId.map((a) =>
-          prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+
+    if (attachmentLinkId.length > 0) {
+      deleteAll.push(
+        Promise.all(
+          attachmentLinkId.map((a) =>
+            prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+          )
         )
-      ),
-      Promise.all(
-        attachmentLinkTransId.map((a) =>
-          prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+      );
+      const attachmentLinkTransId = flatten(
+        await Promise.all(
+          attachmentLinkId.map((at) =>
+            prisma.transAttachmentLink.findMany({
+              where: { attachmentLinkId: at.id },
+              select: { id: true },
+            })
+          )
         )
-      ),
-      prisma.education.deleteMany({ where: { userId } }),
-    ]);
+      );
+      if (attachmentLinkTransId.length > 0)
+        deleteAll.push(
+          Promise.all(
+            attachmentLinkTransId.map((a) =>
+              prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+            )
+          )
+        );
+    }
+    deleteAll.push(prisma.education.deleteMany({ where: { userId } }));
   }
+
+  await Promise.all(deleteAll);
 
   if (organizations) {
     const relatedOrgs = await prisma.organization.findMany({

@@ -268,10 +268,8 @@ const EducationFormView = ({
                 {fields.map((field) => (
                   <LinkAttachment
                     key={field.fieldKey}
-                    form={form}
                     fieldElement={field}
                     removeElement={remove}
-                    profileInfo={savedEducation}
                     NameOptions={attachmentNames}
                   />
                 ))}
@@ -308,8 +306,15 @@ EducationFormView.propTypes = {
       endDate: PropTypes.oneOfType([PropTypes.object]),
       startDate: PropTypes.oneOfType([PropTypes.object]),
       school: PropTypes.string,
+      attachmentLinks: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          nameId: PropTypes.string,
+          url: PropTypes.string,
+        })
+      ),
     })
-  ).isRequired,
+  ),
   diplomaOptions: KeyTitleOptionsPropType,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
@@ -319,6 +324,7 @@ EducationFormView.propTypes = {
 EducationFormView.defaultProps = {
   schoolOptions: [],
   diplomaOptions: [],
+  savedEducation: [],
   intl: undefined,
 };
 

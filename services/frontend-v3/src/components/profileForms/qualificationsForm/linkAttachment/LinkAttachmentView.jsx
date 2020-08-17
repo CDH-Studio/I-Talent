@@ -8,20 +8,12 @@ import "./LinkAttachmentView.scss";
 
 import {
   FieldPropType,
-  FormInstancePropType,
-  ProfileInfoPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 const { Option } = Select;
 
-const LinkAttachmentView = ({
-  form,
-  fieldElement,
-  removeElement,
-  profileInfo,
-  NameOptions,
-}) => {
+const LinkAttachmentView = ({ fieldElement, removeElement, NameOptions }) => {
   const Rules = {
     required: {
       required: true,
@@ -81,10 +73,8 @@ const LinkAttachmentView = ({
 };
 
 LinkAttachmentView.propTypes = {
-  form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  profileInfo: ProfileInfoPropType.isRequired,
   NameOptions: KeyNameOptionsPropType.isRequired,
 };
 export default LinkAttachmentView;

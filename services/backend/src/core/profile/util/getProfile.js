@@ -205,11 +205,15 @@ async function getFullProfile(id, language) {
             select: {
               id: true,
               translations: {
-                where: { language },
                 select: {
-                  name: true,
-                  nameId: true,
                   url: true,
+                  name: {
+                    select: {
+                      translations: true,
+                    },
+                  },
+                  nameId: true,
+                  language: true,
                 },
               },
             },

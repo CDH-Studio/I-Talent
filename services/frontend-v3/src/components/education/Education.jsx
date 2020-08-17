@@ -43,11 +43,13 @@ const Education = ({ data, type }) => {
         school: school.name,
         duration: getEducationDuration(startDate, endDate),
         description,
-        attachmentLinks: attachmentLinks.map((a) => ({
-          id: a.id,
-          name: a.name.name,
-          url: a.url,
-        })),
+        attachmentLinks: attachmentLinks
+          ? attachmentLinks.map((a) => ({
+              id: a.id,
+              name: a.name.name,
+              url: a.url,
+            }))
+          : [],
       })
     );
   };

@@ -172,6 +172,25 @@ function filterProfileResult(profile, language) {
         experience.translations.find((i) => i.language === language) ||
         experience.translations[0];
 
+      const attachmentLinks = experience.attachmentLinks.map((link) => {
+        const translatedLink =
+          link.translations.find((i) => i.language === language) ||
+          link.translations[0];
+
+        const translatedName =
+          translatedLink.name.translations.find(
+            (i) => i.language === language
+          ) || translatedLink.name.translations[0];
+
+        return {
+          id: link.id,
+          url: translatedLink.url,
+          name: {
+            id: translatedLink.nameId,
+            name: translatedName.name,
+          },
+        };
+      });
       return {
         id: experience.id,
         startDate: experience.startDate,
@@ -183,6 +202,7 @@ function filterProfileResult(profile, language) {
         organization: translatedExperience
           ? translatedExperience.organization
           : null,
+        attachmentLinks,
       };
     });
 

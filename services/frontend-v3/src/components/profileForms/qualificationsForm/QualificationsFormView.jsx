@@ -317,11 +317,11 @@ const QualificationsFormView = ({
                               form={form}
                               fieldElement={field}
                               removeElement={remove}
-                              profileInfo={profileInfo}
+                              savedExperience={initialValues.experiences}
+                              attachmentNames={options.attachmentNamesExp}
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged
                               }
-                              attachmentNames={options.attachmentNamesExp}
                             />
                           ))}
                           <Form.Item>
