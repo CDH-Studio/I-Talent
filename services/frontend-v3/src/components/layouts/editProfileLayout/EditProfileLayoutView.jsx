@@ -105,7 +105,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
-              <FormattedMessage id="setup.employment" />
+              <FormattedMessage id="profile.employee.status" />
             </b>
           </div>
           <ul style={styles.menuList}>
