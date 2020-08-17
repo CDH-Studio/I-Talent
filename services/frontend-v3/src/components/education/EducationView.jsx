@@ -1,6 +1,6 @@
 import React from "react";
-import { Row, Col, Avatar, List, Empty } from "antd";
-import { BankOutlined } from "@ant-design/icons";
+import { Row, Col, Avatar, List, Empty, Tag } from "antd";
+import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
@@ -17,6 +17,19 @@ const EducationView = ({ educationInfo }) => {
     },
   };
 
+  const getUrl = (item) => {
+    if (item.attachmentLinks && item.attachmentLinks.length > 0)
+      return item.attachmentLinks.map((i) => (
+        <Tag color="rgb(114, 114, 114)" key={i.id}>
+          <LinkOutlined />
+          <a target="_blank" rel="noreferrer" href={i.url}>
+            {i.name}
+          </a>
+        </Tag>
+      ));
+    return <></>;
+  };
+
   const generateEducationItemDescription = (item) => (
     <>
       <Row>
@@ -27,6 +40,7 @@ const EducationView = ({ educationInfo }) => {
           <DescriptionText text={item.description} expandable />
         </Col>
       </Row>
+      {getUrl(item)}
     </>
   );
 
@@ -54,6 +68,7 @@ const EducationView = ({ educationInfo }) => {
       />
     );
   };
+
   if (educationInfo.length > 0) {
     return (
       <Row>

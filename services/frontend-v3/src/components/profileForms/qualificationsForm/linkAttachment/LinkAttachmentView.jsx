@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Select,
-  Button,
-  Tooltip,
-  Input,
-} from "antd";
+import { Row, Col, Form, Select, Button, Tooltip, Input } from "antd";
 
 import { DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
@@ -23,7 +14,6 @@ import {
 } from "../../../../utils/customPropTypes";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
 
 const LinkAttachmentView = ({
   form,
