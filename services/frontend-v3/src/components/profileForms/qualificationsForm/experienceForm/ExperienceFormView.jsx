@@ -54,7 +54,7 @@ const ExperienceFormView = ({
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
+      message: <FormattedMessage id="profile.rules.max.100" />,
     },
   };
 
@@ -232,12 +232,12 @@ const ExperienceFormView = ({
         <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          rule={Rules.maxChar1500}
+          label={<FormattedMessage id="profile.qualification.description" />}
+          rules={[Rules.maxChar1500]}
           value={
             profileInfo.experiences[field.fieldKey] &&
             profileInfo.experiences[field.fieldKey].description
           }
-          label={<FormattedMessage id="profile.qualification.description" />}
           maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>

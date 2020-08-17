@@ -8,10 +8,10 @@ import {
   Form,
   Select,
   Checkbox,
-  message,
   Popover,
   TreeSelect,
   Tabs,
+  notification,
 } from "antd";
 import {
   ExclamationCircleOutlined,
@@ -165,21 +165,29 @@ const PersonalGrowthFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -220,7 +228,11 @@ const PersonalGrowthFormView = ({
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /* save and show success notification */
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -228,13 +240,15 @@ const PersonalGrowthFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+          });
         }
       });
   };
@@ -256,12 +270,18 @@ const PersonalGrowthFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
@@ -289,7 +309,9 @@ const PersonalGrowthFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+          });
         }
       });
   };
@@ -301,8 +323,23 @@ const PersonalGrowthFormView = ({
    */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
+  };
+
+  /**
+   * Get Tab Title
+   * @param {Object} tabTitleInfo - tab title info.
+   * @param {string} tabTitleInfo.message - Tab title.
+   * @param {bool} tabTitleInfo.errorBool - Bool to show error in tab.
+   */
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
+    }
+    return message;
   };
 
   /*
@@ -387,7 +424,9 @@ const PersonalGrowthFormView = ({
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
-              tab={<FormattedMessage id="profile.learning.development" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.learning.development" />,
+              })}
               key="learning-development"
             >
               {/* *************** Developmental ************** */}
@@ -416,7 +455,9 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.career.interests" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.career.interests" />,
+              })}
               key="career-interests"
             >
               {/* *************** Career Interest ************** */}
@@ -502,7 +543,11 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.talent.management.title" />}
+              tab={getTabTitle({
+                message: (
+                  <FormattedMessage id="setup.talent.management.title" />
+                ),
+              })}
               key="talent-management"
             >
               {/* *************** Talent Management ************** */}
@@ -593,7 +638,9 @@ const PersonalGrowthFormView = ({
             </TabPane>
 
             <TabPane
-              tab={<FormattedMessage id="profile.ex.feeder.title" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.ex.feeder.title" />,
+              })}
               key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
