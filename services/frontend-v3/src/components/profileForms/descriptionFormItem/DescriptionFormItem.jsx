@@ -62,6 +62,9 @@ DescriptionFormItem.propTypes = {
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
   isRequired: PropTypes.bool,
+  minLengthMessage: PropTypes.element,
+  maxLengthMessage: PropTypes.element,
+  isRequiredMessage: PropTypes.element,
   lengthMessage: PropTypes.element.isRequired,
   value: PropTypes.string,
 };
@@ -73,6 +76,9 @@ DescriptionFormItem.defaultProps = {
   minLength: undefined,
   maxLength: 1000,
   isRequired: false,
+  minLengthMessage: null,
+  maxLengthMessage: null,
+  isRequiredMessage: null,
 };
 
 export default DescriptionFormItem;

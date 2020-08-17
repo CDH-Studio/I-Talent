@@ -8,19 +8,14 @@ import {
   Form,
   Select,
   Switch,
-  Button,
   TreeSelect,
-  message,
   Popover,
   Tabs,
+  notification,
 } from "antd";
-import {
-  RightOutlined,
-  CheckOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { FormattedMessage, useIntl } from "react-intl";
+import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,12 +23,12 @@ import useAxios from "../../../utils/axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
+import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -55,18 +50,18 @@ const TalentFormView = ({
   formType,
   currentTab,
   load,
-  intl,
   userId,
 }) => {
   const history = useHistory();
   const axios = useAxios();
-
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
+  const [tabErrorsBool, setTabErrorsBool] = useState([]);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -97,25 +92,6 @@ const TalentFormView = ({
     headerDiv: {
       margin: "15px 0 15px 0",
     },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: {
-      float: "left",
-      marginBottom: "1rem",
-    },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
@@ -140,15 +116,6 @@ const TalentFormView = ({
   };
 
   /*
-   * toggle mentorship form
-   *
-   * toggle state that controls mentorship form visibility
-   */
-  const toggleMentorshipForm = () => {
-    setDisplayMentorshipForm((prev) => !prev);
-  };
-
-  /*
    * save data to DB
    *
    * update profile in DB or create profile if it is not found
@@ -163,21 +130,29 @@ const TalentFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -206,17 +181,17 @@ const TalentFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    if (_.isEmpty(formValues)) {
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    if (isEmpty(formValues)) {
       return false;
     }
 
-    const dbValues = _.pickBy(
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
     // Cleans up the object for following comparison
@@ -228,14 +203,85 @@ const TalentFormView = ({
       delete dbValues.mentorshipSkills;
     }
 
-    return !_.isEqual(formValues, dbValues);
+    return !isEqual(formValues, dbValues);
   };
 
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
-  /* save and show success notification */
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errorObject = form
+      .getFieldsError()
+      .reduce((acc, { name, errors }) => {
+        if (errors.length > 0) {
+          acc[name[0]] = true;
+        }
+        return acc;
+      }, {});
+
+    // save results to state
+    if (!isEqual(errorObject, tabErrorsBool)) {
+      setTabErrorsBool(errorObject);
+    }
+
+    return errorObject;
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    const messages = [];
+    if (formsWithErrorsList.mentorshipSkills) {
+      messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
+    }
+    if (formsWithErrorsList.skills) {
+      messages.push(intl.formatMessage({ id: "profile.skills" }));
+    }
+    if (formsWithErrorsList.competencies) {
+      messages.push(intl.formatMessage({ id: "profile.competencies" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  };
+
+  const onFieldsChange = () => {
+    findErrorTabs();
+  };
+
+  /*
+   * toggle mentorship form
+   *
+   * toggle state that controls mentorship form visibility
+   */
+  const toggleMentorshipForm = () => {
+    findErrorTabs();
+    setDisplayMentorshipForm((prev) => !prev);
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -243,19 +289,22 @@ const TalentFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
+          });
         }
       });
   };
 
   /*
-   * save and next
+   * Save and next
    *
    * save and redirect to next step in setup
    */
@@ -271,18 +320,25 @@ const TalentFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
   /*
-   * save and finish
+   * Save and finish
    *
    * Save form data and redirect home
    */
@@ -304,7 +360,10 @@ const TalentFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
+          });
         }
       });
   };
@@ -319,8 +378,24 @@ const TalentFormView = ({
     form.resetFields();
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     updateIfFormValuesChanged();
+    setTabErrorsBool([]);
+  };
+
+  /**
+   * Get Tab Title
+   * @param {Object} tabTitleInfo - tab title info.
+   * @param {string} tabTitleInfo.message - Tab title.
+   * @param {bool} tabTitleInfo.errorBool - Bool to show error in tab.
+   */
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
+    }
+    return message;
   };
 
   /*
@@ -513,88 +588,6 @@ const TalentFormView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMentorshipForm]);
 
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    if (_formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                <FormattedMessage id="button.finish" />
-              )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
-  };
-
   const getSectionHeader = (titleId, cardName) => (
     <Row justify="space-between" style={styles.sectionHeader} align="middle">
       <Title level={3} style={styles.formTitle}>
@@ -649,9 +642,16 @@ const TalentFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
-            <TabPane tab={<FormattedMessage id="setup.skills" />} key="skills">
+            <TabPane
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.skills" />,
+                errorBool: tabErrorsBool.skills,
+              })}
+              key="skills"
+            >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -673,7 +673,10 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.mentorship.skills" />,
+                errorBool: tabErrorsBool.mentorshipSkills,
+              })}
               key="mentorship"
             >
               {/* Form Row Two: skills */}
@@ -697,14 +700,20 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.competencies" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.competencies" />,
+                errorBool: tabErrorsBool.competencies,
+              })}
               key="competencies"
             >
               {/* Form Row Three: competencies */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   {getSectionHeader("setup.competencies", "competencies")}
-                  <Form.Item name="competencies">
+                  <Form.Item
+                    name="competencies"
+                    label={<FormattedMessage id="setup.competencies" />}
+                  >
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
@@ -722,8 +731,15 @@ const TalentFormView = ({
             </TabPane>
           </Tabs>
 
-          {/* Form Row Four: Submit button */}
-          {getFormControlButtons(formType)}
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndNext={onSaveAndNext}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>
@@ -752,19 +768,17 @@ TalentFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  intl: IntlPropType,
   userId: PropTypes.string.isRequired,
 };
 
 TalentFormView.defaultProps = {
   profileInfo: null,
+  currentTab: null,
   skillOptions: [],
   competencyOptions: [],
   savedCompetencies: [],
   savedSkills: [],
   savedMentorshipSkills: [],
-  currentTab: null,
-  intl: null,
 };
 
-export default injectIntl(TalentFormView);
+export default TalentFormView;

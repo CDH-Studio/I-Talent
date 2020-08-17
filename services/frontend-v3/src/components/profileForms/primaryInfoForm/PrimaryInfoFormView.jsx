@@ -9,7 +9,7 @@ import {
   Select,
   Input,
   Button,
-  message,
+  notification,
   List,
   Popover,
   Modal,
@@ -17,18 +17,16 @@ import {
 } from "antd";
 import {
   LinkOutlined,
-  RightOutlined,
-  CheckOutlined,
   LoadingOutlined,
   InfoCircleOutlined,
+  SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { isEqual, identity, pickBy, find } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/axios-instance";
 import {
   IdDescriptionPropType,
@@ -40,6 +38,7 @@ import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
+import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -94,24 +93,6 @@ const PrimaryInfoFormView = ({
     },
     subHeading: {
       fontSize: "1.3em",
-    },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-
-    clearBtn: { float: "left", marginBottom: "1rem" },
-
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
     },
     unsavedText: {
       marginLeft: "10px",
@@ -172,7 +153,7 @@ const PrimaryInfoFormView = ({
     nameFormat: {
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+-[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="profile.rules.name" />,
-    }
+    },
   };
 
   /* Save data */
@@ -185,21 +166,29 @@ const PrimaryInfoFormView = ({
     }
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -228,19 +217,43 @@ const PrimaryInfoFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /* save and show success notification */
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">
+            {intl.formatMessage({ id: "setup.primary.information" })}
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -248,18 +261,25 @@ const PrimaryInfoFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * Save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -272,17 +292,28 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /* save and redirect to home */
+  /*
+   * Save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -303,7 +334,10 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
@@ -320,13 +354,17 @@ const PrimaryInfoFormView = ({
         if (Object.keys(result.data).length) {
           setNewGedsValues(result.data);
         } else {
-          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
+          notification.info({
+            message: intl.formatMessage({ id: "profile.geds.up.to.date" }),
+          });
         }
       })
       .catch(() =>
-        message.warning(
-          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
-        )
+        notification.warning({
+          message: intl.formatMessage({
+            id: "profile.geds.failed.to.retrieve",
+          }),
+        })
       );
     setGatheringGedsData(false);
   };
@@ -334,7 +372,9 @@ const PrimaryInfoFormView = ({
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
   };
 
@@ -345,17 +385,18 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
-            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </Button>
             <Popover
               trigger="click"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
-                  <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                  >
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </Link>
+                  </a>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -371,16 +412,23 @@ const PrimaryInfoFormView = ({
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
           <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-            <FormattedMessage id="profile.geds.sync.button" />
+            <SyncOutlined />
+            <span>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </span>
           </Button>
           <Popover
             trigger="click"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
-                <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                >
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </Link>
+                </a>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }
@@ -395,88 +443,6 @@ const PrimaryInfoFormView = ({
         )}
       </Title>
     );
-  };
-
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    if (_formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                  <FormattedMessage id="button.finish" />
-                )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
   };
 
   const handleGedsConfirm = async () => {
@@ -522,7 +488,7 @@ const PrimaryInfoFormView = ({
       }
 
       if (newGedsValues.locationId) {
-        const locationOption = _.find(
+        const locationOption = find(
           locationOptions,
           (option) => option.id === newGedsValues.locationId
         );
@@ -604,12 +570,12 @@ const PrimaryInfoFormView = ({
             ))}
           </List>
         ) : (
-            <div style={{ textAlign: "center" }}>
-              <Spin
-                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-              />
-            </div>
-          )}
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
       </Modal>
     );
   };
@@ -815,7 +781,15 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          {getFormControlButtons(formType)}
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndNext={onSaveAndNext}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>
