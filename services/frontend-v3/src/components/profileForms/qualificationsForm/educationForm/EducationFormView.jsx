@@ -55,17 +55,16 @@ const EducationFormView = ({
       required: true,
       message: <FormattedMessage id="profile.rules.required" />,
     },
-    maxChar50: {
-      max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
-    },
-    maxChar100: {
-      max: 100,
-      message: <FormattedMessage id="profile.rules.max.100" />,
-    },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 1500,
+          }}
+        />
+      ),
     },
   };
 
@@ -260,7 +259,7 @@ const EducationFormView = ({
         <DescriptionFormItem
           name={[field.name, "description"]}
           fieldKey={[field.fieldKey, "description"]}
-          rule={Rules.maxChar1500}
+          rules={Rules.maxChar1500}
           value={
             profileInfo.educations[field.fieldKey] &&
             profileInfo.educations[field.fieldKey].description
