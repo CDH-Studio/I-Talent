@@ -399,10 +399,10 @@ async function updateProfile(request, userId, language) {
                           },
                           url: link.url,
                         },
-                      },
-                    })),
-                  }
-                : undefined,
+              },
+            })),
+          }
+        : undefined,
             })),
           }
         : undefined,
