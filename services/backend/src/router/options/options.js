@@ -29,7 +29,6 @@ const {
   updateSkillValidator,
 } = require("./validator");
 const { keycloak } = require("../../auth/keycloak");
-const options = require("../../core/options/options");
 
 const optionsRouter = Router();
 

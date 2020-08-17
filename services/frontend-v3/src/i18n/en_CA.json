@@ -247,13 +247,12 @@
   "profile.qualification.description": "Description",
   "profile.qualifications.select.month": "Select month",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
+  "profile.rules.max": "Max length {max} characters",
   "profile.rules.max.100": "Max length 100 characters",
   "profile.rules.max.1000": "Max length 1000 characters",
   "profile.rules.max.1500": "Max length 1500 characters",
   "profile.rules.max.50": "Max length 50 characters",
   "profile.rules.max.60": "Max length 60 characters",
-  "profile.rules.max": "Max length {max} characters",
-  "profile.rules.max.exceeded": "Max length exceeded",
   "profile.rules.name": "Please provide a valid name",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.required": "Required",
@@ -310,6 +309,7 @@
   "settings.visibility.description": "Make your profile visible or hidden to others. If your profile is hidden, other users won't be able to see or search your profile.",
   "settings.visibility.title": "Profile visibility",
   "settings.visible.toggle": "Make your profile visible to others",
+  "setup.add.attachment": "Add attachment",
   "setup.add.item": "Add item",
   "setup.career.interests": "Job mobility",
   "setup.competencies": "Competencies",
@@ -354,6 +354,5 @@
   "sign.out": "Logout",
   "stats.title": "Statistics",
   "stats.view": "View stats",
-  "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
-  "setup.add.attachment": "Add attachment"
+  "tooltip.extra.info.help": "For more information, visit our help and contact page: "
 }
