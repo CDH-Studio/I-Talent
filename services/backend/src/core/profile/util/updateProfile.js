@@ -148,8 +148,37 @@ async function updateProfile(request, userId, language) {
 
   // Deletes every experiences and educations if experiences or educations is defined since
   // there's no way to uniquely identify them solely from the data
+
   if (experiences) {
-    await prisma.experience.deleteMany({ where: { userId } });
+    const attachmentLinkId = await Promise.all(
+      experiences.map((ex) =>
+        prisma.attachmentLink.findMany({
+          where: { experienceId: ex.id },
+          select: { id: true },
+        })
+      )
+    );
+    const attachmentLinkTransId = await Promise.all(
+      attachmentLinkId.map((at) =>
+        prisma.transAttachmentLink.findMany({
+          where: { attachmentLinkId: at.id },
+          select: { id: true },
+        })
+      )
+    );
+    await Promise.all([
+      Promise.all(
+        attachmentLinkId.map((a) =>
+          prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+        )
+      ),
+      Promise.all(
+        attachmentLinkTransId.map((a) =>
+          prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+        )
+      ),
+      prisma.experience.deleteMany({ where: { userId } }),
+    ]);
   }
 
   if (educations) {
@@ -450,6 +479,23 @@ async function updateProfile(request, userId, language) {
                   description: expItem.description,
                 },
               },
+              attachmentLinks: expItem.attachmentLinks
+                ? {
+                    create: expItem.attachmentLinks.map((link) => ({
+                      translations: {
+                        create: {
+                          language,
+                          name: {
+                            connect: {
+                              id: link.nameId,
+                            },
+                          },
+                          url: link.url,
+                        },
+                      },
+                    })),
+                  }
+                : undefined,
             })),
           }
         : undefined,
