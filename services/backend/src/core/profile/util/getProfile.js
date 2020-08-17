@@ -153,7 +153,12 @@ async function getFullProfile(id, language) {
               translations: {
                 select: {
                   url: true,
-                  name: true,
+                  name: {
+                    select: {
+                      translations: true,
+                    },
+                  },
+                  nameId: true,
                   language: true,
                 },
               },

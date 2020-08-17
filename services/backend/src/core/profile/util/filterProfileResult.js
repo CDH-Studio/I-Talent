@@ -125,11 +125,17 @@ function filterProfileResult(profile, language) {
           link.translations.find((i) => i.language === language) ||
           link.translations[0];
 
+        const translatedName =
+          translatedLink.name.translations.find(
+            (i) => i.language === language
+          ) || translatedLink.name.translations[0];
+
         return {
           id: link.id,
           url: translatedLink.url,
           name: {
-            id: translatedLink.name.id,
+            id: translatedLink.nameId,
+            name: translatedName.name,
           },
         };
       });
