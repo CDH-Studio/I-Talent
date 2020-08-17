@@ -45,7 +45,6 @@ const QualificationsFormView = ({
   userId,
   options,
   saveDataToDB,
-  intl,
 }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
@@ -54,68 +53,8 @@ const QualificationsFormView = ({
   const dispatch = useDispatch();
   const [tabErrorsBool, setTabErrorsBool] = useState({});
 
-<<<<<<< HEAD
   /* show message */
   const openNotificationWithIcon = (type) => {
-=======
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
-    },
-    sectionHeader: {
-      marginBottom: 10,
-    },
-    entryTitle: {
-      fontSize: "1em",
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    datePicker: {
-      width: "100%",
-    },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-  };
-
-  /*
-   * save data to DB
-   *
-   * update profile in DB or create profile if it is not found
-   */
-  const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
-  };
-
-  /**
-   * Open Notification
-   * @param {Object} notification - The notification to be displayed.
-   * @param {string} notification.type - The type of notification.
-   * @param {string} notification.description - Additional info in notification.
-   */
-  const openNotificationWithIcon = ({ type, description }) => {
->>>>>>> development
     switch (type) {
       case "success":
         notification.success({

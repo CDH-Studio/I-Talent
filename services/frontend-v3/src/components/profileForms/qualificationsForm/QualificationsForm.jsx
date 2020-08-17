@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { useHistory, useLocation } from "react-router-dom";
+import QualificationsFormView from "./QualificationsFormView";
 import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
-import QualificationsFormView from "./QualificationsFormView";
 
 /**
  *  QualificationsForm
