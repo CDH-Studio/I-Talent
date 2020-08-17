@@ -1,5 +1,5 @@
 const moment = require("moment");
-const { uniq, upperFirst, flattenDeep, flatten } = require("lodash");
+const { uniq, upperFirst, flatten } = require("lodash");
 const prisma = require("../../../database");
 const { manageUsers } = require("../../../utils/keycloak");
 
