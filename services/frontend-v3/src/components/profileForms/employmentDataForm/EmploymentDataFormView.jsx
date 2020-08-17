@@ -11,7 +11,7 @@ import {
   Switch,
   DatePicker,
   Checkbox,
-  message,
+  notification,
   Popover,
 } from "antd";
 import PropTypes from "prop-types";
@@ -130,11 +130,25 @@ const EmploymentDataFormView = ({
     },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 50,
+          }}
+        />
+      ),
     },
     maxChar1000: {
       max: 1000,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 1000,
+          }}
+        />
+      ),
     },
   };
 
@@ -197,21 +211,29 @@ const EmploymentDataFormView = ({
     return undefined;
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -259,7 +281,29 @@ const EmploymentDataFormView = ({
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
-  /* save and show success notification */
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -267,18 +311,25 @@ const EmploymentDataFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * Save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -291,17 +342,28 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /* save and redirect to home */
+  /*
+   * Save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -320,12 +382,19 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* on form reset */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
     // reset form fields
     form.resetFields();
@@ -335,7 +404,9 @@ const EmploymentDataFormView = ({
       profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     updateIfFormValuesChanged();
   };
 
@@ -416,13 +487,13 @@ const EmploymentDataFormView = ({
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
-          3. <FormattedMessage id="setup.employment" />
+          3. <FormattedMessage id="profile.employee.status" />
         </Title>
       );
     }
     return (
       <Title level={2} style={styles.formTitle}>
-        <FormattedMessage id="setup.employment" />
+        <FormattedMessage id="profile.employee.status" />
         {fieldsChanged && (
           <Text style={styles.unsavedText}>
             (<FormattedMessage id="profile.form.unsaved" />)
@@ -619,7 +690,7 @@ const EmploymentDataFormView = ({
               <DescriptionFormItem
                 name="description"
                 fieldKey="description"
-                rule={Rules.maxChar1000}
+                rules={Rules.maxChar1000}
                 value={profileInfo.description}
                 maxLengthMessage={
                   <FormattedMessage id="profile.rules.max.1000" />
