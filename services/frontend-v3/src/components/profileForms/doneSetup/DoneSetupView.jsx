@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router";
 
 const { Title, Paragraph } = Typography;
 
@@ -16,6 +17,8 @@ const { Title, Paragraph } = Typography;
  *  Controller for the Done Setup Page.
  */
 const DoneSetupView = ({ userId }) => {
+  const history = useHistory();
+
   /* Component Styles */
   const styles = {
     skeleton: {
@@ -67,7 +70,7 @@ const DoneSetupView = ({ userId }) => {
         icon={<SearchOutlined />}
         size="large"
         style={{ marginRight: "25px" }}
-        href="/"
+        onClick={() => history.push(`/`)}
       >
         <span>
           <FormattedMessage id="setup.done.search" />
@@ -77,7 +80,7 @@ const DoneSetupView = ({ userId }) => {
         icon={<UserOutlined />}
         size="large"
         type="primary"
-        href={`/profile/${userId}`}
+        onClick={() => history.push(`/profile/${userId}`)}
       >
         <span>
           <FormattedMessage id="setup.done.view.profile" />
