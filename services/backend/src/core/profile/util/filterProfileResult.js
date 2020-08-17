@@ -124,6 +124,7 @@ function filterProfileResult(profile, language) {
         const translatedLink =
           link.translations.find((i) => i.language === language) ||
           link.translations[0];
+
         return {
           id: link.id,
           url: translatedLink.url,

@@ -68,12 +68,14 @@ const QualificationsForm = ({ formType }) => {
           if (profileQuery.data) {
             setInitialValues({
               educations: profileQuery.data.educations.map((i) => ({
+                id: i.id,
                 schoolId: i.school.id,
                 diplomaId: i.diploma.id,
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
                 description: i.description,
                 attachmentLinks: i.attachmentLinks.map((link) => ({
+                  id: link.id,
                   nameId: link.name.id,
                   url: link.url,
                 })),

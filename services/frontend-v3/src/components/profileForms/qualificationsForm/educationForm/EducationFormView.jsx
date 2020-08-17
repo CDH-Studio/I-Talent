@@ -132,7 +132,6 @@ const EducationFormView = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedEducation]);
-
   return (
     <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>

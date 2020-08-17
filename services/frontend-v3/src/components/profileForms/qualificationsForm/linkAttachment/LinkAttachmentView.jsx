@@ -38,7 +38,6 @@ const LinkAttachmentView = ({
       message: <FormattedMessage id="profile.rules.required" />,
     },
   };
-
   return (
     <Row span={24}>
       <Col className="gutter-row" span={5}>

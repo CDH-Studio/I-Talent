@@ -1,5 +1,5 @@
 const moment = require("moment");
-const _ = require("lodash");
+const { uniq, upperFirst, flattenDeep } = require("lodash");
 const prisma = require("../../../database");
 const { manageUsers } = require("../../../utils/keycloak");
 
@@ -153,7 +153,35 @@ async function updateProfile(request, userId, language) {
   }
 
   if (educations) {
-    await prisma.education.deleteMany({ where: { userId } });
+    const attachmentLinkId = await Promise.all(
+      educations.map((ed) =>
+        prisma.attachmentLink.findMany({
+          where: { educationId: ed.id },
+          select: { id: true },
+        })
+      )
+    );
+    const attachmentLinkTransId = await Promise.all(
+      attachmentLinkId.map((at) =>
+        prisma.transAttachmentLink.findMany({
+          where: { attachmentLinkId: at.id },
+          select: { id: true },
+        })
+      )
+    );
+    await Promise.all([
+      Promise.all(
+        attachmentLinkId.map((a) =>
+          prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+        )
+      ),
+      Promise.all(
+        attachmentLinkTransId.map((a) =>
+          prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+        )
+      ),
+      prisma.education.deleteMany({ where: { userId } }),
+    ]);
   }
 
   if (organizations) {
@@ -165,17 +193,20 @@ async function updateProfile(request, userId, language) {
       where: { organizationId: { in: relatedOrgs.map((org) => org.id) } },
       select: { id: true },
     });
-    await prisma.transOrganization.deleteMany({
-      where: {
-        organizationTierId: {
-          in: orgTiers.map((orgTier) => orgTier.id),
+    await Promise.all([
+      prisma.transOrganization.deleteMany({
+        where: {
+          organizationTierId: {
+            in: orgTiers.map((orgTier) => orgTier.id),
+          },
         },
-      },
-    });
-    await prisma.organizationTier.deleteMany({
-      where: { id: { in: orgTiers.map((orgTier) => orgTier.id) } },
-    });
-    await prisma.organization.deleteMany({ where: { userId } });
+      }),
+
+      prisma.organizationTier.deleteMany({
+        where: { id: { in: orgTiers.map((orgTier) => orgTier.id) } },
+      }),
+      prisma.organization.deleteMany({ where: { userId } }),
+    ]);
   }
 
   // Queries user ids to check if an id was already defined
@@ -197,7 +228,7 @@ async function updateProfile(request, userId, language) {
   let employmentInfoLangs;
   if ((branch || jobTitle) && userIds.employmentInfoId) {
     if (branch && jobTitle) {
-      employmentInfoLangs = _.uniq([
+      employmentInfoLangs = uniq([
         ...Object.keys(branch),
         ...Object.keys(jobTitle),
       ]);
@@ -226,8 +257,8 @@ async function updateProfile(request, userId, language) {
   await prisma.user.update({
     where: { id: userId },
     data: {
-      firstName: firstName ? _.upperFirst(firstName) : undefined,
-      lastName: lastName ? _.upperFirst(lastName) : undefined,
+      firstName: firstName ? upperFirst(firstName) : undefined,
+      lastName: lastName ? upperFirst(lastName) : undefined,
       teams: teams
         ? {
             set: teams,
@@ -399,10 +430,10 @@ async function updateProfile(request, userId, language) {
                           },
                           url: link.url,
                         },
-              },
-            })),
-          }
-        : undefined,
+                      },
+                    })),
+                  }
+                : undefined,
             })),
           }
         : undefined,
