@@ -8,6 +8,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "antd": "^4.4.3",
     "axios": "^0.19.2",
+    "babel-loader": "^8.1.0",
     "babel-plugin-import": "^1.13.0",
     "bizcharts": "^3.5.9",
     "customize-cra": "^1.0.0",
