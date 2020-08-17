@@ -1,7 +1,7 @@
 const runtimeConfig =
   typeof window !== "undefined"
     ? {
-        backendAddress: window.env.apiAddress,
+        backendAddress: window.env.backendAddress,
         enableErrorRedirect: true,
         keycloakServerUrl: window.env.keycloakServerUrl,
         manageKeycloakAddress: `${window.env.keycloakServerUrl}/admin/individual/console/#/realms/individual/users`,

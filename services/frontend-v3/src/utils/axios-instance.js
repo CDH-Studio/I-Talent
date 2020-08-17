@@ -8,7 +8,7 @@ const useAxios = () => {
   const instance = useMemo(
     () =>
       axios.create({
-        baseURL: "http://localhost:8080",
+        baseURL: config.backendAddress,
         timeout: 5000,
         headers: {
           Pragma: "no-cache",
