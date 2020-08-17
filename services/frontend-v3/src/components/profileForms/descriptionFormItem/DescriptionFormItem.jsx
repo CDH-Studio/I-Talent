@@ -7,9 +7,13 @@ const DescriptionFormItem = ({
   label,
   name,
   fieldKey,
-  rules,
+  isRequired,
+  isRequiredMessage,
+  minLength,
+  minLengthMessage,
   maxLength,
   maxLengthMessage,
+  lengthMessage,
   value,
 }) => {
   const [charsLeft, setCharsLeft] = useState(
@@ -20,13 +24,24 @@ const DescriptionFormItem = ({
     setCharsLeft(maxLength - e.currentTarget.value.length);
   };
 
+  const rules = [];
+  if (minLength) {
+    rules.push({ min: minLength, message: minLengthMessage });
+  }
+  if (maxLength) {
+    rules.push({ max: maxLength, message: maxLengthMessage });
+  }
+  if (isRequired) {
+    rules.push({ required: true, message: isRequiredMessage });
+  }
+
   return (
     <DescriptionFormItemView
       label={label}
       name={name}
       fieldKey={fieldKey}
       rules={rules}
-      maxLengthMessage={maxLengthMessage}
+      lengthMessage={lengthMessage}
       value={value}
       charsLeft={charsLeft}
       handleDescriptionChange={handleDescriptionChange}
@@ -36,18 +51,28 @@ const DescriptionFormItem = ({
 
 DescriptionFormItem.propTypes = {
   label: PropTypes.element,
-  name: PropTypes.string.isRequired,
-  fieldKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
-  rules: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.any),
+  ]).isRequired,
+  fieldKey: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
+  minLength: PropTypes.number,
   maxLength: PropTypes.number,
-  maxLengthMessage: PropTypes.element.isRequired,
+  isRequired: PropTypes.bool,
+  lengthMessage: PropTypes.element.isRequired,
   value: PropTypes.string,
 };
 
 DescriptionFormItem.defaultProps = {
+  fieldKey: undefined,
   value: undefined,
   label: null,
+  minLength: undefined,
   maxLength: 1000,
+  isRequired: false,
 };
 
 export default DescriptionFormItem;
