@@ -40,7 +40,11 @@ const FormControlButtonsView = ({
 
   const lastButtonOnClick = () => {
     if (create) {
-      onSaveAndNext();
+      if (onSaveAndNext) {
+        onSaveAndNext();
+      } else {
+        onSaveAndFinish();
+      }
     } else if (fieldsChanged) {
       onSaveAndFinish();
     } else {
@@ -52,7 +56,11 @@ const FormControlButtonsView = ({
     create ? (
       <>
         <span>
-          <FormattedMessage id="setup.save.and.next" />
+          {onSaveAndNext ? (
+            <FormattedMessage id="setup.save.and.next" />
+          ) : (
+            <FormattedMessage id="setup.save.and.finish" />
+          )}
         </span>
         <RightOutlined />
       </>
