@@ -22,8 +22,10 @@ module.exports = (config) => ({
           {
             loader: "less-loader",
             options: {
-              javascriptEnabled: true,
-              modifyVars: antdTheme,
+              lessOptions: {
+                javascriptEnabled: true,
+                modifyVars: antdTheme,
+              },
             },
           },
         ],
