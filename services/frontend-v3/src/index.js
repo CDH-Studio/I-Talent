@@ -1,19 +1,36 @@
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable import/extensions */
-
+/* eslint-disable no-console */
+import http from "http";
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 
-import React from "react";
-import ReactDOM from "react-dom";
+let app = require("./server").default;
 
-import "./index.css";
-import App from "./App.jsx";
-import * as serviceWorker from "./serviceWorker";
+const server = http.createServer(app);
 
-ReactDOM.render(<App />, document.getElementById("root"));
+let currentApp = app;
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+server
+  .listen(process.env.PORT || 3000, () => {
+    console.log("🚀 started");
+  })
+  .on("error", (error) => {
+    console.log(error);
+  });
+
+if (module.hot) {
+  console.log("✅  Server-side HMR Enabled!");
+
+  module.hot.accept("./server", () => {
+    console.log("🔁  HMR Reloading `./server`...");
+
+    try {
+      // eslint-disable-next-line global-require
+      app = require("./server").default;
+      server.removeListener("request", currentApp);
+      server.on("request", app);
+      currentApp = app;
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}

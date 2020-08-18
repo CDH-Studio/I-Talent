@@ -152,7 +152,7 @@ const WelcomeView = ({
           {generateProfileBtn({
             icon: <UserOutlined />,
             firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-            secondTitle: gedsProfiles.jobTitle[locale],
+            secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
             thirdTitle: gedsProfiles.email,
             value: gedsProfiles,
           })}

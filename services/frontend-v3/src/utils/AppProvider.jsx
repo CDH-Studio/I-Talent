@@ -1,4 +1,3 @@
-import { KeycloakProvider } from "@react-keycloak/web";
 import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { IntlProvider } from "react-intl";
@@ -6,9 +5,6 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
 import store, { persistor } from "../redux";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
-import keycloak from "../auth/keycloak";
-import keycloakConfig from "./keycloakConfig";
 import messagesEn from "../i18n/en_CA.json";
 import messagesFr from "../i18n/fr_CA.json";
 import "moment/locale/en-ca";
@@ -49,17 +45,11 @@ const IntelProv = ({ children }) => {
 
 const AppProvider = ({ children }) => {
   return (
-    <KeycloakProvider
-      keycloak={keycloak}
-      initConfig={keycloakConfig}
-      LoadingComponent={() => <AppLayout loading />}
-    >
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <IntelProv>{children}</IntelProv>
-        </PersistGate>
-      </Provider>
-    </KeycloakProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <IntelProv>{children}</IntelProv>
+      </PersistGate>
+    </Provider>
   );
 };
 

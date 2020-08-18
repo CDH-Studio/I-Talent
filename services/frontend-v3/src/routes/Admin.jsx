@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
 import useAxios from "../utils/axios-instance";
 import {
   AdminDashboard,
@@ -57,7 +57,10 @@ const Admin = () => {
         <Route path="/admin/competencies" render={() => <AdminCompetency />} />
         <Route path="/admin/diplomas" render={() => <AdminDiploma />} />
         <Route path="/admin/schools" render={() => <AdminSchool />} />
-        <Route path="/admin/" render={() => <Redirect to="/admin/dashboard" />} />
+        <Route
+          path="/admin/"
+          render={() => <Redirect to="/admin/dashboard" />}
+        />
       </Switch>
     </>
   );
