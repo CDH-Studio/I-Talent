@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { useHistory } from "react-router-dom";
@@ -51,25 +52,25 @@ const SearchBar = () => {
     });
 
     setSkillOptions(dataTree);
-  }, [axios, locale]);
+  }, [locale]);
 
   // Fetches options for branches select field in advanced search
   const getBranch = useCallback(async () => {
     const results = await axios.get(`api/option/branches?language=${locale}`);
     setBranchOptions(results.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   // Fetches options for locations select field in advanced search
   const getLocation = useCallback(async () => {
     const results = await axios.get(`api/option/locations?language=${locale}`);
     setLocationOptions(results.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   // Fetches options for classifications select field in advanced search
-  const getClassification = useCallback(async () => {
+  const getClassification = async () => {
     const results = await axios.get(`api/option/classifications`);
     setClassOptions(results.data);
-  }, [axios]);
+  };
 
   // turns search values into query, redirects to results page with query
   const handleSearch = (values) => {
@@ -96,7 +97,7 @@ const SearchBar = () => {
     };
 
     updateState();
-  }, [getBranch, getClassification, getLocation, getSkills, locale]);
+  }, [getBranch, getLocation, getSkills, locale]);
 
   return (
     <SearchBarView

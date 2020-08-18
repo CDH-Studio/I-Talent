@@ -69,7 +69,7 @@ const development = {
     "/auth/realms/individual/protocol/openid-connect/token",
   GEDSAPIURL:
     GEDSAPIURL ||
-    "https://geds-sage-ssc-spc-apicast-production.api.canada.ca/gapi/v2/",
+    "https://geds-ssc-spc-apicast-production.api.canada.ca/gapi/v2/",
   GEDSAPIKEY: GEDSAPIKEY || "",
   REDIS_HOST: REDIS_HOST || "redis",
   REDIS_PASSWORD: REDIS_PASSWORD || "",

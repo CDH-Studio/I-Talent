@@ -9,7 +9,7 @@ import {
   Select,
   Input,
   Button,
-  notification,
+  message,
   List,
   Popover,
   Modal,
@@ -17,16 +17,18 @@ import {
 } from "antd";
 import {
   LinkOutlined,
+  RightOutlined,
+  CheckOutlined,
   LoadingOutlined,
   InfoCircleOutlined,
-  SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy, find } from "lodash";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
+import { Link } from "react-router-dom";
 import useAxios from "../../../utils/axios-instance";
 import {
   IdDescriptionPropType,
@@ -37,8 +39,6 @@ import {
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
-import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -94,6 +94,24 @@ const PrimaryInfoFormView = ({
     },
     subHeading: {
       fontSize: "1.3em",
+    },
+    finishAndSaveBtn: {
+      float: "left",
+      marginRight: "1rem",
+      marginBottom: "1rem",
+    },
+
+    clearBtn: { float: "left", marginBottom: "1rem" },
+
+    finishAndNextBtn: {
+      width: "100%",
+      float: "right",
+      marginBottom: "1rem",
+    },
+    saveBtn: {
+      float: "right",
+      marginBottom: "1rem",
+      minWidth: "100%",
     },
     unsavedText: {
       marginLeft: "10px",
@@ -178,24 +196,16 @@ const PrimaryInfoFormView = ({
     }
   };
 
-  /**
-   * Open Notification
-   * @param {Object} notification - The notification to be displayed.
-   * @param {string} notification.type - The type of notification.
-   * @param {string} notification.description - Additional info in notification.
-   */
-  const openNotificationWithIcon = ({ type, description }) => {
+  /* show message */
+  const openNotificationWithIcon = (type) => {
     switch (type) {
       case "success":
-        notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
-        });
+        message.success(
+          intl.formatMessage({ id: "profile.edit.save.success" })
+        );
         break;
       case "error":
-        notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
-          description,
-        });
+        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
         break;
       case "jobTitleLangEN":
         message.error(
@@ -208,9 +218,9 @@ const PrimaryInfoFormView = ({
         );
         break;
       default:
-        notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
-        });
+        message.warning(
+          intl.formatMessage({ id: "profile.edit.save.problem" })
+        );
         break;
     }
   };
@@ -243,10 +253,10 @@ const PrimaryInfoFormView = ({
    * _.pickBy({}, _.identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = pickBy(form.getFieldsValue(), identity);
-    const dbValues = pickBy(
+    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const dbValues = _.pickBy(
       savedValues || getInitialValues(profileInfo),
-      identity
+      _.identity
     );
 
     setFieldsChanged(!_.isEqual(formValues, dbValues));
@@ -264,34 +274,9 @@ const PrimaryInfoFormView = ({
     }
 
     setSingleJobTitleChanged(false);
-
   };
 
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
-   */
-  const getAllValidationErrorMessages = () => {
-    return (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">
-            {intl.formatMessage({ id: "setup.primary.information" })}
-          </li>
-        </ul>
-      </div>
-    );
-  };
-
-  /*
-   * Save
-   *
-   * save and show success notification
-   */
+  /* save and show success notification */
   const onSave = async () => {
     form
       .validateFields()
@@ -299,7 +284,7 @@ const PrimaryInfoFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon({ type: "success" });
+        openNotificationWithIcon("success");
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -311,19 +296,12 @@ const PrimaryInfoFormView = ({
             openNotificationWithIcon("jobTitleLangEN");
           }
         } else {
-          openNotificationWithIcon({
-            type: "error",
-            description: getAllValidationErrorMessages(),
-          });
+          openNotificationWithIcon("error");
         }
       });
   };
 
-  /*
-   * Save and next
-   *
-   * save and redirect to next step in setup
-   */
+  /* save and redirect to next step in setup */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -336,28 +314,17 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon({
-            type: "error",
-            description: getAllValidationErrorMessages(),
-          });
+          openNotificationWithIcon("error");
         }
       });
   };
 
-  /*
-   * Finish
-   *
-   * redirect to profile
-   */
+  // redirect to profile
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /*
-   * Save and finish
-   *
-   * Save form data and redirect home
-   */
+  /* save and redirect to home */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -378,10 +345,7 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon({
-            type: "error",
-            description: getAllValidationErrorMessages(),
-          });
+          openNotificationWithIcon("error");
         }
       });
   };
@@ -398,17 +362,13 @@ const PrimaryInfoFormView = ({
         if (Object.keys(result.data).length) {
           setNewGedsValues(result.data);
         } else {
-          notification.info({
-            message: intl.formatMessage({ id: "profile.geds.up.to.date" }),
-          });
+          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
         }
       })
       .catch(() =>
-        notification.warning({
-          message: intl.formatMessage({
-            id: "profile.geds.failed.to.retrieve",
-          }),
-        })
+        message.warning(
+          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
+        )
       );
     setGatheringGedsData(false);
   };
@@ -416,9 +376,7 @@ const PrimaryInfoFormView = ({
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
-    notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
-    });
+    message.info(intl.formatMessage({ id: "profile.form.clear" }));
     checkIfFormValuesChanged();
   };
 
@@ -429,17 +387,16 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
+            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </Button>
             <Popover
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                  >
+                  <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>
+                  </Link>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -455,22 +412,15 @@ const PrimaryInfoFormView = ({
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
           <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-            <SyncOutlined />
-            <span>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </span>
+            <FormattedMessage id="profile.geds.sync.button" />
           </Button>
           <Popover
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                >
+                <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>
+                </Link>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }
@@ -568,7 +518,7 @@ const PrimaryInfoFormView = ({
     console.log("Error Getting Action Buttons");
     return undefined;
   };
-    
+
   const handleGedsConfirm = async () => {
     await axios
       .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
@@ -618,7 +568,7 @@ const PrimaryInfoFormView = ({
       }
 
       if (newGedsValues.locationId) {
-        const locationOption = find(
+        const locationOption = _.find(
           locationOptions,
           (option) => option.id === newGedsValues.locationId
         );
@@ -845,9 +795,15 @@ const PrimaryInfoFormView = ({
               >
                 <Select
                   showSearch
+                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={filterOption}
+                  filterOption={(input, option) =>
+                    option.children
+                      .join("")
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                 >
                   {locationOptions.map((value) => {
                     return (
@@ -935,15 +891,7 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          <FormControlButton
-            formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
-            onReset={onReset}
-            onFinish={onFinish}
-            fieldsChanged={fieldsChanged}
-          />
+          {getFormControlButtons(formType)}
         </Form>
       </div>
     </>

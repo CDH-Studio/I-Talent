@@ -21,7 +21,6 @@ import {
 } from "@ant-design/icons";
 import logo from "../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../utils/customPropTypes";
-import filterOption from "../../functions/filterSelectInput";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;
@@ -197,10 +196,13 @@ const SearchBarView = ({
             >
               <Select
                 style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
                 mode="multiple"
                 maxTagCount={3}
                 placeholder={searchLabel}
-                filterOption={filterOption}
               >
                 {classOptions.map((value) => {
                   return <Option key={value.id}>{value.name}</Option>;
@@ -218,10 +220,15 @@ const SearchBarView = ({
             >
               <Select
                 style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children
+                    .join("")
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
+                }
                 mode="multiple"
                 placeholder={searchLabel}
                 maxTagCount={3}
-                filterOption={filterOption}
               >
                 {locationOptions.map((value) => {
                   return (
@@ -240,10 +247,13 @@ const SearchBarView = ({
             >
               <Select
                 style={{ width: "100%" }}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
                 mode="multiple"
                 placeholder={searchLabel}
                 maxTagCount={3}
-                filterOption={filterOption}
               >
                 {branchOptions.map((value) => {
                   return <Option key={value}>{value}</Option>;

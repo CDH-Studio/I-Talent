@@ -20,8 +20,6 @@ import {
   UserDeleteOutlined,
   TeamOutlined,
   EditOutlined,
-  LockOutlined,
-  EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import {
   HistoryPropType,
@@ -106,38 +104,27 @@ const ResultsCardView = ({
     }
   };
   const renderAvatar = (person) => {
-    let badge;
-    let tooltipMessage;
-
-    if (person.isConnection) {
-      badge = <TeamOutlined style={styles.badgeIcon} />;
-      tooltipMessage = (
-        <FormattedMessage
-          id="search.results.cards.connection.tooltip"
-          values={{ name: person.firstName }}
-        />
-      );
-    } else if (person.status === "INACTIVE") {
-      badge = <LockOutlined style={styles.badgeIcon} />;
-      tooltipMessage = (
-        <FormattedMessage
-          id="search.results.cards.connection.tooltip.inactive"
-          values={{ name: person.firstName }}
-        />
-      );
-    } else if (person.status === "HIDDEN") {
-      badge = <EyeInvisibleOutlined style={styles.badgeIcon} />;
-      tooltipMessage = (
-        <FormattedMessage
-          id="search.results.cards.connection.tooltip.hidden"
-          values={{ name: person.firstName }}
-        />
-      );
-    }
-
     return (
-      <Tooltip align={{ offset: [18, -3] }} title={tooltipMessage}>
-        <Badge count={badge} offset={[-6, 6]} style={styles.badge}>
+      <Tooltip
+        align={{ offset: [18, -3] }}
+        title={
+          person.isConnection ? (
+            <FormattedMessage
+              id="search.results.cards.connection.tooltip"
+              values={{ name: person.firstName }}
+            />
+          ) : undefined
+        }
+      >
+        <Badge
+          count={
+            person.isConnection ? (
+              <TeamOutlined style={styles.badgeIcon} />
+            ) : undefined
+          }
+          offset={[-6, 6]}
+          style={styles.badge}
+        >
           <Avatar
             size={48}
             style={{

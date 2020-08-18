@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -67,7 +68,7 @@ const Welcome = () => {
     };
 
     getAllData();
-  }, [axios, id, name]);
+  }, [id, name]);
 
   return (
     <WelcomeView

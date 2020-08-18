@@ -13,7 +13,6 @@ import {
 } from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { IdDescriptionPropType } from "../../utils/customPropTypes";
-import filterOption from "../../functions/filterSelectInput";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;
@@ -111,9 +110,11 @@ const SearchBarView = ({
         >
           <Select
             style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
             mode="multiple"
             maxTagCount={3}
-            filterOption={filterOption}
           >
             {classOptions.map((value) => {
               return <Option key={value.id}>{value.name}</Option>;
@@ -129,9 +130,14 @@ const SearchBarView = ({
         >
           <Select
             style={styles.w100}
+            filterOption={(input, option) =>
+              option.children
+                .join("")
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
+            }
             mode="multiple"
             maxTagCount={3}
-            filterOption={filterOption}
           >
             {locationOptions.map((value) => {
               return (
@@ -152,9 +158,11 @@ const SearchBarView = ({
         >
           <Select
             style={styles.w100}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
             mode="multiple"
             maxTagCount={3}
-            filterOption={filterOption}
           >
             {branchOptions.map((value) => {
               return <Option key={value}>{value}</Option>;

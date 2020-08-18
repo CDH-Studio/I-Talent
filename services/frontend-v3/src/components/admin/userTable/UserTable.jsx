@@ -57,7 +57,7 @@ const UserTable = () => {
       handleError(error, "redirect");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [axios, dispatch, locale]);
+  }, [dispatch, locale]);
 
   useEffect(() => {
     getUserInformation();

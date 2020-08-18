@@ -7,7 +7,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 const EmployeeSummary = ({ data, type }) => {
   return (
     <ProfileCards
-      titleId="profile.employee.status"
+      titleId="profile.employee.summary"
       content={<EmployeeSummaryView data={data} />}
       cardName="info"
       id="card-profile-employee-summary"

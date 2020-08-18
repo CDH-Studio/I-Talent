@@ -20,7 +20,7 @@ import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
+import _ from "lodash";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
@@ -58,7 +58,7 @@ const SchoolTableView = ({
 
   useEffect(() => {
     if (data && locale) {
-      setSortedData(sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
+      setSortedData(_.sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
 

@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
-import { sortBy } from "lodash";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -76,7 +77,7 @@ const PersonalGrowthForm = ({ formType }) => {
     );
 
     setProfileInfo(result.data);
-  }, [axios, id, locale]);
+  }, [id, locale]);
 
   /**
    * Get Developmental Goal Options
@@ -116,9 +117,8 @@ const PersonalGrowthForm = ({ formType }) => {
       };
     });
 
-    setDevelopmentalGoalOptions(sortBy(dataTree, "title"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [axios, locale]);
+    setDevelopmentalGoalOptions(_.sortBy(dataTree, "title"));
+  }, [locale]);
 
   /**
    * Get Interested In Remote Options
@@ -151,7 +151,7 @@ const PersonalGrowthForm = ({ formType }) => {
     const result = await axios.get(`api/option/locations?language=${locale}`);
 
     setRelocationOptions(result.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   /**
    * Get Saved Looking For New Job
@@ -162,7 +162,7 @@ const PersonalGrowthForm = ({ formType }) => {
     const result = await axios.get(`api/option/lookingJobs?language=${locale}`);
 
     setLookingForNewJobOptions(result.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   /**
    * Get Career Mobility Options
@@ -175,7 +175,7 @@ const PersonalGrowthForm = ({ formType }) => {
     );
 
     setCareerMobilityOptions(result.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   /**
    * Get Talent Matrix Result Options
@@ -188,22 +188,22 @@ const PersonalGrowthForm = ({ formType }) => {
     );
 
     setTalentMatrixResultOptions(result.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   /**
    * Get default form tab
    *
    * get the default selected form tab based on url query params
    */
-  const getDefaultFormTab = useCallback(() => {
+  const getDefaultFormTab = () => {
     const searchParams = new URLSearchParams(location.search);
     setCurrentTab(searchParams.get("tab"));
-  }, [location.search]);
+  };
 
   // useEffect when url path is updated
   useEffect(() => {
     getDefaultFormTab();
-  }, [getDefaultFormTab, location]);
+  }, [location]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {

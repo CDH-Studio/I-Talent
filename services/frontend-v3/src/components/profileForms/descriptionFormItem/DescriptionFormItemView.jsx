@@ -8,7 +8,7 @@ const { TextArea } = Input;
 const DescriptionFormItem = ({
   name,
   fieldKey,
-  rules,
+  rule,
   charsLeft,
   maxLengthMessage,
   handleDescriptionChange,
@@ -24,7 +24,7 @@ const DescriptionFormItem = ({
     <Form.Item
       name={name}
       fieldKey={fieldKey}
-      rules={[rules]}
+      rules={[rule]}
       label={label}
       extra={
         <div>
@@ -49,7 +49,7 @@ const DescriptionFormItem = ({
 DescriptionFormItem.propTypes = {
   name: PropTypes.string.isRequired,
   fieldKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
-  rules: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
+  rule: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
     .isRequired,
   charsLeft: PropTypes.number.isRequired,
   handleDescriptionChange: PropTypes.func.isRequired,

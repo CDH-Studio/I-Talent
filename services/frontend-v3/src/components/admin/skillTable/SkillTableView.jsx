@@ -22,12 +22,11 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
+import _ from "lodash";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
-import filterOption from "../../../functions/filterSelectInput";
 
 /**
  *  SkillTableView(props)
@@ -79,7 +78,7 @@ const SkillTableView = ({
         };
       });
 
-      setData(sortBy(unsortedData, locale === "ENGLISH" ? "en" : "fr"));
+      setData(_.sortBy(unsortedData, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [skills, categories, locale]);
 
@@ -300,7 +299,10 @@ const SkillTableView = ({
               })} ${intl.formatMessage({
                 id: "admin.category",
               })}`}
-              filterOption={filterOption}
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
             >
               {categories.data.map((category) => {
                 return (
@@ -471,7 +473,10 @@ const SkillTableView = ({
               })} ${intl.formatMessage({
                 id: "admin.category",
               })}`}
-              filterOption={filterOption}
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
             >
               {categories.data.map((category) => {
                 return (

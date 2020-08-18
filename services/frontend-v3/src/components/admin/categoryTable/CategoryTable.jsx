@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -39,7 +40,7 @@ const CategoryTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     getCategories();

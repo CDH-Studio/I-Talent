@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
@@ -39,7 +40,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   const getHiddenUserCount = useCallback(async () => {
     try {
@@ -49,7 +50,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   const getInactiveUserCount = useCallback(async () => {
     try {
@@ -59,7 +60,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   const getExfeederUserCount = useCallback(async () => {
     try {
@@ -69,7 +70,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   const getGrowthRateByMonth = useCallback(async () => {
     try {
@@ -79,7 +80,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   const getGrowthRateByWeek = useCallback(async () => {
     try {
@@ -89,7 +90,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch]);
+  }, [dispatch]);
 
   const getTopFiveCompentencies = useCallback(async () => {
     try {
@@ -103,7 +104,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch, locale]);
+  }, [dispatch, locale]);
 
   const getTopFiveSkills = useCallback(async () => {
     try {
@@ -117,7 +118,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch, locale]);
+  }, [dispatch, locale]);
 
   const getTopFiveDevelopmentalGoals = useCallback(async () => {
     try {
@@ -131,7 +132,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [axios, dispatch, locale]);
+  }, [dispatch, locale]);
 
   // Get part of the title for the page
   const getDisplayType = useCallback(

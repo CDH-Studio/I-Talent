@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const _ = require("lodash");
 const prisma = require("../../database");
-const { manageUsers, isKeycloakUser } = require("../../utils/keycloak");
+const config = require("../../config");
 
 function generateAvatarColor() {
   const colours = [
@@ -30,7 +30,7 @@ async function getUserById(request, response) {
 
     const { id } = request.params;
 
-    if (isKeycloakUser(request, id)) {
+    if (request.kauth.grant.access_token.content.sub === id) {
       const user = await prisma.user.findOne({
         where: { id },
         select: {
@@ -76,7 +76,7 @@ async function createUser(request, response) {
     const { name, firstName, lastName, email } = request.body;
     const { id } = request.params;
 
-    if (isKeycloakUser(request, id)) {
+    if (request.kauth.grant.access_token.content.sub === id) {
       const user = await prisma.user.create({
         data: {
           id,
@@ -126,7 +126,17 @@ async function deleteUser(request, response) {
 
     const { id } = request.params;
 
-    if (manageUsers(request) || isKeycloakUser(request, id)) {
+    const isAdmin =
+      request.kauth.grant.access_token.content.resource_access &&
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ] &&
+      request.kauth.grant.access_token.content.resource_access[
+        config.KEYCLOAK_CLIENT_ID
+      ].roles.includes("manage-users");
+    const isUser = request.kauth.grant.access_token.content.sub === id;
+
+    if (isAdmin || isUser) {
       await Promise.all([
         prisma.competency.deleteMany({ where: { userId: id } }),
         prisma.mentorshipSkill.deleteMany({ where: { userId: id } }),

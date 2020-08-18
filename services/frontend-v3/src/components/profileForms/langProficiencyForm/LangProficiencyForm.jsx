@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
@@ -18,7 +19,7 @@ const LangProficiencyForm = ({ formType }) => {
   // const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [unknownExpiredGrades, setUnknownExpiredGrades] = useState({
+  const [expiredGrades, setExpiredGrades] = useState({
     reading: false,
     writing: false,
     oral: false,
@@ -45,16 +46,16 @@ const LangProficiencyForm = ({ formType }) => {
             (grading) => grading.proficiency === "ORAL"
           );
 
-          setUnknownExpiredGrades({
-            reading: readingObj && readingObj.expired && !readingObj.date,
-            writing: writingObj && writingObj.expired && !writingObj.date,
-            oral: oralObj && oralObj.expired && !oralObj.date,
+          setExpiredGrades({
+            reading: readingObj && readingObj.expired,
+            writing: writingObj && writingObj.expired,
+            oral: oralObj && oralObj.expired,
           });
         }
 
         setProfileInfo(result.data);
       });
-  }, [axios, id, locale]);
+  }, [id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
@@ -101,8 +102,8 @@ const LangProficiencyForm = ({ formType }) => {
       load={load}
       history={history}
       userId={id}
-      unknownExpiredGrades={unknownExpiredGrades}
-      setUnknownExpiredGrades={setUnknownExpiredGrades}
+      expiredGrades={expiredGrades}
+      setExpiredGrades={setExpiredGrades}
     />
   );
 };

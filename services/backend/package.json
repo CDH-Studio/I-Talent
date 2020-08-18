@@ -13,9 +13,7 @@
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio --experimental",
-    "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest",
-    "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect"
+    "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest"
   },
   "author": "I-Talent team",
   "license": "MIT",
@@ -33,13 +31,12 @@
     "express-validator": "^6.6.1",
     "fuse.js": "^6.4.1",
     "keycloak-connect": "^11.0.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "redis": "^3.0.2",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
-    "validator": "^13.1.1",
-    "snyk": "^1.374.0"
+    "validator": "^13.1.1"
   },
   "devDependencies": {
     "@prisma/cli": "2.4.1",
@@ -82,6 +79,5 @@
       }
     },
     "coverageDirectory": "./tests/coverage"
-  },
-  "snyk": true
+  }
 }

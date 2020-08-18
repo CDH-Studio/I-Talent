@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -43,7 +44,7 @@ const EducationForm = ({
     const result = await axios.get(`api/option/diplomas?language=${locale}`);
 
     setDiplomaOptions(result.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   /**
    * Get School Options
@@ -54,7 +55,7 @@ const EducationForm = ({
     const result = await axios.get(`api/option/schools?language=${locale}`);
 
     setSchoolOptions(result.data);
-  }, [axios, locale]);
+  }, [locale]);
 
   // useEffect to run once component is mounted
   // Get all required data component

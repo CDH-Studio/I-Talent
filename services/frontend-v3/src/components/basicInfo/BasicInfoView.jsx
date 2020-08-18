@@ -143,8 +143,8 @@ const BasicInfoView = ({
           </Text>
         </Col>
         {urlID === userID ? (
-          <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
-            <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
+          <Col span={1}>
+            <EditCardButton editUrl="/profile/edit/primary-info" />
           </Col>
         ) : (
           <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
@@ -305,7 +305,6 @@ const BasicInfoView = ({
           block
           type="link"
           target="_blank"
-          rel="noopener noreferrer"
           icon={button.icon}
           href={button.url}
         >

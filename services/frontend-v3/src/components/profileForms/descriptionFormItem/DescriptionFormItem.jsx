@@ -6,24 +6,24 @@ import DescriptionFormItemView from "./DescriptionFormItemView";
 const DescriptionFormItem = ({
   name,
   fieldKey,
-  rules,
+  rule,
   maxLengthMessage,
   value,
   label,
 }) => {
   const [charsLeft, setCharsLeft] = useState(
-    value ? rules.max - value.length : rules.max
+    value ? rule.max - value.length : rule.max
   );
 
   const handleDescriptionChange = (e) => {
-    setCharsLeft(rules.max - e.currentTarget.value.length);
+    setCharsLeft(rule.max - e.currentTarget.value.length);
   };
 
   return (
     <DescriptionFormItemView
       name={name}
       fieldKey={fieldKey}
-      rules={rules}
+      rule={rule}
       maxLengthMessage={maxLengthMessage}
       value={value}
       charsLeft={charsLeft}
@@ -36,7 +36,7 @@ const DescriptionFormItem = ({
 DescriptionFormItem.propTypes = {
   name: PropTypes.string.isRequired,
   fieldKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
-  rules: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
+  rule: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
     .isRequired,
   value: PropTypes.string,
   label: PropTypes.element,
