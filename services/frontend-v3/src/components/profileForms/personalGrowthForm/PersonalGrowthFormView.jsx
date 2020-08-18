@@ -146,6 +146,12 @@ const PersonalGrowthFormView = ({
       ...unalteredValues,
     };
 
+    if (unalteredValues.relocationLocations) {
+      values.relocationLocations = unalteredValues.relocationLocations.map(
+        (index) => relocationOptions[index]
+      );
+    }
+
     if (unalteredValues.interestedInRemote === undefined) {
       values.interestedInRemote = null;
     }
@@ -462,16 +468,11 @@ const PersonalGrowthFormView = ({
                       style={{ width: "100%" }}
                       placeholder={<FormattedMessage id="setup.select" />}
                       filterOption={filterOption}
-                    >
-                      {relocationOptions.map((value) => {
-                        return (
-                          <Option key={value.id}>
-                            {value.streetNumber} {value.streetName},{" "}
-                            {value.city}
-                          </Option>
-                        );
-                      })}
-                    </Select>
+                      options={relocationOptions.map((value, index) => ({
+                        label: `${value.city}, ${value.province}`,
+                        value: index,
+                      }))}
+                    />
                   </Form.Item>
                 </Col>
               </Row>

@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model DbSeed {
@@ -254,8 +254,6 @@ model Competency {
   @@unique([userId, competencyId])
 }
 
-
-
 model OpTransSchool {
   id         String    @default(uuid()) @id
   createdAt  DateTime  @default(now())
@@ -474,18 +472,6 @@ model Experience {
   user         User              @relation(fields: [userId])
 }
 
-model RelocationLocation {
-  id         String           @default(uuid()) @id
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-  userId     String
-  locationId String
-  user       User             @relation(fields: [userId])
-  location   OpOfficeLocation @relation(fields: [locationId])
-
-  @@unique([userId, locationId])
-}
-
 model User {
   id                   String                @default(uuid()) @id
   createdAt            DateTime              @default(now())
@@ -541,7 +527,7 @@ model User {
   organizations        Organization[]
   educations           Education[]
   experiences          Experience[]
-  relocationLocations  RelocationLocation[]
+  relocationLocations  OpRelocationLocation[]
   connections          User[]
   user                 User?                 @relation("UserToUser", fields: [userId])
   userId               String?
