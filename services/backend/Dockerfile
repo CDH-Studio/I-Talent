@@ -14,13 +14,13 @@ RUN chgrp -R 0 /upskill-backend && \
   chmod -R g=u /upskill-backend
 
 # Converts yarn.lock to package-lock.json
-RUN npx synp --source-file yarn.lock
+# RUN npx synp --source-file yarn.lock
 
 # Runs install script and builds the app
-RUN npm ci --only=production;
+RUN yarn install --production;
 
 # Copy app
 COPY . .
 
 # Runs start script
-CMD npm run docker:prod
+CMD yarn docker:prod
