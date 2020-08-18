@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from "react";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,7 +28,7 @@ const Stats = () => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch, locale]);
+  }, [axios, dispatch, locale]);
 
   const getTopFiveSkills = useCallback(async () => {
     try {
@@ -43,7 +42,7 @@ const Stats = () => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch, locale]);
+  }, [axios, dispatch, locale]);
 
   const getTopFiveDevelopmentalGoals = useCallback(async () => {
     try {
@@ -57,7 +56,7 @@ const Stats = () => {
     } catch (error) {
       handleError(error, "redirect");
     }
-  }, [dispatch, locale]);
+  }, [axios, dispatch, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {

@@ -11,19 +11,14 @@ import {
   Switch,
   DatePicker,
   Checkbox,
-  Button,
-  message,
+  notification,
   Popover,
 } from "antd";
 import PropTypes from "prop-types";
-import {
-  RightOutlined,
-  CheckOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
-import _ from "lodash";
+import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -37,8 +32,9 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-
 import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
+import filterOption from "../../../functions/filterSelectInput";
+import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -107,23 +103,7 @@ const EmploymentDataFormView = ({
       marginBottom: "20px",
       marginTop: "10px",
     },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: { float: "left", marginBottom: "1rem" },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
     datePicker: { width: "100%" },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
@@ -150,11 +130,25 @@ const EmploymentDataFormView = ({
     },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 50,
+          }}
+        />
+      ),
     },
     maxChar1000: {
       max: 1000,
-      message: <FormattedMessage id="profile.rules.max.exceeded" />,
+      message: (
+        <FormattedMessage
+          id="profile.rules.max"
+          values={{
+            max: 1000,
+          }}
+        />
+      ),
     },
   };
 
@@ -217,21 +211,29 @@ const EmploymentDataFormView = ({
     return undefined;
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -262,24 +264,46 @@ const EmploymentDataFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
+    const formValues = pickBy(form.getFieldsValue(), identity);
 
-    const dbValues = _.pickBy(
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
-    return !_.isEqual(formValues, dbValues);
+    return !isEqual(formValues, dbValues);
   };
 
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
-  /* save and show success notification */
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -287,18 +311,25 @@ const EmploymentDataFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * Save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -311,17 +342,28 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /* save and redirect to home */
+  /*
+   * Save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -340,12 +382,19 @@ const EmploymentDataFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* on form reset */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
     // reset form fields
     form.resetFields();
@@ -355,7 +404,9 @@ const EmploymentDataFormView = ({
       profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
     );
 
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     updateIfFormValuesChanged();
   };
 
@@ -372,13 +423,9 @@ const EmploymentDataFormView = ({
             >
               <Select
                 showSearch
-                optionFilterProp="children"
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+                filterOption={filterOption}
               >
                 {classificationOptions.map((value) => {
                   return <Option key={value.id}>{value.name}</Option>;
@@ -440,13 +487,13 @@ const EmploymentDataFormView = ({
     if (_formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
-          3. <FormattedMessage id="setup.employment" />
+          3. <FormattedMessage id="profile.employee.status" />
         </Title>
       );
     }
     return (
       <Title level={2} style={styles.formTitle}>
-        <FormattedMessage id="setup.employment" />
+        <FormattedMessage id="profile.employee.status" />
         {fieldsChanged && (
           <Text style={styles.unsavedText}>
             (<FormattedMessage id="profile.form.unsaved" />)
@@ -482,88 +529,6 @@ const EmploymentDataFormView = ({
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayActingRoleForm]);
-
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    if (_formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                <FormattedMessage id="button.finish" />
-              )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
-  };
 
   /** **********************************
    ********* Render Component *********
@@ -614,14 +579,9 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {substantiveOptions.map((value) => {
                     return <Option key={value.id}>{value.name}</Option>;
@@ -638,14 +598,9 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {classificationOptions.map((value) => {
                     return <Option key={value.id}>{value.name}</Option>;
@@ -664,14 +619,9 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  optionFilterProp="children"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={filterOption}
                 >
                   {securityOptions.map((value) => {
                     return <Option key={value.id}>{value.description}</Option>;
@@ -740,7 +690,7 @@ const EmploymentDataFormView = ({
               <DescriptionFormItem
                 name="description"
                 fieldKey="description"
-                rule={Rules.maxChar1000}
+                rules={Rules.maxChar1000}
                 value={profileInfo.description}
                 maxLengthMessage={
                   <FormattedMessage id="profile.rules.max.1000" />
@@ -749,7 +699,15 @@ const EmploymentDataFormView = ({
             </Col>
           </Row>
 
-          {getFormControlButtons(formType)}
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndNext={onSaveAndNext}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>

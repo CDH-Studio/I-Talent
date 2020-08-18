@@ -5,7 +5,7 @@ import {
   Typography,
   Row,
   Col,
-  message,
+  notification,
   Popover,
   Tooltip,
   Alert,
@@ -22,6 +22,7 @@ import {
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -57,6 +58,7 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const [keycloak] = useKeycloak();
 
   const styles = {
     row: {
@@ -97,9 +99,13 @@ const ProfileLayoutView = ({
 
   useEffect(() => {
     if (savedFormContent === false) {
-      message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+      notification.error({
+        message: intl.formatMessage({ id: "profile.edit.save.error" }),
+      });
     } else if (savedFormContent === true) {
-      message.success(intl.formatMessage({ id: "profile.edit.save.success" }));
+      notification.success({
+        message: intl.formatMessage({ id: "profile.edit.save.success" }),
+      });
     }
 
     dispatch(setSavedFormContent(undefined));
@@ -251,7 +257,7 @@ const ProfileLayoutView = ({
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor offsetTop="75">
+          <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
               title={
@@ -264,7 +270,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-employee-summary"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.employee.summary" />
+                    <FormattedMessage id="profile.employee.status" />
                   </Text>
                 }
               />
@@ -419,23 +425,32 @@ const ProfileLayoutView = ({
   };
 
   const displayHiddenAlert = () => {
+    const canViewHiddenProfiles = keycloak.hasResourceRole(
+      "view-private-profile"
+    );
     if (
-      privateProfile &&
+      (canViewHiddenProfiles || privateProfile) &&
       data &&
       data.status &&
       ["INACTIVE", "HIDDEN"].includes(data.status)
     ) {
       const isHidden = data.status === "HIDDEN";
 
+      let messageId;
+
+      if (privateProfile) {
+        messageId = isHidden
+          ? "profile.hidden.message"
+          : "profile.inactive.message";
+      } else if (canViewHiddenProfiles) {
+        messageId = isHidden
+          ? "profile.hidden.message.other"
+          : "profile.inactive.message.other";
+      }
+
       return (
         <Alert
-          message={
-            <FormattedMessage
-              id={
-                isHidden ? "profile.hidden.message" : "profile.inactive.message"
-              }
-            />
-          }
+          message={<FormattedMessage id={messageId} />}
           type={isHidden ? "warning" : "error"}
           showIcon
           style={{ marginBottom: 5 }}

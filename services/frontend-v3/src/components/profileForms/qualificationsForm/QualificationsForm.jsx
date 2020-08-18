@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
@@ -43,7 +42,7 @@ const QualificationsForm = ({ formType }) => {
       setLoad(false);
       throw error;
     }
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
   /**
    * Get Saved Education Information
@@ -95,15 +94,15 @@ const QualificationsForm = ({ formType }) => {
    *
    * get the default selected form tab based on url query params
    */
-  const getDefaultFormTab = () => {
+  const getDefaultFormTab = useCallback(() => {
     const searchParams = new URLSearchParams(location.search);
     setCurrentTab(searchParams.get("tab"));
-  };
+  }, [location.search]);
 
   // useEffect when url path is updated
   useEffect(() => {
     getDefaultFormTab();
-  }, [location]);
+  }, [getDefaultFormTab, location]);
 
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {

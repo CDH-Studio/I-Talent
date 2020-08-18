@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useIntl } from "react-intl";
@@ -15,7 +14,7 @@ const Profile = ({ history, match }) => {
   const [name, setName] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [connectionData, setConnectionData] = useState(null);
+  const [connectionData, setConnectionData] = useState(true);
   const [userDoesNotExist, setUserDoesNotExist] = useState(false);
   const [userIsHidden, setUserIsHidden] = useState(false);
 
@@ -25,7 +24,7 @@ const Profile = ({ history, match }) => {
   const { id } = match.params;
   const axios = useAxios();
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     setUserDoesNotExist(false);
     setUserIsHidden(false);
     const apiCalls = [];
@@ -59,7 +58,7 @@ const Profile = ({ history, match }) => {
         setUserDoesNotExist(true);
       }
     }
-  };
+  }, [axios, id, locale, userID]);
 
   useEffect(() => {
     if (id === undefined) {
@@ -67,7 +66,7 @@ const Profile = ({ history, match }) => {
     } else {
       fetchProfile();
     }
-  }, [history, id, locale, userID]);
+  }, [fetchProfile, history, id, locale, userID]);
 
   useEffect(() => {
     setUserDoesNotExist(false);
@@ -82,7 +81,7 @@ const Profile = ({ history, match }) => {
     } else if (loading) {
       setName(intl.formatMessage({ id: "loading" }));
     }
-  }, [locale, userDoesNotExist, userIsHidden, loading]);
+  }, [locale, userDoesNotExist, userIsHidden, loading, intl]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;

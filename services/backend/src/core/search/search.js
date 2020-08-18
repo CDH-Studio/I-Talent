@@ -1,16 +1,22 @@
 const { validationResult } = require("express-validator");
 const utils = require("./util");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function fuzzySearch(request, response) {
   try {
     validationResult(request).throw();
-    const userId = request.kauth.grant.access_token.content.sub;
+    const userId = getKeycloakUserId(request);
 
     const { language, searchValue } = request.query;
 
     const value = searchValue || "";
 
-    const profiles = await utils.getAllProfiles(value, language, userId);
+    const profiles = await utils.getAllProfiles(
+      value,
+      language,
+      userId,
+      request
+    );
     const results = await utils.fuzzySearch(profiles, value);
 
     const responseData = utils.cleanResults(results);
@@ -29,7 +35,7 @@ async function fuzzySearch(request, response) {
 async function filterSearch(request, response) {
   try {
     validationResult(request).throw();
-    const userId = request.kauth.grant.access_token.content.sub;
+    const userId = getKeycloakUserId(request);
 
     const {
       skills,
@@ -51,7 +57,8 @@ async function filterSearch(request, response) {
     let results = await utils.getAllProfiles(
       skillSearchValue,
       language,
-      userId
+      userId,
+      request
     );
 
     if (skills) {
