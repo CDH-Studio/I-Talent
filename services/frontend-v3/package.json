@@ -38,7 +38,8 @@
     "serialize-javascript": "^4.0.0",
     "serve": "^11.3.2",
     "validator": "^13.1.1",
-    "webpack": "^4.44.1"
+    "webpack": "^4.44.1",
+    "snyk": "^1.378.0"
   },
   "scripts": {
     "start": "razzle start",
@@ -47,7 +48,9 @@
     "test": "razzle test --env=jsdom",
     "lint": "eslint ./src --ext .js,.jsx",
     "i18n:check": "node ./src/i18n/check",
-    "i18n:cleanup": "node ./src/i18n/cleanup"
+    "i18n:cleanup": "node ./src/i18n/cleanup",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -79,5 +82,6 @@
     "mini-css-extract-plugin": "^0.9.0",
     "prettier": "^2.0.5",
     "razzle-plugin-scss": "^3.1.6"
-  }
+  },
+  "snyk": true
 }
