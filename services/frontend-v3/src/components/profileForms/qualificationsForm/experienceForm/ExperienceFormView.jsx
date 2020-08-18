@@ -260,7 +260,7 @@ const ExperienceFormView = ({
                     onClick={() => {
                       add();
                     }}
-                    disabled={fields.length === 3}
+                    disabled={fields.length === 6}
                     style={{ width: "100%" }}
                   >
                     <PlusOutlined />
