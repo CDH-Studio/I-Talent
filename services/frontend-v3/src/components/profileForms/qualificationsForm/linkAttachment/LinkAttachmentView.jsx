@@ -2,18 +2,23 @@ import React from "react";
 import { Row, Col, Form, Select, Button, Tooltip, Input } from "antd";
 
 import { DeleteOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import "./LinkAttachmentView.scss";
-
 import {
+  IntlPropType,
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import "./LinkAttachmentView.scss";
 
 const { Option } = Select;
 
-const LinkAttachmentView = ({ fieldElement, removeElement, NameOptions }) => {
+const LinkAttachmentView = ({
+  fieldElement,
+  removeElement,
+  NameOptions,
+  intl,
+}) => {
   const Rules = {
     required: {
       required: true,
@@ -47,7 +52,9 @@ const LinkAttachmentView = ({ fieldElement, removeElement, NameOptions }) => {
           rules={[Rules.required]}
         >
           <Input
-            placeholder={<FormattedMessage id="attachment.placeholder" />}
+            placeholder={intl.formatMessage({
+              id: "attachment.placeholder",
+            })}
           />
         </Form.Item>
       </Col>
@@ -75,8 +82,14 @@ const LinkAttachmentView = ({ fieldElement, removeElement, NameOptions }) => {
 };
 
 LinkAttachmentView.propTypes = {
+  intl: IntlPropType,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   NameOptions: KeyNameOptionsPropType.isRequired,
 };
-export default LinkAttachmentView;
+
+LinkAttachmentView.defaultProps = {
+  intl: undefined,
+};
+
+export default injectIntl(LinkAttachmentView);
