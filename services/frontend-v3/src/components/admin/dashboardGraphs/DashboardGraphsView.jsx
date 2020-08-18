@@ -4,15 +4,8 @@ import { Card, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { IntlPropType } from "../../../utils/customPropTypes";
 
-const { Chart, Geom, Axis, Tooltip, Coord, Legend, registerTheme } =
+const { Chart, Geom, Axis, Tooltip, Coord, Legend } =
   typeof document === "undefined" ? {} : require("bizcharts");
-
-if (registerTheme) {
-  //   registerTheme("default", {
-  //     defaultColor: "#505050",
-  //     colors10: ["#7DF5F1", "#0ABAB3", "#1A2D2F", "#1C807A", "#2D6362"],
-  //   });
-}
 
 /**
  *  DashboardGraphsView(props)
