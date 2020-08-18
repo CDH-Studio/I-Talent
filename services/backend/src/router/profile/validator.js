@@ -173,6 +173,5 @@ const updateProfileValidator = [
 ];
 
 module.exports = {
-  UUIDValidator,
   updateProfileValidator,
 };

@@ -26,6 +26,7 @@ const {
   updateSchoolValidator,
   createSkillValidator,
   updateSkillValidator,
+  attachmentNameValidator,
 } = require("./validator");
 
 const { langValidator } = require("../util/commonValidators");
@@ -253,7 +254,7 @@ optionsRouter.get(
 optionsRouter.get(
   "/attachmentNames",
   keycloak.protect(),
-  langValidator,
+  [langValidator, attachmentNameValidator],
   linkAttachmentNames.getNames
 );
 

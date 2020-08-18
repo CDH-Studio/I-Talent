@@ -509,8 +509,7 @@ QualificationsFormView.defaultProps = {
   currentTab: null,
   profileInfo: null,
   initialValues: undefined,
-  intl: null,
   options: undefined,
 };
 
-export default injectIntl(QualificationsFormView);
+export default QualificationsFormView;
