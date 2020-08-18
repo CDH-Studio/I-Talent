@@ -506,10 +506,10 @@ const PrimaryInfoFormView = ({
         });
       }
 
-      if (newGedsValues.phoneNumber) {
+      if (newGedsValues.cellphone) {
         changes.push({
           title: <FormattedMessage id="profile.cellphone" />,
-          description: profileInfo.phoneNumber,
+          description: profileInfo.cellphone,
         });
       }
 
