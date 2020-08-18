@@ -9,11 +9,10 @@ const keycloakConfig = {
   "confidential-port": 0,
 };
 
-const keycloak = typeof window !== "undefined" ? (() => {
-  // eslint-disable-next-line global-require
-  const Keycloak = require("keycloak-js");
+const initKeycloakConfig = {
+  onLoad: "check-sso",
+  promiseType: "native",
+  checkLoginIframe: false,
+};
 
-  return new Keycloak(keycloakConfig);
-})() : {};
-
-export default keycloak;
+export { keycloakConfig, initKeycloakConfig };
