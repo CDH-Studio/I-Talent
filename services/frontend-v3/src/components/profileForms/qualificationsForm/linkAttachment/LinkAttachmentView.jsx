@@ -46,7 +46,9 @@ const LinkAttachmentView = ({ fieldElement, removeElement, NameOptions }) => {
           className="formItem"
           rules={[Rules.required]}
         >
-          <Input placeholder="Attachment URL - ex. www.google.com" />
+          <Input
+            placeholder={<FormattedMessage id="attachment.placeholder" />}
+          />
         </Form.Item>
       </Col>
       <Col className="gutter-row" span={1}>

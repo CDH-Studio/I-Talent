@@ -21,7 +21,7 @@ const ExperienceView = ({ experienceInfo }) => {
           </a>
         </Tag>
       ));
-    return <></>;
+    return undefined;
   };
 
   const generateOrganizationItemDescription = (item) => (

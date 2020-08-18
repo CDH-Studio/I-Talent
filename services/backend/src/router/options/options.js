@@ -18,7 +18,6 @@ const {
   linkAttachmentNames,
 } = require("../../core/options/options");
 const {
-  langValidator,
   deleteManyValidator,
   deleteOneValidator,
   createValidator,
@@ -28,6 +27,9 @@ const {
   createSkillValidator,
   updateSkillValidator,
 } = require("./validator");
+
+const { langValidator } = require("../util/commonValidators");
+
 const { keycloak } = require("../../auth/keycloak");
 
 const optionsRouter = Router();
