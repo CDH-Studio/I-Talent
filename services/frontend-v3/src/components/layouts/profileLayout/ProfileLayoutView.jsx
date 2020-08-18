@@ -22,7 +22,7 @@ import {
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import moment from "moment";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
