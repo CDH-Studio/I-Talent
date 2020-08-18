@@ -227,7 +227,7 @@ const ExperienceFormView = ({
         <DescriptionFormItem
           name={[fieldElement.name, "description"]}
           fieldKey={[fieldElement.fieldKey, "description"]}
-          rule={Rules.maxChar1500}
+          rules={Rules.maxChar1500}
           label={<FormattedMessage id="profile.qualification.description" />}
           value={
             savedExperience[fieldElement.fieldKey] &&
