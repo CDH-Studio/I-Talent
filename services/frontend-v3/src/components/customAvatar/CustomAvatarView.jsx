@@ -1,26 +1,23 @@
 import React from "react";
 import { Avatar } from "antd";
 import { PropTypes } from "prop-types";
+import { EyeInvisibleOutlined } from "@ant-design/icons";
 
-const CustomAvatarView = ({ color, style, initials }) => {
-  // set icon color based on name
-  const iconColor = {
-    backgroundColor: color,
-    color: "#fff",
+const CustomAvatarView = ({ color, style, initials, hidden }) => {
+  const styles = {
+    avatar: {
+      backgroundColor: color,
+      color: "#fff",
+      verticalAlign: "middle",
+      ...style,
+    },
   };
 
-  const componentStyle = {
-    verticalAlign: "middle",
-  };
-
-  // merge component style with styles passed through from parent
-  const mergedStyles = {
-    ...style,
-    ...componentStyle,
-    ...iconColor,
-  };
-
-  return <Avatar style={mergedStyles}>{initials}</Avatar>;
+  return (
+    <Avatar style={styles.avatar}>
+      {hidden ? <EyeInvisibleOutlined /> : initials}
+    </Avatar>
+  );
 };
 
 CustomAvatarView.propTypes = {
@@ -29,6 +26,7 @@ CustomAvatarView.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
   initials: PropTypes.string.isRequired,
+  hidden: PropTypes.bool.isRequired,
 };
 
 export default CustomAvatarView;

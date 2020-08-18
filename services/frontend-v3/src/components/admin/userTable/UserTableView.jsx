@@ -22,7 +22,7 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import _ from "lodash";
+import { uniq } from "lodash";
 import { Link } from "react-router-dom";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
@@ -159,9 +159,6 @@ const UserTableView = ({
           <Option key="inactive" value="INACTIVE">
             <FormattedMessage id="admin.inactive" />
           </Option>
-          <Option key="hidden" value="HIDDEN">
-            <FormattedMessage id="admin.flagged" />
-          </Option>
         </Select>
       </div>
     );
@@ -292,7 +289,7 @@ const UserTableView = ({
       title: <FormattedMessage id="admin.tenure" />,
       dataIndex: "tenure",
       key: "tenure",
-      filters: _.uniq(data.map((i) => i.tenure)).map((i) => ({
+      filters: uniq(data.map((i) => i.tenure)).map((i) => ({
         text: i,
         value: i,
       })),

@@ -2,10 +2,11 @@ const Fuse = require("fuse.js");
 
 const _ = require("lodash");
 const prisma = require("../../../database");
+const { viewPrivateProfile } = require("../../../utils/keycloak");
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-async function getAllUsers(searchValue, language, userId) {
+async function getAllUsers(searchValue, language, userId, request) {
   let data = await prisma.user.findMany({
     select: {
       id: true,
@@ -16,9 +17,11 @@ async function getAllUsers(searchValue, language, userId) {
         },
       },
     },
-    where: {
-      status: "ACTIVE",
-    },
+    where: viewPrivateProfile(request)
+      ? undefined
+      : {
+          status: "ACTIVE",
+        },
   });
 
   let visibleCards = await Promise.all(

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
@@ -22,7 +21,7 @@ const PrimaryInfoForm = ({ formType }) => {
   const getLocations = useCallback(async () => {
     const result = await axios.get(`api/option/locations?language=${locale}`);
     setLocationOptions(result.data ? result.data : []);
-  }, [locale]);
+  }, [axios, locale]);
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
@@ -32,7 +31,7 @@ const PrimaryInfoForm = ({ formType }) => {
       );
       setProfileInfo(result.data);
     }
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {

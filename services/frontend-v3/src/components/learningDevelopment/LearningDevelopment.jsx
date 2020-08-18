@@ -2,16 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import DevelopmentalGoalsView from "./DevelopmentalGoalsView";
+import LearningDevelopmentView from "./LearningDevelopmentView";
 
-const DevelopmentalGoals = ({ data, type }) => {
+const LearningDevelopment = ({ data, type }) => {
   return (
     <ProfileCards
-      titleId="profile.developmental.goals"
-      content={<DevelopmentalGoalsView devGoals={data.developmentalGoals} />}
+      titleId="profile.learning.development"
+      content={<LearningDevelopmentView devGoals={data.developmentalGoals} />}
       cardName="developmentalGoals"
-      id="card-profile-dev-goals"
-      editUrl="/profile/edit/personal-growth?tab=developmental-goals"
+      id="card-profile-learning-development"
+      editUrl="/profile/edit/personal-growth?tab=learning-development"
       data={data}
       type={type}
       visible={data.visibleCards.developmentalGoals}
@@ -20,14 +20,14 @@ const DevelopmentalGoals = ({ data, type }) => {
   );
 };
 
-DevelopmentalGoals.propTypes = {
+LearningDevelopment.propTypes = {
   data: ProfileInfoPropType,
   type: PropTypes.bool,
 };
 
-DevelopmentalGoals.defaultProps = {
+LearningDevelopment.defaultProps = {
   data: null,
   type: null,
 };
 
-export default DevelopmentalGoals;
+export default LearningDevelopment;

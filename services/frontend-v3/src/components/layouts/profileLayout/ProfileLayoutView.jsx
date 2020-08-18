@@ -1,16 +1,28 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Anchor, Typography, Row, Col, message, Popover, Tooltip } from "antd";
+import {
+  Anchor,
+  Typography,
+  Row,
+  Col,
+  notification,
+  Popover,
+  Tooltip,
+  Alert,
+} from "antd";
 import {
   TagsTwoTone,
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
   QuestionCircleOutlined,
+  EyeInvisibleOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -20,7 +32,7 @@ import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import Competencies from "../../competenciesCard/Competencies";
 import DescriptionCard from "../../descriptionCard/DescriptionCard";
-import DevelopmentalGoals from "../../developmentalGoals/DevelopmentalGoals";
+import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
@@ -46,6 +58,7 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const [keycloak] = useKeycloak();
 
   const styles = {
     row: {
@@ -86,9 +99,13 @@ const ProfileLayoutView = ({
 
   useEffect(() => {
     if (savedFormContent === false) {
-      message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+      notification.error({
+        message: intl.formatMessage({ id: "profile.edit.save.error" }),
+      });
     } else if (savedFormContent === true) {
-      message.success(intl.formatMessage({ id: "profile.edit.save.success" }));
+      notification.success({
+        message: intl.formatMessage({ id: "profile.edit.save.success" }),
+      });
     }
 
     dispatch(setSavedFormContent(undefined));
@@ -157,7 +174,7 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <DevelopmentalGoals type={privateProfile} data={data} />
+            <LearningDevelopment type={privateProfile} data={data} />
           </Col>
         </Row>
 
@@ -240,7 +257,7 @@ const ProfileLayoutView = ({
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor offsetTop="75">
+          <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
               title={
@@ -250,10 +267,18 @@ const ProfileLayoutView = ({
               }
             >
               <Link
+                href="#card-profile-basic-info"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="setup.primary.information" />
+                  </Text>
+                }
+              />
+              <Link
                 href="#card-profile-employee-summary"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.employee.summary" />
+                    <FormattedMessage id="profile.employee.status" />
                   </Text>
                 }
               />
@@ -317,10 +342,10 @@ const ProfileLayoutView = ({
               }
             >
               <Link
-                href="#card-profile-dev-goals"
+                href="#card-profile-learning-development"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.developmental.goals" />
+                    <FormattedMessage id="profile.learning.development" />
                   </Text>
                 }
               />
@@ -407,12 +432,51 @@ const ProfileLayoutView = ({
     );
   };
 
+  const displayHiddenAlert = () => {
+    const canViewHiddenProfiles = keycloak.hasResourceRole(
+      "view-private-profile"
+    );
+    if (
+      (canViewHiddenProfiles || privateProfile) &&
+      data &&
+      data.status &&
+      ["INACTIVE", "HIDDEN"].includes(data.status)
+    ) {
+      const isHidden = data.status === "HIDDEN";
+
+      let messageId;
+
+      if (privateProfile) {
+        messageId = isHidden
+          ? "profile.hidden.message"
+          : "profile.inactive.message";
+      } else if (canViewHiddenProfiles) {
+        messageId = isHidden
+          ? "profile.hidden.message.other"
+          : "profile.inactive.message.other";
+      }
+
+      return (
+        <Alert
+          message={<FormattedMessage id={messageId} />}
+          type={isHidden ? "warning" : "error"}
+          showIcon
+          style={{ marginBottom: 5 }}
+          icon={isHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
+        />
+      );
+    }
+
+    return undefined;
+  };
+
   return (
     <AppLayout
       sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
     >
+      {displayHiddenAlert()}
       <Header
         style={styles.headerStyle}
         title={
