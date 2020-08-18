@@ -269,7 +269,7 @@ function filterProfileResult(profile, language) {
         if (dateValue.isBefore()) {
           expiredValue = true;
         } else {
-          expiredValue = false;
+          expiredValue = null;
         }
       }
 

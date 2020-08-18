@@ -37,23 +37,23 @@ const OfficialLanguage = ({ data, type }) => {
       nextData.titleId = `profile.secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
-        nextData.level =
-          info.level === "NA"
-            ? intl.formatMessage({ id: "grade.not.applicable" })
-            : info.level;
-
-        if (info.date) {
-          nextData.expiryInfo = ` (${
-            info.expired
-              ? intl.formatMessage({ id: "profile.expired.date" })
-              : intl.formatMessage({ id: "profile.expires.date" })
-          } ${moment(info.date).format("ll")})`;
-        } else if (!info.expired) {
-          nextData.expiryInfo = `(${
-            info.expired
-              ? intl.formatMessage({ id: "profile.expired" })
-              : intl.formatMessage({ id: "profile.unexpired" })
-          })`;
+        if (info.level === "NA") {
+          nextData.level = intl.formatMessage({ id: "grade.not.applicable" });
+        } else {
+          nextData.level = info.level;
+          if (info.date) {
+            nextData.expiryInfo = ` (${
+              info.expired
+                ? intl.formatMessage({ id: "profile.expired.date" })
+                : intl.formatMessage({ id: "profile.expires.date" })
+            } ${moment(info.date).format("ll")})`;
+          } else if (!(info.expired === false)) {
+            nextData.expiryInfo = `(${
+              info.expired
+                ? intl.formatMessage({ id: "profile.expired" })
+                : intl.formatMessage({ id: "profile.unexpired" })
+            })`;
+          }
         }
       } else {
         nextData.level = "-";
