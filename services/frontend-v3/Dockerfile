@@ -6,10 +6,6 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
 
-# Copy scripts and make runable
-COPY ./scripts ./scripts/
-RUN chmod +x ./scripts/*.sh
-
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
@@ -20,11 +16,15 @@ RUN mkdir ./build
 RUN chgrp -R 0 /upskill-frontend && \ 
   chmod -R g=u /upskill-frontend
 
-# Runs install script
-RUN ./scripts/install.sh
+# Converts yarn.lock to package-lock.json
+RUN npx synp --source-file yarn.lock
+
+# Runs install script and builds the app
+RUN npm ci --only=production;
+RUN npm run build;
 
 # Copy app
 COPY . .
 
 # Runs start script
-CMD ./scripts/start.sh
+CMD npm run start:prod

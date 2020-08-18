@@ -9,13 +9,13 @@
     "generate": "cd src/database && prisma generate",
     "migrate": "cd src/database && prisma migrate up --experimental -c",
     "migrate:create": "cd src/database && prisma migrate save --experimental",
-    "dev:docker": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
+    "docker:dev": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
+    "docker:prod": "npm run generate && npm run migrate && npm run start",
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio --experimental",
     "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest",
-    "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect"
+    "snyk-protect": "snyk protect"
   },
   "author": "I-Talent team",
   "license": "MIT",
