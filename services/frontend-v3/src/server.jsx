@@ -8,6 +8,8 @@ import { StaticRouter } from "react-router";
 import runtimeConfig from "./utils/config";
 import App from "./App";
 import { keycloakConfig } from "./auth/keycloak";
+import store from "./redux";
+import AppProvider from "./utils/AppProvider";
 
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -23,15 +25,18 @@ server
 
     const markup = renderToString(
       <SSRKeycloakProvider
-      
         keycloakConfig={keycloakConfig}
         persistor={cookiePersistor}
       >
-        <StaticRouter context={context} location={req.url}>
-          <App />
-        </StaticRouter>
+        <AppProvider>
+          <StaticRouter context={context} location={req.url}>
+            <App />
+          </StaticRouter>
+        </AppProvider>
       </SSRKeycloakProvider>
     );
+
+    const preloadedState = store.getState();
 
     if (context.url) {
       res.redirect(context.url);
@@ -67,7 +72,10 @@ server
           <body>
             <noscript>You need to enable JavaScript to run this app.</noscript>
               <div id="root">${markup}</div>
-              <script>window.env = ${serialize(runtimeConfig)};</script>
+              <script>
+                window.env = ${serialize(runtimeConfig)};
+                window.__PRELOADED_STATE__ = ${serialize(preloadedState)};
+              </script>
           </body>
         </html>`
       );

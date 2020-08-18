@@ -1,4 +1,3 @@
-import { ClientPersistors, SSRKeycloakProvider } from '@react-keycloak/razzle'
 import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { IntlProvider } from "react-intl";
@@ -18,7 +17,6 @@ import {
   setUserName,
   setUserInitials,
 } from "../redux/slices/userSlice";
-import { keycloakConfig, initKeycloakConfig } from '../auth/keycloak';
 
 const i18nConfigBuilder = (locale) => ({
   messages: locale === "ENGLISH" ? messagesEn : messagesFr,
@@ -73,18 +71,11 @@ const IntelProv = ({ children }) => {
 
 const AppProvider = ({ children }) => {
   return (
-    <SSRKeycloakProvider
-      keycloakConfig={keycloakConfig}
-      initConfig={initKeycloakConfig}
-      persistor={ClientPersistors.Cookies}
-      LoadingComponent={<div />}
-    >
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <IntelProv>{children}</IntelProv>
-        </PersistGate>
-      </Provider>
-    </SSRKeycloakProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <IntelProv>{children}</IntelProv>
+      </PersistGate>
+    </Provider>
   );
 };
 
