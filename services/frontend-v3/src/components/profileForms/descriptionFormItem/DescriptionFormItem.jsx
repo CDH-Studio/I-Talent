@@ -62,10 +62,10 @@ DescriptionFormItem.propTypes = {
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
   isRequired: PropTypes.bool,
-  minLengthMessage: PropTypes.element,
-  maxLengthMessage: PropTypes.element,
-  isRequiredMessage: PropTypes.element,
-  lengthMessage: PropTypes.element.isRequired,
+  minLengthMessage: PropTypes.node,
+  maxLengthMessage: PropTypes.node,
+  isRequiredMessage: PropTypes.node,
+  lengthMessage: PropTypes.node.isRequired,
   value: PropTypes.string,
 };
 
