@@ -19,12 +19,14 @@ RUN chgrp -R 0 /upskill-frontend && \
 # Converts yarn.lock to package-lock.json
 # RUN npx synp --source-file yarn.lock
 
-# Runs install script and builds the app
+# Runs install script
 RUN yarn install --production;
-RUN yarn build;
 
 # Copy app
 COPY . .
+
+# Builds the app
+RUN yarn build;
 
 # Runs start script
 CMD yarn start:prod
