@@ -14,12 +14,12 @@ const ExperienceView = ({ experienceInfo }) => {
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
-        <Tag color="rgb(114, 114, 114)" key={i.id}>
-          <LinkOutlined />
-          <a target="_blank" rel="noreferrer" href={i.url}>
-            {i.name}
-          </a>
-        </Tag>
+        <a target="_blank" rel="noreferrer" href={i.url}>
+          <Tag color="#00605e" key={i.id} style={{ cursor: "pointer" }}>
+            <LinkOutlined />
+            <span>{i.name}</span>
+          </Tag>
+        </a>
       ));
     return undefined;
   };

@@ -7,11 +7,7 @@ import PropTypes from "prop-types";
 import DescriptionText from "../descriptionText/DescriptionText";
 
 const EducationView = ({ educationInfo }) => {
-  /* Component Styles */
   const styles = {
-    card: {
-      height: "100%",
-    },
     avatar: {
       backgroundColor: "#007471",
     },
@@ -21,7 +17,7 @@ const EducationView = ({ educationInfo }) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
         <a target="_blank" rel="noreferrer" href={i.url}>
-          <Tag color="rgb(114, 114, 114)" key={i.id}>
+          <Tag color="#00605e" key={i.id} style={{ cursor: "pointer" }}>
             <LinkOutlined />
             <span>{i.name}</span>
           </Tag>

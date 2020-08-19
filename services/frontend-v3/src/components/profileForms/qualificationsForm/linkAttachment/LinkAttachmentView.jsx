@@ -24,6 +24,10 @@ const LinkAttachmentView = ({
       required: true,
       message: <FormattedMessage id="profile.rules.required" />,
     },
+    url: {
+      type: "url",
+      message: <FormattedMessage id="profile.rules.url" />,
+    },
   };
   return (
     <Row span={24}>
@@ -49,12 +53,13 @@ const LinkAttachmentView = ({
           name={[fieldElement.name, "url"]}
           fieldKey={[fieldElement.fieldKey, "url"]}
           className="formItem"
-          rules={[Rules.required]}
+          rules={[Rules.required, Rules.url]}
         >
           <Input
             placeholder={intl.formatMessage({
               id: "attachment.placeholder",
             })}
+            ru
           />
         </Form.Item>
       </Col>

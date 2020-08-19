@@ -257,6 +257,7 @@
   "profile.rules.name": "Please provide a valid name",
   "profile.rules.phone.number": "Required format: 111-222-3333",
   "profile.rules.required": "Required",
+  "profile.rules.url": "Must be a url ex - https://www.google.com",
   "profile.rules.valid.phone.number": "Must be a valid phone number",
   "profile.school": "School",
   "profile.secondary.oral.date": "Grading date",

@@ -257,6 +257,7 @@
   "profile.rules.name": "Doit être un nom valide",
   "profile.rules.phone.number": "Doit être formatté : 111-222-3333",
   "profile.rules.required": "Obligatoire",
+  "profile.rules.url": "Doit être une URL ex - https://www.google.com",
   "profile.rules.valid.phone.number": "Doit être un numéro de téléphone valide",
   "profile.school": "École",
   "profile.secondary.oral.date": "Date de l'évaluation",
