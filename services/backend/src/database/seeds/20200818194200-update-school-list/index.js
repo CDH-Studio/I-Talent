@@ -3,22 +3,28 @@ const prisma = require("../..");
 const schools = require("./data/schools");
 
 async function seedStaticInfo() {
-  const setupData = [
+  await Promise.all([
     prisma.opTransSchool.deleteMany({}),
     prisma.opSchool.deleteMany({}),
     prisma.education.deleteMany({}),
+  ]);
+  const setupData = [
     ...schools.map(async ({ abbrProvince, abbrCountry, translations }) => {
       await prisma.opSchool.create({
         data: {
           abbrProvince,
           abbrCountry,
           translations: {
-            create: Object.keys(translations).map((i) => {
-              return {
-                name: translations[i].name,
-                language: i === "en" ? "ENGLISH" : "FRENCH",
-              };
-            }),
+            create: [
+              {
+                name: translations.en.name,
+                language: "ENGLISH",
+              },
+              {
+                name: translations.fr.name,
+                language: "FRENCH",
+              },
+            ],
           },
         },
       });
