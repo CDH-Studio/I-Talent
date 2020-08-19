@@ -24,6 +24,11 @@ definitions:
       - C
       - E
       - X
+  TypeQuery:
+    name: type
+    type: string
+    in: query
+    description: The type of attachment names
   CardVisibilityStatusEnum:
     type: string
     enum:
