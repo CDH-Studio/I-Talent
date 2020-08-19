@@ -7,16 +7,13 @@ import {
   Divider,
   Form,
   Select,
-  Button,
   Checkbox,
-  message,
   Popover,
   TreeSelect,
   Tabs,
+  notification,
 } from "antd";
 import {
-  RightOutlined,
-  CheckOutlined,
   ExclamationCircleOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
@@ -37,6 +34,7 @@ import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
+import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -121,25 +119,6 @@ const PersonalGrowthFormView = ({
       marginBottom: "20px",
       marginTop: "10px",
     },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: {
-      float: "left",
-      marginBottom: "1rem",
-    },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
     TMTooltip: {
       paddingLeft: "5px",
     },
@@ -186,21 +165,29 @@ const PersonalGrowthFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -241,7 +228,11 @@ const PersonalGrowthFormView = ({
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /* save and show success notification */
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -249,13 +240,15 @@ const PersonalGrowthFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+          });
         }
       });
   };
@@ -277,12 +270,18 @@ const PersonalGrowthFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
@@ -310,7 +309,9 @@ const PersonalGrowthFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+          });
         }
       });
   };
@@ -322,90 +323,23 @@ const PersonalGrowthFormView = ({
    */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
   };
 
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
+  /**
+   * Get Tab Title
+   * @param {Object} tabTitleInfo - tab title info.
+   * @param {string} tabTitleInfo.message - Tab title.
+   * @param {bool} tabTitleInfo.errorBool - Bool to show error in tab.
    */
-  const getFormControlButtons = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
     }
-    if (_formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                <FormattedMessage id="button.finish" />
-              )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
+    return message;
   };
 
   /*
@@ -490,7 +424,9 @@ const PersonalGrowthFormView = ({
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
-              tab={<FormattedMessage id="profile.learning.development" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.learning.development" />,
+              })}
               key="learning-development"
             >
               {/* *************** Developmental ************** */}
@@ -519,7 +455,9 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.career.interests" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.career.interests" />,
+              })}
               key="career-interests"
             >
               {/* *************** Career Interest ************** */}
@@ -605,7 +543,11 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.talent.management.title" />}
+              tab={getTabTitle({
+                message: (
+                  <FormattedMessage id="setup.talent.management.title" />
+                ),
+              })}
               key="talent-management"
             >
               {/* *************** Talent Management ************** */}
@@ -696,7 +638,9 @@ const PersonalGrowthFormView = ({
             </TabPane>
 
             <TabPane
-              tab={<FormattedMessage id="profile.ex.feeder.title" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.ex.feeder.title" />,
+              })}
               key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
@@ -712,8 +656,15 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
           </Tabs>
-          {/* Form Row Four: Submit button */}
-          {getFormControlButtons(formType)}
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndNext={onSaveAndNext}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>

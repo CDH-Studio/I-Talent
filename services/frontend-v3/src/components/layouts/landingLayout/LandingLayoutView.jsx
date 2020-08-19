@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Typography, Button } from "antd";
 import { FormattedMessage } from "react-intl";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
 import AppLayout from "../appLayout/AppLayout";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
