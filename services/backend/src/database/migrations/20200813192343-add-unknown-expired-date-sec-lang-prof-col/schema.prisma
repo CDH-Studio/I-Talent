@@ -320,9 +320,9 @@ model VisibleCard {
   talentManagement   CardVisibilityStatus @default(PRIVATE)
   officialLanguage   CardVisibilityStatus @default(PRIVATE)
   skills             CardVisibilityStatus @default(PRIVATE)
+  competencies       CardVisibilityStatus @default(PRIVATE)
   developmentalGoals CardVisibilityStatus @default(PRIVATE)
   description        CardVisibilityStatus @default(PRIVATE)
-  developmentalGoals CardVisibilityStatus @default(PRIVATE)
   education          CardVisibilityStatus @default(PRIVATE)
   experience         CardVisibilityStatus @default(PRIVATE)
   projects           CardVisibilityStatus @default(PRIVATE)
@@ -372,14 +372,15 @@ model DevelopmentalGoal {
 }
 
 model SecondLangProf {
-  id          String           @default(uuid()) @id
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  userId      String
-  date        DateTime?
-  proficiency Proficiency
-  level       ProficiencyLevel
-  user        User             @relation(fields: [userId])
+  id                    String            @default(uuid()) @id
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  userId                String
+  date                  DateTime?
+  unknownExpiredDate    Boolean           @default(false)
+  proficiency           Proficiency
+  level                 ProficiencyLevel
+  user                  User              @relation(fields: [userId])
 
   @@unique([userId, proficiency])
 }
@@ -414,17 +415,18 @@ model TransOrganization {
 }
 
 model Education {
-  id        String     @default(uuid()) @id
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  userId    String
-  schoolId  String?
-  diplomaId String?
-  endDate   DateTime?
-  startDate DateTime
-  user      User       @relation(fields: [userId])
-  school    OpSchool?  @relation(fields: [schoolId])
-  diploma   OpDiploma? @relation(fields: [diplomaId])
+  id          String     @default(uuid()) @id
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      String
+  schoolId    String?
+  diplomaId   String?
+  endDate     DateTime?
+  startDate   DateTime
+  description String?
+  user        User       @relation(fields: [userId])
+  school      OpSchool?  @relation(fields: [schoolId])
+  diploma     OpDiploma? @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, startDate])
 }
