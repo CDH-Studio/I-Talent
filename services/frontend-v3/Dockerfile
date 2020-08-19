@@ -26,7 +26,7 @@ RUN yarn install --production;
 COPY . .
 
 # Builds the app
-RUN yarn build;
+RUN npm run build;
 
 # Runs start script
-CMD yarn start:prod
+CMD npm run start:prod

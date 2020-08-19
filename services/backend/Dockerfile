@@ -23,4 +23,4 @@ RUN yarn install --production;
 COPY . .
 
 # Runs start script
-CMD yarn docker:prod
+CMD npm run docker:prod
