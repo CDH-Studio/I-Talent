@@ -16,18 +16,13 @@
 
 #### Checklist
 If the database has been modified:
-- [ ] Update database diagram
-<!-- Updated diagram located in the backend, at `./src/docs/I-Talent database.xml`, with 
-     draw.io and updated the png image at `./src/docs/I-Talent database.png` -->
-- [ ] Create new migration
-<!-- Ran `yarn migrate:create` in backend docker container -->
+- [ ] Update database diagram <!-- Updated diagram located in the backend, at `./src/docs/I-Talent database.xml`, with draw.io and updated the png image at `./src/docs/I-Talent database.png` -->
+- [ ] Create new migration <!-- Ran `yarn migrate:create` in backend docker container -->
 
 If API endpoints has been modified:
-- [ ] Update backend documentation
-<!-- Updated corresponding swagger documentation in the routers -->
-- [ ] Create/Update validators for the API endpoints
-<!-- Restrict and sanitize user input in the routers with express-validator.github.io -->
-- [ ] The API endpoints are properly secured with keycloak
+- [ ] Update backend documentation <!-- Updated corresponding swagger documentation in the routers -->
+- [ ] Create/Update validators for the API endpoints <!-- Restrict and sanitize user input in the routers with express-validator.github.io -->
+- [ ] The API endpoints are properly secured with keycloak 
 <!-- Use the `keycloak.protect(roleName)` express middleware in the routes -->
 
 <!-- 
@@ -37,8 +32,7 @@ Optional for now, since tests are not working correctly
 -->
 
 If the UI has been modified:
-- [ ] It is translated in both language (with no hard coded text)
-<!-- To sort the keys and remove unused keys in the translation files, run `yarn i18n:cleanup` -->
+- [ ] It is translated in both language (with no hard coded text) <!-- To sort the keys and remove unused keys in the translation files, run `yarn i18n:cleanup` -->
 - [ ] Has been tested on IE
 - [ ] The modifications are tab friendly
 - [ ] It is accessible

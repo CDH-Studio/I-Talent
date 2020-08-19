@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
-import { Chart, Geom, Axis, Tooltip, Coord, Legend } from "bizcharts";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { IntlPropType } from "../../../utils/customPropTypes";
+
+const { Chart, Geom, Axis, Tooltip, Coord, Legend } =
+  typeof document === "undefined" ? {} : require("bizcharts");
 
 /**
  *  DashboardGraphsView(props)
@@ -66,13 +68,13 @@ const DashboardGraphsView = ({
             <Chart
               data={topFiveSkills}
               scale={popularSkillsColumns}
-              padding="auto"
-              forceFit
+              height={500}
+              autoFit={typeof document !== "undefined"}
             >
               <Axis name="name" visible={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" dy={-20} textStyle={{ fontSize: "12" }} />
+              <Legend position="top" flipPage={false} />
               <Tooltip />
               <Geom type="interval" position="name*count" color="name" />
             </Chart>
@@ -88,13 +90,13 @@ const DashboardGraphsView = ({
             <Chart
               data={topFiveCompetencies}
               scale={popularCompetenciesColumns}
-              padding="auto"
-              forceFit
+              height={500}
+              autoFit={typeof document !== "undefined"}
             >
               <Axis name="name" visible={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" dy={-20} textStyle={{ fontSize: "12" }} />
+              <Legend position="top" flipPage={false} />
               <Tooltip />
               <Geom type="interval" position="name*count" color="name" />
             </Chart>
@@ -110,13 +112,13 @@ const DashboardGraphsView = ({
             <Chart
               data={topFiveDevelopmentalGoals}
               scale={popularDevelopmentGoalsColumns}
-              padding="auto"
-              forceFit
+              height={500}
+              autoFit={typeof document !== "undefined"}
             >
               <Axis name="name" visible={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" dy={-20} textStyle={{ fontSize: "12" }} />
+              <Legend position="top" flipPage={false} />
               <Tooltip />
               <Geom type="interval" position="name*count" color="name" />
             </Chart>
@@ -135,8 +137,8 @@ const DashboardGraphsView = ({
               <Chart
                 data={monthlyGrowth}
                 scale={growthRateByMonthColumns}
-                padding="auto"
-                forceFit
+                height={500}
+                autoFit
               >
                 <Legend />
                 <Axis name="monthName" />
