@@ -35,11 +35,12 @@
     "keycloak-connect": "^11.0.0",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
+    "morgan": "^1.10.0",
     "redis": "^3.0.2",
+    "snyk": "^1.380.0",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
-    "validator": "^13.1.1",
-    "snyk": "^1.380.0"
+    "validator": "^13.1.1"
   },
   "devDependencies": {
     "@prisma/cli": "2.5.0",
