@@ -1,499 +1,1092 @@
 module.exports = [
   {
+    abbrProvince: "AB",
     abbrCountry: "CAN",
-    provinces: [
-      {
-        abbrProvince: "AB",
-        schools: [
-          {
-            en: {
-              name: "Athabasca University",
-            },
-            fr: {
-              name: "Athabasca University",
-            },
-          },
-
-          {
-            en: {
-              name: "Augustana University College",
-            },
-            fr: {
-              name: "Augustana University College",
-            },
-          },
-          {
-            en: {
-              name: "Concordia University College of Alberta",
-            },
-            fr: {
-              name: "Concordia University College of Alberta",
-            },
-          },
-
-          {
-            en: {
-              name: "Grant MacEwan University",
-            },
-            fr: {
-              name: "Grant MacEwan University",
-            },
-          },
-          {
-            en: {
-              name: "Mount Royal University",
-            },
-            fr: {
-              name: "Mount Royal University",
-            },
-          },
-          {
-            en: {
-              name: "The King’s University College",
-            },
-            fr: {
-              name: "The King’s University College",
-            },
-          },
-          {
-            en: {
-              name: "University of Alberta",
-            },
-            fr: {
-              name: "University of Alberta",
-            },
-          },
-          {
-            en: {
-              name: "University of Calgary",
-            },
-            fr: {
-              name: "University of Calgary",
-            },
-          },
-          {
-            en: {
-              name: "University of Lethbridge",
-            },
-            fr: {
-              name: "University of Lethbridge",
-            },
-          },
-
-          {
-            en: {
-              name: "University of Notre Dame",
-            },
-            fr: {
-              name: "University of Notre Dame",
-            },
-          },
-        ],
-      },
-      {
-        abbrProvince: "BC",
-        schools: [
-          {
-            en: "British Columbia Institute of Technology",
-            fr: "British Columbia Institute of Technology",
-          },
-          { en: "Capilano University", fr: "Capilano University" },
-          {
-            en: "Emily Carr College of Art and Design ",
-            fr: "Emily Carr College of Art and Design ",
-          },
-          {
-            en: "Kwantlen University College",
-            fr: "Kwantlen University College",
-          },
-          {
-            en: "Malaspina University College",
-            fr: "Malaspina University College",
-          },
-          {
-            en: "Okanagan University College",
-            fr: "Okanagan University College",
-          },
-          {
-            en: "Pacific Coast University for Workplace Health Sciences",
-            fr: "Pacific Coast University for Workplace Health Sciences",
-          },
-          { en: "Royal Roads University", fr: "Royal Roads University" },
-          { en: "Simon Fraser University ", fr: "Simon Fraser University " },
-          {
-            en: "Thompson Rivers University ",
-            fr: "Thompson Rivers University ",
-          },
-          {
-            en: "Trinity Western University",
-            fr: "Trinity Western University",
-          },
-          { en: "University Canada West", fr: "University Canada West" },
-          {
-            en: "University College of the Cariboo",
-            fr: "University College of the Cariboo",
-          },
-          {
-            en: "University College of the Fraser Valley",
-            fr: "University College of the Fraser Valley",
-          },
-          {
-            en: "University of British Columbia",
-            fr: "University of British Columbia",
-          },
-          {
-            en: "University of Northern British Columbia",
-            fr: "University of Northern British Columbia",
-          },
-          { en: "University of Victoria", fr: "University of Victoria" },
-          {
-            en: "Vancouver Island University",
-            fr: "Vancouver Island University",
-          },
-        ],
-      },
-      {
-        abbrProvince: "MB",
-        schools: [
-          { en: "Brandon University", fr: "Brandon University" },
-          {
-            en: "Canadian Mennonite University ",
-            fr: "Canadian Mennonite University ",
-          },
-          {
-            en: "Collège universitaire de Saint-Boniface",
-            fr: "Collège universitaire de Saint-Boniface",
-          },
-          {
-            en: "University College of the North",
-            fr: "University College of the North",
-          },
-          {
-            en: "University College of the North ",
-            fr: "University College of the North ",
-          },
-          { en: "University of Manitoba", fr: "University of Manitoba" },
-          { en: "University of Winnipeg", fr: "University of Winnipeg" },
-        ],
-      },
-      {
-        abbrProvince: "NB",
-        schools: [
-          {
-            en: "Atlantic Baptist University",
-            fr: "Atlantic Baptist University",
-          },
-          { en: "Mount Allison University", fr: "Mount Allison University" },
-          { en: "St. Stephen’s University", fr: "St. Stephen’s University" },
-          { en: "St. Thomas University", fr: "St. Thomas University" },
-          { en: "Université de Moncton", fr: "Université de Moncton" },
-          {
-            en: "Université de Moncton (Edmunston Campus)",
-            fr: "Université de Moncton (Campus d’Edmunston)",
-          },
-          {
-            en: "Université de Moncton (Shippagan Campus)",
-            fr: "Université de Moncton (Campus de Shippagan)",
-          },
-          {
-            en: "University of New Brunswick",
-            fr: "University of New Brunswick",
-          },
-          {
-            en: "University of New Brunswick (Saint John Campus)",
-            fr: "University of New Brunswick (Campus Saint John)",
-          },
-        ],
-      },
-      {
-        abbrProvince: "NF",
-        schools: [
-          {
-            en: "Memorial University of Newfoundland",
-            fr: "Memorial University of Newfoundland",
-          },
-        ],
-      },
-      {
-        abbrProvince: "NS",
-        schools: [
-          { en: "Acadia University", fr: "Acadia University" },
-          {
-            en: "Atlantic School of Theology",
-            fr: "Faculté de théologie évangélique, Atlantique",
-          },
-          { en: "Cape Breton University", fr: "Cape Breton University" },
-          { en: "DAL/TECH", fr: "DAL/TECH" },
-          { en: "Dalhousie University", fr: "Dalhousie University" },
-          {
-            en: "Mount Saint Vincent University",
-            fr: "Mount Saint Vincent University",
-          },
-          {
-            en: "Nova Scotia Agricultural College",
-            fr: "Nova Scotia Agricultural College",
-          },
-          {
-            en: "Nova Scotia College of Art and Design ",
-            fr: "Nova Scotia College of Art and Design ",
-          },
-          { en: "Saint Mary’s University", fr: "Saint Mary’s University" },
-          {
-            en: "St. Francis Xavier University",
-            fr: "St. Francis Xavier University",
-          },
-          { en: "Université Sainte-Anne", fr: "Université Sainte-Anne" },
-          {
-            en: "University of King’s College",
-            fr: "University of King’s College",
-          },
-        ],
-      },
-      {
-        abbrProvince: "ON",
-        schools: [
-          {
-            en: "Algoma University College",
-            fr: "Algoma University College",
-          },
-          { en: "Assumption University", fr: "Assumption University" },
-          {
-            en: "Brescia University College",
-            fr: "Brescia University College",
-          },
-          { en: "Brock University", fr: "Brock University" },
-          { en: "Carleton University", fr: "Carleton University" },
-          {
-            en: "Dominican University College",
-            fr: "Collège Universitaire Dominicain",
-          },
-          {
-            en: "Hearst University College",
-            fr: "Collège universitaire de Hearst",
-          },
-          { en: "Huntington University", fr: "Huntington University" },
-          { en: "Huron University College", fr: "Huron University College" },
-          {
-            en:
-              "King’s University College (King’s University College at The University of Western Ontario)",
-            fr:
-              "King’s University College (King’s University College at The University of Western Ontario)",
-          },
-          { en: "Lakehead University", fr: "Lakehead University" },
-          { en: "Laurentian University", fr: "Laurentian University" },
-          { en: "McMaster University", fr: "McMaster University" },
-          {
-            en: "Michener Institute for Applied Health Sciences",
-            fr: "Michener Institute for Applied Health Sciences",
-          },
-          { en: "Nipissing University", fr: "Nipissing University" },
-          {
-            en: "Ontario College of Art and Design ",
-            fr: "Ontario College of Art and Design ",
-          },
-          { en: "Queen’s University", fr: "Queen’s University" },
-          {
-            en: "Redeemer University College",
-            fr: "Redeemer University College",
-          },
-          {
-            en: "Royal Military College of Canada",
-            fr: "Collège Royal Militaire du Canada",
-          },
-          { en: "Ryerson University", fr: "Université Ryerson" },
-          { en: "Saint Paul University", fr: "Université Saint-Paul" },
-          { en: "St. Jerome’s University", fr: "St. Jerome’s University" },
-          { en: "Thornloe University", fr: "Thornloe University" },
-          { en: "Trent University", fr: "Trent University" },
-          { en: "University of Guelph", fr: "University of Guelph" },
-          {
-            en: "University of Ontario Institute of Technology",
-            fr: "University of Ontario Institute of Technology",
-          },
-          { en: "University of Ottawa", fr: "Université d’Ottawa" },
-          {
-            en: "University of St. Michael’s College",
-            fr: "University of St. Michael’s College",
-          },
-          { en: "University of Sudbury", fr: "Université de Sudbury" },
-          { en: "University of Toronto", fr: "University of Toronto" },
-          {
-            en: "University of Trinity College",
-            fr: "University of Trinity College",
-          },
-          { en: "University of Waterloo", fr: "University of Waterloo" },
-          {
-            en: "University of Western Ontario",
-            fr: "University of Western Ontario",
-          },
-          { en: "University of Windsor", fr: "University of Windsor" },
-          { en: "Victoria University", fr: "Victoria University" },
-          {
-            en: "Wilfrid Laurier University",
-            fr: "Wilfrid Laurier University",
-          },
-          { en: "York University", fr: "York University" },
-        ],
-      },
-      {
-        abbrProvince: "PE",
-        schools: [
-          {
-            en: "Atlantic Veterinary College",
-            fr: "Atlantic Veterinary College",
-          },
-          {
-            en: "Université Sainte-Anne - Campus de Wellington",
-            fr: "Université Sainte-Anne - Campus de Wellington",
-          },
-          {
-            en: "University of Prince Edward Island",
-            fr: "University of Prince Edward Island",
-          },
-        ],
-      },
-      {
-        abbrProvince: "QC",
-        schools: [
-          { en: "Bishop’s university", fr: "Université Bishop" },
-          {
-            en: "Campus MacDonald (McGill)",
-            fr: "Campus MacDonald (McGill)",
-          },
-          { en: "Concordia University", fr: "Université Concordia" },
-          {
-            en: "Concordia University Sir George Williams Campus",
-            fr: "Concordia University Sir George Williams Campus",
-          },
-          {
-            en: "École des hautes études commerciales ",
-            fr: "École des hautes études commerciales ",
-          },
-          {
-            en: "École de technologie supérieure",
-            fr: "École de technologie supérieure",
-          },
-          {
-            en: "École nationale d’administration publique, Montréal",
-            fr: "École nationale d’administration publique, Montréal",
-          },
-          {
-            en: "École nationale d’administration publique, Outaouais",
-            fr: "École nationale d’administration publique, Outaouais",
-          },
-          {
-            en: "École nationale d’administration publique, Québec",
-            fr: "École nationale d’administration publique, Québec",
-          },
-          {
-            en: "École nationale d’administration publique, Saguenay",
-            fr: "École nationale d’administration publique, Saguenay",
-          },
-          {
-            en: "École nationale d’administration publique ",
-            fr: "École nationale d’administration publique ",
-          },
-          {
-            en: "École Polytechnique de Montréal",
-            fr: "École Polytechnique de Montréal",
-          },
-          {
-            en: "Institut national de la recherche scientifique ",
-            fr: "Institut national de la recherche scientifique ",
-          },
-          { en: "McGill University", fr: "Université McGill" },
-          { en: "Sir George Williams", fr: "Sir George Williams" },
-          { en: "Université de Montréal", fr: "Université de Montréal" },
-          { en: "Université de Sherbrooke", fr: "Université de Sherbrooke" },
-          { en: "Université du Québec", fr: "Université du Québec" },
-          {
-            en: "Université du Québec, Télé-Université",
-            fr: "Université du Québec, Télé-Université",
-          },
-          {
-            en: "Université du Québec à Chicoutimi ",
-            fr: "Université du Québec à Chicoutimi ",
-          },
-          {
-            en: "Université du Québec à Montréal ",
-            fr: "Université du Québec à Montréal ",
-          },
-          {
-            en: "Université du Québec à Rimouski ",
-            fr: "Université du Québec à Rimouski",
-          },
-          {
-            en: "Université du Québec à Trois-Rivières ",
-            fr: "Université du Québec à Trois-Rivières ",
-          },
-          {
-            en: "Université du Québec en Abitibi-Témiscamingue ",
-            fr: "Université du Québec en Abitibi-Témiscamingue ",
-          },
-          {
-            en: "Université du Québec en Outaouais ",
-            fr: "Université du Québec en Outaouais ",
-          },
-          { en: "Université Laval", fr: "Université Laval" },
-        ],
-      },
-      {
-        abbrProvince: "SK",
-        schools: [
-          { en: "Campion College", fr: "Campion College" },
-          {
-            en: "First Nations University of Canada",
-            fr: "First Nations University of Canada",
-          },
-          { en: "Luther College", fr: "Luther College" },
-          {
-            en: "Millar College of the Bible",
-            fr: "Millar College of the Bible",
-          },
-          {
-            en: "Saskatchewan Indian Federated College",
-            fr: "Saskatchewan Indian Federated College",
-          },
-          { en: "St. Thomas More College", fr: "St. Thomas More College" },
-          { en: "University of Regina", fr: "University of Regina" },
-          {
-            en: "University of Saskatchewan",
-            fr: "University of Saskatchewan",
-          },
-        ],
-      },
-      {
-        abbrProvince: "",
-        schools: [
-          {
-            en: "Other Canadian university",
-            fr: "Autre université canadienne",
-          },
-          {
-            en: "Other post-secondary institution (Canada)",
-            fr: "Autres établissements postsecondaires (Canada)",
-          },
-        ],
-      },
-    ],
+    translations: {
+      en: { name: "Athabasca University" },
+      fr: { name: "Athabasca University" },
+    },
   },
   {
-    abbrCountry: "",
-    provinces: [
-      {
-        abbrProvince: "",
-        schools: [
-          {
-            en: "Other post-secondary institution (outside Canada)",
-            fr:
-              "Autres établissements postsecondaires (à l’extérieur du Canada)",
-          },
-          {
-            en: "Other university outside Canada",
-            fr: "Autre université située à l’extérieur du Canada",
-          },
-        ],
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Augustana University College" },
+      fr: { name: "Augustana University College" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Concordia University College of Alberta" },
+      fr: { name: "Concordia University College of Alberta" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Grant MacEwan University" },
+      fr: { name: "Grant MacEwan University" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Mount Royal University" },
+      fr: { name: "Mount Royal University" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "The King’s University College" },
+      fr: { name: "The King’s University College" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Alberta" },
+      fr: { name: "University of Alberta" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Calgary" },
+      fr: { name: "University of Calgary" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Lethbridge" },
+      fr: { name: "University of Lethbridge" },
+    },
+  },
+  {
+    abbrProvince: "AB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Notre Dame" },
+      fr: { name: "University of Notre Dame" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "British Columbia Institute of Technology" },
+      fr: { name: "British Columbia Institute of Technology" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Capilano University" },
+      fr: { name: "Capilano University" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Emily Carr College of Art and Design " },
+      fr: { name: "Emily Carr College of Art and Design " },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Kwantlen University College" },
+      fr: { name: "Kwantlen University College" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Malaspina University College" },
+      fr: { name: "Malaspina University College" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Okanagan University College" },
+      fr: { name: "Okanagan University College" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: {
+        name: "Pacific Coast University for Workplace Health Sciences",
       },
-    ],
+      fr: { name: "Pacific Coast University for Workplace Health Sciences" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Royal Roads University" },
+      fr: { name: "Royal Roads University" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Simon Fraser University " },
+      fr: { name: "Simon Fraser University " },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Thompson Rivers University " },
+      fr: { name: "Thompson Rivers University " },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Trinity Western University" },
+      fr: { name: "Trinity Western University" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University Canada West" },
+      fr: { name: "University Canada West" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University College of the Cariboo" },
+      fr: { name: "University College of the Cariboo" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University College of the Fraser Valley" },
+      fr: { name: "University College of the Fraser Valley" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of British Columbia" },
+      fr: { name: "University of British Columbia" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Northern British Columbia" },
+      fr: { name: "University of Northern British Columbia" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Victoria" },
+      fr: { name: "University of Victoria" },
+    },
+  },
+  {
+    abbrProvince: "BC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Vancouver Island University" },
+      fr: { name: "Vancouver Island University" },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Brandon University" },
+      fr: { name: "Brandon University" },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Canadian Mennonite University " },
+      fr: { name: "Canadian Mennonite University " },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Collège universitaire de Saint-Boniface" },
+      fr: { name: "Collège universitaire de Saint-Boniface" },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University College of the North" },
+      fr: { name: "University College of the North" },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University College of the North " },
+      fr: { name: "University College of the North " },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Manitoba" },
+      fr: { name: "University of Manitoba" },
+    },
+  },
+  {
+    abbrProvince: "MB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Winnipeg" },
+      fr: { name: "University of Winnipeg" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Atlantic Baptist University" },
+      fr: { name: "Atlantic Baptist University" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Mount Allison University" },
+      fr: { name: "Mount Allison University" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "St. Stephen’s University" },
+      fr: { name: "St. Stephen’s University" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "St. Thomas University" },
+      fr: { name: "St. Thomas University" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université de Moncton" },
+      fr: { name: "Université de Moncton" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université de Moncton (Edmunston Campus)" },
+      fr: { name: "Université de Moncton (Campus d’Edmunston)" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université de Moncton (Shippagan Campus)" },
+      fr: { name: "Université de Moncton (Campus de Shippagan)" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of New Brunswick" },
+      fr: { name: "University of New Brunswick" },
+    },
+  },
+  {
+    abbrProvince: "NB",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of New Brunswick (Saint John Campus)" },
+      fr: { name: "University of New Brunswick (Campus Saint John)" },
+    },
+  },
+  {
+    abbrProvince: "NF",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Memorial University of Newfoundland" },
+      fr: { name: "Memorial University of Newfoundland" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Acadia University" },
+      fr: { name: "Acadia University" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Atlantic School of Theology" },
+      fr: { name: "Faculté de théologie évangélique, Atlantique" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Cape Breton University" },
+      fr: { name: "Cape Breton University" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "DAL/TECH" },
+      fr: { name: "DAL/TECH" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Dalhousie University" },
+      fr: { name: "Dalhousie University" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Mount Saint Vincent University" },
+      fr: { name: "Mount Saint Vincent University" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Nova Scotia Agricultural College" },
+      fr: { name: "Nova Scotia Agricultural College" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Nova Scotia College of Art and Design " },
+      fr: { name: "Nova Scotia College of Art and Design " },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Saint Mary’s University" },
+      fr: { name: "Saint Mary’s University" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "St. Francis Xavier University" },
+      fr: { name: "St. Francis Xavier University" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université Sainte-Anne" },
+      fr: { name: "Université Sainte-Anne" },
+    },
+  },
+  {
+    abbrProvince: "NS",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of King’s College" },
+      fr: { name: "University of King’s College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Algoma University College" },
+      fr: { name: "Algoma University College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Assumption University" },
+      fr: { name: "Assumption University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Brescia University College" },
+      fr: { name: "Brescia University College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Brock University" },
+      fr: { name: "Brock University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Carleton University" },
+      fr: { name: "Carleton University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Dominican University College" },
+      fr: { name: "Collège Universitaire Dominicain" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Hearst University College" },
+      fr: { name: "Collège universitaire de Hearst" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Huntington University" },
+      fr: { name: "Huntington University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Huron University College" },
+      fr: { name: "Huron University College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: {
+        name:
+          "King’s University College (King’s University College at The University of Western Ontario)",
+      },
+      fr: {
+        name:
+          "King’s University College (King’s University College at The University of Western Ontario)",
+      },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Lakehead University" },
+      fr: { name: "Lakehead University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Laurentian University" },
+      fr: { name: "Laurentian University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "McMaster University" },
+      fr: { name: "McMaster University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Michener Institute for Applied Health Sciences" },
+      fr: { name: "Michener Institute for Applied Health Sciences" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Nipissing University" },
+      fr: { name: "Nipissing University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Ontario College of Art and Design " },
+      fr: { name: "Ontario College of Art and Design " },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Queen’s University" },
+      fr: { name: "Queen’s University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Redeemer University College" },
+      fr: { name: "Redeemer University College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Royal Military College of Canada" },
+      fr: { name: "Collège Royal Militaire du Canada" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Ryerson University" },
+      fr: { name: "Université Ryerson" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Saint Paul University" },
+      fr: { name: "Université Saint-Paul" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "St. Jerome’s University" },
+      fr: { name: "St. Jerome’s University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Thornloe University" },
+      fr: { name: "Thornloe University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Trent University" },
+      fr: { name: "Trent University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Guelph" },
+      fr: { name: "University of Guelph" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Ontario Institute of Technology" },
+      fr: { name: "University of Ontario Institute of Technology" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Ottawa" },
+      fr: { name: "Université d’Ottawa" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of St. Michael’s College" },
+      fr: { name: "University of St. Michael’s College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Sudbury" },
+      fr: { name: "Université de Sudbury" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Toronto" },
+      fr: { name: "University of Toronto" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Trinity College" },
+      fr: { name: "University of Trinity College" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Waterloo" },
+      fr: { name: "University of Waterloo" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Western Ontario" },
+      fr: { name: "University of Western Ontario" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Windsor" },
+      fr: { name: "University of Windsor" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Victoria University" },
+      fr: { name: "Victoria University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Wilfrid Laurier University" },
+      fr: { name: "Wilfrid Laurier University" },
+    },
+  },
+  {
+    abbrProvince: "ON",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "York University" },
+      fr: { name: "York University" },
+    },
+  },
+  {
+    abbrProvince: "PE",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Atlantic Veterinary College" },
+      fr: { name: "Atlantic Veterinary College" },
+    },
+  },
+  {
+    abbrProvince: "PE",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université Sainte-Anne - Campus de Wellington" },
+      fr: { name: "Université Sainte-Anne - Campus de Wellington" },
+    },
+  },
+  {
+    abbrProvince: "PE",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Prince Edward Island" },
+      fr: { name: "University of Prince Edward Island" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Bishop’s university" },
+      fr: { name: "Université Bishop" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Campus MacDonald (McGill)" },
+      fr: { name: "Campus MacDonald (McGill)" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Concordia University" },
+      fr: { name: "Université Concordia" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Concordia University Sir George Williams Campus" },
+      fr: { name: "Concordia University Sir George Williams Campus" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École des hautes études commerciales " },
+      fr: { name: "École des hautes études commerciales " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École de technologie supérieure" },
+      fr: { name: "École de technologie supérieure" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École nationale d’administration publique, Montréal" },
+      fr: { name: "École nationale d’administration publique, Montréal" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École nationale d’administration publique, Outaouais" },
+      fr: { name: "École nationale d’administration publique, Outaouais" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École nationale d’administration publique, Québec" },
+      fr: { name: "École nationale d’administration publique, Québec" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École nationale d’administration publique, Saguenay" },
+      fr: { name: "École nationale d’administration publique, Saguenay" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École nationale d’administration publique " },
+      fr: { name: "École nationale d’administration publique " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "École Polytechnique de Montréal" },
+      fr: { name: "École Polytechnique de Montréal" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Institut national de la recherche scientifique " },
+      fr: { name: "Institut national de la recherche scientifique " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "McGill University" },
+      fr: { name: "Université McGill" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Sir George Williams" },
+      fr: { name: "Sir George Williams" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université de Montréal" },
+      fr: { name: "Université de Montréal" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université de Sherbrooke" },
+      fr: { name: "Université de Sherbrooke" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec" },
+      fr: { name: "Université du Québec" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec, Télé-Université" },
+      fr: { name: "Université du Québec, Télé-Université" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec à Chicoutimi " },
+      fr: { name: "Université du Québec à Chicoutimi " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec à Montréal " },
+      fr: { name: "Université du Québec à Montréal " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec à Rimouski " },
+      fr: { name: "Université du Québec à Rimouski" },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec à Trois-Rivières " },
+      fr: { name: "Université du Québec à Trois-Rivières " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec en Abitibi-Témiscamingue " },
+      fr: { name: "Université du Québec en Abitibi-Témiscamingue " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université du Québec en Outaouais " },
+      fr: { name: "Université du Québec en Outaouais " },
+    },
+  },
+  {
+    abbrProvince: "QC",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Université Laval" },
+      fr: { name: "Université Laval" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Campion College" },
+      fr: { name: "Campion College" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "First Nations University of Canada" },
+      fr: { name: "First Nations University of Canada" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Luther College" },
+      fr: { name: "Luther College" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Millar College of the Bible" },
+      fr: { name: "Millar College of the Bible" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Saskatchewan Indian Federated College" },
+      fr: { name: "Saskatchewan Indian Federated College" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "St. Thomas More College" },
+      fr: { name: "St. Thomas More College" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Regina" },
+      fr: { name: "University of Regina" },
+    },
+  },
+  {
+    abbrProvince: "SK",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "University of Saskatchewan" },
+      fr: { name: "University of Saskatchewan" },
+    },
+  },
+  {
+    abbrProvince: "",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Other Canadian university" },
+      fr: { name: "Autre université canadienne" },
+    },
+  },
+  {
+    abbrProvince: "",
+    abbrCountry: "CAN",
+    translations: {
+      en: { name: "Other post-secondary institution (Canada)" },
+      fr: { name: "Autres établissements postsecondaires (Canada)" },
+    },
+  },
+  {
+    abbrProvince: "",
+    abbrCountry: "",
+    translations: {
+      en: { name: "Other post-secondary institution (outside Canada)" },
+      fr: {
+        name: "Autres établissements postsecondaires (à l’extérieur du Canada)",
+      },
+    },
+  },
+  {
+    abbrProvince: "",
+    abbrCountry: "",
+    translations: {
+      en: { name: "Other university outside Canada" },
+      fr: { name: "Autre université située à l’extérieur du Canada" },
+    },
   },
 ];
