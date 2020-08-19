@@ -37,6 +37,7 @@ enum ProficiencyLevel {
   C
   E
   X
+  NA
 }
 
 enum CardVisibilityStatus {
@@ -372,14 +373,15 @@ model DevelopmentalGoal {
 }
 
 model SecondLangProf {
-  id          String           @default(uuid()) @id
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  userId      String
-  date        DateTime?
-  proficiency Proficiency
-  level       ProficiencyLevel
-  user        User             @relation(fields: [userId])
+  id                    String            @default(uuid()) @id
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  userId                String
+  date                  DateTime?
+  unknownExpiredDate    Boolean           @default(false)
+  proficiency           Proficiency
+  level                 ProficiencyLevel
+  user                  User              @relation(fields: [userId])
 
   @@unique([userId, proficiency])
 }

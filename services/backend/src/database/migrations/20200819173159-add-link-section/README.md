@@ -1,6 +1,6 @@
-# Migration `20200812152535-add-link-section`
+# Migration `20200819173159-add-link-section`
 
-This migration has been generated at 8/12/2020, 11:25:35 AM.
+This migration has been generated at 8/19/2020, 1:31:59 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -55,7 +55,7 @@ ALTER TABLE "public"."AttachmentLink" ADD FOREIGN KEY ("educationId")REFERENCES 
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200810152146-optional-interested-in-remote..20200812152535-add-link-section
+migration 20200814034556-add-not-applicable-proficiency-level..20200819173159-add-link-section
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -67,31 +67,22 @@ migration 20200810152146-optional-interested-in-remote..20200812152535-add-link-
  }
  model DbSeed {
    id        String   @id
-@@ -321,8 +321,9 @@
-   officialLanguage   CardVisibilityStatus @default(PRIVATE)
-   skills             CardVisibilityStatus @default(PRIVATE)
-   competencies       CardVisibilityStatus @default(PRIVATE)
-   developmentalGoals CardVisibilityStatus @default(PRIVATE)
-+  description        CardVisibilityStatus @default(PRIVATE)
-   education          CardVisibilityStatus @default(PRIVATE)
-   experience         CardVisibilityStatus @default(PRIVATE)
-   projects           CardVisibilityStatus @default(PRIVATE)
-   careerInterests    CardVisibilityStatus @default(PRIVATE)
-@@ -412,19 +413,21 @@
+@@ -415,20 +415,21 @@
    organizationTierId String?
  }
  model Education {
--  id        String     @default(uuid()) @id
--  createdAt DateTime   @default(now())
--  updatedAt DateTime   @updatedAt
--  userId    String
--  schoolId  String?
--  diplomaId String?
--  endDate   DateTime?
--  startDate DateTime
--  user      User       @relation(fields: [userId])
--  school    OpSchool?  @relation(fields: [schoolId])
--  diploma   OpDiploma? @relation(fields: [diplomaId])
+-  id          String     @default(uuid()) @id
+-  createdAt   DateTime   @default(now())
+-  updatedAt   DateTime   @updatedAt
+-  userId      String
+-  schoolId    String?
+-  diplomaId   String?
+-  endDate     DateTime?
+-  startDate   DateTime
+-  description String?
+-  user        User       @relation(fields: [userId])
+-  school      OpSchool?  @relation(fields: [schoolId])
+-  diploma     OpDiploma? @relation(fields: [diplomaId])
 +  id              String           @default(uuid()) @id
 +  createdAt       DateTime         @default(now())
 +  updatedAt       DateTime         @updatedAt
@@ -107,7 +98,7 @@ migration 20200810152146-optional-interested-in-remote..20200812152535-add-link-
 +  diploma         OpDiploma?       @relation(fields: [diplomaId])
    @@unique([userId, schoolId, diplomaId, startDate])
  }
-@@ -440,16 +443,17 @@
+@@ -444,16 +445,17 @@
    experienceId String?
  }
  model Experience {
@@ -131,7 +122,7 @@ migration 20200810152146-optional-interested-in-remote..20200812152535-add-link-
  }
  model RelocationLocation {
    id         String           @default(uuid()) @id
-@@ -462,8 +466,53 @@
+@@ -466,8 +468,53 @@
    @@unique([userId, locationId])
  }
 +model OpTransAttachmentLinkName {
@@ -183,17 +174,7 @@ migration 20200810152146-optional-interested-in-remote..20200812152535-add-link-
    id                   String                @default(uuid()) @id
    createdAt            DateTime              @default(now())
    updatedAt            DateTime              @updatedAt
-@@ -484,8 +533,9 @@
-   email                String?
-   telephone            String?
-   cellphone            String?
-   manager              String?
-+  description          String?
-   firstLanguage        Language?
-   secondLanguage       Language?
-   preferredLanguage    Language              @default(ENGLISH)
-   actingStartDate      DateTime?
-@@ -517,8 +567,8 @@
+@@ -522,8 +569,8 @@
    organizations        Organization[]
    educations           Education[]
    experiences          Experience[]
