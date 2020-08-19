@@ -203,7 +203,7 @@ const WelcomeView = ({
   };
 
   return (
-    <Col className="content">
+    <Col className="welcome-content">
       <Title level={1} className="welcome">
         <RocketOutlined rotate="45" /> <FormattedMessage id="setup.welcome" />
       </Title>

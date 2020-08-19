@@ -5,7 +5,7 @@ const {
   growthRate,
   topFive,
 } = require("../../core/statistics");
-const { langValidator } = require("./validator");
+const { langValidator } = require("../util/commonValidators");
 
 const statsRouter = Router();
 

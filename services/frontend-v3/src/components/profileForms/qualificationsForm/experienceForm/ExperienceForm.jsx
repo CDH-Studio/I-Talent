@@ -5,8 +5,7 @@ import ExperienceFormView from "./ExperienceFormView";
 import {
   FieldPropType,
   FormInstancePropType,
-  ProfileInfoPropType,
-  StylesPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 /**
@@ -17,31 +16,38 @@ import {
  */
 const ExperienceForm = ({
   form,
-  field,
-  remove,
-  profileInfo,
-  style,
+  fieldElement,
+  removeElement,
+  savedExperience,
   checkIfFormValuesChanged,
+  attachmentNames,
 }) => {
   return (
     <ExperienceFormView
       form={form}
-      field={field}
-      remove={remove}
-      profileInfo={profileInfo}
-      style={style}
+      fieldElement={fieldElement}
+      removeElement={removeElement}
+      savedExperience={savedExperience}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
+      attachmentNames={attachmentNames}
     />
   );
 };
 
 ExperienceForm.propTypes = {
   form: FormInstancePropType.isRequired,
-  field: FieldPropType.isRequired,
-  remove: PropTypes.func.isRequired,
-  profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
+  savedExperience: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
+      school: PropTypes.string,
+    })
+  ).isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 export default ExperienceForm;

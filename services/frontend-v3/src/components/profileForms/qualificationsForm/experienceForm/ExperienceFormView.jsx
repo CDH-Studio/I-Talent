@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "antd";
 import PropTypes from "prop-types";
-import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
+import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 
@@ -19,10 +19,12 @@ import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
   FieldPropType,
   FormInstancePropType,
-  ProfileInfoPropType,
-  StylesPropType,
   IntlPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
+
+import "./ExperienceFormView.scss";
+import LinkAttachment from "../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;
 
@@ -34,11 +36,11 @@ const { Title } = Typography;
  */
 const ExperienceFormView = ({
   form,
-  field,
-  remove,
-  profileInfo,
-  style,
+  fieldElement,
+  removeElement,
+  savedExperience,
   checkIfFormValuesChanged,
+  attachmentNames,
   intl,
 }) => {
   const [disableEndDate, setDisableEndDate] = useState(true);
@@ -66,7 +68,9 @@ const ExperienceFormView = ({
   const toggleEndDate = () => {
     if (!disableEndDate) {
       const experienceFieldValues = form.getFieldsValue();
-      experienceFieldValues.experience[field.fieldKey].endDate = undefined;
+      experienceFieldValues.experience[
+        fieldElement.fieldKey
+      ].endDate = undefined;
       form.setFieldsValue(experienceFieldValues);
     }
     setDisableEndDate((prev) => !prev);
@@ -80,7 +84,7 @@ const ExperienceFormView = ({
    * This is used for the end date field
    */
   const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["experiences", field.fieldKey, "startDate"];
+    const fieldPath = ["experiences", fieldElement.fieldKey, "startDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -97,7 +101,7 @@ const ExperienceFormView = ({
    * This is used for the start date field
    */
   const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["experiences", field.fieldKey, "endDate"];
+    const fieldPath = ["experiences", fieldElement.fieldKey, "endDate"];
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
@@ -108,35 +112,26 @@ const ExperienceFormView = ({
   };
 
   useEffect(() => {
-    // set the default status of "ongoing" checkbox
     if (
-      profileInfo &&
-      field &&
-      profileInfo.experiences[field.fieldKey] &&
-      profileInfo.experiences[field.fieldKey].endDate
+      fieldElement &&
+      savedExperience[fieldElement.fieldKey] &&
+      savedExperience[fieldElement.fieldKey].endDate
     ) {
       toggleEndDate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo]);
+  }, [savedExperience]);
 
   /** **********************************
    ********* Render Component *********
    *********************************** */
   return (
-    <Row
-      gutter={24}
-      style={{
-        backgroundColor: "#dfe5e4",
-        padding: "15px 10px 15px 10px",
-        marginBottom: "17px",
-      }}
-    >
+    <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-        <Title level={4} style={style.entryTitle}>
-          <FormOutlined style={{ marginRight: "0.5em" }} />
+        <Title level={4} className="entryTitle">
+          <FormOutlined className="formOutlined" />
           <FormattedMessage id="setup.experience" />
-          {`: ${field.name + 1}`}
+          {`: ${fieldElement.name + 1}`}
           <Tooltip
             placement="top"
             title={<FormattedMessage id="admin.delete" />}
@@ -146,7 +141,7 @@ const ExperienceFormView = ({
               shape="circle"
               icon={<DeleteOutlined />}
               onClick={() => {
-                remove(field.name);
+                removeElement(fieldElement.name);
               }}
               size="small"
               style={{ float: "right" }}
@@ -158,10 +153,10 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Job Title Field */}
         <Form.Item
-          name={[field.name, "jobTitle"]}
-          fieldKey={[field.fieldKey, "jobTitle"]}
+          name={[fieldElement.name, "jobTitle"]}
+          fieldKey={[fieldElement.fieldKey, "jobTitle"]}
           label={<FormattedMessage id="admin.job.title" />}
-          style={style.formItem}
+          className="formItem"
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -171,8 +166,8 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Company Name Field */}
         <Form.Item
-          name={[field.name, "organization"]}
-          fieldKey={[field.fieldKey, "organization"]}
+          name={[fieldElement.name, "organization"]}
+          fieldKey={[fieldElement.fieldKey, "organization"]}
           label={<FormattedMessage id="profile.career.subheader.name" />}
           rules={[Rules.required, Rules.maxChar60]}
         >
@@ -183,15 +178,15 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Start Date */}
         <Form.Item
-          name={[field.name, "startDate"]}
-          fieldKey={[field.fieldKey, "startDate"]}
+          name={[fieldElement.name, "startDate"]}
+          fieldKey={[fieldElement.fieldKey, "startDate"]}
           label={<FormattedMessage id="profile.history.item.start.date" />}
           rules={[Rules.required]}
         >
           <DatePicker
             picker="month"
             disabledDate={disabledDatesAfterEnd}
-            style={style.datePicker}
+            className="datePicker"
             placeholder={intl.formatMessage({
               id: "profile.qualifications.select.month",
             })}
@@ -202,17 +197,17 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* End Date */}
         <Form.Item
-          name={[field.name, "endDate"]}
-          fieldKey={[field.fieldKey, "endDate"]}
+          name={[fieldElement.name, "endDate"]}
+          fieldKey={[fieldElement.fieldKey, "endDate"]}
           label={<FormattedMessage id="profile.history.item.end.date" />}
           rules={!disableEndDate ? [Rules.required] : undefined}
         >
           {!disableEndDate && (
             <DatePicker
               picker="month"
-              style={style.datePicker}
               disabledDate={disabledDatesBeforeStart}
               disabled={disableEndDate}
+              className="datePicker"
               placeholder={intl.formatMessage({
                 id: "profile.qualifications.select.month",
               })}
@@ -230,16 +225,52 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
         <DescriptionFormItem
-          name={[field.name, "description"]}
-          fieldKey={[field.fieldKey, "description"]}
+          name={[fieldElement.name, "description"]}
+          fieldKey={[fieldElement.fieldKey, "description"]}
+          rules={Rules.maxChar1500}
           label={<FormattedMessage id="profile.qualification.description" />}
-          rules={[Rules.maxChar1500]}
           value={
-            profileInfo.experiences[field.fieldKey] &&
-            profileInfo.experiences[field.fieldKey].description
+            savedExperience[fieldElement.fieldKey] &&
+            savedExperience[fieldElement.fieldKey].description
           }
           maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Form.List
+          name={[fieldElement.name, "attachmentLinks"]}
+          fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+        >
+          {(fields, { add, remove }) => {
+            return (
+              <div>
+                {fields.map((field) => (
+                  <LinkAttachment
+                    key={field.fieldKey}
+                    form={form}
+                    fieldElement={field}
+                    removeElement={remove}
+                    profileInfo={savedExperience}
+                    NameOptions={attachmentNames}
+                  />
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      add();
+                    }}
+                    disabled={fields.length === 6}
+                    style={{ width: "100%" }}
+                  >
+                    <PlusOutlined />
+                    <FormattedMessage id="setup.add.attachment" />
+                  </Button>
+                </Form.Item>
+              </div>
+            );
+          }}
+        </Form.List>
       </Col>
     </Row>
   );
@@ -247,16 +278,31 @@ const ExperienceFormView = ({
 
 ExperienceFormView.propTypes = {
   form: FormInstancePropType.isRequired,
-  field: FieldPropType.isRequired,
-  remove: PropTypes.func.isRequired,
-  profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
+  savedExperience: PropTypes.arrayOf(
+    PropTypes.shape({
+      jobTitle: PropTypes.string,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
+      organization: PropTypes.string,
+      attachmentLinks: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          nameId: PropTypes.string,
+          url: PropTypes.string,
+        })
+      ),
+    })
+  ),
 };
 
 ExperienceFormView.defaultProps = {
   intl: undefined,
+  savedExperience: [],
 };
 
 export default injectIntl(ExperienceFormView);
