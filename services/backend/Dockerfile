@@ -9,15 +9,15 @@ WORKDIR /upskill-backend
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
+# Create database client folder
+RUN mkdir ./src/database/client
+
 # Make group permissions equal to the owner user permissions
 RUN chgrp -R 0 /upskill-backend && \ 
   chmod -R g=u /upskill-backend
 
-# Converts yarn.lock to package-lock.json
-# RUN npx synp --source-file yarn.lock
-
 # Runs install script and builds the app
-RUN yarn install --production;
+RUN yarn install --production --frozen-lockfile
 
 # Copy app
 COPY . .
