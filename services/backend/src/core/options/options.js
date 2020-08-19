@@ -12,6 +12,7 @@ const securityClearances = require("./util/securityClearances");
 const skills = require("./util/skills");
 const talentMatrixResults = require("./util/talentMatrixResults");
 const tenures = require("./util/tenures");
+const linkAttachmentNames = require("./util/linkAttachmentNames");
 
 module.exports = {
   branches,
@@ -28,4 +29,5 @@ module.exports = {
   skills,
   talentMatrixResults,
   tenures,
+  linkAttachmentNames,
 };

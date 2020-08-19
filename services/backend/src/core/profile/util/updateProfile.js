@@ -1,5 +1,5 @@
 const moment = require("moment");
-const _ = require("lodash");
+const { uniq, upperFirst, flatten } = require("lodash");
 const prisma = require("../../../database");
 const { manageUsers } = require("../../../utils/keycloak");
 
@@ -148,13 +148,92 @@ async function updateProfile(request, userId, language) {
 
   // Deletes every experiences and educations if experiences or educations is defined since
   // there's no way to uniquely identify them solely from the data
+  let deleteAll = [];
+
   if (experiences) {
-    await prisma.experience.deleteMany({ where: { userId } });
+    const attachmentLinkId = flatten(
+      await Promise.all(
+        experiences.map((ed) =>
+          prisma.attachmentLink.findMany({
+            where: { experienceId: ed.id },
+            select: { id: true },
+          })
+        )
+      )
+    );
+    if (attachmentLinkId.length > 0) {
+      deleteAll.push(
+        Promise.all(
+          attachmentLinkId.map((a) =>
+            prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+          )
+        )
+      );
+      const attachmentLinkTransId = flatten(
+        await Promise.all(
+          attachmentLinkId.map((at) =>
+            prisma.transAttachmentLink.findMany({
+              where: { attachmentLinkId: at.id },
+              select: { id: true },
+            })
+          )
+        )
+      );
+      if (attachmentLinkTransId.length > 0)
+        deleteAll.push(
+          Promise.all(
+            attachmentLinkTransId.map((a) =>
+              prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+            )
+          )
+        );
+    }
+    deleteAll.push(prisma.experience.deleteMany({ where: { userId } }));
   }
 
   if (educations) {
-    await prisma.education.deleteMany({ where: { userId } });
+    const attachmentLinkId = flatten(
+      await Promise.all(
+        educations.map((ed) =>
+          prisma.attachmentLink.findMany({
+            where: { educationId: ed.id },
+            select: { id: true },
+          })
+        )
+      )
+    );
+
+    if (attachmentLinkId.length > 0) {
+      deleteAll.push(
+        Promise.all(
+          attachmentLinkId.map((a) =>
+            prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+          )
+        )
+      );
+      const attachmentLinkTransId = flatten(
+        await Promise.all(
+          attachmentLinkId.map((at) =>
+            prisma.transAttachmentLink.findMany({
+              where: { attachmentLinkId: at.id },
+              select: { id: true },
+            })
+          )
+        )
+      );
+      if (attachmentLinkTransId.length > 0)
+        deleteAll.push(
+          Promise.all(
+            attachmentLinkTransId.map((a) =>
+              prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+            )
+          )
+        );
+    }
+    deleteAll.push(prisma.education.deleteMany({ where: { userId } }));
   }
+
+  await Promise.all(deleteAll);
 
   if (organizations) {
     const relatedOrgs = await prisma.organization.findMany({
@@ -165,17 +244,20 @@ async function updateProfile(request, userId, language) {
       where: { organizationId: { in: relatedOrgs.map((org) => org.id) } },
       select: { id: true },
     });
-    await prisma.transOrganization.deleteMany({
-      where: {
-        organizationTierId: {
-          in: orgTiers.map((orgTier) => orgTier.id),
+    await Promise.all([
+      prisma.transOrganization.deleteMany({
+        where: {
+          organizationTierId: {
+            in: orgTiers.map((orgTier) => orgTier.id),
+          },
         },
-      },
-    });
-    await prisma.organizationTier.deleteMany({
-      where: { id: { in: orgTiers.map((orgTier) => orgTier.id) } },
-    });
-    await prisma.organization.deleteMany({ where: { userId } });
+      }),
+
+      prisma.organizationTier.deleteMany({
+        where: { id: { in: orgTiers.map((orgTier) => orgTier.id) } },
+      }),
+      prisma.organization.deleteMany({ where: { userId } }),
+    ]);
   }
 
   // Queries user ids to check if an id was already defined
@@ -197,7 +279,7 @@ async function updateProfile(request, userId, language) {
   let employmentInfoLangs;
   if ((branch || jobTitle) && userIds.employmentInfoId) {
     if (branch && jobTitle) {
-      employmentInfoLangs = _.uniq([
+      employmentInfoLangs = uniq([
         ...Object.keys(branch),
         ...Object.keys(jobTitle),
       ]);
@@ -226,8 +308,8 @@ async function updateProfile(request, userId, language) {
   await prisma.user.update({
     where: { id: userId },
     data: {
-      firstName: firstName ? _.upperFirst(firstName) : undefined,
-      lastName: lastName ? _.upperFirst(lastName) : undefined,
+      firstName: firstName ? upperFirst(firstName) : undefined,
+      lastName: lastName ? upperFirst(lastName) : undefined,
       teams: teams
         ? {
             set: teams,
@@ -386,6 +468,23 @@ async function updateProfile(request, userId, language) {
                   id: educationItem.schoolId,
                 },
               },
+              attachmentLinks: educationItem.attachmentLinks
+                ? {
+                    create: educationItem.attachmentLinks.map((link) => ({
+                      translations: {
+                        create: {
+                          language,
+                          name: {
+                            connect: {
+                              id: link.nameId,
+                            },
+                          },
+                          url: link.url,
+                        },
+                      },
+                    })),
+                  }
+                : undefined,
             })),
           }
         : undefined,
@@ -402,6 +501,23 @@ async function updateProfile(request, userId, language) {
                   description: expItem.description,
                 },
               },
+              attachmentLinks: expItem.attachmentLinks
+                ? {
+                    create: expItem.attachmentLinks.map((link) => ({
+                      translations: {
+                        create: {
+                          language,
+                          name: {
+                            connect: {
+                              id: link.nameId,
+                            },
+                          },
+                          url: link.url,
+                        },
+                      },
+                    })),
+                  }
+                : undefined,
             })),
           }
         : undefined,

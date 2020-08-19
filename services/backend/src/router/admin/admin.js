@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const admin = require("../../core/admin/admin");
-const { langValidator, updateUserStatusValidator } = require("./validator");
+const { updateUserStatusValidator } = require("./validator");
+const { langValidator } = require("../util/commonValidators");
 
 const adminRouter = Router();
 

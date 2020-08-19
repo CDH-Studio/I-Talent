@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Avatar, Row, Col, List, Empty } from "antd";
+import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
-import { ContainerOutlined } from "@ant-design/icons";
+import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
 import DescriptionText from "../descriptionText/DescriptionText";
 
 const ExperienceView = ({ experienceInfo }) => {
@@ -11,6 +11,32 @@ const ExperienceView = ({ experienceInfo }) => {
       backgroundColor: "#007471",
     },
   };
+  const getUrl = (item) => {
+    if (item.attachmentLinks && item.attachmentLinks.length > 0)
+      return item.attachmentLinks.map((i) => (
+        <a target="_blank" rel="noreferrer" href={i.url}>
+          <Tag color="#00605e" key={i.id} style={{ cursor: "pointer" }}>
+            <LinkOutlined />
+            <span>{i.name}</span>
+          </Tag>
+        </a>
+      ));
+    return undefined;
+  };
+
+  const generateOrganizationItemDescription = (item) => (
+    <>
+      <Row>
+        <Col>{item.organization}</Col>
+      </Row>
+      <Row>
+        <Col>
+          <DescriptionText text={item.description} expandable />
+        </Col>
+      </Row>
+      {getUrl(item)}
+    </>
+  );
 
   if (experienceInfo.length > 0) {
     return (
@@ -31,16 +57,7 @@ const ExperienceView = ({ experienceInfo }) => {
                     />
                   }
                   title={item.jobTitle}
-                  description={
-                    <>
-                      <Row>{item.organization}</Row>
-                      <Row>
-                        <Col>
-                          <DescriptionText text={item.description} expandable />
-                        </Col>
-                      </Row>
-                    </>
-                  }
+                  description={generateOrganizationItemDescription(item)}
                 />
               </List.Item>
             )}

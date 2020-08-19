@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const { filterSearch, fuzzySearch } = require("../../core/search/search");
-const { langValidator } = require("./validator");
+const { langValidator } = require("../util/commonValidators");
 
 const searchRouter = Router();
 
