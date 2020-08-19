@@ -1,6 +1,6 @@
 import React from "react";
 import { hydrate } from "react-dom";
-import { Router } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 import { SSRKeycloakProvider, ClientPersistors } from "@react-keycloak/razzle";
 import App from "./App";
 import AppProvider from "./utils/AppProvider";
@@ -16,9 +16,9 @@ hydrate(
     LoadingComponent={() => <AppLayout loading />}
   >
     <AppProvider>
-      <Router history={historySingleton}>
+      <BrowserRouter history={historySingleton}>
         <App />
-      </Router>
+      </BrowserRouter>
     </AppProvider>
   </SSRKeycloakProvider>,
   document.getElementById("root")
