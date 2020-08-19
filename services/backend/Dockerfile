@@ -10,7 +10,7 @@ WORKDIR /upskill-backend
 COPY package.json yarn.lock ./
 
 # Create database client folder
-RUN mkdir ./src/database/client
+RUN mkdir -p ./src/database/client
 
 # Make group permissions equal to the owner user permissions
 RUN chgrp -R 0 /upskill-backend && \ 
