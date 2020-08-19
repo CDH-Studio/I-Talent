@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useIntl } from "react-intl";
+
 import useAxios from "../../../utils/axios-instance";
 import LangProficiencyFormView from "./LangProficiencyFormView";
 import handleError from "../../../functions/handleError";
@@ -26,6 +28,7 @@ const LangProficiencyForm = ({ formType }) => {
 
   const history = useHistory();
   const axios = useAxios();
+  const intl = useIntl();
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
 
@@ -65,6 +68,11 @@ const LangProficiencyForm = ({ formType }) => {
       { key: "C", value: "C", text: "C" },
       { key: "E", value: "E", text: "E" },
       { key: "X", value: "X", text: "X" },
+      {
+        key: "NA",
+        value: "NA",
+        text: intl.formatMessage({ id: "grade.not.applicable" }),
+      },
     ]);
 
     // Set substantive level options
@@ -90,7 +98,7 @@ const LangProficiencyForm = ({ formType }) => {
         setLoad(false);
         handleError(error, "redirect");
       });
-  }, [getProfileInfo]);
+  }, [getProfileInfo, intl]);
 
   return (
     <LangProficiencyFormView

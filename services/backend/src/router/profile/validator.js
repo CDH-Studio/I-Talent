@@ -126,13 +126,13 @@ const updateProfileValidator = [
     .custom((array) =>
       array.every(
         (i) =>
-          isIn(i.level, ["A", "B", "C", "E", "X"]) &&
+          isIn(i.level, ["A", "B", "C", "E", "X", "NA"]) &&
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
-          ("date" in i ? moment(i.date).isValid() : true)
+          ("date" in i ? i.date === null || moment(i.date).isValid() : true)
       )
     )
     .withMessage(
-      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X', date?: DateTime }"
+      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA', date?: DateTime }"
     ),
   body("educations")
     .optional()
