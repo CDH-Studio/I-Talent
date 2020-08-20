@@ -15,9 +15,9 @@ const {
   skills,
   talentMatrixResults,
   tenures,
+  linkAttachmentNames,
 } = require("../../core/options/options");
 const {
-  langValidator,
   deleteManyValidator,
   deleteOneValidator,
   createValidator,
@@ -26,7 +26,11 @@ const {
   updateSchoolValidator,
   createSkillValidator,
   updateSkillValidator,
+  attachmentNameValidator,
 } = require("./validator");
+
+const { langValidator } = require("../util/commonValidators");
+
 const { keycloak } = require("../../auth/keycloak");
 
 const optionsRouter = Router();
@@ -245,6 +249,13 @@ optionsRouter.get(
   keycloak.protect(),
   langValidator,
   tenures.getTenures
+);
+
+optionsRouter.get(
+  "/attachmentNames",
+  keycloak.protect(),
+  [langValidator, attachmentNameValidator],
+  linkAttachmentNames.getNames
 );
 
 module.exports = optionsRouter;

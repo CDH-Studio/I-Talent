@@ -32,12 +32,26 @@ const Experience = ({ data, type }) => {
     }
 
     return dataSource.experiences.map(
-      ({ startDate, endDate, description, jobTitle, organization }) => ({
+      ({
+        startDate,
+        endDate,
+        description,
+        jobTitle,
+        organization,
+        attachmentLinks,
+      }) => ({
         description,
         duration: getExperienceDuration(startDate, endDate),
         icon: "solution",
         jobTitle,
         organization,
+        attachmentLinks: attachmentLinks
+          ? attachmentLinks.map((a) => ({
+              id: a.id,
+              name: a.name.name,
+              url: a.url,
+            }))
+          : [],
       })
     );
   };

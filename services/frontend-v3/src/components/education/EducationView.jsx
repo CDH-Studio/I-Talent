@@ -1,20 +1,29 @@
 import React from "react";
-import { Row, Col, Avatar, List, Empty } from "antd";
-import { BankOutlined } from "@ant-design/icons";
+import { Row, Col, Avatar, List, Empty, Tag } from "antd";
+import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
 import DescriptionText from "../descriptionText/DescriptionText";
 
 const EducationView = ({ educationInfo }) => {
-  /* Component Styles */
   const styles = {
-    card: {
-      height: "100%",
-    },
     avatar: {
       backgroundColor: "#007471",
     },
+  };
+
+  const getUrl = (item) => {
+    if (item.attachmentLinks && item.attachmentLinks.length > 0)
+      return item.attachmentLinks.map((i) => (
+        <a target="_blank" rel="noreferrer" href={i.url}>
+          <Tag color="#00605e" key={i.id} style={{ cursor: "pointer" }}>
+            <LinkOutlined />
+            <span>{i.name}</span>
+          </Tag>
+        </a>
+      ));
+    return undefined;
   };
 
   const generateEducationItemDescription = (item) => (
@@ -27,6 +36,7 @@ const EducationView = ({ educationInfo }) => {
           <DescriptionText text={item.description} expandable />
         </Col>
       </Row>
+      {getUrl(item)}
     </>
   );
 
@@ -54,6 +64,7 @@ const EducationView = ({ educationInfo }) => {
       />
     );
   };
+
   if (educationInfo.length > 0) {
     return (
       <Row>
