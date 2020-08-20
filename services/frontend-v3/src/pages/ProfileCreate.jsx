@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useIntl } from "react-intl";
@@ -17,8 +17,6 @@ const ProfileCreate = ({ match }) => {
   useEffect(() => {
     const signupStep = parseInt(match.params.step, 10);
 
-    console.log(signupStep, highestStep);
-
     if (signupStep > highestStep) {
       dispatch(setUserSignupStep(signupStep));
 
@@ -26,7 +24,7 @@ const ProfileCreate = ({ match }) => {
         signupStep,
       });
     }
-  }, [highestStep, id, match, locale, axios]);
+  }, [highestStep, id, match, locale, axios, dispatch]);
 
   useEffect(() => {
     document.title = `${intl.formatMessage({

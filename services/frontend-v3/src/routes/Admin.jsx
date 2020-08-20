@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/razzle";
+import { useSelector } from "react-redux";
 import useAxios from "../utils/axios-instance";
 import {
   AdminDashboard,
@@ -13,7 +14,6 @@ import {
 } from "../pages/admin";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
-import { useSelector } from "react-redux";
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);

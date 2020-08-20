@@ -37,4 +37,4 @@ const getUserConfirmation = (_content, callback) => {
   });
 };
 
-export { getUserConfirmation };
+export default { getUserConfirmation };
