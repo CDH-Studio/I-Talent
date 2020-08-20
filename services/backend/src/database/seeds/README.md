@@ -17,7 +17,7 @@ If you want to create a new seed:
 
 ```js
 const path = require("path");
-const prisma = require("../../");
+const prisma = require("../..");
 const data = require("./data");
 
 async function seedData() {
