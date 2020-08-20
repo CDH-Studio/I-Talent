@@ -44,6 +44,7 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
+import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -124,7 +125,16 @@ const ProfileLayoutView = ({
             />
           </Col>
           <Col xs={24} xl={10}>
-            <EmployeeSummary data={data} type={privateProfile} />
+            <Row type="flex" gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}>
+              <Col span={24}>
+                <EmployeeSummary data={data} type={privateProfile} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <EmploymentEquity data={data} type={privateProfile} />
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row style={styles.row}>
@@ -279,6 +289,14 @@ const ProfileLayoutView = ({
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.employee.status" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-employment-equity"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employment.equity.groups" />
                   </Text>
                 }
               />

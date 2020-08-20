@@ -4,7 +4,7 @@ const moment = require("moment");
 
 const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
 const updateProfileNumberBody = ["signupStep"];
-const updateProfileStringArrayBody = ["projects"];
+const updateProfileStringArrayBody = ["projects", "employmentEquityGroups"];
 const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
 const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
 const updateProfileLanguageBody = ["preferredLanguage"];

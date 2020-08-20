@@ -76,6 +76,8 @@
               type: number
             projects:
               $ref: "#/definitions/StringArray"
+            employmentEquityGroups:
+              $ref: "#/definitions/StringArray"
             skills:
               $ref: "#/definitions/UUIDArray"
             mentorshipSkills:

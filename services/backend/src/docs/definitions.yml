@@ -243,6 +243,7 @@ definitions:
       - careerInterests
       - mentorshipSkills
       - exFeeder
+      - employmentEquityGroup
     properties:
       manager:
         $ref: "#/definitions/CardVisibilityStatusEnum"
@@ -271,6 +272,8 @@ definitions:
       mentorshipSkills:
         $ref: "#/definitions/CardVisibilityStatusEnum"
       exFeeder:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      employmentEquityGroup:
         $ref: "#/definitions/CardVisibilityStatusEnum"
   Educations:
     type: array

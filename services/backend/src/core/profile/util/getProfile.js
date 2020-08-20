@@ -33,6 +33,7 @@ async function getFullProfile(id, language) {
       interestedInRemote: true,
       status: true,
       projects: true,
+      employmentEquityGroups: true,
       secondLangProfs: true,
       skills: {
         select: {
@@ -382,6 +383,7 @@ async function getFullProfile(id, language) {
           careerInterests: true,
           mentorshipSkills: true,
           exFeeder: true,
+          employmentEquityGroup: true,
         },
       },
       organizations: {

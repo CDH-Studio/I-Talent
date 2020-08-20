@@ -630,6 +630,7 @@ const EmploymentDataFormView = ({
               </Form.Item>
             </Col>
           </Row>
+
           {/* Form Row Three */}
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -668,7 +669,7 @@ const EmploymentDataFormView = ({
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
           </Row>
-
+          
           <Divider style={styles.headerDiv} />
           <Row
             justify="space-between"
