@@ -242,18 +242,14 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.relocationLocations) {
-    filteredProfile.relocationLocations = filteredProfile.relocationLocations.map(
-      ({ location }) => ({
-        id: location.id,
-        streetNumber: location.streetNumber,
-        postalCode: location.postalCode,
-        city: location.city,
-        country: location.country,
-        province: location.translations[0]
-          ? location.translations[0].province
+    filteredProfile.relocationLocations = profile.relocationLocations.map(
+      ({ relocationLocation }) => ({
+        id: relocationLocation.id,
+        city: relocationLocation.translations[0]
+          ? relocationLocation.translations[0].city
           : null,
-        streetName: location.translations[0]
-          ? location.translations[0].streetName
+        province: relocationLocation.translations[0]
+          ? relocationLocation.translations[0].province
           : null,
       })
     );

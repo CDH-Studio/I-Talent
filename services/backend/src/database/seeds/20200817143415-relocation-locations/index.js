@@ -1,12 +1,13 @@
 const path = require("path");
 const prisma = require("../../");
-const data = require("./data/relocationLocations");
+//const data = require("./data/relocationLocations");
+const generateRelocationLocationsFromOfficeLocations = require("./data/relocationLocations");
 
 async function seedData() {
-  //const relocationLocation = data[0];
+  const data = await generateRelocationLocationsFromOfficeLocations();
 
-  data.map(
-    async (relocationLocation) =>
+  const staticInfo = [
+    ...data.map(async (relocationLocation) => {
       await prisma.opRelocationLocation.create({
         data: {
           translations: {
@@ -17,24 +18,10 @@ async function seedData() {
             })),
           },
         },
-      })
-  );
-
-  /*
-  await prisma.opRelocationLocation.create({
-    data: {
-      translations: {
-        create: relocationLocation.map(({ language, city, province }) => ({
-          language,
-          city,
-          province,
-        })),
-      },
-    },
-  })
-  */
-
-  //return Promise.all(staticInfo);
+      });
+    }),
+  ];
+  return Promise.all(staticInfo);
 }
 
 async function seed() {

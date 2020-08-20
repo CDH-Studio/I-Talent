@@ -254,6 +254,8 @@ model Competency {
   @@unique([userId, competencyId])
 }
 
+
+
 model OpTransSchool {
   id         String    @default(uuid()) @id
   createdAt  DateTime  @default(now())
@@ -472,6 +474,18 @@ model Experience {
   user         User              @relation(fields: [userId])
 }
 
+model RelocationLocation {
+  id                      String                @default(uuid()) @id
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  relocationLocationId    String
+  relocationLocation      OpRelocationLocation  @relation(fields: [relocationLocationId])
+  userId                  String
+  user                    User                  @relation(fields: [userId])
+
+  @@unique([userId, relocationLocationId ])
+}
+
 model User {
   id                   String                @default(uuid()) @id
   createdAt            DateTime              @default(now())
@@ -527,7 +541,7 @@ model User {
   organizations        Organization[]
   educations           Education[]
   experiences          Experience[]
-  relocationLocations  OpRelocationLocation[]
+  relocationLocations  RelocationLocation[]
   connections          User[]
   user                 User?                 @relation("UserToUser", fields: [userId])
   userId               String?

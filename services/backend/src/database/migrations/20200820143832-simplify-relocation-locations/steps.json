@@ -279,19 +279,90 @@
       "arity": "List"
     },
     {
-      "tag": "DeleteModel",
-      "model": "RelocationLocation"
-    },
-    {
       "tag": "DeleteField",
       "model": "OpOfficeLocation",
       "field": "relocationLocations"
     },
     {
-      "tag": "UpdateField",
-      "model": "User",
-      "field": "relocationLocations",
-      "type": "OpRelocationLocation"
+      "tag": "CreateField",
+      "model": "RelocationLocation",
+      "field": "relocationLocationId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "RelocationLocation",
+      "field": "relocationLocation",
+      "type": "OpRelocationLocation",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "RelocationLocation",
+          "field": "relocationLocation"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "RelocationLocation",
+          "field": "relocationLocation"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[relocationLocationId]"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "RelocationLocation",
+      "field": "locationId"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "RelocationLocation",
+      "field": "location"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "RelocationLocation",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[userId, relocationLocationId]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "RelocationLocation",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[userId, locationId]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
     }
   ]
 }

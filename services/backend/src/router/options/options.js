@@ -4,6 +4,7 @@ const {
   branches,
   careerMobilities,
   categories,
+  cityLocations,
   classifications,
   competencies,
   developmentalGoals,
@@ -156,6 +157,13 @@ optionsRouter.get(
   keycloak.protect(),
   langValidator,
   locations.getLocations
+);
+
+optionsRouter.get(
+  "/cityLocations",
+  keycloak.protect(),
+  langValidator,
+  cityLocations.getCityLocations
 );
 
 optionsRouter.get(

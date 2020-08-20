@@ -475,15 +475,15 @@ model Experience {
 }
 
 model RelocationLocation {
-  id         String           @default(uuid()) @id
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-  userId     String
-  locationId String
-  user       User             @relation(fields: [userId])
-  location   OpOfficeLocation @relation(fields: [locationId])
+  id                      String                @default(uuid()) @id
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  relocationLocationId    String
+  relocationLocation      OpRelocationLocation  @relation(fields: [relocationLocationId])
+  userId                  String
+  user                    User                  @relation(fields: [userId])
 
-  @@unique([userId, locationId])
+  @@unique([userId, relocationLocationId ])
 }
 
 model User {

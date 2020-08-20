@@ -1,14 +1,14 @@
-# Migration `20200817143414-simplify-relocation-locations`
+# Migration `20200820143832-simplify-relocation-locations`
 
-This migration has been generated at 8/17/2020, 10:34:14 AM.
+This migration has been generated at 8/20/2020, 10:38:32 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
 
 ```sql
-ALTER TABLE "public"."RelocationLocation" DROP CONSTRAINT "RelocationLocation_locationId_fkey"
+DROP INDEX "public"."RelocationLocation.userId_locationId_unique"
 
-ALTER TABLE "public"."RelocationLocation" DROP CONSTRAINT "RelocationLocation_userId_fkey"
+ALTER TABLE "public"."RelocationLocation" DROP CONSTRAINT "RelocationLocation_locationId_fkey"
 
 CREATE TABLE "public"."OpTransRelocationLocation" (
 "id" text  NOT NULL ,
@@ -24,23 +24,25 @@ CREATE TABLE "public"."OpRelocationLocation" (
 "id" text  NOT NULL ,
 "createdAt" timestamp(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP,
 "updatedAt" timestamp(3)  NOT NULL ,
-"userId" text   ,
 PRIMARY KEY ("id"))
+
+ALTER TABLE "public"."RelocationLocation" DROP COLUMN "locationId",
+ADD COLUMN "relocationLocationId" text  NOT NULL ;
 
 CREATE UNIQUE INDEX "OpTransRelocationLocation.language_city_province_unique" ON "public"."OpTransRelocationLocation"("language","city","province")
 
+CREATE UNIQUE INDEX "RelocationLocation.userId_relocationLocationId_unique" ON "public"."RelocationLocation"("userId","relocationLocationId")
+
 ALTER TABLE "public"."OpTransRelocationLocation" ADD FOREIGN KEY ("opRelocationLocationId")REFERENCES "public"."OpRelocationLocation"("id") ON DELETE SET NULL ON UPDATE CASCADE
 
-ALTER TABLE "public"."OpRelocationLocation" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE SET NULL ON UPDATE CASCADE
-
-DROP TABLE "public"."RelocationLocation";
+ALTER TABLE "public"."RelocationLocation" ADD FOREIGN KEY ("relocationLocationId")REFERENCES "public"."OpRelocationLocation"("id") ON DELETE CASCADE ON UPDATE CASCADE
 ```
 
 ## Changes
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-relocation-locations
+migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-relocation-locations
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -61,7 +63,16 @@ migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-
    users               User[]
  }
  model OpClassification {
-@@ -292,8 +291,28 @@
+@@ -254,8 +253,10 @@
+   @@unique([userId, competencyId])
+ }
++
++
+ model OpTransSchool {
+   id         String    @default(uuid()) @id
+   createdAt  DateTime  @default(now())
+   updatedAt  DateTime  @updatedAt
+@@ -292,8 +293,28 @@
    translations OpTransDiploma[]
    educations   Education[]
  }
@@ -89,7 +100,7 @@ migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-
    id               String          @default(uuid()) @id
    createdAt        DateTime        @default(now())
    updatedAt        DateTime        @updatedAt
-@@ -321,8 +340,9 @@
+@@ -321,8 +342,9 @@
    officialLanguage   CardVisibilityStatus @default(PRIVATE)
    skills             CardVisibilityStatus @default(PRIVATE)
    competencies       CardVisibilityStatus @default(PRIVATE)
@@ -99,7 +110,7 @@ migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-
    experience         CardVisibilityStatus @default(PRIVATE)
    projects           CardVisibilityStatus @default(PRIVATE)
    careerInterests    CardVisibilityStatus @default(PRIVATE)
-@@ -412,19 +432,20 @@
+@@ -412,19 +434,20 @@
    organizationTierId String?
  }
  model Education {
@@ -128,11 +139,10 @@ migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-
 +  diploma     OpDiploma? @relation(fields: [diplomaId])
    @@unique([userId, schoolId, diplomaId, startDate])
  }
-@@ -450,20 +471,8 @@
-   endDate      DateTime?
+@@ -451,17 +474,17 @@
    user         User              @relation(fields: [userId])
  }
--model RelocationLocation {
+ model RelocationLocation {
 -  id         String           @default(uuid()) @id
 -  createdAt  DateTime         @default(now())
 -  updatedAt  DateTime         @updatedAt
@@ -140,15 +150,19 @@ migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-
 -  locationId String
 -  user       User             @relation(fields: [userId])
 -  location   OpOfficeLocation @relation(fields: [locationId])
--
++  id                      String                @default(uuid()) @id
++  createdAt               DateTime              @default(now())
++  updatedAt               DateTime              @updatedAt
++  relocationLocationId    String
++  relocationLocation      OpRelocationLocation  @relation(fields: [relocationLocationId])
++  userId                  String
++  user                    User                  @relation(fields: [userId])
 -  @@unique([userId, locationId])
--}
--
++  @@unique([userId, relocationLocationId ])
+ }
  model User {
    id                   String                @default(uuid()) @id
-   createdAt            DateTime              @default(now())
-   updatedAt            DateTime              @updatedAt
-@@ -484,8 +493,9 @@
+@@ -484,8 +507,9 @@
    email                String?
    telephone            String?
    cellphone            String?
@@ -158,17 +172,6 @@ migration 20200810152146-optional-interested-in-remote..20200817143414-simplify-
    secondLanguage       Language?
    preferredLanguage    Language              @default(ENGLISH)
    actingStartDate      DateTime?
-@@ -516,9 +526,9 @@
-   secondLangProfs      SecondLangProf[]
-   organizations        Organization[]
-   educations           Education[]
-   experiences          Experience[]
--  relocationLocations  RelocationLocation[]
-+  relocationLocations  OpRelocationLocation[]
-   connections          User[]
-   user                 User?                 @relation("UserToUser", fields: [userId])
-   userId               String?
- }
 ```
 
 

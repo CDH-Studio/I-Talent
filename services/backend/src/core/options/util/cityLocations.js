@@ -8,12 +8,12 @@ async function getCityLocations(request, response) {
 
     const { language } = request.query;
 
-    const locationsQuery = await prisma.opTransCityLocation.findMany({
+    const locationsQuery = await prisma.opTransRelocationLocation.findMany({
       where: {
         language,
       },
       select: {
-        id: true,
+        opRelocationLocationId: true,
         province: true,
         city: true,
       },
@@ -24,8 +24,9 @@ async function getCityLocations(request, response) {
 
     const locations = _.orderBy(
       locationsQuery.map((i) => {
-        const { province, city } = i;
+        const { province, city, opRelocationLocationId } = i;
         return {
+          id: opRelocationLocationId,
           city,
           province,
         };
