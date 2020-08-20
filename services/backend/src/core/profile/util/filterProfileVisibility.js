@@ -28,6 +28,7 @@ function filterProfileVisibility(request, profileResult, userId) {
     careerInterests: true,
     mentorshipSkills: true,
     exFeeder: true,
+    employmentEquityGroup: true,
   };
 
   const hideCard = (key) =>

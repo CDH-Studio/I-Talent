@@ -8,7 +8,7 @@ const EmploymentEquityView = ({ groups }) => {
     return (
       <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
         <List>
-          {groups.map(({key, text}) => (
+          {groups.map(({ key, text }) => (
             <Tag color="#00605e" key={key}>
               {text}
             </Tag>
@@ -20,8 +20,8 @@ const EmploymentEquityView = ({ groups }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.competencies.empty" />}
-      style={{maxHeight: 52}}
+      description={<FormattedMessage id="profile.employment.equity.empty" />}
+      style={{ maxHeight: 52 }}
     />
   );
 };
