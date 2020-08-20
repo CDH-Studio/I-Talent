@@ -112,6 +112,12 @@ function filterProfileVisibility(request, profileResult, userId) {
     tempCards.projects = false;
   }
 
+  if (hideCard("employmentEquityGroup")) {
+    result.employmentEquityGroups = [];
+
+    tempCards.employmentEquityGroup = false;
+  }
+
   if (hideCard("careerInterests")) {
     result.interestedInRemote = null;
     result.lookingJob = null;

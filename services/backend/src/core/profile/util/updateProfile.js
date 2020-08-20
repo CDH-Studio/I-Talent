@@ -60,6 +60,7 @@ async function updateProfile(request, userId, language) {
     description,
 
     projects,
+    employmentEquityGroups,
 
     skills,
     mentorshipSkills,
@@ -336,6 +337,12 @@ async function updateProfile(request, userId, language) {
       projects: projects
         ? {
             set: projects,
+          }
+        : undefined,
+
+      employmentEquityGroups: employmentEquityGroups
+        ? {
+            set: employmentEquityGroups,
           }
         : undefined,
 
@@ -629,6 +636,7 @@ async function updateProfile(request, userId, language) {
               careerInterests: visibleCards.careerInterests,
               mentorshipSkills: visibleCards.mentorshipSkills,
               exFeeder: visibleCards.exFeeder,
+              employmentEquityGroup: visibleCards.employmentEquityGroup,
             },
           }
         : undefined,
