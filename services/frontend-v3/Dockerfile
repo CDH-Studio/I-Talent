@@ -22,6 +22,9 @@ RUN yarn install --production --frozen-lockfile
 # Copy app
 COPY . .
 
+# Debug information
+RUN ls -la && pwd
+
 # Builds the app
 RUN npm run build
 
