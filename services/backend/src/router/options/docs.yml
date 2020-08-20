@@ -123,6 +123,37 @@
       - Keycloak: []
     tags: [option]
 
+/api/option/cityLocations:
+  get:
+    summary: Returns an array of relocation location options
+    produces:
+      - application/json
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+    responses:
+      200:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              city:
+                type: string
+              province:
+                type: string
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [option]
+
 /api/option/lookingJobs:
   get:
     summary: Returns an array of looking for a new job options
