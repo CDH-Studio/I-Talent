@@ -13,16 +13,18 @@ import {
 } from "../pages/admin";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
+import { useSelector } from "react-redux";
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [signupStep, setSignupStep] = useState(1);
   const axios = useAxios();
   const [keycloak] = useKeycloak();
 
+  const { signupStep } = useSelector(state => state.user);
+
   const getInfo = useCallback(async () => {
-    setSignupStep(await login(keycloak, axios));
+    await login(keycloak, axios);
     setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
     setAuthenticated(keycloak.authenticated);
   }, [axios, keycloak]);

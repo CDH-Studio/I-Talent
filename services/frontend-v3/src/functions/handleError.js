@@ -1,7 +1,6 @@
 import { message } from "antd";
 
 import { addError } from "../redux/slices/errorsSlice";
-import history from "../utils/history";
 import store from "../redux";
 
 import enIntlMessages from "../i18n/en_CA.json";
@@ -21,8 +20,8 @@ const errorMessages = {
 export default (error, handleType) => {
   if (handleType === "redirect" && enableErrorRedirect) {
     store.dispatch(addError(error));
-    if (history.location.pathname !== "/error") {
-      history.push("/error");
+    if (window.location.pathname !== "/error") {
+      window.history.pushState({}, "", "/error");
     }
   } else if (handleType === "message") {
     message.error(errorMessages[store.getState().settings.locale]);
