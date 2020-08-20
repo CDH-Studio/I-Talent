@@ -22,11 +22,8 @@ RUN yarn install --production
 # Copy app
 COPY . .
 
-# Debug information
-RUN ls -la && pwd
-
 # Builds the app
-RUN npm run build
+RUN yarn build
 
 # Runs start script
-CMD npm run start:prod
+CMD yarn start:prod

@@ -22,8 +22,5 @@ RUN yarn install --production
 # Copy app
 COPY . .
 
-# Debug information
-RUN ls -la && pwd
-
 # Runs start script
-CMD npm run docker:prod
+CMD yarn docker:prod
