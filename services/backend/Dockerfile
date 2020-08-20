@@ -17,7 +17,7 @@ RUN chgrp -R 0 /upskill-backend && \
   chmod -R g=u /upskill-backend
 
 # Runs install script and builds the app
-RUN yarn install --production --frozen-lockfile
+RUN yarn install --production
 
 # Copy app
 COPY . .

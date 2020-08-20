@@ -17,7 +17,7 @@ RUN chgrp -R 0 /upskill-frontend && \
   chmod -R g=u /upskill-frontend
 
 # Runs install script
-RUN yarn install --production --frozen-lockfile
+RUN yarn install --production
 
 # Copy app
 COPY . .
