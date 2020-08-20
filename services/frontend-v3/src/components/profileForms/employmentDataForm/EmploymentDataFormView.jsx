@@ -54,6 +54,7 @@ const EmploymentDataFormView = ({
   intl,
   history,
   userId,
+  employmentEquityOptions,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
@@ -256,6 +257,7 @@ const EmploymentDataFormView = ({
         actingEndDate: profile.actingStartDate
           ? moment(profile.actingStartDate)
           : undefined,
+        employmentEquityGroups: profile.employmentEquityGroups,
       };
     }
     return {};
@@ -630,6 +632,7 @@ const EmploymentDataFormView = ({
               </Form.Item>
             </Col>
           </Row>
+
           {/* Form Row Three */}
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -668,7 +671,39 @@ const EmploymentDataFormView = ({
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
           </Row>
-
+          <Divider style={styles.headerDiv} />
+          <Row
+            justify="space-between"
+            style={styles.sectionHeader}
+            align="middle"
+          >
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="profile.employment.equity.groups" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="employmentEquityGroup"
+              type="form"
+            />
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item name="employmentEquityGroups">
+                <Select
+                  showSearch
+                  mode="multiple"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={filterOption}
+                  className="custom-bubble-select-style"
+                >
+                  {employmentEquityOptions.map(({ key, text }) => (
+                    <Option key={key}>{text}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
           <Divider style={styles.headerDiv} />
           <Row
             justify="space-between"
@@ -724,6 +759,7 @@ EmploymentDataFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {
