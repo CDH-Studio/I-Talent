@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useIntl } from "react-intl";
 import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
 import EmploymentDataFormView from "./EmploymentDataFormView";
@@ -16,11 +15,9 @@ const EmploymentDataForm = ({ formType }) => {
   const [substantiveOptions, setSubstantiveOptions] = useState([]);
   const [classificationOptions, setClassificationOptions] = useState([]);
   const [securityOptions, setSecurityOptions] = useState([]);
-  const [employmentEquityOptions, setEmploymentEquityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const axios = useAxios();
-  const intl = useIntl();
 
   const [charsLeft, setCharsLeft] = useState(1000);
 
@@ -94,31 +91,6 @@ const EmploymentDataForm = ({ formType }) => {
     getSubstantiveOptions,
   ]);
 
-  useEffect(() => {
-    setEmploymentEquityOptions([
-      {
-        key: "WOMEN",
-        value: "WOMEN",
-        text: intl.formatMessage({ id: "employment.equity.group.woman"}),
-      },
-      {
-        key: "INDIGENOUS",
-        value: "INDIGENOUS",
-        text: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
-      },
-      {
-        key: "DISABILITY",
-        value: "DISABILITY",
-        text: intl.formatMessage({ id: "employment.equity.group.disability" }),
-      },
-      {
-        key: "MINORITY",
-        value: "MINORITY",
-        text: intl.formatMessage({ id: "employment.equity.group.minority" }),
-      },
-    ])
-  }, [intl]);
-
   return (
     <EmploymentDataFormView
       substantiveOptions={substantiveOptions}
@@ -130,7 +102,6 @@ const EmploymentDataForm = ({ formType }) => {
       load={load}
       history={history}
       handleDescriptionChange={handleDescriptionChange}
-      employmentEquityOptions={employmentEquityOptions}
       charsLeft={charsLeft}
       userId={id}
     />

@@ -40,7 +40,7 @@ const EmploymentEquity = ({ data, type }) => {
       content={<EmploymentEquityView groups={employmentEquityData} />}
       cardName="employmentEquityGroup"
       id="card-profile-employment-equity"
-      editUrl="/profile/edit/employment"
+      editUrl="/profile/edit/primary-info"
       data={data}
       type={type}
       visible={data.visibleCards.employmentEquityGroup}

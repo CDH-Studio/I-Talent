@@ -293,6 +293,14 @@ const ProfileLayoutView = ({
                 }
               />
               <Link
+                href="#card-profile-employment-equity"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employment.equity.groups" />
+                  </Text>
+                }
+              />
+              <Link
                 href="#card-profile-description"
                 title={
                   <Text style={styles.sideBarText}>
