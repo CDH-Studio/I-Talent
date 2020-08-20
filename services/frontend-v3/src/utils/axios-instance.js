@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
 import { useMemo } from "react";
 import config from "./config";
 
@@ -17,13 +17,17 @@ const useAxios = () => {
     []
   );
 
-  instance.interceptors.request.use((axiosConfig) => ({
-    ...axiosConfig,
-    headers: {
-      ...axiosConfig.headers,
-      Authorization: keycloak.token ? `Bearer ${keycloak.token}` : undefined,
-    },
-  }));
+  instance.interceptors.request.use(async (axiosConfig) => {
+    await keycloak.updateToken();
+
+    return {
+      ...axiosConfig,
+      headers: {
+        ...axiosConfig.headers,
+        Authorization: keycloak.token ? `Bearer ${keycloak.token}` : undefined,
+      },
+    };
+  });
 
   return instance;
 };

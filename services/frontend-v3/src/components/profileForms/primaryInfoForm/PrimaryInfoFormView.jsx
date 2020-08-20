@@ -9,7 +9,7 @@ import {
   Select,
   Input,
   Button,
-  message,
+  notification,
   List,
   Popover,
   Modal,
@@ -33,12 +33,14 @@ import {
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
+  KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -52,6 +54,7 @@ const PrimaryInfoFormView = ({
   history,
   userId,
   email,
+  employmentEquityOptions,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
@@ -113,6 +116,9 @@ const PrimaryInfoFormView = ({
     infoIcon: {
       marginLeft: "5px",
     },
+    sectionHeader: {
+      marginBottom: 10,
+    },
   };
 
   /* Component Rules for form fields */
@@ -166,21 +172,29 @@ const PrimaryInfoFormView = ({
     }
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -201,6 +215,7 @@ const PrimaryInfoFormView = ({
         gcconnex: profile.gcconnex,
         linkedin: profile.linkedin,
         github: profile.github,
+        employmentEquityGroups: profile.employmentEquityGroups,
       };
     }
     return { email };
@@ -221,7 +236,31 @@ const PrimaryInfoFormView = ({
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /* save and show success notification */
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">
+            {intl.formatMessage({ id: "setup.primary.information" })}
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -229,18 +268,25 @@ const PrimaryInfoFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * Save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -253,17 +299,28 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /* save and redirect to home */
+  /*
+   * Save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -284,7 +341,10 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
@@ -301,13 +361,17 @@ const PrimaryInfoFormView = ({
         if (Object.keys(result.data).length) {
           setNewGedsValues(result.data);
         } else {
-          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
+          notification.info({
+            message: intl.formatMessage({ id: "profile.geds.up.to.date" }),
+          });
         }
       })
       .catch(() =>
-        message.warning(
-          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
-        )
+        notification.warning({
+          message: intl.formatMessage({
+            id: "profile.geds.failed.to.retrieve",
+          }),
+        })
       );
     setGatheringGedsData(false);
   };
@@ -315,7 +379,9 @@ const PrimaryInfoFormView = ({
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
   };
 
@@ -447,10 +513,10 @@ const PrimaryInfoFormView = ({
         });
       }
 
-      if (newGedsValues.phoneNumber) {
+      if (newGedsValues.cellphone) {
         changes.push({
           title: <FormattedMessage id="profile.cellphone" />,
-          description: profileInfo.phoneNumber,
+          description: profileInfo.cellphone,
         });
       }
 
@@ -722,6 +788,39 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
+          <Divider style={styles.headerDiv} />
+          <Row
+            justify="space-between"
+            style={styles.sectionHeader}
+            align="middle"
+          >
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="profile.employment.equity.groups" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="employmentEquityGroup"
+              type="form"
+            />
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item name="employmentEquityGroups">
+                <Select
+                  showSearch
+                  mode="multiple"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={filterOption}
+                  className="custom-bubble-select-style"
+                >
+                  {employmentEquityOptions.map(({ key, text }) => (
+                    <Option key={key}>{text}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
           <FormControlButton
             formType={formType}
             onSave={onSave}
@@ -746,6 +845,7 @@ PrimaryInfoFormView.propTypes = {
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

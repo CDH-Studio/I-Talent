@@ -9,12 +9,12 @@ import {
   Select,
   Switch,
   TreeSelect,
-  message,
   Popover,
   Tabs,
+  notification,
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
@@ -23,7 +23,6 @@ import useAxios from "../../../utils/axios-instance";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
@@ -51,18 +50,18 @@ const TalentFormView = ({
   formType,
   currentTab,
   load,
-  intl,
   userId,
 }) => {
   const history = useHistory();
   const axios = useAxios();
-
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [displayMentorshipForm, setDisplayMentorshipForm] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
+  const [tabErrorsBool, setTabErrorsBool] = useState([]);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -117,15 +116,6 @@ const TalentFormView = ({
   };
 
   /*
-   * toggle mentorship form
-   *
-   * toggle state that controls mentorship form visibility
-   */
-  const toggleMentorshipForm = () => {
-    setDisplayMentorshipForm((prev) => !prev);
-  };
-
-  /*
    * save data to DB
    *
    * update profile in DB or create profile if it is not found
@@ -140,21 +130,29 @@ const TalentFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -212,7 +210,78 @@ const TalentFormView = ({
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
-  /* save and show success notification */
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errorObject = form
+      .getFieldsError()
+      .reduce((acc, { name, errors }) => {
+        if (errors.length > 0) {
+          acc[name[0]] = true;
+        }
+        return acc;
+      }, {});
+
+    // save results to state
+    if (!isEqual(errorObject, tabErrorsBool)) {
+      setTabErrorsBool(errorObject);
+    }
+
+    return errorObject;
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    const messages = [];
+    if (formsWithErrorsList.mentorshipSkills) {
+      messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
+    }
+    if (formsWithErrorsList.skills) {
+      messages.push(intl.formatMessage({ id: "profile.skills" }));
+    }
+    if (formsWithErrorsList.competencies) {
+      messages.push(intl.formatMessage({ id: "profile.competencies" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => {
+            return <li key={value}>{value}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  };
+
+  const onFieldsChange = () => {
+    findErrorTabs();
+  };
+
+  /*
+   * toggle mentorship form
+   *
+   * toggle state that controls mentorship form visibility
+   */
+  const toggleMentorshipForm = () => {
+    findErrorTabs();
+    setDisplayMentorshipForm((prev) => !prev);
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -220,19 +289,22 @@ const TalentFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
+          });
         }
       });
   };
 
   /*
-   * save and next
+   * Save and next
    *
    * save and redirect to next step in setup
    */
@@ -248,18 +320,25 @@ const TalentFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
   /*
-   * save and finish
+   * Save and finish
    *
    * Save form data and redirect home
    */
@@ -281,7 +360,10 @@ const TalentFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
+          });
         }
       });
   };
@@ -296,8 +378,24 @@ const TalentFormView = ({
     form.resetFields();
     // reset mentorship toggle switch
     setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     updateIfFormValuesChanged();
+    setTabErrorsBool([]);
+  };
+
+  /**
+   * Get Tab Title
+   * @param {Object} tabTitleInfo - tab title info.
+   * @param {string} tabTitleInfo.message - Tab title.
+   * @param {bool} tabTitleInfo.errorBool - Bool to show error in tab.
+   */
+  const getTabTitle = ({ message, errorBool }) => {
+    if (errorBool) {
+      return <div style={{ color: "red" }}>{message}</div>;
+    }
+    return message;
   };
 
   /*
@@ -544,9 +642,16 @@ const TalentFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
-            <TabPane tab={<FormattedMessage id="setup.skills" />} key="skills">
+            <TabPane
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.skills" />,
+                errorBool: tabErrorsBool.skills,
+              })}
+              key="skills"
+            >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -568,7 +673,10 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="profile.mentorship.skills" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.mentorship.skills" />,
+                errorBool: tabErrorsBool.mentorshipSkills,
+              })}
               key="mentorship"
             >
               {/* Form Row Two: skills */}
@@ -592,14 +700,20 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={<FormattedMessage id="setup.competencies" />}
+              tab={getTabTitle({
+                message: <FormattedMessage id="setup.competencies" />,
+                errorBool: tabErrorsBool.competencies,
+              })}
               key="competencies"
             >
               {/* Form Row Three: competencies */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   {getSectionHeader("setup.competencies", "competencies")}
-                  <Form.Item name="competencies">
+                  <Form.Item
+                    name="competencies"
+                    label={<FormattedMessage id="setup.competencies" />}
+                  >
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
@@ -654,19 +768,17 @@ TalentFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  intl: IntlPropType,
   userId: PropTypes.string.isRequired,
 };
 
 TalentFormView.defaultProps = {
   profileInfo: null,
+  currentTab: null,
   skillOptions: [],
   competencyOptions: [],
   savedCompetencies: [],
   savedSkills: [],
   savedMentorshipSkills: [],
-  currentTab: null,
-  intl: null,
 };
 
-export default injectIntl(TalentFormView);
+export default TalentFormView;

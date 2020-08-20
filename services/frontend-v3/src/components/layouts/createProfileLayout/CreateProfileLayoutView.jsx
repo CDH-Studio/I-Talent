@@ -112,12 +112,15 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                 <li>
                   - <FormattedMessage id="setup.step.2.description" />
                 </li>
+                <li>
+                  - <FormattedMessage id="profile.employment.equity.groups" />
+                </li>
               </ul>
             }
           />
           <Step
             tabIndex="0"
-            title={<FormattedMessage id="setup.employment" />}
+            title={<FormattedMessage id="profile.employee.status" />}
             disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>

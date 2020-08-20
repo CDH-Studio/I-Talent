@@ -10,9 +10,9 @@ import {
   Switch,
   DatePicker,
   Button,
-  message,
   Popover,
   Checkbox,
+  notification,
 } from "antd";
 import {
   RightOutlined,
@@ -160,33 +160,74 @@ const LangProficiencyFormView = ({
         values.readingProficiency
       ) {
         if (values.oralProficiency) {
-          dbValues.secondLangProfs.push({
+          const oralValue = {
             proficiency: "ORAL",
             level: values.oralProficiency,
-            date: values.secondaryOralUnknownExpired
-              ? moment.unix(0)
-              : values.secondaryOralDate,
-          });
+          };
+
+          if (oralValue.level === "NA") {
+            oralValue.unknownExpiredDate = false;
+            oralValue.date = null;
+          } else {
+            oralValue.unknownExpiredDate = values.secondaryOralUnknownExpired;
+            if (!oralValue.unknownExpiredDate && values.secondaryOralDate) {
+              oralValue.date = values.secondaryOralDate;
+            } else {
+              oralValue.date = null;
+            }
+          }
+
+          dbValues.secondLangProfs.push(oralValue);
         }
 
         if (values.writingProficiency) {
-          dbValues.secondLangProfs.push({
+          const writingValue = {
             proficiency: "WRITING",
             level: values.writingProficiency,
-            date: values.secondaryWritingUnknownExpired
-              ? moment.unix(0)
-              : values.secondaryWritingDate,
-          });
+          };
+
+          if (writingValue.level === "NA") {
+            writingValue.unknownExpiredDate = false;
+            writingValue.date = null;
+          } else {
+            writingValue.unknownExpiredDate =
+              values.secondaryWritingUnknownExpired;
+            if (
+              !writingValue.unknownExpiredDate &&
+              values.secondaryWritingDate
+            ) {
+              writingValue.date = values.secondaryWritingDate;
+            } else {
+              writingValue.date = null;
+            }
+          }
+
+          dbValues.secondLangProfs.push(writingValue);
         }
 
         if (values.readingProficiency) {
-          dbValues.secondLangProfs.push({
+          const readingValue = {
             proficiency: "READING",
             level: values.readingProficiency,
-            date: values.secondaryReadingUnknownExpired
-              ? moment.unix(0)
-              : values.secondaryReadingDate,
-          });
+          };
+
+          if (readingValue.level === "NA") {
+            readingValue.unknownExpiredDate = false;
+            readingValue.date = null;
+          } else {
+            readingValue.unknownExpiredDate =
+              values.secondaryReadingUnknownExpired;
+            if (
+              !readingValue.unknownExpiredDate &&
+              values.secondaryReadingDate
+            ) {
+              readingValue.date = values.secondaryReadingDate;
+            } else {
+              readingValue.date = null;
+            }
+          }
+
+          dbValues.secondLangProfs.push(readingValue);
         }
       }
     }
@@ -194,21 +235,29 @@ const LangProficiencyFormView = ({
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -286,7 +335,31 @@ const LangProficiencyFormView = ({
     });
   };
 
-  /* save and show success notification */
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">
+            {intl.formatMessage({ id: "setup.language.proficiency" })}
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -294,18 +367,25 @@ const LangProficiencyFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * Save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -318,17 +398,28 @@ const LangProficiencyFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /* save and redirect to home */
+  /*
+   * Save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -347,15 +438,24 @@ const LangProficiencyFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* reset form fields */
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
 
     const data = savedValues || getInitialValues(profileInfo);
     setDisplaySecondLangForm(data.oralProficiency);
@@ -491,7 +591,10 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={unknownExpiredGrades.reading}
+                  disabled={
+                    unknownExpiredGrades.reading ||
+                    formValues.readingProficiency === "NA"
+                  }
                   style={styles.datePicker}
                 />
               </Form.Item>
@@ -502,6 +605,7 @@ const LangProficiencyFormView = ({
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryReadingDate}
+                  disabled={formValues.readingProficiency === "NA"}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -538,7 +642,10 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={unknownExpiredGrades.writing}
+                  disabled={
+                    unknownExpiredGrades.writing ||
+                    formValues.writingProficiency === "NA"
+                  }
                   style={styles.datePicker}
                 />
               </Form.Item>
@@ -549,6 +656,7 @@ const LangProficiencyFormView = ({
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryWritingDate}
+                  disabled={formValues.writingProficiency === "NA"}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>
@@ -585,7 +693,10 @@ const LangProficiencyFormView = ({
                 className="language-date-item"
               >
                 <DatePicker
-                  disabled={unknownExpiredGrades.oral}
+                  disabled={
+                    unknownExpiredGrades.oral ||
+                    formValues.oralProficiency === "NA"
+                  }
                   style={styles.datePicker}
                 />
               </Form.Item>
@@ -596,6 +707,7 @@ const LangProficiencyFormView = ({
                 <Checkbox
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryOralDate}
+                  disabled={formValues.oralProficiency === "NA"}
                 >
                   <FormattedMessage id="date.unknown.expired" />
                 </Checkbox>

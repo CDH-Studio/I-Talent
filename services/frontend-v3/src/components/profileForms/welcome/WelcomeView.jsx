@@ -152,7 +152,7 @@ const WelcomeView = ({
           {generateProfileBtn({
             icon: <UserOutlined />,
             firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-            secondTitle: gedsProfiles.jobTitle[locale],
+            secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
             thirdTitle: gedsProfiles.email,
             value: gedsProfiles,
           })}
@@ -203,7 +203,7 @@ const WelcomeView = ({
   };
 
   return (
-    <Col className="content">
+    <Col className="welcome-content">
       <Title level={1} className="welcome">
         <RocketOutlined rotate="45" /> <FormattedMessage id="setup.welcome" />
       </Title>

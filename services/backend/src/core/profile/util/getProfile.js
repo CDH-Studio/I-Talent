@@ -33,6 +33,7 @@ async function getFullProfile(id, language) {
       interestedInRemote: true,
       status: true,
       projects: true,
+      employmentEquityGroups: true,
       secondLangProfs: true,
       skills: {
         select: {
@@ -147,6 +148,23 @@ async function getFullProfile(id, language) {
               },
             },
           },
+          attachmentLinks: {
+            select: {
+              id: true,
+              translations: {
+                select: {
+                  url: true,
+                  name: {
+                    select: {
+                      translations: true,
+                    },
+                  },
+                  nameId: true,
+                  language: true,
+                },
+              },
+            },
+          },
         },
       },
 
@@ -179,6 +197,23 @@ async function getFullProfile(id, language) {
               description: true,
               jobTitle: true,
               organization: true,
+            },
+          },
+          attachmentLinks: {
+            select: {
+              id: true,
+              translations: {
+                select: {
+                  url: true,
+                  name: {
+                    select: {
+                      translations: true,
+                    },
+                  },
+                  nameId: true,
+                  language: true,
+                },
+              },
             },
           },
         },
@@ -345,6 +380,7 @@ async function getFullProfile(id, language) {
           careerInterests: true,
           mentorshipSkills: true,
           exFeeder: true,
+          employmentEquityGroup: true,
         },
       },
       organizations: {

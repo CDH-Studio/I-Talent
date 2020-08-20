@@ -7,6 +7,13 @@ const KeyTitleOptionsPropType = PropTypes.arrayOf(
   })
 );
 
+const KeyNameOptionsPropType = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })
+);
+
 const KeyTextOptionsPropType = PropTypes.arrayOf(
   PropTypes.shape({
     key: PropTypes.string,
@@ -117,4 +124,5 @@ export {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
+  KeyNameOptionsPropType,
 };

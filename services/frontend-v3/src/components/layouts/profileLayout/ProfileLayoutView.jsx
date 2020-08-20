@@ -5,7 +5,7 @@ import {
   Typography,
   Row,
   Col,
-  message,
+  notification,
   Popover,
   Tooltip,
   Alert,
@@ -22,7 +22,7 @@ import {
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import moment from "moment";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -44,6 +44,7 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
+import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -99,9 +100,13 @@ const ProfileLayoutView = ({
 
   useEffect(() => {
     if (savedFormContent === false) {
-      message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+      notification.error({
+        message: intl.formatMessage({ id: "profile.edit.save.error" }),
+      });
     } else if (savedFormContent === true) {
-      message.success(intl.formatMessage({ id: "profile.edit.save.success" }));
+      notification.success({
+        message: intl.formatMessage({ id: "profile.edit.save.success" }),
+      });
     }
 
     dispatch(setSavedFormContent(undefined));
@@ -120,7 +125,16 @@ const ProfileLayoutView = ({
             />
           </Col>
           <Col xs={24} xl={10}>
-            <EmployeeSummary data={data} type={privateProfile} />
+            <Row type="flex" gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}>
+              <Col span={24}>
+                <EmployeeSummary data={data} type={privateProfile} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <EmploymentEquity data={data} type={privateProfile} />
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row style={styles.row}>
@@ -253,7 +267,7 @@ const ProfileLayoutView = ({
     return (
       <Row justify="center" style={styles.sideBarRow}>
         <Col flex={1} offset={1}>
-          <Anchor offsetTop="75">
+          <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
               title={
@@ -263,10 +277,26 @@ const ProfileLayoutView = ({
               }
             >
               <Link
+                href="#card-profile-basic-info"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="setup.primary.information" />
+                  </Text>
+                }
+              />
+              <Link
                 href="#card-profile-employee-summary"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.employee.summary" />
+                    <FormattedMessage id="profile.employee.status" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-employment-equity"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.employment.equity.groups" />
                   </Text>
                 }
               />

@@ -30,13 +30,26 @@ const Education = ({ data, type }) => {
     if (!dataSource || !dataSource.experiences) {
       return [];
     }
-
     return dataSource.educations.map(
-      ({ startDate, endDate, diploma, school, description }) => ({
+      ({
+        startDate,
+        endDate,
+        diploma,
+        school,
+        description,
+        attachmentLinks,
+      }) => ({
         diploma: diploma.description,
         school: school.name,
         duration: getEducationDuration(startDate, endDate),
         description,
+        attachmentLinks: attachmentLinks
+          ? attachmentLinks.map((a) => ({
+              id: a.id,
+              name: a.name.name,
+              url: a.url,
+            }))
+          : [],
       })
     );
   };

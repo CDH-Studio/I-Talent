@@ -99,13 +99,16 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.step.2.description" />
             </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.employment.equity.groups" />
+            </li>
           </ul>
         </Menu.Item>
         <Menu.Item tabIndex="0" key="employment" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
-              <FormattedMessage id="setup.employment" />
+              <FormattedMessage id="profile.employee.status" />
             </b>
           </div>
           <ul style={styles.menuList}>
@@ -166,6 +169,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             </li>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.talent.management" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.ex.feeder.title" />
             </li>
           </ul>
         </Menu.Item>

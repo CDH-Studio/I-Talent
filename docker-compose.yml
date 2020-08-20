@@ -5,6 +5,7 @@ services:
     build: ./services/frontend-v3
     ports:
       - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./services/frontend-v3:/upskill-frontend
       - frontend-node-modules:/upskill-frontend/node_modules

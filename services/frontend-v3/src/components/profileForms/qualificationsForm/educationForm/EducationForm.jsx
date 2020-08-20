@@ -1,96 +1,53 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import useAxios from "../../../../utils/axios-instance";
-import handleError from "../../../../functions/handleError";
 import EducationFormView from "./EducationFormView";
 import {
   FieldPropType,
   FormInstancePropType,
-  ProfileInfoPropType,
-  StylesPropType,
+  KeyTitleOptionsPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
-/**
- *  EducationForm
- *  Controller for the EducationFormView.
- *  This component is strongly linked ot Qualifications Form.
- *  It generated the form fields for each education item the user creates in the qualifications form.
- */
 const EducationForm = ({
   form,
-  field,
-  remove,
-  profileInfo,
-  style,
+  fieldElement,
+  removeElement,
+  savedEducation,
   checkIfFormValuesChanged,
+  diplomaOptions,
+  schoolOptions,
+  attachmentNames,
 }) => {
-  // Define States
-  const [load, setLoad] = useState(false);
-  const [diplomaOptions, setDiplomaOptions] = useState([]);
-  const [schoolOptions, setSchoolOptions] = useState([]);
-
-  // get current language code
-  const { locale } = useSelector((state) => state.settings);
-  const axios = useAxios();
-
-  /**
-   * Get Diploma Options
-   *
-   * get a list of diploma options for dropdown
-   */
-  const getDiplomaOptions = useCallback(async () => {
-    const result = await axios.get(`api/option/diplomas?language=${locale}`);
-
-    setDiplomaOptions(result.data);
-  }, [axios, locale]);
-
-  /**
-   * Get School Options
-   *
-   * get a list of diploma options for dropdown
-   */
-  const getSchoolOptions = useCallback(async () => {
-    const result = await axios.get(`api/option/schools?language=${locale}`);
-
-    setSchoolOptions(result.data);
-  }, [axios, locale]);
-
-  // useEffect to run once component is mounted
-  // Get all required data component
-  useEffect(() => {
-    Promise.all([getDiplomaOptions(), getSchoolOptions()])
-      .then(() => {
-        setLoad(true);
-      })
-      .catch((error) => {
-        setLoad(false);
-        handleError(error, "redirect");
-      });
-  }, [getDiplomaOptions, getSchoolOptions, locale]);
-
   return (
     <EducationFormView
       form={form}
-      field={field}
-      remove={remove}
+      fieldElement={fieldElement}
+      removeElement={removeElement}
+      savedEducation={savedEducation}
+      checkIfFormValuesChanged={checkIfFormValuesChanged}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
-      profileInfo={profileInfo}
-      style={style}
-      load={load}
-      checkIfFormValuesChanged={checkIfFormValuesChanged}
+      attachmentNames={attachmentNames}
     />
   );
 };
 
 EducationForm.propTypes = {
   form: FormInstancePropType.isRequired,
-  field: FieldPropType.isRequired,
-  remove: PropTypes.func.isRequired,
-  profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
+  savedEducation: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
+      school: PropTypes.string,
+    })
+  ).isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
+  diplomaOptions: KeyTitleOptionsPropType.isRequired,
+  schoolOptions: KeyTitleOptionsPropType.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 export default EducationForm;
