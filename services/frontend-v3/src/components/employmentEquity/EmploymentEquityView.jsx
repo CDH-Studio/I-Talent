@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Tag, Row, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
+import "./EmploymentEquityView.scss";
 
 const EmploymentEquityView = ({ groups }) => {
   if (groups.length > 0) {
     return (
-      <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
+      <Row className="listRow">
         <List>
           {groups.map(({ key, text }) => (
             <Tag color="#00605e" key={key}>
@@ -21,7 +22,7 @@ const EmploymentEquityView = ({ groups }) => {
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="profile.employment.equity.empty" />}
-      style={{ maxHeight: 52 }}
+      className="empty"
     />
   );
 };
