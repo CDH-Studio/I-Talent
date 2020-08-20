@@ -1,5 +1,5 @@
 const path = require("path");
-const prisma = require("../../");
+const prisma = require("../..");
 //const data = require("./data/relocationLocations");
 const generateRelocationLocationsFromOfficeLocations = require("./data/relocationLocations");
 

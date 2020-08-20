@@ -1,6 +1,6 @@
-# Migration `20200820143832-simplify-relocation-locations`
+# Migration `20200820161701-simplify-relocation-locations`
 
-This migration has been generated at 8/20/2020, 10:38:32 AM.
+This migration has been generated at 8/20/2020, 12:17:01 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -42,7 +42,7 @@ ALTER TABLE "public"."RelocationLocation" ADD FOREIGN KEY ("relocationLocationId
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-relocation-locations
+migration 20200820133639-add-employment-equity-group..20200820161701-simplify-relocation-locations
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -54,7 +54,7 @@ migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-
  }
  model DbSeed {
    id        String   @id
-@@ -164,9 +164,8 @@
+@@ -172,9 +172,8 @@
    streetNumber        Int
    city                String
    country             String
@@ -63,7 +63,7 @@ migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-
    users               User[]
  }
  model OpClassification {
-@@ -254,8 +253,10 @@
+@@ -262,8 +261,10 @@
    @@unique([userId, competencyId])
  }
 +
@@ -72,7 +72,7 @@ migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-
    id         String    @default(uuid()) @id
    createdAt  DateTime  @default(now())
    updatedAt  DateTime  @updatedAt
-@@ -292,8 +293,28 @@
+@@ -300,8 +301,28 @@
    translations OpTransDiploma[]
    educations   Education[]
  }
@@ -100,47 +100,8 @@ migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-
    id               String          @default(uuid()) @id
    createdAt        DateTime        @default(now())
    updatedAt        DateTime        @updatedAt
-@@ -321,8 +342,9 @@
-   officialLanguage   CardVisibilityStatus @default(PRIVATE)
-   skills             CardVisibilityStatus @default(PRIVATE)
-   competencies       CardVisibilityStatus @default(PRIVATE)
-   developmentalGoals CardVisibilityStatus @default(PRIVATE)
-+  description        CardVisibilityStatus @default(PRIVATE)
-   education          CardVisibilityStatus @default(PRIVATE)
-   experience         CardVisibilityStatus @default(PRIVATE)
-   projects           CardVisibilityStatus @default(PRIVATE)
-   careerInterests    CardVisibilityStatus @default(PRIVATE)
-@@ -412,19 +434,20 @@
-   organizationTierId String?
- }
- model Education {
--  id        String     @default(uuid()) @id
--  createdAt DateTime   @default(now())
--  updatedAt DateTime   @updatedAt
--  userId    String
--  schoolId  String?
--  diplomaId String?
--  endDate   DateTime?
--  startDate DateTime
--  user      User       @relation(fields: [userId])
--  school    OpSchool?  @relation(fields: [schoolId])
--  diploma   OpDiploma? @relation(fields: [diplomaId])
-+  id          String     @default(uuid()) @id
-+  createdAt   DateTime   @default(now())
-+  updatedAt   DateTime   @updatedAt
-+  userId      String
-+  schoolId    String?
-+  diplomaId   String?
-+  endDate     DateTime?
-+  startDate   DateTime
-+  description String?
-+  user        User       @relation(fields: [userId])
-+  school      OpSchool?  @relation(fields: [schoolId])
-+  diploma     OpDiploma? @relation(fields: [diplomaId])
-   @@unique([userId, schoolId, diplomaId, startDate])
- }
-@@ -451,17 +474,17 @@
-   user         User              @relation(fields: [userId])
+@@ -465,17 +486,17 @@
+   user            User              @relation(fields: [userId])
  }
  model RelocationLocation {
 -  id         String           @default(uuid()) @id
@@ -160,18 +121,8 @@ migration 20200810152146-optional-interested-in-remote..20200820143832-simplify-
 -  @@unique([userId, locationId])
 +  @@unique([userId, relocationLocationId ])
  }
- model User {
-   id                   String                @default(uuid()) @id
-@@ -484,8 +507,9 @@
-   email                String?
-   telephone            String?
-   cellphone            String?
-   manager              String?
-+  description          String?
-   firstLanguage        Language?
-   secondLanguage       Language?
-   preferredLanguage    Language              @default(ENGLISH)
-   actingStartDate      DateTime?
+ model OpTransAttachmentLinkName {
+   id        String   @default(uuid()) @id
 ```
 
 

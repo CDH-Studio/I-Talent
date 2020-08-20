@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const prisma = require("../../../../database");
+const prisma = require("../../..");
 
 const generateRelocationLocationsFromOfficeLocations = async () => {
   const locationsQuery = await prisma.opTransOfficeLocation.findMany({
