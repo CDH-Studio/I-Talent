@@ -469,7 +469,7 @@ const PersonalGrowthFormView = ({
                   <Form.Item
                     name="interestedInRemote"
                     label={
-                      <FormattedMessage id="profile.interested.in.remote" />
+                      <FormattedMessage id="profile.edit.interested.in.remote" />
                     }
                   >
                     <Select
@@ -495,7 +495,7 @@ const PersonalGrowthFormView = ({
                     className="custom-bubble-select-style"
                     name="relocationLocations"
                     label={
-                      <FormattedMessage id="profile.willing.to.relocate.to" />
+                      <FormattedMessage id="profile.edit.willing.to.relocate.to" />
                     }
                   >
                     <Select
@@ -518,7 +518,7 @@ const PersonalGrowthFormView = ({
                   <Form.Item
                     name="lookingForANewJobId"
                     label={
-                      <FormattedMessage id="profile.looking.for.new.job" />
+                      <FormattedMessage id="profile.edit.looking.for.new.job" />
                     }
                   >
                     <Select
