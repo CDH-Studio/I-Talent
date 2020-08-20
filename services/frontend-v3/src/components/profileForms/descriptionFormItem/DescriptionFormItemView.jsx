@@ -6,13 +6,13 @@ import PropTypes from "prop-types";
 const { TextArea } = Input;
 
 const DescriptionFormItem = ({
+  label,
   name,
   fieldKey,
   rules,
+  lengthMessage,
   charsLeft,
-  maxLengthMessage,
   handleDescriptionChange,
-  label,
 }) => {
   const styles = {
     space: {
@@ -24,11 +24,11 @@ const DescriptionFormItem = ({
     <Form.Item
       name={name}
       fieldKey={fieldKey}
-      rules={[rules]}
+      rules={rules}
       label={label}
       extra={
         <div>
-          {maxLengthMessage}
+          {lengthMessage}
           {charsLeft >= 0 && (
             <span style={styles.space}>
               ({charsLeft}
@@ -47,18 +47,24 @@ const DescriptionFormItem = ({
 };
 
 DescriptionFormItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  fieldKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
-  rules: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
-    .isRequired,
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.any),
+  ]).isRequired,
+  fieldKey: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
+  rules: PropTypes.arrayOf(PropTypes.object).isRequired,
   charsLeft: PropTypes.number.isRequired,
   handleDescriptionChange: PropTypes.func.isRequired,
   label: PropTypes.element,
-  maxLengthMessage: PropTypes.element.isRequired,
+  lengthMessage: PropTypes.element.isRequired,
 };
 
 DescriptionFormItem.defaultProps = {
   label: null,
+  fieldKey: undefined,
 };
 
 export default DescriptionFormItem;
