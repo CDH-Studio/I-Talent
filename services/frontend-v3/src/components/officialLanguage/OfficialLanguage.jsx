@@ -67,7 +67,7 @@ const OfficialLanguage = ({ data, type }) => {
 
   return (
     <ProfileCards
-      titleId="profile.official.language"
+      titleId="profile.official.languages"
       cardName="officialLanguage"
       content={
         <OfficialLanguageView

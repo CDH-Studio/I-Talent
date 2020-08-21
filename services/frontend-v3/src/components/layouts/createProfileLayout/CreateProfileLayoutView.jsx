@@ -137,7 +137,10 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             description={
               <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.step.4.description" />
+                  - <FormattedMessage id="setup.first.language" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.second.language" />
                 </li>
               </ul>
             }
@@ -174,6 +177,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                 </li>
                 <li>
                   - <FormattedMessage id="profile.talent.management" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.ex.feeder.title" />
                 </li>
               </ul>
             }
