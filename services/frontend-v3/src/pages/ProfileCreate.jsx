@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useIntl } from "react-intl";
 import useAxios from "../utils/axios-instance";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
+import { setUserSignupStep } from "../redux/slices/userSlice";
 
 const ProfileCreate = ({ match }) => {
-  const [highestStep, setHighestStep] = useState(1);
   const axios = useAxios();
   const intl = useIntl();
+  const dispatch = useDispatch();
 
   const { locale } = useSelector((state) => state.settings);
-  const { id } = useSelector((state) => state.user);
+  const { id, signupStep: highestStep } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (match.params.step > highestStep) {
-      const signupStep = parseInt(match.params.step, 10);
+    const signupStep = parseInt(match.params.step, 10);
 
-      setHighestStep(signupStep);
+    if (signupStep > highestStep) {
+      dispatch(setUserSignupStep(signupStep));
 
       axios.put(`api/profile/${id}?language=${locale}`, {
         signupStep,
       });
     }
-  }, [highestStep, id, match, locale, axios]);
+  }, [highestStep, id, match, locale, axios, dispatch]);
 
   useEffect(() => {
     document.title = `${intl.formatMessage({

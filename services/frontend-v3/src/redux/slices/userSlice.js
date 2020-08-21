@@ -9,6 +9,7 @@ const initialState = {
   email: undefined,
   isAdmin: false,
   status: "ACTIVE",
+  signupStep: 1,
 };
 
 const userSlice = createSlice({
@@ -36,8 +37,19 @@ const userSlice = createSlice({
     setUserStatus(state, action) {
       state.status = action.payload;
     },
+    setUserSignupStep(state, action) {
+      state.signupStep = action.payload;
+    },
     setUser(state, action) {
-      const { id, avatarColor, initials, name, email, status } = action.payload;
+      const {
+        id,
+        avatarColor,
+        initials,
+        name,
+        email,
+        status,
+        signupStep,
+      } = action.payload;
 
       return {
         ...state,
@@ -47,6 +59,7 @@ const userSlice = createSlice({
         name: name || state.name,
         email: email || state.email,
         status: status || state.status,
+        signupStep: signupStep || state.signupStep,
       };
     },
     clearUser() {
@@ -63,6 +76,7 @@ export const {
   setUserInitials,
   setUserIsAdmin,
   setUserStatus,
+  setUserSignupStep,
   setUser,
   clearUser,
 } = userSlice.actions;
