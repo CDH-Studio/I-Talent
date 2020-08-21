@@ -181,6 +181,8 @@
   "profile.diploma": "Diploma",
   "profile.edit": "Edit",
   "profile.edit.save.error": "Data not saved",
+  "profile.edit.save.jobTitle.warning.fr": "It looks like you haven't set your job title in French. Please save the form and change the app language to enter your French title.",
+  "profile.edit.save.jobTitle.warning.en": "It looks like you haven't set your job title in English. Please save the form and change the app language to enter your English title.",
   "profile.edit.save.error.intro": "The following forms need your attention:",
   "profile.edit.save.problem": "There may be a problem",
   "profile.edit.save.success": "Changes saved",

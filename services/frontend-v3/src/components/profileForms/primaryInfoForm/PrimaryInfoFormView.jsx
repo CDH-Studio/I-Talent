@@ -60,6 +60,7 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [singleJobTitleChanged, setSingleJobTitleChanged] = useState(false);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
 
@@ -118,7 +119,7 @@ const PrimaryInfoFormView = ({
     },
     popoverStyleCareer: {
       marginLeft: "8px",
-
+    },
     sectionHeader: {
       marginBottom: 10,
     },
@@ -196,6 +197,20 @@ const PrimaryInfoFormView = ({
           message: intl.formatMessage({ id: "profile.edit.save.success" }),
         });
         break;
+      case "jobTitleLangEN":
+        notification.error({
+          message: intl.formatMessage({
+            id: "profile.edit.save.jobTitle.warning.en",
+          }),
+        });
+        break;
+      case "jobTitleLangFR":
+        notification.error({
+          message: intl.formatMessage({
+            id: "profile.edit.save.jobTitle.warning.fr",
+          }),
+        });
+        break;
       case "error":
         notification.error({
           message: intl.formatMessage({ id: "profile.edit.save.error" }),
@@ -233,10 +248,25 @@ const PrimaryInfoFormView = ({
     return { email };
   };
 
+  const getOppositeLangValues = async (notLang) => {
+    await axios;
+    const otherLangProfile = axios
+      .get(`api/profile/${userId}?language=${notLang}`)
+      .then(() => {
+        console.log(otherLangProfile);
+        return otherLangProfile.jobTitle;
+      })
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        }
+      });
+  };
+
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
@@ -248,6 +278,22 @@ const PrimaryInfoFormView = ({
     const savedTitled = Object.values(getInitialValues(profileInfo.email));
 
     setFieldsChanged(!isEqual(formValues, dbValues));
+
+    if (locale === "ENGLISH") {
+      const notLocale = "FRENCH";
+      const frJobTitle = getOppositeLangValues(notLocale);
+      if (fieldsChanged && frJobTitle === null) {
+        setSingleJobTitleChanged(true);
+      }
+    } else {
+      const notLocale = "ENGLISH";
+      const enJobTitle = getOppositeLangValues(notLocale);
+      if (fieldsChanged && enJobTitle === null) {
+        setSingleJobTitleChanged(true);
+      }
+    }
+
+    setSingleJobTitleChanged(false);
   };
 
   /*
@@ -287,6 +333,12 @@ const PrimaryInfoFormView = ({
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
+        } else if (singleJobTitleChanged) {
+          if (locale === "ENGLISH") {
+            openNotificationWithIcon("jobTitleLangEN");
+          } else {
+            openNotificationWithIcon("jobTitleLangFR");
+          }
         } else {
           openNotificationWithIcon({
             type: "error",

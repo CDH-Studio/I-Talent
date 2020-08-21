@@ -21,18 +21,6 @@ const updateProfileStringBody = [
   "avatarColor",
 ];
 
-const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
-
-const updateProfileNumberBody = ["signupStep"];
-const updateProfileStringArrayBody = ["projects"];
-const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
-
-const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
-
-const updateProfileLanguageBody = ["preferredLanguage"];
-
-const updateProfileBooleanBody = ["interestedInRemote", "exFeeder"];
-
 const updateProfileEmploymentBody = ["jobTitle", "branch"];
 const updateProfileUUIDArrayBody = [
   "skills",
