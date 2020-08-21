@@ -25,6 +25,11 @@ definitions:
       - E
       - X
       - NA
+  TypeQuery:
+    name: type
+    type: string
+    in: query
+    description: The type of attachment names
   CardVisibilityStatusEnum:
     type: string
     enum:
@@ -238,6 +243,7 @@ definitions:
       - careerInterests
       - mentorshipSkills
       - exFeeder
+      - employmentEquityGroup
     properties:
       manager:
         $ref: "#/definitions/CardVisibilityStatusEnum"
@@ -266,6 +272,8 @@ definitions:
       mentorshipSkills:
         $ref: "#/definitions/CardVisibilityStatusEnum"
       exFeeder:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      employmentEquityGroup:
         $ref: "#/definitions/CardVisibilityStatusEnum"
   Educations:
     type: array

@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
 const profileGen = require("../../core/geds/geds");
-const { UUIDValidator } = require("./validator");
+const { UUIDValidator } = require("../util/commonValidators");
 
 const profileGenRouter = Router();
 

@@ -69,7 +69,6 @@ const EmploymentDataForm = ({ formType }) => {
     }
   }, [axios, id, locale]);
 
-  // useEffect to run once component is mounted
   useEffect(() => {
     // Get all required data component
     Promise.all([

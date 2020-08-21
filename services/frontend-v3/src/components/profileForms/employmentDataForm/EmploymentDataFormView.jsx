@@ -630,6 +630,7 @@ const EmploymentDataFormView = ({
               </Form.Item>
             </Col>
           </Row>
+
           {/* Form Row Three */}
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -668,7 +669,7 @@ const EmploymentDataFormView = ({
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
           </Row>
-
+          
           <Divider style={styles.headerDiv} />
           <Row
             justify="space-between"
@@ -689,12 +690,10 @@ const EmploymentDataFormView = ({
             <Col className="gutter-row" span={24}>
               <DescriptionFormItem
                 name="description"
-                fieldKey="description"
-                rules={Rules.maxChar1000}
+                maxLength={Rules.maxChar1000.max}
+                maxLengthMessage={Rules.maxChar1000.message}
+                lengthMessage={<FormattedMessage id="profile.rules.max.1000" />}
                 value={profileInfo.description}
-                maxLengthMessage={
-                  <FormattedMessage id="profile.rules.max.1000" />
-                }
               />
             </Col>
           </Row>
