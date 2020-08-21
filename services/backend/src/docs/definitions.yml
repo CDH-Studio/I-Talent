@@ -521,15 +521,7 @@ definitions:
             id:
               type: string
               format: uuid
-            postalCode:
-              type: string
-            streetNumber:
-              type: number
             city:
-              type: string
-            country:
-              type: string
-            streetName:
               type: string
             province:
               type: string
