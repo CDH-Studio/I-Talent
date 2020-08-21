@@ -19,6 +19,7 @@ RUN chgrp -R 0 /upskill-backend && \
 # Runs install script and builds the app
 RUN yarn install --production
 
+RUN mkdir -p /.cache/yarn
 RUN chgrp -R 0 /.cache/yarn && \ 
   chmod -R g=u /.cache/yarn
 
