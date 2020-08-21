@@ -39,6 +39,7 @@ const Experience = ({ data, type }) => {
         jobTitle,
         organization,
         attachmentLinks,
+        projects,
       }) => ({
         description,
         duration: getExperienceDuration(startDate, endDate),
@@ -52,6 +53,7 @@ const Experience = ({ data, type }) => {
               url: a.url,
             }))
           : [],
+        projects,
       })
     );
   };

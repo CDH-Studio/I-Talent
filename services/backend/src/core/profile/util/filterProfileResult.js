@@ -191,6 +191,7 @@ function filterProfileResult(profile, language) {
           },
         };
       });
+
       return {
         id: experience.id,
         startDate: experience.startDate,
@@ -203,6 +204,7 @@ function filterProfileResult(profile, language) {
           ? translatedExperience.organization
           : null,
         attachmentLinks,
+        projects: experience.projects,
       };
     });
 

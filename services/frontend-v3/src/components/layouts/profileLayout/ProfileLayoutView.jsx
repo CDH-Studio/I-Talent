@@ -38,7 +38,6 @@ import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
-import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
@@ -222,12 +221,6 @@ const ProfileLayoutView = ({
             <Experience data={data} type={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
-          <Col span={24}>
-            <Projects data={data} type={privateProfile} />
-          </Col>
-        </Row>
-
         {/** ********** Connections *********** */}
         {privateProfile && (
           <div>
@@ -413,14 +406,6 @@ const ProfileLayoutView = ({
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.experience" />
-                  </Text>
-                }
-              />
-              <Link
-                href="#card-profile-projects"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.projects" />
                   </Text>
                 }
               />

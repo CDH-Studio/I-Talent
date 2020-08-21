@@ -11,6 +11,7 @@ const ExperienceView = ({ experienceInfo }) => {
       backgroundColor: "#007471",
     },
   };
+
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
@@ -24,17 +25,34 @@ const ExperienceView = ({ experienceInfo }) => {
     return undefined;
   };
 
+  const getProjects = (item) => {
+    if (item.projects && item.projects.length > 0)
+      return item.projects.map((i) => (
+        <Tag color="#00605e" key={i.id}>
+          <span>{i}</span>
+        </Tag>
+      ));
+    return undefined;
+  };
+
   const generateOrganizationItemDescription = (item) => (
     <>
       <Row>
         <Col>{item.organization}</Col>
       </Row>
       <Row>
+        <FormattedMessage id="setup.projects" />:
+      </Row>
+      <Row>{getProjects(item)}</Row>
+      <Row>
+        <FormattedMessage id="setup.attachment" />:
+      </Row>
+      <Row>{getUrl(item)}</Row>
+      <Row>
         <Col>
           <DescriptionText text={item.description} expandable />
         </Col>
       </Row>
-      {getUrl(item)}
     </>
   );
 

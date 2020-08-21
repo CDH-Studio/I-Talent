@@ -9,6 +9,7 @@ import {
   DatePicker,
   Input,
   Tooltip,
+  Select,
 } from "antd";
 import PropTypes from "prop-types";
 import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
@@ -122,9 +123,6 @@ const ExperienceFormView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedExperience]);
 
-  /** **********************************
-   ********* Render Component *********
-   *********************************** */
   return (
     <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -237,6 +235,7 @@ const ExperienceFormView = ({
         />
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <FormattedMessage id="setup.attachment" />
         <Form.List
           name={[fieldElement.name, "attachmentLinks"]}
           fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
@@ -260,7 +259,7 @@ const ExperienceFormView = ({
                     onClick={() => {
                       add();
                     }}
-                    disabled={fields.length === 6}
+                    disabled={fields.length === 5}
                     style={{ width: "100%" }}
                   >
                     <PlusOutlined />
@@ -271,6 +270,19 @@ const ExperienceFormView = ({
             );
           }}
         </Form.List>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Form.Item
+          name={[fieldElement.name, "projects"]}
+          fieldKey={[fieldElement.fieldKey, "projects"]}
+          label={<FormattedMessage id="setup.projects" />}
+        >
+          <Select
+            mode="tags"
+            style={{ width: "100%" }}
+            placeholder={<FormattedMessage id="setup.projects.placeholder" />}
+          />
+        </Form.Item>
       </Col>
     </Row>
   );
