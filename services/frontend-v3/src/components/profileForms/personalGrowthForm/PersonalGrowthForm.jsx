@@ -148,7 +148,11 @@ const PersonalGrowthForm = ({ formType }) => {
    * get a list of Relocation Options for dropdown treeSelect
    */
   const getRelocationOptions = useCallback(async () => {
-    const result = await axios.get(`api/option/locations?language=${locale}`);
+    const result = await axios.get(
+      `api/option/cityLocations?language=${locale}`
+    );
+
+    console.log("USING RELOC OPTIONS", result.data);
 
     setRelocationOptions(result.data);
   }, [axios, locale]);
