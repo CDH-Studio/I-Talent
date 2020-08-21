@@ -198,8 +198,6 @@ const PrimaryInfoFormView = ({
         });
         break;
       case "jobTitleLangEN":
-        notification.error({
-          message: intl.formatMessage({
         notification.warning({
           description: intl.formatMessage({
             id: "profile.edit.save.jobTitle.warning.en",
@@ -207,7 +205,6 @@ const PrimaryInfoFormView = ({
         });
         break;
       case "jobTitleLangFR":
-        notification.error({
         notification.warning({
           description: intl.formatMessage({
             id: "profile.edit.save.jobTitle.warning.fr",
@@ -252,9 +249,6 @@ const PrimaryInfoFormView = ({
   };
 
   const getOppositeLangValues = async (notLang) => {
-    await axios;
-    const otherLangProfile = axios
-      .get(`api/profile/${userId}?language=${notLang}`)
     try {
       const otherLangProfile = await axios.get(
         `api/profile/${userId}?language=${notLang}`
