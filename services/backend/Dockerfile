@@ -19,8 +19,13 @@ RUN chgrp -R 0 /upskill-backend && \
 # Runs install script and builds the app
 RUN yarn install --production
 
+RUN chgrp -R 0 /.cache/yarn && \ 
+  chmod -R g=u /.cache/yarn
+
 # Copy app
 COPY . .
+
+EXPOSE 3000
 
 # Runs start script
 CMD yarn docker:prod
