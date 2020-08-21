@@ -1,6 +1,7 @@
 const axios = require("axios");
 const prisma = require("../../database");
 const config = require("../../config");
+const { handleAxiosErrors } = require("../../utils/handleErrors");
 
 async function getGedsSetup(request, response) {
   const { id } = request.params;
@@ -100,7 +101,7 @@ async function getGedsSetup(request, response) {
       }
     })
     .catch((error) => {
-      console.log(error);
+      handleAxiosErrors(error);
       response.status(500).json("Unable to get geds Profile");
     });
 }
