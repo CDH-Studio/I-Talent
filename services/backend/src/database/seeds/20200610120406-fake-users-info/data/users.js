@@ -353,19 +353,6 @@ module.exports = [
         school: "Ottawa, University of",
       },
     ],
-    relocationLocations: [
-      {
-        streetNumber: 107,
-        postalCode: "P1B 7K8",
-        city: "North Bay",
-        country: "Canada",
-      },
-      {
-        streetNumber: 345,
-        postalCode: "L3Y 8P6",
-        city: "Newmarket",
-        country: "Canada",
-      },
-    ],
+    relocationLocations: [],
   },
 ];

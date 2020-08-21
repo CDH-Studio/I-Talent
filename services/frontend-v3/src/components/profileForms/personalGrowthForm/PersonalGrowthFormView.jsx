@@ -469,7 +469,7 @@ const PersonalGrowthFormView = ({
                   <Form.Item
                     name="interestedInRemote"
                     label={
-                      <FormattedMessage id="profile.interested.in.remote" />
+                      <FormattedMessage id="profile.edit.interested.in.remote" />
                     }
                   >
                     <Select
@@ -495,7 +495,7 @@ const PersonalGrowthFormView = ({
                     className="custom-bubble-select-style"
                     name="relocationLocations"
                     label={
-                      <FormattedMessage id="profile.willing.to.relocate.to" />
+                      <FormattedMessage id="profile.edit.willing.to.relocate.to" />
                     }
                   >
                     <Select
@@ -503,16 +503,11 @@ const PersonalGrowthFormView = ({
                       style={{ width: "100%" }}
                       placeholder={<FormattedMessage id="setup.select" />}
                       filterOption={filterOption}
-                    >
-                      {relocationOptions.map((value) => {
-                        return (
-                          <Option key={value.id}>
-                            {value.streetNumber} {value.streetName},{" "}
-                            {value.city}
-                          </Option>
-                        );
-                      })}
-                    </Select>
+                      options={relocationOptions.map((value) => ({
+                        label: `${value.city}, ${value.province}`,
+                        value: value.id,
+                      }))}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -523,7 +518,7 @@ const PersonalGrowthFormView = ({
                   <Form.Item
                     name="lookingForANewJobId"
                     label={
-                      <FormattedMessage id="profile.looking.for.new.job" />
+                      <FormattedMessage id="profile.edit.looking.for.new.job" />
                     }
                   >
                     <Select
@@ -678,7 +673,13 @@ PersonalGrowthFormView.propTypes = {
   interestedInRemoteOptions: PropTypes.arrayOf(
     PropTypes.shape({ key: PropTypes.string, text: PropTypes.string })
   ),
-  relocationOptions: KeyTitleOptionsPropType,
+  relocationOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      city: PropTypes.string,
+      province: PropTypes.string,
+    })
+  ),
   savedRelocationLocations: PropTypes.arrayOf(PropTypes.string),
   lookingForNewJobOptions: KeyTitleOptionsPropType,
   savedLookingForNewJob: PropTypes.string,
