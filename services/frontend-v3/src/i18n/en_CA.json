@@ -75,6 +75,7 @@
   "admin.roles.admin": "Admin",
   "admin.roles.manager": "Manager",
   "admin.roles.standard": "Standard",
+  "admin.roles.tooltip": "There are three roles users of I-Talent can be assigned that dictate what privileges they have within the app. <br></br><b>Standard</b>: Users can use all basic functions of the application, such as profile creation/editing, and searching.<br></br><b>Manager</b>: Users can perform all operations that a user with the Standard role can, however they will also be able to view all private and hidden sections of profiles.</br><b>Admin</b>: Users can perform all operations that a user with the Standard role can, however Admins can also view the Admin Dashboard which shows charts illustrating popular skills among users, profile growth rate, and more. Admins also have access to view, delete, and edit all skills, skill categories, competencies, schools, and diploma options. Finally, Admins can adjust all users’ active/inactive statuses and roles.",
   "admin.school.plural": "Schools",
   "admin.school.singular": "School",
   "admin.school.table": "Schools table",

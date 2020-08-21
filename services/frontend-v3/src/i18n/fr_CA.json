@@ -75,6 +75,7 @@
   "admin.roles.admin": "Administrateur",
   "admin.roles.manager": "Gestionnaire",
   "admin.roles.standard": "Standard",
+  "admin.roles.tooltip": "Les utilisateurs d'I-Talent peuvent se voir attribuer trois rôles qui déterminent les privilèges dont ils disposent au sein de l'application.</br><b>Standard</b>: les utilisateurs peuvent utiliser toutes les fonctions de base de l'application, telles que la création / modification de profil et la recherche.<br></br><b>Gestionnaire</b>: les utilisateurs peuvent effectuer toutes les opérations qu'un utilisateur avec le rôle Standard peut effectuer, mais ils pourront également afficher toutes les sections privées et masquées des profils.</br><b>Administrateur</b>: les utilisateurs peuvent effectuer toutes les opérations qu'un utilisateur avec le rôle Standard peut effectuer, ainsi que la vue supplémentaire de toutes les informations utilisateur privées et masquées qu'un responsable peut, mais les administrateurs peuvent également afficher le tableau de bord d'administration qui montre des graphiques illustrant les compétences populaires parmi les utilisateurs , taux de croissance du profil, etc. Les administrateurs ont également accès pour afficher, supprimer et modifier toutes les compétences, catégories de compétences, compétences, écoles et options de diplôme. Enfin, les administrateurs peuvent ajuster les statuts et rôles actifs / inactifs de tous les utilisateurs.",
   "admin.school.plural": "Écoles",
   "admin.school.singular": "École",
   "admin.school.table": "Table d'écoles",
