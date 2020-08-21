@@ -21,7 +21,7 @@ const Secured = ({ location }) => {
   const [keycloak] = useKeycloak();
   const axios = useAxios();
 
-  const { signupStep } = useSelector(state => state.user);
+  const { signupStep } = useSelector((state) => state.user);
 
   const getInfo = useCallback(async () => {
     await login(keycloak, axios);
@@ -59,6 +59,10 @@ const Secured = ({ location }) => {
           render={({ match }) => {
             const { step } = match.params;
 
+            if (signupStep === 8) {
+              return <Redirect to="/profile/edit/primary-info" />;
+            }
+
             if (
               !Number.isNaN(step) &&
               parseInt(step, 10) > 0 &&
@@ -73,6 +77,10 @@ const Secured = ({ location }) => {
         <Route
           path="/profile/edit/:step"
           render={({ match }) => <ProfileEdit match={match} />}
+        />
+        <Route
+          path="/profile/edit/"
+          render={() => <Redirect to="/profile/edit/primary-info" />}
         />
         <Route
           path="/profile/create"

@@ -42,7 +42,8 @@ const profileExist = async (userInfo, axios) => {
       name: `${firstName} ${lastName}`,
       email,
       status,
-      signupStep,
+      signupStep:
+        store.getState().user.signupStep > signupStep ? undefined : signupStep,
     })
   );
 
