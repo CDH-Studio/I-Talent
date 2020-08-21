@@ -59,15 +59,15 @@ const Secured = ({ location }) => {
           render={({ match }) => {
             const { step } = match.params;
 
-            if (signupStep === 8) {
-              return <Redirect to="/profile/edit/primary-info" />;
-            }
-
             if (
               !Number.isNaN(step) &&
               parseInt(step, 10) > 0 &&
               parseInt(step, 10) < 9
             ) {
+              if (parseInt(step, 10) !== 8 && signupStep === 8) {
+                return <Redirect to="/profile/create/step/8" />;
+              }
+
               return <ProfileCreate match={match} />;
             }
 
