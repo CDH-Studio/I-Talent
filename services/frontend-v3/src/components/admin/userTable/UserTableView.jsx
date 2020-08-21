@@ -7,7 +7,7 @@ import {
   Col,
   Input,
   Select,
-  message,
+  notification,
   Popconfirm,
   Tag,
   Typography,
@@ -166,20 +166,20 @@ const UserTableView = ({
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the apply button and confirmation prompt */
