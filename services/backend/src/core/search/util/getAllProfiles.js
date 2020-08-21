@@ -305,7 +305,7 @@ async function getAllUsers(searchValue, language, userId, request) {
           description: trans ? trans.description : undefined,
           jobTitle: trans ? trans.jobTitle : undefined,
           organization: trans ? trans.organization : undefined,
-          projects: trans ? trans.projects : undefined,
+          projects: i.projects,
         };
       });
     }

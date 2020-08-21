@@ -55,6 +55,11 @@ module.exports = [
               "Livrer les project à temps et maintenir le contact avec les clients",
           },
         },
+        projects: [
+          "Landscaping backyard",
+          "Calculator prediction mobile application",
+          "Government of Canada global information database",
+        ],
       },
     ],
     proficiencies: [
@@ -201,6 +206,7 @@ module.exports = [
               "Overseeing the medical care of patients and the functions performed by medical staff",
           },
         },
+        projects: ["Gardening strawberries", "AI powered translator"],
       },
       {
         startDate: moment().subtract(6, "years").toISOString(),
