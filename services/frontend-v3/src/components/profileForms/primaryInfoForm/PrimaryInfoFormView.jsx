@@ -200,13 +200,16 @@ const PrimaryInfoFormView = ({
       case "jobTitleLangEN":
         notification.error({
           message: intl.formatMessage({
+        notification.warning({
+          description: intl.formatMessage({
             id: "profile.edit.save.jobTitle.warning.en",
           }),
         });
         break;
       case "jobTitleLangFR":
         notification.error({
-          message: intl.formatMessage({
+        notification.warning({
+          description: intl.formatMessage({
             id: "profile.edit.save.jobTitle.warning.fr",
           }),
         });
@@ -252,15 +255,26 @@ const PrimaryInfoFormView = ({
     await axios;
     const otherLangProfile = axios
       .get(`api/profile/${userId}?language=${notLang}`)
-      .then(() => {
-        console.log(otherLangProfile);
-        return otherLangProfile.jobTitle;
-      })
-      .catch((error) => {
-        if (error.isAxiosError) {
-          handleError(error, "message");
-        }
-      });
+    try {
+      const otherLangProfile = await axios.get(
+        `api/profile/${userId}?language=${notLang}`
+      );
+
+      if (
+        otherLangProfile.data &&
+        otherLangProfile.data.employmentInfo &&
+        otherLangProfile.data.employmentInfo.translations.length === 0
+      ) {
+        return null;
+      }
+
+      return otherLangProfile.data.employmentInfo.translations[0].jobTitle;
+    } catch (error) {
+      if (error.isAxiosError) {
+        handleError(error, "message");
+      }
+      return null;
+    }
   };
 
   /**
@@ -268,7 +282,7 @@ const PrimaryInfoFormView = ({
    *
    * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
-  const checkIfFormValuesChanged = () => {
+  const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
@@ -279,13 +293,14 @@ const PrimaryInfoFormView = ({
 
     if (locale === "ENGLISH") {
       const notLocale = "FRENCH";
-      const frJobTitle = getOppositeLangValues(notLocale);
+      const frJobTitle = await getOppositeLangValues(notLocale);
+
       if (fieldsChanged && frJobTitle === null) {
         setSingleJobTitleChanged(true);
       }
     } else {
       const notLocale = "ENGLISH";
-      const enJobTitle = getOppositeLangValues(notLocale);
+      const enJobTitle = await getOppositeLangValues(notLocale);
       if (fieldsChanged && enJobTitle === null) {
         setSingleJobTitleChanged(true);
       }
@@ -327,16 +342,17 @@ const PrimaryInfoFormView = ({
         setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
-      })
-      .catch((error) => {
-        if (error.isAxiosError) {
-          handleError(error, "message");
-        } else if (singleJobTitleChanged) {
+        if (!singleJobTitleChanged) {
           if (locale === "ENGLISH") {
             openNotificationWithIcon("jobTitleLangEN");
           } else {
             openNotificationWithIcon("jobTitleLangFR");
           }
+        }
+      })
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
         } else {
           openNotificationWithIcon({
             type: "error",
