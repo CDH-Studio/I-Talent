@@ -33,8 +33,7 @@ COPY . .
 # Builds the app
 RUN yarn build
 
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 3000
 
 # Runs start script
 CMD yarn start:prod
