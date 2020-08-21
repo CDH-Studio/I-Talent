@@ -274,8 +274,6 @@ const PrimaryInfoFormView = ({
       savedValues || getInitialValues(profileInfo),
       identity
     );
-    const jobValue = form.getFieldValue("jobTitle");
-    const savedTitled = Object.values(getInitialValues(profileInfo.email));
 
     setFieldsChanged(!isEqual(formValues, dbValues));
 
