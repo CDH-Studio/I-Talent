@@ -28,6 +28,7 @@ function filterProfileVisibility(request, profileResult, userId) {
     careerInterests: true,
     mentorshipSkills: true,
     exFeeder: true,
+    employmentEquityGroup: true,
   };
 
   const hideCard = (key) =>
@@ -110,6 +111,12 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.projects = [];
 
     tempCards.projects = false;
+  }
+
+  if (hideCard("employmentEquityGroup")) {
+    result.employmentEquityGroups = [];
+
+    tempCards.employmentEquityGroup = false;
   }
 
   if (hideCard("careerInterests")) {

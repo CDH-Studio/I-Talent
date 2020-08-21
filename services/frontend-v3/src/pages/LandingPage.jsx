@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useKeycloak } from "@react-keycloak/razzle";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LandingLayout from "../components/layouts/landingLayout/LandingLayout";
 import Home from "./Home";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
@@ -14,12 +14,13 @@ import { clearUser } from "../redux/slices/userSlice";
 const LandingPage = ({ location }) => {
   const [keycloak] = useKeycloak();
   const [savedLoginInfo, setSavedLoginInfo] = useState(false);
-  const [signupStep, setSignupStep] = useState(1);
   const axios = useAxios();
   const dispatch = useDispatch();
 
+  const { signupStep } = useSelector(state => state.user);
+
   const setLoginInfo = useCallback(async () => {
-    setSignupStep(await login(keycloak, axios));
+    await login(keycloak, axios);
     setSavedLoginInfo(true);
   }, [keycloak, axios]);
 

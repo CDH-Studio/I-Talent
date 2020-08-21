@@ -1,12 +1,5 @@
-const { query, body } = require("express-validator");
+const { body, query } = require("express-validator");
 const { isUUID } = require("validator");
-
-const langValidator = [
-  query("language")
-    .trim()
-    .isIn(["ENGLISH", "FRENCH"])
-    .withMessage("must be 'ENGLISH' or 'FRENCH'"),
-];
 
 const deleteManyValidator = [
   body("ids")
@@ -49,8 +42,14 @@ const skillValidator = body("categoryId")
 const createSkillValidator = [...createValidator, skillValidator];
 const updateSkillValidator = [...updateValidator, skillValidator];
 
+const attachmentNameTypes = ["Edu", "Exp", "Dev"];
+
+const attachmentNameValidator = query("type")
+  .trim()
+  .isIn(attachmentNameTypes)
+  .withMessage(`most be in ${attachmentNameTypes}`);
+
 module.exports = {
-  langValidator,
   deleteManyValidator,
   deleteOneValidator,
   createValidator,
@@ -59,4 +58,5 @@ module.exports = {
   updateSchoolValidator,
   createSkillValidator,
   updateSkillValidator,
+  attachmentNameValidator,
 };

@@ -1,0 +1,54 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateEnum",
+      "enum": "EmploymentEquityGroup",
+      "values": [
+        "WOMEN",
+        "INDIGENOUS",
+        "DISABILITY",
+        "MINORITY"
+      ]
+    },
+    {
+      "tag": "CreateField",
+      "model": "VisibleCard",
+      "field": "employmentEquityGroup",
+      "type": "CardVisibilityStatus",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "employmentEquityGroup"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "employmentEquityGroup"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "PRIVATE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "employmentEquityGroups",
+      "type": "EmploymentEquityGroup",
+      "arity": "List"
+    }
+  ]
+}

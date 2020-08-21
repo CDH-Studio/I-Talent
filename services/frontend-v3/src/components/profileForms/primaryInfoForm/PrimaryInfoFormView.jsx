@@ -33,12 +33,14 @@ import {
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
+  KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -52,6 +54,7 @@ const PrimaryInfoFormView = ({
   history,
   userId,
   email,
+  employmentEquityOptions,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
@@ -112,6 +115,9 @@ const PrimaryInfoFormView = ({
     },
     infoIcon: {
       marginLeft: "5px",
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
   };
 
@@ -209,6 +215,7 @@ const PrimaryInfoFormView = ({
         gcconnex: profile.gcconnex,
         linkedin: profile.linkedin,
         github: profile.github,
+        employmentEquityGroups: profile.employmentEquityGroups,
       };
     }
     return { email };
@@ -781,6 +788,39 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
+          <Divider style={styles.headerDiv} />
+          <Row
+            justify="space-between"
+            style={styles.sectionHeader}
+            align="middle"
+          >
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="profile.employment.equity.groups" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="employmentEquityGroup"
+              type="form"
+            />
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item name="employmentEquityGroups">
+                <Select
+                  showSearch
+                  mode="multiple"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={filterOption}
+                  className="custom-bubble-select-style"
+                >
+                  {employmentEquityOptions.map(({ key, text }) => (
+                    <Option key={key}>{text}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
           <FormControlButton
             formType={formType}
             onSave={onSave}
@@ -805,6 +845,7 @@ PrimaryInfoFormView.propTypes = {
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

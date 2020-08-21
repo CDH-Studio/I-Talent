@@ -33,6 +33,7 @@ async function getFullProfile(id, language) {
       interestedInRemote: true,
       status: true,
       projects: true,
+      employmentEquityGroups: true,
       secondLangProfs: true,
       skills: {
         select: {
@@ -147,29 +148,43 @@ async function getFullProfile(id, language) {
               },
             },
           },
-        },
-      },
-      relocationLocations: {
-        select: {
-          id: true,
-          location: {
+          attachmentLinks: {
             select: {
               id: true,
-              streetNumber: true,
-              postalCode: true,
-              city: true,
-              country: true,
               translations: {
-                where: { language },
                 select: {
-                  province: true,
-                  streetName: true,
+                  url: true,
+                  name: {
+                    select: {
+                      translations: true,
+                    },
+                  },
+                  nameId: true,
+                  language: true,
                 },
               },
             },
           },
         },
       },
+
+      relocationLocations: {
+        select: {
+          relocationLocation: {
+            select: {
+              id: true,
+              translations: {
+                where: { language },
+                select: {
+                  city: true,
+                  province: true,
+                },
+              },
+            },
+          },
+        },
+      },
+
       experiences: {
         select: {
           id: true,
@@ -182,6 +197,23 @@ async function getFullProfile(id, language) {
               description: true,
               jobTitle: true,
               organization: true,
+            },
+          },
+          attachmentLinks: {
+            select: {
+              id: true,
+              translations: {
+                select: {
+                  url: true,
+                  name: {
+                    select: {
+                      translations: true,
+                    },
+                  },
+                  nameId: true,
+                  language: true,
+                },
+              },
             },
           },
         },
@@ -348,6 +380,7 @@ async function getFullProfile(id, language) {
           careerInterests: true,
           mentorshipSkills: true,
           exFeeder: true,
+          employmentEquityGroup: true,
         },
       },
       organizations: {

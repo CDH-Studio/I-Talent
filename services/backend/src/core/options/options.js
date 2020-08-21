@@ -1,6 +1,7 @@
 const branches = require("./util/branches");
 const careerMobilities = require("./util/careerMobilities");
 const categories = require("./util/categories");
+const cityLocations = require("./util/cityLocations");
 const classifications = require("./util/classifications");
 const competencies = require("./util/competencies");
 const developmentalGoals = require("./util/developmentalGoals");
@@ -12,11 +13,13 @@ const securityClearances = require("./util/securityClearances");
 const skills = require("./util/skills");
 const talentMatrixResults = require("./util/talentMatrixResults");
 const tenures = require("./util/tenures");
+const linkAttachmentNames = require("./util/linkAttachmentNames");
 
 module.exports = {
   branches,
   careerMobilities,
   categories,
+  cityLocations,
   classifications,
   competencies,
   developmentalGoals,
@@ -28,4 +31,5 @@ module.exports = {
   skills,
   talentMatrixResults,
   tenures,
+  linkAttachmentNames,
 };

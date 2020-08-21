@@ -120,6 +120,25 @@ function filterProfileResult(profile, language) {
         education.school.translations.find((i) => i.language === language) ||
         education.school.translations[0];
 
+      const attachmentLinks = education.attachmentLinks.map((link) => {
+        const translatedLink =
+          link.translations.find((i) => i.language === language) ||
+          link.translations[0];
+
+        const translatedName =
+          translatedLink.name.translations.find(
+            (i) => i.language === language
+          ) || translatedLink.name.translations[0];
+
+        return {
+          id: link.id,
+          url: translatedLink.url,
+          name: {
+            id: translatedLink.nameId,
+            name: translatedName.name,
+          },
+        };
+      });
       return {
         id: education.id,
         startDate: education.startDate,
@@ -135,6 +154,7 @@ function filterProfileResult(profile, language) {
           province: education.school.abbrProvince,
           name: translatedSchool ? translatedSchool.name : null,
         },
+        attachmentLinks,
       };
     });
 
@@ -152,6 +172,25 @@ function filterProfileResult(profile, language) {
         experience.translations.find((i) => i.language === language) ||
         experience.translations[0];
 
+      const attachmentLinks = experience.attachmentLinks.map((link) => {
+        const translatedLink =
+          link.translations.find((i) => i.language === language) ||
+          link.translations[0];
+
+        const translatedName =
+          translatedLink.name.translations.find(
+            (i) => i.language === language
+          ) || translatedLink.name.translations[0];
+
+        return {
+          id: link.id,
+          url: translatedLink.url,
+          name: {
+            id: translatedLink.nameId,
+            name: translatedName.name,
+          },
+        };
+      });
       return {
         id: experience.id,
         startDate: experience.startDate,
@@ -163,6 +202,7 @@ function filterProfileResult(profile, language) {
         organization: translatedExperience
           ? translatedExperience.organization
           : null,
+        attachmentLinks,
       };
     });
 
@@ -242,18 +282,14 @@ function filterProfileResult(profile, language) {
   }
 
   if (profile.relocationLocations) {
-    filteredProfile.relocationLocations = filteredProfile.relocationLocations.map(
-      ({ location }) => ({
-        id: location.id,
-        streetNumber: location.streetNumber,
-        postalCode: location.postalCode,
-        city: location.city,
-        country: location.country,
-        province: location.translations[0]
-          ? location.translations[0].province
+    filteredProfile.relocationLocations = profile.relocationLocations.map(
+      ({ relocationLocation }) => ({
+        id: relocationLocation.id,
+        city: relocationLocation.translations[0]
+          ? relocationLocation.translations[0].city
           : null,
-        streetName: location.translations[0]
-          ? location.translations[0].streetName
+        province: relocationLocation.translations[0]
+          ? relocationLocation.translations[0].province
           : null,
       })
     );
@@ -261,24 +297,16 @@ function filterProfileResult(profile, language) {
 
   if (profile.secondLangProfs) {
     filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
-      let expiredValue;
-      let dateValue;
-      if (prof.date) {
-        const dateMoment = moment(prof.date);
-        if (dateMoment.isBefore()) {
+      let expiredValue = prof.unknownExpiredDate;
+
+      let dateValue = null;
+      if (!prof.unknownExpiredDate && prof.date) {
+        dateValue = moment(prof.date);
+        if (dateValue.isBefore()) {
           expiredValue = true;
-          if (dateMoment.unix() === 0) {
-            dateValue = null;
-          } else {
-            dateValue = dateMoment;
-          }
         } else {
-          dateValue = dateMoment;
-          expiredValue = false;
+          expiredValue = null;
         }
-      } else {
-        expiredValue = null;
-        dateValue = null;
       }
 
       return {

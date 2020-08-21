@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/razzle";
+import { useSelector } from "react-redux";
 import useAxios from "../utils/axios-instance";
 import {
   AdminDashboard,
@@ -17,12 +18,13 @@ import login from "../utils/login";
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [signupStep, setSignupStep] = useState(1);
   const axios = useAxios();
   const [keycloak] = useKeycloak();
 
+  const { signupStep } = useSelector(state => state.user);
+
   const getInfo = useCallback(async () => {
-    setSignupStep(await login(keycloak, axios));
+    await login(keycloak, axios);
     setIsAdmin(keycloak.hasResourceRole("view-admin-console"));
     setAuthenticated(keycloak.authenticated);
   }, [axios, keycloak]);

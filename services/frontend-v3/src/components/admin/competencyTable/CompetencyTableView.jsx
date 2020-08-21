@@ -10,7 +10,7 @@ import {
   Modal,
   Popconfirm,
   Form,
-  message,
+  notification,
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -132,20 +132,20 @@ const CompetencyTableView = ({
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the delete button and confirmation prompt */
