@@ -41,6 +41,11 @@ const ExperienceView = ({ experienceInfo }) => {
         <Col>{item.organization}</Col>
       </Row>
       <Row>
+        <Col>
+          <DescriptionText text={item.description} expandable />
+        </Col>
+      </Row>
+      <Row>
         <FormattedMessage id="setup.projects" />:
       </Row>
       <Row>{getProjects(item)}</Row>
@@ -48,11 +53,6 @@ const ExperienceView = ({ experienceInfo }) => {
         <FormattedMessage id="setup.attachment" />:
       </Row>
       <Row>{getUrl(item)}</Row>
-      <Row>
-        <Col>
-          <DescriptionText text={item.description} expandable />
-        </Col>
-      </Row>
     </>
   );
 

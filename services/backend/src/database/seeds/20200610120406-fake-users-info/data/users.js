@@ -33,11 +33,6 @@ module.exports = [
       country: "Canada",
     },
     avatarColor: "#0bdaa3",
-    projects: [
-      "Landscaping backyard",
-      "Calculator prediction mobile application",
-      "Government of Canada global information database",
-    ],
     employmentInfo: {
       en: {
         jobTitle: "Data Scientist",
@@ -149,7 +144,6 @@ module.exports = [
       developmentalGoals: "PUBLIC",
       education: "PUBLIC",
       experience: "PUBLIC",
-      projects: "PUBLIC",
       careerInterests: "PUBLIC",
       mentorshipSkills: "PUBLIC",
       exFeeder: "PUBLIC",
@@ -185,7 +179,6 @@ module.exports = [
       country: "Canada",
     },
     avatarColor: "#ad4463",
-    projects: ["Gardening strawberries", "AI powered translator"],
     employmentInfo: {
       en: {
         jobTitle: "Manager",
@@ -228,7 +221,6 @@ module.exports = [
       developmentalGoals: "PUBLIC",
       education: "PUBLIC",
       experience: "PUBLIC",
-      projects: "PUBLIC",
       careerInterests: "PUBLIC",
       mentorshipSkills: "PUBLIC",
       exFeeder: "PUBLIC",

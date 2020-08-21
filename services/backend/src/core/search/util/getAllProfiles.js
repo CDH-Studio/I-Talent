@@ -30,7 +30,6 @@ async function getAllUsers(searchValue, language, userId, request) {
         id,
         visibleCards: {
           info,
-          projects,
           skills,
           competencies,
           education,
@@ -49,7 +48,6 @@ async function getAllUsers(searchValue, language, userId, request) {
           id,
           visibleCards: {
             info: visibleCardBool(info),
-            projects: visibleCardBool(projects),
             skills: visibleCardBool(skills),
             competencies: visibleCardBool(competencies),
             education: visibleCardBool(education),
@@ -68,7 +66,6 @@ async function getAllUsers(searchValue, language, userId, request) {
         id,
         visibleCards: {
           info,
-          projects,
           skills,
           competencies,
           education,
@@ -107,7 +104,6 @@ async function getAllUsers(searchValue, language, userId, request) {
                 },
               },
             },
-            projects,
             groupLevel: info && {
               select: {
                 id: true,
@@ -153,6 +149,7 @@ async function getAllUsers(searchValue, language, userId, request) {
               select: {
                 startDate: true,
                 endDate: true,
+                projects: true,
                 translations: {
                   where: {
                     language,
@@ -308,6 +305,7 @@ async function getAllUsers(searchValue, language, userId, request) {
           description: trans ? trans.description : undefined,
           jobTitle: trans ? trans.jobTitle : undefined,
           organization: trans ? trans.organization : undefined,
+          projects: trans ? trans.projects : undefined,
         };
       });
     }

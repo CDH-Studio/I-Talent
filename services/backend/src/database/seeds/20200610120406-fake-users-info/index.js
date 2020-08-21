@@ -346,7 +346,6 @@ async function seedUsers() {
       securityClearance,
       careerMobility,
       lookingJob,
-      projects,
       preferredLanguage,
       proficiencies,
       avatarColor,
@@ -423,7 +422,6 @@ async function seedUsers() {
                   developmentalGoals: visibleCards.developmentalGoals,
                   education: visibleCards.education,
                   experience: visibleCards.experience,
-                  projects: visibleCards.projects,
                   careerInterests: visibleCards.careerInterests,
                   mentorshipSkills: visibleCards.mentorshipSkills,
                   exFeeder: visibleCards.exFeeder,
@@ -444,9 +442,6 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          projects: {
-            set: projects,
-          },
           teams: {
             set: teams,
           },

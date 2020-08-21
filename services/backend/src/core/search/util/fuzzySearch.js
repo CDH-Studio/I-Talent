@@ -9,6 +9,7 @@ async function fuzzySearch(profiles, searchValue) {
       "branch",
       "experiences.description",
       "experiences.jobTitle",
+      "experiences.projects",
       "experiences.organization",
       "groupLevel.name",
       "competencies.name",
@@ -28,7 +29,6 @@ async function fuzzySearch(profiles, searchValue) {
       "skills.name",
       "teams",
       "telephone",
-      "projects",
       "tenure",
     ],
   };
