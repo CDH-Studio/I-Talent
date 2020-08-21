@@ -16,15 +16,12 @@ RUN mkdir ./build
 RUN chgrp -R 0 /upskill-frontend && \ 
   chmod -R g=u /upskill-frontend
 
+RUN mkdir -p /.cache/yarn
 RUN chgrp -R 0 /.cache/yarn && \ 
   chmod -R g=u /.cache/yarn
 
 # Runs install script
 RUN yarn install --production
-
-RUN mkdir -p /.cache/yarn
-RUN chgrp -R 0 /.cache/yarn && \ 
-  chmod -R g=u /.cache/yarn
 
 # Copy app
 COPY . .
