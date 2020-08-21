@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { notification } from "antd";
 
 import { addError } from "../redux/slices/errorsSlice";
 import store from "../redux";
@@ -24,6 +24,8 @@ export default (error, handleType) => {
       window.history.pushState({}, "", "/error");
     }
   } else if (handleType === "message") {
-    message.error(errorMessages[store.getState().settings.locale]);
+    notification.error({
+      message: errorMessages[store.getState().settings.locale],
+    });
   }
 };

@@ -11,7 +11,7 @@ import {
   Popconfirm,
   Form,
   Select,
-  message,
+  notification,
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -152,20 +152,20 @@ const SkillTableView = ({
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* handles closure of add or edit skill modal */
