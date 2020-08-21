@@ -305,7 +305,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-official-language"
                 title={
                   <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.official.language" />
+                    <FormattedMessage id="profile.official.languages" />
                   </Text>
                 }
               />

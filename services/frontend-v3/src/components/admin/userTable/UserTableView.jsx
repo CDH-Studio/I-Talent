@@ -7,13 +7,15 @@ import {
   Col,
   Input,
   Select,
-  message,
+  notification,
   Popconfirm,
+  Popover,
   Tag,
   Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
+  InfoCircleOutlined,
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
@@ -37,6 +39,13 @@ const styles = {
     fontWeight: "normal",
     fontStyle: "italic",
     opacity: 0.5,
+  },
+  popoverStyle: {
+    maxWidth: "630px",
+  },
+  adminInfo: {
+    marginLeft: "8px",
+    paddingRight: "10px",
   },
 };
 
@@ -166,20 +175,20 @@ const UserTableView = ({
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the apply button and confirmation prompt */
@@ -384,6 +393,22 @@ const UserTableView = ({
           <>
             {applyButton()}
             {keycloakButton()}
+            <Popover
+              placement="topRight"
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage
+                    id="admin.roles.tooltip"
+                    values={{
+                      b: (chunks) => <b>{chunks}</b>,
+                      br: () => <br />,
+                    }}
+                  />
+                </div>
+              }
+            >
+              <InfoCircleOutlined style={styles.adminInfo} />
+            </Popover>
           </>
         }
       />

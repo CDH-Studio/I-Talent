@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/razzle";
+import { useSelector } from "react-redux";
 import {
   Results,
   Profile,
@@ -17,12 +18,13 @@ import useAxios from "../utils/axios-instance";
 
 const Secured = ({ location }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [signupStep, setSignupStep] = useState(1);
   const [keycloak] = useKeycloak();
   const axios = useAxios();
 
+  const { signupStep } = useSelector(state => state.user);
+
   const getInfo = useCallback(async () => {
-    setSignupStep(await login(keycloak, axios));
+    await login(keycloak, axios);
     setAuthenticated(keycloak.authenticated);
   }, [axios, keycloak]);
 

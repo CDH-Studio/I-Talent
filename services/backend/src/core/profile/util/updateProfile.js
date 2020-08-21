@@ -430,19 +430,19 @@ async function updateProfile(request, userId, language) {
       relocationLocations: relocationLocations
         ? {
             deleteMany: {
-              locationId: {
+              relocationLocationId: {
                 notIn: relocationLocations,
               },
             },
             upsert: relocationLocations.map((id) => ({
               where: {
-                userId_locationId: {
-                  locationId: id,
+                userId_relocationLocationId: {
+                  relocationLocationId: id,
                   userId,
                 },
               },
               create: {
-                location: {
+                relocationLocation: {
                   connect: {
                     id,
                   },

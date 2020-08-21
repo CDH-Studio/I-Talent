@@ -1,6 +1,7 @@
 const axios = require("axios");
 const qs = require("querystring");
 const config = require("../../config");
+const { handleAxiosErrors } = require("../../utils/handleErrors");
 
 const getAccessToken = async () => {
   const data = qs.stringify({
@@ -89,7 +90,7 @@ const getUsers = async (request, response) => {
 
     response.status(200).send(cleanedData);
   } catch (error) {
-    console.log(error);
+    handleAxiosErrors(error);
     response.status(500);
   }
 };

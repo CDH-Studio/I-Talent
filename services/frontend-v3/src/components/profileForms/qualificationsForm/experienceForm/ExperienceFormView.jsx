@@ -223,15 +223,16 @@ const ExperienceFormView = ({
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         {/* Descriptions */}
         <DescriptionFormItem
+          label={<FormattedMessage id="profile.qualification.description" />}
           name={[fieldElement.name, "description"]}
           fieldKey={[fieldElement.fieldKey, "description"]}
-          rules={Rules.maxChar1500}
-          label={<FormattedMessage id="profile.qualification.description" />}
+          maxLength={Rules.maxChar1500.max}
+          maxLengthMessage={Rules.maxChar1500.message}
+          lengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
           value={
             savedExperience[fieldElement.fieldKey] &&
             savedExperience[fieldElement.fieldKey].description
           }
-          maxLengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
         />
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>

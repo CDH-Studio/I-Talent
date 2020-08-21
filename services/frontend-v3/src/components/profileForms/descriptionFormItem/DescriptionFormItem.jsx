@@ -4,48 +4,81 @@ import PropTypes from "prop-types";
 import DescriptionFormItemView from "./DescriptionFormItemView";
 
 const DescriptionFormItem = ({
+  label,
   name,
   fieldKey,
-  rules,
+  isRequired,
+  isRequiredMessage,
+  minLength,
+  minLengthMessage,
+  maxLength,
   maxLengthMessage,
+  lengthMessage,
   value,
-  label,
 }) => {
   const [charsLeft, setCharsLeft] = useState(
-    value ? rules.max - value.length : rules.max
+    value ? maxLength - value.length : maxLength
   );
 
   const handleDescriptionChange = (e) => {
-    setCharsLeft(rules.max - e.currentTarget.value.length);
+    setCharsLeft(maxLength - e.currentTarget.value.length);
   };
+
+  const rules = [];
+  if (minLength) {
+    rules.push({ min: minLength, message: minLengthMessage });
+  }
+  if (maxLength) {
+    rules.push({ max: maxLength, message: maxLengthMessage });
+  }
+  if (isRequired) {
+    rules.push({ required: true, message: isRequiredMessage });
+  }
 
   return (
     <DescriptionFormItemView
+      label={label}
       name={name}
       fieldKey={fieldKey}
       rules={rules}
-      maxLengthMessage={maxLengthMessage}
+      lengthMessage={lengthMessage}
       value={value}
       charsLeft={charsLeft}
       handleDescriptionChange={handleDescriptionChange}
-      label={label}
     />
   );
 };
 
 DescriptionFormItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  fieldKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
-  rules: PropTypes.shape({ max: PropTypes.number, message: PropTypes.element })
-    .isRequired,
-  value: PropTypes.string,
   label: PropTypes.element,
-  maxLengthMessage: PropTypes.element.isRequired,
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.any),
+  ]).isRequired,
+  fieldKey: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
+  minLength: PropTypes.number,
+  maxLength: PropTypes.number,
+  isRequired: PropTypes.bool,
+  minLengthMessage: PropTypes.node,
+  maxLengthMessage: PropTypes.node,
+  isRequiredMessage: PropTypes.node,
+  lengthMessage: PropTypes.node.isRequired,
+  value: PropTypes.string,
 };
 
 DescriptionFormItem.defaultProps = {
+  fieldKey: undefined,
   value: undefined,
   label: null,
+  minLength: undefined,
+  maxLength: 1000,
+  isRequired: false,
+  minLengthMessage: null,
+  maxLengthMessage: null,
+  isRequiredMessage: null,
 };
 
 export default DescriptionFormItem;
