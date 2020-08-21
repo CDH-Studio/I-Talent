@@ -167,27 +167,24 @@ async function getFullProfile(id, language) {
           },
         },
       },
+
       relocationLocations: {
         select: {
-          id: true,
-          location: {
+          relocationLocation: {
             select: {
               id: true,
-              streetNumber: true,
-              postalCode: true,
-              city: true,
-              country: true,
               translations: {
                 where: { language },
                 select: {
+                  city: true,
                   province: true,
-                  streetName: true,
                 },
               },
             },
           },
         },
       },
+
       experiences: {
         select: {
           id: true,
