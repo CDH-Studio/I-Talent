@@ -23,6 +23,10 @@ RUN mkdir -p /.cache/yarn
 RUN chgrp -R 0 /.cache/yarn && \ 
   chmod -R g=u /.cache/yarn
 
+RUN mkdir -p /.yarn
+RUN chgrp -R 0 /.yarn && \ 
+  chmod -R g=u /.yarn
+
 # Copy app
 COPY . .
 
