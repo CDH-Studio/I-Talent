@@ -9,11 +9,13 @@ import {
   Select,
   notification,
   Popconfirm,
+  Popover,
   Tag,
   Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
+  InfoCircleOutlined,
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
@@ -37,6 +39,13 @@ const styles = {
     fontWeight: "normal",
     fontStyle: "italic",
     opacity: 0.5,
+  },
+  popoverStyle: {
+    maxWidth: "630px",
+  },
+  adminInfo: {
+    marginLeft: "8px",
+    paddingRight: "10px",
   },
 };
 
@@ -384,6 +393,22 @@ const UserTableView = ({
           <>
             {applyButton()}
             {keycloakButton()}
+            <Popover
+              placement="topRight"
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage
+                    id="admin.roles.tooltip"
+                    values={{
+                      b: (chunks) => <b>{chunks}</b>,
+                      br: () => <br />,
+                    }}
+                  />
+                </div>
+              }
+            >
+              <InfoCircleOutlined style={styles.adminInfo} />
+            </Popover>
           </>
         }
       />
