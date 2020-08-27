@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col, Row, Typography, Tooltip } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
@@ -21,23 +22,51 @@ const ProfileCardsView = ({
   cardName,
   lastUpdated,
 }) => {
-  const generateSwitchButton = () =>
-    type && (
-      <Row>
-        <Col>
-          <CardVisibilityToggle
-            visibleCards={visibleCards}
-            cardName={cardName}
-          />
-        </Col>
-        <Col style={{ marginLeft: 20 }}>
-          <EditCardButton editUrl={editUrl} />
-        </Col>
-      </Row>
-    );
+  const generateSwitchButton = () => {
+    if (type) {
+      // return visibility toggle
+      return (
+        <Row>
+          <Col>
+            <CardVisibilityToggle
+              visibleCards={visibleCards}
+              cardName={cardName}
+            />
+          </Col>
+          <Col style={{ marginLeft: 20 }}>
+            <EditCardButton editUrl={editUrl} />
+          </Col>
+        </Row>
+      );
+    } else {
+      const visibilityStyle = {
+        color: "#A9A9A9",
+      };
+      // return visibility icon
+      if (visible) {
+        return (
+          <Tooltip
+            placement="left"
+            title={<FormattedMessage id="profile.visibility.card.visible" />}
+          >
+            <EyeOutlined style={{ color: "#A9A9A9" }} />
+          </Tooltip>
+        );
+      } else {
+        return (
+          <Tooltip
+            placement="left"
+            title={<FormattedMessage id="profile.visibility.card.blocked" />}
+          >
+            <EyeInvisibleOutlined style={{ color: "#007471" }} />
+          </Tooltip>
+        );
+      }
+    }
+  };
 
   const grayedOut = {
-    backgroundColor: visible ? "" : "#D3D3D3",
+    backgroundColor: visible ? "" : "#DCDCDC",
   };
 
   return (

@@ -290,6 +290,8 @@
   "profile.temporary.role": "Are you presently Acting?",
   "profile.unexpired": "Unexpired",
   "profile.username.help": "It's this part of your profile link<br></br>{url}<b>username</b>",
+  "profile.visibility.card.visible": "You have permission to view this card",
+  "profile.visibility.card.blocked": "You do not have permission to view this card",
   "profile.visibility.card.connections": "Card visible to connections only",
   "profile.visibility.card.private": "Card only visible to you",
   "profile.visibility.card.public": "Card visible to everyone",
