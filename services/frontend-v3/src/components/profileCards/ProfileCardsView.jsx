@@ -24,25 +24,25 @@ const ProfileCardsView = ({
   lastUpdated,
 }) => {
   const generateSwitchButton = () => {
-   if (displayExtraHeaderContent) {
+    if (displayExtraHeaderContent) {
       if (editableCardBool) {
-          // return visibility toggle
-          return (
-            <Row>
-              <Col>
-                <CardVisibilityToggle
-                  visibleCards={visibleCards}
-                  cardName={cardName}
-                />
-              </Col>
-              <Col style={{ marginLeft: 20 }}>
-                <EditCardButton editUrl={editUrl} />
-              </Col>
-            </Row>
-          );
-       } else {
+        // return visibility toggle
+        return (
+          <Row>
+            <Col>
+              <CardVisibilityToggle
+                visibleCards={visibleCards}
+                cardName={cardName}
+              />
+            </Col>
+            <Col style={{ marginLeft: 20 }}>
+              <EditCardButton editUrl={editUrl} />
+            </Col>
+          </Row>
+        );
+      } else {
         // return visibility icon
-        if (visible) {
+        if (visibility) {
           return (
             <Tooltip
               placement="left"
@@ -61,12 +61,13 @@ const ProfileCardsView = ({
             </Tooltip>
           );
         }
-       }
+      }
     }
+    return null;
   };
 
   const grayedOut = {
-    backgroundColor: visible ? "" : "#DCDCDC",
+    backgroundColor: visibility ? "#fff" : "#DCDCDC",
   };
 
   return (

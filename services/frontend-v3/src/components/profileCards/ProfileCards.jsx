@@ -17,7 +17,7 @@ const ProfileCards = ({
 }) => (
   <ProfileCardsView
     titleId={titleId}
-    content={visible ? content : null}
+    content={visibility ? content : null}
     editUrl={editUrl}
     cardName={cardName}
     id={id}
