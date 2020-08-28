@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
+import { FormattedMessage } from "react-intl";
 
 const ActingView = ({ values }) => {
   return (
@@ -24,7 +25,12 @@ const ActingView = ({ values }) => {
 };
 
 ActingView.propTypes = {
-  values: PropTypes.isRequired,
+  values: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.node,
+      description: PropTypes.node,
+    })
+  ).isRequired,
 };
 
 export default ActingView;
