@@ -13,7 +13,7 @@ const connections = ({ data }) => {
       data={data}
       editableCardBool={false}
       displayExtraHeaderContent={false}
-      visibility={"PUBLIC"}
+      visibility="PUBLIC"
     />
   );
 };

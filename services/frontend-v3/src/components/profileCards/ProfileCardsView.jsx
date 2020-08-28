@@ -40,6 +40,7 @@ const ProfileCardsView = ({
         );
       }
     }
+    return null;
   };
 
   const grayedOut = {

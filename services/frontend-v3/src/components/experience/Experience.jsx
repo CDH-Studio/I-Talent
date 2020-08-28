@@ -78,7 +78,7 @@ Experience.propTypes = {
 
 Experience.defaultProps = {
   data: null,
-  type: false,
+  editableCardBool: false,
 };
 
 export default Experience;
