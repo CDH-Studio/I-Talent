@@ -22,9 +22,9 @@ const SettingsLayout = () => {
     }
   };
 
-  const setProfileVisibility = async (visible) => {
+  const setProfileVisibility = async (visibility) => {
     try {
-      const updatedState = visible ? "ACTIVE" : "HIDDEN";
+      const updatedState = visibility ? "ACTIVE" : "HIDDEN";
       await axios.put(`/api/profile/${id}?language=${locale}`, {
         status: updatedState,
       });

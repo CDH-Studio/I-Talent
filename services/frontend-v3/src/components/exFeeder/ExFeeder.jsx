@@ -13,7 +13,7 @@ const ExFeeder = ({ data, type }) => {
       id="card-profile-ex-feeder"
       data={data}
       type={type}
-      visible={data.visibleCards.exFeeder}
+      visibility={data.visibleCards.exFeeder}
     />
   );
 };

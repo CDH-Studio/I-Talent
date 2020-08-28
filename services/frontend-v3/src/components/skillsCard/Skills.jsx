@@ -4,7 +4,7 @@ import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Skills = ({ data, type }) => {
+const Skills = ({ data, editableCardBool }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -77,8 +77,8 @@ const Skills = ({ data, type }) => {
       id="card-profile-skills"
       editUrl="/profile/edit/talent?tab=skills"
       data={data}
-      type={type}
-      visible={data.visibleCards.skills}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.skills}
       lastUpdated={data.skillsUpdatedAt}
     />
   );
@@ -86,12 +86,12 @@ const Skills = ({ data, type }) => {
 
 Skills.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 Skills.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default Skills;

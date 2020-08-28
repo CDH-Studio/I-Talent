@@ -10,9 +10,10 @@ const ProfileCards = ({
   editUrl,
   cardName,
   id,
-  type,
-  visible,
-  lastUpdated
+  editableCardBool,
+  displayExtraHeaderContent,
+  visibility,
+  lastUpdated,
 }) => (
   <ProfileCardsView
     titleId={titleId}
@@ -20,10 +21,11 @@ const ProfileCards = ({
     editUrl={editUrl}
     cardName={cardName}
     id={id}
-    type={type}
-    visible={visible}
+    editableCardBool={editableCardBool}
+    visibility={visibility}
     visibleCards={data.visibleCards}
     lastUpdated={lastUpdated}
+    displayExtraHeaderContent={displayExtraHeaderContent}
   />
 );
 
@@ -34,8 +36,12 @@ ProfileCards.propTypes = {
   editUrl: PropTypes.string,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  type: PropTypes.bool,
-  visible: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
+  displayExtraHeaderContent: PropTypes.bool,
+  visibility: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
+  ]),
   lastUpdated: PropTypes.string,
 };
 
@@ -43,8 +49,9 @@ ProfileCards.defaultProps = {
   data: null,
   content: null,
   editUrl: null,
-  type: null,
-  visible: null,
+  editableCardBool: false,
+  displayExtraHeaderContent: true,
+  visibility: null,
   lastUpdated: null,
 };
 
