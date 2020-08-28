@@ -156,6 +156,25 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             </li>
           </ul>
         </Menu.Item>
+        <Menu.Item tabIndex="0" key="qualifications" style={styles.menuItem}>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="profile.employee.qualifications" />
+            </b>
+          </div>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.education" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.experience" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.projects" />
+            </li>
+          </ul>
+        </Menu.Item>
         <Menu.Item tabIndex="0" key="personal-growth" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
@@ -175,25 +194,6 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             </li>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.ex.feeder.title" />
-            </li>
-          </ul>
-        </Menu.Item>
-        <Menu.Item tabIndex="0" key="qualifications" style={styles.menuItem}>
-          <div style={styles.menuItemHeader}>
-            <RightOutlined />
-            <b>
-              <FormattedMessage id="profile.employee.qualifications" />
-            </b>
-          </div>
-          <ul style={styles.menuList}>
-            <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.education" />
-            </li>
-            <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.experience" />
-            </li>
-            <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.projects" />
             </li>
           </ul>
         </Menu.Item>
