@@ -9,7 +9,7 @@ const DescriptionCard = ({ data, editableCardBool }) => {
     <ProfileCards
       titleId="profile.description"
       cardName="description"
-      content={<DescriptionCardView data={data} />}
+      content={<DescriptionCardView data={data.description} />}
       id="card-profile-description"
       editUrl="/profile/edit/employment"
       data={data}
