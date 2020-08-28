@@ -116,7 +116,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
-      <Divider style={styles.divider} />
+      <Menu.Divider />
       {isAdmin && (
         <Menu.Item tabIndex="0" style={styles.dropDownItem}>
           <Link to="/admin/dashboard">
@@ -139,7 +139,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           <FormattedMessage id="settings.title" />
         </Link>
       </Menu.Item>
-      <Divider style={styles.divider} />
+      <Menu.Divider />
       <Menu.Item tabIndex="0" style={styles.dropDownItem}>
         <Link to="/logout">
           <LogoutOutlined style={styles.menuIcon} />
