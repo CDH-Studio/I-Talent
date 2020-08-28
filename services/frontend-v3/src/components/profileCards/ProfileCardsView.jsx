@@ -97,7 +97,10 @@ ProfileCardsView.propTypes = {
   ]),
   cardName: PropTypes.string.isRequired,
   visibleCards: PropTypes.objectOf(
-    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
+    PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
+    ])
   ),
   lastUpdated: PropTypes.string,
 };
