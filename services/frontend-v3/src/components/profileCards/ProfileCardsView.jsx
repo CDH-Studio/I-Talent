@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col, Row, Typography, Tooltip } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
@@ -25,6 +26,7 @@ const ProfileCardsView = ({
   const generateSwitchButton = () => {
     if (displayExtraHeaderContent) {
       if (editableCardBool) {
+        // return visibility toggle
         return (
           <Row>
             <Col>
@@ -39,12 +41,34 @@ const ProfileCardsView = ({
           </Row>
         );
       }
+
+      if (visibility) {
+        // return visibility icon
+        return (
+          <Tooltip
+            placement="left"
+            title={<FormattedMessage id="profile.visibility.card.visible" />}
+          >
+            <EyeOutlined style={{ color: "#A9A9A9" }} />
+          </Tooltip>
+        );
+      }
+
+      // return blocked visibility icon
+      return (
+        <Tooltip
+          placement="left"
+          title={<FormattedMessage id="profile.visibility.card.blocked" />}
+        >
+          <EyeInvisibleOutlined style={{ color: "#007471" }} />
+        </Tooltip>
+      );
     }
     return null;
   };
 
   const grayedOut = {
-    backgroundColor: visibility ? "" : "#D3D3D3",
+    backgroundColor: visibility ? "#fff" : "#DCDCDC",
   };
 
   return (
