@@ -40,28 +40,29 @@ const ProfileCardsView = ({
             </Col>
           </Row>
         );
-      } else {
-        // return visibility icon
-        if (visibility) {
-          return (
-            <Tooltip
-              placement="left"
-              title={<FormattedMessage id="profile.visibility.card.visible" />}
-            >
-              <EyeOutlined style={{ color: "#A9A9A9" }} />
-            </Tooltip>
-          );
-        } else {
-          return (
-            <Tooltip
-              placement="left"
-              title={<FormattedMessage id="profile.visibility.card.blocked" />}
-            >
-              <EyeInvisibleOutlined style={{ color: "#007471" }} />
-            </Tooltip>
-          );
-        }
       }
+
+      if (visibility) {
+        // return visibility icon
+        return (
+          <Tooltip
+            placement="left"
+            title={<FormattedMessage id="profile.visibility.card.visible" />}
+          >
+            <EyeOutlined style={{ color: "#A9A9A9" }} />
+          </Tooltip>
+        );
+      }
+
+      // return blocked visibility icon
+      return (
+        <Tooltip
+          placement="left"
+          title={<FormattedMessage id="profile.visibility.card.blocked" />}
+        >
+          <EyeInvisibleOutlined style={{ color: "#007471" }} />
+        </Tooltip>
+      );
     }
     return null;
   };
