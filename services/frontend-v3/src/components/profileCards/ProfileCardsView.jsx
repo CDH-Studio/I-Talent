@@ -15,29 +15,35 @@ const ProfileCardsView = ({
   id,
   content,
   style,
-  type,
-  visible,
+  editableCardBool,
+  displayExtraHeaderContent,
+  visibility,
   visibleCards,
   cardName,
   lastUpdated,
 }) => {
-  const generateSwitchButton = () =>
-    type && (
-      <Row>
-        <Col>
-          <CardVisibilityToggle
-            visibleCards={visibleCards}
-            cardName={cardName}
-          />
-        </Col>
-        <Col style={{ marginLeft: 20 }}>
-          <EditCardButton editUrl={editUrl} />
-        </Col>
-      </Row>
-    );
+  const generateSwitchButton = () => {
+    if (displayExtraHeaderContent) {
+      if (editableCardBool) {
+        return (
+          <Row>
+            <Col>
+              <CardVisibilityToggle
+                visibleCards={visibleCards}
+                cardName={cardName}
+              />
+            </Col>
+            <Col style={{ marginLeft: 20 }}>
+              <EditCardButton editUrl={editUrl} />
+            </Col>
+          </Row>
+        );
+      }
+    }
+  };
 
   const grayedOut = {
-    backgroundColor: visible ? "" : "#D3D3D3",
+    backgroundColor: visibility ? "" : "#D3D3D3",
   };
 
   return (
@@ -83,8 +89,12 @@ ProfileCardsView.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
-  type: PropTypes.bool,
-  visible: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
+  displayExtraHeaderContent: PropTypes.bool,
+  visibility: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
+  ]),
   cardName: PropTypes.string.isRequired,
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
@@ -96,8 +106,9 @@ ProfileCardsView.defaultProps = {
   style: undefined,
   content: null,
   editUrl: null,
-  type: null,
-  visible: null,
+  editableCardBool: false,
+  displayExtraHeaderContent: false,
+  visibility: null,
   visibleCards: {},
   lastUpdated: null,
 };

@@ -123,8 +123,8 @@ const UserTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
+    onFilterDropdownVisibleChange: (visibility) => {
+      if (visibility) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -319,13 +319,13 @@ const UserTableView = ({
       onFilter: (value, record) => record[value],
       render: (record) => (
         <>
-          <Tag visible={record.isAdmin} color="magenta">
+          <Tag visibility={record.isAdmin} color="magenta">
             <FormattedMessage id="admin.roles.admin" />
           </Tag>
-          <Tag visible={record.isManager} color="geekblue">
+          <Tag visibility={record.isManager} color="geekblue">
             <FormattedMessage id="admin.roles.manager" />
           </Tag>
-          <Tag visible={!record.isManager && !record.isAdmin} color="green">
+          <Tag visibility={!record.isManager && !record.isAdmin} color="green">
             <FormattedMessage id="admin.roles.standard" />
           </Tag>
         </>

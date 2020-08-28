@@ -11,7 +11,9 @@ const connections = ({ data }) => {
       cardName="privateGroup"
       id="card-profile-connections"
       data={data}
-      visible
+      editableCardBool={false}
+      displayExtraHeaderContent={false}
+      visibility={"PUBLIC"}
     />
   );
 };

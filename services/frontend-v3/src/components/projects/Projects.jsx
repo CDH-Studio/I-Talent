@@ -14,7 +14,7 @@ const Projects = ({ data, type }) => {
       editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
       type={type}
-      visible={data.visibleCards.projects}
+      visibility={data.visibleCards.projects}
     />
   );
 };
