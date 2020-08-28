@@ -71,7 +71,7 @@ const DashboardGraphsView = ({
               height={500}
               autoFit={typeof document !== "undefined"}
             >
-              <Axis name="name" visible={false} />
+              <Axis name="name" visibility={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
               <Legend position="top" flipPage={false} />
@@ -93,7 +93,7 @@ const DashboardGraphsView = ({
               height={500}
               autoFit={typeof document !== "undefined"}
             >
-              <Axis name="name" visible={false} />
+              <Axis name="name" visibility={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
               <Legend position="top" flipPage={false} />
@@ -115,7 +115,7 @@ const DashboardGraphsView = ({
               height={500}
               autoFit={typeof document !== "undefined"}
             >
-              <Axis name="name" visible={false} />
+              <Axis name="name" visibility={false} />
               <Axis name="count" title />
               <Coord scale={[0.7, 0.9]} />
               <Legend position="top" flipPage={false} />

@@ -28,7 +28,7 @@ const StatsLayoutView = ({
               case "INACTIVE":
                 return intl.formatMessage({ id: "settings.inactive.toggle" });
               case "HIDDEN":
-                return intl.formatMessage({ id: "settings.visible.toggle" });
+                return intl.formatMessage({ id: "settings.visibility.toggle" });
               default:
                 return intl.formatMessage({ id: "settings.hidden.toggle" });
             }
