@@ -53,12 +53,6 @@ services:
     volumes:
       - redis-data:/data
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 4444:8080
-
 volumes:
   postgres_data:
   redis-data:

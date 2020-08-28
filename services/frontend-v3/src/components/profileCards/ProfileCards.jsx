@@ -16,12 +16,12 @@ const ProfileCards = ({
 }) => (
   <ProfileCardsView
     titleId={titleId}
-    content={false ? content : null}
+    content={visible ? content : null}
     editUrl={editUrl}
     cardName={cardName}
     id={id}
     type={type}
-    visible={false}
+    visible={visible}
     visibleCards={data.visibleCards}
     lastUpdated={lastUpdated}
   />

@@ -39,9 +39,6 @@ const ProfileCardsView = ({
         </Row>
       );
     } else {
-      const visibilityStyle = {
-        color: "#A9A9A9",
-      };
       // return visibility icon
       if (visible) {
         return (
