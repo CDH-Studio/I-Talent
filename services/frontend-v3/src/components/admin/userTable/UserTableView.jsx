@@ -9,11 +9,13 @@ import {
   Select,
   notification,
   Popconfirm,
+  Popover,
   Tag,
   Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
+  InfoCircleOutlined,
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
@@ -37,6 +39,13 @@ const styles = {
     fontWeight: "normal",
     fontStyle: "italic",
     opacity: 0.5,
+  },
+  popoverStyle: {
+    maxWidth: "630px",
+  },
+  adminInfo: {
+    marginLeft: "8px",
+    paddingRight: "10px",
   },
 };
 
@@ -114,8 +123,8 @@ const UserTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
+    onFilterDropdownVisibleChange: (visibility) => {
+      if (visibility) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -310,13 +319,13 @@ const UserTableView = ({
       onFilter: (value, record) => record[value],
       render: (record) => (
         <>
-          <Tag visible={record.isAdmin} color="magenta">
+          <Tag visibility={record.isAdmin} color="magenta">
             <FormattedMessage id="admin.roles.admin" />
           </Tag>
-          <Tag visible={record.isManager} color="geekblue">
+          <Tag visibility={record.isManager} color="geekblue">
             <FormattedMessage id="admin.roles.manager" />
           </Tag>
-          <Tag visible={!record.isManager && !record.isAdmin} color="green">
+          <Tag visibility={!record.isManager && !record.isAdmin} color="green">
             <FormattedMessage id="admin.roles.standard" />
           </Tag>
         </>
@@ -384,6 +393,22 @@ const UserTableView = ({
           <>
             {applyButton()}
             {keycloakButton()}
+            <Popover
+              placement="topRight"
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage
+                    id="admin.roles.tooltip"
+                    values={{
+                      b: (chunks) => <b>{chunks}</b>,
+                      br: () => <br />,
+                    }}
+                  />
+                </div>
+              }
+            >
+              <InfoCircleOutlined style={styles.adminInfo} />
+            </Popover>
           </>
         }
       />

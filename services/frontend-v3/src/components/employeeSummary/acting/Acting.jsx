@@ -31,10 +31,8 @@ const Acting = ({ data }) => {
         actingInfo.push(actingDate);
       }
     }
-
-    return [...actingInfo];
+    return actingInfo;
   };
-
   return <ActingView values={formatData()} />;
 };
 

@@ -112,8 +112,8 @@ const CompetencyTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
+    onFilterDropdownVisibleChange: (visibility) => {
+      if (visibility) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -217,7 +217,7 @@ const CompetencyTableView = ({
   const addCompetencyModal = () => {
     return (
       <Modal
-        visible={addVisible}
+        visibility={addVisible}
         title={<FormattedMessage id="admin.add.competency" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -284,7 +284,7 @@ const CompetencyTableView = ({
   const editCompetencyModal = () => {
     return (
       <Modal
-        visible={editVisible}
+        visibility={editVisible}
         title={<FormattedMessage id="admin.edit.competency" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}

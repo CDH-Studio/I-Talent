@@ -5,7 +5,7 @@ import EmploymentEquityView from "./EmploymentEquityView";
 import ProfileCards from "../profileCards/ProfileCards";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const EmploymentEquity = ({ data, type }) => {
+const EmploymentEquity = ({ data, editableCardBool }) => {
   const [employmentEquityData, setEmploymentEquityData] = useState([]);
   const intl = useIntl();
 
@@ -42,20 +42,20 @@ const EmploymentEquity = ({ data, type }) => {
       id="card-profile-employment-equity"
       editUrl="/profile/edit/primary-info"
       data={data}
-      type={type}
-      visible={data.visibleCards.employmentEquityGroup}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.employmentEquityGroup}
     />
   );
 };
 
 EmploymentEquity.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 EmploymentEquity.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default EmploymentEquity;

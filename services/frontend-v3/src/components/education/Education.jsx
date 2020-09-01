@@ -6,7 +6,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EducationView from "./EducationView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Education = ({ data, type }) => {
+const Education = ({ data, editableCardBool }) => {
   const getEducationDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
@@ -61,8 +61,8 @@ const Education = ({ data, type }) => {
       id="card-profile-education"
       editUrl="/profile/edit/qualifications?tab=education"
       data={data}
-      type={type}
-      visible={data.visibleCards.education}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.education}
       lastUpdated={data.educationsUpdatedAt}
     />
   );
@@ -70,11 +70,11 @@ const Education = ({ data, type }) => {
 
 Education.propTypes = {
   data: ProfileInfoPropType.isRequired,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 Education.defaultProps = {
-  type: null,
+  editableCardBool: false,
 };
 
 export default Education;

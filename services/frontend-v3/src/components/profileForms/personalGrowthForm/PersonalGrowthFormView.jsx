@@ -351,7 +351,7 @@ const PersonalGrowthFormView = ({
     if (formType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
-          6. <FormattedMessage id="profile.employee.growth.interests" />
+          7. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
       );
     }

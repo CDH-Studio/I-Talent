@@ -4,7 +4,7 @@ import TalentManagementView from "./TalentManagementView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const TalentManagement = ({ data, type }) => {
+const TalentManagement = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.talent.management"
@@ -13,20 +13,20 @@ const TalentManagement = ({ data, type }) => {
       id="card-profile-talent-management"
       editUrl="/profile/edit/personal-growth?tab=talent-management"
       data={data}
-      type={type}
-      visible={data.visibleCards.talentManagement}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.talentManagement}
     />
   );
 };
 
 TalentManagement.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 TalentManagement.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default TalentManagement;

@@ -4,7 +4,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const Competencies = ({ data, type }) => {
+const Competencies = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.competencies"
@@ -13,8 +13,8 @@ const Competencies = ({ data, type }) => {
       id="card-profile-competency"
       editUrl="/profile/edit/talent?tab=competencies"
       data={data}
-      type={type}
-      visible={data.visibleCards.competencies}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.competencies}
       lastUpdated={data.competenciesUpdatedAt}
     />
   );
@@ -22,12 +22,12 @@ const Competencies = ({ data, type }) => {
 
 Competencies.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 Competencies.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default Competencies;

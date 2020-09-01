@@ -4,7 +4,7 @@ import ProjectsView from "./ProjectsView";
 import ProfileCards from "../profileCards/ProfileCards";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const Projects = ({ data, type }) => {
+const Projects = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.projects"
@@ -13,20 +13,20 @@ const Projects = ({ data, type }) => {
       id="card-profile-projects"
       editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
-      type={type}
-      visible={data.visibleCards.projects}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.projects}
     />
   );
 };
 
 Projects.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 Projects.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: null,
 };
 
 export default Projects;

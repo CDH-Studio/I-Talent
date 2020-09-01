@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 import DescriptionText from "../descriptionText/DescriptionText";
 
 const DescriptionView = ({ data }) => {
-  return <DescriptionText text={data.description} expandable={false} />;
+  return <DescriptionText text={data} expandable={false} />;
 };
 
 DescriptionView.propTypes = {
-  data: PropTypes.objectOf({ description: PropTypes.string }),
+  data: PropTypes.string,
 };
 
 DescriptionView.defaultProps = {
