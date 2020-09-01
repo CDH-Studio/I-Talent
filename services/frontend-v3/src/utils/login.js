@@ -42,8 +42,7 @@ const profileExist = async (userInfo, axios) => {
       name: `${firstName} ${lastName}`,
       email,
       status,
-      signupStep:
-        store.getState().user.signupStep > signupStep ? undefined : signupStep,
+      signupStep,
     })
   );
 
@@ -57,7 +56,7 @@ const login = async (keycloak, axios) => {
 
   const userInfo = await keycloak.loadUserInfo();
 
-  profileExist(userInfo, axios);
+  await profileExist(userInfo, axios);
 };
 
 export default login;

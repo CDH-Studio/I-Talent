@@ -93,7 +93,7 @@ const Secured = ({ location }) => {
               return <Redirect to="/profile/edit/primary-info" />;
             }
 
-            <Redirect to={`/profile/create/step/${signupStep}`} />;
+            return <Redirect to={`/profile/create/step/${signupStep}`} />;
           }}
         />
         <Route
