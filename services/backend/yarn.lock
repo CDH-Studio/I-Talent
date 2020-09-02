@@ -544,15 +544,15 @@
   resolved "https://registry.yarnpkg.com/@octetstream/promisify/-/promisify-2.0.2.tgz#29ac3bd7aefba646db670227f895d812c1a19615"
   integrity sha512-7XHoRB61hxsz8lBQrjC1tq/3OEIgpvGWg6DKAdwi7WRzruwkmsdwmOoUXbU4Dtd4RSOMDwed0SkP3y8UlMt1Bg==
 
-"@prisma/cli@2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.5.0.tgz#a6d8c0ebd79230900d44d2eebcf62f02b3612214"
-  integrity sha512-yqGhDYH8lxIfT/1gjg6VVb2THS+k0cAbnoR8UENNrAAUWGzroZSvz+ECMsVinKshTUHJkD69yzi9i/nDqAODSw==
+"@prisma/cli@2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.6.0.tgz#13c0eb640af5c03d6295dcb75befcfcc5a297ff3"
+  integrity sha512-zZubTQNI4z2zoJxsjh4ob2FxqZEi7pEpCDHcgNyyX1kmLtDtwwneuW6hJjdJDjPc8oVSOryJIOuWxlLeMyMgUw==
 
-"@prisma/client@2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.5.0.tgz#dba5ee40497f458dc0f1057fa4a0b6675548e443"
-  integrity sha512-rsgbImSVMBATLSSZEgP7pWpqV2iylDJWM2zjmL980IjTBgy63alDr0RyoOkdt8oVw4OyJW0uYpxAU2Z9bXZU9A==
+"@prisma/client@2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.6.0.tgz#8b9ab0dc39dfbd2e0253d0177e0f65053a542ad1"
+  integrity sha512-BxYBn8PQ7ACh6p6q9JJNlODV8i50aZA9f+HwPGtff9jhIuoyFdM0eh1Qldib1ngTzt1UnxvacqlpXDHlnL93Pg==
   dependencies:
     pkg-up "^3.1.0"
 
@@ -1421,6 +1421,13 @@ axios@^0.19.2:
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
+
+axios@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
+  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 babel-eslint@^10.0.1:
   version "10.1.0"
@@ -2749,7 +2756,7 @@ eslint@^6.8.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-eslint@^7.7.0:
+eslint@^7.8.1:
   version "7.8.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.8.1.tgz#e59de3573fb6a5be8ff526c791571646d124a8fa"
   integrity sha512-/2rX2pfhyUG0y+A123d0ccXtMm7DV7sH1m3lk9nk2DZ2LReq39FXHueR9xZwshE5MdfSf0xunSaMWRqyIA6M1w==
@@ -3204,6 +3211,11 @@ follow-redirects@1.5.10:
   integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
   dependencies:
     debug "=3.1.0"
+
+follow-redirects@^1.10.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
+  integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -4510,7 +4522,7 @@ jest-worker@^26.3.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jest@^26.4.0:
+jest@^26.4.2:
   version "26.4.2"
   resolved "https://registry.yarnpkg.com/jest/-/jest-26.4.2.tgz#7e8bfb348ec33f5459adeaffc1a25d5752d9d312"
   integrity sha512-LLCjPrUh98Ik8CzW8LLVnSCfLaiY+wbK53U7VxnFSX7Q+kWC4noVeDvGWIFw0Amfq1lq2VfGm7YHWSLBV62MJw==
@@ -4686,7 +4698,7 @@ jwk-to-pem@^2.0.0:
     elliptic "^6.5.3"
     safe-buffer "^5.0.1"
 
-keycloak-connect@^11.0.0:
+keycloak-connect@^11.0.2:
   version "11.0.2"
   resolved "https://registry.yarnpkg.com/keycloak-connect/-/keycloak-connect-11.0.2.tgz#0b7f3a405084967e0338330403f01fba92009f6d"
   integrity sha512-pfPnOpoDrkvH2zHyMKOS/H/gagKyXpckqHay9aCuLIEiETEIH0ogSt5JUJ12MFBE8O0wpVYVpz0erFNP01uZGQ==
@@ -5870,7 +5882,7 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.0.5:
+prettier@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.1.1.tgz#d9485dd5e499daa6cb547023b87a6cf51bee37d6"
   integrity sha512-9bY+5ZWCfqj3ghYBLxApy2zf6m+NJo5GzmLTpr9FsApsfjriNnS2dahWReHMi7qNPhhHl9SYHJs2cHZLgexNIw==
@@ -6910,7 +6922,7 @@ snyk-try-require@1.3.1, snyk-try-require@^1.1.1, snyk-try-require@^1.3.1:
     lru-cache "^4.0.0"
     then-fs "^2.0.0"
 
-snyk@^1.380.0:
+snyk@^1.388.0:
   version "1.388.0"
   resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.388.0.tgz#cf8314397aeb49f5b2a30e6b9c4dbd8f0ba7f7c9"
   integrity sha512-Oe4aDzp3iyBNpZCYxAxNWaN7l5aAB7dAVd3MLuJ3jdbJXcucMwc3MAfoZ91dmVb4SMO2qsOpiq6+qO6W8nuASA==
