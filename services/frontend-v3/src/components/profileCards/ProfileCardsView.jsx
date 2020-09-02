@@ -87,12 +87,13 @@ const ProfileCardsView = ({
                 <Text
                   style={{
                     marginLeft: 10,
-                    fontStyle: "italic",
+
                     fontWeight: "normal",
+                    fontSize: "12px",
                   }}
                   type="secondary"
                 >
-                  {moment(lastUpdated).format("LL")}
+                  ({moment(lastUpdated).format("ll")})
                 </Text>
               </Tooltip>
             )}
