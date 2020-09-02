@@ -10,7 +10,7 @@ const EmploymentEquityView = ({ groups }) => {
       <Row className="listRow">
         <List>
           {groups.map(({ key, text }) => (
-            <Tag color="#00605e" key={key}>
+            <Tag color="#727272" key={key}>
               {text}
             </Tag>
           ))}

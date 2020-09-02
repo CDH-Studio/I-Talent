@@ -35,7 +35,7 @@ const CareerInterestsView = ({
         render: (
           <div style={{ marginTop: 7 }}>
             {relocationLocations.map(({ id, city, province }) => (
-              <Tag color="rgb(114, 114, 114)" key={id}>
+              <Tag color="#727272" key={id}>
                 {city}, {province}
               </Tag>
             ))}
