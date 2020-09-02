@@ -11,15 +11,26 @@ const ExperienceView = ({ experienceInfo }) => {
       backgroundColor: "#007471",
     },
   };
+
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
         <a target="_blank" rel="noreferrer" href={i.url}>
-          <Tag color="#00605e" key={i.id} style={{ cursor: "pointer" }}>
+          <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
             <LinkOutlined />
             <span>{i.name}</span>
           </Tag>
         </a>
+      ));
+    return undefined;
+  };
+
+  const getProjects = (item) => {
+    if (item.projects && item.projects.length > 0)
+      return item.projects.map((i) => (
+        <Tag color="#727272" key={i.id}>
+          <span>{i}</span>
+        </Tag>
       ));
     return undefined;
   };
@@ -34,7 +45,14 @@ const ExperienceView = ({ experienceInfo }) => {
           <DescriptionText text={item.description} expandable />
         </Col>
       </Row>
-      {getUrl(item)}
+      <Row>
+        <FormattedMessage id="setup.projects" />:
+      </Row>
+      <Row>{getProjects(item)}</Row>
+      <Row>
+        <FormattedMessage id="setup.attachment" />:
+      </Row>
+      <Row>{getUrl(item)}</Row>
     </>
   );
 

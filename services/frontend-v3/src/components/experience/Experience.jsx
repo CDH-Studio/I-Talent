@@ -6,7 +6,7 @@ import ExperienceView from "./ExperienceView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Experience = ({ data, type }) => {
+const Experience = ({ data, editableCardBool }) => {
   const getExperienceDuration = (startDate, endDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
@@ -39,6 +39,7 @@ const Experience = ({ data, type }) => {
         jobTitle,
         organization,
         attachmentLinks,
+        projects,
       }) => ({
         description,
         duration: getExperienceDuration(startDate, endDate),
@@ -52,6 +53,7 @@ const Experience = ({ data, type }) => {
               url: a.url,
             }))
           : [],
+        projects,
       })
     );
   };
@@ -64,8 +66,8 @@ const Experience = ({ data, type }) => {
       id="card-profile-experience"
       editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
-      type={type}
-      visible={data.visibleCards.experience}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.experience}
       lastUpdated={data.experiencesUpdatedAt}
     />
   );
@@ -73,12 +75,12 @@ const Experience = ({ data, type }) => {
 
 Experience.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 Experience.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default Experience;

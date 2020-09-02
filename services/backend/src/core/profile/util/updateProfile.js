@@ -59,7 +59,6 @@ async function updateProfile(request, userId, language) {
     jobTitle,
     description,
 
-    projects,
     employmentEquityGroups,
 
     skills,
@@ -278,7 +277,7 @@ async function updateProfile(request, userId, language) {
   });
 
   let employmentInfoLangs;
-  if ((branch || jobTitle) && userIds.employmentInfoId) {
+  if (branch || jobTitle) {
     if (branch && jobTitle) {
       employmentInfoLangs = uniq([
         ...Object.keys(branch),
@@ -306,6 +305,13 @@ async function updateProfile(request, userId, language) {
     }
   }
 
+  const savedSignupStep = (
+    await prisma.user.findOne({
+      where: { id: userId },
+      select: { signupStep: true },
+    })
+  ).signupStep;
+
   await prisma.user.update({
     where: { id: userId },
     data: {
@@ -331,14 +337,9 @@ async function updateProfile(request, userId, language) {
       exFeeder,
       avatarColor,
       status: statusValue,
-      signupStep,
+      signupStep:
+        signupStep && signupStep > savedSignupStep ? signupStep : undefined,
       description,
-
-      projects: projects
-        ? {
-            set: projects,
-          }
-        : undefined,
 
       employmentEquityGroups: employmentEquityGroups
         ? {
@@ -500,6 +501,11 @@ async function updateProfile(request, userId, language) {
             create: experiences.map((expItem) => ({
               startDate: expItem.startDate,
               endDate: expItem.endDate,
+              projects: expItem.projects
+                ? {
+                    set: expItem.projects,
+                  }
+                : undefined,
               translations: {
                 create: {
                   language,
@@ -632,7 +638,6 @@ async function updateProfile(request, userId, language) {
               officialLanguage: visibleCards.officialLanguage,
               education: visibleCards.education,
               experience: visibleCards.experience,
-              projects: visibleCards.projects,
               careerInterests: visibleCards.careerInterests,
               mentorshipSkills: visibleCards.mentorshipSkills,
               exFeeder: visibleCards.exFeeder,

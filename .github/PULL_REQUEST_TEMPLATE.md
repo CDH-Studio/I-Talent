@@ -8,7 +8,7 @@
      closing keywords (ex: `fixes`, `closes`, ...) -->
 
 
-#### Screenshots (if aplicable)
+#### Screenshots (if applicable)
 <!-- If you have made UI changes to the application, include a screenshot and if the change 
      involves movement, include a GIF. If the UI changes when the application is in mobile view, 
      show a mobile screenshot too. -->

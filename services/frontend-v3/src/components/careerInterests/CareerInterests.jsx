@@ -4,7 +4,7 @@ import CareerInterestsView from "./CareerInterestsView";
 import ProfileCards from "../profileCards/ProfileCards";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const CareerInterests = ({ data, type }) => (
+const CareerInterests = ({ data, editableCardBool }) => (
   <ProfileCards
     titleId="profile.career.interests"
     content={
@@ -18,19 +18,19 @@ const CareerInterests = ({ data, type }) => (
     id="card-profile-career-interests"
     editUrl="/profile/edit/personal-growth?tab=career-interests"
     data={data}
-    type={type}
-    visible={data.visibleCards.careerInterests}
+    editableCardBool={editableCardBool}
+    visibility={data.visibleCards.careerInterests}
   />
 );
 
 CareerInterests.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 CareerInterests.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default CareerInterests;

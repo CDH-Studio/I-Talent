@@ -32,7 +32,6 @@ async function getFullProfile(id, language) {
       exFeeder: true,
       interestedInRemote: true,
       status: true,
-      projects: true,
       employmentEquityGroups: true,
       secondLangProfs: true,
       skills: {
@@ -191,6 +190,7 @@ async function getFullProfile(id, language) {
           updatedAt: true,
           startDate: true,
           endDate: true,
+          projects: true,
           translations: {
             select: {
               language: true,
@@ -376,7 +376,6 @@ async function getFullProfile(id, language) {
           developmentalGoals: true,
           education: true,
           experience: true,
-          projects: true,
           careerInterests: true,
           mentorshipSkills: true,
           exFeeder: true,

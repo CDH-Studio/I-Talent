@@ -113,8 +113,8 @@ const DiplomaTableView = ({
         .toString()
         .toLowerCase()
         .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
+    onFilterDropdownVisibleChange: (visibility) => {
+      if (visibility) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -218,7 +218,7 @@ const DiplomaTableView = ({
   const addDiplomaModal = () => {
     return (
       <Modal
-        visible={addVisible}
+        visibility={addVisible}
         title={<FormattedMessage id="admin.add.diploma" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -285,7 +285,7 @@ const DiplomaTableView = ({
   const editDiplomaModal = () => {
     return (
       <Modal
-        visible={editVisible}
+        visibility={editVisible}
         title={<FormattedMessage id="admin.edit.diploma" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}

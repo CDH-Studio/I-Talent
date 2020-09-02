@@ -152,8 +152,6 @@ const PersonalGrowthForm = ({ formType }) => {
       `api/option/cityLocations?language=${locale}`
     );
 
-    console.log("USING RELOC OPTIONS", result.data);
-
     setRelocationOptions(result.data);
   }, [axios, locale]);
 
