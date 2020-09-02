@@ -16,7 +16,7 @@ const ExperienceView = ({ experienceInfo }) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
         <a target="_blank" rel="noreferrer" href={i.url}>
-          <Tag color="#00605e" key={i.id} style={{ cursor: "pointer" }}>
+          <Tag color="#D3D3D3" key={i.id} style={{ cursor: "pointer" }}>
             <LinkOutlined />
             <span>{i.name}</span>
           </Tag>
@@ -28,7 +28,7 @@ const ExperienceView = ({ experienceInfo }) => {
   const getProjects = (item) => {
     if (item.projects && item.projects.length > 0)
       return item.projects.map((i) => (
-        <Tag color="#00605e" key={i.id}>
+        <Tag color="#D3D3D3" key={i.id}>
           <span>{i}</span>
         </Tag>
       ));
