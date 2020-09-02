@@ -60,6 +60,7 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [singleJobTitleChanged, setSingleJobTitleChanged] = useState(false);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
 
@@ -116,6 +117,9 @@ const PrimaryInfoFormView = ({
     infoIcon: {
       marginLeft: "5px",
     },
+    popoverStyleCareer: {
+      marginLeft: "8px",
+    },
     sectionHeader: {
       marginBottom: 10,
     },
@@ -164,8 +168,16 @@ const PrimaryInfoFormView = ({
 
   /* Save data */
   const saveDataToDB = async (values) => {
+    const dbValues = {
+      ...values,
+    };
+    if (values.jobTitle) {
+      dbValues.jobTitle = {
+        [locale]: values.jobTitle,
+      };
+    }
     try {
-      await axios.put(`api/profile/${userId}?language=${locale}`, values);
+      await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -183,6 +195,20 @@ const PrimaryInfoFormView = ({
       case "success":
         notification.success({
           message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
+        break;
+      case "jobTitleLangEN":
+        notification.warning({
+          description: intl.formatMessage({
+            id: "profile.edit.save.jobTitle.warning.en",
+          }),
+        });
+        break;
+      case "jobTitleLangFR":
+        notification.warning({
+          description: intl.formatMessage({
+            id: "profile.edit.save.jobTitle.warning.fr",
+          }),
         });
         break;
       case "error":
@@ -206,6 +232,7 @@ const PrimaryInfoFormView = ({
         firstName: profile.firstName,
         lastName: profile.lastName,
         telephone: profile.telephone,
+        jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
         email: profile.email,
         locationId: profile.officeLocation
@@ -221,12 +248,35 @@ const PrimaryInfoFormView = ({
     return { email };
   };
 
+  const getOppositeLangValues = async (notLang) => {
+    try {
+      const otherLangProfile = await axios.get(
+        `api/profile/${userId}?language=${notLang}`
+      );
+
+      if (
+        otherLangProfile.data &&
+        otherLangProfile.data.employmentInfo &&
+        otherLangProfile.data.employmentInfo.translations.length === 0
+      ) {
+        return null;
+      }
+
+      return otherLangProfile.data.employmentInfo.translations[0].jobTitle;
+    } catch (error) {
+      if (error.isAxiosError) {
+        handleError(error, "message");
+      }
+      return null;
+    }
+  };
+
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
-  const checkIfFormValuesChanged = () => {
+  const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
@@ -234,6 +284,23 @@ const PrimaryInfoFormView = ({
     );
 
     setFieldsChanged(!isEqual(formValues, dbValues));
+
+    if (locale === "ENGLISH") {
+      const notLocale = "FRENCH";
+      const frJobTitle = await getOppositeLangValues(notLocale);
+
+      if (fieldsChanged && frJobTitle === null) {
+        setSingleJobTitleChanged(true);
+      }
+    } else {
+      const notLocale = "ENGLISH";
+      const enJobTitle = await getOppositeLangValues(notLocale);
+      if (fieldsChanged && enJobTitle === null) {
+        setSingleJobTitleChanged(true);
+      }
+    }
+
+    setSingleJobTitleChanged(false);
   };
 
   /*
@@ -269,6 +336,13 @@ const PrimaryInfoFormView = ({
         setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
+        if (!singleJobTitleChanged) {
+          if (locale === "ENGLISH") {
+            openNotificationWithIcon("jobTitleLangEN");
+          } else {
+            openNotificationWithIcon("jobTitleLangFR");
+          }
+        }
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -393,7 +467,6 @@ const PrimaryInfoFormView = ({
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
             <Popover
-              trigger="click"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -425,7 +498,6 @@ const PrimaryInfoFormView = ({
             </span>
           </Button>
           <Popover
-            trigger="click"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
@@ -461,13 +533,19 @@ const PrimaryInfoFormView = ({
           "lastName",
           "cellphone",
           "telephone",
+          "jobTitle",
           "locationId",
         ];
 
         const newFieldVals = [];
         possibleKeys.forEach((key) => {
           if (key in newGedsValues) {
-            newFieldVals.push({ name: key, value: newGedsValues[key] });
+            if (key === "jobTitle") {
+              const tempVal = newGedsValues[key];
+              newFieldVals.push({ name: key, value: tempVal[locale] });
+            } else {
+              newFieldVals.push({ name: key, value: newGedsValues[key] });
+            }
           }
         });
         form.setFields(newFieldVals);
@@ -663,24 +741,28 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
-                name="telephone"
-                label={<FormattedMessage id="profile.telephone" />}
-                rules={Rules.telephoneFormat}
+                name="jobTitle"
+                label={
+                  <>
+                    <FormattedMessage id="profile.career.header.name" />
+                    <div style={styles.popoverStyleCareer}>
+                      <Popover
+                        content={
+                          <div style={styles.popoverStyle}>
+                            <FormattedMessage id="profile.career.header.tooltip" />
+                          </div>
+                        }
+                      >
+                        <InfoCircleOutlined />
+                      </Popover>
+                    </div>
+                  </>
+                }
+                rules={[Rules.maxChar50]}
               >
                 <Input />
               </Form.Item>
             </Col>
-
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="cellphone"
-                label={<FormattedMessage id="profile.cellphone" />}
-                rules={[Rules.telephoneFormat]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="email"
@@ -690,10 +772,25 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="teams"
+                label={<FormattedMessage id="profile.teams" />}
+                className="custom-bubble-select-style"
+              >
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={
+                    <FormattedMessage id="setup.teams.placeholder" />
+                  }
+                />
+              </Form.Item>
+            </Col>
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="locationId"
                 label={<FormattedMessage id="profile.location" />}
@@ -716,19 +813,22 @@ const PrimaryInfoFormView = ({
                 </Select>
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
-                name="teams"
-                label={<FormattedMessage id="profile.teams" />}
-                className="custom-bubble-select-style"
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                rules={Rules.telephoneFormat}
               >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={
-                    <FormattedMessage id="setup.teams.placeholder" />
-                  }
-                />
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
               </Form.Item>
             </Col>
           </Row>
