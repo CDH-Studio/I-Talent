@@ -21,7 +21,7 @@ const Secured = ({ location }) => {
   const [keycloak] = useKeycloak();
   const axios = useAxios();
 
-  const { signupStep } = useSelector(state => state.user);
+  const { signupStep } = useSelector((state) => state.user);
 
   const getInfo = useCallback(async () => {
     await login(keycloak, axios);
@@ -64,7 +64,15 @@ const Secured = ({ location }) => {
               parseInt(step, 10) > 0 &&
               parseInt(step, 10) < 9
             ) {
+              if (parseInt(step, 10) !== 8 && signupStep === 8) {
+                return <Redirect to="/profile/edit/primary-info" />;
+              }
+
               return <ProfileCreate match={match} />;
+            }
+
+            if (signupStep === 8) {
+              return <Redirect to="/profile/edit/primary-info" />;
             }
 
             return <Redirect to={`/profile/create/step/${signupStep}`} />;
@@ -75,8 +83,18 @@ const Secured = ({ location }) => {
           render={({ match }) => <ProfileEdit match={match} />}
         />
         <Route
+          path="/profile/edit/"
+          render={() => <Redirect to="/profile/edit/primary-info" />}
+        />
+        <Route
           path="/profile/create"
-          render={() => <Redirect to={`/profile/create/step/${signupStep}`} />}
+          render={() => {
+            if (signupStep === 8) {
+              return <Redirect to="/profile/edit/primary-info" />;
+            }
+
+            return <Redirect to={`/profile/create/step/${signupStep}`} />;
+          }}
         />
         <Route
           path="/profile/:id?"

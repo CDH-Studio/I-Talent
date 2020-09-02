@@ -56,7 +56,7 @@ const login = async (keycloak, axios) => {
 
   const userInfo = await keycloak.loadUserInfo();
 
-  profileExist(userInfo, axios);
+  await profileExist(userInfo, axios);
 };
 
 export default login;
