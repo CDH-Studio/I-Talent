@@ -274,9 +274,11 @@ const ExperienceFormView = ({
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         <Form.Item
+          mode="tags"
           name={[fieldElement.name, "projects"]}
           fieldKey={[fieldElement.fieldKey, "projects"]}
           label={<FormattedMessage id="setup.projects" />}
+          className="custom-bubble-select-style"
         >
           <Select
             mode="tags"

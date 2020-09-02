@@ -28,7 +28,7 @@ const ExperienceView = ({ experienceInfo }) => {
   const getProjects = (item) => {
     if (item.projects && item.projects.length > 0)
       return item.projects.map((i) => (
-        <Tag color="#D3D3D3" key={i.id}>
+        <Tag color="#727272" key={i.id}>
           <span>{i}</span>
         </Tag>
       ));
