@@ -710,10 +710,7 @@ const TalentFormView = ({
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   {getSectionHeader("setup.competencies", "competencies")}
-                  <Form.Item
-                    name="competencies"
-                    label={<FormattedMessage id="setup.competencies" />}
-                  >
+                  <Form.Item name="competencies">
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"

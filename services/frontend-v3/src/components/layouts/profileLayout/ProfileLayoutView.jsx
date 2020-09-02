@@ -126,24 +126,30 @@ const ProfileLayoutView = ({
           <Col xs={24} xl={10}>
             <Row type="flex" gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}>
               <Col span={24}>
-                <EmployeeSummary data={data} type={privateProfile} />
+                <EmployeeSummary
+                  data={data}
+                  editableCardBool={privateProfile}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <EmploymentEquity data={data} type={privateProfile} />
+                <EmploymentEquity
+                  data={data}
+                  editableCardBool={privateProfile}
+                />
               </Col>
             </Row>
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <DescriptionCard data={data} type={privateProfile} />
+            <DescriptionCard data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <OfficialLanguage data={data} type={privateProfile} />
+            <OfficialLanguage data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
         {/** ********** Skills and competencies *********** */}
@@ -157,21 +163,47 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <Skills data={data} type={privateProfile} />
+            <Skills data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
-            <Mentorship data={data} type={privateProfile} />
+            <Mentorship data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
         <Row style={styles.row}>
           <Col span={24}>
             <Col span={24}>
-              <Competencies data={data} type={privateProfile} />
+              <Competencies data={data} editableCardBool={privateProfile} />
             </Col>
           </Col>
         </Row>
+        
+        {/** ********** Qualifications *********** */}
+        <Title
+          level={2}
+          style={styles.sectionHeader}
+          id="divider-qualifications"
+        >
+          <TrophyOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+          <FormattedMessage id="profile.employee.qualifications" />
+        </Title>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Education data={data} editableCardBool={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Experience data={data} editableCardBool={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Projects data={data} editableCardBool={privateProfile} />
+          </Col>
+        </Row>
+        
         {/** ********** Personal Growth *********** */}
         <Title
           level={2}
@@ -183,7 +215,10 @@ const ProfileLayoutView = ({
         </Title>
         <Row style={styles.row}>
           <Col span={24}>
-            <LearningDevelopment type={privateProfile} data={data} />
+            <LearningDevelopment
+              editableCardBool={privateProfile}
+              data={data}
+            />
           </Col>
         </Row>
 
@@ -193,13 +228,13 @@ const ProfileLayoutView = ({
           type="flex"
         >
           <Col xs={24} xl={12}>
-            <TalentManagement data={data} type={privateProfile} />
+            <TalentManagement data={data} editableCardBool={privateProfile} />
             <div style={{ paddingTop: "16px" }}>
-              <ExFeeder data={data} type={privateProfile} />
+              <ExFeeder data={data} editableCardBool={privateProfile} />
             </div>
           </Col>
           <Col xs={24} xl={12}>
-            <CareerInterests data={data} type={privateProfile} />
+            <CareerInterests data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
         {/** ********** Qualifications *********** */}
@@ -345,6 +380,39 @@ const ProfileLayoutView = ({
               />
             </Link>
             <Link
+              href="#divider-qualifications"
+              title={
+                <Text strong style={styles.sideBarText}>
+                  <FormattedMessage id="profile.employee.qualifications" />
+                </Text>
+              }
+            >
+              <Link
+                href="#card-profile-education"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.education" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-experience"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.experience" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-projects"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.projects" />
+                  </Text>
+                }
+              />
+            </Link>
+            <Link
               href="#divider-employee-growth"
               title={
                 <Text strong style={styles.sideBarText}>
@@ -381,31 +449,6 @@ const ProfileLayoutView = ({
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.career.interests" />
-                  </Text>
-                }
-              />
-            </Link>
-            <Link
-              href="#divider-qualifications"
-              title={
-                <Text strong style={styles.sideBarText}>
-                  <FormattedMessage id="profile.employee.qualifications" />
-                </Text>
-              }
-            >
-              <Link
-                href="#card-profile-education"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.education" />
-                  </Text>
-                }
-              />
-              <Link
-                href="#card-profile-experience"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.experience" />
                   </Text>
                 }
               />

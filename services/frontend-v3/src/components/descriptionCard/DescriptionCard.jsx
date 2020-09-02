@@ -4,29 +4,29 @@ import ProfileCards from "../profileCards/ProfileCards";
 import DescriptionCardView from "./DescriptionCardView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const DescriptionCard = ({ data, type }) => {
+const DescriptionCard = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.description"
       cardName="description"
-      content={<DescriptionCardView data={data} />}
+      content={<DescriptionCardView data={data.description} />}
       id="card-profile-description"
       editUrl="/profile/edit/employment"
       data={data}
-      type={type}
-      visible={data.visibleCards.description}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.description}
     />
   );
 };
 
 DescriptionCard.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 DescriptionCard.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default DescriptionCard;

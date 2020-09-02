@@ -272,7 +272,7 @@ const QualificationsFormView = ({
     if (_formType === "create") {
       return (
         <Title level={2} className="formTitle">
-          7. <FormattedMessage id="profile.employee.qualifications" />
+          6. <FormattedMessage id="profile.employee.qualifications" />
         </Title>
       );
     }

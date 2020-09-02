@@ -277,7 +277,7 @@ async function updateProfile(request, userId, language) {
   });
 
   let employmentInfoLangs;
-  if ((branch || jobTitle) && userIds.employmentInfoId) {
+  if (branch || jobTitle) {
     if (branch && jobTitle) {
       employmentInfoLangs = uniq([
         ...Object.keys(branch),
@@ -305,6 +305,13 @@ async function updateProfile(request, userId, language) {
     }
   }
 
+  const savedSignupStep = (
+    await prisma.user.findOne({
+      where: { id: userId },
+      select: { signupStep: true },
+    })
+  ).signupStep;
+
   await prisma.user.update({
     where: { id: userId },
     data: {
@@ -330,7 +337,8 @@ async function updateProfile(request, userId, language) {
       exFeeder,
       avatarColor,
       status: statusValue,
-      signupStep,
+      signupStep:
+        signupStep && signupStep > savedSignupStep ? signupStep : undefined,
       description,
 
       employmentEquityGroups: employmentEquityGroups
