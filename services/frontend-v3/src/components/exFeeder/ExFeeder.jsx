@@ -14,8 +14,6 @@ const ExFeeder = ({ data, editableCardBool }) => {
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.exFeeder}
-      editableCardBool={editableCardBool}
-      visibility={data.visibleCards.education}
     />
   );
 };
