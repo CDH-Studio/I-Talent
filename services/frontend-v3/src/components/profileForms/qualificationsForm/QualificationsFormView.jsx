@@ -6,7 +6,6 @@ import {
   Typography,
   Divider,
   Form,
-  Select,
   Button,
   Tabs,
   notification,
@@ -433,26 +432,6 @@ const QualificationsFormView = ({
                   </Form.List>
                 </Col>
               </Row>
-              {/* *************** Projects ************** */}
-              <Divider className="headerDiv" />
-              {getSectionHeader("setup.projects", "projects")}
-              {/* Form Row Three: career mobility */}
-              <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                  <Form.Item
-                    name="projects"
-                    className="custom-bubble-select-style"
-                  >
-                    <Select
-                      mode="tags"
-                      style={{ width: "100%" }}
-                      notFoundContent={
-                        <FormattedMessage id="setup.projects.placeholder" />
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
             </TabPane>
           </Tabs>
           <FormControlButton
@@ -489,7 +468,6 @@ QualificationsFormView.propTypes = {
         subheader: PropTypes.string,
       })
     ),
-    projects: PropTypes.arrayOf(PropTypes.string),
   },
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,

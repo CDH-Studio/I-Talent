@@ -39,6 +39,7 @@ const Experience = ({ data, editableCardBool }) => {
         jobTitle,
         organization,
         attachmentLinks,
+        projects,
       }) => ({
         description,
         duration: getExperienceDuration(startDate, endDate),
@@ -52,6 +53,7 @@ const Experience = ({ data, editableCardBool }) => {
               url: a.url,
             }))
           : [],
+        projects,
       })
     );
   };

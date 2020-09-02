@@ -96,8 +96,8 @@ const QualificationsForm = ({ formType }) => {
                       url: link.url,
                     }))
                   : [],
+                projects: i.projects,
               })),
-              projects: profileQuery.data.projects,
             });
           }
           setLoad(true);
