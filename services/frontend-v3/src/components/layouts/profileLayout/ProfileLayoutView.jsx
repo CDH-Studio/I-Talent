@@ -178,7 +178,7 @@ const ProfileLayoutView = ({
             </Col>
           </Col>
         </Row>
-        
+
         {/** ********** Qualifications *********** */}
         <Title
           level={2}
@@ -198,12 +198,7 @@ const ProfileLayoutView = ({
             <Experience data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
-          <Col span={24}>
-            <Projects data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-        
+
         {/** ********** Personal Growth *********** */}
         <Title
           level={2}
@@ -400,14 +395,6 @@ const ProfileLayoutView = ({
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.experience" />
-                  </Text>
-                }
-              />
-              <Link
-                href="#card-profile-projects"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.projects" />
                   </Text>
                 }
               />
