@@ -4,7 +4,7 @@ import ExFeederView from "./ExFeederView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const ExFeeder = ({ data, type }) => {
+const ExFeeder = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId={<ExFeederView data={data} />}
@@ -12,19 +12,19 @@ const ExFeeder = ({ data, type }) => {
       editUrl="/profile/edit/personal-growth?tab=ex-feeder"
       id="card-profile-ex-feeder"
       data={data}
-      type={type}
+      editableCardBool={editableCardBool}
       visibility={data.visibleCards.exFeeder}
     />
   );
 };
 ExFeeder.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 ExFeeder.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default ExFeeder;
