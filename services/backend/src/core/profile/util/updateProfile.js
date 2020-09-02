@@ -59,7 +59,6 @@ async function updateProfile(request, userId, language) {
     jobTitle,
     description,
 
-    projects,
     employmentEquityGroups,
 
     skills,
@@ -342,12 +341,6 @@ async function updateProfile(request, userId, language) {
         signupStep && signupStep > savedSignupStep ? signupStep : undefined,
       description,
 
-      projects: projects
-        ? {
-            set: projects,
-          }
-        : undefined,
-
       employmentEquityGroups: employmentEquityGroups
         ? {
             set: employmentEquityGroups,
@@ -508,6 +501,11 @@ async function updateProfile(request, userId, language) {
             create: experiences.map((expItem) => ({
               startDate: expItem.startDate,
               endDate: expItem.endDate,
+              projects: expItem.projects
+                ? {
+                    set: expItem.projects,
+                  }
+                : undefined,
               translations: {
                 create: {
                   language,
@@ -640,7 +638,6 @@ async function updateProfile(request, userId, language) {
               officialLanguage: visibleCards.officialLanguage,
               education: visibleCards.education,
               experience: visibleCards.experience,
-              projects: visibleCards.projects,
               careerInterests: visibleCards.careerInterests,
               mentorshipSkills: visibleCards.mentorshipSkills,
               exFeeder: visibleCards.exFeeder,

@@ -1,0 +1,29 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "VisibleCard",
+      "field": "projects"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Experience",
+      "field": "projects",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "User",
+      "field": "projects"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpRelocationLocation",
+      "field": "RelocationLocation",
+      "type": "RelocationLocation",
+      "arity": "List"
+    }
+  ]
+}

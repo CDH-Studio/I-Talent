@@ -24,7 +24,6 @@ function filterProfileVisibility(request, profileResult, userId) {
     description: true,
     education: true,
     experience: true,
-    projects: true,
     careerInterests: true,
     mentorshipSkills: true,
     exFeeder: true,
@@ -105,12 +104,6 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.experiences = [];
 
     tempCards.experience = false;
-  }
-
-  if (hideCard("projects")) {
-    result.projects = [];
-
-    tempCards.projects = false;
   }
 
   if (hideCard("employmentEquityGroup")) {

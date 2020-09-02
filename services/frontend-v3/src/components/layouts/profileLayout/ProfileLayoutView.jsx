@@ -38,7 +38,6 @@ import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
-import Projects from "../../projects/Projects";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
@@ -179,7 +178,7 @@ const ProfileLayoutView = ({
             </Col>
           </Col>
         </Row>
-        
+
         {/** ********** Qualifications *********** */}
         <Title
           level={2}
@@ -199,12 +198,7 @@ const ProfileLayoutView = ({
             <Experience data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
-          <Col span={24}>
-            <Projects data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-        
+
         {/** ********** Personal Growth *********** */}
         <Title
           level={2}
@@ -238,7 +232,25 @@ const ProfileLayoutView = ({
             <CareerInterests data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-
+        {/** ********** Qualifications *********** */}
+        <Title
+          level={2}
+          style={styles.sectionHeader}
+          id="divider-qualifications"
+        >
+          <TrophyOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+          <FormattedMessage id="profile.employee.qualifications" />
+        </Title>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Education data={data} type={privateProfile} />
+          </Col>
+        </Row>
+        <Row style={styles.row}>
+          <Col span={24}>
+            <Experience data={data} type={privateProfile} />
+          </Col>
+        </Row>
         {/** ********** Connections *********** */}
         {privateProfile && (
           <div>
@@ -383,14 +395,6 @@ const ProfileLayoutView = ({
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.experience" />
-                  </Text>
-                }
-              />
-              <Link
-                href="#card-profile-projects"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.projects" />
                   </Text>
                 }
               />

@@ -346,7 +346,6 @@ async function seedUsers() {
       securityClearance,
       careerMobility,
       lookingJob,
-      projects,
       preferredLanguage,
       proficiencies,
       avatarColor,
@@ -423,7 +422,6 @@ async function seedUsers() {
                   developmentalGoals: visibleCards.developmentalGoals,
                   education: visibleCards.education,
                   experience: visibleCards.experience,
-                  projects: visibleCards.projects,
                   careerInterests: visibleCards.careerInterests,
                   mentorshipSkills: visibleCards.mentorshipSkills,
                   exFeeder: visibleCards.exFeeder,
@@ -444,9 +442,6 @@ async function seedUsers() {
                 },
               }
             : undefined,
-          projects: {
-            set: projects,
-          },
           teams: {
             set: teams,
           },
@@ -471,22 +466,29 @@ async function seedUsers() {
             },
           },
           experiences: {
-            create: experiences.map(({ endDate, startDate, translations }) => {
-              return {
-                endDate,
-                startDate,
-                translations: {
-                  create: Object.keys(translations).map((i) => {
-                    return {
-                      description: translations[i].description,
-                      jobTitle: translations[i].jobTitle,
-                      organization: translations[i].organization,
-                      language: i === "en" ? "ENGLISH" : "FRENCH",
-                    };
-                  }),
-                },
-              };
-            }),
+            create: experiences.map(
+              ({ endDate, startDate, translations, projects }) => {
+                return {
+                  endDate,
+                  startDate,
+                  projects: projects
+                    ? {
+                        set: projects,
+                      }
+                    : undefined,
+                  translations: {
+                    create: Object.keys(translations).map((i) => {
+                      return {
+                        description: translations[i].description,
+                        jobTitle: translations[i].jobTitle,
+                        organization: translations[i].organization,
+                        language: i === "en" ? "ENGLISH" : "FRENCH",
+                      };
+                    }),
+                  },
+                };
+              }
+            ),
           },
           organizations: organizations
             ? {
