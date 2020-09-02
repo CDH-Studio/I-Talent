@@ -43,7 +43,7 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
-    "@prisma/cli": "2.6.0",
+    "@prisma/cli": "2.5.0",
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-node": "^4.1.0",
