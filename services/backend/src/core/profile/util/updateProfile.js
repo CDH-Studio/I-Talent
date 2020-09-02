@@ -306,6 +306,13 @@ async function updateProfile(request, userId, language) {
     }
   }
 
+  const savedSignupStep = (
+    await prisma.user.findOne({
+      where: { id: userId },
+      select: { signupStep: true },
+    })
+  ).signupStep;
+
   await prisma.user.update({
     where: { id: userId },
     data: {
@@ -331,7 +338,8 @@ async function updateProfile(request, userId, language) {
       exFeeder,
       avatarColor,
       status: statusValue,
-      signupStep,
+      signupStep:
+        signupStep && signupStep > savedSignupStep ? signupStep : undefined,
       description,
 
       projects: projects

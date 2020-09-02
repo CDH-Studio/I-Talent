@@ -635,7 +635,7 @@ const PrimaryInfoFormView = ({
     return (
       <Modal
         title={<FormattedMessage id="profile.geds.changes" />}
-        visible={gatheringGedsData || newGedsValues}
+        visibility={gatheringGedsData || newGedsValues}
         onOk={handleGedsConfirm}
         onCancel={() => {
           setNewGedsValues(null);

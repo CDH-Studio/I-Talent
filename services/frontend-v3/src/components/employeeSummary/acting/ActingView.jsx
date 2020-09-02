@@ -24,7 +24,12 @@ const ActingView = ({ values }) => {
 };
 
 ActingView.propTypes = {
-  values: PropTypes.isRequired,
+  values: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.node,
+      description: PropTypes.node,
+    })
+  ).isRequired,
 };
 
 export default ActingView;

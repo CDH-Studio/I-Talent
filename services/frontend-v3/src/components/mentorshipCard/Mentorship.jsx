@@ -4,7 +4,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import MentorshipView from "./MentorshipView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const Mentorship = ({ data, type }) => {
+const Mentorship = ({ data, editableCardBool }) => {
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -76,8 +76,8 @@ const Mentorship = ({ data, type }) => {
       id="card-profile-mentorship-skills"
       editUrl="/profile/edit/talent?tab=mentorship"
       data={data}
-      type={type}
-      visible={data.visibleCards.mentorshipSkills}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.mentorshipSkills}
       lastUpdated={data.mentorshipSkillsUpdatedAt}
     />
   );
@@ -85,12 +85,12 @@ const Mentorship = ({ data, type }) => {
 
 Mentorship.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 Mentorship.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default Mentorship;

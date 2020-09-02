@@ -7,7 +7,7 @@ import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const OfficialLanguage = ({ data, type }) => {
+const OfficialLanguage = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   const getFirstLanguageInfo = (dataSource) => {
@@ -78,20 +78,20 @@ const OfficialLanguage = ({ data, type }) => {
       id="card-profile-official-language"
       editUrl="/profile/edit/language-proficiency"
       data={data}
-      type={type}
-      visible={data.visibleCards.officialLanguage}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.officialLanguage}
     />
   );
 };
 
 OfficialLanguage.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 OfficialLanguage.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default OfficialLanguage;
