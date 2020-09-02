@@ -87,7 +87,6 @@ const ProfileCardsView = ({
                 <Text
                   style={{
                     marginLeft: 10,
-
                     fontWeight: "normal",
                     fontSize: "12px",
                   }}
