@@ -70,8 +70,6 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.secondLangProfs = null;
     // set visibility
     cardVisibilities.officialLanguage = false;
-
-    // no idea why this is here
   } else if (result.secondLangProfs) {
     result.secondLangProfs.forEach((lang, index) => {
       delete result.secondLangProfs[index].date;
