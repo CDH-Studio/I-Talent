@@ -80,7 +80,7 @@ async function getPublicProfileById(request, response) {
         return;
       }
 
-      const result = formatProfileResult(fullProfile, language);
+      let result = formatProfileResult(fullProfile, language);
       // filter the visibility of cards if user does not have elevated permission
       if (!viewPrivateProfile(request)) {
         result = filterProfileVisibility(request, result, userId);

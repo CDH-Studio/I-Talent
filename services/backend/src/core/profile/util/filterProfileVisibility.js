@@ -14,7 +14,7 @@ function filterProfileVisibility(request, profileResult, userId) {
 
   const isConnection = result.connections.some((item) => item.id === userId);
 
-  var cardVisibilities = {
+  let cardVisibilities = {
     info: true,
     talentManagement: true,
     officialLanguage: true,
@@ -140,7 +140,7 @@ function filterProfileVisibility(request, profileResult, userId) {
     cardVisibilities.exFeeder = false;
   }
 
-  result.visibleCards = defaultCardVisibilities;
+  result.visibleCards = cardVisibilities;
 
   return result;
 }
