@@ -5,7 +5,7 @@ const {
   getKeycloakUserId,
 } = require("../../utils/keycloak");
 const getFullProfile = require("./util/getProfile");
-const filterProfileResult = require("./util/filterProfileResult");
+const formatProfileResult = require("./util/formatProfileResult");
 const filterProfileVisibility = require("./util/filterProfileVisibility");
 const updateProfileInfo = require("./util/updateProfile");
 
@@ -45,7 +45,7 @@ async function getPrivateProfileById(request, response) {
 
     if (isKeycloakUser(request, id)) {
       const fullProfile = await getFullProfile(id, language);
-      const filter = filterProfileResult(fullProfile, language);
+      const filter = formatProfileResult(fullProfile, language);
 
       response.status(200).json(filter);
       return;
@@ -80,10 +80,13 @@ async function getPublicProfileById(request, response) {
         return;
       }
 
-      const result = filterProfileResult(fullProfile, language);
-      const filteredResults = filterProfileVisibility(request, result, userId);
+      const result = formatProfileResult(fullProfile, language);
+      // filter the visibility of cards if user does not have elevated permission
+      if (!viewPrivateProfile(request)) {
+        result = filterProfileVisibility(request, result, userId);
+      }
 
-      response.status(200).json(filteredResults);
+      response.status(200).json(result);
       return;
     }
 

@@ -14,7 +14,7 @@ function filterProfileVisibility(request, profileResult, userId) {
 
   const isConnection = result.connections.some((item) => item.id === userId);
 
-  const tempCards = {
+  var cardVisibilities = {
     info: true,
     talentManagement: true,
     officialLanguage: true,
@@ -30,12 +30,13 @@ function filterProfileVisibility(request, profileResult, userId) {
     employmentEquityGroup: true,
   };
 
-  const hideCard = (key) =>
+  const isCardHidden = (key) =>
     (result.visibleCards[key] === "PRIVATE" ||
       (result.visibleCards[key] === "CONNECTIONS" && !isConnection)) &&
     !viewPrivateProfile(request);
 
-  if (hideCard("info")) {
+  if (isCardHidden("info")) {
+    // remove data from results
     result.employmentInfo = null;
     result.securityClearance = null;
     result.groupLevel = null;
@@ -43,89 +44,105 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.actingLevel = null;
     result.actingStartDate = null;
     result.actingEndDate = null;
-
-    tempCards.info = false;
+    // set visibility
+    cardVisibilities.info = false;
   }
 
-  if (hideCard("talentManagement")) {
+  if (isCardHidden("talentManagement")) {
+    // remove data from results
     result.careerMobility = null;
     result.talentMatrixResult = null;
-
-    tempCards.talentManagement = false;
+    // set visibility
+    cardVisibilities.talentManagement = false;
   }
 
-  if (hideCard("description")) {
+  if (isCardHidden("description")) {
+    // remove data from results
     result.description = null;
-
-    tempCards.description = false;
+    // set visibility
+    cardVisibilities.description = false;
   }
 
-  if (hideCard("officialLanguage")) {
+  if (isCardHidden("officialLanguage")) {
+    // remove data from results
     result.firstLanguage = null;
     result.secondLanguage = null;
     result.secondLangProfs = null;
-    tempCards.officialLanguage = false;
+    // set visibility
+    cardVisibilities.officialLanguage = false;
+
+    // no idea why this is here
   } else if (result.secondLangProfs) {
     result.secondLangProfs.forEach((lang, index) => {
       delete result.secondLangProfs[index].date;
     });
   }
 
-  if (hideCard("skills")) {
+  if (isCardHidden("skills")) {
+    // remove data from results
     result.skills = [];
-
-    tempCards.skills = false;
+    // set visibility
+    cardVisibilities.skills = false;
   }
-  if (hideCard("competencies")) {
+  if (isCardHidden("competencies")) {
+    // remove data from results
     result.competencies = [];
-
-    tempCards.competencies = false;
+    // set visibility
+    cardVisibilities.competencies = false;
   }
 
-  if (hideCard("mentorshipSkills")) {
+  if (isCardHidden("mentorshipSkills")) {
+    // remove data from results
     result.mentorshipSkills = [];
-
-    tempCards.mentorshipSkills = false;
+    // set visibility
+    cardVisibilities.mentorshipSkills = false;
   }
 
-  if (hideCard("developmentalGoals")) {
+  if (isCardHidden("developmentalGoals")) {
+    // remove data from results
     result.developmentalGoals = [];
-
-    tempCards.developmentalGoals = false;
+    // set visibility
+    cardVisibilities.developmentalGoals = false;
   }
 
-  if (hideCard("education")) {
+  if (isCardHidden("education")) {
+    // remove data from results
     result.educations = [];
-
-    tempCards.education = false;
+    // set visibility
+    cardVisibilities.education = false;
   }
 
-  if (hideCard("experience")) {
+  if (isCardHidden("experience")) {
+    // remove data from results
     result.experiences = [];
-
-    tempCards.experience = false;
+    // set visibility
+    cardVisibilities.experience = false;
   }
 
-  if (hideCard("employmentEquityGroup")) {
+  if (isCardHidden("employmentEquityGroup")) {
+    // remove data from results
     result.employmentEquityGroups = [];
-
-    tempCards.employmentEquityGroup = false;
+    // set visibility
+    cardVisibilities.employmentEquityGroup = false;
   }
 
-  if (hideCard("careerInterests")) {
+  if (isCardHidden("careerInterests")) {
+    // remove data from results
     result.interestedInRemote = null;
     result.lookingJob = null;
     result.relocationLocations = null;
-
-    tempCards.careerInterests = false;
+    // set visibility
+    cardVisibilities.careerInterests = false;
   }
 
-  if (hideCard("exFeeder")) {
+  if (isCardHidden("exFeeder")) {
+    // remove data from results
     result.exFeeder = null;
-    tempCards.exFeeder = false;
+    // set visibility
+    cardVisibilities.exFeeder = false;
   }
 
-  result.visibleCards = tempCards;
+  result.visibleCards = defaultCardVisibilities;
 
   return result;
 }

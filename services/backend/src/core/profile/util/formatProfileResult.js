@@ -16,7 +16,7 @@ function updatedAtReducer(accumulator, { updatedAt }) {
  * @param {Object} profile Database user information
  * @param {"ENGLISH" | "FRENCH"} language Then language to filter the results
  */
-function filterProfileResult(profile, language) {
+function formatProfileResult(profile, language) {
   let filteredProfile = {
     ...profile,
     nameInitials: `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`,
@@ -335,4 +335,4 @@ function filterProfileResult(profile, language) {
   return filteredProfile;
 }
 
-module.exports = filterProfileResult;
+module.exports = formatProfileResult;
