@@ -1,0 +1,25 @@
+@Library(value="ised-cicd-lib") _
+
+pipeline {
+	agent none
+   	
+    options {
+        disableConcurrentBuilds()
+    }
+   	
+   	environment {
+		// GLobal Vars
+        BACKEND_IMAGE_NAME = "dsd-italent-backend"
+        FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
+    }
+
+    stages {
+    	stage('deploy') {
+			steps {
+				script {
+    				deploy.deployImages(false, BACKEND_IMAGE_NAME, FRONTEND_IMAGE_NAME)
+    			}
+    		}
+    	}
+    }
+}
