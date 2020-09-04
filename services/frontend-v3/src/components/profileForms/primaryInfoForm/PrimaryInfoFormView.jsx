@@ -60,7 +60,6 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
-  const [singleJobTitleChanged, setSingleJobTitleChanged] = useState(false);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
 
@@ -248,29 +247,6 @@ const PrimaryInfoFormView = ({
     return { email };
   };
 
-  const getOppositeLangValues = async (notLang) => {
-    try {
-      const otherLangProfile = await axios.get(
-        `api/profile/${userId}?language=${notLang}`
-      );
-
-      if (
-        otherLangProfile.data &&
-        otherLangProfile.data.employmentInfo &&
-        otherLangProfile.data.employmentInfo.translations.length === 0
-      ) {
-        return null;
-      }
-
-      return otherLangProfile.data.employmentInfo.translations[0].jobTitle;
-    } catch (error) {
-      if (error.isAxiosError) {
-        handleError(error, "message");
-      }
-      return null;
-    }
-  };
-
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
@@ -284,23 +260,6 @@ const PrimaryInfoFormView = ({
     );
 
     setFieldsChanged(!isEqual(formValues, dbValues));
-
-    if (locale === "ENGLISH") {
-      const notLocale = "FRENCH";
-      const frJobTitle = await getOppositeLangValues(notLocale);
-
-      if (fieldsChanged && frJobTitle === null) {
-        setSingleJobTitleChanged(true);
-      }
-    } else {
-      const notLocale = "ENGLISH";
-      const enJobTitle = await getOppositeLangValues(notLocale);
-      if (fieldsChanged && enJobTitle === null) {
-        setSingleJobTitleChanged(true);
-      }
-    }
-
-    setSingleJobTitleChanged(false);
   };
 
   /*
