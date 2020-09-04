@@ -9,16 +9,11 @@ import {
   Select,
   Switch,
   DatePicker,
-  Button,
   Popover,
   Checkbox,
   notification,
 } from "antd";
-import {
-  RightOutlined,
-  CheckOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import moment from "moment";
 import { pickBy, identity, isEqual } from "lodash";
@@ -38,6 +33,7 @@ import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
+import FormControlButton from "../formControlButtons/FormControlButtons";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -471,88 +467,6 @@ const LangProficiencyFormView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySecondLangForm]);
 
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = () => {
-    if (formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    if (formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                <FormattedMessage id="button.finish" />
-              )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
-  };
-
   /* Get temporary role form based on if the form switch is toggled */
   const getSecondLanguageForm = (expandMentorshipForm) => {
     let formValues = form.getFieldsValue();
@@ -842,7 +756,15 @@ const LangProficiencyFormView = ({
             </Col>
           </Row>
           {/* Form Row Five: Submit button */}
-          {getFormControlButtons(formType)}
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndNext={onSaveAndNext}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>
