@@ -6,21 +6,34 @@ ENV TZ=America/Toronto
 RUN mkdir /upskill-frontend
 WORKDIR /upskill-frontend
 
-# Copy scripts and make runable
-COPY ./scripts ./scripts/
-RUN chmod +x ./scripts/*.sh
-
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
+# Create build folder
+RUN mkdir ./build
+
+# Make group permissions equal to the owner user permissions
+RUN chgrp -R 0 /upskill-frontend && \ 
+  chmod -R g=u /upskill-frontend
+
+RUN mkdir -p /.cache/yarn
+RUN chgrp -R 0 /.cache/yarn && \ 
+  chmod -R g=u /.cache/yarn
+
+RUN mkdir -p /.yarn
+RUN chgrp -R 0 /.yarn && \ 
+  chmod -R g=u /.yarn
+
 # Runs install script
-RUN ./scripts/install.sh
+RUN yarn install --production
 
 # Copy app
 COPY . .
 
-# Runs build script
-RUN ./scripts/build.sh
+# Builds the app
+RUN yarn build
+
+EXPOSE 3000
 
 # Runs start script
-CMD ./scripts/start.sh
+CMD yarn start:prod

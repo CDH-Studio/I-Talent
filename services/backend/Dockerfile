@@ -9,18 +9,28 @@ WORKDIR /upskill-backend
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
-# Copy database directory for 'yarn generate'
-COPY ./src/database ./src/database
+# Create database client folder
+RUN mkdir -p ./src/database/client
 
-# Copy scripts and make runable
-COPY ./scripts ./scripts/
-RUN chmod +x ./scripts/*.sh
+# Make group permissions equal to the owner user permissions
+RUN chgrp -R 0 /upskill-backend && \ 
+  chmod -R g=u /upskill-backend
 
-# Runs install script
-RUN ./scripts/install.sh
+# Runs install script and builds the app
+RUN yarn install --production
+
+RUN mkdir -p /.cache/yarn
+RUN chgrp -R 0 /.cache/yarn && \ 
+  chmod -R g=u /.cache/yarn
+
+RUN mkdir -p /.yarn
+RUN chgrp -R 0 /.yarn && \ 
+  chmod -R g=u /.yarn
 
 # Copy app
 COPY . .
 
+EXPOSE 3000
+
 # Runs start script
-CMD ./scripts/start.sh
+CMD yarn docker:prod

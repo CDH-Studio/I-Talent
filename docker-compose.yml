@@ -2,7 +2,9 @@ version: "3"
 services:
   web-ant:
     container_name: "upskill-frontend"
-    build: ./services/frontend-v3
+    build: 
+      context: ./services/frontend-v3
+      dockerfile: Dockerfile.local
     ports:
       - "3000:3000"
       - "3001:3001"
@@ -14,7 +16,9 @@ services:
 
   backend:
     container_name: "upskill-backend"
-    build: ./services/backend
+    build: 
+      context: ./services/backend
+      dockerfile: Dockerfile.local
     ports:
       - "8080:8080"
       - "5555:5555"

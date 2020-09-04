@@ -2,9 +2,16 @@
 
 An improved directory and employee search tool.
 
+#### Access to application
 Development version of I-Talent can be accessed [here](http://italent-development.apps.dev.openshift.ised-isde.canada.ca/).<br>
 UAT version of I-Talent can be accessed [here](http://italent-uat.apps.dev.openshift.ised-isde.canada.ca/).<br>
+
+#### Access to documentation
+
 API documentation can be accessed locally [here](http://localhost:8080/api-docs) (needs the backend server running).
+
+#### Access to CI/CD
+Jenkins builds are available [here](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
 
 # Table of Contents
 
