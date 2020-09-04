@@ -1,7 +1,9 @@
 const { viewPrivateProfile } = require("../../../utils/keycloak");
 
 /**
- * Hide information from the profile, regarding visible cards
+ * Filter profile information based on user access permission
+ * Set convert visibility type to boolean
+ * Remove data from hidden cards
  *
  * @param {Object} request
  * @param {Object} profileResult User object information - from the database
@@ -14,7 +16,7 @@ function filterProfileVisibility(request, profileResult, userId) {
 
   const isConnection = result.connections.some((item) => item.id === userId);
 
-  const tempCards = {
+  let cardVisibilities = {
     info: true,
     talentManagement: true,
     officialLanguage: true,
@@ -30,12 +32,16 @@ function filterProfileVisibility(request, profileResult, userId) {
     employmentEquityGroup: true,
   };
 
-  const hideCard = (key) =>
+  /**
+   * Check visibility of card based on user accessing it
+   * @param {String} key - id of the card.
+   */
+  const isCardHidden = (key) =>
     (result.visibleCards[key] === "PRIVATE" ||
       (result.visibleCards[key] === "CONNECTIONS" && !isConnection)) &&
     !viewPrivateProfile(request);
 
-  if (hideCard("info")) {
+  if (isCardHidden("info")) {
     result.employmentInfo = null;
     result.securityClearance = null;
     result.groupLevel = null;
@@ -44,88 +50,90 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.actingStartDate = null;
     result.actingEndDate = null;
 
-    tempCards.info = false;
+    cardVisibilities.info = false;
   }
 
-  if (hideCard("talentManagement")) {
+  if (isCardHidden("talentManagement")) {
     result.careerMobility = null;
     result.talentMatrixResult = null;
 
-    tempCards.talentManagement = false;
+    cardVisibilities.talentManagement = false;
   }
 
-  if (hideCard("description")) {
+  if (isCardHidden("description")) {
     result.description = null;
 
-    tempCards.description = false;
+    cardVisibilities.description = false;
   }
 
-  if (hideCard("officialLanguage")) {
+  if (isCardHidden("officialLanguage")) {
     result.firstLanguage = null;
     result.secondLanguage = null;
     result.secondLangProfs = null;
-    tempCards.officialLanguage = false;
+
+    cardVisibilities.officialLanguage = false;
   } else if (result.secondLangProfs) {
     result.secondLangProfs.forEach((lang, index) => {
       delete result.secondLangProfs[index].date;
     });
   }
 
-  if (hideCard("skills")) {
+  if (isCardHidden("skills")) {
     result.skills = [];
 
-    tempCards.skills = false;
+    cardVisibilities.skills = false;
   }
-  if (hideCard("competencies")) {
+  if (isCardHidden("competencies")) {
     result.competencies = [];
 
-    tempCards.competencies = false;
+    cardVisibilities.competencies = false;
   }
 
-  if (hideCard("mentorshipSkills")) {
+  if (isCardHidden("mentorshipSkills")) {
     result.mentorshipSkills = [];
 
-    tempCards.mentorshipSkills = false;
+    cardVisibilities.mentorshipSkills = false;
   }
 
-  if (hideCard("developmentalGoals")) {
+  if (isCardHidden("developmentalGoals")) {
     result.developmentalGoals = [];
 
-    tempCards.developmentalGoals = false;
+    cardVisibilities.developmentalGoals = false;
   }
 
-  if (hideCard("education")) {
+  if (isCardHidden("education")) {
     result.educations = [];
 
-    tempCards.education = false;
+    cardVisibilities.education = false;
   }
 
-  if (hideCard("experience")) {
+  if (isCardHidden("experience")) {
     result.experiences = [];
 
-    tempCards.experience = false;
+    cardVisibilities.experience = false;
   }
 
-  if (hideCard("employmentEquityGroup")) {
+  if (isCardHidden("employmentEquityGroup")) {
     result.employmentEquityGroups = [];
 
-    tempCards.employmentEquityGroup = false;
+    cardVisibilities.employmentEquityGroup = false;
   }
 
-  if (hideCard("careerInterests")) {
+  if (isCardHidden("careerInterests")) {
     result.interestedInRemote = null;
     result.lookingJob = null;
     result.relocationLocations = null;
 
-    tempCards.careerInterests = false;
+    cardVisibilities.careerInterests = false;
   }
 
-  if (hideCard("exFeeder")) {
+  if (isCardHidden("exFeeder")) {
     result.exFeeder = null;
-    tempCards.exFeeder = false;
+
+    cardVisibilities.exFeeder = false;
   }
 
-  result.visibleCards = tempCards;
+  result.visibleCards = cardVisibilities;
 
   return result;
 }
