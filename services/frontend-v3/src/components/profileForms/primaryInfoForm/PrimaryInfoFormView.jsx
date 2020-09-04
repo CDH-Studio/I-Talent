@@ -336,13 +336,6 @@ const PrimaryInfoFormView = ({
         setSavedValues(values);
         await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
-        if (!singleJobTitleChanged) {
-          if (locale === "ENGLISH") {
-            openNotificationWithIcon("jobTitleLangEN");
-          } else {
-            openNotificationWithIcon("jobTitleLangFR");
-          }
-        }
       })
       .catch((error) => {
         if (error.isAxiosError) {
