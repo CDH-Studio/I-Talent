@@ -59,7 +59,6 @@ const LinkAttachmentView = ({
           placeholder={intl.formatMessage({
             id: "attachment.placeholder",
           })}
-          ru
         />
       </Form.Item>
     </Col>
