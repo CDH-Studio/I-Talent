@@ -1,10 +1,11 @@
 .skeleton {
   width: 100%;
   max-width: 900px;
-  min-height: 400px;
+  min-height: 324px;
   background: #fff;
   padding: 30px 30px;
 }
+
 .content {
   text-align: left;
   width: 100%;
@@ -15,7 +16,7 @@
 
 .formTitle {
   font-size: 1.2em !important;
-  margin: 0;
+  margin: 0 !important;
 }
 
 .sectionHeader {
@@ -23,7 +24,7 @@
 }
 
 .headerDiv {
-  margin: 15px 0 15px 0;
+  margin: 15px 0 15px 0 !important;
 }
 
 .finishAndSaveBtn {
