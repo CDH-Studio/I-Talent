@@ -28,7 +28,13 @@ app.use(timeout("5s"));
 app.use(keycloak.middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(morgan("dev"));
+app.use(
+  morgan(
+    config.ENV === "development"
+      ? "dev"
+      : ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'
+  )
+);
 app.use("/api", router);
 app.get("/oauth2-redirect.html", function (req, res) {
   res.sendfile("src/docs/oauth2-redirect.html");
