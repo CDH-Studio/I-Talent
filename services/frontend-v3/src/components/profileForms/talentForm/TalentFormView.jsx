@@ -71,7 +71,7 @@ const TalentFormView = ({
     skeleton: {
       width: "100%",
       maxWidth: "900px",
-      minHeight: "400px",
+      minHeight: "324px",
       background: "#fff",
       padding: "30px 30px",
     },
