@@ -236,7 +236,8 @@ const PersonalGrowthFormView = ({
   const onSave = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async () => {
+        const values = form.getFieldValue();
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
@@ -261,7 +262,8 @@ const PersonalGrowthFormView = ({
   const onSaveAndNext = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async () => {
+        const values = form.getFieldValue();
         await saveDataToDB(values);
         setFieldsChanged(false);
         history.push("/profile/create/step/7");
@@ -294,7 +296,8 @@ const PersonalGrowthFormView = ({
   const onSaveAndFinish = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async () => {
+        const values = form.getFieldValue();
         await saveDataToDB(values);
         setFieldsChanged(false);
         if (formType === "create") {
