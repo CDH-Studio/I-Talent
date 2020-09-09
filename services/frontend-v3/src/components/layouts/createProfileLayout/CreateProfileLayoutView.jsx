@@ -77,9 +77,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       case 5:
         return <TalentForm formType="create" />;
       case 6:
-        return <PersonalGrowthForm formType="create" />;
-      case 7:
         return <QualificationsForm formType="create" />;
+      case 7:
+        return <PersonalGrowthForm formType="create" />;
       case 8:
         return <DoneSetup formType="create" />;
       default:
@@ -112,12 +112,15 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                 <li>
                   - <FormattedMessage id="setup.step.2.description" />
                 </li>
+                <li>
+                  - <FormattedMessage id="profile.employment.equity.groups" />
+                </li>
               </ul>
             }
           />
           <Step
             tabIndex="0"
-            title={<FormattedMessage id="setup.employment" />}
+            title={<FormattedMessage id="profile.employee.status" />}
             disabled={highestStep < 3}
             description={
               <ul style={styles.stepList}>
@@ -134,7 +137,10 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             description={
               <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.step.4.description" />
+                  - <FormattedMessage id="setup.first.language" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.second.language" />
                 </li>
               </ul>
             }
@@ -159,6 +165,24 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           />
           <Step
             tabIndex="0"
+            title={<FormattedMessage id="profile.employee.qualifications" />}
+            disabled={highestStep < 3}
+            description={
+              <ul style={styles.stepList}>
+                <li>
+                  - <FormattedMessage id="setup.education" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.experience" />
+                </li>
+                <li>
+                  - <FormattedMessage id="setup.projects" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex="0"
             title={<FormattedMessage id="profile.employee.growth.interests" />}
             disabled={highestStep < 3}
             description={
@@ -172,23 +196,8 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                 <li>
                   - <FormattedMessage id="profile.talent.management" />
                 </li>
-              </ul>
-            }
-          />
-          <Step
-            tabIndex="0"
-            title={<FormattedMessage id="profile.employee.qualifications" />}
-            disabled={highestStep < 3}
-            description={
-              <ul style={styles.stepList}>
                 <li>
-                  - <FormattedMessage id="setup.education" />
-                </li>
-                <li>
-                  - <FormattedMessage id="setup.experience" />
-                </li>
-                <li>
-                  - <FormattedMessage id="setup.projects" />
+                  - <FormattedMessage id="profile.ex.feeder.title" />
                 </li>
               </ul>
             }

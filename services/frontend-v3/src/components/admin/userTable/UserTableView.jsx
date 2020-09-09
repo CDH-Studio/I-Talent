@@ -7,14 +7,15 @@ import {
   Col,
   Input,
   Select,
-  message,
+  notification,
   Popconfirm,
+  Popover,
   Tag,
   Typography,
 } from "antd";
 import {
   CheckCircleOutlined,
-  LinkOutlined,
+  InfoCircleOutlined,
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
@@ -23,7 +24,8 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import _ from "lodash";
+import { uniq } from "lodash";
+import { Link } from "react-router-dom";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
@@ -37,6 +39,13 @@ const styles = {
     fontWeight: "normal",
     fontStyle: "italic",
     opacity: 0.5,
+  },
+  popoverStyle: {
+    maxWidth: "630px",
+  },
+  adminInfo: {
+    marginLeft: "8px",
+    paddingRight: "10px",
   },
 };
 
@@ -54,8 +63,6 @@ const UserTableView = ({
   handleSearch,
   handleReset,
   modifiedStatus,
-  selectedRowKeys,
-  rowSelection,
   handleSubmitDelete,
 }) => {
   let searchInput;
@@ -69,7 +76,7 @@ const UserTableView = ({
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
-  const getColumnSearchProps = (dataIndex, title) => ({
+  const getColumnSearchProps = (dataIndex, title, linkKey) => ({
     filterDropdown: ({
       /* eslint-disable react/prop-types */
       setSelectedKeys,
@@ -116,22 +123,30 @@ const UserTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
+    onFilterDropdownVisibleChange: (visibility) => {
+      if (visibility) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
-      ) : (
-        text
-      ),
+    render: (text, record) => {
+      const view =
+        searchedColumn === dataIndex ? (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />
+        ) : (
+          text
+        );
+
+      if (linkKey && record[linkKey]) {
+        return <Link to={record[linkKey]}>{view}</Link>;
+      }
+
+      return view;
+    },
   });
 
   /* Renders the dropdown for profile status options */
@@ -153,9 +168,6 @@ const UserTableView = ({
           <Option key="inactive" value="INACTIVE">
             <FormattedMessage id="admin.inactive" />
           </Option>
-          <Option key="hidden" value="HIDDEN">
-            <FormattedMessage id="admin.flagged" />
-          </Option>
         </Select>
       </div>
     );
@@ -163,20 +175,20 @@ const UserTableView = ({
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the apply button and confirmation prompt */
@@ -200,33 +212,6 @@ const UserTableView = ({
         <Button type="primary" disabled={!modifiedStatus}>
           <CheckCircleOutlined style={{ marginRight: 10 }} />
           <FormattedMessage id="admin.apply" />
-        </Button>
-      </Popconfirm>
-    );
-  };
-
-  /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="admin.delete.user" />}
-        okText={<FormattedMessage id="admin.delete" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
-        onConfirm={() => {
-          handleSubmitDelete()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message"));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={selectedRowKeys.length === 0}
-        overlayStyle={{ maxWidth: 350 }}
-      >
-        <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.delete" />
         </Button>
       </Popconfirm>
     );
@@ -259,7 +244,8 @@ const UserTableView = ({
         "fullName",
         intl.formatMessage({
           id: "admin.name",
-        })
+        }),
+        "profileLink"
       ),
     },
     {
@@ -312,7 +298,7 @@ const UserTableView = ({
       title: <FormattedMessage id="admin.tenure" />,
       dataIndex: "tenure",
       key: "tenure",
-      filters: _.uniq(data.map((i) => i.tenure)).map((i) => ({
+      filters: uniq(data.map((i) => i.tenure)).map((i) => ({
         text: i,
         value: i,
       })),
@@ -333,11 +319,14 @@ const UserTableView = ({
       onFilter: (value, record) => record[value],
       render: (record) => (
         <>
-          <Tag visible={record.isAdmin} color="magenta">
+          <Tag visibility={record.isAdmin} color="magenta">
             <FormattedMessage id="admin.roles.admin" />
           </Tag>
-          <Tag visible={record.isManager} color="geekblue">
+          <Tag visibility={record.isManager} color="geekblue">
             <FormattedMessage id="admin.roles.manager" />
+          </Tag>
+          <Tag visibility={!record.isManager && !record.isAdmin} color="green">
+            <FormattedMessage id="admin.roles.standard" />
           </Tag>
         </>
       ),
@@ -364,14 +353,25 @@ const UserTableView = ({
       },
     },
     {
-      title: <FormattedMessage id="admin.view" />,
+      title: <FormattedMessage id="admin.delete" />,
       render: (record) => (
-        <Button
-          type="primary"
-          shape="circle"
-          icon={<LinkOutlined />}
-          onClick={() => window.open(record.profileLink)}
-        />
+        <Popconfirm
+          placement="left"
+          title={<FormattedMessage id="admin.delete.user" />}
+          okText={<FormattedMessage id="admin.delete" />}
+          cancelText={<FormattedMessage id="admin.cancel" />}
+          onConfirm={() => {
+            handleSubmitDelete(record.key)
+              .then(popUpSuccesss)
+              .catch((error) => handleError(error, "message"));
+          }}
+          onCancel={() => {
+            popUpCancel();
+          }}
+          overlayStyle={{ maxWidth: 350 }}
+        >
+          <Button shape="circle" icon={<DeleteOutlined />} danger />
+        </Popconfirm>
       ),
     },
   ];
@@ -391,17 +391,30 @@ const UserTableView = ({
         }
         extra={
           <>
-            {deleteConfirm()}
             {applyButton()}
             {keycloakButton()}
+            <Popover
+              placement="topRight"
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage
+                    id="admin.roles.tooltip"
+                    values={{
+                      b: (chunks) => <b>{chunks}</b>,
+                      br: () => <br />,
+                    }}
+                  />
+                </div>
+              }
+            >
+              <InfoCircleOutlined style={styles.adminInfo} />
+            </Popover>
           </>
         }
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            showSorterTooltip={false}
-            rowSelection={rowSelection}
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
@@ -423,8 +436,6 @@ UserTableView.propTypes = {
   searchedColumn: PropTypes.string.isRequired,
   searchText: PropTypes.string.isRequired,
   modifiedStatus: PropTypes.bool.isRequired,
-  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
-  rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 UserTableView.defaultProps = {

@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col, Row, Typography, Tooltip } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
 
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
+import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
 import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
@@ -15,29 +17,104 @@ const ProfileCardsView = ({
   id,
   content,
   style,
-  type,
-  visible,
+  editableCardBool,
+  displayExtraHeaderContent,
+  visibility,
   visibleCards,
   cardName,
   lastUpdated,
 }) => {
-  const generateSwitchButton = () =>
-    type && (
+  /**
+   * Generate Edit Menu with visibility toggle and edit button for profile in edit mode
+   * @param {Object} visibilityOfAllCards - visibility status of all cards.
+   * @param {String} cardInfoName - name of the card.
+   * @param {String} editFormUrl - url to edit form.
+   */
+  const generateEditMenu = ({
+    visibilityOfAllCards,
+    cardInfoName,
+    editFormUrl,
+  }) => {
+    return (
       <Row>
         <Col>
           <CardVisibilityToggle
-            visibleCards={visibleCards}
-            cardName={cardName}
+            visibleCards={visibilityOfAllCards}
+            cardName={cardInfoName}
           />
         </Col>
         <Col style={{ marginLeft: 20 }}>
-          <EditCardButton editUrl={editUrl} />
+          <EditCardButton editUrl={editFormUrl} />
         </Col>
       </Row>
     );
+  };
+
+  /**
+   * Generate Visibility Status indicator for public profile (view only mode)
+   * @param {Bool} visibleCards - visibility status of this card.
+   */
+  const generateVisibilityStatusForPublic = (cardVisibilityStatus) => {
+    let visibilityStatusSymbol;
+
+    if (cardVisibilityStatus === true) {
+      // return visibility icon if cardVisibilityStatus is boolean true
+      visibilityStatusSymbol = (
+        <Tooltip
+          placement="left"
+          title={<FormattedMessage id="profile.visibility.card.visible" />}
+        >
+          <EyeOutlined style={{ color: "#A9A9A9" }} />
+        </Tooltip>
+      );
+    } else if (cardVisibilityStatus === false) {
+      // return blocked visibility icon if cardVisibilityStatus is boolean false
+      visibilityStatusSymbol = (
+        <Tooltip
+          placement="left"
+          title={<FormattedMessage id="profile.visibility.card.blocked" />}
+        >
+          <EyeInvisibleOutlined style={{ color: "#007471" }} />
+        </Tooltip>
+      );
+    } else {
+      visibilityStatusSymbol = null;
+    }
+    return visibilityStatusSymbol;
+  };
+
+  /**
+   * Generate Visibility Status indicator for profile being viewed by admin
+   * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
+   */
+  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => {
+    return <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />;
+  };
+
+  /**
+   * Generate right menu in card header
+   */
+  const generateExtraMenu = () => {
+    let extraMenu;
+    // check if header content should be visible
+    if (displayExtraHeaderContent) {
+      if (editableCardBool) {
+        extraMenu = generateEditMenu({
+          visibilityOfAllCards: visibleCards,
+          cardInfoName: cardName,
+          editFormUrl: editUrl,
+        });
+      } else if (typeof visibility === "boolean") {
+        extraMenu = generateVisibilityStatusForPublic(visibility);
+      } else {
+        extraMenu = generateVisibilityStatusForAdmin(visibility);
+      }
+    }
+    return extraMenu;
+  };
 
   const grayedOut = {
-    backgroundColor: visible ? "" : "#D3D3D3",
+    backgroundColor: visibility ? "#fff" : "#DCDCDC",
   };
 
   return (
@@ -56,19 +133,19 @@ const ProfileCardsView = ({
                 <Text
                   style={{
                     marginLeft: 10,
-                    fontStyle: "italic",
                     fontWeight: "normal",
+                    fontSize: "12px",
                   }}
                   type="secondary"
                 >
-                  {moment(lastUpdated).format("LL")}
+                  ({moment(lastUpdated).format("ll")})
                 </Text>
               </Tooltip>
             )}
           </>
         }
         id={id}
-        extra={generateSwitchButton()}
+        extra={generateExtraMenu()}
         style={(style, grayedOut)}
       >
         {content}
@@ -83,11 +160,18 @@ ProfileCardsView.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
-  type: PropTypes.bool,
-  visible: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
+  displayExtraHeaderContent: PropTypes.bool,
+  visibility: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
+  ]),
   cardName: PropTypes.string.isRequired,
   visibleCards: PropTypes.objectOf(
-    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
+    PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
+    ])
   ),
   lastUpdated: PropTypes.string,
 };
@@ -96,8 +180,9 @@ ProfileCardsView.defaultProps = {
   style: undefined,
   content: null,
   editUrl: null,
-  type: null,
-  visible: null,
+  editableCardBool: false,
+  displayExtraHeaderContent: false,
+  visibility: null,
   visibleCards: {},
   lastUpdated: null,
 };

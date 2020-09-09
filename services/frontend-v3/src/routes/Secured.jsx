@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
+import { useSelector } from "react-redux";
 import {
   Results,
   Profile,
@@ -17,12 +18,13 @@ import useAxios from "../utils/axios-instance";
 
 const Secured = ({ location }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [signupStep, setSignupStep] = useState(1);
   const [keycloak] = useKeycloak();
   const axios = useAxios();
 
+  const { signupStep } = useSelector((state) => state.user);
+
   const getInfo = useCallback(async () => {
-    setSignupStep(await login(keycloak, axios));
+    await login(keycloak, axios);
     setAuthenticated(keycloak.authenticated);
   }, [axios, keycloak]);
 
@@ -62,7 +64,15 @@ const Secured = ({ location }) => {
               parseInt(step, 10) > 0 &&
               parseInt(step, 10) < 9
             ) {
+              if (parseInt(step, 10) !== 8 && signupStep === 8) {
+                return <Redirect to="/profile/edit/primary-info" />;
+              }
+
               return <ProfileCreate match={match} />;
+            }
+
+            if (signupStep === 8) {
+              return <Redirect to="/profile/edit/primary-info" />;
             }
 
             return <Redirect to={`/profile/create/step/${signupStep}`} />;
@@ -73,8 +83,18 @@ const Secured = ({ location }) => {
           render={({ match }) => <ProfileEdit match={match} />}
         />
         <Route
+          path="/profile/edit/"
+          render={() => <Redirect to="/profile/edit/primary-info" />}
+        />
+        <Route
           path="/profile/create"
-          render={() => <Redirect to={`/profile/create/step/${signupStep}`} />}
+          render={() => {
+            if (signupStep === 8) {
+              return <Redirect to="/profile/edit/primary-info" />;
+            }
+
+            return <Redirect to={`/profile/create/step/${signupStep}`} />;
+          }}
         />
         <Route
           path="/profile/:id?"

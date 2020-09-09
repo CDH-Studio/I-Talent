@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { useHistory, useLocation } from "react-router-dom";
+import QualificationsFormView from "./QualificationsFormView";
 import useAxios from "../../../utils/axios-instance";
 import handleError from "../../../functions/handleError";
-import QualificationsFormView from "./QualificationsFormView";
 
 /**
  *  QualificationsForm
@@ -14,13 +13,11 @@ import QualificationsFormView from "./QualificationsFormView";
  *  It gathers the required data for rendering the component
  */
 const QualificationsForm = ({ formType }) => {
-  // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [currentTab, setCurrentTab] = useState(null);
-  const [savedEducation, setSavedEducation] = useState();
-  const [savedExperience, setSavedExperience] = useState();
-  const [savedProjects, setSavedProjects] = useState();
+  const [initialValues, setInitialValues] = useState(null);
+  const [options, setOptions] = useState(null);
 
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
@@ -29,108 +26,97 @@ const QualificationsForm = ({ formType }) => {
   const location = useLocation();
   const history = useHistory();
 
-  /**
-   * Get User Profile
-   */
-  const getProfileInfo = useCallback(async () => {
+  const getBackendInfo = useCallback(async () => {
     try {
-      const result = await axios.get(
-        `api/profile/private/${id}?language=${locale}`
-      );
-      setProfileInfo(result.data);
-      setLoad(true);
+      return await Promise.all([
+        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`api/option/diplomas?language=${locale}`),
+        axios.get(`api/option/schools?language=${locale}`),
+        axios.get(`api/option/attachmentNames?language=${locale}&type=Edu`),
+        axios.get(`api/option/attachmentNames?language=${locale}&type=Exp`),
+      ]);
     } catch (error) {
       setLoad(false);
       throw error;
     }
-  }, [id, locale]);
+  }, [axios, id, locale]);
 
-  /**
-   * Get Saved Education Information
-   *
-   * get saved education items
-   */
-  const getSavedEducation = () => {
-    // Generate an array of education items
-    const educations = profileInfo.educations.map((i) => ({
-      schoolId: i.school.id,
-      diplomaId: i.diploma.id,
-      startDate: i.startDate ? moment(i.startDate) : undefined,
-      endDate: i.endDate ? moment(i.endDate) : undefined,
-    }));
-
-    setSavedEducation(educations);
+  const saveDataToDB = async (unalteredValues) => {
+    const values = { ...unalteredValues };
+    await axios.put(`api/profile/${id}?language=${locale}`, values);
   };
 
-  /**
-   * Get Saved Experience Information
-   *
-   * get saved experience items
-   */
-  const getSavedExperience = () => {
-    // Generate an array of education items
-    const selected = profileInfo.experiences.map((i) => ({
-      jobTitle: i.jobTitle,
-      organization: i.organization,
-      description: i.description,
-      startDate: i.startDate ? moment(i.startDate) : undefined,
-      endDate: i.endDate ? moment(i.endDate) : undefined,
-    }));
-
-    setSavedExperience(selected);
-  };
-
-  /**
-   * Get Saved Projects
-   *
-   * get saved projects
-   */
-  const getSavedProjects = () => {
-    setSavedProjects(profileInfo.projects);
-  };
-
-  /**
-   * Get default form tab
-   *
-   * get the default selected form tab based on url query params
-   */
-  const getDefaultFormTab = () => {
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setCurrentTab(searchParams.get("tab"));
-  };
-
-  // useEffect when url path is updated
-  useEffect(() => {
-    getDefaultFormTab();
-  }, [location]);
-
-  // useEffect when profileInfo changes (extracts info from the profileInfo object)
-  useEffect(() => {
-    if (profileInfo) {
-      getSavedEducation();
-      getSavedExperience();
-      getSavedProjects();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileInfo]);
-
-  // useEffect to run once component is mounted
-  useEffect(() => {
-    /* Get all required data component */
-    getProfileInfo().catch((error) => handleError(error, "redirect"));
-  }, [getProfileInfo]);
+    getBackendInfo()
+      .then(
+        ([
+          profileQuery,
+          diplomasQuery,
+          schoolsQuery,
+          attachmentNamesEduQuery,
+          attachmentNamesExpQuery,
+        ]) => {
+          setProfileInfo(profileQuery.data);
+          setOptions({
+            diplomas: diplomasQuery.data,
+            schools: schoolsQuery.data,
+            attachmentNamesEdu: attachmentNamesEduQuery.data,
+            attachmentNamesExp: attachmentNamesExpQuery.data,
+          });
+          if (profileQuery.data) {
+            setInitialValues({
+              educations: profileQuery.data.educations.map((i) => ({
+                id: i.id,
+                schoolId: i.school.id,
+                diplomaId: i.diploma.id,
+                startDate: i.startDate ? moment(i.startDate) : undefined,
+                endDate: i.endDate ? moment(i.endDate) : undefined,
+                description: i.description,
+                attachmentLinks: i.attachmentLinks
+                  ? i.attachmentLinks.map((link) => ({
+                      id: link.id,
+                      nameId: link.name.id,
+                      url: link.url,
+                    }))
+                  : [],
+              })),
+              experiences: profileQuery.data.experiences.map((i) => ({
+                id: i.id,
+                jobTitle: i.jobTitle,
+                organization: i.organization,
+                description: i.description,
+                startDate: i.startDate ? moment(i.startDate) : undefined,
+                endDate: i.endDate ? moment(i.endDate) : undefined,
+                attachmentLinks: i.attachmentLinks
+                  ? i.attachmentLinks.map((link) => ({
+                      id: link.id,
+                      nameId: link.name.id,
+                      url: link.url,
+                    }))
+                  : [],
+                projects: i.projects,
+              })),
+            });
+          }
+          setLoad(true);
+        }
+      )
+      .catch((error) => handleError(error, "redirect"));
+  }, [getBackendInfo, location.search]);
 
   return (
     <QualificationsFormView
       profileInfo={profileInfo}
-      savedEducation={savedEducation}
-      savedExperience={savedExperience}
-      savedProjects={savedProjects}
+      initialValues={initialValues}
       formType={formType}
       currentTab={currentTab}
       load={load}
       history={history}
       userId={id}
+      options={options}
+      saveDataToDB={saveDataToDB}
     />
   );
 };

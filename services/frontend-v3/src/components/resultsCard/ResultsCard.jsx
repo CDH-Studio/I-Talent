@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
-import _ from "lodash";
+import { map } from "lodash";
 import useAxios from "../../utils/axios-instance";
 
 import ResultsCardView from "./ResultsCardView";
@@ -37,15 +36,15 @@ const ResultsCard = () => {
     } else {
       setEmptyQuery(true);
     }
-  }, [locale]);
+  }, [axios, locale]);
 
   const getConnections = useCallback(async () => {
     const result = await axios.get(
       `api/profile/private/${id}?language=${locale}`
     );
 
-    setConnections(_.map(result.data.connections, "id"));
-  }, [id, locale]);
+    setConnections(map(result.data.connections, "id"));
+  }, [axios, id, locale]);
 
   useEffect(() => {
     Promise.all([getConnections(), search()]).catch((e) =>

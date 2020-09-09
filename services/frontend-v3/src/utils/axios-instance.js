@@ -1,18 +1,34 @@
 import axios from "axios";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/razzle";
+import { useMemo } from "react";
 import config from "./config";
 
 const useAxios = () => {
-  const { backendAddress } = config;
-  const [keycloak, initialized] = useKeycloak();
-  const instance = axios.create({
-    baseURL: backendAddress,
-    timeout: 5000,
-    headers: {
-      Authorization: initialized ? `Bearer ${keycloak.token}` : undefined,
-      Pragma: "no-cache",
-    },
+  const [keycloak] = useKeycloak();
+  const instance = useMemo(
+    () =>
+      axios.create({
+        baseURL: config.backendAddress,
+        timeout: 5000,
+        headers: {
+          Pragma: "no-cache",
+        },
+      }),
+    []
+  );
+
+  instance.interceptors.request.use(async (axiosConfig) => {
+    await keycloak.updateToken();
+
+    return {
+      ...axiosConfig,
+      headers: {
+        ...axiosConfig.headers,
+        Authorization: keycloak.token ? `Bearer ${keycloak.token}` : undefined,
+      },
+    };
   });
+
   return instance;
 };
 

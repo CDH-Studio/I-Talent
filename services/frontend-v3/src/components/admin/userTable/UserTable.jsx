@@ -20,7 +20,6 @@ const UserTable = () => {
   const [statuses, setStatuses] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [modifiedStatus, setModifiedStatus] = useState(false);
   const axios = useAxios();
   const intl = useIntl();
@@ -46,8 +45,8 @@ const UserTable = () => {
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
-        formatCreatedAt: moment(user.createdAt).format("LL"),
-        formatUpdatedAt: moment(user.updatedAt).format("LL"),
+        formatCreatedAt: moment(user.createdAt).format("YYYY-MM-DD"),
+        formatUpdatedAt: moment(user.updatedAt).format("YYYY-MM-DD"),
         status: user.status,
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),
@@ -58,7 +57,7 @@ const UserTable = () => {
       handleError(error, "redirect");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, locale]);
+  }, [axios, dispatch, locale]);
 
   useEffect(() => {
     getUserInformation();
@@ -127,22 +126,10 @@ const UserTable = () => {
   };
 
   // Handles the deletion of a user
-  const handleSubmitDelete = async () => {
-    await Promise.all(
-      selectedRowKeys.map((id) => axios.delete(`api/user/${id}`))
-    );
+  const handleSubmitDelete = async (id) => {
+    await axios.delete(`api/user/${id}`);
 
-    setSelectedRowKeys([]);
     getUserInformation();
-  };
-
-  // Handles row selection in the table
-  const rowSelection = {
-    onChange: (_selectedRowKeys) => {
-      setSelectedRowKeys(_selectedRowKeys);
-    },
-    hideSelectAll: true,
-    columnTitle: intl.formatMessage({ id: "admin.delete" }),
   };
 
   useEffect(() => {
@@ -176,8 +163,6 @@ const UserTable = () => {
         handleSearch={handleSearch}
         handleReset={handleReset}
         modifiedStatus={modifiedStatus}
-        selectedRowKeys={selectedRowKeys}
-        rowSelection={rowSelection}
         handleSubmitDelete={handleSubmitDelete}
       />
     </>

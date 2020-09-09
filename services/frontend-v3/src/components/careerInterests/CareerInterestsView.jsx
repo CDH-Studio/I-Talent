@@ -1,70 +1,78 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { Row, Col, List, Tag, Typography } from "antd";
+import { Row, Col, List, Tag } from "antd";
 
-const CareerInterestsView = ({ info, relocationLocationsInfo }) => {
-  const generateCareerInterestsInfoList = (dataSource) => {
-    return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
-          </List.Item>
-        )}
-      />
+const CareerInterestsView = ({
+  interestedInRemote,
+  lookingJob,
+  relocationLocations,
+}) => {
+  const getCareerInterestsInfo = () => {
+    const items = [];
+
+    let description = "-";
+    if (interestedInRemote) {
+      description = <FormattedMessage id="profile.yes" />;
+    } else if (interestedInRemote === false) {
+      description = <FormattedMessage id="profile.no" />;
+    }
+
+    items.push(
+      {
+        title: <FormattedMessage id="profile.interested.in.remote" />,
+        description,
+      },
+      {
+        title: <FormattedMessage id="profile.looking.for.new.job" />,
+        description: (lookingJob && lookingJob.description) || "-",
+      }
     );
-  };
 
-  const generateRelocationLocationsInfoList = (dataSource) => {
-    if (dataSource && dataSource.length > 0) {
-      return (
-        <div style={{ marginBottom: "10px" }}>
-          <Typography.Text strong>
-            <FormattedMessage id="profile.willing.to.relocate.to" />:{" "}
-          </Typography.Text>
-          <div style={{ marginTop: "7px" }}>
-            {dataSource.map(({ id, city, province }) => (
-              <Tag color="rgb(114, 114, 114)" key={id}>
+    if (relocationLocations && relocationLocations.length > 0) {
+      items.push({
+        title: <FormattedMessage id="profile.willing.to.relocate.to" />,
+        render: (
+          <div style={{ marginTop: 7 }}>
+            {relocationLocations.map(({ id, city, province }) => (
+              <Tag color="#727272" key={id}>
                 {city}, {province}
               </Tag>
             ))}
           </div>
-        </div>
-      );
+        ),
+      });
     }
-    return <div />;
+
+    return items;
   };
 
   return (
     <Row>
       <Col span={24}>
-        {generateCareerInterestsInfoList(info)}
-        {generateRelocationLocationsInfoList(relocationLocationsInfo)}
+        <List
+          itemLayout="horizontal"
+          dataSource={getCareerInterestsInfo()}
+          renderItem={({ title, description, render }) => (
+            <List.Item>
+              <Col span={24}>
+                <List.Item.Meta title={title} description={description} />
+                {render}
+              </Col>
+            </List.Item>
+          )}
+        />
       </Col>
     </Row>
   );
 };
 
 CareerInterestsView.propTypes = {
-  info: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.oneOfType([
-        PropTypes.symbol,
-        PropTypes.string,
-        PropTypes.object,
-      ]),
-      icon: PropTypes.string,
-      title: PropTypes.oneOfType([
-        PropTypes.symbol,
-        PropTypes.string,
-        PropTypes.object,
-      ]),
-    })
-  ).isRequired,
-  relocationLocationsInfo: PropTypes.arrayOf(
+  interestedInRemote: PropTypes.bool,
+  lookingJob: PropTypes.shape({
+    description: PropTypes.string,
+  }),
+  relocationLocations: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       city: PropTypes.string,
@@ -74,7 +82,9 @@ CareerInterestsView.propTypes = {
 };
 
 CareerInterestsView.defaultProps = {
-  relocationLocationsInfo: [],
+  interestedInRemote: undefined,
+  lookingJob: undefined,
+  relocationLocations: [],
 };
 
 export default CareerInterestsView;

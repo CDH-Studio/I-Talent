@@ -99,13 +99,16 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.step.2.description" />
             </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.employment.equity.groups" />
+            </li>
           </ul>
         </Menu.Item>
         <Menu.Item tabIndex="0" key="employment" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
             <b>
-              <FormattedMessage id="setup.employment" />
+              <FormattedMessage id="profile.employee.status" />
             </b>
           </div>
           <ul style={styles.menuList}>
@@ -127,7 +130,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </div>
           <ul style={styles.menuList}>
             <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.step.4.description" />
+              - <FormattedMessage id="setup.first.language" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="setup.second.language" />
             </li>
           </ul>
         </Menu.Item>
@@ -150,25 +156,6 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item tabIndex="0" key="personal-growth" style={styles.menuItem}>
-          <div style={styles.menuItemHeader}>
-            <RightOutlined />
-            <b>
-              <FormattedMessage id="profile.employee.growth.interests" />
-            </b>
-          </div>
-          <ul style={styles.menuList}>
-            <li style={styles.menuListItem}>
-              - <FormattedMessage id="profile.developmental.goals" />
-            </li>
-            <li style={styles.menuListItem}>
-              - <FormattedMessage id="profile.career.interests" />
-            </li>
-            <li style={styles.menuListItem}>
-              - <FormattedMessage id="profile.talent.management" />
-            </li>
-          </ul>
-        </Menu.Item>
         <Menu.Item tabIndex="0" key="qualifications" style={styles.menuItem}>
           <div style={styles.menuItemHeader}>
             <RightOutlined />
@@ -185,6 +172,28 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             </li>
             <li style={styles.menuListItem}>
               - <FormattedMessage id="setup.projects" />
+            </li>
+          </ul>
+        </Menu.Item>
+        <Menu.Item tabIndex="0" key="personal-growth" style={styles.menuItem}>
+          <div style={styles.menuItemHeader}>
+            <RightOutlined />
+            <b>
+              <FormattedMessage id="profile.employee.growth.interests" />
+            </b>
+          </div>
+          <ul style={styles.menuList}>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.learning.development" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.career.interests" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.talent.management" />
+            </li>
+            <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.ex.feeder.title" />
             </li>
           </ul>
         </Menu.Item>

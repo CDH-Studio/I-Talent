@@ -1,0 +1,19 @@
+FROM node:12.18.3-alpine3.11
+
+ENV TZ=America/Toronto
+
+# Set working directory
+RUN mkdir /upskill-backend
+WORKDIR /upskill-backend
+
+# Copy app dependencies
+COPY package.json yarn.lock ./
+
+# Runs install script
+RUN yarn install
+
+# Copy app
+COPY . .
+
+# Runs start script
+CMD yarn docker:dev

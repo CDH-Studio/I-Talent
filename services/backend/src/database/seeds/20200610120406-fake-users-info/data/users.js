@@ -33,11 +33,6 @@ module.exports = [
       country: "Canada",
     },
     avatarColor: "#0bdaa3",
-    projects: [
-      "Landscaping backyard",
-      "Calculator prediction mobile application",
-      "Government of Canada global information database",
-    ],
     employmentInfo: {
       en: {
         jobTitle: "Data Scientist",
@@ -60,6 +55,11 @@ module.exports = [
               "Livrer les project à temps et maintenir le contact avec les clients",
           },
         },
+        projects: [
+          "Landscaping backyard",
+          "Calculator prediction mobile application",
+          "Government of Canada global information database",
+        ],
       },
     ],
     proficiencies: [
@@ -145,10 +145,10 @@ module.exports = [
       officialLanguage: "PUBLIC",
       skills: "PUBLIC",
       competencies: "PUBLIC",
+      description: "PUBLIC",
       developmentalGoals: "PUBLIC",
       education: "PUBLIC",
       experience: "PUBLIC",
-      projects: "PUBLIC",
       careerInterests: "PUBLIC",
       mentorshipSkills: "PUBLIC",
       exFeeder: "PUBLIC",
@@ -184,7 +184,6 @@ module.exports = [
       country: "Canada",
     },
     avatarColor: "#ad4463",
-    projects: ["Gardening strawberries", "AI powered translator"],
     employmentInfo: {
       en: {
         jobTitle: "Manager",
@@ -207,6 +206,7 @@ module.exports = [
               "Overseeing the medical care of patients and the functions performed by medical staff",
           },
         },
+        projects: ["Gardening strawberries", "AI powered translator"],
       },
       {
         startDate: moment().subtract(6, "years").toISOString(),
@@ -223,14 +223,10 @@ module.exports = [
     ],
     visibleCards: {
       info: "PUBLIC",
-      talentManagement: "PUBLIC",
-      officialLanguage: "PUBLIC",
-      skills: "PUBLIC",
-      competencies: "PUBLIC",
+      description: "PRIVATE",
       developmentalGoals: "PUBLIC",
       education: "PUBLIC",
       experience: "PUBLIC",
-      projects: "PUBLIC",
       careerInterests: "PUBLIC",
       mentorshipSkills: "PUBLIC",
       exFeeder: "PUBLIC",
@@ -355,19 +351,6 @@ module.exports = [
         school: "Ottawa, University of",
       },
     ],
-    relocationLocations: [
-      {
-        streetNumber: 107,
-        postalCode: "P1B 7K8",
-        city: "North Bay",
-        country: "Canada",
-      },
-      {
-        streetNumber: 345,
-        postalCode: "L3Y 8P6",
-        city: "Newmarket",
-        country: "Canada",
-      },
-    ],
+    relocationLocations: [],
   },
 ];

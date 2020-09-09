@@ -2,10 +2,11 @@ const Fuse = require("fuse.js");
 
 const _ = require("lodash");
 const prisma = require("../../../database");
+const { viewPrivateProfile } = require("../../../utils/keycloak");
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-async function getAllUsers(searchValue, language, userId) {
+async function getAllUsers(searchValue, language, userId, request) {
   let data = await prisma.user.findMany({
     select: {
       id: true,
@@ -16,9 +17,11 @@ async function getAllUsers(searchValue, language, userId) {
         },
       },
     },
-    where: {
-      status: "ACTIVE",
-    },
+    where: viewPrivateProfile(request)
+      ? undefined
+      : {
+          status: "ACTIVE",
+        },
   });
 
   let visibleCards = await Promise.all(
@@ -27,7 +30,6 @@ async function getAllUsers(searchValue, language, userId) {
         id,
         visibleCards: {
           info,
-          projects,
           skills,
           competencies,
           education,
@@ -46,7 +48,6 @@ async function getAllUsers(searchValue, language, userId) {
           id,
           visibleCards: {
             info: visibleCardBool(info),
-            projects: visibleCardBool(projects),
             skills: visibleCardBool(skills),
             competencies: visibleCardBool(competencies),
             education: visibleCardBool(education),
@@ -65,7 +66,6 @@ async function getAllUsers(searchValue, language, userId) {
         id,
         visibleCards: {
           info,
-          projects,
           skills,
           competencies,
           education,
@@ -104,7 +104,6 @@ async function getAllUsers(searchValue, language, userId) {
                 },
               },
             },
-            projects,
             groupLevel: info && {
               select: {
                 id: true,
@@ -150,6 +149,7 @@ async function getAllUsers(searchValue, language, userId) {
               select: {
                 startDate: true,
                 endDate: true,
+                projects: true,
                 translations: {
                   where: {
                     language,
@@ -305,6 +305,7 @@ async function getAllUsers(searchValue, language, userId) {
           description: trans ? trans.description : undefined,
           jobTitle: trans ? trans.jobTitle : undefined,
           organization: trans ? trans.organization : undefined,
+          projects: i.projects,
         };
       });
     }

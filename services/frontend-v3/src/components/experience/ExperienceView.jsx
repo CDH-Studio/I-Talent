@@ -1,10 +1,61 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, List, Empty } from "antd";
+import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
-import ExperienceItem from "./experienceItem/ExperienceItem";
+import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
+import DescriptionText from "../descriptionText/DescriptionText";
 
 const ExperienceView = ({ experienceInfo }) => {
+  const styles = {
+    avatar: {
+      backgroundColor: "#007471",
+    },
+  };
+
+  const getUrl = (item) => {
+    if (item.attachmentLinks && item.attachmentLinks.length > 0)
+      return item.attachmentLinks.map((i) => (
+        <a target="_blank" rel="noreferrer" href={i.url}>
+          <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
+            <LinkOutlined />
+            <span>{i.name}</span>
+          </Tag>
+        </a>
+      ));
+    return undefined;
+  };
+
+  const getProjects = (item) => {
+    if (item.projects && item.projects.length > 0)
+      return item.projects.map((i) => (
+        <Tag color="#727272" key={i.id}>
+          <span>{i}</span>
+        </Tag>
+      ));
+    return undefined;
+  };
+
+  const generateOrganizationItemDescription = (item) => (
+    <>
+      <Row>
+        <Col>{item.organization}</Col>
+      </Row>
+      <Row>
+        <Col>
+          <DescriptionText text={item.description} expandable />
+        </Col>
+      </Row>
+      <Row>
+        <FormattedMessage id="setup.projects" />:
+      </Row>
+      <Row>{getProjects(item)}</Row>
+      <Row>
+        <FormattedMessage id="setup.attachment" />:
+      </Row>
+      <Row>{getUrl(item)}</Row>
+    </>
+  );
+
   if (experienceInfo.length > 0) {
     return (
       <Row>
@@ -12,7 +63,22 @@ const ExperienceView = ({ experienceInfo }) => {
           <List
             itemLayout="vertical"
             dataSource={experienceInfo}
-            renderItem={(item) => <ExperienceItem item={item} />}
+            renderItem={(item) => (
+              <List.Item className="experience-item-list" extra={item.duration}>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      style={styles.avatar}
+                      size="large"
+                      icon={<ContainerOutlined />}
+                      shape="square"
+                    />
+                  }
+                  title={item.jobTitle}
+                  description={generateOrganizationItemDescription(item)}
+                />
+              </List.Item>
+            )}
           />
         </Col>
       </Row>

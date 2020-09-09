@@ -1,9 +1,6 @@
-const { param, body } = require("express-validator");
-
-const UUIDValidator = param("id").trim().isUUID().withMessage("must be a UUID");
+const { body } = require("express-validator");
 
 const createUserValidator = [
-  UUIDValidator,
   body("name").isString().withMessage("must provide name"),
   body("firstName").isString().withMessage("must provide firstName"),
   body("lastName").isString().withMessage("must provide lastName"),
@@ -12,5 +9,4 @@ const createUserValidator = [
 
 module.exports = {
   createUserValidator,
-  UUIDValidator,
 };

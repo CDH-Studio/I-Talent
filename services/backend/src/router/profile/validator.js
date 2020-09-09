@@ -1,13 +1,14 @@
-const { query, param, body } = require("express-validator");
+const { body } = require("express-validator");
 const { isUUID, isIn, isMobilePhone } = require("validator");
 const moment = require("moment");
 
-const langValidator = query("language")
-  .trim()
-  .isIn(["ENGLISH", "FRENCH"])
-  .withMessage("must be 'ENGLISH' or 'FRENCH'");
-
-const UUIDValidator = param("id").trim().isUUID().withMessage("must be a UUID");
+const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
+const updateProfileNumberBody = ["signupStep"];
+const updateProfileStringArrayBody = ["projects", "employmentEquityGroups"];
+const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
+const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
+const updateProfileLanguageBody = ["preferredLanguage"];
+const updateProfileBooleanBody = ["interestedInRemote", "exFeeder"];
 
 const updateProfileStringBody = [
   "firstName",
@@ -20,18 +21,7 @@ const updateProfileStringBody = [
   "avatarColor",
 ];
 
-const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
-
-const updateProfileNumberBody = ["signupStep"];
-const updateProfileStringArrayBody = ["projects"];
-const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
-
-const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
-
-const updateProfileLanguageBody = ["preferredLanguage"];
-
-const updateProfileBooleanBody = ["interestedInRemote", "exFeeder"];
-
+const updateProfileEmploymentBody = ["jobTitle", "branch"];
 const updateProfileUUIDArrayBody = [
   "skills",
   "mentorshipSkills",
@@ -53,8 +43,6 @@ const updateProfileUUIDBody = [
 ];
 
 const updateProfileValidator = [
-  langValidator,
-  UUIDValidator,
   updateProfileStringBody.map((i) =>
     body(i)
       .optional()
@@ -91,10 +79,20 @@ const updateProfileValidator = [
   updateProfileBooleanBody.map((i) =>
     body(i)
       .optional()
-      .trim()
-      .toBoolean(true)
-      .isBoolean()
-      .withMessage("must be a boolean")
+      .customSanitizer((j) => {
+        switch (j) {
+          case "true":
+            return true;
+          case "false":
+            return false;
+          case "null":
+            return null;
+          default:
+            return j;
+        }
+      })
+      .custom((j) => j === null || j === true || j === false)
+      .withMessage("must be a boolean or null")
   ),
   updateProfileLanguageBody.map((i) =>
     body(i)
@@ -123,19 +121,31 @@ const updateProfileValidator = [
       .custom((array) => array.every((j) => isUUID(j)))
       .withMessage("must be a UUID array")
   ),
+  updateProfileEmploymentBody.map((i) =>
+    body(i)
+      .optional()
+      .custom(
+        (object) =>
+          typeof object === "object" &&
+          Object.keys(object).every((key) =>
+            ["ENGLISH", "FRENCH"].includes(key)
+          )
+      )
+      .withMessage("must be an object containing ENGLISH or/and FRENCH as keys")
+  ),
   body("secondLangProfs")
     .optional()
     .isArray()
     .custom((array) =>
       array.every(
         (i) =>
-          isIn(i.level, ["A", "B", "C", "E", "X"]) &&
+          isIn(i.level, ["A", "B", "C", "E", "X", "NA"]) &&
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
-          ("date" in i ? moment(i.date).isValid() : true)
+          ("date" in i ? i.date === null || moment(i.date).isValid() : true)
       )
     )
     .withMessage(
-      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X', date?: DateTime }"
+      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA', date?: DateTime }"
     ),
   body("educations")
     .optional()
@@ -176,7 +186,5 @@ const updateProfileValidator = [
 ];
 
 module.exports = {
-  langValidator,
-  UUIDValidator,
   updateProfileValidator,
 };

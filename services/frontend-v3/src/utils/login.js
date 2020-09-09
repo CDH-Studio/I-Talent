@@ -30,6 +30,8 @@ const profileExist = async (userInfo, axios) => {
     lastName,
     preferredLanguage,
     email,
+    status,
+    signupStep,
   } = response.data;
 
   store.dispatch(
@@ -39,22 +41,12 @@ const profileExist = async (userInfo, axios) => {
       initials,
       name: `${firstName} ${lastName}`,
       email,
+      status,
+      signupStep,
     })
   );
 
-  store.dispatch(
-    setLocale(
-      preferredLanguage || "ENGLISH"
-    )
-  );
-
-  const { signupStep } = response.data;
-
-  if (signupStep > 0 && signupStep < 9) {
-    return signupStep;
-  }
-
-  return 1;
+  store.dispatch(setLocale(preferredLanguage || "ENGLISH"));
 };
 
 const login = async (keycloak, axios) => {
@@ -64,7 +56,7 @@ const login = async (keycloak, axios) => {
 
   const userInfo = await keycloak.loadUserInfo();
 
-  return profileExist(userInfo, axios);
+  await profileExist(userInfo, axios);
 };
 
 export default login;

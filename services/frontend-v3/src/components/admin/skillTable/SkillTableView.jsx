@@ -11,7 +11,7 @@ import {
   Popconfirm,
   Form,
   Select,
-  message,
+  notification,
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -22,11 +22,12 @@ import {
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import _ from "lodash";
+import { sortBy } from "lodash";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
+import filterOption from "../../../functions/filterSelectInput";
 
 /**
  *  SkillTableView(props)
@@ -78,7 +79,7 @@ const SkillTableView = ({
         };
       });
 
-      setData(_.sortBy(unsortedData, locale === "ENGLISH" ? "en" : "fr"));
+      setData(sortBy(unsortedData, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [skills, categories, locale]);
 
@@ -131,8 +132,8 @@ const SkillTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visible) => {
-      if (visible) {
+    onFilterDropdownVisibleChange: (visibility) => {
+      if (visibility) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -151,20 +152,20 @@ const SkillTableView = ({
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* handles closure of add or edit skill modal */
@@ -236,7 +237,7 @@ const SkillTableView = ({
   const editSkillButton = () => {
     return (
       <Modal
-        visible={editVisible}
+        visibility={editVisible}
         title={<FormattedMessage id="admin.edit.skill" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -299,10 +300,7 @@ const SkillTableView = ({
               })} ${intl.formatMessage({
                 id: "admin.category",
               })}`}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              filterOption={filterOption}
             >
               {categories.data.map((category) => {
                 return (
@@ -396,7 +394,7 @@ const SkillTableView = ({
   const addSkillButton = () => {
     return (
       <Modal
-        visible={addVisible}
+        visibility={addVisible}
         title={<FormattedMessage id="admin.add.skill" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -473,10 +471,7 @@ const SkillTableView = ({
               })} ${intl.formatMessage({
                 id: "admin.category",
               })}`}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              filterOption={filterOption}
             >
               {categories.data.map((category) => {
                 return (

@@ -8,7 +8,7 @@ import {
   Modal,
   Popconfirm,
   Form,
-  message,
+  notification,
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -20,7 +20,7 @@ import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import _ from "lodash";
+import { sortBy } from "lodash";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
@@ -58,7 +58,7 @@ const SchoolTableView = ({
 
   useEffect(() => {
     if (data && locale) {
-      setSortedData(_.sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
+      setSortedData(sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
 
@@ -132,8 +132,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           .toLowerCase()
           .includes(_value.toLowerCase());
       },
-      onFilterDropdownVisibleChange: (visible) => {
-        if (visible) {
+      onFilterDropdownVisibleChange: (visibility) => {
+        if (visibility) {
           setTimeout(() => searchInput.select());
         }
       },
@@ -162,20 +162,20 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
-    message.success(
-      intl.formatMessage({
+    notification.success({
+      message: intl.formatMessage({
         id: "admin.success",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
-    message.info(
-      intl.formatMessage({
+    notification.info({
+      message: intl.formatMessage({
         id: "admin.cancelled",
-      })
-    );
+      }),
+    });
   };
 
   /* Renders the delete button and confirmation prompt */
@@ -247,7 +247,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   const addSchoolModal = () => {
     return (
       <Modal
-        visible={addVisible}
+        visibility={addVisible}
         title={<FormattedMessage id="admin.add.school" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -360,7 +360,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   const editSchoolModal = () => {
     return (
       <Modal
-        visible={editVisible}
+        visibility={editVisible}
         title={<FormattedMessage id="admin.edit.school" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ExperienceFormView from "./ExperienceFormView";
+
 import {
   FieldPropType,
   FormInstancePropType,
-  ProfileInfoPropType,
-  StylesPropType,
+  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 /**
@@ -16,48 +16,38 @@ import {
  */
 const ExperienceForm = ({
   form,
-  field,
-  remove,
-  profileInfo,
-  style,
+  fieldElement,
+  removeElement,
+  savedExperience,
   checkIfFormValuesChanged,
+  attachmentNames,
 }) => {
-  const [charsLeft, setCharsLeft] = useState(
-    field &&
-      field.key !== undefined &&
-      profileInfo &&
-      profileInfo.careerSummary &&
-      profileInfo.careerSummary[field.key] &&
-      profileInfo.careerSummary[field.key].content
-      ? 1500 - profileInfo.careerSummary[field.key].content.length
-      : 1500
-  );
-
-  const handleContentChange = (e) => {
-    setCharsLeft(1500 - e.currentTarget.value.length);
-  };
-
   return (
     <ExperienceFormView
       form={form}
-      field={field}
-      remove={remove}
-      profileInfo={profileInfo}
-      style={style}
+      fieldElement={fieldElement}
+      removeElement={removeElement}
+      savedExperience={savedExperience}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
-      charsLeft={charsLeft}
-      handleContentChange={handleContentChange}
+      attachmentNames={attachmentNames}
     />
   );
 };
 
 ExperienceForm.propTypes = {
   form: FormInstancePropType.isRequired,
-  field: FieldPropType.isRequired,
-  remove: PropTypes.func.isRequired,
-  profileInfo: ProfileInfoPropType.isRequired,
-  style: StylesPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
+  savedExperience: PropTypes.arrayOf(
+    PropTypes.shape({
+      diploma: PropTypes.string,
+      endDate: PropTypes.oneOfType([PropTypes.object]),
+      startDate: PropTypes.oneOfType([PropTypes.object]),
+      school: PropTypes.string,
+    })
+  ).isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 export default ExperienceForm;

@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useIntl } from "react-intl";
@@ -7,6 +6,7 @@ import useAxios from "../utils/axios-instance";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 import ErrorProfileNotFound from "../components/errorResult/errorProfileNotFound";
+import ErrorProfileHidden from "../components/errorResult/errorProfileHidden";
 
 const Profile = ({ history, match }) => {
   const intl = useIntl();
@@ -14,8 +14,9 @@ const Profile = ({ history, match }) => {
   const [name, setName] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [connectionData, setConnectionData] = useState(null);
-  const [loadingError, setLoadingError] = useState(false);
+  const [connectionData, setConnectionData] = useState(true);
+  const [userDoesNotExist, setUserDoesNotExist] = useState(false);
+  const [userIsHidden, setUserIsHidden] = useState(false);
 
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
@@ -23,37 +24,41 @@ const Profile = ({ history, match }) => {
   const { id } = match.params;
   const axios = useAxios();
 
-  const fetchProfile = async () => {
-    setLoadingError(false);
-    const promiseArray = [];
+  const fetchProfile = useCallback(async () => {
+    setUserDoesNotExist(false);
+    setUserIsHidden(false);
+    const apiCalls = [];
     const profile =
       id === userID
         ? axios.get(`api/profile/private/${id}?language=${locale}`)
         : axios.get(`api/profile/${id}?language=${locale}`);
 
-    promiseArray.push(profile);
+    apiCalls.push(profile);
 
     if (id !== userID) {
-      const connectionStatus = axios.get(`api/connections/${id}`);
-      promiseArray.push(connectionStatus);
+      apiCalls.push(axios.get(`api/connections/${id}`));
     }
 
-    Promise.all(promiseArray)
-      .then((result) => {
-        if (result[0].data !== undefined) {
-          const profileData = result[0].data;
-          setName(`${profileData.firstName} ${profileData.lastName}`);
-          setData(profileData);
-          if (result[0].data && userID !== id) {
-            setConnectionData(result[1].data.status);
-          }
+    try {
+      const [profileData, connectionsData] = await Promise.all(apiCalls);
+
+      if (profileData.data !== undefined) {
+        setName(`${profileData.data.firstName} ${profileData.data.lastName}`);
+        setData(profileData.data);
+        if (profileData.data && userID !== id) {
+          setConnectionData(connectionsData.data.status);
         }
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoadingError(true);
-      });
-  };
+      }
+
+      setLoading(false);
+    } catch (error) {
+      if (error.message.includes("404")) {
+        setUserIsHidden(true);
+      } else {
+        setUserDoesNotExist(true);
+      }
+    }
+  }, [axios, id, locale, userID]);
 
   useEffect(() => {
     if (id === undefined) {
@@ -61,19 +66,22 @@ const Profile = ({ history, match }) => {
     } else {
       fetchProfile();
     }
-  }, [history, id, locale, userID]);
+  }, [fetchProfile, history, id, locale, userID]);
 
   useEffect(() => {
-    setLoadingError(false);
+    setUserDoesNotExist(false);
+    setUserIsHidden(false);
   }, [history]);
 
   useEffect(() => {
-    if (loadingError) {
+    if (userDoesNotExist) {
       setName(intl.formatMessage({ id: "not.found" }));
+    } else if (userIsHidden) {
+      setName(intl.formatMessage({ id: "profile.hidden" }));
     } else if (loading) {
       setName(intl.formatMessage({ id: "loading" }));
     }
-  }, [locale, loadingError, loading]);
+  }, [locale, userDoesNotExist, userIsHidden, loading, intl]);
 
   useEffect(() => {
     document.title = `${name} | I-Talent`;
@@ -93,8 +101,12 @@ const Profile = ({ history, match }) => {
     }
   };
 
-  if (loadingError) {
+  if (userDoesNotExist) {
     return <ErrorProfileNotFound />;
+  }
+
+  if (userIsHidden) {
+    return <ErrorProfileHidden />;
   }
 
   return (

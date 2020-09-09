@@ -9,17 +9,19 @@
     "generate": "cd src/database && prisma generate",
     "migrate": "cd src/database && prisma migrate up --experimental -c",
     "migrate:create": "cd src/database && prisma migrate save --experimental",
-    "dev:docker": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
+    "docker:dev": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
+    "docker:prod": "yarn -s generate && yarn -s migrate && yarn -s start",
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio --experimental",
-    "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest"
+    "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest",
+    "snyk-protect": "snyk protect"
   },
   "author": "I-Talent team",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "2.4.1",
-    "axios": "^0.19.2",
+    "@prisma/client": "2.5.0",
+    "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "concurrently": "^5.3.0",
     "connect-redis": "^5.0.0",
@@ -30,17 +32,19 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
     "fuse.js": "^6.4.1",
-    "keycloak-connect": "^11.0.0",
-    "lodash": "^4.17.19",
+    "keycloak-connect": "^11.0.2",
+    "lodash": "^4.17.20",
     "moment": "^2.27.0",
+    "morgan": "^1.10.0",
     "redis": "^3.0.2",
+    "snyk": "^1.388.0",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
     "validator": "^13.1.1"
   },
   "devDependencies": {
-    "@prisma/cli": "2.4.1",
-    "eslint": "^7.6.0",
+    "@prisma/cli": "2.5.0",
+    "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -48,9 +52,9 @@
     "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.2.2",
+    "jest": "^26.4.2",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.1",
     "supertest": "^4.0.2"
   },
   "jest": {
@@ -79,5 +83,6 @@
       }
     },
     "coverageDirectory": "./tests/coverage"
-  }
+  },
+  "snyk": true
 }

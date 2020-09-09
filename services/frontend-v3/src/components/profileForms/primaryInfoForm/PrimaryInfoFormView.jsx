@@ -9,7 +9,7 @@ import {
   Select,
   Input,
   Button,
-  message,
+  notification,
   List,
   Popover,
   Modal,
@@ -17,28 +17,30 @@ import {
 } from "antd";
 import {
   LinkOutlined,
-  RightOutlined,
-  CheckOutlined,
   LoadingOutlined,
   InfoCircleOutlined,
+  SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import _ from "lodash";
+import { isEqual, identity, pickBy, find } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/axios-instance";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
+  KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import filterOption from "../../../functions/filterSelectInput";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -52,6 +54,7 @@ const PrimaryInfoFormView = ({
   history,
   userId,
   email,
+  employmentEquityOptions,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
@@ -94,24 +97,6 @@ const PrimaryInfoFormView = ({
     subHeading: {
       fontSize: "1.3em",
     },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-
-    clearBtn: { float: "left", marginBottom: "1rem" },
-
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
     unsavedText: {
       marginLeft: "10px",
       fontWeight: "normal",
@@ -130,6 +115,12 @@ const PrimaryInfoFormView = ({
     },
     infoIcon: {
       marginLeft: "5px",
+    },
+    popoverStyleCareer: {
+      marginLeft: "8px",
+    },
+    sectionHeader: {
+      marginBottom: 10,
     },
   };
 
@@ -171,34 +162,64 @@ const PrimaryInfoFormView = ({
     nameFormat: {
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+-[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="profile.rules.name" />,
-    }
+    },
   };
 
   /* Save data */
   const saveDataToDB = async (values) => {
+    const dbValues = {
+      ...values,
+    };
+    if (values.jobTitle) {
+      dbValues.jobTitle = {
+        [locale]: values.jobTitle,
+      };
+    }
     try {
-      await axios.put(`api/profile/${userId}?language=${locale}`, values);
+      await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
     }
   };
 
-  /* show message */
-  const openNotificationWithIcon = (type) => {
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
     switch (type) {
       case "success":
-        message.success(
-          intl.formatMessage({ id: "profile.edit.save.success" })
-        );
+        notification.success({
+          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        });
+        break;
+      case "jobTitleLangEN":
+        notification.warning({
+          description: intl.formatMessage({
+            id: "profile.edit.save.jobTitle.warning.en",
+          }),
+        });
+        break;
+      case "jobTitleLangFR":
+        notification.warning({
+          description: intl.formatMessage({
+            id: "profile.edit.save.jobTitle.warning.fr",
+          }),
+        });
         break;
       case "error":
-        message.error(intl.formatMessage({ id: "profile.edit.save.error" }));
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
         break;
       default:
-        message.warning(
-          intl.formatMessage({ id: "profile.edit.save.problem" })
-        );
+        notification.warning({
+          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+        });
         break;
     }
   };
@@ -210,6 +231,7 @@ const PrimaryInfoFormView = ({
         firstName: profile.firstName,
         lastName: profile.lastName,
         telephone: profile.telephone,
+        jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
         email: profile.email,
         locationId: profile.officeLocation
@@ -219,6 +241,7 @@ const PrimaryInfoFormView = ({
         gcconnex: profile.gcconnex,
         linkedin: profile.linkedin,
         github: profile.github,
+        employmentEquityGroups: profile.employmentEquityGroups,
       };
     }
     return { email };
@@ -227,19 +250,43 @@ const PrimaryInfoFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * _.pickBy({}, _.identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
-  const checkIfFormValuesChanged = () => {
-    const formValues = _.pickBy(form.getFieldsValue(), _.identity);
-    const dbValues = _.pickBy(
+  const checkIfFormValuesChanged = async () => {
+    const formValues = pickBy(form.getFieldsValue(), identity);
+    const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
-      _.identity
+      identity
     );
 
-    setFieldsChanged(!_.isEqual(formValues, dbValues));
+    setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /* save and show success notification */
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = () => {
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          <li key="1">
+            {intl.formatMessage({ id: "setup.primary.information" })}
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  /*
+   * Save
+   *
+   * save and show success notification
+   */
   const onSave = async () => {
     form
       .validateFields()
@@ -247,18 +294,25 @@ const PrimaryInfoFormView = ({
         setFieldsChanged(false);
         setSavedValues(values);
         await saveDataToDB(values);
-        openNotificationWithIcon("success");
+        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  /* save and redirect to next step in setup */
+  /*
+   * Save and next
+   *
+   * save and redirect to next step in setup
+   */
   const onSaveAndNext = async () => {
     form
       .validateFields()
@@ -271,17 +325,28 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
 
-  // redirect to profile
+  /*
+   * Finish
+   *
+   * redirect to profile
+   */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /* save and redirect to home */
+  /*
+   * Save and finish
+   *
+   * Save form data and redirect home
+   */
   const onSaveAndFinish = async () => {
     form
       .validateFields()
@@ -302,7 +367,10 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           handleError(error, "message");
         } else {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon({
+            type: "error",
+            description: getAllValidationErrorMessages(),
+          });
         }
       });
   };
@@ -319,13 +387,17 @@ const PrimaryInfoFormView = ({
         if (Object.keys(result.data).length) {
           setNewGedsValues(result.data);
         } else {
-          message.info(intl.formatMessage({ id: "profile.geds.up.to.date" }));
+          notification.info({
+            message: intl.formatMessage({ id: "profile.geds.up.to.date" }),
+          });
         }
       })
       .catch(() =>
-        message.warning(
-          intl.formatMessage({ id: "profile.geds.failed.to.retrieve" })
-        )
+        notification.warning({
+          message: intl.formatMessage({
+            id: "profile.geds.failed.to.retrieve",
+          }),
+        })
       );
     setGatheringGedsData(false);
   };
@@ -333,7 +405,9 @@ const PrimaryInfoFormView = ({
   /* reset form fields */
   const onReset = () => {
     form.resetFields();
-    message.info(intl.formatMessage({ id: "profile.form.clear" }));
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
     checkIfFormValuesChanged();
   };
 
@@ -344,17 +418,17 @@ const PrimaryInfoFormView = ({
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
-            <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </Button>
             <Popover
-              trigger="click"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
-                  <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                  >
                     <FormattedMessage id="profile.geds.edit.info.link" />
-                  </Link>
+                  </a>
                   <FormattedMessage id="profile.geds.edit.info2" />
                 </div>
               }
@@ -370,16 +444,22 @@ const PrimaryInfoFormView = ({
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
           <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-            <FormattedMessage id="profile.geds.sync.button" />
+            <SyncOutlined />
+            <span>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </span>
           </Button>
           <Popover
-            trigger="click"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
-                <Link to="https://userprofile.prod.prv/icpup.asp?lang=E">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                >
                   <FormattedMessage id="profile.geds.edit.info.link" />
-                </Link>
+                </a>
                 <FormattedMessage id="profile.geds.edit.info2" />
               </div>
             }
@@ -396,88 +476,6 @@ const PrimaryInfoFormView = ({
     );
   };
 
-  /*
-   * Get Form Control Buttons
-   *
-   * Get Form Control Buttons based on form type (edit or create)
-   */
-  const getFormControlButtons = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSaveAndFinish}
-              htmlType="button"
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              <FormattedMessage id="setup.save.and.finish" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.finishAndNextBtn}
-              type="primary"
-              onClick={onSaveAndNext}
-            >
-              <FormattedMessage id="setup.save.and.next" /> <RightOutlined />
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    if (_formType === "edit") {
-      return (
-        <Row gutter={24} style={{ marginTop: "20px" }}>
-          <Col xs={24} md={24} lg={18} xl={18}>
-            <Button
-              style={styles.finishAndSaveBtn}
-              onClick={onSave}
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="setup.save" />
-            </Button>
-            <Button
-              style={styles.clearBtn}
-              htmlType="button"
-              onClick={onReset}
-              danger
-              disabled={!fieldsChanged}
-            >
-              <FormattedMessage id="button.clear" />
-            </Button>
-          </Col>
-          <Col xs={24} md={24} lg={6} xl={6}>
-            <Button
-              style={styles.saveBtn}
-              type="primary"
-              onClick={fieldsChanged ? onSaveAndFinish : onFinish}
-            >
-              <CheckOutlined style={{ marginRight: "0.2rem" }} />
-              {fieldsChanged ? (
-                <FormattedMessage id="setup.save.and.finish" />
-              ) : (
-                  <FormattedMessage id="button.finish" />
-                )}
-            </Button>
-          </Col>
-        </Row>
-      );
-    }
-    // eslint-disable-next-line no-console
-    console.log("Error Getting Action Buttons");
-    return undefined;
-  };
-
   const handleGedsConfirm = async () => {
     await axios
       .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
@@ -487,13 +485,19 @@ const PrimaryInfoFormView = ({
           "lastName",
           "cellphone",
           "telephone",
+          "jobTitle",
           "locationId",
         ];
 
         const newFieldVals = [];
         possibleKeys.forEach((key) => {
           if (key in newGedsValues) {
-            newFieldVals.push({ name: key, value: newGedsValues[key] });
+            if (key === "jobTitle") {
+              const tempVal = newGedsValues[key];
+              newFieldVals.push({ name: key, value: tempVal[locale] });
+            } else {
+              newFieldVals.push({ name: key, value: newGedsValues[key] });
+            }
           }
         });
         form.setFields(newFieldVals);
@@ -521,7 +525,7 @@ const PrimaryInfoFormView = ({
       }
 
       if (newGedsValues.locationId) {
-        const locationOption = _.find(
+        const locationOption = find(
           locationOptions,
           (option) => option.id === newGedsValues.locationId
         );
@@ -539,10 +543,10 @@ const PrimaryInfoFormView = ({
         });
       }
 
-      if (newGedsValues.phoneNumber) {
+      if (newGedsValues.cellphone) {
         changes.push({
           title: <FormattedMessage id="profile.cellphone" />,
-          description: profileInfo.phoneNumber,
+          description: profileInfo.cellphone,
         });
       }
 
@@ -583,7 +587,7 @@ const PrimaryInfoFormView = ({
     return (
       <Modal
         title={<FormattedMessage id="profile.geds.changes" />}
-        visible={gatheringGedsData || newGedsValues}
+        visibility={gatheringGedsData || newGedsValues}
         onOk={handleGedsConfirm}
         onCancel={() => {
           setNewGedsValues(null);
@@ -603,12 +607,12 @@ const PrimaryInfoFormView = ({
             ))}
           </List>
         ) : (
-            <div style={{ textAlign: "center" }}>
-              <Spin
-                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-              />
-            </div>
-          )}
+          <div style={{ textAlign: "center" }}>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        )}
       </Modal>
     );
   };
@@ -689,24 +693,28 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
-                name="telephone"
-                label={<FormattedMessage id="profile.telephone" />}
-                rules={Rules.telephoneFormat}
+                name="jobTitle"
+                label={
+                  <>
+                    <FormattedMessage id="profile.career.header.name" />
+                    <div style={styles.popoverStyleCareer}>
+                      <Popover
+                        content={
+                          <div style={styles.popoverStyle}>
+                            <FormattedMessage id="profile.career.header.tooltip" />
+                          </div>
+                        }
+                      >
+                        <InfoCircleOutlined />
+                      </Popover>
+                    </div>
+                  </>
+                }
+                rules={[Rules.maxChar50]}
               >
                 <Input />
               </Form.Item>
             </Col>
-
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="cellphone"
-                label={<FormattedMessage id="profile.cellphone" />}
-                rules={[Rules.telephoneFormat]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="email"
@@ -716,39 +724,7 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
-          </Row>
-          {/* Form Row Three */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
-              <Form.Item
-                name="locationId"
-                label={<FormattedMessage id="profile.location" />}
-                rules={[Rules.required, Rules.maxChar50]}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder={<FormattedMessage id="setup.select" />}
-                  allowClear
-                  filterOption={(input, option) =>
-                    option.children
-                      .join("")
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {locationOptions.map((value) => {
-                    return (
-                      <Option key={value.id}>
-                        {value.streetNumber} {value.streetName}, {value.city},{" "}
-                        {value.province}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="teams"
                 label={<FormattedMessage id="profile.teams" />}
@@ -761,6 +737,50 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="setup.teams.placeholder" />
                   }
                 />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="locationId"
+                label={<FormattedMessage id="profile.location" />}
+                rules={[Rules.required, Rules.maxChar50]}
+              >
+                <Select
+                  showSearch
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={filterOption}
+                >
+                  {locationOptions.map((value) => {
+                    return (
+                      <Option key={value.id}>
+                        {value.streetNumber} {value.streetName}, {value.city},{" "}
+                        {value.province}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="telephone"
+                label={<FormattedMessage id="profile.telephone" />}
+                rules={Rules.telephoneFormat}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+              <Form.Item
+                name="cellphone"
+                label={<FormattedMessage id="profile.cellphone" />}
+                rules={[Rules.telephoneFormat]}
+              >
+                <Input />
               </Form.Item>
             </Col>
           </Row>
@@ -820,7 +840,48 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          {getFormControlButtons(formType)}
+          <Divider style={styles.headerDiv} />
+          <Row
+            justify="space-between"
+            style={styles.sectionHeader}
+            align="middle"
+          >
+            <Title level={3} style={styles.formTitle}>
+              <FormattedMessage id="profile.employment.equity.groups" />
+            </Title>
+            <CardVisibilityToggle
+              visibleCards={profileInfo.visibleCards}
+              cardName="employmentEquityGroup"
+              type="form"
+            />
+          </Row>
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item name="employmentEquityGroups">
+                <Select
+                  showSearch
+                  mode="multiple"
+                  placeholder={<FormattedMessage id="setup.select" />}
+                  allowClear
+                  filterOption={filterOption}
+                  className="custom-bubble-select-style"
+                >
+                  {employmentEquityOptions.map(({ key, text }) => (
+                    <Option key={key}>{text}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <FormControlButton
+            formType={formType}
+            onSave={onSave}
+            onSaveAndNext={onSaveAndNext}
+            onSaveAndFinish={onSaveAndFinish}
+            onReset={onReset}
+            onFinish={onFinish}
+            fieldsChanged={fieldsChanged}
+          />
         </Form>
       </div>
     </>
@@ -836,6 +897,7 @@ PrimaryInfoFormView.propTypes = {
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

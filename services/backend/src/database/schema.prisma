@@ -37,12 +37,20 @@ enum ProficiencyLevel {
   C
   E
   X
+  NA
 }
 
 enum CardVisibilityStatus {
   PRIVATE
   PUBLIC
   CONNECTIONS
+}
+
+enum EmploymentEquityGroup {
+  WOMEN
+  INDIGENOUS
+  DISABILITY
+  MINORITY
 }
 
 model OpTransSecurityClearance {
@@ -157,16 +165,15 @@ model OpTransOfficeLocation {
 }
 
 model OpOfficeLocation {
-  id                  String                  @default(uuid()) @id
-  createdAt           DateTime                @default(now())
-  updatedAt           DateTime                @updatedAt
-  postalCode          String
-  streetNumber        Int
-  city                String
-  country             String
-  translations        OpTransOfficeLocation[]
-  relocationLocations RelocationLocation[]
-  users               User[]
+  id           String                  @default(uuid()) @id
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  postalCode   String
+  streetNumber Int
+  city         String
+  country      String
+  translations OpTransOfficeLocation[]
+  users        User[]
 }
 
 model OpClassification {
@@ -293,6 +300,27 @@ model OpDiploma {
   educations   Education[]
 }
 
+model OpTransRelocationLocation {
+  id        String   @default(uuid()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  language  String
+  city      String
+  province  String
+
+  @@unique([language, city, province])
+  opRelocationLocation   OpRelocationLocation? @relation(fields: [opRelocationLocationId])
+  opRelocationLocationId String?
+}
+
+model OpRelocationLocation {
+  id                 String                      @default(uuid()) @id
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
+  translations       OpTransRelocationLocation[]
+  RelocationLocation RelocationLocation[]
+}
+
 model TransEmploymentInfo {
   id               String          @default(uuid()) @id
   createdAt        DateTime        @default(now())
@@ -313,22 +341,23 @@ model EmploymentInfo {
 }
 
 model VisibleCard {
-  id                 String               @default(uuid()) @id
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  info               CardVisibilityStatus @default(PRIVATE)
-  talentManagement   CardVisibilityStatus @default(PRIVATE)
-  officialLanguage   CardVisibilityStatus @default(PRIVATE)
-  skills             CardVisibilityStatus @default(PRIVATE)
-  competencies       CardVisibilityStatus @default(PRIVATE)
-  developmentalGoals CardVisibilityStatus @default(PRIVATE)
-  education          CardVisibilityStatus @default(PRIVATE)
-  experience         CardVisibilityStatus @default(PRIVATE)
-  projects           CardVisibilityStatus @default(PRIVATE)
-  careerInterests    CardVisibilityStatus @default(PRIVATE)
-  mentorshipSkills   CardVisibilityStatus @default(PRIVATE)
-  exFeeder           CardVisibilityStatus @default(PRIVATE)
-  users              User[]
+  id                    String               @default(uuid()) @id
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  info                  CardVisibilityStatus @default(PRIVATE)
+  talentManagement      CardVisibilityStatus @default(PRIVATE)
+  officialLanguage      CardVisibilityStatus @default(PRIVATE)
+  skills                CardVisibilityStatus @default(PRIVATE)
+  competencies          CardVisibilityStatus @default(PRIVATE)
+  developmentalGoals    CardVisibilityStatus @default(PRIVATE)
+  description           CardVisibilityStatus @default(PRIVATE)
+  education             CardVisibilityStatus @default(PRIVATE)
+  experience            CardVisibilityStatus @default(PRIVATE)
+  careerInterests       CardVisibilityStatus @default(PRIVATE)
+  mentorshipSkills      CardVisibilityStatus @default(PRIVATE)
+  exFeeder              CardVisibilityStatus @default(PRIVATE)
+  employmentEquityGroup CardVisibilityStatus @default(PRIVATE)
+  users                 User[]
 }
 
 model MentorshipSkill {
@@ -371,14 +400,15 @@ model DevelopmentalGoal {
 }
 
 model SecondLangProf {
-  id          String           @default(uuid()) @id
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  userId      String
-  date        DateTime?
-  proficiency Proficiency
-  level       ProficiencyLevel
-  user        User             @relation(fields: [userId])
+  id                 String           @default(uuid()) @id
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  userId             String
+  date               DateTime?
+  unknownExpiredDate Boolean?         @default(false)
+  proficiency        Proficiency
+  level              ProficiencyLevel
+  user               User             @relation(fields: [userId])
 
   @@unique([userId, proficiency])
 }
@@ -413,17 +443,19 @@ model TransOrganization {
 }
 
 model Education {
-  id        String     @default(uuid()) @id
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  userId    String
-  schoolId  String?
-  diplomaId String?
-  endDate   DateTime?
-  startDate DateTime
-  user      User       @relation(fields: [userId])
-  school    OpSchool?  @relation(fields: [schoolId])
-  diploma   OpDiploma? @relation(fields: [diplomaId])
+  id              String           @default(uuid()) @id
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  userId          String
+  schoolId        String?
+  diplomaId       String?
+  endDate         DateTime?
+  startDate       DateTime
+  description     String?
+  attachmentLinks AttachmentLink[]
+  user            User             @relation(fields: [userId])
+  school          OpSchool?        @relation(fields: [schoolId])
+  diploma         OpDiploma?       @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, startDate])
 }
@@ -441,84 +473,132 @@ model TransExperience {
 }
 
 model Experience {
-  id           String            @default(uuid()) @id
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  translations TransExperience[]
-  userId       String
-  startDate    DateTime
-  endDate      DateTime?
-  user         User              @relation(fields: [userId])
+  id              String            @default(uuid()) @id
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  translations    TransExperience[]
+  userId          String
+  startDate       DateTime
+  endDate         DateTime?
+  projects        String[]
+  attachmentLinks AttachmentLink[]
+  user            User              @relation(fields: [userId])
 }
 
 model RelocationLocation {
-  id         String           @default(uuid()) @id
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-  userId     String
-  locationId String
-  user       User             @relation(fields: [userId])
-  location   OpOfficeLocation @relation(fields: [locationId])
+  id                   String               @default(uuid()) @id
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  relocationLocationId String
+  relocationLocation   OpRelocationLocation @relation(fields: [relocationLocationId])
+  userId               String
+  user                 User                 @relation(fields: [userId])
 
-  @@unique([userId, locationId])
+  @@unique([userId, relocationLocationId])
+}
+
+model OpTransAttachmentLinkName {
+  id        String   @default(uuid()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  language  Language
+  name      String
+
+  OpAttachmentLinkName   OpAttachmentLinkName? @relation(fields: [opAttachmentLinkNameId], references: [id])
+  opAttachmentLinkNameId String?
+}
+
+model OpAttachmentLinkName {
+  id                  String                      @default(uuid()) @id
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
+  type                String
+  translations        OpTransAttachmentLinkName[]
+  TransAttachmentLink TransAttachmentLink[]
+}
+
+model TransAttachmentLink {
+  id        String   @default(uuid()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  language  Language
+  nameId    String
+  url       String
+
+  name             OpAttachmentLinkName @relation(fields: [nameId])
+  AttachmentLink   AttachmentLink?      @relation(fields: [attachmentLinkId], references: [id])
+  attachmentLinkId String?
+}
+
+model AttachmentLink {
+  id           String                @default(uuid()) @id
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  translations TransAttachmentLink[]
+
+  Experience   Experience? @relation(fields: [experienceId], references: [id])
+  experienceId String?
+  Education    Education?  @relation(fields: [educationId], references: [id])
+  educationId  String?
 }
 
 model User {
-  id                   String                @default(uuid()) @id
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  groupLevelId         String?
-  actingLevelId        String?
-  securityClearanceId  String?
-  lookingJobId         String?
-  tenureId             String?
-  careerMobilityId     String?
-  employmentInfoId     String?
-  talentMatrixResultId String?
-  officeLocationId     String?
-  visibleCardId        String
-  name                 String?
-  firstName            String?
-  lastName             String?
-  avatarColor          String?
-  email                String?
-  telephone            String?
-  cellphone            String?
-  manager              String?
-  firstLanguage        Language?
-  secondLanguage       Language?
-  preferredLanguage    Language              @default(ENGLISH)
-  actingStartDate      DateTime?
-  actingEndDate        DateTime?
-  linkedin             String?
-  github               String?
-  gcconnex             String?
-  exFeeder             Boolean               @default(false)
-  interestedInRemote   Boolean               @default(false)
-  status               UserStatus            @default(ACTIVE)
-  signupStep           Int                   @default(1)
-  projects             String[]
-  teams                String[]
-  groupLevel           OpClassification?     @relation(fields: [groupLevelId], name: "groupLevels")
-  actingLevel          OpClassification?     @relation(fields: [actingLevelId], name: "actingLevels")
-  securityClearance    OpSecurityClearance?  @relation(fields: [securityClearanceId])
-  lookingJob           OpLookingJob?         @relation(fields: [lookingJobId])
-  tenure               OpTenure?             @relation(fields: [tenureId])
-  careerMobility       OpCareerMobility?     @relation(fields: [careerMobilityId])
-  employmentInfo       EmploymentInfo?       @relation(fields: [employmentInfoId])
-  talentMatrixResult   OpTalentMatrixResult? @relation(fields: [talentMatrixResultId])
-  officeLocation       OpOfficeLocation?     @relation(fields: [officeLocationId])
-  visibleCards         VisibleCard           @relation(fields: [visibleCardId])
-  mentorshipSkills     MentorshipSkill[]
-  skills               Skill[]
-  developmentalGoals   DevelopmentalGoal[]
-  competencies         Competency[]
-  secondLangProfs      SecondLangProf[]
-  organizations        Organization[]
-  educations           Education[]
-  experiences          Experience[]
-  relocationLocations  RelocationLocation[]
-  connections          User[]
-  user                 User?                 @relation("UserToUser", fields: [userId])
-  userId               String?
+  id                     String                  @default(uuid()) @id
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  groupLevelId           String?
+  actingLevelId          String?
+  securityClearanceId    String?
+  lookingJobId           String?
+  tenureId               String?
+  careerMobilityId       String?
+  employmentInfoId       String?
+  talentMatrixResultId   String?
+  officeLocationId       String?
+  visibleCardId          String
+  name                   String?
+  firstName              String?
+  lastName               String?
+  avatarColor            String?
+  email                  String?
+  telephone              String?
+  cellphone              String?
+  manager                String?
+  description            String?
+  firstLanguage          Language?
+  secondLanguage         Language?
+  preferredLanguage      Language                @default(ENGLISH)
+  actingStartDate        DateTime?
+  actingEndDate          DateTime?
+  linkedin               String?
+  github                 String?
+  gcconnex               String?
+  exFeeder               Boolean                 @default(false)
+  interestedInRemote     Boolean?
+  status                 UserStatus              @default(ACTIVE)
+  signupStep             Int                     @default(1)
+  teams                  String[]
+  groupLevel             OpClassification?       @relation(fields: [groupLevelId], name: "groupLevels")
+  actingLevel            OpClassification?       @relation(fields: [actingLevelId], name: "actingLevels")
+  securityClearance      OpSecurityClearance?    @relation(fields: [securityClearanceId])
+  lookingJob             OpLookingJob?           @relation(fields: [lookingJobId])
+  tenure                 OpTenure?               @relation(fields: [tenureId])
+  careerMobility         OpCareerMobility?       @relation(fields: [careerMobilityId])
+  employmentInfo         EmploymentInfo?         @relation(fields: [employmentInfoId])
+  talentMatrixResult     OpTalentMatrixResult?   @relation(fields: [talentMatrixResultId])
+  officeLocation         OpOfficeLocation?       @relation(fields: [officeLocationId])
+  visibleCards           VisibleCard             @relation(fields: [visibleCardId])
+  mentorshipSkills       MentorshipSkill[]
+  skills                 Skill[]
+  developmentalGoals     DevelopmentalGoal[]
+  competencies           Competency[]
+  secondLangProfs        SecondLangProf[]
+  organizations          Organization[]
+  educations             Education[]
+  experiences            Experience[]
+  relocationLocations    RelocationLocation[]
+  employmentEquityGroups EmploymentEquityGroup[]
+  connections            User[]                  @relation("UserToUser")
+  user                   User?                   @relation("UserToUser", fields: [userId])
+  userId                 String?
 }

@@ -1,45 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const EmployeeSummary = ({ data, type }) => {
-  const [activeTabKey, setActiveTabKey] = useState("1");
-  const [editUrl, setEditUrl] = useState("");
-
-  useEffect(() => {
-    if (activeTabKey === "3") {
-      setEditUrl("language-proficiency");
-    } else {
-      setEditUrl("employment");
-    }
-  }, [activeTabKey]);
-
+const EmployeeSummary = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
-      titleId="profile.employee.summary"
-      content={
-        <EmployeeSummaryView data={data} setActiveTabKey={setActiveTabKey} />
-      }
+      titleId="profile.employee.status"
+      content={<EmployeeSummaryView data={data} />}
       cardName="info"
       id="card-profile-employee-summary"
-      editUrl={`/profile/edit/${editUrl}`}
+      editUrl="/profile/edit/employment"
       data={data}
-      type={type}
-      visible={data.visibleCards.info}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.info}
     />
   );
 };
 
 EmployeeSummary.propTypes = {
   data: ProfileInfoPropType,
-  type: PropTypes.bool,
+  editableCardBool: PropTypes.bool,
 };
 
 EmployeeSummary.defaultProps = {
   data: null,
-  type: null,
+  editableCardBool: false,
 };
 
 export default EmployeeSummary;

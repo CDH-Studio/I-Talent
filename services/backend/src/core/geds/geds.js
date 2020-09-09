@@ -1,6 +1,7 @@
 const axios = require("axios");
 const prisma = require("../../database");
 const config = require("../../config");
+const { handleAxiosErrors } = require("../../utils/handleErrors");
 
 async function getGedsSetup(request, response) {
   const { id } = request.params;
@@ -75,8 +76,8 @@ async function getGedsSetup(request, response) {
             ENGLISH: branchOrg.description.en,
             FRENCH: branchOrg.description.en,
           },
-          telephone: dataGEDS.phoneNumber,
-          cellphone: dataGEDS.altPhoneNumber,
+          telephone: dataGEDS.contactInformation.phoneNumber,
+          cellphone: dataGEDS.contactInformation.altPhoneNumber,
           jobTitle: {
             ENGLISH: dataGEDS.title.en,
             FRENCH: dataGEDS.title.fr,
@@ -100,7 +101,7 @@ async function getGedsSetup(request, response) {
       }
     })
     .catch((error) => {
-      console.log(error);
+      handleAxiosErrors(error);
       response.status(500).json("Unable to get geds Profile");
     });
 }
@@ -236,12 +237,12 @@ async function getGedsSync(request, response) {
           profile.lastName = dataGEDS.surname;
         }
 
-        if (dataGEDS.telephone && dataGEDS.telephone !== user.telephone) {
-          profile.telephone = dataGEDS.telephone;
+        if (dataGEDS.contactInformation.phoneNumber !== user.telephone) {
+          profile.telephone = dataGEDS.contactInformation.phoneNumber;
         }
 
-        if (dataGEDS.cellphone && dataGEDS.cellphone !== user.cellphone) {
-          profile.cellphone = dataGEDS.cellphone;
+        if (dataGEDS.contactInformation.altPhoneNumber !== user.cellphone) {
+          profile.cellphone = dataGEDS.contactInformation.altPhoneNumber;
         }
 
         if (!user.officeLocation || location[0].id !== user.officeLocation.id) {
