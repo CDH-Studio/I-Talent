@@ -132,8 +132,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           .toLowerCase()
           .includes(_value.toLowerCase());
       },
-      onFilterDropdownVisibleChange: (visibility) => {
-        if (visibility) {
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
           setTimeout(() => searchInput.select());
         }
       },

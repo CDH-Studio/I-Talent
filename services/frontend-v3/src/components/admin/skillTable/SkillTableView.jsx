@@ -132,8 +132,8 @@ const SkillTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visibility) => {
-      if (visibility) {
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
