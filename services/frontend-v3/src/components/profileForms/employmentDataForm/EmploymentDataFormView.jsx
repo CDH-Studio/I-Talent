@@ -69,7 +69,7 @@ const EmploymentDataFormView = ({
   /* Component Styles */
   const styles = {
     skeleton: {
-      minHeight: "400px",
+      minHeight: "658px",
       maxWidth: "900px",
       background: "#fff",
       padding: "30px 30px",
@@ -669,7 +669,7 @@ const EmploymentDataFormView = ({
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
           </Row>
-          
+
           <Divider style={styles.headerDiv} />
           <Row
             justify="space-between"

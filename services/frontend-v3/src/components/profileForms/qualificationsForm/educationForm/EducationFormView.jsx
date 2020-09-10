@@ -270,15 +270,13 @@ const EducationFormView = ({
                     key={field.fieldKey}
                     fieldElement={field}
                     removeElement={remove}
-                    NameOptions={attachmentNames}
+                    nameOptions={attachmentNames}
                   />
                 ))}
                 <Form.Item>
                   <Button
                     type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
+                    onClick={add}
                     disabled={fields.length === 3}
                     style={{ width: "100%" }}
                   >
