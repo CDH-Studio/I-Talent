@@ -22,11 +22,22 @@ const keycloak = new KeycloakConnect(
   }
 );
 
+const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
+
 const sessionInstance = session({
+  name: config.SESSION_NAME,
   secret: config.KEYCLOAK_SECRET,
   resave: false,
   saveUninitialized: true,
   store,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: config.COOKIE_DOMAIN,
+    path: config.COOKIE_PATH,
+    expires: expiryDate,
+    sameSite: config.ENV === "production",
+  },
 });
 
 module.exports = { keycloak, sessionInstance };
