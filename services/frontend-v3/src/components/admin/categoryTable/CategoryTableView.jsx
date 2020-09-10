@@ -197,7 +197,7 @@ const CategoryTableView = ({
   const addCategoryButton = () => {
     return (
       <Modal
-        visibility={addVisible}
+        visible={addVisible}
         title={<FormattedMessage id="admin.add.category" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -264,7 +264,7 @@ const CategoryTableView = ({
   const editCategoryButton = () => {
     return (
       <Modal
-        visibility={editVisible}
+        visible={editVisible}
         title={<FormattedMessage id="admin.edit.category" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
