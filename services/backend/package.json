@@ -32,6 +32,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
     "fuse.js": "^6.4.1",
+    "helmet": "^4.1.0",
     "keycloak-connect": "^11.0.2",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
