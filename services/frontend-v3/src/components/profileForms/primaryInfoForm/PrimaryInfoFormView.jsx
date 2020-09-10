@@ -70,7 +70,7 @@ const PrimaryInfoFormView = ({
   /* Component Styles */
   const styles = {
     skeleton: {
-      minHeight: "400px",
+      minHeight: "621px",
       maxWidth: "900px",
       background: "#fff",
       padding: "30px 30px",

@@ -367,9 +367,7 @@ const QualificationsFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={() => {
-                                add();
-                              }}
+                              onClick={add}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
@@ -417,9 +415,7 @@ const QualificationsFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={() => {
-                                add();
-                              }}
+                              onClick={add}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />

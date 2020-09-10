@@ -132,8 +132,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           .toLowerCase()
           .includes(_value.toLowerCase());
       },
-      onFilterDropdownVisibleChange: (visibility) => {
-        if (visibility) {
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
           setTimeout(() => searchInput.select());
         }
       },
@@ -247,7 +247,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   const addSchoolModal = () => {
     return (
       <Modal
-        visibility={addVisible}
+        visible={addVisible}
         title={<FormattedMessage id="admin.add.school" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -360,7 +360,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   const editSchoolModal = () => {
     return (
       <Modal
-        visibility={editVisible}
+        visible={editVisible}
         title={<FormattedMessage id="admin.edit.school" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
