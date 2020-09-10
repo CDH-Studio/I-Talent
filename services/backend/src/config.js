@@ -14,6 +14,9 @@ const {
   GEDSAPIKEY,
   REDIS_HOST,
   REDIS_PASSWORD,
+  COOKIE_DOMAIN,
+  COOKIE_PATH,
+  SESSION_NAME,
 } = process.env;
 
 const production = {
@@ -30,6 +33,9 @@ const production = {
   GEDSAPIKEY,
   REDIS_HOST,
   REDIS_PASSWORD,
+  COOKIE_DOMAIN,
+  COOKIE_PATH,
+  SESSION_NAME,
 };
 
 const test = {
@@ -73,6 +79,9 @@ const development = {
   GEDSAPIKEY: GEDSAPIKEY || "",
   REDIS_HOST: REDIS_HOST || "redis",
   REDIS_PASSWORD: REDIS_PASSWORD || "",
+  COOKIE_DOMAIN: COOKIE_DOMAIN || undefined,
+  COOKIE_PATH: COOKIE_PATH || undefined,
+  SESSION_NAME: SESSION_NAME || undefined,
 };
 
 const config = () => {
