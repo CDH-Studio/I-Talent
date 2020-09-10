@@ -232,25 +232,7 @@ const ProfileLayoutView = ({
             <CareerInterests data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        {/** ********** Qualifications *********** */}
-        <Title
-          level={2}
-          style={styles.sectionHeader}
-          id="divider-qualifications"
-        >
-          <TrophyOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
-          <FormattedMessage id="profile.employee.qualifications" />
-        </Title>
-        <Row style={styles.row}>
-          <Col span={24}>
-            <Education data={data} type={privateProfile} />
-          </Col>
-        </Row>
-        <Row style={styles.row}>
-          <Col span={24}>
-            <Experience data={data} type={privateProfile} />
-          </Col>
-        </Row>
+
         {/** ********** Connections *********** */}
         {privateProfile && (
           <div>
