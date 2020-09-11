@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const timeout = require("connect-timeout");
@@ -13,6 +14,7 @@ const config = require("./config");
 const app = express();
 
 app.use(cors());
+app.use(helmet());
 app.use(sessionInstance);
 
 app.use((req, res, next) => {
