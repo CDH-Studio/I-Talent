@@ -116,6 +116,23 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      developmentalGoalsAttachments: {
+        select: {
+          id: true,
+          translations: {
+            select: {
+              url: true,
+              name: {
+                select: {
+                  translations: true,
+                },
+              },
+              nameId: true,
+              language: true,
+            },
+          },
+        },
+      },
       educations: {
         select: {
           id: true,

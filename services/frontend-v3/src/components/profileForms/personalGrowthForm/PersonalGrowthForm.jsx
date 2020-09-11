@@ -21,10 +21,12 @@ const PersonalGrowthForm = ({ formType }) => {
   const [currentTab, setCurrentTab] = useState(null);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
+  const [savedAttachments, setSavedAttachments] = useState([]);
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
     []
   );
   const [relocationOptions, setRelocationOptions] = useState([]);
+  const [attachmentOptions, setAttachmentOptions] = useState([]);
   const [savedRelocationLocations, setSavedRelocationLocations] = useState([]);
   const [lookingForNewJobOptions, setLookingForNewJobOptions] = useState([]);
   const [savedLookingForNewJob, setSavedLookingForNewJob] = useState(undefined);
@@ -53,7 +55,19 @@ const PersonalGrowthForm = ({ formType }) => {
    * get saved Developmental Goals from profile
    */
   const getSavedDevelopmentalGoals = () => {
-    setSavedDevelopmentalGoals(profileInfo.developmentalGoals.map((i) => i.id));
+    if (profileInfo.developmentalGoals)
+      setSavedDevelopmentalGoals(
+        profileInfo.developmentalGoals.map((i) => i.id)
+      );
+
+    if (profileInfo.developmentalGoalsAttachments)
+      setSavedAttachments(
+        profileInfo.developmentalGoalsAttachments.map((link) => ({
+          id: link.id,
+          nameId: link.name.id,
+          url: link.url,
+        }))
+      );
   };
 
   /**
@@ -151,8 +165,19 @@ const PersonalGrowthForm = ({ formType }) => {
     const result = await axios.get(
       `api/option/cityLocations?language=${locale}`
     );
-
     setRelocationOptions(result.data);
+  }, [axios, locale]);
+
+  /**
+   * Get Attachment Options
+   *
+   * get a list of Attachment Options for dropdown treeSelect
+   */
+  const getAddAttachmentOptions = useCallback(async () => {
+    const result = await axios.get(
+      `api/option/attachmentNames?language=${locale}&type=Dev`
+    );
+    setAttachmentOptions(result.data);
   }, [axios, locale]);
 
   /**
@@ -162,7 +187,6 @@ const PersonalGrowthForm = ({ formType }) => {
    */
   const getLookingForNewJobOptions = useCallback(async () => {
     const result = await axios.get(`api/option/lookingJobs?language=${locale}`);
-
     setLookingForNewJobOptions(result.data);
   }, [axios, locale]);
 
@@ -241,6 +265,7 @@ const PersonalGrowthForm = ({ formType }) => {
       getLookingForNewJobOptions(),
       getCareerMobilityOptions(),
       getTalentMatrixResultOptions(),
+      getAddAttachmentOptions(),
     ])
       .then(() => {
         setLoad(true);
@@ -250,6 +275,7 @@ const PersonalGrowthForm = ({ formType }) => {
         handleError(error, "redirect");
       });
   }, [
+    getAddAttachmentOptions,
     getCareerMobilityOptions,
     getDevelopmentalGoalOptions,
     getInterestedInRemoteOptions,
@@ -264,6 +290,7 @@ const PersonalGrowthForm = ({ formType }) => {
       profileInfo={profileInfo}
       developmentalGoalOptions={developmentalGoalOptions}
       savedDevelopmentalGoals={savedDevelopmentalGoals}
+      savedAttachments={savedAttachments}
       interestedInRemoteOptions={interestedInRemoteOptions}
       relocationOptions={relocationOptions}
       savedRelocationLocations={savedRelocationLocations}
@@ -279,6 +306,7 @@ const PersonalGrowthForm = ({ formType }) => {
       load={load}
       history={history}
       userId={id}
+      attachmentOptions={attachmentOptions}
     />
   );
 };
