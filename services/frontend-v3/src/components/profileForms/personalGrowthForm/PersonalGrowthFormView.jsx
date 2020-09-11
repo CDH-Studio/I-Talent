@@ -255,31 +255,6 @@ const PersonalGrowthFormView = ({
   };
 
   /*
-   * save and next
-   *
-   * save and redirect to next step in setup
-   */
-  const onSaveAndNext = async () => {
-    form
-      .validateFields()
-      .then(async () => {
-        const values = form.getFieldValue();
-        await saveDataToDB(values);
-        setFieldsChanged(false);
-        history.push("/profile/create/step/7");
-      })
-      .catch((error) => {
-        if (error.isAxiosError) {
-          handleError(error, "message");
-        } else {
-          openNotificationWithIcon({
-            type: "error",
-          });
-        }
-      });
-  };
-
-  /*
    * Finish
    *
    * redirect to profile
@@ -657,7 +632,6 @@ const PersonalGrowthFormView = ({
           <FormControlButton
             formType={formType}
             onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
             onSaveAndFinish={onSaveAndFinish}
             onReset={onReset}
             onFinish={onFinish}
