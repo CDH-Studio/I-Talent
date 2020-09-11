@@ -132,8 +132,8 @@ const SkillTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visibility) => {
-      if (visibility) {
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -237,7 +237,7 @@ const SkillTableView = ({
   const editSkillButton = () => {
     return (
       <Modal
-        visibility={editVisible}
+        visible={editVisible}
         title={<FormattedMessage id="admin.edit.skill" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -394,7 +394,7 @@ const SkillTableView = ({
   const addSkillButton = () => {
     return (
       <Modal
-        visibility={addVisible}
+        visible={addVisible}
         title={<FormattedMessage id="admin.add.skill" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}

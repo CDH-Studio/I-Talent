@@ -112,8 +112,8 @@ const CategoryTableView = ({
     ),
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: (visibility) => {
-      if (visibility) {
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
@@ -197,7 +197,7 @@ const CategoryTableView = ({
   const addCategoryButton = () => {
     return (
       <Modal
-        visibility={addVisible}
+        visible={addVisible}
         title={<FormattedMessage id="admin.add.category" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
@@ -264,7 +264,7 @@ const CategoryTableView = ({
   const editCategoryButton = () => {
     return (
       <Modal
-        visibility={editVisible}
+        visible={editVisible}
         title={<FormattedMessage id="admin.edit.category" />}
         okText={<FormattedMessage id="admin.apply" />}
         cancelText={<FormattedMessage id="admin.cancel" />}

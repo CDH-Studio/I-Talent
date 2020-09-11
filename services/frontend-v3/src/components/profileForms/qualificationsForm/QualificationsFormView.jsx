@@ -62,7 +62,9 @@ const QualificationsFormView = ({
     switch (type) {
       case "success":
         notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+          message: intl.formatMessage({
+            id: "profile.edit.save.success",
+          }),
         });
         break;
       case "error":
@@ -73,7 +75,9 @@ const QualificationsFormView = ({
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          message: intl.formatMessage({
+            id: "profile.edit.save.problem",
+          }),
         });
         break;
     }
@@ -171,8 +175,9 @@ const QualificationsFormView = ({
     );
   };
 
-  const onFieldsChange = () => {
+  const onValuesChange = () => {
     findErrorTabs();
+    checkIfFormValuesChanged();
   };
 
   /*
@@ -200,6 +205,32 @@ const QualificationsFormView = ({
         }
       });
   };
+
+  /*
+   * save and next
+   *
+   * save and redirect to next step in setup
+   */
+  const onSaveAndNext = async () => {
+    form
+      .validateFields()
+      .then(async () => {
+        const values = form.getFieldValue();
+        await saveDataToDB(values);
+        setFieldsChanged(false);
+        history.push("/profile/create/step/7");
+      })
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message");
+        } else {
+          openNotificationWithIcon({
+            type: "error",
+          });
+        }
+      });
+  };
+
   // redirect to profile
   const onFinish = () => {
     history.push(`/profile/${userId}`);
@@ -329,8 +360,7 @@ const QualificationsFormView = ({
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          onValuesChange={checkIfFormValuesChanged}
-          onFieldsChange={onFieldsChange}
+          onValuesChange={onValuesChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
@@ -367,9 +397,7 @@ const QualificationsFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={() => {
-                                add();
-                              }}
+                              onClick={add}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
@@ -417,9 +445,7 @@ const QualificationsFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={() => {
-                                add();
-                              }}
+                              onClick={add}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
@@ -438,6 +464,7 @@ const QualificationsFormView = ({
             formType={formType}
             onSave={onSave}
             onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={onSaveAndNext}
             onReset={onReset}
             onFinish={onFinish}
             fieldsChanged={fieldsChanged}

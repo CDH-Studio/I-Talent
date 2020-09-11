@@ -53,6 +53,7 @@ const Education = ({ data, editableCardBool }) => {
       })
     );
   };
+
   return (
     <ProfileCards
       titleId="profile.education"
@@ -69,11 +70,12 @@ const Education = ({ data, editableCardBool }) => {
 };
 
 Education.propTypes = {
-  data: ProfileInfoPropType.isRequired,
+  data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
 Education.defaultProps = {
+  data: null,
   editableCardBool: false,
 };
 
