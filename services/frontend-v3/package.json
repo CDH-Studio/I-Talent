@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
-    "@babel/core": "^7.11.4",
+    "@babel/core": "^7.11.1",
     "@react-keycloak/razzle": "^2.0.0-beta.6",
     "@reduxjs/toolkit": "^1.4.0",
     "antd": "^4.5.4",
