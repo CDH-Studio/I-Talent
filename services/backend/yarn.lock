@@ -544,10 +544,10 @@
   resolved "https://registry.yarnpkg.com/@octetstream/promisify/-/promisify-2.0.2.tgz#29ac3bd7aefba646db670227f895d812c1a19615"
   integrity sha512-7XHoRB61hxsz8lBQrjC1tq/3OEIgpvGWg6DKAdwi7WRzruwkmsdwmOoUXbU4Dtd4RSOMDwed0SkP3y8UlMt1Bg==
 
-"@prisma/cli@2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.6.0.tgz#13c0eb640af5c03d6295dcb75befcfcc5a297ff3"
-  integrity sha512-zZubTQNI4z2zoJxsjh4ob2FxqZEi7pEpCDHcgNyyX1kmLtDtwwneuW6hJjdJDjPc8oVSOryJIOuWxlLeMyMgUw==
+"@prisma/cli@2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.5.0.tgz#a6d8c0ebd79230900d44d2eebcf62f02b3612214"
+  integrity sha512-yqGhDYH8lxIfT/1gjg6VVb2THS+k0cAbnoR8UENNrAAUWGzroZSvz+ECMsVinKshTUHJkD69yzi9i/nDqAODSw==
 
 "@prisma/client@2.5.0":
   version "2.5.0"
@@ -3583,6 +3583,11 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
+
+helmet@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/helmet/-/helmet-4.1.0.tgz#6f3a34e8f18502d6e52518428b23aa4ddaf84b38"
+  integrity sha512-KWy75fYN8hOG2Rhl8e5B3WhOzb0by1boQum85TiddIE9iu6gV+TXbUjVC17wfej0o/ZUpqB9kxM0NFCZRMzf+Q==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
