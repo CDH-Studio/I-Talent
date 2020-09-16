@@ -1,7 +1,7 @@
 import React from "react";
 import { hydrate } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { SSRKeycloakProvider, ClientPersistors } from "@react-keycloak/razzle";
+import { SSRKeycloakProvider, ClientPersistors } from "@react-keycloak/ssr";
 import App from "./App";
 import AppProvider from "./utils/AppProvider";
 import history from "./utils/history";
