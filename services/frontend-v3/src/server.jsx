@@ -2,7 +2,7 @@ import React from "react";
 import express from "express";
 import { renderToString } from "react-dom/server";
 import serialize from "serialize-javascript";
-import { ServerPersistors, SSRKeycloakProvider } from "@react-keycloak/razzle";
+import { ServerPersistors, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import cookieParser from "cookie-parser";
 import { StaticRouter } from "react-router";
 import runtimeConfig from "./utils/config";
