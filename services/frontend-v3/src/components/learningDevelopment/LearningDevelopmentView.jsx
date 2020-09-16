@@ -2,8 +2,20 @@ import React from "react";
 import { List, Tag, Row, Empty, Col } from "antd";
 import { FormattedMessage } from "react-intl";
 import { PropTypes } from "prop-types";
+import { LinkOutlined } from "@ant-design/icons";
 
-const LearningDevelopmentView = ({ devGoals }) => {
+const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
+  const getUrl = (item) => {
+    return item.map((i) => (
+      <a target="_blank" rel="noreferrer" href={i.url}>
+        <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
+          <LinkOutlined />
+          <span>{i.name.name}</span>
+        </Tag>
+      </a>
+    ));
+  };
+
   const dataSource = [
     {
       title: <FormattedMessage id="profile.developmental.goals" />,
@@ -29,24 +41,26 @@ const LearningDevelopmentView = ({ devGoals }) => {
       ),
     },
   ];
-
   return (
-    <Row>
-      <Col span={24}>
-        <List
-          itemLayout="horizontal"
-          dataSource={dataSource}
-          renderItem={({ title, render }) => (
-            <List.Item>
-              <Col span={24}>
-                <List.Item.Meta title={title} />
-                {render}
-              </Col>
-            </List.Item>
-          )}
-        />
-      </Col>
-    </Row>
+    <>
+      <Row>
+        <Col span={24}>
+          <List
+            itemLayout="horizontal"
+            dataSource={dataSource}
+            renderItem={({ title, render }) => (
+              <List.Item>
+                <Col span={24}>
+                  <List.Item.Meta title={title} />
+                  {render}
+                </Col>
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
+      {getUrl(devAttachments)}
+    </>
   );
 };
 
@@ -57,10 +71,21 @@ LearningDevelopmentView.propTypes = {
       name: PropTypes.string,
     })
   ),
+  devAttachments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      }),
+      url: PropTypes.string,
+    })
+  ),
 };
 
 LearningDevelopmentView.defaultProps = {
   devGoals: [],
+  devAttachments: [],
 };
 
 export default LearningDevelopmentView;

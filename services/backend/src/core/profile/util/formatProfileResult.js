@@ -110,6 +110,31 @@ function formatProfileResult(profile, language) {
     );
   }
 
+  if (profile.developmentalGoalsAttachments) {
+    const attachmentLinks = profile.developmentalGoalsAttachments.map(
+      (link) => {
+        const translatedLink =
+          link.translations.find((i) => i.language === language) ||
+          link.translations[0];
+
+        const translatedName =
+          translatedLink.name.translations.find(
+            (i) => i.language === language
+          ) || translatedLink.name.translations[0];
+
+        return {
+          id: link.id,
+          url: translatedLink.url,
+          name: {
+            id: translatedLink.nameId,
+            name: translatedName.name,
+          },
+        };
+      }
+    );
+    filteredProfile.developmentalGoalsAttachments = attachmentLinks;
+  }
+
   if (profile.educations) {
     const educations = profile.educations.map((education) => {
       const translatedDiploma =

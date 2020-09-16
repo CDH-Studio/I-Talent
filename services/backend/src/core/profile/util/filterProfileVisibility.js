@@ -97,6 +97,7 @@ function filterProfileVisibility(request, profileResult, userId) {
 
   if (isCardHidden("developmentalGoals")) {
     result.developmentalGoals = [];
+    result.developmentalGoalsAttachments = [];
 
     cardVisibilities.developmentalGoals = false;
   }

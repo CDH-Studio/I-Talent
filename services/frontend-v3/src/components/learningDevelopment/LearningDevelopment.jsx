@@ -8,7 +8,12 @@ const LearningDevelopment = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.learning.development"
-      content={<LearningDevelopmentView devGoals={data.developmentalGoals} />}
+      content={
+        <LearningDevelopmentView
+          devGoals={data.developmentalGoals}
+          devAttachments={data.developmentalGoalsAttachments}
+        />
+      }
       cardName="developmentalGoals"
       id="card-profile-learning-development"
       editUrl="/profile/edit/personal-growth?tab=learning-development"

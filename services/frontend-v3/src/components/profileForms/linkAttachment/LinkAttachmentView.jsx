@@ -8,7 +8,7 @@ import {
   IntlPropType,
   FieldPropType,
   KeyNameOptionsPropType,
-} from "../../../../utils/customPropTypes";
+} from "../../../utils/customPropTypes";
 import "./LinkAttachmentView.scss";
 
 const { Option } = Select;

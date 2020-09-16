@@ -12,10 +12,12 @@ import {
   TreeSelect,
   Tabs,
   notification,
+  Button,
 } from "antd";
 import {
   ExclamationCircleOutlined,
   InfoCircleOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -29,12 +31,15 @@ import {
   ProfileInfoPropType,
   IntlPropType,
   HistoryPropType,
+  KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import "./PersonalGrowthFormView.scss";
+import LinkAttachment from "../linkAttachment/LinkAttachment";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -66,6 +71,8 @@ const PersonalGrowthFormView = ({
   intl,
   history,
   userId,
+  attachmentOptions,
+  savedAttachments,
 }) => {
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
@@ -74,68 +81,6 @@ const PersonalGrowthFormView = ({
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "324px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
-    },
-    infoIcon: {
-      paddingLeft: "5px",
-    },
-    sectionHeader: {
-      marginBottom: 10,
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    secondLangRow: {
-      backgroundColor: "#dfe5e4",
-      paddingTop: "15px",
-      paddingBottom: "15px",
-      marginBottom: "20px",
-      marginTop: "10px",
-    },
-    TMTooltip: {
-      paddingLeft: "5px",
-    },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-    iconAfterTitle: {
-      paddingLeft: "5px",
-    },
-    exFeeder: {
-      margin: "5px 0",
-    },
-  };
-
   /*
    * save data to DB
    *
@@ -164,7 +109,6 @@ const PersonalGrowthFormView = ({
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
-
   /**
    * Open Notification
    * @param {Object} notification - The notification to be displayed.
@@ -199,6 +143,7 @@ const PersonalGrowthFormView = ({
     if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
+        developmentalGoalsAttachments: savedAttachments,
         interestedInRemote:
           profile.interestedInRemote === null
             ? undefined
@@ -328,16 +273,16 @@ const PersonalGrowthFormView = ({
   const getFormHeader = () => {
     if (formType === "create") {
       return (
-        <Title level={2} style={styles.formTitle}>
+        <Title level={2} className="formTitle">
           7. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
       );
     }
     return (
-      <Title level={2} style={styles.formTitle}>
+      <Title level={2} className="formTitle">
         <FormattedMessage id="profile.employee.growth.interests" />
         {fieldsChanged && (
-          <Text style={styles.unsavedText}>
+          <Text className="unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -346,8 +291,8 @@ const PersonalGrowthFormView = ({
   };
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" style={styles.sectionHeader} align="middle">
-      <Title level={3} style={styles.formTitle}>
+    <Row justify="space-between" className="sectionHeader" align="middle">
+      <Title level={3} className="formTitle">
         <FormattedMessage id={titleId} />
         <Popover
           content={
@@ -359,7 +304,7 @@ const PersonalGrowthFormView = ({
             </div>
           }
         >
-          <InfoCircleOutlined style={styles.infoIcon} />
+          <InfoCircleOutlined className="infoIcon" />
         </Popover>
       </Title>
       <CardVisibilityToggle
@@ -376,11 +321,12 @@ const PersonalGrowthFormView = ({
   if (!load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.skeleton}>
+      <div className="skeleton">
         <Skeleton active />
       </div>
     );
   }
+
   /* Once data had loaded display form */
   return (
     <>
@@ -388,10 +334,10 @@ const PersonalGrowthFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div style={styles.content}>
+      <div className="content">
         {/* get form title */}
         {getFormHeader(formType)}
-        <Divider style={styles.headerDiv} />
+        <Divider className="headerDiv" />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
@@ -429,6 +375,37 @@ const PersonalGrowthFormView = ({
                       maxTagCount={15}
                     />
                   </Form.Item>
+                </Col>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  <Form.List name="developmentalGoalsAttachments">
+                    {(fields, { add, remove }) => {
+                      return (
+                        <div>
+                          {fields.map((field) => (
+                            <LinkAttachment
+                              key={field.fieldKey}
+                              fieldElement={field}
+                              removeElement={remove}
+                              nameOptions={attachmentOptions}
+                            />
+                          ))}
+                          <Form.Item>
+                            <Button
+                              type="dashed"
+                              onClick={() => {
+                                add();
+                              }}
+                              disabled={fields.length === 6}
+                              style={{ width: "100%" }}
+                            >
+                              <PlusOutlined />
+                              <FormattedMessage id="setup.add.attachment" />
+                            </Button>
+                          </Form.Item>
+                        </div>
+                      );
+                    }}
+                  </Form.List>
                 </Col>
               </Row>
             </TabPane>
@@ -526,7 +503,7 @@ const PersonalGrowthFormView = ({
               {/* *************** Talent Management ************** */}
 
               <Row justify="space-between" align="middle">
-                <Title level={3} style={styles.formTitle}>
+                <Title level={3} className="formTitle">
                   <FormattedMessage id="setup.talent.management" />
                   <Popover
                     content={
@@ -552,7 +529,7 @@ const PersonalGrowthFormView = ({
                       </div>
                     }
                   >
-                    <ExclamationCircleOutlined style={styles.TMTooltip} />
+                    <ExclamationCircleOutlined className="TMTooltip" />
                   </Popover>
                 </Title>
                 <CardVisibilityToggle
@@ -618,7 +595,7 @@ const PersonalGrowthFormView = ({
             >
               {/* Form Row Three: ex feeder */}
               {getSectionHeader("profile.ex.feeder.title", "exFeeder")}
-              <Row style={styles.exFeeder} justify="space-between">
+              <Row className="exFeeder" justify="space-between">
                 <Col className="gutter-row">
                   <Form.Item name="exFeeder" valuePropName="checked">
                     <Checkbox>
@@ -671,6 +648,14 @@ PersonalGrowthFormView.propTypes = {
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
+  attachmentOptions: KeyNameOptionsPropType.isRequired,
+  savedAttachments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      nameId: PropTypes.string,
+      url: PropTypes.string,
+    })
+  ),
 };
 
 PersonalGrowthFormView.defaultProps = {
@@ -689,6 +674,7 @@ PersonalGrowthFormView.defaultProps = {
   savedTalentMatrixResult: undefined,
   talentMatrixResultOptions: [],
   intl: null,
+  savedAttachments: [],
 };
 
 export default injectIntl(PersonalGrowthFormView);

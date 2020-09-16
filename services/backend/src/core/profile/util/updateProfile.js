@@ -65,6 +65,7 @@ async function updateProfile(request, userId, language) {
     mentorshipSkills,
     competencies,
     developmentalGoals,
+    developmentalGoalsAttachments,
     educations,
     relocationLocations,
     experiences,
@@ -87,6 +88,7 @@ async function updateProfile(request, userId, language) {
   let skillIds;
   let competencyIds;
   let upsertDevelopmentalGoals;
+
   if (developmentalGoals) {
     skillIds = await prisma.opSkill
       .findMany({
@@ -189,6 +191,42 @@ async function updateProfile(request, userId, language) {
         );
     }
     deleteAll.push(prisma.experience.deleteMany({ where: { userId } }));
+  }
+
+  if (developmentalGoalsAttachments) {
+    const attachmentLinkId = flatten(
+      await prisma.attachmentLink.findMany({
+        where: { userId },
+        select: { id: true },
+      })
+    );
+    if (attachmentLinkId.length > 0) {
+      deleteAll.push(
+        Promise.all(
+          attachmentLinkId.map((a) =>
+            prisma.attachmentLink.deleteMany({ where: { id: a.id } })
+          )
+        )
+      );
+      const attachmentLinkTransId = flatten(
+        await Promise.all(
+          attachmentLinkId.map((at) =>
+            prisma.transAttachmentLink.findMany({
+              where: { attachmentLinkId: at.id },
+              select: { id: true },
+            })
+          )
+        )
+      );
+      if (attachmentLinkTransId.length > 0)
+        deleteAll.push(
+          Promise.all(
+            attachmentLinkTransId.map((a) =>
+              prisma.transAttachmentLink.deleteMany({ where: { id: a.id } })
+            )
+          )
+        );
+    }
   }
 
   if (educations) {
@@ -433,6 +471,23 @@ async function updateProfile(request, userId, language) {
               },
             },
             upsert: upsertDevelopmentalGoals,
+          }
+        : undefined,
+      developmentalGoalsAttachments: developmentalGoalsAttachments
+        ? {
+            create: developmentalGoalsAttachments.map((link) => ({
+              translations: {
+                create: {
+                  language,
+                  name: {
+                    connect: {
+                      id: link.nameId,
+                    },
+                  },
+                  url: link.url,
+                },
+              },
+            })),
           }
         : undefined,
       relocationLocations: relocationLocations
