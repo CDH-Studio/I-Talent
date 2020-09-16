@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useKeycloak } from "@react-keycloak/razzle";
+import { useKeycloak } from "@react-keycloak/ssr";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";

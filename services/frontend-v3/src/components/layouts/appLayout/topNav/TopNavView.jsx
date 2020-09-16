@@ -11,7 +11,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { useKeycloak } from "@react-keycloak/razzle";
+import { useKeycloak } from "@react-keycloak/ssr";
 import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
