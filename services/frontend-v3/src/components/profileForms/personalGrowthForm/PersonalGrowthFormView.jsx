@@ -39,7 +39,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import "./PersonalGrowthFormView.scss";
-import LinkAttachment from "../qualificationsForm/linkAttachment/LinkAttachmentView";
+import LinkAttachment from "../linkAttachment/LinkAttachment";
 
 const { Option } = Select;
 const { Title, Text } = Typography;

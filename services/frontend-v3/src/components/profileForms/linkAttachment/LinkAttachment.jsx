@@ -4,7 +4,7 @@ import LinkAttachmentView from "./LinkAttachmentView";
 import {
   FieldPropType,
   KeyNameOptionsPropType,
-} from "../../../../utils/customPropTypes";
+} from "../../../utils/customPropTypes";
 
 const LinkAttachment = ({ fieldElement, removeElement, nameOptions }) => {
   return (

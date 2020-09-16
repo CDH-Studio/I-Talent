@@ -27,7 +27,7 @@ import {
 import filterOption from "../../../../functions/filterSelectInput";
 
 import "./EducationFormView.scss";
-import LinkAttachment from "../linkAttachment/LinkAttachment";
+import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Option } = Select;
 const { Title } = Typography;

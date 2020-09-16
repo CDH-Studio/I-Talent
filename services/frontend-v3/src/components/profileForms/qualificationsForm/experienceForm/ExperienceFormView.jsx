@@ -25,7 +25,7 @@ import {
 } from "../../../../utils/customPropTypes";
 
 import "./ExperienceFormView.scss";
-import LinkAttachment from "../linkAttachment/LinkAttachment";
+import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;
 
@@ -251,7 +251,7 @@ const ExperienceFormView = ({
                     fieldElement={field}
                     removeElement={remove}
                     profileInfo={savedExperience}
-                    NameOptions={attachmentNames}
+                    nameOptions={attachmentNames}
                   />
                 ))}
                 <Form.Item>
