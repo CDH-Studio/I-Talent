@@ -326,6 +326,7 @@ const PersonalGrowthFormView = ({
       </div>
     );
   }
+
   /* Once data had loaded display form */
   return (
     <>
@@ -385,7 +386,7 @@ const PersonalGrowthFormView = ({
                               key={field.fieldKey}
                               fieldElement={field}
                               removeElement={remove}
-                              NameOptions={attachmentOptions}
+                              nameOptions={attachmentOptions}
                             />
                           ))}
                           <Form.Item>
