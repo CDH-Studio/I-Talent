@@ -28,6 +28,7 @@ import {
   ProfileInfoPropType,
 } from "../../utils/customPropTypes";
 import prepareInfo from "../../functions/prepareInfo";
+import "./ResultsCardView.scss";
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -42,58 +43,6 @@ const ResultsCardView = ({
   addConnection,
   removeConnection,
 }) => {
-  const styles = {
-    smallP: {
-      margin: 0,
-      marginTop: -10,
-    },
-    badge: {
-      backgroundColor: "#565656",
-      borderRadius: 20,
-      padding: 5,
-    },
-    badgeIcon: {
-      color: "#F5F5F5",
-    },
-    divider: {
-      height: "auto",
-      marginRight: 20,
-      marginTop: 4,
-    },
-    tag: {
-      marginBottom: "2px",
-      marginTop: "2px",
-    },
-    meta: {
-      margin: 0,
-      marginRight: 20,
-    },
-    avatarText: {
-      fontSize: "25px",
-      color: "white",
-    },
-    card: {
-      height: "100%",
-      overflowX: "hidden",
-      display: "flex",
-      flexDirection: "column",
-    },
-    cardBody: {
-      flex: 1,
-      flexBasis: "auto",
-    },
-    container: {
-      maxWidth: 1600,
-    },
-    buttonIcon: {
-      fontSize: 16,
-      marginRight: 5,
-    },
-    button: {
-      margin: "-10px 0",
-    },
-  };
-
   /*
    * Handle Key Press
    *
@@ -106,11 +55,15 @@ const ResultsCardView = ({
     }
   };
   const renderAvatar = (person) => {
-    let badge;
+    let badgeIcon;
+    let badgeColor;
     let tooltipMessage;
 
+    console.log(person.isConnection);
+
     if (person.isConnection) {
-      badge = <TeamOutlined style={styles.badgeIcon} />;
+      badgeIcon = <TeamOutlined className="badge-icon" />;
+      badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
           id="search.results.cards.connection.tooltip"
@@ -118,7 +71,8 @@ const ResultsCardView = ({
         />
       );
     } else if (person.status === "INACTIVE") {
-      badge = <LockOutlined style={styles.badgeIcon} />;
+      badgeIcon = <LockOutlined className="badge-icon" />;
+      badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
           id="search.results.cards.connection.tooltip.inactive"
@@ -126,25 +80,39 @@ const ResultsCardView = ({
         />
       );
     } else if (person.status === "HIDDEN") {
-      badge = <EyeInvisibleOutlined style={styles.badgeIcon} />;
+      badgeIcon = <EyeInvisibleOutlined />;
+      badgeColor = "#000";
       tooltipMessage = (
         <FormattedMessage
           id="search.results.cards.connection.tooltip.hidden"
           values={{ name: person.firstName }}
         />
       );
+    } else {
+      badgeIcon = undefined;
+      badgeColor = undefined;
+      tooltipMessage = undefined;
     }
-
+    console.log(badgeIcon);
     return (
       <Tooltip align={{ offset: [18, -3] }} title={tooltipMessage}>
-        <Badge count={badge} offset={[-6, 6]} style={styles.badge}>
+        <Badge
+          count={badgeIcon}
+          offset={[-6, 6]}
+          style={{
+            backgroundColor: badgeColor,
+            borderRadius: "20px",
+            padding: "5px",
+            color: "white",
+          }}
+        >
           <Avatar
             size={48}
             style={{
               backgroundColor: person.avatarColor,
             }}
           >
-            <Text style={styles.avatarText}>{person.nameInitials}</Text>
+            <Text className="avatar-text">{person.nameInitials}</Text>
           </Avatar>
         </Badge>
       </Tooltip>
@@ -163,9 +131,9 @@ const ResultsCardView = ({
           block
           icon={
             isConnection ? (
-              <UserDeleteOutlined style={styles.buttonIcon} />
+              <UserDeleteOutlined className="button-icon" />
             ) : (
-              <UserAddOutlined style={styles.buttonIcon} />
+              <UserAddOutlined className="button-icon" />
             )
           }
           onClick={(e) => {
@@ -177,7 +145,7 @@ const ResultsCardView = ({
               addConnection(person.id);
             }
           }}
-          style={styles.button}
+          className="button"
         >
           {isConnection ? (
             <FormattedMessage id="search.results.cards.remove.connection" />
@@ -192,12 +160,12 @@ const ResultsCardView = ({
           tabIndex="0"
           type="link"
           block
-          icon={<EditOutlined style={styles.buttonIcon} />}
+          icon={<EditOutlined className="buttonIcon" />}
           onClick={(e) => {
             e.stopPropagation();
             history.push("/profile/edit/primary-info");
           }}
-          style={styles.button}
+          className="button"
         >
           <FormattedMessage id="edit.profile" />
         </Button>
@@ -218,7 +186,7 @@ const ResultsCardView = ({
       <Col span={24} xxl={12} key={key}>
         <Card
           tabIndex="0"
-          style={styles.card}
+          className="card"
           size="small"
           hoverable
           bordered
@@ -227,17 +195,17 @@ const ResultsCardView = ({
           title={cardTitle}
           extra={cardExtra}
           actions={actions}
-          bodyStyle={styles.cardBody}
+          bodyStyle={{ flex: 1, flexBasis: "auto" }}
         >
           <Row>
             <Col>
               <Row style={{ paddingTop: 4 }}>
                 <Meta
-                  style={styles.meta}
+                  className="meta"
                   avatar={renderAvatar(person)}
                   title={`${person.firstName} ${person.lastName}`}
                   description={
-                    <p style={styles.smallP}>
+                    <p className="small-p">
                       {person.jobTitle ? person.jobTitle : "-"}
                     </p>
                   }
@@ -245,14 +213,14 @@ const ResultsCardView = ({
               </Row>
             </Col>
 
-            {hasSkills && <Divider type="vertical" style={styles.divider} />}
+            {hasSkills && <Divider type="vertical" className="divider" />}
 
             <Col flex="1">
               {hasSkills && (
                 <Row align="middle" type="flex">
                   {person.resultSkills.map(({ id, name }) => (
                     <Col key={id}>
-                      <Tag style={styles.tag}>{name}</Tag>
+                      <Tag className="tag">{name}</Tag>
                     </Col>
                   ))}
                 </Row>
@@ -277,7 +245,7 @@ const ResultsCardView = ({
   };
 
   return (
-    <div style={styles.container}>
+    <div className="container">
       {loading && (
         <Card>
           <Skeleton />
