@@ -160,7 +160,7 @@ const ResultsCardView = ({
           tabIndex="0"
           type="link"
           block
-          icon={<EditOutlined className="buttonIcon" />}
+          icon={<EditOutlined className="button-icon" />}
           onClick={(e) => {
             e.stopPropagation();
             history.push("/profile/edit/primary-info");
