@@ -59,8 +59,6 @@ const ResultsCardView = ({
     let badgeColor;
     let tooltipMessage;
 
-    console.log(person.isConnection);
-
     if (person.isConnection) {
       badgeIcon = <TeamOutlined className="badge-icon" />;
       badgeColor = "#087472";
@@ -93,7 +91,7 @@ const ResultsCardView = ({
       badgeColor = undefined;
       tooltipMessage = undefined;
     }
-    console.log(badgeIcon);
+
     return (
       <Tooltip align={{ offset: [18, -3] }} title={tooltipMessage}>
         <Badge
@@ -187,7 +185,6 @@ const ResultsCardView = ({
         <Card
           tabIndex="0"
           className="card"
-          size="small"
           hoverable
           bordered
           onClick={() => history.push(`/profile/${person.id}`)}
@@ -195,7 +192,7 @@ const ResultsCardView = ({
           title={cardTitle}
           extra={cardExtra}
           actions={actions}
-          bodyStyle={{ flex: 1, flexBasis: "auto" }}
+          bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
         >
           <Row>
             <Col>
@@ -252,7 +249,7 @@ const ResultsCardView = ({
         </Card>
       )}
       <Row
-        gutter={[8, 8]}
+        gutter={[24, 24]}
         type="flex"
         justify="left"
         align={results.length === 0 ? "center" : undefined}
