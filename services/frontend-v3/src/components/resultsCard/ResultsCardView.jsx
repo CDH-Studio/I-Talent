@@ -22,6 +22,8 @@ import {
   EditOutlined,
   LockOutlined,
   EyeInvisibleOutlined,
+  BranchesOutlined,
+  EnvironmentOutlined,
 } from "@ant-design/icons";
 import {
   HistoryPropType,
@@ -123,12 +125,12 @@ const ResultsCardView = ({
    * @param {key} integer - The type of notification.
    */
   const renderCard = ({ person, key }) => {
-    const actions = [];
+    const actionsRibbon = [];
     const isConnection = connections.includes(person.id);
 
     // get action in ribbon
     if (person.id !== userId) {
-      actions.push(
+      actionsRibbon.push(
         <Button
           tabIndex="0"
           type="link"
@@ -165,7 +167,7 @@ const ResultsCardView = ({
         </Button>
       );
     } else {
-      actions.push(
+      actionsRibbon.push(
         <Button
           tabIndex="0"
           type="link"
@@ -188,6 +190,28 @@ const ResultsCardView = ({
       );
     }
 
+    let cardFooter = [
+      <div>
+        <BranchesOutlined className="card-footer-icon" />
+        {person.branch ? (
+          <Text>{person.branch}</Text>
+        ) : (
+          <Text>Branch unknown</Text>
+        )}
+      </div>,
+      <div>
+        <EnvironmentOutlined className="card-footer-icon" />
+        {person.branch ? (
+          <Text>
+            {person.officeLocation.streetNumber}{" "}
+            {person.officeLocation.streetName}, {person.officeLocation.city}
+          </Text>
+        ) : (
+          <Text>location unknown</Text>
+        )}
+      </div>,
+    ];
+
     const hasSkills = person.resultSkills.length > 0;
 
     const cardTitle = person.branch ? <Text>{person.branch}</Text> : "";
@@ -201,7 +225,7 @@ const ResultsCardView = ({
     return (
       <Col span={24} xxl={12} key={key}>
         <Badge.Ribbon
-          text={actions}
+          text={actionsRibbon}
           color={isConnection ? "#192E2F" : "#1D807B"}
         >
           <Card
@@ -213,7 +237,7 @@ const ResultsCardView = ({
             onKeyPress={(e) => handleKeyPress(e, person)}
             title={cardTitle}
             extra={cardExtra}
-            actions={actions}
+            actions={cardFooter}
             bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
           >
             <Row>
