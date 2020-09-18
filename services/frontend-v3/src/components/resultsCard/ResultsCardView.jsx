@@ -117,16 +117,28 @@ const ResultsCardView = ({
     );
   };
 
-  const renderCard = (person, key) => {
+  /**
+   * Render User Result Card
+   * @param {Object} person - The person being rendered on card.
+   * @param {key} integer - The type of notification.
+   */
+  const renderCard = ({ person, key }) => {
     const actions = [];
     const isConnection = connections.includes(person.id);
 
+    // get action in ribbon
     if (person.id !== userId) {
       actions.push(
         <Button
           tabIndex="0"
           type="link"
           block
+          style={{
+            padding: "0px",
+            color: "#ffffff",
+            margin: "1px",
+            display: "inline-block;",
+          }}
           icon={
             isConnection ? (
               <UserDeleteOutlined className="button-icon" />
@@ -158,6 +170,12 @@ const ResultsCardView = ({
           tabIndex="0"
           type="link"
           block
+          style={{
+            color: "#ffffff",
+            margin: "auto",
+            width: "100%",
+            display: "inline-block;",
+          }}
           icon={<EditOutlined className="button-icon" />}
           onClick={(e) => {
             e.stopPropagation();
@@ -182,49 +200,54 @@ const ResultsCardView = ({
 
     return (
       <Col span={24} xxl={12} key={key}>
-        <Card
-          tabIndex="0"
-          className="card"
-          hoverable
-          bordered
-          onClick={() => history.push(`/profile/${person.id}`)}
-          onKeyPress={(e) => handleKeyPress(e, person)}
-          title={cardTitle}
-          extra={cardExtra}
-          actions={actions}
-          bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
+        <Badge.Ribbon
+          text={actions}
+          color={isConnection ? "#192E2F" : "#1D807B"}
         >
-          <Row>
-            <Col>
-              <Row style={{ paddingTop: 4 }}>
-                <Meta
-                  className="meta"
-                  avatar={renderAvatar(person)}
-                  title={`${person.firstName} ${person.lastName}`}
-                  description={
-                    <p className="small-p">
-                      {person.jobTitle ? person.jobTitle : "-"}
-                    </p>
-                  }
-                />
-              </Row>
-            </Col>
-
-            {hasSkills && <Divider type="vertical" className="divider" />}
-
-            <Col flex="1">
-              {hasSkills && (
-                <Row align="middle" type="flex">
-                  {person.resultSkills.map(({ id, name }) => (
-                    <Col key={id}>
-                      <Tag className="tag">{name}</Tag>
-                    </Col>
-                  ))}
+          <Card
+            tabIndex="0"
+            className="card"
+            hoverable
+            bordered
+            onClick={() => history.push(`/profile/${person.id}`)}
+            onKeyPress={(e) => handleKeyPress(e, person)}
+            title={cardTitle}
+            extra={cardExtra}
+            actions={actions}
+            bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
+          >
+            <Row>
+              <Col>
+                <Row style={{ paddingTop: 4 }}>
+                  <Meta
+                    className="meta"
+                    avatar={renderAvatar(person)}
+                    title={`${person.firstName} ${person.lastName}`}
+                    description={
+                      <p className="small-p">
+                        {person.jobTitle ? person.jobTitle : "-"}
+                      </p>
+                    }
+                  />
                 </Row>
-              )}
-            </Col>
-          </Row>
-        </Card>
+              </Col>
+
+              {hasSkills && <Divider type="vertical" className="divider" />}
+
+              <Col flex="1">
+                {hasSkills && (
+                  <Row align="middle" type="flex">
+                    {person.resultSkills.map(({ id, name }) => (
+                      <Col key={id}>
+                        <Tag className="tag">{name}</Tag>
+                      </Col>
+                    ))}
+                  </Row>
+                )}
+              </Col>
+            </Row>
+          </Card>
+        </Badge.Ribbon>
       </Col>
     );
   };
@@ -238,7 +261,7 @@ const ResultsCardView = ({
 
     const preparedResults = prepareInfo(dataSource, locale);
 
-    return preparedResults.map((person, key) => renderCard(person, key));
+    return preparedResults.map((person, key) => renderCard({ person, key }));
   };
 
   return (
