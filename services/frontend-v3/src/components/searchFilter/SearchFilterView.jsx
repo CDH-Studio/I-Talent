@@ -176,7 +176,7 @@ const SearchBarView = ({
             showCheckedStrategy={SHOW_CHILD}
             showSearch
             mode="multiple"
-            maxTagCount={15}
+            maxTagCount={3}
           />
         </Form.Item>
 
@@ -194,7 +194,7 @@ const SearchBarView = ({
             showCheckedStrategy={SHOW_CHILD}
             showSearch
             mode="multiple"
-            maxTagCount={15}
+            maxTagCount={3}
             disabled={anyMentorSkills}
           />
         </Form.Item>
