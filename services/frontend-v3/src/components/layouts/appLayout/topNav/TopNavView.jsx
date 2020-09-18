@@ -22,6 +22,7 @@ import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../../../utils/customPropTypes";
+import "./TopNavView.scss";
 
 const { Header } = Layout;
 
@@ -29,65 +30,6 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
   const { keycloak } = useKeycloak();
-
-  /* Component Styles */
-  const styles = {
-    header: {
-      backgroundColor: "#192e2f",
-      padding: 0,
-      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
-      position: "fixed",
-      zIndex: 2,
-      width: "100%",
-    },
-    aroundNavContent: {
-      margin: "0 25px",
-    },
-    navBrand: {
-      height: 40,
-      borderRadius: 45,
-    },
-    profileAvatar: {
-      marginRight: 8,
-    },
-    dropDownMenu: {
-      padding: 0,
-      marginTop: -4,
-    },
-    dropDownItem: {
-      padding: "10px 20px",
-    },
-    dropDownButton: {
-      color: "#fff",
-      height: 45,
-      padding: 5,
-      paddingVertical: 10,
-      marginRight: 15,
-    },
-    dropDownArrow: {
-      marginLeft: 5,
-    },
-    menuIcon: {
-      marginRight: 10,
-    },
-    signInBtn: {
-      marginRight: 20,
-    },
-    hamburgerMenu: {
-      paddingBottom: 23,
-      boxShadow: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
-    },
-    hamburgerHeader: {
-      justifyContent: "space-between",
-      display: "flex",
-      alignItems: "center",
-      height: "100%",
-      margin: "0 20px",
-    },
-    divider: {
-      margin: 0,
-    },
-  };
 
   const { id, name, status } = useSelector((state) => state.user);
 
@@ -98,53 +40,52 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   useEffect(() => {
     window.addEventListener("resize", updateWidth);
-
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
   // menu options for profile dropdown
   const menu = (isDropdown, optionalStartMenuItems) => (
-    <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
+    <Menu className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}>
       {optionalStartMenuItems}
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item>
         <Link to={`/profile/${id}`}>
-          <UserOutlined style={styles.menuIcon} />
+          <UserOutlined className="menuIcon" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item>
         <Link to="/profile/edit/primary-info">
-          <EditOutlined style={styles.menuIcon} />
+          <EditOutlined className="menuIcon" />
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
       {isAdmin && (
-        <Menu.Item style={styles.dropDownItem}>
+        <Menu.Item>
           <Link to="/admin/dashboard">
-            <DashboardOutlined style={styles.menuIcon} />
+            <DashboardOutlined className="menuIcon" />
             <FormattedMessage id="admin" />
           </Link>
         </Menu.Item>
       )}
       {!isAdmin && (
-        <Menu.Item style={styles.dropDownItem}>
+        <Menu.Item>
           <Link to="/statistics">
-            <AreaChartOutlined style={styles.menuIcon} />
+            <AreaChartOutlined className="menuIcon" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item>
         <Link to="/settings">
-          <SettingOutlined style={styles.menuIcon} />
+          <SettingOutlined className="menuIcon" />
           <FormattedMessage id="settings.title" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item>
         <Link to="/logout">
-          <LogoutOutlined style={styles.menuIcon} />
+          <LogoutOutlined className="menuIcon" />
           <FormattedMessage id="sign.out" />
         </Link>
       </Menu.Item>
@@ -159,17 +100,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           placement="bottomCenter"
           trigger="click"
         >
-          <Button
-            type="link"
-            className="ant-dropdown-link"
-            style={styles.dropDownButton}
-          >
+          <Button type="link" className="ant-dropdown-link dropDownButton">
             <CustomAvatar
-              style={styles.profileAvatar}
               hidden={status === "HIDDEN" || status === "INACTIVE"}
             />
             <div className="navProfileName">
-              {userName} <DownOutlined style={styles.dropDownArrow} />
+              {userName}
+              <DownOutlined className="dropDownArrow" />
             </div>
           </Button>
         </Dropdown>
@@ -179,7 +116,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Button
         type="primary"
         onClick={() => keycloak.login()}
-        style={styles.signInBtn}
+        className="signInBtn"
       >
         <FormattedMessage id="landing.login.button" />
       </Button>
@@ -223,9 +160,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     showMenu &&
     menu(
       false,
-      <Menu.Item style={styles.dropDownItem}>
+      <Menu.Item className="dropDownItem">
         <Link tabIndex={0} to="/">
-          <HomeOutlined style={styles.menuIcon} />
+          <HomeOutlined className="menuIcon" />
           <FormattedMessage id="home" />
         </Link>
       </Menu.Item>
@@ -255,31 +192,31 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   if (loading) {
     return (
-      <Header style={styles.header}>
-        <div style={styles.aroundNavContent} />
+      <Header className="header-tab">
+        <div className="aroundNavContent" />
       </Header>
     );
   }
 
   if (windowWidth > 400) {
     return (
-      <Header style={styles.header}>
+      <Header className="header-tab">
         <Row
-          style={styles.aroundNavContent}
+          className="aroundNavContent"
           justify="space-between"
           align="middle"
         >
           <Row align="middle">
             {displayLogo && (
-              <Link tabIndex={0} to="/">
-                <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
+              <Link tabIndex={0} to="/" style={{ boxShadow: "none" }}>
+                <img src={Logo} alt="I-Talent Logo" className="navBrand" />
               </Link>
             )}
           </Row>
 
           {getSearchInput()}
 
-          <Col style={styles.rightMenu}>
+          <Col className="rightMenu">
             {getAvatarDropdown(name)}
             <ChangeLanguage />
           </Col>
@@ -290,8 +227,8 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   return (
     <>
-      <Header style={styles.header}>
-        <div style={styles.hamburgerHeader}>
+      <Header className="header-tab">
+        <div className="hamburgerHeader">
           <ChangeLanguage />
 
           {hamburgerButton(name)}

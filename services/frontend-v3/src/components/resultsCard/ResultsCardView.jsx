@@ -68,7 +68,7 @@ const ResultsCardView = ({
     let tooltipMessage;
 
     if (person.isConnection) {
-      badgeIcon = <TeamOutlined className="badge-icon" />;
+      badgeIcon = <TeamOutlined className="res-badge-icon" />;
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
@@ -77,7 +77,7 @@ const ResultsCardView = ({
         />
       );
     } else if (person.status === "INACTIVE") {
-      badgeIcon = <LockOutlined className="badge-icon" />;
+      badgeIcon = <LockOutlined className="res-badge-icon" />;
       badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
@@ -114,7 +114,7 @@ const ResultsCardView = ({
               backgroundColor: person.avatarColor,
             }}
           >
-            <Text className="avatar-text">{person.nameInitials}</Text>
+            <Text className="res-avatar-text">{person.nameInitials}</Text>
           </Avatar>
         </Badge>
       </Tooltip>
@@ -163,9 +163,9 @@ const ResultsCardView = ({
           style={ribbonStyle}
           icon={
             isConnection ? (
-              <UserDeleteOutlined className="button-icon" />
+              <UserDeleteOutlined className="res-button-icon" />
             ) : (
-              <UserAddOutlined className="button-icon" />
+              <UserAddOutlined className="res-button-icon" />
             )
           }
           onClick={(e) => {
@@ -177,7 +177,7 @@ const ResultsCardView = ({
               addConnection(person.id);
             }
           }}
-          className="button"
+          className="res-button"
         >
           {isConnection ? (
             <FormattedMessage id="search.results.cards.remove.connection" />

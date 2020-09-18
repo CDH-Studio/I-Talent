@@ -7,7 +7,8 @@ import {
   About,
   Logout,
 } from "../pages";
-import { Secured, Admin } from "./index";
+import Admin from "./Admin";
+import Secured from "./Secured";
 import ScrollToTop from "./ScrollTopTop";
 
 const Routes = () => (

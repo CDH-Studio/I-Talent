@@ -1,32 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import useAxios from "../../utils/axios-instance";
-import { IntlPropType } from "../../utils/customPropTypes";
-import { setLocale } from "../../redux/slices/settingsSlice";
+import { FormattedMessage } from "react-intl";
 
-import handleError from "../../functions/handleError";
-
-const ChangeLanguageView = ({ intl }) => {
-  const languageCode = intl.formatMessage({ id: "lang.db.code" });
-  const userID = useSelector((state) => state.user.id);
-  const axios = useAxios();
-
-  const dispatch = useDispatch();
-
-  const handleLanguageChange = async () => {
-    dispatch(setLocale(languageCode));
-    if (userID) {
-      await axios
-        .put(`api/profile/${userID}?language=${languageCode}`, {
-          preferredLanguage: languageCode,
-        })
-        .catch((error) => handleError(error, "message"));
-    }
-  };
-
+const ChangeLanguageView = ({ handleLanguageChange }) => {
   return (
     <Button
       ghost="true"
@@ -35,7 +13,7 @@ const ChangeLanguageView = ({ intl }) => {
       onClick={handleLanguageChange}
       style={{ textTransform: "uppercase" }}
     >
-      <GlobalOutlined />{" "}
+      <GlobalOutlined style={{ marginRight: 5 }} />
       <FormattedMessage
         style={{ textTransform: "capitalize" }}
         id="lang.code"
@@ -45,11 +23,7 @@ const ChangeLanguageView = ({ intl }) => {
 };
 
 ChangeLanguageView.propTypes = {
-  intl: IntlPropType,
+  handleLanguageChange: PropTypes.func.isRequired,
 };
 
-ChangeLanguageView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(ChangeLanguageView);
+export default ChangeLanguageView;

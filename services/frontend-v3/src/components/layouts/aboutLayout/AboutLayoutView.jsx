@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import { SettingTwoTone } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
+import "./AboutLayoutView.scss";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -14,21 +15,6 @@ const { Title } = Typography;
  *
  *  this component renders the about page.
  */
-
-const styles = {
-  outerRow: { marginTop: "20px" },
-  outerTabs: {
-    width: "95%",
-    backgroundColor: "#ffffff",
-    padding: "20px",
-    height: "90%",
-  },
-  titles: {
-    paddingTop: "20px",
-    textAlign: "center",
-  },
-};
-
 const AboutLayoutView = ({ type }) => {
   const tabType = type;
   const [back, setBack] = useState(false);
@@ -43,13 +29,13 @@ const AboutLayoutView = ({ type }) => {
 
   return (
     <AppLayout displaySideBar={false}>
-      <Row justify="center" style={styles.outerRow}>
-        <Tabs style={styles.outerTabs} defaultActiveKey={tabType}>
+      <Row justify="center" className="outerRow">
+        <Tabs className="outerTabs" defaultActiveKey={tabType}>
           <TabPane
             tab={<FormattedMessage id="footer.about.link" />}
             key="about"
           >
-            <Title style={styles.titles}>
+            <Title className="titles">
               <FormattedMessage id="footer.about" />
             </Title>
             <Result
@@ -66,7 +52,7 @@ const AboutLayoutView = ({ type }) => {
             tab={<FormattedMessage id="footer.contact.link" />}
             key="help"
           >
-            <Title style={styles.titles}>
+            <Title className="titles">
               <FormattedMessage id="footer.contact.link" />
             </Title>
             <Result
@@ -83,7 +69,7 @@ const AboutLayoutView = ({ type }) => {
             tab={<FormattedMessage id="footer.terms.and.conditions.link" />}
             key="terms"
           >
-            <Title style={styles.titles}>
+            <Title className="titles">
               <FormattedMessage id="footer.terms.and.conditions.link" />
             </Title>
             <Result
@@ -100,7 +86,7 @@ const AboutLayoutView = ({ type }) => {
             tab={<FormattedMessage id="footer.privacy.link" />}
             key="privacy"
           >
-            <Title style={styles.titles}>
+            <Title className="titles">
               <FormattedMessage id="footer.privacy.link" />
             </Title>
             <Result
