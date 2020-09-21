@@ -274,7 +274,9 @@ const ResultsCardView = ({
                 {person.resultSkills.length > 0 ? (
                   <span>
                     {person.resultSkills.map(({ id, name }) => (
-                      <Tag className="tag">{name}</Tag>
+                      <Tag className="tag" key={id}>
+                        {name}
+                      </Tag>
                     ))}
                     <Tag className="tag">
                       +{person.totalNumbResultSkills - 4}
