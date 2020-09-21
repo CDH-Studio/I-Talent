@@ -245,11 +245,6 @@ const ResultsCardView = ({
   const renderCard = ({ person, key }) => {
     const isConnection = connections.includes(person.id);
 
-    const userLevel =
-      person.groupLevel && person.groupLevel.name
-        ? `(${person.groupLevel.name})`
-        : "";
-
     const cardTitle = (
       <Text>
         {person.firstName} {person.lastName}
