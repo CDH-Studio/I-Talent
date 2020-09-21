@@ -175,9 +175,8 @@ const QualificationsFormView = ({
     );
   };
 
-  const onValuesChange = () => {
+  const onFieldsChange = () => {
     findErrorTabs();
-    checkIfFormValuesChanged();
   };
 
   /*
@@ -360,7 +359,8 @@ const QualificationsFormView = ({
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          onValuesChange={onValuesChange}
+          onValuesChange={checkIfFormValuesChanged}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
