@@ -23,13 +23,17 @@ pipeline {
         stage('install-packages') {
             parallel {
                 stage('backend') {
-                    dir("${BACKEND_DIR}") {
-                        sh 'yarn install --production'
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            sh 'yarn install --production'
+                        }
                     }
                 }
                 stage('frontend') {
-                    dir("${FRONTEND_DIR}") {
-                        sh 'yarn install --production'
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            sh 'yarn install --production'
+                        }
                     }
                 }
             }
@@ -39,8 +43,10 @@ pipeline {
                 stage('backend') {
                     parallel {
                         stage('lint') {
-                            dir("${BACKEND_DIR}") {
-                                sh 'yarn lint'
+                            steps {
+                                dir("${BACKEND_DIR}") {
+                                    sh 'yarn lint'
+                                }
                             }
                         }
                     }
@@ -48,13 +54,17 @@ pipeline {
                 stage('frontend') {
                     parallel {
                         stage('lint') {
-                            dir("${FRONTEND_DIR}") {
-                                sh 'yarn lint'
+                            steps {
+                                dir("${FRONTEND_DIR}") {
+                                    sh 'yarn lint'
+                                }
                             }
                         }
                         stage('i18-test') {
-                            dir("${FRONTEND_DIR_I18}") {
-                                sh 'node check'
+                            steps {
+                                dir("${FRONTEND_DIR_I18}") {
+                                    sh 'node check'
+                                }
                             }
                         }
                     }
