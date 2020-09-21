@@ -25,12 +25,7 @@ pipeline {
                 stage('backend') {
                     steps {
                         dir("${BACKEND_DIR}") {
-                            sh 'mkdir -p /.cache/yarn'
-                            sh 'chgrp -R 0 /.cache/yarn && \
-                                chmod -R g=u /.cache/yarn'
-                            sh 'mkdir -p /.yarn'
-                            sh 'chgrp -R 0 /.yarn && \
-                                chmod -R g=u /.yarn'
+                            sh 'npm install -g yarn'
                             sh 'yarn install --production'
                         }
                     }
@@ -38,12 +33,7 @@ pipeline {
                 stage('frontend') {
                     steps {
                         dir("${FRONTEND_DIR}") {
-                            sh 'mkdir -p /.cache/yarn'
-                            sh 'chgrp -R 0 /.cache/yarn && \
-                                chmod -R g=u /.cache/yarn'
-                            sh 'mkdir -p /.yarn'
-                            sh 'chgrp -R 0 /.yarn && \
-                                chmod -R g=u /.yarn'
+                            sh 'npm install -g yarn'
                             sh 'yarn install --production'
                         }
                     }
