@@ -6,7 +6,6 @@ import {
   Col,
   Tag,
   Card,
-  Divider,
   Avatar,
   Typography,
   Empty,
@@ -210,7 +209,7 @@ const ResultsCardView = ({
             {person.officeLocation.streetName}, {person.officeLocation.city}
           </Text>
         ) : (
-          <Text>location unknown</Text>
+          <Text>Location unknown</Text>
         )}
       </div>,
     ];
@@ -238,7 +237,7 @@ const ResultsCardView = ({
     return (
       <Col span={24} xxl={12} key={key}>
         <Badge.Ribbon
-          text={getActionRibbonBtn({ person: person })}
+          text={getActionRibbonBtn({ person })}
           color={isConnection ? "#192E2F" : "#1D807B"}
         >
           <Card
@@ -248,7 +247,7 @@ const ResultsCardView = ({
             bordered
             onClick={() => history.push(`/profile/${person.id}`)}
             onKeyPress={(e) => handleKeyPress(e, person)}
-            actions={getCardFooter({ person: person })}
+            actions={getCardFooter({ person })}
             bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
           >
             <Row>
@@ -256,7 +255,7 @@ const ResultsCardView = ({
                 <Row style={{ paddingTop: "15px" }}>
                   <Meta
                     className="meta"
-                    avatar={getUserAvatar({ person: person })}
+                    avatar={getUserAvatar({ person })}
                     title={cardTitle}
                     description={
                       <p className="small-p">
@@ -289,18 +288,18 @@ const ResultsCardView = ({
 
   /**
    * Render Result Count
-   * @param {Boolean} loading - loading status.
-   * @param {number} loading - loading status.
+   * @param {Boolean} isLoading - loading status.
+   * @param {number} count - loading status.
    */
-  const getResultCount = ({ loading, count }) => {
-    if (!loading) {
+  const getResultCount = ({ isLoading, count }) => {
+    if (!isLoading) {
       return (
-        <Text type="secondary" className={"result-count"}>
+        <Text type="secondary" className="result-count">
           results found: {count}
         </Text>
       );
     }
-    return <Spin className={"loading-spinner"} />;
+    return <Spin className="loading-spinner" />;
   };
 
   /**
@@ -351,7 +350,7 @@ const ResultsCardView = ({
         title={
           <span>
             <FormattedMessage id="results.title" />
-            {getResultCount({ loading: loading, count: results.length })}
+            {getResultCount({ isLoading: loading, count: results.length })}
           </span>
         }
       />
