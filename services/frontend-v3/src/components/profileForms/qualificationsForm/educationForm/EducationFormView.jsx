@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Row,
   Col,
@@ -45,12 +45,9 @@ const EducationFormView = ({
   diplomaOptions,
   schoolOptions,
   savedEducation,
-  checkIfFormValuesChanged,
   intl,
   attachmentNames,
 }) => {
-  const [disableEndDate, setDisableEndDate] = useState(true);
-
   const Rules = {
     required: {
       required: true,
@@ -67,23 +64,6 @@ const EducationFormView = ({
         />
       ),
     },
-  };
-
-  /*
-   * Toggle End Date
-   *
-   * Enable or disable end date field if education is on going
-   */
-  const toggleEndDate = () => {
-    if (!disableEndDate) {
-      const educationFieldValues = form.getFieldsValue();
-      educationFieldValues.educations[
-        fieldElement.fieldKey
-      ].endDate = undefined;
-      form.setFieldsValue(educationFieldValues);
-    }
-    setDisableEndDate((prev) => !prev);
-    checkIfFormValuesChanged();
   };
 
   /*
@@ -120,17 +100,6 @@ const EducationFormView = ({
     return undefined;
   };
 
-  useEffect(() => {
-    // set the default status of "ongoing" checkbox
-    if (
-      fieldElement &&
-      savedEducation[fieldElement.fieldKey] &&
-      savedEducation[fieldElement.fieldKey].endDate
-    ) {
-      toggleEndDate();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedEducation]);
   return (
     <Row gutter={24} className="topRow">
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -203,7 +172,6 @@ const EducationFormView = ({
           name={[fieldElement.name, "startDate"]}
           fieldKey={[fieldElement.fieldKey, "startDate"]}
           label={<FormattedMessage id="profile.history.item.start.date" />}
-          rules={[Rules.required]}
         >
           <DatePicker
             picker="month"
@@ -216,32 +184,65 @@ const EducationFormView = ({
         </Form.Item>
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-        {/* End Date */}
         <Form.Item
-          name={[fieldElement.name, "endDate"]}
-          fieldKey={[fieldElement.fieldKey, "endDate"]}
-          label={<FormattedMessage id="profile.history.item.end.date" />}
-          rules={!disableEndDate ? [Rules.required] : undefined}
-        >
-          {!disableEndDate && (
-            <DatePicker
-              picker="month"
-              disabledDate={disabledDatesBeforeStart}
-              disabled={disableEndDate}
-              className="datePicker"
-              placeholder={intl.formatMessage({
-                id: "profile.qualifications.select.month",
-              })}
-            />
-          )}
-        </Form.Item>
+          noStyle
+          shouldUpdate={(prevValues, currentValues) => {
+            const fieldPrevValues =
+              prevValues.educations[fieldElement.fieldKey];
+            const fieldCurrentValues =
+              currentValues.educations[fieldElement.fieldKey];
 
-        <div style={{ marginTop: disableEndDate ? "-38px" : "-10px" }}>
-          {/* Checkbox if event is on-going */}
-          <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
-            <FormattedMessage id="profile.is.ongoing" />
-          </Checkbox>
-        </div>
+            return (
+              fieldPrevValues.ongoingDate !== fieldCurrentValues.ongoingDate ||
+              (fieldPrevValues.endDate &&
+                fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
+            );
+          }}
+        >
+          {({ getFieldValue }) => {
+            const disableEndDate = getFieldValue("educations")[
+              fieldElement.fieldKey
+            ].ongoingDate;
+
+            return (
+              <>
+                {/* End Date */}
+                <Form.Item
+                  name={[fieldElement.name, "endDate"]}
+                  fieldKey={[fieldElement.fieldKey, "endDate"]}
+                  label={
+                    <FormattedMessage id="profile.history.item.end.date" />
+                  }
+                >
+                  {!disableEndDate && (
+                    <DatePicker
+                      picker="month"
+                      disabledDate={disabledDatesBeforeStart}
+                      disabled={disableEndDate}
+                      className="datePicker"
+                      placeholder={intl.formatMessage({
+                        id: "profile.qualifications.select.month",
+                      })}
+                    />
+                  )}
+                </Form.Item>
+
+                {/* Checkbox if event is on-going */}
+                <Form.Item
+                  style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
+                  name={[fieldElement.name, "ongoingDate"]}
+                  fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
+                  initialValue={false}
+                  valuePropName="checked"
+                >
+                  <Checkbox>
+                    <FormattedMessage id="profile.is.ongoing" />
+                  </Checkbox>
+                </Form.Item>
+              </>
+            );
+          }}
+        </Form.Item>
       </Col>
       <Col className="gutter-row" span={24}>
         <DescriptionFormItem
@@ -303,6 +304,7 @@ EducationFormView.propTypes = {
       diploma: PropTypes.string,
       endDate: PropTypes.oneOfType([PropTypes.object]),
       startDate: PropTypes.oneOfType([PropTypes.object]),
+      ongoingDate: PropTypes.bool,
       school: PropTypes.string,
       attachmentLinks: PropTypes.arrayOf(
         PropTypes.shape({
@@ -314,7 +316,6 @@ EducationFormView.propTypes = {
     })
   ),
   diplomaOptions: KeyTitleOptionsPropType,
-  checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
   attachmentNames: KeyNameOptionsPropType.isRequired,
 };

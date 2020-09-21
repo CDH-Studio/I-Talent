@@ -13,7 +13,6 @@ const EducationForm = ({
   fieldElement,
   removeElement,
   savedEducation,
-  checkIfFormValuesChanged,
   diplomaOptions,
   schoolOptions,
   attachmentNames,
@@ -24,7 +23,6 @@ const EducationForm = ({
       fieldElement={fieldElement}
       removeElement={removeElement}
       savedEducation={savedEducation}
-      checkIfFormValuesChanged={checkIfFormValuesChanged}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
       attachmentNames={attachmentNames}
@@ -44,7 +42,6 @@ EducationForm.propTypes = {
       school: PropTypes.string,
     })
   ).isRequired,
-  checkIfFormValuesChanged: PropTypes.func.isRequired,
   diplomaOptions: KeyTitleOptionsPropType.isRequired,
   schoolOptions: KeyTitleOptionsPropType.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,

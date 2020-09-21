@@ -151,16 +151,20 @@ const updateProfileValidator = [
     .optional()
     .isArray()
     .custom((array) =>
-      array.every(
-        (i) =>
+      array.every((i) => {
+        console.log(i);
+
+        return (
           isUUID(i.diplomaId) &&
           isUUID(i.schoolId) &&
-          moment(i.startDate).isValid() &&
+          typeof i.ongoingDate === "boolean" &&
+          ("startDate" in i ? moment(i.startDate).isValid() : true) &&
           ("endDate" in i ? moment(i.endDate).isValid() : true)
-      )
+        );
+      })
     )
     .withMessage(
-      "must be an array of containing { diplomaId: UUID, schoolId: UUID, startDate: DateTime, endDate?: DateTime }"
+      "must be an array of containing { diplomaId: UUID, schoolId: UUID, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"
     ),
   body("experiences")
     .optional()
@@ -170,13 +174,14 @@ const updateProfileValidator = [
         (i) =>
           typeof i.organization === "string" &&
           typeof i.jobTitle === "string" &&
+          typeof i.ongoingDate === "boolean" &&
           ("description" in i ? typeof i.organization === "string" : true) &&
-          moment(i.startDate).isValid() &&
+          ("startDate" in i ? moment(i.startDate).isValid() : true) &&
           ("endDate" in i ? moment(i.endDate).isValid() : true)
       )
     )
     .withMessage(
-      "must be an array of containing { description?: string, jobTitle: string, organization: string, startDate: DateTime, endDate?: DateTime }"
+      "must be an array of containing { description?: string, jobTitle: string, organization: string, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"
     ),
   body("status")
     .optional()
