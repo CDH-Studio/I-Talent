@@ -377,5 +377,8 @@
   "sign.out": "Déconnexion",
   "stats.title": "Statistiques",
   "stats.view": "Voir statistiques",
-  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : "
+  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
+  "date.present": "présent",
+  "education.date.present": "Actuellement étudiant",
+  "experience.date.present": "Travaille actuellement"
 }

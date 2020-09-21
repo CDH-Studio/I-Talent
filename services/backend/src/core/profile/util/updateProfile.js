@@ -350,6 +350,8 @@ async function updateProfile(request, userId, language) {
     })
   ).signupStep;
 
+  console.log(educations);
+
   await prisma.user.update({
     where: { id: userId },
     data: {
