@@ -2,7 +2,10 @@
 
 pipeline {
     agent {
-        docker { image 'node:12.18.3-alpine3.11' }
+        docker {
+            label '!container-utils'
+            image 'node:12.18.3-alpine3.11'
+        }
     }
 
     options {
