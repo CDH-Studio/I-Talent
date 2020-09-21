@@ -40,32 +40,24 @@ pipeline {
         }
         stage('Linter-and-testing') {
             parallel {
-                stage('backend') {
-                    parallel {
-                        stage('lint') {
-                            steps {
-                                dir("${BACKEND_DIR}") {
-                                    sh 'yarn lint'
-                                }
-                            }
+                stage('backend-lint') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            sh 'yarn lint'
                         }
                     }
                 }
-                stage('frontend') {
-                    parallel {
-                        stage('lint') {
-                            steps {
-                                dir("${FRONTEND_DIR}") {
-                                    sh 'yarn lint'
-                                }
-                            }
+                stage('frontend-lint') {
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            sh 'yarn lint'
                         }
-                        stage('i18-test') {
-                            steps {
-                                dir("${FRONTEND_DIR_I18}") {
-                                    sh 'node check'
-                                }
-                            }
+                    }
+                }
+                stage('frontend-i18') {
+                    steps {
+                        dir("${FRONTEND_DIR_I18}") {
+                            sh 'node check'
                         }
                     }
                 }
