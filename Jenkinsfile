@@ -2,11 +2,8 @@
 
 pipeline {
     agent {
-        label '!container-utils'
-    }
-
-    tools {
-        nodejs 'nodejs'
+        label '!container-utils',
+        docker { image 'node:12.18.3-alpine3.11' }
     }
 
     options {
@@ -24,12 +21,11 @@ pipeline {
     }
 
     stages {
-        stage('install-packages') {
+        stage('prepare') {
             parallel {
                 stage('backend') {
                     steps {
                         dir("${BACKEND_DIR}") {
-                            sh 'npm install -g yarn'
                             sh 'yarn install --production'
                         }
                     }
@@ -37,7 +33,6 @@ pipeline {
                 stage('frontend') {
                     steps {
                         dir("${FRONTEND_DIR}") {
-                            sh 'npm install -g yarn'
                             sh 'yarn install --production'
                         }
                     }
