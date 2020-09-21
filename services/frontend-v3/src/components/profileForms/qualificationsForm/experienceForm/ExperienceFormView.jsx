@@ -165,10 +165,13 @@ const ExperienceFormView = ({
         <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) => {
-            const fieldPrevValues =
-              prevValues.experiences[fieldElement.fieldKey];
+            const fieldPrevValues = prevValues.experiences[fieldElement.name];
             const fieldCurrentValues =
-              currentValues.experiences[fieldElement.fieldKey];
+              currentValues.experiences[fieldElement.name];
+
+            if (!fieldPrevValues || !fieldCurrentValues) {
+              return false;
+            }
 
             return (
               fieldPrevValues.ongoingDate !== fieldCurrentValues.ongoingDate ||
@@ -179,7 +182,7 @@ const ExperienceFormView = ({
         >
           {({ getFieldValue }) => {
             const disableEndDate = getFieldValue("experiences")[
-              fieldElement.fieldKey
+              fieldElement.name
             ].ongoingDate;
 
             return (

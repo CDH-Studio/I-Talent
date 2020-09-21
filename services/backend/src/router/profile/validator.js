@@ -151,17 +151,18 @@ const updateProfileValidator = [
     .optional()
     .isArray()
     .custom((array) =>
-      array.every((i) => {
-        console.log(i);
-
-        return (
+      array.every(
+        (i) =>
           isUUID(i.diplomaId) &&
           isUUID(i.schoolId) &&
           typeof i.ongoingDate === "boolean" &&
-          ("startDate" in i ? moment(i.startDate).isValid() : true) &&
-          ("endDate" in i ? moment(i.endDate).isValid() : true)
-        );
-      })
+          ("startDate" in i
+            ? moment(i.startDate).isValid() || i.startDate === null
+            : true) &&
+          ("endDate" in i
+            ? moment(i.endDate).isValid() || i.endDate === null
+            : true)
+      )
     )
     .withMessage(
       "must be an array of containing { diplomaId: UUID, schoolId: UUID, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"

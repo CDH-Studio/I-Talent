@@ -187,10 +187,13 @@ const EducationFormView = ({
         <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) => {
-            const fieldPrevValues =
-              prevValues.educations[fieldElement.fieldKey];
+            const fieldPrevValues = prevValues.educations[fieldElement.name];
             const fieldCurrentValues =
-              currentValues.educations[fieldElement.fieldKey];
+              currentValues.educations[fieldElement.name];
+
+            if (!fieldPrevValues || !fieldCurrentValues) {
+              return false;
+            }
 
             return (
               fieldPrevValues.ongoingDate !== fieldCurrentValues.ongoingDate ||
@@ -201,7 +204,7 @@ const EducationFormView = ({
         >
           {({ getFieldValue }) => {
             const disableEndDate = getFieldValue("educations")[
-              fieldElement.fieldKey
+              fieldElement.name
             ].ongoingDate;
 
             return (
