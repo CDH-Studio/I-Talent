@@ -1,38 +1,37 @@
 @Library('ised-cicd-lib') _
 
 pipeline {
-	agent {
+    agent {
         label '!container-utils'
-   	}
-   	
+    }
+
     options {
         disableConcurrentBuilds()
     }
-    
-   	environment {
+
+    environment {
         // GLobal Vars
-        BACKEND_IMAGE_NAME = "dsd-italent-backend"
-        FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
-        BACKEND_DIR = "services/backend"
-        FRONTEND_DIR = "services/frontend-v3"
+        BACKEND_IMAGE_NAME = 'dsd-italent-backend'
+        FRONTEND_IMAGE_NAME = 'dsd-italent-frontend'
+        BACKEND_DIR = 'services/backend'
+        FRONTEND_DIR = 'services/frontend-v3'
     }
-    
+
     stages {
-        stage('build'){
-            parallel{
+        stage('build') {
+            parallel {
                 stage('release-backend') {
                     steps {
-        			    dir("${BACKEND_DIR}") {
+                        dir("${BACKEND_DIR}") {
                             script {
                                 release.releaseApp(BACKEND_IMAGE_NAME)
                             }
                         }
                     }
                 }
-                
                 stage('release-frontend') {
                     steps {
-        			    dir("${FRONTEND_DIR}") {
+                        dir("${FRONTEND_DIR}") {
                             script {
                                 release.releaseApp(FRONTEND_IMAGE_NAME)
                             }
@@ -41,7 +40,5 @@ pipeline {
                 }
             }
         }
-
-
     }
 }
