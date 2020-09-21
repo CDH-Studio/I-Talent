@@ -3,6 +3,10 @@
 pipeline {
     agent {
         label '!container-utils'
+        docker {
+            image 'node:12.18.3-alpine3.11'
+            args '-p 3000:3000'
+        }
     }
 
     options {
