@@ -1,3 +1,12 @@
+.result-count {
+  font-size: 15px;
+  margin-left: 12px;
+}
+
+.loading-spinner {
+  margin-left: 12px !important;
+}
+
 .ant-ribbon-placement-end {
   height: auto !important;
   min-height: 30px !important;
@@ -36,6 +45,7 @@
 }
 .container {
   max-width: 1600px;
+  margin-top: 0px !important;
 }
 .button-icon {
   font-size: 16px;

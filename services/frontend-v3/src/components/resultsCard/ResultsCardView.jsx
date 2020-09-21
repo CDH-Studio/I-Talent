@@ -14,6 +14,7 @@ import {
   Badge,
   Tooltip,
   Button,
+  Spin,
 } from "antd";
 import {
   UserAddOutlined,
@@ -29,6 +30,7 @@ import {
   HistoryPropType,
   ProfileInfoPropType,
 } from "../../utils/customPropTypes";
+import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
 import "./ResultsCardView.scss";
 
@@ -56,7 +58,12 @@ const ResultsCardView = ({
       history.push(`/profile/${person.id}`);
     }
   };
-  const renderAvatar = (person) => {
+
+  /**
+   * Render User Avatar for each card
+   * @param {Object} person - The person being rendered on card.
+   */
+  const getUserAvatar = ({ person }) => {
     let badgeIcon;
     let badgeColor;
     let tooltipMessage;
@@ -120,27 +127,27 @@ const ResultsCardView = ({
   };
 
   /**
-   * Render User Result Card
+   * Render User Avatar for each card
    * @param {Object} person - The person being rendered on card.
-   * @param {key} integer - The type of notification.
    */
-  const renderCard = ({ person, key }) => {
-    const actionsRibbon = [];
+  const getActionRibbonBtn = ({ person }) => {
     const isConnection = connections.includes(person.id);
+
+    const ribbonStyle = {
+      padding: "0px",
+      color: "#ffffff",
+      margin: "1px",
+      display: "inline-block;",
+    };
 
     // get action in ribbon
     if (person.id !== userId) {
-      actionsRibbon.push(
+      return (
         <Button
           tabIndex="0"
           type="link"
           block
-          style={{
-            padding: "0px",
-            color: "#ffffff",
-            margin: "1px",
-            display: "inline-block;",
-          }}
+          style={ribbonStyle}
           icon={
             isConnection ? (
               <UserDeleteOutlined className="button-icon" />
@@ -166,31 +173,31 @@ const ResultsCardView = ({
           )}
         </Button>
       );
-    } else {
-      actionsRibbon.push(
-        <Button
-          tabIndex="0"
-          type="link"
-          block
-          style={{
-            color: "#ffffff",
-            margin: "auto",
-            width: "100%",
-            display: "inline-block;",
-          }}
-          icon={<EditOutlined className="button-icon" />}
-          onClick={(e) => {
-            e.stopPropagation();
-            history.push("/profile/edit/primary-info");
-          }}
-          className="button"
-        >
-          <FormattedMessage id="edit.profile" />
-        </Button>
-      );
     }
+    return (
+      <Button
+        tabIndex="0"
+        type="link"
+        block
+        style={ribbonStyle}
+        icon={<EditOutlined className="button-icon" />}
+        onClick={(e) => {
+          e.stopPropagation();
+          history.push("/profile/edit/primary-info");
+        }}
+        className="button"
+      >
+        <FormattedMessage id="edit.profile" />
+      </Button>
+    );
+  };
 
-    let cardFooter = [
+  /**
+   * Render User Avatar for each card
+   * @param {Object} person - The person being rendered on card.
+   */
+  const getCardFooter = ({ person }) => {
+    return [
       <div>
         <BranchesOutlined className="card-footer-icon" />
         {person.branch ? (
@@ -211,10 +218,17 @@ const ResultsCardView = ({
         )}
       </div>,
     ];
+  };
 
-    const hasSkills = person.resultSkills.length > 0;
+  /**
+   * Render User Result Card
+   * @param {Object} person - The person being rendered on card.
+   * @param {key} integer - The type of notification.
+   */
+  const renderCard = ({ person, key }) => {
+    const isConnection = connections.includes(person.id);
 
-    const cardExtra =
+    const userLevel =
       person.groupLevel && person.groupLevel.name
         ? `(${person.groupLevel.name})`
         : "";
@@ -228,7 +242,7 @@ const ResultsCardView = ({
     return (
       <Col span={24} xxl={12} key={key}>
         <Badge.Ribbon
-          text={actionsRibbon}
+          text={getActionRibbonBtn({ person: person })}
           color={isConnection ? "#192E2F" : "#1D807B"}
         >
           <Card
@@ -238,7 +252,7 @@ const ResultsCardView = ({
             bordered
             onClick={() => history.push(`/profile/${person.id}`)}
             onKeyPress={(e) => handleKeyPress(e, person)}
-            actions={cardFooter}
+            actions={getCardFooter({ person: person })}
             bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
           >
             <Row>
@@ -246,11 +260,11 @@ const ResultsCardView = ({
                 <Row style={{ paddingTop: "15px" }}>
                   <Meta
                     className="meta"
-                    avatar={renderAvatar(person)}
+                    avatar={getUserAvatar({ person: person })}
                     title={cardTitle}
                     description={
                       <p className="small-p">
-                        {person.jobTitle} {cardExtra}
+                        {person.jobTitle} {userLevel}
                       </p>
                     }
                   />
@@ -258,7 +272,7 @@ const ResultsCardView = ({
               </Col>
 
               <Col span={24} style={{ marginTop: "20px" }}>
-                {hasSkills ? (
+                {person.resultSkills.length > 0 ? (
                   <Row align="middle" type="flex">
                     {person.resultSkills.map(({ id, name }) => (
                       <Col key={id}>
@@ -277,6 +291,26 @@ const ResultsCardView = ({
     );
   };
 
+  /**
+   * Render Result Count
+   * @param {Boolean} loading - loading status.
+   * @param {number} loading - loading status.
+   */
+  const getResultCount = ({ loading, count }) => {
+    if (!loading) {
+      return (
+        <Text type="secondary" className={"result-count"}>
+          results found: {count}
+        </Text>
+      );
+    }
+    return <Spin className={"loading-spinner"} />;
+  };
+
+  /**
+   * Render Result Cards
+   * @param {Object} dataSource - The list of user results.
+   */
   const renderResultCards = (dataSource) => {
     if (!loading && dataSource.length === 0) {
       return (
@@ -289,22 +323,54 @@ const ResultsCardView = ({
     return preparedResults.map((person, key) => renderCard({ person, key }));
   };
 
-  return (
-    <div className="container">
-      {loading && (
-        <Card>
-          <Skeleton />
-        </Card>
-      )}
-      <Row
-        gutter={[16, 16]}
-        type="flex"
-        justify="left"
-        align={results.length === 0 ? "center" : undefined}
-      >
-        {!loading && renderResultCards(results)}
+  /**
+   * Get loading animations when loading results
+   *
+   */
+  const getLoadingAnimation = () => {
+    return (
+      <Row gutter={[16, 16]} type="flex" justify="left">
+        <Col span={24} xxl={12}>
+          <Card>
+            <Skeleton active />
+          </Card>
+        </Col>
+        <Col span={24} xxl={12} style={{ opacity: "50%" }}>
+          <Card>
+            <Skeleton active />
+          </Card>
+        </Col>
+        <Col span={24} xxl={12} style={{ opacity: "30%" }}>
+          <Card>
+            <Skeleton active />
+          </Card>
+        </Col>
       </Row>
-    </div>
+    );
+  };
+
+  return (
+    <>
+      <Header
+        title={
+          <span>
+            <FormattedMessage id="results.title" />
+            {getResultCount({ loading: loading, count: results.length })}
+          </span>
+        }
+      />
+      <div className="container">
+        {loading && getLoadingAnimation()}
+        <Row
+          gutter={[16, 16]}
+          type="flex"
+          justify="left"
+          align={results.length === 0 ? "center" : undefined}
+        >
+          {!loading && renderResultCards(results)}
+        </Row>
+      </div>
+    </>
   );
 };
 

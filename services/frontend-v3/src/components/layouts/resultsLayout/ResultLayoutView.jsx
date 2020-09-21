@@ -7,7 +7,6 @@ import Header from "../../header/Header";
 
 const ResultLayoutView = () => (
   <AppLayout displaySideBar sideBarContent={<SearchFilter />}>
-    <Header title={<FormattedMessage id="results.title" />} />
     <ResultsCard />
   </AppLayout>
 );
