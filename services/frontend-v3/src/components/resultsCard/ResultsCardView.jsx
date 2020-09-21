@@ -122,6 +122,24 @@ const ResultsCardView = ({
   };
 
   /**
+   * Get subtitle for user card
+   * @param {Object} person - The person being rendered on card.
+   */
+  const getUserSubtitle = ({ person }) => {
+    let subtitle = "-";
+
+    if (person.jobTitle) {
+      subtitle = person.jobTitle;
+    }
+
+    if (person.groupLevel) {
+      subtitle = subtitle + " (" + person.groupLevel.name + ")";
+    }
+
+    return subtitle;
+  };
+
+  /**
    * Render User Avatar for each card
    * @param {Object} person - The person being rendered on card.
    */
@@ -252,7 +270,7 @@ const ResultsCardView = ({
             onClick={() => history.push(`/profile/${person.id}`)}
             onKeyPress={(e) => handleKeyPress(e, person)}
             actions={getCardFooter({ person })}
-            bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
+            bodyStyle={{ padding: "23px", flex: 1, flexBasis: "auto" }}
           >
             <Row>
               <Col span={24}>
@@ -262,9 +280,7 @@ const ResultsCardView = ({
                     avatar={getUserAvatar({ person })}
                     title={cardTitle}
                     description={
-                      <p className="small-p">
-                        {person.jobTitle} {userLevel}
-                      </p>
+                      <p className="small-p">{getUserSubtitle({ person })}</p>
                     }
                   />
                 </Row>
