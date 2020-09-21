@@ -31,7 +31,10 @@ const ResultsCard = () => {
         `api/search/${type}?${queryString}&language=${locale}`
       );
 
-      setResults(result.data);
+      setTimeout(() => {
+        setResults(result.data);
+      }, 500);
+
       setEmptyQuery(false);
     } else {
       setEmptyQuery(true);

@@ -198,7 +198,9 @@ const ResultsCardView = ({
         {person.branch ? (
           <Text>{person.branch}</Text>
         ) : (
-          <Text>Branch unknown</Text>
+          <Text>
+            <FormattedMessage id="search.results.cards.branch.not.found" />
+          </Text>
         )}
       </div>,
       <div>
@@ -209,7 +211,9 @@ const ResultsCardView = ({
             {person.officeLocation.streetName}, {person.officeLocation.city}
           </Text>
         ) : (
-          <Text>Location unknown</Text>
+          <Text>
+            <FormattedMessage id="search.results.cards.location.not.found" />
+          </Text>
         )}
       </div>,
     ];
@@ -266,7 +270,7 @@ const ResultsCardView = ({
                 </Row>
               </Col>
 
-              <Col span={24} style={{ marginTop: "20px" }}>
+              <Col span={24} style={{ marginTop: "12px" }}>
                 {person.resultSkills.length > 0 ? (
                   <Row align="middle" type="flex">
                     {person.resultSkills.map(({ id, name }) => (
@@ -276,7 +280,9 @@ const ResultsCardView = ({
                     ))}
                   </Row>
                 ) : (
-                  <Tag className="tag">No matching skills found</Tag>
+                  <Tag className="tag">
+                    <FormattedMessage id="search.results.cards.skills.not.found" />
+                  </Tag>
                 )}
               </Col>
             </Row>
@@ -295,7 +301,7 @@ const ResultsCardView = ({
     if (!isLoading) {
       return (
         <Text type="secondary" className="result-count">
-          results found: {count}
+          <FormattedMessage id="search.results.found" />: {count}
         </Text>
       );
     }
