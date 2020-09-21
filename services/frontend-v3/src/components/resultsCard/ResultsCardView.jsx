@@ -95,10 +95,6 @@ const ResultsCardView = ({
           values={{ name: person.firstName }}
         />
       );
-    } else {
-      badgeIcon = undefined;
-      badgeColor = undefined;
-      tooltipMessage = undefined;
     }
 
     return (
@@ -137,7 +133,7 @@ const ResultsCardView = ({
       padding: "0px",
       color: "#ffffff",
       margin: "1px",
-      display: "inline-block;",
+      display: "inline-block",
     };
 
     // get action in ribbon
