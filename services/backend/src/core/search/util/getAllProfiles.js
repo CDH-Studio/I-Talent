@@ -382,6 +382,7 @@ async function getAllUsers(searchValue, language, userId, request) {
       .map(({ item }) => item);
 
     info.resultSkills = resultSkills;
+    info.totalNumbResultSkills = fuse.search(searchValue).length;
 
     return info;
   });

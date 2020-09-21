@@ -272,13 +272,12 @@ const ResultsCardView = ({
 
               <Col span={24} style={{ marginTop: "12px" }}>
                 {person.resultSkills.length > 0 ? (
-                  <Row align="middle" type="flex">
+                  <span>
                     {person.resultSkills.map(({ id, name }) => (
-                      <Col key={id}>
-                        <Tag className="tag">{name}</Tag>
-                      </Col>
+                      <Tag className="tag">{name}</Tag>
                     ))}
-                  </Row>
+                    <Tag className="tag">+{person.totalNumbResultSkills}</Tag>
+                  </span>
                 ) : (
                   <Tag className="tag">
                     <FormattedMessage id="search.results.cards.skills.not.found" />
