@@ -214,13 +214,16 @@ const ResultsCardView = ({
 
     const hasSkills = person.resultSkills.length > 0;
 
-    const cardTitle = person.branch ? <Text>{person.branch}</Text> : "";
     const cardExtra =
-      person.groupLevel && person.groupLevel.name ? (
-        <Text>{`${person.groupLevel.name}`}</Text>
-      ) : (
-        ""
-      );
+      person.groupLevel && person.groupLevel.name
+        ? `(${person.groupLevel.name})`
+        : "";
+
+    const cardTitle = (
+      <Text>
+        {person.firstName} {person.lastName}
+      </Text>
+    );
 
     return (
       <Col span={24} xxl={12} key={key}>
@@ -235,31 +238,27 @@ const ResultsCardView = ({
             bordered
             onClick={() => history.push(`/profile/${person.id}`)}
             onKeyPress={(e) => handleKeyPress(e, person)}
-            title={cardTitle}
-            extra={cardExtra}
             actions={cardFooter}
             bodyStyle={{ padding: "25px", flex: 1, flexBasis: "auto" }}
           >
             <Row>
-              <Col>
-                <Row style={{ paddingTop: 4 }}>
+              <Col span={24}>
+                <Row style={{ paddingTop: "15px" }}>
                   <Meta
                     className="meta"
                     avatar={renderAvatar(person)}
-                    title={`${person.firstName} ${person.lastName}`}
+                    title={cardTitle}
                     description={
                       <p className="small-p">
-                        {person.jobTitle ? person.jobTitle : "-"}
+                        {person.jobTitle} {cardExtra}
                       </p>
                     }
                   />
                 </Row>
               </Col>
 
-              {hasSkills && <Divider type="vertical" className="divider" />}
-
-              <Col flex="1">
-                {hasSkills && (
+              <Col span={24} style={{ marginTop: "20px" }}>
+                {hasSkills ? (
                   <Row align="middle" type="flex">
                     {person.resultSkills.map(({ id, name }) => (
                       <Col key={id}>
@@ -267,6 +266,8 @@ const ResultsCardView = ({
                       </Col>
                     ))}
                   </Row>
+                ) : (
+                  <Tag className="tag">No matching skills found</Tag>
                 )}
               </Col>
             </Row>
@@ -296,7 +297,7 @@ const ResultsCardView = ({
         </Card>
       )}
       <Row
-        gutter={[24, 24]}
+        gutter={[16, 16]}
         type="flex"
         justify="left"
         align={results.length === 0 ? "center" : undefined}
