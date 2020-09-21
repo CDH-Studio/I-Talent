@@ -194,8 +194,8 @@ definitions:
             type: string
           resultSkills:
             $ref: "#/definitions/IdNameArray"
-            totalNumbResultSkills:
-            $ref: number
+          totalNumbResultSkills:
+            type: number
   UserResponse:
     schema:
       type: object
