@@ -60,7 +60,7 @@ const LandingLayoutView = () => {
 
   return (
     <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>
-      <h1 className="hidden" Landing Page>
+      <h1 className="hidden">
         <FormattedMessage id="landing.login.and.enter" />
       </h1>
       <Row justify="center" style={{ marginTop: "120px" }}>
