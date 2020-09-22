@@ -387,9 +387,6 @@ const QualificationsFormView = ({
                               diplomaOptions={options.diplomas}
                               schoolOptions={options.schools}
                               attachmentNames={options.attachmentNamesEdu}
-                              checkIfFormValuesChanged={
-                                checkIfFormValuesChanged
-                              }
                             />
                           ))}
                           <Form.Item>

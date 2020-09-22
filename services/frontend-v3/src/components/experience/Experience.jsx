@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { useIntl } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
 import ExperienceView from "./ExperienceView";
@@ -7,23 +7,37 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Experience = ({ data, editableCardBool }) => {
-  const getExperienceDuration = (startDate, endDate) => {
+  const intl = useIntl();
+
+  const getExperienceDuration = (startDate, endDate, ongoingDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
 
-    const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
-
-    let duration = "";
-
-    if (startDate === null && endDate === null) {
-      duration += dateNotProvided;
-    } else if (startDate !== null && endDate === null) {
-      duration = `${duration + formatedStartDate} - present`;
-    } else {
-      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
+    if (startDate && endDate) {
+      return `${formatedStartDate} - ${formatedEndDate}`;
     }
 
-    return duration;
+    if (ongoingDate && startDate) {
+      return `${formatedStartDate} - ${intl.formatMessage({
+        id: "date.present",
+      })}`;
+    }
+
+    if (ongoingDate) {
+      return intl.formatMessage({
+        id: "experience.date.present",
+      });
+    }
+
+    if (startDate && !endDate) {
+      return formatedStartDate;
+    }
+
+    if (!startDate && endDate) {
+      return formatedEndDate;
+    }
+
+    return "-";
   };
 
   const getExperienceInfo = (dataSource) => {
@@ -35,6 +49,7 @@ const Experience = ({ data, editableCardBool }) => {
       ({
         startDate,
         endDate,
+        ongoingDate,
         description,
         jobTitle,
         organization,
@@ -42,7 +57,7 @@ const Experience = ({ data, editableCardBool }) => {
         projects,
       }) => ({
         description,
-        duration: getExperienceDuration(startDate, endDate),
+        duration: getExperienceDuration(startDate, endDate, ongoingDate),
         icon: "solution",
         jobTitle,
         organization,

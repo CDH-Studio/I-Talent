@@ -168,6 +168,7 @@ function formatProfileResult(profile, language) {
         id: education.id,
         startDate: education.startDate,
         endDate: education.endDate,
+        ongoingDate: education.ongoingDate,
         description: education.description,
         diploma: {
           id: education.diploma.id,
@@ -221,6 +222,7 @@ function formatProfileResult(profile, language) {
         id: experience.id,
         startDate: experience.startDate,
         endDate: experience.endDate,
+        ongoingDate: experience.ongoingDate,
         description: translatedExperience
           ? translatedExperience.description
           : null,

@@ -18,4 +18,4 @@ Backend for I-Talent built on top of the node.js framework [expressjs](https://e
 
 The database diagram has been create with [draw.io](draw.io), and can be modified with the .xml file in the docs folder
 
-![Database digagram](src/docs/I-Talent-database-diagram.png)
+![Database digagram](src/docs/I-Talent%20database-v3%20Relational%20Diagram.png)

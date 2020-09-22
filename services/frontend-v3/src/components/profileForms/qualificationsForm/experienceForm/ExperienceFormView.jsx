@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Row,
   Col,
@@ -40,12 +40,9 @@ const ExperienceFormView = ({
   fieldElement,
   removeElement,
   savedExperience,
-  checkIfFormValuesChanged,
   attachmentNames,
   intl,
 }) => {
-  const [disableEndDate, setDisableEndDate] = useState(true);
-
   const Rules = {
     required: {
       required: true,
@@ -59,23 +56,6 @@ const ExperienceFormView = ({
       max: 1500,
       message: <FormattedMessage id="profile.rules.max.100" />,
     },
-  };
-
-  /*
-   * Toggle End Date
-   *
-   * Enable or disable end date field if experience is on going
-   */
-  const toggleEndDate = () => {
-    if (!disableEndDate) {
-      const experienceFieldValues = form.getFieldsValue();
-      experienceFieldValues.experience[
-        fieldElement.fieldKey
-      ].endDate = undefined;
-      form.setFieldsValue(experienceFieldValues);
-    }
-    setDisableEndDate((prev) => !prev);
-    checkIfFormValuesChanged();
   };
 
   /*
@@ -111,17 +91,6 @@ const ExperienceFormView = ({
     }
     return undefined;
   };
-
-  useEffect(() => {
-    if (
-      fieldElement &&
-      savedExperience[fieldElement.fieldKey] &&
-      savedExperience[fieldElement.fieldKey].endDate
-    ) {
-      toggleEndDate();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedExperience]);
 
   return (
     <Row gutter={24} className="topRow">
@@ -167,6 +136,7 @@ const ExperienceFormView = ({
           name={[fieldElement.name, "organization"]}
           fieldKey={[fieldElement.fieldKey, "organization"]}
           label={<FormattedMessage id="profile.career.subheader.name" />}
+          className="formItem"
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -193,31 +163,69 @@ const ExperienceFormView = ({
       </Col>
 
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-        {/* End Date */}
         <Form.Item
-          name={[fieldElement.name, "endDate"]}
-          fieldKey={[fieldElement.fieldKey, "endDate"]}
-          label={<FormattedMessage id="profile.history.item.end.date" />}
-          rules={!disableEndDate ? [Rules.required] : undefined}
+          noStyle
+          shouldUpdate={(prevValues, currentValues) => {
+            const fieldPrevValues = prevValues.experiences[fieldElement.name];
+            const fieldCurrentValues =
+              currentValues.experiences[fieldElement.name];
+
+            if (!fieldPrevValues || !fieldCurrentValues) {
+              return false;
+            }
+
+            return (
+              fieldPrevValues.ongoingDate !== fieldCurrentValues.ongoingDate ||
+              (fieldPrevValues.endDate &&
+                fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
+            );
+          }}
         >
-          {!disableEndDate && (
-            <DatePicker
-              picker="month"
-              disabledDate={disabledDatesBeforeStart}
-              disabled={disableEndDate}
-              className="datePicker"
-              placeholder={intl.formatMessage({
-                id: "profile.qualifications.select.month",
-              })}
-            />
-          )}
+          {({ getFieldValue }) => {
+            const disableEndDate = getFieldValue("experiences")[
+              fieldElement.name
+            ].ongoingDate;
+
+            return (
+              <>
+                {/* End Date */}
+                <Form.Item
+                  name={[fieldElement.name, "endDate"]}
+                  fieldKey={[fieldElement.fieldKey, "endDate"]}
+                  label={
+                    <FormattedMessage id="profile.history.item.end.date" />
+                  }
+                  rules={!disableEndDate ? [Rules.required] : undefined}
+                >
+                  {!disableEndDate && (
+                    <DatePicker
+                      picker="month"
+                      disabledDate={disabledDatesBeforeStart}
+                      disabled={disableEndDate}
+                      className="datePicker"
+                      placeholder={intl.formatMessage({
+                        id: "profile.qualifications.select.month",
+                      })}
+                    />
+                  )}
+                </Form.Item>
+
+                {/* Checkbox if event is on-going */}
+                <Form.Item
+                  style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
+                  name={[fieldElement.name, "ongoingDate"]}
+                  fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
+                  initialValue={false}
+                  valuePropName="checked"
+                >
+                  <Checkbox>
+                    <FormattedMessage id="profile.is.ongoing" />
+                  </Checkbox>
+                </Form.Item>
+              </>
+            );
+          }}
         </Form.Item>
-        <div style={{ marginTop: disableEndDate ? "-38px" : "-10px" }}>
-          {/* Checkbox if event is on-going */}
-          <Checkbox onChange={toggleEndDate} checked={disableEndDate}>
-            <FormattedMessage id="profile.is.ongoing" />
-          </Checkbox>
-        </div>
       </Col>
 
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -295,7 +303,6 @@ ExperienceFormView.propTypes = {
   form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  checkIfFormValuesChanged: PropTypes.func.isRequired,
   intl: IntlPropType,
   attachmentNames: KeyNameOptionsPropType.isRequired,
   savedExperience: PropTypes.arrayOf(
@@ -303,6 +310,7 @@ ExperienceFormView.propTypes = {
       jobTitle: PropTypes.string,
       endDate: PropTypes.oneOfType([PropTypes.object]),
       startDate: PropTypes.oneOfType([PropTypes.object]),
+      ongoingDate: PropTypes.bool,
       organization: PropTypes.string,
       attachmentLinks: PropTypes.arrayOf(
         PropTypes.shape({
