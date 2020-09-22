@@ -61,7 +61,6 @@ const Experience = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.experience"
-      content={<ExperienceView experienceInfo={getExperienceInfo(data)} />}
       cardName="experience"
       id="card-profile-experience"
       editUrl="/profile/edit/qualifications?tab=experience"
@@ -69,7 +68,9 @@ const Experience = ({ data, editableCardBool }) => {
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.experience}
       lastUpdated={data.experiencesUpdatedAt}
-    />
+    >
+      <ExperienceView experienceInfo={getExperienceInfo(data)} />
+    </ProfileCards>
   );
 };
 
