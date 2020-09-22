@@ -289,9 +289,7 @@ const ResultsCardView = ({
                         {name}
                       </Tag>
                     ))}
-                    <Tag className="tag">
-                      +{person.totalNumbResultSkills - 4}
-                    </Tag>
+                    <Tag className="tag">+{person.totalResultSkills - 4}</Tag>
                   </span>
                 ) : (
                   <Tag className="tag">

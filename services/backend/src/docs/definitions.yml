@@ -193,6 +193,8 @@ definitions:
             type: string
           resultSkills:
             $ref: "#/definitions/IdNameArray"
+          totalResultSkills:
+            type: number
           officeLocation:
             type: object
             properties:
@@ -207,8 +209,6 @@ definitions:
                 type: string
               province:
                 type: string
-          totalNumbResultSkills:
-            type: number
   UserResponse:
     schema:
       type: object
