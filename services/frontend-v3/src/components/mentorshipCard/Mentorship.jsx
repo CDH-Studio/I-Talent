@@ -66,12 +66,6 @@ const Mentorship = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.mentorship.skills"
-      content={
-        <MentorshipView
-          mentoring={setUpMentorshipSkills()}
-          mentoringCategories={setUpCategories(data.mentorshipSkills)}
-        />
-      }
       cardName="mentorshipSkills"
       id="card-profile-mentorship-skills"
       editUrl="/profile/edit/talent?tab=mentorship"
@@ -79,7 +73,12 @@ const Mentorship = ({ data, editableCardBool }) => {
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.mentorshipSkills}
       lastUpdated={data.mentorshipSkillsUpdatedAt}
-    />
+    >
+      <MentorshipView
+        mentoring={setUpMentorshipSkills()}
+        mentoringCategories={setUpCategories(data.mentorshipSkills)}
+      />
+    </ProfileCards>
   );
 };
 

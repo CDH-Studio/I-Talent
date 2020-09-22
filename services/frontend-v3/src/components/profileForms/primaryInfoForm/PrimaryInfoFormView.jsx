@@ -291,9 +291,9 @@ const PrimaryInfoFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
@@ -352,8 +352,6 @@ const PrimaryInfoFormView = ({
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-      })
-      .then(() => {
         setFieldsChanged(false);
         if (formType === "create") {
           history.push("/profile/create/step/8");

@@ -286,9 +286,9 @@ const TalentFormView = ({
     form
       .validateFields()
       .then(async (values) => {
-        setFieldsChanged(false);
-        setSavedValues(values);
         await saveDataToDB(values);
+        setSavedValues(values);
+        setFieldsChanged(false);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
