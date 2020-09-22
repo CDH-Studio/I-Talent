@@ -83,10 +83,9 @@ definitions:
       name:
         type: string
   IdNameArray:
-    schema:
-      type: array
-      items:
-        $ref: "#/definitions/IdName"
+    type: array
+    items:
+      $ref: "#/definitions/IdName"
   IdEnFrArray:
     schema:
       type: array
@@ -194,6 +193,20 @@ definitions:
             type: string
           resultSkills:
             $ref: "#/definitions/IdNameArray"
+          officeLocation:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              streetNumber:
+                type: number
+              city:
+                type: string
+              streetName:
+                type: string
+              province:
+                type: string
           totalNumbResultSkills:
             type: number
   UserResponse:
