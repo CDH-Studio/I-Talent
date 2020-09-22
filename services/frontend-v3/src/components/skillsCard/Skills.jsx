@@ -67,12 +67,6 @@ const Skills = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.skills"
-      content={
-        <SkillsView
-          skills={setUpSkills(data.skills)}
-          categoriesSkills={setUpCategories(data.skills)}
-        />
-      }
       cardName="skills"
       id="card-profile-skills"
       editUrl="/profile/edit/talent?tab=skills"
@@ -80,7 +74,12 @@ const Skills = ({ data, editableCardBool }) => {
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.skills}
       lastUpdated={data.skillsUpdatedAt}
-    />
+    >
+      <SkillsView
+        skills={setUpSkills(data.skills)}
+        categoriesSkills={setUpCategories(data.skills)}
+      />
+    </ProfileCards>
   );
 };
 

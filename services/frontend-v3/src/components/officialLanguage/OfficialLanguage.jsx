@@ -69,18 +69,17 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
     <ProfileCards
       titleId="profile.official.languages"
       cardName="officialLanguage"
-      content={
-        <OfficialLanguageView
-          firstLanguageInfo={getFirstLanguageInfo(data)}
-          secondLanguageInfo={generateSecondLanguageInfo(data)}
-        />
-      }
       id="card-profile-official-language"
       editUrl="/profile/edit/language-proficiency"
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.officialLanguage}
-    />
+    >
+      <OfficialLanguageView
+        firstLanguageInfo={getFirstLanguageInfo(data)}
+        secondLanguageInfo={generateSecondLanguageInfo(data)}
+      />
+    </ProfileCards>
   );
 };
 

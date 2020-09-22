@@ -7,20 +7,19 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 const CareerInterests = ({ data, editableCardBool }) => (
   <ProfileCards
     titleId="profile.career.interests"
-    content={
-      <CareerInterestsView
-        lookingJob={data.lookingJob}
-        interestedInRemote={data.interestedInRemote}
-        relocationLocations={data.relocationLocations}
-      />
-    }
     cardName="careerInterests"
     id="card-profile-career-interests"
     editUrl="/profile/edit/personal-growth?tab=career-interests"
     data={data}
     editableCardBool={editableCardBool}
     visibility={data.visibleCards.careerInterests}
-  />
+  >
+    <CareerInterestsView
+      lookingJob={data.lookingJob}
+      interestedInRemote={data.interestedInRemote}
+      relocationLocations={data.relocationLocations}
+    />
+  </ProfileCards>
 );
 
 CareerInterests.propTypes = {

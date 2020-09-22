@@ -6,7 +6,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 const ProfileCards = ({
   data,
   titleId,
-  content,
+  children,
   editUrl,
   cardName,
   id,
@@ -17,7 +17,6 @@ const ProfileCards = ({
 }) => (
   <ProfileCardsView
     titleId={titleId}
-    content={visibility ? content : null}
     editUrl={editUrl}
     cardName={cardName}
     id={id}
@@ -26,13 +25,15 @@ const ProfileCards = ({
     visibleCards={data.visibleCards}
     lastUpdated={lastUpdated}
     displayExtraHeaderContent={displayExtraHeaderContent}
-  />
+  >
+    {visibility ? children : null}
+  </ProfileCardsView>
 );
 
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
   titleId: PropTypes.node.isRequired,
-  content: PropTypes.element,
+  children: PropTypes.element,
   editUrl: PropTypes.string,
   cardName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -47,7 +48,7 @@ ProfileCards.propTypes = {
 
 ProfileCards.defaultProps = {
   data: null,
-  content: null,
+  children: null,
   editUrl: null,
   editableCardBool: false,
   displayExtraHeaderContent: true,
