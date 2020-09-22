@@ -3,20 +3,19 @@ import PropTypes from "prop-types";
 import ConnectionsView from "./ConnectionsView";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const connections = ({ data }) => {
-  return (
-    <ProfileCards
-      titleId="profile.connections"
-      content={<ConnectionsView connections={data.connections} />}
-      cardName="privateGroup"
-      id="card-profile-connections"
-      data={data}
-      editableCardBool={false}
-      displayExtraHeaderContent={false}
-      visibility="PUBLIC"
-    />
-  );
-};
+const connections = ({ data }) => (
+  <ProfileCards
+    titleId="profile.connections"
+    cardName="privateGroup"
+    id="card-profile-connections"
+    data={data}
+    editableCardBool={false}
+    displayExtraHeaderContent={false}
+    visibility="PUBLIC"
+  >
+    <ConnectionsView connections={data.connections} />
+  </ProfileCards>
+);
 
 connections.propTypes = {
   data: PropTypes.shape({
