@@ -6,7 +6,6 @@ import {
   Form,
   Button,
   Checkbox,
-  DatePicker,
   Input,
   Tooltip,
   Select,
@@ -26,6 +25,7 @@ import {
 
 import "./ExperienceFormView.scss";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
+import DatePicker from "../../../DatePicker";
 
 const { Title } = Typography;
 

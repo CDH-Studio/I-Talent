@@ -9566,6 +9566,20 @@ rc-pagination@~3.0.3:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.1"
 
+rc-picker@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/rc-picker/-/rc-picker-2.2.1.tgz#227273e94363f789d42e4bfeb8bbbeb2bedfb6d1"
+  integrity sha512-3Vi4Zc8ha7NZtc/aiSSeyDonG18uo62BflOPIvV9cPCdSZm7RQ5+l2BVowbRYo9GRu+YmA+KJVETpv0wEswrLg==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    date-fns "^2.15.0"
+    dayjs "^1.8.30"
+    moment "^2.24.0"
+    rc-trigger "^5.0.4"
+    rc-util "^5.0.1"
+    shallowequal "^1.1.0"
+
 rc-picker@~2.0.6:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/rc-picker/-/rc-picker-2.0.11.tgz#68524babfd3470f9cce2f2e9f35038ec99784dc0"
@@ -9734,7 +9748,7 @@ rc-trigger@^4.0.0, rc-trigger@^4.2.1, rc-trigger@^4.3.0, rc-trigger@^4.4.0:
     rc-motion "^1.0.0"
     rc-util "^5.0.1"
 
-rc-trigger@^5.0.0, rc-trigger@~5.0.3:
+rc-trigger@^5.0.0, rc-trigger@^5.0.4, rc-trigger@~5.0.3:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-5.0.4.tgz#957950a93ed0e19c128334c5fc65390dd886d61c"
   integrity sha512-cFTuV73YpfC8ujknycSjEvIDX7VtspEgFhibk/evf415Q0roHazs9dEbajKRgionpC/88OKLRR6G81eA4BvLTQ==

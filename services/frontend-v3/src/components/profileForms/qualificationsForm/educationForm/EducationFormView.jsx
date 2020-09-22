@@ -7,7 +7,6 @@ import {
   Select,
   Button,
   Checkbox,
-  DatePicker,
   Tooltip,
 } from "antd";
 
@@ -28,6 +27,7 @@ import filterOption from "../../../../functions/filterSelectInput";
 
 import "./EducationFormView.scss";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
+import DatePicker from "../../../DatePicker";
 
 const { Option } = Select;
 const { Title } = Typography;

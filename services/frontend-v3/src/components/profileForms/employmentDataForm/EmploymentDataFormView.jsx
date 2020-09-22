@@ -9,7 +9,6 @@ import {
   Select,
   Input,
   Switch,
-  DatePicker,
   Checkbox,
   notification,
   Popover,
@@ -35,6 +34,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import DatePicker from "../../DatePicker";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
