@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -45,8 +45,8 @@ const UserTable = () => {
         fullName: `${user.firstName} ${user.lastName}`,
         jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
         tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
-        formatCreatedAt: moment(user.createdAt).format("YYYY-MM-DD"),
-        formatUpdatedAt: moment(user.updatedAt).format("YYYY-MM-DD"),
+        formatCreatedAt: dayjs(user.createdAt).format("YYYY-MM-DD"),
+        formatUpdatedAt: dayjs(user.updatedAt).format("YYYY-MM-DD"),
         status: user.status,
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),

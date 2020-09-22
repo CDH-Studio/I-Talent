@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, Col, Row, Typography, Tooltip } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
@@ -138,7 +138,7 @@ const ProfileCardsView = ({
                   }}
                   type="secondary"
                 >
-                  ({moment(lastUpdated).format("ll")})
+                  ({dayjs(lastUpdated).format("ll")})
                 </Text>
               </Tooltip>
             )}

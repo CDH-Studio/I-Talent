@@ -20,7 +20,7 @@ import {
   TeamOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
+import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
@@ -268,7 +268,7 @@ const UserTableView = ({
       key: "registered",
       sorter: (a, b) => {
         return (
-          moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
+          dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix()
         );
       },
       ...getColumnSearchProps(
@@ -284,7 +284,7 @@ const UserTableView = ({
       key: "updated",
       sorter: (a, b) => {
         return (
-          moment(a.formatUpdatedAt).unix() - moment(b.formatUpdatedAt).unix()
+          dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix()
         );
       },
       ...getColumnSearchProps(

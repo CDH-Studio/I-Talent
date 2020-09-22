@@ -2,13 +2,18 @@ import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { IntlProvider } from "react-intl";
 import React, { useState, useEffect } from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import localeData from "dayjs/plugin/localeData";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import store, { persistor } from "../redux";
 import messagesEn from "../i18n/en_CA.json";
 import messagesFr from "../i18n/fr_CA.json";
-import "moment/locale/en-ca";
-import "moment/locale/fr-ca";
+import "dayjs/locale/en-ca";
+import "dayjs/locale/fr-ca";
+
+dayjs.extend(localeData);
+dayjs.extend(localizedFormat);
 
 const i18nConfigBuilder = (locale) => ({
   messages: locale === "ENGLISH" ? messagesEn : messagesFr,
@@ -29,7 +34,7 @@ const IntelProv = ({ children }) => {
 
   useEffect(() => {
     setI18nConfig(i18nConfigBuilder(locale));
-    moment.locale(`${locale === "ENGLISH" ? "en" : "fr"}-ca`);
+    dayjs.locale(`${locale === "ENGLISH" ? "en" : "fr"}-ca`);
   }, [locale]);
 
   return (
