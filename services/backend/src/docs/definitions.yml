@@ -306,6 +306,8 @@ definitions:
         endDate:
           type: string
           format: date-time
+        ongoing:
+          type: boolean
         diplomaId:
           type: string
           format: uuid
@@ -331,6 +333,8 @@ definitions:
         endDate:
           type: string
           format: date-time
+        ongoing:
+          type: boolean
         jobTitle:
           type: string
         organization:
@@ -456,6 +460,8 @@ definitions:
             endDate:
               type: string
               format: date-time
+            ongoing:
+              type: boolean
             diploma:
               type: object
               properties:
@@ -490,6 +496,8 @@ definitions:
             endDate:
               type: string
               format: date-time
+            ongoing:
+              type: boolean
             description:
               type: string
             jobTitle:

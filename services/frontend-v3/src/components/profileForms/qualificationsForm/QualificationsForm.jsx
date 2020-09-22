@@ -73,6 +73,7 @@ const QualificationsForm = ({ formType }) => {
                 diplomaId: i.diploma.id,
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
+                ongoingDate: i.ongoingDate,
                 description: i.description,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
@@ -89,6 +90,7 @@ const QualificationsForm = ({ formType }) => {
                 description: i.description,
                 startDate: i.startDate ? moment(i.startDate) : undefined,
                 endDate: i.endDate ? moment(i.endDate) : undefined,
+                ongoingDate: i.ongoingDate,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
                       id: link.id,

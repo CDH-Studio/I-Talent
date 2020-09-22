@@ -1,29 +1,41 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
 import moment from "moment";
 import PropTypes from "prop-types";
+import { useIntl } from "react-intl";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EducationView from "./EducationView";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Education = ({ data, editableCardBool }) => {
-  const getEducationDuration = (startDate, endDate) => {
+  const intl = useIntl();
+
+  const getEducationDuration = (startDate, endDate, ongoingDate) => {
     const formatedStartDate = moment(startDate).format("MMMM YYYY");
     const formatedEndDate = moment(endDate).format("MMMM YYYY");
 
-    const dateNotProvided = <FormattedMessage id="profile.date.not.provided" />;
-
-    let duration = "";
-
-    if (startDate === null && endDate === null) {
-      duration += dateNotProvided;
-    } else if (startDate !== null && endDate === null) {
-      duration = `${duration + formatedStartDate} - present`;
-    } else {
-      duration = `${duration + formatedStartDate} - ${formatedEndDate}`;
+    if (startDate && endDate) {
+      return `${formatedStartDate} - ${formatedEndDate}`;
     }
 
-    return duration;
+    if (ongoingDate && startDate) {
+      return `${formatedStartDate} - ${intl.formatMessage({
+        id: "date.present",
+      })}`;
+    }
+
+    if (ongoingDate) {
+      return intl.formatMessage({ id: "education.date.present" });
+    }
+
+    if (startDate && !endDate) {
+      return formatedStartDate;
+    }
+
+    if (!startDate && endDate) {
+      return formatedEndDate;
+    }
+
+    return "-";
   };
 
   const getEducationInfo = (dataSource) => {
@@ -34,6 +46,7 @@ const Education = ({ data, editableCardBool }) => {
       ({
         startDate,
         endDate,
+        ongoingDate,
         diploma,
         school,
         description,
@@ -41,7 +54,7 @@ const Education = ({ data, editableCardBool }) => {
       }) => ({
         diploma: diploma.description,
         school: school.name,
-        duration: getEducationDuration(startDate, endDate),
+        duration: getEducationDuration(startDate, endDate, ongoingDate),
         description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({

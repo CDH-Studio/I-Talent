@@ -139,6 +139,7 @@ async function getFullProfile(id, language) {
           updatedAt: true,
           startDate: true,
           endDate: true,
+          ongoingDate: true,
           description: true,
           diploma: {
             select: {
@@ -207,6 +208,7 @@ async function getFullProfile(id, language) {
           updatedAt: true,
           startDate: true,
           endDate: true,
+          ongoingDate: true,
           projects: true,
           translations: {
             select: {
