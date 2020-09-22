@@ -133,7 +133,7 @@ const ResultsCardView = ({
     }
 
     if (person.groupLevel) {
-      subtitle = subtitle + " (" + person.groupLevel.name + ")";
+      subtitle = subtitle.concat(" (", person.groupLevel.name, ")");
     }
 
     return subtitle;
