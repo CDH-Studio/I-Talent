@@ -360,9 +360,9 @@ const LangProficiencyFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {

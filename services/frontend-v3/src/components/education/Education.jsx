@@ -57,7 +57,6 @@ const Education = ({ data, editableCardBool }) => {
   return (
     <ProfileCards
       titleId="profile.education"
-      content={<EducationView educationInfo={getEducationInfo(data)} />}
       cardName="education"
       id="card-profile-education"
       editUrl="/profile/edit/qualifications?tab=education"
@@ -65,7 +64,9 @@ const Education = ({ data, editableCardBool }) => {
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.education}
       lastUpdated={data.educationsUpdatedAt}
-    />
+    >
+      <EducationView educationInfo={getEducationInfo(data)} />
+    </ProfileCards>
   );
 };
 

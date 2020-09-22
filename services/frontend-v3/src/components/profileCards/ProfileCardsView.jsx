@@ -15,7 +15,7 @@ const ProfileCardsView = ({
   editUrl,
   titleId,
   id,
-  content,
+  children,
   style,
   editableCardBool,
   displayExtraHeaderContent,
@@ -120,7 +120,7 @@ const ProfileCardsView = ({
   return (
     <div>
       <Card
-        className={content === null ? "no-content-card" : null}
+        className={children === null ? "no-content-card" : null}
         title={
           <>
             {typeof titleId === "string" ? (
@@ -148,7 +148,7 @@ const ProfileCardsView = ({
         extra={generateExtraMenu()}
         style={(style, grayedOut)}
       >
-        {content}
+        {children}
       </Card>
     </div>
   );
@@ -158,7 +158,7 @@ ProfileCardsView.propTypes = {
   editUrl: PropTypes.string,
   titleId: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
-  content: PropTypes.element,
+  children: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
   editableCardBool: PropTypes.bool,
   displayExtraHeaderContent: PropTypes.bool,
@@ -178,7 +178,7 @@ ProfileCardsView.propTypes = {
 
 ProfileCardsView.defaultProps = {
   style: undefined,
-  content: null,
+  children: null,
   editUrl: null,
   editableCardBool: false,
   displayExtraHeaderContent: false,

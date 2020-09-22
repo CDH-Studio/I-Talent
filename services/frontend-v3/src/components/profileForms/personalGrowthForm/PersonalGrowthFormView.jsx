@@ -183,9 +183,9 @@ const PersonalGrowthFormView = ({
       .validateFields()
       .then(async () => {
         const values = form.getFieldValue();
+        await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
