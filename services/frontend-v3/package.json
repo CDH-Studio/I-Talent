@@ -10,6 +10,7 @@
     "@react-keycloak/ssr": "^2.0.0",
     "@reduxjs/toolkit": "1.4.0",
     "antd": "4.6.4",
+    "antd-dayjs-webpack-plugin": "^1.0.1",
     "axios": "0.20.0",
     "babel-loader": "8.1.0",
     "babel-plugin-import": "1.13.0",

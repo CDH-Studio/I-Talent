@@ -8,6 +8,7 @@ import {
   Form,
   Select,
   Switch,
+  DatePicker,
   Popover,
   Checkbox,
   notification,
@@ -33,7 +34,6 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import DatePicker from "../../DatePicker";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
