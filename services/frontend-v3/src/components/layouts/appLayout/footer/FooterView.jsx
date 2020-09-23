@@ -15,19 +15,19 @@ const FooterView = () => {
           <FormattedMessage id="footer.about.link" />
         </Link>
 
-        <Text className="dashes">-</Text>
+        <Text className="dashes">|</Text>
 
         <Link className="link" to="/help">
           <FormattedMessage id="footer.contact.link" />
         </Link>
 
-        <Text className="dashes">-</Text>
+        <Text className="dashes">|</Text>
 
         <Link className="link" to="/terms">
           <FormattedMessage id="footer.terms.and.conditions.link" />
         </Link>
 
-        <Text className="dashes">-</Text>
+        <Text className="dashes">|</Text>
 
         <Link className="link" to="/privacy">
           <FormattedMessage id="footer.privacy.link" />
