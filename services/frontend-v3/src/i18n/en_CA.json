@@ -335,6 +335,7 @@
   "settings.visibility.description": "Make your profile visibility or hidden to others. If your profile is hidden, other users won't be able to see or search your profile.",
   "settings.visibility.title": "Profile visibility",
   "settings.visibility.toggle": "Make your profile visibility to others",
+  "setup.about.me": "About me",
   "setup.add.attachment": "Add attachment",
   "setup.add.item": "Add item",
   "setup.attachment": "Attachment links",
