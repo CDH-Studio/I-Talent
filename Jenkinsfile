@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        label '!container-utils'
+        label 'php-7.3'
     }
 
     options {
@@ -19,30 +19,24 @@ pipeline {
     }
 
     stages {
-        stage('build'){
-            parallel{
-                stage('build-backend') {
-                    steps {
-		        	    dir("${BACKEND_DIR}") {
-                            script {
-                                builder.buildApp(BACKEND_IMAGE_NAME)
-                            }
-                        }
-                    }
-                }
-                stage('build-frontend') {
-                    steps {
-			            dir("${FRONTEND_DIR}") {
-                            script {
-                                builder.buildApp(FRONTEND_IMAGE_NAME)
+        stage('build-backend') {
+            steps {
+			    dir("${BACKEND_DIR}") {
+                    script {
+                        builder.buildApp(BACKEND_IMAGE_NAME)
                     }
                 }
             }
         }
         
+        stage('build-frontend') {
+            steps {
+			    dir("${FRONTEND_DIR}") {
+                    script {
+                        builder.buildApp(FRONTEND_IMAGE_NAME)
+                    }
+                }
             }
         }
-
-
     }
 }
