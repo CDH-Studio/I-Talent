@@ -128,7 +128,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                   - <FormattedMessage id="setup.step.3.description" />
                 </li>
                 <li>
-                  - <FormattedMessage id="setup.about.me" />
+                  - <FormattedMessage id="profile.description" />
                 </li>
               </ul>
             }

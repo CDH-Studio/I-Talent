@@ -116,7 +116,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
               - <FormattedMessage id="setup.step.3.description" />
             </li>
             <li style={styles.menuListItem}>
-              - <FormattedMessage id="setup.about.me" />
+              - <FormattedMessage id="profile.description" />
             </li>
           </ul>
         </Menu.Item>
