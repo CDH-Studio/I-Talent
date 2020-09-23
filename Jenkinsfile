@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        label '!container-utils'
+        label 'php-7.3'
     }
 
     options {
@@ -11,54 +11,32 @@ pipeline {
 
     environment {
         // GLobal Vars
-        BACKEND_IMAGE_NAME = 'dsd-italent-backend'
-        FRONTEND_IMAGE_NAME = 'dsd-italent-frontend'
-        BACKEND_DIR = 'services/backend'
-        FRONTEND_DIR = 'services/frontend-v3'
-        NODE_ENV = 'production'
+        BACKEND_IMAGE_NAME = "dsd-italent-backend"
+        FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
+        BACKEND_DIR = "services/backend"
+        FRONTEND_DIR = "services/frontend-v3"
+        NODE_ENV = "production"
     }
 
     stages {
         stage('build-backend') {
             steps {
-                dir("${BACKEND_DIR}") {
+			    dir("${BACKEND_DIR}") {
                     script {
                         builder.buildApp(BACKEND_IMAGE_NAME)
                     }
                 }
             }
         }
+        
         stage('build-frontend') {
             steps {
-                dir("${FRONTEND_DIR}") {
+			    dir("${FRONTEND_DIR}") {
                     script {
                         builder.buildApp(FRONTEND_IMAGE_NAME)
                     }
                 }
             }
         }
-
-        // stage('build') {
-        //     parallel {
-        //         stage('build-backend') {
-        //             steps {
-        //                 dir("${BACKEND_DIR}") {
-        //                     script {
-        //                         builder.buildApp(BACKEND_IMAGE_NAME)
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //         stage('build-frontend') {
-        //             steps {
-        //                 dir("${FRONTEND_DIR}") {
-        //                     script {
-        //                         builder.buildApp(FRONTEND_IMAGE_NAME)
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
