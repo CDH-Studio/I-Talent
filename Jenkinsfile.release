@@ -1,15 +1,15 @@
 @Library('ised-cicd-lib') _
 
 pipeline {
-	agent {
+    agent {
         label '!container-utils'
-   	}
-   	
+       }
+       
     options {
         disableConcurrentBuilds()
     }
     
-   	environment {
+       environment {
         // GLobal Vars
         BACKEND_IMAGE_NAME = "dsd-italent-backend"
         FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
@@ -18,29 +18,47 @@ pipeline {
     }
     
     stages {
-        stage('build'){
-            parallel{
-                stage('release-backend') {
-                    steps {
-        			    dir("${BACKEND_DIR}") {
-                            script {
-                                release.releaseApp(BACKEND_IMAGE_NAME)
-                            }
-                        }
-                    }
-                }
-                
-                stage('release-frontend') {
-                    steps {
-        			    dir("${FRONTEND_DIR}") {
-                            script {
-                                release.releaseApp(FRONTEND_IMAGE_NAME)
-                            }
-                        }
+        stage('release-backend') {
+            steps {
+                dir("${BACKEND_DIR}") {
+                    script {
+                        release.releaseApp(BACKEND_IMAGE_NAME)
                     }
                 }
             }
         }
+        stage('release-frontend') {
+            steps {
+                dir("${FRONTEND_DIR}") {
+                    script {
+                        release.releaseApp(FRONTEND_IMAGE_NAME)
+                    }
+                }
+            }
+        }
+
+        // stage('build'){
+        //     parallel{
+        //         stage('release-backend') {
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     script {
+        //                         release.releaseApp(BACKEND_IMAGE_NAME)
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         stage('release-frontend') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     script {
+        //                         release.releaseApp(FRONTEND_IMAGE_NAME)
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
 
     }
