@@ -40,6 +40,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   useEffect(() => {
     window.addEventListener("resize", updateWidth);
+
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
@@ -47,13 +48,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}>
       {optionalStartMenuItems}
-      <Menu.Item>
+      <Menu.Item className="dropDownItem">
         <Link to={`/profile/${id}`}>
           <UserOutlined className="menuIcon" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item className="dropDownItem">
         <Link to="/profile/edit/primary-info">
           <EditOutlined className="menuIcon" />
           <FormattedMessage id="edit.profile" />
@@ -61,7 +62,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       </Menu.Item>
       <Menu.Divider />
       {isAdmin && (
-        <Menu.Item>
+        <Menu.Item className="dropDownItem">
           <Link to="/admin/dashboard">
             <DashboardOutlined className="menuIcon" />
             <FormattedMessage id="admin" />
@@ -69,21 +70,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         </Menu.Item>
       )}
       {!isAdmin && (
-        <Menu.Item>
+        <Menu.Item className="dropDownItem">
           <Link to="/statistics">
             <AreaChartOutlined className="menuIcon" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
-      <Menu.Item>
+      <Menu.Item className="dropDownItem">
         <Link to="/settings">
           <SettingOutlined className="menuIcon" />
           <FormattedMessage id="settings.title" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item>
+      <Menu.Item className="dropDownItem">
         <Link to="/logout">
           <LogoutOutlined className="menuIcon" />
           <FormattedMessage id="sign.out" />
@@ -100,13 +101,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           placement="bottomCenter"
           trigger="click"
         >
-          <Button type="link" className="ant-dropdown-link dropDownButton">
+          <Button type="link" className="nav-dropDownButton ant-dropdown-link">
             <CustomAvatar
+              style={{ marginRight: 8 }}
               hidden={status === "HIDDEN" || status === "INACTIVE"}
             />
             <div className="navProfileName">
-              {userName}
-              <DownOutlined className="dropDownArrow" />
+              {userName} <DownOutlined className="dropDownArrow" />
             </div>
           </Button>
         </Dropdown>
@@ -192,7 +193,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   if (loading) {
     return (
-      <Header className="header-tab">
+      <Header className="header">
         <div className="aroundNavContent" />
       </Header>
     );
@@ -200,7 +201,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   if (windowWidth > 400) {
     return (
-      <Header className="header-tab">
+      <Header className="header">
         <Row
           className="aroundNavContent"
           justify="space-between"
@@ -208,7 +209,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         >
           <Row align="middle">
             {displayLogo && (
-              <Link tabIndex={0} to="/" style={{ boxShadow: "none" }}>
+              <Link tabIndex={0} to="/">
                 <img src={Logo} alt="I-Talent Logo" className="navBrand" />
               </Link>
             )}
@@ -227,7 +228,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   return (
     <>
-      <Header className="header-tab">
+      <Header className="header">
         <div className="hamburgerHeader">
           <ChangeLanguage />
 
@@ -238,7 +239,6 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     </>
   );
 };
-
 TopNavView.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -246,9 +246,7 @@ TopNavView.propTypes = {
   displayLogo: PropTypes.bool.isRequired,
   intl: IntlPropType,
 };
-
 TopNavView.defaultProps = {
   intl: undefined,
 };
-
 export default injectIntl(TopNavView);
