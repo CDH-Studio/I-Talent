@@ -29,7 +29,6 @@
     "query-string": "6.13.2",
     "razzle": "3.1.7",
     "razzle-plugin-scss": "3.1.7",
-    "rc-picker": "^2.2.1",
     "react": "16.13.1",
     "react-app-polyfill": "1.0.6",
     "react-dom": "16.13.1",
