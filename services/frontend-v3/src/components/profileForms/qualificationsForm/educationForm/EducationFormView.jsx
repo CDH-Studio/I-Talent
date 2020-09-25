@@ -32,6 +32,8 @@ import LinkAttachment from "../../linkAttachment/LinkAttachment";
 const { Option } = Select;
 const { Title } = Typography;
 
+const getDisabledEndDate = false;
+
 /**
  *  EducationFormView(props)
  *  This component renders the educations form.
@@ -206,6 +208,8 @@ const EducationFormView = ({
             const disableEndDate = getFieldValue("educations")[
               fieldElement.name
             ].ongoingDate;
+            getDisabledEndDate = disableEndDate;
+            console.log(getDisabledEndDate);
 
             return (
               <>
@@ -229,7 +233,6 @@ const EducationFormView = ({
                     />
                   )}
                 </Form.Item>
-
                 {/* Checkbox if event is on-going */}
                 <Form.Item
                   style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
@@ -247,7 +250,11 @@ const EducationFormView = ({
           }}
         </Form.Item>
       </Col>
-      <Col className="gutter-row" span={24}>
+      <Col
+        className="gutter-row"
+        span={24}
+        style={{ marginTop: getDisabledEndDate ? "-10px" : "-25px" }}
+      >
         <DescriptionFormItem
           label={<FormattedMessage id="profile.qualification.description" />}
           name={[fieldElement.name, "description"]}
