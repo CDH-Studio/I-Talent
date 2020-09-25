@@ -24,8 +24,8 @@ pipeline {
         stage('i18-check') {
             steps {
                 dir("${FRONTEND_DIR_I18}") {
-                    sh 'npm init -y'
-                    sh 'npm i lodash'
+                    sh 'yarn init -y'
+                    sh 'yarn add lodash'
                     sh 'node check'
                 }
             }
@@ -33,18 +33,25 @@ pipeline {
 
         stage('Linting') {
             parallel {
-                stage('backend') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh 'npm i eslint'
-                            sh 'npm lint'
-                        }
-                    }
-                }
+                // stage('backend') {
+                //     steps {
+                //         dir("${BACKEND_DIR}") {
+                //             sh 'yarn add eslint'
+                //             sh 'yarn add eslint'
+                //             sh 'yarn add eslint'
+                //             sh 'yarn add eslint'
+                            
+                //             sh 'npm lint'
+                //         }
+                //     }
+                // }
                 stage('frontend') {
                     steps {
                         dir("${FRONTEND_DIR}") {
-                            sh 'npm i eslint'
+                            sh 'yarn add eslint'
+                            sh 'yarn add eslint-config-airbnb'
+                            sh 'yarn add eslint-config-prettier'
+                            sh 'yarn add eslint-plugin-import'
                             sh 'npm lint'
                         }
                     }
