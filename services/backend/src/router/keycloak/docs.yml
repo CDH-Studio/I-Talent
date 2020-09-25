@@ -1,6 +1,6 @@
 /api/keycloak/users:
   get:
-    summary: Returns keycloak roles user information
+    summary: Returns the list of users organized by keycloak roles
     produces:
       - application/json
     responses:

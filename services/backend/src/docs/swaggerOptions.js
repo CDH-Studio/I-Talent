@@ -38,8 +38,7 @@ const specs = swaggerJsdoc({
 
 module.exports = swaggerUi.setup(specs, {
   customSiteTitle: "I-Talent API Docs",
-  customCss:
-    ".swagger-ui .topbar { display: none } .swagger-ui .scheme-container { background: none; box-shadow: none }",
+
   swaggerOptions: {
     oauth: {
       clientId: config.DOCS_KEYCLOAK_CLIENT_ID,

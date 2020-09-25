@@ -8,14 +8,14 @@ const profileGenRouter = Router();
 profileGenRouter.get(
   "/:id",
   keycloak.protect(),
-  [UUIDValidator],
+  UUIDValidator,
   profileGen.getGedsSetup
 );
 
 profileGenRouter.get(
   "/sync/:id",
   keycloak.protect(),
-  [UUIDValidator],
+  UUIDValidator,
   profileGen.getGedsSync
 );
 

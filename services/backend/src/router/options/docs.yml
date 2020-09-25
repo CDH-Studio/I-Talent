@@ -1,6 +1,6 @@
 /api/option/branches:
   get:
-    summary: Returns an array of people's work branches
+    summary: Returns an array of work branch options
     produces:
       - application/json
     parameters:
