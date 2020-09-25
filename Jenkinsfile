@@ -6,9 +6,6 @@ pipeline {
         docker { image 'node:14-alpine' }
     }
 
-    tool "npm"
-
-
     options {
         disableConcurrentBuilds()
     }
