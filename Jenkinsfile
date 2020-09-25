@@ -20,6 +20,11 @@ pipeline {
     }
 
     stages {
+        stage('install-yarn'){
+            setps{
+                sh "npm i yarn"
+            }
+        }
         stage('prepare') {
             parallel {
                 stage('backend') {
