@@ -21,7 +21,7 @@ pipeline {
 
     stages {
         stage('install-yarn'){
-            setps{
+            steps{
                 sh "npm i yarn"
             }
         }
