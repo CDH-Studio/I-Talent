@@ -2,7 +2,8 @@
 
 pipeline {
     agent {
-        label 'php-7.3'
+        //label 'php-7.3'
+        docker { image 'node:14-alpine' }
     }
 
     tool "npm"
@@ -26,7 +27,7 @@ pipeline {
 
         stage('npm'){
             steps{
-               sh 'node -v' 
+               sh 'node --version' 
             }
         }
 
