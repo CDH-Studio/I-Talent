@@ -32,8 +32,6 @@ import LinkAttachment from "../../linkAttachment/LinkAttachment";
 const { Option } = Select;
 const { Title } = Typography;
 
-const getDisabledEndDate = false;
-
 /**
  *  EducationFormView(props)
  *  This component renders the educations form.
