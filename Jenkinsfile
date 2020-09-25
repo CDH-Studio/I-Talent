@@ -3,6 +3,7 @@
 pipeline {
     agent {
         label 'php-7.3'
+        docker { image 'node:8.11' }
     }
 
     options {
@@ -63,7 +64,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('build-backend') {
             steps {
 			    dir("${BACKEND_DIR}") {
