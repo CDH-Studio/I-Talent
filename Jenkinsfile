@@ -20,28 +20,32 @@ pipeline {
     }
 
     stages {
-        stage('install-yarn'){
-            steps{
-                sh "npm install -g yarn"
+        stage('frontend-i18') {
+            steps {
+                dir("${FRONTEND_DIR_I18}") {
+                    sh 'npm init -y'
+                    sh 'npm i loadash'
+                    sh 'node check'
+                }
             }
         }
 
-        stage('install-backend'){
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh 'yarn install --production'
-                        }
-                    }
-        }
+        // stage('install-backend'){
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     sh 'yarn install --production'
+        //                 }
+        //             }
+        // }
 
-        stage('install-frontend'){
-                steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh 'yarn install --production'
-                        }
-                    }
+        // stage('install-frontend'){
+        //         steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh 'yarn install --production'
+        //                 }
+        //             }
                 
-        }                
+        // }                
         // stage('prepare') {
         //     parallel {
         //         stage('backend') {
@@ -60,31 +64,25 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Linter-and-testing') {
-            parallel {
-                stage('backend-lint') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh 'yarn lint'
-                        }
-                    }
-                }
-                stage('frontend-lint') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh 'yarn lint'
-                        }
-                    }
-                }
-                stage('frontend-i18') {
-                    steps {
-                        dir("${FRONTEND_DIR_I18}") {
-                            sh 'node check'
-                        }
-                    }
-                }
-            }
-        }
+        // stage('Linter-and-testing') {
+        //     parallel {
+        //         stage('backend-lint') {
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     sh 'yarn lint'
+        //                 }
+        //             }
+        //         }
+        //         stage('frontend-lint') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh 'yarn lint'
+        //                 }
+        //             }
+        //         }
+
+        //     }
+        // }
 
         stage('build-backend') {
             steps {
