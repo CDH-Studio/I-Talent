@@ -162,7 +162,14 @@ const ExperienceFormView = ({
         </Form.Item>
       </Col>
 
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Col
+        className="gutter-row"
+        xs={24}
+        md={24}
+        lg={12}
+        xl={12}
+        style={{ marginBottom: "-50px" }}
+      >
         <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) => {

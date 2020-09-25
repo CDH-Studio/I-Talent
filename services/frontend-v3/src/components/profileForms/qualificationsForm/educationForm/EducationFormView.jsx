@@ -185,7 +185,14 @@ const EducationFormView = ({
           />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Col
+        className="gutter-row"
+        xs={24}
+        md={24}
+        lg={12}
+        xl={12}
+        style={{ marginBottom: "-50px" }}
+      >
         <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) => {
@@ -208,8 +215,6 @@ const EducationFormView = ({
             const disableEndDate = getFieldValue("educations")[
               fieldElement.name
             ].ongoingDate;
-            getDisabledEndDate = disableEndDate;
-            console.log(getDisabledEndDate);
 
             return (
               <>
@@ -250,11 +255,7 @@ const EducationFormView = ({
           }}
         </Form.Item>
       </Col>
-      <Col
-        className="gutter-row"
-        span={24}
-        style={{ marginTop: getDisabledEndDate ? "-10px" : "-25px" }}
-      >
+      <Col className="gutter-row" span={24}>
         <DescriptionFormItem
           label={<FormattedMessage id="profile.qualification.description" />}
           name={[fieldElement.name, "description"]}
