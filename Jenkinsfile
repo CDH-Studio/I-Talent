@@ -5,7 +5,7 @@ pipeline {
         label 'php-7.3'
     }
 
-    tools {nodejs "node"}
+    tools "npm"
 
 
     options {
