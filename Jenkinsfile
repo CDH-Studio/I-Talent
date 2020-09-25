@@ -25,24 +25,41 @@ pipeline {
                 sh "npm install -g yarn"
             }
         }
-        stage('prepare') {
-            parallel {
-                stage('backend') {
+
+        stage('install-backend'){
                     steps {
                         dir("${BACKEND_DIR}") {
                             sh 'yarn install --production'
                         }
                     }
-                }
-                stage('frontend') {
-                    steps {
+        }
+
+        stage('install-frontend'){
+                steps {
                         dir("${FRONTEND_DIR}") {
                             sh 'yarn install --production'
                         }
                     }
-                }
-            }
-        }
+                
+        }                
+        // stage('prepare') {
+        //     parallel {
+        //         stage('backend') {
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     sh 'yarn install --production'
+        //                 }
+        //             }
+        //         }
+        //         stage('frontend') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh 'yarn install --production'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage('Linter-and-testing') {
             parallel {
                 stage('backend-lint') {
