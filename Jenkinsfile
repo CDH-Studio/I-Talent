@@ -2,8 +2,10 @@
 
 pipeline {
     agent {
-        label 'php-7.3'
-        docker { image 'node:8.11' }
+        docker { 
+            image 'node:8.11' 
+            label 'php-7.3'
+        }
     }
 
     options {
