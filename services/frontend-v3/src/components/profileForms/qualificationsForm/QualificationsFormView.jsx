@@ -175,9 +175,8 @@ const QualificationsFormView = ({
     );
   };
 
-  const onValuesChange = () => {
+  const onFieldsChange = () => {
     findErrorTabs();
-    checkIfFormValuesChanged();
   };
 
   /*
@@ -189,9 +188,9 @@ const QualificationsFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        await saveDataToDB(values);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
@@ -360,7 +359,8 @@ const QualificationsFormView = ({
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          onValuesChange={onValuesChange}
+          onValuesChange={checkIfFormValuesChanged}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
@@ -387,9 +387,6 @@ const QualificationsFormView = ({
                               diplomaOptions={options.diplomas}
                               schoolOptions={options.schools}
                               attachmentNames={options.attachmentNamesEdu}
-                              checkIfFormValuesChanged={
-                                checkIfFormValuesChanged
-                              }
                             />
                           ))}
                           <Form.Item>

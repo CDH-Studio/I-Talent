@@ -46,7 +46,8 @@
       - application/json
     responses:
       200:
-        $ref: "#/definitions/IdNameArray"
+        schema:
+          $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       500:
@@ -223,7 +224,8 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdNameArray"
+        schema:
+          $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       422:
@@ -245,7 +247,8 @@
       -
     responses:
       200:
-        $ref: "#/definitions/IdNameArray"
+        schema:
+          $ref: "#/definitions/IdNameArray"
       403:
         $ref: "#/definitions/403"
       422:

@@ -4,26 +4,23 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import LearningDevelopmentView from "./LearningDevelopmentView";
 
-const LearningDevelopment = ({ data, editableCardBool }) => {
-  return (
-    <ProfileCards
-      titleId="profile.learning.development"
-      content={
-        <LearningDevelopmentView
-          devGoals={data.developmentalGoals}
-          devAttachments={data.developmentalGoalsAttachments}
-        />
-      }
-      cardName="developmentalGoals"
-      id="card-profile-learning-development"
-      editUrl="/profile/edit/personal-growth?tab=learning-development"
-      data={data}
-      editableCardBool={editableCardBool}
-      visibility={data.visibleCards.developmentalGoals}
-      lastUpdated={data.developmentalGoalsUpdatedAt}
+const LearningDevelopment = ({ data, editableCardBool }) => (
+  <ProfileCards
+    titleId="profile.learning.development"
+    cardName="developmentalGoals"
+    id="card-profile-learning-development"
+    editUrl="/profile/edit/personal-growth?tab=learning-development"
+    data={data}
+    editableCardBool={editableCardBool}
+    visibility={data.visibleCards.developmentalGoals}
+    lastUpdated={data.developmentalGoalsUpdatedAt}
+  >
+    <LearningDevelopmentView
+      devGoals={data.developmentalGoals}
+      devAttachments={data.developmentalGoalsAttachments}
     />
-  );
-};
+  </ProfileCards>
+);
 
 LearningDevelopment.propTypes = {
   data: ProfileInfoPropType,

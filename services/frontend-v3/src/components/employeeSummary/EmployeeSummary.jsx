@@ -4,20 +4,19 @@ import EmployeeSummaryView from "./EmployeeSummaryView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const EmployeeSummary = ({ data, editableCardBool }) => {
-  return (
-    <ProfileCards
-      titleId="profile.employee.status"
-      content={<EmployeeSummaryView data={data} />}
-      cardName="info"
-      id="card-profile-employee-summary"
-      editUrl="/profile/edit/employment"
-      data={data}
-      editableCardBool={editableCardBool}
-      visibility={data.visibleCards.info}
-    />
-  );
-};
+const EmployeeSummary = ({ data, editableCardBool }) => (
+  <ProfileCards
+    titleId="profile.employee.status"
+    cardName="info"
+    id="card-profile-employee-summary"
+    editUrl="/profile/edit/employment"
+    data={data}
+    editableCardBool={editableCardBool}
+    visibility={data.visibleCards.info}
+  >
+    <EmployeeSummaryView data={data} />
+  </ProfileCards>
+);
 
 EmployeeSummary.propTypes = {
   data: ProfileInfoPropType,

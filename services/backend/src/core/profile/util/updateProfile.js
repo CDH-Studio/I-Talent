@@ -8,7 +8,7 @@ function normalizeDate(date, startOf) {
     return date;
   }
 
-  return date ? moment.utc(date).startOf(startOf).toISOString() : undefined;
+  return date ? moment(date).startOf(startOf).toISOString() : undefined;
 }
 
 function idHelper(id, savedId) {
@@ -520,6 +520,7 @@ async function updateProfile(request, userId, language) {
             create: educations.map((educationItem) => ({
               startDate: normalizeDate(educationItem.startDate, "month"),
               endDate: normalizeDate(educationItem.endDate, "month"),
+              ongoingDate: educationItem.ongoingDate,
               description: educationItem.description,
               diploma: {
                 connect: {
@@ -554,8 +555,9 @@ async function updateProfile(request, userId, language) {
       experiences: experiences
         ? {
             create: experiences.map((expItem) => ({
-              startDate: expItem.startDate,
-              endDate: expItem.endDate,
+              startDate: normalizeDate(expItem.startDate, "month"),
+              endDate: normalizeDate(expItem.endDate, "month"),
+              ongoingDate: expItem.ongoingDate,
               projects: expItem.projects
                 ? {
                     set: expItem.projects,
