@@ -2,11 +2,11 @@
 
 pipeline {
     agent {
-        docker { 
-            image 'node:8.11' 
-            label 'php-7.3'
-        }
+        label 'php-7.3'
     }
+
+    tools {nodejs "node"}
+
 
     options {
         disableConcurrentBuilds()
@@ -23,49 +23,57 @@ pipeline {
     }
 
     stages {
-        stage('prepare') {
-            parallel {
-                stage('backend') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh 'yarn install --production'
-                        }
-                    }
-                }
-                stage('frontend') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh 'yarn install --production'
-                        }
-                    }
-                }
+
+        stage('npm'){
+            steps{
+               sh 'node -v' 
             }
         }
-        stage('Linter-and-testing') {
-            parallel {
-                stage('backend-lint') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh 'yarn lint'
-                        }
-                    }
-                }
-                stage('frontend-lint') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh 'yarn lint'
-                        }
-                    }
-                }
-                stage('frontend-i18') {
-                    steps {
-                        dir("${FRONTEND_DIR_I18}") {
-                            sh 'node check'
-                        }
-                    }
-                }
-            }
-        }
+
+
+        // stage('prepare') {
+        //     parallel {
+        //         stage('backend') {
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     sh 'yarn install --production'
+        //                 }
+        //             }
+        //         }
+        //         stage('frontend') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh 'yarn install --production'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // stage('Linter-and-testing') {
+        //     parallel {
+        //         stage('backend-lint') {
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     sh 'yarn lint'
+        //                 }
+        //             }
+        //         }
+        //         stage('frontend-lint') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh 'yarn lint'
+        //                 }
+        //             }
+        //         }
+        //         stage('frontend-i18') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR_I18}") {
+        //                     sh 'node check'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('build-backend') {
             steps {
