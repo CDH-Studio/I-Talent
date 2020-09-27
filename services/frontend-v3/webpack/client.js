@@ -1,4 +1,5 @@
 const antdTheme = require("../src/antdTheme");
+const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 
 module.exports = (config) => ({
   ...config,
@@ -32,5 +33,10 @@ module.exports = (config) => ({
       },
     ],
   },
-  plugins: [...config.plugins],
+  plugins: [
+    ...config.plugins,
+    new BundleAnalyzerPlugin({
+      token: "0696dd75993212ae0e786629147615f2bacf128f",
+    }),
+  ],
 });
