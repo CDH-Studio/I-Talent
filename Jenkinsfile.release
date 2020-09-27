@@ -18,30 +18,24 @@ pipeline {
     }
     
     stages {
-        stage('build'){
-            parallel{
-                stage('release-backend') {
-                    steps {
-        			    dir("${BACKEND_DIR}") {
-                            script {
-                                release.releaseApp(BACKEND_IMAGE_NAME)
-                            }
-                        }
-                    }
-                }
-                
-                stage('release-frontend') {
-                    steps {
-        			    dir("${FRONTEND_DIR}") {
-                            script {
-                                release.releaseApp(FRONTEND_IMAGE_NAME)
-                            }
-                        }
+        stage('release-backend') {
+            steps {
+			    dir("${BACKEND_DIR}") {
+                    script {
+                        release.releaseApp(BACKEND_IMAGE_NAME)
                     }
                 }
             }
         }
-
-
+        
+        stage('release-frontend') {
+            steps {
+			    dir("${FRONTEND_DIR}") {
+                    script {
+                        release.releaseApp(FRONTEND_IMAGE_NAME)
+                    }
+                }
+            }
+        }
     }
 }
