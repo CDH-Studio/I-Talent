@@ -7,6 +7,7 @@
     "@babel/core": "7.11.6",
     "@babel/preset-env": "7.11.5",
     "@babel/preset-react": "7.10.4",
+    "@bundle-analyzer/cli": "^0.5.1",
     "@react-keycloak/ssr": "^2.0.0",
     "@reduxjs/toolkit": "1.4.0",
     "antd": "4.6.4",
@@ -50,7 +51,10 @@
     "test": "razzle test --env=jsdom",
     "lint": "eslint ./src --ext .js,.jsx",
     "i18n:check": "node ./src/i18n/check",
-    "i18n:cleanup": "node ./src/i18n/cleanup"
+    "i18n:cleanup": "node ./src/i18n/cleanup",
+    "profile": "node_modules/.bin/webpack --config webpack/server.js --profile --json > stats.json",
+    "analyzer": "webpack-bundle-analyzer ./stats.json ./path/to/your/bundle -h 0.0.0.0",
+    "analyze": "BUNDLE_ANALYZE=true razzle build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -80,6 +84,10 @@
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "4.1.2",
-    "prettier": "2.1.2"
+    "prettier": "2.1.2",
+    "razzle-plugin-bundle-analyzer": "^1.2.0",
+    "webpack-bundle-analyzer": "^3.9.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-monitor": "^1.0.14"
   }
 }
