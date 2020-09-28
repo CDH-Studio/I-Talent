@@ -17,7 +17,7 @@ import {
 import PropTypes from "prop-types";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -198,7 +198,7 @@ const EmploymentDataFormView = ({
   /* Disable all dates before start date */
   const disabledDatesBeforeStart = (current) => {
     if (form.getFieldValue("actingStartDate")) {
-      return current && current < moment(form.getFieldValue("actingStartDate"));
+      return current && current < dayjs(form.getFieldValue("actingStartDate"));
     }
     return undefined;
   };
@@ -206,7 +206,7 @@ const EmploymentDataFormView = ({
   /* Disable all dates after end date */
   const disabledDatesAfterEnd = (current) => {
     if (form.getFieldValue("actingEndDate")) {
-      return current && current > moment(form.getFieldValue("actingEndDate"));
+      return current && current > dayjs(form.getFieldValue("actingEndDate"));
     }
     return undefined;
   };
@@ -251,10 +251,10 @@ const EmploymentDataFormView = ({
         manager: profile.manager,
         actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
         actingStartDate: profile.actingStartDate
-          ? moment(profile.actingStartDate)
+          ? dayjs(profile.actingStartDate)
           : undefined,
         actingEndDate: profile.actingStartDate
-          ? moment(profile.actingStartDate)
+          ? dayjs(profile.actingStartDate)
           : undefined,
       };
     }

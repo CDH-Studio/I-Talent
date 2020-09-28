@@ -7,7 +7,7 @@ import {
   UsergroupAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { Card, Row, Col, Statistic } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -73,7 +73,7 @@ const StatCardsView = ({
           <Statistic
             title={`${intl.formatMessage({
               id: "admin.dashboard.monthly.added",
-            })} - ${moment().format("MMMM")}`}
+            })} - ${dayjs().format("MMMM")}`}
             value={newUsers}
             valueStyle={{ color: "#CD8FD6" }}
             prefix={<UsergroupAddOutlined />}
@@ -85,7 +85,7 @@ const StatCardsView = ({
           <Statistic
             title={`${intl.formatMessage({
               id: "admin.dashboard.growth.rate.percentage",
-            })} - ${moment().format("MMMM")}`}
+            })} - ${dayjs().format("MMMM")}`}
             value={growthRatePrevMonth}
             valueStyle={{ color: "#FF934F" }}
             prefix={<RiseOutlined />}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { useHistory, useLocation } from "react-router-dom";
 import QualificationsFormView from "./QualificationsFormView";
@@ -71,8 +71,8 @@ const QualificationsForm = ({ formType }) => {
                 id: i.id,
                 schoolId: i.school.id,
                 diplomaId: i.diploma.id,
-                startDate: i.startDate ? moment(i.startDate) : undefined,
-                endDate: i.endDate ? moment(i.endDate) : undefined,
+                startDate: i.startDate ? dayjs(i.startDate) : undefined,
+                endDate: i.endDate ? dayjs(i.endDate) : undefined,
                 ongoingDate: i.ongoingDate,
                 description: i.description,
                 attachmentLinks: i.attachmentLinks
@@ -88,8 +88,8 @@ const QualificationsForm = ({ formType }) => {
                 jobTitle: i.jobTitle,
                 organization: i.organization,
                 description: i.description,
-                startDate: i.startDate ? moment(i.startDate) : undefined,
-                endDate: i.endDate ? moment(i.endDate) : undefined,
+                startDate: i.startDate ? dayjs(i.startDate) : undefined,
+                endDate: i.endDate ? dayjs(i.endDate) : undefined,
                 ongoingDate: i.ongoingDate,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
