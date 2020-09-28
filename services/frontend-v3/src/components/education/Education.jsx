@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
@@ -8,10 +8,9 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const Education = ({ data, editableCardBool }) => {
   const intl = useIntl();
-
   const getEducationDuration = (startDate, endDate, ongoingDate) => {
-    const formatedStartDate = moment(startDate).format("MMMM YYYY");
-    const formatedEndDate = moment(endDate).format("MMMM YYYY");
+    const formatedStartDate = dayjs(startDate).format("MMMM YYYY");
+    const formatedEndDate = dayjs(endDate).format("MMMM YYYY");
 
     if (startDate && endDate) {
       return `${formatedStartDate} - ${formatedEndDate}`;
