@@ -28,6 +28,7 @@
     "prop-types": "15.7.2",
     "query-string": "6.13.2",
     "razzle": "3.1.7",
+    "razzle-plugin-bundle-analyzer": "^1.2.0",
     "razzle-plugin-scss": "3.1.7",
     "react": "16.13.1",
     "react-app-polyfill": "1.0.6",
@@ -81,7 +82,6 @@
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "4.1.2",
-    "prettier": "2.1.2",
-    "razzle-plugin-bundle-analyzer": "^1.2.0"
+    "prettier": "2.1.2"
   }
 }
