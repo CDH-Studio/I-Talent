@@ -2,10 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { IntlPropType } from "../../../utils/customPropTypes";
+import Chart from "bizcharts/lib/components/Chart";
+import Axis from "bizcharts/lib/components/Axis";
+import Tooltip from "bizcharts/lib/components/Tooltip";
+import Coord from "bizcharts/lib/components/Coordinate";
+import Legend from "bizcharts/lib/components/Legend";
+import Point from "bizcharts/lib/geometry/Point";
+import Line from "bizcharts/lib/geometry/Line";
+import Interval from "bizcharts/lib/geometry/Interval";
 
-const { Chart, Geom, Axis, Tooltip, Coord, Legend } =
-  typeof document === "undefined" ? {} : require("bizcharts");
+import { IntlPropType } from "../../../utils/customPropTypes";
 
 /**
  *  DashboardGraphsView(props)
@@ -76,7 +82,7 @@ const DashboardGraphsView = ({
               <Coord scale={[0.7, 0.9]} />
               <Legend position="top" flipPage={false} />
               <Tooltip />
-              <Geom type="interval" position="name*count" color="name" />
+              <Interval position="name*count" color="name" />
             </Chart>
           </Card>
         </Col>
@@ -98,7 +104,7 @@ const DashboardGraphsView = ({
               <Coord scale={[0.7, 0.9]} />
               <Legend position="top" flipPage={false} />
               <Tooltip />
-              <Geom type="interval" position="name*count" color="name" />
+              <Interval position="name*count" color="name" />
             </Chart>
           </Card>
         </Col>
@@ -120,7 +126,7 @@ const DashboardGraphsView = ({
               <Coord scale={[0.7, 0.9]} />
               <Legend position="top" flipPage={false} />
               <Tooltip />
-              <Geom type="interval" position="name*count" color="name" />
+              <Interval position="name*count" color="name" />
             </Chart>
           </Card>
         </Col>
@@ -144,14 +150,8 @@ const DashboardGraphsView = ({
                 <Axis name="monthName" />
                 <Axis name="count" />
                 <Tooltip crosshairs={{ type: "y" }} />
-                <Geom
-                  type="line"
-                  position="monthName*count"
-                  size={2}
-                  color="year"
-                />
-                <Geom
-                  type="point"
+                <Line position="monthName*count" size={2} color="year" />
+                <Point
                   position="monthName*count"
                   size={4}
                   shape="circle"
