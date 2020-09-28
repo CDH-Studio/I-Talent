@@ -13,7 +13,7 @@ import {
 
 import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
 import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
@@ -77,7 +77,7 @@ const EducationFormView = ({
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current < moment(form.getFieldValue(fieldPath).startOf("month"))
+        current < dayjs(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -94,7 +94,7 @@ const EducationFormView = ({
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current > moment(form.getFieldValue(fieldPath).startOf("month"))
+        current > dayjs(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;

@@ -14,7 +14,7 @@ import {
 import PropTypes from "prop-types";
 import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 
 import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
@@ -69,7 +69,7 @@ const ExperienceFormView = ({
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current < moment(form.getFieldValue(fieldPath).startOf("month"))
+        current < dayjs(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -86,7 +86,7 @@ const ExperienceFormView = ({
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current > moment(form.getFieldValue(fieldPath).startOf("month"))
+        current > dayjs(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
