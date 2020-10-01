@@ -167,6 +167,7 @@ const WelcomeView = ({
         </div>
       );
     }
+    // TODO GGGGGGGG THIS LOGIC NEEDS TO BE RETHINKED
     return (
       <div>
         {/* generate list of GEDS profiles */}

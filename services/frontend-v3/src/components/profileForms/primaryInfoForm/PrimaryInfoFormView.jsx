@@ -14,6 +14,7 @@ import {
   Popover,
   Modal,
   Spin,
+  Table,
 } from "antd";
 import {
   LinkOutlined,
@@ -62,6 +63,7 @@ const PrimaryInfoFormView = ({
   const [savedValues, setSavedValues] = useState(null);
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
+  const [gedsModalVisible, setGedsModalVisible] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
@@ -201,6 +203,7 @@ const PrimaryInfoFormView = ({
       default:
         notification.warning({
           message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          description,
         });
         break;
     }
@@ -388,7 +391,7 @@ const PrimaryInfoFormView = ({
   const onSyncGedsInfo = async () => {
     setGatheringGedsData(true);
     await axios
-      .get(`api/profGen/sync/${id}`, {
+      .get(`api/profGen/${id}`, {
         params: {
           name,
         },
@@ -402,13 +405,17 @@ const PrimaryInfoFormView = ({
           });
         }
       })
-      .catch(() =>
-        notification.warning({
-          message: intl.formatMessage({
+      .catch((error) => {
+        console.log(error);
+        //  throw error;
+        openNotificationWithIcon({
+          type: "warning",
+          description: intl.formatMessage({
             id: "profile.geds.failed.to.retrieve",
           }),
-        })
-      );
+        });
+        throw error;
+      });
     setGatheringGedsData(false);
   };
 
@@ -440,6 +447,111 @@ const PrimaryInfoFormView = ({
       })
       .catch((error) => handleError(error, "message"));
     setNewGedsValues(null);
+  };
+
+  const showGedsSyncModal = async () => {
+    try {
+      setGedsModalVisible(true);
+      await onSyncGedsInfo();
+    } catch (error) {
+      console.log(error);
+      setGedsModalVisible(false);
+    }
+  };
+
+  const ali_generateGedsModal = ({ profile }) => {
+    const data = [
+      {
+        key: "1",
+        rowName: "First Name",
+        saved: profile.firstName,
+        geds: newGedsValues ? newGedsValues.firstName : "-",
+        paramName: "firstName",
+      },
+      {
+        key: "2",
+        rowName: "Last Name",
+        saved: profile.lastName,
+        geds: newGedsValues ? newGedsValues.lastName : "-",
+        paramName: "lastName",
+      },
+      {
+        key: "3",
+        rowName: "Job Title",
+        saved: profile.jobTitle,
+        geds: newGedsValues ? newGedsValues.jobTitle.ENGLISH : "-",
+        paramName: "jobTitle",
+      },
+      {
+        key: "4",
+        rowName: "Branch",
+        saved: profile.branch,
+        geds: newGedsValues ? newGedsValues.branch.ENGLISH : "-",
+        paramName: "branch",
+      },
+      {
+        key: "5",
+        rowName: "Organization",
+        saved:
+          profile.organizations[0][profile.organizations[0].length - 1].title,
+        geds: newGedsValues
+          ? newGedsValues.organizations[0][
+              newGedsValues.organizations[0].length - 1
+            ].title.ENGLISH
+          : "-",
+        paramName: "branch",
+      },
+    ];
+
+    const columns = [
+      {
+        title: "",
+        dataIndex: "rowName",
+        key: "rowName",
+        render: (text) => <strong>{text}</strong>,
+      },
+      {
+        title: "Saved Info",
+        dataIndex: "saved",
+        key: "saved",
+      },
+      {
+        title: "Geds Info",
+        dataIndex: "geds",
+        key: "geds",
+      },
+      {
+        title: "Action",
+        key: "action",
+        render: (record) => <a>{record.paramName}</a>,
+      },
+    ];
+    console.log(newGedsValues);
+    console.log(profile);
+    return (
+      <Modal
+        title="GC Directory Sync"
+        visible={gedsModalVisible}
+        width={900}
+        // onOk={this.handleOk}
+        // onCancel={this.handleCancel}
+      >
+        {!newGedsValues && (
+          <div style={{ textAlign: "center" }}>
+            <Spin size="large" />
+          </div>
+        )}
+
+        {newGedsValues && (
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            size="small"
+          />
+        )}
+      </Modal>
+    );
   };
 
   const generateGedsModal = () => {
@@ -611,6 +723,9 @@ const PrimaryInfoFormView = ({
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
+          <Button type="primary" onClick={showGedsSyncModal}>
+            Open Modal
+          </Button>
           <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
             <SyncOutlined />
             <span>
@@ -663,7 +778,7 @@ const PrimaryInfoFormView = ({
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
       <div style={styles.content}>
-        {generateGedsModal()}
+        {ali_generateGedsModal({ profile: profileInfo })}
         {/* get form title */}
         {getFormHeader({ formHeaderType: formType })}
         <Divider style={styles.headerDiv} />
