@@ -165,26 +165,8 @@ const PrimaryInfoFormView = ({
     },
   };
 
-  /* Save data */
-  const saveDataToDB = async (values) => {
-    const dbValues = {
-      ...values,
-    };
-    if (values.jobTitle) {
-      dbValues.jobTitle = {
-        [locale]: values.jobTitle,
-      };
-    }
-    try {
-      await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
-  };
-
   /**
-   * Open Notification
+   * Open Notification pop up with message
    * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
@@ -224,8 +206,11 @@ const PrimaryInfoFormView = ({
     }
   };
 
-  /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
+  /**
+   * Extract initial values of the form from profile
+   * @param {Object} profile - User Profile
+   */
+  const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
         firstName: profile.firstName,
@@ -255,19 +240,17 @@ const PrimaryInfoFormView = ({
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues(profileInfo),
+      savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
 
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
+  /**
+   * Generate error description to display in notification
    */
-  const getAllValidationErrorMessages = () => {
+  const getErrorMessages = () => {
     return (
       <div>
         <strong>
@@ -282,10 +265,25 @@ const PrimaryInfoFormView = ({
     );
   };
 
-  /*
-   * Save
-   *
-   * save and show success notification
+  /**
+   * Save Data to DB by sending to backend API
+   * @param {Object} formValues - Data from primary info form.
+   */
+  const saveDataToDB = async (formValues) => {
+    const dbValues = {
+      ...formValues,
+    };
+    if (formValues.jobTitle) {
+      dbValues.jobTitle = {
+        [locale]: formValues.jobTitle,
+      };
+    }
+    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+  };
+
+  /**
+   * Action to complete when "save" Btn is used
+   * save changes (display any errors) but stay on form upon success
    */
   const onSave = async () => {
     form
@@ -298,20 +296,21 @@ const PrimaryInfoFormView = ({
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          handleError(error, "message");
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrorMessages(),
+            description: getErrorMessages(),
           });
         }
       });
   };
 
-  /*
-   * Save and next
-   *
-   * save and redirect to next step in setup
+  /**
+   * Action to complete when "save and next" Btn is used
+   * save changes (display any errors) and go to next form upon success
    */
   const onSaveAndNext = async () => {
     form
@@ -323,29 +322,28 @@ const PrimaryInfoFormView = ({
       .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
         if (error.isAxiosError) {
-          handleError(error, "message");
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrorMessages(),
+            description: getErrorMessages(),
           });
         }
       });
   };
 
-  /*
-   * Finish
-   *
-   * redirect to profile
+  /**
+   * Redirect to profile
    */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
   /*
-   * Save and finish
-   *
-   * Save form data and redirect home
+   * Action to complete when "save and finish" Btn is used
+   * save changes (display any errors) and go to user profile upon success
    */
   const onSaveAndFinish = async () => {
     form
@@ -363,11 +361,13 @@ const PrimaryInfoFormView = ({
       .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
-          handleError(error, "message");
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrorMessages(),
+            description: getErrorMessages(),
           });
         }
       });
@@ -660,7 +660,9 @@ const PrimaryInfoFormView = ({
         {/* Create for with initial values */}
         <Form
           name="basicForm"
-          initialValues={savedValues || getInitialValues(profileInfo)}
+          initialValues={
+            savedValues || getInitialValues({ profile: profileInfo })
+          }
           layout="vertical"
           form={form}
           onValuesChange={checkIfFormValuesChanged}
