@@ -373,6 +373,18 @@ const PrimaryInfoFormView = ({
       });
   };
 
+  /*
+   * Action to complete when "clear" Btn is used
+   * clear all changes since last change
+   */
+  const onReset = () => {
+    form.resetFields();
+    notification.info({
+      message: intl.formatMessage({ id: "profile.form.clear" }),
+    });
+    checkIfFormValuesChanged();
+  };
+
   const onSyncGedsInfo = async () => {
     setGatheringGedsData(true);
     await axios
@@ -398,80 +410,6 @@ const PrimaryInfoFormView = ({
         })
       );
     setGatheringGedsData(false);
-  };
-
-  /* reset form fields */
-  const onReset = () => {
-    form.resetFields();
-    notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
-    });
-    checkIfFormValuesChanged();
-  };
-
-  /* Generate form header based on form type */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Title level={2} style={styles.formTitle}>
-          2. <FormattedMessage id="setup.primary.information" />
-          <div style={styles.gedsInfoLink}>
-            <Popover
-              content={
-                <div style={styles.popoverStyle}>
-                  <FormattedMessage id="profile.geds.edit.info1" />
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                  >
-                    <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>
-                  <FormattedMessage id="profile.geds.edit.info2" />
-                </div>
-              }
-            >
-              <InfoCircleOutlined />
-            </Popover>
-          </div>
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} style={styles.formTitle}>
-        <FormattedMessage id="setup.primary.information" />
-        <div style={styles.gedsInfoLink}>
-          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
-            <SyncOutlined />
-            <span>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </span>
-          </Button>
-          <Popover
-            content={
-              <div style={styles.popoverStyle}>
-                <FormattedMessage id="profile.geds.edit.info1" />
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                >
-                  <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>
-                <FormattedMessage id="profile.geds.edit.info2" />
-              </div>
-            }
-          >
-            <InfoCircleOutlined />
-          </Popover>
-        </div>
-        {fieldsChanged && (
-          <Text style={styles.unsavedText}>
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
   };
 
   const handleGedsConfirm = async () => {
@@ -634,6 +572,74 @@ const PrimaryInfoFormView = ({
     </Popover>
   );
 
+  /*
+   * Generate form header based on form type
+   * @param {string('create'|'edit')} formType - allowed form types
+   */
+  const getFormHeader = ({ formHeaderType }) => {
+    if (formHeaderType === "create") {
+      return (
+        <Title level={2} style={styles.formTitle}>
+          2. <FormattedMessage id="setup.primary.information" />
+          <div style={styles.gedsInfoLink}>
+            <Popover
+              content={
+                <div style={styles.popoverStyle}>
+                  <FormattedMessage id="profile.geds.edit.info1" />
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                  >
+                    <FormattedMessage id="profile.geds.edit.info.link" />
+                  </a>
+                  <FormattedMessage id="profile.geds.edit.info2" />
+                </div>
+              }
+            >
+              <InfoCircleOutlined />
+            </Popover>
+          </div>
+        </Title>
+      );
+    }
+    return (
+      <Title level={2} style={styles.formTitle}>
+        <FormattedMessage id="setup.primary.information" />
+        <div style={styles.gedsInfoLink}>
+          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+            <SyncOutlined />
+            <span>
+              <FormattedMessage id="profile.geds.sync.button" />
+            </span>
+          </Button>
+          <Popover
+            content={
+              <div style={styles.popoverStyle}>
+                <FormattedMessage id="profile.geds.edit.info1" />
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                >
+                  <FormattedMessage id="profile.geds.edit.info.link" />
+                </a>
+                <FormattedMessage id="profile.geds.edit.info2" />
+              </div>
+            }
+          >
+            <InfoCircleOutlined />
+          </Popover>
+        </div>
+        {fieldsChanged && (
+          <Text style={styles.unsavedText}>
+            (<FormattedMessage id="profile.form.unsaved" />)
+          </Text>
+        )}
+      </Title>
+    );
+  };
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -655,7 +661,7 @@ const PrimaryInfoFormView = ({
       <div style={styles.content}>
         {generateGedsModal()}
         {/* get form title */}
-        {getFormHeader(formType)}
+        {getFormHeader({ formHeaderType: formType })}
         <Divider style={styles.headerDiv} />
         {/* Create for with initial values */}
         <Form
