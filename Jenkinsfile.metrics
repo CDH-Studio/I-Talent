@@ -22,7 +22,7 @@ pipeline {
         stage('build-frontend') {
             steps {
 			    dir("${FRONTEND_DIR}") {
-                    scripts {
+                    script {
                         metrics.sonarScan()
                     }
                 }
