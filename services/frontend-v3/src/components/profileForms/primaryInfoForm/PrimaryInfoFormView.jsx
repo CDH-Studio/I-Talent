@@ -553,6 +553,10 @@ const PrimaryInfoFormView = ({
     );
   };
 
+  /**
+   * Generate formatted urlPopover
+   * @param {string} url - url to display
+   */
   const urlPopover = (url) => (
     <Popover
       content={
@@ -572,7 +576,7 @@ const PrimaryInfoFormView = ({
     </Popover>
   );
 
-  /*
+  /**
    * Generate form header based on form type
    * @param {string('create'|'edit')} formType - allowed form types
    */
