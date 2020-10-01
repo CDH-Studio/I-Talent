@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Layout, Skeleton, Card } from "antd";
 import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
@@ -25,6 +26,9 @@ const AppLayoutView = ({
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      <Helmet>
+        <html lang="en" />
+      </Helmet>
       <TopNav
         loading={loading}
         displayLogo={displayLogo}
