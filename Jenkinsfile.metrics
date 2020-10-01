@@ -23,9 +23,11 @@ pipeline {
             steps {
 			    dir("${FRONTEND_DIR}") {
                     script {
-                        sh """
-                            sonar-scanner
-                        """
+                        withCredentials([string(credentialsId: 'sonarqube-user-token', variable: 'TOKEN')]) {
+                            sh """
+                                sonar-scanner -Dsonar.login=$TOKEN
+                            """
+                        }
                     }
                 }
             }
