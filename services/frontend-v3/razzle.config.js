@@ -4,5 +4,14 @@ module.exports = {
     // eslint-disable-next-line import/no-dynamic-require, global-require
     return require(`./webpack/${targetName}`)(config);
   },
-  plugins: ["scss"],
+  plugins: [
+    "scss",
+    {
+      name: "bundle-analyzer",
+      options: {
+        analyzerHost: "0.0.0.0",
+        analyzerPort: "8888",
+      },
+    },
+  ],
 };

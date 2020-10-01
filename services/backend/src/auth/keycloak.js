@@ -31,12 +31,12 @@ const sessionInstance = session({
   saveUninitialized: true,
   store,
   cookie: {
-    secure: true,
+    secure: config.ENV === "production",
     httpOnly: true,
     domain: config.COOKIE_DOMAIN,
     path: config.COOKIE_PATH,
     expires: expiryDate,
-    sameSite: config.ENV === "production",
+    sameSite: true,
   },
 });
 
