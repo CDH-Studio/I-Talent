@@ -21,7 +21,7 @@ pipeline {
     stages {
         stage('build-frontend') {
             steps {
-			    dir("${FRONTEND_DIR}") {
+			    dir("${FRONTEND_DIR}/src") {
                     script {
                         withCredentials([string(credentialsId: 'sonarqube-user-token', variable: 'TOKEN')]) {
                             sh """
