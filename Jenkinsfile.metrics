@@ -23,7 +23,7 @@ pipeline {
             steps {
 			    dir("${FRONTEND_DIR}") {
                     script {
-                        builder.buildApp(FRONTEND_IMAGE_NAME)
+                        sonar-scanner
                     }
                 }
             }
