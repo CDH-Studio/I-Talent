@@ -1,4 +1,4 @@
-@Library('ised-cicd-lib') _
+@Library('ised-cicd-lib@COPS-4784') _
 
 pipeline {
     agent {
@@ -22,14 +22,7 @@ pipeline {
         stage('build-frontend') {
             steps {
 			    dir("${FRONTEND_DIR}") {
-                    script {
-                        withCredentials([string(credentialsId: 'sonarqube-user-token', variable: 'TOKEN')]) {
-                            sh """
-                                sonar-scanner -X -Dsonar.login=$TOKEN \
-                                    -Dsonar.dependencyCheck.htmlReportPath=./target/dependency-check-report.html
-                            """
-                        }
-                    }
+                   metrics.sonarScan()
                 }
             }
         }
