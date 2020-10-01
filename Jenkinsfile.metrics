@@ -19,6 +19,15 @@ pipeline {
     }
 
     stages {
+        stage('build-backend') {
+            steps {
+			    dir("${FRONTEND_DIR}") {
+                    script {
+                        metrics.sonarScan()
+                    }
+                }
+            }
+        }
         stage('build-frontend') {
             steps {
 			    dir("${FRONTEND_DIR}") {
