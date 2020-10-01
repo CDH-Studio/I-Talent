@@ -23,7 +23,9 @@ pipeline {
             steps {
 			    dir("${FRONTEND_DIR}") {
                     script {
-                        sonar-scanner
+                        sh """
+                            sonar-scanner
+                        """
                     }
                 }
             }
