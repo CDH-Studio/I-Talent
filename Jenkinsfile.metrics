@@ -25,7 +25,8 @@ pipeline {
                     script {
                         withCredentials([string(credentialsId: 'sonarqube-user-token', variable: 'TOKEN')]) {
                             sh """
-                                sonar-scanner -Dsonar.login=$TOKEN
+                                sonar-scanner -X -Dsonar.login=$TOKEN \
+                                    -Dsonar.dependencyCheck.htmlReportPath=./target/dependency-check-report.html
                             """
                         }
                     }
