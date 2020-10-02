@@ -1,3 +1,4 @@
+const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const antdTheme = require("../src/antdTheme");
 
 module.exports = (config) => ({
@@ -23,5 +24,5 @@ module.exports = (config) => ({
       },
     ],
   },
-  plugins: [...config.plugins],
+  plugins: [...config.plugins, new AntdDayjsWebpackPlugin()],
 });
