@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 import ActingView from "./ActingView";
 
 const Acting = ({ data }) => {
@@ -18,9 +18,9 @@ const Acting = ({ data }) => {
 
       if (data.actingStartDate) {
         const desc =
-          moment(data.actingStartDate).format("ll") +
+          dayjs(data.actingStartDate).format("ll") +
           (data.actingStartDate
-            ? ` - ${moment(data.actingEndDate).format("ll")}`
+            ? ` - ${dayjs(data.actingEndDate).format("ll")}`
             : "");
 
         const actingDate = {

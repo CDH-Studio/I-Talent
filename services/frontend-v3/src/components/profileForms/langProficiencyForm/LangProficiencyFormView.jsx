@@ -15,7 +15,7 @@ import {
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -272,19 +272,19 @@ const LangProficiencyFormView = ({
             switch (proficiency) {
               case "ORAL":
                 data.oralProficiency = level;
-                data.secondaryOralDate = date ? moment(date) : undefined;
+                data.secondaryOralDate = date ? dayjs(date) : undefined;
                 data.secondaryOralUnknownExpired = expired && !date;
                 break;
 
               case "WRITING":
                 data.writingProficiency = level;
-                data.secondaryWritingDate = date ? moment(date) : undefined;
+                data.secondaryWritingDate = date ? dayjs(date) : undefined;
                 data.secondaryWritingUnknownExpired = expired && !date;
                 break;
 
               case "READING":
                 data.readingProficiency = level;
-                data.secondaryReadingDate = date ? moment(date) : undefined;
+                data.secondaryReadingDate = date ? dayjs(date) : undefined;
                 data.secondaryReadingUnknownExpired = expired && !date;
                 break;
 

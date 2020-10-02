@@ -13,7 +13,7 @@ import {
 
 import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
 import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
@@ -77,7 +77,7 @@ const EducationFormView = ({
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current < moment(form.getFieldValue(fieldPath).startOf("month"))
+        current < dayjs(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -94,7 +94,7 @@ const EducationFormView = ({
     if (form.getFieldValue(fieldPath)) {
       return (
         current &&
-        current > moment(form.getFieldValue(fieldPath).startOf("month"))
+        current > dayjs(form.getFieldValue(fieldPath).startOf("month"))
       );
     }
     return undefined;
@@ -124,6 +124,7 @@ const EducationFormView = ({
           </Tooltip>
         </Title>
       </Col>
+
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Diploma Dropdown */}
         <Form.Item
@@ -145,6 +146,7 @@ const EducationFormView = ({
           </Select>
         </Form.Item>
       </Col>
+
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* School Dropdown */}
         <Form.Item
@@ -166,6 +168,7 @@ const EducationFormView = ({
           </Select>
         </Form.Item>
       </Col>
+
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         {/* Start Date */}
         <Form.Item
@@ -183,7 +186,15 @@ const EducationFormView = ({
           />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+
+      <Col
+        className="gutter-row"
+        xs={24}
+        md={24}
+        lg={12}
+        xl={12}
+        style={{ marginBottom: "-50px" }}
+      >
         <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) => {
@@ -247,6 +258,7 @@ const EducationFormView = ({
           }}
         </Form.Item>
       </Col>
+
       <Col className="gutter-row" span={24}>
         <DescriptionFormItem
           label={<FormattedMessage id="profile.qualification.description" />}
@@ -261,6 +273,7 @@ const EducationFormView = ({
           }
         />
       </Col>
+
       <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
         <Form.List
           name={[fieldElement.name, "attachmentLinks"]}

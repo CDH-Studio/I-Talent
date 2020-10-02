@@ -1,6 +1,6 @@
 import React from "react";
+import dayjs from "dayjs";
 import { useIntl } from "react-intl";
-import moment from "moment";
 import PropTypes from "prop-types";
 import ExperienceView from "./ExperienceView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
@@ -8,10 +8,9 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const Experience = ({ data, editableCardBool }) => {
   const intl = useIntl();
-
   const getExperienceDuration = (startDate, endDate, ongoingDate) => {
-    const formatedStartDate = moment(startDate).format("MMMM YYYY");
-    const formatedEndDate = moment(endDate).format("MMMM YYYY");
+    const formatedStartDate = dayjs(startDate).format("MMMM YYYY");
+    const formatedEndDate = dayjs(endDate).format("MMMM YYYY");
 
     if (startDate && endDate) {
       return `${formatedStartDate} - ${formatedEndDate}`;
