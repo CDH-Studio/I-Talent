@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 const runtimeConfig = {
-  backendAddress: "http://localhost:8080/",
+  backendAddress: window._env.REACT_APP_API_ADDRESS,
   enableErrorRedirect: true,
-  keycloakServerUrl: "https://sso-dev.ised-isde.canada.ca/auth",
-  manageKeycloakAddress: `https://sso-dev.ised-isde.canada.ca/auth/admin/individual/console/#/realms/individual/users`,
-  keycloakClientId: "upskill-client",
+  keycloakServerUrl: window._env.REACT_APP_KEYCLOAK_SERVER_URL,
+  manageKeycloakAddress: `${window._env.REACT_APP_KEYCLOAK_SERVER_URL}/admin/individual/console/#/realms/individual/users`,
+  keycloakClientId: window._env.REACT_APP_KEYCLOAK_CLIENT_ID,
 };
 
 export default runtimeConfig;
