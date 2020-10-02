@@ -20,46 +20,50 @@ pipeline {
     }
 
     stages {
+        stage('run-tests){
+            parallel{
+                stage('i18-check') {
+                    steps {
+                        dir("${FRONTEND_DIR_I18}") {
+                            sh 'npm init -y'
+                            sh 'npm i lodash'
+                            sh 'node check'
+                        }
+                    }
+                }        
         
-        stage('i18-check') {
-            steps {
-                dir("${FRONTEND_DIR_I18}") {
-                    sh 'npm init -y'
-                    sh 'npm i lodash'
-                    sh 'node check'
+                stage('frontend') {
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            sh """
+                                unset NPM_CONFIG_PREFIX
+                                source $NVM_DIR/nvm.sh
+                                nvm install "12.6.0"
+                                npm i yarn -g
+                                yarn install --production=false
+                                yarn lint
+                            """
+                        }
+                    }
                 }
-            }
-        }        
-
-        stage('frontend') {
-            steps {
-                dir("${FRONTEND_DIR}") {
-                    sh """
-                        unset NPM_CONFIG_PREFIX
-                        source $NVM_DIR/nvm.sh
-                        nvm install "12.6.0"
-                        npm i yarn -g
-                        yarn install --production=false
-                        yarn lint
-                    """
-                }
-            }
-        }
-
-        stage('backend') {
-            steps {
-                dir("${BACKEND_DIR}") {
-                    sh """
-                        unset NPM_CONFIG_PREFIX
-                        source $NVM_DIR/nvm.sh
-                        nvm install "12.6.0"
-                        npm i yarn -g
-                        yarn install --production=false
-                        yarn lint
-                    """
+        
+                stage('backend') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            sh """
+                                unset NPM_CONFIG_PREFIX
+                                source $NVM_DIR/nvm.sh
+                                nvm install "12.6.0"
+                                npm i yarn -g
+                                yarn install --production=false
+                                yarn lint
+                            """
+                        }
+                    }
                 }
             }
         }
+
 
         stage('build-backend') {
             steps {
