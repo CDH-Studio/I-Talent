@@ -20,6 +20,7 @@ pipeline {
     }
 
     stages {
+        
         stage('i18-check') {
             steps {
                 dir("${FRONTEND_DIR_I18}") {
@@ -39,7 +40,7 @@ pipeline {
                         nvm install "12.6.0"
                         npm i yarn -g
                         yarn install --production=false
-                        yarn run lint
+                        yarn lint
                     """
                 }
             }
@@ -54,7 +55,7 @@ pipeline {
                         nvm install "12.6.0"
                         npm i yarn -g
                         yarn install --production=false
-                        yarn run lint
+                        yarn lint
                     """
                 }
             }
