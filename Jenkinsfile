@@ -38,7 +38,7 @@ pipeline {
                         source $NVM_DIR/nvm.sh
                         nvm install "12.6.0"
                         npm i yarn -g
-                        yarn
+                        yarn install --production=false
                         yarn run lint
                     """
                 }
