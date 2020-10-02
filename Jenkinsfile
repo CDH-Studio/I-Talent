@@ -38,8 +38,7 @@ pipeline {
                         source $NVM_DIR/nvm.sh
                         nvm install "12.6.0"
                         npm install --only=dev
-                        cd node_modules
-                        ls
+                        ./node_modules/.bin/eslint ./src --ext .js,.jsx
                     """
                 }
             }
