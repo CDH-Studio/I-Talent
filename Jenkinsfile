@@ -45,23 +45,20 @@ pipeline {
             }
         }
 
-        //stage('backend') {
-        //    steps {
-        //        dir("${BACKEND_DIR}") {
-        //            sh """
-        //                unset NPM_CONFIG_PREFIX
-        //                source $NVM_DIR/nvm.sh
-        //                nvm install "12.6.0"
-        //                npm i eslint \
-        //                      eslint-config-airbnb-base \
-        //                      eslint-config-node \
-        //                      eslint-config-prettier \
-        //                      eslint-plugin-import 
-        //                ls
-        //            """
-        //        }
-        //    }
-        //}
+        stage('backend') {
+            steps {
+                dir("${BACKEND_DIR}") {
+                    sh """
+                        unset NPM_CONFIG_PREFIX
+                        source $NVM_DIR/nvm.sh
+                        nvm install "12.6.0"
+                        npm i yarn -g
+                        yarn install --production=false
+                        yarn run lint
+                    """
+                }
+            }
+        }
 
         stage('build-backend') {
             steps {
