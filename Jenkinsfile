@@ -56,7 +56,8 @@ pipeline {
                                 nvm install "12.6.0"
                                 npm i yarn -g
                                 yarn install --production=false
-                                yarn lint
+                                cd node_module
+                                ls
                             """
                         }
                     }
