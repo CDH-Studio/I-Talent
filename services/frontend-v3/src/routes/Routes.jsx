@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import {
   LandingPage,
   UnexpectedError,
@@ -9,10 +9,9 @@ import {
 } from "../pages";
 import { Secured, Admin } from "./index";
 import ScrollToTop from "./ScrollTopTop";
-import history from "../utils/history";
 
 const Routes = () => (
-  <BrowserRouter getUserConfirmation={history.getUserConfirmation}>
+  <>
     <ScrollToTop />
     <Switch>
       <Route
@@ -33,7 +32,7 @@ const Routes = () => (
         render={({ location }) => <Secured location={location} />}
       />
     </Switch>
-  </BrowserRouter>
+  </>
 );
 
 export default Routes;
