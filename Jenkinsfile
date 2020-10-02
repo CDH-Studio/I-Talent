@@ -39,6 +39,7 @@ pipeline {
                         nvm install "12.6.0"
                         npm install yarn -g
                         yarn install
+                        cd node_modules
                         ls
                     """
                 }
