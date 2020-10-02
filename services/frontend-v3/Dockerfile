@@ -36,4 +36,4 @@ RUN yarn build
 EXPOSE 3000
 
 # Runs start script
-CMD yarn start:prod
+CMD yarn start
