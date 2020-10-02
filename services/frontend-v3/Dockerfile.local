@@ -16,4 +16,4 @@ RUN yarn install
 COPY . .
 
 # Runs start script
-CMD yarn start
+CMD yarn dev
