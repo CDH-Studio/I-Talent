@@ -38,7 +38,7 @@
   },
   "scripts": {
     "dev": "react-env && craco start",
-    "prestart": "react-env",
+    "prestart": "react-env --dest ./build",
     "start": "serve -s build",
     "build": "craco build",
     "test": "craco test",
