@@ -13,6 +13,8 @@ COPY package.json yarn.lock ./
 RUN mkdir ./build
 
 # Make group permissions equal to the owner user permissions
+RUN mkdir -p /upskill-frontend/public && \
+  touch /upskill-frontend/public/env.js
 RUN chgrp -R 0 /upskill-frontend && \ 
   chmod -R g=u /upskill-frontend
 
@@ -23,9 +25,6 @@ RUN chgrp -R 0 /.cache/yarn && \
 RUN mkdir -p /.yarn
 RUN chgrp -R 0 /.yarn && \ 
   chmod -R g=u /.yarn
-
-RUN mkdir -p /upskill-frontend/public && \
-  touch /upskill-frontend/public/env.js
 
 # Runs install script
 RUN yarn install --production
