@@ -12,8 +12,8 @@ module.exports = {
     plugins: [
       new WebpackBar({ profile: true }),
       new AntdDayjsWebpackPlugin(),
-      ...(process.env.NODE_ENV === "development"
-        ? [new BundleAnalyzerPlugin({ openAnalyzer: false })]
+      ...(process.env.ANALYZE_BUILD === "true"
+        ? [new BundleAnalyzerPlugin({ analyzerHost: "0.0.0.0" })]
         : []),
     ],
   },

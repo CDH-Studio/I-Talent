@@ -42,7 +42,8 @@
     "test": "craco test",
     "lint": "eslint ./src --ext .js,.jsx",
     "i18n:check": "node ./src/i18n/check",
-    "i18n:cleanup": "node ./src/i18n/cleanup"
+    "i18n:cleanup": "node ./src/i18n/cleanup",
+    "analye": "ANALYZE_BUILD=true craco build"
   },
   "eslintConfig": {
     "extends": "react-app"
