@@ -37,8 +37,10 @@ pipeline {
                         unset NPM_CONFIG_PREFIX
                         source $NVM_DIR/nvm.sh
                         nvm install "12.6.0"
-                        npm install --only=dev
-                        ./node_modules/.bin/eslint ./src --ext .js,.jsx
+                        npm install yarn -g
+                        yarn install --only=dev
+                        cd node_modules
+                        ls
                     """
                 }
             }
