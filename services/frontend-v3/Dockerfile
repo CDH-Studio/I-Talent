@@ -24,6 +24,9 @@ RUN mkdir -p /.yarn
 RUN chgrp -R 0 /.yarn && \ 
   chmod -R g=u /.yarn
 
+RUN mkdir -p /upskill-frontend/public && \
+  touch /upskill-frontend/public/env.js
+
 # Runs install script
 RUN yarn install --production
 
