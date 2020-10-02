@@ -54,7 +54,7 @@ pipeline {
                             sh """
                                 unset NPM_CONFIG_PREFIX
                                 source $NVM_DIR/nvm.sh
-                                nvm install "12.18.3-alpine3.11"
+                                nvm install "12.6.0"
                                 npm install
                                 ls
                             """
