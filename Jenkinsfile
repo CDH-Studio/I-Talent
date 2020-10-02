@@ -20,38 +20,41 @@ pipeline {
     }
 
     stages {
-
-        stage('i18-check') {
-            steps {
-                dir("${FRONTEND_DIR_I18}") {
-                    sh 'npm init -y'
-                    sh 'npm i lodash'
-                    sh 'node check'
-                }
-            }
-        }
-
         stage('Linting') {
             parallel {
-                // stage('backend') {
-                //     steps {
-                //         dir("${BACKEND_DIR}") {
-                //             sh 'yarn add eslint'
-                //             sh 'yarn add eslint'
-                //             sh 'yarn add eslint'
-                //             sh 'yarn add eslint'
-                            
-                //             sh 'npm lint'
-                //         }
-                //     }
-                // }
+                stage('i18-check') {
+                    steps {
+                        dir("${FRONTEND_DIR_I18}") {
+                            sh 'npm init -y'
+                            sh 'npm i lodash'
+                            sh 'node check'
+                        }
+                    }
+                }
+                stage('backend') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            sh """
+                                unset NPM_CONFIG_PREFIX
+                                source $NVM_DIR/nvm.sh
+                                nvm install "12.6.0"
+                                npm i eslint \
+                                      eslint-config-airbnb-base \
+                                      eslint-config-node \
+                                      eslint-config-prettier \
+                                      eslint-plugin-import 
+                                npm run lint
+                            """
+                        }
+                    }
+                }
                 stage('frontend') {
                     steps {
                         dir("${FRONTEND_DIR}") {
                             sh """
                                 unset NPM_CONFIG_PREFIX
                                 source $NVM_DIR/nvm.sh
-                                nvm use "12.6.0"
+                                nvm install "12.6.0"
                                 npm i eslint \
                                       eslint-config-airbnb \
                                       eslint-config-prettier \
