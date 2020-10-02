@@ -7,7 +7,7 @@ import { LinkOutlined } from "@ant-design/icons";
 const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
   const getUrl = (item) => {
     return item.map((i) => (
-      <a target="_blank" rel="noreferrer" href={i.url}>
+      <a target="_blank" rel="noopener noreferrer" href={i.url}>
         <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
           <LinkOutlined />
           <span>{i.name.name}</span>
