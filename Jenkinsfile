@@ -39,7 +39,7 @@ pipeline {
                         nvm install "12.6.0"
                         npm install yarn -g
                         yarn install
-                        yarn run lint
+                        ./node_modules/.bin/eslint ./src --ext .js,.jsx
                     """
                 }
             }
