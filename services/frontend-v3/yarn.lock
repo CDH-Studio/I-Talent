@@ -1431,7 +1431,7 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@craco/craco@^5.7.0":
+"@craco/craco@5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@craco/craco/-/craco-5.7.0.tgz#ad6a240e0f85ac948f2935581da12d4223d66366"
   integrity sha512-HpThSg+JZ8FuXtaRuNxLe/RH4TqRe7f6bZfB8tO5ukDthMrf8sKUNOkSS9vnsRbycVEAAuaOamXw+T6LPmqlIg==
@@ -1691,7 +1691,7 @@
     prop-types "^15.7.2"
     react-fast-compare "^3.0.1"
 
-"@react-keycloak/web@^2.1.4":
+"@react-keycloak/web@2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@react-keycloak/web/-/web-2.1.4.tgz#bdd6836748b5f8165fc79deeb8f6ba2cc631085c"
   integrity sha512-HZry6/UIeStGc2reqYhRFAkmVGCb4fQfOdOK2bJ6RCatN5uuJ+sDu5w5L97JtGNirTqP2eKsTUM3Dx1EvgJ4ng==
