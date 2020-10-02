@@ -64,6 +64,7 @@ const PrimaryInfoFormView = ({
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
   const [gedsModalVisible, setGedsModalVisible] = useState(false);
+  const [savedProfile, setSavedProfile] = useState(profileInfo);
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
@@ -459,6 +460,12 @@ const PrimaryInfoFormView = ({
     }
   };
 
+  const syncGedsButtonAction = async (event) => {
+    let updatedProfile = savedProfiles;
+
+    console.log(event);
+  };
+
   const ali_generateGedsModal = ({ profile }) => {
     const data = [
       {
@@ -523,7 +530,17 @@ const PrimaryInfoFormView = ({
       {
         title: "Action",
         key: "action",
-        render: (record) => <a>{record.paramName}</a>,
+        render: (record) => (
+          <Button
+            type="primary"
+            size="small"
+            icon={<SyncOutlined />}
+            onClick={syncGedsButtonAction}
+            value={record.paramName}
+          >
+            Sync
+          </Button>
+        ),
       },
     ];
     console.log(newGedsValues);
