@@ -31,23 +31,23 @@ pipeline {
                         }
                     }
                 }
-                stage('backend') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh """
-                                unset NPM_CONFIG_PREFIX
-                                source $NVM_DIR/nvm.sh
-                                nvm install "12.6.0"
-                                npm i eslint \
-                                      eslint-config-airbnb-base \
-                                      eslint-config-node \
-                                      eslint-config-prettier \
-                                      eslint-plugin-import 
-                                npm run lint
-                            """
-                        }
-                    }
-                }
+                //stage('backend') {
+                //    steps {
+                //        dir("${BACKEND_DIR}") {
+                //            sh """
+                //                unset NPM_CONFIG_PREFIX
+                //                source $NVM_DIR/nvm.sh
+                //                nvm install "12.6.0"
+                //                npm i eslint \
+                //                      eslint-config-airbnb-base \
+                //                      eslint-config-node \
+                //                      eslint-config-prettier \
+                //                      eslint-plugin-import 
+                //                ls
+                //            """
+                //        }
+                //    }
+                //}
                 stage('frontend') {
                     steps {
                         dir("${FRONTEND_DIR}") {
@@ -55,11 +55,8 @@ pipeline {
                                 unset NPM_CONFIG_PREFIX
                                 source $NVM_DIR/nvm.sh
                                 nvm install "12.6.0"
-                                npm i eslint \
-                                      eslint-config-airbnb \
-                                      eslint-config-prettier \
-                                      eslint-plugin-import
-                                npm run lint
+                                yarn install
+                                ls
                             """
                         }
                     }
