@@ -20,7 +20,7 @@ pipeline {
     }
 
     stages {
-        stage('run-tests){
+        stage('run-tests'){
             parallel{
                 stage('i18-check') {
                     steps {
@@ -31,7 +31,7 @@ pipeline {
                         }
                     }
                 }        
-        
+
                 stage('frontend') {
                     steps {
                         dir("${FRONTEND_DIR}") {
@@ -46,7 +46,7 @@ pipeline {
                         }
                     }
                 }
-        
+
                 stage('backend') {
                     steps {
                         dir("${BACKEND_DIR}") {
