@@ -277,7 +277,7 @@ const PrimaryInfoFormView = ({
     const dbValues = {
       ...formValues,
     };
-    if (formValues.jobTitle) {
+    if (!formValues.jobTitle[locale]) {
       dbValues.jobTitle = {
         [locale]: formValues.jobTitle,
       };
@@ -460,10 +460,51 @@ const PrimaryInfoFormView = ({
     }
   };
 
-  const syncGedsButtonAction = async (event) => {
-    let updatedProfile = savedProfiles;
+  const syncGedsButtonAction = async ({ paramName }) => {
+    //let updatedProfile = savedProfile;
+    let updatedProfile = { ...profileInfo };
+    console.log(profileInfo);
 
-    console.log(event);
+    delete updatedProfile.jobTitle;
+    updatedProfile.jobTitle = profileInfo.jobTitle;
+    updatedProfile.jobTitle = {
+      [locale]: profileInfo.jobTitle,
+    };
+
+    delete updatedProfile.branch;
+    updatedProfile.branch = {
+      [locale]: profileInfo.branch,
+    };
+
+    updatedProfile.branch = profileInfo.organization;
+
+    switch (paramName) {
+      case "firstName":
+        console.log(newGedsValues.firstName);
+        console.log(updatedProfile.firstName);
+        updatedProfile.firstName = newGedsValues.firstName;
+        break;
+      case "lastName":
+        updatedProfile.lastName = newGedsValues.lastName;
+        break;
+      case "jobTitle":
+        updatedProfile.jobTitle["ENGLISH"] = newGedsValues.jobTitle["ENGLISH"];
+        updatedProfile.jobTitle["FRENCH"] = newGedsValues.jobTitle["FRENCH"];
+        break;
+      case "branch":
+        updatedProfile.branch["ENGLISH"] = newGedsValues.branch["ENGLISH"];
+        updatedProfile.branch["FRENCH"] = newGedsValues.branch["FRENCH"];
+        break;
+      case "organization":
+        console.log("here");
+        updatedProfile.organizations = newGedsValues.organizations;
+      default:
+      // code block
+    }
+    console.log(updatedProfile);
+    //await axios.put(`api/profile/${userId}?language=ENGLISH`, updatedProfile);
+    saveDataToDB(updatedProfile);
+    // console.log(e.target.value);
   };
 
   const ali_generateGedsModal = ({ profile }) => {
@@ -499,14 +540,15 @@ const PrimaryInfoFormView = ({
       {
         key: "5",
         rowName: "Organization",
-        saved:
-          profile.organizations[0][profile.organizations[0].length - 1].title,
+        saved: profile.organizations[0]
+          ? profile.organizations[0][profile.organizations[0].length - 1].title
+          : "-",
         geds: newGedsValues
           ? newGedsValues.organizations[0][
               newGedsValues.organizations[0].length - 1
             ].title.ENGLISH
           : "-",
-        paramName: "branch",
+        paramName: "organization",
       },
     ];
 
@@ -530,13 +572,14 @@ const PrimaryInfoFormView = ({
       {
         title: "Action",
         key: "action",
-        render: (record) => (
+        render: (text, record) => (
           <Button
             type="primary"
             size="small"
             icon={<SyncOutlined />}
-            onClick={syncGedsButtonAction}
-            value={record.paramName}
+            onClick={() =>
+              syncGedsButtonAction({ paramName: record.paramName })
+            }
           >
             Sync
           </Button>
@@ -545,6 +588,7 @@ const PrimaryInfoFormView = ({
     ];
     console.log(newGedsValues);
     console.log(profile);
+
     return (
       <Modal
         title="GC Directory Sync"
