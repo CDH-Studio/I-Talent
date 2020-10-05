@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { useSelector } from "react-redux";
 import {
   Results,

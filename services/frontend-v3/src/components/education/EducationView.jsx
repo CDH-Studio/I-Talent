@@ -16,7 +16,7 @@ const EducationView = ({ educationInfo }) => {
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
-        <a target="_blank" rel="noreferrer" href={i.url}>
+        <a target="_blank" rel="noopener noreferrer" href={i.url}>
           <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
             <LinkOutlined />
             <span>{i.name}</span>

@@ -1,3 +1,4 @@
+import Keycloak from "keycloak-js";
 import config from "../utils/config";
 
 const keycloakConfig = {
@@ -15,4 +16,6 @@ const initKeycloakConfig = {
   checkLoginIframe: false,
 };
 
-export { keycloakConfig, initKeycloakConfig };
+const keycloak = new Keycloak(keycloakConfig);
+
+export { keycloak, initKeycloakConfig };
