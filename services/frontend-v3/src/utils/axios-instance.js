@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { useMemo } from "react";
 import config from "./config";
 
