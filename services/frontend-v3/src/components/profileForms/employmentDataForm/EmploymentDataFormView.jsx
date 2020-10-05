@@ -573,7 +573,6 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
-                tabIndex="0"
                 name="tenureId"
                 label={<FormattedMessage id="profile.substantive" />}
               >
@@ -592,7 +591,6 @@ const EmploymentDataFormView = ({
 
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
-                tabIndex="0"
                 name="groupLevelId"
                 label={<FormattedMessage id="profile.classification" />}
               >
@@ -613,7 +611,6 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
-                tabIndex="0"
                 name="securityClearanceId"
                 label={<FormattedMessage id="profile.security" />}
               >

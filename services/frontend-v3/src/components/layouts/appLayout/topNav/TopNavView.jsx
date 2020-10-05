@@ -45,21 +45,23 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     },
     navBrand: {
       height: 40,
+      borderRadius: 45,
     },
     profileAvatar: {
       marginRight: 8,
     },
     dropDownMenu: {
       padding: 0,
-      marginTop: 6,
+      marginTop: -4,
     },
     dropDownItem: {
       padding: "10px 20px",
     },
     dropDownButton: {
       color: "#fff",
-      height: 35,
-      padding: 0,
+      height: 45,
+      padding: 5,
+      paddingVertical: 10,
       marginRight: 15,
     },
     dropDownArrow: {

@@ -122,35 +122,63 @@ displayed on pages but need to be read by screen-readers*/
 }
 
 a {
+  &:hover {
+    color: black !important;
+  }
+
   &:focus {
-    outline: 1px solid #999c9e !important;
+    text-decoration: underline;
+    color: #087472 !important;
   }
 }
 
-menu {
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector,
+.ant-input:focus,
+.ant-picker-focused,
+.ant-radio-button-wrapper:focus-within,
+.ant-btn:focus,
+.ant-switch-checked:focus,
+.ant-checkbox:focus {
+  border-color: #087472 !important;
+  box-shadow: 0px 0px 0px 2px #08747270 !important;
+}
+
+.ant-btn-dangerous:focus {
+  border-color: #ff3333 !important;
+  box-shadow: 0px 0px 0px 2px #ff333370 !important;
+}
+
+.ant-tabs-tab {
   &:focus {
     outline: 1px solid #999c9e !important;
     color: #08bab3;
   }
 }
 
-menuitem {
-  &:focus {
-    outline: 1px solid #999c9e !important;
-    color: #08bab3;
+header {
+  .ant-input:focus {
+    border-color: #ffffff !important;
+    box-shadow: 0px 0px 0px 2px #ffffff70 !important;
   }
-}
+  .ant-btn-background-ghost {
+    &:focus {
+      color: #08bab3 !important;
+    }
 
-input {
-  &:focus {
-    outline: #08bab3;
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 1;
+    }
   }
-}
 
-ant-tabs-tab {
-  &:focus {
-    outline: 1px solid #999c9e !important;
-    color: #08bab3;
+  a:focus > img {
+    box-shadow: 0px 0px 0px 2px #ffffff70 !important;
   }
 }
 
@@ -176,19 +204,19 @@ a.ant-btn.ant-btn-link.ant-btn-block {
   &:focus {
     border: 2px;
     border-color: #08bab3;
-    outline: 1px solid #999c9e !important;
+    // outline: 1px solid #999c9e !important;
   }
 }
 
 .ant-collapse-header {
   &:focus {
-    outline: 1px solid #999c9e !important;
+    // outline: 1px solid #999c9e !important;
   }
 }
 
 .ant-btn-link {
   &:focus {
-    outline: 1px solid #999c9e !important;
+    // outline: 1px solid #999c9e !important;
     color: #08bab3;
   }
 }
@@ -202,7 +230,7 @@ a.ant-btn.ant-btn-link.ant-btn-block {
 .ant-steps-item {
   &:focus {
     color: #08bab3;
-    background-color: #08bab462;
+    background-color: #08bab462 !important;
   }
 }
 
@@ -214,13 +242,14 @@ a.ant-btn.ant-btn-link.ant-btn-block {
 
 .ant-dropdown-link {
   &:focus {
-    outline: 1px solid #999c9e !important;
+    // outline: 1px solid #999c9e !important;
   }
 }
 
 .ant-menu-item {
   &:focus {
-    color: #001c1a;
+    color: #001c1a !important;
+    background-color: #001c1a20 !important;
   }
 }
 
