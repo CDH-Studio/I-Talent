@@ -42,6 +42,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -64,6 +65,7 @@ const PrimaryInfoFormView = ({
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gatheringGedsData, setGatheringGedsData] = useState(null);
   const [gedsModalVisible, setGedsModalVisible] = useState(false);
+  const [gedsModalVisible2, setGedsModalVisible2] = useState(false);
   const [savedProfile, setSavedProfile] = useState(profileInfo);
 
   const { locale } = useSelector((state) => state.settings);
@@ -460,6 +462,16 @@ const PrimaryInfoFormView = ({
     }
   };
 
+  const showGedsSyncModal2 = async () => {
+    try {
+      setGedsModalVisible2(true);
+      await onSyncGedsInfo();
+    } catch (error) {
+      console.log(error);
+      setGedsModalVisible2(false);
+    }
+  };
+
   const syncGedsButtonAction = async ({ paramName }) => {
     //let updatedProfile = savedProfile;
     let updatedProfile = { ...profileInfo };
@@ -787,6 +799,9 @@ const PrimaryInfoFormView = ({
           <Button type="primary" onClick={showGedsSyncModal}>
             Open Modal
           </Button>
+          <Button type="primary" onClick={showGedsSyncModal2}>
+            Open Modal component
+          </Button>
           <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
             <SyncOutlined />
             <span>
@@ -840,6 +855,7 @@ const PrimaryInfoFormView = ({
       />
       <div style={styles.content}>
         {ali_generateGedsModal({ profile: profileInfo })}
+        <GedsUpdateModal visibility={gedsModalVisible2} profile={profileInfo} />
         {/* get form title */}
         {getFormHeader({ formHeaderType: formType })}
         <Divider style={styles.headerDiv} />
