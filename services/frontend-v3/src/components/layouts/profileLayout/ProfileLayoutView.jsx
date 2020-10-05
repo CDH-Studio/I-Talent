@@ -36,6 +36,7 @@ import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
+import QualifiedPools from "../../qualifiedPools/QualifiedPools";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Connections from "../../connections/Connections";
@@ -216,7 +217,11 @@ const ProfileLayoutView = ({
             />
           </Col>
         </Row>
-
+        <Row style={styles.row}>
+          <Col span={24}>
+            <QualifiedPools data={data} editableCardBool={privateProfile} />
+          </Col>
+        </Row>
         <Row
           style={styles.row}
           gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
@@ -406,18 +411,26 @@ const ProfileLayoutView = ({
                 }
               />
               <Link
-                href="#card-profile-ex-feeder"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.ex.feeder.title" />
-                  </Text>
-                }
-              />
-              <Link
                 href="#card-profile-career-interests"
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.career.interests" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-qualified-pools"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.qualified.pools" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-ex-feeder"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.ex.feeder.title" />
                   </Text>
                 }
               />

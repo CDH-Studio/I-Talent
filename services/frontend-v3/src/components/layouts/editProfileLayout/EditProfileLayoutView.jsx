@@ -190,6 +190,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
               - <FormattedMessage id="profile.career.interests" />
             </li>
             <li style={styles.menuListItem}>
+              - <FormattedMessage id="profile.qualified.pools" />
+            </li>
+            <li style={styles.menuListItem}>
               - <FormattedMessage id="profile.talent.management" />
             </li>
             <li style={styles.menuListItem}>
