@@ -410,7 +410,6 @@ const PrimaryInfoFormView = ({
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
             <Popover
-              tabindex="0"
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -447,7 +446,6 @@ const PrimaryInfoFormView = ({
             </span>
           </Button>
           <Popover
-            tabindex="0"
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
