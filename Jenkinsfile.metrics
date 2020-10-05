@@ -23,7 +23,7 @@ pipeline {
             steps {
 			    dir("${FRONTEND_DIR}") {
                     script {
-                        metrics.sonarScan()
+                        metrics.sonarScan("ITalent-backend")
                     }
                 }
             }
@@ -32,7 +32,7 @@ pipeline {
             steps {
 			    dir("${FRONTEND_DIR}") {
                     script {
-                        metrics.sonarScan()
+                        metrics.sonarScan("ITalent-frontend")
                     }
                 }
             }
