@@ -21,7 +21,7 @@ pipeline {
     stages {
         stage('build-backend') {
             steps {
-			    dir("${FRONTEND_DIR}") {
+			    dir("${BACKEND_DIR}") {
                     script {
                         metrics.sonarScan("ITalent-backend")
                     }
