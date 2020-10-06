@@ -28,6 +28,7 @@ pipeline {
                 }
             }
         }
+        /*
         stage('build-frontend') {
             steps {
 			    dir("${FRONTEND_DIR}") {
@@ -37,5 +38,6 @@ pipeline {
                 }
             }
         }
+        */
     }
 }
