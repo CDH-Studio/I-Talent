@@ -855,7 +855,11 @@ const PrimaryInfoFormView = ({
       />
       <div style={styles.content}>
         {ali_generateGedsModal({ profile: profileInfo })}
-        <GedsUpdateModal visibility={gedsModalVisible2} profile={profileInfo} />
+        <GedsUpdateModal
+          visibility={gedsModalVisible2}
+          profile={profileInfo}
+          setVisibility={setGedsModalVisible2}
+        />
         {/* get form title */}
         {getFormHeader({ formHeaderType: formType })}
         <Divider style={styles.headerDiv} />

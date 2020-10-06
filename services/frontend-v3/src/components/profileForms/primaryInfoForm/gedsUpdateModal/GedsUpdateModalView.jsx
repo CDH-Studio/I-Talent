@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Spin, Table, Button } from "antd";
-import { SyncOutlined } from "@ant-design/icons";
+import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { isEqual, identity, pickBy, find } from "lodash";
 import PropTypes from "prop-types";
@@ -9,14 +9,15 @@ import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import useAxios from "../../../../utils/axios-instance";
 
-const GedsUpdateModalView = ({ visibility, profile }) => {
+const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
   const axios = useAxios();
-
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [gedsModalVisible, setGedsModalVisible] = useState(false);
   const [savedProfile, setSavedProfile] = useState(profile);
   const [tableData, setTableData] = useState(null);
   const [syncNeeded, setSyncNeeded] = useState(true);
+
+  const [tableLoading, setTableLoading] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
@@ -38,21 +39,21 @@ const GedsUpdateModalView = ({ visibility, profile }) => {
   };
 
   const syncGedsButtonAction = async ({ paramName }) => {
-    //let updatedProfile = savedProfile;
+    setTableLoading(true);
     let updatedProfile = { ...savedProfile };
 
-    delete updatedProfile.jobTitle;
-    updatedProfile.jobTitle = savedProfile.jobTitle;
+    // delete updatedProfile.jobTitle;
+    // updatedProfile.jobTitle = savedProfile.jobTitle;
     updatedProfile.jobTitle = {
       [locale]: savedProfile.jobTitle,
     };
 
-    delete updatedProfile.branch;
+    // delete updatedProfile.branch;
     updatedProfile.branch = {
       [locale]: savedProfile.branch,
     };
 
-    updatedProfile.branch = savedProfile.organization;
+    updatedProfile.organization = savedProfile.organization;
 
     switch (paramName) {
       case "firstName":
@@ -74,51 +75,43 @@ const GedsUpdateModalView = ({ visibility, profile }) => {
       default:
       // code block
     }
-    //await axios.put(`api/profile/${userId}?language=ENGLISH`, updatedProfile);
-    saveDataToDB(updatedProfile);
-    setSyncNeeded(true);
-    // console.log(e.target.value);
+
+    await saveDataToDB(updatedProfile);
+    await getGedsAndProfileInfo();
+    setTableLoading(false);
   };
 
   /** **********************************
    ********* Render Component *********
    *********************************** */
-  const getData = () => {
-    console.log(newGedsValues);
-    console.log(
-      newGedsValues
-        ? newGedsValues.organizations[0][
-            newGedsValues.organizations[0].length - 1
-          ].title.ENGLISH
-        : "-"
-    );
-    return [
+  const updateTableData = ({ savedProfile, gedsProfile }) => {
+    const updatedTableData = [
       {
         key: "1",
         rowName: "First Name",
         saved: savedProfile.firstName,
-        geds: newGedsValues ? newGedsValues.firstName : "-",
+        geds: gedsProfile ? gedsProfile.firstName : "-",
         paramName: "firstName",
       },
       {
         key: "2",
-        rowName: "Last Name",
+        row: "Last Name",
         saved: savedProfile.lastName,
-        geds: newGedsValues ? newGedsValues.lastName : "-",
+        geds: gedsProfile ? gedsProfile.lastName : "-",
         paramName: "lastName",
       },
       {
         key: "3",
         rowName: "Job Title",
         saved: savedProfile.jobTitle,
-        geds: newGedsValues ? newGedsValues.jobTitle.ENGLISH : "-",
+        geds: gedsProfile ? gedsProfile.jobTitle.ENGLISH : "-",
         paramName: "jobTitle",
       },
       {
         key: "4",
         rowName: "Branch",
         saved: savedProfile.branch,
-        geds: newGedsValues ? newGedsValues.branch.ENGLISH : "-",
+        geds: gedsProfile ? gedsProfile.branch.ENGLISH : "-",
         paramName: "branch",
       },
       {
@@ -129,60 +122,19 @@ const GedsUpdateModalView = ({ visibility, profile }) => {
               savedProfile.organizations[0].length - 1
             ].title
           : "-",
-        geds: newGedsValues
-          ? newGedsValues.organizations[0][
-              newGedsValues.organizations[0].length - 1
+        geds: gedsProfile
+          ? gedsProfile.organizations[0][
+              gedsProfile.organizations[0].length - 1
             ].title.ENGLISH
           : "-",
         paramName: "organization",
       },
     ];
+
+    setTableData(updatedTableData);
+    setNewGedsValues(gedsProfile);
+    setSavedProfile(savedProfile);
   };
-  // const data = [
-  //   {
-  //     key: "1",
-  //     rowName: "First Name",
-  //     saved: savedProfile.firstName,
-  //     geds: newGedsValues ? newGedsValues.firstName : "-",
-  //     paramName: "firstName",
-  //   },
-  //   {
-  //     key: "2",
-  //     rowName: "Last Name",
-  //     saved: savedProfile.lastName,
-  //     geds: newGedsValues ? newGedsValues.lastName : "-",
-  //     paramName: "lastName",
-  //   },
-  //   {
-  //     key: "3",
-  //     rowName: "Job Title",
-  //     saved: savedProfile.jobTitle,
-  //     geds: newGedsValues ? newGedsValues.jobTitle.ENGLISH : "-",
-  //     paramName: "jobTitle",
-  //   },
-  //   {
-  //     key: "4",
-  //     rowName: "Branch",
-  //     saved: savedProfile.branch,
-  //     geds: newGedsValues ? newGedsValues.branch.ENGLISH : "-",
-  //     paramName: "branch",
-  //   },
-  //   {
-  //     key: "5",
-  //     rowName: "Organization",
-  //     saved: savedProfile.organizations[0]
-  //       ? savedProfile.organizations[0][
-  //           savedProfile.organizations[0].length - 1
-  //         ].title
-  //       : "-",
-  //     geds: newGedsValues
-  //       ? newGedsValues.organizations[0][
-  //           newGedsValues.organizations[0].length - 1
-  //         ].title.ENGLISH
-  //       : "-",
-  //     paramName: "organization",
-  //   },
-  // ];
 
   const columns = [
     {
@@ -208,10 +160,13 @@ const GedsUpdateModalView = ({ visibility, profile }) => {
         <Button
           type="primary"
           size="small"
-          icon={<SyncOutlined />}
+          disabled={record.saved == record.geds}
+          icon={
+            record.saved == record.geds ? <CheckOutlined /> : <SyncOutlined />
+          }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
-          Sync
+          {record.saved == record.geds ? "Synced" : "Sync"}
         </Button>
       ),
     },
@@ -232,60 +187,51 @@ const GedsUpdateModalView = ({ visibility, profile }) => {
       const result = await axios.get(
         `api/profile/private/${id}?language=${locale}`
       );
-      setSavedProfile(result.data);
-      console.log("ali");
-      console.log(savedProfile);
+      //setSavedProfile(result.data);
+      return result.data;
+      //setTableData(getData({ savedProfileValue: savedProfile }));
     }
   };
 
   const getGedsInfo = async () => {
-    await axios
-      .get(`api/profGen/${id}`, {
-        params: {
-          name,
-        },
-      })
-      .then((result) => {
-        console.log(result.data);
-        setNewGedsValues(result.data);
-      })
-      .catch((error) => {
-        //  throw error;
-        // openNotificationWithIcon({
-        //   type: "warning",
-        //   description: intl.formatMessage({
-        //     id: "profile.geds.failed.to.retrieve",
-        //   }),
-        // });
-        throw error;
-      });
+    const result = await axios.get(`api/profGen/${id}`, {
+      params: {
+        name,
+      },
+    });
+
+    return result.data;
+
+    // console.log(result.data);
+    // setNewGedsValues(result.data);
+    // .catch((error) => {
+    //  throw error;
+    // openNotificationWithIcon({
+    //   type: "warning",
+    //   description: intl.formatMessage({
+    //     id: "profile.geds.failed.to.retrieve",
+    //   }),
+    // });
+    //   throw error;
+    // });
+  };
+
+  const getGedsAndProfileInfo = async () => {
+    let profile = await getProfileInfo();
+    let gedsProfile = await getGedsInfo();
+    updateTableData({ savedProfile: profile, gedsProfile: gedsProfile });
   };
 
   useEffect(() => {
     if (syncNeeded & visibility) {
-      console.log("in here2");
-      getProfileInfo().then((value) => {
-        getGedsInfo().then((value) => {
-          // console.log(
-          //   newGedsValues.organizations[0][
-          //     newGedsValues.organizations[0].length - 1
-          //   ].title.ENGLISH
-          // );
-          setTableData(getData());
-        });
-      });
-
-      setSyncNeeded(false);
+      getGedsAndProfileInfo();
     }
-  }, [syncNeeded, visibility]);
+  }, [visibility]);
 
-  useEffect(() => {
-    setTableData(getData());
-    console.log(getData());
-    console.log(newGedsValues);
-    console.log(savedProfile);
-    console.log(tableData);
-  }, [newGedsValues, savedProfile]);
+  // useEffect(() => {
+  //   setTableData(getData({ savedProfileValue: savedProfile }));
+  //   // console.log(getData());
+  // }, [newGedsValues, savedProfile]);
 
   //   // Get user profile for form drop down
   //   const getProfileInfo = useCallback(async () => {
@@ -296,29 +242,22 @@ const GedsUpdateModalView = ({ visibility, profile }) => {
   //       setSavedProfile(result.data);
   //     }
   //   }, [axios, id, locale]);
-  console.log(syncNeeded);
+
   return (
     <Modal
       title="GC Directory Sync"
       visible={visibility}
       width={900}
       // onOk={this.handleOk}
-      // onCancel={this.handleCancel}
+      onCancel={() => setVisibility(false)}
     >
-      {!newGedsValues && (
-        <div style={{ textAlign: "center" }}>
-          <Spin size="large" />
-        </div>
-      )}
-      <p>{syncNeeded}</p>
-      {newGedsValues && (
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-          size="small"
-        />
-      )}
+      <Table
+        columns={columns}
+        dataSource={tableData}
+        pagination={false}
+        size="small"
+        loading={!tableData || tableLoading}
+      />
     </Modal>
   );
 };
