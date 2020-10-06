@@ -27,11 +27,11 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     const dbValues = {
       ...formValues,
     };
-    if (!formValues.jobTitle[locale]) {
-      dbValues.jobTitle = {
-        [locale]: formValues.jobTitle,
-      };
-    }
+    // if (!formValues.jobTitle[locale]) {
+    //   dbValues.jobTitle = {
+    //     [locale]: formValues.jobTitle,
+    //   };
+    // }
     await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
   };
 
@@ -41,17 +41,9 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
    */
   const syncGedsButtonAction = async ({ paramName }) => {
     setTableLoading(true);
-    let updatedProfile = { ...savedProfile };
 
-    updatedProfile.jobTitle = {
-      [locale]: savedProfile.jobTitle,
-    };
+    let updatedProfile = {};
 
-    updatedProfile.branch = {
-      [locale]: savedProfile.branch,
-    };
-
-    updatedProfile.organization = savedProfile.organization;
     switch (paramName) {
       case "firstName":
         updatedProfile.firstName = newGedsValues.firstName;
@@ -60,12 +52,16 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
         updatedProfile.lastName = newGedsValues.lastName;
         break;
       case "jobTitle":
-        updatedProfile.jobTitle["ENGLISH"] = newGedsValues.jobTitle["ENGLISH"];
-        updatedProfile.jobTitle["FRENCH"] = newGedsValues.jobTitle["FRENCH"];
+        updatedProfile.jobTitle = {
+          ["ENGLISH"]: newGedsValues.jobTitle["ENGLISH"],
+          ["FRENCH"]: newGedsValues.jobTitle["FRENCH"],
+        };
         break;
       case "branch":
-        updatedProfile.branch["ENGLISH"] = newGedsValues.branch["ENGLISH"];
-        updatedProfile.branch["FRENCH"] = newGedsValues.branch["FRENCH"];
+        updatedProfile.jobTitle = {
+          ["ENGLISH"]: newGedsValues.branch["ENGLISH"],
+          ["FRENCH"]: newGedsValues.branch["FRENCH"],
+        };
         break;
       case "organization":
         updatedProfile.organizations = newGedsValues.organizations;
@@ -73,7 +69,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       default:
         throw "sync request category not recognized";
     }
-
     await saveDataToDB(updatedProfile);
     await getGedsAndProfileInfo();
     setTableLoading(false);
@@ -176,16 +171,22 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       dataIndex: "rowName",
       key: "rowName",
       render: (text) => <strong>{text}</strong>,
+      width: "20%",
+      ellipsis: true,
     },
     {
       title: "Saved Info",
       dataIndex: "saved",
       key: "saved",
+      width: "30%",
+      ellipsis: true,
     },
     {
       title: "Geds Info",
       dataIndex: "geds",
       key: "geds",
+      width: "30%",
+      ellipsis: true,
     },
     {
       title: "Action",
