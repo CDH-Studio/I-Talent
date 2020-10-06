@@ -10,20 +10,15 @@ import {
   Input,
   Button,
   notification,
-  List,
   Popover,
-  Modal,
-  Spin,
-  Table,
 } from "antd";
 import {
   LinkOutlined,
-  LoadingOutlined,
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy, find } from "lodash";
+import { isEqual, identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
@@ -36,8 +31,6 @@ import {
   HistoryPropType,
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
-import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
@@ -62,14 +55,9 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
-  const [newGedsValues, setNewGedsValues] = useState(null);
-  const [gatheringGedsData, setGatheringGedsData] = useState(null);
   const [gedsModalVisible, setGedsModalVisible] = useState(false);
-  const [gedsModalVisible2, setGedsModalVisible2] = useState(false);
-  const [savedProfile, setSavedProfile] = useState(profileInfo);
 
   const { locale } = useSelector((state) => state.settings);
-  const { id, name } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   /* Component Styles */
@@ -347,7 +335,7 @@ const PrimaryInfoFormView = ({
     history.push(`/profile/${userId}`);
   };
 
-  /*
+  /**
    * Action to complete when "save and finish" Btn is used
    * save changes (display any errors) and go to user profile upon success
    */
@@ -379,7 +367,7 @@ const PrimaryInfoFormView = ({
       });
   };
 
-  /*
+  /**
    * Action to complete when "clear" Btn is used
    * clear all changes since last change
    */
@@ -389,353 +377,6 @@ const PrimaryInfoFormView = ({
       message: intl.formatMessage({ id: "profile.form.clear" }),
     });
     checkIfFormValuesChanged();
-  };
-
-  const onSyncGedsInfo = async () => {
-    setGatheringGedsData(true);
-    await axios
-      .get(`api/profGen/${id}`, {
-        params: {
-          name,
-        },
-      })
-      .then((result) => {
-        if (Object.keys(result.data).length) {
-          setNewGedsValues(result.data);
-        } else {
-          notification.info({
-            message: intl.formatMessage({ id: "profile.geds.up.to.date" }),
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        //  throw error;
-        openNotificationWithIcon({
-          type: "warning",
-          description: intl.formatMessage({
-            id: "profile.geds.failed.to.retrieve",
-          }),
-        });
-        throw error;
-      });
-    setGatheringGedsData(false);
-  };
-
-  const handleGedsConfirm = async () => {
-    await axios
-      .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
-      .then(() => {
-        const possibleKeys = [
-          "firstName",
-          "lastName",
-          "cellphone",
-          "telephone",
-          "jobTitle",
-          "locationId",
-        ];
-
-        const newFieldVals = [];
-        possibleKeys.forEach((key) => {
-          if (key in newGedsValues) {
-            if (key === "jobTitle") {
-              const tempVal = newGedsValues[key];
-              newFieldVals.push({ name: key, value: tempVal[locale] });
-            } else {
-              newFieldVals.push({ name: key, value: newGedsValues[key] });
-            }
-          }
-        });
-        form.setFields(newFieldVals);
-      })
-      .catch((error) => handleError(error, "message"));
-    setNewGedsValues(null);
-  };
-
-  const showGedsSyncModal = async () => {
-    try {
-      setGedsModalVisible(true);
-      await onSyncGedsInfo();
-    } catch (error) {
-      console.log(error);
-      setGedsModalVisible(false);
-    }
-  };
-
-  const showGedsSyncModal2 = async () => {
-    try {
-      setGedsModalVisible2(true);
-      await onSyncGedsInfo();
-    } catch (error) {
-      console.log(error);
-      setGedsModalVisible2(false);
-    }
-  };
-
-  const syncGedsButtonAction = async ({ paramName }) => {
-    //let updatedProfile = savedProfile;
-    let updatedProfile = { ...profileInfo };
-    console.log(profileInfo);
-
-    delete updatedProfile.jobTitle;
-    updatedProfile.jobTitle = profileInfo.jobTitle;
-    updatedProfile.jobTitle = {
-      [locale]: profileInfo.jobTitle,
-    };
-
-    delete updatedProfile.branch;
-    updatedProfile.branch = {
-      [locale]: profileInfo.branch,
-    };
-
-    updatedProfile.branch = profileInfo.organization;
-
-    switch (paramName) {
-      case "firstName":
-        console.log(newGedsValues.firstName);
-        console.log(updatedProfile.firstName);
-        updatedProfile.firstName = newGedsValues.firstName;
-        break;
-      case "lastName":
-        updatedProfile.lastName = newGedsValues.lastName;
-        break;
-      case "jobTitle":
-        updatedProfile.jobTitle["ENGLISH"] = newGedsValues.jobTitle["ENGLISH"];
-        updatedProfile.jobTitle["FRENCH"] = newGedsValues.jobTitle["FRENCH"];
-        break;
-      case "branch":
-        updatedProfile.branch["ENGLISH"] = newGedsValues.branch["ENGLISH"];
-        updatedProfile.branch["FRENCH"] = newGedsValues.branch["FRENCH"];
-        break;
-      case "organization":
-        console.log("here");
-        updatedProfile.organizations = newGedsValues.organizations;
-      default:
-      // code block
-    }
-    console.log(updatedProfile);
-    //await axios.put(`api/profile/${userId}?language=ENGLISH`, updatedProfile);
-    saveDataToDB(updatedProfile);
-    // console.log(e.target.value);
-  };
-
-  const ali_generateGedsModal = ({ profile }) => {
-    const data = [
-      {
-        key: "1",
-        rowName: "First Name",
-        saved: profile.firstName,
-        geds: newGedsValues ? newGedsValues.firstName : "-",
-        paramName: "firstName",
-      },
-      {
-        key: "2",
-        rowName: "Last Name",
-        saved: profile.lastName,
-        geds: newGedsValues ? newGedsValues.lastName : "-",
-        paramName: "lastName",
-      },
-      {
-        key: "3",
-        rowName: "Job Title",
-        saved: profile.jobTitle,
-        geds: newGedsValues ? newGedsValues.jobTitle.ENGLISH : "-",
-        paramName: "jobTitle",
-      },
-      {
-        key: "4",
-        rowName: "Branch",
-        saved: profile.branch,
-        geds: newGedsValues ? newGedsValues.branch.ENGLISH : "-",
-        paramName: "branch",
-      },
-      {
-        key: "5",
-        rowName: "Organization",
-        saved: profile.organizations[0]
-          ? profile.organizations[0][profile.organizations[0].length - 1].title
-          : "-",
-        geds: newGedsValues
-          ? newGedsValues.organizations[0][
-              newGedsValues.organizations[0].length - 1
-            ].title.ENGLISH
-          : "-",
-        paramName: "organization",
-      },
-    ];
-
-    const columns = [
-      {
-        title: "",
-        dataIndex: "rowName",
-        key: "rowName",
-        render: (text) => <strong>{text}</strong>,
-      },
-      {
-        title: "Saved Info",
-        dataIndex: "saved",
-        key: "saved",
-      },
-      {
-        title: "Geds Info",
-        dataIndex: "geds",
-        key: "geds",
-      },
-      {
-        title: "Action",
-        key: "action",
-        render: (text, record) => (
-          <Button
-            type="primary"
-            size="small"
-            icon={<SyncOutlined />}
-            onClick={() =>
-              syncGedsButtonAction({ paramName: record.paramName })
-            }
-          >
-            Sync
-          </Button>
-        ),
-      },
-    ];
-    console.log(newGedsValues);
-    console.log(profile);
-
-    return (
-      <Modal
-        title="GC Directory Sync"
-        visible={gedsModalVisible}
-        width={900}
-        // onOk={this.handleOk}
-        // onCancel={this.handleCancel}
-      >
-        {!newGedsValues && (
-          <div style={{ textAlign: "center" }}>
-            <Spin size="large" />
-          </div>
-        )}
-
-        {newGedsValues && (
-          <Table
-            columns={columns}
-            dataSource={data}
-            pagination={false}
-            size="small"
-          />
-        )}
-      </Modal>
-    );
-  };
-
-  const generateGedsModal = () => {
-    const changes = [];
-
-    if (newGedsValues) {
-      if (newGedsValues.firstName) {
-        changes.push({
-          title: <FormattedMessage id="profile.first.name" />,
-          description: profileInfo.firstName,
-        });
-      }
-
-      if (newGedsValues.lastName) {
-        changes.push({
-          title: <FormattedMessage id="profile.last.name" />,
-          description: profileInfo.lastName,
-        });
-      }
-
-      if (newGedsValues.locationId) {
-        const locationOption = find(
-          locationOptions,
-          (option) => option.id === newGedsValues.locationId
-        );
-        changes.push({
-          title: <FormattedMessage id="profile.location" />,
-          description: `${locationOption.streetNumber} ${locationOption.streetName}
-                  ${locationOption.city}, ${locationOption.province}`,
-        });
-      }
-
-      if (newGedsValues.email) {
-        changes.push({
-          title: <FormattedMessage id="profile.telephone" />,
-          description: profileInfo.email,
-        });
-      }
-
-      if (newGedsValues.cellphone) {
-        changes.push({
-          title: <FormattedMessage id="profile.cellphone" />,
-          description: profileInfo.cellphone,
-        });
-      }
-
-      if (newGedsValues.telephone) {
-        changes.push({
-          title: <FormattedMessage id="profile.telephone" />,
-          description: profileInfo.telephone,
-        });
-      }
-
-      if (newGedsValues.jobTitle) {
-        changes.push({
-          title: <FormattedMessage id="profile.career.header.name" />,
-          description: newGedsValues.jobTitle[locale],
-        });
-      }
-
-      if (newGedsValues.branch) {
-        changes.push({
-          title: <FormattedMessage id="profile.branch" />,
-          description: newGedsValues.branch[locale],
-        });
-      }
-
-      if (newGedsValues.organizations) {
-        changes.push({
-          title: <FormattedMessage id="profile.branch" />,
-          description: <OrgTree data={newGedsValues} />,
-        });
-      }
-    }
-
-    // Fixes scrollbar disabling after pressing ok button
-    if (!(gatheringGedsData || newGedsValues)) {
-      return undefined;
-    }
-
-    return (
-      <Modal
-        title={<FormattedMessage id="profile.geds.changes" />}
-        visibility={gatheringGedsData || newGedsValues}
-        onOk={handleGedsConfirm}
-        onCancel={() => {
-          setNewGedsValues(null);
-          setGatheringGedsData(null);
-        }}
-        okButtonProps={!newGedsValues ? { disabled: true } : null}
-      >
-        {newGedsValues ? (
-          <List>
-            {changes.map((item) => (
-              <List.Item>
-                <List.Item.Meta
-                  title={item.title}
-                  description={item.description}
-                />
-              </List.Item>
-            ))}
-          </List>
-        ) : (
-          <div style={{ textAlign: "center" }}>
-            <Spin
-              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-            />
-          </div>
-        )}
-      </Modal>
-    );
   };
 
   /**
@@ -796,13 +437,12 @@ const PrimaryInfoFormView = ({
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
-          <Button type="primary" onClick={showGedsSyncModal}>
-            Open Modal
-          </Button>
-          <Button type="primary" onClick={showGedsSyncModal2}>
-            Open Modal component
-          </Button>
-          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+          <Button
+            onClick={() => {
+              setGedsModalVisible(true);
+            }}
+            style={styles.rightSpacedButton}
+          >
             <SyncOutlined />
             <span>
               <FormattedMessage id="profile.geds.sync.button" />
@@ -854,11 +494,10 @@ const PrimaryInfoFormView = ({
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
       <div style={styles.content}>
-        {ali_generateGedsModal({ profile: profileInfo })}
         <GedsUpdateModal
-          visibility={gedsModalVisible2}
+          visibility={gedsModalVisible}
           profile={profileInfo}
-          setVisibility={setGedsModalVisible2}
+          setVisibility={setGedsModalVisible}
         />
         {/* get form title */}
         {getFormHeader({ formHeaderType: formType })}

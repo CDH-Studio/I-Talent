@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Modal, Spin, Table, Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Modal, Table, Button } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy, find } from "lodash";
+import { FormattedMessage } from "react-intl";
+import { isEqual } from "lodash";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import useAxios from "../../../../utils/axios-instance";
@@ -12,11 +12,8 @@ import useAxios from "../../../../utils/axios-instance";
 const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
   const axios = useAxios();
   const [newGedsValues, setNewGedsValues] = useState(null);
-  const [gedsModalVisible, setGedsModalVisible] = useState(false);
   const [savedProfile, setSavedProfile] = useState(profile);
   const [tableData, setTableData] = useState(null);
-  const [syncNeeded, setSyncNeeded] = useState(true);
-
   const [tableLoading, setTableLoading] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
@@ -38,23 +35,23 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
   };
 
+  /**
+   * Prepare data and update DB based on geds data sync requested
+   * @param {string} paramName - name of the element being requested to sync.
+   */
   const syncGedsButtonAction = async ({ paramName }) => {
     setTableLoading(true);
     let updatedProfile = { ...savedProfile };
 
-    // delete updatedProfile.jobTitle;
-    // updatedProfile.jobTitle = savedProfile.jobTitle;
     updatedProfile.jobTitle = {
       [locale]: savedProfile.jobTitle,
     };
 
-    // delete updatedProfile.branch;
     updatedProfile.branch = {
       [locale]: savedProfile.branch,
     };
 
     updatedProfile.organization = savedProfile.organization;
-
     switch (paramName) {
       case "firstName":
         updatedProfile.firstName = newGedsValues.firstName;
@@ -72,8 +69,9 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
         break;
       case "organization":
         updatedProfile.organizations = newGedsValues.organizations;
+        break;
       default:
-      // code block
+        throw "sync request category not recognized";
     }
 
     await saveDataToDB(updatedProfile);
@@ -81,10 +79,12 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     setTableLoading(false);
   };
 
-  /** **********************************
-   ********* Render Component *********
-   *********************************** */
-  const updateTableData = ({ savedProfile, gedsProfile }) => {
+  /**
+   * Update the datable data based in saved profile and Geds profile
+   * @param {Object} savedProfile - saved profile data.
+   * @param {Object} gedsProfile - profile from geds.
+   */
+  const updateAllData = ({ savedProfile, gedsProfile }) => {
     const updatedTableData = [
       {
         key: "1",
@@ -95,7 +95,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "2",
-        row: "Last Name",
+        rowName: "Last Name",
         saved: savedProfile.lastName,
         geds: gedsProfile ? gedsProfile.lastName : "-",
         paramName: "lastName",
@@ -136,6 +136,40 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     setSavedProfile(savedProfile);
   };
 
+  /**
+   * Make API call to get saved profile info
+   */
+  const getProfileInfo = async () => {
+    if (id) {
+      const result = await axios.get(
+        `api/profile/private/${id}?language=${locale}`
+      );
+      return result.data;
+    }
+  };
+
+  /**
+   * Make API call to get profile info from Geds
+   */
+  const getGedsInfo = async () => {
+    const result = await axios.get(`api/profGen/${id}`, {
+      params: {
+        name,
+      },
+    });
+
+    return result.data;
+  };
+
+  /**
+   * Make all API calls and update data in states
+   */
+  const getGedsAndProfileInfo = async () => {
+    let profile = await getProfileInfo();
+    let gedsProfile = await getGedsInfo();
+    updateAllData({ savedProfile: profile, gedsProfile: gedsProfile });
+  };
+
   const columns = [
     {
       title: "",
@@ -160,96 +194,51 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
         <Button
           type="primary"
           size="small"
-          disabled={record.saved == record.geds}
+          disabled={isEqual(record.saved, record.geds)}
           icon={
-            record.saved == record.geds ? <CheckOutlined /> : <SyncOutlined />
+            isEqual(record.saved, record.geds) ? (
+              <CheckOutlined />
+            ) : (
+              <SyncOutlined />
+            )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
-          {record.saved == record.geds ? "Synced" : "Sync"}
+          {isEqual(record.saved, record.geds) ? "Synced" : "Sync"}
         </Button>
       ),
     },
   ];
 
-  // useEffect(() => {
-  //   if (id) {
-  //       const result = await axios.get(
-  //         `api/profile/private/${id}?language=${locale}`
-  //       );
-  //       setSavedProfile(result.data);
-  //   }
-  // });
-
-  // Get user profile for form drop down
-  const getProfileInfo = async () => {
-    if (id) {
-      const result = await axios.get(
-        `api/profile/private/${id}?language=${locale}`
-      );
-      //setSavedProfile(result.data);
-      return result.data;
-      //setTableData(getData({ savedProfileValue: savedProfile }));
-    }
-  };
-
-  const getGedsInfo = async () => {
-    const result = await axios.get(`api/profGen/${id}`, {
-      params: {
-        name,
-      },
-    });
-
-    return result.data;
-
-    // console.log(result.data);
-    // setNewGedsValues(result.data);
-    // .catch((error) => {
-    //  throw error;
-    // openNotificationWithIcon({
-    //   type: "warning",
-    //   description: intl.formatMessage({
-    //     id: "profile.geds.failed.to.retrieve",
-    //   }),
-    // });
-    //   throw error;
-    // });
-  };
-
-  const getGedsAndProfileInfo = async () => {
-    let profile = await getProfileInfo();
-    let gedsProfile = await getGedsInfo();
-    updateTableData({ savedProfile: profile, gedsProfile: gedsProfile });
-  };
-
   useEffect(() => {
-    if (syncNeeded & visibility) {
+    if (visibility) {
+      setNewGedsValues(null);
+      setSavedProfile(null);
+      setTableData(null);
       getGedsAndProfileInfo();
     }
   }, [visibility]);
 
-  // useEffect(() => {
-  //   setTableData(getData({ savedProfileValue: savedProfile }));
-  //   // console.log(getData());
-  // }, [newGedsValues, savedProfile]);
-
-  //   // Get user profile for form drop down
-  //   const getProfileInfo = useCallback(async () => {
-  //     if (id) {
-  //       const result = await axios.get(
-  //         `api/profile/private/${id}?language=${locale}`
-  //       );
-  //       setSavedProfile(result.data);
-  //     }
-  //   }, [axios, id, locale]);
+  /** **********************************
+   ********* Render Component *********
+   *********************************** */
 
   return (
     <Modal
       title="GC Directory Sync"
       visible={visibility}
       width={900}
-      // onOk={this.handleOk}
+      onOk={() => setVisibility(false)}
       onCancel={() => setVisibility(false)}
+      footer={[
+        <Button
+          key="submit"
+          type="primary"
+          onClick={() => setVisibility(false)}
+        >
+          Done
+        </Button>,
+      ]}
     >
       <Table
         columns={columns}
@@ -264,6 +253,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
 
 GedsUpdateModalView.propTypes = {
   visibility: PropTypes.bool.isRequired,
+  setVisibility: PropTypes.func.isRequired,
 };
 
-export default injectIntl(GedsUpdateModalView);
+export default GedsUpdateModalView;
