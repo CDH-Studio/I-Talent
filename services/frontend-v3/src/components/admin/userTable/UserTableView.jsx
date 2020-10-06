@@ -220,7 +220,7 @@ const UserTableView = ({
   /* Renders the keycloak button */
   const keycloakButton = () => {
     return (
-      <Button href={config.manageKeycloakAddress}>
+      <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
         <TeamOutlined style={{ marginRight: 10 }} />
         <FormattedMessage id="admin.manage.keycloak" />
       </Button>
@@ -390,10 +390,11 @@ const UserTableView = ({
           </>
         }
         extra={
-          <>
+          <Row align="middle">
             {applyButton()}
             {keycloakButton()}
             <Popover
+              trigger={["focus", "hover"]}
               placement="topRight"
               content={
                 <div style={styles.popoverStyle}>
@@ -407,9 +408,11 @@ const UserTableView = ({
                 </div>
               }
             >
-              <InfoCircleOutlined style={styles.adminInfo} />
+              <div style={styles.adminInfo}>
+                <InfoCircleOutlined tabIndex={0} />
+              </div>
             </Popover>
-          </>
+          </Row>
         }
       />
       <Row gutter={[0, 8]}>

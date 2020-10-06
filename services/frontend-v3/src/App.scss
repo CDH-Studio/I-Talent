@@ -223,6 +223,19 @@ header {
   }
 }
 
+.anticon.anticon-info-circle {
+  border-radius: 50% !important;
+  transition-duration: 200ms;
+
+  &:focus,
+  &:hover {
+    outline: #087472 !important;
+    background-color: #08747240 !important;
+    color: #087472 !important;
+    box-shadow: 0px 0px 0px 2px #08747270 !important;
+  }
+}
+
 /* 
  * END: Accessibility tabbing/navigation 
  */
@@ -237,15 +250,6 @@ header {
 .ant-tabs-tab-active {
   &:focus {
     outline: 2px solid #999c9e !important;
-  }
-}
-
-.anticon.anticon-info-circle {
-  &:focus {
-    outline: #08bab3;
-    background-color: #08bab462;
-    color: #08bab3;
-    border-radius: 50%;
   }
 }
 

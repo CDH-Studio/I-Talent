@@ -15,7 +15,7 @@ import {
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
-  QuestionCircleOutlined,
+  InfoCircleOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
 } from "@ant-design/icons";
@@ -245,6 +245,7 @@ const ProfileLayoutView = ({
               <FormattedMessage id="profile.privateGroup" />
               <div style={styles.privateGroupInfo}>
                 <Popover
+                  trigger={["focus", "hover"]}
                   content={
                     <div style={styles.popContent}>
                       <FormattedMessage id="profile.connections.tooltip.header" />
@@ -254,7 +255,7 @@ const ProfileLayoutView = ({
                     </div>
                   }
                 >
-                  <QuestionCircleOutlined />
+                  <InfoCircleOutlined tabIndex={0} />
                 </Popover>
               </div>
             </Title>
