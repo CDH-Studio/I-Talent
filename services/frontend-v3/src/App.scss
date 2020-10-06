@@ -141,7 +141,7 @@ a {
 .ant-radio-button-wrapper:focus-within,
 .ant-btn:focus,
 .ant-switch-checked:focus,
-.ant-checkbox:focus {
+.ant-checkbox-input:focus ~ .ant-checkbox-inner {
   border-color: #087472 !important;
   box-shadow: 0px 0px 0px 2px #08747270 !important;
 }
