@@ -41,31 +41,31 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
 
   const sideBarContent = (
     <Menu onClick={navigationPages} selectedKeys={getPageKey()}>
-      <Menu.Item key="dashboard">
+      <Menu.Item key="dashboard" tabIndex={0}>
         <DashboardOutlined />
         <FormattedMessage id="admin.dashboard" />
       </Menu.Item>
-      <Menu.Item key="users">
+      <Menu.Item key="users" tabIndex={0}>
         <SolutionOutlined />
         <FormattedMessage id="admin.user.plural" />
       </Menu.Item>
-      <Menu.Item key="categories">
+      <Menu.Item key="categories" tabIndex={0}>
         <AppstoreAddOutlined />
         <FormattedMessage id="admin.category.plural" />
       </Menu.Item>
-      <Menu.Item key="skills">
+      <Menu.Item key="skills" tabIndex={0}>
         <ToolOutlined />
         <FormattedMessage id="admin.skill.plural" />
       </Menu.Item>
-      <Menu.Item key="competencies">
+      <Menu.Item key="competencies" tabIndex={0}>
         <FlagOutlined />
         <FormattedMessage id="admin.competency.plural" />
       </Menu.Item>
-      <Menu.Item key="diplomas">
+      <Menu.Item key="diplomas" tabIndex={0}>
         <TrophyOutlined />
         <FormattedMessage id="admin.diploma.plural" />
       </Menu.Item>
-      <Menu.Item key="schools">
+      <Menu.Item key="schools" tabIndex={0}>
         <BankFilled />
         <FormattedMessage id="admin.school.plural" />
       </Menu.Item>
