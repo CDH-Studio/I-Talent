@@ -377,7 +377,7 @@ const SearchBarView = ({
                 type="link"
                 onClick={toggle}
                 style={{ fontSize: 15 }}
-                tabIndex="0"
+                tabIndex={0}
                 size="small"
               >
                 {/* <SettingOutlined style={{ marginRight: "3px" }} /> */}

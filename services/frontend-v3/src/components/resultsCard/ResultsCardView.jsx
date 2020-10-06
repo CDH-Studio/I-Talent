@@ -157,7 +157,7 @@ const ResultsCardView = ({
     if (person.id !== userId) {
       return (
         <Button
-          tabIndex="0"
+          tabIndex={0}
           type="link"
           block
           style={ribbonStyle}
@@ -189,7 +189,7 @@ const ResultsCardView = ({
     }
     return (
       <Button
-        tabIndex="0"
+        tabIndex={0}
         type="link"
         block
         style={ribbonStyle}
@@ -254,11 +254,12 @@ const ResultsCardView = ({
     return (
       <Col span={24} xxl={12} key={key}>
         <Badge.Ribbon
+          style={{ padding: 0 }}
           text={getActionRibbonBtn({ person })}
           color={isConnection ? "#192E2F" : "#1D807B"}
         >
           <Card
-            tabIndex="0"
+            tabIndex={0}
             className="card"
             hoverable
             bordered

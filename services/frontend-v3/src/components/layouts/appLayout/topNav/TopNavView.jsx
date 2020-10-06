@@ -106,13 +106,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu style={isDropdown ? styles.dropDownMenu : styles.hamburgerMenu}>
       {optionalStartMenuItems}
-      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+      <Menu.Item style={styles.dropDownItem}>
         <Link to={`/profile/${id}`}>
           <UserOutlined style={styles.menuIcon} />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
-      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+      <Menu.Item style={styles.dropDownItem}>
         <Link to="/profile/edit/primary-info">
           <EditOutlined style={styles.menuIcon} />
           <FormattedMessage id="edit.profile" />
@@ -120,7 +120,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       </Menu.Item>
       <Menu.Divider />
       {isAdmin && (
-        <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+        <Menu.Item style={styles.dropDownItem}>
           <Link to="/admin/dashboard">
             <DashboardOutlined style={styles.menuIcon} />
             <FormattedMessage id="admin" />
@@ -128,21 +128,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         </Menu.Item>
       )}
       {!isAdmin && (
-        <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+        <Menu.Item style={styles.dropDownItem}>
           <Link to="/statistics">
             <AreaChartOutlined style={styles.menuIcon} />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
-      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+      <Menu.Item style={styles.dropDownItem}>
         <Link to="/settings">
           <SettingOutlined style={styles.menuIcon} />
           <FormattedMessage id="settings.title" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item tabIndex="0" style={styles.dropDownItem}>
+      <Menu.Item style={styles.dropDownItem}>
         <Link to="/logout">
           <LogoutOutlined style={styles.menuIcon} />
           <FormattedMessage id="sign.out" />
@@ -224,7 +224,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     menu(
       false,
       <Menu.Item style={styles.dropDownItem}>
-        <Link tabIndex="0" to="/">
+        <Link tabIndex={0} to="/">
           <HomeOutlined style={styles.menuIcon} />
           <FormattedMessage id="home" />
         </Link>
@@ -271,7 +271,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         >
           <Row align="middle">
             {displayLogo && (
-              <Link tabIndex="0" to="/">
+              <Link tabIndex={0} to="/">
                 <img src={Logo} alt="I-Talent Logo" style={styles.navBrand} />
               </Link>
             )}

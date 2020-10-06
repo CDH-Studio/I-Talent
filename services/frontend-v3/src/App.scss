@@ -1,6 +1,3 @@
-/* .ant-tabs-tab {
-  font-size: 18px;
-} */
 /*Hidden class to use on headings that shouldnt be 
 displayed on pages but need to be read by screen-readers*/
 .experience-item-list {
@@ -125,6 +122,10 @@ displayed on pages but need to be read by screen-readers*/
  * START: Accessibility tabbing/navigation 
  */
 
+.ant-dropdown-menu-item:focus {
+  background-color: #001c1a !important    ;
+}
+
 a {
   &:hover {
     color: black !important;
@@ -179,24 +180,52 @@ header {
   }
 }
 
-.ant-card {
+.ant-card:focus {
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16),
+    0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+  opacity: 0.8;
+}
+
+.ant-ribbon .ant-btn {
   &:focus {
-    box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16),
-      0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
-    opacity: 0.8;
+    box-shadow: 0px 0px 0px 3px #08747270 !important;
+  }
+}
+
+.ant-steps-item {
+  &:focus {
+    background-color: #08747230 !important;
+    border-radius: 10px;
+
+    span {
+      color: #ffffff !important;
+    }
+
+    li,
+    div {
+      color: #087472 !important;
+    }
+
+    .ant-steps-item-icon {
+      border-color: #087472 !important;
+      background-color: #087472 !important;
+    }
+
+    .ant-steps-item-tail::after {
+      background-color: #087472 !important;
+    }
+  }
+}
+
+*[tabIndex] {
+  &:focus {
+    outline: #087472;
   }
 }
 
 /* 
  * END: Accessibility tabbing/navigation 
  */
-
-.ant-steps-item {
-  &:focus {
-    color: #08bab3;
-    background-color: #08bab462 !important;
-  }
-}
 
 .ant-menu-item {
   &:focus {
@@ -217,24 +246,6 @@ header {
     background-color: #08bab462;
     color: #08bab3;
     border-radius: 50%;
-  }
-}
-
-button.ant-btn.ant-btn-dangerous {
-  &:focus {
-    background-color: #ff333326;
-  }
-}
-
-*[tabIndex] {
-  &:focus {
-    outline: #08bab3;
-  }
-}
-
-span.searchInput {
-  span.ant-input-group-addon {
-    background: none;
   }
 }
 

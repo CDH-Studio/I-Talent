@@ -171,7 +171,7 @@ const BasicInfoView = ({
                 <QuestionCircleOutlined />
               </Popover>
               <Button
-                tabIndex="0"
+                tabIndex={0}
                 type={connectionStatus ? "default" : "primary"}
                 shape="circle"
                 size="large"

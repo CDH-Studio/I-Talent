@@ -467,7 +467,7 @@ const EmploymentDataFormView = ({
             </Form.Item>
             <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
-                tabIndex="0"
+                tabIndex={0}
                 onChange={toggleTempEndDate}
                 onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
