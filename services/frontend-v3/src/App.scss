@@ -161,6 +161,7 @@ header {
     border-color: #ffffff !important;
     box-shadow: 0px 0px 0px 2px #ffffff70 !important;
   }
+
   .ant-btn-background-ghost {
     &:focus {
       color: #08bab3 !important;
@@ -173,6 +174,10 @@ header {
     &:active {
       opacity: 1;
     }
+  }
+
+  img {
+    transition: box-shadow 200ms;
   }
 
   a:focus > img {
@@ -236,9 +241,11 @@ header {
   }
 }
 
-/* 
- * END: Accessibility tabbing/navigation 
- */
+.ant-tabs-tab-btn {
+  &:focus {
+    text-decoration: underline;
+  }
+}
 
 .ant-menu-item {
   &:focus {
@@ -247,15 +254,9 @@ header {
   }
 }
 
-.ant-tabs-tab-active {
-  &:focus {
-    outline: 2px solid #999c9e !important;
-  }
-}
-
-.org-dropdown {
-  border: 2px solid #f0f0f0 !important;
-}
+/* 
+ * END: Accessibility tabbing/navigation 
+ */
 
 @media (max-width: 500px) {
   .navProfileName {
