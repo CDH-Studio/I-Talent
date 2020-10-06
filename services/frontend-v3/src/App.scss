@@ -123,7 +123,7 @@ displayed on pages but need to be read by screen-readers*/
  */
 
 .ant-dropdown-menu-item:focus {
-  background-color: #001c1a !important    ;
+  background-color: #001c1a !important;
 }
 
 a {
@@ -191,12 +191,9 @@ header {
   opacity: 0.8;
 }
 
-.ant-ribbon .ant-btn {
-  &:focus {
-    box-shadow: 0px 0px 0px 3px #08747270 !important;
-  }
+.ant-ribbon .ant-btn:focus {
+  box-shadow: 0px 0px 0px 3px #08747270 !important;
 }
-
 .ant-steps-item {
   &:focus {
     background-color: #08747230 !important;
@@ -222,10 +219,8 @@ header {
   }
 }
 
-*[tabIndex] {
-  &:focus {
-    outline: #087472;
-  }
+*[tabIndex]:focus {
+  outline: #087472;
 }
 
 .anticon.anticon-info-circle {
@@ -241,16 +236,17 @@ header {
   }
 }
 
-.ant-tabs-tab-btn {
-  &:focus {
-    text-decoration: underline;
-  }
+.ant-tabs-tab-btn:focus {
+  text-decoration: underline;
 }
 
-.ant-menu-item {
-  &:focus {
-    background-color: #001c1a20 !important;
-  }
+.ant-menu-item:focus {
+  background-color: #001c1a20 !important;
+}
+
+.ant-collapse-header:focus {
+  border-color: #087472 !important;
+  box-shadow: 0px 0px 0px 3px #08747270 !important;
 }
 
 /* 
