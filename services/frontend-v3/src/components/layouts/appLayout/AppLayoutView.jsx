@@ -6,6 +6,8 @@ import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";
 
+import { useSelector } from "react-redux";
+
 const { Content } = Layout;
 
 const AppLayoutView = ({
@@ -16,6 +18,7 @@ const AppLayoutView = ({
   displayLogo,
   displaySearch,
 }) => {
+  const { locale } = useSelector((state) => state.settings);
   const styles = {
     content: {
       padding: "20px 15px",
@@ -27,7 +30,7 @@ const AppLayoutView = ({
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Helmet>
-        <html lang="en" />
+        <html lang={locale === "ENGLISH" ? "en" : "fr"} />
       </Helmet>
       <TopNav
         loading={loading}
