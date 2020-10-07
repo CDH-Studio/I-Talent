@@ -5,8 +5,6 @@ import { FormattedMessage } from "react-intl";
 import { isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { isMobilePhone } from "validator";
-import { Prompt } from "react-router";
 import useAxios from "../../../../utils/axios-instance";
 
 const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
@@ -96,12 +94,10 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
    * @param {Object} gedsProfile - profile from geds.
    */
   const updateAllData = ({ savedProfile, gedsProfile }) => {
-    console.log("SAVED PROFILE", savedProfile);
-    console.log("GEDS PROFILE", gedsProfile);
     const updatedTableData = [
       {
         key: "1",
-        rowName: "First Name",
+        rowName: <FormattedMessage id="profile.first.name" />,
         savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
         savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
         gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
@@ -110,7 +106,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "2",
-        rowName: "Last Name",
+        rowName: <FormattedMessage id="profile.last.name" />,
         savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
         savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
         gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
@@ -119,7 +115,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "3",
-        rowName: "Work Phone",
+        rowName: <FormattedMessage id="profile.telephone" />,
         savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
         savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
         gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
@@ -128,7 +124,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "4",
-        rowName: "Location",
+        rowName: <FormattedMessage id="profile.location" />,
         savedLabel: savedProfile.officeLocation
           ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
           : "-",
@@ -141,7 +137,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "5",
-        rowName: "Job Title",
+        rowName: <FormattedMessage id="profile.career.header.name" />,
         savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
         savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
         gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
@@ -150,7 +146,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "6",
-        rowName: "Branch",
+        rowName: <FormattedMessage id="profile.branch" />,
         savedLabel: savedProfile.branch,
         savedValue: savedProfile.branch,
         gedsLabel: gedsProfile ? gedsProfile.branch[locale] : "-",
@@ -159,7 +155,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
       {
         key: "7",
-        rowName: "Organization",
+        rowName: <FormattedMessage id="profile.org.tree" />,
         savedLabel: savedProfile.organizations[0]
           ? savedProfile.organizations[0][
               savedProfile.organizations[0].length - 1
@@ -184,7 +180,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       },
     ];
 
-    console.log("updatedTableData", updatedTableData);
     setTableData(updatedTableData);
     setNewGedsValues(gedsProfile);
     setSavedProfile(savedProfile);
@@ -245,22 +240,22 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       ellipsis: true,
     },
     {
-      title: "Saved Info",
+      title: <FormattedMessage id="profile.geds.update.saved" />,
       dataIndex: "savedLabel",
       key: "saved",
       width: "30%",
       ellipsis: true,
     },
     {
-      title: "Geds Info",
+      title: <FormattedMessage id="profile.geds.update.geds" />,
       dataIndex: "gedsLabel",
       key: "geds",
       width: "30%",
       ellipsis: true,
     },
     {
-      title: "Action",
       key: "action",
+      align: "center",
       render: (text, record) => (
         <Button
           type="primary"
@@ -268,14 +263,18 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
           disabled={isEqual(record.savedValue, record.gedsValue)}
           icon={
             isEqual(record.savedValue, record.gedsValue) ? (
-              <CheckOutlined />
+              <CheckOutlined style={{ marginRight: "4px" }} />
             ) : (
-              <SyncOutlined />
+              <SyncOutlined style={{ marginRight: "4px" }} />
             )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
-          {isEqual(record.savedValue, record.gedsValue) ? "Synced" : "Sync"}
+          {isEqual(record.savedValue, record.gedsValue) ? (
+            <FormattedMessage id="profile.geds.update.synced" />
+          ) : (
+            <FormattedMessage id="profile.geds.update.sync" />
+          )}
         </Button>
       ),
     },
@@ -310,14 +309,14 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       onCancel={onDone}
       footer={[
         <Button key="submit" type="primary" onClick={onDone}>
-          Done & Refresh
+          <FormattedMessage id="profile.geds.update.finish" />
         </Button>,
       ]}
     >
       {errorCaught ? (
         <Result
-          status="warning"
-          title="There was a problem fetching your geds information"
+          status={<FormattedMessage id="profile.geds.update.error.header" />}
+          title={<FormattedMessage id="profile.geds.update.error.message" />}
         />
       ) : (
         <Table

@@ -13,7 +13,7 @@ const GedsUpdateModal = ({ visibility, profile, setVisibility }) => {
 };
 
 GedsUpdateModal.propTypes = {
-  formType: PropTypes.bool.isRequired,
+  visibility: PropTypes.bool.isRequired,
   setVisibility: PropTypes.func.isRequired,
 };
 
