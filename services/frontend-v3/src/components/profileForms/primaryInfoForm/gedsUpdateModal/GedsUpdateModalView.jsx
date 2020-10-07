@@ -7,10 +7,9 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import useAxios from "../../../../utils/axios-instance";
 
-const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
+const GedsUpdateModalView = ({ visibility }) => {
   const axios = useAxios();
   const [newGedsValues, setNewGedsValues] = useState(null);
-  const [savedProfile, setSavedProfile] = useState(profile);
   const [tableData, setTableData] = useState(null);
   const [tableLoading, setTableLoading] = useState(false);
   const [errorCaught, setErrorCaught] = useState(false);
@@ -27,65 +26,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       ...formValues,
     };
     await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
-  };
-
-  /**
-   * Prepare data and update DB based on geds data sync requested
-   * @param {string} paramName - name of the element being requested to sync.
-   */
-  const syncGedsButtonAction = async ({ paramName }) => {
-    setTableLoading(true);
-
-    let updatedProfile = {};
-
-    switch (paramName) {
-      case "firstName":
-        updatedProfile.firstName = newGedsValues.firstName
-          ? newGedsValues.firstName
-          : null;
-        break;
-      case "lastName":
-        updatedProfile.lastName = newGedsValues.lastName
-          ? newGedsValues.lastName
-          : null;
-        break;
-      case "telephone":
-        updatedProfile.telephone = newGedsValues.telephone
-          ? newGedsValues.telephone
-          : null;
-        break;
-      case "location":
-        updatedProfile.locationId = newGedsValues.locationId
-          ? newGedsValues.locationId
-          : null;
-        break;
-      case "jobTitle":
-        updatedProfile.jobTitle = newGedsValues.jobTitle
-          ? {
-              ["ENGLISH"]: newGedsValues.jobTitle["ENGLISH"],
-              ["FRENCH"]: newGedsValues.jobTitle["FRENCH"],
-            }
-          : null;
-        break;
-      case "branch":
-        updatedProfile.jobTitle = newGedsValues.branch
-          ? {
-              ["ENGLISH"]: newGedsValues.branch["ENGLISH"],
-              ["FRENCH"]: newGedsValues.branch["FRENCH"],
-            }
-          : null;
-        break;
-      case "organization":
-        updatedProfile.organizations = newGedsValues.organizations
-          ? newGedsValues.organizations
-          : null;
-        break;
-      default:
-        throw "sync request category not recognized";
-    }
-    await saveDataToDB(updatedProfile);
-    await getGedsAndProfileInfo();
-    setTableLoading(false);
   };
 
   /**
@@ -182,7 +122,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
 
     setTableData(updatedTableData);
     setNewGedsValues(gedsProfile);
-    setSavedProfile(savedProfile);
   };
 
   /**
@@ -218,14 +157,74 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
   };
 
   /**
+   * Prepare data and update DB based on geds data sync requested
+   * @param {string} paramName - name of the element being requested to sync.
+   */
+  const syncGedsButtonAction = async ({ paramName }) => {
+    setTableLoading(true);
+
+    let updatedProfile;
+
+    switch (paramName) {
+      case "firstName":
+        updatedProfile.firstName = newGedsValues.firstName
+          ? newGedsValues.firstName
+          : null;
+        break;
+      case "lastName":
+        updatedProfile.lastName = newGedsValues.lastName
+          ? newGedsValues.lastName
+          : null;
+        break;
+      case "telephone":
+        updatedProfile.telephone = newGedsValues.telephone
+          ? newGedsValues.telephone
+          : null;
+        break;
+      case "location":
+        updatedProfile.locationId = newGedsValues.locationId
+          ? newGedsValues.locationId
+          : null;
+        break;
+      case "jobTitle":
+        updatedProfile.jobTitle = newGedsValues.jobTitle
+          ? {
+              ENGLISH: newGedsValues.jobTitle.ENGLISH,
+              FRENCH: newGedsValues.jobTitle.FRENCH,
+            }
+          : null;
+        break;
+      case "branch":
+        updatedProfile.jobTitle = newGedsValues.branch
+          ? {
+              ENGLISH: newGedsValues.branch.ENGLISH,
+              FRENCH: newGedsValues.branch.FRENCH,
+            }
+          : null;
+        break;
+      case "organization":
+        updatedProfile.organizations = newGedsValues.organizations
+          ? newGedsValues.organizations
+          : null;
+        break;
+      default:
+        throw "sync request category not recognized";
+    }
+    await saveDataToDB(updatedProfile);
+    await getGedsAndProfileInfo();
+    setTableLoading(false);
+  };
+
+  /**
    * Make all API calls and update data in states
    */
   const getGedsAndProfileInfo = async () => {
     try {
-      let profile = await getProfileInfo();
-      let gedsProfile = await getGedsInfo();
-      updateAllData({ savedProfile: profile, gedsProfile: gedsProfile });
-    } catch {
+      const profile = await getProfileInfo();
+      const newGedsProfileData = await getGedsInfo();
+      updateAllData({ savedProfile: profile, gedsProfile: newGedsProfileData });
+    } catch (error) {
+      console.log(error);
       setErrorCaught(true);
     }
   };
@@ -290,7 +289,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
   useEffect(() => {
     if (visibility) {
       setNewGedsValues(null);
-      setSavedProfile(null);
       setTableData(null);
       getGedsAndProfileInfo();
     }
@@ -315,7 +313,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     >
       {errorCaught ? (
         <Result
-          status={<FormattedMessage id="profile.geds.update.error.header" />}
+          status="warning"
           title={<FormattedMessage id="profile.geds.update.error.message" />}
         />
       ) : (
@@ -333,7 +331,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
 
 GedsUpdateModalView.propTypes = {
   visibility: PropTypes.bool.isRequired,
-  setVisibility: PropTypes.func.isRequired,
 };
 
 export default GedsUpdateModalView;

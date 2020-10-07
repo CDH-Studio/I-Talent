@@ -494,11 +494,7 @@ const PrimaryInfoFormView = ({
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
       <div style={styles.content}>
-        <GedsUpdateModal
-          visibility={gedsModalVisible}
-          profile={profileInfo}
-          setVisibility={setGedsModalVisible}
-        />
+        <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
         {/* get form title */}
         {getFormHeader({ formHeaderType: formType })}
         <Divider style={styles.headerDiv} />

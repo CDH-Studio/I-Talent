@@ -230,7 +230,6 @@
   "profile.geds.update.sync": "Synchroniser",
   "profile.geds.update.synced": "Synchronisé",
   "profile.geds.update.finish": "Terminer et rafraîchir",
-  "profile.geds.update.error.header": "Avertissement",
   "profile.geds.update.error.message": "Un problème est survenu lors de la récupération des informations du répertoire GC",
   "profile.github": "Github",
   "profile.github.username": "Identifiant GitHub",

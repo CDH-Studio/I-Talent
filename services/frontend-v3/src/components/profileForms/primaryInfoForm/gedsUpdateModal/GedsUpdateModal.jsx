@@ -2,19 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import GedsUpdateModalView from "./GedsUpdateModalView";
 
-const GedsUpdateModal = ({ visibility, profile, setVisibility }) => {
-  return (
-    <GedsUpdateModalView
-      visibility={visibility}
-      profile={profile}
-      setVisibility={setVisibility}
-    />
-  );
+const GedsUpdateModal = ({ visibility }) => {
+  return <GedsUpdateModalView visibility={visibility} />;
 };
 
 GedsUpdateModal.propTypes = {
   visibility: PropTypes.bool.isRequired,
-  setVisibility: PropTypes.func.isRequired,
 };
 
 export default GedsUpdateModal;

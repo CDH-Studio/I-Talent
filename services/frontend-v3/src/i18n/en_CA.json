@@ -230,7 +230,6 @@
   "profile.geds.update.sync": "Sync",
   "profile.geds.update.synced": "Synced",
   "profile.geds.update.finish": "Finish & Refresh",
-  "profile.geds.update.error.header": "Warning",
   "profile.geds.update.error.message": "There was a problem fetching your GC Directory information",
   "profile.github": "Github",
   "profile.github.username": "GitHub username",
