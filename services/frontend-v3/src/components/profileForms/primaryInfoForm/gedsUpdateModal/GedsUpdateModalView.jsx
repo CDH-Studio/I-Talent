@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Table, Button } from "antd";
+import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { isEqual } from "lodash";
@@ -15,6 +15,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
   const [savedProfile, setSavedProfile] = useState(profile);
   const [tableData, setTableData] = useState(null);
   const [tableLoading, setTableLoading] = useState(false);
+  const [errorCaught, setErrorCaught] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
@@ -131,10 +132,14 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
    */
   const getProfileInfo = async () => {
     if (id) {
-      const result = await axios.get(
-        `api/profile/private/${id}?language=${locale}`
-      );
-      return result.data;
+      try {
+        const result = await axios.get(
+          `api/profile/private/${id}?language=${locale}`
+        );
+        return result.data;
+      } catch (error) {
+        throw error;
+      }
     }
   };
 
@@ -142,22 +147,29 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
    * Make API call to get profile info from Geds
    */
   const getGedsInfo = async () => {
-    const result = await axios.get(`api/profGen/${id}`, {
-      params: {
-        name,
-      },
-    });
-
-    return result.data;
+    try {
+      const result = await axios.get(`api/profGen/${id}`, {
+        params: {
+          name,
+        },
+      });
+      return result.data;
+    } catch (error) {
+      throw error;
+    }
   };
 
   /**
    * Make all API calls and update data in states
    */
   const getGedsAndProfileInfo = async () => {
-    let profile = await getProfileInfo();
-    let gedsProfile = await getGedsInfo();
-    updateAllData({ savedProfile: profile, gedsProfile: gedsProfile });
+    try {
+      let profile = await getProfileInfo();
+      let gedsProfile = await getGedsInfo();
+      updateAllData({ savedProfile: profile, gedsProfile: gedsProfile });
+    } catch {
+      setErrorCaught(true);
+    }
   };
 
   const columns = [
@@ -206,8 +218,10 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     },
   ];
 
+  /**
+   * Close the modal and reload page
+   */
   const onDone = () => {
-    setVisibility(false);
     window.location.reload(false);
   };
 
@@ -237,13 +251,20 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
         </Button>,
       ]}
     >
-      <Table
-        columns={columns}
-        dataSource={tableData}
-        pagination={false}
-        size="small"
-        loading={!tableData || tableLoading}
-      />
+      {errorCaught ? (
+        <Result
+          status="warning"
+          title="There was a problem fetching your geds information"
+        />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={tableData}
+          pagination={false}
+          size="small"
+          loading={!tableData || tableLoading}
+        />
+      )}
     </Modal>
   );
 };
