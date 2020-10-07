@@ -27,11 +27,6 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     const dbValues = {
       ...formValues,
     };
-    // if (!formValues.jobTitle[locale]) {
-    //   dbValues.jobTitle = {
-    //     [locale]: formValues.jobTitle,
-    //   };
-    // }
     await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
   };
 
@@ -211,6 +206,11 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     },
   ];
 
+  const onDone = () => {
+    setVisibility(false);
+    window.location.reload(false);
+  };
+
   useEffect(() => {
     if (visibility) {
       setNewGedsValues(null);
@@ -229,15 +229,11 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
       title="GC Directory Sync"
       visible={visibility}
       width={900}
-      onOk={() => setVisibility(false)}
-      onCancel={() => setVisibility(false)}
+      onOk={onDone}
+      onCancel={onDone}
       footer={[
-        <Button
-          key="submit"
-          type="primary"
-          onClick={() => setVisibility(false)}
-        >
-          Done
+        <Button key="submit" type="primary" onClick={onDone}>
+          Done & Refresh
         </Button>,
       ]}
     >
