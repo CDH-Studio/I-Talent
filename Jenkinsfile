@@ -15,12 +15,13 @@ pipeline {
         FRONTEND_IMAGE_NAME = 'dsd-italent-frontend'
         BACKEND_DIR = 'services/backend'
         FRONTEND_DIR = 'services/frontend-v3'
+        CODE_DIR = 'services'
         FRONTEND_DIR_I18 = 'services/frontend-v3/src/i18n'
         NODE_ENV = 'production'
     }
 
     stages {
-        stage('run-tests'){
+        stage('run-lints'){
             parallel{
                 stage('i18-check') {
                     steps {
@@ -32,29 +33,21 @@ pipeline {
                     }
                 }        
 
-                stage('frontend') {
+                stage('linting') {
                     steps {
-                        dir("${FRONTEND_DIR}") {
+                        dir("${CODE_DIR}") {
                             sh """
                                 unset NPM_CONFIG_PREFIX
                                 source $NVM_DIR/nvm.sh
                                 nvm install "12.6.0"
                                 npm i yarn -g
+                                
+                                cd frontend-v3
                                 yarn install --production=false
                                 yarn lint
-                            """
-                        }
-                    }
-                }
-
-                stage('backend') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh """
-                                unset NPM_CONFIG_PREFIX
-                                source $NVM_DIR/nvm.sh
-                                nvm install "12.6.0"
-                                npm i yarn -g
+                            
+                                cd ..
+                                cd backend
                                 yarn install --production=false
                                 yarn lint
                             """
