@@ -1,6 +1,7 @@
 {
   "extends": ["airbnb", "prettier", "prettier/react"],
   "plugins": ["react", "react-hooks"],
+  "ignorePatterns": ["src/i18n/*"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
