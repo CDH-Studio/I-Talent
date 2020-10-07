@@ -43,7 +43,7 @@
     "start": "serve -s build",
     "build": "craco build",
     "test": "craco test",
-    "lint": "eslint ./src --ext .js,.jsx",
+    "lint": "./node_modules/.bin/eslint src --ext .js,.jsx",
     "i18n:check": "node ./src/i18n/check",
     "i18n:cleanup": "node ./src/i18n/cleanup",
     "analyze": "ANALYZE_BUILD=true craco build"
