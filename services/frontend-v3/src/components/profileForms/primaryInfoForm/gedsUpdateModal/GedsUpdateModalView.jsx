@@ -42,25 +42,45 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
 
     switch (paramName) {
       case "firstName":
-        updatedProfile.firstName = newGedsValues.firstName;
+        updatedProfile.firstName = newGedsValues.firstName
+          ? newGedsValues.firstName
+          : null;
         break;
       case "lastName":
-        updatedProfile.lastName = newGedsValues.lastName;
+        updatedProfile.lastName = newGedsValues.lastName
+          ? newGedsValues.lastName
+          : null;
+        break;
+      case "telephone":
+        updatedProfile.telephone = newGedsValues.telephone
+          ? newGedsValues.telephone
+          : null;
+        break;
+      case "location":
+        updatedProfile.locationId = newGedsValues.locationId
+          ? newGedsValues.locationId
+          : null;
         break;
       case "jobTitle":
-        updatedProfile.jobTitle = {
-          ["ENGLISH"]: newGedsValues.jobTitle["ENGLISH"],
-          ["FRENCH"]: newGedsValues.jobTitle["FRENCH"],
-        };
+        updatedProfile.jobTitle = newGedsValues.jobTitle
+          ? {
+              ["ENGLISH"]: newGedsValues.jobTitle["ENGLISH"],
+              ["FRENCH"]: newGedsValues.jobTitle["FRENCH"],
+            }
+          : null;
         break;
       case "branch":
-        updatedProfile.jobTitle = {
-          ["ENGLISH"]: newGedsValues.branch["ENGLISH"],
-          ["FRENCH"]: newGedsValues.branch["FRENCH"],
-        };
+        updatedProfile.jobTitle = newGedsValues.branch
+          ? {
+              ["ENGLISH"]: newGedsValues.branch["ENGLISH"],
+              ["FRENCH"]: newGedsValues.branch["FRENCH"],
+            }
+          : null;
         break;
       case "organization":
-        updatedProfile.organizations = newGedsValues.organizations;
+        updatedProfile.organizations = newGedsValues.organizations
+          ? newGedsValues.organizations
+          : null;
         break;
       default:
         throw "sync request category not recognized";
@@ -76,52 +96,95 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
    * @param {Object} gedsProfile - profile from geds.
    */
   const updateAllData = ({ savedProfile, gedsProfile }) => {
+    console.log("SAVED PROFILE", savedProfile);
+    console.log("GEDS PROFILE", gedsProfile);
     const updatedTableData = [
       {
         key: "1",
         rowName: "First Name",
-        saved: savedProfile.firstName,
-        geds: gedsProfile ? gedsProfile.firstName : "-",
+        savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
+        savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
+        gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
+        gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
         paramName: "firstName",
       },
       {
         key: "2",
         rowName: "Last Name",
-        saved: savedProfile.lastName,
-        geds: gedsProfile ? gedsProfile.lastName : "-",
+        savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
+        savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
+        gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
+        gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
         paramName: "lastName",
       },
       {
         key: "3",
-        rowName: "Job Title",
-        saved: savedProfile.jobTitle,
-        geds: gedsProfile ? gedsProfile.jobTitle.ENGLISH : "-",
-        paramName: "jobTitle",
+        rowName: "Work Phone",
+        savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
+        savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
+        gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
+        gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
+        paramName: "telephone",
       },
       {
         key: "4",
-        rowName: "Branch",
-        saved: savedProfile.branch,
-        geds: gedsProfile ? gedsProfile.branch.ENGLISH : "-",
-        paramName: "branch",
+        rowName: "Location",
+        savedLabel: savedProfile.officeLocation
+          ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
+          : "-",
+        savedValue: savedProfile.officeLocation
+          ? savedProfile.officeLocation.id
+          : "-",
+        gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
+        gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
+        paramName: "location",
       },
       {
         key: "5",
+        rowName: "Job Title",
+        savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
+        savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
+        gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+        gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+        paramName: "jobTitle",
+      },
+      {
+        key: "6",
+        rowName: "Branch",
+        savedLabel: savedProfile.branch,
+        savedValue: savedProfile.branch,
+        gedsLabel: gedsProfile ? gedsProfile.branch[locale] : "-",
+        gedsValue: gedsProfile ? gedsProfile.branch[locale] : "-",
+        paramName: "branch",
+      },
+      {
+        key: "7",
         rowName: "Organization",
-        saved: savedProfile.organizations[0]
+        savedLabel: savedProfile.organizations[0]
           ? savedProfile.organizations[0][
               savedProfile.organizations[0].length - 1
             ].title
           : "-",
-        geds: gedsProfile
+        savedValue: savedProfile.organizations[0]
+          ? savedProfile.organizations[0][
+              savedProfile.organizations[0].length - 1
+            ].title
+          : "-",
+        gedsLabel: gedsProfile
           ? gedsProfile.organizations[0][
               gedsProfile.organizations[0].length - 1
-            ].title.ENGLISH
+            ].title[locale]
+          : "-",
+        gedsValue: gedsProfile
+          ? gedsProfile.organizations[0][
+              gedsProfile.organizations[0].length - 1
+            ].title[locale]
           : "-",
         paramName: "organization",
       },
     ];
 
+    console.log("updatedTableData", updatedTableData);
     setTableData(updatedTableData);
     setNewGedsValues(gedsProfile);
     setSavedProfile(savedProfile);
@@ -183,14 +246,14 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
     },
     {
       title: "Saved Info",
-      dataIndex: "saved",
+      dataIndex: "savedLabel",
       key: "saved",
       width: "30%",
       ellipsis: true,
     },
     {
       title: "Geds Info",
-      dataIndex: "geds",
+      dataIndex: "gedsLabel",
       key: "geds",
       width: "30%",
       ellipsis: true,
@@ -202,9 +265,9 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
         <Button
           type="primary"
           size="small"
-          disabled={isEqual(record.saved, record.geds)}
+          disabled={isEqual(record.savedValue, record.gedsValue)}
           icon={
-            isEqual(record.saved, record.geds) ? (
+            isEqual(record.savedValue, record.gedsValue) ? (
               <CheckOutlined />
             ) : (
               <SyncOutlined />
@@ -212,7 +275,7 @@ const GedsUpdateModalView = ({ visibility, profile, setVisibility }) => {
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
-          {isEqual(record.saved, record.geds) ? "Synced" : "Sync"}
+          {isEqual(record.savedValue, record.gedsValue) ? "Synced" : "Sync"}
         </Button>
       ),
     },
