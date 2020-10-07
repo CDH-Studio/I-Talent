@@ -29,6 +29,7 @@ const sessionInstance = session({
   secret: config.KEYCLOAK_SECRET,
   resave: false,
   saveUninitialized: true,
+  rolling: true,
   store,
   cookie: {
     secure: config.ENV === "production",
