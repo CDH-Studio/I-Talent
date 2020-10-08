@@ -65,10 +65,10 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
     key: "6",
     rowName: <FormattedMessage id="profile.branch" />,
-    savedLabel: savedProfile.branch,
-    savedValue: savedProfile.branch,
-    gedsLabel: gedsProfile ? gedsProfile.branch[locale] : "-",
-    gedsValue: gedsProfile ? gedsProfile.branch[locale] : "-",
+    savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
+    savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
+    gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
+    gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
     paramName: "branch",
   },
   {
@@ -82,11 +82,11 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
       ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
           .title
       : "-",
-    gedsLabel: gedsProfile
+    gedsLabel: savedProfile.organizations
       ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
           .title[locale]
       : "-",
-    gedsValue: gedsProfile
+    gedsValue: savedProfile.organizations
       ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
           .title[locale]
       : "-",
