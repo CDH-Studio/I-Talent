@@ -12,7 +12,7 @@ import { clearUser } from "../redux/slices/userSlice";
 
 /** UI for the landing route layout */
 const LandingPage = ({ location }) => {
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [savedLoginInfo, setSavedLoginInfo] = useState(false);
   const axios = useAxios();
   const dispatch = useDispatch();

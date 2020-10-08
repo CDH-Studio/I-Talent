@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import { KeycloakProvider } from "@react-keycloak/web";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
 import { BrowserRouter } from "react-router-dom";
 
 import store, { persistor } from "../redux";
@@ -59,13 +59,13 @@ const AppProvider = ({ children }) => (
     <PersistGate loading={null} persistor={persistor}>
       <IntelProv>
         <BrowserRouter getUserConfirmation={history.getUserConfirmation}>
-          <KeycloakProvider
-            keycloak={keycloak}
-            initConfig={initKeycloakConfig}
+          <ReactKeycloakProvider
+            authClient={keycloak}
+            initOptions={initKeycloakConfig}
             LoadingComponent={<AppLayout loading />}
           >
             {children}
-          </KeycloakProvider>
+          </ReactKeycloakProvider>
         </BrowserRouter>
       </IntelProv>
     </PersistGate>
