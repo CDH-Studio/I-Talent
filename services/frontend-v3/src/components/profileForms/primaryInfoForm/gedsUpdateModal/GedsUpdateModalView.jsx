@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
@@ -7,13 +7,103 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import useAxios from "../../../../utils/axios-instance";
 
+/**
+ * Parse and generate table data based in saved profile and GEDS
+ * @param {Object} savedProfile - saved profile data.
+ * @param {Object} gedsProfile - profile from geds.
+ */
+const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
+  {
+    key: "1",
+    rowName: <FormattedMessage id="profile.first.name" />,
+    savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
+    savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
+    gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
+    gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
+    paramName: "firstName",
+  },
+  {
+    key: "2",
+    rowName: <FormattedMessage id="profile.last.name" />,
+    savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
+    savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
+    gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
+    gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
+    paramName: "lastName",
+  },
+  {
+    key: "3",
+    rowName: <FormattedMessage id="profile.telephone" />,
+    savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
+    savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
+    gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
+    gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
+    paramName: "telephone",
+  },
+  {
+    key: "4",
+    rowName: <FormattedMessage id="profile.location" />,
+    savedLabel: savedProfile.officeLocation
+      ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
+      : "-",
+    savedValue: savedProfile.officeLocation
+      ? savedProfile.officeLocation.id
+      : "-",
+    gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
+    gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
+    paramName: "location",
+  },
+  {
+    key: "5",
+    rowName: <FormattedMessage id="profile.career.header.name" />,
+    savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
+    savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
+    gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+    gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+    paramName: "jobTitle",
+  },
+  {
+    key: "6",
+    rowName: <FormattedMessage id="profile.branch" />,
+    savedLabel: savedProfile.branch,
+    savedValue: savedProfile.branch,
+    gedsLabel: gedsProfile ? gedsProfile.branch[locale] : "-",
+    gedsValue: gedsProfile ? gedsProfile.branch[locale] : "-",
+    paramName: "branch",
+  },
+  {
+    key: "7",
+    rowName: <FormattedMessage id="profile.org.tree" />,
+    savedLabel: savedProfile.organizations[0]
+      ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
+          .title
+      : "-",
+    savedValue: savedProfile.organizations[0]
+      ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
+          .title
+      : "-",
+    gedsLabel: gedsProfile
+      ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
+          .title[locale]
+      : "-",
+    gedsValue: gedsProfile
+      ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
+          .title[locale]
+      : "-",
+    paramName: "organization",
+  },
+];
+
+/**
+ * Component to render the GC directory Sync modal
+ * @param {Boolean} visibility - visibility of modal.
+ */
 const GedsUpdateModalView = ({ visibility }) => {
   const axios = useAxios();
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [tableData, setTableData] = useState(null);
   const [tableLoading, setTableLoading] = useState(false);
   const [errorCaught, setErrorCaught] = useState(false);
-
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
 
@@ -29,132 +119,35 @@ const GedsUpdateModalView = ({ visibility }) => {
   };
 
   /**
-   * Update the datable data based in saved profile and Geds profile
-   * @param {Object} savedProfile - saved profile data.
-   * @param {Object} gedsProfile - profile from geds.
+   * Make all API calls and update data in states
    */
-  const updateAllData = ({ savedProfile, gedsProfile }) => {
-    const updatedTableData = [
-      {
-        key: "1",
-        rowName: <FormattedMessage id="profile.first.name" />,
-        savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
-        savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
-        gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
-        gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
-        paramName: "firstName",
-      },
-      {
-        key: "2",
-        rowName: <FormattedMessage id="profile.last.name" />,
-        savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
-        savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
-        gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
-        gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
-        paramName: "lastName",
-      },
-      {
-        key: "3",
-        rowName: <FormattedMessage id="profile.telephone" />,
-        savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
-        savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
-        gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
-        gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
-        paramName: "telephone",
-      },
-      {
-        key: "4",
-        rowName: <FormattedMessage id="profile.location" />,
-        savedLabel: savedProfile.officeLocation
-          ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
-          : "-",
-        savedValue: savedProfile.officeLocation
-          ? savedProfile.officeLocation.id
-          : "-",
-        gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
-        gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
-        paramName: "location",
-      },
-      {
-        key: "5",
-        rowName: <FormattedMessage id="profile.career.header.name" />,
-        savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
-        savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
-        gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-        gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-        paramName: "jobTitle",
-      },
-      {
-        key: "6",
-        rowName: <FormattedMessage id="profile.branch" />,
-        savedLabel: savedProfile.branch,
-        savedValue: savedProfile.branch,
-        gedsLabel: gedsProfile ? gedsProfile.branch[locale] : "-",
-        gedsValue: gedsProfile ? gedsProfile.branch[locale] : "-",
-        paramName: "branch",
-      },
-      {
-        key: "7",
-        rowName: <FormattedMessage id="profile.org.tree" />,
-        savedLabel: savedProfile.organizations[0]
-          ? savedProfile.organizations[0][
-              savedProfile.organizations[0].length - 1
-            ].title
-          : "-",
-        savedValue: savedProfile.organizations[0]
-          ? savedProfile.organizations[0][
-              savedProfile.organizations[0].length - 1
-            ].title
-          : "-",
-        gedsLabel: gedsProfile
-          ? gedsProfile.organizations[0][
-              gedsProfile.organizations[0].length - 1
-            ].title[locale]
-          : "-",
-        gedsValue: gedsProfile
-          ? gedsProfile.organizations[0][
-              gedsProfile.organizations[0].length - 1
-            ].title[locale]
-          : "-",
-        paramName: "organization",
-      },
-    ];
-
-    setTableData(updatedTableData);
-    setNewGedsValues(gedsProfile);
-  };
-
-  /**
-   * Make API call to get saved profile info
-   */
-  const getProfileInfo = async () => {
-    if (id) {
-      try {
-        const result = await axios.get(
-          `api/profile/private/${id}?language=${locale}`
-        );
-        return result.data;
-      } catch (error) {
-        throw error;
-      }
-    }
-  };
-
-  /**
-   * Make API call to get profile info from Geds
-   */
-  const getGedsInfo = async () => {
+  const getGedsAndProfileInfo = useCallback(async () => {
     try {
-      const result = await axios.get(`api/profGen/${id}`, {
+      // get saved user profile
+      const profileResult = await axios.get(
+        `api/profile/private/${id}?language=${locale}`
+      );
+
+      // get profile form geds
+      const gedsResult = await axios.get(`api/profGen/${id}`, {
         params: {
           name,
         },
       });
-      return result.data;
+
+      setNewGedsValues(gedsResult.data);
+
+      setTableData(
+        generateTableData({
+          savedProfile: profileResult.data,
+          gedsProfile: gedsResult.data,
+          locale,
+        })
+      );
     } catch (error) {
-      throw error;
+      setErrorCaught(true);
     }
-  };
+  }, [id, locale, axios, name]);
 
   /**
    * Prepare data and update DB based on geds data sync requested
@@ -163,7 +156,7 @@ const GedsUpdateModalView = ({ visibility }) => {
   const syncGedsButtonAction = async ({ paramName }) => {
     setTableLoading(true);
 
-    let updatedProfile;
+    let updatedProfile = {};
 
     switch (paramName) {
       case "firstName":
@@ -208,7 +201,8 @@ const GedsUpdateModalView = ({ visibility }) => {
           : null;
         break;
       default:
-        throw "sync request category not recognized";
+        updatedProfile = null;
+        throw new Error("sync request category not recognized");
     }
     await saveDataToDB(updatedProfile);
     await getGedsAndProfileInfo();
@@ -216,19 +210,8 @@ const GedsUpdateModalView = ({ visibility }) => {
   };
 
   /**
-   * Make all API calls and update data in states
+   * columns of antd table
    */
-  const getGedsAndProfileInfo = async () => {
-    try {
-      const profile = await getProfileInfo();
-      const newGedsProfileData = await getGedsInfo();
-      updateAllData({ savedProfile: profile, gedsProfile: newGedsProfileData });
-    } catch (error) {
-      console.log(error);
-      setErrorCaught(true);
-    }
-  };
-
   const columns = [
     {
       title: "",
@@ -292,7 +275,7 @@ const GedsUpdateModalView = ({ visibility }) => {
       setTableData(null);
       getGedsAndProfileInfo();
     }
-  }, [visibility]);
+  }, [visibility, getGedsAndProfileInfo]);
 
   /** **********************************
    ********* Render Component *********
