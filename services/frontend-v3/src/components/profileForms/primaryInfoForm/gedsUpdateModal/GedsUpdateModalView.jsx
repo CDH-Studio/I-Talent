@@ -98,7 +98,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
  * Component to render the GC directory Sync modal
  * @param {Boolean} visibility - visibility of modal.
  */
-const GedsUpdateModalView = ({ visibility }) => {
+const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const axios = useAxios();
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [tableData, setTableData] = useState(null);
@@ -106,17 +106,6 @@ const GedsUpdateModalView = ({ visibility }) => {
   const [errorCaught, setErrorCaught] = useState(false);
   const { locale } = useSelector((state) => state.settings);
   const { id, name } = useSelector((state) => state.user);
-
-  /**
-   * Save Data to DB by sending to backend API
-   * @param {Object} formValues - Data from primary info form.
-   */
-  const saveDataToDB = async (formValues) => {
-    const dbValues = {
-      ...formValues,
-    };
-    await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
-  };
 
   /**
    * Make all API calls and update data in states
@@ -188,7 +177,7 @@ const GedsUpdateModalView = ({ visibility }) => {
           : null;
         break;
       case "branch":
-        updatedProfile.jobTitle = newGedsValues.branch
+        updatedProfile.branch = newGedsValues.branch
           ? {
               ENGLISH: newGedsValues.branch.ENGLISH,
               FRENCH: newGedsValues.branch.FRENCH,
@@ -314,6 +303,7 @@ const GedsUpdateModalView = ({ visibility }) => {
 
 GedsUpdateModalView.propTypes = {
   visibility: PropTypes.bool.isRequired,
+  saveDataToDB: PropTypes.func.isRequired,
 };
 
 export default GedsUpdateModalView;
