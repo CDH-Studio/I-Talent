@@ -272,7 +272,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
   return (
     <Modal
-      title="GC Directory Sync"
+      title={<FormattedMessage id="profile.geds.sync.button" />}
       visible={visibility}
       width={900}
       onOk={onDone}
