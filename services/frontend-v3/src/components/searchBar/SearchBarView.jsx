@@ -108,7 +108,15 @@ const SearchBarView = ({
   // Generate the basic input field for basic search
   const getBasicField = () => {
     return (
-      <Form.Item style={{ width: "100%" }} label="" name="searchValue">
+      <Form.Item
+        style={{ width: "100%" }}
+        label={
+          <text style={{ color: "white" }}>
+            <FormattedMessage id="button.basic.search" />
+          </text>
+        }
+        name="searchValue"
+      >
         <Input placeholder={searchLabel} size="large" />
       </Form.Item>
     );
