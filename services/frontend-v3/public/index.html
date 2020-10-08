@@ -6,8 +6,25 @@
     <meta name="theme-color" content="#087472" />
     <meta charset="utf-8" />
     <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
       body {
         background-color: #f0f2f5 !important;
+        margin: 0;
+      }
+      .loading-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        animation: fadeIn 750ms;
       }
     </style>
     <title>I-Talent</title>
@@ -21,6 +38,10 @@
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="loading-logo">
+        <img height="70px" src="./favicon.ico" />
+      </div>
+    </div>
   </body>
 </html>

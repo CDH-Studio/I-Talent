@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { PrismaClient } = require("./client");
 const config = require("../config");
 
