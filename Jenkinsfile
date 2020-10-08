@@ -32,7 +32,7 @@ pipeline {
                     }
                 }        
 
-                stage('frontend') {
+                stage('linting') {
                     steps {
                         dir("${FRONTEND_DIR}") {
                             sh """
@@ -42,25 +42,14 @@ pipeline {
                                 npm i yarn -g
                                 yarn install --production=false
                                 yarn lint
-                            """
-                        }
-                    }
-                }
-
-                stage('backend') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh """
-                                unset NPM_CONFIG_PREFIX
-                                source $NVM_DIR/nvm.sh
-                                nvm install "12.6.0"
-                                npm i yarn -g
+                                cd.. 
+                                cd backend
                                 yarn install --production=false
                                 yarn lint
                             """
                         }
                     }
-                }      
+                }    
             }
         }
 
