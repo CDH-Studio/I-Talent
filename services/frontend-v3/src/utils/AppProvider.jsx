@@ -6,11 +6,17 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import { KeycloakProvider } from "@react-keycloak/web";
+import { BrowserRouter } from "react-router-dom";
+
 import store, { persistor } from "../redux";
 import messagesEn from "../i18n/en_CA.json";
 import messagesFr from "../i18n/fr_CA.json";
 import "dayjs/locale/en-ca";
 import "dayjs/locale/fr-ca";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
+import { keycloak, initKeycloakConfig } from "../auth/keycloak";
+import history from "./history";
 
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
@@ -48,15 +54,23 @@ const IntelProv = ({ children }) => {
   );
 };
 
-const AppProvider = ({ children }) => {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <IntelProv>{children}</IntelProv>
-      </PersistGate>
-    </Provider>
-  );
-};
+const AppProvider = ({ children }) => (
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <IntelProv>
+        <BrowserRouter getUserConfirmation={history.getUserConfirmation}>
+          <KeycloakProvider
+            keycloak={keycloak}
+            initConfig={initKeycloakConfig}
+            LoadingComponent={<AppLayout loading />}
+          >
+            {children}
+          </KeycloakProvider>
+        </BrowserRouter>
+      </IntelProv>
+    </PersistGate>
+  </Provider>
+);
 
 IntelProv.propTypes = {
   children: PropTypes.node.isRequired,

@@ -29,14 +29,15 @@ const sessionInstance = session({
   secret: config.KEYCLOAK_SECRET,
   resave: false,
   saveUninitialized: true,
+  rolling: true,
   store,
   cookie: {
-    secure: true,
+    secure: config.ENV === "production",
     httpOnly: true,
     domain: config.COOKIE_DOMAIN,
     path: config.COOKIE_PATH,
     expires: expiryDate,
-    sameSite: config.ENV === "production",
+    sameSite: true,
   },
 });
 
