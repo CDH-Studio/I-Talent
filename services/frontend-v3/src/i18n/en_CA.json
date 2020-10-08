@@ -167,7 +167,7 @@
   "profile.branch": "Branch",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Job title",
-  "profile.Job.title.tooltip": "This information is from GCdirectory. To update please update your GCdirectory profile and resync I-Talent.",
+  "profile.job.title.tooltip": "This information is from GCdirectory. To update please update your GCdirectory profile and resync I-Talent.",
   "profile.career.interests": "Job mobility",
   "profile.career.mobility": "Career mobility",
   "profile.career.subheader.name": "Company or government branch name",

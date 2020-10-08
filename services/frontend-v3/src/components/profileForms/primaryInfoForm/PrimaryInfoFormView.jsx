@@ -699,7 +699,7 @@ const PrimaryInfoFormView = ({
                       <Popover
                         content={
                           <div style={styles.popoverStyle}>
-                            <FormattedMessage id="profile.Job.title.tooltip" />
+                            <FormattedMessage id="profile.job.title.tooltip" />
                           </div>
                         }
                       >
