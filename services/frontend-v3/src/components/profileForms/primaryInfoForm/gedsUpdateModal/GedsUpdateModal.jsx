@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import GedsUpdateModalView from "./GedsUpdateModalView";
 import { useSelector } from "react-redux";
+import GedsUpdateModalView from "./GedsUpdateModalView";
 import useAxios from "../../../../utils/axios-instance";
 
 const GedsUpdateModal = ({ visibility }) => {
