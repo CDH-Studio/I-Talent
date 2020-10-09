@@ -71,6 +71,7 @@ async function getGedsSetup(request, response) {
           lastName: dataGEDS.surname,
 
           locationId: location[0].id,
+          locationName: `${enAddr}, ${location[0].city}`,
           email: dataGEDS.contactInformation.email,
           branch: {
             ENGLISH: branchOrg.description.en,
