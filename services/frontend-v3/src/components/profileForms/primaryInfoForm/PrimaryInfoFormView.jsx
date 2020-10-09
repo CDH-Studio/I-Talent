@@ -542,7 +542,7 @@ const PrimaryInfoFormView = ({
                       <Popover
                         content={
                           <div style={styles.popoverStyle}>
-                            <FormattedMessage id="profile.career.header.tooltip" />
+                            <FormattedMessage id="profile.job.title.tooltip" />
                           </div>
                         }
                       >
@@ -553,7 +553,7 @@ const PrimaryInfoFormView = ({
                 }
                 rules={[Rules.maxChar50]}
               >
-                <Input />
+                <Input disabled />
               </Form.Item>
             </Col>
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
