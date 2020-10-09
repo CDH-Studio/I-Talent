@@ -122,7 +122,7 @@ const WelcomeView = ({
    */
   const generateGedsProfileList = () => {
     // check if GEDS profiles have loaded
-    if (!load) {
+    if (!load || !gedsProfiles) {
       return (
         <div>
           {/* loading button */}
@@ -145,39 +145,16 @@ const WelcomeView = ({
         </div>
       );
     }
-    if (gedsProfiles) {
-      return (
-        <div>
-          {/* generate list of GEDS profiles */}
-          {generateProfileBtn({
-            icon: <UserOutlined />,
-            firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-            secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
-            thirdTitle: gedsProfiles.email,
-            value: gedsProfiles,
-          })}
-          {/* new user button */}
-          {generateProfileBtn({
-            icon: <UserAddOutlined />,
-            firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
-            secondTitle: intl.formatMessage({
-              id: "setup.welcome.new.description",
-            }),
-          })}
-        </div>
-      );
-    }
+
     return (
       <div>
         {/* generate list of GEDS profiles */}
-        {gedsProfiles.map((item) => {
-          return generateProfileBtn({
-            icon: <UserOutlined />,
-            firstTitle: `${item.firstName} ${item.lastName}`,
-            secondTitle: item.jobTitle[locale === "ENGLISH" ? "en" : "fr"],
-            thirdTitle: item.email,
-            value: item,
-          });
+        {generateProfileBtn({
+          icon: <UserOutlined />,
+          firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
+          secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
+          thirdTitle: gedsProfiles.email,
+          value: gedsProfiles,
         })}
         {/* new user button */}
         {generateProfileBtn({
