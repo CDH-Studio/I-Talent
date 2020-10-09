@@ -121,50 +121,91 @@ displayed on pages but need to be read by screen-readers*/
 /* 
  * START: Accessibility tabbing/navigation 
  */
+$app-light-green: rgb(8, 186, 179);
+$app-green: rgb(8, 116, 114);
+$app-red: rgb(255, 51, 51);
+$app-black: #001c1a;
+
+$app-green-shadow: rgba($app-green, 0.5);
+$app-red-shadow: rgba($app-red, 0.5);
+$app-white-shadow: rgba(#ffffff, 0.5);
+
+$app-green-shadow-light: rgba($app-green, 0.2);
 
 .ant-dropdown-menu-item:focus {
-  background-color: #001c1a !important;
+  background-color: $app-black !important;
 }
 
 a {
   &:hover {
-    color: black !important;
+    color: $app-black !important;
   }
 
   &:focus {
     text-decoration: underline;
-    color: #087472 !important;
+    color: $app-green !important;
   }
 }
 
-.ant-select-focused .ant-select-selector,
-.ant-select-selector:focus,
-.ant-select-selector:active,
-.ant-select-open .ant-select-selector,
-.ant-input:focus,
-.ant-picker-focused,
-.ant-radio-button-wrapper:focus-within,
-.ant-btn:focus,
-.ant-switch-checked:focus,
+@mixin selection {
+  border-color: $app-green !important;
+  box-shadow: 0px 0px 0px 2px $app-green-shadow !important;
+}
+
+.ant-select-focused .ant-select-selector {
+  @include selection;
+}
+
+.ant-select-selector:focus {
+  @include selection;
+}
+
+.ant-select-selector:active {
+  @include selection;
+}
+
+.ant-select-open .ant-select-selector {
+  @include selection;
+}
+
+.ant-input:focus {
+  @include selection;
+}
+
+.ant-picker-focused {
+  @include selection;
+}
+
+.ant-radio-button-wrapper:focus-within {
+  @include selection;
+}
+
+.ant-btn:focus {
+  @include selection;
+}
+
+.ant-switch-checked:focus {
+  @include selection;
+}
+
 .ant-checkbox-input:focus ~ .ant-checkbox-inner {
-  border-color: #087472 !important;
-  box-shadow: 0px 0px 0px 2px #08747270 !important;
+  @include selection;
 }
 
 .ant-btn-dangerous:focus {
-  border-color: #ff3333 !important;
-  box-shadow: 0px 0px 0px 2px #ff333370 !important;
+  border-color: $app-red !important;
+  box-shadow: 0px 0px 0px 2px $app-red-shadow !important;
 }
 
 header {
   .ant-input:focus {
     border-color: #ffffff !important;
-    box-shadow: 0px 0px 0px 2px #ffffff70 !important;
+    box-shadow: 0px 0px 0px 2px $app-white-shadow !important;
   }
 
   .ant-btn-background-ghost {
     &:focus {
-      color: #08bab3 !important;
+      color: $app-light-green !important;
     }
 
     &:hover {
@@ -181,7 +222,7 @@ header {
   }
 
   a:focus > img {
-    box-shadow: 0px 0px 0px 2px #ffffff70 !important;
+    box-shadow: 0px 0px 0px 2px $app-white-shadow !important;
   }
 }
 
@@ -192,11 +233,11 @@ header {
 }
 
 .ant-ribbon .ant-btn:focus {
-  box-shadow: 0px 0px 0px 3px #08747270 !important;
+  box-shadow: 0px 0px 0px 3px $app-green-shadow !important;
 }
 .ant-steps-item {
   &:focus {
-    background-color: #08747230 !important;
+    background-color: $app-green-shadow-light !important;
     border-radius: 10px;
 
     span {
@@ -205,22 +246,22 @@ header {
 
     li,
     div {
-      color: #087472 !important;
+      color: $app-green !important;
     }
 
     .ant-steps-item-icon {
-      border-color: #087472 !important;
-      background-color: #087472 !important;
+      border-color: $app-green !important;
+      background-color: $app-green !important;
     }
 
     .ant-steps-item-tail::after {
-      background-color: #087472 !important;
+      background-color: $app-green !important;
     }
   }
 }
 
 *[tabIndex]:focus {
-  outline: #087472;
+  outline: $app-green;
 }
 
 .anticon.anticon-info-circle {
@@ -229,10 +270,10 @@ header {
 
   &:focus,
   &:hover {
-    outline: #087472 !important;
-    background-color: #08747240 !important;
-    color: #087472 !important;
-    box-shadow: 0px 0px 0px 2px #08747270 !important;
+    outline: $app-green !important;
+    background-color: $app-green-shadow-light !important;
+    color: $app-green !important;
+    box-shadow: 0px 0px 0px 2px $app-green-shadow !important;
   }
 }
 
@@ -245,8 +286,8 @@ header {
 }
 
 .ant-collapse-header:focus {
-  border-color: #087472 !important;
-  box-shadow: 0px 0px 0px 3px #08747270 !important;
+  border-color: $app-green !important;
+  box-shadow: 0px 0px 0px 3px $app-green-shadow !important;
 }
 
 /* 
