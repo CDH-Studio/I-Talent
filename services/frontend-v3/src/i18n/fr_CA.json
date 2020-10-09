@@ -167,7 +167,7 @@
   "profile.branch": "Branche",
   "profile.career.content.name": "Description",
   "profile.career.header.name": "Poste de travail",
-  "profile.career.header.tooltip": "Il est recommandé d'utiliser les informations synchronisées depuis GCannuaire. Cependant, si vous modifiez le titre de votre poste, afin d'afficher un titre personnalisé en français et en anglais, vous devez changer la langue de l'application et enregistrer chaque titre dans le formulaire en conséquence.",
+  "profile.job.title.tooltip": "Ces informations proviennent de GCannuaire. Pour mettre à jour, veuillez mettre à jour votre profil GCannuaire et resynchroniser I-Talent.",
   "profile.career.interests": "Mobilité de l'emploi",
   "profile.career.mobility": "Mobilité de carrière",
   "profile.career.subheader.name": "Nom de la société ou de la branche gouvernementale",
