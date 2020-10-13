@@ -8,7 +8,7 @@
     "@craco/craco": "5.7.0",
     "@react-keycloak/web": "2.1.4",
     "@reduxjs/toolkit": "1.4.0",
-    "antd": "4.6.4",
+    "antd": "4.6.5",
     "antd-dayjs-webpack-plugin": "1.0.1",
     "axios": "0.20.0",
     "bizcharts": "4.0.14",
