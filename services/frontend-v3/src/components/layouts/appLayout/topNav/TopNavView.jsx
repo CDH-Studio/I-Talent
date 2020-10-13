@@ -26,7 +26,14 @@ import "./TopNavView.scss";
 
 const { Header } = Layout;
 
-const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
+const TopNavView = ({
+  isAdmin,
+  loading,
+  displaySearch,
+  displayLogo,
+  intl,
+  invisibleBackground,
+}) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
   const { keycloak } = useKeycloak();

@@ -1,9 +1,9 @@
 .header {
-  background-color: #192e2f;
+  background-color: white;
   padding: 0 !important;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   position: fixed;
-  z-index: 2;
+  z-index: 100;
   width: 100%;
 }
 .aroundNavContent {
@@ -20,7 +20,7 @@
   padding: 10px 20px;
 }
 .nav-dropDownButton {
-  color: #fff !important;
+  color: #454545 !important;
   height: 35px !important;
   padding: 0 !important;
   margin-right: 15px !important;
