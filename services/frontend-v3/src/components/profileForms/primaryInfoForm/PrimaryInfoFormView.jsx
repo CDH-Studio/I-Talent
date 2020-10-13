@@ -10,19 +10,15 @@ import {
   Input,
   Button,
   notification,
-  List,
   Popover,
-  Modal,
-  Spin,
 } from "antd";
 import {
   LinkOutlined,
-  LoadingOutlined,
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy, find } from "lodash";
+import { isEqual, identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
@@ -35,12 +31,11 @@ import {
   HistoryPropType,
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
-import OrgTree from "../../orgTree/OrgTree";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -60,11 +55,9 @@ const PrimaryInfoFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
-  const [newGedsValues, setNewGedsValues] = useState(null);
-  const [gatheringGedsData, setGatheringGedsData] = useState(null);
+  const [gedsModalVisible, setGedsModalVisible] = useState(false);
 
   const { locale } = useSelector((state) => state.settings);
-  const { id, name } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   /* Component Styles */
@@ -165,26 +158,8 @@ const PrimaryInfoFormView = ({
     },
   };
 
-  /* Save data */
-  const saveDataToDB = async (values) => {
-    const dbValues = {
-      ...values,
-    };
-    if (values.jobTitle) {
-      dbValues.jobTitle = {
-        [locale]: values.jobTitle,
-      };
-    }
-    try {
-      await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
-  };
-
   /**
-   * Open Notification
+   * Open Notification pop up with message
    * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
@@ -219,13 +194,17 @@ const PrimaryInfoFormView = ({
       default:
         notification.warning({
           message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          description,
         });
         break;
     }
   };
 
-  /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
+  /**
+   * Extract initial values of the form from profile
+   * @param {Object} profile - User Profile
+   */
+  const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
         firstName: profile.firstName,
@@ -255,19 +234,17 @@ const PrimaryInfoFormView = ({
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues(profileInfo),
+      savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
 
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /*
-   * Get All Validation Errors
-   *
-   * Print out list of validation errors in a list for notification
+  /**
+   * Generate error description to display in notification
    */
-  const getAllValidationErrorMessages = () => {
+  const getErrorMessages = () => {
     return (
       <div>
         <strong>
@@ -282,10 +259,25 @@ const PrimaryInfoFormView = ({
     );
   };
 
-  /*
-   * Save
-   *
-   * save and show success notification
+  /**
+   * Save Data to DB by sending to backend API
+   * @param {Object} formValues - Data from primary info form.
+   */
+  const saveDataToDB = async (formValues) => {
+    const dbValues = {
+      ...formValues,
+    };
+    if (!formValues.jobTitle[locale]) {
+      dbValues.jobTitle = {
+        [locale]: formValues.jobTitle,
+      };
+    }
+    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+  };
+
+  /**
+   * Action to complete when "save" Btn is used
+   * save changes (display any errors) but stay on form upon success
    */
   const onSave = async () => {
     form
@@ -298,20 +290,21 @@ const PrimaryInfoFormView = ({
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          handleError(error, "message");
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrorMessages(),
+            description: getErrorMessages(),
           });
         }
       });
   };
 
-  /*
-   * Save and next
-   *
-   * save and redirect to next step in setup
+  /**
+   * Action to complete when "save and next" Btn is used
+   * save changes (display any errors) and go to next form upon success
    */
   const onSaveAndNext = async () => {
     form
@@ -323,29 +316,28 @@ const PrimaryInfoFormView = ({
       .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
         if (error.isAxiosError) {
-          handleError(error, "message");
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrorMessages(),
+            description: getErrorMessages(),
           });
         }
       });
   };
 
-  /*
-   * Finish
-   *
-   * redirect to profile
+  /**
+   * Redirect to profile
    */
   const onFinish = () => {
     history.push(`/profile/${userId}`);
   };
 
-  /*
-   * Save and finish
-   *
-   * Save form data and redirect home
+  /**
+   * Action to complete when "save and finish" Btn is used
+   * save changes (display any errors) and go to user profile upon success
    */
   const onSaveAndFinish = async () => {
     form
@@ -363,44 +355,22 @@ const PrimaryInfoFormView = ({
       .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
-          handleError(error, "message");
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
           openNotificationWithIcon({
             type: "error",
-            description: getAllValidationErrorMessages(),
+            description: getErrorMessages(),
           });
         }
       });
   };
 
-  const onSyncGedsInfo = async () => {
-    setGatheringGedsData(true);
-    await axios
-      .get(`api/profGen/sync/${id}`, {
-        params: {
-          name,
-        },
-      })
-      .then((result) => {
-        if (Object.keys(result.data).length) {
-          setNewGedsValues(result.data);
-        } else {
-          notification.info({
-            message: intl.formatMessage({ id: "profile.geds.up.to.date" }),
-          });
-        }
-      })
-      .catch(() =>
-        notification.warning({
-          message: intl.formatMessage({
-            id: "profile.geds.failed.to.retrieve",
-          }),
-        })
-      );
-    setGatheringGedsData(false);
-  };
-
-  /* reset form fields */
+  /**
+   * Action to complete when "clear" Btn is used
+   * clear all changes since last change
+   */
   const onReset = () => {
     form.resetFields();
     notification.info({
@@ -409,9 +379,35 @@ const PrimaryInfoFormView = ({
     checkIfFormValuesChanged();
   };
 
-  /* Generate form header based on form type */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
+  /**
+   * Generate formatted urlPopover
+   * @param {string} url - url to display
+   */
+  const urlPopover = (url) => (
+    <Popover
+      content={
+        <div style={{ textAlign: "center" }}>
+          <FormattedMessage
+            id="profile.username.help"
+            values={{
+              url,
+              b: (chunks) => <b>{chunks}</b>,
+              br: () => <br />,
+            }}
+          />
+        </div>
+      }
+    >
+      <InfoCircleOutlined style={styles.infoIcon} />
+    </Popover>
+  );
+
+  /**
+   * Generate form header based on form type
+   * @param {string('create'|'edit')} formType - allowed form types
+   */
+  const getFormHeader = ({ formHeaderType }) => {
+    if (formHeaderType === "create") {
       return (
         <Title level={2} style={styles.formTitle}>
           2. <FormattedMessage id="setup.primary.information" />
@@ -441,7 +437,12 @@ const PrimaryInfoFormView = ({
       <Title level={2} style={styles.formTitle}>
         <FormattedMessage id="setup.primary.information" />
         <div style={styles.gedsInfoLink}>
-          <Button onClick={onSyncGedsInfo} style={styles.rightSpacedButton}>
+          <Button
+            onClick={() => {
+              setGedsModalVisible(true);
+            }}
+            style={styles.rightSpacedButton}
+          >
             <SyncOutlined />
             <span>
               <FormattedMessage id="profile.geds.sync.button" />
@@ -474,166 +475,6 @@ const PrimaryInfoFormView = ({
     );
   };
 
-  const handleGedsConfirm = async () => {
-    await axios
-      .put(`api/profile/${userId}?language=ENGLISH`, newGedsValues)
-      .then(() => {
-        const possibleKeys = [
-          "firstName",
-          "lastName",
-          "cellphone",
-          "telephone",
-          "jobTitle",
-          "locationId",
-        ];
-
-        const newFieldVals = [];
-        possibleKeys.forEach((key) => {
-          if (key in newGedsValues) {
-            if (key === "jobTitle") {
-              const tempVal = newGedsValues[key];
-              newFieldVals.push({ name: key, value: tempVal[locale] });
-            } else {
-              newFieldVals.push({ name: key, value: newGedsValues[key] });
-            }
-          }
-        });
-        form.setFields(newFieldVals);
-      })
-      .catch((error) => handleError(error, "message"));
-    setNewGedsValues(null);
-  };
-
-  const generateGedsModal = () => {
-    const changes = [];
-
-    if (newGedsValues) {
-      if (newGedsValues.firstName) {
-        changes.push({
-          title: <FormattedMessage id="profile.first.name" />,
-          description: profileInfo.firstName,
-        });
-      }
-
-      if (newGedsValues.lastName) {
-        changes.push({
-          title: <FormattedMessage id="profile.last.name" />,
-          description: profileInfo.lastName,
-        });
-      }
-
-      if (newGedsValues.locationId) {
-        const locationOption = find(
-          locationOptions,
-          (option) => option.id === newGedsValues.locationId
-        );
-        changes.push({
-          title: <FormattedMessage id="profile.location" />,
-          description: `${locationOption.streetNumber} ${locationOption.streetName}
-                  ${locationOption.city}, ${locationOption.province}`,
-        });
-      }
-
-      if (newGedsValues.email) {
-        changes.push({
-          title: <FormattedMessage id="profile.telephone" />,
-          description: profileInfo.email,
-        });
-      }
-
-      if (newGedsValues.cellphone) {
-        changes.push({
-          title: <FormattedMessage id="profile.cellphone" />,
-          description: profileInfo.cellphone,
-        });
-      }
-
-      if (newGedsValues.telephone) {
-        changes.push({
-          title: <FormattedMessage id="profile.telephone" />,
-          description: profileInfo.telephone,
-        });
-      }
-
-      if (newGedsValues.jobTitle) {
-        changes.push({
-          title: <FormattedMessage id="profile.career.header.name" />,
-          description: newGedsValues.jobTitle[locale],
-        });
-      }
-
-      if (newGedsValues.branch) {
-        changes.push({
-          title: <FormattedMessage id="profile.branch" />,
-          description: newGedsValues.branch[locale],
-        });
-      }
-
-      if (newGedsValues.organizations) {
-        changes.push({
-          title: <FormattedMessage id="profile.branch" />,
-          description: <OrgTree data={newGedsValues} />,
-        });
-      }
-    }
-
-    // Fixes scrollbar disabling after pressing ok button
-    if (!(gatheringGedsData || newGedsValues)) {
-      return undefined;
-    }
-
-    return (
-      <Modal
-        title={<FormattedMessage id="profile.geds.changes" />}
-        visibility={gatheringGedsData || newGedsValues}
-        onOk={handleGedsConfirm}
-        onCancel={() => {
-          setNewGedsValues(null);
-          setGatheringGedsData(null);
-        }}
-        okButtonProps={!newGedsValues ? { disabled: true } : null}
-      >
-        {newGedsValues ? (
-          <List>
-            {changes.map((item) => (
-              <List.Item>
-                <List.Item.Meta
-                  title={item.title}
-                  description={item.description}
-                />
-              </List.Item>
-            ))}
-          </List>
-        ) : (
-          <div style={{ textAlign: "center" }}>
-            <Spin
-              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-            />
-          </div>
-        )}
-      </Modal>
-    );
-  };
-
-  const urlPopover = (url) => (
-    <Popover
-      content={
-        <div style={{ textAlign: "center" }}>
-          <FormattedMessage
-            id="profile.username.help"
-            values={{
-              url,
-              b: (chunks) => <b>{chunks}</b>,
-              br: () => <br />,
-            }}
-          />
-        </div>
-      }
-    >
-      <InfoCircleOutlined style={styles.infoIcon} />
-    </Popover>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -653,14 +494,16 @@ const PrimaryInfoFormView = ({
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
       <div style={styles.content}>
-        {generateGedsModal()}
+        <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
         {/* get form title */}
-        {getFormHeader(formType)}
+        {getFormHeader({ formHeaderType: formType })}
         <Divider style={styles.headerDiv} />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
-          initialValues={savedValues || getInitialValues(profileInfo)}
+          initialValues={
+            savedValues || getInitialValues({ profile: profileInfo })
+          }
           layout="vertical"
           form={form}
           onValuesChange={checkIfFormValuesChanged}
@@ -699,7 +542,7 @@ const PrimaryInfoFormView = ({
                       <Popover
                         content={
                           <div style={styles.popoverStyle}>
-                            <FormattedMessage id="profile.career.header.tooltip" />
+                            <FormattedMessage id="profile.job.title.tooltip" />
                           </div>
                         }
                       >
@@ -710,7 +553,7 @@ const PrimaryInfoFormView = ({
                 }
                 rules={[Rules.maxChar50]}
               >
-                <Input />
+                <Input disabled />
               </Form.Item>
             </Col>
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
