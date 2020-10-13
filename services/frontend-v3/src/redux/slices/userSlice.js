@@ -10,6 +10,7 @@ const initialState = {
   isAdmin: false,
   status: "ACTIVE",
   signupStep: 1,
+  isPrivacyAccepted: true,
 };
 
 const userSlice = createSlice({
@@ -40,6 +41,9 @@ const userSlice = createSlice({
     setUserSignupStep(state, action) {
       state.signupStep = action.payload;
     },
+    setIsPrivacyAccepted(state, action) {
+      state.isPrivacyAccepted = action.payload;
+    },
     setUser(state, action) {
       const {
         id,
@@ -49,6 +53,7 @@ const userSlice = createSlice({
         email,
         status,
         signupStep,
+        isPrivacyAccepted,
       } = action.payload;
 
       return {
@@ -60,6 +65,7 @@ const userSlice = createSlice({
         email: email || state.email,
         status: status || state.status,
         signupStep: signupStep || state.signupStep,
+        isPrivacyAccepted: isPrivacyAccepted || state.signupStep,
       };
     },
     clearUser() {
@@ -77,6 +83,7 @@ export const {
   setUserIsAdmin,
   setUserStatus,
   setUserSignupStep,
+  setIsPrivacyAccepted,
   setUser,
   clearUser,
 } = userSlice.actions;

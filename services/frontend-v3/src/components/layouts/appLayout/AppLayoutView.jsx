@@ -1,6 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Layout, Skeleton, Card } from "antd";
+import { Layout, Skeleton, Card, Modal } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { setIsPrivacyAccepted } from "../../../redux/slices/userSlice";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import TopNav from "./topNav/TopNav";
@@ -19,6 +21,22 @@ const AppLayoutView = ({
   displaySearch,
 }) => {
   const { locale } = useSelector((state) => state.settings);
+
+  const { id, isPrivacyAccepted } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  console.log("id", id);
+  console.log("isPrivacyAccepted", isPrivacyAccepted);
+
+  const handleOk = e => {
+    dispatch(setIsPrivacyAccepted(true));
+  };
+
+  const handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -49,6 +67,13 @@ const AppLayoutView = ({
           <Footer />
         </Layout>
       </Layout>
+      <Modal
+          title="Basic Modal"
+          visible={!isPrivacyAccepted}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+        </Modal>
     </Layout>
   );
 };
