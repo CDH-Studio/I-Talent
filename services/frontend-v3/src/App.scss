@@ -226,6 +226,17 @@ header {
   }
 }
 
+.ant-menu-item:active,
+.ant-menu-item-selected {
+  background-color: #dfe5e4 !important;
+}
+
+.ant-card {
+  &:focus {
+    outline: 1px solid #999c9e !important;
+  }
+}
+
 .ant-card:focus {
   box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16),
     0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
@@ -293,6 +304,19 @@ header {
 .ant-card {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0.1rem 0.1rem;
+}
+
+.ant-table {
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0.1rem 0.1rem;
+
+  .ant-table-thead tr th:first-child {
+    border-top-left-radius: 5px !important;
+  }
+
+  .ant-table-thead tr th:last-child {
+    border-top-right-radius: 5px !important;
+  }
 }
 
 span.searchInput {

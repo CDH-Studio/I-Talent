@@ -406,6 +406,9 @@ const UserTableView = ({
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
+            pagination={{
+              hideOnSinglePage: true,
+            }}
           />
         </Col>
       </Row>
