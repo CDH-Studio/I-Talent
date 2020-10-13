@@ -382,6 +382,7 @@ const PrimaryInfoFormView = ({
    */
   const urlPopover = (url) => (
     <Popover
+      trigger={["focus", "hover"]}
       content={
         <div style={{ textAlign: "center" }}>
           <FormattedMessage
@@ -395,7 +396,7 @@ const PrimaryInfoFormView = ({
         </div>
       }
     >
-      <InfoCircleOutlined style={styles.infoIcon} />
+      <InfoCircleOutlined style={styles.infoIcon} tabIndex={0} />
     </Popover>
   );
 
