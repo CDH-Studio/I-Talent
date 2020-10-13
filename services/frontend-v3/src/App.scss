@@ -104,7 +104,7 @@ displayed on pages but need to be read by screen-readers*/
   margin: 3px !important;
   padding: 5px 12px !important;
   height: auto !important;
-  border-radius: 15px !important;
+  border-radius: 5px !important;
   border-width: 0px !important;
   border-color: rgb(223, 229, 228) !important;
 }
@@ -326,6 +326,34 @@ header {
   }
 }
 
+.ant-layout-sider-children {
+  box-shadow: rgba(0, 0, 0, 0.05) 0.15rem 0 0.1rem;
+}
+
+.ant-btn,
+.ant-form-item input,
+.ant-select-selector,
+.ant-pagination-item,
+.ant-pagination-item-link,
+.ant-input,
+.ant-picker {
+  border-radius: 5px !important;
+}
+
+.ant-radio-group .ant-radio-button-wrapper {
+  &:first-child {
+    border-radius: 5px 0 0 5px !important;
+  }
+
+  &:last-child {
+    border-radius: 0 5px 5px 0 !important;
+  }
+}
+
+.ant-btn-circle {
+  border-radius: 50% !important;
+}
+
 span.searchInput {
   input {
     border-radius: 5px 0 0 5px;
@@ -340,13 +368,9 @@ span.searchInput {
   span.ant-input-group-addon {
     background: none;
     button {
-      border-radius: 0 5px 5px 0;
+      border-radius: 0 5px 5px 0 !important;
     }
   }
-}
-
-.ant-layout-sider-children {
-  box-shadow: rgba(0, 0, 0, 0.05) 0.125rem 0 0.5rem;
 }
 
 .org-dropdown {
