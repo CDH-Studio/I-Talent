@@ -8,6 +8,9 @@ import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import { BrowserRouter } from "react-router-dom";
+import { ConfigProvider } from "antd";
+import frFR from "antd/es/locale/fr_FR";
+import enUS from "antd/es/locale/en_US";
 
 import store, { persistor } from "../redux";
 import messagesEn from "../i18n/en_CA.json";
@@ -49,7 +52,9 @@ const IntelProv = ({ children }) => {
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
-      {children}
+      <ConfigProvider locale={locale === "ENGLISH" ? enUS : frFR}>
+        {children}
+      </ConfigProvider>
     </IntlProvider>
   );
 };
