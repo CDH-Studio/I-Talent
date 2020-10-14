@@ -4,7 +4,6 @@ import { Layout, Skeleton, Card, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsPrivacyAccepted } from "../../../redux/slices/userSlice";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";
