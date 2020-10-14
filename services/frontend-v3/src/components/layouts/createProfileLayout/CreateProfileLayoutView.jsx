@@ -1,5 +1,5 @@
 import React from "react";
-import { Steps } from "antd";
+import { Steps, Card } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useHistory, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -217,7 +217,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       displaySearch={false}
     >
       <Header title={<FormattedMessage id="create.profile" />} />
-      {form}
+      <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );
 };

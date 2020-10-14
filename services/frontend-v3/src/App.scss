@@ -94,8 +94,7 @@ displayed on pages but need to be read by screen-readers*/
     margin: 3px !important;
     padding: 1px 10px !important;
     height: auto !important;
-    border-radius: 15px !important;
-    border-width: 2px !important;
+    border-radius: 5px !important;
     border-color: rgb(223, 229, 228) !important;
   }
 }
@@ -336,7 +335,12 @@ header {
 .ant-pagination-item,
 .ant-pagination-item-link,
 .ant-input,
-.ant-picker {
+.ant-picker,
+.ant-modal-content,
+.ant-dropdown-menu,
+.ant-notification-notice,
+.ant-popover-inner,
+.ant-collapse {
   border-radius: 5px !important;
 }
 
@@ -350,13 +354,28 @@ header {
   }
 }
 
+.ant-tabs-tab {
+  border-radius: 5px 5px 0 0 !important;
+}
+
+.ant-ribbon {
+  border-radius: 5px 5px 0 5px;
+}
+
+.edit-profile-card {
+  > div {
+    padding: 0 !important;
+  }
+  width: 902px;
+}
+
 .ant-btn-circle {
   border-radius: 50% !important;
 }
 
 span.searchInput {
   input {
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px !important;
     background-color: #f0f2f55d;
 
     &:active,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu } from "antd";
+import { Menu, Card } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
@@ -185,7 +185,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <Header title={<FormattedMessage id="edit.profile" />} />
-      {form}
+      <Card className="edit-profile-card">
+        {form}
+      </Card>
     </AppLayout>
   );
 };
