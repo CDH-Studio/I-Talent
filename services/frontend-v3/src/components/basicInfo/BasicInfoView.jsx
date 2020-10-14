@@ -11,7 +11,7 @@ import {
   TeamOutlined,
   UserDeleteOutlined,
   UserAddOutlined,
-  QuestionCircleOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -150,6 +150,7 @@ const BasicInfoView = ({
           <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
             <Row type="flex" align="middle">
               <Popover
+                trigger={["focus", "hover"]}
                 content={
                   connectionStatus ? (
                     <div style={styles.popContent}>
@@ -168,10 +169,10 @@ const BasicInfoView = ({
                   )
                 }
               >
-                <QuestionCircleOutlined />
+                <InfoCircleOutlined tabIndex={0} />
               </Popover>
               <Button
-                tabIndex="0"
+                tabIndex={0}
                 type={connectionStatus ? "default" : "primary"}
                 shape="circle"
                 size="large"

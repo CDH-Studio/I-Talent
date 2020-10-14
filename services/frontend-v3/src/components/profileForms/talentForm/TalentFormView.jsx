@@ -591,19 +591,24 @@ const TalentFormView = ({
   const getSectionHeader = (titleId, cardName) => (
     <Row justify="space-between" style={styles.sectionHeader} align="middle">
       <Title level={3} style={styles.formTitle}>
-        <FormattedMessage id={titleId} />
-        <Popover
-          content={
-            <div>
-              <FormattedMessage id="tooltip.extra.info.help" />
-              <Link to="/about/help">
-                <FormattedMessage id="footer.contact.link" />
-              </Link>
+        <Row>
+          <FormattedMessage id={titleId} />
+          <Popover
+            trigger={["focus", "hover"]}
+            content={
+              <div>
+                <FormattedMessage id="tooltip.extra.info.help" />
+                <Link to="/about/help">
+                  <FormattedMessage id="footer.contact.link" />
+                </Link>
+              </div>
+            }
+          >
+            <div style={styles.infoIcon}>
+              <InfoCircleOutlined tabIndex={0} />
             </div>
-          }
-        >
-          <InfoCircleOutlined style={styles.infoIcon} />
-        </Popover>
+          </Popover>
+        </Row>
       </Title>
       <CardVisibilityToggle
         visibleCards={profileInfo.visibleCards}
