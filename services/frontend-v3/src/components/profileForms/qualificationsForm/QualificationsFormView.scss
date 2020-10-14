@@ -1,4 +1,4 @@
-.skeleton {
+.qual-skeleton {
   width: 100%;
   max-width: 900px;
   min-height: 324px;
@@ -6,7 +6,7 @@
   padding: 30px 30px;
 }
 
-.content {
+.qual-content {
   text-align: left;
   width: 100%;
   max-width: 900px;
@@ -14,37 +14,37 @@
   padding: 30px 30px;
 }
 
-.formTitle {
+.qual-formTitle {
   font-size: 1.2em !important;
   margin: 0 !important;
 }
 
-.sectionHeader {
+.qual-sectionHeader {
   margin-bottom: 10px;
 }
 
-.headerDiv {
+.qual-headerDiv {
   margin: 15px 0 15px 0 !important;
 }
 
-.finishAndSaveBtn {
+.qual-finishAndSaveBtn {
   float: left;
   margin-right: 1rem;
   margin-bottom: 1rem;
 }
 
-.clearBtn {
+.qual-clearBtn {
   float: left;
   margin-bottom: 1rem;
 }
 
-.saveBtn {
+.qual-saveBtn {
   float: right;
   margin-bottom: 1rem;
   min-width: 100%;
 }
 
-.unsavedText {
+.qual-unsavedText {
   margin-left: 10px;
   font-weight: normal;
   font-style: italic;
