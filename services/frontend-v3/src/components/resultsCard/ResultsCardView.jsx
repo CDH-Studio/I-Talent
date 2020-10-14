@@ -370,12 +370,8 @@ const ResultsCardView = ({
   return (
     <>
       <Header
-        title={
-          <span>
-            <FormattedMessage id="results.title" />
-            {getResultCount({ isLoading: loading, count: results.length })}
-          </span>
-        }
+        title={<FormattedMessage id="results.title" />}
+        subtitle={getResultCount({ isLoading: loading, count: results.length })}
       />
       <div className="res-container">
         {loading && getLoadingAnimation()}

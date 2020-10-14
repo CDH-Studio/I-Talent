@@ -448,20 +448,14 @@ const ProfileLayoutView = ({
       <Header
         className="headerStyle"
         title={
-          <Col>
-            <Row>
-              <FormattedMessage
-                id={privateProfile ? "my.profile" : "other.profile"}
-              />
-            </Row>
-            <Row>
-              <Text type="secondary" className="headerSubtitle">
-                <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
-                  {data && dayjs(data.updatedAt).format("LL")}
-                </Tooltip>
-              </Text>
-            </Row>
-          </Col>
+          <FormattedMessage
+            id={privateProfile ? "my.profile" : "other.profile"}
+          />
+        }
+        subtitle={
+          <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+            {data && dayjs(data.updatedAt).format("LL")}
+          </Tooltip>
         }
       />
       {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
