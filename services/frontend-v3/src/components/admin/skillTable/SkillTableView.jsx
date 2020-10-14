@@ -20,11 +20,10 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { sortBy } from "lodash";
 
-import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import filterOption from "../../../functions/filterSelectInput";
@@ -43,8 +42,8 @@ const SkillTableView = ({
   searchedColumn,
   searchText,
   rowSelection,
-  intl,
 }) => {
+  const intl = useIntl();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -519,7 +518,6 @@ const SkillTableView = ({
 };
 
 SkillTableView.propTypes = {
-  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -531,8 +529,4 @@ SkillTableView.propTypes = {
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-SkillTableView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(SkillTableView);
+export default SkillTableView;

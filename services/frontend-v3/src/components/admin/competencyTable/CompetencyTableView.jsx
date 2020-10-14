@@ -19,11 +19,10 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { sortBy } from "lodash";
 
-import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -32,7 +31,6 @@ import Header from "../../header/Header";
  *  This component renders the competency table for the Admin Competency Page.
  */
 const CompetencyTableView = ({
-  intl,
   handleSearch,
   handleReset,
   handleSubmitAdd,
@@ -43,6 +41,7 @@ const CompetencyTableView = ({
   searchText,
   rowSelection,
 }) => {
+  const intl = useIntl();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -429,7 +428,6 @@ const CompetencyTableView = ({
 };
 
 CompetencyTableView.propTypes = {
-  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -441,8 +439,4 @@ CompetencyTableView.propTypes = {
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-CompetencyTableView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(CompetencyTableView);
+export default CompetencyTableView;
