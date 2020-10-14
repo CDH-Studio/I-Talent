@@ -1,10 +1,10 @@
 import axios from "axios";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { useMemo } from "react";
 import config from "./config";
 
 const useAxios = () => {
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
   const instance = useMemo(
     () =>
       axios.create({

@@ -2,13 +2,27 @@ import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { IntlProvider } from "react-intl";
 import React, { useState, useEffect } from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import localeData from "dayjs/plugin/localeData";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import { BrowserRouter } from "react-router-dom";
+import { ConfigProvider } from "antd";
+import frFR from "antd/es/locale/fr_FR";
+import enUS from "antd/es/locale/en_US";
+
 import store, { persistor } from "../redux";
 import messagesEn from "../i18n/en_CA.json";
 import messagesFr from "../i18n/fr_CA.json";
-import "moment/locale/en-ca";
-import "moment/locale/fr-ca";
+import "dayjs/locale/en-ca";
+import "dayjs/locale/fr-ca";
+import AppLayout from "../components/layouts/appLayout/AppLayout";
+import { keycloak, initKeycloakConfig } from "../auth/keycloak";
+import history from "./history";
+
+dayjs.extend(localeData);
+dayjs.extend(localizedFormat);
 
 const i18nConfigBuilder = (locale) => ({
   messages: locale === "ENGLISH" ? messagesEn : messagesFr,
@@ -29,7 +43,7 @@ const IntelProv = ({ children }) => {
 
   useEffect(() => {
     setI18nConfig(i18nConfigBuilder(locale));
-    moment.locale(`${locale === "ENGLISH" ? "en" : "fr"}-ca`);
+    dayjs.locale(`${locale === "ENGLISH" ? "en" : "fr"}-ca`);
   }, [locale]);
 
   return (
@@ -38,20 +52,30 @@ const IntelProv = ({ children }) => {
       messages={i18nConfig.messages}
       formats={i18nConfig.formats}
     >
-      {children}
+      <ConfigProvider locale={locale === "ENGLISH" ? enUS : frFR}>
+        {children}
+      </ConfigProvider>
     </IntlProvider>
   );
 };
 
-const AppProvider = ({ children }) => {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <IntelProv>{children}</IntelProv>
-      </PersistGate>
-    </Provider>
-  );
-};
+const AppProvider = ({ children }) => (
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <IntelProv>
+        <BrowserRouter getUserConfirmation={history.getUserConfirmation}>
+          <ReactKeycloakProvider
+            authClient={keycloak}
+            initOptions={initKeycloakConfig}
+            LoadingComponent={<AppLayout loading />}
+          >
+            {children}
+          </ReactKeycloakProvider>
+        </BrowserRouter>
+      </IntelProv>
+    </PersistGate>
+  </Provider>
+);
 
 IntelProv.propTypes = {
   children: PropTypes.node.isRequired,

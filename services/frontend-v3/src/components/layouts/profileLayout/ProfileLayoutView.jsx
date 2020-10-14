@@ -21,8 +21,8 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import moment from "moment";
-import { useKeycloak } from "@react-keycloak/ssr";
+import dayjs from "dayjs";
+import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -59,7 +59,7 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const styles = {
     row: {
@@ -517,7 +517,7 @@ const ProfileLayoutView = ({
             <Row>
               <Text type="secondary" style={styles.headerSubtitle}>
                 <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
-                  {data && moment(data.updatedAt).format("LL")}
+                  {data && dayjs(data.updatedAt).format("LL")}
                 </Tooltip>
               </Text>
             </Row>

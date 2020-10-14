@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,12 +12,12 @@ import { clearUser } from "../redux/slices/userSlice";
 
 /** UI for the landing route layout */
 const LandingPage = ({ location }) => {
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [savedLoginInfo, setSavedLoginInfo] = useState(false);
   const axios = useAxios();
   const dispatch = useDispatch();
 
-  const { signupStep } = useSelector(state => state.user);
+  const { signupStep } = useSelector((state) => state.user);
 
   const setLoginInfo = useCallback(async () => {
     await login(keycloak, axios);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import moment from "moment";
+import dayjs from "dayjs";
 import DashboardGraphsView from "./DashboardGraphsView";
 
 /**
@@ -19,7 +19,7 @@ const DashboardGraphs = () => {
       const rate = growthRate.month.growthRate;
       const data = [];
 
-      const shortMonthNames = moment.monthsShort();
+      const shortMonthNames = dayjs.monthsShort();
 
       Object.keys(rate).forEach((year) => {
         Object.keys(rate[year]).forEach((month) => {

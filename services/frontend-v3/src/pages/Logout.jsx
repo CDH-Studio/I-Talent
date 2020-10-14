@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { Redirect } from "react-router";
 import { clearUser } from "../redux/slices/userSlice";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const Logout = () => {
   const dispatch = useDispatch();
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const logout = useCallback(async () => {
     if (keycloak.authenticated) {

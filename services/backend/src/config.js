@@ -80,8 +80,8 @@ const development = {
   REDIS_HOST: REDIS_HOST || "redis",
   REDIS_PASSWORD: REDIS_PASSWORD || "",
   COOKIE_DOMAIN: COOKIE_DOMAIN || undefined,
-  COOKIE_PATH: COOKIE_PATH || undefined,
-  SESSION_NAME: SESSION_NAME || undefined,
+  COOKIE_PATH: COOKIE_PATH || "/",
+  SESSION_NAME: SESSION_NAME || "local.dev.italent.sid",
 };
 
 const config = () => {

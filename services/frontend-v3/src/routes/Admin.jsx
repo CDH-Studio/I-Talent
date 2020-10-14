@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { useSelector } from "react-redux";
 import useAxios from "../utils/axios-instance";
 import {
@@ -19,9 +19,9 @@ const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const axios = useAxios();
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
-  const { signupStep } = useSelector(state => state.user);
+  const { signupStep } = useSelector((state) => state.user);
 
   const getInfo = useCallback(async () => {
     await login(keycloak, axios);

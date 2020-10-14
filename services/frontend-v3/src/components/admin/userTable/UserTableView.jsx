@@ -20,13 +20,13 @@ import {
   TeamOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
+import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { uniq } from "lodash";
 import { Link } from "react-router-dom";
-import { IntlPropType } from "../../../utils/customPropTypes";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/config";
@@ -54,7 +54,6 @@ const styles = {
  *  This component renders the user table for the Admin User Page.
  */
 const UserTableView = ({
-  intl,
   searchText,
   searchedColumn,
   handleApply,
@@ -67,6 +66,7 @@ const UserTableView = ({
 }) => {
   let searchInput;
 
+  const intl = useIntl();
   const { Option } = Select;
 
   const { locale } = useSelector((state) => state.settings);
@@ -268,7 +268,7 @@ const UserTableView = ({
       key: "registered",
       sorter: (a, b) => {
         return (
-          moment(a.formatCreatedAt).unix() - moment(b.formatCreatedAt).unix()
+          dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix()
         );
       },
       ...getColumnSearchProps(
@@ -284,7 +284,7 @@ const UserTableView = ({
       key: "updated",
       sorter: (a, b) => {
         return (
-          moment(a.formatUpdatedAt).unix() - moment(b.formatUpdatedAt).unix()
+          dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix()
         );
       },
       ...getColumnSearchProps(
@@ -426,7 +426,6 @@ const UserTableView = ({
 };
 
 UserTableView.propTypes = {
-  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
@@ -438,8 +437,4 @@ UserTableView.propTypes = {
   modifiedStatus: PropTypes.bool.isRequired,
 };
 
-UserTableView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(UserTableView);
+export default UserTableView;

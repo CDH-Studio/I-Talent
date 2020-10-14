@@ -11,7 +11,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { useKeycloak } from "@react-keycloak/ssr";
+import { useKeycloak } from "@react-keycloak/web";
 import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const { Header } = Layout;
 const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   /* Component Styles */
   const styles = {
