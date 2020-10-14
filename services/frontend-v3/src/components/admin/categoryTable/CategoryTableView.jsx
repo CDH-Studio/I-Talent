@@ -19,12 +19,11 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { sortBy } from "lodash";
 
 import handleError from "../../../functions/handleError";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
 
 /**
@@ -32,7 +31,6 @@ import Header from "../../header/Header";
  *  This component renders the category table for the Admin Category Page.
  */
 const CategoryTableView = ({
-  intl,
   handleSearch,
   handleReset,
   handleSubmitAdd,
@@ -43,6 +41,7 @@ const CategoryTableView = ({
   searchText,
   rowSelection,
 }) => {
+  const intl = useIntl();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -431,7 +430,6 @@ const CategoryTableView = ({
 };
 
 CategoryTableView.propTypes = {
-  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
@@ -444,8 +442,7 @@ CategoryTableView.propTypes = {
 };
 
 CategoryTableView.defaultProps = {
-  intl: undefined,
   rowSelection: undefined,
 };
 
-export default injectIntl(CategoryTableView);
+export default CategoryTableView;

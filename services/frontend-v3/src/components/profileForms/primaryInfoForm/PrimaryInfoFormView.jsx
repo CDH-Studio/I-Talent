@@ -267,11 +267,8 @@ const PrimaryInfoFormView = ({
     const dbValues = {
       ...formValues,
     };
-    if (!formValues.jobTitle[locale]) {
-      dbValues.jobTitle = {
-        [locale]: formValues.jobTitle,
-      };
-    }
+
+    delete dbValues.jobTitle;
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 

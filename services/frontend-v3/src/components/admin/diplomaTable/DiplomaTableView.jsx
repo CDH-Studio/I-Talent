@@ -18,7 +18,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { sortBy } from "lodash";
 
@@ -39,8 +39,8 @@ const DiplomaTableView = ({
   searchedColumn,
   searchText,
   rowSelection,
-  intl,
 }) => {
+  const intl = useIntl();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -434,9 +434,6 @@ DiplomaTableView.propTypes = {
   handleSubmitAdd: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
   handleSubmitEdit: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
   rowSelection: PropTypes.shape({
     onChange: PropTypes.func,
   }).isRequired,
@@ -445,4 +442,4 @@ DiplomaTableView.propTypes = {
   selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
-export default injectIntl(DiplomaTableView);
+export default DiplomaTableView;
