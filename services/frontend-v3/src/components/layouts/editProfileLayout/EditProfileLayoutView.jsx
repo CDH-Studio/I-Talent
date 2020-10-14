@@ -1,6 +1,13 @@
 import React from "react";
 import { Menu, Card } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import {
+  ToolOutlined,
+  CompassOutlined,
+  GlobalOutlined,
+  SolutionOutlined,
+  TrophyOutlined,
+  ProjectOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
@@ -66,7 +73,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
+            <SolutionOutlined />
             <b>
               <FormattedMessage id="setup.primary.information" />
             </b>
@@ -82,7 +89,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex={0} key="employment" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
+            <CompassOutlined />
             <b>
               <FormattedMessage id="profile.employee.status" />
             </b>
@@ -102,7 +109,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           className="menu-item"
         >
           <div className="menu-item-header">
-            <RightOutlined />
+            <GlobalOutlined />
             <b>
               <FormattedMessage id="setup.language.proficiency" />
             </b>
@@ -118,7 +125,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex={0} key="talent" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
+            <ToolOutlined />
             <b>
               <FormattedMessage id="setup.talent" />
             </b>
@@ -137,7 +144,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex={0} key="qualifications" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
+            <TrophyOutlined />
             <b>
               <FormattedMessage id="profile.employee.qualifications" />
             </b>
@@ -153,7 +160,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex="0" key="personal-growth" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
+            <ProjectOutlined />
             <b>
               <FormattedMessage id="profile.employee.growth.interests" />
             </b>
@@ -185,9 +192,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <Header title={<FormattedMessage id="edit.profile" />} />
-      <Card className="edit-profile-card">
-        {form}
-      </Card>
+      <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );
 };
