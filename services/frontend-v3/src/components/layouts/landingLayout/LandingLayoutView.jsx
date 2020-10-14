@@ -1,8 +1,6 @@
 import React from "react";
 import { Row, Col, Typography, Button } from "antd";
 import { FormattedMessage } from "react-intl";
-import { useSelector, useDispatch } from "react-redux";
-import { setIsPrivacyAccepted } from "../../../redux/slices/userSlice";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
@@ -21,9 +19,6 @@ const { Text, Title } = Typography;
 const LandingLayoutView = () => {
 <<<<<<< HEAD
 =======
-
-  const { isPrivacyAccepted } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const styles = {
     logo: {
@@ -50,12 +45,15 @@ const LandingLayoutView = () => {
     },
   };
 
+<<<<<<< HEAD
   const onLogin = () =>{
     keycloak.login();
     dispatch(setIsPrivacyAccepted(false));
   }
 
 >>>>>>> implement modal in router
+=======
+>>>>>>> clean up
   /**
    * Random Picture Select
    *

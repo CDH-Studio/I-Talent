@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
+
+import React from "react";
 import { Helmet } from "react-helmet";
-import { Layout, Skeleton, Card, Modal } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { setIsPrivacyAccepted } from "../../../redux/slices/userSlice";
-import { useKeycloak } from "@react-keycloak/web";
+import { Layout, Skeleton, Card } from "antd";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
@@ -21,29 +20,6 @@ const AppLayoutView = ({
   displaySearch,
 }) => {
   const { locale } = useSelector((state) => state.settings);
-
-  const { id, isPrivacyAccepted } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const [keycloak] = useKeycloak();
-
-  console.log("id", id);
-  console.log("isPrivacyAccepted", isPrivacyAccepted);
-
-  const handleOk = (e) => {
-    dispatch(setIsPrivacyAccepted(true));
-  };
-
-  const handleCancel = (e) => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  const showPrivModal = useMemo(() => {
-    console.log("showPrivModal", showPrivModal);
-    return !isPrivacyAccepted;
-  }, [isPrivacyAccepted]);
 
   return (
     <>
@@ -76,6 +52,7 @@ const AppLayoutView = ({
           </Layout>
         </Layout>
       </Layout>
+<<<<<<< HEAD
       {/* <Modal
       title="Basic Modal"
       visible={showPrivModal && keycloak && keycloak.authenticated}
@@ -83,6 +60,9 @@ const AppLayoutView = ({
       onCancel={handleCancel}
       >
     </Modal> */}
+=======
+    </Layout>
+>>>>>>> clean up
     </>
   );
 };

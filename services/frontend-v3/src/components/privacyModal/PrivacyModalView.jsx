@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal } from "antd";
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
 
 const PrivacyModalView = ({ handleOk, showModal, keycloak }) => {
  
