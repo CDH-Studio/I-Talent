@@ -17,7 +17,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
   const generateSkillsCollapse = (categoriesSkills, skills) => {
     if (skills.length > 0) {
       return (
-        <Collapse tabIndex="0">
+        <Collapse tabIndex={0}>
           {categoriesSkills.map(
             (categorySkill, index) =>
               categorySkill != null && (

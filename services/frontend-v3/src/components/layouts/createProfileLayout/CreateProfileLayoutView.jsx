@@ -105,7 +105,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
         >
           <Step title={<FormattedMessage id="setup.welcome" />} />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="setup.primary.information" />}
             description={
               <ul style={styles.stepList}>
@@ -119,7 +119,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             }
           />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="profile.employee.status" />}
             disabled={highestStep < 3}
             description={
@@ -134,7 +134,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             }
           />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="setup.language.proficiency" />}
             disabled={highestStep < 3}
             description={
@@ -149,7 +149,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             }
           />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="setup.talent" />}
             disabled={highestStep < 3}
             description={
@@ -167,7 +167,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             }
           />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="profile.employee.qualifications" />}
             disabled={highestStep < 3}
             description={
@@ -182,7 +182,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             }
           />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="profile.employee.growth.interests" />}
             disabled={highestStep < 3}
             description={
@@ -206,7 +206,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             }
           />
           <Step
-            tabIndex="0"
+            tabIndex={0}
             title={<FormattedMessage id="setup.done" />}
             disabled={highestStep < 3}
           />

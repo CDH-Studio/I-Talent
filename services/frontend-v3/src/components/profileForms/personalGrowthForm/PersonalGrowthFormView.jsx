@@ -14,11 +14,7 @@ import {
   notification,
   Button,
 } from "antd";
-import {
-  ExclamationCircleOutlined,
-  InfoCircleOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { isEqual, isNil, pickBy, omitBy, identity } from "lodash";
@@ -293,19 +289,24 @@ const PersonalGrowthFormView = ({
   const getSectionHeader = (titleId, cardName) => (
     <Row justify="space-between" className="sectionHeader" align="middle">
       <Title level={3} className="formTitle">
-        <FormattedMessage id={titleId} />
-        <Popover
-          content={
-            <div>
-              <FormattedMessage id="tooltip.extra.info.help" />
-              <Link to="/about/help">
-                <FormattedMessage id="footer.contact.link" />
-              </Link>
+        <Row>
+          <FormattedMessage id={titleId} />
+          <Popover
+            trigger={["focus", "hover"]}
+            content={
+              <div>
+                <FormattedMessage id="tooltip.extra.info.help" />
+                <Link to="/about/help">
+                  <FormattedMessage id="footer.contact.link" />
+                </Link>
+              </div>
+            }
+          >
+            <div className="infoIcon">
+              <InfoCircleOutlined tabIndex={0} />
             </div>
-          }
-        >
-          <InfoCircleOutlined className="infoIcon" />
-        </Popover>
+          </Popover>
+        </Row>
       </Title>
       <CardVisibilityToggle
         visibleCards={profileInfo.visibleCards}
@@ -504,33 +505,38 @@ const PersonalGrowthFormView = ({
 
               <Row justify="space-between" align="middle">
                 <Title level={3} className="formTitle">
-                  <FormattedMessage id="setup.talent.management" />
-                  <Popover
-                    content={
-                      <div>
-                        <FormattedMessage id="profile.talent.management.tooltip" />
-                        {locale === "ENGLISH" ? (
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
-                          >
-                            <FormattedMessage id="profile.talent.management.link" />
-                          </a>
-                        ) : (
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                          >
-                            <FormattedMessage id="profile.talent.management.link" />
-                          </a>
-                        )}
+                  <Row>
+                    <FormattedMessage id="setup.talent.management" />
+                    <Popover
+                      trigger={["focus", "hover"]}
+                      content={
+                        <div>
+                          <FormattedMessage id="profile.talent.management.tooltip" />
+                          {locale === "ENGLISH" ? (
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
+                            >
+                              <FormattedMessage id="profile.talent.management.link" />
+                            </a>
+                          ) : (
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                            >
+                              <FormattedMessage id="profile.talent.management.link" />
+                            </a>
+                          )}
+                        </div>
+                      }
+                    >
+                      <div className="TMTooltip">
+                        <InfoCircleOutlined tabIndex={0} />
                       </div>
-                    }
-                  >
-                    <ExclamationCircleOutlined className="TMTooltip" />
-                  </Popover>
+                    </Popover>
+                  </Row>
                 </Title>
                 <CardVisibilityToggle
                   visibleCards={profileInfo.visibleCards}
