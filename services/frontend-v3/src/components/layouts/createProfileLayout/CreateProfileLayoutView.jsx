@@ -16,6 +16,8 @@ import {
 } from "../../profileForms";
 import Header from "../../header/Header";
 
+import "./CreateProfileLayoutView.scss";
+
 const { Step } = Steps;
 
 /**
@@ -119,7 +121,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                   <FormattedMessage id="setup.step.3.description" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.description" />
+                  <FormattedMessage id="profile.description" />
                 </li>
               </ul>
             }
