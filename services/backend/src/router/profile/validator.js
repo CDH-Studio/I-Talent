@@ -147,6 +147,18 @@ const updateProfileValidator = [
     .withMessage(
       "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA', date?: DateTime }"
     ),
+  body("qualifiedPools")
+    .optional()
+    .isArray()
+    .custom((array) =>
+      array.every(
+        (i) =>
+          isUUID(i.classificationId)
+      )
+    )
+    .withMessage(
+      "must be an array of containing { classificationId: UUID }"
+    ),
   body("educations")
     .optional()
     .isArray()

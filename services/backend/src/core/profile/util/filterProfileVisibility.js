@@ -23,6 +23,7 @@ function filterProfileVisibility(request, profileResult, userId) {
     skills: true,
     competencies: true,
     developmentalGoals: true,
+    qualifiedPools: true,
     description: true,
     education: true,
     experience: true,
@@ -100,6 +101,12 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.developmentalGoalsAttachments = [];
 
     cardVisibilities.developmentalGoals = false;
+  }
+
+  if (isCardHidden("qualifiedPools")) {
+    result.qualifiedPools = [];
+
+    cardVisibilities.qualifiedPools = false;
   }
 
   if (isCardHidden("education")) {

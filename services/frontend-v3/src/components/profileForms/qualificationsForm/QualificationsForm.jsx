@@ -77,10 +77,10 @@ const QualificationsForm = ({ formType }) => {
                 description: i.description,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
-                      id: link.id,
-                      nameId: link.name.id,
-                      url: link.url,
-                    }))
+                    id: link.id,
+                    nameId: link.name.id,
+                    url: link.url,
+                  }))
                   : [],
               })),
               experiences: profileQuery.data.experiences.map((i) => ({
@@ -93,10 +93,10 @@ const QualificationsForm = ({ formType }) => {
                 ongoingDate: i.ongoingDate,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
-                      id: link.id,
-                      nameId: link.name.id,
-                      url: link.url,
-                    }))
+                    id: link.id,
+                    nameId: link.name.id,
+                    url: link.url,
+                  }))
                   : [],
                 projects: i.projects,
               })),
