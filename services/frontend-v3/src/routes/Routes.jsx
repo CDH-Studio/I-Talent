@@ -1,5 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import PrivacyModal from "../components/privacyModal/PrivacyModal";
+import { useSelector, useDispatch} from "react-redux";
+import { setIsPrivacyAccepted } from "../redux/slices/userSlice";
+import { useKeycloak } from "@react-keycloak/web";
 import {
   LandingPage,
   UnexpectedError,
@@ -11,7 +15,23 @@ import Admin from "./Admin";
 import Secured from "./Secured";
 import ScrollToTop from "./ScrollTopTop";
 
-const Routes = () => (
+const Routes = () => {
+  const dispatch = useDispatch();
+  const { isPrivacyAccepted } = useSelector((state) => state.user);
+  const [keycloak] = useKeycloak();
+
+  const handleOk = e => {
+    dispatch(setIsPrivacyAccepted(true));
+  };
+
+  const handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+return(
   <>
     <ScrollToTop />
     <Switch>
@@ -33,7 +53,19 @@ const Routes = () => (
         render={({ location }) => <Secured location={location} />}
       />
     </Switch>
+    <PrivacyModal />
+    {/* <Modal
+      title="Basic Modal"
+      visible={!isPrivacyAccepted && keycloak && keycloak.authenticated}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      >
+    </Modal> */}
   </>
-);
+)
+
+
+
+};
 
 export default Routes;

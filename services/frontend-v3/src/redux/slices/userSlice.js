@@ -10,7 +10,7 @@ const initialState = {
   isAdmin: false,
   status: "ACTIVE",
   signupStep: 1,
-  isPrivacyAccepted: true,
+  isPrivacyAccepted: false,
 };
 
 const userSlice = createSlice({
@@ -53,7 +53,6 @@ const userSlice = createSlice({
         email,
         status,
         signupStep,
-        isPrivacyAccepted,
       } = action.payload;
 
       return {
@@ -65,7 +64,6 @@ const userSlice = createSlice({
         email: email || state.email,
         status: status || state.status,
         signupStep: signupStep || state.signupStep,
-        isPrivacyAccepted: isPrivacyAccepted || state.signupStep,
       };
     },
     clearUser() {
