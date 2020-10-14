@@ -22,11 +22,11 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { uniq } from "lodash";
 import { Link } from "react-router-dom";
-import { IntlPropType } from "../../../utils/customPropTypes";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/config";
@@ -54,7 +54,6 @@ const styles = {
  *  This component renders the user table for the Admin User Page.
  */
 const UserTableView = ({
-  intl,
   searchText,
   searchedColumn,
   handleApply,
@@ -67,6 +66,7 @@ const UserTableView = ({
 }) => {
   let searchInput;
 
+  const intl = useIntl();
   const { Option } = Select;
 
   const { locale } = useSelector((state) => state.settings);
@@ -426,7 +426,6 @@ const UserTableView = ({
 };
 
 UserTableView.propTypes = {
-  intl: IntlPropType,
   handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
@@ -438,8 +437,4 @@ UserTableView.propTypes = {
   modifiedStatus: PropTypes.bool.isRequired,
 };
 
-UserTableView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(UserTableView);
+export default UserTableView;

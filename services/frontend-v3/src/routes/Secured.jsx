@@ -18,7 +18,7 @@ import useAxios from "../utils/axios-instance";
 
 const Secured = ({ location }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
   const axios = useAxios();
 
   const { signupStep } = useSelector((state) => state.user);

@@ -28,7 +28,7 @@ const { Header } = Layout;
 const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   /* Component Styles */
   const styles = {

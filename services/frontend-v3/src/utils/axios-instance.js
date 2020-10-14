@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import config from "./config";
 
 const useAxios = () => {
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
   const instance = useMemo(
     () =>
       axios.create({

@@ -7,7 +7,7 @@ import AppLayout from "../components/layouts/appLayout/AppLayout";
 
 const Logout = () => {
   const dispatch = useDispatch();
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const logout = useCallback(async () => {
     if (keycloak.authenticated) {

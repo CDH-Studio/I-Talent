@@ -58,7 +58,7 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const styles = {
     row: {
