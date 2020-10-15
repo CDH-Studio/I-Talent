@@ -19,7 +19,7 @@ const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const axios = useAxios();
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const { signupStep } = useSelector((state) => state.user);
 

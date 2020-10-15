@@ -467,7 +467,7 @@ const EmploymentDataFormView = ({
             </Form.Item>
             <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
-                tabIndex="0"
+                tabIndex={0}
                 onChange={toggleTempEndDate}
                 onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
@@ -573,7 +573,6 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
-                tabIndex="0"
                 name="tenureId"
                 label={<FormattedMessage id="profile.substantive" />}
               >
@@ -592,7 +591,6 @@ const EmploymentDataFormView = ({
 
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
-                tabIndex="0"
                 name="groupLevelId"
                 label={<FormattedMessage id="profile.classification" />}
               >
@@ -613,7 +611,6 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
-                tabIndex="0"
                 name="securityClearanceId"
                 label={<FormattedMessage id="profile.security" />}
               >
@@ -647,9 +644,12 @@ const EmploymentDataFormView = ({
           {/* Form Row Four: Temporary role */}
           <Row style={styles.tempRoleRow} gutter={24}>
             <Col className="gutter-row" span={24}>
-              <Text>
-                <FormattedMessage id="profile.temporary.role" />
+              <Row>
+                <Text>
+                  <FormattedMessage id="profile.temporary.role" />
+                </Text>
                 <Popover
+                  trigger={["focus", "hover"]}
                   content={
                     <div>
                       <FormattedMessage id="tooltip.extra.info.help" />
@@ -659,13 +659,15 @@ const EmploymentDataFormView = ({
                     </div>
                   }
                 >
-                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                  <div style={styles.iconBySwitch}>
+                    <InfoCircleOutlined tabIndex={0} />
+                  </div>
                 </Popover>
-              </Text>
-              <Switch
-                checked={displayActingRoleForm}
-                onChange={toggleTempRoleForm}
-              />
+                <Switch
+                  checked={displayActingRoleForm}
+                  onChange={toggleTempRoleForm}
+                />
+              </Row>
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
           </Row>

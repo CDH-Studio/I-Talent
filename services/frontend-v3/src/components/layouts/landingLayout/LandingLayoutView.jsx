@@ -56,7 +56,7 @@ const LandingLayoutView = () => {
     return imageOptions[randomIndex];
   };
 
-  const [keycloak] = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   return (
     <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>

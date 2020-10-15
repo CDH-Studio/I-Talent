@@ -75,7 +75,7 @@ const SearchBarView = ({
       marginTop: "10px",
     },
     advSearchCard: {
-      padding: "15px",
+      padding: "10px",
       backgroundColor: "#fff",
       boxShadow: "10px 10px 10px #cccccc",
       borderRadius: "0 0 5px 5px",
@@ -385,8 +385,8 @@ const SearchBarView = ({
                 type="link"
                 onClick={toggle}
                 style={{ fontSize: 15 }}
-                tabIndex="0"
-                size="small"
+                tabIndex={0}
+                size="middle"
               >
                 {/* <SettingOutlined style={{ marginRight: "3px" }} /> */}
                 {expandAdvancedSearch ? (

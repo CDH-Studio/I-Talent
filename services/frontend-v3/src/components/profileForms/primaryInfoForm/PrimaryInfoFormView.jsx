@@ -267,11 +267,8 @@ const PrimaryInfoFormView = ({
     const dbValues = {
       ...formValues,
     };
-    if (!formValues.jobTitle[locale]) {
-      dbValues.jobTitle = {
-        [locale]: formValues.jobTitle,
-      };
-    }
+
+    delete dbValues.jobTitle;
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 
@@ -385,6 +382,7 @@ const PrimaryInfoFormView = ({
    */
   const urlPopover = (url) => (
     <Popover
+      trigger={["focus", "hover"]}
       content={
         <div style={{ textAlign: "center" }}>
           <FormattedMessage
@@ -398,7 +396,7 @@ const PrimaryInfoFormView = ({
         </div>
       }
     >
-      <InfoCircleOutlined style={styles.infoIcon} />
+      <InfoCircleOutlined style={styles.infoIcon} tabIndex={0} />
     </Popover>
   );
 
@@ -413,6 +411,7 @@ const PrimaryInfoFormView = ({
           2. <FormattedMessage id="setup.primary.information" />
           <div style={styles.gedsInfoLink}>
             <Popover
+              trigger={["focus", "hover"]}
               content={
                 <div style={styles.popoverStyle}>
                   <FormattedMessage id="profile.geds.edit.info1" />
@@ -427,7 +426,7 @@ const PrimaryInfoFormView = ({
                 </div>
               }
             >
-              <InfoCircleOutlined />
+              <InfoCircleOutlined tabIndex={0} />
             </Popover>
           </div>
         </Title>
@@ -449,6 +448,7 @@ const PrimaryInfoFormView = ({
             </span>
           </Button>
           <Popover
+            trigger={["focus", "hover"]}
             content={
               <div style={styles.popoverStyle}>
                 <FormattedMessage id="profile.geds.edit.info1" />
@@ -463,7 +463,7 @@ const PrimaryInfoFormView = ({
               </div>
             }
           >
-            <InfoCircleOutlined />
+            <InfoCircleOutlined tabIndex={0} />
           </Popover>
         </div>
         {fieldsChanged && (
@@ -540,13 +540,14 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="profile.career.header.name" />
                     <div style={styles.popoverStyleCareer}>
                       <Popover
+                        trigger={["focus", "hover"]}
                         content={
                           <div style={styles.popoverStyle}>
                             <FormattedMessage id="profile.job.title.tooltip" />
                           </div>
                         }
                       >
-                        <InfoCircleOutlined />
+                        <InfoCircleOutlined tabIndex={0} />
                       </Popover>
                     </div>
                   </>

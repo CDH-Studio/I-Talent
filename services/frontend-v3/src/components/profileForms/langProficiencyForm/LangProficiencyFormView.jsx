@@ -732,9 +732,12 @@ const LangProficiencyFormView = ({
           {/* Form Row Four: Temporary role */}
           <Row style={styles.secondLangRow} gutter={24}>
             <Col className="gutter-row" span={24}>
-              <Text>
-                <FormattedMessage id="profile.graded.on.second.language" />
+              <Row>
+                <Text>
+                  <FormattedMessage id="profile.graded.on.second.language" />
+                </Text>
                 <Popover
+                  trigger={["focus", "hover"]}
                   content={
                     <div>
                       <FormattedMessage id="tooltip.extra.info.help" />
@@ -744,14 +747,15 @@ const LangProficiencyFormView = ({
                     </div>
                   }
                 >
-                  <InfoCircleOutlined style={styles.iconBySwitch} />
+                  <div style={styles.iconBySwitch}>
+                    <InfoCircleOutlined tabIndex={0} />
+                  </div>
                 </Popover>
-              </Text>
-
-              <Switch
-                checked={displaySecondLangForm}
-                onChange={toggleSecLangForm}
-              />
+                <Switch
+                  checked={displaySecondLangForm}
+                  onChange={toggleSecLangForm}
+                />
+              </Row>
               {getSecondLanguageForm(displaySecondLangForm)}
             </Col>
           </Row>

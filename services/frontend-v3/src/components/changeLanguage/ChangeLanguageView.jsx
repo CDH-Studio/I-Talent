@@ -31,7 +31,7 @@ const ChangeLanguageView = ({ intl }) => {
     <Button
       ghost="true"
       type="default"
-      tabIndex="0"
+      tabIndex={0}
       onClick={handleLanguageChange}
       style={{ textTransform: "uppercase" }}
     >
