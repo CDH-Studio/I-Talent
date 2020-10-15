@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Card } from "antd";
 import {
-  ToolOutlined,
+  TagsOutlined,
   CompassOutlined,
   GlobalOutlined,
   SolutionOutlined,
@@ -74,9 +74,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
           <div className="menu-item-header">
             <SolutionOutlined />
-            <b>
+            <strong>
               <FormattedMessage id="setup.primary.information" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -90,9 +90,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         <Menu.Item tabIndex={0} key="employment" className="menu-item">
           <div className="menu-item-header">
             <CompassOutlined />
-            <b>
+            <strong>
               <FormattedMessage id="profile.employee.status" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -110,9 +110,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         >
           <div className="menu-item-header">
             <GlobalOutlined />
-            <b>
+            <strong>
               <FormattedMessage id="setup.language.proficiency" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -125,10 +125,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex={0} key="talent" className="menu-item">
           <div className="menu-item-header">
-            <ToolOutlined />
-            <b>
+            <TagsOutlined />
+            <strong>
               <FormattedMessage id="setup.talent" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -145,9 +145,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         <Menu.Item tabIndex={0} key="qualifications" className="menu-item">
           <div className="menu-item-header">
             <TrophyOutlined />
-            <b>
+            <strong>
               <FormattedMessage id="profile.employee.qualifications" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -161,9 +161,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         <Menu.Item tabIndex="0" key="personal-growth" className="menu-item">
           <div className="menu-item-header">
             <ProjectOutlined />
-            <b>
+            <strong>
               <FormattedMessage id="profile.employee.growth.interests" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
