@@ -6,7 +6,7 @@ import "./HeaderView.scss";
 const HeaderView = ({ title, subtitle, extra }) => (
   <PageHeader
     className="pageHeader"
-    title={<span className="pageHeaderSpan">{title}</span>}
+    title={title}
     extra={extra}
     subTitle={subtitle}
   />

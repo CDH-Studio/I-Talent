@@ -5,6 +5,7 @@ import {
   DeleteOutlined,
   EyeInvisibleFilled,
   EyeFilled,
+  SettingOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
@@ -74,7 +75,14 @@ const StatsLayoutView = ({
 
   return (
     <AppLayout>
-      <Header title={<FormattedMessage id="settings.title" />} />
+      <Header
+        title={
+          <>
+            <SettingOutlined />
+            <FormattedMessage id="settings.title" />
+          </>
+        }
+      />
       <Card>
         <List
           itemLayout="horizontal"

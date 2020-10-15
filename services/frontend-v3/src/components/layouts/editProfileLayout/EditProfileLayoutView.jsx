@@ -7,6 +7,7 @@ import {
   SolutionOutlined,
   TrophyOutlined,
   ProjectOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
@@ -191,7 +192,14 @@ const EditProfileLayoutView = ({ formStep, history }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
-      <Header title={<FormattedMessage id="edit.profile" />} />
+      <Header
+        title={
+          <>
+            <EditOutlined />
+            <FormattedMessage id="edit.profile" />
+          </>
+        }
+      />
       <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );

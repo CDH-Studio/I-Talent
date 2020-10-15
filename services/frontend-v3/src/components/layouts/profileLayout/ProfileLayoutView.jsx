@@ -18,6 +18,7 @@ import {
   InfoCircleOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
+  SolutionOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -448,9 +449,12 @@ const ProfileLayoutView = ({
       <Header
         className="headerStyle"
         title={
-          <FormattedMessage
-            id={privateProfile ? "my.profile" : "other.profile"}
-          />
+          <>
+            <SolutionOutlined />
+            <FormattedMessage
+              id={privateProfile ? "my.profile" : "other.profile"}
+            />
+          </>
         }
         subtitle={
           <Tooltip title={<FormattedMessage id="profile.last.updated" />}>

@@ -24,6 +24,7 @@ import {
   EyeInvisibleOutlined,
   BranchesOutlined,
   EnvironmentOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import {
   HistoryPropType,
@@ -370,7 +371,12 @@ const ResultsCardView = ({
   return (
     <>
       <Header
-        title={<FormattedMessage id="results.title" />}
+        title={
+          <>
+            <SearchOutlined />
+            <FormattedMessage id="results.title" />
+          </>
+        }
         subtitle={getResultCount({ isLoading: loading, count: results.length })}
       />
       <div className="res-container">

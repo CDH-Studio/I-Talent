@@ -435,5 +435,11 @@ span.searchInput {
 .ant-page-header-heading-title {
   padding: 5px 10px;
   background-color: #087472;
+  color: #fff;
+  font-size: 1.5em !important;
   border-radius: 5px;
+}
+
+.ant-page-header-heading-title svg {
+  margin-right: 7px;
 }
