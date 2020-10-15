@@ -132,7 +132,6 @@ const EducationFormView = ({
           fieldKey={[fieldElement.fieldKey, "diplomaId"]}
           label={<FormattedMessage id="profile.diploma" />}
           rules={[Rules.required]}
-          className="formItem"
         >
           <Select
             showSearch
@@ -154,7 +153,6 @@ const EducationFormView = ({
           fieldKey={[fieldElement.fieldKey, "schoolId"]}
           label={<FormattedMessage id="profile.school" />}
           rules={[Rules.required]}
-          className="formItem"
         >
           <Select
             showSearch

@@ -123,7 +123,6 @@ const ExperienceFormView = ({
           name={[fieldElement.name, "jobTitle"]}
           fieldKey={[fieldElement.fieldKey, "jobTitle"]}
           label={<FormattedMessage id="admin.job.title" />}
-          className="formItem"
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
@@ -136,7 +135,6 @@ const ExperienceFormView = ({
           name={[fieldElement.name, "organization"]}
           fieldKey={[fieldElement.fieldKey, "organization"]}
           label={<FormattedMessage id="profile.career.subheader.name" />}
-          className="formItem"
           rules={[Rules.required, Rules.maxChar60]}
         >
           <Input />
