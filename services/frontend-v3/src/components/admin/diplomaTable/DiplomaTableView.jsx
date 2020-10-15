@@ -16,6 +16,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -403,7 +404,12 @@ const DiplomaTableView = ({
       {addDiplomaModal()}
       {editDiplomaModal()}
       <Header
-        title={<FormattedMessage id="admin.diploma.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.diploma.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}

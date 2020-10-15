@@ -17,6 +17,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -404,7 +405,12 @@ const CategoryTableView = ({
       {addCategoryButton()}
       {editCategoryButton()}
       <Header
-        title={<FormattedMessage id="admin.category.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.category.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}

@@ -18,6 +18,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
@@ -491,7 +492,12 @@ const SkillTableView = ({
       {addSkillButton()}
       {editSkillButton()}
       <Header
-        title={<FormattedMessage id="admin.skill.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.skill.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}

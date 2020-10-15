@@ -19,6 +19,7 @@ import {
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
@@ -366,6 +367,7 @@ const UserTableView = ({
       <Header
         title={
           <>
+            <DatabaseOutlined />
             <FormattedMessage id="admin.user.table" />
             {modifiedStatus && (
               <Text className="unsavedText">

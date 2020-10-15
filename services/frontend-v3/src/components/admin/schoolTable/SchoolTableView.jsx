@@ -15,6 +15,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
@@ -544,7 +545,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <Header
-        title={<FormattedMessage id="admin.school.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.school.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}
