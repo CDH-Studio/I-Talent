@@ -1,48 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal, Tabs } from "antd";
+import { Modal } from "antd";
 import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
+import "./PrivacyModalView.scss";
 
-const { TabPane } = Tabs;
-
-const PrivacyModalView = ({
-  handleOk,
-  handleCancel,
-  showModal,
-  keycloak,
-  locale,
-}) => {
+const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => {
   return (
     <Modal
       title={
         <>
           <LockOutlined /> <FormattedMessage id="privacy.modal.header" />
-          <div
-            style={{
-              position: "absolute",
-              right: 25,
-              top: 12,
-              backgroundColor: "red",
-            }}
-          >
+          <div className="privacyModalHeaderExtra">
             <ChangeLanguage />
           </div>
         </>
       }
-      visible={showModal && keycloak && keycloak.authenticated}
+      visible={showModal}
       closable={false}
       maskClosable={false}
       okText={
         <>
-          <CheckOutlined style={{ marginRight: "3px" }} />
+          <CheckOutlined className="ModalbBtnIcon" />
           <FormattedMessage id="privacy.modal.accept" />
         </>
       }
       cancelText={
         <>
-          <CloseOutlined style={{ marginRight: "3px" }} />
+          <CloseOutlined className="ModalbBtnIcon" />
           <FormattedMessage id="privacy.modal.decline" />
         </>
       }
@@ -50,7 +36,7 @@ const PrivacyModalView = ({
       onCancel={handleCancel}
       width={700}
     >
-      <div style={{ maxHeight: "400px", overflowY: "scroll" }}>
+      <div className="privacyModalContent">
         {locale === "ENGLISH" ? (
           <>
             <p>
@@ -105,36 +91,36 @@ const PrivacyModalView = ({
         ) : (
           <>
             <p>
-              Veuillez noter qu'en vous connectant, vous avez la possibilité de
-              auto-administrer des informations vous concernant. La collection
-              de votre les informations auto-administrées sont appelées vos
-              informations de profil pour mettre en valeur votre histoire
-              professionnelle. Vous pourrez contrôler qui et quelles
-              informations les membres I-Talent d'ISDE peuvent voir dans votre
-              paramètres de profil.
+              Veuillez noter qu&apos;en vous connectant, vous avez la
+              possibilité de auto-administrer des informations vous concernant.
+              La collection de votre les informations auto-administrées sont
+              appelées vos informations de profil pour mettre en valeur votre
+              histoire professionnelle. Vous pourrez contrôler qui et quelles
+              informations les membres I-Talent d&apos;ISDE peuvent voir dans
+              votre paramètres de profil.
             </p>
             <p>
               Toutes les informations personnelles collectées et utilisées dans
               cette application sont considéré comme fourni volontairement et
               toute utilisation ou divulgation sera régis par les droits
-              d'accès, de correction et de protection des renseignements
+              d&apos;accès, de correction et de protection des renseignements
               personnels en vertu de la Loi sur la protection des renseignements
               personnels.
             </p>
             <p>
               Vos informations personnelles seront utilisées pour les ressources
-              humaines liées activités, telles que, mais sans s'y limiter, les
-              objectifs suivants: jumeler des personnes intéressées et
+              humaines liées activités, telles que, mais sans s&apos;y limiter,
+              les objectifs suivants: jumeler des personnes intéressées et
               qualifiées à des postes ou des rôles, identifier les aptitudes et
               compétences à différents niveaux, concevoir stratégies de
               développement, planification et rapports. Le personnel les
               informations recueillies seront conservées et éliminées dans
-              conformément au calendrier de conservation et d'élimination
-              d'ISDE.
+              conformément au calendrier de conservation et d&apos;élimination
+              d&apos;ISDE.
             </p>
             <p>
               Vous êtes tenu de respecter les obligations énoncées dans les
-              Valeurs et code d'éthique du secteur public et, à ce titre,
+              Valeurs et code d&apos;éthique du secteur public et, à ce titre,
               responsable de toutes les informations de votre profil que vous
               avez auto-administré.
             </p>
@@ -149,10 +135,10 @@ const PrivacyModalView = ({
               votre profil.
             </p>
             <p>
-              Si vous avez besoin de clarification ou de plus d'informations sur
-              les problèmes de confidentialité et la Loi sur la protection des
-              renseignements personnels, vous pouvez contacter nos services
-              AIPRP à atip-aiprpa.ic@canada.ca.
+              Si vous avez besoin de clarification ou de plus
+              d&apos;informations sur les problèmes de confidentialité et la Loi
+              sur la protection des renseignements personnels, vous pouvez
+              contacter nos services AIPRP à atip-aiprpa.ic@canada.ca.
             </p>
             <p>
               En soumettant vos informations, vous confirmez que vous avez
@@ -169,7 +155,6 @@ const PrivacyModalView = ({
 
 PrivacyModalView.propTypes = {
   showModal: PropTypes.bool.isRequired,
-  keycloak: PropTypes.object.isRequired,
   handleOk: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,

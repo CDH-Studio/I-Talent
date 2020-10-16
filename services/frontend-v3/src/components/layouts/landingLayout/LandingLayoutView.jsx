@@ -17,43 +17,6 @@ const { Text, Title } = Typography;
  *  this component renders the landing page.
  */
 const LandingLayoutView = () => {
-<<<<<<< HEAD
-=======
-
-  const styles = {
-    logo: {
-      width: "270px",
-      marginTop: "50px",
-    },
-    text: {
-      display: "block",
-      margin: "20px 0",
-      fontSize: "15px",
-    },
-    title: {
-      display: "block",
-      margin: "25px 0 10px 0",
-      color: "#404040",
-    },
-    image: {
-      maxWidth: "70%",
-      maxHeight: "400px",
-      marginTop: "20px",
-    },
-    imageContainer: {
-      textAlign: "center",
-    },
-  };
-
-<<<<<<< HEAD
-  const onLogin = () =>{
-    keycloak.login();
-    dispatch(setIsPrivacyAccepted(false));
-  }
-
->>>>>>> implement modal in router
-=======
->>>>>>> clean up
   /**
    * Random Picture Select
    *

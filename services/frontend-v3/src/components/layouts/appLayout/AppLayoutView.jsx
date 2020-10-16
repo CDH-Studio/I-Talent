@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Layout, Skeleton, Card } from "antd";
@@ -52,17 +51,6 @@ const AppLayoutView = ({
           </Layout>
         </Layout>
       </Layout>
-<<<<<<< HEAD
-      {/* <Modal
-      title="Basic Modal"
-      visible={showPrivModal && keycloak && keycloak.authenticated}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      >
-    </Modal> */}
-=======
-    </Layout>
->>>>>>> clean up
     </>
   );
 };

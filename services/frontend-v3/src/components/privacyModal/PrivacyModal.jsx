@@ -1,27 +1,34 @@
 import React from "react";
-import PrivacyModalView from "./PrivacyModalView";
 import { useSelector, useDispatch } from "react-redux";
-import { setIsPrivacyAccepted } from "../../redux/slices/userSlice";
 import { useKeycloak } from "@react-keycloak/web";
 import { useHistory } from "react-router-dom";
+import { setIsPrivacyAccepted } from "../../redux/slices/userSlice";
+import PrivacyModalView from "./PrivacyModalView";
 
-const PrivacyModal = ({ data }) => {
+const PrivacyModal = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isPrivacyAccepted } = useSelector((state) => state.user);
-  const [keycloak] = useKeycloak();
   const { locale } = useSelector((state) => state.settings);
+  const { keycloak } = useKeycloak();
 
+  /**
+   * Set PrivacyAccepted state to true
+   */
   const handleOk = () => {
     dispatch(setIsPrivacyAccepted(true));
   };
 
+  /**
+   * logout user if they decline terms
+   */
   const handleCancel = () => {
     history.push("/logout");
   };
+
   return (
     <PrivacyModalView
-      showModal={!isPrivacyAccepted}
+      showModal={!isPrivacyAccepted && keycloak && keycloak.authenticated}
       handleOk={handleOk}
       handleCancel={handleCancel}
       keycloak={keycloak}
