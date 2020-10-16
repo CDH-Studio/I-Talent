@@ -30,24 +30,9 @@ import { Link } from "react-router-dom";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/config";
+import "./UserTableView.scss";
 
 const { Text } = Typography;
-
-const styles = {
-  unsavedText: {
-    marginLeft: "10px",
-    fontWeight: "normal",
-    fontStyle: "italic",
-    opacity: 0.5,
-  },
-  popoverStyle: {
-    maxWidth: "630px",
-  },
-  adminInfo: {
-    marginLeft: "8px",
-    paddingRight: "10px",
-  },
-};
 
 /**
  *  UserTableView(props)
@@ -383,7 +368,7 @@ const UserTableView = ({
           <>
             <FormattedMessage id="admin.user.table" />
             {modifiedStatus && (
-              <Text style={styles.unsavedText}>
+              <Text className="unsavedText">
                 (<FormattedMessage id="profile.form.unsaved" />)
               </Text>
             )}
@@ -397,7 +382,7 @@ const UserTableView = ({
               trigger={["focus", "hover"]}
               placement="topRight"
               content={
-                <div style={styles.popoverStyle}>
+                <div className="popoverStyle">
                   <FormattedMessage
                     id="admin.roles.tooltip"
                     values={{
@@ -408,7 +393,7 @@ const UserTableView = ({
                 </div>
               }
             >
-              <div style={styles.adminInfo}>
+              <div className="adminInfo">
                 <InfoCircleOutlined tabIndex={0} />
               </div>
             </Popover>

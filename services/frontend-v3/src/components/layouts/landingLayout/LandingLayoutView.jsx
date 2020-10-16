@@ -7,6 +7,7 @@ import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
 import backgroundOptionThree from "../../../assets/landing-3.svg";
 import logo from "../../../assets/I-talent-logo.png";
+import "./LandingLayoutView.scss";
 
 const { Text, Title } = Typography;
 
@@ -16,31 +17,6 @@ const { Text, Title } = Typography;
  *  this component renders the landing page.
  */
 const LandingLayoutView = () => {
-  const styles = {
-    logo: {
-      width: "270px",
-      marginTop: "50px",
-    },
-    text: {
-      display: "block",
-      margin: "20px 0",
-      fontSize: "15px",
-    },
-    title: {
-      display: "block",
-      margin: "25px 0 10px 0",
-      color: "#404040",
-    },
-    image: {
-      maxWidth: "70%",
-      maxHeight: "400px",
-      marginTop: "20px",
-    },
-    imageContainer: {
-      textAlign: "center",
-    },
-  };
-
   /**
    * Random Picture Select
    *
@@ -64,31 +40,26 @@ const LandingLayoutView = () => {
         <FormattedMessage id="landing.login.and.enter" />
       </h1>
       <Row justify="center" style={{ marginTop: "120px" }}>
-        <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
-          <img src={logo} alt="I-Talent Logo" style={styles.logo} />
-          <Title level={1} style={styles.title}>
+        <Col xs={22} md={10} lg={6} style={{ paddingTop: "60px" }}>
+          <img src={logo} alt="I-Talent Logo" className="logo" />
+          <Title level={1} className="title">
             <FormattedMessage id="landing.welcome" />
           </Title>
-          <Text style={styles.text} strong>
+          <Text className="text" strong>
             <FormattedMessage id="landing.description" />
           </Text>
-          <Text style={styles.text} strong>
+          <Text className="text" strong>
             <FormattedMessage id="landing.call.to.action" />
           </Text>
           <Button type="primary" onClick={() => keycloak.login()} size="large">
             <FormattedMessage id="landing.login.button" />
           </Button>
         </Col>
-        <Col
-          sm={24}
-          md={10}
-          style={styles.imageContainer}
-          className="landingPicture"
-        >
+        <Col sm={24} md={10} className="landingPicture imageContainer">
           <img
             src={randomPictureSelect()}
             alt="I-Talent Logo"
-            style={styles.image}
+            className="image"
           />
         </Col>
       </Row>

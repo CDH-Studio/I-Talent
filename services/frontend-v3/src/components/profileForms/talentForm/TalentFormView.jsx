@@ -29,6 +29,7 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import "./TalentFormView.scss";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -65,47 +66,6 @@ const TalentFormView = ({
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "324px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
-    },
-    sectionHeader: {
-      marginBottom: 10,
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-    infoIcon: {
-      paddingLeft: "5px",
-    },
-    mentorshipToggle: {
-      marginLeft: "7px",
-      paddingRight: "7px",
-    },
-  };
 
   /* Component Rules for form fields */
   const Rules = {
@@ -543,16 +503,16 @@ const TalentFormView = ({
   const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
-        <Title level={2} style={styles.formTitle}>
+        <Title level={2} className="tal-formTitle">
           5. <FormattedMessage id="setup.talent" />
         </Title>
       );
     }
     return (
-      <Title level={2} style={styles.formTitle}>
+      <Title level={2} className="tal-formTitle">
         <FormattedMessage id="setup.talent" />
         {fieldsChanged && (
-          <Text style={styles.unsavedText}>
+          <Text className="unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -589,12 +549,11 @@ const TalentFormView = ({
   }, [displayMentorshipForm]);
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" style={styles.sectionHeader} align="middle">
-      <Title level={3} style={styles.formTitle}>
+    <Row justify="space-between" className="tal-sectionHeader" align="middle">
+      <Title level={3} className="tal-formTitle">
         <Row>
           <FormattedMessage id={titleId} />
           <Popover
-            trigger={["focus", "hover"]}
             content={
               <div>
                 <FormattedMessage id="tooltip.extra.info.help" />
@@ -604,7 +563,7 @@ const TalentFormView = ({
               </div>
             }
           >
-            <div style={styles.infoIcon}>
+            <div className="tal-infoIcon">
               <InfoCircleOutlined tabIndex={0} />
             </div>
           </Popover>
@@ -624,7 +583,7 @@ const TalentFormView = ({
   if (!load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.skeleton}>
+      <div className="tal-skeleton">
         <Skeleton active />
       </div>
     );
@@ -636,10 +595,10 @@ const TalentFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div style={styles.content}>
+      <div className="tal-content">
         {/* get form title */}
         {getFormHeader(formType)}
-        <Divider style={styles.headerDiv} />
+        <Divider className="tal-headerDiv" />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
@@ -697,7 +656,7 @@ const TalentFormView = ({
                   <Switch
                     checked={displayMentorshipForm}
                     onChange={toggleMentorshipForm}
-                    style={styles.mentorshipToggle}
+                    className="tal-mentorshipToggle"
                   />
 
                   {getMentorshipForm(displayMentorshipForm)}

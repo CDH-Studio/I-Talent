@@ -1,23 +1,22 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Affix, Layout, Skeleton } from "antd";
+import "./SideNavView.scss";
 
 const { Sider } = Layout;
 
-const SideNavView = ({ displaySideBar, sideBarContent, loading, adminView }) => {
-  const styles = {
-    sider: {
-      background: "#fff",
-      height: "100vh",
-    },
-  };
-
+const SideNavView = ({
+  displaySideBar,
+  sideBarContent,
+  loading,
+  adminView,
+}) => {
   if (displaySideBar) {
     return (
       <Affix offsetTop={64} style={{ marginTop: adminView && 64 }}>
         <Sider
           width="270"
-          style={styles.sider}
+          className="app-sider"
           breakpoint="lg"
           collapsedWidth="0"
           zeroWidthTriggerStyle={{ backgroundColor: "#192e2f" }}

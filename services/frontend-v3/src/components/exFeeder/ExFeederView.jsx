@@ -2,18 +2,14 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { CheckOutlined } from "@ant-design/icons";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import "./ExFeederView.scss";
 
 const ExFeederView = ({ data }) => {
-  const styles = {
-    exFeederTitleSpan: {
-      paddingLeft: "8px",
-    },
-  };
   if (data.exFeeder) {
     return (
       <>
         <CheckOutlined />
-        <span style={styles.exFeederTitleSpan}>
+        <span className="exFeederTitleSpan">
           <FormattedMessage id="profile.ex.feeder" />
         </span>
       </>

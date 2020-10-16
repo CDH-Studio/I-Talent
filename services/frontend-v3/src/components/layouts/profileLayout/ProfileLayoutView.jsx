@@ -44,6 +44,7 @@ import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import "./ProfileLayoutView.scss";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -59,43 +60,6 @@ const ProfileLayoutView = ({
   const intl = useIntl();
   const dispatch = useDispatch();
   const { keycloak } = useKeycloak();
-
-  const styles = {
-    row: {
-      marginTop: 15,
-    },
-    sideBarRow: {
-      marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10,
-    },
-    sectionHeader: {
-      marginTop: "25px",
-      fontSize: "20px",
-      lineHeight: "38px",
-      color: "#114541",
-    },
-    sectionIcon: {
-      margin: "0 7px",
-      color: "#3CBAB3",
-    },
-    sectionNavIcon: {
-      margin: "0 2px",
-      color: "#3CBAB3",
-    },
-    sideBarText: {
-      whiteSpace: "normal",
-    },
-    privateGroupInfo: {
-      paddingLeft: "8px",
-      display: "inline",
-    },
-    headerSubtitle: {
-      fontSize: "0.7em",
-      fontStyle: "italic",
-      fontWeight: "normal",
-    },
-  };
 
   useEffect(() => {
     if (savedFormContent === false) {
@@ -142,36 +106,32 @@ const ProfileLayoutView = ({
             </Row>
           </Col>
         </Row>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <DescriptionCard data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <OfficialLanguage data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
         {/** ********** Skills and competencies *********** */}
-        <Title
-          level={2}
-          style={styles.sectionHeader}
-          id="divider-skills-and-comp"
-        >
-          <TagsTwoTone twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+        <Title level={2} className="sectionHeader" id="divider-skills-and-comp">
+          <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
           <FormattedMessage id="profile.employee.skills.competencies" />
         </Title>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <Skills data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <Mentorship data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <Col span={24}>
               <Competencies data={data} editableCardBool={privateProfile} />
@@ -180,35 +140,27 @@ const ProfileLayoutView = ({
         </Row>
 
         {/** ********** Qualifications *********** */}
-        <Title
-          level={2}
-          style={styles.sectionHeader}
-          id="divider-qualifications"
-        >
-          <TrophyOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+        <Title level={2} className="sectionHeader" id="divider-qualifications">
+          <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
           <FormattedMessage id="profile.employee.qualifications" />
         </Title>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <Education data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <Experience data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
 
         {/** ********** Personal Growth *********** */}
-        <Title
-          level={2}
-          style={styles.sectionHeader}
-          id="divider-employee-growth"
-        >
-          <RiseOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+        <Title level={2} className="sectionHeader" id="divider-employee-growth">
+          <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
           <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <LearningDevelopment
               editableCardBool={privateProfile}
@@ -218,7 +170,7 @@ const ProfileLayoutView = ({
         </Row>
 
         <Row
-          style={styles.row}
+          className="app-row"
           gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
           type="flex"
         >
@@ -238,16 +190,16 @@ const ProfileLayoutView = ({
           <div>
             <Title
               level={2}
-              style={styles.sectionHeader}
+              className="sectionHeader"
               id="divider-privateGroup"
             >
-              <TeamOutlined twoToneColor="#3CBAB3" style={styles.sectionIcon} />
+              <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
               <FormattedMessage id="profile.privateGroup" />
-              <div style={styles.privateGroupInfo}>
+              <div className="privateGroupInfo">
                 <Popover
                   trigger={["focus", "hover"]}
                   content={
-                    <div style={styles.popContent}>
+                    <div className="popContent">
                       <FormattedMessage id="profile.connections.tooltip.header" />
                       <a href="/about/help">
                         <FormattedMessage id="footer.contact.link" />
@@ -259,7 +211,7 @@ const ProfileLayoutView = ({
                 </Popover>
               </div>
             </Title>
-            <Row style={styles.row}>
+            <Row className="app-row">
               <Col span={24}>
                 <Connections data={data} />
               </Col>
@@ -271,13 +223,13 @@ const ProfileLayoutView = ({
   };
   const generateProfileSidebarContent = () => {
     return (
-      <Row justify="center" style={styles.sideBarRow}>
+      <Row justify="center" className="sideBarRow">
         <Col flex={1} offset={1}>
           <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
               title={
-                <Text strong style={styles.sideBarText}>
+                <Text strong className="sideBarText">
                   <FormattedMessage id="profile.basic" />
                 </Text>
               }
@@ -285,7 +237,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-basic-info"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="setup.primary.information" />
                   </Text>
                 }
@@ -293,7 +245,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-employee-summary"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.employee.status" />
                   </Text>
                 }
@@ -301,7 +253,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-employment-equity"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.employment.equity.groups" />
                   </Text>
                 }
@@ -309,7 +261,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-description"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.description" />
                   </Text>
                 }
@@ -317,7 +269,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-official-language"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.official.languages" />
                   </Text>
                 }
@@ -327,7 +279,7 @@ const ProfileLayoutView = ({
             <Link
               href="#divider-skills-and-comp"
               title={
-                <Text strong style={styles.sideBarText}>
+                <Text strong className="sideBarText">
                   <FormattedMessage id="profile.employee.skills.competencies" />
                 </Text>
               }
@@ -335,7 +287,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-skills"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.skills" />
                   </Text>
                 }
@@ -343,7 +295,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-mentorship-skills"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.mentorship.skills" />
                   </Text>
                 }
@@ -351,7 +303,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-competency"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.competencies" />
                   </Text>
                 }
@@ -360,7 +312,7 @@ const ProfileLayoutView = ({
             <Link
               href="#divider-qualifications"
               title={
-                <Text strong style={styles.sideBarText}>
+                <Text strong className="sideBarText">
                   <FormattedMessage id="profile.employee.qualifications" />
                 </Text>
               }
@@ -368,7 +320,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-education"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.education" />
                   </Text>
                 }
@@ -376,7 +328,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-experience"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.experience" />
                   </Text>
                 }
@@ -385,7 +337,7 @@ const ProfileLayoutView = ({
             <Link
               href="#divider-employee-growth"
               title={
-                <Text strong style={styles.sideBarText}>
+                <Text strong className="sideBarText">
                   <FormattedMessage id="profile.employee.growth.interests" />
                 </Text>
               }
@@ -393,7 +345,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-learning-development"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.learning.development" />
                   </Text>
                 }
@@ -401,7 +353,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-talent-management"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.talent.management" />
                   </Text>
                 }
@@ -409,7 +361,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-ex-feeder"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.ex.feeder.title" />
                   </Text>
                 }
@@ -417,7 +369,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#card-profile-career-interests"
                 title={
-                  <Text style={styles.sideBarText}>
+                  <Text className="sideBarText">
                     <FormattedMessage id="profile.career.interests" />
                   </Text>
                 }
@@ -427,7 +379,7 @@ const ProfileLayoutView = ({
               <Link
                 href="#divider-privateGroup"
                 title={
-                  <Text strong style={styles.sideBarText}>
+                  <Text strong className="sideBarText">
                     <FormattedMessage id="profile.privateGroup" />
                   </Text>
                 }
@@ -435,7 +387,7 @@ const ProfileLayoutView = ({
                 <Link
                   href="#card-profile-connections"
                   title={
-                    <Text style={styles.sideBarText}>
+                    <Text className="sideBarText">
                       <FormattedMessage id="profile.connections" />
                     </Text>
                   }
@@ -494,7 +446,7 @@ const ProfileLayoutView = ({
     >
       {displayHiddenAlert()}
       <Header
-        style={styles.headerStyle}
+        className="headerStyle"
         title={
           <Col>
             <Row>
@@ -503,7 +455,7 @@ const ProfileLayoutView = ({
               />
             </Row>
             <Row>
-              <Text type="secondary" style={styles.headerSubtitle}>
+              <Text type="secondary" className="headerSubtitle">
                 <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
                   {data && dayjs(data.updatedAt).format("LL")}
                 </Tooltip>

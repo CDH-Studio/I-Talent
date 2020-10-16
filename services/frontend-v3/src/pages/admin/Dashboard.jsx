@@ -91,7 +91,7 @@ const AdminDashboard = ({ intl }) => {
     }
   }, [axios, dispatch]);
 
-  const getTopFiveCompentencies = useCallback(async () => {
+  const getTopFiveCompetencies = useCallback(async () => {
     try {
       dispatch(setTopFiveCompetencies([]));
 
@@ -157,7 +157,7 @@ const AdminDashboard = ({ intl }) => {
       getExfeederUserCount(),
       getGrowthRateByMonth(),
       getGrowthRateByWeek(),
-      getTopFiveCompentencies(),
+      getTopFiveCompetencies(),
       getTopFiveSkills(),
       getTopFiveDevelopmentalGoals(),
     ]);
@@ -167,7 +167,7 @@ const AdminDashboard = ({ intl }) => {
     getGrowthRateByWeek,
     getHiddenUserCount,
     getInactiveUserCount,
-    getTopFiveCompentencies,
+    getTopFiveCompetencies,
     getTopFiveDevelopmentalGoals,
     getTopFiveSkills,
     getUserCount,
