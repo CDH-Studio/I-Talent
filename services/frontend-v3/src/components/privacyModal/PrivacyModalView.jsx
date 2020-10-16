@@ -34,7 +34,7 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => {
       }
       onOk={handleOk}
       onCancel={handleCancel}
-      width={700}
+      width={600}
     >
       <div className="privacyModalContent">
         {locale === "ENGLISH" ? (
