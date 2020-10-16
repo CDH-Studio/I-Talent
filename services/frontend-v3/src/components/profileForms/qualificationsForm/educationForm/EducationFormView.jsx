@@ -191,7 +191,7 @@ const EducationFormView = ({
         md={24}
         lg={12}
         xl={12}
-        style={{ marginBottom: "-50px" }}
+        // style={{ marginBottom: "-50px" }}
       >
         <Form.Item
           noStyle
@@ -257,7 +257,7 @@ const EducationFormView = ({
         </Form.Item>
       </Col>
 
-      <Col className="gutter-row" span={24}>
+      <Col className="gutter-row" className="descriptionRow" span={24}>
         <DescriptionFormItem
           label={<FormattedMessage id="profile.qualification.description" />}
           name={[fieldElement.name, "description"]}

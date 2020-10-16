@@ -14,3 +14,13 @@
 .deleteButton {
   float: right;
 }
+
+.descriptionRow {
+  margin-top: -23px !important;
+}
+
+@media (max-width: 990px) {
+  .descriptionRow {
+    margin-top: -8px !important;
+  }
+}
