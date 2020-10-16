@@ -3,15 +3,32 @@ import PropTypes from "prop-types";
 import { Modal, Tabs } from "antd";
 import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 
 const { TabPane } = Tabs;
 
-const PrivacyModalView = ({ handleOk, handleCancel, showModal, keycloak }) => {
+const PrivacyModalView = ({
+  handleOk,
+  handleCancel,
+  showModal,
+  keycloak,
+  locale,
+}) => {
   return (
     <Modal
       title={
         <>
-          <LockOutlined /> Privacy Agreement
+          <LockOutlined /> <FormattedMessage id="privacy.modal.header" />
+          <div
+            style={{
+              position: "absolute",
+              right: 25,
+              top: 12,
+              backgroundColor: "red",
+            }}
+          >
+            <ChangeLanguage />
+          </div>
         </>
       }
       visible={showModal && keycloak && keycloak.authenticated}
@@ -20,22 +37,22 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, keycloak }) => {
       okText={
         <>
           <CheckOutlined style={{ marginRight: "3px" }} />
-          Accept
+          <FormattedMessage id="privacy.modal.accept" />
         </>
       }
       cancelText={
         <>
           <CloseOutlined style={{ marginRight: "3px" }} />
-          Decline
+          <FormattedMessage id="privacy.modal.decline" />
         </>
       }
       onOk={handleOk}
       onCancel={handleCancel}
       width={700}
     >
-      <Tabs defaultActiveKey="1" size={"small"} style={{ marginTop: "-20px" }}>
-        <TabPane tab="English" key="1">
-          <div style={{ maxHeight: "400px", overflowY: "scroll" }}>
+      <div style={{ maxHeight: "400px", overflowY: "scroll" }}>
+        {locale === "ENGLISH" ? (
+          <>
             <p>
               Please be advised that by logging in you have the ability to
               self-administer information about yourself. The collection of your
@@ -84,10 +101,9 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, keycloak }) => {
               accessed this Privacy notice statement and disclaimer and are now
               ready to provide your personal information in accordance with it.
             </p>
-          </div>
-        </TabPane>
-        <TabPane tab="Français" key="2">
-          <div style={{ maxHeight: "400px", overflowY: "scroll" }}>
+          </>
+        ) : (
+          <>
             <p>
               Veuillez noter qu'en vous connectant, vous avez la possibilité de
               auto-administrer des informations vous concernant. La collection
@@ -144,9 +160,9 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, keycloak }) => {
               non-responsabilité et prêt à fournir vos informations personnelles
               conformément à celui-ci.
             </p>
-          </div>
-        </TabPane>
-      </Tabs>
+          </>
+        )}
+      </div>
     </Modal>
   );
 };
@@ -156,6 +172,7 @@ PrivacyModalView.propTypes = {
   keycloak: PropTypes.object.isRequired,
   handleOk: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
+  locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
 };
 
 export default PrivacyModalView;

@@ -10,6 +10,7 @@ const PrivacyModal = ({ data }) => {
   const dispatch = useDispatch();
   const { isPrivacyAccepted } = useSelector((state) => state.user);
   const [keycloak] = useKeycloak();
+  const { locale } = useSelector((state) => state.settings);
 
   const handleOk = () => {
     dispatch(setIsPrivacyAccepted(true));
@@ -24,6 +25,7 @@ const PrivacyModal = ({ data }) => {
       handleOk={handleOk}
       handleCancel={handleCancel}
       keycloak={keycloak}
+      locale={locale}
     />
   );
 };
