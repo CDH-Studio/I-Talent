@@ -269,6 +269,7 @@
   "profile.qualification.description": "Description",
   "profile.qualifications.select.month": "Sélectionner un mois",
   "profile.qualified.pools": "Bassin de candidats qualifiés",
+  "profile.qualified.empty": "aucune bassin de candidats fournie",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.rules.max": "Maximum de {max} caractères",
   "profile.rules.max.100": "Maximum de 100 caractères",

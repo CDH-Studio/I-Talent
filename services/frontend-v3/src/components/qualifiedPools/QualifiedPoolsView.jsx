@@ -1,90 +1,58 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { Row, Col, List, Tag } from "antd";
+import { Row, Col, Avatar, List, Empty, Tag, Descriptions, Typography } from "antd";
+import { BankOutlined, LinkOutlined } from "@ant-design/icons";
+import DescriptionText from "../descriptionText/DescriptionText";
+const { Link } = Typography;
 
-const QualifiedPoolsView = ({
-  interestedInRemote,
-  lookingJob,
-  relocationLocations,
-}) => {
-  const getCareerInterestsInfo = () => {
-    const items = [];
+const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
 
-    let description = "-";
-    if (interestedInRemote) {
-      description = <FormattedMessage id="profile.yes" />;
-    } else if (interestedInRemote === false) {
-      description = <FormattedMessage id="profile.no" />;
-    }
-
-    items.push(
-      {
-        title: <FormattedMessage id="profile.interested.in.remote" />,
-        description,
-      },
-      {
-        title: <FormattedMessage id="profile.looking.for.new.job" />,
-        description: (lookingJob && lookingJob.description) || "-",
-      }
+  const generateQualifiedPoolsInfoList = (dataSource) => {
+    return (
+      <List
+        itemLayout="horizontal"
+        dataSource={dataSource}
+        renderItem={(item) => (
+          <List.Item>
+            <Descriptions>
+              <Descriptions.Item>{item.classification}</Descriptions.Item>
+              <Descriptions.Item>{item.jobTitle}</Descriptions.Item>
+              <Descriptions.Item>
+                <Link href={item.jobPosterLink} target="_blank">
+                  <LinkOutlined />{item.selectionProcessNumber}
+                </Link>
+              </Descriptions.Item>
+            </Descriptions>
+          </List.Item>
+        )}
+      />
     );
-
-    if (relocationLocations && relocationLocations.length > 0) {
-      items.push({
-        title: <FormattedMessage id="profile.willing.to.relocate.to" />,
-        render: (
-          <div style={{ marginTop: 7 }}>
-            {relocationLocations.map(({ id, city, province }) => (
-              <Tag color="#727272" key={id}>
-                {city}, {province}
-              </Tag>
-            ))}
-          </div>
-        ),
-      });
-    }
-
-    return items;
   };
 
+  if (qualifiedPoolsInfo.length > 0) {
+    return (
+      <Row>
+        <Col xs={24} lg={24}>
+          {generateQualifiedPoolsInfoList(qualifiedPoolsInfo)}
+        </Col>
+      </Row>
+    );
+  }
   return (
-    <Row>
-      <Col span={24}>
-        <List
-          itemLayout="horizontal"
-          dataSource={getCareerInterestsInfo()}
-          renderItem={({ title, description, render }) => (
-            <List.Item>
-              <Col span={24}>
-                <List.Item.Meta title={title} description={description} />
-                {render}
-              </Col>
-            </List.Item>
-          )}
-        />
-      </Col>
-    </Row>
+    <Empty
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
+      description={<FormattedMessage id="profile.qualified.empty" />}
+    />
   );
 };
 
 QualifiedPoolsView.propTypes = {
-  interestedInRemote: PropTypes.bool,
-  lookingJob: PropTypes.shape({
-    description: PropTypes.string,
-  }),
-  relocationLocations: PropTypes.arrayOf(
+  qualifiedPoolsInfo: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      city: PropTypes.string,
-      province: PropTypes.string,
+      classification: PropTypes.string
     })
-  ),
-};
-
-QualifiedPoolsView.defaultProps = {
-  interestedInRemote: undefined,
-  lookingJob: undefined,
-  relocationLocations: [],
+  ).isRequired,
 };
 
 export default QualifiedPoolsView;

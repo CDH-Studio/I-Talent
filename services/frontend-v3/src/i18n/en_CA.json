@@ -269,6 +269,7 @@
   "profile.qualification.description": "Description",
   "profile.qualifications.select.month": "Select month",
   "profile.qualified.pools": "Qualified pools",
+  "profile.qualified.empty": "no qualified pools provided",
   "profile.rules.email": "Please provide a valid Gov. Canada email",
   "profile.rules.max": "Max length {max} characters",
   "profile.rules.max.100": "Max length 100 characters",

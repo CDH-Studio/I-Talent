@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import QualifiedPoolsView from "./QualifiedPoolsView";
 import ProfileCards from "../profileCards/ProfileCards";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import { useIntl } from "react-intl";
 
 const QualifiedPools = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -37,7 +38,7 @@ const QualifiedPools = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.qualifiedPools}
     >
       <QualifiedPoolsView
-        qualifiedPoolsInfo={data.getQualifiedPoolsInfo(data)}
+        qualifiedPoolsInfo={getQualifiedPoolsInfo(data)}
       />
     </ProfileCards>
   );
