@@ -304,7 +304,7 @@ const SkillTableView = ({
               {categories.data.map((category) => {
                 return (
                   <Option value={category.id} key={category.id}>
-                    {category[locale]}
+                    {category[locale === "ENGLISH" ? "en" : "fr"]}
                   </Option>
                 );
               })}
