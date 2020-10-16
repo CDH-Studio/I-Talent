@@ -78,11 +78,11 @@ const FormControlButtonsView = ({
     );
 
   return (
-    <Row gutter={24} className="container">
+    <Row gutter={24} className="fcb-container">
       <Col xs={24} md={24} lg={18} xl={18}>
         {(edit || onSaveAndNext) && (
           <Button
-            className="finishAndSaveBtn"
+            className="fcb-finishAndSaveBtn"
             onClick={create ? onSaveAndFinish : onSave}
             htmlType="button"
             disabled={edit && !fieldsChanged}
@@ -91,7 +91,7 @@ const FormControlButtonsView = ({
           </Button>
         )}
         <Button
-          className="clearBtn"
+          className="fcb-clearBtn"
           htmlType="button"
           onClick={onReset}
           danger
@@ -104,7 +104,11 @@ const FormControlButtonsView = ({
         </Button>
       </Col>
       <Col xs={24} md={24} lg={6} xl={6}>
-        <Button className="saveBtn" type="primary" onClick={lastButtonOnClick}>
+        <Button
+          className="fcb-saveBtn"
+          type="primary"
+          onClick={lastButtonOnClick}
+        >
           {lastButtonContent()}
         </Button>
       </Col>
