@@ -9,7 +9,6 @@ const AppLayout = ({
   loading,
   displayLogo,
   displaySearch,
-  invisibleBackground,
 }) => {
   return (
     <AppLayoutView
@@ -18,7 +17,6 @@ const AppLayout = ({
       loading={loading}
       displayLogo={displayLogo}
       displaySearch={displaySearch}
-      invisibleBackground={invisibleBackground}
     >
       {children}
     </AppLayoutView>
@@ -32,7 +30,6 @@ AppLayout.propTypes = {
   loading: PropTypes.bool,
   displaySearch: PropTypes.bool,
   displayLogo: PropTypes.bool,
-  invisibleBackground: PropTypes.bool,
 };
 
 AppLayout.defaultProps = {
@@ -42,7 +39,6 @@ AppLayout.defaultProps = {
   loading: false,
   displayLogo: true,
   displaySearch: true,
-  invisibleBackground: false,
 };
 
 export default AppLayout;

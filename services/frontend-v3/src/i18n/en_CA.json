@@ -357,6 +357,7 @@
   "setup.employment": "Employment data",
   "setup.experience": "Experience",
   "setup.first.language": "First official language",
+  "setup.gc.directory": "GCdirectory Sync",
   "setup.language.proficiency": "Official languages",
   "setup.link.profiles": "Usernames to external profiles",
   "setup.primary.information": "Contact information",
