@@ -3,16 +3,10 @@ import { Row, Col, Avatar, List, Empty, Tag } from "antd";
 import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-
+import "./EducationView.scss";
 import DescriptionText from "../descriptionText/DescriptionText";
 
 const EducationView = ({ educationInfo }) => {
-  const styles = {
-    avatar: {
-      backgroundColor: "#007471",
-    },
-  };
-
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
@@ -50,7 +44,7 @@ const EducationView = ({ educationInfo }) => {
             <List.Item.Meta
               avatar={
                 <Avatar
-                  style={styles.avatar}
+                  className="avatar"
                   size="large"
                   icon={<BankOutlined />}
                   shape="square"

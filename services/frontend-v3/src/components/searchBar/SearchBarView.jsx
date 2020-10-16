@@ -22,6 +22,7 @@ import {
 import logo from "../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../utils/customPropTypes";
 import filterOption from "../../functions/filterSelectInput";
+import "./SearchBarView.scss";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;
@@ -39,57 +40,6 @@ const SearchBarView = ({
 }) => {
   const [expandAdvancedSearch, setExpandAdvancedSearch] = useState(false);
   const [form] = Form.useForm();
-
-  const styles = {
-    outerForm: {
-      width: "100%",
-      paddingTop: "80px",
-    },
-    outerDiv: {
-      width: "90%",
-      maxWidth: "1100px",
-      margin: "auto",
-    },
-    mainSearchDiv: {
-      backgroundColor: "rgb(25, 46, 47)",
-      borderRadius: "5px 5px 0 0",
-      padding: "50px 80px 40px 80px",
-      boxShadow: "10px 10px 10px #cccccc",
-      textAlign: "center",
-    },
-    mainSearchField: {
-      margin: "30px 10px 10px 10px",
-    },
-    submitBtn: {
-      marginLeft: 8,
-      width: "100%",
-      maxWidth: "200px",
-      marginTop: "10px",
-    },
-    clearBtn: {
-      marginLeft: 8,
-      marginTop: "10px",
-    },
-    advFieldStyles: {
-      textAlign: "center",
-      marginTop: "10px",
-    },
-    advSearchCard: {
-      padding: "10px",
-      backgroundColor: "#fff",
-      boxShadow: "10px 10px 10px #cccccc",
-      borderRadius: "0 0 5px 5px",
-    },
-    advFieldPlacement: {
-      textAlign: "center",
-    },
-    alert: {
-      fontSize: "14px",
-      textAlign: "center",
-      margin: "0 auto",
-      width: "300px",
-    },
-  };
 
   const searchLabel = intl.formatMessage({
     id: "button.search",
@@ -122,14 +72,14 @@ const SearchBarView = ({
 
     return (
       <div>
-        <div style={styles.mainSearchField}>{getBasicField()}</div>
+        <div className="search-mainSearchField">{getBasicField()}</div>
         <Button
           shape="round"
           size="large"
           type="primary"
           htmlType="submit"
           icon={<SearchOutlined />}
-          style={styles.submitBtn}
+          className="search-submitBtn"
         >
           {searchLabel}
         </Button>
@@ -137,7 +87,7 @@ const SearchBarView = ({
           ghost
           shape="round"
           size="large"
-          style={styles.clearBtn}
+          className="search-clearBtn"
           onClick={() => {
             form.resetFields();
           }}
@@ -330,14 +280,14 @@ const SearchBarView = ({
             type="primary"
             htmlType="submit"
             icon={<SearchOutlined />}
-            style={styles.submitBtn}
+            className="search-submitBtn"
           >
             {searchLabel}
           </Button>
           <Button
             shape="round"
             size="large"
-            style={styles.clearBtn}
+            className="search-clearBtn"
             onClick={() => {
               form.resetFields();
             }}
@@ -354,11 +304,11 @@ const SearchBarView = ({
     <Form
       form={form}
       onFinish={onFinish}
-      style={styles.outerForm}
+      className="search-outerForm"
       layout="vertical"
     >
-      <div style={styles.outerDiv}>
-        <div style={styles.mainSearchDiv}>
+      <div className="search-outerDiv">
+        <div className="search-mainSearchDiv">
           <img
             src={logo}
             alt="I-Talent Logo"
@@ -367,12 +317,12 @@ const SearchBarView = ({
           {/* Gets main basic search field and shows buttons beneath */}
           {getBasicSearchForm(!expandAdvancedSearch)}
         </div>
-        <div style={styles.advSearchCard}>
+        <div className="search-advSearchCard">
           {/* Gets fields for Advanced Search in collapse */}
           {getAdvancedSearchForm(expandAdvancedSearch)}
           {/* expand advance search btn */}
           <Row>
-            <Col span={24} style={styles.advFieldPlacement}>
+            <Col span={24} className="search-advFieldPlacement">
               <Button
                 type="link"
                 onClick={toggle}
