@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Tabs } from "antd";
-import { LockOutlined } from "@ant-design/icons";
+import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 
 const { TabPane } = Tabs;
@@ -15,7 +15,20 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, keycloak }) => {
         </>
       }
       visible={showModal && keycloak && keycloak.authenticated}
+      closable={false}
       maskClosable={false}
+      okText={
+        <>
+          <CheckOutlined style={{ marginRight: "3px" }} />
+          Accept
+        </>
+      }
+      cancelText={
+        <>
+          <CloseOutlined style={{ marginRight: "3px" }} />
+          Decline
+        </>
+      }
       onOk={handleOk}
       onCancel={handleCancel}
       width={700}
