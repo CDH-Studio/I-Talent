@@ -4,14 +4,9 @@ import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
 import DescriptionText from "../descriptionText/DescriptionText";
+import "./ExperienceView.scss";
 
 const ExperienceView = ({ experienceInfo }) => {
-  const styles = {
-    avatar: {
-      backgroundColor: "#007471",
-    },
-  };
-
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
@@ -68,7 +63,7 @@ const ExperienceView = ({ experienceInfo }) => {
                 <List.Item.Meta
                   avatar={
                     <Avatar
-                      style={styles.avatar}
+                      className="avatar"
                       size="large"
                       icon={<ContainerOutlined />}
                       shape="square"

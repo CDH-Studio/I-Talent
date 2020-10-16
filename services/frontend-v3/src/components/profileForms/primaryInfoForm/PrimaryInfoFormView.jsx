@@ -37,6 +37,8 @@ import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
+import "./PrimaryInfoFormView.scss";
+
 const { Option } = Select;
 const { Title, Text } = Typography;
 
@@ -59,63 +61,6 @@ const PrimaryInfoFormView = ({
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      minHeight: "621px",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-    gedsInfoLink: {
-      display: "inline",
-      float: "right",
-    },
-    popoverStyle: {
-      maxWidth: "430px",
-    },
-    rightSpacedButton: {
-      marginRight: "1em",
-    },
-    infoIcon: {
-      marginLeft: "5px",
-    },
-    popoverStyleCareer: {
-      marginLeft: "8px",
-    },
-    sectionHeader: {
-      marginBottom: 10,
-    },
-  };
 
   /* Component Rules for form fields */
   const Rules = {
@@ -396,7 +341,7 @@ const PrimaryInfoFormView = ({
         </div>
       }
     >
-      <InfoCircleOutlined style={styles.infoIcon} tabIndex={0} />
+      <InfoCircleOutlined className="prim-infoIcon" tabIndex={0}/>
     </Popover>
   );
 
@@ -407,13 +352,13 @@ const PrimaryInfoFormView = ({
   const getFormHeader = ({ formHeaderType }) => {
     if (formHeaderType === "create") {
       return (
-        <Title level={2} style={styles.formTitle}>
+        <Title level={2} className="prim-formTitle">
           2. <FormattedMessage id="setup.primary.information" />
-          <div style={styles.gedsInfoLink}>
+          <div className="prim-gedsInfoLink">
             <Popover
               trigger={["focus", "hover"]}
               content={
-                <div style={styles.popoverStyle}>
+                <div className="prim-popoverStyle">
                   <FormattedMessage id="profile.geds.edit.info1" />
                   <a
                     target="_blank"
@@ -433,14 +378,14 @@ const PrimaryInfoFormView = ({
       );
     }
     return (
-      <Title level={2} style={styles.formTitle}>
+      <Title level={2} className="prim-formTitle">
         <FormattedMessage id="setup.primary.information" />
-        <div style={styles.gedsInfoLink}>
+        <div className="prim-gedsInfoLink">
           <Button
             onClick={() => {
               setGedsModalVisible(true);
             }}
-            style={styles.rightSpacedButton}
+            className="prim-rightSpacedButton"
           >
             <SyncOutlined />
             <span>
@@ -450,7 +395,7 @@ const PrimaryInfoFormView = ({
           <Popover
             trigger={["focus", "hover"]}
             content={
-              <div style={styles.popoverStyle}>
+              <div className="prim-popoverStyle">
                 <FormattedMessage id="profile.geds.edit.info1" />
                 <a
                   target="_blank"
@@ -467,7 +412,7 @@ const PrimaryInfoFormView = ({
           </Popover>
         </div>
         {fieldsChanged && (
-          <Text style={styles.unsavedText}>
+          <Text className="unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -481,7 +426,7 @@ const PrimaryInfoFormView = ({
   if (!load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.skeleton}>
+      <div className="prim-skeleton">
         <Skeleton active />
       </div>
     );
@@ -493,11 +438,11 @@ const PrimaryInfoFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div style={styles.content}>
+      <div className="prim-content">
         <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
         {/* get form title */}
         {getFormHeader({ formHeaderType: formType })}
-        <Divider style={styles.headerDiv} />
+        <Divider className="prim-headerDiv" />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
@@ -538,11 +483,11 @@ const PrimaryInfoFormView = ({
                 label={
                   <>
                     <FormattedMessage id="profile.career.header.name" />
-                    <div style={styles.popoverStyleCareer}>
+                    <div className="prim-popoverStyleCareer">
                       <Popover
                         trigger={["focus", "hover"]}
                         content={
-                          <div style={styles.popoverStyle}>
+                          <div className="prim-popoverStyle">
                             <FormattedMessage id="profile.job.title.tooltip" />
                           </div>
                         }
@@ -682,13 +627,13 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          <Divider style={styles.headerDiv} />
+          <Divider className="prim-headerDiv" />
           <Row
             justify="space-between"
-            style={styles.sectionHeader}
+            className="prim-sectionHeader"
             align="middle"
           >
-            <Title level={3} style={styles.formTitle}>
+            <Title level={3} className="prim-formTitle">
               <FormattedMessage id="profile.employment.equity.groups" />
             </Title>
             <CardVisibilityToggle

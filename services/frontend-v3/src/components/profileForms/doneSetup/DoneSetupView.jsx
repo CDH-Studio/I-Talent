@@ -8,6 +8,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router";
+import "./DoneSetupView.scss";
 
 const { Title, Paragraph } = Typography;
 
@@ -19,31 +20,8 @@ const { Title, Paragraph } = Typography;
 const DoneSetupView = ({ userId }) => {
   const history = useHistory();
 
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      textAlign: "center",
-      width: "100%",
-      minHeight: "400px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "center",
-      width: "100%",
-      background: "#fff",
-      padding: "80px 10px",
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    buttonText: {
-      marginLeft: "10px",
-    },
-  };
-
   return (
-    <div style={styles.content}>
+    <div className="done-content">
       <CheckCircleOutlined
         style={{
           color: "#087472",
@@ -60,10 +38,10 @@ const DoneSetupView = ({ userId }) => {
       >
         <FormattedMessage id="setup.done.title" />
       </Title>
-      <Paragraph style={styles.subHeading}>
+      <Paragraph className="done-subHeading">
         <FormattedMessage id="setup.done.description" />
       </Paragraph>
-      <Paragraph style={styles.subHeading} strong>
+      <Paragraph className="done-subHeading" strong>
         <FormattedMessage id="setup.done.action" />
       </Paragraph>
       <Button

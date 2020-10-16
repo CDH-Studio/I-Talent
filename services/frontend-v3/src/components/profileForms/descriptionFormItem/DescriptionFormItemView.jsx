@@ -2,6 +2,7 @@ import React from "react";
 import { Input, Form } from "antd";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import "./DescriptionFormItemView.scss";
 
 const { TextArea } = Input;
 
@@ -14,12 +15,6 @@ const DescriptionFormItem = ({
   charsLeft,
   handleDescriptionChange,
 }) => {
-  const styles = {
-    space: {
-      paddingLeft: "0.25em",
-    },
-  };
-
   return (
     <Form.Item
       name={name}
@@ -30,9 +25,9 @@ const DescriptionFormItem = ({
         <div>
           {lengthMessage}
           {charsLeft >= 0 && (
-            <span style={styles.space}>
+            <span className="space">
               ({charsLeft}
-              <span style={styles.space}>
+              <span className="space">
                 <FormattedMessage id="count.remaining" />
               </span>
               )

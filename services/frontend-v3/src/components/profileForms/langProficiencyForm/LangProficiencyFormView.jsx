@@ -34,6 +34,7 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import "./LangProficiencyFormView.scss";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -64,65 +65,6 @@ const LangProficiencyFormView = ({
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      width: "100%",
-      maxWidth: "900px",
-      minHeight: "311px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    secondLangRow: {
-      backgroundColor: "#dfe5e4",
-      paddingTop: "15px",
-      paddingBottom: "15px",
-      marginBottom: "20px",
-      marginTop: "10px",
-    },
-    finishAndSaveBtn: {
-      float: "left",
-      marginRight: "1rem",
-      marginBottom: "1rem",
-    },
-    clearBtn: { float: "left", marginBottom: "1rem" },
-    finishAndNextBtn: {
-      width: "100%",
-      float: "right",
-      marginBottom: "1rem",
-    },
-    datePicker: { width: "100%" },
-    saveBtn: {
-      float: "right",
-      marginBottom: "1rem",
-      minWidth: "100%",
-    },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-    iconBySwitch: {
-      paddingLeft: "5px",
-      paddingRight: "5px",
-    },
-  };
 
   /* Component Rules for form fields */
   const Rules = {
@@ -509,7 +451,7 @@ const LangProficiencyFormView = ({
                     unknownExpiredGrades.reading ||
                     formValues.readingProficiency === "NA"
                   }
-                  style={styles.datePicker}
+                  className="datePicker"
                 />
               </Form.Item>
               <Form.Item
@@ -560,7 +502,7 @@ const LangProficiencyFormView = ({
                     unknownExpiredGrades.writing ||
                     formValues.writingProficiency === "NA"
                   }
-                  style={styles.datePicker}
+                  className="datePicker"
                 />
               </Form.Item>
               <Form.Item
@@ -611,7 +553,7 @@ const LangProficiencyFormView = ({
                     unknownExpiredGrades.oral ||
                     formValues.oralProficiency === "NA"
                   }
-                  style={styles.datePicker}
+                  className="datePicker"
                 />
               </Form.Item>
               <Form.Item
@@ -638,16 +580,16 @@ const LangProficiencyFormView = ({
   const getFormHeader = () => {
     if (formType === "create") {
       return (
-        <Title level={2} style={styles.formTitle}>
+        <Title level={2} className="lang-formTitle">
           4. <FormattedMessage id="setup.language.proficiency" />
         </Title>
       );
     }
     return (
-      <Title level={2} style={styles.formTitle}>
+      <Title level={2} className="lang-formTitle">
         <FormattedMessage id="setup.language.proficiency" />
         {fieldsChanged && (
-          <Text style={styles.unsavedText}>
+          <Text className="unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -675,7 +617,7 @@ const LangProficiencyFormView = ({
   if (!load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.skeleton}>
+      <div className="lang-skeleton">
         <Skeleton active />
       </div>
     );
@@ -688,9 +630,9 @@ const LangProficiencyFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div style={styles.content}>
+      <div className="lang-content">
         {/* get form title */}
-        <Row justify="space-between" style={{ marginBottom: -5 }}>
+        <Row justify="space-between" style={{ marginBottom: -9 }}>
           {getFormHeader(formType)}
           <div style={{ marginTop: -5 }}>
             <CardVisibilityToggle
@@ -700,7 +642,7 @@ const LangProficiencyFormView = ({
             />
           </div>
         </Row>
-        <Divider style={styles.headerDiv} />
+        <Divider className="lang-headerDiv" />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
@@ -730,7 +672,7 @@ const LangProficiencyFormView = ({
             </Col>
           </Row>
           {/* Form Row Four: Temporary role */}
-          <Row style={styles.secondLangRow} gutter={24}>
+          <Row className="lang-secondLangRow" gutter={24}>
             <Col className="gutter-row" span={24}>
               <Row>
                 <Text>
@@ -747,7 +689,7 @@ const LangProficiencyFormView = ({
                     </div>
                   }
                 >
-                  <div style={styles.iconBySwitch}>
+                  <div  className="iconBySwitch">
                     <InfoCircleOutlined tabIndex={0} />
                   </div>
                 </Popover>

@@ -269,16 +269,16 @@ const PersonalGrowthFormView = ({
   const getFormHeader = () => {
     if (formType === "create") {
       return (
-        <Title level={2} className="formTitle">
+        <Title level={2} className="pgf-formTitle">
           7. <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
       );
     }
     return (
-      <Title level={2} className="formTitle">
+      <Title level={2} className="pgf-formTitle">
         <FormattedMessage id="profile.employee.growth.interests" />
         {fieldsChanged && (
-          <Text className="unsavedText">
+          <Text className="pgf-unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -287,8 +287,8 @@ const PersonalGrowthFormView = ({
   };
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" className="sectionHeader" align="middle">
-      <Title level={3} className="formTitle">
+    <Row justify="space-between" className="pgf-sectionHeader" align="middle">
+      <Title level={3} className="pgf-formTitle">
         <Row>
           <FormattedMessage id={titleId} />
           <Popover
@@ -302,7 +302,7 @@ const PersonalGrowthFormView = ({
               </div>
             }
           >
-            <div className="infoIcon">
+            <div className="pgf-infoIcon">
               <InfoCircleOutlined tabIndex={0} />
             </div>
           </Popover>
@@ -322,7 +322,7 @@ const PersonalGrowthFormView = ({
   if (!load) {
     return (
       /* If form data is loading then wait */
-      <div className="skeleton">
+      <div className="pgf-skeleton">
         <Skeleton active />
       </div>
     );
@@ -335,10 +335,10 @@ const PersonalGrowthFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div className="content">
+      <div className="pgf-content">
         {/* get form title */}
         {getFormHeader(formType)}
-        <Divider className="headerDiv" />
+        <Divider className="pgf-headerDiv" />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
@@ -504,7 +504,7 @@ const PersonalGrowthFormView = ({
               {/* *************** Talent Management ************** */}
 
               <Row justify="space-between" align="middle">
-                <Title level={3} className="formTitle">
+                <Title level={3} className="pgf-formTitle">
                   <Row>
                     <FormattedMessage id="setup.talent.management" />
                     <Popover
@@ -532,7 +532,7 @@ const PersonalGrowthFormView = ({
                         </div>
                       }
                     >
-                      <div className="TMTooltip">
+                      <div className="pgf-TMTooltip">
                         <InfoCircleOutlined tabIndex={0} />
                       </div>
                     </Popover>
@@ -601,7 +601,7 @@ const PersonalGrowthFormView = ({
             >
               {/* Form Row Three: ex feeder */}
               {getSectionHeader("profile.ex.feeder.title", "exFeeder")}
-              <Row className="exFeeder" justify="space-between">
+              <Row className="pgf-exFeeder" justify="space-between">
                 <Col className="gutter-row">
                   <Form.Item name="exFeeder" valuePropName="checked">
                     <Checkbox>
