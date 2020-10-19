@@ -21,37 +21,35 @@ const AppLayoutView = ({
   const { locale } = useSelector((state) => state.settings);
 
   return (
-    <>
-      <Layout style={{ minHeight: "100vh" }}>
-        <Helmet>
-          <html lang={locale === "ENGLISH" ? "en" : "fr"} />
-        </Helmet>
-        <TopNav
+    <Layout style={{ minHeight: "100vh" }}>
+      <Helmet>
+        <html lang={locale === "ENGLISH" ? "en" : "fr"} />
+      </Helmet>
+      <TopNav
+        loading={loading}
+        displayLogo={displayLogo}
+        displaySearch={displaySearch}
+      />
+      <Layout>
+        <SideNav
+          sideBarContent={sideBarContent}
+          displaySideBar={displaySideBar}
           loading={loading}
-          displayLogo={displayLogo}
-          displaySearch={displaySearch}
         />
         <Layout>
-          <SideNav
-            sideBarContent={sideBarContent}
-            displaySideBar={displaySideBar}
-            loading={loading}
-          />
-          <Layout>
-            <Content className="app-content">
-              {loading ? (
-                <Card>
-                  <Skeleton active />
-                </Card>
-              ) : (
-                children
-              )}
-            </Content>
-            <Footer />
-          </Layout>
+          <Content className="app-content">
+            {loading ? (
+              <Card>
+                <Skeleton active />
+              </Card>
+            ) : (
+              children
+            )}
+          </Content>
+          <Footer />
         </Layout>
       </Layout>
-    </>
+    </Layout>
   );
 };
 
