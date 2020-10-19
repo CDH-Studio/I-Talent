@@ -17,7 +17,6 @@ const AppLayoutView = ({
   loading,
   displayLogo,
   displaySearch,
-  invisibleBackground,
 }) => {
   const { locale } = useSelector((state) => state.settings);
 
@@ -30,7 +29,6 @@ const AppLayoutView = ({
         loading={loading}
         displayLogo={displayLogo}
         displaySearch={displaySearch}
-        invisibleBackground={invisibleBackground}
       />
       <Layout>
         <SideNav
@@ -62,7 +60,6 @@ AppLayoutView.propTypes = {
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
-  invisibleBackground: PropTypes.bool.isRequired,
 };
 
 export default AppLayoutView;

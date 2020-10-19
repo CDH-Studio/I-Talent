@@ -16,6 +16,5 @@
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/.hg/store/**": true
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

@@ -86,7 +86,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             <li className="menu-list-item">
               - <FormattedMessage id="profile.employment.equity.groups" />
             </li>
-            <li style={styles.menuListItem}>
+            <li className="menu-list-item">
               - <FormattedMessage id="setup.gc.directory" />
             </li>
           </ul>

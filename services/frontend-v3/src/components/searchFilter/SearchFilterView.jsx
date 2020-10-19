@@ -210,8 +210,8 @@ const SearchBarView = ({
           type="primary"
           htmlType="submit"
         >
-          <ReloadOutlined style={{ marginRight: "5px" }} />
-          {searchLabel}
+          <ReloadOutlined />
+          <span>{searchLabel}</span>
         </Button>
       </Form>
     </div>
