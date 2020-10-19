@@ -1,22 +1,22 @@
-# Migration `20200821203314-add-project-to-experince`
+# Migration `20201019154547-init`
 
-This migration has been generated at 8/21/2020, 4:33:14 PM.
+This migration has been generated at 10/19/2020, 11:45:47 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
 
 ```sql
-CREATE TYPE "Language" AS ENUM ('FRENCH', 'ENGLISH')
+CREATE TYPE "public"."Language" AS ENUM ('FRENCH', 'ENGLISH')
 
-CREATE TYPE "UserStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'HIDDEN')
+CREATE TYPE "public"."UserStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'HIDDEN')
 
-CREATE TYPE "Proficiency" AS ENUM ('READING', 'WRITING', 'ORAL')
+CREATE TYPE "public"."Proficiency" AS ENUM ('READING', 'WRITING', 'ORAL')
 
-CREATE TYPE "ProficiencyLevel" AS ENUM ('A', 'B', 'C', 'E', 'X', 'NA')
+CREATE TYPE "public"."ProficiencyLevel" AS ENUM ('A', 'B', 'C', 'E', 'X', 'NA')
 
-CREATE TYPE "CardVisibilityStatus" AS ENUM ('PRIVATE', 'PUBLIC', 'CONNECTIONS')
+CREATE TYPE "public"."CardVisibilityStatus" AS ENUM ('PRIVATE', 'PUBLIC', 'CONNECTIONS')
 
-CREATE TYPE "EmploymentEquityGroup" AS ENUM ('WOMEN', 'INDIGENOUS', 'DISABILITY', 'MINORITY')
+CREATE TYPE "public"."EmploymentEquityGroup" AS ENUM ('WOMEN', 'INDIGENOUS', 'DISABILITY', 'MINORITY')
 
 CREATE TABLE "public"."DbSeed" (
 "id" text   NOT NULL ,
@@ -327,7 +327,7 @@ CREATE TABLE "public"."SecondLangProf" (
 "updatedAt" timestamp(3)   NOT NULL ,
 "userId" text   NOT NULL ,
 "date" timestamp(3)   ,
-"unknownExpiredDate" boolean   NOT NULL DEFAULT false,
+"unknownExpiredDate" boolean   DEFAULT false,
 "proficiency" "Proficiency"  NOT NULL ,
 "level" "ProficiencyLevel"  NOT NULL ,
 PRIMARY KEY ("id")
@@ -368,7 +368,8 @@ CREATE TABLE "public"."Education" (
 "schoolId" text   ,
 "diplomaId" text   ,
 "endDate" timestamp(3)   ,
-"startDate" timestamp(3)   NOT NULL ,
+"startDate" timestamp(3)   ,
+"ongoingDate" boolean   NOT NULL DEFAULT false,
 "description" text   ,
 PRIMARY KEY ("id")
 )
@@ -392,6 +393,7 @@ CREATE TABLE "public"."Experience" (
 "userId" text   NOT NULL ,
 "startDate" timestamp(3)   NOT NULL ,
 "endDate" timestamp(3)   ,
+"ongoingDate" boolean   NOT NULL DEFAULT false,
 "projects" text []  ,
 PRIMARY KEY ("id")
 )
@@ -440,6 +442,7 @@ CREATE TABLE "public"."AttachmentLink" (
 "updatedAt" timestamp(3)   NOT NULL ,
 "experienceId" text   ,
 "educationId" text   ,
+"userId" text   ,
 PRIMARY KEY ("id")
 )
 
@@ -598,6 +601,8 @@ ALTER TABLE "public"."AttachmentLink" ADD FOREIGN KEY ("experienceId")REFERENCES
 
 ALTER TABLE "public"."AttachmentLink" ADD FOREIGN KEY ("educationId")REFERENCES "public"."Education"("id") ON DELETE SET NULL ON UPDATE CASCADE
 
+ALTER TABLE "public"."AttachmentLink" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE SET NULL ON UPDATE CASCADE
+
 ALTER TABLE "public"."User" ADD FOREIGN KEY ("groupLevelId")REFERENCES "public"."OpClassification"("id") ON DELETE SET NULL ON UPDATE CASCADE
 
 ALTER TABLE "public"."User" ADD FOREIGN KEY ("actingLevelId")REFERENCES "public"."OpClassification"("id") ON DELETE SET NULL ON UPDATE CASCADE
@@ -625,31 +630,177 @@ ALTER TABLE "public"."User" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20200820161701-simplify-relocation-locations..20200821203314-add-project-to-experince
+migration ..20201019154547-init
 --- datamodel.dml
 +++ datamodel.dml
-@@ -4,9 +4,9 @@
- }
- datasource db {
-   provider = "postgresql"
--  url = "***"
+@@ -1,0 +1,609 @@
++generator client {
++  provider = "prisma-client-js"
++  output   = "./client"
++}
++
++datasource db {
++  provider = "postgresql"
 +  url = "***"
- }
- model DbSeed {
-   id        String   @id
-@@ -164,17 +164,17 @@
-   opOfficeLocationId String?
- }
- model OpOfficeLocation {
--  id                  String                  @default(uuid()) @id
--  createdAt           DateTime                @default(now())
--  updatedAt           DateTime                @updatedAt
--  postalCode          String
--  streetNumber        Int
--  city                String
--  country             String
--  translations        OpTransOfficeLocation[]
--  users               User[]
++}
++
++model DbSeed {
++  id        String   @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++}
++
++enum Language {
++  FRENCH
++  ENGLISH
++}
++
++enum UserStatus {
++  ACTIVE
++  INACTIVE
++  HIDDEN
++}
++
++enum Proficiency {
++  READING
++  WRITING
++  ORAL
++}
++
++enum ProficiencyLevel {
++  A
++  B
++  C
++  E
++  X
++  NA
++}
++
++enum CardVisibilityStatus {
++  PRIVATE
++  PUBLIC
++  CONNECTIONS
++}
++
++enum EmploymentEquityGroup {
++  WOMEN
++  INDIGENOUS
++  DISABILITY
++  MINORITY
++}
++
++model OpTransSecurityClearance {
++  id          String   @default(uuid()) @id
++  createdAt   DateTime @default(now())
++  updatedAt   DateTime @updatedAt
++  language    Language
++  description String
++
++  @@unique([language, description])
++  opSecurityClearance   OpSecurityClearance? @relation(fields: [opSecurityClearanceId])
++  opSecurityClearanceId String?
++}
++
++model OpSecurityClearance {
++  id           String                     @default(uuid()) @id
++  createdAt    DateTime                   @default(now())
++  updatedAt    DateTime                   @updatedAt
++  translations OpTransSecurityClearance[]
++  users        User[]
++}
++
++model OpTransLookingJob {
++  id          String   @default(uuid()) @id
++  createdAt   DateTime @default(now())
++  updatedAt   DateTime @updatedAt
++  language    Language
++  description String
++
++  @@unique([language, description])
++  opLookingJob   OpLookingJob? @relation(fields: [opLookingJobId])
++  opLookingJobId String?
++}
++
++model OpLookingJob {
++  id           String              @default(uuid()) @id
++  createdAt    DateTime            @default(now())
++  updatedAt    DateTime            @updatedAt
++  translations OpTransLookingJob[]
++  users        User[]
++}
++
++model OpTransTenure {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  language  Language
++  name      String
++
++  @@unique([language, name])
++  opTenures  OpTenure? @relation(fields: [opTenureId])
++  opTenureId String?
++}
++
++model OpTenure {
++  id           String          @default(uuid()) @id
++  createdAt    DateTime        @default(now())
++  updatedAt    DateTime        @updatedAt
++  translations OpTransTenure[]
++  users        User[]
++}
++
++model OpTransCareerMobility {
++  id          String   @default(uuid()) @id
++  createdAt   DateTime @default(now())
++  updatedAt   DateTime @updatedAt
++  language    Language
++  description String
++
++  @@unique([language, description])
++  opCareerMobility   OpCareerMobility? @relation(fields: [opCareerMobilityId])
++  opCareerMobilityId String?
++}
++
++model OpCareerMobility {
++  id           String                  @default(uuid()) @id
++  createdAt    DateTime                @default(now())
++  updatedAt    DateTime                @updatedAt
++  translations OpTransCareerMobility[]
++  users        User[]
++}
++
++model OpTransTalentMatrixResult {
++  id          String   @default(uuid()) @id
++  createdAt   DateTime @default(now())
++  updatedAt   DateTime @updatedAt
++  language    Language
++  description String
++
++  @@unique([language, description])
++  opTalentMatrixResult   OpTalentMatrixResult? @relation(fields: [opTalentMatrixResultId])
++  opTalentMatrixResultId String?
++}
++
++model OpTalentMatrixResult {
++  id           String                      @default(uuid()) @id
++  createdAt    DateTime                    @default(now())
++  updatedAt    DateTime                    @updatedAt
++  translations OpTransTalentMatrixResult[]
++  users        User[]
++}
++
++model OpTransOfficeLocation {
++  id                 String            @default(uuid()) @id
++  createdAt          DateTime          @default(now())
++  updatedAt          DateTime          @updatedAt
++  language           Language
++  streetName         String
++  province           String
++  opOfficeLocation   OpOfficeLocation? @relation(fields: [opOfficeLocationId])
++  opOfficeLocationId String?
++}
++
++model OpOfficeLocation {
 +  id           String                  @default(uuid()) @id
 +  createdAt    DateTime                @default(now())
 +  updatedAt    DateTime                @updatedAt
@@ -659,80 +810,320 @@ migration 20200820161701-simplify-relocation-locations..20200821203314-add-proje
 +  country      String
 +  translations OpTransOfficeLocation[]
 +  users        User[]
- }
- model OpClassification {
-   id               String   @default(uuid()) @id
-@@ -261,10 +261,8 @@
-   @@unique([userId, competencyId])
- }
--
--
- model OpTransSchool {
-   id         String    @default(uuid()) @id
-   createdAt  DateTime  @default(now())
-   updatedAt  DateTime  @updatedAt
-@@ -302,25 +300,26 @@
-   educations   Education[]
- }
- model OpTransRelocationLocation {
--  id                      String     @default(uuid()) @id
--  createdAt               DateTime   @default(now())
--  updatedAt               DateTime   @updatedAt
--  language                String
--  city                    String
--  province                String
++}
++
++model OpClassification {
++  id               String   @default(uuid()) @id
++  createdAt        DateTime @default(now())
++  updatedAt        DateTime @updatedAt
++  name             String   @unique
++  actingLevelUsers User[]   @relation("actingLevels")
++  groupLevelUsers  User[]   @relation("groupLevels")
++}
++
++model OpTransSkill {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  language  Language
++  name      String
++
++  @@unique([language, name])
++  opSkill   OpSkill? @relation(fields: [opSkillId])
++  opSkillId String?
++}
++
++model OpSkill {
++  id                 String              @default(uuid()) @id
++  createdAt          DateTime            @default(now())
++  updatedAt          DateTime            @updatedAt
++  categoryId         String?
++  translations       OpTransSkill[]
++  category           OpCategory?         @relation(fields: [categoryId])
++  mentorshipSkills   MentorshipSkill[]
++  skills             Skill[]
++  developmentalGoals DevelopmentalGoal[]
++}
++
++model OpTransCategory {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  language  Language
++  name      String
++
++  @@unique([language, name])
++  opCategory   OpCategory? @relation(fields: [opCategoryId])
++  opCategoryId String?
++}
++
++model OpCategory {
++  id           String            @default(uuid()) @id
++  createdAt    DateTime          @default(now())
++  updatedAt    DateTime          @updatedAt
++  translations OpTransCategory[]
++  opSkills     OpSkill[]
++}
++
++model OpTransCompetency {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  language  Language
++  name      String
++
++  @@unique([language, name])
++  opCompetency   OpCompetency? @relation(fields: [opCompetencyId])
++  opCompetencyId String?
++}
++
++model OpCompetency {
++  id                 String              @default(uuid()) @id
++  createdAt          DateTime            @default(now())
++  updatedAt          DateTime            @updatedAt
++  translations       OpTransCompetency[]
++  developmentalGoals DevelopmentalGoal[]
++  competencies       Competency[]
++}
++
++model Competency {
++  id           String       @default(uuid()) @id
++  createdAt    DateTime     @default(now())
++  updatedAt    DateTime     @updatedAt
++  userId       String
++  competencyId String
++  user         User         @relation(fields: [userId])
++  competency   OpCompetency @relation(fields: [competencyId])
++
++  @@unique([userId, competencyId])
++}
++
++model OpTransSchool {
++  id         String    @default(uuid()) @id
++  createdAt  DateTime  @default(now())
++  updatedAt  DateTime  @updatedAt
++  language   Language
++  name       String
++  opSchool   OpSchool? @relation(fields: [opSchoolId])
++  opSchoolId String?
++}
++
++model OpSchool {
++  id           String          @default(uuid()) @id
++  createdAt    DateTime        @default(now())
++  updatedAt    DateTime        @updatedAt
++  abbrProvince String
++  abbrCountry  String
++  translations OpTransSchool[]
++  educations   Education[]
++}
++
++model OpTransDiploma {
++  id          String     @default(uuid()) @id
++  createdAt   DateTime   @default(now())
++  updatedAt   DateTime   @updatedAt
++  language    Language
++  description String
++  opDiploma   OpDiploma? @relation(fields: [opDiplomaId])
++  opDiplomaId String?
++}
++
++model OpDiploma {
++  id           String           @default(uuid()) @id
++  createdAt    DateTime         @default(now())
++  updatedAt    DateTime         @updatedAt
++  translations OpTransDiploma[]
++  educations   Education[]
++}
++
++model OpTransRelocationLocation {
 +  id        String   @default(uuid()) @id
 +  createdAt DateTime @default(now())
 +  updatedAt DateTime @updatedAt
 +  language  String
 +  city      String
 +  province  String
-   @@unique([language, city, province])
--  opRelocationLocation    OpRelocationLocation?  @relation(fields: [opRelocationLocationId])
--  opRelocationLocationId  String?
++
++  @@unique([language, city, province])
 +  opRelocationLocation   OpRelocationLocation? @relation(fields: [opRelocationLocationId])
 +  opRelocationLocationId String?
- }
- model OpRelocationLocation {
--  id            String                      @default(uuid()) @id
--  createdAt     DateTime                    @default(now())
--  updatedAt     DateTime                    @updatedAt
--  translations  OpTransRelocationLocation[]
++}
++
++model OpRelocationLocation {
 +  id                 String                      @default(uuid()) @id
 +  createdAt          DateTime                    @default(now())
 +  updatedAt          DateTime                    @updatedAt
 +  translations       OpTransRelocationLocation[]
 +  RelocationLocation RelocationLocation[]
- }
- model TransEmploymentInfo {
-   id               String          @default(uuid()) @id
-@@ -353,9 +352,8 @@
-   developmentalGoals    CardVisibilityStatus @default(PRIVATE)
-   description           CardVisibilityStatus @default(PRIVATE)
-   education             CardVisibilityStatus @default(PRIVATE)
-   experience            CardVisibilityStatus @default(PRIVATE)
--  projects              CardVisibilityStatus @default(PRIVATE)
-   careerInterests       CardVisibilityStatus @default(PRIVATE)
-   mentorshipSkills      CardVisibilityStatus @default(PRIVATE)
-   exFeeder              CardVisibilityStatus @default(PRIVATE)
-   employmentEquityGroup CardVisibilityStatus @default(PRIVATE)
-@@ -481,22 +479,23 @@
-   translations    TransExperience[]
-   userId          String
-   startDate       DateTime
-   endDate         DateTime?
++}
++
++model TransEmploymentInfo {
++  id               String          @default(uuid()) @id
++  createdAt        DateTime        @default(now())
++  updatedAt        DateTime        @updatedAt
++  language         Language
++  jobTitle         String?
++  branch           String?
++  employmentInfo   EmploymentInfo? @relation(fields: [employmentInfoId])
++  employmentInfoId String?
++}
++
++model EmploymentInfo {
++  id           String                @default(uuid()) @id
++  createdAt    DateTime              @default(now())
++  updatedAt    DateTime              @updatedAt
++  translations TransEmploymentInfo[]
++  users        User[]
++}
++
++model VisibleCard {
++  id                    String               @default(uuid()) @id
++  createdAt             DateTime             @default(now())
++  updatedAt             DateTime             @updatedAt
++  info                  CardVisibilityStatus @default(PRIVATE)
++  talentManagement      CardVisibilityStatus @default(PRIVATE)
++  officialLanguage      CardVisibilityStatus @default(PRIVATE)
++  skills                CardVisibilityStatus @default(PRIVATE)
++  competencies          CardVisibilityStatus @default(PRIVATE)
++  developmentalGoals    CardVisibilityStatus @default(PRIVATE)
++  description           CardVisibilityStatus @default(PRIVATE)
++  education             CardVisibilityStatus @default(PRIVATE)
++  experience            CardVisibilityStatus @default(PRIVATE)
++  careerInterests       CardVisibilityStatus @default(PRIVATE)
++  mentorshipSkills      CardVisibilityStatus @default(PRIVATE)
++  exFeeder              CardVisibilityStatus @default(PRIVATE)
++  employmentEquityGroup CardVisibilityStatus @default(PRIVATE)
++  users                 User[]
++}
++
++model MentorshipSkill {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  userId    String
++  skillId   String
++  user      User     @relation(fields: [userId])
++  skill     OpSkill  @relation(fields: [skillId])
++
++  @@unique([userId, skillId])
++}
++
++model Skill {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  userId    String
++  skillId   String
++  user      User     @relation(fields: [userId])
++  skill     OpSkill  @relation(fields: [skillId])
++
++  @@unique([userId, skillId])
++}
++
++model DevelopmentalGoal {
++  id           String        @default(uuid()) @id
++  createdAt    DateTime      @default(now())
++  updatedAt    DateTime      @updatedAt
++  userId       String
++  skillId      String?
++  competencyId String?
++  user         User          @relation(fields: [userId])
++  skill        OpSkill?      @relation(fields: [skillId])
++  competency   OpCompetency? @relation(fields: [competencyId])
++
++  @@unique([userId, skillId])
++  @@unique([userId, competencyId])
++}
++
++model SecondLangProf {
++  id                 String           @default(uuid()) @id
++  createdAt          DateTime         @default(now())
++  updatedAt          DateTime         @updatedAt
++  userId             String
++  date               DateTime?
++  unknownExpiredDate Boolean?         @default(false)
++  proficiency        Proficiency
++  level              ProficiencyLevel
++  user               User             @relation(fields: [userId])
++
++  @@unique([userId, proficiency])
++}
++
++model Organization {
++  id               String             @default(uuid()) @id
++  createdAt        DateTime           @default(now())
++  updatedAt        DateTime           @updatedAt
++  userId           String
++  organizationTier OrganizationTier[]
++  user             User               @relation(fields: [userId])
++}
++
++model OrganizationTier {
++  id             String              @default(uuid()) @id
++  createdAt      DateTime            @default(now())
++  updatedAt      DateTime            @updatedAt
++  tier           Int
++  organization   Organization?       @relation(fields: [organizationId])
++  translations   TransOrganization[]
++  organizationId String?
++}
++
++model TransOrganization {
++  id                 String            @default(uuid()) @id
++  createdAt          DateTime          @default(now())
++  updatedAt          DateTime          @updatedAt
++  language           Language
++  description        String
++  organizationTier   OrganizationTier? @relation(fields: [organizationTierId])
++  organizationTierId String?
++}
++
++model Education {
++  id              String           @default(uuid()) @id
++  createdAt       DateTime         @default(now())
++  updatedAt       DateTime         @updatedAt
++  userId          String
++  schoolId        String?
++  diplomaId       String?
++  endDate         DateTime?
++  startDate       DateTime?
++  ongoingDate     Boolean          @default(false)
++  description     String?
++  attachmentLinks AttachmentLink[]
++  user            User             @relation(fields: [userId])
++  school          OpSchool?        @relation(fields: [schoolId])
++  diploma         OpDiploma?       @relation(fields: [diplomaId])
++
++  @@unique([userId, schoolId, diplomaId, startDate])
++}
++
++model TransExperience {
++  id           String      @default(uuid()) @id
++  createdAt    DateTime    @default(now())
++  updatedAt    DateTime    @updatedAt
++  language     Language
++  description  String?
++  jobTitle     String
++  organization String
++  experience   Experience? @relation(fields: [experienceId])
++  experienceId String?
++}
++
++model Experience {
++  id              String            @default(uuid()) @id
++  createdAt       DateTime          @default(now())
++  updatedAt       DateTime          @updatedAt
++  translations    TransExperience[]
++  userId          String
++  startDate       DateTime
++  endDate         DateTime?
++  ongoingDate     Boolean           @default(false)
 +  projects        String[]
-   attachmentLinks AttachmentLink[]
-   user            User              @relation(fields: [userId])
- }
- model RelocationLocation {
--  id                      String                @default(uuid()) @id
--  createdAt               DateTime              @default(now())
--  updatedAt               DateTime              @updatedAt
--  relocationLocationId    String
--  relocationLocation      OpRelocationLocation  @relation(fields: [relocationLocationId])
--  userId                  String
--  user                    User                  @relation(fields: [userId])
++  attachmentLinks AttachmentLink[]
++  user            User              @relation(fields: [userId])
++}
++
++model RelocationLocation {
 +  id                   String               @default(uuid()) @id
 +  createdAt            DateTime             @default(now())
 +  updatedAt            DateTime             @updatedAt
@@ -740,21 +1131,118 @@ migration 20200820161701-simplify-relocation-locations..20200821203314-add-proje
 +  relocationLocation   OpRelocationLocation @relation(fields: [relocationLocationId])
 +  userId               String
 +  user                 User                 @relation(fields: [userId])
--  @@unique([userId, relocationLocationId ])
++
 +  @@unique([userId, relocationLocationId])
- }
- model OpTransAttachmentLinkName {
-   id        String   @default(uuid()) @id
-@@ -577,9 +576,8 @@
-   exFeeder               Boolean                 @default(false)
-   interestedInRemote     Boolean?
-   status                 UserStatus              @default(ACTIVE)
-   signupStep             Int                     @default(1)
--  projects               String[]
-   teams                  String[]
-   groupLevel             OpClassification?       @relation(fields: [groupLevelId], name: "groupLevels")
-   actingLevel            OpClassification?       @relation(fields: [actingLevelId], name: "actingLevels")
-   securityClearance      OpSecurityClearance?    @relation(fields: [securityClearanceId])
++}
++
++model OpTransAttachmentLinkName {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  language  Language
++  name      String
++
++  OpAttachmentLinkName   OpAttachmentLinkName? @relation(fields: [opAttachmentLinkNameId], references: [id])
++  opAttachmentLinkNameId String?
++}
++
++model OpAttachmentLinkName {
++  id                  String                      @default(uuid()) @id
++  createdAt           DateTime                    @default(now())
++  updatedAt           DateTime                    @updatedAt
++  type                String
++  translations        OpTransAttachmentLinkName[]
++  TransAttachmentLink TransAttachmentLink[]
++}
++
++model TransAttachmentLink {
++  id        String   @default(uuid()) @id
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  language  Language
++  nameId    String
++  url       String
++
++  name             OpAttachmentLinkName @relation(fields: [nameId])
++  AttachmentLink   AttachmentLink?      @relation(fields: [attachmentLinkId], references: [id])
++  attachmentLinkId String?
++}
++
++model AttachmentLink {
++  id           String                @default(uuid()) @id
++  createdAt    DateTime              @default(now())
++  updatedAt    DateTime              @updatedAt
++  translations TransAttachmentLink[]
++
++  Experience   Experience? @relation(fields: [experienceId], references: [id])
++  experienceId String?
++  Education    Education?  @relation(fields: [educationId], references: [id])
++  educationId  String?
++  User         User?       @relation(fields: [userId], references: [id])
++  userId       String?
++}
++
++model User {
++  id                            String                  @default(uuid()) @id
++  createdAt                     DateTime                @default(now())
++  updatedAt                     DateTime                @updatedAt
++  groupLevelId                  String?
++  actingLevelId                 String?
++  securityClearanceId           String?
++  lookingJobId                  String?
++  tenureId                      String?
++  careerMobilityId              String?
++  employmentInfoId              String?
++  talentMatrixResultId          String?
++  officeLocationId              String?
++  visibleCardId                 String
++  name                          String?
++  firstName                     String?
++  lastName                      String?
++  avatarColor                   String?
++  email                         String?
++  telephone                     String?
++  cellphone                     String?
++  manager                       String?
++  description                   String?
++  firstLanguage                 Language?
++  secondLanguage                Language?
++  preferredLanguage             Language                @default(ENGLISH)
++  actingStartDate               DateTime?
++  actingEndDate                 DateTime?
++  linkedin                      String?
++  github                        String?
++  gcconnex                      String?
++  exFeeder                      Boolean                 @default(false)
++  interestedInRemote            Boolean?
++  status                        UserStatus              @default(ACTIVE)
++  signupStep                    Int                     @default(1)
++  teams                         String[]
++  groupLevel                    OpClassification?       @relation(fields: [groupLevelId], name: "groupLevels")
++  actingLevel                   OpClassification?       @relation(fields: [actingLevelId], name: "actingLevels")
++  securityClearance             OpSecurityClearance?    @relation(fields: [securityClearanceId])
++  lookingJob                    OpLookingJob?           @relation(fields: [lookingJobId])
++  tenure                        OpTenure?               @relation(fields: [tenureId])
++  careerMobility                OpCareerMobility?       @relation(fields: [careerMobilityId])
++  employmentInfo                EmploymentInfo?         @relation(fields: [employmentInfoId])
++  talentMatrixResult            OpTalentMatrixResult?   @relation(fields: [talentMatrixResultId])
++  officeLocation                OpOfficeLocation?       @relation(fields: [officeLocationId])
++  visibleCards                  VisibleCard             @relation(fields: [visibleCardId])
++  mentorshipSkills              MentorshipSkill[]
++  skills                        Skill[]
++  developmentalGoals            DevelopmentalGoal[]
++  developmentalGoalsAttachments AttachmentLink[]
++  competencies                  Competency[]
++  secondLangProfs               SecondLangProf[]
++  organizations                 Organization[]
++  educations                    Education[]
++  experiences                   Experience[]
++  relocationLocations           RelocationLocation[]
++  employmentEquityGroups        EmploymentEquityGroup[]
++  connections                   User[]                  @relation("UserToUser")
++  user                          User?                   @relation("UserToUser", fields: [userId])
++  userId                        String?
++}
 ```
 
 
