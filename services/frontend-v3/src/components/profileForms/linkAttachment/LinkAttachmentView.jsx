@@ -30,7 +30,7 @@ const LinkAttachmentView = ({
   nameOptions,
   intl,
 }) => (
-  <Row span={24}>
+  <Row span={24} gutter={12}>
     <Col className="gutter-row" span={5}>
       <Form.Item
         rules={[Rules.required]}
