@@ -195,14 +195,9 @@ a {
 }
 
 header {
-  .ant-input:focus {
-    border-color: #ffffff !important;
-    box-shadow: 0px 0px 0px 2px $app-white-shadow !important;
-  }
-
   .ant-btn-background-ghost {
     &:focus {
-      color: $app-light-green !important;
+      color: $app-green !important;
     }
 
     &:hover {
@@ -219,7 +214,7 @@ header {
   }
 
   a:focus > img {
-    box-shadow: 0px 0px 0px 2px $app-white-shadow !important;
+    box-shadow: 0px 0px 0px 2px $app-light-green !important;
   }
 }
 
@@ -298,6 +293,7 @@ header {
 
 .ant-menu-item:focus {
   background-color: #001c1a20 !important;
+  border-radius: 5px;
 }
 
 .ant-collapse-header:focus {
