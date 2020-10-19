@@ -80,7 +80,7 @@ const ProfileLayoutView = ({
     return (
       <div>
         {/* Employee summary */}
-        <Row gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]} type="flex">
+        <Row gutter={[{ xs: 8, sm: 12 }, { lg: 15, xl: 0 }]} type="flex">
           <Col xs={24} xl={14}>
             <BasicInfo
               data={data}
@@ -89,7 +89,7 @@ const ProfileLayoutView = ({
             />
           </Col>
           <Col xs={24} xl={10}>
-            <Row type="flex" gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}>
+            <Row type="flex" gutter={[{ xs: 8, sm: 12 }, 15]}>
               <Col span={24}>
                 <EmployeeSummary
                   data={data}
