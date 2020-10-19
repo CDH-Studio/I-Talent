@@ -52,7 +52,7 @@ const StatsLayoutView = ({
       extra: (
         <Button
           danger
-          icon={<DeleteOutlined style={{ marginRight: 5 }} />}
+          icon={<DeleteOutlined />}
           onClick={() => {
             Modal.confirm({
               title: intl.formatMessage({ id: "settings.delete.modal.title" }),
@@ -67,7 +67,9 @@ const StatsLayoutView = ({
             });
           }}
         >
-          <FormattedMessage id="settings.delete.button" />
+          <span>
+            <FormattedMessage id="settings.delete.button" />
+          </span>
         </Button>
       ),
     },

@@ -9,12 +9,6 @@ import PropTypes from "prop-types";
 import BasicInfoView from "./BasicInfoView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const styles = {
-  icon: {
-    marginRight: 5,
-  },
-};
-
 const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
@@ -22,7 +16,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       email: {
         textId: "profile.email",
         url: `mailto:${email}`,
-        icon: <MailOutlined style={styles.icon} />,
+        icon: <MailOutlined />,
       },
     };
 
@@ -30,7 +24,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       buttonLinks.linkedin = {
         textId: "profile.linkedin",
         url: `https://linkedin.com/in/${linkedin}`,
-        icon: <LinkedinOutlined style={styles.icon} />,
+        icon: <LinkedinOutlined />,
       };
     }
 
@@ -38,7 +32,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       buttonLinks.github = {
         textId: "profile.github",
         url: `https://github.com/${github}`,
-        icon: <GithubOutlined style={styles.icon} />,
+        icon: <GithubOutlined />,
       };
     }
 
@@ -46,7 +40,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       buttonLinks.gcconnex = {
         textId: "profile.gcconnex",
         url: `https://gcconnex.gc.ca/profile/${gcconnex}`,
-        icon: <LinkOutlined style={styles.icon} />,
+        icon: <LinkOutlined />,
       };
     }
 

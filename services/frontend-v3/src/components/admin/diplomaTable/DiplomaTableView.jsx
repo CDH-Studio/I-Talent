@@ -170,8 +170,10 @@ const DiplomaTableView = ({
         overlayStyle={{ maxWidth: 350 }}
       >
         <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.delete" />
+          <DeleteOutlined />
+          <span>
+            <FormattedMessage id="admin.delete" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -414,8 +416,10 @@ const DiplomaTableView = ({
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
-              <PlusCircleOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="admin.add" />
+              <PlusCircleOutlined />
+              <span>
+                <FormattedMessage id="admin.add" />
+              </span>
             </Button>
           </>
         }

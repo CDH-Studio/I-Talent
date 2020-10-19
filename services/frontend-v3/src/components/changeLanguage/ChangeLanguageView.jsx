@@ -17,11 +17,13 @@ const ChangeLanguageView = ({ handleLanguageChange }) => {
         borderColor: "#454545",
       }}
     >
-      <GlobalOutlined style={{ marginRight: 5 }} />
-      <FormattedMessage
-        style={{ textTransform: "capitalize" }}
-        id="lang.code"
-      />
+      <GlobalOutlined />
+      <span>
+        <FormattedMessage
+          style={{ textTransform: "capitalize" }}
+          id="lang.code"
+        />
+      </span>
     </Button>
   );
 };

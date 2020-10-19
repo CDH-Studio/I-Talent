@@ -196,8 +196,10 @@ const UserTableView = ({
         disabled={!modifiedStatus}
       >
         <Button type="primary" disabled={!modifiedStatus}>
-          <CheckCircleOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.apply" />
+          <CheckCircleOutlined />
+          <span>
+            <FormattedMessage id="admin.apply" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -207,8 +209,10 @@ const UserTableView = ({
   const keycloakButton = () => {
     return (
       <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
-        <TeamOutlined style={{ marginRight: 10 }} />
-        <FormattedMessage id="admin.manage.keycloak" />
+        <TeamOutlined />
+        <span>
+          <FormattedMessage id="admin.manage.keycloak" />
+        </span>
       </Button>
     );
   };
@@ -371,7 +375,7 @@ const UserTableView = ({
             <FormattedMessage id="admin.user.table" />
             {modifiedStatus && (
               <Text className="unsavedText">
-                (<FormattedMessage id="profile.form.unsaved" />)
+                <FormattedMessage id="profile.form.unsaved" />
               </Text>
             )}
           </>
