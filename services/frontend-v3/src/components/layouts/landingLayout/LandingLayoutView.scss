@@ -1,11 +1,37 @@
 .page-content {
   margin-top: 100px;
+  text-align: left;
 }
 
 .logo {
   width: 270px;
   margin-top: 50px;
 }
+
+.landingPicture {
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .page-content {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .logo {
+    width: 230px;
+    margin-top: 30px;
+  }
+
+  .landingPicture {
+    display: none !important;
+  }
+
+  .landingPicture {
+    display: none !important;
+  }
+}
+
 .text {
   display: block;
   margin: 20px 0;
@@ -17,13 +43,10 @@
   color: #404040;
 }
 
-.image {
+.landingPicture img {
   max-width: 70%;
   max-height: 400px;
   margin-top: 30px;
-}
-.imageContainer {
-  text-align: center;
 }
 
 .sign-in-button {

@@ -58,8 +58,8 @@ const LandingLayoutView = ({ backgroundImage }) => {
             </strong>
           </Button>
         </Col>
-        <Col sm={24} md={10} className="landingPicture imageContainer">
-          <img src={backgroundImage} alt="I-Talent Logo" className="image" />
+        <Col sm={24} md={10} className="landingPicture">
+          <img src={backgroundImage} alt="I-Talent Logo" />
         </Col>
       </Row>
     </AppLayout>
