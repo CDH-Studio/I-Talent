@@ -136,6 +136,11 @@ span.searchInput {
 
 .ant-layout-sider-children {
   box-shadow: $box-shadow-side-menu;
+  border-right: 1px solid #f0f0f0;
+}
+
+.ant-menu-vertical {
+  border: none !important;
 }
 
 .ant-btn,
