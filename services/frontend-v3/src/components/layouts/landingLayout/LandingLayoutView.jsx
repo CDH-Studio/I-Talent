@@ -32,7 +32,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
       <h1 className="hidden">
         <FormattedMessage id="landing.login.and.enter" />
       </h1>
-      <Row justify="center" className="page-content">
+      <Row justify="center" className="pageContent">
         <Col xs={22} md={10} lg={6}>
           <img src={logo} alt="I-Talent Logo" className="logo" />
           <Title level={1} className="title">
@@ -48,7 +48,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
             type="primary"
             onClick={() => keycloak.login()}
             size="large"
-            className="sign-in-button"
+            className="signInButton"
             onMouseEnter={toggleHover}
             onMouseLeave={toggleHover}
             icon={hover ? <UnlockFilled /> : <LockFilled />}
