@@ -1,3 +1,7 @@
+.page-content {
+  margin-top: 100px;
+}
+
 .logo {
   width: 270px;
   margin-top: 50px;
@@ -12,11 +16,21 @@
   margin: 25px 0 10px 0;
   color: #404040;
 }
+
 .image {
   max-width: 70%;
   max-height: 400px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .imageContainer {
   text-align: center;
+}
+
+.sign-in-button {
+  margin-top: 20px;
+  width: 190px;
+}
+
+.sign-in-button svg {
+  margin-right: 5px;
 }
