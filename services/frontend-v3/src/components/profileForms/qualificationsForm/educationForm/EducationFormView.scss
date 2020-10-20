@@ -1,19 +1,44 @@
 .datePicker {
   width: 100% !important;
 }
+
 .entryTitle {
   font-size: 1em !important;
+  color: #fff !important;
 }
 
-.topRow {
+.formItem {
   background-color: #dfe5e4;
-  padding: 15px !important;
   margin-bottom: 17px;
   border-radius: 5px;
 }
 
+.titleRow {
+  margin: 0px !important;
+}
+
+.titleCol {
+  padding: 5px 10px !important;
+  background-color: #087472;
+  border-radius: 5px 5px 0 0 !important;
+}
+
+.titleCol h4 {
+  margin: 3px 0;
+}
+
 .deleteButton {
   float: right;
+  color: #fff;
+  margin-top: -1px;
+}
+
+.deleteButton:hover {
+  color: #fff;
+}
+
+.contentRow {
+  padding: 13px;
 }
 
 .descriptionRow {

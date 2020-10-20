@@ -12,7 +12,11 @@ import {
   Select,
 } from "antd";
 import PropTypes from "prop-types";
-import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  FormOutlined,
+  PlusOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
 
@@ -93,9 +97,9 @@ const ExperienceFormView = ({
   };
 
   return (
-    <Row className="topRow">
-      <Row gutter={24}>
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+    <div className="formItem">
+      <Row gutter={24} className="gutter-row titleRow">
+        <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">
             <FormOutlined className="formItemIcon" />
             <FormattedMessage id="setup.experience" />
@@ -105,9 +109,9 @@ const ExperienceFormView = ({
               title={<FormattedMessage id="admin.delete" />}
             >
               <Button
-                type="primary"
+                type="link"
                 shape="circle"
-                icon={<DeleteOutlined />}
+                icon={<CloseCircleOutlined />}
                 onClick={() => {
                   removeElement(fieldElement.name);
                 }}
@@ -117,7 +121,8 @@ const ExperienceFormView = ({
             </Tooltip>
           </Title>
         </Col>
-
+      </Row>
+      <Row gutter={24} className="gutter-row contentRow">
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
           {/* Job Title Field */}
           <Form.Item
@@ -298,7 +303,7 @@ const ExperienceFormView = ({
           </Form.List>
         </Col>
       </Row>
-    </Row>
+    </div>
   );
 };
 
