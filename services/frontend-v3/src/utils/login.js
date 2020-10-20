@@ -43,7 +43,6 @@ const profileExist = async (userInfo, axios) => {
       email,
       status,
       signupStep,
-      isPrivacyAccepted: false,
     })
   );
 
