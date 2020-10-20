@@ -105,7 +105,7 @@ const EducationFormView = ({
       <Row gutter={24}>
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">
-            <FormOutlined className="formOutlined" />
+            <FormOutlined className="formItemIcon" />
             <FormattedMessage id="setup.education" />
             {`: ${fieldElement.name + 1}`}
             <Tooltip
