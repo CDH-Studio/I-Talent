@@ -161,14 +161,7 @@ const ExperienceFormView = ({
           </Form.Item>
         </Col>
 
-        <Col
-          className="gutter-row"
-          xs={24}
-          md={24}
-          lg={12}
-          xl={12}
-          style={{ marginBottom: "-50px" }}
-        >
+        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
           <Form.Item
             noStyle
             shouldUpdate={(prevValues, currentValues) => {
@@ -181,7 +174,8 @@ const ExperienceFormView = ({
               }
 
               return (
-                fieldPrevValues.ongoingDate !== fieldCurrentValues.ongoingDate ||
+                fieldPrevValues.ongoingDate !==
+                  fieldCurrentValues.ongoingDate ||
                 (fieldPrevValues.endDate &&
                   fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
               );
@@ -234,7 +228,7 @@ const ExperienceFormView = ({
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Col className="gutter-row descriptionRow" span={24}>
           {/* Descriptions */}
           <DescriptionFormItem
             label={<FormattedMessage id="profile.qualification.description" />}

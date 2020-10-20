@@ -186,14 +186,7 @@ const EducationFormView = ({
           </Form.Item>
         </Col>
 
-        <Col
-          className="gutter-row"
-          xs={24}
-          md={24}
-          lg={12}
-          xl={12}
-          // style={{ marginBottom: "-50px" }}
-        >
+        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
           <Form.Item
             noStyle
             shouldUpdate={(prevValues, currentValues) => {
@@ -206,7 +199,8 @@ const EducationFormView = ({
               }
 
               return (
-                fieldPrevValues.ongoingDate !== fieldCurrentValues.ongoingDate ||
+                fieldPrevValues.ongoingDate !==
+                  fieldCurrentValues.ongoingDate ||
                 (fieldPrevValues.endDate &&
                   fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
               );
@@ -258,7 +252,7 @@ const EducationFormView = ({
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" className="descriptionRow" span={24}>
+        <Col className="gutter-row descriptionRow" span={24}>
           <DescriptionFormItem
             label={<FormattedMessage id="profile.qualification.description" />}
             name={[fieldElement.name, "description"]}

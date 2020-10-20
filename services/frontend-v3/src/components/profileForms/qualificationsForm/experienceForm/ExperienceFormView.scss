@@ -17,6 +17,12 @@
   float: right;
 }
 
-.formOutlined {
-  margin-right: 0.5em;
+.descriptionRow {
+  margin-top: -23px !important;
+}
+
+@media (max-width: 990px) {
+  .descriptionRow {
+    margin-top: -8px !important;
+  }
 }
