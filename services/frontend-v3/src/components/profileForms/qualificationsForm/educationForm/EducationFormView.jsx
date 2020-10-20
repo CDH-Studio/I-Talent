@@ -109,24 +109,28 @@ const EducationFormView = ({
       <Row gutter={24} className="gutter-row titleRow">
         <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">
-            <FormOutlined className="formItemIcon" />
-            <FormattedMessage id="setup.education" />
-            {`: ${fieldElement.name + 1}`}
-            <Tooltip
-              placement="top"
-              title={<FormattedMessage id="admin.delete" />}
-            >
-              <Button
-                type="link"
-                shape="circle"
-                icon={<CloseCircleOutlined />}
-                onClick={() => {
-                  removeElement(fieldElement.name);
-                }}
-                size="small"
-                className="deleteButton"
-              />
-            </Tooltip>
+            <Row align="middle" justify="space-between">
+              <Col>
+                <FormOutlined className="formItemIcon" />
+                <FormattedMessage id="setup.education" />
+                {`: ${fieldElement.name + 1}`}
+              </Col>
+              <Tooltip
+                placement="top"
+                title={<FormattedMessage id="admin.delete" />}
+              >
+                <Button
+                  type="link"
+                  shape="circle"
+                  icon={<CloseCircleOutlined />}
+                  onClick={() => {
+                    removeElement(fieldElement.name);
+                  }}
+                  size="small"
+                  className="deleteButton"
+                />
+              </Tooltip>
+            </Row>
           </Title>
         </Col>
       </Row>
