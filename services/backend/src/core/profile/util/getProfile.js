@@ -133,7 +133,6 @@ async function getFullProfile(id, language) {
           },
         },
       },
-
       qualifiedPools: {
         select: {
           id: true,
@@ -149,7 +148,6 @@ async function getFullProfile(id, language) {
           },
         },
       },
-
       educations: {
         select: {
           id: true,
@@ -201,7 +199,6 @@ async function getFullProfile(id, language) {
           },
         },
       },
-
       relocationLocations: {
         select: {
           relocationLocation: {

@@ -404,6 +404,14 @@ const ProfileLayoutView = ({
                 }
               />
               <Link
+                href="#card-profile-qualified-pools"
+                title={
+                  <Text style={styles.sideBarText}>
+                    <FormattedMessage id="profile.qualified.pools" />
+                  </Text>
+                }
+              />
+              <Link
                 href="#card-profile-talent-management"
                 title={
                   <Text style={styles.sideBarText}>
@@ -416,14 +424,6 @@ const ProfileLayoutView = ({
                 title={
                   <Text style={styles.sideBarText}>
                     <FormattedMessage id="profile.career.interests" />
-                  </Text>
-                }
-              />
-              <Link
-                href="#card-profile-qualified-pools"
-                title={
-                  <Text style={styles.sideBarText}>
-                    <FormattedMessage id="profile.qualified.pools" />
                   </Text>
                 }
               />

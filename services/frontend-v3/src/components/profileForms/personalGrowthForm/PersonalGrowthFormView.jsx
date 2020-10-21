@@ -36,6 +36,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import "./PersonalGrowthFormView.scss";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
+import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -69,6 +70,8 @@ const PersonalGrowthFormView = ({
   userId,
   attachmentOptions,
   savedAttachments,
+  classificationOptions,
+  savedQualifiedPools,
 }) => {
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
@@ -412,6 +415,52 @@ const PersonalGrowthFormView = ({
             </TabPane>
             <TabPane
               tab={getTabTitle({
+                message: <FormattedMessage id="profile.qualified.pools" />,
+              })}
+              key="qualified-pools"
+            >
+              {/* *************** Qualified Pools ************** */}
+              {getSectionHeader(
+                "setup.qualified.pools.title",
+                "qualifiedPools"
+              )}
+              <Row gutter={24}>
+                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  <Form.List name="qualifiedPools">
+                    {(fields, { add, remove }) => {
+                      return (
+                        <div>
+                          {fields.map((field) => (
+                            <QualifiedPoolsForm
+                              key={field.fieldKey}
+                              form={form}
+                              fieldElement={field}
+                              removeElement={remove}
+                              savedQualifiedPools={savedQualifiedPools}
+                              classificationOptions={classificationOptions}
+                            />
+                          ))}
+                          <Form.Item>
+                            {/* add qualified pools field button */}
+                            <Button
+                              type="dashed"
+                              disabled={fields.length === 3}
+                              onClick={add}
+                              style={{ width: "100%" }}
+                            >
+                              <PlusOutlined />
+                              <FormattedMessage id="setup.add.item" />
+                            </Button>
+                          </Form.Item>
+                        </div>
+                      );
+                    }}
+                  </Form.List>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane
+              tab={getTabTitle({
                 message: <FormattedMessage id="setup.career.interests" />,
               })}
               key="career-interests"
@@ -521,14 +570,14 @@ const PersonalGrowthFormView = ({
                               <FormattedMessage id="profile.talent.management.link" />
                             </a>
                           ) : (
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                            >
-                              <FormattedMessage id="profile.talent.management.link" />
-                            </a>
-                          )}
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                              >
+                                <FormattedMessage id="profile.talent.management.link" />
+                              </a>
+                            )}
                         </div>
                       }
                     >

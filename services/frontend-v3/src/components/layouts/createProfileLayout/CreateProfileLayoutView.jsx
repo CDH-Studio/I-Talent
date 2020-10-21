@@ -191,10 +191,10 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                   - <FormattedMessage id="profile.developmental.goals" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.career.interests" />
+                  - <FormattedMessage id="profile.qualified.pools" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.qualified.pools" />
+                  - <FormattedMessage id="profile.career.interests" />
                 </li>
                 <li>
                   - <FormattedMessage id="profile.talent.management" />
