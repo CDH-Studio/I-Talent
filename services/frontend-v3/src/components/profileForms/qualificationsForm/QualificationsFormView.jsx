@@ -18,8 +18,9 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import handleError from "../../../functions/handleError";
-import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
+import EducationForm from "./educationForm/EducationForm";
+
 import {
   ProfileInfoPropType,
   HistoryPropType,
@@ -301,16 +302,16 @@ const QualificationsFormView = ({
   const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
-        <Title level={2} className="formTitle">
+        <Title level={2} className="qual-formTitle">
           6. <FormattedMessage id="profile.employee.qualifications" />
         </Title>
       );
     }
     return (
-      <Title level={2} className="formTitle">
+      <Title level={2} className="qual-formTitle">
         <FormattedMessage id="profile.employee.qualifications" />
         {fieldsChanged && (
-          <Text className="unsavedText">
+          <Text className="qual-unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -319,8 +320,8 @@ const QualificationsFormView = ({
   };
 
   const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" className="sectionHeader" align="middle">
-      <Title level={3} className="formTitle">
+    <Row justify="space-between" className="qual-sectionHeader" align="middle">
+      <Title level={3} className="qual-formTitle">
         <FormattedMessage id={titleId} />
       </Title>
       <CardVisibilityToggle
@@ -336,7 +337,7 @@ const QualificationsFormView = ({
    *********************************** */
   if (!load) {
     return (
-      <div className="skeleton">
+      <div className="qual-skeleton">
         <Skeleton active />
       </div>
     );
@@ -348,10 +349,10 @@ const QualificationsFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div className="content">
+      <div className="qual-content">
         {/* get form title */}
         {getFormHeader(formType)}
-        <Divider className="headerDiv" />
+        <Divider className="qual-headerDiv" />
 
         {/* Create form with initial values */}
         <Form
@@ -372,7 +373,13 @@ const QualificationsFormView = ({
             >
               {getSectionHeader("setup.education", "education")}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col
+                  className="qual-gutter-row"
+                  xs={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                >
                   <Form.List name="educations">
                     {(fields, { add, remove }) => {
                       return (
@@ -418,7 +425,13 @@ const QualificationsFormView = ({
               {getSectionHeader("setup.experience", "experience")}
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col
+                  className="qual-gutter-row"
+                  xs={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                >
                   <Form.List name="experiences">
                     {(fields, { add, remove }) => {
                       return (

@@ -17,6 +17,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -336,8 +337,10 @@ const CategoryTableView = ({
         overlayStyle={{ maxWidth: 350 }}
       >
         <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.delete" />
+          <DeleteOutlined />
+          <span>
+            <FormattedMessage id="admin.delete" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -404,13 +407,20 @@ const CategoryTableView = ({
       {addCategoryButton()}
       {editCategoryButton()}
       <Header
-        title={<FormattedMessage id="admin.category.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.category.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
-              <PlusCircleOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="admin.add" />
+              <PlusCircleOutlined />
+              <span>
+                <FormattedMessage id="admin.add" />
+              </span>
             </Button>
           </>
         }

@@ -33,18 +33,24 @@ const UnexpectedError = () => {
             <div>
               <Space size="small">
                 <Button type="primary" onClick={() => history.goBack()}>
-                  <ReloadOutlined style={{ marginRight: 10 }} />
-                  <FormattedMessage id="error.retry" />
+                  <ReloadOutlined />
+                  <span>
+                    <FormattedMessage id="error.retry" />
+                  </span>
                 </Button>
                 <Button onClick={() => history.push("/")}>
-                  <HomeOutlined style={{ marginRight: 10 }} />
-                  <FormattedMessage id="back.to.landing" />
+                  <HomeOutlined />
+                  <span>
+                    <FormattedMessage id="back.to.landing" />
+                  </span>
                 </Button>
                 <Button onClick={() => setShowError((oldValue) => !oldValue)}>
-                  <ExclamationCircleOutlined style={{ marginRight: 10 }} />
-                  <FormattedMessage
-                    id={showError ? "error.hide" : "error.show"}
-                  />
+                  <ExclamationCircleOutlined />
+                  <span>
+                    <FormattedMessage
+                      id={showError ? "error.hide" : "error.show"}
+                    />
+                  </span>
                 </Button>
               </Space>
             </div>

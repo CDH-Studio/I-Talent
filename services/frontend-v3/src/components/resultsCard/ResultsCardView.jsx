@@ -24,6 +24,7 @@ import {
   EyeInvisibleOutlined,
   BranchesOutlined,
   EnvironmentOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import {
   HistoryPropType,
@@ -68,7 +69,7 @@ const ResultsCardView = ({
     let tooltipMessage;
 
     if (person.isConnection) {
-      badgeIcon = <TeamOutlined className="badge-icon" />;
+      badgeIcon = <TeamOutlined className="res-badge-icon" />;
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
@@ -77,7 +78,7 @@ const ResultsCardView = ({
         />
       );
     } else if (person.status === "INACTIVE") {
-      badgeIcon = <LockOutlined className="badge-icon" />;
+      badgeIcon = <LockOutlined className="res-badge-icon" />;
       badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
@@ -114,7 +115,7 @@ const ResultsCardView = ({
               backgroundColor: person.avatarColor,
             }}
           >
-            <Text className="avatar-text">{person.nameInitials}</Text>
+            <Text className="res-avatar-text">{person.nameInitials}</Text>
           </Avatar>
         </Badge>
       </Tooltip>
@@ -163,9 +164,9 @@ const ResultsCardView = ({
           style={ribbonStyle}
           icon={
             isConnection ? (
-              <UserDeleteOutlined className="button-icon" />
+              <UserDeleteOutlined className="res-button-icon" />
             ) : (
-              <UserAddOutlined className="button-icon" />
+              <UserAddOutlined className="res-button-icon" />
             )
           }
           onClick={(e) => {
@@ -177,7 +178,7 @@ const ResultsCardView = ({
               addConnection(person.id);
             }
           }}
-          className="button"
+          className="res-button"
         >
           {isConnection ? (
             <FormattedMessage id="search.results.cards.remove.connection" />
@@ -193,12 +194,12 @@ const ResultsCardView = ({
         type="link"
         block
         style={ribbonStyle}
-        icon={<EditOutlined className="button-icon" />}
+        icon={<EditOutlined className="res-button-icon" />}
         onClick={(e) => {
           e.stopPropagation();
           history.push("/profile/edit/primary-info");
         }}
-        className="button"
+        className="res-button"
       >
         <FormattedMessage id="edit.profile" />
       </Button>
@@ -212,7 +213,7 @@ const ResultsCardView = ({
   const getCardFooter = ({ person }) => {
     return [
       <div>
-        <BranchesOutlined className="card-footer-icon" />
+        <BranchesOutlined className="res-card-footer-icon" />
         {person.branch ? (
           <Text>{person.branch}</Text>
         ) : (
@@ -222,7 +223,7 @@ const ResultsCardView = ({
         )}
       </div>,
       <div>
-        <EnvironmentOutlined className="card-footer-icon" />
+        <EnvironmentOutlined className="res-card-footer-icon" />
         {person.branch ? (
           <Text>
             {person.officeLocation.streetNumber}{" "}
@@ -260,7 +261,7 @@ const ResultsCardView = ({
         >
           <Card
             tabIndex={0}
-            className="card"
+            className="res-card"
             hoverable
             bordered
             onClick={() => history.push(`/profile/${person.id}`)}
@@ -272,11 +273,13 @@ const ResultsCardView = ({
               <Col span={24}>
                 <Row style={{ paddingTop: "15px" }}>
                   <Meta
-                    className="meta"
+                    className="res-meta"
                     avatar={getUserAvatar({ person })}
                     title={cardTitle}
                     description={
-                      <p className="small-p">{getUserSubtitle({ person })}</p>
+                      <p className="res-small-p">
+                        {getUserSubtitle({ person })}
+                      </p>
                     }
                   />
                 </Row>
@@ -286,14 +289,16 @@ const ResultsCardView = ({
                 {person.resultSkills.length > 0 ? (
                   <span>
                     {person.resultSkills.map(({ id, name }) => (
-                      <Tag className="tag" key={id}>
+                      <Tag className="res-tag" key={id}>
                         {name}
                       </Tag>
                     ))}
-                    <Tag className="tag">+{person.totalResultSkills - 4}</Tag>
+                    <Tag className="res-tag">
+                      +{person.totalResultSkills - 4}
+                    </Tag>
                   </span>
                 ) : (
-                  <Tag className="tag">
+                  <Tag className="res-tag">
                     <FormattedMessage id="search.results.cards.skills.not.found" />
                   </Tag>
                 )}
@@ -313,12 +318,12 @@ const ResultsCardView = ({
   const getResultCount = ({ isLoading, count }) => {
     if (!isLoading) {
       return (
-        <Text type="secondary" className="result-count">
+        <Text type="secondary" className="res-result-count">
           <FormattedMessage id="search.results.found" />: {count}
         </Text>
       );
     }
-    return <Spin className="loading-spinner" />;
+    return <Spin className="res-loading-spinner" />;
   };
 
   /**
@@ -367,13 +372,14 @@ const ResultsCardView = ({
     <>
       <Header
         title={
-          <span>
+          <>
+            <SearchOutlined />
             <FormattedMessage id="results.title" />
-            {getResultCount({ isLoading: loading, count: results.length })}
-          </span>
+          </>
         }
+        subtitle={getResultCount({ isLoading: loading, count: results.length })}
       />
-      <div className="container">
+      <div className="res-container">
         {loading && getLoadingAnimation()}
         <Row
           gutter={[16, 16]}

@@ -15,6 +15,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { injectIntl, FormattedMessage } from "react-intl";
@@ -198,8 +199,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         overlayStyle={{ maxWidth: 350 }}
       >
         <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.delete" />
+          <DeleteOutlined />
+          <span>
+            <FormattedMessage id="admin.delete" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -544,13 +547,20 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <Header
-        title={<FormattedMessage id="admin.school.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.school.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
-              <PlusCircleOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="admin.add" />
+              <PlusCircleOutlined />
+              <span>
+                <FormattedMessage id="admin.add" />
+              </span>
             </Button>
           </>
         }

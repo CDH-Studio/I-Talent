@@ -1,11 +1,12 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Layout, Skeleton, Card } from "antd";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";
+import "./AppLayoutView.scss";
 
 const { Content } = Layout;
 
@@ -18,13 +19,6 @@ const AppLayoutView = ({
   displaySearch,
 }) => {
   const { locale } = useSelector((state) => state.settings);
-  const styles = {
-    content: {
-      padding: "20px 15px",
-      margin: 0,
-      marginTop: 64,
-    },
-  };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -43,7 +37,7 @@ const AppLayoutView = ({
           loading={loading}
         />
         <Layout>
-          <Content style={styles.content}>
+          <Content className="app-content">
             {loading ? (
               <Card>
                 <Skeleton active />

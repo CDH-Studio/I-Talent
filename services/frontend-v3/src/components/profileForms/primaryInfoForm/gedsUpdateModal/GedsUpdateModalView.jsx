@@ -234,18 +234,20 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
           disabled={isEqual(record.savedValue, record.gedsValue)}
           icon={
             isEqual(record.savedValue, record.gedsValue) ? (
-              <CheckOutlined style={{ marginRight: "4px" }} />
+              <CheckOutlined />
             ) : (
-              <SyncOutlined style={{ marginRight: "4px" }} />
+              <SyncOutlined />
             )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
-          {isEqual(record.savedValue, record.gedsValue) ? (
-            <FormattedMessage id="profile.geds.update.synced" />
-          ) : (
-            <FormattedMessage id="profile.geds.update.sync" />
-          )}
+          <span>
+            {isEqual(record.savedValue, record.gedsValue) ? (
+              <FormattedMessage id="profile.geds.update.synced" />
+            ) : (
+              <FormattedMessage id="profile.geds.update.sync" />
+            )}
+          </span>
         </Button>
       ),
     },

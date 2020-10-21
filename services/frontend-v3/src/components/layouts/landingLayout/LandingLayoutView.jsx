@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Row, Col, Typography, Button } from "antd";
+import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
-import backgroundOptionOne from "../../../assets/landing-1.svg";
-import backgroundOptionTwo from "../../../assets/landing-2.svg";
-import backgroundOptionThree from "../../../assets/landing-3.svg";
 import logo from "../../../assets/I-talent-logo.png";
+import "./LandingLayoutView.scss";
 
 const { Text, Title } = Typography;
 
@@ -15,85 +15,59 @@ const { Text, Title } = Typography;
  *
  *  this component renders the landing page.
  */
-const LandingLayoutView = () => {
-  const styles = {
-    logo: {
-      width: "270px",
-      marginTop: "50px",
-    },
-    text: {
-      display: "block",
-      margin: "20px 0",
-      fontSize: "15px",
-    },
-    title: {
-      display: "block",
-      margin: "25px 0 10px 0",
-      color: "#404040",
-    },
-    image: {
-      maxWidth: "70%",
-      maxHeight: "400px",
-      marginTop: "20px",
-    },
-    imageContainer: {
-      textAlign: "center",
-    },
-  };
+const LandingLayoutView = ({ backgroundImage }) => {
+  const { keycloak } = useKeycloak();
+  const [hover, setHover] = useState(false);
 
   /**
-   * Random Picture Select
+   * Toggle hover State
    *
-   * select a random picture for landing page
    */
-  const randomPictureSelect = () => {
-    const imageOptions = [
-      backgroundOptionOne,
-      backgroundOptionTwo,
-      backgroundOptionThree,
-    ];
-    const randomIndex = Math.floor(Math.random() * imageOptions.length);
-    return imageOptions[randomIndex];
+  const toggleHover = () => {
+    setHover(!hover);
   };
-
-  const { keycloak } = useKeycloak();
 
   return (
     <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>
       <h1 className="hidden">
         <FormattedMessage id="landing.login.and.enter" />
       </h1>
-      <Row justify="center" style={{ marginTop: "120px" }}>
-        <Col xs={22} md={10} lg={6} style={{ baddingTop: "60px" }}>
-          <img src={logo} alt="I-Talent Logo" style={styles.logo} />
-          <Title level={1} style={styles.title}>
+      <Row justify="center" className="pageContent">
+        <Col xs={22} md={10} lg={6}>
+          <img src={logo} alt="I-Talent Logo" className="logo" />
+          <Title level={1} className="title">
             <FormattedMessage id="landing.welcome" />
           </Title>
-          <Text style={styles.text} strong>
+          <Text className="text" strong>
             <FormattedMessage id="landing.description" />
           </Text>
-          <Text style={styles.text} strong>
+          <Text className="text" strong>
             <FormattedMessage id="landing.call.to.action" />
           </Text>
-          <Button type="primary" onClick={() => keycloak.login()} size="large">
-            <FormattedMessage id="landing.login.button" />
+          <Button
+            type="primary"
+            onClick={() => keycloak.login()}
+            size="large"
+            className="signInButton"
+            onMouseEnter={toggleHover}
+            onMouseLeave={toggleHover}
+            icon={hover ? <UnlockFilled /> : <LockFilled />}
+          >
+            <strong>
+              <FormattedMessage id="landing.login.button" />
+            </strong>
           </Button>
         </Col>
-        <Col
-          sm={24}
-          md={10}
-          style={styles.imageContainer}
-          className="landingPicture"
-        >
-          <img
-            src={randomPictureSelect()}
-            alt="I-Talent Logo"
-            style={styles.image}
-          />
+        <Col sm={24} md={10} className="landingPicture">
+          <img src={backgroundImage} alt="I-Talent Logo" />
         </Col>
       </Row>
     </AppLayout>
   );
+};
+
+LandingLayoutView.propTypes = {
+  backgroundImage: PropTypes.string.isRequired,
 };
 
 export default LandingLayoutView;

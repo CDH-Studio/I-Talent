@@ -19,6 +19,7 @@ import {
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
@@ -30,24 +31,9 @@ import { Link } from "react-router-dom";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/config";
+import "./UserTableView.scss";
 
 const { Text } = Typography;
-
-const styles = {
-  unsavedText: {
-    marginLeft: "10px",
-    fontWeight: "normal",
-    fontStyle: "italic",
-    opacity: 0.5,
-  },
-  popoverStyle: {
-    maxWidth: "630px",
-  },
-  adminInfo: {
-    marginLeft: "8px",
-    paddingRight: "10px",
-  },
-};
 
 /**
  *  UserTableView(props)
@@ -210,8 +196,10 @@ const UserTableView = ({
         disabled={!modifiedStatus}
       >
         <Button type="primary" disabled={!modifiedStatus}>
-          <CheckCircleOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.apply" />
+          <CheckCircleOutlined />
+          <span>
+            <FormattedMessage id="admin.apply" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -221,8 +209,10 @@ const UserTableView = ({
   const keycloakButton = () => {
     return (
       <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
-        <TeamOutlined style={{ marginRight: 10 }} />
-        <FormattedMessage id="admin.manage.keycloak" />
+        <TeamOutlined />
+        <span>
+          <FormattedMessage id="admin.manage.keycloak" />
+        </span>
       </Button>
     );
   };
@@ -381,10 +371,11 @@ const UserTableView = ({
       <Header
         title={
           <>
+            <DatabaseOutlined />
             <FormattedMessage id="admin.user.table" />
             {modifiedStatus && (
-              <Text style={styles.unsavedText}>
-                (<FormattedMessage id="profile.form.unsaved" />)
+              <Text className="userTable-unsavedText">
+                <FormattedMessage id="profile.form.unsaved" />
               </Text>
             )}
           </>
@@ -397,7 +388,7 @@ const UserTableView = ({
               trigger={["focus", "hover"]}
               placement="topRight"
               content={
-                <div style={styles.popoverStyle}>
+                <div className="popoverStyle">
                   <FormattedMessage
                     id="admin.roles.tooltip"
                     values={{
@@ -408,7 +399,7 @@ const UserTableView = ({
                 </div>
               }
             >
-              <div style={styles.adminInfo}>
+              <div className="adminInfo">
                 <InfoCircleOutlined tabIndex={0} />
               </div>
             </Popover>
@@ -421,6 +412,9 @@ const UserTableView = ({
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
+            pagination={{
+              hideOnSinglePage: true,
+            }}
           />
         </Col>
       </Row>

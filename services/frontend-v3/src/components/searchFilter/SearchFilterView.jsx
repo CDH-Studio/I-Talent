@@ -14,6 +14,7 @@ import {
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { IdDescriptionPropType } from "../../utils/customPropTypes";
 import filterOption from "../../functions/filterSelectInput";
+import "./SearchFilterView.scss";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;
@@ -30,22 +31,6 @@ const SearchBarView = ({
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
-
-  const styles = {
-    w100: {
-      width: "100%",
-    },
-    searchHeader: {
-      fontSize: "1.2em",
-    },
-    searchHeaderIcon: {
-      fontSize: "0.9em",
-      marginRight: "4px",
-      color: "#3CBAB3",
-    },
-    searchSideBar: { padding: "22px" },
-    form: { paddingTop: "10px" },
-  };
 
   const onFinish = (values) => {
     handleSearch(values);
@@ -80,9 +65,9 @@ const SearchBarView = ({
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   return (
-    <div style={styles.searchSideBar}>
-      <Title level={2} style={styles.searchHeader}>
-        <SettingOutlined style={styles.searchHeaderIcon} />
+    <div className="search-searchSideBar">
+      <Title level={2} className="search-searchHeader">
+        <SettingOutlined className="search-searchHeaderIcon" />
         <FormattedMessage id="sidebar.search.title" />
       </Title>
       <Text>
@@ -92,25 +77,25 @@ const SearchBarView = ({
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        style={styles.form}
+        className="search-form"
       >
         {/* name */}
         <Form.Item
           label={labelArr[0]}
           name={searchTitles[0]}
-          style={styles.w100}
+          className="search-w100"
         >
-          <Input style={styles.w100} />
+          <Input className="search-w100" />
         </Form.Item>
 
         {/* classification */}
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           label={labelArr[1]}
           name={searchTitles[1]}
         >
           <Select
-            style={styles.w100}
+            className="search-w100"
             mode="multiple"
             maxTagCount={3}
             filterOption={filterOption}
@@ -123,12 +108,12 @@ const SearchBarView = ({
 
         {/* location */}
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           label={labelArr[2]}
           name={searchTitles[2]}
         >
           <Select
-            style={styles.w100}
+            className="search-w100"
             mode="multiple"
             maxTagCount={3}
             filterOption={filterOption}
@@ -146,12 +131,12 @@ const SearchBarView = ({
 
         {/* branch */}
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           label={labelArr[3]}
           name={searchTitles[3]}
         >
           <Select
-            style={styles.w100}
+            className="search-w100"
             mode="multiple"
             maxTagCount={3}
             filterOption={filterOption}
@@ -164,12 +149,12 @@ const SearchBarView = ({
 
         {/* skills */}
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           label={labelArr[4]}
           name={searchTitles[4]}
         >
           <TreeSelect
-            style={styles.w100}
+            className="search-w100"
             treeData={skillOptions}
             treeCheckable
             treeNodeFilterProp="title"
@@ -182,12 +167,12 @@ const SearchBarView = ({
 
         {/* mentor skills */}
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           label={labelArr[5]}
           name={searchTitles[5]}
         >
           <TreeSelect
-            style={styles.w100}
+            className="search-w100"
             treeData={skillOptions}
             treeCheckable
             treeNodeFilterProp="title"
@@ -199,7 +184,7 @@ const SearchBarView = ({
           />
         </Form.Item>
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           name={searchTitles[6]}
           label={labelArr[6]}
           valuePropName="checked"
@@ -211,7 +196,7 @@ const SearchBarView = ({
 
         {/* exFeeder */}
         <Form.Item
-          style={styles.w100}
+          className="search-w100"
           name={searchTitles[7]}
           label={labelArr[7]}
           valuePropName="checked"
@@ -219,14 +204,14 @@ const SearchBarView = ({
           <Switch />
         </Form.Item>
         <Button
-          style={styles.w100}
+          className="search-w100"
           shape="round"
           size="large"
           type="primary"
           htmlType="submit"
         >
-          <ReloadOutlined style={{ marginRight: "5px" }} />
-          {searchLabel}
+          <ReloadOutlined />
+          <span>{searchLabel}</span>
         </Button>
       </Form>
     </div>

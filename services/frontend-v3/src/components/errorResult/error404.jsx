@@ -24,8 +24,10 @@ const Error404 = () => {
         subTitle: <FormattedMessage id="error.404.subtitle" />,
         extra: (
           <Button onClick={handleClick} type="primary">
-            <HomeOutlined style={{ marginRight: 10 }} />
-            <FormattedMessage id="error.button" />
+            <HomeOutlined />
+            <span>
+              <FormattedMessage id="error.button" />
+            </span>
           </Button>
         ),
       }}

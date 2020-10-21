@@ -18,6 +18,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
@@ -225,8 +226,10 @@ const SkillTableView = ({
         overlayStyle={{ maxWidth: 350 }}
       >
         <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.delete" />
+          <DeleteOutlined />
+          <span>
+            <FormattedMessage id="admin.delete" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -304,7 +307,7 @@ const SkillTableView = ({
               {categories.data.map((category) => {
                 return (
                   <Option value={category.id} key={category.id}>
-                    {category[locale]}
+                    {category[locale === "ENGLISH" ? "en" : "fr"]}
                   </Option>
                 );
               })}
@@ -491,13 +494,20 @@ const SkillTableView = ({
       {addSkillButton()}
       {editSkillButton()}
       <Header
-        title={<FormattedMessage id="admin.skill.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.skill.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
-              <PlusCircleOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="admin.add" />
+              <PlusCircleOutlined />
+              <span>
+                <FormattedMessage id="admin.add" />
+              </span>
             </Button>
           </>
         }

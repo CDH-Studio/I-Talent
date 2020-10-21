@@ -1,0 +1,199 @@
+@import "./_variables.scss";
+
+.no-content-card .ant-card-body {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.custom-bubble-select-style .ant-select-selection-item {
+  margin: 3px !important;
+  padding: 1px 10px !important;
+  height: auto !important;
+  border-radius: $border-radius !important;
+  border-color: $app-gray !important;
+}
+
+.experience-item-list .ant-list-item-extra {
+  margin-top: 0px !important;
+  margin-left: 0.25em !important;
+}
+
+.ant-layout-sider-trigger {
+  background-color: $app-gray !important;
+  color: rgb(0, 30, 30) !important;
+}
+
+.results-card-divider
+  .ant-divider
+  .ant-divider-horizontal
+  .ant-divider-with-text-left {
+  &::before {
+    border-top-color: $app-black !important;
+  }
+  &::after {
+    border-top-color: $app-black !important;
+  }
+}
+
+.ant-form-item {
+  margin-bottom: 13px !important;
+}
+
+.ant-form-item-label {
+  padding: 0px !important;
+}
+
+.ant-form-item-control-input-content {
+  width: 100%;
+}
+
+.ant-list-item-meta-title {
+  font-size: 16px !important;
+  line-height: 24px !important;
+  margin-bottom: 0px !important;
+}
+
+.ant-list-item-meta-description {
+  font-size: 14px !important;
+  line-height: 22px !important;
+}
+
+.ant-card-head {
+  height: 55px !important;
+}
+
+.ant-card-small {
+  .ant-card-head {
+    height: 35px !important;
+  }
+  .ant-card-head-wrapper {
+    height: 35px !important;
+  }
+}
+
+.ant-card-head-wrapper {
+  height: 55px !important;
+}
+
+.ant-card-body {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.ant-tag.ant-tag-has-color {
+  font-size: 14px !important;
+}
+
+.ant-page-header-heading-title {
+  font-size: 24px !important;
+}
+
+.ant-list-item {
+  font-size: 16px !important;
+}
+
+.ant-tag {
+  margin: 3px !important;
+  padding: 5px 12px !important;
+  height: auto !important;
+  border-radius: $border-radius !important;
+  border-width: 0px !important;
+  border-color: $app-gray !important;
+}
+
+.ant-menu {
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.ant-card {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-card;
+}
+
+.ant-table {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-card;
+
+  .ant-table-thead tr th:first-child {
+    border-top-left-radius: $border-radius !important;
+  }
+
+  .ant-table-thead tr th:last-child {
+    border-top-right-radius: $border-radius !important;
+  }
+}
+
+span.searchInput {
+  span.ant-input-group-addon {
+    background: none;
+    button {
+      border-radius: 0 $border-radius $border-radius 0 !important;
+    }
+  }
+}
+
+.ant-layout-sider-children {
+  box-shadow: $box-shadow-side-menu;
+  border-right: 1px solid #f0f0f0;
+}
+
+.ant-menu-vertical {
+  border: none !important;
+}
+
+.ant-btn,
+.ant-form-item input,
+.ant-select-selector,
+.ant-pagination-item,
+.ant-pagination-item-link,
+.ant-input,
+.ant-picker,
+.ant-modal-content,
+.ant-dropdown-menu,
+.ant-notification-notice,
+.ant-popover-inner,
+.ant-collapse,
+.ant-select-dropdown {
+  border-radius: $border-radius !important;
+}
+
+.ant-card-actions,
+.ant-modal-header {
+  background-color: transparent !important;
+}
+
+.ant-radio-group .ant-radio-button-wrapper {
+  &:first-child {
+    border-radius: $border-radius 0 0 $border-radius !important;
+  }
+
+  &:last-child {
+    border-radius: 0 $border-radius $border-radius 0 !important;
+  }
+}
+
+.ant-tabs-tab {
+  border-radius: $border-radius $border-radius 0 0 !important;
+}
+
+.ant-ribbon {
+  border-radius: $border-radius $border-radius 0 $border-radius;
+}
+
+.ant-btn-circle {
+  border-radius: 50% !important;
+}
+
+.ant-page-header-heading-title {
+  padding: 5px 10px;
+  background-color: $app-green;
+  color: white;
+  font-size: 1.5em !important;
+  border-radius: $border-radius;
+}
+
+.ant-page-header-heading-title svg {
+  margin-right: 7px;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
+import { AreaChartOutlined } from "@ant-design/icons";
 import useAxios from "../../utils/axios-instance";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
@@ -91,7 +92,7 @@ const AdminDashboard = ({ intl }) => {
     }
   }, [axios, dispatch]);
 
-  const getTopFiveCompentencies = useCallback(async () => {
+  const getTopFiveCompetencies = useCallback(async () => {
     try {
       dispatch(setTopFiveCompetencies([]));
 
@@ -157,7 +158,7 @@ const AdminDashboard = ({ intl }) => {
       getExfeederUserCount(),
       getGrowthRateByMonth(),
       getGrowthRateByWeek(),
-      getTopFiveCompentencies(),
+      getTopFiveCompetencies(),
       getTopFiveSkills(),
       getTopFiveDevelopmentalGoals(),
     ]);
@@ -167,7 +168,7 @@ const AdminDashboard = ({ intl }) => {
     getGrowthRateByWeek,
     getHiddenUserCount,
     getInactiveUserCount,
-    getTopFiveCompentencies,
+    getTopFiveCompetencies,
     getTopFiveDevelopmentalGoals,
     getTopFiveSkills,
     getUserCount,
@@ -179,7 +180,14 @@ const AdminDashboard = ({ intl }) => {
 
   return (
     <AdminLayout displaySideBar type="dashboard">
-      <Header title={<FormattedMessage id="admin.dashboard.title" />} />
+      <Header
+        title={
+          <>
+            <AreaChartOutlined />
+            <FormattedMessage id="admin.dashboard.title" />
+          </>
+        }
+      />
       <StatCards />
       <DashboardGraphs />
     </AdminLayout>

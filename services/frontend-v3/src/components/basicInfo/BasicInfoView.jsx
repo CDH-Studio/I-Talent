@@ -33,6 +33,7 @@ import { useSelector } from "react-redux";
 import OrgTree from "../orgTree/OrgTree";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
+import "./BasicInfoView.scss";
 
 const { Text } = Typography;
 
@@ -52,9 +53,6 @@ const BasicInfoView = ({
 
   /* Component Styles */
   const styles = {
-    profileHeaderRow: {
-      margin: "25px 0",
-    },
     avatar: {
       backgroundColor: "#fff",
       color: "#007471",
@@ -62,21 +60,6 @@ const BasicInfoView = ({
     },
     userAvatar: {
       verticalAlign: "middle",
-    },
-    leftSpacing: {
-      paddingLeft: "0.5em",
-      whiteSpace: "normal",
-    },
-    orgButton: {
-      marginBottom: 0,
-      padding: 0,
-      height: "100%",
-    },
-    rowTopSplitter: {
-      borderTop: "1px solid #f0f0f0",
-    },
-    popContent: {
-      maxWidth: "350px",
     },
   };
 
@@ -110,7 +93,7 @@ const BasicInfoView = ({
    */
   const generateProfileHeader = () => {
     return (
-      <Row type="flex" style={styles.profileHeaderRow}>
+      <Row type="flex" className="profileHeaderRow">
         <Col xs={6} md={5} lg={4} xxl={3} align="center">
           <Avatar
             size={80}
@@ -153,14 +136,14 @@ const BasicInfoView = ({
                 trigger={["focus", "hover"]}
                 content={
                   connectionStatus ? (
-                    <div style={styles.popContent}>
+                    <div className="popContent">
                       <FormattedMessage id="profile.connections.tooltip.remove.connection" />
                       <a href="/about/help">
                         <FormattedMessage id="footer.contact.link" />
                       </a>
                     </div>
                   ) : (
-                    <div style={styles.popContent}>
+                    <div className="popContent">
                       <FormattedMessage id="profile.connections.tooltip.add.connection" />
                       <a href="/about/help">
                         <FormattedMessage id="footer.contact.link" />
@@ -264,9 +247,9 @@ const BasicInfoView = ({
           }
           trigger={["click"]}
         >
-          <Button style={styles.orgButton} type="link">
+          <Button className="orgButton" type="link">
             <DownOutlined />
-            <span style={styles.leftSpacing}>{data.branch}</span>
+            <span className="leftSpacing">{data.branch}</span>
           </Button>
         </Dropdown>
       ) : (
@@ -310,7 +293,9 @@ const BasicInfoView = ({
           icon={button.icon}
           href={button.url}
         >
-          <FormattedMessage id={button.textId} />
+          <span>
+            <FormattedMessage id={button.textId} />
+          </span>
         </Button>
       );
     });
@@ -329,7 +314,7 @@ const BasicInfoView = ({
           {generateInfoList(getLocationInfo())}
         </Col>
       </Row>
-      <Row style={styles.rowTopSplitter}>
+      <Row className="rowTopSplitter">
         <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
       </Row>
     </Card>

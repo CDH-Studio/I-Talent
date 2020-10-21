@@ -35,6 +35,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import "./EmploymentDataFormView.scss";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -65,62 +66,6 @@ const EmploymentDataFormView = ({
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
-
-  /* Component Styles */
-  const styles = {
-    skeleton: {
-      minHeight: "658px",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    content: {
-      textAlign: "left",
-      width: "100%",
-      maxWidth: "900px",
-      background: "#fff",
-      padding: "30px 30px",
-    },
-    formTitle: {
-      fontSize: "1.2em",
-      margin: 0,
-    },
-    headerDiv: {
-      margin: "15px 0 15px 0",
-    },
-    formItem: {
-      margin: "10px 0 10px 0",
-      padding: "0 20px 0 0",
-      textAlign: "left",
-    },
-    subHeading: {
-      fontSize: "1.3em",
-    },
-    tempRoleRow: {
-      backgroundColor: "#dfe5e4",
-      paddingTop: "15px",
-      paddingBottom: "15px",
-      marginBottom: "20px",
-      marginTop: "10px",
-    },
-    datePicker: { width: "100%" },
-    unsavedText: {
-      marginLeft: "10px",
-      fontWeight: "normal",
-      fontStyle: "italic",
-      opacity: 0.5,
-    },
-    iconBySwitch: {
-      paddingLeft: "5px",
-      paddingRight: "5px",
-    },
-    space: {
-      paddingLeft: "0.25em",
-    },
-    sectionHeader: {
-      marginBottom: 10,
-    },
-  };
 
   /* Component Rules for form fields */
   const Rules = {
@@ -441,7 +386,7 @@ const EmploymentDataFormView = ({
             >
               <DatePicker
                 disabledDate={disabledDatesAfterEnd}
-                style={styles.datePicker}
+                className="datePicker"
                 placeholder={intl.formatMessage({
                   id: "profile.select.date",
                 })}
@@ -456,7 +401,7 @@ const EmploymentDataFormView = ({
             >
               {enableEndDate && (
                 <DatePicker
-                  style={styles.datePicker}
+                  className="datePicker"
                   disabledDate={disabledDatesBeforeStart}
                   disabled={!enableEndDate}
                   placeholder={intl.formatMessage({
@@ -486,16 +431,16 @@ const EmploymentDataFormView = ({
   const getFormHeader = (_formType) => {
     if (_formType === "create") {
       return (
-        <Title level={2} style={styles.formTitle}>
+        <Title level={2} className="employment-formTitle">
           3. <FormattedMessage id="profile.employee.status" />
         </Title>
       );
     }
     return (
-      <Title level={2} style={styles.formTitle}>
+      <Title level={2} className="employment-formTitle">
         <FormattedMessage id="profile.employee.status" />
         {fieldsChanged && (
-          <Text style={styles.unsavedText}>
+          <Text className="unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
@@ -536,7 +481,7 @@ const EmploymentDataFormView = ({
   if (!load) {
     return (
       /* If form data is loading then wait */
-      <div style={styles.skeleton}>
+      <div className="employment-skeleton">
         <Skeleton active />
       </div>
     );
@@ -548,7 +493,7 @@ const EmploymentDataFormView = ({
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
-      <div style={styles.content}>
+      <div className="employment-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           {getFormHeader(formType)}
@@ -560,7 +505,7 @@ const EmploymentDataFormView = ({
             />
           </div>
         </Row>
-        <Divider style={styles.headerDiv} />
+        <Divider className="employment-headerDiv" />
         {/* Create for with initial values */}
         <Form
           name="basicForm"
@@ -642,8 +587,8 @@ const EmploymentDataFormView = ({
           </Row>
 
           {/* Form Row Four: Temporary role */}
-          <Row style={styles.tempRoleRow} gutter={24}>
-            <Col className="gutter-row" span={24}>
+          <Row gutter={24}>
+            <Col className="gutter-row employment-tempRoleRow" span={24}>
               <Row>
                 <Text>
                   <FormattedMessage id="profile.temporary.role" />
@@ -659,7 +604,7 @@ const EmploymentDataFormView = ({
                     </div>
                   }
                 >
-                  <div style={styles.iconBySwitch}>
+                  <div className="iconBySwitch">
                     <InfoCircleOutlined tabIndex={0} />
                   </div>
                 </Popover>
@@ -672,13 +617,13 @@ const EmploymentDataFormView = ({
             </Col>
           </Row>
 
-          <Divider style={styles.headerDiv} />
+          <Divider className="employment-headerDiv" />
           <Row
             justify="space-between"
-            style={styles.sectionHeader}
+            className="employment-sectionHeader"
             align="middle"
           >
-            <Title level={3} style={styles.formTitle}>
+            <Title level={3} className="employment-formTitle">
               <FormattedMessage id="profile.description" />
             </Title>
             <CardVisibilityToggle

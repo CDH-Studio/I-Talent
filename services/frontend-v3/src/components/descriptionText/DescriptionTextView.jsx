@@ -4,6 +4,7 @@ import { Row, Button } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import "./DescriptionTextView.scss";
 
 const DescriptionTextView = ({
   text,
@@ -11,28 +12,12 @@ const DescriptionTextView = ({
   expanded,
   handleExpandButtonClick,
 }) => {
-  const styles = {
-    experienceDescriptionToggleTag: {
-      color: "rgba(0, 0, 0, 0.85)",
-      paddingTop: "8px",
-    },
-    expandDescriptionToggleTagText: {
-      paddingLeft: "5px",
-    },
-    bodyStyle: {
-      whiteSpace: "pre-wrap",
-      overflow: "auto",
-      maxHeight: "400px",
-      wordBreak: "break-all",
-    },
-  };
-
   const generateDescriptionBody = () => {
     if (expanded || !expandable) {
       if (text) {
         const lineStrings = text.split(" ").join("\u00A0").split("\n");
         return (
-          <div style={styles.bodyStyle}>
+          <div className="bodyStyle">
             {lineStrings.map((line, index) => (
               <>
                 {index > 0 ? <br /> : null} {line}
@@ -55,10 +40,10 @@ const DescriptionTextView = ({
           <Button
             type="link"
             onClick={handleExpandButtonClick}
-            style={styles.experienceDescriptionToggleTag}
+            className="experienceDescriptionToggleTag"
           >
             {expanded ? <UpOutlined /> : <DownOutlined />}
-            <span style={styles.expandDescriptionToggleTagText}>
+            <span className="expandDescriptionToggleTagText">
               <FormattedMessage id="profile.career.content.name" />
             </span>
           </Button>

@@ -17,6 +17,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
@@ -167,8 +168,10 @@ const CompetencyTableView = ({
         overlayStyle={{ maxWidth: 350 }}
       >
         <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.delete" />
+          <DeleteOutlined />
+          <span>
+            <FormattedMessage id="admin.delete" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -401,13 +404,20 @@ const CompetencyTableView = ({
       {addCompetencyModal()}
       {editCompetencyModal()}
       <Header
-        title={<FormattedMessage id="admin.competency.table" />}
+        title={
+          <>
+            <DatabaseOutlined />
+            <FormattedMessage id="admin.competency.table" />
+          </>
+        }
         extra={
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
-              <PlusCircleOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="admin.add" />
+              <PlusCircleOutlined />
+              <span>
+                <FormattedMessage id="admin.add" />
+              </span>
             </Button>
           </>
         }

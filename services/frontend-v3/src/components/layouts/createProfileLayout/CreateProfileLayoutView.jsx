@@ -1,5 +1,6 @@
 import React from "react";
-import { Steps } from "antd";
+import { Steps, Card } from "antd";
+import { UserAddOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useHistory, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -16,6 +17,8 @@ import {
 } from "../../profileForms";
 import Header from "../../header/Header";
 
+import "./CreateProfileLayoutView.scss";
+
 const { Step } = Steps;
 
 /**
@@ -24,15 +27,6 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
-
-  /* Component Styles */
-  const styles = {
-    stepList: {
-      paddingLeft: "0px",
-      listStyle: "none",
-      marginBottom: "0px",
-    },
-  };
 
   /*
    * On change
@@ -108,12 +102,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             tabIndex={0}
             title={<FormattedMessage id="setup.primary.information" />}
             description={
-              <ul style={styles.stepList}>
+              <ul className="stepList">
                 <li>
-                  - <FormattedMessage id="setup.step.2.description" />
+                  <FormattedMessage id="setup.step.2.description" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.employment.equity.groups" />
+                  <FormattedMessage id="profile.employment.equity.groups" />
                 </li>
               </ul>
             }
@@ -123,12 +117,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             title={<FormattedMessage id="profile.employee.status" />}
             disabled={highestStep < 3}
             description={
-              <ul style={styles.stepList}>
+              <ul className="stepList">
                 <li>
-                  - <FormattedMessage id="setup.step.3.description" />
+                  <FormattedMessage id="setup.step.3.description" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.description" />
+                  <FormattedMessage id="profile.description" />
                 </li>
               </ul>
             }
@@ -138,12 +132,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             title={<FormattedMessage id="setup.language.proficiency" />}
             disabled={highestStep < 3}
             description={
-              <ul style={styles.stepList}>
+              <ul className="stepList">
                 <li>
-                  - <FormattedMessage id="setup.first.language" />
+                  <FormattedMessage id="setup.first.language" />
                 </li>
                 <li>
-                  - <FormattedMessage id="setup.second.language" />
+                  <FormattedMessage id="setup.second.language" />
                 </li>
               </ul>
             }
@@ -153,15 +147,15 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             title={<FormattedMessage id="setup.talent" />}
             disabled={highestStep < 3}
             description={
-              <ul style={styles.stepList}>
+              <ul className="stepList">
                 <li>
-                  - <FormattedMessage id="setup.skills" />
+                  <FormattedMessage id="setup.skills" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.mentorship.skills" />
+                  <FormattedMessage id="profile.mentorship.skills" />
                 </li>
                 <li>
-                  - <FormattedMessage id="setup.competencies" />
+                  <FormattedMessage id="setup.competencies" />
                 </li>
               </ul>
             }
@@ -171,12 +165,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             title={<FormattedMessage id="profile.employee.qualifications" />}
             disabled={highestStep < 3}
             description={
-              <ul style={styles.stepList}>
+              <ul className="stepList">
                 <li>
-                  - <FormattedMessage id="setup.education" />
+                  <FormattedMessage id="setup.education" />
                 </li>
                 <li>
-                  - <FormattedMessage id="setup.experience" />
+                  <FormattedMessage id="setup.experience" />
                 </li>
               </ul>
             }
@@ -186,9 +180,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             title={<FormattedMessage id="profile.employee.growth.interests" />}
             disabled={highestStep < 3}
             description={
-              <ul style={styles.stepList}>
+              <ul className="stepList">
                 <li>
-                  - <FormattedMessage id="profile.developmental.goals" />
+                  <FormattedMessage id="profile.developmental.goals" />
                 </li>
                 <li>
                   - <FormattedMessage id="profile.qualified.pools" />
@@ -197,10 +191,10 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
                   - <FormattedMessage id="profile.career.interests" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.talent.management" />
+                  <FormattedMessage id="profile.talent.management" />
                 </li>
                 <li>
-                  - <FormattedMessage id="profile.ex.feeder.title" />
+                  <FormattedMessage id="profile.ex.feeder.title" />
                 </li>
               </ul>
             }
@@ -226,8 +220,15 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       displaySideBar
       displaySearch={false}
     >
-      <Header title={<FormattedMessage id="create.profile" />} />
-      {form}
+      <Header
+        title={
+          <>
+            <UserAddOutlined />
+            <FormattedMessage id="create.profile" />
+          </>
+        }
+      />
+      <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );
 };
