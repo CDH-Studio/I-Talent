@@ -330,23 +330,24 @@ const SearchBarView = ({
                 tabIndex={0}
                 size="middle"
               >
-                {/* <SettingOutlined style={{ marginRight: "3px" }} /> */}
                 {expandAdvancedSearch ? (
-                  <div>
+                  <>
                     <DoubleRightOutlined
                       rotate="270"
-                      style={{ marginRight: "4px" }}
                     />
-                    <FormattedMessage id="button.basic.search" />
-                  </div>
+                    <span>
+                      <FormattedMessage id="button.basic.search" />
+                    </span>
+                  </>
                 ) : (
-                  <div>
+                  <>
                     <DoubleRightOutlined
                       rotate="90"
-                      style={{ marginRight: "4px" }}
                     />
-                    <FormattedMessage id="button.advanced.search" />
-                  </div>
+                    <span>
+                      <FormattedMessage id="button.advanced.search" />
+                    </span>
+                  </>
                 )}
               </Button>
             </Col>

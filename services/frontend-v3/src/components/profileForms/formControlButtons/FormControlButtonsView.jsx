@@ -78,7 +78,7 @@ const FormControlButtonsView = ({
     );
 
   return (
-    <Row gutter={24} className="fcb-container">
+    <Row gutter={[24, 14]} className="fcb-container">
       <Col xs={24} md={24} lg={18} xl={18}>
         {(edit || onSaveAndNext) && (
           <Button

@@ -32,12 +32,16 @@ const ErrorProfileNotFound = () => {
         extra: (
           <>
             <Button onClick={handleClick} type="primary">
-              <HomeOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="error.button" />
+              <HomeOutlined />
+              <span>
+                <FormattedMessage id="error.button" />
+              </span>
             </Button>
             <Button onClick={() => setProfile(true)}>
-              <UserOutlined style={{ marginRight: 10 }} />
-              <FormattedMessage id="setup.done.view.profile" />
+              <UserOutlined />
+              <span>
+                <FormattedMessage id="setup.done.view.profile" />
+              </span>
             </Button>
           </>
         ),

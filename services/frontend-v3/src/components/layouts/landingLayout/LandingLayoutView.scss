@@ -1,7 +1,37 @@
+.pageContent {
+  margin-top: 100px;
+  text-align: left;
+}
+
 .logo {
   width: 270px;
   margin-top: 50px;
 }
+
+.landingPicture {
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .pageContent {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .logo {
+    width: 230px;
+    margin-top: 30px;
+  }
+
+  .landingPicture {
+    display: none !important;
+  }
+
+  .landingPicture {
+    display: none !important;
+  }
+}
+
 .text {
   display: block;
   margin: 20px 0;
@@ -12,11 +42,18 @@
   margin: 25px 0 10px 0;
   color: #404040;
 }
-.image {
+
+.landingPicture img {
   max-width: 70%;
   max-height: 400px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
-.imageContainer {
-  text-align: center;
+
+.signInButton {
+  margin-top: 20px;
+  width: 190px;
+}
+
+.signInButton svg {
+  margin-right: 5px;
 }

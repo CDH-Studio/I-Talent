@@ -18,8 +18,9 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import handleError from "../../../functions/handleError";
-import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
+import EducationForm from "./educationForm/EducationForm";
+
 import {
   ProfileInfoPropType,
   HistoryPropType,

@@ -11,13 +11,19 @@ const ChangeLanguageView = ({ handleLanguageChange }) => {
       type="default"
       tabIndex={0}
       onClick={handleLanguageChange}
-      style={{ textTransform: "uppercase" }}
+      style={{
+        textTransform: "uppercase",
+        color: "#454545",
+        borderColor: "#454545",
+      }}
     >
-      <GlobalOutlined style={{ marginRight: 5 }} />
-      <FormattedMessage
-        style={{ textTransform: "capitalize" }}
-        id="lang.code"
-      />
+      <GlobalOutlined />
+      <span>
+        <FormattedMessage
+          style={{ textTransform: "capitalize" }}
+          id="lang.code"
+        />
+      </span>
     </Button>
   );
 };

@@ -1,6 +1,14 @@
 import React from "react";
-import { Menu } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Menu, Card } from "antd";
+import {
+  TagsOutlined,
+  CompassOutlined,
+  GlobalOutlined,
+  SolutionOutlined,
+  TrophyOutlined,
+  ProjectOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
@@ -66,10 +74,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
-            <b>
+            <SolutionOutlined />
+            <strong>
               <FormattedMessage id="setup.primary.information" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -78,14 +86,17 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             <li className="menu-list-item">
               - <FormattedMessage id="profile.employment.equity.groups" />
             </li>
+            <li className="menu-list-item">
+              - <FormattedMessage id="setup.gc.directory" />
+            </li>
           </ul>
         </Menu.Item>
         <Menu.Item tabIndex={0} key="employment" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
-            <b>
+            <CompassOutlined />
+            <strong>
               <FormattedMessage id="profile.employee.status" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -102,10 +113,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           className="menu-item"
         >
           <div className="menu-item-header">
-            <RightOutlined />
-            <b>
+            <GlobalOutlined />
+            <strong>
               <FormattedMessage id="setup.language.proficiency" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -118,10 +129,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex={0} key="talent" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
-            <b>
+            <TagsOutlined />
+            <strong>
               <FormattedMessage id="setup.talent" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -137,10 +148,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex={0} key="qualifications" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
-            <b>
+            <TrophyOutlined />
+            <strong>
               <FormattedMessage id="profile.employee.qualifications" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -153,10 +164,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
         <Menu.Item tabIndex="0" key="personal-growth" className="menu-item">
           <div className="menu-item-header">
-            <RightOutlined />
-            <b>
+            <ProjectOutlined />
+            <strong>
               <FormattedMessage id="profile.employee.growth.interests" />
-            </b>
+            </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
@@ -184,8 +195,15 @@ const EditProfileLayoutView = ({ formStep, history }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
-      <Header title={<FormattedMessage id="edit.profile" />} />
-      {form}
+      <Header
+        title={
+          <>
+            <EditOutlined />
+            <FormattedMessage id="edit.profile" />
+          </>
+        }
+      />
+      <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );
 };

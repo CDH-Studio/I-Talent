@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
+import { AreaChartOutlined } from "@ant-design/icons";
 import useAxios from "../../utils/axios-instance";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
@@ -179,7 +180,14 @@ const AdminDashboard = ({ intl }) => {
 
   return (
     <AdminLayout displaySideBar type="dashboard">
-      <Header title={<FormattedMessage id="admin.dashboard.title" />} />
+      <Header
+        title={
+          <>
+            <AreaChartOutlined />
+            <FormattedMessage id="admin.dashboard.title" />
+          </>
+        }
+      />
       <StatCards />
       <DashboardGraphs />
     </AdminLayout>
