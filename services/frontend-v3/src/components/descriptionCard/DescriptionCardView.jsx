@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 
 import DescriptionText from "../descriptionText/DescriptionText";
 
-const DescriptionView = ({ data }) => {
+const DescriptionCardView = ({ data }) => {
   return <DescriptionText text={data} expandable={false} />;
 };
 
-DescriptionView.propTypes = {
+DescriptionCardView.propTypes = {
   data: PropTypes.string,
 };
 
-DescriptionView.defaultProps = {
+DescriptionCardView.defaultProps = {
   data: null,
 };
 
-export default DescriptionView;
+export default DescriptionCardView;
