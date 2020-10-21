@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import UserTableView from "./UserTableView";
 import handleError from "../../../functions/handleError";
 import {

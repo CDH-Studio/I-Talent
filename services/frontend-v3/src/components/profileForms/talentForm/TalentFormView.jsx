@@ -19,7 +19,7 @@ import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,

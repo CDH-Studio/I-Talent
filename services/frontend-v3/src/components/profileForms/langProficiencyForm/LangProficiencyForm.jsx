@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useIntl } from "react-intl";
 
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import LangProficiencyFormView from "./LangProficiencyFormView";
 import handleError from "../../../functions/handleError";
 

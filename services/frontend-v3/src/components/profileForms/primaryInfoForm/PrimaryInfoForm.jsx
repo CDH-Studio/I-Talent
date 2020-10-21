@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useIntl } from "react-intl";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
 import handleError from "../../../functions/handleError";
 

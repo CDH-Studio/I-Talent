@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import { useSelector } from "react-redux";
-import useAxios from "../utils/axios-instance";
+import useAxios from "../utils/useAxios";
 import {
   AdminDashboard,
   AdminUser,

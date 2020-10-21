@@ -14,7 +14,7 @@ import {
 } from "../pages";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
-import useAxios from "../utils/axios-instance";
+import useAxios from "../utils/useAxios";
 
 const Secured = ({ location }) => {
   const [authenticated, setAuthenticated] = useState(false);

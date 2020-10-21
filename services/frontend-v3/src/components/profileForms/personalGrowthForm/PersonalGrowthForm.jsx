@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { useIntl } from "react-intl";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 
 import PersonalGrowthFormView from "./PersonalGrowthFormView";
 import handleError from "../../../functions/handleError";
