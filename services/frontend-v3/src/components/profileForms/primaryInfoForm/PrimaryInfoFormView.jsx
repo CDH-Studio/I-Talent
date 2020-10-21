@@ -579,6 +579,7 @@ const PrimaryInfoFormView = ({
               paddingTop: "15px",
               marginBottom: "20px",
               marginTop: "10px",
+              borderRadius: 5,
             }}
           >
             <Col className="gutter-row" span={24}>

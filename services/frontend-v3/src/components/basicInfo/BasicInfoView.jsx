@@ -293,7 +293,9 @@ const BasicInfoView = ({
           icon={button.icon}
           href={button.url}
         >
-          <FormattedMessage id={button.textId} />
+          <span>
+            <FormattedMessage id={button.textId} />
+          </span>
         </Button>
       );
     });

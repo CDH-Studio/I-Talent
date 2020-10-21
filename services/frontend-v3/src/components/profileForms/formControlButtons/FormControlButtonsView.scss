@@ -1,20 +1,18 @@
 .fcb-finishAndSaveBtn {
   float: left;
   margin-right: 1rem;
-  margin-bottom: 1rem;
 }
 
 .fcb-clearBtn {
   float: left;
-  margin-bottom: 1rem;
 }
 
 .fcb-saveBtn {
   float: right;
-  margin-bottom: 1rem;
   min-width: 100%;
 }
 
-.fcb-container { 
-  margin-top: 20px;
+.fcb-container {
+  margin-top: 10px !important;
+  margin-bottom: -10px !important;
 }

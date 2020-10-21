@@ -1,8 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Layout, Skeleton, Card } from "antd";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";

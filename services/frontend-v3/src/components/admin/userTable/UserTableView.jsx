@@ -19,6 +19,7 @@ import {
   SearchOutlined,
   TeamOutlined,
   DeleteOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
@@ -195,8 +196,10 @@ const UserTableView = ({
         disabled={!modifiedStatus}
       >
         <Button type="primary" disabled={!modifiedStatus}>
-          <CheckCircleOutlined style={{ marginRight: 10 }} />
-          <FormattedMessage id="admin.apply" />
+          <CheckCircleOutlined />
+          <span>
+            <FormattedMessage id="admin.apply" />
+          </span>
         </Button>
       </Popconfirm>
     );
@@ -206,8 +209,10 @@ const UserTableView = ({
   const keycloakButton = () => {
     return (
       <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
-        <TeamOutlined style={{ marginRight: 10 }} />
-        <FormattedMessage id="admin.manage.keycloak" />
+        <TeamOutlined />
+        <span>
+          <FormattedMessage id="admin.manage.keycloak" />
+        </span>
       </Button>
     );
   };
@@ -366,10 +371,11 @@ const UserTableView = ({
       <Header
         title={
           <>
+            <DatabaseOutlined />
             <FormattedMessage id="admin.user.table" />
             {modifiedStatus && (
-              <Text className="unsavedText">
-                (<FormattedMessage id="profile.form.unsaved" />)
+              <Text className="userTable-unsavedText">
+                <FormattedMessage id="profile.form.unsaved" />
               </Text>
             )}
           </>
@@ -406,6 +412,9 @@ const UserTableView = ({
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
+            pagination={{
+              hideOnSinglePage: true,
+            }}
           />
         </Col>
       </Row>

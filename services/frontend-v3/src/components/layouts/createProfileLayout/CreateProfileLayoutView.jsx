@@ -1,5 +1,6 @@
 import React from "react";
-import { Steps } from "antd";
+import { Steps, Card } from "antd";
+import { UserAddOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useHistory, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -216,8 +217,15 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       displaySideBar
       displaySearch={false}
     >
-      <Header title={<FormattedMessage id="create.profile" />} />
-      {form}
+      <Header
+        title={
+          <>
+            <UserAddOutlined />
+            <FormattedMessage id="create.profile" />
+          </>
+        }
+      />
+      <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );
 };

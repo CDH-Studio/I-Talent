@@ -1,16 +1,18 @@
 .header {
-  background-color: #192e2f;
+  background-color: white;
   padding: 0 !important;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0.1rem 0.1rem;
   position: fixed;
-  z-index: 2;
+  z-index: 100;
   width: 100%;
+  border-bottom: 1px solid #f0f0f0;
 }
 .aroundNavContent {
   margin: 0 25px !important;
 }
 .navBrand {
-  height: 40px;
+  height: 37px;
+  border-radius: 5px;
 }
 .dropDownMenu {
   padding: 0;
@@ -20,7 +22,7 @@
   padding: 10px 20px;
 }
 .nav-dropDownButton {
-  color: #fff !important;
+  color: #454545 !important;
   height: 35px !important;
   padding: 0 !important;
   margin-right: 15px !important;
@@ -37,7 +39,7 @@
 
 .hamburgerMenu {
   padding-bottom: 23px !important;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0.1rem 0.1rem;
 }
 .hamburgerHeader {
   justify-content: space-between;
