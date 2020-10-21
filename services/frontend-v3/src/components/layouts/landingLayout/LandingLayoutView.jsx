@@ -51,7 +51,7 @@ const LandingLayoutView = () => {
           <Text className="text" strong>
             <FormattedMessage id="landing.call.to.action" />
           </Text>
-          <Button type="primary" onClick={() => keycloak.login()} size="large">
+          <Button type="primary" onClick={keycloak.login} size="large">
             <FormattedMessage id="landing.login.button" />
           </Button>
         </Col>
