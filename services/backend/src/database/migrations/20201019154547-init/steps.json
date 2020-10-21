@@ -35,7 +35,8 @@
         "B",
         "C",
         "E",
-        "X"
+        "X",
+        "NA"
       ]
     },
     {
@@ -44,7 +45,17 @@
       "values": [
         "PRIVATE",
         "PUBLIC",
-        "FRIENDS"
+        "CONNECTIONS"
+      ]
+    },
+    {
+      "tag": "CreateEnum",
+      "enum": "EmploymentEquityGroup",
+      "values": [
+        "WOMEN",
+        "INDIGENOUS",
+        "DISABILITY",
+        "MINORITY"
       ]
     },
     {
@@ -1813,13 +1824,6 @@
       "model": "OpOfficeLocation",
       "field": "translations",
       "type": "OpTransOfficeLocation",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "OpOfficeLocation",
-      "field": "relocationLocations",
-      "type": "RelocationLocation",
       "arity": "List"
     },
     {
@@ -3628,6 +3632,290 @@
     },
     {
       "tag": "CreateModel",
+      "model": "OpTransRelocationLocation"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "uuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "language",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "city",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "province",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "opRelocationLocation",
+      "type": "OpRelocationLocation",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "opRelocationLocation"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpTransRelocationLocation",
+          "field": "opRelocationLocation"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[opRelocationLocationId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransRelocationLocation",
+      "field": "opRelocationLocationId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "OpTransRelocationLocation",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[language, city, province]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateModel",
+      "model": "OpRelocationLocation"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpRelocationLocation",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpRelocationLocation",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpRelocationLocation",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "uuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpRelocationLocation",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpRelocationLocation",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpRelocationLocation",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpRelocationLocation",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpRelocationLocation",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpRelocationLocation",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpRelocationLocation",
+      "field": "translations",
+      "type": "OpTransRelocationLocation",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpRelocationLocation",
+      "field": "RelocationLocation",
+      "type": "RelocationLocation",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateModel",
       "model": "TransEmploymentInfo"
     },
     {
@@ -4021,39 +4309,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
-    },
-    {
-      "tag": "CreateField",
-      "model": "VisibleCard",
-      "field": "manager",
-      "type": "CardVisibilityStatus",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "VisibleCard",
-          "field": "manager"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "VisibleCard",
-          "field": "manager"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4085,7 +4341,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4117,7 +4373,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4149,7 +4405,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4181,7 +4437,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4213,7 +4469,39 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "VisibleCard",
+      "field": "description",
+      "type": "CardVisibilityStatus",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "description"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "description"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4245,7 +4533,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4277,39 +4565,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
-    },
-    {
-      "tag": "CreateField",
-      "model": "VisibleCard",
-      "field": "projects",
-      "type": "CardVisibilityStatus",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "VisibleCard",
-          "field": "projects"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "VisibleCard",
-          "field": "projects"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4341,7 +4597,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4373,7 +4629,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -4405,7 +4661,39 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "PUBLIC"
+      "value": "PRIVATE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "VisibleCard",
+      "field": "employmentEquityGroup",
+      "type": "CardVisibilityStatus",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "employmentEquityGroup"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "VisibleCard",
+          "field": "employmentEquityGroup"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "PRIVATE"
     },
     {
       "tag": "CreateField",
@@ -5156,6 +5444,38 @@
     {
       "tag": "CreateField",
       "model": "SecondLangProf",
+      "field": "unknownExpiredDate",
+      "type": "Boolean",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "SecondLangProf",
+          "field": "unknownExpiredDate"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "SecondLangProf",
+          "field": "unknownExpiredDate"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "false"
+    },
+    {
+      "tag": "CreateField",
+      "model": "SecondLangProf",
       "field": "proficiency",
       "type": "Proficiency",
       "arity": "Required"
@@ -5788,7 +6108,53 @@
       "model": "Education",
       "field": "startDate",
       "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Education",
+      "field": "ongoingDate",
+      "type": "Boolean",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Education",
+          "field": "ongoingDate"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Education",
+          "field": "ongoingDate"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "false"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Education",
+      "field": "description",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Education",
+      "field": "attachmentLinks",
+      "type": "AttachmentLink",
+      "arity": "List"
     },
     {
       "tag": "CreateField",
@@ -6011,7 +6377,7 @@
       "model": "TransExperience",
       "field": "description",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -6194,6 +6560,52 @@
     {
       "tag": "CreateField",
       "model": "Experience",
+      "field": "ongoingDate",
+      "type": "Boolean",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Experience",
+          "field": "ongoingDate"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Experience",
+          "field": "ongoingDate"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "false"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Experience",
+      "field": "projects",
+      "type": "String",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Experience",
+      "field": "attachmentLinks",
+      "type": "AttachmentLink",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Experience",
       "field": "user",
       "type": "User",
       "arity": "Required"
@@ -6323,14 +6735,46 @@
     {
       "tag": "CreateField",
       "model": "RelocationLocation",
-      "field": "userId",
+      "field": "relocationLocationId",
       "type": "String",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "RelocationLocation",
-      "field": "locationId",
+      "field": "relocationLocation",
+      "type": "OpRelocationLocation",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "RelocationLocation",
+          "field": "relocationLocation"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "RelocationLocation",
+          "field": "relocationLocation"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[relocationLocationId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "RelocationLocation",
+      "field": "userId",
       "type": "String",
       "arity": "Required"
     },
@@ -6367,10 +6811,30 @@
       "value": "[userId]"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "RelocationLocation",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[userId, relocationLocationId]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateModel",
+      "model": "OpTransAttachmentLinkName"
+    },
+    {
       "tag": "CreateField",
-      "model": "RelocationLocation",
-      "field": "location",
-      "type": "OpOfficeLocation",
+      "model": "OpTransAttachmentLinkName",
+      "field": "id",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -6378,8 +6842,115 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "RelocationLocation",
-          "field": "location"
+          "model": "OpTransAttachmentLinkName",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "uuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransAttachmentLinkName",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransAttachmentLinkName",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransAttachmentLinkName",
+      "field": "language",
+      "type": "Language",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransAttachmentLinkName",
+      "field": "name",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransAttachmentLinkName",
+      "field": "OpAttachmentLinkName",
+      "type": "OpAttachmentLinkName",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "OpAttachmentLinkName"
         },
         "directive": "relation"
       }
@@ -6390,29 +6961,618 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "RelocationLocation",
-          "field": "location"
+          "model": "OpTransAttachmentLinkName",
+          "field": "OpAttachmentLinkName"
         },
         "directive": "relation"
       },
       "argument": "fields",
-      "value": "[locationId]"
+      "value": "[opAttachmentLinkNameId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpTransAttachmentLinkName",
+          "field": "OpAttachmentLinkName"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpTransAttachmentLinkName",
+      "field": "opAttachmentLinkNameId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "OpAttachmentLinkName"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpAttachmentLinkName",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
       "location": {
         "path": {
-          "tag": "Model",
-          "model": "RelocationLocation",
-          "arguments": [
-            {
-              "name": "",
-              "value": "[userId, locationId]"
-            }
-          ]
+          "tag": "Field",
+          "model": "OpAttachmentLinkName",
+          "field": "id"
         },
-        "directive": "unique"
+        "directive": "default"
       }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpAttachmentLinkName",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "uuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpAttachmentLinkName",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpAttachmentLinkName",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpAttachmentLinkName",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "OpAttachmentLinkName",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpAttachmentLinkName",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "OpAttachmentLinkName",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpAttachmentLinkName",
+      "field": "type",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpAttachmentLinkName",
+      "field": "translations",
+      "type": "OpTransAttachmentLinkName",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "OpAttachmentLinkName",
+      "field": "TransAttachmentLink",
+      "type": "TransAttachmentLink",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "TransAttachmentLink"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "uuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "language",
+      "type": "Language",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "nameId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "url",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "name",
+      "type": "OpAttachmentLinkName",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "name"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "name"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[nameId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "AttachmentLink",
+      "type": "AttachmentLink",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "AttachmentLink"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "AttachmentLink"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[attachmentLinkId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TransAttachmentLink",
+          "field": "AttachmentLink"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TransAttachmentLink",
+      "field": "attachmentLinkId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "AttachmentLink"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "uuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "translations",
+      "type": "TransAttachmentLink",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "Experience",
+      "type": "Experience",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Experience"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Experience"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[experienceId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Experience"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "experienceId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "Education",
+      "type": "Education",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Education"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Education"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[educationId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "Education"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "educationId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "User",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "User"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "User"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AttachmentLink",
+          "field": "User"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "AttachmentLink",
+      "field": "userId",
+      "type": "String",
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -6640,6 +7800,13 @@
     {
       "tag": "CreateField",
       "model": "User",
+      "field": "description",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
       "field": "firstLanguage",
       "type": "Language",
       "arity": "Optional"
@@ -6755,32 +7922,7 @@
       "model": "User",
       "field": "interestedInRemote",
       "type": "Boolean",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "User",
-          "field": "interestedInRemote"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "User",
-          "field": "interestedInRemote"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "false"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -6844,14 +7986,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "0"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "projects",
-      "type": "String",
-      "arity": "List"
+      "value": "1"
     },
     {
       "tag": "CreateField",
@@ -7232,6 +8367,13 @@
     {
       "tag": "CreateField",
       "model": "User",
+      "field": "developmentalGoalsAttachments",
+      "type": "AttachmentLink",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
       "field": "competencies",
       "type": "Competency",
       "arity": "List"
@@ -7274,9 +8416,41 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "friends",
+      "field": "employmentEquityGroups",
+      "type": "EmploymentEquityGroup",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "connections",
       "type": "User",
       "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "connections"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "connections"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"UserToUser\""
     },
     {
       "tag": "CreateField",
