@@ -11,10 +11,10 @@ const Logout = () => {
 
   const logout = useCallback(async () => {
     if (keycloak.authenticated) {
-      dispatch(clearUser());
       await keycloak.logout({
         redirectUri: `${window.location.origin}/logout`,
       });
+      dispatch(clearUser());
     }
   }, [dispatch, keycloak]);
 
