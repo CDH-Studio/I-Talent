@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import SettingsLayoutView from "./SettingsLayoutView";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 import { setUserStatus } from "../../../redux/slices/userSlice";
 

@@ -24,7 +24,7 @@ import pickBy from "lodash-es/pickBy";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,

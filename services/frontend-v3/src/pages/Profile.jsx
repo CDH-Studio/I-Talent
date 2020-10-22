@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useIntl } from "react-intl";
-import useAxios from "../utils/axios-instance";
+import useAxios from "../utils/useAxios";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
 import ErrorProfileNotFound from "../components/errorResult/errorProfileNotFound";

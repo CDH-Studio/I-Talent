@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useIntl } from "react-intl";
-import useAxios from "../utils/axios-instance";
+import useAxios from "../utils/useAxios";
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 import { setUserSignupStep } from "../redux/slices/userSlice";
 

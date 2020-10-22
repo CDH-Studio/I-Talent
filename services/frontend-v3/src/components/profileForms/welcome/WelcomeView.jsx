@@ -10,10 +10,10 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import { IntlPropType, HistoryPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
-import config from "../../../utils/config";
+import config from "../../../utils/runtimeConfig";
 import "./WelcomeView.scss";
 
 const { backendAddress } = config;

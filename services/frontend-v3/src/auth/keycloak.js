@@ -1,5 +1,5 @@
 import Keycloak from "keycloak-js";
-import config from "../utils/config";
+import config from "../utils/runtimeConfig";
 
 const keycloakConfig = {
   realm: "individual",

@@ -9,7 +9,7 @@ import {
 } from "../pages";
 import Admin from "./Admin";
 import Secured from "./Secured";
-import ScrollToTop from "./ScrollTopTop";
+import ScrollToTop from "./ScrollToTop";
 import PrivacyModal from "../components/privacyModal/PrivacyModal";
 
 const Routes = () => {

@@ -3,7 +3,7 @@ import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import useAxios from "../../utils/axios-instance";
+import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 import SearchBarView from "./SearchBarView";
 
@@ -76,7 +76,7 @@ const SearchBar = () => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/results?${query}`;
 
-    if (query  && query.length > 0) {
+    if (query && query.length > 0) {
       history.push(url);
     }
   };

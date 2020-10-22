@@ -30,7 +30,7 @@ import uniq from "lodash-es/uniq";
 
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
-import config from "../../../utils/config";
+import config from "../../../utils/runtimeConfig";
 import "./UserTableView.scss";
 
 const { Text } = Typography;

@@ -19,7 +19,7 @@ import "./SearchFilterView.scss";
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;
 
-const SearchBarView = ({
+const SearchFilterView = ({
   handleSearch,
   skillOptions,
   branchOptions,
@@ -218,7 +218,7 @@ const SearchBarView = ({
   );
 };
 
-SearchBarView.propTypes = {
+SearchFilterView.propTypes = {
   branchOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -240,8 +240,8 @@ SearchBarView.propTypes = {
   handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
-SearchBarView.defaultProps = {
+SearchFilterView.defaultProps = {
   urlSearchFieldValues: undefined,
 };
 
-export default SearchBarView;
+export default SearchFilterView;
