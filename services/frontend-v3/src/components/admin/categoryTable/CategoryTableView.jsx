@@ -22,8 +22,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
-
+import sortBy from "lodash-es/sortBy";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -56,7 +55,7 @@ const CategoryTableView = ({
   const { locale } = useSelector((state) => state.settings);
 
   useEffect(() => {
-    if (data && locale) {
+    if (data && data.length > 0 && locale) {
       setSortedData(sortBy(data, locale === "ENGLISH" ? "en" : "fr"));
     }
   }, [locale, data]);
