@@ -1,5 +1,8 @@
 /* eslint-disable no-console */
-const _ = require("lodash");
+import flatten from "lodash-es/flatten";
+import uniq from "lodash-es/uniq";
+import value from "lodash-es/value";
+
 const fs = require("fs").promises;
 const path = require("path");
 
@@ -11,10 +14,7 @@ const blacklistedKeys = require("./blacklistKeys");
 const enKeys = Object.keys(en);
 const frKeys = Object.keys(fr);
 
-const keys = _([...enKeys, ...frKeys])
-  .uniq()
-  .sort()
-  .value();
+const keys = value(uniq([...enKeys, ...frKeys]).sort());
 
 // Logic for the next following functions comes from the answer of
 // https://stackoverflow.com/questions/48662924/javascript-nodejs-search-for-a-specific-word-string-in-files
@@ -96,7 +96,7 @@ async function searchFilesInDirectory(dir, ext) {
   let files = await Promise.all(
     ext.map((extension) => getFilesInDirectory(dir, extension))
   );
-  files = _.flatten(files);
+  files = flatten(files);
   const filesContent = await Promise.all(
     files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
   );

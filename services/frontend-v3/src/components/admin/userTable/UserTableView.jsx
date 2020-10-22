@@ -25,8 +25,8 @@ import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { uniq } from "lodash";
 import { Link } from "react-router-dom";
+import uniq from "lodash-es/uniq";
 
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
