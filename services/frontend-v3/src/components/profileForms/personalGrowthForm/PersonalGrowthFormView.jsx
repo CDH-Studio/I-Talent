@@ -17,7 +17,11 @@ import {
 import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import { isEqual, isNil, pickBy, omitBy, identity } from "lodash";
+import isEqual from "lodash-es/isEqual";
+import isNil from "lodash-es/isNil";
+import pickBy from "lodash-es/pickBy";
+import omitBy from "lodash-es/omitBy";
+import identity from "lodash-es/identity";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";

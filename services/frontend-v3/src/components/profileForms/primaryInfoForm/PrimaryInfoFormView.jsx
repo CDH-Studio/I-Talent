@@ -18,7 +18,9 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy } from "lodash";
+import isEqual from "lodash-es/isEqual";
+import pickBy from "lodash-es/pickBy";
+import identity from "lodash-es/identity";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
