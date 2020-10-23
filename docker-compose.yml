@@ -6,8 +6,7 @@ services:
       context: ./services/frontend-v3
       dockerfile: Dockerfile.local
     ports:
-      - "3000:3000" # port razzleJS
-      - "3001:3001" # port razzleJS
+      - "3000:3000" # port craco
       - "3031:8888" # port for webpack analyzer
     volumes:
       - ./services/frontend-v3:/upskill-frontend
