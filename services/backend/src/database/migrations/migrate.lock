@@ -1,20 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20200703104211-init
-20200709114724-experience-desc-optional
-20200713185642-connections
-20200715152732-remove-managervisiblecard
-20200730152245-update-default-signupstep
-20200731103922-add-description-card
-20200810083204-add-education-description
-20200810152146-optional-interested-in-remote
-20200813192343-add-unknown-expired-date-sec-lang-prof-col
-20200814034556-add-not-applicable-proficiency-level
-20200819173159-add-link-section
-20200820133639-add-employment-equity-group
-20200820161701-simplify-relocation-locations
-20200821203314-add-project-to-experince
-20200908202946-optional-unkown-expired-date
-20200911141617-developmental-goal-attachments
-20200921222051-optional-education-dates
-20201014225356-add-qualified-pools
+20201019154547-init
