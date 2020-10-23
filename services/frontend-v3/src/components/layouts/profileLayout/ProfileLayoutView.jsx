@@ -432,7 +432,7 @@ const ProfileLayoutView = ({
           message={<FormattedMessage id={messageId} />}
           type={isHidden ? "warning" : "error"}
           showIcon
-          style={{ marginBottom: 5 }}
+          style={{ marginBottom: 10 }}
           icon={isHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
         />
       );
