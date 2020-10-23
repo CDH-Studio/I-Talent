@@ -5,7 +5,6 @@ import {
   FieldPropType,
   FormInstancePropType,
   KeyTitleOptionsPropType,
-  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
 const QualifiedPoolsForm = ({

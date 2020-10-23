@@ -6,28 +6,23 @@ import {
   Form,
   Select,
   Button,
-  DatePicker,
   Tooltip,
   Input,
 } from "antd";
 
-import { FormOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
-import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
   FieldPropType,
   FormInstancePropType,
   KeyTitleOptionsPropType,
   IntlPropType,
-  KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
 
 import "./QualifiedPoolsFormView.scss";
-import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -169,7 +164,6 @@ QualifiedPoolsFormView.propTypes = {
   ).isRequired,
   classificationOptions: KeyTitleOptionsPropType.isRequired,
   intl: IntlPropType,
-  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 QualifiedPoolsFormView.defaultProps = {

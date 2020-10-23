@@ -1,9 +1,8 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { Row, Col, Avatar, List, Empty, Tag, Descriptions, Typography } from "antd";
-import { BankOutlined, LinkOutlined } from "@ant-design/icons";
-import DescriptionText from "../descriptionText/DescriptionText";
+import { Row, Col, List, Empty, Descriptions, Typography } from "antd";
+import { LinkOutlined } from "@ant-design/icons";
 const { Link } = Typography;
 
 const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {

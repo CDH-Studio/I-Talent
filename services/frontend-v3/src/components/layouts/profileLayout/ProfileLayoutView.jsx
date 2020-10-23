@@ -170,7 +170,7 @@ const ProfileLayoutView = ({
             />
           </Col>
         </Row>
-        <Row style={styles.row}>
+        <Row className="app-row">
           <Col span={24}>
             <QualifiedPools data={data} editableCardBool={privateProfile} />
           </Col>

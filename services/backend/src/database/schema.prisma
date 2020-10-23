@@ -411,7 +411,8 @@ model QualifiedPool {
   selectionProcessNumber String?
   jobPosterLink          String?
   user                   User              @relation(fields: [userId])
-  classification         OpClassification? @relation(fields: [classificationId], name: "classifications")
+  // classification         OpClassification? @relation(fields: [classificationId], name: "classifications")
+  classification         OpClassification? @relation("classifications", fields: [classificationId], references: [id])
 
   @@unique([userId, classificationId])
 }
