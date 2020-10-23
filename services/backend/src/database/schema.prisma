@@ -177,13 +177,12 @@ model OpOfficeLocation {
 }
 
 model OpClassification {
-  id               String          @id @default(uuid())
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  name             String          @unique
-  actingLevelUsers User[]          @relation("actingLevels")
-  groupLevelUsers  User[]          @relation("groupLevels")
-  qualifiedPools   QualifiedPool[] @relation("classifications")
+  id               String   @id @default(uuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  name             String   @unique
+  actingLevelUsers User[]   @relation("actingLevels")
+  groupLevelUsers  User[]   @relation("groupLevels")
 }
 
 model OpTransSkill {
@@ -351,7 +350,6 @@ model VisibleCard {
   skills                CardVisibilityStatus @default(PRIVATE)
   competencies          CardVisibilityStatus @default(PRIVATE)
   developmentalGoals    CardVisibilityStatus @default(PRIVATE)
-  qualifiedPools        CardVisibilityStatus @default(PRIVATE)
   description           CardVisibilityStatus @default(PRIVATE)
   education             CardVisibilityStatus @default(PRIVATE)
   experience            CardVisibilityStatus @default(PRIVATE)
@@ -399,22 +397,6 @@ model DevelopmentalGoal {
 
   @@unique([userId, skillId])
   @@unique([userId, competencyId])
-}
-
-model QualifiedPool {
-  id                     String            @id @default(uuid())
-  createdAt              DateTime          @default(now())
-  updatedAt              DateTime          @updatedAt
-  userId                 String
-  classificationId       String?
-  jobTitle               String?
-  selectionProcessNumber String?
-  jobPosterLink          String?
-  user                   User              @relation(fields: [userId])
-  // classification         OpClassification? @relation(fields: [classificationId], name: "classifications")
-  classification         OpClassification? @relation("classifications", fields: [classificationId], references: [id])
-
-  @@unique([userId, classificationId])
 }
 
 model SecondLangProf {
@@ -614,7 +596,6 @@ model User {
   skills                        Skill[]
   developmentalGoals            DevelopmentalGoal[]
   developmentalGoalsAttachments AttachmentLink[]
-  qualifiedPools                QualifiedPool[]
   competencies                  Competency[]
   secondLangProfs               SecondLangProf[]
   organizations                 Organization[]
