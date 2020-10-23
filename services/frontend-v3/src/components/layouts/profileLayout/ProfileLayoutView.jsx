@@ -80,7 +80,13 @@ const ProfileLayoutView = ({
     return (
       <div>
         {/* Employee summary */}
-        <Row gutter={[{ xs: 8, sm: 12 }, { lg: 15, xl: 0 }]} type="flex">
+        <Row
+          gutter={[
+            { xs: 8, sm: 12 },
+            { xs: 15, sm: 15, xl: 0 },
+          ]}
+          type="flex"
+        >
           <Col xs={24} xl={14}>
             <BasicInfo
               data={data}
@@ -170,11 +176,7 @@ const ProfileLayoutView = ({
           </Col>
         </Row>
 
-        <Row
-          className="app-row"
-          gutter={[{ xs: 8, sm: 16, md: 16, lg: 16 }, 20]}
-          type="flex"
-        >
+        <Row className="app-row" gutter={[{ xs: 8, sm: 16 }, 20]} type="flex">
           <Col xs={24} xl={12}>
             <TalentManagement data={data} editableCardBool={privateProfile} />
             <div style={{ paddingTop: "16px" }}>
