@@ -21,7 +21,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
     }
   }, [visibleCards, urlID, userID, cardName]);
 
-  const handleVisibilityToggle = async (value) => {
+  const handleVisibilityTogglezz = async (value) => {
     // eslint-disable-next-line no-param-reassign
     visibleCards[cardName] = value;
     await axios
@@ -38,7 +38,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   return (
     <CardVisibilityToggleView
       status={status}
-      handleVisibilityToggle={handleVisibilityToggle}
+      //handleVisibilityToggle={handleVisibilityToggle}
       type={type}
     />
   );

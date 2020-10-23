@@ -4,56 +4,77 @@ import {
   TeamOutlined,
   EyeOutlined,
   WarningOutlined,
+  DownOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { Tooltip, Radio, Popconfirm } from "antd";
+import {
+  Tooltip,
+  Radio,
+  Popconfirm,
+  Menu,
+  Dropdown,
+  Button,
+  message,
+  Select,
+} from "antd";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+const { Option } = Select;
 
-const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => (
-  <Radio.Group value={status} buttonStyle="solid" size="middle">
-    <Popconfirm
-      title={
-        <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
-      }
-      placement="topRight"
-      okText={<FormattedMessage id="profile.yes" />}
-      cancelText={<FormattedMessage id="profile.no" />}
-      icon={<WarningOutlined style={{ color: "orange" }} />}
-      onConfirm={() => handleVisibilityToggle("PUBLIC")}
-    >
-      <Tooltip
-        placement="bottom"
-        title={<FormattedMessage id={`profile.visibility.${type}.public`} />}
+const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
+  const handleButtonClick = (e) => {
+    message.info("Click on left button.");
+    console.log("click left button", e);
+  };
+
+  const handleMenuClick = (e) => {
+    message.info("Click on menu item.");
+    console.log("click", e);
+  };
+
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
+
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="PUBLIC" icon={<EyeOutlined />}>
+        Public
+      </Menu.Item>
+      <Menu.Item key="CONNECTIONS" icon={<TeamOutlined />}>
+        Connections
+      </Menu.Item>
+      <Menu.Item key="PRIVATE" icon={<EyeInvisibleOutlined />}>
+        Private
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <>
+      {/* <Dropdown overlay={menu}>
+        <Button>
+          Button <DownOutlined />
+        </Button>
+      </Dropdown> */}
+      <Select
+        value={status}
+        style={{ width: 120 }}
+        onChange={handleVisibilityToggle}
       >
-        <Radio.Button value="PUBLIC">
-          <EyeOutlined />
-        </Radio.Button>
-      </Tooltip>
-    </Popconfirm>
-    <Tooltip
-      placement="top"
-      title={<FormattedMessage id={`profile.visibility.${type}.connections`} />}
-    >
-      <Radio.Button
-        value="CONNECTIONS"
-        onClick={() => handleVisibilityToggle("CONNECTIONS")}
-      >
-        <TeamOutlined />
-      </Radio.Button>
-    </Tooltip>
-    <Tooltip
-      placement="top"
-      title={<FormattedMessage id={`profile.visibility.${type}.private`} />}
-    >
-      <Radio.Button
-        value="PRIVATE"
-        onClick={() => handleVisibilityToggle("PRIVATE")}
-      >
-        <EyeInvisibleOutlined />
-      </Radio.Button>
-    </Tooltip>
-  </Radio.Group>
-);
+        <Option value="PUBLIC">
+          <EyeOutlined style={{ marginRight: "3px" }} /> Public
+        </Option>
+        <Option value="CONNECTIONS">
+          <TeamOutlined style={{ marginRight: "3px" }} /> Connections
+        </Option>
+        <Option value="PRIVATE">
+          <EyeInvisibleOutlined style={{ marginRight: "3px" }} /> Private
+        </Option>
+      </Select>
+    </>
+  );
+};
 
 CardVisibilityToggleView.propTypes = {
   status: PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]).isRequired,
