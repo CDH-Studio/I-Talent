@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import FormControlButtonsView from "./FormControlButtonsView";
 
 /**
- * Bottom form buttons used to save, clear, 
+ * Bottom form buttons used to save, clear,
  * and navigate through the forms
  */
-const FormControlButton = ({
+const FormControlButtons = ({
   formType,
   onSave,
   onSaveAndNext,
@@ -28,7 +28,7 @@ const FormControlButton = ({
   />
 );
 
-FormControlButton.propTypes = {
+FormControlButtons.propTypes = {
   formType: PropTypes.oneOf(["edit", "create"]).isRequired,
   onSave: PropTypes.func.isRequired,
   onSaveAndNext: PropTypes.func,
@@ -38,8 +38,8 @@ FormControlButton.propTypes = {
   fieldsChanged: PropTypes.bool.isRequired,
 };
 
-FormControlButton.defaultProps = {
+FormControlButtons.defaultProps = {
   onSaveAndNext: undefined,
 };
 
-export default FormControlButton;
+export default FormControlButtons;

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import TalentFormView from "./TalentFormView";
 import handleError from "../../../functions/handleError";
 

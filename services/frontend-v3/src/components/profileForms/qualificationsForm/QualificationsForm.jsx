@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { useHistory, useLocation } from "react-router-dom";
 import QualificationsFormView from "./QualificationsFormView";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 
 /**

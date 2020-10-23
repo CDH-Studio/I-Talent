@@ -16,12 +16,14 @@ import {
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import { pickBy, identity, isEqual } from "lodash";
+import isEqual from "lodash-es/isEqual";
+import identity from "lodash-es/identity";
+import pickBy from "lodash-es/pickBy";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -689,7 +691,7 @@ const LangProficiencyFormView = ({
                     </div>
                   }
                 >
-                  <div  className="iconBySwitch">
+                  <div className="iconBySwitch">
                     <InfoCircleOutlined tabIndex={0} />
                   </div>
                 </Popover>

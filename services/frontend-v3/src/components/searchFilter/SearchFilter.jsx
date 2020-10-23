@@ -3,7 +3,7 @@ import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import useAxios from "../../utils/axios-instance";
+import useAxios from "../../utils/useAxios";
 import SearchFilterView from "./SearchFilterView";
 import handleError from "../../functions/handleError";
 

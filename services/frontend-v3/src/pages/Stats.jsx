@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import StatsLayout from "../components/layouts/statsLayout/StatsLayout";
-import useAxios from "../utils/axios-instance";
+import useAxios from "../utils/useAxios";
 import {
   setTopFiveDevelopmentalGoals,
   setTopFiveCompetencies,

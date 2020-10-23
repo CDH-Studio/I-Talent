@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { injectIntl } from "react-intl";
 import ChangeLanguageView from "./ChangeLanguageView";
 import { setLocale } from "../../redux/slices/settingsSlice";
-import useAxios from "../../utils/axios-instance";
+import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 import { IntlPropType } from "../../utils/customPropTypes";
 

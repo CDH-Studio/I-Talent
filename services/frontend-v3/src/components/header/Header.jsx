@@ -14,7 +14,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
   extra: "",
-  subtitle: undefined,
+  subtitle: "",
 };
 
 export default Header;

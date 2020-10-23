@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
 import Header from "../../header/Header";
 
-const StatsLayoutView = ({
+const SettingsLayoutView = ({
   deleteCurrentUser,
   setProfileVisibility,
   profileStatus,
@@ -100,10 +100,10 @@ const StatsLayoutView = ({
   );
 };
 
-StatsLayoutView.propTypes = {
+SettingsLayoutView.propTypes = {
   deleteCurrentUser: PropTypes.func.isRequired,
   setProfileVisibility: PropTypes.func.isRequired,
   profileStatus: PropTypes.oneOf(["ACTIVE", "INACTIVE", "HIDDEN"]).isRequired,
 };
 
-export default StatsLayoutView;
+export default SettingsLayoutView;

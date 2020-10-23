@@ -7,7 +7,7 @@ import LandingLayout from "../components/layouts/landingLayout/LandingLayout";
 import Home from "./Home";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
-import useAxios from "../utils/axios-instance";
+import useAxios from "../utils/useAxios";
 import { clearUser } from "../redux/slices/userSlice";
 
 /** UI for the landing route layout */

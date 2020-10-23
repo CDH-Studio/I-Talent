@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import useAxios from "../../../utils/axios-instance";
+import useAxios from "../../../utils/useAxios";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import SchoolTableView from "./SchoolTableView";
 import handleError from "../../../functions/handleError";

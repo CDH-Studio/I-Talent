@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import CardVisibilityToggleView from "./CardVisibilityToggleView";
-import useAxios from "../../utils/axios-instance";
+import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {

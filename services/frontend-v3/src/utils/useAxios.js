@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";
 import { useMemo } from "react";
-import config from "./config";
+import config from "./runtimeConfig";
 
 const useAxios = () => {
   const { keycloak } = useKeycloak();
