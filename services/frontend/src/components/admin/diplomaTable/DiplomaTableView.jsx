@@ -381,6 +381,8 @@ const DiplomaTableView = ({
     {
       title: <FormattedMessage id="admin.edit" />,
       key: "edit",
+      fixed: "right",
+      width: 70,
       render: (item) => (
         <div>
           <Button
@@ -430,6 +432,7 @@ const DiplomaTableView = ({
             columns={diplomaTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            scroll={{ x: 500 }}
           />
         </Col>
       </Row>
