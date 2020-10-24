@@ -301,6 +301,7 @@
   "profile.unexpired": "pas expiré",
   "profile.username.help": "C'est la partie suivante du lien de votre profil<br></br>{url}<b>identifiant</b>",
   "profile.visibility.card.blocked": "Vous n'êtes pas autorisé à afficher cette carte",
+  "profile.visibility.card.title": "Confirmation de visibilité publique",
   "profile.visibility.card.connections": "Connections",
   "profile.visibility.card.private": "Privé",
   "profile.visibility.card.public": "Public",

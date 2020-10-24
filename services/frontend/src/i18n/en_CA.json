@@ -301,6 +301,7 @@
   "profile.unexpired": "Unexpired",
   "profile.username.help": "It's this part of your profile link<br></br>{url}<b>username</b>",
   "profile.visibility.card.blocked": "You do not have permission to view this card",
+  "profile.visibility.card.title": "Confirmation de visibilité publique",
   "profile.visibility.card.connections": "Connections",
   "profile.visibility.card.private": "Private",
   "profile.visibility.card.public": "Public",
