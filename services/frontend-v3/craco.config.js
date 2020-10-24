@@ -1,20 +1,27 @@
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
-const WebpackBar = require("webpackbar");
 const CracoAntDesignPlugin = require("craco-antd");
-const antdTheme = require("./src/antdTheme");
+const { when, whenDev } = require("@craco/craco");
 
-// Don't open the browser during development
-process.env.BROWSER = "none";
+const antdTheme = require("./src/antdTheme");
 
 module.exports = {
   webpack: {
     plugins: [
-      new WebpackBar({ profile: true }),
       new AntdDayjsWebpackPlugin(),
-      ...(process.env.ANALYZE_BUILD === "true"
-        ? [new BundleAnalyzerPlugin({ analyzerHost: "0.0.0.0" })]
-        : []),
+      ...whenDev(() => {
+        const WebpackBar = require("webpackbar");
+
+        return [new WebpackBar({ profile: true })];
+      }, []),
+      ...when(
+        process.env.ANALYZE_BUILD === "true",
+        () => {
+          const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+
+          return [new BundleAnalyzerPlugin({ analyzerHost: "0.0.0.0" })];
+        },
+        []
+      ),
     ],
   },
   plugins: [
@@ -24,5 +31,6 @@ module.exports = {
         customizeTheme: antdTheme,
       },
     },
-  ],
+    ...whenDev(() => [{ plugin: require("craco-fast-refresh") }], []),
+  ]
 };
