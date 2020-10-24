@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { Select, Modal, notification } from "antd";
 import {
   EyeInvisibleOutlined,
   TeamOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Select, Modal, notification } from "antd";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import "./CardVisibilityToggle.scss";
 
 const { Option } = Select;
 
@@ -27,7 +28,9 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   /**
    * Handel selection change in drop down
    * open modal confirmation if "public" is selected
+   * @param {Object} value - value selected from dropdown
    */
+
   const handleSelect = (value) => {
     if (value === "PUBLIC") {
       setModalVisibility(true);
@@ -57,15 +60,23 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
 
   return (
     <>
-      <Select value={status} style={{ width: 120 }} onSelect={handleSelect}>
+      <Select
+        value={status}
+        className="visibilitySelector"
+        style={{ width: 120 }}
+        onSelect={handleSelect}
+      >
         <Option value="PUBLIC">
-          <EyeOutlined style={{ marginRight: "3px" }} /> Public
+          <EyeOutlined />
+          <span>Public</span>
         </Option>
         <Option value="CONNECTIONS">
-          <TeamOutlined style={{ marginRight: "3px" }} /> Connections
+          <TeamOutlined />
+          <span>Connections</span>
         </Option>
         <Option value="PRIVATE">
-          <EyeInvisibleOutlined style={{ marginRight: "3px" }} /> Private
+          <EyeInvisibleOutlined />
+          <span>Private</span>
         </Option>
       </Select>
 
