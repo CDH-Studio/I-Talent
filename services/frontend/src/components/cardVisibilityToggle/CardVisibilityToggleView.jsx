@@ -68,15 +68,21 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
       >
         <Option value="PUBLIC">
           <EyeOutlined />
-          <span>Public</span>
+          <span>
+            <FormattedMessage id="profile.visibility.card.public" />
+          </span>
         </Option>
         <Option value="CONNECTIONS">
           <TeamOutlined />
-          <span>Connections</span>
+          <span>
+            <FormattedMessage id="profile.visibility.card.connections" />
+          </span>
         </Option>
         <Option value="PRIVATE">
           <EyeInvisibleOutlined />
-          <span>Private</span>
+          <span>
+            <FormattedMessage id="profile.visibility.card.private" />
+          </span>
         </Option>
       </Select>
 
