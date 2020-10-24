@@ -14,9 +14,9 @@ pipeline {
         BACKEND_IMAGE_NAME = 'dsd-italent-backend'
         FRONTEND_IMAGE_NAME = 'dsd-italent-frontend'
         BACKEND_DIR = 'services/backend'
-        FRONTEND_DIR = 'services/frontend-v3'
+        FRONTEND_DIR = 'services/frontend'
         SOURCE_DIR='services'
-        FRONTEND_DIR_I18 = 'services/frontend-v3/src/i18n'
+        FRONTEND_DIR_I18 = 'services/frontend/src/i18n'
         NODE_ENV = 'production'
     }
 
@@ -41,7 +41,7 @@ pipeline {
                                 source $NVM_DIR/nvm.sh
                                 nvm install "12.6.0"
                                 npm i yarn -g
-                                cd frontend-v3
+                                cd frontend
                                 yarn install --production=false
                                 yarn lint
                                 cd ../backend

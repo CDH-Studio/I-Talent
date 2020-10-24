@@ -8,11 +8,6 @@ module.exports = {
   webpack: {
     plugins: [
       new AntdDayjsWebpackPlugin(),
-      ...whenDev(() => {
-        const WebpackBar = require("webpackbar");
-
-        return [new WebpackBar({ profile: true })];
-      }, []),
       ...when(
         process.env.ANALYZE_BUILD === "true",
         () => {

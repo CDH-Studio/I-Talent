@@ -46,7 +46,8 @@ const test = {
     TEST_DATABASE_URL ||
     "postgres://api:api@localhost:5432/jesttest?schema=public",
   DATABASE_URL:
-    DATABASE_URL || "postgres://api:api@db-postgres:5432/testdb?schema=public",
+    DATABASE_URL ||
+    "postgres://api:api@italent-postgres:5432/testdb?schema=public",
   KEYCLOAK_SECRET: "secret",
   KEYCLOAK_CLIENT_ID: "",
   KEYCLOAK_AUTH_SERVER_URL: "",
@@ -63,7 +64,8 @@ const development = {
   ENV: "development",
   PORT: PORT || 8080,
   DATABASE_URL:
-    DATABASE_URL || "postgres://api:api@db-postgres:5432/testdb?schema=public",
+    DATABASE_URL ||
+    "postgres://api:api@italent-postgres:5432/testdb?schema=public",
   KEYCLOAK_SECRET: KEYCLOAK_SECRET || "",
   KEYCLOAK_CLIENT_ID: KEYCLOAK_CLIENT_ID || "",
   KEYCLOAK_AUTH_SERVER_URL: KEYCLOAK_AUTH_SERVER_URL || "",

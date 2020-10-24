@@ -39,7 +39,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ### `yarn analyze`
 
-To run webpack bundle analyzer attach shell to frontend container "upskill_web-ant" and run `run analyze`. Open [http://localhost:3031](http://localhost:3031) to view the visualized webpack.
+To run webpack bundle analyzer attach shell to frontend container "italent-frontend" and run `run analyze`. Open [http://localhost:3031](http://localhost:3031) to view the visualized webpack.
 
 ## Learn More
 
