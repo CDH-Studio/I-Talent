@@ -3,8 +3,8 @@ FROM node:12.18.3-alpine3.11
 ENV TZ=America/Toronto
 
 # Set working directory
-RUN mkdir /upskill-frontend
-WORKDIR /upskill-frontend
+RUN mkdir /italent-frontend
+WORKDIR /italent-frontend
 
 # Copy app dependencies
 COPY package.json yarn.lock ./
@@ -13,10 +13,10 @@ COPY package.json yarn.lock ./
 RUN mkdir ./build
 
 # Make group permissions equal to the owner user permissions
-RUN mkdir -p /upskill-frontend/build && \
-  touch /upskill-frontend/build/env.js
-RUN chgrp -R 0 /upskill-frontend && \ 
-  chmod -R g=u /upskill-frontend
+RUN mkdir -p /italent-frontend/build && \
+  touch /italent-frontend/build/env.js
+RUN chgrp -R 0 /italent-frontend && \ 
+  chmod -R g=u /italent-frontend
 
 RUN mkdir -p /.cache/yarn
 RUN chgrp -R 0 /.cache/yarn && \ 

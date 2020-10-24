@@ -3,8 +3,8 @@ FROM node:12.18.3-alpine3.11
 ENV TZ=America/Toronto
 
 # Set working directory
-RUN mkdir /upskill-backend
-WORKDIR /upskill-backend
+RUN mkdir /italent-backend
+WORKDIR /italent-backend
 
 # Copy app dependencies
 COPY package.json yarn.lock ./
