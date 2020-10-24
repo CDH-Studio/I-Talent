@@ -113,15 +113,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         </Dropdown>
       );
     }
-    return (
-      <Button
-        type="primary"
-        onClick={() => keycloak.login()}
-        className="signInBtn"
-      >
-        <FormattedMessage id="landing.login.button" />
-      </Button>
-    );
+    return undefined;
   };
 
   const search = () => {
