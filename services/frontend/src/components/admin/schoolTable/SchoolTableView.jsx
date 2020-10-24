@@ -520,6 +520,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     {
       title: <FormattedMessage id="admin.edit" />,
       key: "edit",
+      fixed: "right",
+      width: 70,
       render: (item) => (
         <div>
           <Button
@@ -571,6 +573,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             columns={schoolsTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            scroll={{ x: 700 }}
           />
         </Col>
       </Row>

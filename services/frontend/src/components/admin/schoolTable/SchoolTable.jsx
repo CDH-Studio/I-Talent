@@ -111,6 +111,7 @@ const SchoolTable = ({ intl }) => {
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
+    fixed: "left",
   };
 
   useEffect(() => {
