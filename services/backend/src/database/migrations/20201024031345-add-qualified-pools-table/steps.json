@@ -226,22 +226,6 @@
       "value": "[id]"
     },
     {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Model",
-          "model": "QualifiedPool",
-          "arguments": [
-            {
-              "name": "",
-              "value": "[userId, classificationId]"
-            }
-          ]
-        },
-        "directive": "unique"
-      }
-    },
-    {
       "tag": "CreateField",
       "model": "OpClassification",
       "field": "qualifiedPools",

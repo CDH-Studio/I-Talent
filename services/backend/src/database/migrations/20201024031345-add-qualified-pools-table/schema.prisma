@@ -412,8 +412,6 @@ model QualifiedPool {
   jobPosterLink          String?
   user                   User              @relation(fields: [userId])
   classification         OpClassification? @relation("classifications", fields: [classificationId], references: [id])
-
-  @@unique([userId, classificationId])
 }
 
 model SecondLangProf {

@@ -1,6 +1,6 @@
-# Migration `20201023214251-add-qualified-pool`
+# Migration `20201024031345-add-qualified-pools-table`
 
-This migration has been generated at 10/23/2020, 5:42:51 PM.
+This migration has been generated at 10/23/2020, 11:13:45 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -530,8 +530,6 @@ CREATE UNIQUE INDEX "DevelopmentalGoal.userId_skillId_unique" ON "public"."Devel
 
 CREATE UNIQUE INDEX "DevelopmentalGoal.userId_competencyId_unique" ON "public"."DevelopmentalGoal"("userId", "competencyId")
 
-CREATE UNIQUE INDEX "QualifiedPool.userId_classificationId_unique" ON "public"."QualifiedPool"("userId", "classificationId")
-
 CREATE UNIQUE INDEX "SecondLangProf.userId_proficiency_unique" ON "public"."SecondLangProf"("userId", "proficiency")
 
 CREATE UNIQUE INDEX "Education.userId_schoolId_diplomaId_startDate_unique" ON "public"."Education"("userId", "schoolId", "diplomaId", "startDate")
@@ -649,7 +647,7 @@ ALTER TABLE "public"."User" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20201019154547-init..20201023214251-add-qualified-pool
+migration 20201019154547-init..20201024031345-add-qualified-pools-table
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -995,7 +993,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt    DateTime      @updatedAt
    userId       String
    skillId      String?
-@@ -398,10 +400,25 @@
+@@ -398,10 +400,23 @@
    @@unique([userId, skillId])
    @@unique([userId, competencyId])
  }
@@ -1010,8 +1008,6 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
 +  jobPosterLink          String?
 +  user                   User              @relation(fields: [userId])
 +  classification         OpClassification? @relation("classifications", fields: [classificationId], references: [id])
-+
-+  @@unique([userId, classificationId])
 +}
 +
  model SecondLangProf {
@@ -1021,7 +1017,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt          DateTime         @updatedAt
    userId             String
    date               DateTime?
-@@ -413,18 +430,18 @@
+@@ -413,18 +428,18 @@
    @@unique([userId, proficiency])
  }
  model Organization {
@@ -1040,7 +1036,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt      DateTime            @updatedAt
    tier           Int
    organization   Organization?       @relation(fields: [organizationId])
-@@ -432,9 +449,9 @@
+@@ -432,9 +447,9 @@
    organizationId String?
  }
  model TransOrganization {
@@ -1050,7 +1046,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt          DateTime          @updatedAt
    language           Language
    description        String
-@@ -442,9 +459,9 @@
+@@ -442,9 +457,9 @@
    organizationTierId String?
  }
  model Education {
@@ -1060,7 +1056,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt       DateTime         @updatedAt
    userId          String
    schoolId        String?
-@@ -461,9 +478,9 @@
+@@ -461,9 +476,9 @@
    @@unique([userId, schoolId, diplomaId, startDate])
  }
  model TransExperience {
@@ -1070,7 +1066,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt    DateTime    @updatedAt
    language     Language
    description  String?
-@@ -473,9 +490,9 @@
+@@ -473,9 +488,9 @@
    experienceId String?
  }
  model Experience {
@@ -1080,7 +1076,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt       DateTime          @updatedAt
    translations    TransExperience[]
    userId          String
-@@ -487,9 +504,9 @@
+@@ -487,9 +502,9 @@
    user            User              @relation(fields: [userId])
  }
  model RelocationLocation {
@@ -1090,7 +1086,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt            DateTime             @updatedAt
    relocationLocationId String
    relocationLocation   OpRelocationLocation @relation(fields: [relocationLocationId])
-@@ -499,9 +516,9 @@
+@@ -499,9 +514,9 @@
    @@unique([userId, relocationLocationId])
  }
  model OpTransAttachmentLinkName {
@@ -1100,7 +1096,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt DateTime @updatedAt
    language  Language
    name      String
-@@ -510,18 +527,18 @@
+@@ -510,18 +525,18 @@
    opAttachmentLinkNameId String?
  }
  model OpAttachmentLinkName {
@@ -1119,7 +1115,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt DateTime @updatedAt
    language  Language
    nameId    String
-@@ -532,9 +549,9 @@
+@@ -532,9 +547,9 @@
    attachmentLinkId String?
  }
  model AttachmentLink {
@@ -1128,7 +1124,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    createdAt    DateTime              @default(now())
    updatedAt    DateTime              @updatedAt
    translations TransAttachmentLink[]
-@@ -546,9 +563,9 @@
+@@ -546,9 +561,9 @@
    userId       String?
  }
  model User {
@@ -1138,7 +1134,7 @@ migration 20201019154547-init..20201023214251-add-qualified-pool
    updatedAt                     DateTime                @updatedAt
    groupLevelId                  String?
    actingLevelId                 String?
-@@ -595,8 +612,9 @@
+@@ -595,8 +610,9 @@
    mentorshipSkills              MentorshipSkill[]
    skills                        Skill[]
    developmentalGoals            DevelopmentalGoal[]
