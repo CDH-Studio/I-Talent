@@ -35,6 +35,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   useEffect(() => {
     getCardStatus();
   }, [getCardStatus]);
+
   return (
     <CardVisibilityToggleView
       status={status}
