@@ -91,7 +91,16 @@ const PersonalGrowthForm = ({ formType }) => {
   const getSavedQualifiedPools = () => {
     if (profileInfo.qualifiedPools)
       setSavedQualifiedPools(
-        profileInfo.qualifiedPools.map((i) => i.id)
+        // profileInfo.qualifiedPools.map((i) => i.id)
+        {
+          qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
+            id: i.id,
+            classificationId: i.classification.id,
+            jobTitle: i.jobTitle,
+            selectionProcessNumber: i.selectionProcessNumber,
+            jobPosterLink: i.jobPosterLink,
+          })),
+        }
       );
   };
 

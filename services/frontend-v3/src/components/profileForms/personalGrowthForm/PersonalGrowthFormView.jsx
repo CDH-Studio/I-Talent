@@ -156,6 +156,7 @@ const PersonalGrowthFormView = ({
         careerMobilityId: savedCareerMobility,
         talentMatrixResultId: savedTalentMatrixResult,
         exFeeder: savedExFeederBool,
+        qualifiedPools: savedQualifiedPools,
       };
     }
     return {};
