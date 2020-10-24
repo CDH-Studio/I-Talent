@@ -3,87 +3,61 @@ import {
   EyeInvisibleOutlined,
   TeamOutlined,
   EyeOutlined,
-  WarningOutlined,
-  DownOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
-import {
-  Tooltip,
-  Radio,
-  Popconfirm,
-  Menu,
-  Dropdown,
-  Button,
-  message,
-  Select,
-  Modal,
-} from "antd";
+import { Select, Modal, notification } from "antd";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+
 const { Option } = Select;
 
 const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   const [modalVisibility, setModalVisibility] = useState(false);
 
-  const handleButtonClick = (e) => {
-    message.info("Click on left button.");
-    console.log("click left button", e);
+  /**
+   * Open success notification on save
+   */
+  const openNotification = () => {
+    notification.success({
+      message: `Visibility Updated`,
+      description: "the visibility has been successfully updated",
+      placement: "topRight",
+    });
   };
 
-  const handleMenuClick = (e) => {
-    message.info("Click on menu item.");
-    console.log("click", e);
-  };
-
-  function handleChange(value) {
-    console.log(`selected ${value}`);
-  }
-
+  /**
+   * Handel selection change in drop down
+   * open modal confirmation if "public" is selected
+   */
   const handleSelect = (value) => {
-    console.log("on select", `selected ${value}`);
     if (value === "PUBLIC") {
       setModalVisibility(true);
     } else {
       handleVisibilityToggle(value);
+      openNotification();
     }
   };
 
+  /**
+   * Handel public visibility confirmation
+   * save the value, hide modal, and show notification
+   */
   const handleVisibilityPublicOk = () => {
     handleVisibilityToggle("PUBLIC");
     setModalVisibility(false);
+    openNotification();
   };
 
+  /**
+   * Handel public visibility cancellation
+   * hide the modal
+   */
   const handleVisibilityPublicCancel = () => {
     setModalVisibility(false);
   };
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="PUBLIC" icon={<EyeOutlined />}>
-        Public
-      </Menu.Item>
-      <Menu.Item key="CONNECTIONS" icon={<TeamOutlined />}>
-        Connections
-      </Menu.Item>
-      <Menu.Item key="PRIVATE" icon={<EyeInvisibleOutlined />}>
-        Private
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
     <>
-      {/* <Dropdown overlay={menu}>
-        <Button>
-          Button <DownOutlined />
-        </Button>
-      </Dropdown> */}
-      <Select
-        value={status}
-        style={{ width: 120 }}
-        //onChange={handleVisibilityToggle}
-        onSelect={handleSelect}
-      >
+      <Select value={status} style={{ width: 120 }} onSelect={handleSelect}>
         <Option value="PUBLIC">
           <EyeOutlined style={{ marginRight: "3px" }} /> Public
         </Option>
@@ -96,14 +70,14 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
       </Select>
 
       <Modal
-        title="Basic Modal"
+        title="Public Visibility Confirmation"
         visible={modalVisibility}
+        okText={<FormattedMessage id="profile.yes" />}
+        cancelText={<FormattedMessage id="profile.no" />}
         onOk={handleVisibilityPublicOk}
         onCancel={handleVisibilityPublicCancel}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
       </Modal>
     </>
   );
