@@ -66,7 +66,7 @@ const DashboardGraphsView = ({
   return (
     <>
       <Row gutter={[8, 8]}>
-        <Col span={8}>
+        <Col xs={24} sm={24} md={12} xl={8}>
           <Card
             title={<FormattedMessage id="admin.dashboard.popular.skills" />}
             loading={topFiveSkills.length === 0}
@@ -86,7 +86,7 @@ const DashboardGraphsView = ({
             </Chart>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={24} md={12} xl={8}>
           <Card
             title={
               <FormattedMessage id="admin.dashboard.popular.competencies" />
@@ -108,7 +108,7 @@ const DashboardGraphsView = ({
             </Chart>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={24} md={12} xl={8}>
           <Card
             title={
               <FormattedMessage id="admin.dashboard.popular.development.goals" />
@@ -130,10 +130,8 @@ const DashboardGraphsView = ({
             </Chart>
           </Card>
         </Col>
-      </Row>
-      {monthlyGrowth && (
-        <Row gutter={[8, 8]}>
-          <Col span={24}>
+        {monthlyGrowth && (
+          <Col span={24} md={12} xl={24}>
             <Card
               title={
                 <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
@@ -164,8 +162,8 @@ const DashboardGraphsView = ({
               </Chart>
             </Card>
           </Col>
-        </Row>
-      )}
+        )}
+      </Row>
     </>
   );
 };
