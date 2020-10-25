@@ -7,8 +7,8 @@ services:
       context: ./services/frontend
       dockerfile: Dockerfile.local
     ports:
-      - 3000:3000 # port craco
-      - 3031:8888 # port for webpack analyzer
+      - 3000:3000 # port neutrino.js
+      - 3031:3031 # port for webpack analyzer
     volumes:
       - ./services/frontend:/italent-frontend
       - frontend-data:/italent-frontend/node_modules
