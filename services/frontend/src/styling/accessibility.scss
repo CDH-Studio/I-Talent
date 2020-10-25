@@ -89,10 +89,13 @@ header {
   }
 }
 
+.ant-menu-item {
+   border-radius: $border-radius;
+}
+
 .ant-menu-item:active,
 .ant-menu-item-selected {
   background-color: $app-gray !important;
-  border-radius: $border-radius;
 }
 
 .ant-card {
@@ -158,7 +161,7 @@ header {
 
 .ant-menu-item:focus {
   background-color: rgba($app-black, 0.2) !important;
-  border-radius: $border-radius;
+  // border-radius: $border-radius;
 }
 
 .ant-collapse-header:focus {

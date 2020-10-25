@@ -9,7 +9,6 @@
   margin: 3px !important;
   padding: 1px 10px !important;
   height: auto !important;
-  border-radius: $border-radius !important;
   border-color: $app-gray !important;
 }
 
@@ -35,10 +34,6 @@
   }
 }
 
-.ant-form-item {
-  margin-bottom: 13px !important;
-}
-
 .ant-form-item-label {
   padding: 0px !important;
 }
@@ -50,7 +45,6 @@
 .ant-list-item-meta-title {
   font-size: 16px !important;
   line-height: 24px !important;
-  margin-bottom: 0px !important;
 }
 
 .ant-list-item-meta-description {
@@ -96,7 +90,6 @@
   margin: 3px !important;
   padding: 5px 12px !important;
   height: auto !important;
-  border-radius: $border-radius !important;
   border-width: 0px !important;
   border-color: $app-gray !important;
 }
@@ -107,31 +100,8 @@
   padding-left: 8px;
 }
 
-.ant-card {
-  border-radius: $border-radius;
-  box-shadow: $box-shadow-card;
-}
-
 .ant-table {
-  border-radius: $border-radius;
   box-shadow: $box-shadow-card;
-
-  .ant-table-thead tr th:first-child {
-    border-top-left-radius: $border-radius !important;
-  }
-
-  .ant-table-thead tr th:last-child {
-    border-top-right-radius: $border-radius !important;
-  }
-}
-
-span.searchInput {
-  span.ant-input-group-addon {
-    background: none;
-    button {
-      border-radius: 0 $border-radius $border-radius 0 !important;
-    }
-  }
 }
 
 .ant-layout-sider-children {
@@ -143,48 +113,8 @@ span.searchInput {
   border: none !important;
 }
 
-.ant-btn,
-.ant-form-item input,
-.ant-select-selector,
-.ant-pagination-item,
-.ant-pagination-item-link,
-.ant-input,
-.ant-picker,
-.ant-modal-content,
-.ant-dropdown-menu,
-.ant-notification-notice,
-.ant-popover-inner,
-.ant-collapse,
-.ant-select-dropdown {
-  border-radius: $border-radius !important;
-}
 
-.ant-card-actions,
-.ant-modal-header {
-  background-color: transparent !important;
-}
-
-.ant-radio-group .ant-radio-button-wrapper {
-  &:first-child {
-    border-radius: $border-radius 0 0 $border-radius !important;
-  }
-
-  &:last-child {
-    border-radius: 0 $border-radius $border-radius 0 !important;
-  }
-}
-
-.ant-tabs-tab {
-  border-radius: $border-radius $border-radius 0 0 !important;
-}
-
-.ant-ribbon {
-  border-radius: $border-radius $border-radius 0 $border-radius;
-}
-
-.ant-btn-circle {
-  border-radius: 50% !important;
-}
+// KEEP
 
 .ant-page-header-heading-title {
   padding: 5px 10px;
@@ -196,12 +126,4 @@ span.searchInput {
 
 .ant-page-header-heading-title svg {
   margin-right: 7px;
-}
-
-.ant-alert {
-  border-radius: $border-radius;
-}
-
-.ant-layout-sider-zero-width-trigger-left {
-  border-radius: 0 $border-radius $border-radius 0;
 }

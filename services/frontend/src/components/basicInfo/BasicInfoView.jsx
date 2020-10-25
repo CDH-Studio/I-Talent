@@ -54,7 +54,7 @@ const BasicInfoView = ({
   /* Component Styles */
   const styles = {
     avatar: {
-      backgroundColor: "#fff",
+      backgroundColor: "transparent",
       color: "#007471",
       marginRight: "-10px",
     },
