@@ -29,6 +29,7 @@ module.exports = {
               libraryDirectory: "es",
               style: true,
             },
+            "antd",
           ],
           [
             "import",
@@ -37,6 +38,7 @@ module.exports = {
               libraryDirectory: "es/lib",
               camel2DashComponentName: false,
             },
+            "validator",
           ],
         ],
       },
@@ -79,23 +81,26 @@ module.exports = {
         },
       ],
     }),
-    (neutrino) => {
-      neutrino.config.optimization
-        .minimize(true)
-        .minimizer("terser-plugin")
-        .use(require.resolve("terser-webpack-plugin"));
-      neutrino.config.optimization
-        .minimize(true)
-        .minimizer("css-minimizer")
-        .use(require.resolve("css-minimizer-webpack-plugin"));
-      neutrino.config
+    ({ config }) => {
+      config
         .plugin("antd-dayjs")
         .use(require.resolve("antd-dayjs-webpack-plugin"));
+
+      if (process.env.NODE_ENV === "production") {
+        config.optimization
+          .minimize(true)
+          .minimizer("terser-plugin")
+          .use(require.resolve("terser-webpack-plugin"));
+        config.optimization
+          .minimize(true)
+          .minimizer("css-minimizer")
+          .use(require.resolve("css-minimizer-webpack-plugin"));
+      }
 
       if (process.env.ANALYZE_BUILD === "true") {
         const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
-        neutrino.config.plugin("bundle-analyzer").use(BundleAnalyzerPlugin, [
+        config.plugin("bundle-analyzer").use(BundleAnalyzerPlugin, [
           {
             analyzerHost: "0.0.0.0",
             analyzerPort: 3031,

@@ -48,7 +48,7 @@
     "dev": "react-env --dest ./build && webpack-dev-server --mode development",
     "prestart": "react-env --dest ./build",
     "start": "serve -s build",
-    "build": "webpack --mode production",
+    "build": "NODE_ENV=production webpack --mode production",
     "test": "jest",
     "lint": "./node_modules/.bin/eslint --cache --format codeframe --ext jsx,js src",
     "i18n:check": "node ./src/i18n/check",
