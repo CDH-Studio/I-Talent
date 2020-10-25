@@ -7,13 +7,16 @@ import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
-  const [status, setStatus] = useState("PRIVATE");
   const axios = useAxios();
-
   const urlID = useParams().id;
-  const { locale } = useSelector((state) => state.settings);
   const userID = useSelector((state) => state.user.id);
+  const { locale } = useSelector((state) => state.settings);
 
+  const [status, setStatus] = useState("PRIVATE");
+
+  /**
+   * Read card visibility status
+   */
   const getCardStatus = useCallback(async () => {
     if (visibleCards && (urlID === userID || !urlID)) {
       const modifiedCard = cardName;
@@ -21,6 +24,11 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
     }
   }, [visibleCards, urlID, userID, cardName]);
 
+  /**
+   * Handel the change in visibility
+   * save the selected visibility to backend
+   * @param {Object} value - value selected from dropdown
+   */
   const handleVisibilityToggle = async (value) => {
     // eslint-disable-next-line no-param-reassign
     visibleCards[cardName] = value;
@@ -35,6 +43,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   useEffect(() => {
     getCardStatus();
   }, [getCardStatus]);
+
   return (
     <CardVisibilityToggleView
       status={status}

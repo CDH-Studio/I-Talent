@@ -1,59 +1,102 @@
-import React from "react";
+import React, { useState } from "react";
+import { Select, Modal, notification } from "antd";
 import {
   EyeInvisibleOutlined,
   TeamOutlined,
   EyeOutlined,
-  WarningOutlined,
 } from "@ant-design/icons";
-import { Tooltip, Radio, Popconfirm } from "antd";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
+import "./CardVisibilityToggle.scss";
 
-const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => (
-  <Radio.Group value={status} buttonStyle="solid" size="middle">
-    <Popconfirm
-      title={
+const { Option } = Select;
+
+const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
+  const intl = useIntl();
+  const [modalVisibility, setModalVisibility] = useState(false);
+
+  /**
+   * Open success notification on save
+   */
+  const openNotification = () => {
+    notification.success({
+      message: intl.formatMessage({
+        id: "profile.visibility.confirmation.title",
+      }),
+      description: intl.formatMessage({
+        id: "profile.visibility.confirmation.message",
+      }),
+      placement: "topRight",
+    });
+  };
+
+  /**
+   * Handel selection change in drop down
+   * open modal confirmation if "public" is selected
+   * @param {Object} value - value selected from dropdown
+   */
+  const handleSelect = (value) => {
+    if (value === "PUBLIC") {
+      setModalVisibility(true);
+    } else {
+      handleVisibilityToggle(value);
+      openNotification();
+    }
+  };
+
+  /**
+   * Handel public visibility confirmation
+   * save the value, hide modal, and show notification
+   */
+  const handleVisibilityPublicOk = () => {
+    handleVisibilityToggle("PUBLIC");
+    setModalVisibility(false);
+    openNotification();
+  };
+
+  /**
+   * Handel public visibility cancellation
+   * hide the modal
+   */
+  const handleVisibilityPublicCancel = () => {
+    setModalVisibility(false);
+  };
+
+  return (
+    <>
+      <Select
+        value={status}
+        className="visibilitySelector"
+        style={{ width: 120 }}
+        onSelect={handleSelect}
+      >
+        <Option value="PUBLIC">
+          <EyeOutlined className="visibilityOptionIcon" />
+          <FormattedMessage id="profile.visibility.card.public" />
+        </Option>
+        <Option value="CONNECTIONS">
+          <TeamOutlined className="visibilityOptionIcon" />
+          <FormattedMessage id="profile.visibility.card.connections" />
+        </Option>
+        <Option value="PRIVATE">
+          <EyeInvisibleOutlined className="visibilityOptionIcon" />
+          <FormattedMessage id="profile.visibility.card.private" />
+        </Option>
+      </Select>
+
+      <Modal
+        title={<FormattedMessage id="profile.visibility.card.title" />}
+        visible={modalVisibility}
+        okText={<FormattedMessage id="profile.yes" />}
+        cancelText={<FormattedMessage id="profile.no" />}
+        onOk={handleVisibilityPublicOk}
+        onCancel={handleVisibilityPublicCancel}
+      >
         <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
-      }
-      placement="topRight"
-      okText={<FormattedMessage id="profile.yes" />}
-      cancelText={<FormattedMessage id="profile.no" />}
-      icon={<WarningOutlined style={{ color: "orange" }} />}
-      onConfirm={() => handleVisibilityToggle("PUBLIC")}
-    >
-      <Tooltip
-        placement="bottom"
-        title={<FormattedMessage id={`profile.visibility.${type}.public`} />}
-      >
-        <Radio.Button value="PUBLIC">
-          <EyeOutlined />
-        </Radio.Button>
-      </Tooltip>
-    </Popconfirm>
-    <Tooltip
-      placement="top"
-      title={<FormattedMessage id={`profile.visibility.${type}.connections`} />}
-    >
-      <Radio.Button
-        value="CONNECTIONS"
-        onClick={() => handleVisibilityToggle("CONNECTIONS")}
-      >
-        <TeamOutlined />
-      </Radio.Button>
-    </Tooltip>
-    <Tooltip
-      placement="top"
-      title={<FormattedMessage id={`profile.visibility.${type}.private`} />}
-    >
-      <Radio.Button
-        value="PRIVATE"
-        onClick={() => handleVisibilityToggle("PRIVATE")}
-      >
-        <EyeInvisibleOutlined />
-      </Radio.Button>
-    </Tooltip>
-  </Radio.Group>
-);
+      </Modal>
+    </>
+  );
+};
 
 CardVisibilityToggleView.propTypes = {
   status: PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]).isRequired,
