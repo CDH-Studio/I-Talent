@@ -30,7 +30,6 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
    * open modal confirmation if "public" is selected
    * @param {Object} value - value selected from dropdown
    */
-
   const handleSelect = (value) => {
     if (value === "PUBLIC") {
       setModalVisibility(true);
@@ -67,27 +66,21 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         onSelect={handleSelect}
       >
         <Option value="PUBLIC">
-          <EyeOutlined />
-          <span>
-            <FormattedMessage id="profile.visibility.card.public" />
-          </span>
+          <EyeOutlined className="visibilityOptionIcon" />
+          <FormattedMessage id="profile.visibility.card.public" />
         </Option>
         <Option value="CONNECTIONS">
-          <TeamOutlined />
-          <span>
-            <FormattedMessage id="profile.visibility.card.connections" />
-          </span>
+          <TeamOutlined className="visibilityOptionIcon" />
+          <FormattedMessage id="profile.visibility.card.connections" />
         </Option>
         <Option value="PRIVATE">
-          <EyeInvisibleOutlined />
-          <span>
-            <FormattedMessage id="profile.visibility.card.private" />
-          </span>
+          <EyeInvisibleOutlined className="visibilityOptionIcon" />
+          <FormattedMessage id="profile.visibility.card.private" />
         </Option>
       </Select>
 
       <Modal
-        title="Public Visibility Confirmation"
+        title={<FormattedMessage id="profile.visibility.card.title" />}
         visible={modalVisibility}
         okText={<FormattedMessage id="profile.yes" />}
         cancelText={<FormattedMessage id="profile.no" />}
