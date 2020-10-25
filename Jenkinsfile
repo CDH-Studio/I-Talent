@@ -27,7 +27,7 @@ pipeline {
                     steps {
                         dir("${FRONTEND_DIR_I18}") {
                             sh 'npm init -y'
-                            sh 'npm i lodash'
+                            sh 'npm i lodash-es'
                             sh 'node check'
                         }
                     }
