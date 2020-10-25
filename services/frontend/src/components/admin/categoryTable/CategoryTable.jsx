@@ -110,6 +110,7 @@ const CategoryTable = ({ intl }) => {
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
+    fixed: "left",
   };
 
   useEffect(() => {

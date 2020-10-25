@@ -153,18 +153,23 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     showMenu &&
     menu(
       false,
-      <Menu.Item className="dropDownItem">
-        <Link tabIndex={0} to="/">
-          <HomeOutlined className="menuIcon" />
-          <FormattedMessage id="home" />
-        </Link>
-      </Menu.Item>
+      <>
+        <Menu.Divider />
+        <Menu.Item className="dropDownItem">
+          <Link tabIndex={0} to="/">
+            <HomeOutlined className="menuIcon" />
+            <FormattedMessage id="home" />
+          </Link>
+        </Menu.Item>
+      </>
     );
+
+  const toggleHamburgerMenu = () => setShowMenu((prev) => !prev);
 
   const hamburgerButton = (userName) => {
     if (userName) {
       return (
-        <Button type="default" onClick={() => setShowMenu((prev) => !prev)}>
+        <Button type="default" onClick={toggleHamburgerMenu}>
           <MenuOutlined />
         </Button>
       );
@@ -228,6 +233,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         </div>
         {hamburgerMenu()}
       </Header>
+      {showMenu && (
+        <div className="hamburgerOverlay" onClick={toggleHamburgerMenu} />
+      )}
     </>
   );
 };

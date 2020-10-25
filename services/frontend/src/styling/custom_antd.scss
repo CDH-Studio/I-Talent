@@ -201,3 +201,7 @@ span.searchInput {
 .ant-alert {
   border-radius: $border-radius;
 }
+
+.ant-layout-sider-zero-width-trigger-left {
+  border-radius: 0 $border-radius $border-radius 0;
+}

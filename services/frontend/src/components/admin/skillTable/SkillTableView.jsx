@@ -369,6 +369,8 @@ const SkillTableView = ({
     {
       title: <FormattedMessage id="admin.edit" />,
       key: "edit",
+      fixed: "right",
+      width: 70,
       render: (record) => (
         <div>
           <Button
@@ -519,6 +521,7 @@ const SkillTableView = ({
             columns={skillTableColumns()}
             dataSource={data}
             loading={skills.loading || categories.loading}
+            scroll={{ x: 800 }}
           />
         </Col>
       </Row>

@@ -323,6 +323,8 @@ const UserTableView = ({
     },
     {
       title: <FormattedMessage id="admin.profileStatus" />,
+      fixed: "right",
+      width: 150,
       filters: [
         {
           text: <FormattedMessage id="admin.active" />,
@@ -344,6 +346,8 @@ const UserTableView = ({
     },
     {
       title: <FormattedMessage id="admin.delete" />,
+      fixed: "right",
+      width: 80,
       render: (record) => (
         <Popconfirm
           placement="left"
@@ -412,6 +416,7 @@ const UserTableView = ({
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
+            scroll={{ x: 900 }}
             pagination={{
               hideOnSinglePage: true,
             }}

@@ -379,6 +379,8 @@ const CompetencyTableView = ({
     {
       title: <FormattedMessage id="admin.edit" />,
       key: "edit",
+      fixed: "right",
+      width: 70,
       render: (record) => (
         <div>
           <Button
@@ -428,6 +430,7 @@ const CompetencyTableView = ({
             columns={competencyTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            scroll={{ x: 500 }}
           />
         </Col>
       </Row>

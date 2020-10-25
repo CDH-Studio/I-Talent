@@ -28,7 +28,7 @@ const StatCardsView = ({
 }) => {
   return (
     <Row gutter={[8, 8]} type="flex">
-      <Col span={4}>
+      <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.total.users" />}
@@ -38,7 +38,7 @@ const StatCardsView = ({
           />
         </Card>
       </Col>
-      <Col span={4}>
+      <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countInactiveUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.inactive.users" />}
@@ -48,7 +48,7 @@ const StatCardsView = ({
           />
         </Card>
       </Col>
-      <Col span={4}>
+      <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countHiddenUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.flagged.profiles" />}
@@ -58,7 +58,7 @@ const StatCardsView = ({
           />
         </Card>
       </Col>
-      <Col span={4}>
+      <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countExFeederUsers === "-"}>
           <Statistic
             title={<FormattedMessage id="admin.dashboard.ex.feeders" />}
@@ -68,7 +68,7 @@ const StatCardsView = ({
           />
         </Card>
       </Col>
-      <Col span={4}>
+      <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={newUsers === "-"}>
           <Statistic
             title={`${intl.formatMessage({
@@ -80,7 +80,7 @@ const StatCardsView = ({
           />
         </Card>
       </Col>
-      <Col span={4}>
+      <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={growthRatePrevMonth === "-"}>
           <Statistic
             title={`${intl.formatMessage({

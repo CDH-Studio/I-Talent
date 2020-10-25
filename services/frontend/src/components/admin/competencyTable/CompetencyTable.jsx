@@ -100,6 +100,7 @@ const CompetencyTable = ({ intl }) => {
     onChange: (_selectedRowKeys) => {
       setSelectedRowKeys(_selectedRowKeys);
     },
+    fixed: "left",
   };
 
   useEffect(() => {

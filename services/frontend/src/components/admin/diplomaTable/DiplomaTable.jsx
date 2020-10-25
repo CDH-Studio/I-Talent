@@ -107,6 +107,7 @@ const DiplomaTable = ({ intl }) => {
     onChange: (modifiedSelectedRowKeys) => {
       onSelectChange(modifiedSelectedRowKeys);
     },
+    fixed: "left",
   };
 
   useEffect(() => {
