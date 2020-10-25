@@ -30,6 +30,14 @@ module.exports = {
               style: true,
             },
           ],
+          [
+            "import",
+            {
+              libraryName: "validator",
+              libraryDirectory: "es/lib",
+              camel2DashComponentName: false,
+            },
+          ],
         ],
       },
       style: {
@@ -82,7 +90,7 @@ module.exports = {
         .use(require.resolve("css-minimizer-webpack-plugin"));
       neutrino.config
         .plugin("antd-dayjs")
-        .use(require.resolve('antd-dayjs-webpack-plugin'));
+        .use(require.resolve("antd-dayjs-webpack-plugin"));
 
       if (process.env.ANALYZE_BUILD === "true") {
         const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
