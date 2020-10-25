@@ -307,6 +307,8 @@
   "profile.visibility.card.public": "Public",
   "profile.visibility.card.show.confirm": "Êtes-vous certain de rendre cette carte visible sur votre profil public?",
   "profile.visibility.card.visible": "Vous êtes autorisé à afficher cette carte",
+  "profile.visibility.confirmation.title": "Visibilité mise à jour",
+  "profile.visibility.confirmation.message": "La visibilité a été mise à jour avec succès",
   "profile.visibility.form.connections": "Information visible seulement pour vos connections",
   "profile.visibility.form.private": "Information visible seulement pour vous",
   "profile.visibility.form.public": "Information visible pour tout le monde",

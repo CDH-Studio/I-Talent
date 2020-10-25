@@ -5,13 +5,14 @@ import {
   TeamOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import "./CardVisibilityToggle.scss";
 
 const { Option } = Select;
 
 const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
+  const intl = useIntl();
   const [modalVisibility, setModalVisibility] = useState(false);
 
   /**
@@ -19,8 +20,12 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
    */
   const openNotification = () => {
     notification.success({
-      message: `Visibility Updated`,
-      description: "the visibility has been successfully updated",
+      message: intl.formatMessage({
+        id: "profile.visibility.confirmation.title",
+      }),
+      description: intl.formatMessage({
+        id: "profile.visibility.confirmation.message",
+      }),
       placement: "topRight",
     });
   };
