@@ -234,6 +234,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         {hamburgerMenu()}
       </Header>
       {showMenu && (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div className="hamburgerOverlay" onClick={toggleHamburgerMenu} />
       )}
     </>
