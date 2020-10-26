@@ -2,6 +2,7 @@ const react = require("@neutrinojs/react");
 const jest = require("@neutrinojs/jest");
 const style = require("@neutrinojs/style-loader");
 const antTheme = require("./src/antdTheme");
+const path = require("path");
 
 module.exports = {
   options: {
@@ -10,8 +11,10 @@ module.exports = {
   use: [
     react({
       devServer: {
+        contentBase: path.join(__dirname, "build"),
         host: "0.0.0.0",
         port: 3000,
+        writeToDisk: true,
       },
       minify: {
         source: process.env.NODE_ENV === "production",
@@ -25,20 +28,20 @@ module.exports = {
           [
             "import",
             {
-              libraryName: "antd",
-              libraryDirectory: "es",
-              style: true,
-            },
-            "antd",
-          ],
-          [
-            "import",
-            {
               libraryName: "validator",
               libraryDirectory: "es/lib",
               camel2DashComponentName: false,
             },
             "validator",
+          ],
+          [
+            "import",
+            {
+              libraryName: "antd",
+              libraryDirectory: "es",
+              style: true,
+            },
+            "antd",
           ],
         ],
       },

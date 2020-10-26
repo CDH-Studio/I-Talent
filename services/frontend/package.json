@@ -48,7 +48,7 @@
     "webpack-cli": "3.3.12"
   },
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "dev": "mkdir -p build && react-env --dest ./build && webpack-dev-server --mode development",
     "prestart": "react-env --dest ./build",
     "start": "serve -s build",
     "build": "NODE_ENV=production webpack --mode production",
