@@ -99,7 +99,8 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         <Dropdown
           overlay={() => menu(true)}
           placement="bottomCenter"
-          trigger="click"
+          trigger={["click"]}
+          getPopupContainer={(triggerNode) => triggerNode.parentNode}
         >
           <Button type="link" className="nav-dropDownButton ant-dropdown-link">
             <CustomAvatar
