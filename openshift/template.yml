@@ -124,7 +124,7 @@ objects:
         contextDir: /services/backend
         git:
           ref: development
-          uri: https://github.com/CDH-Studio/UpSkill.git
+          uri: https://github.com/CDH-Studio/I-Talent.git
         type: Git
       strategy:
         dockerStrategy:
@@ -163,7 +163,7 @@ objects:
         contextDir: /services/frontend
         git:
           ref: development
-          uri: https://github.com/CDH-Studio/UpSkill.git
+          uri: https://github.com/CDH-Studio/I-Talent.git
         type: Git
       strategy:
         dockerStrategy:
