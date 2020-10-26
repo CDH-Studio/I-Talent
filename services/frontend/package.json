@@ -5,6 +5,8 @@
   "dependencies": {
     "@ant-design/icons": "4.2.2",
     "@beam-australia/react-env": "2.1.2",
+    "@neutrinojs/jest": "9.4.0",
+    "@neutrinojs/react": "9.4.0",
     "@neutrinojs/style-loader": "^9.4.0",
     "@react-keycloak/web": "3.0.0",
     "@reduxjs/toolkit": "1.4.0",
@@ -21,6 +23,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
     "lodash-es": "^4.17.15",
+    "neutrino": "9.4.0",
     "postcss": "^8.1.4",
     "postcss-loader": "^4.0.4",
     "prop-types": "15.7.2",
@@ -42,10 +45,10 @@
     "serve": "11.3.2",
     "terser-webpack-plugin": "4.2.3",
     "validator": "13.1.17",
-    "webpack-chain": "^6.5.1"
+    "webpack-cli": "3.3.12"
   },
   "scripts": {
-    "dev": "react-env --dest ./build && webpack-dev-server --mode development",
+    "dev": "webpack-dev-server --mode development",
     "prestart": "react-env --dest ./build",
     "start": "serve -s build",
     "build": "NODE_ENV=production webpack --mode production",
@@ -73,8 +76,6 @@
     ]
   },
   "devDependencies": {
-    "@neutrinojs/jest": "9.4.0",
-    "@neutrinojs/react": "9.4.0",
     "eslint": "7.12.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-config-prettier": "6.12.0",
@@ -85,11 +86,9 @@
     "eslint-plugin-react": "7.21.4",
     "eslint-plugin-react-hooks": "4.1.2",
     "jest": "26.6.1",
-    "neutrino": "9.4.0",
     "prettier": "2.1.2",
     "webpack": "4.44.2",
     "webpack-bundle-analyzer": "3.9.0",
-    "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
   }
 }
