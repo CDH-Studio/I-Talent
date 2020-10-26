@@ -2,14 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
-import Chart from "bizcharts/lib/components/Chart";
-import Axis from "bizcharts/lib/components/Axis";
-import Tooltip from "bizcharts/lib/components/Tooltip";
-import Coord from "bizcharts/lib/components/Coordinate";
-import Legend from "bizcharts/lib/components/Legend";
-import Point from "bizcharts/lib/geometry/Point";
-import Line from "bizcharts/lib/geometry/Line";
-import Interval from "bizcharts/lib/geometry/Interval";
+import Chart from "react-apexcharts";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 
@@ -28,39 +21,80 @@ const DashboardGraphsView = ({
   intl,
 }) => {
   const popularSkillsColumns = {
-    count: {
-      alias: intl.formatMessage({
-        id: "admin.dashboard.number.of.occurrences",
-      }),
-      tickInterval: 1,
+    options: {
+      xaxis: {
+        categories: topFiveSkills.map((element) => element.name),
+      },
+      yaxis: {
+        tickAmount: 1,
+      },
     },
+    series: [
+      {
+        name: intl.formatMessage({
+          id: "admin.dashboard.number.of.occurrences",
+        }),
+        data: topFiveSkills.map((element) => element.count),
+      },
+    ],
   };
 
   const popularCompetenciesColumns = {
-    count: {
-      alias: intl.formatMessage({
-        id: "admin.dashboard.number.of.occurrences",
-      }),
-      tickInterval: 1,
+    options: {
+      xaxis: {
+        categories: topFiveCompetencies.map((element) => element.name),
+      },
+      yaxis: {
+        tickAmount: 1,
+      },
     },
+    series: [
+      {
+        name: intl.formatMessage({
+          id: "admin.dashboard.number.of.occurrences",
+        }),
+        data: topFiveCompetencies.map((element) => element.count),
+      },
+    ],
   };
 
   const popularDevelopmentGoalsColumns = {
-    count: {
-      alias: intl.formatMessage({
-        id: "admin.dashboard.number.of.occurrences",
-      }),
-      tickInterval: 1,
+    options: {
+      xaxis: {
+        categories: topFiveDevelopmentalGoals.map((element) => element.name),
+      },
+      yaxis: {
+        tickAmount: 1,
+      },
     },
+    series: [
+      {
+        name: intl.formatMessage({
+          id: "admin.dashboard.number.of.occurrences",
+        }),
+        data: topFiveDevelopmentalGoals.map((element) => element.count),
+      },
+    ],
   };
-
   const growthRateByMonthColumns = {
-    monthName: { range: [0, 1] },
-    count: {
-      alias: intl.formatMessage({
-        id: "admin.dashboard.number.of.occurrences",
-      }),
+    options: {
+      xaxis: {
+        categories: monthlyGrowth.map(
+          (element) => `${element.monthName}-${element.year}`
+        ),
+      },
+      yaxis: {
+        tickAmount: 1,
+      },
     },
+    series: [
+      {
+        name: intl.formatMessage({
+          id: "admin.dashboard.number.of.occurrences",
+        }),
+        data: monthlyGrowth.map((element) => element.count),
+      },
+    ],
   };
 
   return (
@@ -72,18 +106,10 @@ const DashboardGraphsView = ({
             loading={topFiveSkills.length === 0}
           >
             <Chart
-              data={topFiveSkills}
-              scale={popularSkillsColumns}
-              height={500}
-              autoFit={typeof document !== "undefined"}
-            >
-              <Axis name="name" visible={false} />
-              <Axis name="count" title />
-              <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" flipPage={false} />
-              <Tooltip />
-              <Interval position="name*count" color="name" />
-            </Chart>
+              options={popularSkillsColumns.options}
+              series={popularSkillsColumns.series}
+              type="bar"
+            />
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
@@ -94,18 +120,10 @@ const DashboardGraphsView = ({
             loading={topFiveCompetencies.length === 0}
           >
             <Chart
-              data={topFiveCompetencies}
-              scale={popularCompetenciesColumns}
-              height={500}
-              autoFit={typeof document !== "undefined"}
-            >
-              <Axis name="name" visible={false} />
-              <Axis name="count" title />
-              <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" flipPage={false} />
-              <Tooltip />
-              <Interval position="name*count" color="name" />
-            </Chart>
+              options={popularCompetenciesColumns.options}
+              series={popularCompetenciesColumns.series}
+              type="bar"
+            />
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
@@ -116,18 +134,10 @@ const DashboardGraphsView = ({
             loading={topFiveDevelopmentalGoals.length === 0}
           >
             <Chart
-              data={topFiveDevelopmentalGoals}
-              scale={popularDevelopmentGoalsColumns}
-              height={500}
-              autoFit={typeof document !== "undefined"}
-            >
-              <Axis name="name" visible={false} />
-              <Axis name="count" title />
-              <Coord scale={[0.7, 0.9]} />
-              <Legend position="top" flipPage={false} />
-              <Tooltip />
-              <Interval position="name*count" color="name" />
-            </Chart>
+              options={popularDevelopmentGoalsColumns.options}
+              series={popularDevelopmentGoalsColumns.series}
+              type="bar"
+            />
           </Card>
         </Col>
         {monthlyGrowth && (
@@ -139,27 +149,11 @@ const DashboardGraphsView = ({
               loading={monthlyGrowth.length === 0}
             >
               <Chart
-                data={monthlyGrowth}
-                scale={growthRateByMonthColumns}
-                height={500}
+                options={growthRateByMonthColumns.options}
+                series={growthRateByMonthColumns.series}
+                type="line"
                 autoFit
-              >
-                <Legend />
-                <Axis name="monthName" />
-                <Axis name="count" />
-                <Tooltip crosshairs={{ type: "y" }} />
-                <Line position="monthName*count" size={2} color="year" />
-                <Point
-                  position="monthName*count"
-                  size={4}
-                  shape="circle"
-                  color="year"
-                  style={{
-                    stroke: "#fff",
-                    lineWidth: 1,
-                  }}
-                />
-              </Chart>
+              />
             </Card>
           </Col>
         )}
