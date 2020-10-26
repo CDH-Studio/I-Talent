@@ -16,8 +16,8 @@ module.exports = {
   "@border-radius-base": "5px",
   "@layout-header-background": "@body-background",
   "@form-item-margin-bottom": "13px",
-  "@card-shadow": "0 1.4px 1.4px rgba(0, 0, 0, 0.05)",
   "@card-actions-background": "transparent",
+  "@card-head-height": "55px",
   "@list-item-meta-margin-bottom": "0",
   "@list-item-meta-title-margin-bottom": "0",
 };

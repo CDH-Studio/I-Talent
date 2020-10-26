@@ -1,10 +1,5 @@
 @import "./_variables.scss";
 
-.no-content-card .ant-card-body {
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-}
-
 .custom-bubble-select-style .ant-select-selection-item {
   margin: 3px !important;
   padding: 1px 10px !important;
@@ -17,11 +12,6 @@
   margin-left: 0.25em !important;
 }
 
-.ant-layout-sider-trigger {
-  background-color: $app-gray !important;
-  color: rgb(0, 30, 30) !important;
-}
-
 .results-card-divider
   .ant-divider
   .ant-divider-horizontal
@@ -32,10 +22,6 @@
   &::after {
     border-top-color: $app-black !important;
   }
-}
-
-.ant-form-item-label {
-  padding: 0px !important;
 }
 
 .ant-form-item-control-input-content {
@@ -52,28 +38,6 @@
   line-height: 22px !important;
 }
 
-.ant-card-head {
-  height: 55px !important;
-}
-
-.ant-card-small {
-  .ant-card-head {
-    height: 35px !important;
-  }
-  .ant-card-head-wrapper {
-    height: 35px !important;
-  }
-}
-
-.ant-card-head-wrapper {
-  height: 55px !important;
-}
-
-.ant-card-body {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-}
-
 .ant-tag.ant-tag-has-color {
   font-size: 14px !important;
 }
@@ -86,44 +50,62 @@
   font-size: 16px !important;
 }
 
-.ant-tag {
-  margin: 3px !important;
-  padding: 5px 12px !important;
-  height: auto !important;
-  border-width: 0px !important;
-  border-color: $app-gray !important;
+///////
+
+.no-content-card .ant-card-body {
+  padding: 0px !important;
 }
 
-.ant-menu {
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-left: 8px;
-}
+.ant {
+  &-layout-sider {
+    box-shadow: $box-shadow-side-menu;
+    border-right: 1px solid #f0f0f0;
+  }
 
-.ant-table {
-  box-shadow: $box-shadow-card;
-}
+  &-card-head-wrapper {
+    height: 55px !important;
+  }
 
-.ant-layout-sider-children {
-  box-shadow: $box-shadow-side-menu;
-  border-right: 1px solid #f0f0f0;
-}
+  &-menu {
+    padding: 5px 8px;
 
-.ant-menu-vertical {
-  border: none !important;
-}
+    &-vertical {
+      border: none !important;
+    }
+  }
 
+  &-tag {
+    margin: 3px;
+    padding: 5px 12px;
+    border: none;
+  }
 
-// KEEP
+  &-table,
+  &-card {
+    box-shadow: $box-shadow-card;
+  }
 
-.ant-page-header-heading-title {
-  padding: 5px 10px;
-  background-color: $app-green;
-  color: white;
-  font-size: 1.5em !important;
-  border-radius: $border-radius;
-}
+  &-card-body {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
 
-.ant-page-header-heading-title svg {
-  margin-right: 7px;
+  &-form-item-label {
+    padding: 0px !important;
+  }
+  &-form-item-explain {
+    margin: 0;
+  }
+
+  &-page-header-heading-title {
+    padding: 5px 10px;
+    background-color: $app-green;
+    color: white;
+    font-size: 1.5em !important;
+    border-radius: $border-radius;
+
+    svg {
+      margin-right: 7px;
+    }
+  }
 }
