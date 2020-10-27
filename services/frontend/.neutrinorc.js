@@ -11,10 +11,9 @@ module.exports = {
   use: [
     react({
       devServer: {
-        contentBase: path.join(__dirname, "build"),
+        contentBase: path.join(__dirname, "public"),
         host: "0.0.0.0",
         port: 3000,
-        writeToDisk: true,
       },
       minify: {
         source: process.env.NODE_ENV === "production",
