@@ -205,7 +205,6 @@ const SearchFilterView = ({
         </Form.Item>
         <Button
           className="search-w100"
-          shape="round"
           size="large"
           type="primary"
           htmlType="submit"

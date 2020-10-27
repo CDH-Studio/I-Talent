@@ -19,5 +19,5 @@ module.exports = {
   "@card-actions-background": "transparent",
   "@card-head-height": "55px",
   "@list-item-meta-margin-bottom": "0",
-  "@list-item-meta-title-margin-bottom": "0",
+  "@tag-font-size": "14px",
 };

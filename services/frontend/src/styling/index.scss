@@ -29,16 +29,13 @@ body {
   max-width: 900px;
 }
 
-span.searchInput {
-  input {
-    // border-radius: $border-radius 0 0 $border-radius !important;
-    background-color: #f0f2f55d;
-
-    &:active,
-    &:focus {
-      background-color: white;
-    }
+span.searchInput input {
+  &:active,
+  &:focus {
+    background-color: white;
   }
+
+  background-color: #f0f2f55d;
 }
 
 .org-dropdown {
