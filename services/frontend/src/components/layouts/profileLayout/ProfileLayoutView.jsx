@@ -37,6 +37,7 @@ import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
+import QualifiedPools from "../../qualifiedPools/QualifiedPools";
 import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Connections from "../../connections/Connections";
@@ -173,6 +174,11 @@ const ProfileLayoutView = ({
               editableCardBool={privateProfile}
               data={data}
             />
+          </Col>
+        </Row>
+        <Row className="app-row">
+          <Col span={24}>
+            <QualifiedPools data={data} editableCardBool={privateProfile} />
           </Col>
         </Row>
 
@@ -350,6 +356,14 @@ const ProfileLayoutView = ({
                 title={
                   <Text className="sideBarText">
                     <FormattedMessage id="profile.learning.development" />
+                  </Text>
+                }
+              />
+              <Link
+                href="#card-profile-qualified-pools"
+                title={
+                  <Text className="sideBarText">
+                    <FormattedMessage id="profile.qualified.pools" />
                   </Text>
                 }
               />

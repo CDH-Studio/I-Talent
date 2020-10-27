@@ -39,6 +39,8 @@ const PersonalGrowthForm = ({ formType }) => {
     undefined
   );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
+  const [classificationOptions, setClassificationOptions] = useState([]);
+  const [savedQualifiedPools, setSavedQualifiedPools] = useState([]);
   const axios = useAxios();
 
   // Get current language code
@@ -79,6 +81,24 @@ const PersonalGrowthForm = ({ formType }) => {
     setSavedRelocationLocations(
       profileInfo.relocationLocations.map((i) => i.id)
     );
+  };
+
+  /**
+   * Get saved Qualified Pools
+   *
+   * get saved Qualified Pools from profile
+   */
+  const getSavedQualifiedPools = () => {
+    if (profileInfo.qualifiedPools)
+      setSavedQualifiedPools({
+        qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
+          id: i.id,
+          classificationId: i.classification.id,
+          jobTitle: i.jobTitle,
+          selectionProcessNumber: i.selectionProcessNumber,
+          jobPosterLink: i.jobPosterLink,
+        })),
+      });
   };
 
   /**
@@ -217,6 +237,19 @@ const PersonalGrowthForm = ({ formType }) => {
   }, [axios, locale]);
 
   /**
+   * Get Classification Options
+   *
+   * get all dropdown options for Classifications
+   */
+  const getClassificationOptions = useCallback(async () => {
+    const result = await axios.get(
+      `api/option/classifications?language=${locale}`
+    );
+
+    setClassificationOptions(result.data);
+  }, [axios, locale]);
+
+  /**
    * Get default form tab
    *
    * get the default selected form tab based on url query params
@@ -239,16 +272,19 @@ const PersonalGrowthForm = ({ formType }) => {
         talentMatrixResult,
         careerMobility,
         exFeeder,
+        qualifiedPools,
       } = profileInfo;
 
       getSavedDevelopmentalGoals();
       getSavedRelocationLocations();
+      getSavedQualifiedPools();
       setSavedLookingForNewJob(lookingJob ? lookingJob.id : undefined);
       setSavedTalentMatrixResult(
         talentMatrixResult ? talentMatrixResult.id : undefined
       );
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
+      setSavedQualifiedPools(qualifiedPools);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
@@ -266,6 +302,7 @@ const PersonalGrowthForm = ({ formType }) => {
       getCareerMobilityOptions(),
       getTalentMatrixResultOptions(),
       getAddAttachmentOptions(),
+      getClassificationOptions(),
     ])
       .then(() => {
         setLoad(true);
@@ -284,6 +321,7 @@ const PersonalGrowthForm = ({ formType }) => {
     getRelocationOptions,
     getTalentMatrixResultOptions,
     history,
+    getClassificationOptions,
   ]);
 
   return (
@@ -302,6 +340,8 @@ const PersonalGrowthForm = ({ formType }) => {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
+      classificationOptions={classificationOptions}
+      savedQualifiedPools={savedQualifiedPools}
       formType={formType}
       currentTab={currentTab}
       load={load}
