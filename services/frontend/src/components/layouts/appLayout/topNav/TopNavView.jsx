@@ -47,7 +47,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   // menu options for profile dropdown
   const menu = (isDropdown, optionalStartMenuItems) => (
-    <Menu className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}>
+    <Menu
+      tabIndex={-1}
+      tabindex="-1"
+      className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
+    >
       {optionalStartMenuItems}
       <Menu.Item className="dropDownItem">
         <Link to={`/profile/${id}`}>
