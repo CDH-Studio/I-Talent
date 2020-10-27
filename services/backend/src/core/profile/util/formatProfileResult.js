@@ -85,17 +85,17 @@ function formatProfileResult(profile, language) {
       const competency =
         goal.competency && goal.competency.translations
           ? {
-              id: goal.competency.id,
-              name: goal.competency.translations[0].name,
-            }
+            id: goal.competency.id,
+            name: goal.competency.translations[0].name,
+          }
           : null;
 
       const skill =
         goal.skill && goal.skill.translations
           ? {
-              id: goal.skill.id,
-              name: goal.skill.translations[0].name,
-            }
+            id: goal.skill.id,
+            name: goal.skill.translations[0].name,
+          }
           : null;
       return competency || skill;
     });
@@ -133,6 +133,28 @@ function formatProfileResult(profile, language) {
       }
     );
     filteredProfile.developmentalGoalsAttachments = attachmentLinks;
+  }
+
+  if (profile.qualifiedPools) {
+    const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => {
+      return {
+        id: qualifiedPool.id,
+        jobTitle: qualifiedPool.jobTitle,
+        selectionProcessNumber: qualifiedPool.selectionProcessNumber,
+        jobPosterLink: qualifiedPool.jobPosterLink,
+        classification: {
+          id: qualifiedPool.classification.id,
+          name: qualifiedPool.classification.name,
+        },
+      };
+    });
+
+    filteredProfile.qualifiedPools = _.orderBy(qualifiedPools, "updatedAt", "desc");
+
+    filteredProfile.qualifiedPoolsUpdatedAt = profile.qualifiedPools.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.educations) {
