@@ -46,8 +46,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   }, []);
 
   // menu options for profile dropdown
+  /* eslint-disable react/jsx-no-duplicate-props */
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu
+      // Ant-design issue: recognizes either depending on machine
+      // "-1" is used for off-screen content that appears on a specific event
       tabIndex={-1}
       tabindex="-1"
       className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
@@ -97,6 +100,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       </Menu.Item>
     </Menu>
   );
+  /* eslint-enable react/jsx-no-duplicate-props */
 
   const getAvatarDropdown = (userName) => {
     if (userName) {
