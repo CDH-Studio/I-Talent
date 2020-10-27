@@ -1,0 +1,80 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "4.2.2",
+    "@beam-australia/react-env": "2.1.2",
+    "@craco/craco": "5.7.0",
+    "@react-keycloak/web": "3.0.0",
+    "@reduxjs/toolkit": "1.4.0",
+    "antd": "4.7.0",
+    "antd-dayjs-webpack-plugin": "1.0.1",
+    "axios": "0.20.0",
+    "bizcharts": "4.0.14",
+    "craco-antd": "1.18.1",
+    "dayjs": "1.8.35",
+    "history": "5.0.0",
+    "keycloak-js": "11.0.2",
+    "lodash-es": "^4.17.15",
+    "node-sass": "4.14.1",
+    "prop-types": "15.7.2",
+    "query-string": "6.13.5",
+    "react": "16.13.1",
+    "react-app-polyfill": "1.0.6",
+    "react-dom": "16.13.1",
+    "react-helmet": "^6.1.0",
+    "react-highlight-words": "0.16.0",
+    "react-intl": "5.8.6",
+    "react-redux": "7.2.1",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "3.4.3",
+    "redux": "4.0.5",
+    "redux-persist": "6.0.0",
+    "serve": "11.3.2",
+    "validator": "13.1.17"
+  },
+  "scripts": {
+    "dev": "react-env && craco start",
+    "prestart": "react-env --dest ./build",
+    "start": "serve -s build",
+    "build": "craco build",
+    "test": "craco test",
+    "lint": "./node_modules/.bin/eslint src --ext .js,.jsx",
+    "i18n:check": "node ./src/i18n/check",
+    "i18n:cleanup": "node ./src/i18n/cleanup",
+    "analyze": "ANALYZE_BUILD=true craco build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "IE 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "IE 11"
+    ]
+  },
+  "devDependencies": {
+    "craco-fast-refresh": "^1.0.2",
+    "eslint": "6.6.0",
+    "eslint-config-airbnb": "18.2.0",
+    "eslint-config-prettier": "6.12.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-react": "7.21.4",
+    "eslint-plugin-react-hooks": "4.1.2",
+    "prettier": "2.1.2",
+    "webpack-bundle-analyzer": "^3.9.0"
+  }
+}

@@ -124,15 +124,13 @@ objects:
         contextDir: /services/backend
         git:
           ref: development
-          uri: https://github.com/CDH-Studio/UpSkill.git
+          uri: https://github.com/CDH-Studio/I-Talent.git
         type: Git
       strategy:
         dockerStrategy:
           env:
             - name: NODE_ENV
               value: production
-            - name: YARN_CACHE_FOLDER
-              value: /upskill-backend/.yarn-cache
         type: Docker
       triggers:
         - generic:
@@ -162,18 +160,16 @@ objects:
       resources: {}
       runPolicy: Serial
       source:
-        contextDir: /services/frontend-v3
+        contextDir: /services/frontend
         git:
           ref: development
-          uri: https://github.com/CDH-Studio/UpSkill.git
+          uri: https://github.com/CDH-Studio/I-Talent.git
         type: Git
       strategy:
         dockerStrategy:
           env:
             - name: NODE_ENV
               value: production
-            - name: YARN_CACHE_FOLDER
-              value: /upskill-frontend/.yarn-cache
             - name: REACT_APP_API_ADDRESS
               value: https://${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca/
             - name: REACT_APP_KEYCLOAK_AUTH_SERVER_URL

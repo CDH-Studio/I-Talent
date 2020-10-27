@@ -1,0 +1,50 @@
+.qual-skeleton {
+  width: 100%;
+  max-width: 900px;
+  min-height: 308px;
+  padding: 30px 30px;
+}
+
+.qual-content {
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  padding: 30px 30px;
+}
+
+.qual-formTitle {
+  font-size: 1.2em !important;
+  margin: 0 !important;
+}
+
+.qual-sectionHeader {
+  margin-bottom: 10px;
+}
+
+.qual-headerDiv {
+  margin: 15px 0 15px 0 !important;
+}
+
+.qual-finishAndSaveBtn {
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.qual-clearBtn {
+  float: left;
+  margin-bottom: 1rem;
+}
+
+.qual-saveBtn {
+  float: right;
+  margin-bottom: 1rem;
+  min-width: 100%;
+}
+
+.qual-unsavedText {
+  margin-left: 10px;
+  font-weight: normal;
+  font-style: italic;
+  opacity: 0.5;
+}

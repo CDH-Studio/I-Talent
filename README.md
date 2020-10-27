@@ -1,4 +1,4 @@
-<img src="services/frontend-v3/src/assets/I-talent-logo.png" alt="I-Talent Logo" width="250" />
+<img src="services/frontend/src/assets/I-talent-logo.png" alt="I-Talent Logo" width="250" />
 
 An improved directory and employee search tool.
 
@@ -115,7 +115,7 @@ Checkout the `docker-compose.yml` file for information on which ports to use to 
 
 ```yml
 keycloak:
-  container_name: "upskill-keycloak"
+  container_name: "italent-keycloak"
   image: "jboss/keycloak"
   ports:
     - "8180:8180"

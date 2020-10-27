@@ -1,0 +1,19 @@
+FROM node:12.19.0-alpine3.11
+
+ENV TZ=America/Toronto
+
+# Set working directory
+RUN mkdir /italent-frontend
+WORKDIR /italent-frontend
+
+# Copy app dependencies
+COPY package.json yarn.lock ./
+
+# Runs install script
+RUN yarn install
+
+# Copy app
+COPY . .
+
+# Runs start script
+CMD yarn dev

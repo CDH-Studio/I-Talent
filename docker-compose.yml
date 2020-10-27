@@ -1,66 +1,72 @@
-version: "3"
+version: "3.5"
 services:
-  web-ant:
-    container_name: "upskill-frontend"
+  frontend:
+    container_name: italent-frontend
+    image: italent-frontend
     build:
-      context: ./services/frontend-v3
+      context: ./services/frontend
       dockerfile: Dockerfile.local
     ports:
-      - "3000:3000" # port razzleJS
-      - "3001:3001" # port razzleJS
-      - "3031:8888" # port for webpack analyzer
+      - 3000:3000 # port craco
+      - 3031:8888 # port for webpack analyzer
     volumes:
-      - ./services/frontend-v3:/upskill-frontend
-      - frontend-node-modules:/upskill-frontend/node_modules
+      - ./services/frontend:/italent-frontend
+      - frontend-data:/italent-frontend/node_modules
     env_file:
       - ./env/web.env
-    tty: true
+    stdin_open: true
 
   backend:
-    container_name: "upskill-backend"
+    container_name: italent-backend
+    image: italent-backend
     build:
       context: ./services/backend
       dockerfile: Dockerfile.local
     ports:
-      - "8080:8080" # port backend API
-      - "5555:5555" # port for Prisma Studio
+      - 8080:8080 # port backend API
+      - 5555:5555 # port for Prisma Studio
     volumes:
-      - ./services/backend:/upskill-backend
-      - backend-node-modules:/upskill-backend/node_modules
+      - ./services/backend:/italent-backend
+      - backend-data:/italent-backend/node_modules
     env_file:
       - ./env/backend.env
       - .env
     depends_on:
       - redis
-      - db-postgres
+      - postgres
 
-  db-postgres:
-    container_name: "upskill-database"
-    image: "postgres:12-alpine"
+  postgres:
+    container_name: italent-postgres
+    image: postgres:12-alpine
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     restart: always
-    hostname: db-postgres
     environment:
       POSTGRES_PASSWORD: api
       POSTGRES_USER: api
       POSTGRES_DB: testdb
 
   redis:
-    container_name: "upskill-redis-session"
-    image: "redis:6-alpine"
-    ports:
-      - "6379:6379"
+    container_name: italent-redis
+    image: redis:6-alpine
     command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
     hostname: redis
     restart: always
     volumes:
       - redis-data:/data
 
+networks:
+  default:
+    name: italent-network
+
 volumes:
-  postgres_data:
+  postgres-data:
+    name: italent-postgres-data
   redis-data:
-  backend-node-modules:
-  frontend-node-modules:
+    name: italent-redis-data
+  backend-data:
+    name: italent-backend-data
+  frontend-data:
+    name: italent-frontend-data

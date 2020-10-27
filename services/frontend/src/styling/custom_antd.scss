@@ -1,0 +1,81 @@
+@import "./_variables.scss";
+
+.no-content-card .ant-card-body {
+  padding: 0px !important;
+}
+
+.experience-item-list .ant-list-item-extra {
+  margin: 0 auto 10px 0;
+}
+
+.custom-bubble-select-style .ant-select-selection-item {
+  margin: 3px;
+  padding: 1px 10px;
+  height: auto;
+  border-color: $app-gray;
+}
+
+.ant {
+  &-layout-sider {
+    box-shadow: $box-shadow-side-menu;
+    border-right: 1px solid #f0f0f0;
+  }
+
+  &-menu {
+    padding: 5px 8px;
+
+    &-vertical {
+      border: none !important;
+    }
+  }
+
+  &-tag {
+    margin: 3px;
+    padding: 5px 12px;
+    border: none;
+  }
+
+  &-list-item-meta-title {
+    font-size: 16px;
+    margin: 0px;
+  }
+
+  &-table {
+    box-shadow: $box-shadow-card;
+  }
+
+  &-card {
+    box-shadow: $box-shadow-card;
+
+    &-body {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+
+    &-head-wrapper {
+      height: 55px !important;
+    }
+  }
+
+  &-form-item {
+    &-label {
+      padding: 0px !important;
+    }
+
+    &-explain {
+      margin: 0;
+    }
+  }
+
+  &-page-header-heading-title {
+    padding: 5px 10px;
+    background-color: $app-green;
+    color: white;
+    font-size: 1.5em !important;
+    border-radius: $border-radius;
+
+    svg {
+      margin-right: 7px;
+    }
+  }
+}
