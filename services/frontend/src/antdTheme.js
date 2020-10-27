@@ -11,7 +11,13 @@
 module.exports = {
   "@primary-color": "#087472",
   "@link": "#00B9B2",
-  "@success-color": "#00cc00",
   "@warning-color": "#ff661a",
   "@error-color": "#ff3333",
+  "@border-radius-base": "5px",
+  "@layout-header-background": "@body-background",
+  "@form-item-margin-bottom": "13px",
+  "@card-actions-background": "transparent",
+  "@card-head-height": "55px",
+  "@list-item-meta-margin-bottom": "0",
+  "@tag-font-size": "14px",
 };
