@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from "react";
 import {
   DownOutlined,
@@ -234,6 +235,8 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         {hamburgerMenu()}
       </Header>
       {showMenu && (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div className="hamburgerOverlay" onClick={toggleHamburgerMenu} />
       )}
     </>

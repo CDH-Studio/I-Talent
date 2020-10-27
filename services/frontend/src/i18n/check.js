@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
-import sortBy from "lodash-es/sortBy";
-import difference from "lodash-es/difference";
-import isEqual from "lodash-es/isEqual";
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { sortBy, difference, isEqual } = require("lodash");
 
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
