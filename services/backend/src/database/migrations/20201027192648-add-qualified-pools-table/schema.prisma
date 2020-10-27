@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model DbSeed {
@@ -51,19 +51,6 @@ enum EmploymentEquityGroup {
   INDIGENOUS
   DISABILITY
   MINORITY
-}
-
-enum BugsStatus {
-  DUPLICATE
-  UNRESOLVED
-  RESOLVED
-}
-
-enum BugsLocation {
-  HOME
-  PROFILE
-  SEARCH
-  FORMS
 }
 
 model OpTransSecurityClearance {
@@ -574,20 +561,6 @@ model AttachmentLink {
   userId       String?
 }
 
-model Bug {
-  id          String        @default(uuid()) @id
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-
-  description String
-  status      BugsStatus    @default(UNRESOLVED)
-  location    BugsLocation
-  appVersion  String?
-  githubIssue Int?
-  user        User          @relation(fields: [userId], references: [id])
-  userId      String
-}
-
 model User {
   id                            String                  @id @default(uuid())
   createdAt                     DateTime                @default(now())
@@ -646,7 +619,6 @@ model User {
   experiences                   Experience[]
   relocationLocations           RelocationLocation[]
   employmentEquityGroups        EmploymentEquityGroup[]
-  bugsReported                  Bug[]
   connections                   User[]                  @relation("UserToUser")
   user                          User?                   @relation("UserToUser", fields: [userId])
   userId                        String?
