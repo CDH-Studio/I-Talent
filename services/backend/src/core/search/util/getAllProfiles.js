@@ -20,8 +20,8 @@ async function getAllUsers(searchValue, language, userId, request) {
     where: viewPrivateProfile(request)
       ? undefined
       : {
-        status: "ACTIVE",
-      },
+          status: "ACTIVE",
+        },
   });
 
   let visibleCards = await Promise.all(
@@ -331,7 +331,7 @@ async function getAllUsers(searchValue, language, userId, request) {
           jobTitle: i.jobTitle,
           selectionProcessNumber: i.selectionProcessNumber,
           jobPosterLink: i.jobPosterLink,
-          classification: classification ? classification.name : undefined,
+          classification: i.classification ? i.classification.name : undefined,
         };
       });
     }

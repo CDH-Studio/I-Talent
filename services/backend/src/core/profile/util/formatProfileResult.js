@@ -85,17 +85,17 @@ function formatProfileResult(profile, language) {
       const competency =
         goal.competency && goal.competency.translations
           ? {
-            id: goal.competency.id,
-            name: goal.competency.translations[0].name,
-          }
+              id: goal.competency.id,
+              name: goal.competency.translations[0].name,
+            }
           : null;
 
       const skill =
         goal.skill && goal.skill.translations
           ? {
-            id: goal.skill.id,
-            name: goal.skill.translations[0].name,
-          }
+              id: goal.skill.id,
+              name: goal.skill.translations[0].name,
+            }
           : null;
       return competency || skill;
     });
@@ -149,7 +149,11 @@ function formatProfileResult(profile, language) {
       };
     });
 
-    filteredProfile.qualifiedPools = _.orderBy(qualifiedPools, "updatedAt", "desc");
+    filteredProfile.qualifiedPools = _.orderBy(
+      qualifiedPools,
+      "updatedAt",
+      "desc"
+    );
 
     filteredProfile.qualifiedPoolsUpdatedAt = profile.qualifiedPools.reduce(
       updatedAtReducer,
