@@ -702,8 +702,18 @@ PersonalGrowthFormView.propTypes = {
   talentMatrixResultOptions: KeyTitleOptionsPropType,
   savedTalentMatrixResult: PropTypes.string,
   savedExFeederBool: PropTypes.bool,
-  classificationOptions: KeyTitleOptionsPropType,
-  savedQualifiedPools: PropTypes.arrayOf(PropTypes.string),
+  classificationOptions: KeyNameOptionsPropType,
+  savedQualifiedPools: PropTypes.arrayOf(
+    PropTypes.shape({
+      classification: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      }),
+      jobTitle: PropTypes.string,
+      selectionProcessNumber: PropTypes.string,
+      jobPosterLink: PropTypes.string,
+    })
+  ),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,

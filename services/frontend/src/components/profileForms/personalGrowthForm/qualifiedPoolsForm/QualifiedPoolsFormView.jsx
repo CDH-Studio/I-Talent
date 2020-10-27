@@ -46,19 +46,8 @@ const QualifiedPoolsFormView = ({
             required: true,
             message: <FormattedMessage id="profile.rules.required" />,
         },
-        maxChar1500: {
-            max: 1500,
-            message: (
-                <FormattedMessage
-                    id="profile.rules.max"
-                    values={{
-                        max: 1500,
-                    }}
-                />
-            ),
-        },
     };
-
+    
     return (
         <div className="formItem">
             <Row gutter={24} className="gutter-row titleRow">
@@ -97,6 +86,10 @@ const QualifiedPoolsFormView = ({
                         fieldKey={[fieldElement.fieldKey, "classificationId"]}
                         label={<FormattedMessage id="profile.classification" />}
                         rules={[Rules.required]}
+                        value={
+                            savedQualifiedPools[fieldElement.fieldKey] &&
+                            savedQualifiedPools[fieldElement.fieldKey].name
+                        }
                     >
                         <Select
                             showSearch
