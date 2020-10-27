@@ -74,7 +74,6 @@ const SearchBarView = ({
       <div>
         <div className="search-mainSearchField">{getBasicField()}</div>
         <Button
-          shape="round"
           size="large"
           type="primary"
           htmlType="submit"
@@ -85,7 +84,6 @@ const SearchBarView = ({
         </Button>
         <Button
           ghost
-          shape="round"
           size="large"
           className="search-clearBtn"
           onClick={() => {
@@ -275,7 +273,6 @@ const SearchBarView = ({
           }}
         >
           <Button
-            shape="round"
             size="large"
             type="primary"
             htmlType="submit"
@@ -285,7 +282,6 @@ const SearchBarView = ({
             {searchLabel}
           </Button>
           <Button
-            shape="round"
             size="large"
             className="search-clearBtn"
             onClick={() => {
