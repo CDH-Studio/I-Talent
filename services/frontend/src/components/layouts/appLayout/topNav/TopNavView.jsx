@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
+import { Layout, Dropdown, Menu, Button, Input, Row } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -218,10 +218,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
           {getSearchInput()}
 
-          <Col className="rightMenu">
-            {getAvatarDropdown(name)}
+          <Row align="middle">
+            <div>{getAvatarDropdown(name)}</div>
             <ChangeLanguage />
-          </Col>
+          </Row>
         </Row>
       </Header>
     );
