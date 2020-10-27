@@ -20,8 +20,8 @@ async function getAllUsers(searchValue, language, userId, request) {
     where: viewPrivateProfile(request)
       ? undefined
       : {
-          status: "ACTIVE",
-        },
+        status: "ACTIVE",
+      },
   });
 
   let visibleCards = await Promise.all(
@@ -33,6 +33,7 @@ async function getAllUsers(searchValue, language, userId, request) {
           skills,
           competencies,
           education,
+          qualifiedPools,
           experience,
           exFeeder,
         },
@@ -51,6 +52,7 @@ async function getAllUsers(searchValue, language, userId, request) {
             skills: visibleCardBool(skills),
             competencies: visibleCardBool(competencies),
             education: visibleCardBool(education),
+            qualifiedPools: visibleCardBool(qualifiedPools),
             experience: visibleCardBool(experience),
             exFeeder: visibleCardBool(exFeeder),
           },
@@ -69,6 +71,7 @@ async function getAllUsers(searchValue, language, userId, request) {
           skills,
           competencies,
           education,
+          qualifiedPools,
           experience,
           exFeeder,
           mentorshipSkills,
@@ -192,6 +195,18 @@ async function getAllUsers(searchValue, language, userId, request) {
                 },
               },
             },
+            qualifiedPools: qualifiedPools && {
+              select: {
+                jobTitle: true,
+                selectionProcessNumber: true,
+                jobPosterLink: true,
+                school: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
             skills: skills && {
               select: {
                 skill: {
@@ -306,6 +321,17 @@ async function getAllUsers(searchValue, language, userId, request) {
           jobTitle: trans ? trans.jobTitle : undefined,
           organization: trans ? trans.organization : undefined,
           projects: i.projects,
+        };
+      });
+    }
+
+    if (info.qualifiedPools) {
+      info.qualifiedPools = info.qualifiedPools.map((i) => {
+        return {
+          jobTitle: i.jobTitle,
+          selectionProcessNumber: i.selectionProcessNumber,
+          jobPosterLink: i.jobPosterLink,
+          classification: classification ? classification.name : undefined,
         };
       });
     }

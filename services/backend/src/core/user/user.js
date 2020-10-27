@@ -135,6 +135,7 @@ async function deleteUser(request, response) {
         prisma.secondLangProf.deleteMany({ where: { userId: id } }),
         prisma.organization.deleteMany({ where: { userId: id } }),
         prisma.education.deleteMany({ where: { userId: id } }),
+        prisma.qualifiedPool.deleteMany({ where: { userId: id } }),
         prisma.experience.deleteMany({ where: { userId: id } }),
         prisma.relocationLocation.deleteMany({ where: { userId: id } }),
       ]);
