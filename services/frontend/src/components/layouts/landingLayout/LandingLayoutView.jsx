@@ -29,15 +29,20 @@ const LandingLayoutView = ({ backgroundImage }) => {
 
   return (
     <AppLayout displaySideBar={false} displaySearch={false}>
-      <h1 className="hidden">
-        <FormattedMessage id="landing.login.and.enter" />
-      </h1>
-      <Row justify="center" className="pageContent" gutter={24}>
-        <Col xs={24} sm={24} md={10} lg={18} className="landingPicture">
-          <img src={backgroundImage} alt="I-Talent Logo" />
-        </Col>
-        <Col xs={24} sm={24} md={10} lg={6}>
-          <Row justify="middle">
+      <Row style={{ height: "100%" }} justify="center">
+        <h1 className="hidden">
+          <FormattedMessage id="landing.login.and.enter" />
+        </h1>
+        <Row
+          align="middle"
+          justify="center"
+          className="pageContent"
+          gutter={24}
+        >
+          <Col xs={24} sm={20} md={14} xl={16} className="landingPicture">
+            <img src={backgroundImage} alt="I-Talent Logo" />
+          </Col>
+          <Col xs={24} sm={24} md={10} xl={8} className="landingDescription">
             <Title level={1} className="title">
               <FormattedMessage id="landing.welcome" />
             </Title>
@@ -60,8 +65,8 @@ const LandingLayoutView = ({ backgroundImage }) => {
                 <FormattedMessage id="landing.login.button" />
               </strong>
             </Button>
-          </Row>
-        </Col>
+          </Col>
+        </Row>
       </Row>
     </AppLayout>
   );

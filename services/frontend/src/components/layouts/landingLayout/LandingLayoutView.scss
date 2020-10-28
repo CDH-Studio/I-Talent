@@ -1,5 +1,4 @@
 .pageContent {
-  margin-top: 100px;
   text-align: left;
   max-width: 1100px;
 }
@@ -8,23 +7,18 @@
   text-align: center;
 }
 
-@media (max-width: 1100px) {
-  .pageContent {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  .logo {
-    width: 230px;
-    margin-top: 30px;
-  }
+.landingDescription {
+  max-width: 500px;
 }
+
+
 
 .text {
   display: block;
   margin: 20px 0;
   font-size: 15px;
 }
+
 .title {
   display: block;
   margin: 25px 0 10px 0;
@@ -32,9 +26,8 @@
 }
 
 .landingPicture img {
-  max-width: 70%;
+  max-width: 100%;
   max-height: 400px;
-  margin-top: 30px;
 }
 
 .signInButton {
