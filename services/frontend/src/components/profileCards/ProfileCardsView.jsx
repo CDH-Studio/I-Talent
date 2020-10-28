@@ -114,7 +114,7 @@ const ProfileCardsView = ({
   };
 
   const grayedOut = {
-    backgroundColor: visibility ? "#fff" : "#DCDCDC",
+    backgroundColor: !visibility && "#DCDCDC",
   };
 
   return (
