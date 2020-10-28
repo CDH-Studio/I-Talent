@@ -5,7 +5,6 @@ import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
-import logo from "../../../assets/I-talent-logo-light.png";
 import "./LandingLayoutView.scss";
 
 const { Text, Title } = Typography;
@@ -40,7 +39,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
           gutter={24}
         >
           <Col xs={20} sm={15} md={14} xl={16} className="landing-picture">
-            <img src={backgroundImage} alt="I-Talent Landing Image" />
+            <img src={backgroundImage} alt="I-Talent Landing" />
           </Col>
           <Col xs={24} sm={24} md={10} xl={8}>
             <Title level={1} className="landing-title">
