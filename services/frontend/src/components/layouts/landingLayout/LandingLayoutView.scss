@@ -1,11 +1,7 @@
 .pageContent {
   margin-top: 100px;
   text-align: left;
-}
-
-.logo {
-  width: 270px;
-  margin-top: 50px;
+  max-width: 1100px;
 }
 
 .landingPicture {
@@ -21,14 +17,6 @@
   .logo {
     width: 230px;
     margin-top: 30px;
-  }
-
-  .landingPicture {
-    display: none !important;
-  }
-
-  .landingPicture {
-    display: none !important;
   }
 }
 
