@@ -188,6 +188,7 @@ const PersonalGrowthFormView = ({
       .validateFields()
       .then(async () => {
         const values = form.getFieldValue();
+        console.log(values);
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
@@ -750,7 +751,7 @@ PersonalGrowthFormView.defaultProps = {
   savedQualifiedPools: undefined,
   talentMatrixResultOptions: [],
   intl: null,
-  savedAttachments: [],
+  savedAttachments: undefined,
 };
 
 export default injectIntl(PersonalGrowthFormView);

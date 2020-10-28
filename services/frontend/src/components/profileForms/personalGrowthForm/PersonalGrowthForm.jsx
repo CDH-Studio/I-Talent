@@ -21,7 +21,7 @@ const PersonalGrowthForm = ({ formType }) => {
   const [currentTab, setCurrentTab] = useState(null);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
-  const [savedAttachments, setSavedAttachments] = useState([]);
+  const [savedAttachments, setSavedAttachments] = useState(null);
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
     []
   );

@@ -415,6 +415,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       mentorshipSkills: mentorshipSkills
         ? {
             deleteMany: {
@@ -440,6 +441,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       competencies: competencies
         ? {
             deleteMany: {
@@ -465,6 +467,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       developmentalGoals: developmentalGoals
         ? {
             deleteMany: {
@@ -478,23 +481,27 @@ async function updateProfile(request, userId, language) {
             upsert: upsertDevelopmentalGoals,
           }
         : undefined,
-      developmentalGoalsAttachments: developmentalGoalsAttachments
-        ? {
-            create: developmentalGoalsAttachments.map((link) => ({
-              translations: {
-                create: {
-                  language,
-                  name: {
-                    connect: {
-                      id: link.nameId,
+
+      developmentalGoalsAttachments:
+        developmentalGoalsAttachments &&
+        developmentalGoalsAttachments.length > 0
+          ? {
+              create: developmentalGoalsAttachments.map((link) => ({
+                translations: {
+                  create: {
+                    language,
+                    name: {
+                      connect: {
+                        id: link.nameId,
+                      },
                     },
+                    url: link.url,
                   },
-                  url: link.url,
                 },
-              },
-            })),
-          }
-        : undefined,
+              })),
+            }
+          : undefined,
+
       relocationLocations: relocationLocations
         ? {
             deleteMany: {
@@ -535,6 +542,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       educations: educations
         ? {
             create: educations.map((educationItem) => ({
@@ -572,6 +580,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       experiences: experiences
         ? {
             create: experiences.map((expItem) => ({
@@ -611,6 +620,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       secondLangProfs: secondLangProfs
         ? {
             deleteMany: {
