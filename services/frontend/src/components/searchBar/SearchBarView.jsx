@@ -58,7 +58,14 @@ const SearchBarView = ({
   // Generate the basic input field for basic search
   const getBasicField = () => {
     return (
-      <Form.Item style={{ width: "100%" }} label="" name="searchValue">
+      <Form.Item
+        label={
+          <span className="searchLabel">
+            <FormattedMessage id="button.basic.search" />
+          </span>
+        }
+        name="searchValue"
+      >
         <Input placeholder={searchLabel} size="large" />
       </Form.Item>
     );
@@ -328,18 +335,14 @@ const SearchBarView = ({
               >
                 {expandAdvancedSearch ? (
                   <>
-                    <DoubleRightOutlined
-                      rotate="270"
-                    />
+                    <DoubleRightOutlined rotate="270" />
                     <span>
                       <FormattedMessage id="button.basic.search" />
                     </span>
                   </>
                 ) : (
                   <>
-                    <DoubleRightOutlined
-                      rotate="90"
-                    />
+                    <DoubleRightOutlined rotate="90" />
                     <span>
                       <FormattedMessage id="button.advanced.search" />
                     </span>
