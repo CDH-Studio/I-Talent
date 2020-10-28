@@ -84,10 +84,6 @@ module.exports = {
       ],
     }),
     ({ config }) => {
-      config
-        .plugin("antd-dayjs")
-        .use(require.resolve("antd-dayjs-webpack-plugin"));
-
       if (process.env.NODE_ENV === "production") {
         config.optimization
           .minimize(true)
