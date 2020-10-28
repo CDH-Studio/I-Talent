@@ -47,7 +47,7 @@ const QualifiedPoolsFormView = ({
       message: <FormattedMessage id="profile.rules.required" />,
     },
   };
-
+  console.log(savedQualifiedPools);
   return (
     <div className="formItem">
       <Row gutter={24} className="gutter-row titleRow">

@@ -272,9 +272,9 @@ async function updateProfile(request, userId, language) {
     deleteAll.push(prisma.education.deleteMany({ where: { userId } }));
   }
 
-  // if (qualifiedPools) {
-  //   deleteAll.push(prisma.qualifiedPool.deleteMany({ where: { userId } }));
-  // }
+  if (qualifiedPools) {
+    deleteAll.push(prisma.qualifiedPool.deleteMany({ where: { userId } }));
+  }
 
   await Promise.all(deleteAll);
 
