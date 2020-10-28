@@ -39,7 +39,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
           className="landing-content"
           gutter={24}
         >
-          <Col xs={20} sm={20} md={14} xl={16} className="landing-picture">
+          <Col xs={20} sm={15} md={14} xl={16} className="landing-picture">
             <img src={backgroundImage} alt="I-Talent Landing Image" />
           </Col>
           <Col xs={24} sm={24} md={10} xl={8}>
