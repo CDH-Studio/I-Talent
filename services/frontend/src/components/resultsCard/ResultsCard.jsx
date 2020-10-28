@@ -7,7 +7,7 @@ import map from "lodash-es/map";
 import useAxios from "../../utils/useAxios";
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
-import { ReactComponent as YourSvg } from "./online_team_meeting_.svg";
+import EmptyImage from "./online_team_meeting_.svg";
 
 const ResultsCard = () => {
   const [results, setResults] = useState(undefined);
@@ -69,7 +69,7 @@ const ResultsCard = () => {
     return (
       <>
         <Row align="middle" justify="center" style={{ marginTop: 40 }}>
-          <YourSvg height={250} />
+          <img src={EmptyImage} height={250} alt="Empty results page" />
         </Row>
         <Row align="middle" justify="center" style={{ marginTop: 20 }}>
           <p style={{ textAlign: "center", maxWidth: 250 }}>
