@@ -29,41 +29,43 @@ const LandingLayoutView = ({ backgroundImage }) => {
 
   return (
     <AppLayout displaySideBar={false} displaySearch={false}>
-      <Row style={{ height: "100%" }} justify="center">
+      <Row className="landing-container" justify="center">
         <h1 className="hidden">
           <FormattedMessage id="landing.login.and.enter" />
         </h1>
         <Row
           align="middle"
           justify="center"
-          className="pageContent"
+          className="landing-content"
           gutter={24}
         >
-          <Col xs={24} sm={20} md={14} xl={16} className="landingPicture">
-            <img src={backgroundImage} alt="I-Talent Logo" />
+          <Col xs={20} sm={20} md={14} xl={16} className="landing-picture">
+            <img src={backgroundImage} alt="I-Talent Landing Image" />
           </Col>
-          <Col xs={24} sm={24} md={10} xl={8} className="landingDescription">
-            <Title level={1} className="title">
+          <Col xs={24} sm={24} md={10} xl={8}>
+            <Title level={1} className="landing-title">
               <FormattedMessage id="landing.welcome" />
             </Title>
-            <Text className="text">
+            <Text className="landing-text">
               <FormattedMessage id="landing.description" />
             </Text>
-            <Text className="text" strong>
+            <Text className="landing-text" strong>
               <FormattedMessage id="landing.call.to.action" />
             </Text>
             <Button
               type="primary"
               onClick={() => keycloak.login()}
               size="large"
-              className="signInButton"
+              className="landing-sign-in-button"
               onMouseEnter={toggleHover}
               onMouseLeave={toggleHover}
               icon={hover ? <UnlockFilled /> : <LockFilled />}
             >
-              <strong>
-                <FormattedMessage id="landing.login.button" />
-              </strong>
+              <span>
+                <strong>
+                  <FormattedMessage id="landing.login.button" />
+                </strong>
+              </span>
             </Button>
           </Col>
         </Row>
