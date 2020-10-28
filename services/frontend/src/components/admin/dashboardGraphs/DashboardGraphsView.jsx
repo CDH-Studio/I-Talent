@@ -73,13 +73,15 @@ const DashboardGraphsView = ({
         label: intl.formatMessage({
           id: "admin.dashboard.number.of.occurrences",
         }),
-        data: monthlyGrowth.map((element) => element.count),
+        data: monthlyGrowth
+          ? monthlyGrowth.map((element) => element.count)
+          : [],
         backgroundColor: "rgb(8, 116, 114)",
       },
     ],
-    labels: monthlyGrowth.map(
-      (element) => `${element.monthName} - ${element.year}`
-    ),
+    labels: monthlyGrowth
+      ? monthlyGrowth.map((element) => `${element.monthName} - ${element.year}`)
+      : [],
   };
 
   return (
