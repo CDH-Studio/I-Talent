@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Dropdown, Menu, Button, Input, Row, Col } from "antd";
+import { Layout, Dropdown, Menu, Button, Input, Row } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -46,8 +46,15 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   }, []);
 
   // menu options for profile dropdown
+  /* eslint-disable react/jsx-no-duplicate-props */
   const menu = (isDropdown, optionalStartMenuItems) => (
-    <Menu className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}>
+    <Menu
+      // Ant-design issue: recognizes either depending on machine
+      // "-1" is used for off-screen content that appears on a specific event
+      tabIndex={-1}
+      tabindex="-1"
+      className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
+    >
       {optionalStartMenuItems}
       <Menu.Item className="dropDownItem">
         <Link to={`/profile/${id}`}>
@@ -93,6 +100,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       </Menu.Item>
     </Menu>
   );
+  /* eslint-enable react/jsx-no-duplicate-props */
 
   const getAvatarDropdown = (userName) => {
     if (userName) {
@@ -100,7 +108,9 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         <Dropdown
           overlay={() => menu(true)}
           placement="bottomCenter"
-          trigger="click"
+          trigger={["click"]}
+          getPopupContainer={(triggerNode) => triggerNode.parentNode}
+          showAction={["focus"]}
         >
           <Button type="link" className="nav-dropDownButton ant-dropdown-link">
             <CustomAvatar
@@ -215,10 +225,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
           {getSearchInput()}
 
-          <Col className="rightMenu">
-            {getAvatarDropdown(name)}
+          <Row align="middle">
+            <div>{getAvatarDropdown(name)}</div>
             <ChangeLanguage />
-          </Col>
+          </Row>
         </Row>
       </Header>
     );
