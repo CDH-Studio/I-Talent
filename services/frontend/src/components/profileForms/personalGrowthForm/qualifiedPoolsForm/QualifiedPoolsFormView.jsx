@@ -47,7 +47,7 @@ const QualifiedPoolsFormView = ({
             message: <FormattedMessage id="profile.rules.required" />,
         },
     };
-    
+
     return (
         <div className="formItem">
             <Row gutter={24} className="gutter-row titleRow">
@@ -86,10 +86,6 @@ const QualifiedPoolsFormView = ({
                         fieldKey={[fieldElement.fieldKey, "classificationId"]}
                         label={<FormattedMessage id="profile.classification" />}
                         rules={[Rules.required]}
-                        value={
-                            savedQualifiedPools[fieldElement.fieldKey] &&
-                            savedQualifiedPools[fieldElement.fieldKey].name
-                        }
                     >
                         <Select
                             showSearch
