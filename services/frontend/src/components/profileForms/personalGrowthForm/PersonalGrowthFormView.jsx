@@ -183,6 +183,7 @@ const PersonalGrowthFormView = ({
    * save and show success notification
    */
   const onSave = async () => {
+    console.log("on save");
     form
       .validateFields()
       .then(async () => {
@@ -193,6 +194,7 @@ const PersonalGrowthFormView = ({
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
+        console.log(error);
         if (error.isAxiosError) {
           handleError(error, "message", history);
         } else {
@@ -575,14 +577,14 @@ const PersonalGrowthFormView = ({
                               <FormattedMessage id="profile.talent.management.link" />
                             </a>
                           ) : (
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                              >
-                                <FormattedMessage id="profile.talent.management.link" />
-                              </a>
-                            )}
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                            >
+                              <FormattedMessage id="profile.talent.management.link" />
+                            </a>
+                          )}
                         </div>
                       }
                     >

@@ -117,31 +117,31 @@ async function updateProfile(request, userId, language) {
         where: {
           userId_competencyId: isCompentency
             ? {
-              competencyId: id,
-              userId,
-            }
+                competencyId: id,
+                userId,
+              }
             : undefined,
           userId_skillId: isSkill
             ? {
-              skillId: id,
-              userId,
-            }
+                skillId: id,
+                userId,
+              }
             : undefined,
         },
         create: {
           competency: isCompentency
             ? {
-              connect: {
-                id,
-              },
-            }
+                connect: {
+                  id,
+                },
+              }
             : undefined,
           skill: isSkill
             ? {
-              connect: {
-                id,
-              },
-            }
+                connect: {
+                  id,
+                },
+              }
             : undefined,
         },
         update: {},
@@ -362,8 +362,8 @@ async function updateProfile(request, userId, language) {
       lastName: lastName ? upperFirst(lastName) : undefined,
       teams: teams
         ? {
-          set: teams,
-        }
+            set: teams,
+          }
         : undefined,
       telephone,
       cellphone,
@@ -386,253 +386,253 @@ async function updateProfile(request, userId, language) {
 
       employmentEquityGroups: employmentEquityGroups
         ? {
-          set: employmentEquityGroups,
-        }
+            set: employmentEquityGroups,
+          }
         : undefined,
 
       skills: skills
         ? {
-          deleteMany: {
-            skillId: {
-              notIn: skills,
-            },
-          },
-          upsert: skills.map((id) => ({
-            where: {
-              userId_skillId: {
-                skillId: id,
-                userId,
+            deleteMany: {
+              skillId: {
+                notIn: skills,
               },
             },
-            create: {
-              skill: {
-                connect: {
-                  id,
+            upsert: skills.map((id) => ({
+              where: {
+                userId_skillId: {
+                  skillId: id,
+                  userId,
                 },
               },
-            },
-            update: {},
-          })),
-        }
+              create: {
+                skill: {
+                  connect: {
+                    id,
+                  },
+                },
+              },
+              update: {},
+            })),
+          }
         : undefined,
       mentorshipSkills: mentorshipSkills
         ? {
-          deleteMany: {
-            skillId: {
-              notIn: mentorshipSkills,
-            },
-          },
-          upsert: mentorshipSkills.map((id) => ({
-            where: {
-              userId_skillId: {
-                skillId: id,
-                userId,
+            deleteMany: {
+              skillId: {
+                notIn: mentorshipSkills,
               },
             },
-            create: {
-              skill: {
-                connect: {
-                  id,
+            upsert: mentorshipSkills.map((id) => ({
+              where: {
+                userId_skillId: {
+                  skillId: id,
+                  userId,
                 },
               },
-            },
-            update: {},
-          })),
-        }
+              create: {
+                skill: {
+                  connect: {
+                    id,
+                  },
+                },
+              },
+              update: {},
+            })),
+          }
         : undefined,
       competencies: competencies
         ? {
-          deleteMany: {
-            competencyId: {
-              notIn: competencies,
-            },
-          },
-          upsert: competencies.map((id) => ({
-            where: {
-              userId_competencyId: {
-                competencyId: id,
-                userId,
+            deleteMany: {
+              competencyId: {
+                notIn: competencies,
               },
             },
-            create: {
-              competency: {
-                connect: {
-                  id,
+            upsert: competencies.map((id) => ({
+              where: {
+                userId_competencyId: {
+                  competencyId: id,
+                  userId,
                 },
               },
-            },
-            update: {},
-          })),
-        }
+              create: {
+                competency: {
+                  connect: {
+                    id,
+                  },
+                },
+              },
+              update: {},
+            })),
+          }
         : undefined,
       developmentalGoals: developmentalGoals
         ? {
-          deleteMany: {
-            competencyId: {
-              notIn: competencyIds,
+            deleteMany: {
+              competencyId: {
+                notIn: competencyIds,
+              },
+              skillId: {
+                notIn: skillIds,
+              },
             },
-            skillId: {
-              notIn: skillIds,
-            },
-          },
-          upsert: upsertDevelopmentalGoals,
-        }
+            upsert: upsertDevelopmentalGoals,
+          }
         : undefined,
       developmentalGoalsAttachments: developmentalGoalsAttachments
         ? {
-          create: developmentalGoalsAttachments.map((link) => ({
-            translations: {
-              create: {
-                language,
-                name: {
-                  connect: {
-                    id: link.nameId,
+            create: developmentalGoalsAttachments.map((link) => ({
+              translations: {
+                create: {
+                  language,
+                  name: {
+                    connect: {
+                      id: link.nameId,
+                    },
                   },
+                  url: link.url,
                 },
-                url: link.url,
               },
-            },
-          })),
-        }
+            })),
+          }
         : undefined,
       relocationLocations: relocationLocations
         ? {
-          deleteMany: {
-            relocationLocationId: {
-              notIn: relocationLocations,
-            },
-          },
-          upsert: relocationLocations.map((id) => ({
-            where: {
-              userId_relocationLocationId: {
-                relocationLocationId: id,
-                userId,
+            deleteMany: {
+              relocationLocationId: {
+                notIn: relocationLocations,
               },
             },
-            create: {
-              relocationLocation: {
-                connect: {
-                  id,
+            upsert: relocationLocations.map((id) => ({
+              where: {
+                userId_relocationLocationId: {
+                  relocationLocationId: id,
+                  userId,
                 },
               },
-            },
-            update: {},
-          })),
-        }
+              create: {
+                relocationLocation: {
+                  connect: {
+                    id,
+                  },
+                },
+              },
+              update: {},
+            })),
+          }
         : undefined,
 
       qualifiedPools: qualifiedPools
         ? {
-          create: qualifiedPools.map((qualifiedPoolItem) => ({
-            jobTitle: qualifiedPoolItem.jobTitle,
-            selectionProcessNumber: qualifiedPoolItem.selectionProcessNumber,
-            jobPosterLink: qualifiedPoolItem.jobPosterLink,
-            classification: {
-              connect: {
-                id: qualifiedPoolItem.classificationId,
+            create: qualifiedPools.map((qualifiedPoolItem) => ({
+              jobTitle: qualifiedPoolItem.jobTitle,
+              selectionProcessNumber: qualifiedPoolItem.selectionProcessNumber,
+              jobPosterLink: qualifiedPoolItem.jobPosterLink,
+              classification: {
+                connect: {
+                  id: qualifiedPoolItem.classificationId,
+                },
               },
-            }
-          })),
-        }
+            })),
+          }
         : undefined,
       educations: educations
         ? {
-          create: educations.map((educationItem) => ({
-            startDate: normalizeDate(educationItem.startDate, "month"),
-            endDate: normalizeDate(educationItem.endDate, "month"),
-            ongoingDate: educationItem.ongoingDate,
-            description: educationItem.description,
-            diploma: {
-              connect: {
-                id: educationItem.diplomaId,
+            create: educations.map((educationItem) => ({
+              startDate: normalizeDate(educationItem.startDate, "month"),
+              endDate: normalizeDate(educationItem.endDate, "month"),
+              ongoingDate: educationItem.ongoingDate,
+              description: educationItem.description,
+              diploma: {
+                connect: {
+                  id: educationItem.diplomaId,
+                },
               },
-            },
-            school: {
-              connect: {
-                id: educationItem.schoolId,
+              school: {
+                connect: {
+                  id: educationItem.schoolId,
+                },
               },
-            },
-            attachmentLinks: educationItem.attachmentLinks
-              ? {
-                create: educationItem.attachmentLinks.map((link) => ({
-                  translations: {
-                    create: {
-                      language,
-                      name: {
-                        connect: {
-                          id: link.nameId,
+              attachmentLinks: educationItem.attachmentLinks
+                ? {
+                    create: educationItem.attachmentLinks.map((link) => ({
+                      translations: {
+                        create: {
+                          language,
+                          name: {
+                            connect: {
+                              id: link.nameId,
+                            },
+                          },
+                          url: link.url,
                         },
                       },
-                      url: link.url,
-                    },
-                  },
-                })),
-              }
-              : undefined,
-          })),
-        }
+                    })),
+                  }
+                : undefined,
+            })),
+          }
         : undefined,
       experiences: experiences
         ? {
-          create: experiences.map((expItem) => ({
-            startDate: normalizeDate(expItem.startDate, "month"),
-            endDate: normalizeDate(expItem.endDate, "month"),
-            ongoingDate: expItem.ongoingDate,
-            projects: expItem.projects
-              ? {
-                set: expItem.projects,
-              }
-              : undefined,
-            translations: {
-              create: {
-                language,
-                jobTitle: expItem.jobTitle,
-                organization: expItem.organization,
-                description: expItem.description,
+            create: experiences.map((expItem) => ({
+              startDate: normalizeDate(expItem.startDate, "month"),
+              endDate: normalizeDate(expItem.endDate, "month"),
+              ongoingDate: expItem.ongoingDate,
+              projects: expItem.projects
+                ? {
+                    set: expItem.projects,
+                  }
+                : undefined,
+              translations: {
+                create: {
+                  language,
+                  jobTitle: expItem.jobTitle,
+                  organization: expItem.organization,
+                  description: expItem.description,
+                },
               },
-            },
-            attachmentLinks: expItem.attachmentLinks
-              ? {
-                create: expItem.attachmentLinks.map((link) => ({
-                  translations: {
-                    create: {
-                      language,
-                      name: {
-                        connect: {
-                          id: link.nameId,
+              attachmentLinks: expItem.attachmentLinks
+                ? {
+                    create: expItem.attachmentLinks.map((link) => ({
+                      translations: {
+                        create: {
+                          language,
+                          name: {
+                            connect: {
+                              id: link.nameId,
+                            },
+                          },
+                          url: link.url,
                         },
                       },
-                      url: link.url,
-                    },
-                  },
-                })),
-              }
-              : undefined,
-          })),
-        }
+                    })),
+                  }
+                : undefined,
+            })),
+          }
         : undefined,
       secondLangProfs: secondLangProfs
         ? {
-          deleteMany: {
-            proficiency: {
-              notIn: secondLangProfs.map((i) => i.proficiency),
-            },
-          },
-          upsert: secondLangProfs.map((i) => ({
-            where: {
-              userId_proficiency: {
-                userId,
-                proficiency: i.proficiency,
+            deleteMany: {
+              proficiency: {
+                notIn: secondLangProfs.map((i) => i.proficiency),
               },
             },
-            create: i,
-            update: {
-              level: i.level,
-              date: normalizeDate(i.date, "day"),
-              unknownExpiredDate: i.unknownExpiredDate,
-            },
-          })),
-        }
+            upsert: secondLangProfs.map((i) => ({
+              where: {
+                userId_proficiency: {
+                  userId,
+                  proficiency: i.proficiency,
+                },
+              },
+              create: i,
+              update: {
+                level: i.level,
+                date: normalizeDate(i.date, "day"),
+                unknownExpiredDate: i.unknownExpiredDate,
+              },
+            })),
+          }
         : undefined,
 
       officeLocation: idHelper(locationId, userIds.officeLocationId),
@@ -652,76 +652,76 @@ async function updateProfile(request, userId, language) {
 
       employmentInfo: employmentInfoLangs
         ? {
-          upsert: {
-            create: {
-              translations: {
-                create: employmentInfoLangs.map((lang) => ({
-                  language: lang,
-                  jobTitle: jobTitle ? jobTitle[lang] : undefined,
-                  branch: branch ? branch[lang] : undefined,
-                })),
-              },
-            },
-            update: {
-              translations: {
-                updateMany: employmentInfoLangs.map((lang) => ({
-                  where: {
+            upsert: {
+              create: {
+                translations: {
+                  create: employmentInfoLangs.map((lang) => ({
                     language: lang,
-                  },
-                  data: {
                     jobTitle: jobTitle ? jobTitle[lang] : undefined,
                     branch: branch ? branch[lang] : undefined,
-                  },
-                })),
+                  })),
+                },
+              },
+              update: {
+                translations: {
+                  updateMany: employmentInfoLangs.map((lang) => ({
+                    where: {
+                      language: lang,
+                    },
+                    data: {
+                      jobTitle: jobTitle ? jobTitle[lang] : undefined,
+                      branch: branch ? branch[lang] : undefined,
+                    },
+                  })),
+                },
               },
             },
-          },
-        }
+          }
         : undefined,
 
       organizations: organizations
         ? {
-          create: organizations.map((org) => ({
-            organizationTier: {
-              create: org.map((orgTier) => ({
-                tier: orgTier.tier,
-                translations: {
-                  create: [
-                    {
-                      language: "ENGLISH",
-                      description: orgTier.title.ENGLISH,
-                    },
-                    {
-                      language: "FRENCH",
-                      description: orgTier.title.FRENCH,
-                    },
-                  ],
-                },
-              })),
-            },
-          })),
-        }
+            create: organizations.map((org) => ({
+              organizationTier: {
+                create: org.map((orgTier) => ({
+                  tier: orgTier.tier,
+                  translations: {
+                    create: [
+                      {
+                        language: "ENGLISH",
+                        description: orgTier.title.ENGLISH,
+                      },
+                      {
+                        language: "FRENCH",
+                        description: orgTier.title.FRENCH,
+                      },
+                    ],
+                  },
+                })),
+              },
+            })),
+          }
         : undefined,
 
       visibleCards: visibleCards
         ? {
-          update: {
-            info: visibleCards.info,
-            talentManagement: visibleCards.talentManagement,
-            skills: visibleCards.skills,
-            competencies: visibleCards.competencies,
-            developmentalGoals: visibleCards.developmentalGoals,
-            description: visibleCards.description,
-            officialLanguage: visibleCards.officialLanguage,
-            qualifiedPools: visibleCards.qualifiedPools,
-            education: visibleCards.education,
-            experience: visibleCards.experience,
-            careerInterests: visibleCards.careerInterests,
-            mentorshipSkills: visibleCards.mentorshipSkills,
-            exFeeder: visibleCards.exFeeder,
-            employmentEquityGroup: visibleCards.employmentEquityGroup,
-          },
-        }
+            update: {
+              info: visibleCards.info,
+              talentManagement: visibleCards.talentManagement,
+              skills: visibleCards.skills,
+              competencies: visibleCards.competencies,
+              developmentalGoals: visibleCards.developmentalGoals,
+              description: visibleCards.description,
+              officialLanguage: visibleCards.officialLanguage,
+              qualifiedPools: visibleCards.qualifiedPools,
+              education: visibleCards.education,
+              experience: visibleCards.experience,
+              careerInterests: visibleCards.careerInterests,
+              mentorshipSkills: visibleCards.mentorshipSkills,
+              exFeeder: visibleCards.exFeeder,
+              employmentEquityGroup: visibleCards.employmentEquityGroup,
+            },
+          }
         : undefined,
     },
   });
