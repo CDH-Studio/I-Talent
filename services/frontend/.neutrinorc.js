@@ -27,15 +27,6 @@ module.exports = {
           [
             "import",
             {
-              libraryName: "validator",
-              libraryDirectory: "es/lib",
-              camel2DashComponentName: false,
-            },
-            "validator",
-          ],
-          [
-            "import",
-            {
               libraryName: "antd",
               libraryDirectory: "es",
               style: true,
