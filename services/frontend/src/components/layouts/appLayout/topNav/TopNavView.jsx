@@ -110,7 +110,6 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           placement="bottomCenter"
           trigger={["click"]}
           getPopupContainer={(triggerNode) => triggerNode.parentNode}
-          autoFocus={true}
           showAction={["focus"]}
         >
           <Button type="link" className="nav-dropDownButton ant-dropdown-link">
