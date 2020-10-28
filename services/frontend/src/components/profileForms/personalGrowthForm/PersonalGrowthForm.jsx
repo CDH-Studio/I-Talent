@@ -40,7 +40,7 @@ const PersonalGrowthForm = ({ formType }) => {
   );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
   const [classificationOptions, setClassificationOptions] = useState([]);
-  const [savedQualifiedPools, setSavedQualifiedPools] = useState([]);
+  const [savedQualifiedPools, setSavedQualifiedPools] = useState(undefined);
   const axios = useAxios();
 
   // Get current language code

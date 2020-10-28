@@ -528,20 +528,22 @@ async function updateProfile(request, userId, language) {
           }
         : undefined,
 
-      qualifiedPools: qualifiedPools
-        ? {
-            create: qualifiedPools.map((qualifiedPoolItem) => ({
-              jobTitle: qualifiedPoolItem.jobTitle,
-              selectionProcessNumber: qualifiedPoolItem.selectionProcessNumber,
-              jobPosterLink: qualifiedPoolItem.jobPosterLink,
-              classification: {
-                connect: {
-                  id: qualifiedPoolItem.classificationId,
+      qualifiedPools:
+        qualifiedPools && qualifiedPools.length > 0
+          ? {
+              create: qualifiedPools.map((qualifiedPoolItem) => ({
+                jobTitle: qualifiedPoolItem.jobTitle,
+                selectionProcessNumber:
+                  qualifiedPoolItem.selectionProcessNumber,
+                jobPosterLink: qualifiedPoolItem.jobPosterLink,
+                classification: {
+                  connect: {
+                    id: qualifiedPoolItem.classificationId,
+                  },
                 },
-              },
-            })),
-          }
-        : undefined,
+              })),
+            }
+          : undefined,
 
       educations: educations
         ? {

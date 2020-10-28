@@ -135,6 +135,7 @@ function formatProfileResult(profile, language) {
     filteredProfile.developmentalGoalsAttachments = attachmentLinks;
   }
 
+  console.log(profile.qualifiedPools);
   if (profile.qualifiedPools) {
     const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => {
       return {

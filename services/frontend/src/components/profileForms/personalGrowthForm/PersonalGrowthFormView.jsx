@@ -235,6 +235,7 @@ const PersonalGrowthFormView = ({
         }
       })
       .catch((error) => {
+        console.log(error);
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message", history);
