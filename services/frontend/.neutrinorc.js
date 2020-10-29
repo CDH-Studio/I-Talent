@@ -27,15 +27,6 @@ module.exports = {
           [
             "import",
             {
-              libraryName: "validator",
-              libraryDirectory: "es/lib",
-              camel2DashComponentName: false,
-            },
-            "validator",
-          ],
-          [
-            "import",
-            {
               libraryName: "antd",
               libraryDirectory: "es",
               style: true,
@@ -84,10 +75,6 @@ module.exports = {
       ],
     }),
     ({ config }) => {
-      config
-        .plugin("antd-dayjs")
-        .use(require.resolve("antd-dayjs-webpack-plugin"));
-
       if (process.env.NODE_ENV === "production") {
         config.optimization
           .minimize(true)
