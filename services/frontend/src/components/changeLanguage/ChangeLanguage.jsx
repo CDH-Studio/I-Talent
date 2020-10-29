@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { injectIntl } from "react-intl";
+import { useHistory } from "react-router";
 import ChangeLanguageView from "./ChangeLanguageView";
 import { setLocale } from "../../redux/slices/settingsSlice";
 import useAxios from "../../utils/useAxios";
@@ -11,6 +12,7 @@ const ChangeLanguage = ({ intl }) => {
   const languageCode = intl.formatMessage({ id: "lang.db.code" });
   const userID = useSelector((state) => state.user.id);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -21,7 +23,7 @@ const ChangeLanguage = ({ intl }) => {
         .put(`api/profile/${userID}?language=${languageCode}`, {
           preferredLanguage: languageCode,
         })
-        .catch((error) => handleError(error, "message"));
+        .catch((error) => handleError(error, "message", history));
     }
   };
 

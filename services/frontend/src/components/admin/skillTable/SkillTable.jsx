@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
@@ -22,6 +23,7 @@ const SkillTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -40,9 +42,9 @@ const SkillTable = ({ intl }) => {
 
       dispatch(setAdminSkills(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   // Fetches the category information
   const getCategories = useCallback(async () => {
@@ -59,9 +61,9 @@ const SkillTable = ({ intl }) => {
 
       dispatch(setAdminCategories(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getSkill();

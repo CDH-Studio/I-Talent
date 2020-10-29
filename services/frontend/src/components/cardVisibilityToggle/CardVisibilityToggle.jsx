@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import CardVisibilityToggleView from "./CardVisibilityToggleView";
 import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
+  const history = useHistory();
   const axios = useAxios();
   const urlID = useParams().id;
   const userID = useSelector((state) => state.user.id);
@@ -36,7 +37,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
       .put(`api/profile/${urlID || userID}?language=${locale}`, {
         visibleCards,
       })
-      .catch((error) => handleError(error, "message"));
+      .catch((error) => handleError(error, "message", history));
     setStatus(value);
   };
 

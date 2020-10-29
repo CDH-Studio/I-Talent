@@ -92,11 +92,11 @@ const SearchBar = () => {
         getBranch(),
         getLocation(),
         getClassification(),
-      ]).catch((error) => handleError(error, "redirect"));
+      ]).catch((error) => handleError(error, "redirect", history));
     };
 
     updateState();
-  }, [getBranch, getClassification, getLocation, getSkills, locale]);
+  }, [getBranch, getClassification, getLocation, getSkills, locale, history]);
 
   return (
     <SearchBarView

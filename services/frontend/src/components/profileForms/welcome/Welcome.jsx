@@ -30,7 +30,7 @@ const Welcome = () => {
       });
       history.push("/");
     } catch (error) {
-      handleError(error, "message");
+      handleError(error, "message", history);
     }
   };
 

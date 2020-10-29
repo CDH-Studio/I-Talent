@@ -25,7 +25,7 @@ import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import uniq from "lodash-es/uniq";
 
 import handleError from "../../../functions/handleError";
@@ -52,6 +52,7 @@ const UserTableView = ({
 }) => {
   let searchInput;
 
+  const history = useHistory();
   const intl = useIntl();
   const { Option } = Select;
 
@@ -188,7 +189,7 @@ const UserTableView = ({
         onConfirm={() => {
           handleApply()
             .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message"));
+            .catch((error) => handleError(error, "message", history));
         }}
         onCancel={() => {
           popUpCancel();
@@ -357,7 +358,7 @@ const UserTableView = ({
           onConfirm={() => {
             handleSubmitDelete(record.key)
               .then(popUpSuccesss)
-              .catch((error) => handleError(error, "message"));
+              .catch((error) => handleError(error, "message", history));
           }}
           onCancel={() => {
             popUpCancel();
