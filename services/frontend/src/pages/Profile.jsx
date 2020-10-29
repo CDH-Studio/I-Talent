@@ -91,12 +91,12 @@ const Profile = ({ history, match }) => {
     if (connectionData) {
       await axios
         .delete(`api/connections/${id}`)
-        .catch((error) => handleError(error, "message"));
+        .catch((error) => handleError(error, "message", history));
       setConnectionData(false);
     } else {
       await axios
         .post(`api/connections/${id}`)
-        .catch((error) => handleError(error, "message"));
+        .catch((error) => handleError(error, "message", history));
       setConnectionData(true);
     }
   };

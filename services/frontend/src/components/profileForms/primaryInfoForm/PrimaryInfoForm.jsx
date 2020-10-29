@@ -46,15 +46,15 @@ const PrimaryInfoForm = ({ formType }) => {
           !error.response ||
           error.response.status !== 404
         ) {
-          handleError(error, "redirect");
+          handleError(error, "redirect", history);
         }
       })
       .then(getLocations)
       .catch((error) => {
-        handleError(error, "redirect");
+        handleError(error, "redirect", history);
       })
       .then(() => setLoad(true));
-  }, [getLocations, getProfileInfo]);
+  }, [getLocations, getProfileInfo, history]);
 
   useEffect(() => {
     setEmploymentEquityOptions([

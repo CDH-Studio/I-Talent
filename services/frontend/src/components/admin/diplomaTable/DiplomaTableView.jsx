@@ -22,6 +22,7 @@ import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import sortBy from "lodash-es/sortBy";
+import { useHistory } from "react-router";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -40,6 +41,7 @@ const DiplomaTableView = ({
   searchText,
   rowSelection,
 }) => {
+  const history = useHistory();
   const intl = useIntl();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -160,7 +162,7 @@ const DiplomaTableView = ({
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message"));
+            .catch((error) => handleError(error, "message", history));
         }}
         onCancel={() => {
           popUpCancel();
@@ -234,7 +236,7 @@ const DiplomaTableView = ({
             })
             .catch((error) => {
               if (error.isAxiosError) {
-                handleError(error, "message");
+                handleError(error, "message", history);
               }
             });
         }}
@@ -301,7 +303,7 @@ const DiplomaTableView = ({
             })
             .catch((error) => {
               if (error.isAxiosError) {
-                handleError(error, "message");
+                handleError(error, "message", history);
               }
             });
         }}

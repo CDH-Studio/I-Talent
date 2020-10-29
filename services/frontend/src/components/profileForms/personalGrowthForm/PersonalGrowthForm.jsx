@@ -272,7 +272,7 @@ const PersonalGrowthForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        handleError(error, "redirect");
+        handleError(error, "redirect", history);
       });
   }, [
     getAddAttachmentOptions,
@@ -283,6 +283,7 @@ const PersonalGrowthForm = ({ formType }) => {
     getProfileInfo,
     getRelocationOptions,
     getTalentMatrixResultOptions,
+    history,
   ]);
 
   return (

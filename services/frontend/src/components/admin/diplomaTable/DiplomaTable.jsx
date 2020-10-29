@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import DiplomaTableView from "./DiplomaTableView";
 import handleError from "../../../functions/handleError";
@@ -20,6 +21,7 @@ const DiplomaTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -38,9 +40,9 @@ const DiplomaTable = ({ intl }) => {
 
       dispatch(setAdminDiplomas(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getDiplomas();

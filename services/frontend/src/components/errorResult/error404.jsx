@@ -18,19 +18,17 @@ const Error404 = () => {
 
   return (
     <ErrorResultView
-      resultProps={{
-        status: "404",
-        title: "404",
-        subTitle: <FormattedMessage id="error.404.subtitle" />,
-        extra: (
-          <Button onClick={handleClick} type="primary">
-            <HomeOutlined />
-            <span>
-              <FormattedMessage id="error.button" />
-            </span>
-          </Button>
-        ),
-      }}
+      status="404"
+      title="404"
+      subTitle={<FormattedMessage id="error.404.subtitle" />}
+      extra={(
+        <Button onClick={handleClick} type="primary">
+          <HomeOutlined />
+          <span>
+            <FormattedMessage id="error.button" />
+          </span>
+        </Button>
+      )}
     />
   );
 };

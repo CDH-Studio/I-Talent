@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import TalentFormView from "./TalentFormView";
 import handleError from "../../../functions/handleError";
@@ -26,6 +26,7 @@ const TalentForm = ({ formType }) => {
   const { id } = useSelector((state) => state.user);
   const axios = useAxios();
   const location = useLocation();
+  const history = useHistory();
 
   /**
    * Get user profile
@@ -150,9 +151,9 @@ const TalentForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        handleError(error, "redirect");
+        handleError(error, "redirect", history);
       });
-  }, [getCompetencyOptions, getProfileInfo, getSkillOptions]);
+  }, [getCompetencyOptions, getProfileInfo, getSkillOptions, history]);
 
   return (
     <TalentFormView

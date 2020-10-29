@@ -262,7 +262,7 @@ const EmploymentDataFormView = ({
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          handleError(error, "message");
+          handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
             type: "error",
@@ -287,7 +287,7 @@ const EmploymentDataFormView = ({
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          handleError(error, "message");
+          handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
             type: "error",
@@ -327,7 +327,7 @@ const EmploymentDataFormView = ({
       .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
-          handleError(error, "message");
+          handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
             type: "error",

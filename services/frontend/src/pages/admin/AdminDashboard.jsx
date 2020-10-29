@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { AreaChartOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router";
 import useAxios from "../../utils/useAxios";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
@@ -30,6 +31,7 @@ const AdminDashboard = ({ intl }) => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const axios = useAxios();
+  const history = useHistory();
 
   // Get dashboard data for statistic cards
   const getUserCount = useCallback(async () => {
@@ -38,9 +40,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getHiddenUserCount = useCallback(async () => {
     try {
@@ -48,9 +50,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountHiddenUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getInactiveUserCount = useCallback(async () => {
     try {
@@ -58,9 +60,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountInactiveUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getExfeederUserCount = useCallback(async () => {
     try {
@@ -68,9 +70,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountExFeederUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getGrowthRateByMonth = useCallback(async () => {
     try {
@@ -78,9 +80,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setGrowthRateByMonth(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getGrowthRateByWeek = useCallback(async () => {
     try {
@@ -88,9 +90,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setGrowthRateByWeek(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getTopFiveCompetencies = useCallback(async () => {
     try {
@@ -102,9 +104,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setTopFiveCompetencies(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   const getTopFiveSkills = useCallback(async () => {
     try {
@@ -116,9 +118,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setTopFiveSkills(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   const getTopFiveDevelopmentalGoals = useCallback(async () => {
     try {
@@ -130,9 +132,9 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setTopFiveDevelopmentalGoals(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   // Get part of the title for the page
   const getDisplayType = useCallback(

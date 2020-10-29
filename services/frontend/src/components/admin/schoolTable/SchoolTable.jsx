@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import SchoolTableView from "./SchoolTableView";
@@ -20,6 +21,7 @@ const SchoolTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -38,9 +40,9 @@ const SchoolTable = ({ intl }) => {
 
       dispatch(setAdminSchools(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getSchools();
