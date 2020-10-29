@@ -25,27 +25,25 @@ const ErrorProfileNotFound = () => {
 
   return (
     <ErrorResultView
-      resultProps={{
-        status: "404",
-        title: <FormattedMessage id="profile.not.found" />,
-        subTitle: <FormattedMessage id="profile.not.found.description" />,
-        extra: (
-          <>
-            <Button onClick={handleClick} type="primary">
-              <HomeOutlined />
-              <span>
-                <FormattedMessage id="error.button" />
-              </span>
-            </Button>
-            <Button onClick={() => setProfile(true)}>
-              <UserOutlined />
-              <span>
-                <FormattedMessage id="setup.done.view.profile" />
-              </span>
-            </Button>
-          </>
-        ),
-      }}
+      status="404"
+      title={<FormattedMessage id="profile.not.found" />}
+      subTitle={<FormattedMessage id="profile.not.found.description" />}
+      extra={(
+        <>
+          <Button onClick={handleClick} type="primary">
+            <HomeOutlined />
+            <span>
+              <FormattedMessage id="error.button" />
+            </span>
+          </Button>
+          <Button onClick={() => setProfile(true)}>
+            <UserOutlined />
+            <span>
+              <FormattedMessage id="setup.done.view.profile" />
+            </span>
+          </Button>
+        </>
+      )}
     />
   );
 };

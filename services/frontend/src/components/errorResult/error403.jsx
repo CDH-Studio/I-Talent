@@ -18,19 +18,17 @@ const Error403 = () => {
 
   return (
     <ErrorResultView
-      resultProps={{
-        status: "403",
-        title: "403",
-        subTitle: <FormattedMessage id="error.403.subtitle" />,
-        extra: (
-          <Button onClick={handleClick} type="primary">
-            <HomeOutlined />
-            <span>
-              <FormattedMessage id="error.button" />
-            </span>
-          </Button>
-        ),
-      }}
+      status="403"
+      title="403"
+      subTitle={<FormattedMessage id="error.403.subtitle" />}
+      extra={(
+        <Button onClick={handleClick} type="primary">
+          <HomeOutlined />
+          <span>
+            <FormattedMessage id="error.button" />
+          </span>
+        </Button>
+      )}
     />
   );
 };

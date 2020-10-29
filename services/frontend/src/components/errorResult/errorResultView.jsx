@@ -1,26 +1,26 @@
 import React from "react";
-import { Result } from "antd";
+import { Result,Row } from "antd";
 import PropTypes from "prop-types";
 import AppLayout from "../layouts/appLayout/AppLayout";
 
-const ErrorResultView = ({ resultProps }) => (
+const ErrorResultView = ({ status, title, subTitle, extra }) => (
   <AppLayout displaySearch={false}>
-    <Result
-      status={resultProps.status}
-      title={resultProps.title}
-      subTitle={resultProps.subTitle}
-      extra={resultProps.extra}
-    />
+    <Row justify="center" align="middle" style={{ height: "100%" }}>
+      <Result
+        status={status}
+        title={title}
+        subTitle={subTitle}
+        extra={extra}
+      />
+    </Row>
   </AppLayout>
 );
 
 ErrorResultView.propTypes = {
-  resultProps: PropTypes.shape({
-    status: PropTypes.string,
-    title: PropTypes.node,
-    subTitle: PropTypes.node,
-    extra: PropTypes.node,
-  }).isRequired,
+  status: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
+  subTitle: PropTypes.node.isRequired,
+  extra: PropTypes.node.isRequired,
 };
 
 export default ErrorResultView;
