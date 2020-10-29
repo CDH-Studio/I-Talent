@@ -124,29 +124,6 @@ const DashboardGraphsView = ({
               loading={monthlyGrowth.length === 0}
             >
               <Chart type="line" data={monthlyGrowthData} options={options} />
-
-              {/* <Chart
-                data={monthlyGrowth}
-                scale={growthRateByMonthColumns}
-                height={500}
-                autoFit
-              >
-                <Legend />
-                <Axis name="monthName" />
-                <Axis name="count" />
-                <Tooltip crosshairs={{ type: "y" }} />
-                <Line position="monthName*count" size={2} color="year" />
-                <Point
-                  position="monthName*count"
-                  size={4}
-                  shape="circle"
-                  color="year"
-                  style={{
-                    stroke: "#fff",
-                    lineWidth: 1,
-                  }}
-                />
-              </Chart> */}
             </Card>
           </Col>
         )}
