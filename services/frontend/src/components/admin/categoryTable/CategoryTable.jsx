@@ -9,6 +9,7 @@ import {
   setAdminCategories,
   setAdminCategoriesLoading,
 } from "../../../redux/slices/adminSlice";
+import { useHistory } from "react-router";
 
 /**
  *  CategoryTable(props)
@@ -21,6 +22,7 @@ const CategoryTable = ({ intl }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   // Fetches the category information
   const getCategories = useCallback(async () => {
@@ -37,7 +39,7 @@ const CategoryTable = ({ intl }) => {
 
       dispatch(setAdminCategories(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 

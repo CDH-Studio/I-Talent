@@ -272,7 +272,7 @@ const PersonalGrowthForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        handleError(error, "redirect");
+        handleError(error, "redirect", history);
       });
   }, [
     getAddAttachmentOptions,

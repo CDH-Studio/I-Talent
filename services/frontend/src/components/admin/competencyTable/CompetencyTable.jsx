@@ -9,6 +9,7 @@ import {
   setAdminCompetenciesLoading,
   setAdminCompetencies,
 } from "../../../redux/slices/adminSlice";
+import { useHistory } from "react-router";
 
 /**
  *  CompetencyTable(props)
@@ -20,6 +21,7 @@ const CompetencyTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -38,7 +40,7 @@ const CompetencyTable = ({ intl }) => {
 
       dispatch(setAdminCompetencies(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 

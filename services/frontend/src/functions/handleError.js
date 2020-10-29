@@ -17,11 +17,11 @@ const errorMessages = {
   FRENCH: frIntlMessages[intlMessageKey] || intlMessageKey,
 };
 
-export default (error, handleType) => {
+export default (error, handleType, history) => {
   if (handleType === "redirect" && enableErrorRedirect) {
     store.dispatch(addError(error));
-    if (window.location.pathname !== "/error") {
-      window.history.pushState({}, "", "/error");
+    if (history.location.pathname !== "/error") {
+      history.push("/error");
     }
   } else if (handleType === "message") {
     notification.error({

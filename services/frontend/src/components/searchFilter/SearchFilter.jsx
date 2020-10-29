@@ -127,7 +127,7 @@ const SearchFilter = () => {
         getLocation(),
         getClassification(),
       ]);
-      await getSkills().catch((error) => handleError(error, "redirect"));
+      await getSkills().catch((error) => handleError(error, "redirect", history));
     };
 
     getSearchFieldValues();

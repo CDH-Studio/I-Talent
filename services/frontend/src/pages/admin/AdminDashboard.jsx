@@ -20,6 +20,7 @@ import {
   setTopFiveDevelopmentalGoals,
 } from "../../redux/slices/statsSlice";
 import Header from "../../components/header/Header";
+import { useHistory } from "react-router";
 
 /**
  *  AdminDashboard(props)
@@ -30,6 +31,7 @@ const AdminDashboard = ({ intl }) => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const axios = useAxios();
+  const history = useHistory();
 
   // Get dashboard data for statistic cards
   const getUserCount = useCallback(async () => {
@@ -38,7 +40,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -48,7 +50,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountHiddenUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -58,7 +60,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountInactiveUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -68,7 +70,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setCountExFeederUsers(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -78,7 +80,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setGrowthRateByMonth(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -88,7 +90,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setGrowthRateByWeek(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -102,7 +104,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setTopFiveCompetencies(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch, locale]);
 
@@ -116,7 +118,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setTopFiveSkills(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch, locale]);
 
@@ -130,7 +132,7 @@ const AdminDashboard = ({ intl }) => {
 
       dispatch(setTopFiveDevelopmentalGoals(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch, locale]);
 

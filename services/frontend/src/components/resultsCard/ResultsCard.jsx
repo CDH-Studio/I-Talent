@@ -47,21 +47,21 @@ const ResultsCard = () => {
 
   useEffect(() => {
     Promise.all([getConnections(), search()]).catch((e) =>
-      handleError(e, "redirect")
+      handleError(e, "redirect", history)
     );
   }, [getConnections, search]);
 
   const addConnection = async (urlID) => {
     await axios
       .post(`api/connections/${urlID}`)
-      .catch((error) => handleError(error, "message"));
+      .catch((error) => handleError(error, "message", history));
     getConnections();
   };
 
   const removeConnection = async (urlID) => {
     await axios
       .delete(`api/connections/${urlID}`)
-      .catch((error) => handleError(error, "message"));
+      .catch((error) => handleError(error, "message", history));
     getConnections();
   };
 

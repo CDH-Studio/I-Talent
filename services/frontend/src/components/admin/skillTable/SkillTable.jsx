@@ -11,6 +11,7 @@ import {
   setAdminSkills,
   setAdminSkillsLoading,
 } from "../../../redux/slices/adminSlice";
+import { useHistory } from "react-router";
 
 /**
  *  SkillTable(props)
@@ -22,6 +23,7 @@ const SkillTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -40,7 +42,7 @@ const SkillTable = ({ intl }) => {
 
       dispatch(setAdminSkills(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 
@@ -59,7 +61,7 @@ const SkillTable = ({ intl }) => {
 
       dispatch(setAdminCategories(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 

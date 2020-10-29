@@ -18,7 +18,7 @@ const SettingsLayout = () => {
       await axios.delete(`/api/user/${id}`);
       history.push("/logout");
     } catch (error) {
-      handleError(error, "message");
+      handleError(error, "message", history);
     }
   };
 
@@ -31,7 +31,7 @@ const SettingsLayout = () => {
 
       dispatch(setUserStatus(updatedState));
     } catch (error) {
-      handleError(error, "message");
+      handleError(error, "message", history);
     }
   };
 

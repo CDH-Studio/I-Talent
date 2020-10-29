@@ -96,7 +96,7 @@ const LangProficiencyForm = ({ formType }) => {
       })
       .catch((error) => {
         setLoad(false);
-        handleError(error, "redirect");
+        handleError(error, "redirect", history);
       });
   }, [getProfileInfo, intl]);
 

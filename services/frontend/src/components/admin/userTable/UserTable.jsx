@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import { Prompt } from "react-router";
+import { Prompt, useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import UserTableView from "./UserTableView";
 import handleError from "../../../functions/handleError";
@@ -23,6 +23,7 @@ const UserTable = () => {
   const [modifiedStatus, setModifiedStatus] = useState(false);
   const axios = useAxios();
   const intl = useIntl();
+  const history = useHistory();
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const UserTable = () => {
 
       dispatch(setAdminUsers({ data: formattedData, locale }));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axios, dispatch, locale]);

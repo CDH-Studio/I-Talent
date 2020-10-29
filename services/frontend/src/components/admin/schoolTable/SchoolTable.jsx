@@ -9,6 +9,7 @@ import {
   setAdminSchools,
   setAdminSchoolsLoading,
 } from "../../../redux/slices/adminSlice";
+import { useHistory } from "react-router";
 
 /**
  *  SchoolTable(props)
@@ -20,6 +21,7 @@ const SchoolTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -38,7 +40,7 @@ const SchoolTable = ({ intl }) => {
 
       dispatch(setAdminSchools(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 

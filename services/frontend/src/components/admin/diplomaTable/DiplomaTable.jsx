@@ -9,6 +9,7 @@ import {
   setAdminDiplomasLoading,
 } from "../../../redux/slices/adminSlice";
 import { IntlPropType } from "../../../utils/customPropTypes";
+import { useHistory } from "react-router";
 
 /**
  *  DiplomaTable(props)
@@ -20,6 +21,7 @@ const DiplomaTable = ({ intl }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -38,7 +40,7 @@ const DiplomaTable = ({ intl }) => {
 
       dispatch(setAdminDiplomas(formattedData));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch]);
 

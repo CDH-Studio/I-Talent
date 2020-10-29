@@ -9,12 +9,14 @@ import {
   setTopFiveSkills,
 } from "../redux/slices/statsSlice";
 import handleError from "../functions/handleError";
+import { useHistory } from "react-router";
 
 const Stats = () => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const axios = useAxios();
   const intl = useIntl();
+  const history = useHistory();
 
   const getTopFiveCompentencies = useCallback(async () => {
     try {
@@ -26,7 +28,7 @@ const Stats = () => {
 
       dispatch(setTopFiveCompetencies(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch, locale]);
 
@@ -40,7 +42,7 @@ const Stats = () => {
 
       dispatch(setTopFiveSkills(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch, locale]);
 
@@ -54,7 +56,7 @@ const Stats = () => {
 
       dispatch(setTopFiveDevelopmentalGoals(results.data));
     } catch (error) {
-      handleError(error, "redirect");
+      handleError(error, "redirect", history);
     }
   }, [axios, dispatch, locale]);
 

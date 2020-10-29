@@ -25,6 +25,7 @@ import sortBy from "lodash-es/sortBy";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
+import { useHistory } from "react-router";
 
 /**
  *  SchoolTableView(props)
@@ -42,6 +43,7 @@ const SchoolTableView = ({
   searchText,
   rowSelection,
 }) => {
+  const history = useHistory();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -189,7 +191,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message"));
+            .catch((error) => handleError(error, "message", history));
         }}
         onCancel={() => {
           popUpCancel();
@@ -263,7 +265,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             })
             .catch((error) => {
               if (error.isAxiosError) {
-                handleError(error, "message");
+                handleError(error, "message", history);
               }
             });
         }}
@@ -376,7 +378,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             })
             .catch((error) => {
               if (error.isAxiosError) {
-                handleError(error, "message");
+                handleError(error, "message", history);
               }
             });
         }}
