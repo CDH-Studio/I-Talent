@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import DiplomaTableView from "./DiplomaTableView";
 import handleError from "../../../functions/handleError";
@@ -9,7 +10,6 @@ import {
   setAdminDiplomasLoading,
 } from "../../../redux/slices/adminSlice";
 import { IntlPropType } from "../../../utils/customPropTypes";
-import { useHistory } from "react-router";
 
 /**
  *  DiplomaTable(props)
@@ -42,7 +42,7 @@ const DiplomaTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getDiplomas();

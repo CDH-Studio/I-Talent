@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import StatsLayout from "../components/layouts/statsLayout/StatsLayout";
 import useAxios from "../utils/useAxios";
 import {
@@ -9,7 +10,6 @@ import {
   setTopFiveSkills,
 } from "../redux/slices/statsSlice";
 import handleError from "../functions/handleError";
-import { useHistory } from "react-router";
 
 const Stats = () => {
   const { locale } = useSelector((state) => state.settings);
@@ -30,7 +30,7 @@ const Stats = () => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   const getTopFiveSkills = useCallback(async () => {
     try {
@@ -44,7 +44,7 @@ const Stats = () => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   const getTopFiveDevelopmentalGoals = useCallback(async () => {
     try {
@@ -58,7 +58,7 @@ const Stats = () => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   // useEffect to run once component is mounted
   useEffect(() => {

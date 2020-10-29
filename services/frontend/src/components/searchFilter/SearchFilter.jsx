@@ -127,12 +127,14 @@ const SearchFilter = () => {
         getLocation(),
         getClassification(),
       ]);
-      await getSkills().catch((error) => handleError(error, "redirect", history));
+      await getSkills().catch((error) =>
+        handleError(error, "redirect", history)
+      );
     };
 
     getSearchFieldValues();
     updateState();
-  }, [axios, getSearchFieldValues, locale]);
+  }, [axios, getSearchFieldValues, locale, history]);
 
   // page with query
   const handleSearch = (values) => {

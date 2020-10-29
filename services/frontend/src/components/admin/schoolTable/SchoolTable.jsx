@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import SchoolTableView from "./SchoolTableView";
@@ -9,7 +10,6 @@ import {
   setAdminSchools,
   setAdminSchoolsLoading,
 } from "../../../redux/slices/adminSlice";
-import { useHistory } from "react-router";
 
 /**
  *  SchoolTable(props)
@@ -42,7 +42,7 @@ const SchoolTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getSchools();

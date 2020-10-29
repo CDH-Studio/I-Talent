@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 import CompetencyTableView from "./CompetencyTableView";
@@ -9,7 +10,6 @@ import {
   setAdminCompetenciesLoading,
   setAdminCompetencies,
 } from "../../../redux/slices/adminSlice";
-import { useHistory } from "react-router";
 
 /**
  *  CompetencyTable(props)
@@ -42,7 +42,7 @@ const CompetencyTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getCompetencies();

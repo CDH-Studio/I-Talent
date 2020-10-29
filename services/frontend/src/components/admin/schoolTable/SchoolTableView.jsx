@@ -22,10 +22,10 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import sortBy from "lodash-es/sortBy";
+import { useHistory } from "react-router";
 import { IntlPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
-import { useHistory } from "react-router";
 
 /**
  *  SchoolTableView(props)

@@ -89,6 +89,7 @@ const EmploymentDataForm = ({ formType }) => {
     getProfileInfo,
     getSecurityOptions,
     getSubstantiveOptions,
+    history,
   ]);
 
   return (

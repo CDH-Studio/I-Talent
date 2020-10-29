@@ -106,7 +106,7 @@ const QualificationsForm = ({ formType }) => {
         }
       )
       .catch((error) => handleError(error, "redirect", history));
-  }, [getBackendInfo, location.search]);
+  }, [getBackendInfo, location.search, history]);
 
   return (
     <QualificationsFormView

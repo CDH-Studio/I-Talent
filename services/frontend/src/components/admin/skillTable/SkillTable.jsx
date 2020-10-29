@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 import SkillTableView from "./SkillTableView";
@@ -11,7 +12,6 @@ import {
   setAdminSkills,
   setAdminSkillsLoading,
 } from "../../../redux/slices/adminSlice";
-import { useHistory } from "react-router";
 
 /**
  *  SkillTable(props)
@@ -44,7 +44,7 @@ const SkillTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   // Fetches the category information
   const getCategories = useCallback(async () => {
@@ -63,7 +63,7 @@ const SkillTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getSkill();

@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { injectIntl } from "react-intl";
+import { useHistory } from "react-router";
 import ChangeLanguageView from "./ChangeLanguageView";
 import { setLocale } from "../../redux/slices/settingsSlice";
 import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 import { IntlPropType } from "../../utils/customPropTypes";
-import { useHistory } from "react-router";
 
 const ChangeLanguage = ({ intl }) => {
   const languageCode = intl.formatMessage({ id: "lang.db.code" });

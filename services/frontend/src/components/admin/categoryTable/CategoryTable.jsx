@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 import CategoryTableView from "./CategoryTableView";
@@ -9,7 +10,6 @@ import {
   setAdminCategories,
   setAdminCategoriesLoading,
 } from "../../../redux/slices/adminSlice";
-import { useHistory } from "react-router";
 
 /**
  *  CategoryTable(props)
@@ -41,7 +41,7 @@ const CategoryTable = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   useEffect(() => {
     getCategories();

@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { AreaChartOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router";
 import useAxios from "../../utils/useAxios";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import StatCards from "../../components/admin/statCards/StatCards";
@@ -20,7 +21,6 @@ import {
   setTopFiveDevelopmentalGoals,
 } from "../../redux/slices/statsSlice";
 import Header from "../../components/header/Header";
-import { useHistory } from "react-router";
 
 /**
  *  AdminDashboard(props)
@@ -42,7 +42,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getHiddenUserCount = useCallback(async () => {
     try {
@@ -52,7 +52,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getInactiveUserCount = useCallback(async () => {
     try {
@@ -62,7 +62,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getExfeederUserCount = useCallback(async () => {
     try {
@@ -72,7 +72,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getGrowthRateByMonth = useCallback(async () => {
     try {
@@ -82,7 +82,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getGrowthRateByWeek = useCallback(async () => {
     try {
@@ -92,7 +92,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch]);
+  }, [axios, dispatch, history]);
 
   const getTopFiveCompetencies = useCallback(async () => {
     try {
@@ -106,7 +106,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   const getTopFiveSkills = useCallback(async () => {
     try {
@@ -120,7 +120,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   const getTopFiveDevelopmentalGoals = useCallback(async () => {
     try {
@@ -134,7 +134,7 @@ const AdminDashboard = ({ intl }) => {
     } catch (error) {
       handleError(error, "redirect", history);
     }
-  }, [axios, dispatch, locale]);
+  }, [axios, dispatch, locale, history]);
 
   // Get part of the title for the page
   const getDisplayType = useCallback(

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, List, Result, Space, Col, Row } from "antd";
+import { Button, List, Col, Row } from "antd";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
@@ -8,7 +8,6 @@ import {
   ReloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
 import ErrorResultView from "../components/errorResult/errorResultView";
 
 const styles = {

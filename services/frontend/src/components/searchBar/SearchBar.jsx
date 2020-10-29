@@ -96,7 +96,7 @@ const SearchBar = () => {
     };
 
     updateState();
-  }, [getBranch, getClassification, getLocation, getSkills, locale]);
+  }, [getBranch, getClassification, getLocation, getSkills, locale, history]);
 
   return (
     <SearchBarView

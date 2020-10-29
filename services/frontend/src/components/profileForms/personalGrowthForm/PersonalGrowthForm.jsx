@@ -283,6 +283,7 @@ const PersonalGrowthForm = ({ formType }) => {
     getProfileInfo,
     getRelocationOptions,
     getTalentMatrixResultOptions,
+    history,
   ]);
 
   return (

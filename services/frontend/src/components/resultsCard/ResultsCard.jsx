@@ -49,7 +49,7 @@ const ResultsCard = () => {
     Promise.all([getConnections(), search()]).catch((e) =>
       handleError(e, "redirect", history)
     );
-  }, [getConnections, search]);
+  }, [getConnections, search, history]);
 
   const addConnection = async (urlID) => {
     await axios

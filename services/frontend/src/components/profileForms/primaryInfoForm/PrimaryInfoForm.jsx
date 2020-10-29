@@ -54,7 +54,7 @@ const PrimaryInfoForm = ({ formType }) => {
         handleError(error, "redirect", history);
       })
       .then(() => setLoad(true));
-  }, [getLocations, getProfileInfo]);
+  }, [getLocations, getProfileInfo, history]);
 
   useEffect(() => {
     setEmploymentEquityOptions([
