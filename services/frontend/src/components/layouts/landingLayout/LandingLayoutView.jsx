@@ -5,7 +5,6 @@ import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
-import logo from "../../../assets/I-talent-logo.png";
 import "./LandingLayoutView.scss";
 
 const { Text, Title } = Typography;
@@ -28,39 +27,47 @@ const LandingLayoutView = ({ backgroundImage }) => {
   };
 
   return (
-    <AppLayout displaySideBar={false} displaySearch={false} displayLogo={false}>
-      <h1 className="hidden">
-        <FormattedMessage id="landing.login.and.enter" />
-      </h1>
-      <Row justify="center" className="pageContent">
-        <Col xs={22} md={10} lg={6}>
-          <img src={logo} alt="I-Talent Logo" className="logo" />
-          <Title level={1} className="title">
-            <FormattedMessage id="landing.welcome" />
-          </Title>
-          <Text className="text" strong>
-            <FormattedMessage id="landing.description" />
-          </Text>
-          <Text className="text" strong>
-            <FormattedMessage id="landing.call.to.action" />
-          </Text>
-          <Button
-            type="primary"
-            onClick={() => keycloak.login()}
-            size="large"
-            className="signInButton"
-            onMouseEnter={toggleHover}
-            onMouseLeave={toggleHover}
-            icon={hover ? <UnlockFilled /> : <LockFilled />}
-          >
-            <strong>
-              <FormattedMessage id="landing.login.button" />
-            </strong>
-          </Button>
-        </Col>
-        <Col sm={24} md={10} className="landingPicture">
-          <img src={backgroundImage} alt="I-Talent Logo" />
-        </Col>
+    <AppLayout displaySideBar={false} displaySearch={false}>
+      <Row className="landing-container" justify="center">
+        <h1 className="hidden">
+          <FormattedMessage id="landing.login.and.enter" />
+        </h1>
+        <Row
+          align="middle"
+          justify="center"
+          className="landing-content"
+          gutter={24}
+        >
+          <Col xs={20} sm={15} md={14} xl={16} className="landing-picture">
+            <img src={backgroundImage} alt="I-Talent Landing" />
+          </Col>
+          <Col xs={24} sm={24} md={10} xl={8}>
+            <Title level={1} className="landing-title">
+              <FormattedMessage id="landing.welcome" />
+            </Title>
+            <Text className="landing-text">
+              <FormattedMessage id="landing.description" />
+            </Text>
+            <Text className="landing-text" strong>
+              <FormattedMessage id="landing.call.to.action" />
+            </Text>
+            <Button
+              type="primary"
+              onClick={() => keycloak.login()}
+              size="large"
+              className="landing-sign-in-button"
+              onMouseEnter={toggleHover}
+              onMouseLeave={toggleHover}
+              icon={hover ? <UnlockFilled /> : <LockFilled />}
+            >
+              <span>
+                <strong>
+                  <FormattedMessage id="landing.login.button" />
+                </strong>
+              </span>
+            </Button>
+          </Col>
+        </Row>
       </Row>
     </AppLayout>
   );
