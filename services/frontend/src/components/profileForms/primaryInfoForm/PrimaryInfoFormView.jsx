@@ -72,11 +72,13 @@ const PrimaryInfoFormView = ({
     },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
+      message: <FormattedMessage id="profile.rules.max" values={{ max: 50 }} />,
     },
     maxChar100: {
       max: 100,
-      message: <FormattedMessage id="profile.rules.max.100" />,
+      message: (
+        <FormattedMessage id="profile.rules.max" values={{ max: 100 }} />
+      ),
     },
     telephoneFormat: [
       {
