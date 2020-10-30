@@ -89,16 +89,16 @@ const PersonalGrowthForm = ({ formType }) => {
    * get saved Qualified Pools from profile
    */
   const getSavedQualifiedPools = () => {
-    if (profileInfo.qualifiedPools)
-      setSavedQualifiedPools({
-        qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
-          id: i.id,
-          classificationId: i.classification.id,
-          jobTitle: i.jobTitle,
-          selectionProcessNumber: i.selectionProcessNumber,
-          jobPosterLink: i.jobPosterLink,
-        })),
-      });
+    let ll = {
+      qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
+        id: i.id,
+        classificationId: i.classification.id,
+        jobTitle: i.jobTitle,
+        selectionProcessNumber: i.selectionProcessNumber,
+        jobPosterLink: i.jobPosterLink,
+      })),
+    };
+    if (profileInfo.qualifiedPools) setSavedQualifiedPools(ll.qualifiedPools);
   };
 
   /**
@@ -272,9 +272,7 @@ const PersonalGrowthForm = ({ formType }) => {
         talentMatrixResult,
         careerMobility,
         exFeeder,
-        qualifiedPools,
       } = profileInfo;
-
       getSavedDevelopmentalGoals();
       getSavedRelocationLocations();
       getSavedQualifiedPools();
@@ -284,7 +282,7 @@ const PersonalGrowthForm = ({ formType }) => {
       );
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
-      setSavedQualifiedPools(qualifiedPools);
+      //setSavedQualifiedPools(qualifiedPools);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
@@ -323,7 +321,7 @@ const PersonalGrowthForm = ({ formType }) => {
     history,
     getClassificationOptions,
   ]);
-
+  console.log("personalgrowthfomr", savedQualifiedPools);
   return (
     <PersonalGrowthFormView
       profileInfo={profileInfo}

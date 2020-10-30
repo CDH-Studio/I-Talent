@@ -31,10 +31,8 @@ QualifiedPoolsForm.propTypes = {
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({
-      classification: PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-      }),
+      id: PropTypes.string,
+      classificationId: PropTypes.string,
       jobTitle: PropTypes.string,
       selectionProcessNumber: PropTypes.string,
       jobPosterLink: PropTypes.string,

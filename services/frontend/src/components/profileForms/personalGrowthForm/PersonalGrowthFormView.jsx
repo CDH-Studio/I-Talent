@@ -143,6 +143,7 @@ const PersonalGrowthFormView = ({
    * Get the initial values for the form
    */
   const getInitialValues = (profile) => {
+    console.log("getInitialValues", savedQualifiedPools);
     if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
@@ -709,15 +710,13 @@ PersonalGrowthFormView.propTypes = {
   classificationOptions: KeyNameOptionsPropType,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({
-      classification: PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-      }),
+      id: PropTypes.string,
+      classificationId: PropTypes.string,
       jobTitle: PropTypes.string,
       selectionProcessNumber: PropTypes.string,
       jobPosterLink: PropTypes.string,
     })
-  ),
+  ).isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,

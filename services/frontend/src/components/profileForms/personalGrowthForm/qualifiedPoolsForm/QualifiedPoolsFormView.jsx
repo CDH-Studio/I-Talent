@@ -47,6 +47,9 @@ const QualifiedPoolsFormView = ({
       message: <FormattedMessage id="profile.rules.required" />,
     },
   };
+
+  console.log("savedQualifiedPools", savedQualifiedPools);
+  console.log("savedQualifiedPools", savedQualifiedPools);
   return (
     <div className="formItem">
       <Row gutter={24} className="gutter-row titleRow">
@@ -63,7 +66,7 @@ const QualifiedPoolsFormView = ({
                 title={<FormattedMessage id="admin.delete" />}
               >
                 <Button
-                  type="primary"
+                  type="link"
                   shape="circle"
                   icon={<DeleteOutlined />}
                   onClick={() => {
@@ -98,12 +101,13 @@ const QualifiedPoolsFormView = ({
             </Select>
           </Form.Item>
         </Col>
+
         <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
+            fieldKey={[fieldElement.fieldKey, "jobTitle"]}
             label={<FormattedMessage id="profile.qualified.pools.job.title" />}
             rules={[Rules.required]}
-            fieldKey={[fieldElement.fieldKey, "jobTitle"]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description
@@ -112,6 +116,7 @@ const QualifiedPoolsFormView = ({
             <Input />
           </Form.Item>
         </Col>
+
         <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
           <Form.Item
             name={[fieldElement.name, "jobPosterLink"]}
@@ -131,11 +136,11 @@ const QualifiedPoolsFormView = ({
         <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
           <Form.Item
             name={[fieldElement.name, "selectionProcessNumber"]}
+            fieldKey={[fieldElement.fieldKey, "selectionProcessNumber"]}
             label={
               <FormattedMessage id="profile.qualified.pools.selection.process.number" />
             }
             rules={[Rules.required]}
-            fieldKey={[fieldElement.fieldKey, "selectionProcessNumber"]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description
