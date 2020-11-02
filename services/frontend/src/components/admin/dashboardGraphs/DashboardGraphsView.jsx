@@ -36,11 +36,13 @@ const DashboardGraphsView = ({
         label: intl.formatMessage({
           id: "admin.dashboard.number.of.occurrences",
         }),
-        data: topFiveSkills.map((element) => element.count),
+        data: topFiveSkills
+          ? topFiveSkills.map((element) => element.count)
+          : [],
         backgroundColor: "rgb(8, 116, 114)",
       },
     ],
-    labels: topFiveSkills.map((element) => element.name),
+    labels: topFiveSkills ? topFiveSkills.map((element) => element.name) : [],
   };
   const competenciesData = {
     datasets: [
@@ -48,11 +50,15 @@ const DashboardGraphsView = ({
         label: intl.formatMessage({
           id: "admin.dashboard.number.of.occurrences",
         }),
-        data: topFiveCompetencies.map((element) => element.count),
+        data: topFiveCompetencies
+          ? topFiveCompetencies.map((element) => element.count)
+          : [],
         backgroundColor: "rgb(8, 116, 114)",
       },
     ],
-    labels: topFiveCompetencies.map((element) => element.name),
+    labels: topFiveCompetencies
+      ? topFiveCompetencies.map((element) => element.name)
+      : [],
   };
   const developmentalGoalsData = {
     datasets: [
@@ -60,11 +66,15 @@ const DashboardGraphsView = ({
         label: intl.formatMessage({
           id: "admin.dashboard.number.of.occurrences",
         }),
-        data: topFiveDevelopmentalGoals.map((element) => element.count),
+        data: topFiveDevelopmentalGoals
+          ? topFiveDevelopmentalGoals.map((element) => element.count)
+          : [],
         backgroundColor: "rgb(8, 116, 114)",
       },
     ],
-    labels: topFiveDevelopmentalGoals.map((element) => element.name),
+    labels: topFiveDevelopmentalGoals
+      ? topFiveDevelopmentalGoals.map((element) => element.name)
+      : [],
   };
 
   const monthlyGrowthData = {
