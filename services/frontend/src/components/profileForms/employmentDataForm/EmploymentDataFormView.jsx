@@ -77,24 +77,12 @@ const EmploymentDataFormView = ({
     },
     maxChar50: {
       max: 50,
-      message: (
-        <FormattedMessage
-          id="profile.rules.max"
-          values={{
-            max: 50,
-          }}
-        />
-      ),
+      message: <FormattedMessage id="profile.rules.max" values={{ max: 50 }} />,
     },
     maxChar1000: {
       max: 1000,
       message: (
-        <FormattedMessage
-          id="profile.rules.max"
-          values={{
-            max: 1000,
-          }}
-        />
+        <FormattedMessage id="profile.rules.max" values={{ max: 1000 }} />
       ),
     },
   };
@@ -641,7 +629,7 @@ const EmploymentDataFormView = ({
                 name="description"
                 maxLength={Rules.maxChar1000.max}
                 maxLengthMessage={Rules.maxChar1000.message}
-                lengthMessage={<FormattedMessage id="profile.rules.max.1000" />}
+                lengthMessage={Rules.maxChar1000.message}
                 value={profileInfo.description}
               />
             </Col>
