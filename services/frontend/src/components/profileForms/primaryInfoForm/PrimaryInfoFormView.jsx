@@ -18,9 +18,9 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import isEqual from "lodash-es/isEqual";
-import pickBy from "lodash-es/pickBy";
-import identity from "lodash-es/identity";
+import isEqual from "lodash/isEqual";
+import pickBy from "lodash/pickBy";
+import identity from "lodash/identity";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import isMobilePhone from "validator/es/lib/isMobilePhone";
@@ -72,11 +72,13 @@ const PrimaryInfoFormView = ({
     },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max.50" />,
+      message: <FormattedMessage id="profile.rules.max" values={{ max: 50 }} />,
     },
     maxChar100: {
       max: 100,
-      message: <FormattedMessage id="profile.rules.max.100" />,
+      message: (
+        <FormattedMessage id="profile.rules.max" values={{ max: 100 }} />
+      ),
     },
     telephoneFormat: [
       {

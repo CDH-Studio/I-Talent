@@ -54,11 +54,11 @@ const ExperienceFormView = ({
     },
     maxChar60: {
       max: 60,
-      message: <FormattedMessage id="profile.rules.max.60" />,
+      message: <FormattedMessage id="profile.rules.max" values={{ max: 60 }} />,
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max.100" />,
+      message: <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />,
     },
   };
 
@@ -245,7 +245,7 @@ const ExperienceFormView = ({
             fieldKey={[fieldElement.fieldKey, "description"]}
             maxLength={Rules.maxChar1500.max}
             maxLengthMessage={Rules.maxChar1500.message}
-            lengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
+            lengthMessage={Rules.maxChar1500.message}
             value={
               savedExperience[fieldElement.fieldKey] &&
               savedExperience[fieldElement.fieldKey].description
