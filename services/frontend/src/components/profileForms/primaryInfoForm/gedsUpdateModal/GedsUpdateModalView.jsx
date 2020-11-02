@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import isEqual from "lodash-es/isEqual";
+import isEqual from "lodash/isEqual";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import useAxios from "../../../../utils/useAxios";

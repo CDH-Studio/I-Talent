@@ -16,9 +16,9 @@ import {
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import isEqual from "lodash-es/isEqual";
-import identity from "lodash-es/identity";
-import pickBy from "lodash-es/pickBy";
+import isEqual from "lodash/isEqual";
+import identity from "lodash/identity";
+import pickBy from "lodash/pickBy";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -635,7 +635,7 @@ const LangProficiencyFormView = ({
       <div className="lang-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -9 }}>
-          {getFormHeader(formType)}
+          {getFormHeader()}
           <div style={{ marginTop: -5 }}>
             <CardVisibilityToggle
               visibleCards={profileInfo.visibleCards}

@@ -60,12 +60,7 @@ const EducationFormView = ({
     maxChar1500: {
       max: 1500,
       message: (
-        <FormattedMessage
-          id="profile.rules.max"
-          values={{
-            max: 1500,
-          }}
-        />
+        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
       ),
     },
   };
@@ -268,7 +263,9 @@ const EducationFormView = ({
             fieldKey={[fieldElement.fieldKey, "description"]}
             maxLength={Rules.maxChar1500.max}
             maxLengthMessage={Rules.maxChar1500.message}
-            lengthMessage={<FormattedMessage id="profile.rules.max.1500" />}
+            lengthMessage={
+              <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+            }
             value={
               savedEducation[fieldElement.fieldKey] &&
               savedEducation[fieldElement.fieldKey].description
