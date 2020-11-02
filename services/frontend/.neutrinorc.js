@@ -22,6 +22,17 @@ module.exports = {
         template: "public/index.ejs",
         favicon: "public/favicon.ico",
       },
+      target: {
+        browsers: [
+          "last 2 Chrome versions",
+          "last 2 Firefox versions",
+          "last 2 Edge versions",
+          "last 2 Opera versions",
+          "last 2 Safari versions",
+          "last 2 iOS versions",
+          "ie 11",
+        ],
+      },
       babel: {
         plugins: [
           [
@@ -33,6 +44,30 @@ module.exports = {
             },
             "antd",
           ],
+          [
+            "@babel/plugin-transform-runtime",
+            {
+              corejs: 3,
+            },
+          ],
+        ],
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              useBuiltIns: "usage",
+              corejs: 3,
+              targets: {
+                ie: "11",
+              },
+            },
+          ],
+          // [
+          //   '@babel/preset-react',
+          //   {
+          //     useBuiltIns: true,
+          //   },
+          // ],
         ],
       },
       style: {
@@ -76,14 +111,22 @@ module.exports = {
     }),
     ({ config }) => {
       if (process.env.NODE_ENV === "production") {
-        config.optimization
-          .minimize(true)
-          .minimizer("terser-plugin")
-          .use(require.resolve("terser-webpack-plugin"));
-        config.optimization
-          .minimize(true)
-          .minimizer("css-minimizer")
-          .use(require.resolve("css-minimizer-webpack-plugin"));
+        // config.optimization
+        //   .minimize(true)
+        //   .minimizer("terser-plugin")
+        //   .use(require.resolve("terser-webpack-plugin"), [
+        //     {
+        //       terserOptions: {
+        //         compress: {
+        //           arrows: false
+        //         }
+        //       }
+        //     }
+        //   ]);
+        // config.optimization
+        //   .minimize(true)
+        //   .minimizer("css-minimizer")
+        //   .use(require.resolve("css-minimizer-webpack-plugin"));
       }
 
       if (process.env.ANALYZE_BUILD === "true") {
