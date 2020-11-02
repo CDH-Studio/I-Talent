@@ -56,6 +56,7 @@ describe(`Test ${path}`, () => {
             select: {
               id: true,
               createdAt: true,
+              updatedAt: true,
               firstName: true,
               lastName: true,
               status: true,

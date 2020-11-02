@@ -19,6 +19,8 @@ describe(`Test ${path}`, () => {
     test("should process request in English - 200", async (done) => {
       const res = await request(mockedApp).get(`${path}?language=ENGLISH`);
 
+      console.warn(res);
+
       expect(res.statusCode).toBe(200);
       expect(res.body).toStrictEqual([
         { name: "Clerical", count: 1 },
