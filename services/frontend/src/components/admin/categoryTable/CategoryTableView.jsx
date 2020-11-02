@@ -22,7 +22,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import sortBy from "lodash-es/sortBy";
+import sortBy from "lodash/sortBy";
 import { useHistory } from "react-router";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
@@ -331,7 +331,9 @@ const CategoryTableView = ({
         okText={<FormattedMessage id="admin.delete" />}
         cancelText={<FormattedMessage id="admin.cancel" />}
         onConfirm={() => {
-          checkDelete().catch((error) => handleError(error, "message", history));
+          checkDelete().catch((error) =>
+            handleError(error, "message", history)
+          );
         }}
         onCancel={popUpCancel}
         disabled={selectedRowKeys.length === 0}
