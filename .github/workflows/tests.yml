@@ -11,32 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PORT: 8080
       NODE_ENV: test
-      TEST_DATABASE: jesttest
-      TEST_DATABASE_URL: postgres://api:api@localhost:5432/jesttest?schema=public
-      DATABASE_URL: postgres://api:api@localhost:5432/testdb?schema=public
-      GEDSAPIURL: https://geds-ssc-spc-apicast-production.api.canada.ca/gapi/v2/
-      GEDSAPIKEY: ${{ secrets.GEDSAPIKEY }}
-      KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
-      KEYCLOAK_AUTH_SERVER_URL: ${{ secrets.KEYCLOAK_AUTH_SERVER_URL }}
-      REDIS_HOST: localhost
-
-    services:
-      postgres:
-        image: postgres:12-alpine
-        env:
-          POSTGRES_USER: api
-          POSTGRES_PASSWORD: api
-          POSTGRES_DB: testdb
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        ports:
-          - 5432:5432
-      redis:
-        image: redis	
-        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5 --entrypoint redis-server	      
-        ports:
-          - 6379:6379
 
     defaults:
       run:
@@ -65,9 +40,6 @@ jobs:
           
     - name: Instal Yarn dependencies
       run: yarn
-
-    - name: Generate database client
-      run: yarn generate
 
     - name: Run jest tests
       run: yarn test --forceExit

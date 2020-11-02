@@ -85,7 +85,6 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
 
 async function getTopFiveSkills(request, response) {
   try {
-    console.warn("HEHEHREHERHERHEWRWERWEREW--------------------------------")
     validationResult(request).throw();
 
     const { language } = request.query;
