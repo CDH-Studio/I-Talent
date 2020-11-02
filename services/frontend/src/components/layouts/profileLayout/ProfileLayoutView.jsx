@@ -226,7 +226,7 @@ const ProfileLayoutView = ({
   };
   const generateProfileSidebarContent = () => {
     return (
-      <Row justify="center" className="sideBarRow">
+      <Row justify="center" className="app-sideBarRow">
         <Col flex={1} offset={1}>
           <Anchor offsetTop={80}>
             <Link
