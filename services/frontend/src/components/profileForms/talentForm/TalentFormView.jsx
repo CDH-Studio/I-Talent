@@ -152,10 +152,7 @@ const TalentFormView = ({
       return false;
     }
 
-    const dbValues = pickBy(
-      savedValues || getInitialValues(profileInfo),
-      identity
-    );
+    const dbValues = pickBy(savedValues || getInitialValues(), identity);
 
     // Cleans up the object for following comparison
     if (
@@ -606,7 +603,7 @@ const TalentFormView = ({
         <Form
           name="basicForm"
           form={form}
-          initialValues={savedValues || getInitialValues(profileInfo)}
+          initialValues={savedValues || getInitialValues()}
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
           onFieldsChange={onFieldsChange}
