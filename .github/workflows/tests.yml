@@ -41,6 +41,9 @@ jobs:
     - name: Instal Yarn dependencies
       run: yarn
 
+    - name: Generate database client
+      run: yarn generate
+
     - name: Run jest tests
       run: yarn test --forceExit
 
