@@ -635,7 +635,7 @@ const LangProficiencyFormView = ({
       <div className="lang-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -9 }}>
-          {getFormHeader(formType)}
+          {getFormHeader()}
           <div style={{ marginTop: -5 }}>
             <CardVisibilityToggle
               visibleCards={profileInfo.visibleCards}

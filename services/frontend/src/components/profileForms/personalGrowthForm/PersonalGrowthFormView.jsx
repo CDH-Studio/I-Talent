@@ -341,7 +341,7 @@ const PersonalGrowthFormView = ({
       />
       <div className="pgf-content">
         {/* get form title */}
-        {getFormHeader(formType)}
+        {getFormHeader()}
         <Divider className="pgf-headerDiv" />
         {/* Create for with initial values */}
         <Form
