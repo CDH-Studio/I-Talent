@@ -3,6 +3,7 @@ const jest = require("@neutrinojs/jest");
 const style = require("@neutrinojs/style-loader");
 const antTheme = require("./src/antdTheme");
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
   options: {
@@ -77,23 +78,25 @@ module.exports = {
     }),
     ({ config }) => {
       if (process.env.NODE_ENV === "production") {
-        // config.optimization
-        //   .minimize(true)
-        //   .minimizer("terser-plugin")
-        //   .use(require.resolve("terser-webpack-plugin"), [
-        //     {
-        //       terserOptions: {
-        //         compress: {
-        //           arrows: false
-        //         }
-        //       }
-        //     }
-        //   ]);
-        // config.optimization
-        //   .minimize(true)
-        //   .minimizer("css-minimizer")
-        //   .use(require.resolve("css-minimizer-webpack-plugin"));
+        config.optimization
+          .minimize(true)
+          .minimizer("terser-plugin")
+          .use(require.resolve("terser-webpack-plugin"), [
+            {
+              terserOptions: {
+                compress: {
+                  arrows: false
+                }
+              }
+            }
+          ]);
+        config.optimization
+          .minimize(true)
+          .minimizer("css-minimizer")
+          .use(require.resolve("css-minimizer-webpack-plugin"));
       }
+
+      config.plugin("moment-ignore-unused-locales").use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/])
 
       if (process.env.ANALYZE_BUILD === "true") {
         const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
