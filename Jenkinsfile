@@ -50,7 +50,7 @@ pipeline {
                                 yarn generate
                                 yarn test
                             """
-                            archiveArtifacts artifacts: 'tests/coverage/'
+                            archiveArtifacts artifacts: 'backendtests/coverage/'
                         }
                     }
                 }    
