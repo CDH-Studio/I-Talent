@@ -21,7 +21,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import sortBy from "lodash-es/sortBy";
+import sortBy from "lodash/sortBy";
 import { useHistory } from "react-router";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";

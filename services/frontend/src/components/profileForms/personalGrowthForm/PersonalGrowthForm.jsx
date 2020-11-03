@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import sortBy from "lodash-es/sortBy";
+import sortBy from "lodash/sortBy";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
