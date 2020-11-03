@@ -34,41 +34,7 @@ module.exports = {
         ],
       },
       babel: {
-        plugins: [
-          [
-            "import",
-            {
-              libraryName: "antd",
-              libraryDirectory: "es",
-              style: true,
-            },
-            "antd",
-          ],
-          [
-            "@babel/plugin-transform-runtime",
-            {
-              corejs: 3,
-            },
-          ],
-        ],
-        presets: [
-          [
-            "@babel/preset-env",
-            {
-              useBuiltIns: "usage",
-              corejs: 3,
-              targets: {
-                ie: "11",
-              },
-            },
-          ],
-          // [
-          //   '@babel/preset-react',
-          //   {
-          //     useBuiltIns: true,
-          //   },
-          // ],
-        ],
+        babelrc: true,
       },
       style: {
         test: /\.(css|scss)$/,

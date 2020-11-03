@@ -1,0 +1,49 @@
+{
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true
+      },
+      "antd"
+    ],
+    [
+      "import",
+      {
+        "libraryName": "validator",
+        "libraryDirectory": "es/lib",
+        "camel2DashComponentName": false
+      },
+      "validator"
+    ],
+    [
+      "import",
+      {
+        "libraryName": "lodash",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "lodash"
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": 3
+      }
+    ]
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": 3,
+        "targets": {
+          "ie": "11"
+        }
+      }
+    ]
+  ]
+}

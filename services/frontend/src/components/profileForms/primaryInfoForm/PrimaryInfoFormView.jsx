@@ -23,7 +23,7 @@ import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import isMobilePhone from "validator/es/lib/isMobilePhone";
+import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import {
