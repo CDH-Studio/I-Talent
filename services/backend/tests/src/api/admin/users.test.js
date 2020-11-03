@@ -103,11 +103,17 @@ describe(`Test ${path}`, () => {
 
         test("should return expected sorted result", () => {
           const expected = prismaData.map((i) => {
-            const info = {
-              ...i,
-              jobTitle: i.employmentInfo.translations[0].jobTitle,
-              tenure: i.tenure.translations[0].name,
-            };
+            const info = { ...i };
+
+            if (i.tenure) {
+              info.tenure = i.tenure.translations[0].name;
+            } else {
+              delete info.tenure;
+            }
+
+            if (i.employmentInfo) {
+              info.jobTitle = i.employmentInfo.translations[0].jobTitle;
+            }
 
             delete info.employmentInfo;
 
