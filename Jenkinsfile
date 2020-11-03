@@ -54,7 +54,7 @@ pipeline {
             }
         }
 
-        stage('tests') {
+        stages('tests') {
             stage('backend') {
                 steps {
                     dir("${BACKEND_DIR}") {
