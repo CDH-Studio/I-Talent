@@ -54,15 +54,13 @@ pipeline {
             }
         }
 
-        stages('tests') {
-            stage('backend') {
-                steps {
-                    dir("${BACKEND_DIR}") {
-                        sh 'yarn test'
-                    }
+        stage('backend-tests') {
+            steps {
+                dir("${BACKEND_DIR}") {
+                    sh 'yarn test'
                 }
-                archiveArtifacts artifacts: 'tests/coverage/'
             }
+            archiveArtifacts artifacts: 'tests/coverage/'
         }
 	
         stage('build') {
