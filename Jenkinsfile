@@ -21,8 +21,8 @@ pipeline {
     }
 
     stages {
-        stage('run-lints'){
-            parallel{
+        stage('run-lints') {
+            parallel {
                 stage('i18-check') {
                     steps {
                         dir("${FRONTEND_DIR_I18}") {
@@ -53,33 +53,40 @@ pipeline {
                 }    
             }
         }
-	
-	stage('build'){
-		parallel{
-			stage('build-backend') {
-            			steps {
-			    		dir("${BACKEND_DIR}") {
-                    				script {
-                        				builder.buildApp(BACKEND_IMAGE_NAME)
-                    				}
-                			}
-            			}
-        		}
-			        stage('build-frontend') {
-            steps {
-			    dir("${FRONTEND_DIR}") {
-                    		script {
-                       		builder.buildApp(FRONTEND_IMAGE_NAME)
-                    		}
-                	    }
-            	}
+
+        stage('tests') {
+            stage('backend') {
+                steps {
+                    dir("${BACKEND_DIR}") {
+                        sh 'yarn test'
+                    }
+                }
+                archiveArtifacts artifacts: 'tests/coverage/'
+            }
         }
 	
-		}
-	}
+        stage('build') {
+            parallel {
+                stage('build-backend') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            script {
+                                builder.buildApp(BACKEND_IMAGE_NAME)
+                            }
+                        }
+                    }
+                }
 
-
-        
-
+                stage('build-frontend') {
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            script {
+                                builder.buildApp(FRONTEND_IMAGE_NAME)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -2,12 +2,12 @@
 
 pipeline {
     agent none
-       
+
     options {
         disableConcurrentBuilds()
     }
-       
-       environment {
+
+    environment {
         // GLobal Vars
         BACKEND_IMAGE_NAME = "dsd-italent-backend"
         FRONTEND_IMAGE_NAME = "dsd-italent-frontend"
