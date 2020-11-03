@@ -23,7 +23,7 @@ import {
 import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash";
 
 import { useHistory } from "react-router";
 import handleError from "../../../functions/handleError";
