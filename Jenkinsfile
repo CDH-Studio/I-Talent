@@ -21,9 +21,9 @@ pipeline {
     }
 
     stages {
-        stage('run-lints') {
+        stage('linters-and-tests') {
             parallel {
-                stage('i18-check') {
+                stage('intl-linting') {
                     steps {
                         dir("${FRONTEND_DIR_I18}") {
                             sh 'npm init -y'
@@ -33,7 +33,7 @@ pipeline {
                     }
                 }        
 
-                stage('linting') {
+                stage('code-linting-and-tests') {
                     steps {
                         dir("${SOURCE_DIR}") {
                             sh """
@@ -47,30 +47,16 @@ pipeline {
                                 cd ../backend
                                 yarn install --production=false
                                 yarn lint
+                                yarn generate
+                                yarn test
                             """
+                            archiveArtifacts artifacts: 'tests/coverage/'
                         }
                     }
                 }    
             }
         }
 
-        stage('backend-tests') {
-            steps {
-                dir("${BACKEND_DIR}") {
-                    sh """
-                        unset NPM_CONFIG_PREFIX
-                        source $NVM_DIR/nvm.sh
-                        nvm install "12.6.0"
-                        npm i yarn -g
-                        yarn install --production=false
-                        yarn generate
-                        yarn test
-                    """
-                    archiveArtifacts artifacts: 'tests/coverage/'
-                }
-            }
-        }
-	
         stage('build') {
             parallel {
                 stage('build-backend') {
