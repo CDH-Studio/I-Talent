@@ -2,20 +2,30 @@ const request = require("supertest");
 const _ = require("lodash");
 const faker = require("faker");
 
-const createFakeUser = () => ({
+const createFakeUser = (hasJob = true, hasTenure = true) => ({
   id: faker.random.uuid(),
   createdAt: faker.date.past().toISOString(),
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
   status: faker.random.arrayElement(["ACTIVE", "INACTIVE", "HIDDEN"]),
-  employmentInfo: { translations: [{ jobTitle: faker.name.jobTitle() }] },
-  tenure: { translations: [{ name: faker.lorem.words(1) }] },
+  employmentInfo: hasJob
+    ? { translations: [{ jobTitle: faker.name.jobTitle() }] }
+    : undefined,
+  tenure: hasTenure
+    ? { translations: [{ name: faker.lorem.words(1) }] }
+    : undefined,
 });
 
 const path = "/api/admin/users";
 const data = [
-  ["ENGLISH", [createFakeUser(), createFakeUser(), createFakeUser()]],
-  ["FRENCH", [createFakeUser(), createFakeUser(), createFakeUser()]],
+  [
+    "ENGLISH",
+    [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
+  ],
+  [
+    "FRENCH",
+    [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
+  ],
 ];
 
 describe(`Test ${path}`, () => {
