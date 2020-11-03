@@ -41,16 +41,12 @@ pipeline {
                                 source $NVM_DIR/nvm.sh
                                 nvm install "12.6.0"
                                 npm i yarn -g
-                                cd frontend
-                                yarn install --production=false
-                                yarn lint
-                                cd ../backend
-                                yarn install --production=false
-                                yarn lint
-                                yarn generate
-                                yarn test
                             """
-                            archiveArtifacts artifacts: 'backendtests/coverage/'
+                            sh 'cd frontend && yarn install --production=false && yarn lint'
+                            sh 'cd ../backend && yarn install --production=false && yarn lint'
+                            sh 'yarn generate'
+                            sh 'yarn test'
+                            archiveArtifacts artifacts: 'backend/tests/coverage/'
                         }
                     }
                 }    
