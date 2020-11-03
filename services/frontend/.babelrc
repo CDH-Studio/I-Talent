@@ -28,6 +28,15 @@
       "lodash"
     ],
     [
+      "import",
+      {
+        "libraryName": "@ant-design/icons",
+        "libraryDirectory": "lib/icons",
+        "camel2DashComponentName": false
+      },
+      "antd-icons"
+    ],
+    [
       "@babel/plugin-transform-runtime",
       {
         "corejs": 3
