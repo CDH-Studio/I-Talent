@@ -63,6 +63,7 @@ pipeline {
                         nvm install "12.6.0"
                         npm i yarn -g
                         yarn install --production=false
+                        yarn generate
                         yarn test
                     """
                     archiveArtifacts artifacts: 'tests/coverage/'
