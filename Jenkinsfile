@@ -53,26 +53,33 @@ pipeline {
                 }    
             }
         }
-
-
-        stage('build-backend') {
-            steps {
-			    dir("${BACKEND_DIR}") {
-                    script {
-                        builder.buildApp(BACKEND_IMAGE_NAME)
-                    }
-                }
-            }
-        }
-        
-        stage('build-frontend') {
+	
+	stage('build'){
+		parallel{
+			stage('build-backend') {
+            			steps {
+			    		dir("${BACKEND_DIR}") {
+                    				script {
+                        				builder.buildApp(BACKEND_IMAGE_NAME)
+                    				}
+                			}
+            			}
+        		}
+			        stage('build-frontend') {
             steps {
 			    dir("${FRONTEND_DIR}") {
-                    script {
-                        builder.buildApp(FRONTEND_IMAGE_NAME)
-                    }
-                }
-            }
+                    		script {
+                       		builder.buildApp(FRONTEND_IMAGE_NAME)
+                    		}
+                	    }
+            	}
         }
+	
+		}
+	}
+
+
+        
+
     }
 }
