@@ -18,9 +18,9 @@ import PropTypes from "prop-types";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import isEqual from "lodash-es/isEqual";
-import identity from "lodash-es/identity";
-import pickBy from "lodash-es/pickBy";
+import isEqual from "lodash/isEqual";
+import identity from "lodash/identity";
+import pickBy from "lodash/pickBy";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -77,24 +77,12 @@ const EmploymentDataFormView = ({
     },
     maxChar50: {
       max: 50,
-      message: (
-        <FormattedMessage
-          id="profile.rules.max"
-          values={{
-            max: 50,
-          }}
-        />
-      ),
+      message: <FormattedMessage id="profile.rules.max" values={{ max: 50 }} />,
     },
     maxChar1000: {
       max: 1000,
       message: (
-        <FormattedMessage
-          id="profile.rules.max"
-          values={{
-            max: 1000,
-          }}
-        />
+        <FormattedMessage id="profile.rules.max" values={{ max: 1000 }} />
       ),
     },
   };
@@ -641,7 +629,7 @@ const EmploymentDataFormView = ({
                 name="description"
                 maxLength={Rules.maxChar1000.max}
                 maxLengthMessage={Rules.maxChar1000.message}
-                lengthMessage={<FormattedMessage id="profile.rules.max.1000" />}
+                lengthMessage={Rules.maxChar1000.message}
                 value={profileInfo.description}
               />
             </Col>

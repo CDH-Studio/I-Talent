@@ -13,11 +13,11 @@ import {
 
 import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import isEqual from "lodash-es/isEqual";
-import pickBy from "lodash-es/pickBy";
-import size from "lodash-es/size";
-import filter from "lodash-es/filter";
-import identity from "lodash-es/identity";
+import isEqual from "lodash/isEqual";
+import pickBy from "lodash/pickBy";
+import size from "lodash/size";
+import filter from "lodash/filter";
+import identity from "lodash/identity";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";

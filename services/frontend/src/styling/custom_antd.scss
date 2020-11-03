@@ -4,10 +4,6 @@
   padding: 0px !important;
 }
 
-.experience-item-list .ant-list-item-extra {
-  margin: 0 auto 10px 0;
-}
-
 .custom-bubble-select-style .ant-select-selection-item {
   margin: 3px;
   padding: 1px 10px;
@@ -63,6 +59,10 @@
     }
 
     &-explain {
+      margin: 0;
+    }
+
+    &-extra {
       margin: 0;
     }
   }

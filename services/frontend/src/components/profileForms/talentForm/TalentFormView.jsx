@@ -15,10 +15,10 @@ import {
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import pickBy from "lodash-es/pickBy";
-import isEmpty from "lodash-es/isEmpty";
-import identity from "lodash-es/identity";
-import isEqual from "lodash-es/isEqual";
+import pickBy from "lodash/pickBy";
+import isEmpty from "lodash/isEmpty";
+import identity from "lodash/identity";
+import isEqual from "lodash/isEqual";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -152,10 +152,7 @@ const TalentFormView = ({
       return false;
     }
 
-    const dbValues = pickBy(
-      savedValues || getInitialValues(profileInfo),
-      identity
-    );
+    const dbValues = pickBy(savedValues || getInitialValues(), identity);
 
     // Cleans up the object for following comparison
     if (
@@ -606,7 +603,7 @@ const TalentFormView = ({
         <Form
           name="basicForm"
           form={form}
-          initialValues={savedValues || getInitialValues(profileInfo)}
+          initialValues={savedValues || getInitialValues()}
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
           onFieldsChange={onFieldsChange}
