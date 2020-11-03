@@ -40,7 +40,7 @@ const test = {
   ENV: "test",
   PORT: "",
   DATABASE_URL: "",
-  KEYCLOAK_CLIENT_ID: "",
+  KEYCLOAK_CLIENT_ID: "testId",
   KEYCLOAK_SECRET: "randomSecret",
   KEYCLOAK_AUTH_SERVER_URL: "",
   DOCS_KEYCLOAK_CLIENT_ID: "",

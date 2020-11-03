@@ -1,45 +1,104 @@
 const keycloak = require("../../../src/utils/keycloak");
 
+const hasResourceData = [
+  ["viewPrivateProfile", "view-private-profile"],
+  ["viewAdminConsole", "view-admin-console"],
+  ["manageUsers", "manage-users"],
+  ["manageOptions", "manage-options"],
+];
+
 describe("Utils keycloak tests", () => {
   beforeEach(() => console.log.mockClear());
 
-  describe("hasContent", () => {
-    test("returns true if the access token has some content", () => {
-      expect(true).toEqual(true);
+  describe.each(hasResourceData)("%s", (keycloakFunction, role) => {
+    test("returns false if the access token only has some content (hasContent)", () => {
+      const data = { kauth: { grant: { access_token: { content: {} } } } };
+      const result = keycloak[keycloakFunction](data);
+
+      expect(result).toBeFalsy();
+    });
+
+    test("returns false if the access token only has the specified resource (hasResource)", () => {
+      const data = {
+        kauth: {
+          grant: {
+            access_token: { content: { resource_access: { testId: {} } } },
+          },
+        },
+      };
+
+      const result = keycloak[keycloakFunction](data);
+
+      expect(result).toBeFalsy();
+    });
+
+    test(`returns true if the request is well formatted (${keycloakFunction})`, () => {
+      const data = {
+        kauth: {
+          grant: {
+            access_token: {
+              content: {
+                resource_access: { testId: { roles: [role] } },
+              },
+            },
+          },
+        },
+      };
+
+      const result = keycloak[keycloakFunction](data);
+
+      expect(result).toEqual(true);
     });
   });
 
-  // describe("when passed a valid Axios error", () => {
-  //   test("should print desired information", () => {
-  //     handleAxiosErrors({
-  //       response: {
-  //         status: "status",
-  //         statusText: "statusText",
-  //         data: "data",
-  //         config: "config",
-  //         headers: "headers",
-  //       },
-  //     });
+  describe("getKeycloakUserId", () => {
+    test("returns false if the request has some content but no sub", () => {
+      const data = { kauth: { grant: { access_token: { content: {} } } } };
+      const result = keycloak.getKeycloakUserId(data);
 
-  //     expect(console.log).toHaveBeenCalledWith("status", "statusText", "data");
-  //     expect(console.log).toHaveBeenCalledWith("Config", "config");
-  //     expect(console.log).toHaveBeenCalledWith("Headers", "headers");
-  //   });
-  // });
+      expect(result).toBeFalsy();
+    });
 
-  // describe("when passed not a valid Axios error", () => {
-  //   test("should not print anything if response not present", () => {
-  //     handleAxiosErrors({});
+    test("returns the keycloak id if the request has content and sub", () => {
+      const data = {
+        kauth: { grant: { access_token: { content: { sub: "myID" } } } },
+      };
+      const result = keycloak.getKeycloakUserId(data);
 
-  //     expect(console.log).not.toHaveBeenCalled();
-  //   });
+      expect(result).toEqual("myID");
+    });
+  });
 
-  //   test("should print empty strings if response is present", () => {
-  //     handleAxiosErrors({ response: {} });
+  describe("isKeycloakUser", () => {
+    test("returns false if the id is not present", () => {
+      const result = keycloak.isKeycloakUser({});
 
-  //     expect(console.log).toHaveBeenCalledWith(undefined, undefined, undefined);
-  //     expect(console.log).toHaveBeenCalledWith("Config", undefined);
-  //     expect(console.log).toHaveBeenCalledWith("Headers", undefined);
-  //   });
-  // });
+      expect(result).toEqual(false);
+    });
+
+    test("returns false if the request has some content but no sub", () => {
+      const data = { kauth: { grant: { access_token: { content: {} } } } };
+      const result = keycloak.isKeycloakUser(data, "");
+
+      expect(result).toBeFalsy();
+    });
+
+    test("returns false if the request has content and sub, but incorrect id", () => {
+      const data = {
+        kauth: { grant: { access_token: { content: { sub: "" } } } },
+      };
+      const result = keycloak.isKeycloakUser(data, "myID");
+
+      expect(result).toBeFalsy();
+    });
+
+    test("returns true if the request has content and sub with correct id", () => {
+      const data = {
+        kauth: { grant: { access_token: { content: { sub: "myID" } } } },
+      };
+      const result = keycloak.isKeycloakUser(data, "myID");
+
+      expect(result).toEqual(true);
+    });
+  });
 });
