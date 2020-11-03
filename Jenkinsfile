@@ -57,7 +57,14 @@ pipeline {
         stage('backend-tests') {
             steps {
                 dir("${BACKEND_DIR}") {
-                    sh 'yarn test'
+                    sh """
+                        unset NPM_CONFIG_PREFIX
+                        source $NVM_DIR/nvm.sh
+                        nvm install "12.6.0"
+                        npm i yarn -g
+                        yarn install --production=false
+                        yarn test
+                    """
                     archiveArtifacts artifacts: 'tests/coverage/'
                 }
             }
