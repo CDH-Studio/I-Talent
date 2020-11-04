@@ -190,7 +190,6 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
           : null;
         break;
       default:
-        updatedProfile = null;
         throw new Error("sync request category not recognized");
     }
     await saveDataToDB(updatedProfile);

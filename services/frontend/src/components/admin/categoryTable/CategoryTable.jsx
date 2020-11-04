@@ -54,12 +54,9 @@ const CategoryTable = ({ intl }) => {
         ids: selectedRowKeys,
       },
     });
-
-    if (result.data === false) {
-      return true;
+    if (result.data !== false) {
+      getCategories();
     }
-
-    getCategories();
     return true;
   };
 

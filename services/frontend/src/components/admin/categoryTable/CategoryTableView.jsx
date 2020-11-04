@@ -111,8 +111,9 @@ const CategoryTableView = ({
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value, record) => {
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
+    },
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
@@ -132,7 +133,7 @@ const CategoryTableView = ({
   });
 
   /* Renders the success message on top of page */
-  const popUpSuccesss = () => {
+  const popUpSuccesses = () => {
     notification.success({
       message: intl.formatMessage({
         id: "admin.success",
@@ -153,7 +154,7 @@ const CategoryTableView = ({
   // Gives error prompt if deletion cannot occur
   const checkDelete = async () => {
     await handleSubmitDelete();
-    popUpSuccesss();
+    popUpSuccesses();
   };
 
   /* handles closure of add or edit category modal */
@@ -166,7 +167,7 @@ const CategoryTableView = ({
       setAddVisible(false);
     }
     setModalType("");
-    popUpSuccesss();
+    popUpSuccesses();
   };
 
   /* handles closure of add or edit category modal */
