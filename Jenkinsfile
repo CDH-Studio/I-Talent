@@ -28,6 +28,11 @@ pipeline {
                     nvm alias default 12.6.0
                     npm i yarn -g
                 """, label: 'Setting up proper node.js version'
+                sh script: """
+                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                    (cd $FRONTEND_DIR && yarn install --production=false)
+                    (cd $BACKEND_DIR && yarn install --production=false)
+                """, label: 'Installing packages'
             }
         }
 
@@ -47,10 +52,6 @@ pipeline {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
                                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn install --production=false
-                            """, label: 'Installing frontend packages'
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
                             """, label: 'Linting frontend'
                         }
@@ -60,10 +61,6 @@ pipeline {
                 stage('backend-linting') {
                     steps {
                         dir("${BACKEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn install --production=false
-                            """, label: 'Installing backend packages'
                             sh script: """
                                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
