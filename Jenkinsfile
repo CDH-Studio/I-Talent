@@ -1,7 +1,5 @@
 @Library('ised-cicd-lib') _
 
-pullRequest.setCredentials('italent-bot', 'e)Q&ar(BE6t2}+EVvyp2')
-
 pipeline {
     agent {
         label 'nodejs'
@@ -38,6 +36,7 @@ pipeline {
                 stage('i18n-linting') {
                     steps {
                         script {
+                            pullRequest.setCredentials('italent-bot', 'e)Q&ar(BE6t2}+EVvyp2')
                             def comment = pullRequest.comment('This PR is highly illogical..')
                         }
                         dir("${FRONTEND_DIR_I18N}") {
