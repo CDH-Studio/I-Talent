@@ -326,6 +326,7 @@
   "search.filter.branch": "Sélectionner une branche",
   "search.filter.skills": "Sélectionner les habiletés",
   "search.filter.mentorship.skills": "Sélectionner les habiletés de mentorat",
+  "search.filter.any.mentors": "Rechercher des mentors?",
   "search.filter.exfeeder": "Rechercher pour des EX-feeder?",
   "search.no.results": "Aucun résultat trouvé",
   "search.results.cards.add.connection": "Crée une connexion",
