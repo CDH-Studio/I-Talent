@@ -15,5 +15,8 @@
     "object-shorthand": "off",
     "class-methods-use-this": "off",
     "prefer-const": "off"
+  },
+  "env": {
+    "jest": true
   }
 }
