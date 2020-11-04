@@ -1,17 +1,12 @@
-const { mockKeycloak, mockPrisma } = require("./mocks");
-const { PrismaClient } = require("../src/database/client");
-const config = require("../src/config");
-
-global.prisma = new PrismaClient({
-  datasources: config.TEST_DATABASE_URL,
-});
+const { keycloakMock, prismaMock } = require("./mocks");
 
 console.log = jest.fn();
 
 global.app = require("../src/server");
 
-mockKeycloak();
-global.mockedKeycloakApp = require("../src/server");
-
-mockPrisma();
-global.mockedPrismaApp = require("../src/server");
+jest.resetModules();
+jest.mock("redis", () => require("redis-mock"));
+keycloakMock();
+prismaMock();
+global.prisma = require("../src/database");
+global.mockedApp = require("../src/server");

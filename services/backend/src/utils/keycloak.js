@@ -12,7 +12,10 @@ const hasResource = (request) =>
   request.kauth.grant.access_token.content.resource_access &&
   request.kauth.grant.access_token.content.resource_access[
     config.KEYCLOAK_CLIENT_ID
-  ];
+  ] &&
+  request.kauth.grant.access_token.content.resource_access[
+    config.KEYCLOAK_CLIENT_ID
+  ].roles;
 
 /**
  * Checksi if the `view-private-profile` role is assigned to the current user
@@ -73,7 +76,9 @@ const getKeycloakUserId = (request) =>
  * @param {string} id
  */
 const isKeycloakUser = (request, id) =>
-  hasContent(request) && getKeycloakUserId(request) === id;
+  typeof id === "string" &&
+  hasContent(request) &&
+  getKeycloakUserId(request) === id;
 
 module.exports = {
   viewPrivateProfile,

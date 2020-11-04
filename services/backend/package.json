@@ -2,7 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "I-Talent team",
-  "main": "server.js",
+  "author": "I-Talent team",
+  "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
     "dev": "npx concurrently \"nodemon -e yml,js,json src/server.js\" \"yarn -s studio\"",
@@ -14,11 +15,9 @@
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio",
-    "test": "node ./tests/setupDatabase && cross-env NODE_ENV=test DATABASE_URL=$TEST_DATABASE_URL jest",
+    "test": "cross-env NODE_ENV=test jest",
     "snyk-protect": "snyk protect"
   },
-  "author": "I-Talent team",
-  "license": "MIT",
   "dependencies": {
     "@prisma/client": "2.9.0",
     "axios": "^0.20.0",
@@ -53,37 +52,12 @@
     "eslint-plugin-jest": "24.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "26.5.2",
+    "faker": "^5.1.0",
+    "jest": "26.6.2",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
-    "supertest": "5.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "setupFiles": [
-      "./tests/setup.js"
-    ],
-    "setupFilesAfterEnv": [
-      "./tests/teardown.js"
-    ],
-    "globalSetup": "./tests/globalSetup.js",
-    "verbose": true,
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "./src/**/*.js",
-      "!./src/docs/**",
-      "!./src/database/**"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "lines": 40,
-        "statements": 40
-      }
-    },
-    "coverageDirectory": "./tests/coverage"
+    "redis-mock": "^0.54.0",
+    "supertest": "6.0.0"
   },
   "snyk": true
 }

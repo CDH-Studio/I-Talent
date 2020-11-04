@@ -82,16 +82,16 @@ const updateUserStatuses = async (request, response) => {
     const userIds = Object.keys(request.body);
 
     await Promise.all(
-      userIds.map(async (userId) => {
-        await prisma.user.update({
+      userIds.map((userId) =>
+        prisma.user.update({
           where: {
             id: userId,
           },
           data: {
             status: request.body[userId],
           },
-        });
-      })
+        })
+      )
     );
 
     response.status(200).send("Successfully updated the user statuses");
