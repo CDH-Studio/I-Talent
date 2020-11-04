@@ -1,12 +1,15 @@
+/**
+ * Pretty prints the relevant information from an axios error
+ *
+ * @param {*} error Axios error from a try/catch
+ */
 const handleAxiosErrors = (error) => {
   if (error.response) {
-    console.log(
-      error.response.status,
-      error.response.statusText,
-      error.response.data
-    );
-    console.log("Config", error.response.config);
-    console.log("Headers", error.response.headers);
+    const { status, statusText, data, config, headers } = error.response;
+
+    console.log(status, statusText, data);
+    console.log("Config", config);
+    console.log("Headers", headers);
   }
 };
 
