@@ -22,9 +22,6 @@ pipeline {
     stages {
         stage('configure-node') {
             steps {
-                script {
-                def comment = pullRequest.comment('This PR is highly illogical..')
-                }
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                     nvm install 12.6.0
@@ -38,6 +35,9 @@ pipeline {
             parallel {
                 stage('i18n-linting') {
                     steps {
+                        script {
+                            def comment = pullRequest.comment('This PR is highly illogical..')
+                        }
                         dir("${FRONTEND_DIR_I18N}") {
                             sh script: 'npm init -y && npm i lodash', label: 'Setup i18n linting dummy project'
                             sh script: 'node check', label: 'Linting i18n files'
@@ -45,35 +45,35 @@ pipeline {
                     }
                 }        
 
-                stage('frontend-linting') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn install --production=false
-                            """, label: 'Installing frontend packages'
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
-                            """, label: 'Linting frontend'
-                        }
-                    }
-                }    
+                // stage('frontend-linting') {
+                //     steps {
+                //         dir("${FRONTEND_DIR}") {
+                //             sh script: """
+                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                //                 yarn install --production=false
+                //             """, label: 'Installing frontend packages'
+                //             sh script: """
+                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                //                 yarn lint
+                //             """, label: 'Linting frontend'
+                //         }
+                //     }
+                // }    
 
-                stage('backend-linting') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn install --production=false
-                            """, label: 'Installing backend packages'
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
-                            """, label: 'Linting backend'
-                        }
-                    }
-                }
+                // stage('backend-linting') {
+                //     steps {
+                //         dir("${BACKEND_DIR}") {
+                //             sh script: """
+                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                //                 yarn install --production=false
+                //             """, label: 'Installing backend packages'
+                //             sh script: """
+                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                //                 yarn lint
+                //             """, label: 'Linting backend'
+                //         }
+                //     }
+                // }
             }
         }
 
