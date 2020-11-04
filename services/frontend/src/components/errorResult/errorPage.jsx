@@ -5,9 +5,8 @@ import { FormattedMessage } from "react-intl";
 import { HomeOutlined } from "@ant-design/icons";
 import ErrorResultView from "./errorResultView";
 
-const Error403 = () => {
+const ErrorPage = (error) => {
   const [back, setBack] = useState(false);
-
   const handleClick = () => {
     setBack(true);
   };
@@ -18,19 +17,19 @@ const Error403 = () => {
 
   return (
     <ErrorResultView
-      status="403"
-      title="403"
-      subTitle={<FormattedMessage id="error.403.subtitle" />}
-      extra={(
+      status={error}
+      title={error}
+      subTitle={<FormattedMessage id={`error.${error}.subtitle`} />}
+      extra={
         <Button onClick={handleClick} type="primary">
           <HomeOutlined />
           <span>
             <FormattedMessage id="error.button" />
           </span>
         </Button>
-      )}
+      }
     />
   );
 };
 
-export default Error403;
+export default ErrorPage;

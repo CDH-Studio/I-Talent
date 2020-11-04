@@ -6,7 +6,7 @@ import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import ErrorResultView from "./errorResultView";
 
-const ErrorProfileNotFound = () => {
+const ErrorProfilePage = (title, subtitle) => {
   const [back, setBack] = useState(false);
   const [profile, setProfile] = useState(false);
   const { id } = useSelector((state) => state.user);
@@ -26,9 +26,9 @@ const ErrorProfileNotFound = () => {
   return (
     <ErrorResultView
       status="404"
-      title={<FormattedMessage id="profile.not.found" />}
-      subTitle={<FormattedMessage id="profile.not.found.description" />}
-      extra={(
+      title={<FormattedMessage id={title} />}
+      subTitle={<FormattedMessage id={subtitle} />}
+      extra={
         <>
           <Button onClick={handleClick} type="primary">
             <HomeOutlined />
@@ -43,9 +43,9 @@ const ErrorProfileNotFound = () => {
             </span>
           </Button>
         </>
-      )}
+      }
     />
   );
 };
 
-export default ErrorProfileNotFound;
+export default ErrorProfilePage;

@@ -145,6 +145,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const syncGedsButtonAction = async ({ paramName }) => {
     setTableLoading(true);
 
+    // eslint-disable-next-line prefer-const
     let updatedProfile = {};
 
     switch (paramName) {

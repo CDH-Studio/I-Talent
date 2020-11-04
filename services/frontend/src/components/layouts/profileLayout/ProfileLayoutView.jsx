@@ -43,7 +43,7 @@ import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
+import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import "./ProfileLayoutView.scss";
 
@@ -464,7 +464,14 @@ const ProfileLayoutView = ({
           </Tooltip>
         }
       />
-      {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
+      {data ? (
+        displayAllProfileCards()
+      ) : (
+        <ErrorProfilePage
+          title="profile.not.found"
+          subtitle="profile.not.found.description"
+        />
+      )}
     </AppLayout>
   );
 };

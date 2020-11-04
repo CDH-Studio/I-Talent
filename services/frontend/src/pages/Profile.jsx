@@ -5,8 +5,7 @@ import { useIntl } from "react-intl";
 import useAxios from "../utils/useAxios";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-import ErrorProfileNotFound from "../components/errorResult/errorProfileNotFound";
-import ErrorProfileHidden from "../components/errorResult/errorProfileHidden";
+import ErrorProfilePage from "../components/errorResult/errorProfilePage";
 
 const Profile = ({ history, match }) => {
   const intl = useIntl();
@@ -102,11 +101,21 @@ const Profile = ({ history, match }) => {
   };
 
   if (userDoesNotExist) {
-    return <ErrorProfileNotFound />;
+    return (
+      <ErrorProfilePage
+        title="profile.not.found"
+        subtitle="profile.not.found.description"
+      />
+    );
   }
 
   if (userIsHidden) {
-    return <ErrorProfileHidden />;
+    return (
+      <ErrorProfilePage
+        title="profile.hidden"
+        subtitle="profile.hidden.description"
+      />
+    );
   }
 
   return (
