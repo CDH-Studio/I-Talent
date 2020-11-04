@@ -38,7 +38,6 @@ pipeline {
                             yarn generate
                             yarn test
                         """, label: 'Testing backend'
-                        archiveArtifacts artifacts: 'tests/coverage/'
                         metrics.sonarScan("ITalent-backend", "./src")
                     }
                 }
