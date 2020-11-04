@@ -21,20 +21,14 @@
     [
       "import",
       {
-        "libraryName": "lodash",
-        "libraryDirectory": "",
-        "camel2DashComponentName": false
-      },
-      "lodash"
-    ],
-    [
-      "import",
-      {
         "libraryName": "@ant-design/icons",
         "libraryDirectory": "lib/icons",
         "camel2DashComponentName": false
       },
       "antd-icons"
+    ],
+    [
+      "lodash"
     ],
     [
       "@babel/plugin-transform-runtime",

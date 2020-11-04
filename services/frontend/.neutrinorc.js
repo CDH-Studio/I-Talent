@@ -4,6 +4,7 @@ const style = require("@neutrinojs/style-loader");
 const antTheme = require("./src/antdTheme");
 const path = require("path");
 const webpack = require("webpack");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 module.exports = {
   options: {
@@ -96,7 +97,8 @@ module.exports = {
           .use(require.resolve("css-minimizer-webpack-plugin"));
       }
 
-      config.plugin("moment-ignore-unused-locales").use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/])
+      config.plugin("moment-ignore-locales").use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/])
+      config.plugin("slim-lodash").use(LodashModuleReplacementPlugin);
 
       if (process.env.ANALYZE_BUILD === "true") {
         const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
