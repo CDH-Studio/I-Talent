@@ -1,5 +1,7 @@
 @Library('ised-cicd-lib') _
 
+pullRequest.setCredentials('italent-bot', 'e)Q&ar(BE6t2}+EVvyp2')
+
 pipeline {
     agent {
         label 'nodejs'
