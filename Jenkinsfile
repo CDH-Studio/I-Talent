@@ -22,7 +22,9 @@ pipeline {
     stages {
         stage('configure-node') {
             steps {
+                script {
                 def comment = pullRequest.comment('This PR is highly illogical..')
+                }
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                     nvm install 12.6.0
