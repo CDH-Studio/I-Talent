@@ -39,7 +39,7 @@
     "morgan": "^1.10.0",
     "redis": "^3.0.2",
     "snyk": "^1.410.4",
-    "swagger-jsdoc": "^4.2.3",
+    "swagger-jsdoc": "^4.3.0",
     "swagger-ui-express": "^4.1.4",
     "validator": "^13.1.17"
   },
