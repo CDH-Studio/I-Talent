@@ -347,6 +347,7 @@ const QualificationsFormView = ({
     );
   }
   /* Once data had loaded display form */
+  console.log("initialValues", initialValues);
   return (
     <>
       <Prompt
@@ -491,7 +492,7 @@ const QualificationsFormView = ({
 
 QualificationsFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
-  initialValues: {
+  initialValues: PropTypes.shape({
     educations: PropTypes.arrayOf(
       PropTypes.shape({
         diploma: PropTypes.string,
@@ -509,18 +510,18 @@ QualificationsFormView.propTypes = {
         subheader: PropTypes.string,
       })
     ),
-  },
+  }),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
-  options: {
+  options: PropTypes.shape({
     diplomas: KeyTitleOptionsPropType,
     schools: KeyTitleOptionsPropType,
     attachmentNamesEdu: KeyNameOptionsPropType,
     attachmentNamesExp: KeyNameOptionsPropType,
-  },
+  }),
   saveDataToDB: PropTypes.func.isRequired,
 };
 
