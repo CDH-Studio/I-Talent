@@ -29,7 +29,7 @@ const QualifiedPools = ({ data, editableCardBool }) => {
       titleId="profile.qualified.pools"
       cardName="qualifiedPools"
       id="card-profile-qualified-pools"
-      editUrl="/profile/edit/personal-growth?tab=qualified-pools"
+      editUrl="/profile/edit/career-management?tab=qualified-pools"
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.qualifiedPools}

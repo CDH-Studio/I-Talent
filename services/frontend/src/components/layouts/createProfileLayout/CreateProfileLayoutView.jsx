@@ -11,7 +11,7 @@ import {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm,
+  CareerManagementForm,
   QualificationsForm,
   DoneSetup,
 } from "../../profileForms";
@@ -73,7 +73,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       case 6:
         return <QualificationsForm formType="create" />;
       case 7:
-        return <PersonalGrowthForm formType="create" />;
+        return <CareerManagementForm formType="create" />;
       case 8:
         return <DoneSetup formType="create" />;
       default:

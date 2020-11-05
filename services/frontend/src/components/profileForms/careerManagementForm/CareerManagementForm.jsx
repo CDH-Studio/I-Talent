@@ -6,15 +6,15 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useIntl } from "react-intl";
 import useAxios from "../../../utils/useAxios";
 
-import PersonalGrowthFormView from "./PersonalGrowthFormView";
+import CareerManagementFormView from "./CareerManagementFormView";
 import handleError from "../../../functions/handleError";
 
 /**
- *  Personal Growth Form(props)
+ *  Career Management Form(props)
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = ({ formType }) => {
+const CareerManagementForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
@@ -321,9 +321,9 @@ const PersonalGrowthForm = ({ formType }) => {
     history,
     getClassificationOptions,
   ]);
-  console.log("personalgrowthfomr", savedQualifiedPools);
+
   return (
-    <PersonalGrowthFormView
+    <CareerManagementFormView
       profileInfo={profileInfo}
       developmentalGoalOptions={developmentalGoalOptions}
       savedDevelopmentalGoals={savedDevelopmentalGoals}
@@ -350,8 +350,8 @@ const PersonalGrowthForm = ({ formType }) => {
   );
 };
 
-PersonalGrowthForm.propTypes = {
+CareerManagementForm.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
-export default PersonalGrowthForm;
+export default CareerManagementForm;

@@ -3,7 +3,7 @@ import PrimaryInfoForm from "./primaryInfoForm/PrimaryInfoForm";
 import EmploymentDataForm from "./employmentDataForm/EmploymentDataForm";
 import LangProficiencyForm from "./langProficiencyForm/LangProficiencyForm";
 import TalentForm from "./talentForm/TalentForm";
-import PersonalGrowthForm from "./personalGrowthForm/PersonalGrowthForm";
+import CareerManagementForm from "./careerManagementForm/CareerManagementForm";
 import QualificationsForm from "./qualificationsForm/QualificationsForm";
 import DoneSetup from "./doneSetup/DoneSetup";
 
@@ -13,7 +13,7 @@ export {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm,
+  CareerManagementForm,
   QualificationsForm,
   DoneSetup,
 };

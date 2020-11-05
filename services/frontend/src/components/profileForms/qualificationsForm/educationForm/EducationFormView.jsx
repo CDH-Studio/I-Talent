@@ -98,7 +98,7 @@ const EducationFormView = ({
     }
     return undefined;
   };
-  console.log("savedQualifiedPools", fieldElement);
+
   return (
     <div className="formItem">
       <Row gutter={24} className="gutter-row titleRow">
@@ -241,7 +241,7 @@ const EducationFormView = ({
                   {/* Checkbox if event is on-going */}
                   <Form.Item
                     style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
-                    //name={[fieldElement.name, "ongoingDate"]}
+                    name={[fieldElement.name, "ongoingDate"]}
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
                     initialValue={false}
                     valuePropName="checked"

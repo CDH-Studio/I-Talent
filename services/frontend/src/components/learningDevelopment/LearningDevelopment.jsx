@@ -9,7 +9,7 @@ const LearningDevelopment = ({ data, editableCardBool }) => (
     titleId="profile.learning.development"
     cardName="developmentalGoals"
     id="card-profile-learning-development"
-    editUrl="/profile/edit/personal-growth?tab=learning-development"
+    editUrl="/profile/edit/career-management?tab=learning-development"
     data={data}
     editableCardBool={editableCardBool}
     visibility={data.visibleCards.developmentalGoals}

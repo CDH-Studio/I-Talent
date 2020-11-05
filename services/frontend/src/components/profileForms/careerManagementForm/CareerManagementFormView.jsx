@@ -38,9 +38,10 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./PersonalGrowthFormView.scss";
+import "./CareerManagementFormView.scss";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
+import FormTitle from "../formTitle/FormTitle";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -52,7 +53,7 @@ const { TabPane } = Tabs;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const PersonalGrowthFormView = ({
+const CareerManagementFormView = ({
   profileInfo,
   developmentalGoalOptions,
   savedDevelopmentalGoals,
@@ -109,6 +110,9 @@ const PersonalGrowthFormView = ({
     if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
+
+    values.FiberNode = null;
+    console.log(values);
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
@@ -274,31 +278,6 @@ const PersonalGrowthFormView = ({
     return message;
   };
 
-  /*
-   * Get form header
-   *
-   * Generates the form header (title)
-   */
-  const getFormHeader = () => {
-    if (formType === "create") {
-      return (
-        <Title level={2} className="pgf-formTitle">
-          7. <FormattedMessage id="profile.employee.growth.interests" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="pgf-formTitle">
-        <FormattedMessage id="profile.employee.growth.interests" />
-        {fieldsChanged && (
-          <Text className="pgf-unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   const getSectionHeader = (titleId, cardName) => (
     <Row justify="space-between" className="pgf-sectionHeader" align="middle">
       <Title level={3} className="pgf-formTitle">
@@ -350,11 +329,16 @@ const PersonalGrowthFormView = ({
       />
       <div className="pgf-content">
         {/* get form title */}
-        {getFormHeader()}
+        <FormTitle
+          title={<FormattedMessage id="profile.employee.growth.interests" />}
+          formType={formType}
+          stepNumber={7}
+          fieldsChanged={fieldsChanged}
+        />
         <Divider className="pgf-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
+          name="PersonalGrowth"
           form={form}
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
@@ -390,6 +374,7 @@ const PersonalGrowthFormView = ({
                     />
                   </Form.Item>
                 </Col>
+
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="developmentalGoalsAttachments">
                     {(fields, { add, remove }) => {
@@ -469,16 +454,15 @@ const PersonalGrowthFormView = ({
                 </Col>
               </Row>
             </TabPane>
+
+            {/* ===== Job Mobility Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.career.interests" />,
               })}
               key="career-interests"
             >
-              {/* *************** Career Interest ************** */}
-
               {getSectionHeader("setup.career.interests", "careerInterests")}
-              {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
@@ -552,6 +536,8 @@ const PersonalGrowthFormView = ({
                 </Col>
               </Row>
             </TabPane>
+
+            {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: (
@@ -560,8 +546,6 @@ const PersonalGrowthFormView = ({
               })}
               key="talent-management"
             >
-              {/* *************** Talent Management ************** */}
-
               <Row justify="space-between" align="middle">
                 <Title level={3} className="pgf-formTitle">
                   <Row>
@@ -651,7 +635,6 @@ const PersonalGrowthFormView = ({
                 </Col>
               </Row>
             </TabPane>
-
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.ex.feeder.title" />,
@@ -685,7 +668,7 @@ const PersonalGrowthFormView = ({
   );
 };
 
-PersonalGrowthFormView.propTypes = {
+CareerManagementFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   developmentalGoalOptions: KeyTitleOptionsPropType,
   savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
@@ -716,7 +699,7 @@ PersonalGrowthFormView.propTypes = {
       selectionProcessNumber: PropTypes.string,
       jobPosterLink: PropTypes.string,
     })
-  ).isRequired,
+  ),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
@@ -733,7 +716,7 @@ PersonalGrowthFormView.propTypes = {
   ),
 };
 
-PersonalGrowthFormView.defaultProps = {
+CareerManagementFormView.defaultProps = {
   currentTab: null,
   careerMobilityOptions: [],
   developmentalGoalOptions: [],
@@ -754,4 +737,4 @@ PersonalGrowthFormView.defaultProps = {
   savedAttachments: undefined,
 };
 
-export default injectIntl(PersonalGrowthFormView);
+export default injectIntl(CareerManagementFormView);

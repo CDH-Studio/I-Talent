@@ -24,6 +24,7 @@ import { Prompt } from "react-router";
 import handleError from "../../../functions/handleError";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import EducationForm from "./educationForm/EducationForm";
+import FormTitle from "../formTitle/FormTitle";
 
 import {
   ProfileInfoPropType,
@@ -193,6 +194,7 @@ const QualificationsFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        console.log("educationForm", values);
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
@@ -298,31 +300,6 @@ const QualificationsFormView = ({
     return message;
   };
 
-  /*
-   * Get form header
-   *
-   * Generates the form header (title)
-   */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Title level={2} className="qual-formTitle">
-          6. <FormattedMessage id="profile.employee.qualifications" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="qual-formTitle">
-        <FormattedMessage id="profile.employee.qualifications" />
-        {fieldsChanged && (
-          <Text className="qual-unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   const getSectionHeader = (titleId, cardName) => (
     <Row justify="space-between" className="qual-sectionHeader" align="middle">
       <Title level={3} className="qual-formTitle">
@@ -347,7 +324,6 @@ const QualificationsFormView = ({
     );
   }
   /* Once data had loaded display form */
-  console.log("initialValues", initialValues);
   return (
     <>
       <Prompt
@@ -356,9 +332,14 @@ const QualificationsFormView = ({
       />
       <div className="qual-content">
         {/* get form title */}
-        {getFormHeader(formType)}
-        <Divider className="qual-headerDiv" />
+        <FormTitle
+          title={<FormattedMessage id="profile.employee.qualifications" />}
+          formType={formType}
+          stepNumber={6}
+          fieldsChanged={fieldsChanged}
+        />
 
+        <Divider className="qual-headerDiv" />
         {/* Create form with initial values */}
         <Form
           name="QualificationForm"
