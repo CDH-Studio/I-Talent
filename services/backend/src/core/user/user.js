@@ -17,7 +17,7 @@ function generateAvatarColor() {
     "#ad5944",
     "#ad4463",
   ];
-  return colours[Math.floor(Math.random() * colours.length)];
+  return colours[_.random(colours.length - 1)];
 }
 
 function getNameInitials(firstName, lastName) {
