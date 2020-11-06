@@ -110,9 +110,7 @@ const CareerManagementFormView = ({
     if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
-
-    values.FiberNode = null;
-    console.log(values);
+    console.log("saveDataToDB", values);
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
@@ -345,13 +343,13 @@ const CareerManagementFormView = ({
           onValuesChange={checkIfFormValuesChanged}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
+            {/* ===== Developmental Goals Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.learning.development" />,
               })}
               key="learning-development"
             >
-              {/* *************** Developmental ************** */}
               {getSectionHeader(
                 "setup.developmental.goals",
                 "developmentalGoals"
@@ -408,13 +406,14 @@ const CareerManagementFormView = ({
                 </Col>
               </Row>
             </TabPane>
+
+            {/* ===== Qualified Pools Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.qualified.pools" />,
               })}
               key="qualified-pools"
             >
-              {/* *************** Qualified Pools ************** */}
               {getSectionHeader(
                 "setup.qualified.pools.title",
                 "qualifiedPools"

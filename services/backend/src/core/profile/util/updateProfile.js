@@ -354,7 +354,7 @@ async function updateProfile(request, userId, language) {
       select: { signupStep: true },
     })
   ).signupStep;
-
+  console.log(educations);
   await prisma.user.update({
     where: { id: userId },
     data: {
@@ -562,23 +562,25 @@ async function updateProfile(request, userId, language) {
                   id: educationItem.schoolId,
                 },
               },
-              attachmentLinks: educationItem.attachmentLinks
-                ? {
-                    create: educationItem.attachmentLinks.map((link) => ({
-                      translations: {
-                        create: {
-                          language,
-                          name: {
-                            connect: {
-                              id: link.nameId,
+              attachmentLinks:
+                educationItem.attachmentLinks &&
+                educationItem.attachmentLinks > 0
+                  ? {
+                      create: educationItem.attachmentLinks.map((link) => ({
+                        translations: {
+                          create: {
+                            language,
+                            name: {
+                              connect: {
+                                id: link.nameId,
+                              },
                             },
+                            url: link.url,
                           },
-                          url: link.url,
                         },
-                      },
-                    })),
-                  }
-                : undefined,
+                      })),
+                    }
+                  : undefined,
             })),
           }
         : undefined,
@@ -602,23 +604,24 @@ async function updateProfile(request, userId, language) {
                   description: expItem.description,
                 },
               },
-              attachmentLinks: expItem.attachmentLinks
-                ? {
-                    create: expItem.attachmentLinks.map((link) => ({
-                      translations: {
-                        create: {
-                          language,
-                          name: {
-                            connect: {
-                              id: link.nameId,
+              attachmentLinks:
+                expItem.attachmentLinks && expItem.attachmentLinks > 0
+                  ? {
+                      create: expItem.attachmentLinks.map((link) => ({
+                        translations: {
+                          create: {
+                            language,
+                            name: {
+                              connect: {
+                                id: link.nameId,
+                              },
                             },
+                            url: link.url,
                           },
-                          url: link.url,
                         },
-                      },
-                    })),
-                  }
-                : undefined,
+                      })),
+                    }
+                  : undefined,
             })),
           }
         : undefined,
