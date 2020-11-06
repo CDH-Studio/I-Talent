@@ -23,6 +23,21 @@ pipeline {
             steps {
 			    dir("${BACKEND_DIR}") {
                     script {
+                        sh script: """
+                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                            nvm install 14.15.0
+                            nvm alias default 14.15.0
+                            npm i yarn -g
+                        """, label: 'Setting up proper node.js version'
+                        sh script: """
+                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                            yarn install --production=false
+                        """, label: 'Installing backend packages'
+                        sh script: """
+                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                            yarn generate
+                            yarn test
+                        """, label: 'Testing backend'
                         metrics.sonarScan("ITalent-backend", "./src")
                     }
                 }
