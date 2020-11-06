@@ -463,11 +463,11 @@ const PersonalGrowthFormView = ({
                       style={{ width: "100%" }}
                       placeholder={<FormattedMessage id="setup.select" />}
                       filterOption={filterOption}
-                      options={relocationOptions.map((value) => ({
-                        label: `${value.city}, ${value.province}`,
-                        value: value.id,
-                      }))}
-                    />
+                    >
+                      {relocationOptions.map((value) => {
+                        return <Option key={value.id}>{`${value.city}, ${value.province}`}</Option>;
+                      })}
+                    </Select>
                   </Form.Item>
                 </Col>
               </Row>
