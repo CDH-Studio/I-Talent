@@ -11,7 +11,7 @@
     "migrate": "cd src/database && prisma migrate up --experimental -c",
     "migrate:create": "cd src/database && prisma migrate save --experimental",
     "docker:dev": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
-    "docker:prod": "yarn -s generate && yarn -s migrate && yarn -s start",
+    "docker:prod": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s start", 
     "lint": "./node_modules/.bin/eslint src",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio",
@@ -38,7 +38,7 @@
     "morgan": "^1.10.0",
     "redis": "^3.0.2",
     "snyk": "^1.410.4",
-    "swagger-jsdoc": "^4.2.3",
+    "swagger-jsdoc": "^4.3.0",
     "swagger-ui-express": "^4.1.4",
     "validator": "^13.1.17"
   },
