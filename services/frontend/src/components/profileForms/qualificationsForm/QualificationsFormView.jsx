@@ -37,7 +37,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import "./QualificationsFormView.scss";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const QualificationsFormView = ({

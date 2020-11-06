@@ -38,6 +38,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
+import FormTitle from "../formTitle/FormTitle";
 
 import "./PrimaryInfoFormView.scss";
 
@@ -349,81 +350,6 @@ const PrimaryInfoFormView = ({
     </Popover>
   );
 
-  /**
-   * Generate form header based on form type
-   * @param {string('create'|'edit')} formType - allowed form types
-   */
-  const getFormHeader = ({ formHeaderType }) => {
-    if (formHeaderType === "create") {
-      return (
-        <Title level={2} className="prim-formTitle">
-          2. <FormattedMessage id="setup.primary.information" />
-          <div className="prim-gedsInfoLink">
-            <Popover
-              trigger={["focus", "hover"]}
-              content={
-                <div className="prim-popoverStyle">
-                  <FormattedMessage id="profile.geds.edit.info1" />
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                  >
-                    <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>
-                  <FormattedMessage id="profile.geds.edit.info2" />
-                </div>
-              }
-            >
-              <InfoCircleOutlined tabIndex={0} />
-            </Popover>
-          </div>
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="prim-formTitle">
-        <FormattedMessage id="setup.primary.information" />
-        <div className="prim-gedsInfoLink">
-          <Button
-            onClick={() => {
-              setGedsModalVisible(true);
-            }}
-            className="prim-rightSpacedButton"
-          >
-            <SyncOutlined />
-            <span>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </span>
-          </Button>
-          <Popover
-            trigger={["focus", "hover"]}
-            content={
-              <div className="prim-popoverStyle">
-                <FormattedMessage id="profile.geds.edit.info1" />
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                >
-                  <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>
-                <FormattedMessage id="profile.geds.edit.info2" />
-              </div>
-            }
-          >
-            <InfoCircleOutlined tabIndex={0} />
-          </Popover>
-        </div>
-        {fieldsChanged && (
-          <Text className="unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -445,7 +371,51 @@ const PrimaryInfoFormView = ({
       <div className="prim-content">
         <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
         {/* get form title */}
-        {getFormHeader({ formHeaderType: formType })}
+        {/* {getFormHeader({ formHeaderType: formType })} */}
+        <Row justify="space-between" style={{ marginBottom: -5 }}>
+          <FormTitle
+            title={<FormattedMessage id="setup.primary.information" />}
+            formType={formType}
+            stepNumber={2}
+            fieldsChanged={fieldsChanged}
+            extra={
+              <>
+                {formType === "edit" && (
+                  <Button
+                    onClick={() => {
+                      setGedsModalVisible(true);
+                    }}
+                    className="prim-rightSpacedButton"
+                  >
+                    <SyncOutlined />
+                    <span>
+                      <FormattedMessage id="profile.geds.sync.button" />
+                    </span>
+                  </Button>
+                )}
+                <Popover
+                  trigger={["focus", "hover"]}
+                  content={
+                    <div className="prim-popoverStyle">
+                      <FormattedMessage id="profile.geds.edit.info1" />
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                      >
+                        <FormattedMessage id="profile.geds.edit.info.link" />
+                      </a>
+                      <FormattedMessage id="profile.geds.edit.info2" />
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined tabIndex={0} />
+                </Popover>
+              </>
+            }
+          />
+        </Row>
+
         <Divider className="prim-headerDiv" />
         {/* Create for with initial values */}
         <Form
