@@ -33,109 +33,6 @@ const AdminDashboard = ({ intl }) => {
   const axios = useAxios();
   const history = useHistory();
 
-  // Get dashboard data for statistic cards
-  const getUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/users`);
-
-      dispatch(setCountUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getHiddenUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/hiddenUsers`);
-
-      dispatch(setCountHiddenUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getInactiveUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/inactiveUsers`);
-
-      dispatch(setCountInactiveUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getExfeederUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/exFeederUsers`);
-
-      dispatch(setCountExFeederUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getGrowthRateByMonth = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/growthRateByMonth`);
-
-      dispatch(setGrowthRateByMonth(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getGrowthRateByWeek = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/growthRateByWeek`);
-
-      dispatch(setGrowthRateByWeek(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getTopFiveCompetencies = useCallback(async () => {
-    try {
-      dispatch(setTopFiveCompetencies([]));
-
-      const results = await axios.get(
-        `api/stats/topFiveCompetencies?language=${locale}`
-      );
-
-      dispatch(setTopFiveCompetencies(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, locale, history]);
-
-  const getTopFiveSkills = useCallback(async () => {
-    try {
-      dispatch(setTopFiveSkills([]));
-
-      const results = await axios.get(
-        `api/stats/topFiveSkills?language=${locale}`
-      );
-
-      dispatch(setTopFiveSkills(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, locale, history]);
-
-  const getTopFiveDevelopmentalGoals = useCallback(async () => {
-    try {
-      dispatch(setTopFiveDevelopmentalGoals([]));
-
-      const results = await axios.get(
-        `api/stats/topFiveDevelopmentalGoals?language=${locale}`
-      );
-
-      dispatch(setTopFiveDevelopmentalGoals(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, locale, history]);
-
   // Get part of the title for the page
   const getDisplayType = useCallback(
     (plural) => {
@@ -151,34 +48,56 @@ const AdminDashboard = ({ intl }) => {
     [intl]
   );
 
+  const getBackendInfo = useCallback(async () => {
+    try {
+      return await Promise.all([
+        axios.get(`api/stats/count/users`),
+        axios.get(`api/stats/count/hiddenUsers`),
+        axios.get(`api/stats/count/inactiveUsers`),
+        axios.get(`api/stats/count/exFeederUsers`),
+        axios.get(`api/stats/growthRateByMonth`),
+        axios.get(`api/stats/growthRateByWeek`),
+        axios.get(`api/stats/topFiveCompetencies?language=${locale}`),
+        axios.get(`api/stats/topFiveDevelopmentalGoals?language=${locale}`),
+        axios.get(`api/stats/topFiveSkills?language=${locale}`),
+      ]);
+    } catch (error) {
+      handleError(error, "redirect", history);
+      throw error;
+    }
+  }, [axios, history, locale]);
+
   // useEffect to run once component is mounted
   useEffect(() => {
-    Promise.all([
-      getUserCount(),
-      getHiddenUserCount(),
-      getInactiveUserCount(),
-      getExfeederUserCount(),
-      getGrowthRateByMonth(),
-      getGrowthRateByWeek(),
-      getTopFiveCompetencies(),
-      getTopFiveSkills(),
-      getTopFiveDevelopmentalGoals(),
-    ]);
-  }, [
-    getExfeederUserCount,
-    getGrowthRateByMonth,
-    getGrowthRateByWeek,
-    getHiddenUserCount,
-    getInactiveUserCount,
-    getTopFiveCompetencies,
-    getTopFiveDevelopmentalGoals,
-    getTopFiveSkills,
-    getUserCount,
-  ]);
-
-  useEffect(() => {
     document.title = `${getDisplayType(false)} - Admin | I-Talent`;
-  }, [getDisplayType]);
+    dispatch(setTopFiveCompetencies([]));
+    dispatch(setTopFiveSkills([]));
+    dispatch(setTopFiveDevelopmentalGoals([]));
+
+    getBackendInfo().then(
+      ([
+        userCount,
+        hiddenUserCount,
+        inactiveUserCount,
+        exFeederUserCount,
+        growthRateByMonth,
+        growthRateByWeek,
+        topFiveCompetencies,
+        topFiveSkills,
+        topFiveDevelopmentalGoals,
+      ]) => {
+        dispatch(setCountUsers(userCount.data));
+        dispatch(setCountHiddenUsers(hiddenUserCount.data));
+        dispatch(setCountInactiveUsers(inactiveUserCount.data));
+        dispatch(setCountExFeederUsers(exFeederUserCount.data));
+        dispatch(setGrowthRateByMonth(growthRateByMonth.data));
+        dispatch(setGrowthRateByWeek(growthRateByWeek.data));
+        dispatch(setTopFiveCompetencies(topFiveCompetencies.data));
+        dispatch(setTopFiveSkills(topFiveSkills.data));
+        dispatch(setTopFiveDevelopmentalGoals(topFiveDevelopmentalGoals.data));
+      }
+    );
+  }, [dispatch, getBackendInfo, getDisplayType]);
 
   return (
     <AdminLayout displaySideBar type="dashboard">
