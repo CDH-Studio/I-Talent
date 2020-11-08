@@ -1,143 +1,62 @@
-<img src="services/frontend/src/assets/I-talent-logo.png" alt="I-Talent Logo" width="250" />
+<img src="services/frontend/src/assets/I-talent-logo-light.png" alt="I-Talent Logo" width="270" />
+
+[![DEV Deployment](https://img.shields.io/badge/Application-DEV-green)](http://italent-development.apps.dev.openshift.ised-isde.canada.ca/)
+[![UAT Deployment](https://img.shields.io/badge/Application-UAT-green)](http://italent-uat.apps.dev.openshift.ised-isde.canada.ca/)
+[![DEV OpenShift](https://img.shields.io/badge/OpenShift%20Management-DEV-red?logo=red-hat-open-shift)](https://console.dev.openshift.ised-isde.canada.ca:8443/console/project/italent-development/overview)
+[![UAT OpenShift](https://img.shields.io/badge/OpenShift%20Management-UAT-red?logo=red-hat-open-shift)](https://console.dev.openshift.ised-isde.canada.ca:8443/console/project/mytalent/overview)
+[![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-blue?logo=sonarqube&logoColor=white)](https://sonarqube-ised-ci.apps.dev.openshift.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
+[![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-blue?logo=sonarqube&logoColor=white)](https://sonarqube-ised-ci.apps.dev.openshift.ised-isde.canada.ca/dashboard?id=ITalent-backend)
+[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white)](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
 
 An improved directory and employee search tool.
 
-#### Access to application
+I-Talent is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials. ISED employees can login to I-Talent with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
 
-Development version of I-Talent can be accessed [here](http://italent-development.apps.dev.openshift.ised-isde.canada.ca/).<br>
-UAT version of I-Talent can be accessed [here](http://italent-uat.apps.dev.openshift.ised-isde.canada.ca/).<br>
+# Getting started
 
-#### Access to documentation
+You'll need to create three files to define the envirnment variables, one at the root of the project and two in the `env` folder. To get those variables, ask the current developers. 
 
-API documentation can be accessed locally [here](http://localhost:8080/api-docs) (needs the backend server running).
+[Docker](https://www.docker.com/) and [Visual Studio Code](https://code.visualstudio.com/) are technically optional tools for development, but are highly recommended! A list of useful Visual Studio Code extensions are listed [here](https://github.com/CDH-Studio/I-Talent/wiki/Tech-stack#useful-visual-studio-code-extensions).
 
-#### Access to CI/CD
+In the root of the project, to start developing the application use the [Docker Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) or run the following command:
 
-Jenkins builds are available [here](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
+```bash
+docker-compose up
+```
 
-# Table of Contents
+You can now access different components of the web application:
 
-- [What is I-Talent?](#what-is-I-Talent)
-- [Contributors](#contributors)
-- [Tech Stack](#tech-stack)
-- [Repo Structure](#repo-structure)
-- [Architecture Overview](#architecture-overview)
-- [Local Development](#local-development)
-- [Wiki](#wiki)
-- [Contact](#contact)
+- [localhost:3000](http://localhost:3000) - Application
+- [localhost:5555](http://localhost:5555) - Prisma studio, database visualizer/editer
+- [localhost:3031](http://localhost:3031) - Webpack analyzer (need to run `yarn analyze` in the frontend docker container)
+- [localhost:8080](http://localhost:8080) - API endpoints
+- [localhost:8080/api-docs](http://localhost:8080/api-docs) - API endpoints documentation
+- [localhost:5432](http://localhost:5432) - PostgreSQL database
 
-# What is I-Talent?
+> Note: Internet connection is required to run the application unless you setup keycloak locally with the steps described in the [wiki](https://github.com/CDH-Studio/I-Talent/wiki/Local-Keycloak-setup)
 
-I-Talent is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials.
+Visit backend [README](services/backend/README.md) and the frontend [README](services/frontend/README.md) for more information.
 
-Any ISED employee will be able to login to I-Talent with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
+# Wiki
+
+Visit the [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) has more information about our tech stack, OpenShift project management and templating, Postman API testing setup, and local Keycloak setup.
 
 # Contributors
 
 Our full stack developers
 
-**Active developers**
+| **Active developers** | **Previous developers** |
+| --- | --- |
+| [Ali Nouri](https://www.linkedin.com/in/a-nouri/) | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/) |
+| [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/) |  [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/) |
+| [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/) | [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/) |
+| [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/) | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
+| [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
 
-- [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)
-- [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)
-- [Ali Nouri](https://www.linkedin.com/in/a-nouri/)
-- [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)
-- [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)
+# Contributing
 
-**Previous developers**
-
-- [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)
-- [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)
-- [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
-- [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
-
-# Tech Stack
-
-- Frontend Service Framework: React
-- Backend Service Framework: Node + Express + Prisma
-- Database: Postgres
-- Testing Framework: Jest
-- Hosting: OpenShift
-
-# Architecture Overview
-
-I-Talent is broken down into two different services: Frontend and Backend.
-
-- Frontend: Serves the React app that is the web interface for I-Talent.
-- Backend: Manages data coming into and out of the database (see its [README](services/backend/README.md))
-
-# Local Development
-
-The following is a guide on how to bring up the pieces of the application for development.
-
-## Web App Development Prerequisites
-
-You must have the following already installed:
-
-- Docker
-- Vscode
-
-#### Linter
-
-The following extensions need to be installed for the linter:
-
-- Prettier (plugin)
-- Eslint (plugin)
-
-Eslint is used for the project with Airbnb style guide.
-
-[React Airbnb style guide documentation](https://github.com/airbnb/javascript/tree/master/react)
-[Javascript Airbnb style guide documentation](https://github.com/airbnb/javascript)
-
-## Running the Entire Application
-
-To run the entire application locally, run the following:
-
-```
-docker-compose up
-```
-
-You can access different components of the web application:
-
-- Frontend at `localhost:3000`.
-- Backend at `localhost:8080`.
-- API documentation at `localhost:8080/api-docs`.
-- Postgres database at `localhost:5432`.
-- Prisma studio at `localhost:5555`.
-- Webpack analyzer `localhost:3031` (see frontend README to see detailed instructions to run).
-
-Checkout the `docker-compose.yml` file for information on which ports to use to access all of the other services.
-
-## To run keycloak locally
-
-1. Add the network_mode to the backend container to "host" (in docker-compose.yml)
-2. And add the following docker-compose service
-
-```yml
-keycloak:
-  container_name: "italent-keycloak"
-  image: "jboss/keycloak"
-  ports:
-    - "8180:8180"
-  volumes:
-    - ./keycloak:/opt/jboss/keycloak/keycloak
-  hostname: keycloak
-  command:
-    - "-Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json -Djboss.http.port=8180"
-  environment:
-    KEYCLOAK_USER: administrator
-    KEYCLOAK_PASSWORD: password
-```
-
-3. You'll need to make everything linking a container in the backend to refer localhost instead (i.e. redis and postgres)
-4. You'll also need to update the keycloak environment variables in the frontend and in the backend to refer to http://localhost:8180/auth
-
-The credentials for the users when using the local keycloak are specified in the [realm-export.json](./keycloak/realm-export.json) file
-
-# Wiki
-
-In order to contribute to I-Talent, see our [Github Wiki](https://github.com/CDH-Studio/UpSkill/wiki) to understand our Way of Working.
+Want to contribute to this project? Take a look at our [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) and [CONTRIBUTING](CONTRIBUTING.md) file to start!
 
 # Contact
 
-- [CDH Studio Website](https://cdhstudio.ca/)
+This application is developped by students at [CDH Studio](https://cdhstudio.ca/)
