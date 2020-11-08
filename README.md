@@ -4,9 +4,9 @@
 [![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](http://italent-uat.apps.dev.openshift.ised-isde.canada.ca/)
 [![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-blue?logo=sonarqube&logoColor=white&style=for-the-badge)](https://sonarqube-ised-ci.apps.dev.openshift.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
 [![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-blue?logo=sonarqube&logoColor=white&style=for-the-badge)](https://sonarqube-ised-ci.apps.dev.openshift.ised-isde.canada.ca/dashboard?id=ITalent-backend)
+[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=for-the-badge)](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
 [![DEV OpenShift](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console.dev.openshift.ised-isde.canada.ca:8443/console/project/italent-development/overview)
 [![UAT OpenShift](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console.dev.openshift.ised-isde.canada.ca:8443/console/project/mytalent/overview)
-[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=for-the-badge)](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
 
 An improved directory and employee search tool.
 
