@@ -67,7 +67,7 @@ const AppProvider = ({ children }) => (
           <ReactKeycloakProvider
             authClient={keycloak}
             initOptions={initKeycloakConfig}
-            LoadingComponent={<AppLayout loading />}
+            LoadingComponent={<div />}
           >
             {children}
           </ReactKeycloakProvider>
