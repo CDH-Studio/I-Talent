@@ -27,6 +27,38 @@
     security:
       - Keycloak: []
     tags: [bugs]
+  put:
+    summary: Update a bug
+    produces:
+      - application/json
+    parameters:
+      - name: body
+        in: body
+        description: An object containing a description, githubIssue, location, and/or status
+        required: true
+        schema:
+          type: object
+          properties:
+            description:
+              type: string
+            githubIssue:
+              type: number
+            location:
+              $ref: "#/definitions/BugsLocationEnum"
+            status:
+              $ref: "#/definitions/BugsStatusEnum"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [bugs]
   get:
     summary: Get all bugs
     produces:
