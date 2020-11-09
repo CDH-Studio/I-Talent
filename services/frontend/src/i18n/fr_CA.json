@@ -390,5 +390,27 @@
   "sign.out": "Déconnexion",
   "stats.title": "Statistiques",
   "stats.view": "Voir statistiques",
-  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : "
+  "tooltip.extra.info.help": "Pour plus d'informations, visitez notre page d'aide et de contact : ",
+
+  "admin.bugs": "Bogues signalés",
+  "admin.bugs.edit": "Modifier le bogue",
+  "admin.bugs.app.version": "Version de l'application",
+  "admin.bugs.github": "Lien au problème GitHub",
+  "admin.bugs.description": "Description : ",
+  "admin.created.at": "Créé",
+
+  "bugs.action": "Signaler un bogue",
+  "bugs.modal.ok": "Envoyer le rapport de bogue",
+  "bugs.modal.description": "Désolé d'apprendre que vous avez rencontré un bogue dans l'application. Veuillez remplir les champs suivants pour que nous puissions résoudre le problème.",
+  "bugs.modal.note": "Votre compte sera lié à ce rapport.",
+  "bugs.description": "Description",
+  "bugs.location": "Emplacement",
+  "bugs.location.home": "Accueil",
+  "bugs.location.forms": "Formulaires",
+  "bugs.location.search": "Recherche",
+  "bugs.location.profile": "Profil",
+  "bugs.github": "Numéro de problème GitHub",
+  "bugs.status": "Statut",
+  "bugs.status.resolved": "Résolu",
+  "bugs.status.unresolved": "Non résolu"
 }

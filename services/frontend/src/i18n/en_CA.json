@@ -391,18 +391,26 @@
   "stats.title": "Statistics",
   "stats.view": "View stats",
   "tooltip.extra.info.help": "For more information, visit our help and contact page: ",
+
   "admin.bugs": "User reported bugs",
+  "admin.bugs.app.version": "Application version",
+  "admin.bugs.github": "Linked GitHub issue",
+  "admin.bugs.description": "Description: ",
+  "admin.bugs.edit": "Edit bug",
+  "admin.created.at": "Created at",
 
   "bugs.action": "Report a bug",
   "bugs.modal.ok": "Send bug report",
-  "bugs.description": "Sorry to hear you encountered a bug. Please fill out the following fields for us to address the bug.",
-  "bugs.note": "Your account will be linked to this report, for us to contact you in case.",
-  "bugs.form.description": "Bug description",
-  "bugs.form.location": "Bug location",
+  "bugs.modal.description": "Sorry to hear you encountered a bug. Please fill out the following fields for us to address the problem.",
+  "bugs.modal.note": "Your account will be linked to this report.",
+  "bugs.description": "Description",
+  "bugs.location": "Location",
   "bugs.location.home": "Home",
   "bugs.location.forms": "Forms",
   "bugs.location.search": "Search",
   "bugs.location.profile": "Profile",
-
-  "admin.bugs.location": "Bug location"
+  "bugs.github": "GitHub issue number",
+  "bugs.status": "Status",
+  "bugs.status.resolved": "Resolved",
+  "bugs.status.unresolved": "Unresolved"
 }

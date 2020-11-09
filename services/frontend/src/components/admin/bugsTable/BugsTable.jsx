@@ -16,6 +16,18 @@ const BugsTable = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const saveDataToDB = async (unalteredValues, id) => {
+    const values = { ...unalteredValues };
+
+    if (!values.githubIssue || values.githubIssue.length === 0) {
+      delete values.githubIssue;
+    }
+
+    console.log(values)
+
+    await axios.put(`api/bugs/${id}`, values);
+  };
+
   const getBugs = useCallback(async () => {
     try {
       dispatch(setAdminBugsLoading(true));
@@ -42,7 +54,7 @@ const BugsTable = () => {
     getBugs();
   }, [getBugs]);
 
-  return <BugsTableView getBugs={getBugs} />;
+  return <BugsTableView getBugs={getBugs} saveDataToDB={saveDataToDB} />;
 };
 
 export default BugsTable;

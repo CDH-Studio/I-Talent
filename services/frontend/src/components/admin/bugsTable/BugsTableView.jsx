@@ -23,14 +23,14 @@ import handleError from "../../../functions/handleError";
 
 const tableColumns = (handleEdit) => [
   {
-    title: "User",
+    title: <FormattedMessage id="admin.name" />,
     key: "user",
     render: (record) => {
       return <Link to={`/profile/${record.userId}`}>{record.userName}</Link>;
     },
   },
   {
-    title: "Created at",
+    title: <FormattedMessage id="admin.created.at" />,
     dataIndex: "createdAt",
     key: "createdAt",
     sortDirections: ["descend"],
@@ -48,13 +48,13 @@ const tableColumns = (handleEdit) => [
     },
   },
   {
-    title: "Application version",
+    title: <FormattedMessage id="admin.bugs.app.version" />,
     dataIndex: "appVersion",
     key: "appVersion",
-    render: (value) => (value || "-"),
+    render: (value) => value || "-",
   },
   {
-    title: "Bug location",
+    title: <FormattedMessage id="bugs.location" />,
     filters: [
       {
         text: "Home",
@@ -92,7 +92,7 @@ const tableColumns = (handleEdit) => [
     ),
   },
   {
-    title: "Bug status",
+    title: <FormattedMessage id="bugs.status" />,
     filters: [
       {
         text: "Resolved",
@@ -116,7 +116,7 @@ const tableColumns = (handleEdit) => [
     ),
   },
   {
-    title: "Linked GitHub issue",
+    title: <FormattedMessage id="admin.bugs.github" />,
     dataIndex: "githubIssue",
     key: "githubIssue",
     render: (value) =>
@@ -159,7 +159,7 @@ const Rules = {
   },
 };
 
-const BugsTableView = ({ getBugs }) => {
+const BugsTableView = ({ getBugs, saveDataToDB }) => {
   const [form] = Form.useForm();
   const { data, loading } = useSelector((state) => state.admin.bugs);
   const [visible, setVisible] = useState(false);
@@ -167,6 +167,36 @@ const BugsTableView = ({ getBugs }) => {
   const axios = useAxios();
   const history = useHistory();
   const intl = useIntl();
+
+  const statusOptions = [
+    {
+      label: intl.formatMessage({ id: "bugs.status.resolved" }),
+      value: "RESOLVED",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.status.unresolved" }),
+      value: "UNRESOLVED",
+    },
+  ];
+
+  const locationOptions = [
+    {
+      label: intl.formatMessage({ id: "bugs.location.home" }),
+      value: "HOME",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.location.profile" }),
+      value: "PROFILE",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.location.search" }),
+      value: "SEARCH",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.location.forms" }),
+      value: "FORMS",
+    },
+  ];
 
   /**
    * Open Notification
@@ -199,33 +229,31 @@ const BugsTableView = ({ getBugs }) => {
     }
   };
 
+  /**
+   * Update form and state to show edit modal
+   * @param {Object} record Selected edit row bug content
+   */
   const handleEdit = (record) => {
     form.setFieldsValue(record);
     setVisible(true);
     setEditId(record.id);
   };
 
-  const saveDataToDB = async (unalteredValues) => {
-    const values = { ...unalteredValues };
-
-    if (!values.githubIssue || values.githubIssue.length === 0) {
-      delete values.githubIssue;
-    }
-
-    await axios.put(`api/bugs/${editId}`, values);
-  };
-
+  /**
+   * Send API request to backend to update bug report
+   */
   const updateBugReport = () => {
     form
       .validateFields()
       .then(async (values) => {
-        await saveDataToDB(values);
+        await saveDataToDB(values, editId);
         openNotificationWithIcon({ type: "success" });
         form.resetFields();
         setVisible(false);
         getBugs();
       })
       .catch((error) => {
+        console.log(error)
         handleError(error, "message", history);
       });
   };
@@ -236,7 +264,7 @@ const BugsTableView = ({ getBugs }) => {
         title={
           <>
             <DatabaseOutlined />
-            User reported bugs
+            <FormattedMessage id="admin.bugs" />
           </>
         }
       />
@@ -249,11 +277,13 @@ const BugsTableView = ({ getBugs }) => {
         expandable={{
           rowExpandable: () => true,
           expandRowByClick: true,
-          childrenColumnName: "Description",
           defaultExpandAllRows: true,
           expandedRowRender: (record) => (
             <p style={{ margin: 0 }}>
-              <strong>Bug description:</strong> {record.description}
+              <strong>
+                <FormattedMessage id="admin.bugs.description" />
+              </strong>
+              {record.description}
             </p>
           ),
         }}
@@ -263,37 +293,40 @@ const BugsTableView = ({ getBugs }) => {
         okText={<FormattedMessage id="admin.apply" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
-        title="Edit bug"
+        title={<FormattedMessage id="admin.bugs.edit" />}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="status" label="Status" rules={[Rules.required]}>
+          <Form.Item
+            name="status"
+            label={<FormattedMessage id="bugs.status" />}
+            rules={[Rules.required]}
+          >
             <Radio.Group
-              options={[
-                { label: "Resolved", value: "RESOLVED" },
-                { label: "Unresolved", value: "UNRESOLVED" },
-              ]}
+              options={statusOptions}
               optionType="button"
               buttonStyle="solid"
             />
           </Form.Item>
-          <Form.Item name="location" label="Location" rules={[Rules.required]}>
+          <Form.Item
+            name="location"
+            label={<FormattedMessage id="bugs.location" />}
+            rules={[Rules.required]}
+          >
             <Radio.Group
-              options={[
-                { label: "Home", value: "HOME" },
-                { label: "Profile", value: "PROFILE" },
-                { label: "Search", value: "SEARCH" },
-                { label: "Forms", value: "FORMS" },
-              ]}
+              options={locationOptions}
               optionType="button"
               buttonStyle="solid"
             />
           </Form.Item>
-          <Form.Item name="githubIssue" label="GitHub issue number">
+          <Form.Item
+            name="githubIssue"
+            label={<FormattedMessage id="bugs.github" />}
+          >
             <Input type="number" />
           </Form.Item>
           <Form.Item
             name="description"
-            label="Description"
+            label={<FormattedMessage id="bugs.description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />
@@ -306,6 +339,7 @@ const BugsTableView = ({ getBugs }) => {
 
 BugsTableView.propTypes = {
   getBugs: PropTypes.func.isRequired,
+  saveDataToDB: PropTypes.func.isRequired,
 };
 
 export default BugsTableView;

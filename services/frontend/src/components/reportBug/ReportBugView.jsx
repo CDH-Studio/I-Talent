@@ -96,11 +96,13 @@ const ReportBugView = ({ saveDataToDB }) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
+        console.log(1)
         openNotificationWithIcon({ type: "success" });
         form.resetFields();
         setVisible(false);
       })
       .catch((error) => {
+        console.log(error)
         handleError(error, "message", history);
       });
   };
@@ -122,23 +124,29 @@ const ReportBugView = ({ saveDataToDB }) => {
       <Modal
         visible={visible}
         onCancel={() => setVisible(false)}
-        okButtonProps={{ disabled: !enableSubmission, icon: <BugOutlined /> }}
-        okText={<FormattedMessage id="bugs.action" />}
+        okButtonProps={{ disabled: !enableSubmission }}
+        okText={
+          <>
+            <BugOutlined />
+            <span>
+              <FormattedMessage id="bugs.modal.ok" />
+            </span>
+          </>
+        }
         onOk={createBugReport}
-        closable={false}
-        title={<FormattedMessage id="bugs.modal.ok" />}
+        title={<FormattedMessage id="bugs.action" />}
       >
         <Paragraph>
-          <FormattedMessage id="bugs.description" />
+          <FormattedMessage id="bugs.modal.description" />
         </Paragraph>
         <Paragraph type="secondary">
-          <FormattedMessage id="bugs.note" />
+          <FormattedMessage id="bugs.modal.note" />
         </Paragraph>
 
         <Form form={form} layout="vertical" onFieldsChange={onFormValuesChange}>
           <Form.Item
             name="location"
-            label={<FormattedMessage id="bugs.form.location" />}
+            label={<FormattedMessage id="bugs.location" />}
             rules={[Rules.required]}
           >
             <Radio.Group
@@ -149,7 +157,7 @@ const ReportBugView = ({ saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="description"
-            label={<FormattedMessage id="bugs.form.description" />}
+            label={<FormattedMessage id="bugs.description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />
