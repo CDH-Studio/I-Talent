@@ -56,19 +56,19 @@ const tableColumns = (handleEdit) => [
     title: <FormattedMessage id="bugs.location" />,
     filters: [
       {
-        text: "Home",
+        text: <FormattedMessage id="bugs.location.home" />,
         value: "HOME",
       },
       {
-        text: "Search",
+        text: <FormattedMessage id="bugs.location.search" />,
         value: "SEARCH",
       },
       {
-        text: "Profile",
+        text: <FormattedMessage id="bugs.location.profile" />,
         value: "PROFILE",
       },
       {
-        text: "Forms",
+        text: <FormattedMessage id="bugs.location.forms" />,
         value: "FORMS",
       },
     ],
@@ -76,16 +76,16 @@ const tableColumns = (handleEdit) => [
     render: (record) => (
       <>
         <Tag visible={record.location === "HOME"} color="magenta">
-          Home
+          <FormattedMessage id="bugs.location.home" />
         </Tag>
         <Tag visible={record.location === "SEARCH"} color="geekblue">
-          Search
+          <FormattedMessage id="bugs.location.search" />
         </Tag>
         <Tag visible={record.location === "PROFILE"} color="green">
-          Profile
+          <FormattedMessage id="bugs.location.profile" />
         </Tag>
-        <Tag visible={record.location === "FORMS"} color="green">
-          forms
+        <Tag visible={record.location === "FORMS"} color="orange">
+          <FormattedMessage id="bugs.location.forms" />
         </Tag>
       </>
     ),
@@ -94,11 +94,11 @@ const tableColumns = (handleEdit) => [
     title: <FormattedMessage id="bugs.status" />,
     filters: [
       {
-        text: "Resolved",
+        text: <FormattedMessage id="bugs.status.resolved" />,
         value: "RESOLVED",
       },
       {
-        text: "Unresolved",
+        text: <FormattedMessage id="bugs.status.unresolved" />,
         value: "UNRESOLVED",
       },
     ],
@@ -106,10 +106,10 @@ const tableColumns = (handleEdit) => [
     render: (record) => (
       <>
         <Tag visible={record.status === "RESOLVED"} color="magenta">
-          Resolved
+          <FormattedMessage id="bugs.status.resolved" />
         </Tag>
         <Tag visible={record.status === "UNRESOLVED"} color="geekblue">
-          Unresolved
+          <FormattedMessage id="bugs.status.unresolved" />
         </Tag>
       </>
     ),
