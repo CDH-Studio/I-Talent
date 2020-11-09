@@ -26,3 +26,5 @@ tags:
     description: Basic profile information (should be deprecated and merged with profile)
   - name: profile
     description: User's profile information
+  - name: bugs
+    description: Applciation bugs reported by users

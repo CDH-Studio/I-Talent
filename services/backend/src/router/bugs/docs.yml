@@ -1,0 +1,69 @@
+/api/bugs:
+  post:
+    summary: Create a new bug
+    produces:
+      - application/json
+    parameters:
+      - name: body
+        in: body
+        description: An object containing a description and location, 'HOME' or 'PROFILE' or 'SEARCH' or 'FORMS', of the bug
+        required: true
+        schema:
+          type: object
+          properties:
+            description:
+              type: string
+            location:
+                $ref: "#/definitions/BugsLocationEnum"
+    responses:
+      200:
+        $ref: "#/definitions/200"
+      403:
+        $ref: "#/definitions/403"
+      422:
+        $ref: "#/definitions/422"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [bugs]
+  get:
+    summary: Get all bugs
+    produces:
+      - application/json
+    responses:
+      200:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              createdAt:
+                type: string
+                format: date-time
+              updatedAt:
+                type: string
+                format: date-time
+              userId:
+                type: string
+                format: uuid
+              userName:
+                type: string
+              description:
+                type: string
+              release:
+                type: string
+              location:
+                $ref: "#/definitions/BugsLocationEnum"
+              status:
+                $ref: "#/definitions/BugsStatusEnum"
+      403:
+        $ref: "#/definitions/403"
+      500:
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    tags: [bugs]
