@@ -165,14 +165,21 @@
     {
       "tag": "CreateField",
       "model": "Bugs",
-      "field": "release",
+      "field": "appVersion",
       "type": "String",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Bugs",
-      "field": "User",
+      "field": "githubIssue",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Bugs",
+      "field": "user",
       "type": "User",
       "arity": "Required"
     },
@@ -182,7 +189,7 @@
         "path": {
           "tag": "Field",
           "model": "Bugs",
-          "field": "User"
+          "field": "user"
         },
         "directive": "relation"
       }
@@ -194,7 +201,7 @@
         "path": {
           "tag": "Field",
           "model": "Bugs",
-          "field": "User"
+          "field": "user"
         },
         "directive": "relation"
       },
@@ -208,7 +215,7 @@
         "path": {
           "tag": "Field",
           "model": "Bugs",
-          "field": "User"
+          "field": "user"
         },
         "directive": "relation"
       },

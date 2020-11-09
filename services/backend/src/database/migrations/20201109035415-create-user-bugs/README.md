@@ -1,6 +1,6 @@
-# Migration `20201109005252-create-user-bugs`
+# Migration `20201109035415-create-user-bugs`
 
-This migration has been generated at 11/8/2020, 7:52:52 PM.
+This migration has been generated at 11/8/2020, 10:54:15 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -17,7 +17,8 @@ CREATE TABLE "public"."Bugs" (
 "description" text   NOT NULL ,
 "status" "BugsStatus"  NOT NULL DEFAULT E'UNRESOLVED',
 "location" "BugsLocation"  NOT NULL ,
-"release" text   ,
+"appVersion" text   ,
+"githubIssue" integer   ,
 "userId" text   NOT NULL ,
 PRIMARY KEY ("id")
 )
@@ -29,7 +30,7 @@ ALTER TABLE "public"."Bugs" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20201019154547-init..20201109005252-create-user-bugs
+migration 20201019154547-init..20201109035415-create-user-bugs
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -61,7 +62,7 @@ migration 20201019154547-init..20201109005252-create-user-bugs
    id          String   @default(uuid()) @id
    createdAt   DateTime @default(now())
    updatedAt   DateTime @updatedAt
-@@ -545,8 +557,21 @@
+@@ -545,8 +557,22 @@
    User         User?       @relation(fields: [userId], references: [id])
    userId       String?
  }
@@ -73,8 +74,9 @@ migration 20201019154547-init..20201109005252-create-user-bugs
 +  description String
 +  status      BugsStatus    @default(UNRESOLVED)
 +  location    BugsLocation
-+  release     String?
-+  User        User          @relation(fields: [userId], references: [id])
++  appVersion  String?
++  githubIssue Int?
++  user        User          @relation(fields: [userId], references: [id])
 +  userId      String
 +}
 +
@@ -82,7 +84,7 @@ migration 20201019154547-init..20201109005252-create-user-bugs
    id                            String                  @default(uuid()) @id
    createdAt                     DateTime                @default(now())
    updatedAt                     DateTime                @updatedAt
-@@ -602,8 +627,9 @@
+@@ -602,8 +628,9 @@
    educations                    Education[]
    experiences                   Experience[]
    relocationLocations           RelocationLocation[]

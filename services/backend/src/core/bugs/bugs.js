@@ -13,7 +13,7 @@ async function createBug(request, response) {
       data: {
         description,
         location,
-        User: {
+        user: {
           connect: {
             id: userId,
           },
@@ -42,8 +42,9 @@ async function getBugs(request, response) {
         description: true,
         location: true,
         status: true,
-        release: true,
-        User: {
+        appVersion: true,
+        githubIssue: true,
+        user: {
           select: {
             id: true,
             name: true,
@@ -59,7 +60,38 @@ async function getBugs(request, response) {
   }
 }
 
+async function updateBug(request, response) {
+  try {
+    validationResult(request).throw();
+
+    const { id } = request.params;
+    const { description, location, status, githubIssue } = request.body;
+
+    await prisma.bugs.update({
+      where: {
+        id,
+      },
+      data: {
+        description,
+        location,
+        status,
+        githubIssue,
+      },
+    });
+
+    response.status(200).send("Successfully created a new bug");
+  } catch (error) {
+    console.log(error);
+    if (error.errors) {
+      response.status(422).json(error.errors);
+      return;
+    }
+    response.status(500).json("Unable to update specified bug");
+  }
+}
+
 module.exports = {
   createBug,
   getBugs,
+  updateBug,
 };

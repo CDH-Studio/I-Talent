@@ -54,8 +54,10 @@
                 type: string
               description:
                 type: string
-              release:
+              appVersion:
                 type: string
+              githubIssue:
+                type: number
               location:
                 $ref: "#/definitions/BugsLocationEnum"
               status:

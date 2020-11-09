@@ -566,8 +566,9 @@ model Bugs {
   description String
   status      BugsStatus    @default(UNRESOLVED)
   location    BugsLocation
-  release     String?
-  User        User          @relation(fields: [userId], references: [id])
+  appVersion  String?
+  githubIssue Int?
+  user        User          @relation(fields: [userId], references: [id])
   userId      String
 }
 
