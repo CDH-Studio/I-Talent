@@ -14,7 +14,7 @@ const updateBugValidator = [
     .optional()
     .isString()
     .isIn(["HOME", "PROFILE", "SEARCH", "FORMS"]),
-  body("githubIssue").optional().isNumeric(),
+  body("githubIssue").optional().isNumeric().toInt(),
   body("status").optional().isString().isIn(["UNRESOLVED", "RESOLVED"]),
 ];
 

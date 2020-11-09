@@ -79,7 +79,7 @@ async function updateBug(request, response) {
       },
     });
 
-    response.status(200).send("Successfully created a new bug");
+    response.status(200).send("Successfully updated specified bug");
   } catch (error) {
     console.log(error);
     if (error.errors) {

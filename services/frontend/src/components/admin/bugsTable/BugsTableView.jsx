@@ -1,13 +1,18 @@
 import React from "react";
-import { Table, Tag, Button } from "antd";
-import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
+import { Table, Tag, Button, Input, Modal, Form, Radio, notification } from "antd";
+import { FormattedMessage, useIntl } from "react-intl";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import Header from "../../header/Header";
 import { EditOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
-const tableColumns = [
+import Header from "../../header/Header";
+import TextArea from "antd/lib/input/TextArea";
+import useAxios from "../../../utils/useAxios";
+import handleError from "../../../functions/handleError";
+
+const tableColumns = (handleEdit) => [
   {
     title: "User",
     key: "user",
@@ -24,12 +29,6 @@ const tableColumns = [
     sorter: (a, b) => {
       return dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix();
     },
-    // ...getColumnSearchProps(
-    //   "formatCreatedAt",
-    //   intl.formatMessage({
-    //     id: "admin.registered",
-    //   })
-    // ),
   },
   {
     title: <FormattedMessage id="admin.last.updated" />,
@@ -38,27 +37,12 @@ const tableColumns = [
     sorter: (a, b) => {
       return dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix();
     },
-    // ...getColumnSearchProps(
-    //   "formatUpdatedAt",
-    //   intl.formatMessage({
-    //     id: "admin.last.updated",
-    //   })
-    // ),
   },
   {
     title: "Application version",
     dataIndex: "appVersion",
     key: "appVersion",
     render: (value) => (value ? value : "-"),
-    // sorter: (a, b) => {
-    //   return dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix();
-    // },
-    // ...getColumnSearchProps(
-    //   "formatCreatedAt",
-    //   intl.formatMessage({
-    //     id: "admin.registered",
-    //   })
-    // ),
   },
   {
     title: "Bug location",
@@ -80,7 +64,7 @@ const tableColumns = [
         value: "FORMS",
       },
     ],
-    onFilter: (value, record) => record[value],
+    onFilter: (value, record) => record.location === value,
     render: (record) => (
       <>
         <Tag visible={record.location === "HOME"} color="magenta">
@@ -126,25 +110,18 @@ const tableColumns = [
     title: "Linked GitHub issue",
     dataIndex: "githubIssue",
     key: "githubIssue",
-    render: (record) =>
-      record && record.githubIssue ? (
+    render: (value) =>
+      value ? (
         <a
-          href={`https://github.com/CDH-Studio/I-Talent/issues/${record.githubIssue}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          href={`https://github.com/CDH-Studio/I-Talent/issues/${value}`}
         >
-          {record.githubIssue}
+          #{value}
         </a>
       ) : (
         "-"
       ),
-    // sorter: (a, b) => {
-    //   return dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix();
-    // },
-    // ...getColumnSearchProps(
-    //   "formatCreatedAt",
-    //   intl.formatMessage({
-    //     id: "admin.registered",
-    //   })
-    // ),
   },
   {
     title: <FormattedMessage id="admin.edit" />,
@@ -152,30 +129,150 @@ const tableColumns = [
     fixed: "right",
     width: 70,
     render: (record) => (
-        <Button
-          type="primary"
-          shape="circle"
-          icon={<EditOutlined />}
-          onClick={() => {
-          }}
-        />
+      <Button
+        type="primary"
+        shape="circle"
+        icon={<EditOutlined />}
+        onClick={() => handleEdit(record)}
+      />
     ),
   },
 ];
 
+const Rules = {
+  required: {
+    required: true,
+    message: <FormattedMessage id="profile.rules.required" />,
+  },
+  maxChar500: {
+    max: 500,
+    message: <FormattedMessage id="profile.rules.max" values={{ max: 500 }} />,
+  },
+};
+
 const BugsTableView = () => {
+  const [form] = Form.useForm();
   const { data, loading } = useSelector((state) => state.admin.bugs);
+  const [visible, setVisible] = useState(false);
+  const [editId, setEditId] = useState();
+  const axios = useAxios();
+  const history = useHistory();
+  const intl = useIntl();
+
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = ({ type, description }) => {
+    switch (type) {
+      case "success":
+        notification.success({
+          message: intl.formatMessage({
+            id: "profile.edit.save.success",
+          }),
+        });
+        break;
+      case "error":
+        notification.error({
+          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          description,
+        });
+        break;
+      default:
+        notification.warning({
+          message: intl.formatMessage({
+            id: "profile.edit.save.problem",
+          }),
+        });
+        break;
+    }
+  };
+
+  const handleEdit = (record) => {
+    form.setFieldsValue(record);
+    setVisible(true);
+    setEditId(record.id);
+  };
+
+  const saveDataToDB = async (unalteredValues) => {
+    const values = { ...unalteredValues };
+
+    if (!values.githubIssue || values.githubIssue.length === 0) {
+      delete values.githubIssue;
+    }
+
+    await axios.put(`api/bugs/${editId}`, values);
+  };
+
+  const updateBugReport = () => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        await saveDataToDB(values);
+        openNotificationWithIcon({ type: "success" });
+        form.resetFields();
+        setVisible(false);
+      })
+      .catch((error) => {
+        console.log(error)
+        handleError(error, "message", history);
+      });
+  };
 
   return (
     <>
       <Header title="Bugs" />
       <Table
         size="large"
-        columns={tableColumns}
+        columns={tableColumns(handleEdit)}
         dataSource={data}
         loading={loading}
         scroll={{ x: 1200 }}
       />
+      <Modal
+        visible={visible}
+        okText={<FormattedMessage id="admin.apply" />}
+        onCancel={() => setVisible(false)}
+        onOk={updateBugReport}
+        title="Edit bug"
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item name="status" label="Status" rules={[Rules.required]}>
+            <Radio.Group
+              options={[
+                { label: "Resolved", value: "RESOLVED" },
+                { label: "Unresolved", value: "UNRESOLVED" },
+              ]}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Form.Item>
+          <Form.Item name="location" label="Location" rules={[Rules.required]}>
+            <Radio.Group
+              options={[
+                { label: "Home", value: "HOME" },
+                { label: "Profile", value: "PROFILE" },
+                { label: "Search", value: "SEARCH" },
+                { label: "Forms", value: "FORMS" },
+              ]}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Form.Item>
+          <Form.Item name="githubIssue" label="GitHub issue number">
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="Description"
+            rules={[Rules.required, Rules.maxChar500]}
+          >
+            <TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };
