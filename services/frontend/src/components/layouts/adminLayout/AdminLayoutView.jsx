@@ -72,7 +72,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
       </Menu.Item>
       <Menu.Item key="bugs" tabIndex={0}>
         <BugOutlined />
-        User reported bugs
+        <FormattedMessage id="admin.bugs" />
       </Menu.Item>
     </Menu>
   );

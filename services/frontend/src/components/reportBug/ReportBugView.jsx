@@ -1,19 +1,13 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Typography,
-  Form,
-  Radio,
-  Button,
-  notification,
-} from "antd";
+import { Modal, Typography, Form, Radio, Button, notification } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { BugOutlined } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router";
+import PropTypes from "prop-types";
+
 import handleError from "../../functions/handleError";
-import useAxios from "../../utils/useAxios";
 
 const { Paragraph } = Typography;
 
@@ -28,18 +22,38 @@ const Rules = {
   },
 };
 
-const ReportBugView = () => {
+const ReportBugView = ({ saveDataToDB }) => {
   const [form] = Form.useForm();
   const { keycloak } = useKeycloak();
   const [visible, setVisible] = useState(false);
   const [enableSubmission, setEnableSubmission] = useState(false);
   const intl = useIntl();
-  const axios = useAxios();
   const history = useHistory();
 
+  const radioOptions = [
+    {
+      label: intl.formatMessage({ id: "bugs.location.home" }),
+      value: "HOME",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.location.profile" }),
+      value: "PROFILE",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.location.search" }),
+      value: "SEARCH",
+    },
+    {
+      label: intl.formatMessage({ id: "bugs.location.forms" }),
+      value: "FORMS",
+    },
+  ];
+
+  /**
+   * Enables/Disable modal ok button, based on the errors in the form
+   */
   const onFormValuesChange = () => {
     const formErrors = form.getFieldsError();
-
     setEnableSubmission(!formErrors.some(({ errors }) => errors.length !== 0));
   };
 
@@ -74,10 +88,9 @@ const ReportBugView = () => {
     }
   };
 
-  const saveDataToDB = async (values) => {
-    await axios.post("api/bugs", values);
-  };
-
+  /**
+   * Send API request to backend to create bug report
+   */
   const createBugReport = () => {
     form
       .validateFields()
@@ -101,43 +114,42 @@ const ReportBugView = () => {
           onClick={() => setVisible(true)}
         >
           <BugOutlined />
-          <span>Report a bug</span>
+          <span>
+            <FormattedMessage id="bugs.action" />
+          </span>
         </Button>
       )}
       <Modal
         visible={visible}
         onCancel={() => setVisible(false)}
         okButtonProps={{ disabled: !enableSubmission, icon: <BugOutlined /> }}
-        okText="Send bug report"
+        okText={<FormattedMessage id="bugs.action" />}
         onOk={createBugReport}
         closable={false}
-        title="Report a bug"
+        title={<FormattedMessage id="bugs.modal.ok" />}
       >
         <Paragraph>
-          Sorry to hear you encountered a bug. Please fill out the following
-          fields for us to address the bug.
+          <FormattedMessage id="bugs.description" />
         </Paragraph>
         <Paragraph type="secondary">
-          Your account will be linked to this report, for us to contact you in
-          case
+          <FormattedMessage id="bugs.note" />
         </Paragraph>
 
         <Form form={form} layout="vertical" onFieldsChange={onFormValuesChange}>
-          <Form.Item name="location" label="Location" rules={[Rules.required]}>
+          <Form.Item
+            name="location"
+            label={<FormattedMessage id="bugs.form.location" />}
+            rules={[Rules.required]}
+          >
             <Radio.Group
-              options={[
-                { label: "Home", value: "HOME" },
-                { label: "Profile", value: "PROFILE" },
-                { label: "Search", value: "SEARCH" },
-                { label: "Forms", value: "FORMS" },
-              ]}
+              options={radioOptions}
               optionType="button"
               buttonStyle="solid"
             />
           </Form.Item>
           <Form.Item
             name="description"
-            label="Description"
+            label={<FormattedMessage id="bugs.form.description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />
@@ -146,6 +158,10 @@ const ReportBugView = () => {
       </Modal>
     </>
   );
+};
+
+ReportBugView.propTypes = {
+  saveDataToDB: PropTypes.func.isRequired,
 };
 
 export default ReportBugView;
