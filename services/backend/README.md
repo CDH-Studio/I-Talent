@@ -1,6 +1,6 @@
 # I-Talent backend
 
-Backend for I-Talent built on top of the node.js framework [expressjs](https://expressjs.com/), using [prisma.io](https://prisma.io/) as the database ORM, and using [swagger-ui](https://swagger.io/tools/swagger-ui/) for documentation.
+Backend for I-Talent built on top of the Node.js framework [Express.js](https://expressjs.com/), for more information about the technologies, look in the [wiki](https://github.com/CDH-Studio/I-Talent/wiki/Tech-stack)
 
 ## Folder structure
 
