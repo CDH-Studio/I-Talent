@@ -96,13 +96,11 @@ const ReportBugView = ({ saveDataToDB }) => {
       .validateFields()
       .then(async (values) => {
         await saveDataToDB(values);
-        console.log(1)
         openNotificationWithIcon({ type: "success" });
         form.resetFields();
         setVisible(false);
       })
       .catch((error) => {
-        console.log(error)
         handleError(error, "message", history);
       });
   };

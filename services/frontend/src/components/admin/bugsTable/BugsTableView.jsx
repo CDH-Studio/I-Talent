@@ -18,7 +18,6 @@ import PropTypes from "prop-types";
 
 import TextArea from "antd/lib/input/TextArea";
 import Header from "../../header/Header";
-import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 
 const tableColumns = (handleEdit) => [
@@ -164,7 +163,6 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
   const { data, loading } = useSelector((state) => state.admin.bugs);
   const [visible, setVisible] = useState(false);
   const [editId, setEditId] = useState();
-  const axios = useAxios();
   const history = useHistory();
   const intl = useIntl();
 
@@ -253,7 +251,6 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         getBugs();
       })
       .catch((error) => {
-        console.log(error)
         handleError(error, "message", history);
       });
   };

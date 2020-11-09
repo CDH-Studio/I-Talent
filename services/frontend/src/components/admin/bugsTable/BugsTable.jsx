@@ -23,8 +23,6 @@ const BugsTable = () => {
       delete values.githubIssue;
     }
 
-    console.log(values)
-
     await axios.put(`api/bugs/${id}`, values);
   };
 
