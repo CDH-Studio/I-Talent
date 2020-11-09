@@ -54,6 +54,7 @@ enum EmploymentEquityGroup {
 }
 
 enum BugsStatus {
+  DUPLICATE
   UNRESOLVED
   RESOLVED
 }

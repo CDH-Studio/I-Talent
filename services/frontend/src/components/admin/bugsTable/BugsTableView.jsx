@@ -94,6 +94,10 @@ const tableColumns = (handleEdit) => [
     title: <FormattedMessage id="bugs.status" />,
     filters: [
       {
+        text: <FormattedMessage id="bugs.status.duplicate" />,
+        value: "DUPLICATE",
+      },
+      {
         text: <FormattedMessage id="bugs.status.resolved" />,
         value: "RESOLVED",
       },
@@ -105,6 +109,9 @@ const tableColumns = (handleEdit) => [
     onFilter: (value, record) => record.status === value,
     render: (record) => (
       <>
+        <Tag visible={record.status === "DUPLICATE"} color="orange">
+          <FormattedMessage id="bugs.status.duplicate" />
+        </Tag>
         <Tag visible={record.status === "RESOLVED"} color="magenta">
           <FormattedMessage id="bugs.status.resolved" />
         </Tag>
@@ -167,6 +174,10 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
   const intl = useIntl();
 
   const statusOptions = [
+    {
+      label: intl.formatMessage({ id: "bugs.status.duplicate" }),
+      value: "DUPLICATE",
+    },
     {
       label: intl.formatMessage({ id: "bugs.status.resolved" }),
       value: "RESOLVED",

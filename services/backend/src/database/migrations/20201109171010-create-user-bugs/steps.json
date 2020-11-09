@@ -5,6 +5,7 @@
       "tag": "CreateEnum",
       "enum": "BugsStatus",
       "values": [
+        "DUPLICATE",
         "UNRESOLVED",
         "RESOLVED"
       ]

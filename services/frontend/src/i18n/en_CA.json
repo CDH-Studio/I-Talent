@@ -129,6 +129,7 @@
   "bugs.modal.note": "Your account will be linked to this report.",
   "bugs.modal.ok": "Send bug report",
   "bugs.status": "Status",
+  "bugs.status.duplicate": "Duplicate",
   "bugs.status.resolved": "Resolved",
   "bugs.status.unresolved": "Unresolved",
   "button.advanced.search": "Advanced search",

@@ -129,6 +129,7 @@
   "bugs.modal.note": "Votre compte sera lié à ce rapport.",
   "bugs.modal.ok": "Envoyer le rapport de bogue",
   "bugs.status": "Statut",
+  "bugs.status.duplicate": "Doublon",
   "bugs.status.resolved": "Résolu",
   "bugs.status.unresolved": "Non résolu",
   "button.advanced.search": "Recherche avancée",

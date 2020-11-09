@@ -15,7 +15,10 @@ const updateBugValidator = [
     .isString()
     .isIn(["HOME", "PROFILE", "SEARCH", "FORMS"]),
   body("githubIssue").optional().isNumeric().toInt(),
-  body("status").optional().isString().isIn(["UNRESOLVED", "RESOLVED"]),
+  body("status")
+    .optional()
+    .isString()
+    .isIn(["UNRESOLVED", "RESOLVED", "DUPLICATE"]),
 ];
 
 module.exports = {
