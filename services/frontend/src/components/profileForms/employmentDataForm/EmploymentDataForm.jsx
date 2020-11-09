@@ -16,9 +16,8 @@ const EmploymentDataForm = ({ formType }) => {
   const [classificationOptions, setClassificationOptions] = useState([]);
   const [securityOptions, setSecurityOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = useState(false);
   const axios = useAxios();
-  const history = useHistory();
 
   const [charsLeft, setCharsLeft] = useState(1000);
 
@@ -26,37 +25,72 @@ const EmploymentDataForm = ({ formType }) => {
     setCharsLeft(1000 - e.currentTarget.value.length);
   };
 
+  const history = useHistory();
+
   // Get current language code
   const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);
 
-  const getBackendInfo = useCallback(async () => {
-    try {
-      return await Promise.all([
-        axios.get(`api/option/tenures?language=${locale}`),
-        axios.get(`api/option/classifications?language=${locale}`),
-        axios.get(`api/option/securityClearances?language=${locale}`),
-        axios.get(`api/profile/private/${id}?language=${locale}`),
-      ]);
-    } catch (error) {
-      handleError(error, "redirect", history);
-      throw error;
+  // Get substantive level options
+  const getSubstantiveOptions = useCallback(async () => {
+    const result = await axios.get(`api/option/tenures?language=${locale}`);
+
+    setSubstantiveOptions(result.data);
+  }, [axios, locale]);
+
+  // Get classification options
+  const getClassificationOptions = useCallback(async () => {
+    const result = await axios.get(
+      `api/option/classifications?language=${locale}`
+    );
+
+    setClassificationOptions(result.data);
+  }, [axios, locale]);
+
+  // Get security options
+  const getSecurityOptions = useCallback(async () => {
+    const result = await axios.get(
+      `api/option/securityClearances?language=${locale}`
+    );
+
+    setSecurityOptions(result.data);
+  }, [axios, locale]);
+
+  // Get user profile for form drop down
+  const getProfileInfo = useCallback(async () => {
+    const result = await axios.get(
+      `api/profile/private/${id}?language=${locale}`
+    );
+
+    setProfileInfo(result.data);
+
+    if (result.data.description) {
+      setCharsLeft(1000 - result.data.description.length);
     }
-  }, [axios, history, id, locale]);
+  }, [axios, id, locale]);
 
   useEffect(() => {
-    getBackendInfo().then(
-      ([substantive, classification, security, profile]) => {
-        setSubstantiveOptions(substantive.data);
-        setClassificationOptions(classification.data);
-        setSecurityOptions(security.data);
-        setProfileInfo(profile.data);
-        if (profile.data.description)
-          setCharsLeft(1000 - profile.data.description.length);
+    // Get all required data component
+    Promise.all([
+      getClassificationOptions(),
+      getSubstantiveOptions(),
+      getSecurityOptions(),
+      getProfileInfo(),
+    ])
+      .then(() => {
+        setLoad(true);
+      })
+      .catch((error) => {
         setLoad(false);
-      }
-    );
-  }, [getBackendInfo]);
+        handleError(error, "redirect", history);
+      });
+  }, [
+    getClassificationOptions,
+    getProfileInfo,
+    getSecurityOptions,
+    getSubstantiveOptions,
+    history,
+  ]);
 
   return (
     <EmploymentDataFormView
