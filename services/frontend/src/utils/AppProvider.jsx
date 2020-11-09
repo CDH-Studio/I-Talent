@@ -17,7 +17,6 @@ import messagesEn from "../i18n/en_CA.json";
 import messagesFr from "../i18n/fr_CA.json";
 import "dayjs/locale/en-ca";
 import "dayjs/locale/fr-ca";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
 import { keycloak, initKeycloakConfig } from "../auth/keycloak";
 import history from "./history";
 
