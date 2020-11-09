@@ -42,7 +42,7 @@ const BugsTable = () => {
     getBugs();
   }, [getBugs]);
 
-  return <BugsTableView />;
+  return <BugsTableView getBugs={getBugs} />;
 };
 
 export default BugsTable;

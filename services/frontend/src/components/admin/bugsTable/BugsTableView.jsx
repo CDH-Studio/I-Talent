@@ -1,14 +1,23 @@
-import React from "react";
-import { Table, Tag, Button, Input, Modal, Form, Radio, notification } from "antd";
+import React, { useState } from "react";
+import {
+  Table,
+  Tag,
+  Button,
+  Input,
+  Modal,
+  Form,
+  Radio,
+  notification,
+} from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { EditOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { EditOutlined, DatabaseOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 
-import Header from "../../header/Header";
 import TextArea from "antd/lib/input/TextArea";
+import Header from "../../header/Header";
 import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
 
@@ -42,7 +51,7 @@ const tableColumns = (handleEdit) => [
     title: "Application version",
     dataIndex: "appVersion",
     key: "appVersion",
-    render: (value) => (value ? value : "-"),
+    render: (value) => (value || "-"),
   },
   {
     title: "Bug location",
@@ -150,7 +159,7 @@ const Rules = {
   },
 };
 
-const BugsTableView = () => {
+const BugsTableView = ({ getBugs }) => {
   const [form] = Form.useForm();
   const { data, loading } = useSelector((state) => state.admin.bugs);
   const [visible, setVisible] = useState(false);
@@ -214,22 +223,40 @@ const BugsTableView = () => {
         openNotificationWithIcon({ type: "success" });
         form.resetFields();
         setVisible(false);
+        getBugs();
       })
       .catch((error) => {
-        console.log(error)
         handleError(error, "message", history);
       });
   };
 
   return (
     <>
-      <Header title="Bugs" />
+      <Header
+        title={
+          <>
+            <DatabaseOutlined />
+            User reported bugs
+          </>
+        }
+      />
       <Table
         size="large"
         columns={tableColumns(handleEdit)}
         dataSource={data}
         loading={loading}
         scroll={{ x: 1200 }}
+        expandable={{
+          rowExpandable: () => true,
+          expandRowByClick: true,
+          childrenColumnName: "Description",
+          defaultExpandAllRows: true,
+          expandedRowRender: (record) => (
+            <p style={{ margin: 0 }}>
+              <strong>Bug description:</strong> {record.description}
+            </p>
+          ),
+        }}
       />
       <Modal
         visible={visible}
@@ -275,6 +302,10 @@ const BugsTableView = () => {
       </Modal>
     </>
   );
+};
+
+BugsTableView.propTypes = {
+  getBugs: PropTypes.func.isRequired,
 };
 
 export default BugsTableView;
