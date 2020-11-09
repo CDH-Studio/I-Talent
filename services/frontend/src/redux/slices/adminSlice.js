@@ -26,6 +26,10 @@ const initialState = {
     data: [],
     loading: true,
   },
+  bugs: {
+    data: [],
+    loading: true,
+  },
 };
 
 const adminSlice = createSlice({
@@ -88,6 +92,15 @@ const adminSlice = createSlice({
     setAdminSchoolsLoading(state, action) {
       state.schools.loading = action.payload;
     },
+    setAdminBugs(state, action) {
+      state.bugs = {
+        data: action.payload,
+        loading: false,
+      };
+    },
+    setAdminBugsLoading(state, action) {
+      state.bugs.loading = action.payload;
+    },
     clearAdmin() {
       return initialState;
     },
@@ -107,6 +120,8 @@ export const {
   setAdminDiplomasLoading,
   setAdminSchools,
   setAdminSchoolsLoading,
+  setAdminBugs,
+  setAdminBugsLoading,
   clearAdmin,
 } = adminSlice.actions;
 
