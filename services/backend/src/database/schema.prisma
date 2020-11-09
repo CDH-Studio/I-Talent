@@ -558,7 +558,7 @@ model AttachmentLink {
   userId       String?
 }
 
-model Bugs {
+model Bug {
   id          String        @default(uuid()) @id
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -629,7 +629,7 @@ model User {
   experiences                   Experience[]
   relocationLocations           RelocationLocation[]
   employmentEquityGroups        EmploymentEquityGroup[]
-  bugsReported                  Bugs[]
+  bugsReported                  Bug[]
   connections                   User[]                  @relation("UserToUser")
   user                          User?                   @relation("UserToUser", fields: [userId])
   userId                        String?

@@ -1,6 +1,6 @@
-# Migration `20201109035415-create-user-bugs`
+# Migration `20201109151357-create-user-bugs`
 
-This migration has been generated at 11/8/2020, 10:54:15 PM.
+This migration has been generated at 11/9/2020, 10:13:57 AM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -10,7 +10,7 @@ CREATE TYPE "public"."BugsStatus" AS ENUM ('UNRESOLVED', 'RESOLVED')
 
 CREATE TYPE "public"."BugsLocation" AS ENUM ('HOME', 'PROFILE', 'SEARCH', 'FORMS')
 
-CREATE TABLE "public"."Bugs" (
+CREATE TABLE "public"."Bug" (
 "id" text   NOT NULL ,
 "createdAt" timestamp(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 "updatedAt" timestamp(3)   NOT NULL ,
@@ -23,14 +23,14 @@ CREATE TABLE "public"."Bugs" (
 PRIMARY KEY ("id")
 )
 
-ALTER TABLE "public"."Bugs" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE
+ALTER TABLE "public"."Bug" ADD FOREIGN KEY ("userId")REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE
 ```
 
 ## Changes
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration 20201019154547-init..20201109035415-create-user-bugs
+migration 20201019154547-init..20201109151357-create-user-bugs
 --- datamodel.dml
 +++ datamodel.dml
 @@ -4,9 +4,9 @@
@@ -66,7 +66,7 @@ migration 20201019154547-init..20201109035415-create-user-bugs
    User         User?       @relation(fields: [userId], references: [id])
    userId       String?
  }
-+model Bugs {
++model Bug {
 +  id          String        @default(uuid()) @id
 +  createdAt   DateTime      @default(now())
 +  updatedAt   DateTime      @updatedAt
@@ -89,7 +89,7 @@ migration 20201019154547-init..20201109035415-create-user-bugs
    experiences                   Experience[]
    relocationLocations           RelocationLocation[]
    employmentEquityGroups        EmploymentEquityGroup[]
-+  bugsReported                  Bugs[]
++  bugsReported                  Bug[]
    connections                   User[]                  @relation("UserToUser")
    user                          User?                   @relation("UserToUser", fields: [userId])
    userId                        String?

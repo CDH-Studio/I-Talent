@@ -21,11 +21,11 @@
     },
     {
       "tag": "CreateModel",
-      "model": "Bugs"
+      "model": "Bug"
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "id",
       "type": "String",
       "arity": "Required"
@@ -35,7 +35,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "id"
         },
         "directive": "default"
@@ -47,7 +47,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "id"
         },
         "directive": "default"
@@ -60,7 +60,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "id"
         },
         "directive": "id"
@@ -68,7 +68,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "createdAt",
       "type": "DateTime",
       "arity": "Required"
@@ -78,7 +78,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "createdAt"
         },
         "directive": "default"
@@ -90,7 +90,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "createdAt"
         },
         "directive": "default"
@@ -100,7 +100,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "updatedAt",
       "type": "DateTime",
       "arity": "Required"
@@ -110,7 +110,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "updatedAt"
         },
         "directive": "updatedAt"
@@ -118,14 +118,14 @@
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "description",
       "type": "String",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "status",
       "type": "BugsStatus",
       "arity": "Required"
@@ -135,7 +135,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "status"
         },
         "directive": "default"
@@ -147,7 +147,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "status"
         },
         "directive": "default"
@@ -157,28 +157,28 @@
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "location",
       "type": "BugsLocation",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "appVersion",
       "type": "String",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "githubIssue",
       "type": "Int",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "user",
       "type": "User",
       "arity": "Required"
@@ -188,7 +188,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "user"
         },
         "directive": "relation"
@@ -200,7 +200,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "user"
         },
         "directive": "relation"
@@ -214,7 +214,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Bugs",
+          "model": "Bug",
           "field": "user"
         },
         "directive": "relation"
@@ -224,7 +224,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "Bugs",
+      "model": "Bug",
       "field": "userId",
       "type": "String",
       "arity": "Required"
@@ -233,7 +233,7 @@
       "tag": "CreateField",
       "model": "User",
       "field": "bugsReported",
-      "type": "Bugs",
+      "type": "Bug",
       "arity": "List"
     }
   ]
