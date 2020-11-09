@@ -1,15 +1,19 @@
 import React from "react";
-import { Table, Tag } from "antd";
+import { Table, Tag, Button } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import Header from "../../header/Header";
+import { EditOutlined } from "@ant-design/icons";
 
 const tableColumns = [
   {
     title: "User",
-    dataIndex: "userName",
-    key: "userName",
+    key: "user",
+    render: (record) => {
+      return <Link to={`/profile/${record.userId}`}>{record.userName}</Link>;
+    },
   },
   {
     title: "Created at",
@@ -43,8 +47,9 @@ const tableColumns = [
   },
   {
     title: "Application version",
-    dataIndex: "release",
-    key: "release",
+    dataIndex: "appVersion",
+    key: "appVersion",
+    render: (value) => (value ? value : "-"),
     // sorter: (a, b) => {
     //   return dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix();
     // },
@@ -78,21 +83,23 @@ const tableColumns = [
     onFilter: (value, record) => record[value],
     render: (record) => (
       <>
-        <Tag visible={record.isAdmin} color="magenta">
-          <FormattedMessage id="admin.roles.admin" />
+        <Tag visible={record.location === "HOME"} color="magenta">
+          Home
         </Tag>
-        <Tag visible={record.isManager} color="geekblue">
-          <FormattedMessage id="admin.roles.manager" />
+        <Tag visible={record.location === "SEARCH"} color="geekblue">
+          Search
         </Tag>
-        <Tag visible={!record.isManager && !record.isAdmin} color="green">
-          <FormattedMessage id="admin.roles.standard" />
+        <Tag visible={record.location === "PROFILE"} color="green">
+          Profile
+        </Tag>
+        <Tag visible={record.location === "FORMS"} color="green">
+          forms
         </Tag>
       </>
     ),
   },
   {
     title: "Bug status",
-    fixed: "right",
     filters: [
       {
         text: "Resolved",
@@ -104,14 +111,31 @@ const tableColumns = [
       },
     ],
     onFilter: (value, record) => record.status === value,
-    // render: (record) => {
-    //   return renderStatusDropdown(record.key, record.status);
-    // },
+    render: (record) => (
+      <>
+        <Tag visible={record.status === "RESOLVED"} color="magenta">
+          Resolved
+        </Tag>
+        <Tag visible={record.status === "UNRESOLVED"} color="geekblue">
+          Unresolved
+        </Tag>
+      </>
+    ),
   },
   {
     title: "Linked GitHub issue",
-    dataIndex: "formatCreatedAt",
-    key: "registered",
+    dataIndex: "githubIssue",
+    key: "githubIssue",
+    render: (record) =>
+      record && record.githubIssue ? (
+        <a
+          href={`https://github.com/CDH-Studio/I-Talent/issues/${record.githubIssue}`}
+        >
+          {record.githubIssue}
+        </a>
+      ) : (
+        "-"
+      ),
     // sorter: (a, b) => {
     //   return dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix();
     // },
@@ -122,6 +146,21 @@ const tableColumns = [
     //   })
     // ),
   },
+  {
+    title: <FormattedMessage id="admin.edit" />,
+    key: "edit",
+    fixed: "right",
+    width: 70,
+    render: (record) => (
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<EditOutlined />}
+          onClick={() => {
+          }}
+        />
+    ),
+  },
 ];
 
 const BugsTableView = () => {
@@ -130,7 +169,13 @@ const BugsTableView = () => {
   return (
     <>
       <Header title="Bugs" />
-      <Table size="large" columns={tableColumns} dataSource={data} loading={loading} />
+      <Table
+        size="large"
+        columns={tableColumns}
+        dataSource={data}
+        loading={loading}
+        scroll={{ x: 1200 }}
+      />
     </>
   );
 };

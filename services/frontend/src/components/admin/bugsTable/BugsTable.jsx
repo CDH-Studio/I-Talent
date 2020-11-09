@@ -26,9 +26,9 @@ const BugsTable = () => {
       const formattedData = results.data.map((bug) => ({
         ...bug,
         key: bug.id,
-        createdAt: dayjs(bug.createdAt).format("YYYY-MM-DD"),
-        updatedAt: dayjs(bug.updatedAt).format("YYYY-MM-DD"),
-        userName: bug.user.fullname,
+        createdAt: dayjs(bug.createdAt).format("lll"),
+        updatedAt: dayjs(bug.updatedAt).format("lll"),
+        userName: bug.user.name,
         userId: bug.user.id,
       }));
 
