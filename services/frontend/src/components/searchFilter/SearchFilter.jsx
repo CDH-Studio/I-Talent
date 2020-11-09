@@ -33,7 +33,7 @@ const SearchFilter = () => {
     const querySearchData = queryString.parse(history.location.search);
 
     // Formats the object according to the form object shape (there's no [] in names)
-    const formatedQuerySearchData = Object.keys(querySearchData).reduce(
+    const formattedQuerySearchData = Object.keys(querySearchData).reduce(
       (acc, key) => {
         if (key.includes("[]")) {
           let content = [];
@@ -58,83 +58,69 @@ const SearchFilter = () => {
       {}
     );
 
-    setUrlSearchFieldValues(formatedQuerySearchData);
-    setAnyMentorSkills(formatedQuerySearchData.anyMentorSkills);
+    setUrlSearchFieldValues(formattedQuerySearchData);
+    setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
   }, [history.location.search]);
 
   const handleAnyMentorSkillsChange = (e) => {
     setAnyMentorSkills(e.target.checked);
   };
 
-  useEffect(() => {
-    // Fetches options for skills select field in advanced search
-    const getSkills = async () => {
-      const [categoriesResult, skillsResults] = await Promise.all([
+  const getBackendInfo = useCallback(async () => {
+    try {
+      return await Promise.all([
+        axios.get(`api/option/branches?language=${locale}`),
+        axios.get(`api/option/locations?language=${locale}`),
+        axios.get(`api/option/classifications`),
         axios.get(`api/option/categories?language=${locale}`),
         axios.get(`api/option/skills?language=${locale}`),
       ]);
+    } catch (error) {
+      handleError(error, "redirect", history);
+      throw error;
+    }
+  }, [axios, history, locale]);
 
-      // Loop through all skill categories
-      const dataTree = categoriesResult.data.map((category) => {
-        const children = [];
-
-        skillsResults.data.forEach((skill) => {
-          if (skill.categoryId === category.id) {
-            children.push({
-              title: `${category.name}: ${skill.name}`,
-              value: skill.id,
-              key: skill.id,
-            });
-          }
-        });
-
-        return {
-          title: category.name,
-          value: category.id,
-          children,
-        };
-      });
-
-      setSkillOptions(dataTree);
-    };
-
-    // Fetches options for branches select field in advanced search
-    const getBranch = async () => {
-      const results = await axios.get(`api/option/branches?language=${locale}`);
-      setBranchOptions(results.data);
-    };
-
-    // Fetches options for locations select field in advanced search
-    const getLocation = async () => {
-      const results = await axios.get(
-        `api/option/locations?language=${locale}`
-      );
-
-      setLocationOptions(results.data);
-    };
-
-    // Fetches options for classifications select field in advanced search
-    const getClassification = async () => {
-      const results = await axios.get(`api/option/classifications`);
-
-      setClassOptions(results.data);
-    };
-
+  useEffect(() => {
     const updateState = async () => {
-      Promise.all([
-        getSkills(),
-        getBranch(),
-        getLocation(),
-        getClassification(),
-      ]);
-      await getSkills().catch((error) =>
-        handleError(error, "redirect", history)
+      getBackendInfo().then(
+        ([
+          branch,
+          location,
+          classification,
+          categoriesResult,
+          skillsResults,
+        ]) => {
+          setBranchOptions(branch.data);
+          setLocationOptions(location.data);
+          setClassOptions(classification.data);
+          // Loop through all skill categories
+          const dataTree = categoriesResult.data.map((category) => {
+            const children = [];
+
+            skillsResults.data.forEach((skill) => {
+              if (skill.categoryId === category.id) {
+                children.push({
+                  title: `${category.name}: ${skill.name}`,
+                  value: skill.id,
+                  key: skill.id,
+                });
+              }
+            });
+
+            return {
+              title: category.name,
+              value: category.id,
+              children,
+            };
+          });
+          setSkillOptions(dataTree);
+        }
       );
     };
-
     getSearchFieldValues();
     updateState();
-  }, [axios, getSearchFieldValues, locale, history]);
+  }, [axios, getSearchFieldValues, locale, history, getBackendInfo]);
 
   // page with query
   const handleSearch = (values) => {
