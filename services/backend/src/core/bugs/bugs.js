@@ -9,7 +9,7 @@ async function createBug(request, response) {
     const { description, location } = request.body;
     const userId = getKeycloakUserId(request);
 
-    prisma.bugs.create({
+    await prisma.bugs.create({
       data: {
         description,
         location,
@@ -34,7 +34,7 @@ async function createBug(request, response) {
 
 async function getBugs(request, response) {
   try {
-    const bugs = prisma.bugs.findMany({
+    const bugs = await prisma.bugs.findMany({
       select: {
         id: true,
         createdAt: true,

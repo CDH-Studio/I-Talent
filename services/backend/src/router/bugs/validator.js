@@ -4,8 +4,8 @@ const createBugValidator = [
   body("description").isString().withMessage("must provide description"),
   body("location")
     .isString()
-    .isIn(["home", "profile", "search", "forms"])
-    .withMessage("must provide firstName"),
+    .isIn(["HOME", "PROFILE", "SEARCH", "FORMS"])
+    .withMessage("must provide location"),
 ];
 
 module.exports = {
