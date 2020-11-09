@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import {
   Modal,
   Typography,
-  Input,
   Form,
   Radio,
   Button,
   notification,
 } from "antd";
-import { useSelector } from "react-redux";
 import TextArea from "antd/lib/input/TextArea";
 import { BugOutlined } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useHistory } from "react-router";
 import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";
 
@@ -36,12 +35,12 @@ const ReportBugView = () => {
   const [enableSubmission, setEnableSubmission] = useState(false);
   const intl = useIntl();
   const axios = useAxios();
+  const history = useHistory();
 
   const onFormValuesChange = () => {
-    const errors = form.getFieldsError();
-    console.log(errors);
+    const formErrors = form.getFieldsError();
 
-    setEnableSubmission(!errors.some(({ errors }) => errors.length !== 0));
+    setEnableSubmission(!formErrors.some(({ errors }) => errors.length !== 0));
   };
 
   /**

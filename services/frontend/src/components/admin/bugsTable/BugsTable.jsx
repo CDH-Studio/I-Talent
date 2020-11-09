@@ -2,13 +2,13 @@ import React, { useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 
+import dayjs from "dayjs";
 import BugsTableView from "./BugsTableView";
 import {
   setAdminBugs,
   setAdminBugsLoading,
 } from "../../../redux/slices/adminSlice";
 import useAxios from "../../../utils/useAxios";
-import dayjs from "dayjs";
 import handleError from "../../../functions/handleError";
 
 const BugsTable = () => {

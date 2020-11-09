@@ -11,7 +11,6 @@ import {
   TrophyOutlined,
   BankFilled,
   BugOutlined,
-  BugFilled,
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
@@ -72,7 +71,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
         <FormattedMessage id="admin.school.plural" />
       </Menu.Item>
       <Menu.Item key="bugs" tabIndex={0}>
-        <BugFilled />
+        <BugOutlined />
         User reported bugs
       </Menu.Item>
     </Menu>
