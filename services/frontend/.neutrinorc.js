@@ -86,10 +86,10 @@ module.exports = {
             {
               terserOptions: {
                 compress: {
-                  arrows: false
-                }
-              }
-            }
+                  arrows: false,
+                },
+              },
+            },
           ]);
         config.optimization
           .minimize(true)
@@ -97,8 +97,12 @@ module.exports = {
           .use(require.resolve("css-minimizer-webpack-plugin"));
       }
 
-      config.plugin("moment-ignore-locales").use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/])
-      config.plugin("slim-lodash").use(LodashModuleReplacementPlugin);
+      config
+        .plugin("moment-ignore-locales")
+        .use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/]);
+      config
+        .plugin("slim-lodash")
+        .use(LodashModuleReplacementPlugin, [{ shorthands: true }]);
 
       if (process.env.ANALYZE_BUILD === "true") {
         const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
