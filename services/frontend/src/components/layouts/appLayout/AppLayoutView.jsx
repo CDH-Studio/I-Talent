@@ -46,7 +46,7 @@ const AppLayoutView = ({
               children
             )}
           </Content>
-          <Footer />
+          {!loading && <Footer />}
         </Layout>
       </Layout>
     </Layout>
