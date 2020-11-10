@@ -5,6 +5,8 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import Chart from "react-chartjs-2";
 import { IntlPropType } from "../../../utils/customPropTypes";
 
+const chartColors = ["#6295f9", "#60daac", "#657799", "#f6c02a", "#e96c5c"];
+
 /**
  *  DashboardGraphsView(props)
  *  This component renders the graphes for the Admin Dashbord page.
@@ -20,60 +22,65 @@ const DashboardGraphsView = ({
   intl,
 }) => {
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
+      xAxes: [
+        {
+          ticks: { display: false },
+        },
+      ],
       yAxes: [
         {
           ticks: {
             stepSize: 1,
+            beginAtZero: true,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: intl.formatMessage({
+              id: "admin.dashboard.number.of.occurrences",
+            }),
           },
         },
       ],
     },
   };
   const skillsData = {
-    datasets: [
-      {
-        label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
-        }),
-        data: topFiveSkills
-          ? topFiveSkills.map((element) => element.count)
-          : [],
-        backgroundColor: "rgb(8, 116, 114)",
-      },
-    ],
-    labels: topFiveSkills ? topFiveSkills.map((element) => element.name) : [],
+    labels: [intl.formatMessage({ id: "admin.dashboard.popular.skills" })],
+    datasets: topFiveSkills
+      ? topFiveSkills.map((element, index) => ({
+          data: [element.count],
+          backgroundColor: chartColors[index],
+          label: element.name,
+          barPercentage: 0.8,
+        }))
+      : [],
   };
   const competenciesData = {
-    datasets: [
-      {
-        label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
-        }),
-        data: topFiveCompetencies
-          ? topFiveCompetencies.map((element) => element.count)
-          : [],
-        backgroundColor: "rgb(8, 116, 114)",
-      },
+    labels: [
+      intl.formatMessage({ id: "admin.dashboard.popular.competencies" }),
     ],
-    labels: topFiveCompetencies
-      ? topFiveCompetencies.map((element) => element.name)
+    datasets: topFiveCompetencies
+      ? topFiveCompetencies.map((element, index) => ({
+          data: [element.count],
+          backgroundColor: chartColors[index],
+          label: element.name,
+          barPercentage: 0.8,
+        }))
       : [],
   };
   const developmentalGoalsData = {
-    datasets: [
-      {
-        label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
-        }),
-        data: topFiveDevelopmentalGoals
-          ? topFiveDevelopmentalGoals.map((element) => element.count)
-          : [],
-        backgroundColor: "rgb(8, 116, 114)",
-      },
+    labels: [
+      intl.formatMessage({ id: "admin.dashboard.popular.development.goals" }),
     ],
-    labels: topFiveDevelopmentalGoals
-      ? topFiveDevelopmentalGoals.map((element) => element.name)
+    datasets: topFiveDevelopmentalGoals
+      ? topFiveDevelopmentalGoals.map((element, index) => ({
+          data: [element.count],
+          backgroundColor: chartColors[index],
+          label: element.name,
+          barPercentage: 0.8,
+        }))
       : [],
   };
 
@@ -101,6 +108,7 @@ const DashboardGraphsView = ({
           <Card
             title={<FormattedMessage id="admin.dashboard.popular.skills" />}
             loading={topFiveSkills.length === 0}
+            bodyStyle={{ height: 500 }}
           >
             <Chart type="bar" data={skillsData} options={options} />
           </Card>
@@ -111,6 +119,7 @@ const DashboardGraphsView = ({
               <FormattedMessage id="admin.dashboard.popular.competencies" />
             }
             loading={topFiveCompetencies.length === 0}
+            bodyStyle={{ height: 500 }}
           >
             <Chart type="bar" data={competenciesData} options={options} />
           </Card>
@@ -121,6 +130,7 @@ const DashboardGraphsView = ({
               <FormattedMessage id="admin.dashboard.popular.development.goals" />
             }
             loading={topFiveDevelopmentalGoals.length === 0}
+            bodyStyle={{ height: 500 }}
           >
             <Chart type="bar" data={developmentalGoalsData} options={options} />
           </Card>
@@ -132,6 +142,7 @@ const DashboardGraphsView = ({
                 <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
               }
               loading={monthlyGrowth.length === 0}
+              bodyStyle={{ height: 500 }}
             >
               <Chart type="line" data={monthlyGrowthData} options={options} />
             </Card>
