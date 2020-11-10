@@ -6,6 +6,7 @@ import Chart from "react-chartjs-2";
 import { IntlPropType } from "../../../utils/customPropTypes";
 
 const chartColors = ["#6295f9", "#60daac", "#657799", "#f6c02a", "#e96c5c"];
+const graphHeight = 500;
 
 /**
  *  DashboardGraphsView(props)
@@ -46,43 +47,18 @@ const DashboardGraphsView = ({
       ],
     },
   };
-  const skillsData = {
-    labels: [intl.formatMessage({ id: "admin.dashboard.popular.skills" })],
-    datasets: topFiveSkills
-      ? topFiveSkills.map((element, index) => ({
+
+  const barGraphData = (data, type) => ({
+    labels: [intl.formatMessage({ id: `admin.dashboard.popular.${type}` })],
+    datasets: data
+      ? data.map((element, index) => ({
           data: [element.count],
           backgroundColor: chartColors[index],
           label: element.name,
           barPercentage: 0.8,
         }))
       : [],
-  };
-  const competenciesData = {
-    labels: [
-      intl.formatMessage({ id: "admin.dashboard.popular.competencies" }),
-    ],
-    datasets: topFiveCompetencies
-      ? topFiveCompetencies.map((element, index) => ({
-          data: [element.count],
-          backgroundColor: chartColors[index],
-          label: element.name,
-          barPercentage: 0.8,
-        }))
-      : [],
-  };
-  const developmentalGoalsData = {
-    labels: [
-      intl.formatMessage({ id: "admin.dashboard.popular.development.goals" }),
-    ],
-    datasets: topFiveDevelopmentalGoals
-      ? topFiveDevelopmentalGoals.map((element, index) => ({
-          data: [element.count],
-          backgroundColor: chartColors[index],
-          label: element.name,
-          barPercentage: 0.8,
-        }))
-      : [],
-  };
+  });
 
   const monthlyGrowthData = {
     datasets: [
@@ -108,9 +84,13 @@ const DashboardGraphsView = ({
           <Card
             title={<FormattedMessage id="admin.dashboard.popular.skills" />}
             loading={topFiveSkills.length === 0}
-            bodyStyle={{ height: 500 }}
+            bodyStyle={{ height: graphHeight }}
           >
-            <Chart type="bar" data={skillsData} options={options} />
+            <Chart
+              type="bar"
+              data={barGraphData(topFiveSkills, "skills")}
+              options={options}
+            />
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
@@ -119,9 +99,13 @@ const DashboardGraphsView = ({
               <FormattedMessage id="admin.dashboard.popular.competencies" />
             }
             loading={topFiveCompetencies.length === 0}
-            bodyStyle={{ height: 500 }}
+            bodyStyle={{ height: graphHeight }}
           >
-            <Chart type="bar" data={competenciesData} options={options} />
+            <Chart
+              type="bar"
+              data={barGraphData(topFiveCompetencies, "competencies")}
+              options={options}
+            />
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
@@ -130,9 +114,16 @@ const DashboardGraphsView = ({
               <FormattedMessage id="admin.dashboard.popular.development.goals" />
             }
             loading={topFiveDevelopmentalGoals.length === 0}
-            bodyStyle={{ height: 500 }}
+            bodyStyle={{ height: graphHeight }}
           >
-            <Chart type="bar" data={developmentalGoalsData} options={options} />
+            <Chart
+              type="bar"
+              data={barGraphData(
+                topFiveDevelopmentalGoals,
+                "development.goals"
+              )}
+              options={options}
+            />
           </Card>
         </Col>
         {monthlyGrowth && (
@@ -142,7 +133,7 @@ const DashboardGraphsView = ({
                 <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
               }
               loading={monthlyGrowth.length === 0}
-              bodyStyle={{ height: 500 }}
+              bodyStyle={{ height: graphHeight }}
             >
               <Chart type="line" data={monthlyGrowthData} options={options} />
             </Card>
