@@ -15,7 +15,9 @@ const app = express();
 
 app.set("trust proxy", true);
 app.use(cors());
-app.use(helmet());
+if (config.ENV !== "development") {
+  app.use(helmet());
+}
 app.use(sessionInstance);
 
 app.use((req, res, next) => {
@@ -36,7 +38,7 @@ if (config.ENV !== "test") {
 }
 app.use("/api", router);
 app.get("/oauth2-redirect.html", function (req, res) {
-  res.sendfile("src/docs/oauth2-redirect.html");
+  res.sendFile(`${__dirname}/docs/oauth2-redirect.html`);
 });
 app.use("/api-docs", swaggerUi.serve, swaggerOptions);
 app.use(keycloak.middleware({ logout: "/" }));
