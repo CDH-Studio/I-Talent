@@ -4,6 +4,7 @@ const seed = require("../../../src/database/seeds/20200610114410-init-options/da
 
 const path = "/api/option/categories";
 const data = ["ENGLISH", "FRENCH"];
+const totalCategories = 21;
 
 describe(`Test ${path}`, () => {
   describe("GET", () => {
@@ -109,15 +110,62 @@ describe(`Test ${path}`, () => {
 
     describe("when authenticated", () => {
       describe("when 'ids' array is empty", () => {
-        test.todo("should process request - 200");
-        test.todo("not delete anything from the database");
+        let res;
+
+        beforeAll(async (done) => {
+          res = await request(mockedKeycloakApp).delete(path).send({ ids: [] });
+
+          done();
+        });
+
+        test.only("should process request - 200", async (done) => {
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe(
+            "Successfully deleted the specified category options"
+          );
+          expect(prisma.opCategory.deleteMany).toBeCalled();
+          expect(prisma.opTransCategory.deleteMany).toBeCalled();
+          done();
+        });
       });
 
-      describe("when 'ids' array has multiple UUID", () => {
-        test.todo("should process request, have a status 200");
-        test.todo("delete related category option translations");
-        test.todo("delete category options");
-      });
+      // describe("when 'ids' array has multiple UUID", () => {
+      //   let res;
+      //   let randomNumber;
+      //   let ids;
+
+      //   beforeAll(async () => {
+      //     randomNumber = _.random(2, totalCategories);
+      //     ids = await prisma.opCategory.findMany({
+      //       select: {
+      //         id: true,
+      //         translations: {
+      //           select: {
+      //             id: true,
+      //           },
+      //         },
+      //       },
+      //       take: randomNumber,
+      //     });
+
+      //     await prisma.executeRaw(`BEGIN`);
+      //     res = await request(mockedKeycloakApp)
+      //       .delete(path)
+      //       .send({ ids: _.map(ids, "id") });
+      //     await prisma.executeRaw(`ROLLBACK`);
+      //   });
+
+      //   test("should process request, have a status 200", () => {
+      //     expect(res.statusCode).toBe(200);
+      //   });
+
+      //   test.todo("should delete related category option translations");
+
+      //   test("should delete category options", async () => {
+      //     const count = await prisma.opCategory.count();
+      //     expect(count).toBe(totalCategories - randomNumber);
+      //   });
+      // });
 
       describe("when 'ids' array has a single UUID", () => {
         test.todo("should process request, have a status 200");

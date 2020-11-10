@@ -10,76 +10,102 @@ pipeline {
     }
 
     environment {
-        // GLobal Vars
+        // Global Vars
         BACKEND_IMAGE_NAME = 'dsd-italent-backend'
         FRONTEND_IMAGE_NAME = 'dsd-italent-frontend'
         BACKEND_DIR = 'services/backend'
         FRONTEND_DIR = 'services/frontend'
-        SOURCE_DIR='services'
-        FRONTEND_DIR_I18 = 'services/frontend/src/i18n'
+        FRONTEND_DIR_I18N = 'services/frontend/src/i18n'
         NODE_ENV = 'production'
     }
 
     stages {
-        stage('run-lints'){
-            parallel{
-                stage('i18-check') {
+        stage('configure-node') {
+            steps {
+                sh script: """
+                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                    nvm install 12.6.0
+                    nvm alias default 12.6.0
+                    npm i yarn -g
+                """, label: 'Setting up proper node.js version'
+                sh script: """
+                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                    (cd $FRONTEND_DIR && yarn install --production=false)
+                    (cd $BACKEND_DIR && yarn install --production=false)
+                """, label: 'Installing packages'
+            }
+        }
+
+        stage('linter') {
+            parallel {
+                stage('i18n-linting') {
                     steps {
-                        dir("${FRONTEND_DIR_I18}") {
-                            sh 'npm init -y'
-                            sh 'npm i lodash'
-                            sh 'node check'
+                        dir("${FRONTEND_DIR_I18N}") {
+                            sh script: 'npm init -y && npm i lodash', label: 'Setup i18n linting dummy project'
+                            sh script: 'node check', label: 'Linting i18n files'
                         }
                     }
                 }        
 
-                stage('linting') {
+                stage('frontend-linting') {
                     steps {
-                        dir("${SOURCE_DIR}") {
-                            sh """
-                                unset NPM_CONFIG_PREFIX
-                                source $NVM_DIR/nvm.sh
-                                nvm install "12.6.0"
-                                npm i yarn -g
-                                cd frontend
-                                yarn install --production=false
+                        dir("${FRONTEND_DIR}") {
+                            sh script: """
+                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
-                                cd ../backend
-                                yarn install --production=false
-                                yarn lint
-                            """
+                            """, label: 'Linting frontend'
                         }
                     }
                 }    
+
+                stage('backend-linting') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            sh script: """
+                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                                yarn lint
+                            """, label: 'Linting backend'
+                        }
+                    }
+                }
             }
         }
-	
-	stage('build'){
-		parallel{
-			stage('build-backend') {
-            			steps {
-			    		dir("${BACKEND_DIR}") {
-                    				script {
-                        				builder.buildApp(BACKEND_IMAGE_NAME)
-                    				}
-                			}
-            			}
-        		}
-			        stage('build-frontend') {
+
+        stage('backend-test') {
             steps {
-			    dir("${FRONTEND_DIR}") {
-                    		script {
-                       		builder.buildApp(FRONTEND_IMAGE_NAME)
-                    		}
-                	    }
-            	}
+                dir("${BACKEND_DIR}") {
+                    sh script: """
+                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                        yarn generate
+                        yarn test
+                    """, label: 'Testing backend'
+                    archiveArtifacts artifacts: 'tests/coverage/'
+                }
+            }
         }
-	
-		}
-	}
 
+        stage('build') {
+            parallel {
+                stage('build-backend') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            script {
+                                builder.buildApp(BACKEND_IMAGE_NAME)
+                            }
+                        }
+                    }
+                }
 
-        
-
+                stage('build-frontend') {
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            script {
+                                builder.buildApp(FRONTEND_IMAGE_NAME)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

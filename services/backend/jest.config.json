@@ -1,0 +1,18 @@
+{
+  "testRegex": "(\\.|/)(spec|test){1}.(?!old.)js?$",
+  "testEnvironment": "node",
+  "setupFiles": [ "./tests/setup.js" ],
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "./src/**/*.js",
+    "!./src/docs/**",
+    "!./src/database/**"
+  ],
+  "coverageThreshold": {
+    "global": {
+      "lines": 20,
+      "statements": 20
+    }
+  },
+  "coverageDirectory": "./tests/coverage"
+}
