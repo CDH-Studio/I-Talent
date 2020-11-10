@@ -10,15 +10,14 @@ import {
   Input,
 } from "antd";
 
-import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
+import { FormOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import {
   FieldPropType,
-  FormInstancePropType,
   KeyTitleOptionsPropType,
-  IntlPropType,
+  // IntlPropType,
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
 
@@ -34,10 +33,8 @@ const { Title } = Typography;
  *  It contains classification, job title, selection process number and link to job poster.
  */
 const QualifiedPoolsFormView = ({
-  form,
   fieldElement,
   removeElement,
-  intl,
   savedQualifiedPools,
   classificationOptions,
 }) => {
@@ -57,7 +54,7 @@ const QualifiedPoolsFormView = ({
           <Title level={4} className="entryTitle">
             <Row align="middle" justify="space-between">
               <Col>
-                <FormOutlined className="formOutlined" />
+                <FormOutlined className="formItemIcon" />
                 <FormattedMessage id="setup.qualified.pools.title" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
@@ -68,7 +65,7 @@ const QualifiedPoolsFormView = ({
                 <Button
                   type="link"
                   shape="circle"
-                  icon={<DeleteOutlined />}
+                  icon={<CloseCircleOutlined />}
                   onClick={() => {
                     removeElement(fieldElement.name);
                   }}
@@ -155,7 +152,6 @@ const QualifiedPoolsFormView = ({
 };
 
 QualifiedPoolsFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
@@ -166,13 +162,10 @@ QualifiedPoolsFormView.propTypes = {
     })
   ).isRequired,
   classificationOptions: KeyTitleOptionsPropType.isRequired,
-  intl: IntlPropType,
 };
 
-QualifiedPoolsFormView.defaultProps = {
-  classificationOptions: [],
-  savedQualifiedPools: [],
-  intl: undefined,
-};
+// QualifiedPoolsFormView.defaultProps = {
+//   intl: undefined,
+// };
 
 export default injectIntl(QualifiedPoolsFormView);

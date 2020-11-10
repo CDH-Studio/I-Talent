@@ -369,7 +369,7 @@ const QualificationsFormView = ({
                   <Form.List name="educations">
                     {(fields, { add, remove }) => {
                       return (
-                        <div>
+                        <>
                           {fields.map((field) => (
                             <EducationForm
                               key={field.fieldKey}
@@ -394,7 +394,7 @@ const QualificationsFormView = ({
                               <FormattedMessage id="setup.add.item" />
                             </Button>
                           </Form.Item>
-                        </div>
+                        </>
                       );
                     }}
                   </Form.List>

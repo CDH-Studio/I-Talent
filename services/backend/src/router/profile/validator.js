@@ -151,14 +151,12 @@ const updateProfileValidator = [
     .optional()
     .isArray()
     .custom((array) =>
-      array.every(
-        (i) =>
-          isUUID(i.classificationId)
+      array.every((i) =>
+        //********needs better validation
+        isUUID(i.classificationId)
       )
     )
-    .withMessage(
-      "must be an array of containing { classificationId: UUID }"
-    ),
+    .withMessage("must be an array of containing { classificationId: UUID }"),
   body("educations")
     .optional()
     .isArray()

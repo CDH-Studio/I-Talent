@@ -90,6 +90,8 @@ async function updateProfile(request, userId, language) {
   let competencyIds;
   let upsertDevelopmentalGoals;
 
+  console.log("update profile", educations);
+
   if (developmentalGoals) {
     skillIds = await prisma.opSkill
       .findMany({

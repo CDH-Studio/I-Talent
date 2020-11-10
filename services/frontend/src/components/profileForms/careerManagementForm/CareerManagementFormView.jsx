@@ -44,7 +44,7 @@ import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
@@ -111,8 +111,11 @@ const CareerManagementFormView = ({
       values.lookingForANewJobId = null;
     }
     console.log("saveDataToDB", values);
-
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    console.log("saveDataToDB-qialifiedpools", values.qualifiedPools);
+    // var obj = JSON.parse(values);
+    JSON.parse(JSON.stringify(values.qualifiedPools));
+    // console.log(obj);
+    // await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
   /**
    * Open Notification
@@ -419,15 +422,20 @@ const CareerManagementFormView = ({
                 "qualifiedPools"
               )}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col
+                  className="qual-gutter-row"
+                  xs={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                >
                   <Form.List name="qualifiedPools">
                     {(fields, { add, remove }) => {
                       return (
-                        <div>
+                        <>
                           {fields.map((field) => (
                             <QualifiedPoolsForm
                               key={field.fieldKey}
-                              form={form}
                               fieldElement={field}
                               removeElement={remove}
                               savedQualifiedPools={savedQualifiedPools}
@@ -446,7 +454,7 @@ const CareerManagementFormView = ({
                               <FormattedMessage id="setup.add.item" />
                             </Button>
                           </Form.Item>
-                        </div>
+                        </>
                       );
                     }}
                   </Form.List>
@@ -503,7 +511,11 @@ const CareerManagementFormView = ({
                       filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => {
-                        return <Option key={value.id}>{`${value.city}, ${value.province}`}</Option>;
+                        return (
+                          <Option
+                            key={value.id}
+                          >{`${value.city}, ${value.province}`}</Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>

@@ -89,7 +89,7 @@ const CareerManagementForm = ({ formType }) => {
    * get saved Qualified Pools from profile
    */
   const getSavedQualifiedPools = () => {
-    let ll = {
+    const ll = {
       qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
         id: i.id,
         classificationId: i.classification.id,
@@ -282,7 +282,7 @@ const CareerManagementForm = ({ formType }) => {
       );
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
-      //setSavedQualifiedPools(qualifiedPools);
+      // setSavedQualifiedPools(qualifiedPools);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);

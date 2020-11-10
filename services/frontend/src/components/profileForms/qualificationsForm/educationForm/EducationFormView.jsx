@@ -10,7 +10,6 @@ import {
   DatePicker,
   Tooltip,
 } from "antd";
-
 import {
   FormOutlined,
   PlusOutlined,
@@ -29,9 +28,8 @@ import {
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
-
-import "./EducationFormView.scss";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
+import "./EducationFormView.scss";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -144,9 +142,9 @@ const EducationFormView = ({
               allowClear
               filterOption={filterOption}
             >
-              {diplomaOptions.map((value) => {
-                return <Option key={value.id}>{value.description}</Option>;
-              })}
+              {diplomaOptions.map((value) => (
+                <Option key={value.id}>{value.description}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -165,9 +163,9 @@ const EducationFormView = ({
               allowClear
               filterOption={filterOption}
             >
-              {schoolOptions.map((value) => {
-                return <Option key={value.id}>{value.name}</Option>;
-              })}
+              {schoolOptions.map((value) => (
+                <Option key={value.id}>{value.name}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>

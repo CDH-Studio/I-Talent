@@ -43,7 +43,7 @@ import FormTitle from "../formTitle/FormTitle";
 import "./PrimaryInfoFormView.scss";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const PrimaryInfoFormView = ({
   locationOptions,
