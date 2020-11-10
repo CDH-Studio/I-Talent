@@ -5,6 +5,9 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import Chart from "react-chartjs-2";
 import { IntlPropType } from "../../../utils/customPropTypes";
 
+const chartColors = ["#6295f9", "#60daac", "#657799", "#f6c02a", "#e96c5c"];
+const graphHeight = 500;
+
 /**
  *  DashboardGraphsView(props)
  *  This component renders the graphes for the Admin Dashbord page.
@@ -20,62 +23,42 @@ const DashboardGraphsView = ({
   intl,
 }) => {
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
+      xAxes: [
+        {
+          ticks: { display: false },
+        },
+      ],
       yAxes: [
         {
           ticks: {
             stepSize: 1,
+            beginAtZero: true,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: intl.formatMessage({
+              id: "admin.dashboard.number.of.occurrences",
+            }),
           },
         },
       ],
     },
   };
-  const skillsData = {
-    datasets: [
-      {
-        label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
-        }),
-        data: topFiveSkills
-          ? topFiveSkills.map((element) => element.count)
-          : [],
-        backgroundColor: "rgb(8, 116, 114)",
-      },
-    ],
-    labels: topFiveSkills ? topFiveSkills.map((element) => element.name) : [],
-  };
-  const competenciesData = {
-    datasets: [
-      {
-        label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
-        }),
-        data: topFiveCompetencies
-          ? topFiveCompetencies.map((element) => element.count)
-          : [],
-        backgroundColor: "rgb(8, 116, 114)",
-      },
-    ],
-    labels: topFiveCompetencies
-      ? topFiveCompetencies.map((element) => element.name)
+
+  const barGraphData = (data, type) => ({
+    labels: [intl.formatMessage({ id: `admin.dashboard.popular.${type}` })],
+    datasets: data
+      ? data.map((element, index) => ({
+          data: [element.count],
+          backgroundColor: chartColors[index],
+          label: element.name,
+          barPercentage: 0.8,
+        }))
       : [],
-  };
-  const developmentalGoalsData = {
-    datasets: [
-      {
-        label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
-        }),
-        data: topFiveDevelopmentalGoals
-          ? topFiveDevelopmentalGoals.map((element) => element.count)
-          : [],
-        backgroundColor: "rgb(8, 116, 114)",
-      },
-    ],
-    labels: topFiveDevelopmentalGoals
-      ? topFiveDevelopmentalGoals.map((element) => element.name)
-      : [],
-  };
+  });
 
   const monthlyGrowthData = {
     datasets: [
@@ -101,8 +84,13 @@ const DashboardGraphsView = ({
           <Card
             title={<FormattedMessage id="admin.dashboard.popular.skills" />}
             loading={topFiveSkills.length === 0}
+            bodyStyle={{ height: graphHeight }}
           >
-            <Chart type="bar" data={skillsData} options={options} />
+            <Chart
+              type="bar"
+              data={barGraphData(topFiveSkills, "skills")}
+              options={options}
+            />
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
@@ -111,8 +99,13 @@ const DashboardGraphsView = ({
               <FormattedMessage id="admin.dashboard.popular.competencies" />
             }
             loading={topFiveCompetencies.length === 0}
+            bodyStyle={{ height: graphHeight }}
           >
-            <Chart type="bar" data={competenciesData} options={options} />
+            <Chart
+              type="bar"
+              data={barGraphData(topFiveCompetencies, "competencies")}
+              options={options}
+            />
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
@@ -121,8 +114,16 @@ const DashboardGraphsView = ({
               <FormattedMessage id="admin.dashboard.popular.development.goals" />
             }
             loading={topFiveDevelopmentalGoals.length === 0}
+            bodyStyle={{ height: graphHeight }}
           >
-            <Chart type="bar" data={developmentalGoalsData} options={options} />
+            <Chart
+              type="bar"
+              data={barGraphData(
+                topFiveDevelopmentalGoals,
+                "development.goals"
+              )}
+              options={options}
+            />
           </Card>
         </Col>
         {monthlyGrowth && (
@@ -132,6 +133,7 @@ const DashboardGraphsView = ({
                 <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
               }
               loading={monthlyGrowth.length === 0}
+              bodyStyle={{ height: graphHeight }}
             >
               <Chart type="line" data={monthlyGrowthData} options={options} />
             </Card>

@@ -56,14 +56,14 @@ async function growthRateByMonth(request, response) {
     const oldestUserDate = moment(users[0].createdAt);
 
     while (oldestUserDate.isSameOrBefore(currentDate, "month")) {
-      const currentYear = oldestUserDate.year();
-      const currentMonth = oldestUserDate.month();
+      const oldestYear = oldestUserDate.year();
+      const oldestMonth = oldestUserDate.month();
 
-      if (!growthRate[currentYear]) {
-        growthRate[currentYear] = {};
+      if (!growthRate[oldestYear]) {
+        growthRate[oldestYear] = {};
       }
 
-      growthRate[currentYear][currentMonth] = 0;
+      growthRate[oldestYear][oldestMonth] = 0;
 
       oldestUserDate.add(1, "month");
     }

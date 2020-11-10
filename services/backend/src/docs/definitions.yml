@@ -1,4 +1,16 @@
 definitions:
+  BugsLocationEnum:
+    type: string
+    enum:
+      - HOME
+      - PROFILE
+      - SEARCH
+      - FORMS
+  BugsStatusEnum:
+    type: string
+    enum:
+      - UNRESOLVED
+      - RESOLVED
   LanguageEnum:
     type: string
     enum:
