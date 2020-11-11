@@ -547,86 +547,88 @@ async function updateProfile(request, userId, language) {
             }
           : undefined,
 
-      educations: educations
-        ? {
-            create: educations.map((educationItem) => ({
-              startDate: normalizeDate(educationItem.startDate, "month"),
-              endDate: normalizeDate(educationItem.endDate, "month"),
-              ongoingDate: educationItem.ongoingDate,
-              description: educationItem.description,
-              diploma: {
-                connect: {
-                  id: educationItem.diplomaId,
+      educations:
+        educations && educations.length > 0
+          ? {
+              create: educations.map((educationItem) => ({
+                startDate: normalizeDate(educationItem.startDate, "month"),
+                endDate: normalizeDate(educationItem.endDate, "month"),
+                ongoingDate: educationItem.ongoingDate,
+                description: educationItem.description,
+                diploma: {
+                  connect: {
+                    id: educationItem.diplomaId,
+                  },
                 },
-              },
-              school: {
-                connect: {
-                  id: educationItem.schoolId,
+                school: {
+                  connect: {
+                    id: educationItem.schoolId,
+                  },
                 },
-              },
-              attachmentLinks:
-                educationItem.attachmentLinks &&
-                educationItem.attachmentLinks > 0
-                  ? {
-                      create: educationItem.attachmentLinks.map((link) => ({
-                        translations: {
-                          create: {
-                            language,
-                            name: {
-                              connect: {
-                                id: link.nameId,
+                attachmentLinks:
+                  educationItem.attachmentLinks &&
+                  educationItem.attachmentLinks > 0
+                    ? {
+                        create: educationItem.attachmentLinks.map((link) => ({
+                          translations: {
+                            create: {
+                              language,
+                              name: {
+                                connect: {
+                                  id: link.nameId,
+                                },
                               },
+                              url: link.url,
                             },
-                            url: link.url,
                           },
-                        },
-                      })),
-                    }
-                  : undefined,
-            })),
-          }
-        : undefined,
+                        })),
+                      }
+                    : undefined,
+              })),
+            }
+          : undefined,
 
-      experiences: experiences
-        ? {
-            create: experiences.map((expItem) => ({
-              startDate: normalizeDate(expItem.startDate, "month"),
-              endDate: normalizeDate(expItem.endDate, "month"),
-              ongoingDate: expItem.ongoingDate,
-              projects: expItem.projects
-                ? {
-                    set: expItem.projects,
-                  }
-                : undefined,
-              translations: {
-                create: {
-                  language,
-                  jobTitle: expItem.jobTitle,
-                  organization: expItem.organization,
-                  description: expItem.description,
-                },
-              },
-              attachmentLinks:
-                expItem.attachmentLinks && expItem.attachmentLinks > 0
+      experiences:
+        experiences && experiences.length
+          ? {
+              create: experiences.map((expItem) => ({
+                startDate: normalizeDate(expItem.startDate, "month"),
+                endDate: normalizeDate(expItem.endDate, "month"),
+                ongoingDate: expItem.ongoingDate,
+                projects: expItem.projects
                   ? {
-                      create: expItem.attachmentLinks.map((link) => ({
-                        translations: {
-                          create: {
-                            language,
-                            name: {
-                              connect: {
-                                id: link.nameId,
-                              },
-                            },
-                            url: link.url,
-                          },
-                        },
-                      })),
+                      set: expItem.projects,
                     }
                   : undefined,
-            })),
-          }
-        : undefined,
+                translations: {
+                  create: {
+                    language,
+                    jobTitle: expItem.jobTitle,
+                    organization: expItem.organization,
+                    description: expItem.description,
+                  },
+                },
+                attachmentLinks:
+                  expItem.attachmentLinks && expItem.attachmentLinks > 0
+                    ? {
+                        create: expItem.attachmentLinks.map((link) => ({
+                          translations: {
+                            create: {
+                              language,
+                              name: {
+                                connect: {
+                                  id: link.nameId,
+                                },
+                              },
+                              url: link.url,
+                            },
+                          },
+                        })),
+                      }
+                    : undefined,
+              })),
+            }
+          : undefined,
 
       secondLangProfs: secondLangProfs
         ? {
