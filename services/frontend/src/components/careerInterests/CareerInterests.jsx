@@ -9,7 +9,7 @@ const CareerInterests = ({ data, editableCardBool }) => (
     titleId="profile.career.interests"
     cardName="careerInterests"
     id="card-profile-career-interests"
-    editUrl="/profile/edit/personal-growth?tab=career-interests"
+    editUrl="/profile/edit/career-management?tab=career-interests"
     data={data}
     editableCardBool={editableCardBool}
     visibility={data.visibleCards.careerInterests}

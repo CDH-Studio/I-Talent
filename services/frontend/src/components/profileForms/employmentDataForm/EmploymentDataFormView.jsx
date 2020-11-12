@@ -37,6 +37,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormTitle from "../formTitle/FormTitle";
 import "./EmploymentDataFormView.scss";
 
 const { Option } = Select;
@@ -417,27 +418,6 @@ const EmploymentDataFormView = ({
     return <div />;
   };
 
-  /* Generate form header based on form type */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Title level={2} className="employment-formTitle">
-          3. <FormattedMessage id="profile.employee.status" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="employment-formTitle">
-        <FormattedMessage id="profile.employee.status" />
-        {fieldsChanged && (
-          <Text className="unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   useEffect(() => {
     if (!loadedData && load) {
       /* check if user has acting information in db to expand acting form */
@@ -486,14 +466,21 @@ const EmploymentDataFormView = ({
       <div className="employment-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
-          {getFormHeader(formType)}
-          <div style={{ marginTop: -5 }}>
-            <CardVisibilityToggle
-              visibleCards={profileInfo.visibleCards}
-              cardName="info"
-              type="form"
-            />
-          </div>
+          <FormTitle
+            title={<FormattedMessage id="profile.employee.status" />}
+            formType={formType}
+            stepNumber={3}
+            fieldsChanged={fieldsChanged}
+            extra={
+              <div style={{ marginTop: -5 }}>
+                <CardVisibilityToggle
+                  visibleCards={profileInfo.visibleCards}
+                  cardName="info"
+                  type="form"
+                />
+              </div>
+            }
+          />
         </Row>
         <Divider className="employment-headerDiv" />
         {/* Create for with initial values */}

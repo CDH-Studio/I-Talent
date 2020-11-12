@@ -133,6 +133,21 @@ async function getFullProfile(id, language) {
           },
         },
       },
+      qualifiedPools: {
+        select: {
+          id: true,
+          updatedAt: true,
+          jobTitle: true,
+          selectionProcessNumber: true,
+          jobPosterLink: true,
+          classification: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
       educations: {
         select: {
           id: true,
@@ -393,6 +408,7 @@ async function getFullProfile(id, language) {
           skills: true,
           competencies: true,
           developmentalGoals: true,
+          qualifiedPools: true,
           education: true,
           experience: true,
           careerInterests: true,

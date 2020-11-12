@@ -8,7 +8,7 @@ const ExFeeder = ({ data, editableCardBool }) => (
   <ProfileCards
     titleId={<ExFeederView data={data} />}
     cardName="exFeeder"
-    editUrl="/profile/edit/personal-growth?tab=ex-feeder"
+    editUrl="/profile/edit/career-management?tab=ex-feeder"
     id="card-profile-ex-feeder"
     data={data}
     editableCardBool={editableCardBool}

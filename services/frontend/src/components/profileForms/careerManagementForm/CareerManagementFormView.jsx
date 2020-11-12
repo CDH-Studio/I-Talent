@@ -38,11 +38,13 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./PersonalGrowthFormView.scss";
+import "./CareerManagementFormView.scss";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
+import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
+import FormTitle from "../formTitle/FormTitle";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
@@ -51,7 +53,7 @@ const { TabPane } = Tabs;
  *  this component renders the talent form.
  *  It contains competencies, skills, and mentorship TreeSelects.
  */
-const PersonalGrowthFormView = ({
+const CareerManagementFormView = ({
   profileInfo,
   developmentalGoalOptions,
   savedDevelopmentalGoals,
@@ -73,10 +75,13 @@ const PersonalGrowthFormView = ({
   userId,
   attachmentOptions,
   savedAttachments,
+  classificationOptions,
+  savedQualifiedPools,
 }) => {
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [tabErrorsBool, setTabErrorsBool] = useState({});
   const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
@@ -153,6 +158,7 @@ const PersonalGrowthFormView = ({
         careerMobilityId: savedCareerMobility,
         talentMatrixResultId: savedTalentMatrixResult,
         exFeeder: savedExFeederBool,
+        qualifiedPools: savedQualifiedPools,
       };
     }
     return {};
@@ -171,6 +177,56 @@ const PersonalGrowthFormView = ({
     );
 
     setFieldsChanged(!isEqual(formValues, dbValues));
+  };
+
+  /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errorObject = form
+      .getFieldsError()
+      .reduce((acc, { name, errors }) => {
+        if (errors.length > 0) {
+          acc[name[0]] = true;
+        }
+        return acc;
+      }, {});
+
+    // save results to state
+    if (!isEqual(errorObject, tabErrorsBool)) {
+      setTabErrorsBool(errorObject);
+    }
+    return errorObject;
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    const messages = [];
+    if (formsWithErrorsList.qualifiedPools) {
+      messages.push(intl.formatMessage({ id: "profile.qualified.pools" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => (
+            <li key={value}>{value}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const onFieldsChange = () => {
+    findErrorTabs();
   };
 
   /*
@@ -194,6 +250,7 @@ const PersonalGrowthFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -234,6 +291,7 @@ const PersonalGrowthFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -263,31 +321,6 @@ const PersonalGrowthFormView = ({
       return <div style={{ color: "red" }}>{message}</div>;
     }
     return message;
-  };
-
-  /*
-   * Get form header
-   *
-   * Generates the form header (title)
-   */
-  const getFormHeader = () => {
-    if (formType === "create") {
-      return (
-        <Title level={2} className="pgf-formTitle">
-          7. <FormattedMessage id="profile.employee.growth.interests" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="pgf-formTitle">
-        <FormattedMessage id="profile.employee.growth.interests" />
-        {fieldsChanged && (
-          <Text className="pgf-unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
   };
 
   const getSectionHeader = (titleId, cardName) => (
@@ -341,24 +374,30 @@ const PersonalGrowthFormView = ({
       />
       <div className="pgf-content">
         {/* get form title */}
-        {getFormHeader()}
+        <FormTitle
+          title={<FormattedMessage id="profile.employee.growth.interests" />}
+          formType={formType}
+          stepNumber={7}
+          fieldsChanged={fieldsChanged}
+        />
         <Divider className="pgf-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
+          name="PersonalGrowth"
           form={form}
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
+            {/* ===== Developmental Goals Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.learning.development" />,
               })}
               key="learning-development"
             >
-              {/* *************** Developmental ************** */}
               {getSectionHeader(
                 "setup.developmental.goals",
                 "developmentalGoals"
@@ -381,6 +420,7 @@ const PersonalGrowthFormView = ({
                     />
                   </Form.Item>
                 </Col>
+
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="developmentalGoalsAttachments">
                     {(fields, { add, remove }) => {
@@ -397,9 +437,7 @@ const PersonalGrowthFormView = ({
                           <Form.Item>
                             <Button
                               type="dashed"
-                              onClick={() => {
-                                add();
-                              }}
+                              onClick={() => add()}
                               disabled={fields.length === 6}
                               style={{ width: "100%" }}
                             >
@@ -414,16 +452,65 @@ const PersonalGrowthFormView = ({
                 </Col>
               </Row>
             </TabPane>
+
+            {/* ===== Qualified Pools Tab ===== */}
+            <TabPane
+              tab={getTabTitle({
+                message: <FormattedMessage id="profile.qualified.pools" />,
+                errorBool: tabErrorsBool.qualifiedPools,
+              })}
+              key="qualified-pools"
+            >
+              {getSectionHeader("profile.qualified.pools", "qualifiedPools")}
+              <Row gutter={24}>
+                <Col
+                  className="qual-gutter-row"
+                  xs={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                >
+                  <Form.List name="qualifiedPools">
+                    {(fields, { add, remove }) => {
+                      return (
+                        <>
+                          {fields.map((field) => (
+                            <QualifiedPoolsForm
+                              key={field.fieldKey}
+                              fieldElement={field}
+                              removeElement={remove}
+                              savedQualifiedPools={savedQualifiedPools}
+                              classificationOptions={classificationOptions}
+                            />
+                          ))}
+                          <Form.Item>
+                            {/* add qualified pools field button */}
+                            <Button
+                              type="dashed"
+                              disabled={fields.length === 3}
+                              onClick={() => add()}
+                              style={{ width: "100%" }}
+                            >
+                              <PlusOutlined />
+                              <FormattedMessage id="setup.add.item" />
+                            </Button>
+                          </Form.Item>
+                        </>
+                      );
+                    }}
+                  </Form.List>
+                </Col>
+              </Row>
+            </TabPane>
+
+            {/* ===== Job Mobility Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="setup.career.interests" />,
               })}
               key="career-interests"
             >
-              {/* *************** Career Interest ************** */}
-
               {getSectionHeader("setup.career.interests", "careerInterests")}
-              {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
@@ -465,7 +552,11 @@ const PersonalGrowthFormView = ({
                       filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => {
-                        return <Option key={value.id}>{`${value.city}, ${value.province}`}</Option>;
+                        return (
+                          <Option
+                            key={value.id}
+                          >{`${value.city}, ${value.province}`}</Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>
@@ -497,6 +588,8 @@ const PersonalGrowthFormView = ({
                 </Col>
               </Row>
             </TabPane>
+
+            {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: (
@@ -505,8 +598,6 @@ const PersonalGrowthFormView = ({
               })}
               key="talent-management"
             >
-              {/* *************** Talent Management ************** */}
-
               <Row justify="space-between" align="middle">
                 <Title level={3} className="pgf-formTitle">
                   <Row>
@@ -597,6 +688,7 @@ const PersonalGrowthFormView = ({
               </Row>
             </TabPane>
 
+            {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.ex.feeder.title" />,
@@ -630,7 +722,7 @@ const PersonalGrowthFormView = ({
   );
 };
 
-PersonalGrowthFormView.propTypes = {
+CareerManagementFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   developmentalGoalOptions: KeyTitleOptionsPropType,
   savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
@@ -652,6 +744,16 @@ PersonalGrowthFormView.propTypes = {
   talentMatrixResultOptions: KeyTitleOptionsPropType,
   savedTalentMatrixResult: PropTypes.string,
   savedExFeederBool: PropTypes.bool,
+  classificationOptions: KeyNameOptionsPropType,
+  savedQualifiedPools: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      classificationId: PropTypes.string,
+      jobTitle: PropTypes.string,
+      selectionProcessNumber: PropTypes.string,
+      jobPosterLink: PropTypes.string,
+    })
+  ),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
@@ -668,12 +770,13 @@ PersonalGrowthFormView.propTypes = {
   ),
 };
 
-PersonalGrowthFormView.defaultProps = {
+CareerManagementFormView.defaultProps = {
   currentTab: null,
   careerMobilityOptions: [],
   developmentalGoalOptions: [],
   interestedInRemoteOptions: [],
   lookingForNewJobOptions: [],
+  classificationOptions: [],
   profileInfo: null,
   relocationOptions: [],
   savedCareerMobility: undefined,
@@ -682,9 +785,10 @@ PersonalGrowthFormView.defaultProps = {
   savedLookingForNewJob: undefined,
   savedRelocationLocations: [],
   savedTalentMatrixResult: undefined,
+  savedQualifiedPools: undefined,
   talentMatrixResultOptions: [],
   intl: null,
-  savedAttachments: [],
+  savedAttachments: undefined,
 };
 
-export default injectIntl(PersonalGrowthFormView);
+export default injectIntl(CareerManagementFormView);
