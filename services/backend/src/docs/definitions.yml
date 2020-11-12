@@ -302,6 +302,8 @@ definitions:
         $ref: "#/definitions/CardVisibilityStatusEnum"
       employmentEquityGroup:
         $ref: "#/definitions/CardVisibilityStatusEnum"
+      qualifiedPools:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
   Educations:
     type: array
     items:
@@ -366,6 +368,19 @@ definitions:
         date:
           type: string
           format: date-time
+  QualifiedPools:
+    type: array
+    items:
+      type: object
+      properties:
+        jobTitle:
+          type: string
+        selectionProcessNumber:
+          type: string
+        jobPosterLink:
+          type: string
+        classification:
+          type: string
   GetProfile:
     type: object
     properties:
@@ -593,6 +608,8 @@ definitions:
       experiencesUpdatedAt:
         type: string
         format: date-time
+      qualifiedPools:
+        $ref: "#/definitions/QualifiedPools"
       visibleCards:
         $ref: "#/definitions/VisibleCards"
       nameInitials:
