@@ -150,12 +150,7 @@ const updateProfileValidator = [
   body("qualifiedPools")
     .optional()
     .isArray()
-    .custom((array) =>
-      array.every((i) =>
-        //********needs better validation
-        isUUID(i.classificationId)
-      )
-    )
+    .custom((array) => array.every((i) => isUUID(i.classificationId)))
     .withMessage("must be an array of containing { classificationId: UUID }"),
   body("educations")
     .optional()

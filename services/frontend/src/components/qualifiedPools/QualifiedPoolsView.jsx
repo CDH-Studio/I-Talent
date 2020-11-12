@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { Row, Col, List, Empty, Descriptions, Typography } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
+
 const { Link } = Typography;
 
 const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
