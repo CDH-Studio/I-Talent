@@ -565,7 +565,7 @@ async function updateProfile(request, userId, language) {
                 },
                 attachmentLinks:
                   educationItem.attachmentLinks &&
-                  educationItem.attachmentLinks > 0
+                  educationItem.attachmentLinks.length > 0
                     ? {
                         create: educationItem.attachmentLinks.map((link) => ({
                           translations: {
@@ -587,7 +587,7 @@ async function updateProfile(request, userId, language) {
           : undefined,
 
       experiences:
-        experiences && experiences.length
+        experiences && experiences.length > 0
           ? {
               create: experiences.map((expItem) => ({
                 startDate: normalizeDate(expItem.startDate, "month"),
