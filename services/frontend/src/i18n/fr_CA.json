@@ -293,7 +293,7 @@
   "profile.qualified.pools.job.title": "Titre du poste",
   "profile.qualified.pools.job.poster.link": "Lien vers l'affiche d'emploi",
   "profile.qualified.pools.selection.process.number": "Numéro du processus de sélection",
-  "profile.qualified.empty": "aucune bassin de candidats fournie",
+  "profile.qualified.empty": "aucun bassin de candidats fourni",
   "profile.rules.email": "Veuillez fournir un courriel valide du gouvernement du Canada",
   "profile.rules.max": "Maximum de {max} caractères",
   "profile.rules.name": "Doit être un nom valide",
