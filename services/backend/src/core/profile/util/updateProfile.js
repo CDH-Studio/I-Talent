@@ -354,7 +354,7 @@ async function updateProfile(request, userId, language) {
       select: { signupStep: true },
     })
   ).signupStep;
-  console.log(educations);
+
   await prisma.user.update({
     where: { id: userId },
     data: {

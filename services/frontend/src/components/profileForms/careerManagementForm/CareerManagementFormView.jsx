@@ -635,6 +635,8 @@ const CareerManagementFormView = ({
                 </Col>
               </Row>
             </TabPane>
+
+            {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.ex.feeder.title" />,
