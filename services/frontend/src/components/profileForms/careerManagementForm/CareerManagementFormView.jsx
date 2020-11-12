@@ -110,12 +110,12 @@ const CareerManagementFormView = ({
     if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
-    console.log("saveDataToDB", values);
-    console.log("saveDataToDB-qialifiedpools", values.qualifiedPools);
-    // var obj = JSON.parse(values);
-    JSON.parse(JSON.stringify(values.qualifiedPools));
-    // console.log(obj);
-    // await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    // console.log("saveDataToDB", values);
+    // console.log("saveDataToDB-qialifiedpools", values.qualifiedPools);
+    // // var obj = JSON.parse(values);
+    // JSON.parse(JSON.stringify(values.qualifiedPools));
+    // // console.log(obj);
+    await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
   /**
    * Open Notification

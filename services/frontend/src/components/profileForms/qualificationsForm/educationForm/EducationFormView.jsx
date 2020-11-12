@@ -209,9 +209,13 @@ const EducationFormView = ({
             }}
           >
             {({ getFieldValue }) => {
-              const disableEndDate = getFieldValue("educations")[
+              const educationItem = getFieldValue("educations")[
                 fieldElement.name
-              ].ongoingDate;
+              ];
+
+              const disableEndDate = educationItem
+                ? educationItem.ongoingDate
+                : false;
 
               return (
                 <>
