@@ -200,7 +200,7 @@ async function getAllUsers(searchValue, language, userId, request) {
                 jobTitle: true,
                 selectionProcessNumber: true,
                 jobPosterLink: true,
-                school: {
+                classification: {
                   select: {
                     name: true,
                   },
