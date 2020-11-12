@@ -43,6 +43,10 @@ const QualifiedPoolsFormView = ({
       required: true,
       message: <FormattedMessage id="profile.rules.required" />,
     },
+    url: {
+      type: "url",
+      message: <FormattedMessage id="profile.rules.url" />,
+    },
   };
 
   return (
@@ -82,7 +86,7 @@ const QualifiedPoolsFormView = ({
             name={[fieldElement.name, "classificationId"]}
             fieldKey={[fieldElement.fieldKey, "classificationId"]}
             label={<FormattedMessage id="profile.classification" />}
-            // rules={[Rules.required]}
+            rules={[Rules.required]}
           >
             <Select
               showSearch
@@ -118,7 +122,7 @@ const QualifiedPoolsFormView = ({
             label={
               <FormattedMessage id="profile.qualified.pools.job.poster.link" />
             }
-            rules={[Rules.required]}
+            rules={[Rules.required, Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
