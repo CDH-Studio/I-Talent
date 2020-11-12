@@ -135,6 +135,32 @@ function formatProfileResult(profile, language) {
     filteredProfile.developmentalGoalsAttachments = attachmentLinks;
   }
 
+  if (profile.qualifiedPools) {
+    const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => {
+      return {
+        id: qualifiedPool.id,
+        jobTitle: qualifiedPool.jobTitle,
+        selectionProcessNumber: qualifiedPool.selectionProcessNumber,
+        jobPosterLink: qualifiedPool.jobPosterLink,
+        classification: {
+          id: qualifiedPool.classification.id,
+          name: qualifiedPool.classification.name,
+        },
+      };
+    });
+
+    filteredProfile.qualifiedPools = _.orderBy(
+      qualifiedPools,
+      "updatedAt",
+      "desc"
+    );
+
+    filteredProfile.qualifiedPoolsUpdatedAt = profile.qualifiedPools.reduce(
+      updatedAtReducer,
+      undefined
+    );
+  }
+
   if (profile.educations) {
     const educations = profile.educations.map((education) => {
       const translatedDiploma =

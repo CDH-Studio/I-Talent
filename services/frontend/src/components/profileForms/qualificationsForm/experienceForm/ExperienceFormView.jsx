@@ -58,7 +58,9 @@ const ExperienceFormView = ({
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />,
+      message: (
+        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+      ),
     },
   };
 
@@ -191,9 +193,13 @@ const ExperienceFormView = ({
             }}
           >
             {({ getFieldValue }) => {
-              const disableEndDate = getFieldValue("experiences")[
+              const experienceItem = getFieldValue("experiences")[
                 fieldElement.name
-              ].ongoingDate;
+              ];
+
+              const disableEndDate = experienceItem
+                ? experienceItem.ongoingDate
+                : false;
 
               return (
                 <>
@@ -221,7 +227,10 @@ const ExperienceFormView = ({
 
                   {/* Checkbox if event is on-going */}
                   <Form.Item
-                    style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
+                    style={{
+                      marginTop: disableEndDate ? "-45px" : "-15px",
+                      marginBottom: disableEndDate ? "35px" : "15px",
+                    }}
                     name={[fieldElement.name, "ongoingDate"]}
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
                     initialValue={false}

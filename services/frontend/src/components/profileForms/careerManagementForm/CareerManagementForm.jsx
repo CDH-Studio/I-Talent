@@ -6,22 +6,22 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useIntl } from "react-intl";
 import useAxios from "../../../utils/useAxios";
 
-import PersonalGrowthFormView from "./PersonalGrowthFormView";
+import CareerManagementFormView from "./CareerManagementFormView";
 import handleError from "../../../functions/handleError";
 
 /**
- *  Personal Growth Form(props)
+ *  Career Management Form(props)
  *  Controller for the PersonalGrowthFormView.
  *  It gathers the required data for rendering the component
  */
-const PersonalGrowthForm = ({ formType }) => {
+const CareerManagementForm = ({ formType }) => {
   // Define States
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
   const [currentTab, setCurrentTab] = useState(null);
   const [developmentalGoalOptions, setDevelopmentalGoalOptions] = useState([]);
   const [savedDevelopmentalGoals, setSavedDevelopmentalGoals] = useState([]);
-  const [savedAttachments, setSavedAttachments] = useState([]);
+  const [savedAttachments, setSavedAttachments] = useState(null);
   const [interestedInRemoteOptions, setInterestedInRemoteOptions] = useState(
     []
   );
@@ -39,6 +39,8 @@ const PersonalGrowthForm = ({ formType }) => {
     undefined
   );
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
+  const [classificationOptions, setClassificationOptions] = useState([]);
+  const [savedQualifiedPools, setSavedQualifiedPools] = useState(undefined);
   const axios = useAxios();
 
   // Get current language code
@@ -79,6 +81,24 @@ const PersonalGrowthForm = ({ formType }) => {
     setSavedRelocationLocations(
       profileInfo.relocationLocations.map((i) => i.id)
     );
+  };
+
+  /**
+   * Get saved Qualified Pools
+   *
+   * get saved Qualified Pools from profile
+   */
+  const getSavedQualifiedPools = () => {
+    const ll = {
+      qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
+        id: i.id,
+        classificationId: i.classification.id,
+        jobTitle: i.jobTitle,
+        selectionProcessNumber: i.selectionProcessNumber,
+        jobPosterLink: i.jobPosterLink,
+      })),
+    };
+    if (profileInfo.qualifiedPools) setSavedQualifiedPools(ll.qualifiedPools);
   };
 
   /**
@@ -217,6 +237,19 @@ const PersonalGrowthForm = ({ formType }) => {
   }, [axios, locale]);
 
   /**
+   * Get Classification Options
+   *
+   * get all dropdown options for Classifications
+   */
+  const getClassificationOptions = useCallback(async () => {
+    const result = await axios.get(
+      `api/option/classifications?language=${locale}`
+    );
+
+    setClassificationOptions(result.data);
+  }, [axios, locale]);
+
+  /**
    * Get default form tab
    *
    * get the default selected form tab based on url query params
@@ -240,15 +273,16 @@ const PersonalGrowthForm = ({ formType }) => {
         careerMobility,
         exFeeder,
       } = profileInfo;
-
       getSavedDevelopmentalGoals();
       getSavedRelocationLocations();
+      getSavedQualifiedPools();
       setSavedLookingForNewJob(lookingJob ? lookingJob.id : undefined);
       setSavedTalentMatrixResult(
         talentMatrixResult ? talentMatrixResult.id : undefined
       );
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
+      // setSavedQualifiedPools(qualifiedPools);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
@@ -266,6 +300,7 @@ const PersonalGrowthForm = ({ formType }) => {
       getCareerMobilityOptions(),
       getTalentMatrixResultOptions(),
       getAddAttachmentOptions(),
+      getClassificationOptions(),
     ])
       .then(() => {
         setLoad(true);
@@ -284,10 +319,11 @@ const PersonalGrowthForm = ({ formType }) => {
     getRelocationOptions,
     getTalentMatrixResultOptions,
     history,
+    getClassificationOptions,
   ]);
 
   return (
-    <PersonalGrowthFormView
+    <CareerManagementFormView
       profileInfo={profileInfo}
       developmentalGoalOptions={developmentalGoalOptions}
       savedDevelopmentalGoals={savedDevelopmentalGoals}
@@ -302,6 +338,8 @@ const PersonalGrowthForm = ({ formType }) => {
       talentMatrixResultOptions={talentMatrixResultOptions}
       savedTalentMatrixResult={savedTalentMatrixResult}
       savedExFeederBool={savedExFeederBool}
+      classificationOptions={classificationOptions}
+      savedQualifiedPools={savedQualifiedPools}
       formType={formType}
       currentTab={currentTab}
       load={load}
@@ -312,8 +350,8 @@ const PersonalGrowthForm = ({ formType }) => {
   );
 };
 
-PersonalGrowthForm.propTypes = {
+CareerManagementForm.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
-export default PersonalGrowthForm;
+export default CareerManagementForm;

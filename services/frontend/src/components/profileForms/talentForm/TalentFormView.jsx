@@ -32,6 +32,7 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormTitle from "../formTitle/FormTitle";
 import "./TalentFormView.scss";
 
 const { Option } = Select;
@@ -495,31 +496,6 @@ const TalentFormView = ({
     return <div style={{ height: "15px" }} />;
   };
 
-  /*
-   * Get form header
-   *
-   * Generates the form header (title)
-   */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Title level={2} className="tal-formTitle">
-          5. <FormattedMessage id="setup.talent" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="tal-formTitle">
-        <FormattedMessage id="setup.talent" />
-        {fieldsChanged && (
-          <Text className="unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   useEffect(() => {
     // set to page loaded if data comes in
     if (!loadedData) {
@@ -596,8 +572,12 @@ const TalentFormView = ({
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
       <div className="tal-content">
-        {/* get form title */}
-        {getFormHeader(formType)}
+        <FormTitle
+          title={<FormattedMessage id="setup.talent" />}
+          formType={formType}
+          stepNumber={5}
+          fieldsChanged={fieldsChanged}
+        />
         <Divider className="tal-headerDiv" />
         {/* Create for with initial values */}
         <Form
