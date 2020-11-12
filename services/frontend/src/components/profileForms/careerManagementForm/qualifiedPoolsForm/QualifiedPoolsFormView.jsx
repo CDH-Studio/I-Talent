@@ -45,8 +45,6 @@ const QualifiedPoolsFormView = ({
     },
   };
 
-  console.log("savedQualifiedPools", savedQualifiedPools);
-  console.log("savedQualifiedPools", fieldElement);
   return (
     <div className="formItem">
       <Row gutter={24} className="gutter-row titleRow">

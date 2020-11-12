@@ -194,7 +194,6 @@ const QualificationsFormView = ({
     form
       .validateFields()
       .then(async (values) => {
-        console.log("educationForm", values);
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);

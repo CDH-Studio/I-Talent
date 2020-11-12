@@ -43,7 +43,6 @@ const QualificationsForm = ({ formType }) => {
 
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    console.log("QualiForms-saveDataToDb", values);
     await axios.put(`api/profile/${id}?language=${locale}`, values);
   };
 

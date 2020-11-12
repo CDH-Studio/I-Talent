@@ -110,11 +110,7 @@ const CareerManagementFormView = ({
     if (!unalteredValues.lookingForANewJobId) {
       values.lookingForANewJobId = null;
     }
-    // console.log("saveDataToDB", values);
-    // console.log("saveDataToDB-qialifiedpools", values.qualifiedPools);
-    // // var obj = JSON.parse(values);
-    // JSON.parse(JSON.stringify(values.qualifiedPools));
-    // // console.log(obj);
+
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
   };
   /**
@@ -148,7 +144,6 @@ const CareerManagementFormView = ({
    * Get the initial values for the form
    */
   const getInitialValues = (profile) => {
-    console.log("getInitialValues", savedQualifiedPools);
     if (profile) {
       return {
         developmentalGoals: savedDevelopmentalGoals,
@@ -189,20 +184,16 @@ const CareerManagementFormView = ({
    * save and show success notification
    */
   const onSave = async () => {
-    console.log("on save");
     form
       .validateFields()
-      .then(async (valuess) => {
-        console.log("valuess", valuess);
+      .then(async () => {
         const values = form.getFieldValue();
-        console.log(values);
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
-        console.log(error);
         if (error.isAxiosError) {
           handleError(error, "message", history);
         } else {
@@ -242,7 +233,6 @@ const CareerManagementFormView = ({
         }
       })
       .catch((error) => {
-        console.log(error);
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message", history);
