@@ -58,7 +58,9 @@ const ExperienceFormView = ({
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />,
+      message: (
+        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+      ),
     },
   };
 
@@ -191,9 +193,13 @@ const ExperienceFormView = ({
             }}
           >
             {({ getFieldValue }) => {
-              const disableEndDate = getFieldValue("experiences")[
+              const experienceItem = getFieldValue("experiences")[
                 fieldElement.name
-              ].ongoingDate;
+              ];
+
+              const disableEndDate = experienceItem
+                ? experienceItem.ongoingDate
+                : false;
 
               return (
                 <>
