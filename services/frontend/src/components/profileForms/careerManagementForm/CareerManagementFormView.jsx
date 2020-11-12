@@ -192,7 +192,8 @@ const CareerManagementFormView = ({
     console.log("on save");
     form
       .validateFields()
-      .then(async () => {
+      .then(async (valuess) => {
+        console.log("valuess", valuess);
         const values = form.getFieldValue();
         console.log(values);
         await saveDataToDB(values);
@@ -392,9 +393,7 @@ const CareerManagementFormView = ({
                           <Form.Item>
                             <Button
                               type="dashed"
-                              onClick={() => {
-                                add();
-                              }}
+                              onClick={() => add()}
                               disabled={fields.length === 6}
                               style={{ width: "100%" }}
                             >
@@ -447,7 +446,7 @@ const CareerManagementFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={add}
+                              onClick={() => add()}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
