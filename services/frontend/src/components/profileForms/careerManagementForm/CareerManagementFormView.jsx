@@ -461,10 +461,7 @@ const CareerManagementFormView = ({
               })}
               key="qualified-pools"
             >
-              {getSectionHeader(
-                "setup.qualified.pools.title",
-                "qualifiedPools"
-              )}
+              {getSectionHeader("profile.qualified.pools", "qualifiedPools")}
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"

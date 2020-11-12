@@ -57,7 +57,7 @@ const QualifiedPoolsFormView = ({
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="setup.qualified.pools.title" />
+                <FormattedMessage id="profile.qualified.pools" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
               <Tooltip
