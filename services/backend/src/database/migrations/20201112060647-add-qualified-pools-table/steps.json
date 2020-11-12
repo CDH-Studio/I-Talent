@@ -110,28 +110,28 @@
       "model": "QualifiedPool",
       "field": "classificationId",
       "type": "String",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "QualifiedPool",
       "field": "jobTitle",
       "type": "String",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "QualifiedPool",
       "field": "selectionProcessNumber",
       "type": "String",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "QualifiedPool",
       "field": "jobPosterLink",
       "type": "String",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
@@ -170,7 +170,7 @@
       "model": "QualifiedPool",
       "field": "classification",
       "type": "OpClassification",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
@@ -195,7 +195,7 @@
         "directive": "relation"
       },
       "argument": "",
-      "value": "\"classifications\""
+      "value": "\"qualifiedPools\""
     },
     {
       "tag": "CreateArgument",
@@ -228,7 +228,7 @@
     {
       "tag": "CreateField",
       "model": "OpClassification",
-      "field": "qualifiedPools",
+      "field": "qualifiedPoolUsers",
       "type": "QualifiedPool",
       "arity": "List"
     },
@@ -238,7 +238,7 @@
         "path": {
           "tag": "Field",
           "model": "OpClassification",
-          "field": "qualifiedPools"
+          "field": "qualifiedPoolUsers"
         },
         "directive": "relation"
       }
@@ -250,12 +250,12 @@
         "path": {
           "tag": "Field",
           "model": "OpClassification",
-          "field": "qualifiedPools"
+          "field": "qualifiedPoolUsers"
         },
         "directive": "relation"
       },
       "argument": "",
-      "value": "\"classifications\""
+      "value": "\"qualifiedPools\""
     },
     {
       "tag": "CreateField",

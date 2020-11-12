@@ -1,5 +1,5 @@
 # Prisma Migrate lockfile v1
 
 20201019154547-init
-20201027192648-add-qualified-pools-table
 20201109171010-create-user-bugs
+20201112060647-add-qualified-pools-table

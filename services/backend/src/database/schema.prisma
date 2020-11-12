@@ -190,13 +190,13 @@ model OpOfficeLocation {
 }
 
 model OpClassification {
-  id               String          @id @default(uuid())
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  name             String          @unique
-  actingLevelUsers User[]          @relation("actingLevels")
-  groupLevelUsers  User[]          @relation("groupLevels")
-  qualifiedPools   QualifiedPool[] @relation("classifications")
+  id                 String          @id @default(uuid())
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  name               String          @unique
+  actingLevelUsers   User[]          @relation("actingLevels")
+  groupLevelUsers    User[]          @relation("groupLevels")
+  qualifiedPoolUsers QualifiedPool[] @relation("qualifiedPools")
 }
 
 model OpTransSkill {
@@ -415,16 +415,16 @@ model DevelopmentalGoal {
 }
 
 model QualifiedPool {
-  id                     String            @id @default(uuid())
-  createdAt              DateTime          @default(now())
-  updatedAt              DateTime          @updatedAt
+  id                     String           @id @default(uuid())
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
   userId                 String
-  classificationId       String?
-  jobTitle               String?
-  selectionProcessNumber String?
-  jobPosterLink          String?
-  user                   User              @relation(fields: [userId])
-  classification         OpClassification? @relation("classifications", fields: [classificationId], references: [id])
+  classificationId       String
+  jobTitle               String
+  selectionProcessNumber String
+  jobPosterLink          String
+  user                   User             @relation(fields: [userId])
+  classification         OpClassification @relation("qualifiedPools", fields: [classificationId], references: [id])
 }
 
 model SecondLangProf {
@@ -575,16 +575,16 @@ model AttachmentLink {
 }
 
 model Bug {
-  id          String        @default(uuid()) @id
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   description String
-  status      BugsStatus    @default(UNRESOLVED)
+  status      BugsStatus   @default(UNRESOLVED)
   location    BugsLocation
   appVersion  String?
   githubIssue Int?
-  user        User          @relation(fields: [userId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
   userId      String
 }
 
