@@ -126,7 +126,7 @@ const SearchFilterView = ({
               <div
                 id="classification_listbox"
                 role="listbox"
-                aria-multiselectable={true}
+                aria-multiselectable="true"
               >
                 {menu}
               </div>
@@ -168,27 +168,23 @@ const SearchFilterView = ({
               <div
                 id="location_listbox"
                 role="listbox"
-                aria-multiselectable={true}
+                aria-multiselectable="true"
               >
                 {menu}
               </div>
             )}
           >
             {locationOptions.map((value) => {
+              location =
+                value.streetNumber +
+                " " +
+                value.streetName +
+                ", " +
+                value.city +
+                ", " +
+                value.province;
               return (
-                <Option
-                  role="option"
-                  key={value.id}
-                  value={
-                    value.streetNumber +
-                    " " +
-                    value.streetName +
-                    ", " +
-                    value.city +
-                    ", " +
-                    value.province
-                  }
-                >
+                <Option role="option" key={value.id} value={location}>
                   {value.streetNumber} {value.streetName}, {value.city},{" "}
                   {value.province}
                 </Option>
@@ -218,7 +214,7 @@ const SearchFilterView = ({
               <div
                 id="branch_listbox"
                 role="listbox"
-                aria-multiselectable={true}
+                aria-multiselectable="true"
               >
                 {menu}
               </div>
@@ -250,7 +246,7 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             aria-label={ariaLabels[4]}
-            role="tree"
+            aria-multiselectable="true"
             aria-autocomplete="none"
           />
         </Form.Item>
@@ -272,8 +268,8 @@ const SearchFilterView = ({
             maxTagCount={3}
             disabled={anyMentorSkills}
             aria-label={ariaLabels[5]}
+            aria-multiselectable="true"
             aria-autocomplete="none"
-            role="tree"
           />
         </Form.Item>
         <Form.Item
