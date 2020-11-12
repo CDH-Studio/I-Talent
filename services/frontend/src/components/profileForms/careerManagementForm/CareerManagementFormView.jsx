@@ -81,6 +81,7 @@ const CareerManagementFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [tabErrorsBool, setTabErrorsBool] = useState({});
   const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
@@ -179,6 +180,56 @@ const CareerManagementFormView = ({
   };
 
   /*
+   * Find Error Tabs
+   *
+   * Find all tabs that have validation errors
+   */
+  const findErrorTabs = () => {
+    const errorObject = form
+      .getFieldsError()
+      .reduce((acc, { name, errors }) => {
+        if (errors.length > 0) {
+          acc[name[0]] = true;
+        }
+        return acc;
+      }, {});
+
+    // save results to state
+    if (!isEqual(errorObject, tabErrorsBool)) {
+      setTabErrorsBool(errorObject);
+    }
+    return errorObject;
+  };
+
+  /*
+   * Get All Validation Errors
+   *
+   * Print out list of validation errors in a list for notification
+   */
+  const getAllValidationErrorMessages = (formsWithErrorsList) => {
+    const messages = [];
+    if (formsWithErrorsList.qualifiedPools) {
+      messages.push(intl.formatMessage({ id: "profile.qualified.pools" }));
+    }
+    return (
+      <div>
+        <strong>
+          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+        </strong>
+        <ul>
+          {messages.map((value) => (
+            <li key={value}>{value}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const onFieldsChange = () => {
+    findErrorTabs();
+  };
+
+  /*
    * Save
    *
    * save and show success notification
@@ -199,6 +250,7 @@ const CareerManagementFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -239,6 +291,7 @@ const CareerManagementFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -335,6 +388,7 @@ const CareerManagementFormView = ({
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
           onValuesChange={checkIfFormValuesChanged}
+          onFieldsChange={onFieldsChange}
         >
           <Tabs type="card" defaultActiveKey={currentTab}>
             {/* ===== Developmental Goals Tab ===== */}
@@ -403,6 +457,7 @@ const CareerManagementFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="profile.qualified.pools" />,
+                errorBool: tabErrorsBool.qualifiedPools,
               })}
               key="qualified-pools"
             >

@@ -162,8 +162,4 @@ QualifiedPoolsFormView.propTypes = {
   classificationOptions: KeyTitleOptionsPropType.isRequired,
 };
 
-// QualifiedPoolsFormView.defaultProps = {
-//   intl: undefined,
-// };
-
 export default injectIntl(QualifiedPoolsFormView);
