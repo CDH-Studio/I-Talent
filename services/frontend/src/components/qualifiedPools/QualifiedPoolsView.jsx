@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import { Row, Col, List, Empty, Descriptions, Typography } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 
-const { Link } = Typography;
+import "./QualifiedPoolsView.scss";
+
+const { Link, Text } = Typography;
 
 const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
   if (qualifiedPoolsInfo.length === 0) {
@@ -15,17 +17,36 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
       />
     );
   }
-
   return (
     <List
+      size="small"
       itemLayout="horizontal"
       dataSource={qualifiedPoolsInfo}
       renderItem={(item) => (
         <List.Item>
-          <Descriptions>
-            <Descriptions.Item>{item.classification}</Descriptions.Item>
-            <Descriptions.Item>{item.jobTitle}</Descriptions.Item>
-            <Descriptions.Item>
+          <Descriptions
+            size="small"
+            column={{ xs: 1, sm: 2, md: 3, xl: 4, xxl: 6 }}
+          >
+            <Descriptions.Item
+              label={
+                <Text strong>
+                  <FormattedMessage id="profile.classification" />
+                </Text>
+              }
+            >
+              {item.classification}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={
+                <Text strong>
+                  <FormattedMessage id="profile.qualified.pools.job.title" />
+                </Text>
+              }
+            >
+              {item.jobTitle}
+            </Descriptions.Item>
+            <Descriptions.Item className={"qualificationPools-Link"}>
               <Link href={item.jobPosterLink} target="_blank">
                 <LinkOutlined />
                 {item.selectionProcessNumber}
