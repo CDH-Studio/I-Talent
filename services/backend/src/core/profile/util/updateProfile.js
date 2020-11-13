@@ -607,7 +607,7 @@ async function updateProfile(request, userId, language) {
                   },
                 },
                 attachmentLinks:
-                  expItem.attachmentLinks && expItem.attachmentLinks > 0
+                  expItem.attachmentLinks && expItem.attachmentLinks.length > 0
                     ? {
                         create: expItem.attachmentLinks.map((link) => ({
                           translations: {
