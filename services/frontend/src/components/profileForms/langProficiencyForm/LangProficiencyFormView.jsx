@@ -16,9 +16,7 @@ import {
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import isEqual from "lodash/isEqual";
-import identity from "lodash/identity";
-import pickBy from "lodash/pickBy";
+import { isEqual, identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
