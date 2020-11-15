@@ -1,0 +1,138 @@
+@import "./_variables.scss";
+
+.ant-dropdown-menu-item:focus {
+  background-color: @app-black !important;
+}
+
+a {
+  &:hover {
+    color: @app-black !important;
+  }
+
+  &:focus {
+    text-decoration: underline;
+    color: @app-green !important;
+  }
+}
+
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector,
+.ant-input:focus,
+.ant-picker-focused,
+.ant-radio-button-wrapper:focus-within,
+.ant-btn:focus,
+.ant-switch-checked:focus,
+.ant-checkbox-input:focus ~ .ant-checkbox-inner {
+  border-color: @app-green !important;
+  box-shadow: 0px 0px 0px 2px @app-green-shadow !important;
+}
+
+.ant-btn-dangerous:focus {
+  border-color: @app-red !important;
+  box-shadow: 0px 0px 0px 2px @app-red-shadow !important;
+}
+
+header {
+  .ant-btn-background-ghost {
+    &:focus {
+      color: @app-green !important;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  img {
+    transition: box-shadow 200ms;
+  }
+
+  a:focus > img {
+    box-shadow: 0px 0px 0px 2px @app-light-green !important;
+  }
+}
+
+.ant-menu-item {
+  border-radius: @border-radius;
+}
+
+.ant-menu-item:active,
+.ant-menu-item-selected {
+  background-color: @app-gray !important;
+}
+
+.ant-card {
+  &:focus {
+    outline: 1px solid #999c9e !important;
+  }
+}
+
+.ant-card:focus {
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16),
+    0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+  opacity: 0.8;
+}
+
+.ant-ribbon .ant-btn:focus {
+  box-shadow: 0px 0px 0px 3px @app-green-shadow !important;
+}
+.ant-steps-item {
+  &:focus {
+    background-color: @app-green-shadow-light !important;
+    border-radius: 10px;
+
+    span {
+      color: white !important;
+    }
+
+    li,
+    div {
+      color: @app-green !important;
+    }
+
+    .ant-steps-item-icon {
+      border-color: @app-green !important;
+      background-color: @app-green !important;
+    }
+
+    .ant-steps-item-tail::after {
+      background-color: @app-green !important;
+    }
+  }
+}
+
+*[tabIndex]:focus {
+  outline: @app-green;
+}
+
+.anticon.anticon-info-circle {
+  border-radius: 50% !important;
+  transition-duration: 200ms;
+
+  &:focus,
+  &:hover {
+    outline: @app-green !important;
+    background-color: @app-green-shadow-light !important;
+    color: @app-green !important;
+    box-shadow: 0px 0px 0px 2px @app-green-shadow !important;
+  }
+}
+
+.ant-tabs-tab-btn:focus {
+  text-decoration: underline;
+}
+
+.ant-menu-item:focus {
+  background-color: rgba(@app-black, 0.2) !important;
+}
+
+.ant-collapse-header:focus {
+  border-color: @app-green !important;
+  box-shadow: 0px 0px 0px 3px @app-green-shadow !important;
+}
