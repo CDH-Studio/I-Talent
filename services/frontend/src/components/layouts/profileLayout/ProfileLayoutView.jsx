@@ -232,8 +232,8 @@ const ProfileLayoutView = ({
   };
   const generateProfileSidebarContent = () => {
     return (
-      <Row justify="center" className="app-sideBarRow">
-        <Col flex={1} offset={1}>
+      <Row justify="center">
+        <Col flex={1} offset={1} className="app-sideBarRow">
           <Anchor offsetTop={80}>
             <Link
               href="#card-profile-basic-info"
