@@ -27,6 +27,9 @@ RUN mkdir -p /.yarn
 RUN chgrp -R 0 /.yarn && \ 
   chmod -R g=u /.yarn
 
+RUN chgrp -R 0 /italent-backend/node_modules/@prisma && \ 
+  chmod -R g=u /italent-backend/node_modules/@prisma
+
 # Copy app
 COPY . .
 
