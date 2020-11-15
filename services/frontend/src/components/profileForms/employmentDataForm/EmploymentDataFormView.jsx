@@ -36,7 +36,7 @@ import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
-import "./EmploymentDataFormView.scss";
+import "./EmploymentDataFormView.less";
 
 const { Option } = Select;
 const { Title, Text } = Typography;

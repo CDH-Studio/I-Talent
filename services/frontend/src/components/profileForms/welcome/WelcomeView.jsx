@@ -14,7 +14,7 @@ import useAxios from "../../../utils/useAxios";
 import { IntlPropType, HistoryPropType } from "../../../utils/customPropTypes";
 import handleError from "../../../functions/handleError";
 import config from "../../../utils/runtimeConfig";
-import "./WelcomeView.scss";
+import "./WelcomeView.less";
 
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;

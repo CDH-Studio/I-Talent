@@ -2,9 +2,9 @@ import React from "react";
 import Routes from "./routes/Routes";
 import AppProvider from "./utils/AppProvider";
 
-import "./styling/accessibility.scss";
-import "./styling/custom_antd.scss";
-import "./styling/index.scss";
+import "./styling/accessibility.less";
+import "./styling/custom_antd.less";
+import "./styling/index.less";
 
 const App = () => (
   <AppProvider>

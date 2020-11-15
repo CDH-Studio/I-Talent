@@ -4,7 +4,7 @@ import { Row, Button } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import "./DescriptionTextView.scss";
+import "./DescriptionTextView.less";
 
 const DescriptionTextView = ({
   text,

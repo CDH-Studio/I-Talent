@@ -32,7 +32,7 @@ import {
 } from "../../utils/customPropTypes";
 import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
-import "./ResultsCardView.scss";
+import "./ResultsCardView.less";
 
 const { Meta } = Card;
 const { Text } = Typography;

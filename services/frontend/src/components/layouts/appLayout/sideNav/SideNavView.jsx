@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Affix, Layout, Skeleton } from "antd";
-import "./SideNavView.scss";
+import "./SideNavView.less";
 
 const { Sider } = Layout;
 

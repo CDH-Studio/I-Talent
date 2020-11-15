@@ -33,7 +33,7 @@ import { useSelector } from "react-redux";
 import OrgTree from "../orgTree/OrgTree";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
-import "./BasicInfoView.scss";
+import "./BasicInfoView.less";
 
 const { Text } = Typography;
 

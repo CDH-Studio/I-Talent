@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { PageHeader } from "antd";
-import "./HeaderView.scss";
+import "./HeaderView.less";
 
 const HeaderView = ({ title, subtitle, extra }) => (
   <PageHeader

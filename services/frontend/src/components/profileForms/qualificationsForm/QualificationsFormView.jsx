@@ -31,7 +31,7 @@ import {
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./QualificationsFormView.scss";
+import "./QualificationsFormView.less";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
