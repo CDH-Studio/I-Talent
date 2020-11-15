@@ -1,6 +1,6 @@
 const react = require("@neutrinojs/react");
 const jest = require("@neutrinojs/jest");
-const antTheme = require("./src/antdTheme");
+const antdTheme = require("./src/styling/antdTheme");
 const path = require("path");
 const webpack = require("webpack");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
@@ -54,7 +54,7 @@ module.exports = {
             useId: "less",
             options: {
               lessOptions: {
-                modifyVars: antTheme,
+                modifyVars: antdTheme,
                 javascriptEnabled: true,
               },
             },

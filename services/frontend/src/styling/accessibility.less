@@ -11,7 +11,7 @@ a {
 
   &:focus {
     text-decoration: underline;
-    color: @app-green !important;
+    color: @primary-color !important;
   }
 }
 
@@ -25,19 +25,19 @@ a {
 .ant-btn:focus,
 .ant-switch-checked:focus,
 .ant-checkbox-input:focus ~ .ant-checkbox-inner {
-  border-color: @app-green !important;
+  border-color: @primary-color !important;
   box-shadow: 0px 0px 0px 2px @app-green-shadow !important;
 }
 
 .ant-btn-dangerous:focus {
-  border-color: @app-red !important;
+  border-color: @error-color !important;
   box-shadow: 0px 0px 0px 2px @app-red-shadow !important;
 }
 
 header {
   .ant-btn-background-ghost {
     &:focus {
-      color: @app-green !important;
+      color: @primary-color !important;
     }
 
     &:hover {
@@ -59,7 +59,7 @@ header {
 }
 
 .ant-menu-item {
-  border-radius: @border-radius;
+  border-radius: @border-radius-base;
 }
 
 .ant-menu-item:active,
@@ -93,22 +93,22 @@ header {
 
     li,
     div {
-      color: @app-green !important;
+      color: @primary-color !important;
     }
 
     .ant-steps-item-icon {
-      border-color: @app-green !important;
-      background-color: @app-green !important;
+      border-color: @primary-color !important;
+      background-color: @primary-color !important;
     }
 
     .ant-steps-item-tail::after {
-      background-color: @app-green !important;
+      background-color: @primary-color !important;
     }
   }
 }
 
 *[tabIndex]:focus {
-  outline: @app-green;
+  outline: @primary-color;
 }
 
 .anticon.anticon-info-circle {
@@ -117,9 +117,9 @@ header {
 
   &:focus,
   &:hover {
-    outline: @app-green !important;
+    outline: @primary-color !important;
     background-color: @app-green-shadow-light !important;
-    color: @app-green !important;
+    color: @primary-color !important;
     box-shadow: 0px 0px 0px 2px @app-green-shadow !important;
   }
 }
@@ -133,6 +133,6 @@ header {
 }
 
 .ant-collapse-header:focus {
-  border-color: @app-green !important;
+  border-color: @primary-color !important;
   box-shadow: 0px 0px 0px 3px @app-green-shadow !important;
 }
