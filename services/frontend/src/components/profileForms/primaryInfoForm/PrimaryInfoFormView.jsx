@@ -18,12 +18,10 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import isEqual from "lodash/isEqual";
-import pickBy from "lodash/pickBy";
-import identity from "lodash/identity";
+import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import isMobilePhone from "validator/es/lib/isMobilePhone";
+import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import useAxios from "../../../utils/useAxios";
 import {

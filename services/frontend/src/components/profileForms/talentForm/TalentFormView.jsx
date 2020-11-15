@@ -15,10 +15,7 @@ import {
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import pickBy from "lodash/pickBy";
-import isEmpty from "lodash/isEmpty";
-import identity from "lodash/identity";
-import isEqual from "lodash/isEqual";
+import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useHistory, Prompt, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
