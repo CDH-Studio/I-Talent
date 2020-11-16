@@ -105,7 +105,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const [tableLoading, setTableLoading] = useState(false);
   const [errorCaught, setErrorCaught] = useState(false);
   const { locale } = useSelector((state) => state.settings);
-  const { id, name } = useSelector((state) => state.user);
+  const { id, name, email } = useSelector((state) => state.user);
 
   /**
    * Make all API calls and update data in states
@@ -121,6 +121,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       const gedsResult = await axios.get(`api/profGen/${id}`, {
         params: {
           name,
+          email,
         },
       });
 
