@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { List, Empty, Descriptions, Typography } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 
-import "./QualifiedPoolsView.scss";
+import "./QualifiedPoolsView.less";
 
 const { Link, Text } = Typography;
 
