@@ -16,7 +16,7 @@ const FormTitleView = ({
 }) => {
   if (formType === "create") {
     return (
-      <Title level={2} className="profileFormTitle">
+      <Title level={2} className="profileForm-title">
         {stepNumber}. {title}
       </Title>
     );
