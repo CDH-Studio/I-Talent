@@ -4,7 +4,7 @@ import { Row, Typography, Popover } from "antd";
 import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 
-import "./FormSubTitleView.scss";
+import "./FormSubTitleView.less";
 
 const { Title, Text } = Typography;
 
