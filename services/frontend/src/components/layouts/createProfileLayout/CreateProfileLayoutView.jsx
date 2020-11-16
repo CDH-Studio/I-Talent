@@ -17,7 +17,7 @@ import {
 } from "../../profileForms";
 import Header from "../../header/Header";
 
-import "./CreateProfileLayoutView.scss";
+import "./CreateProfileLayoutView.less";
 
 const { Step } = Steps;
 

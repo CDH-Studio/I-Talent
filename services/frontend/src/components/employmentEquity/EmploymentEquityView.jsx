@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Tag, Row, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
-import "./EmploymentEquityView.scss";
+import "./EmploymentEquityView.less";
 
 const EmploymentEquityView = ({ groups }) => {
   if (groups.length > 0) {

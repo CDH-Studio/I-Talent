@@ -31,7 +31,7 @@ import { uniq } from "lodash";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/runtimeConfig";
-import "./UserTableView.scss";
+import "./UserTableView.less";
 
 const { Text } = Typography;
 

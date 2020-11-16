@@ -28,7 +28,7 @@ import {
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
-import "./ExperienceFormView.scss";
+import "./ExperienceFormView.less";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;

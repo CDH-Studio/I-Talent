@@ -40,7 +40,7 @@ import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 import FormTitle from "../formTitle/FormTitle";
 import login from '../../../utils/login';
 
-import "./PrimaryInfoFormView.scss";
+import "./PrimaryInfoFormView.less";
 
 const { Option } = Select;
 const { Title } = Typography;
