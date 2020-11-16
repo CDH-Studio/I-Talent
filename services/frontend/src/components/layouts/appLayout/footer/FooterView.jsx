@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import "./FooterView.scss";
+import "./FooterView.less";
 import { Layout, Typography } from "antd";
 import { Link } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";

@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
-import "./PrivacyModalView.scss";
+import "./PrivacyModalView.less";
 
 const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => {
   return (

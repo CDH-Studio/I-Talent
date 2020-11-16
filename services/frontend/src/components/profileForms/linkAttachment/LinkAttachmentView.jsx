@@ -9,7 +9,7 @@ import {
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
-import "./LinkAttachmentView.scss";
+import "./LinkAttachmentView.less";
 
 const { Option } = Select;
 

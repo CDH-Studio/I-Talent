@@ -8,7 +8,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router";
-import "./DoneSetupView.scss";
+import "./DoneSetupView.less";
 
 const { Title, Paragraph } = Typography;
 

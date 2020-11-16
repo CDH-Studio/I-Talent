@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Typography } from "antd";
 
-import "./FormTitle.scss";
+import "./FormTitle.less";
 
 const { Title, Text } = Typography;
 

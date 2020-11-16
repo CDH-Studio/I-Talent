@@ -35,7 +35,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
-import "./LangProficiencyFormView.scss";
+import "./LangProficiencyFormView.less";
 
 const { Option } = Select;
 const { Text } = Typography;

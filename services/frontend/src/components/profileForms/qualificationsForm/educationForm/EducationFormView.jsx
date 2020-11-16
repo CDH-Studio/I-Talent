@@ -29,7 +29,7 @@ import {
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import "./EducationFormView.scss";
+import "./EducationFormView.less";
 
 const { Option } = Select;
 const { Title } = Typography;

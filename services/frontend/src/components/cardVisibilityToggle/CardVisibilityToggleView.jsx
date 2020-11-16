@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
-import "./CardVisibilityToggle.scss";
+import "./CardVisibilityToggle.less";
 
 const { Option } = Select;
 
