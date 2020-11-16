@@ -1,8 +1,8 @@
 import React from "react";
-import ResultLayoutView from "./StatsLayoutView";
+import StatsLayoutView from "./StatsLayoutView";
 
 const StatsLayout = () => {
-  return <ResultLayoutView />;
+  return <StatsLayoutView />;
 };
 
 export default StatsLayout;
