@@ -16,7 +16,7 @@ const Welcome = () => {
   const [load, setLoad] = useState(false);
   const [gedsProfiles, setGedsProfiles] = useState();
 
-  const { id, name } = useSelector((state) => state.user);
+  const { id, name, email } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
 
@@ -46,6 +46,7 @@ const Welcome = () => {
       const result = await axios.get(`api/profGen/${id}`, {
         params: {
           name,
+          email,
         },
       });
       if (result.data) {
