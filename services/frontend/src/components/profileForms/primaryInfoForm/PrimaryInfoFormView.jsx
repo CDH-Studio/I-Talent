@@ -23,6 +23,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
+import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
 import {
   IdDescriptionPropType,
@@ -37,6 +38,7 @@ import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 import FormTitle from "../formTitle/FormTitle";
+import login from '../../../utils/login';
 
 import "./PrimaryInfoFormView.scss";
 
@@ -54,6 +56,7 @@ const PrimaryInfoFormView = ({
   email,
   employmentEquityOptions,
 }) => {
+  const { keycloak } = useKeycloak();
   const axios = useAxios();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
@@ -218,6 +221,7 @@ const PrimaryInfoFormView = ({
 
     delete dbValues.jobTitle;
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+    await login(keycloak, axios);
   };
 
   /**
