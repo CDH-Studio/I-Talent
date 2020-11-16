@@ -1,7 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import { Row, Col, List, Empty, Descriptions, Typography } from "antd";
+import { List, Empty, Descriptions, Typography } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 
 import "./QualifiedPoolsView.scss";
@@ -46,7 +46,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
             >
               {item.jobTitle}
             </Descriptions.Item>
-            <Descriptions.Item className={"qualificationPools-Link"}>
+            <Descriptions.Item className="qualificationPools-Link">
               <Link href={item.jobPosterLink} target="_blank">
                 <LinkOutlined />
                 {item.selectionProcessNumber}
