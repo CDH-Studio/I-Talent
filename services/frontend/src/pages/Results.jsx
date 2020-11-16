@@ -11,7 +11,7 @@ const Results = () => {
     })} | I-Talent`;
   }, [intl]);
 
-  return <ResultLayout displaySideBar />;
+  return <ResultLayout />;
 };
 
 export default Results;
