@@ -10,7 +10,7 @@ const { Title, Text } = Typography;
 
 const FormSubTitleView = ({ title, popoverMessage, extra }) => {
   return (
-    <Row justify="space-between" className="pgf-sectionHeader" align="middle">
+    <Row justify="space-between" className="profileForm-section" align="middle">
       <Title level={3} className="profileForm-subtitle">
         <Row>
           {title}
