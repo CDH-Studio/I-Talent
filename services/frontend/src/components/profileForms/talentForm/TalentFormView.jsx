@@ -30,6 +30,8 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+
 import "./TalentFormView.less";
 
 const { Option } = Select;
@@ -521,35 +523,6 @@ const TalentFormView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMentorshipForm]);
 
-  const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" className="tal-sectionHeader" align="middle">
-      <Title level={3} className="tal-formTitle">
-        <Row>
-          <FormattedMessage id={titleId} />
-          <Popover
-            content={
-              <div>
-                <FormattedMessage id="tooltip.extra.info.help" />
-                <Link to="/about/help">
-                  <FormattedMessage id="footer.contact.link" />
-                </Link>
-              </div>
-            }
-          >
-            <div className="tal-infoIcon">
-              <InfoCircleOutlined tabIndex={0} />
-            </div>
-          </Popover>
-        </Row>
-      </Title>
-      <CardVisibilityToggle
-        visibleCards={profileInfo.visibleCards}
-        cardName={cardName}
-        type="form"
-      />
-    </Row>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -596,7 +569,24 @@ const TalentFormView = ({
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                  {getSectionHeader("setup.skills", "skills")}
+                  <FormSubTitle
+                    title={<FormattedMessage id="setup.skills" />}
+                    popoverMessage={
+                      <>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <Link to="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </Link>
+                      </>
+                    }
+                    extra={
+                      <CardVisibilityToggle
+                        visibleCards={profileInfo.visibleCards}
+                        cardName="skills"
+                        type="form"
+                      />
+                    }
+                  />
                   <Form.Item name="skills">
                     <TreeSelect
                       className="custom-bubble-select-style"
@@ -623,10 +613,24 @@ const TalentFormView = ({
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" span={24}>
-                  {getSectionHeader(
-                    "profile.mentorship.skills",
-                    "mentorshipSkills"
-                  )}
+                  <FormSubTitle
+                    title={<FormattedMessage id="profile.mentorship.skills" />}
+                    popoverMessage={
+                      <>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <Link to="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </Link>
+                      </>
+                    }
+                    extra={
+                      <CardVisibilityToggle
+                        visibleCards={profileInfo.visibleCards}
+                        cardName="mentorshipSkills"
+                        type="form"
+                      />
+                    }
+                  />
                   <Text>
                     <FormattedMessage id="profile.mentorship.available" />
                   </Text>
@@ -650,7 +654,24 @@ const TalentFormView = ({
               {/* Form Row Three: competencies */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                  {getSectionHeader("setup.competencies", "competencies")}
+                  <FormSubTitle
+                    title={<FormattedMessage id="setup.competencies" />}
+                    popoverMessage={
+                      <>
+                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <Link to="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </Link>
+                      </>
+                    }
+                    extra={
+                      <CardVisibilityToggle
+                        visibleCards={profileInfo.visibleCards}
+                        cardName="competencies"
+                        type="form"
+                      />
+                    }
+                  />
                   <Form.Item name="competencies">
                     <Select
                       className="custom-bubble-select-style"
