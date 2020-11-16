@@ -5,7 +5,7 @@ import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
-import "./LandingLayoutView.scss";
+import "./LandingLayoutView.less";
 
 const { Text, Title } = Typography;
 

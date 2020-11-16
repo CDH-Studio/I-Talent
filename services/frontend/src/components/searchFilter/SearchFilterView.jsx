@@ -14,7 +14,7 @@ import {
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { IdDescriptionPropType } from "../../utils/customPropTypes";
 import filterOption from "../../functions/filterSelectInput";
-import "./SearchFilterView.scss";
+import "./SearchFilterView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;

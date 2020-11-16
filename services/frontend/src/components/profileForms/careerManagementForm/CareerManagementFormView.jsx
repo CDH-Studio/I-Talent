@@ -34,7 +34,7 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./CareerManagementFormView.scss";
+import "./CareerManagementFormView.less";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";

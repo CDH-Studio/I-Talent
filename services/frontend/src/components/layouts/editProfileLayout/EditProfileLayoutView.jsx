@@ -23,7 +23,7 @@ import {
   QualificationsForm,
 } from "../../profileForms";
 import Header from "../../header/Header";
-import "./EditProfileLayoutView.scss";
+import "./EditProfileLayoutView.less";
 
 /*
  *  EditProfileLayoutView(props)

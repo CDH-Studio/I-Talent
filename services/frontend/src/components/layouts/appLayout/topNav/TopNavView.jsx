@@ -23,7 +23,7 @@ import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/I-talent-logo-light.png";
 import { IntlPropType } from "../../../../utils/customPropTypes";
-import "./TopNavView.scss";
+import "./TopNavView.less";
 
 const { Header } = Layout;
 

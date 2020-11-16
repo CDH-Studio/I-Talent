@@ -46,7 +46,7 @@ import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
-import "./ProfileLayoutView.scss";
+import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;

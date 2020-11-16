@@ -1,7 +1,6 @@
 const react = require("@neutrinojs/react");
 const jest = require("@neutrinojs/jest");
-const style = require("@neutrinojs/style-loader");
-const antTheme = require("./src/antdTheme");
+const antdTheme = require("./src/styling/antdTheme");
 const path = require("path");
 const webpack = require("webpack");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
@@ -39,8 +38,8 @@ module.exports = {
         babelrc: true,
       },
       style: {
-        test: /\.(css|scss)$/,
-        modulesTest: /\.module\.(css|scss)$/,
+        test: /\.less/,
+        modulesTest: /\.module\.less/,
         loaders: [
           {
             loader: "postcss-loader",
@@ -51,31 +50,17 @@ module.exports = {
             },
           },
           {
-            loader: "sass-loader",
-            useId: "sass",
+            loader: "less-loader",
+            useId: "less",
+            options: {
+              lessOptions: {
+                modifyVars: antdTheme,
+                javascriptEnabled: true,
+              },
+            },
           },
         ],
       },
-    }),
-    style({
-      test: /\.less/,
-      modulesTest: /\.module\.less$/,
-      ruleId: "style-less",
-      styleUseId: "style-less",
-      cssUseId: "css-less",
-      extractId: "extract-less",
-      loaders: [
-        {
-          loader: "less-loader",
-          useId: "less",
-          options: {
-            lessOptions: {
-              modifyVars: antTheme,
-              javascriptEnabled: true,
-            },
-          },
-        },
-      ],
     }),
     ({ config }) => {
       if (process.env.NODE_ENV === "production") {
