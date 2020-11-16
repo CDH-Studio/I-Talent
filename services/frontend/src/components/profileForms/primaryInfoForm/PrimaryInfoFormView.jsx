@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Select,
@@ -44,7 +43,6 @@ import login from "../../../utils/login";
 import "./PrimaryInfoFormView.less";
 
 const { Option } = Select;
-const { Title } = Typography;
 
 const PrimaryInfoFormView = ({
   locationOptions,

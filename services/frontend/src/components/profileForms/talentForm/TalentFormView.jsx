@@ -9,11 +9,9 @@ import {
   Select,
   Switch,
   TreeSelect,
-  Popover,
   Tabs,
   notification,
 } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
@@ -35,7 +33,7 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import "./TalentFormView.less";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 

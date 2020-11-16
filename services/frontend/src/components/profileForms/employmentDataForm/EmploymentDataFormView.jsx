@@ -41,7 +41,7 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import "./EmploymentDataFormView.less";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 /**
  *  EmploymentDataFormView(props)

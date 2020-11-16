@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Button,
@@ -34,7 +33,6 @@ import {
 
 import "./QualificationsFormView.less";
 
-const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const QualificationsFormView = ({
@@ -341,11 +339,11 @@ const QualificationsFormView = ({
               key="education"
             >
               <FormSubTitle
-                title={<FormattedMessage id={"setup.education"} />}
+                title={<FormattedMessage id="setup.education" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
-                    cardName={"education"}
+                    cardName="education"
                     type="form"
                   />
                 }
@@ -401,11 +399,11 @@ const QualificationsFormView = ({
               key="experience"
             >
               <FormSubTitle
-                title={<FormattedMessage id={"setup.experience"} />}
+                title={<FormattedMessage id="setup.experience" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
-                    cardName={"experience"}
+                    cardName="experience"
                     type="form"
                   />
                 }

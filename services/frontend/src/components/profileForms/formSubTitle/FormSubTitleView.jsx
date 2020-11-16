@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Typography, Popover } from "antd";
-import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 import "./FormSubTitleView.less";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const FormSubTitleView = ({ title, popoverMessage, extra }) => {
   return (

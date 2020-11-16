@@ -3,18 +3,16 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Select,
   Checkbox,
-  Popover,
   TreeSelect,
   Tabs,
   notification,
   Button,
 } from "antd";
-import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
@@ -41,7 +39,6 @@ import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 
 const { Option } = Select;
-const { Title } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
