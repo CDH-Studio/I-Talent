@@ -10,6 +10,7 @@ const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
 const swaggerOptions = require("./docs/swaggerOptions");
 const config = require("./config");
+const { errorHandlingMiddlware } = require("./router/util/middlewares");
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.get("/oauth2-redirect.html", function (req, res) {
 });
 app.use("/api-docs", swaggerUi.serve, swaggerOptions);
 app.use(keycloak.middleware({ logout: "/" }));
+app.use(errorHandlingMiddlware);
 
 if (config.ENV !== "test") {
   app.listen(config.PORT, () => console.log(`Backend port is ${config.PORT}.`));

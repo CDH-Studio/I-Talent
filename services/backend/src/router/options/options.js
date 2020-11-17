@@ -31,10 +31,13 @@ const {
 } = require("./validator");
 
 const { langValidator } = require("../util/commonValidators");
+const { validationMiddlware } = require("../util/middlewares");
 
 const { keycloak } = require("../../auth/keycloak");
 
 const optionsRouter = Router();
+
+optionsRouter.use(validationMiddlware);
 
 optionsRouter.get(
   "/branches",
