@@ -5,10 +5,10 @@ const { handleAxiosErrors } = require("../../utils/handleErrors");
 
 async function getGedsSetup(request, response) {
   const { id } = request.params;
-  const { name } = request.query;
-  const nameArray = name.split(" ");
+  const { email } = request.query;
 
-  const url = `${config.GEDSAPIURL}employees?searchValue=${nameArray[1]}%2C%20${nameArray[0]}&searchField=0&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
+  // seach GC directory using email
+  const url = `${config.GEDSAPIURL}employees?searchValue=${email}&searchField=5&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
 
   const promises = [
     axios({
