@@ -16,7 +16,7 @@ const Welcome = () => {
   const [load, setLoad] = useState(false);
   const [gedsProfiles, setGedsProfiles] = useState();
 
-  const { id, name } = useSelector((state) => state.user);
+  const { id, email } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
 
@@ -45,7 +45,7 @@ const Welcome = () => {
       // Get info from GEDS
       const result = await axios.get(`api/profGen/${id}`, {
         params: {
-          name,
+          email,
         },
       });
       if (result.data) {
@@ -67,7 +67,7 @@ const Welcome = () => {
     };
 
     getAllData();
-  }, [axios, id, name]);
+  }, [axios, id, email]);
 
   return (
     <WelcomeView
