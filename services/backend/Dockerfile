@@ -1,4 +1,4 @@
-FROM node:12.19.0-alpine3.11
+FROM node:14.15.1-alpine3.12
 
 ENV TZ=America/Toronto
 
