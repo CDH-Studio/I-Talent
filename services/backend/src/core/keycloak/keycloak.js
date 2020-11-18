@@ -1,7 +1,6 @@
 const axios = require("axios");
 const qs = require("querystring");
 const config = require("../../config");
-const { handleAxiosErrors } = require("../../utils/handleErrors");
 
 const getAccessToken = async () => {
   const data = qs.stringify({
@@ -75,24 +74,19 @@ const getMembers = async (accessToken, id, name) => {
 };
 
 const getUsers = async (request, response) => {
-  try {
-    const accessToken = await getAccessToken();
-    const groupIds = await getGroupIds(accessToken);
+  const accessToken = await getAccessToken();
+  const groupIds = await getGroupIds(accessToken);
 
-    const data = await Promise.all(
-      groupIds.map(async ({ id, name }) => getMembers(accessToken, id, name))
-    );
+  const data = await Promise.all(
+    groupIds.map(async ({ id, name }) => getMembers(accessToken, id, name))
+  );
 
-    const cleanedData = {};
-    data.forEach(({ name, ids }) => {
-      cleanedData[name] = ids;
-    });
+  const cleanedData = {};
+  data.forEach(({ name, ids }) => {
+    cleanedData[name] = ids;
+  });
 
-    response.status(200).send(cleanedData);
-  } catch (error) {
-    handleAxiosErrors(error);
-    response.status(500);
-  }
+  response.status(200).send(cleanedData);
 };
 
 module.exports = {

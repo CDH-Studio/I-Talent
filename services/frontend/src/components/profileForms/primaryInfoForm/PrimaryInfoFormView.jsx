@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Select,
@@ -38,12 +37,12 @@ import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 import FormTitle from "../formTitle/FormTitle";
-import login from '../../../utils/login';
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import login from "../../../utils/login";
 
 import "./PrimaryInfoFormView.less";
 
 const { Option } = Select;
-const { Title } = Typography;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -373,7 +372,6 @@ const PrimaryInfoFormView = ({
       <div className="prim-content">
         <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
         {/* get form title */}
-        {/* {getFormHeader({ formHeaderType: formType })} */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
             title={<FormattedMessage id="setup.primary.information" />}
@@ -605,20 +603,18 @@ const PrimaryInfoFormView = ({
             </Col>
           </Row>
           <Divider className="prim-headerDiv" />
-          <Row
-            justify="space-between"
-            className="prim-sectionHeader"
-            align="middle"
-          >
-            <Title level={3} className="prim-formTitle">
-              <FormattedMessage id="profile.employment.equity.groups" />
-            </Title>
-            <CardVisibilityToggle
-              visibleCards={profileInfo.visibleCards}
-              cardName="employmentEquityGroup"
-              type="form"
-            />
-          </Row>
+
+          <FormSubTitle
+            title={<FormattedMessage id="profile.employment.equity.groups" />}
+            extra={
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="employmentEquityGroup"
+                type="form"
+              />
+            }
+          />
+
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">

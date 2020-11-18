@@ -79,124 +79,85 @@ const ProfileLayoutView = ({
 
   const displayAllProfileCards = () => {
     return (
-      <div>
-        {/* Employee summary */}
-        <Row
-          gutter={[
-            { xs: 8, sm: 12 },
-            { xs: 15, sm: 15, xl: 0 },
-          ]}
-          type="flex"
-        >
-          <Col xs={24} xl={14}>
-            <BasicInfo
-              data={data}
-              connectionStatus={connectionStatus}
-              changeConnection={changeConnection}
-            />
-          </Col>
-          <Col xs={24} xl={10}>
-            <Row type="flex" gutter={[{ xs: 8, sm: 12 }, 15]}>
-              <Col span={24}>
-                <EmployeeSummary
-                  data={data}
-                  editableCardBool={privateProfile}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <EmploymentEquity
-                  data={data}
-                  editableCardBool={privateProfile}
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row className="app-row">
-          <Col span={24}>
-            <DescriptionCard data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-        <Row className="app-row">
-          <Col span={24}>
-            <OfficialLanguage data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
+      <Row gutter={[15, 15]}>
+        {/* Summary */}
+        <Col xs={24} xl={14}>
+          <BasicInfo
+            data={data}
+            connectionStatus={connectionStatus}
+            changeConnection={changeConnection}
+          />
+        </Col>
+        <Col xs={24} xl={10}>
+          <Row gutter={[0, 15]}>
+            <Col span={24}>
+              <EmployeeSummary data={data} editableCardBool={privateProfile} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <EmploymentEquity data={data} editableCardBool={privateProfile} />
+            </Col>
+          </Row>
+        </Col>
+        <Col span={24}>
+          <DescriptionCard data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col span={24}>
+          <OfficialLanguage data={data} editableCardBool={privateProfile} />
+        </Col>
+
         {/** ********** Skills and competencies *********** */}
         <Title level={2} className="sectionHeader" id="divider-skills-and-comp">
           <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
           <FormattedMessage id="profile.employee.skills.competencies" />
         </Title>
-        <Row className="app-row">
-          <Col span={24}>
-            <Skills data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-        <Row className="app-row">
-          <Col span={24}>
-            <Mentorship data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-        <Row className="app-row">
-          <Col span={24}>
-            <Col span={24}>
-              <Competencies data={data} editableCardBool={privateProfile} />
-            </Col>
-          </Col>
-        </Row>
+        <Col span={24}>
+          <Skills data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col span={24}>
+          <Mentorship data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col span={24}>
+          <Competencies data={data} editableCardBool={privateProfile} />
+        </Col>
 
         {/** ********** Qualifications *********** */}
         <Title level={2} className="sectionHeader" id="divider-qualifications">
           <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
           <FormattedMessage id="profile.employee.qualifications" />
         </Title>
-        <Row className="app-row">
-          <Col span={24}>
-            <Education data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-        <Row className="app-row">
-          <Col span={24}>
-            <Experience data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
+        <Col span={24}>
+          <Education data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col span={24}>
+          <Experience data={data} editableCardBool={privateProfile} />
+        </Col>
 
         {/** ********** Personal Growth *********** */}
         <Title level={2} className="sectionHeader" id="divider-employee-growth">
           <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
           <FormattedMessage id="profile.employee.growth.interests" />
         </Title>
-        <Row className="app-row">
-          <Col span={24}>
-            <LearningDevelopment
-              editableCardBool={privateProfile}
-              data={data}
-            />
-          </Col>
-        </Row>
-        <Row className="app-row">
-          <Col span={24}>
-            <QualifiedPools data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
-
-        <Row className="app-row" gutter={[{ xs: 8, sm: 16 }, 20]} type="flex">
-          <Col xs={24} xl={12}>
-            <TalentManagement data={data} editableCardBool={privateProfile} />
-            <div style={{ paddingTop: "16px" }}>
-              <ExFeeder data={data} editableCardBool={privateProfile} />
-            </div>
-          </Col>
-          <Col xs={24} xl={12}>
-            <CareerInterests data={data} editableCardBool={privateProfile} />
-          </Col>
-        </Row>
+        <Col span={24}>
+          <LearningDevelopment editableCardBool={privateProfile} data={data} />
+        </Col>
+        <Col span={24}>
+          <QualifiedPools data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col xs={24} xl={12}>
+          <TalentManagement data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col xs={24} xl={12}>
+          <CareerInterests data={data} editableCardBool={privateProfile} />
+        </Col>
+        <Col span={24}>
+          <ExFeeder data={data} editableCardBool={privateProfile} />
+        </Col>
 
         {/** ********** Connections *********** */}
         {privateProfile && (
-          <div>
+          <>
             <Title
               level={2}
               className="sectionHeader"
@@ -220,14 +181,12 @@ const ProfileLayoutView = ({
                 </Popover>
               </div>
             </Title>
-            <Row className="app-row">
-              <Col span={24}>
-                <Connections data={data} />
-              </Col>
-            </Row>
-          </div>
+            <Col span={24}>
+              <Connections data={data} />
+            </Col>
+          </>
         )}
-      </div>
+      </Row>
     );
   };
   const generateProfileSidebarContent = () => {
