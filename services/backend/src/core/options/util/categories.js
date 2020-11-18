@@ -115,17 +115,18 @@ async function updateCategory(request, response) {
 async function deleteCategory(request, response) {
   const { id } = request.body;
 
-  await prisma.opTransCategory.deleteMany({
-    where: {
-      opCategoryId: id,
-    },
-  });
-
-  await prisma.opCategory.delete({
-    where: {
-      id,
-    },
-  });
+  await prisma.$transaction([
+    prisma.opTransCategory.deleteMany({
+      where: {
+        opCategoryId: id,
+      },
+    }),
+    prisma.opCategory.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
 
   response
     .status(200)
@@ -135,21 +136,22 @@ async function deleteCategory(request, response) {
 async function deleteCategories(request, response) {
   const { ids } = request.body;
 
-  await prisma.opTransCategory.deleteMany({
-    where: {
-      opCategoryId: {
-        in: ids,
+  await prisma.$transaction([
+    prisma.opTransCategory.deleteMany({
+      where: {
+        opCategoryId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opCategory.deleteMany({
-    where: {
-      id: {
-        in: ids,
+    }),
+    prisma.opCategory.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
-    },
-  });
+    }),
+  ]);
 
   response
     .status(200)

@@ -194,17 +194,18 @@ async function updateSchool(request, response) {
 async function deleteSchool(request, response) {
   const { id } = request.body;
 
-  await prisma.opTransSchool.deleteMany({
-    where: {
-      opSchoolId: id,
-    },
-  });
-
-  await prisma.opSchool.delete({
-    where: {
-      id,
-    },
-  });
+  await prisma.$transaction([
+    prisma.opTransSchool.deleteMany({
+      where: {
+        opSchoolId: id,
+      },
+    }),
+    prisma.opSchool.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
 
   response.status(200).send("Successfully deleted the specified school option");
 }
@@ -212,21 +213,22 @@ async function deleteSchool(request, response) {
 async function deleteSchools(request, response) {
   const { ids } = request.body;
 
-  await prisma.opTransSchool.deleteMany({
-    where: {
-      opSchoolId: {
-        in: ids,
+  await prisma.$transaction([
+    prisma.opTransSchool.deleteMany({
+      where: {
+        opSchoolId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opSchool.deleteMany({
-    where: {
-      id: {
-        in: ids,
+    }),
+    prisma.opSchool.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
-    },
-  });
+    }),
+  ]);
 
   response.status(200).send("Successfully deleted the specified school option");
 }

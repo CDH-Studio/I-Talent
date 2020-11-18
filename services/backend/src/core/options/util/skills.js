@@ -133,35 +133,33 @@ async function updateSkill(request, response) {
 async function deleteSkill(request, response) {
   const { id } = request.body;
 
-  await prisma.skill.deleteMany({
-    where: {
-      skillId: id,
-    },
-  });
-
-  await prisma.mentorshipSkill.deleteMany({
-    where: {
-      skillId: id,
-    },
-  });
-
-  await prisma.developmentalGoal.deleteMany({
-    where: {
-      skillId: id,
-    },
-  });
-
-  await prisma.opTransSkill.deleteMany({
-    where: {
-      opSkillId: id,
-    },
-  });
-
-  await prisma.opSkill.delete({
-    where: {
-      id,
-    },
-  });
+  await prisma.$transaction([
+    prisma.skill.deleteMany({
+      where: {
+        skillId: id,
+      },
+    }),
+    prisma.mentorshipSkill.deleteMany({
+      where: {
+        skillId: id,
+      },
+    }),
+    prisma.developmentalGoal.deleteMany({
+      where: {
+        skillId: id,
+      },
+    }),
+    prisma.opTransSkill.deleteMany({
+      where: {
+        opSkillId: id,
+      },
+    }),
+    prisma.opSkill.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
 
   response.status(200).send("Successfully deleted the specified skill option");
 }
@@ -169,45 +167,43 @@ async function deleteSkill(request, response) {
 async function deleteSkills(request, response) {
   const { ids } = request.body;
 
-  await prisma.skill.deleteMany({
-    where: {
-      skillId: {
-        in: ids,
+  await prisma.$transaction([
+    prisma.skill.deleteMany({
+      where: {
+        skillId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.mentorshipSkill.deleteMany({
-    where: {
-      skillId: {
-        in: ids,
+    }),
+    prisma.mentorshipSkill.deleteMany({
+      where: {
+        skillId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.developmentalGoal.deleteMany({
-    where: {
-      skillId: {
-        in: ids,
+    }),
+    prisma.developmentalGoal.deleteMany({
+      where: {
+        skillId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opTransSkill.deleteMany({
-    where: {
-      opSkillId: {
-        in: ids,
+    }),
+    prisma.opTransSkill.deleteMany({
+      where: {
+        opSkillId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opSkill.deleteMany({
-    where: {
-      id: {
-        in: ids,
+    }),
+    prisma.opSkill.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
-    },
-  });
+    }),
+  ]);
 
   response.status(200).send("Successfully deleted the specified skill options");
 }

@@ -115,29 +115,28 @@ async function updateCompetency(request, response) {
 async function deleteCompetency(request, response) {
   const { id } = request.body;
 
-  await prisma.competency.deleteMany({
-    where: {
-      competencyId: id,
-    },
-  });
-
-  await prisma.developmentalGoal.deleteMany({
-    where: {
-      competencyId: id,
-    },
-  });
-
-  await prisma.opTransCompetency.deleteMany({
-    where: {
-      opCompetenciesId: id,
-    },
-  });
-
-  await prisma.opCompetency.delete({
-    where: {
-      id,
-    },
-  });
+  await prisma.$transaction([
+    prisma.competency.deleteMany({
+      where: {
+        competencyId: id,
+      },
+    }),
+    prisma.developmentalGoal.deleteMany({
+      where: {
+        competencyId: id,
+      },
+    }),
+    prisma.opTransCompetency.deleteMany({
+      where: {
+        opCompetenciesId: id,
+      },
+    }),
+    prisma.opCompetency.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
 
   response
     .status(200)
@@ -147,37 +146,36 @@ async function deleteCompetency(request, response) {
 async function deleteCompetencies(request, response) {
   const { ids } = request.body;
 
-  await prisma.competency.deleteMany({
-    where: {
-      competencyId: {
-        in: ids,
+  await prisma.$transaction([
+    prisma.competency.deleteMany({
+      where: {
+        competencyId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.developmentalGoal.deleteMany({
-    where: {
-      competencyId: {
-        in: ids,
+    }),
+    prisma.developmentalGoal.deleteMany({
+      where: {
+        competencyId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opTransCompetency.deleteMany({
-    where: {
-      opCompetencyId: {
-        in: ids,
+    }),
+    prisma.opTransCompetency.deleteMany({
+      where: {
+        opCompetencyId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opCompetency.deleteMany({
-    where: {
-      id: {
-        in: ids,
+    }),
+    prisma.opCompetency.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
-    },
-  });
+    }),
+  ]);
 
   response
     .status(200)

@@ -115,17 +115,18 @@ async function updateDiploma(request, response) {
 async function deleteDiploma(request, response) {
   const { id } = request.body;
 
-  await prisma.opTransDiploma.deleteMany({
-    where: {
-      opDiplomaId: id,
-    },
-  });
-
-  await prisma.opDiploma.delete({
-    where: {
-      id,
-    },
-  });
+  await prisma.$transaction([
+    prisma.opTransDiploma.deleteMany({
+      where: {
+        opDiplomaId: id,
+      },
+    }),
+    prisma.opDiploma.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
 
   response
     .status(200)
@@ -135,21 +136,22 @@ async function deleteDiploma(request, response) {
 async function deleteDiplomas(request, response) {
   const { ids } = request.body;
 
-  await prisma.opTransDiploma.deleteMany({
-    where: {
-      opDiplomaId: {
-        in: ids,
+  await prisma.$transaction([
+    prisma.opTransDiploma.deleteMany({
+      where: {
+        opDiplomaId: {
+          in: ids,
+        },
       },
-    },
-  });
-
-  await prisma.opDiploma.deleteMany({
-    where: {
-      id: {
-        in: ids,
+    }),
+    prisma.opDiploma.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
-    },
-  });
+    }),
+  ]);
 
   response
     .status(200)
