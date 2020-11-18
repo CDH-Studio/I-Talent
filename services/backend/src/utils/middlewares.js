@@ -1,32 +1,30 @@
 const { validationResult } = require("express-validator");
 
 /**
- * Pretty prints the relevant information from an axios error
+ * Pretty prints the relevant information from an axios error or other error
  */
-const axiosErrorHandler = (error, _request, _response, next) => {
-  if (error.response) {
+const printError = (error) => {
+  if (error.isAxiosError && error.response) {
     const { status, statusText, data, config, headers } = error.response;
 
-    console.warn(status, statusText, data);
-    console.warn("Config", config);
-    console.warn("Headers", headers);
+    console.log(status, statusText, data);
+    console.log("Config", config);
+    console.log("Headers", headers);
+  } else {
+    console.log(error);
   }
-
-  next(error);
 };
 
 const errorHandler = (error, request, response, next) => {
-  console.log(error);
+  printError(error);
 
   if (error.errors) {
     response.status(422).json(error.errors);
-  }
-
-  if (error.code === "P2002") {
+  } else if (error.code === "P2002") {
     response.sendStatus(409);
+  } else {
+    response.sendStatus(500);
   }
-
-  response.sendStatus(500);
 
   next(error);
 };
@@ -39,5 +37,4 @@ const validationMiddlware = (request, response, next) => {
 module.exports = {
   validationMiddlware,
   errorHandler,
-  axiosErrorHandler,
 };
