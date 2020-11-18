@@ -343,7 +343,7 @@
   "search.advanced.general.title": "Informations générales",
   "search.advanced.skill.title": "Habiletés et talent",
   "search.empty.query": "Affinez vos critères de recherche pour commencer à trouver du talents!",
-  "search.filter.name": "Nom d'entrée",
+  "search.filter.person.name": "Nom de personne",
   "search.filter.classification": "Sélectionner la classification",
   "search.filter.location": "Sélectionner l'emplacement",
   "search.filter.branch": "Sélectionner une branche",
