@@ -65,20 +65,6 @@ const ResultsCard = () => {
     getConnections();
   };
 
-  if (emptyQuery) {
-    return (
-      <>
-        <Row align="middle" justify="center" style={{ marginTop: 40 }}>
-          <img src={EmptyImage} height={250} alt="Empty results page" />
-        </Row>
-        <Row align="middle" justify="center" style={{ marginTop: 20 }}>
-          <p style={{ textAlign: "center", maxWidth: 250 }}>
-            <FormattedMessage id="search.empty.query" />
-          </p>
-        </Row>
-      </>
-    );
-  }
   return (
     <ResultsCardView
       history={history}
