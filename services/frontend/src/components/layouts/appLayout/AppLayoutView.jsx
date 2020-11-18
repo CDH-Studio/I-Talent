@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";
-import "./AppLayoutView.scss";
+import "./AppLayoutView.less";
 
 const { Content } = Layout;
 
@@ -46,7 +46,7 @@ const AppLayoutView = ({
               children
             )}
           </Content>
-          <Footer />
+          {!loading && <Footer />}
         </Layout>
       </Layout>
     </Layout>

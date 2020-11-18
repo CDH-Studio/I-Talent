@@ -29,7 +29,7 @@ import {
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import "./EducationFormView.scss";
+import "./EducationFormView.less";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -98,7 +98,7 @@ const EducationFormView = ({
   };
 
   return (
-    <div className="formItem">
+    <div className="education-formItem">
       <Row gutter={24} className="gutter-row titleRow">
         <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">

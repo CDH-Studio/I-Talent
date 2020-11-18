@@ -3,25 +3,19 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Select,
   Checkbox,
-  Popover,
   TreeSelect,
   Tabs,
   notification,
   Button,
 } from "antd";
-import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import isEqual from "lodash/isEqual";
-import isNil from "lodash/isNil";
-import pickBy from "lodash/pickBy";
-import omitBy from "lodash/omitBy";
-import identity from "lodash/identity";
+import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -38,13 +32,13 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./CareerManagementFormView.scss";
+import "./CareerManagementFormView.less";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
 
 const { Option } = Select;
-const { Title } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
@@ -323,36 +317,6 @@ const CareerManagementFormView = ({
     return message;
   };
 
-  const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" className="pgf-sectionHeader" align="middle">
-      <Title level={3} className="pgf-formTitle">
-        <Row>
-          <FormattedMessage id={titleId} />
-          <Popover
-            trigger={["focus", "hover"]}
-            content={
-              <div>
-                <FormattedMessage id="tooltip.extra.info.help" />
-                <Link to="/about/help">
-                  <FormattedMessage id="footer.contact.link" />
-                </Link>
-              </div>
-            }
-          >
-            <div className="pgf-infoIcon">
-              <InfoCircleOutlined tabIndex={0} />
-            </div>
-          </Popover>
-        </Row>
-      </Title>
-      <CardVisibilityToggle
-        visibleCards={profileInfo.visibleCards}
-        cardName={cardName}
-        type="form"
-      />
-    </Row>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -398,10 +362,24 @@ const CareerManagementFormView = ({
               })}
               key="learning-development"
             >
-              {getSectionHeader(
-                "setup.developmental.goals",
-                "developmentalGoals"
-              )}
+              <FormSubTitle
+                title={<FormattedMessage id="setup.developmental.goals" />}
+                popoverMessage={
+                  <>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <Link to="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </Link>
+                  </>
+                }
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="developmentalGoals"
+                    type="form"
+                  />
+                }
+              />
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
@@ -461,7 +439,24 @@ const CareerManagementFormView = ({
               })}
               key="qualified-pools"
             >
-              {getSectionHeader("profile.qualified.pools", "qualifiedPools")}
+              <FormSubTitle
+                title={<FormattedMessage id="profile.qualified.pools" />}
+                popoverMessage={
+                  <>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <Link to="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </Link>
+                  </>
+                }
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="qualifiedPools"
+                    type="form"
+                  />
+                }
+              />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
@@ -510,7 +505,24 @@ const CareerManagementFormView = ({
               })}
               key="career-interests"
             >
-              {getSectionHeader("setup.career.interests", "careerInterests")}
+              <FormSubTitle
+                title={<FormattedMessage id="setup.career.interests" />}
+                popoverMessage={
+                  <>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <Link to="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </Link>
+                  </>
+                }
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="careerInterests"
+                    type="form"
+                  />
+                }
+              />
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
@@ -598,47 +610,39 @@ const CareerManagementFormView = ({
               })}
               key="talent-management"
             >
-              <Row justify="space-between" align="middle">
-                <Title level={3} className="pgf-formTitle">
-                  <Row>
-                    <FormattedMessage id="setup.talent.management" />
-                    <Popover
-                      trigger={["focus", "hover"]}
-                      content={
-                        <div>
-                          <FormattedMessage id="profile.talent.management.tooltip" />
-                          {locale === "ENGLISH" ? (
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
-                            >
-                              <FormattedMessage id="profile.talent.management.link" />
-                            </a>
-                          ) : (
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                            >
-                              <FormattedMessage id="profile.talent.management.link" />
-                            </a>
-                          )}
-                        </div>
-                      }
-                    >
-                      <div className="pgf-TMTooltip">
-                        <InfoCircleOutlined tabIndex={0} />
-                      </div>
-                    </Popover>
-                  </Row>
-                </Title>
-                <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="talentManagement"
-                  type="form"
-                />
-              </Row>
+              <FormSubTitle
+                title={<FormattedMessage id="setup.talent.management" />}
+                popoverMessage={
+                  <>
+                    <FormattedMessage id="profile.talent.management.tooltip" />
+                    {locale === "ENGLISH" ? (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
+                      >
+                        <FormattedMessage id="profile.talent.management.link" />
+                      </a>
+                    ) : (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                      >
+                        <FormattedMessage id="profile.talent.management.link" />
+                      </a>
+                    )}
+                  </>
+                }
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="talentManagement"
+                    type="form"
+                  />
+                }
+              />
+
               {/* Form Row Three: career mobility */}
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -696,7 +700,24 @@ const CareerManagementFormView = ({
               key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
-              {getSectionHeader("profile.ex.feeder.title", "exFeeder")}
+              <FormSubTitle
+                title={<FormattedMessage id="profile.ex.feeder.title" />}
+                popoverMessage={
+                  <>
+                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <Link to="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </Link>
+                  </>
+                }
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="exFeeder"
+                    type="form"
+                  />
+                }
+              />
               <Row className="pgf-exFeeder" justify="space-between">
                 <Col className="gutter-row">
                   <Form.Item name="exFeeder" valuePropName="checked">

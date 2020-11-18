@@ -23,7 +23,7 @@ import {
   QualificationsForm,
 } from "../../profileForms";
 import Header from "../../header/Header";
-import "./EditProfileLayoutView.scss";
+import "./EditProfileLayoutView.less";
 
 /*
  *  EditProfileLayoutView(props)
@@ -172,6 +172,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <ul className="menu-list">
             <li className="menu-list-item">
               - <FormattedMessage id="profile.learning.development" />
+            </li>
+            <li className="menu-list-item">
+              - <FormattedMessage id="profile.qualified.pools" />
             </li>
             <li className="menu-list-item">
               - <FormattedMessage id="profile.career.interests" />

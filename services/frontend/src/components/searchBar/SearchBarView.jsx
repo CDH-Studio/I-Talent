@@ -22,7 +22,7 @@ import {
 import logo from "../../assets/I-talent-logo.png";
 import { IntlPropType } from "../../utils/customPropTypes";
 import filterOption from "../../functions/filterSelectInput";
-import "./SearchBarView.scss";
+import "./SearchBarView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Option } = Select;

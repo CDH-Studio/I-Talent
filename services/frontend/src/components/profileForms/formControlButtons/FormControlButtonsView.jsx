@@ -9,7 +9,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-import "./FormControlButtonsView.scss";
+import "./FormControlButtonsView.less";
 
 const FormControlButtonsView = ({
   edit,

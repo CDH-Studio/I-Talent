@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Typography } from "antd";
 
-import "./FormTitle.scss";
+import "./FormTitleView.less";
 
 const { Title, Text } = Typography;
 
@@ -16,22 +16,25 @@ const FormTitleView = ({
 }) => {
   if (formType === "create") {
     return (
-      <Title level={2} className="pgf-formTitle">
-        {stepNumber}. {title}
-      </Title>
+      <>
+        <Title level={2} className="profileForm-title">
+          {stepNumber}. {title}
+        </Title>
+        {extra && <div className="profileForm-extra">{extra}</div>}
+      </>
     );
   }
   return (
     <>
-      <Title level={2} className="pgf-formTitle">
+      <Title level={2} className="profileForm-title">
         {title}
         {fieldsChanged && (
-          <Text className="pgf-unsavedText">
+          <Text className="profileForm-unsavedText">
             (<FormattedMessage id="profile.form.unsaved" />)
           </Text>
         )}
       </Title>
-      {extra && <div className="prim-gedsInfoLink">{extra}</div>}
+      {extra && <div className="profileForm-extra">{extra}</div>}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Row, Col, Avatar, List, Empty, Tag } from "antd";
 import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import "./EducationView.scss";
+import "./EducationView.less";
 import DescriptionText from "../descriptionText/DescriptionText";
 
 const EducationView = ({ educationInfo }) => {

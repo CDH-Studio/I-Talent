@@ -28,7 +28,7 @@ import {
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
-import "./ExperienceFormView.scss";
+import "./ExperienceFormView.less";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;
@@ -99,7 +99,7 @@ const ExperienceFormView = ({
   };
 
   return (
-    <div className="formItem">
+    <div className="experience-formItem">
       <Row gutter={24} className="gutter-row titleRow">
         <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">

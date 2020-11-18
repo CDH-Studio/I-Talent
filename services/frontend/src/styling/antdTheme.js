@@ -14,7 +14,7 @@ module.exports = {
   "@warning-color": "#ff661a",
   "@error-color": "#ff3333",
   "@border-radius-base": "5px",
-  "@layout-header-background": "@body-background",
+  "@layout-header-background": "white",
   "@form-item-margin-bottom": "13px",
   "@card-actions-background": "transparent",
   "@card-head-height": "55px",

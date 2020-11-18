@@ -1,8 +1,9 @@
 const react = require("@neutrinojs/react");
 const jest = require("@neutrinojs/jest");
-const style = require("@neutrinojs/style-loader");
-const antTheme = require("./src/antdTheme");
+const antdTheme = require("./src/styling/antdTheme");
 const path = require("path");
+const webpack = require("webpack");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 module.exports = {
   options: {
@@ -22,22 +23,23 @@ module.exports = {
         template: "public/index.ejs",
         favicon: "public/favicon.ico",
       },
-      babel: {
-        plugins: [
-          [
-            "import",
-            {
-              libraryName: "antd",
-              libraryDirectory: "es",
-              style: true,
-            },
-            "antd",
-          ],
+      target: {
+        browsers: [
+          "last 2 Chrome versions",
+          "last 2 Firefox versions",
+          "last 2 Edge versions",
+          "last 2 Opera versions",
+          "last 2 Safari versions",
+          "last 2 iOS versions",
+          "ie 11",
         ],
       },
+      babel: {
+        babelrc: true,
+      },
       style: {
-        test: /\.(css|scss)$/,
-        modulesTest: /\.module\.(css|scss)$/,
+        test: /\.less/,
+        modulesTest: /\.module\.less/,
         loaders: [
           {
             loader: "postcss-loader",
@@ -48,43 +50,44 @@ module.exports = {
             },
           },
           {
-            loader: "sass-loader",
-            useId: "sass",
+            loader: "less-loader",
+            useId: "less",
+            options: {
+              lessOptions: {
+                modifyVars: antdTheme,
+                javascriptEnabled: true,
+              },
+            },
           },
         ],
       },
-    }),
-    style({
-      test: /\.less/,
-      modulesTest: /\.module\.less$/,
-      ruleId: "style-less",
-      styleUseId: "style-less",
-      cssUseId: "css-less",
-      extractId: "extract-less",
-      loaders: [
-        {
-          loader: "less-loader",
-          useId: "less",
-          options: {
-            lessOptions: {
-              modifyVars: antTheme,
-              javascriptEnabled: true,
-            },
-          },
-        },
-      ],
     }),
     ({ config }) => {
       if (process.env.NODE_ENV === "production") {
         config.optimization
           .minimize(true)
           .minimizer("terser-plugin")
-          .use(require.resolve("terser-webpack-plugin"));
+          .use(require.resolve("terser-webpack-plugin"), [
+            {
+              terserOptions: {
+                compress: {
+                  arrows: false,
+                },
+              },
+            },
+          ]);
         config.optimization
           .minimize(true)
           .minimizer("css-minimizer")
           .use(require.resolve("css-minimizer-webpack-plugin"));
       }
+
+      config
+        .plugin("moment-ignore-locales")
+        .use(webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/]);
+      config
+        .plugin("slim-lodash")
+        .use(LodashModuleReplacementPlugin, [{ shorthands: true }]);
 
       if (process.env.ANALYZE_BUILD === "true") {
         const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");

@@ -4,7 +4,7 @@ import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
 import DescriptionText from "../descriptionText/DescriptionText";
-import "./ExperienceView.scss";
+import "./ExperienceView.less";
 
 const ExperienceView = ({ experienceInfo }) => {
   const getUrl = (item) => {

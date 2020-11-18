@@ -1,4 +1,4 @@
-@import "./_variables.scss";
+@import "./_variables.less";
 
 .no-content-card .ant-card-body {
   padding: 0px !important;
@@ -8,12 +8,12 @@
   margin: 3px;
   padding: 1px 10px;
   height: auto;
-  border-color: $app-gray;
+  border-color: @app-gray;
 }
 
 .ant {
   &-layout-sider {
-    box-shadow: $box-shadow-side-menu;
+    box-shadow: @box-shadow-side-menu;
     border-right: 1px solid #f0f0f0;
   }
 
@@ -37,11 +37,11 @@
   }
 
   &-table {
-    box-shadow: $box-shadow-card;
+    box-shadow: @box-shadow-card;
   }
 
   &-card {
-    box-shadow: $box-shadow-card;
+    box-shadow: @box-shadow-card;
 
     &-body {
       padding-top: 10px !important;
@@ -69,10 +69,10 @@
 
   &-page-header-heading-title {
     padding: 5px 10px;
-    background-color: $app-green;
+    background-color: @primary-color;
     color: white;
     font-size: 1.5em !important;
-    border-radius: $border-radius;
+    border-radius: @border-radius-base;
 
     svg {
       margin-right: 7px;

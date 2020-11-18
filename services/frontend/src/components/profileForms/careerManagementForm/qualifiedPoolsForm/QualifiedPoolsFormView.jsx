@@ -21,7 +21,7 @@ import {
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
 
-import "./QualifiedPoolsFormView.scss";
+import "./QualifiedPoolsFormView.less";
 
 const { Option } = Select;
 const { Title } = Typography;

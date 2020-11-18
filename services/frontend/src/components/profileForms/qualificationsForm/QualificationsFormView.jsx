@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Button,
@@ -13,11 +12,7 @@ import {
 
 import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import isEqual from "lodash/isEqual";
-import pickBy from "lodash/pickBy";
-import size from "lodash/size";
-import filter from "lodash/filter";
-import identity from "lodash/identity";
+import { pickBy, size, identity, isEqual, filter } from "lodash";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -25,19 +20,19 @@ import handleError from "../../../functions/handleError";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import EducationForm from "./educationForm/EducationForm";
 import FormTitle from "../formTitle/FormTitle";
-
+import FormSubTitle from "../formSubTitle/FormSubTitleView";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
   ProfileInfoPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
-import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./QualificationsFormView.scss";
 
-const { Title } = Typography;
+import "./QualificationsFormView.less";
+
 const { TabPane } = Tabs;
 
 const QualificationsFormView = ({
@@ -299,19 +294,6 @@ const QualificationsFormView = ({
     return message;
   };
 
-  const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" className="qual-sectionHeader" align="middle">
-      <Title level={3} className="qual-formTitle">
-        <FormattedMessage id={titleId} />
-      </Title>
-      <CardVisibilityToggle
-        visibleCards={profileInfo.visibleCards}
-        cardName={cardName}
-        type="form"
-      />
-    </Row>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -356,7 +338,16 @@ const QualificationsFormView = ({
               })}
               key="education"
             >
-              {getSectionHeader("setup.education", "education")}
+              <FormSubTitle
+                title={<FormattedMessage id="setup.education" />}
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="education"
+                    type="form"
+                  />
+                }
+              />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
@@ -407,7 +398,16 @@ const QualificationsFormView = ({
               })}
               key="experience"
             >
-              {getSectionHeader("setup.experience", "experience")}
+              <FormSubTitle
+                title={<FormattedMessage id="setup.experience" />}
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="experience"
+                    type="form"
+                  />
+                }
+              />
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col

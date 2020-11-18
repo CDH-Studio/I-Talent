@@ -34,6 +34,7 @@ const production = {
   COOKIE_DOMAIN,
   COOKIE_PATH,
   SESSION_NAME,
+  MORGAN_CONFIG: "combined",
 };
 
 const test = {
@@ -76,6 +77,7 @@ const development = {
   COOKIE_DOMAIN: COOKIE_DOMAIN || undefined,
   COOKIE_PATH: COOKIE_PATH || "/",
   SESSION_NAME: SESSION_NAME || "local.dev.italent.sid",
+  MORGAN_CONFIG: "dev",
 };
 
 const config = () => {

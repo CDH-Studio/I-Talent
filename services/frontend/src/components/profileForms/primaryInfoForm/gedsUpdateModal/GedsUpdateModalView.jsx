@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import useAxios from "../../../../utils/useAxios";
@@ -105,7 +105,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const [tableLoading, setTableLoading] = useState(false);
   const [errorCaught, setErrorCaught] = useState(false);
   const { locale } = useSelector((state) => state.settings);
-  const { id, name } = useSelector((state) => state.user);
+  const { id, email } = useSelector((state) => state.user);
 
   /**
    * Make all API calls and update data in states
@@ -120,7 +120,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       // get profile form geds
       const gedsResult = await axios.get(`api/profGen/${id}`, {
         params: {
-          name,
+          email,
         },
       });
 
@@ -136,7 +136,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
     } catch (error) {
       setErrorCaught(true);
     }
-  }, [id, locale, axios, name]);
+  }, [id, locale, axios, email]);
 
   /**
    * Prepare data and update DB based on geds data sync requested

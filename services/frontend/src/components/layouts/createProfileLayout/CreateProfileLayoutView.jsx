@@ -17,7 +17,7 @@ import {
 } from "../../profileForms";
 import Header from "../../header/Header";
 
-import "./CreateProfileLayoutView.scss";
+import "./CreateProfileLayoutView.less";
 
 const { Step } = Steps;
 
@@ -183,6 +183,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
               <ul className="stepList">
                 <li>
                   <FormattedMessage id="profile.developmental.goals" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.qualified.pools" />
                 </li>
                 <li>
                   <FormattedMessage id="profile.qualified.pools" />

@@ -1,11 +1,10 @@
 import React from "react";
-import { hot } from "react-hot-loader";
 import Routes from "./routes/Routes";
 import AppProvider from "./utils/AppProvider";
 
-import "./styling/accessibility.scss";
-import "./styling/custom_antd.scss";
-import "./styling/index.scss";
+import "./styling/accessibility.less";
+import "./styling/custom_antd.less";
+import "./styling/index.less";
 
 const App = () => (
   <AppProvider>
@@ -13,4 +12,4 @@ const App = () => (
   </AppProvider>
 );
 
-export default hot(module)(App);
+export default App;
