@@ -50,9 +50,7 @@ async function getUserById(request, response) {
 
     response.status(200).json(user);
   } else {
-    response
-      .status(403)
-      .json({ data: "Access to private account has be denied." });
+    response.sendStatus(403);
   }
 }
 
@@ -90,9 +88,7 @@ async function createUser(request, response) {
       nameInitials: getNameInitials(firstName, lastName),
     });
   } else {
-    response
-      .status(403)
-      .json({ data: "Access to private account has been denied." });
+    response.sendStatus(403);
   }
 }
 
@@ -115,9 +111,7 @@ async function deleteUser(request, response) {
     ]);
     response.status(200).send("Successfully deleted the specified account");
   } else {
-    response
-      .status(403)
-      .json({ data: "Access to delete specified account has been denied." });
+    response.sendStatus(403);
   }
 }
 

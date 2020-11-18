@@ -20,12 +20,9 @@ async function addConnection(request, response) {
     });
 
     response.status(200).json("Successfully added connection");
-    return;
+  } else {
+    response.sendStatus(403);
   }
-
-  response
-    .status(403)
-    .json({ data: "Access to private account has be denied." });
 }
 
 async function removeConnection(request, response) {
@@ -47,12 +44,9 @@ async function removeConnection(request, response) {
     });
 
     response.status(200).json("Successfully deleted connection");
-    return;
+  } else {
+    response.sendStatus(403);
   }
-
-  response
-    .status(403)
-    .json({ data: "Access to private account has be denied." });
 }
 
 async function getConnectionById(request, response) {
@@ -72,12 +66,9 @@ async function getConnectionById(request, response) {
     response.status(200).json({
       status: connections.connections.some((item) => item.id === id),
     });
-    return;
+  } else {
+    response.sendStatus(403);
   }
-
-  response
-    .status(403)
-    .json({ data: "Access to private account has be denied." });
 }
 
 module.exports = {
