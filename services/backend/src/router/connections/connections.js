@@ -4,13 +4,15 @@ const { keycloak } = require("../../auth/keycloak");
 const connections = require("../../core/connections/connections");
 
 const { UUIDValidator } = require("../util/commonValidators");
+const { validationMiddlware } = require("../../utils/middlewares");
 
 const connectionsRouter = Router();
 
 connectionsRouter
   .route("/:id")
-  .get(keycloak.protect(), UUIDValidator, connections.getConnectionById)
-  .post(keycloak.protect(), UUIDValidator, connections.addConnection)
-  .delete(keycloak.protect(), UUIDValidator, connections.removeConnection);
+  .all(keycloak.protect(), UUIDValidator, validationMiddlware)
+  .get(connections.getConnectionById)
+  .post(connections.addConnection)
+  .delete(connections.removeConnection);
 
 module.exports = connectionsRouter;

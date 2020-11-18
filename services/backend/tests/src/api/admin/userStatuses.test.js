@@ -72,7 +72,7 @@ describe(`Test ${path}`, () => {
         .send({ [faker.random.uuid()]: "ACTIVE" });
 
       expect(res.statusCode).toBe(500);
-      expect(res.text).toBe("Error updating the user statuses");
+      expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.update).toHaveBeenCalled();
 
