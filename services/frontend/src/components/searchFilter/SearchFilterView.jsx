@@ -66,7 +66,7 @@ const SearchFilterView = ({
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
   const ariaLabels = [
-    intl.formatMessage({ id: "search.filter.name" }),
+    intl.formatMessage({ id: "search.filter.person.name" }),
     intl.formatMessage({
       id: "search.filter.classification",
     }),
@@ -174,22 +174,19 @@ const SearchFilterView = ({
               </div>
             )}
           >
-            {locationOptions.map((value) => {
-              location =
-                value.streetNumber +
-                " " +
-                value.streetName +
-                ", " +
-                value.city +
-                ", " +
-                value.province;
-              return (
-                <Option role="option" key={value.id} value={location}>
-                  {value.streetNumber} {value.streetName}, {value.city},{" "}
-                  {value.province}
-                </Option>
-              );
-            })}
+            {locationOptions.map(
+              ({ streetNumber, streetName, city, province, id }) => {
+                return (
+                  <Option
+                    role="option"
+                    key={id}
+                    value={`${streetNumber} ${streetName}, ${city}, ${province}`}
+                  >
+                    {streetNumber} {streetName}, {city}, {province}
+                  </Option>
+                );
+              }
+            )}
           </Select>
         </Form.Item>
 
