@@ -1,16 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Affix, Layout, Skeleton } from "antd";
+import { Layout, Skeleton } from "antd";
 import "./SideNavView.less";
 
 const { Sider } = Layout;
 
-const SideNavView = ({
-  displaySideBar,
-  sideBarContent,
-  loading,
-  adminView,
-}) => {
+const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
   if (displaySideBar) {
     return (
       <Sider
@@ -38,7 +33,6 @@ SideNavView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
   sideBarContent: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
-  adminView: PropTypes.bool.isRequired,
 };
 
 export default SideNavView;
