@@ -100,7 +100,7 @@ async function deleteUser(request, response) {
   const { id } = request.params;
 
   if (manageUsers(request) || isKeycloakUser(request, id)) {
-    await Promise.all([
+    await prisma.$transaction([
       prisma.competency.deleteMany({ where: { userId: id } }),
       prisma.mentorshipSkill.deleteMany({ where: { userId: id } }),
       prisma.skill.deleteMany({ where: { userId: id } }),
@@ -111,8 +111,8 @@ async function deleteUser(request, response) {
       prisma.qualifiedPool.deleteMany({ where: { userId: id } }),
       prisma.experience.deleteMany({ where: { userId: id } }),
       prisma.relocationLocation.deleteMany({ where: { userId: id } }),
+      prisma.user.delete({ where: { id } }),
     ]);
-    await prisma.user.delete({ where: { id } });
     response.status(200).send("Successfully deleted the specified account");
   } else {
     response
