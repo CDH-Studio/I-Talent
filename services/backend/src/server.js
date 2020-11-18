@@ -11,7 +11,7 @@ const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
 const swaggerOptions = require("./docs/swaggerOptions");
 const config = require("./config");
-const { errorHandlingMiddlware } = require("./router/util/middlewares");
+const { errorHandler } = require("./utils/middlewares");
 
 const app = express();
 
@@ -47,7 +47,7 @@ app.use(
   bodyParser.json()
 );
 app.use("/api", router);
-app.use(keycloak.middleware({ logout: "/" }), errorHandlingMiddlware);
+app.use(keycloak.middleware({ logout: "/" }), errorHandler);
 
 if (config.ENV !== "test") {
   app.listen(config.PORT, () => console.log(`Backend port is ${config.PORT}.`));

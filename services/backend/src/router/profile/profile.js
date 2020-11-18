@@ -5,19 +5,21 @@ const profile = require("../../core/profile/profile");
 const { updateProfileValidator } = require("./validator");
 
 const { langValidator, UUIDValidator } = require("../util/commonValidators");
+const { validationMiddlware } = require("../../utils/middlewares");
 
 const profileRouter = Router();
 
 profileRouter
   .route("/:id")
+  .all(keycloak.protect())
   .get(
-    keycloak.protect(),
     [UUIDValidator, langValidator],
+    validationMiddlware,
     profile.getPublicProfileById
   )
   .put(
-    keycloak.protect(),
     [langValidator, UUIDValidator, updateProfileValidator],
+    validationMiddlware,
     profile.updateProfile
   );
 
@@ -26,6 +28,7 @@ profileRouter
   .get(
     keycloak.protect(),
     [UUIDValidator, langValidator],
+    validationMiddlware,
     profile.getPrivateProfileById
   );
 
