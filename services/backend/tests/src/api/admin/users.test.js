@@ -133,7 +133,7 @@ describe(`Test ${path}`, () => {
         );
 
         expect(res.statusCode).toBe(500);
-        expect(res.text).toBe("Error getting information about the users");
+        expect(res.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
         expect(prisma.user.findMany).toHaveBeenCalled();
 
