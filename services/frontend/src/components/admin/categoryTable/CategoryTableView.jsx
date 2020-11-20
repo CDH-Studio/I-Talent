@@ -75,45 +75,45 @@ const CategoryTableView = ({
       clearFilters,
       /* eslint-enable react/prop-types */
     }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={(node) => {
-            searchInput = node;
-          }}
-          placeholder={`${intl.formatMessage({
-            id: "admin.search",
-          })} ${title}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
-        />
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          <FormattedMessage id="admin.search.button" />
-        </Button>
-        <Button
-          onClick={() => handleReset(clearFilters)}
-          size="small"
-          style={{ width: 90 }}
-        >
-          <FormattedMessage id="admin.reset.button" />
-        </Button>
-      </div>
-    ),
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={(node) => {
+              searchInput = node;
+            }}
+            placeholder={`${intl.formatMessage({
+              id: "admin.search",
+            })} ${title}`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: "block" }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            <FormattedMessage id="admin.search.button" />
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <FormattedMessage id="admin.reset.button" />
+          </Button>
+        </div>
+      ),
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
-    onFilter: (value, record) => {
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
-    },
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+    ,
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
@@ -128,12 +128,12 @@ const CategoryTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      ),
+          text
+        ),
   });
 
   /* Renders the success message on top of page */
-  const popUpSuccesses = () => {
+  const popUpSuccess = () => {
     notification.success({
       message: intl.formatMessage({
         id: "admin.success",
@@ -154,7 +154,7 @@ const CategoryTableView = ({
   // Gives error prompt if deletion cannot occur
   const checkDelete = async () => {
     await handleSubmitDelete();
-    popUpSuccesses();
+    popUpSuccess();
   };
 
   /* handles closure of add or edit category modal */
@@ -167,7 +167,7 @@ const CategoryTableView = ({
       setAddVisible(false);
     }
     setModalType("");
-    popUpSuccesses();
+    popUpSuccess();
   };
 
   /* handles closure of add or edit category modal */

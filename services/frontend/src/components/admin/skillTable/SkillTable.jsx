@@ -30,24 +30,25 @@ const SkillTable = ({ intl }) => {
     try {
       dispatch(setAdminSkillsLoading(true));
       dispatch(setAdminCategoriesLoading(true));
-      Promise.all([
+      const [skill, categories] = await Promise.all([
         axios.get(`api/option/skillsAllLang`),
         axios.get(`api/option/categoriesAllLang`),
-      ]).then(([skill, categories]) => {
-        dispatch(
-          setAdminSkills(
-            skill.data.map((category) => ({ ...category, key: category.id }))
-          )
-        );
-        dispatch(
-          setAdminCategories(
-            categories.data.map((category) => ({
-              ...category,
-              key: category.id,
-            }))
-          )
-        );
-      });
+      ]);
+
+      dispatch(
+        setAdminSkills(
+          skill.data.map((category) => ({ ...category, key: category.id }))
+        )
+      );
+
+      dispatch(
+        setAdminCategories(
+          categories.data.map((category) => ({
+            ...category,
+            key: category.id,
+          }))
+        )
+      );
     } catch (error) {
       handleError(error, "redirect", history);
     }
