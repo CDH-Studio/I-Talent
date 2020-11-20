@@ -70,6 +70,5 @@ module.exports = {
         },
       },
     },
-    // ...whenDev(() => [{ plugin: require("craco-fast-refresh") }], []),
   ],
 };
