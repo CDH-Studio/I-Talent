@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import TalentManagementView from "./TalentManagementView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";

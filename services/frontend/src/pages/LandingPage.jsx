@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";

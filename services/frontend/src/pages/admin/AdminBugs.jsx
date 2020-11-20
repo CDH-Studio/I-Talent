@@ -1,4 +1,3 @@
-import React from "react";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import BugsTable from "../../components/admin/bugsTable/BugsTable";
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { sortBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";

@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";

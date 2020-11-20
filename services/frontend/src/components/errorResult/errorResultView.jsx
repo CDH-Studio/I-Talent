@@ -1,4 +1,3 @@
-import React from "react";
 import { Result,Row } from "antd";
 import PropTypes from "prop-types";
 import AppLayout from "../layouts/appLayout/AppLayout";

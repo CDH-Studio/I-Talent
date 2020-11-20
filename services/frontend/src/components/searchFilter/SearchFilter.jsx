@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";

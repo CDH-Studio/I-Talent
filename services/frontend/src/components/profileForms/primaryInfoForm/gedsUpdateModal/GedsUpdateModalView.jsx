@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";

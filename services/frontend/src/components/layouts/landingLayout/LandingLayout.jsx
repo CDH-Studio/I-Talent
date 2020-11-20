@@ -1,4 +1,3 @@
-import React from "react";
 import LandingLayoutView from "./LandingLayoutView";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
