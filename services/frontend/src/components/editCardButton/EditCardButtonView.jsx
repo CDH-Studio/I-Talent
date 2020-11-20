@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { Tooltip, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import "./EditCardButtonView.scss";
+import "./EditCardButtonView.less";
 
 const EditCardButtonView = ({ redirectToEdit }) => (
   <Tooltip placement="top" title={<FormattedMessage id="profile.edit" />}>

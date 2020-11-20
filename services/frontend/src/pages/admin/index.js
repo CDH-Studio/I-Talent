@@ -5,6 +5,7 @@ import AdminCategory from "./AdminCategory";
 import AdminCompetency from "./AdminCompetency";
 import AdminDiploma from "./AdminDiploma";
 import AdminSchool from "./AdminSchool";
+import AdminBugs from "./AdminBugs";
 
 export {
   AdminDashboard,
@@ -14,4 +15,5 @@ export {
   AdminCompetency,
   AdminDiploma,
   AdminSchool,
+  AdminBugs,
 };

@@ -1,4 +1,4 @@
-FROM node:12.19.0-alpine3.11
+FROM node:14.15.1-alpine3.12
 
 ENV TZ=America/Toronto
 
@@ -26,6 +26,9 @@ RUN chgrp -R 0 /.cache/yarn && \
 RUN mkdir -p /.yarn
 RUN chgrp -R 0 /.yarn && \ 
   chmod -R g=u /.yarn
+
+RUN chgrp -R 0 /italent-backend/node_modules/@prisma && \ 
+  chmod -R g=u /italent-backend/node_modules/@prisma
 
 # Copy app
 COPY . .

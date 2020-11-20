@@ -43,6 +43,7 @@ const Secured = ({ location }) => {
   if (
     !location.pathname.includes("/profile/create") &&
     !location.pathname.includes("/logout") &&
+    !location.pathname.includes("/settings") &&
     signupStep !== 8
   ) {
     return <Redirect to={`/profile/create/step/${signupStep}`} />;

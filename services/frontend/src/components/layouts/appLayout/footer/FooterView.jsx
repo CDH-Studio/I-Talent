@@ -1,13 +1,18 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import "./FooterView.scss";
+import "./FooterView.less";
 import { Layout, Typography } from "antd";
 import { Link } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
+
+import ReportBug from "../../../reportBug/ReportBug";
 
 const { Footer } = Layout;
 const { Text } = Typography;
 
 const FooterView = () => {
+  const { keycloak } = useKeycloak();
+
   return (
     <Footer className="footer">
       <div className="aroundLinksSmall">
@@ -32,6 +37,12 @@ const FooterView = () => {
         <Link className="link" to="/privacy">
           <FormattedMessage id="footer.privacy.link" />
         </Link>
+
+        {keycloak && keycloak.authenticated && (
+          <Text className="dashes">|</Text>
+        )}
+
+        <ReportBug />
       </div>
     </Footer>
   );

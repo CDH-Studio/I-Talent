@@ -53,20 +53,33 @@ enum EmploymentEquityGroup {
   MINORITY
 }
 
+enum BugsStatus {
+  DUPLICATE
+  UNRESOLVED
+  RESOLVED
+}
+
+enum BugsLocation {
+  HOME
+  PROFILE
+  SEARCH
+  FORMS
+}
+
 model OpTransSecurityClearance {
-  id          String   @default(uuid()) @id
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   language    Language
   description String
 
-  @@unique([language, description])
   opSecurityClearance   OpSecurityClearance? @relation(fields: [opSecurityClearanceId])
   opSecurityClearanceId String?
+  @@unique([language, description])
 }
 
 model OpSecurityClearance {
-  id           String                     @default(uuid()) @id
+  id           String                     @id @default(uuid())
   createdAt    DateTime                   @default(now())
   updatedAt    DateTime                   @updatedAt
   translations OpTransSecurityClearance[]
@@ -74,19 +87,19 @@ model OpSecurityClearance {
 }
 
 model OpTransLookingJob {
-  id          String   @default(uuid()) @id
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   language    Language
   description String
 
-  @@unique([language, description])
   opLookingJob   OpLookingJob? @relation(fields: [opLookingJobId])
   opLookingJobId String?
+  @@unique([language, description])
 }
 
 model OpLookingJob {
-  id           String              @default(uuid()) @id
+  id           String              @id @default(uuid())
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
   translations OpTransLookingJob[]
@@ -94,19 +107,19 @@ model OpLookingJob {
 }
 
 model OpTransTenure {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  Language
   name      String
 
-  @@unique([language, name])
   opTenures  OpTenure? @relation(fields: [opTenureId])
   opTenureId String?
+  @@unique([language, name])
 }
 
 model OpTenure {
-  id           String          @default(uuid()) @id
+  id           String          @id @default(uuid())
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   translations OpTransTenure[]
@@ -114,19 +127,19 @@ model OpTenure {
 }
 
 model OpTransCareerMobility {
-  id          String   @default(uuid()) @id
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   language    Language
   description String
 
-  @@unique([language, description])
   opCareerMobility   OpCareerMobility? @relation(fields: [opCareerMobilityId])
   opCareerMobilityId String?
+  @@unique([language, description])
 }
 
 model OpCareerMobility {
-  id           String                  @default(uuid()) @id
+  id           String                  @id @default(uuid())
   createdAt    DateTime                @default(now())
   updatedAt    DateTime                @updatedAt
   translations OpTransCareerMobility[]
@@ -134,19 +147,19 @@ model OpCareerMobility {
 }
 
 model OpTransTalentMatrixResult {
-  id          String   @default(uuid()) @id
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   language    Language
   description String
 
-  @@unique([language, description])
   opTalentMatrixResult   OpTalentMatrixResult? @relation(fields: [opTalentMatrixResultId])
   opTalentMatrixResultId String?
+  @@unique([language, description])
 }
 
 model OpTalentMatrixResult {
-  id           String                      @default(uuid()) @id
+  id           String                      @id @default(uuid())
   createdAt    DateTime                    @default(now())
   updatedAt    DateTime                    @updatedAt
   translations OpTransTalentMatrixResult[]
@@ -154,7 +167,7 @@ model OpTalentMatrixResult {
 }
 
 model OpTransOfficeLocation {
-  id                 String            @default(uuid()) @id
+  id                 String            @id @default(uuid())
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
   language           Language
@@ -165,7 +178,7 @@ model OpTransOfficeLocation {
 }
 
 model OpOfficeLocation {
-  id           String                  @default(uuid()) @id
+  id           String                  @id @default(uuid())
   createdAt    DateTime                @default(now())
   updatedAt    DateTime                @updatedAt
   postalCode   String
@@ -177,28 +190,29 @@ model OpOfficeLocation {
 }
 
 model OpClassification {
-  id               String   @default(uuid()) @id
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  name             String   @unique
-  actingLevelUsers User[]   @relation("actingLevels")
-  groupLevelUsers  User[]   @relation("groupLevels")
+  id                 String          @id @default(uuid())
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  name               String          @unique
+  actingLevelUsers   User[]          @relation("actingLevels")
+  groupLevelUsers    User[]          @relation("groupLevels")
+  qualifiedPoolUsers QualifiedPool[] @relation("qualifiedPools")
 }
 
 model OpTransSkill {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  Language
   name      String
 
-  @@unique([language, name])
   opSkill   OpSkill? @relation(fields: [opSkillId])
   opSkillId String?
+  @@unique([language, name])
 }
 
 model OpSkill {
-  id                 String              @default(uuid()) @id
+  id                 String              @id @default(uuid())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   categoryId         String?
@@ -210,19 +224,19 @@ model OpSkill {
 }
 
 model OpTransCategory {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  Language
   name      String
 
-  @@unique([language, name])
   opCategory   OpCategory? @relation(fields: [opCategoryId])
   opCategoryId String?
+  @@unique([language, name])
 }
 
 model OpCategory {
-  id           String            @default(uuid()) @id
+  id           String            @id @default(uuid())
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   translations OpTransCategory[]
@@ -230,19 +244,19 @@ model OpCategory {
 }
 
 model OpTransCompetency {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  Language
   name      String
 
-  @@unique([language, name])
   opCompetency   OpCompetency? @relation(fields: [opCompetencyId])
   opCompetencyId String?
+  @@unique([language, name])
 }
 
 model OpCompetency {
-  id                 String              @default(uuid()) @id
+  id                 String              @id @default(uuid())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   translations       OpTransCompetency[]
@@ -251,7 +265,7 @@ model OpCompetency {
 }
 
 model Competency {
-  id           String       @default(uuid()) @id
+  id           String       @id @default(uuid())
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   userId       String
@@ -263,7 +277,7 @@ model Competency {
 }
 
 model OpTransSchool {
-  id         String    @default(uuid()) @id
+  id         String    @id @default(uuid())
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   language   Language
@@ -273,7 +287,7 @@ model OpTransSchool {
 }
 
 model OpSchool {
-  id           String          @default(uuid()) @id
+  id           String          @id @default(uuid())
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   abbrProvince String
@@ -283,7 +297,7 @@ model OpSchool {
 }
 
 model OpTransDiploma {
-  id          String     @default(uuid()) @id
+  id          String     @id @default(uuid())
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   language    Language
@@ -293,7 +307,7 @@ model OpTransDiploma {
 }
 
 model OpDiploma {
-  id           String           @default(uuid()) @id
+  id           String           @id @default(uuid())
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
   translations OpTransDiploma[]
@@ -301,20 +315,20 @@ model OpDiploma {
 }
 
 model OpTransRelocationLocation {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  String
   city      String
   province  String
 
-  @@unique([language, city, province])
   opRelocationLocation   OpRelocationLocation? @relation(fields: [opRelocationLocationId])
   opRelocationLocationId String?
+  @@unique([language, city, province])
 }
 
 model OpRelocationLocation {
-  id                 String                      @default(uuid()) @id
+  id                 String                      @id @default(uuid())
   createdAt          DateTime                    @default(now())
   updatedAt          DateTime                    @updatedAt
   translations       OpTransRelocationLocation[]
@@ -322,7 +336,7 @@ model OpRelocationLocation {
 }
 
 model TransEmploymentInfo {
-  id               String          @default(uuid()) @id
+  id               String          @id @default(uuid())
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   language         Language
@@ -333,7 +347,7 @@ model TransEmploymentInfo {
 }
 
 model EmploymentInfo {
-  id           String                @default(uuid()) @id
+  id           String                @id @default(uuid())
   createdAt    DateTime              @default(now())
   updatedAt    DateTime              @updatedAt
   translations TransEmploymentInfo[]
@@ -341,7 +355,7 @@ model EmploymentInfo {
 }
 
 model VisibleCard {
-  id                    String               @default(uuid()) @id
+  id                    String               @id @default(uuid())
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
   info                  CardVisibilityStatus @default(PRIVATE)
@@ -350,6 +364,7 @@ model VisibleCard {
   skills                CardVisibilityStatus @default(PRIVATE)
   competencies          CardVisibilityStatus @default(PRIVATE)
   developmentalGoals    CardVisibilityStatus @default(PRIVATE)
+  qualifiedPools        CardVisibilityStatus @default(PRIVATE)
   description           CardVisibilityStatus @default(PRIVATE)
   education             CardVisibilityStatus @default(PRIVATE)
   experience            CardVisibilityStatus @default(PRIVATE)
@@ -361,7 +376,7 @@ model VisibleCard {
 }
 
 model MentorshipSkill {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
@@ -373,7 +388,7 @@ model MentorshipSkill {
 }
 
 model Skill {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
@@ -385,7 +400,7 @@ model Skill {
 }
 
 model DevelopmentalGoal {
-  id           String        @default(uuid()) @id
+  id           String        @id @default(uuid())
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   userId       String
@@ -399,8 +414,21 @@ model DevelopmentalGoal {
   @@unique([userId, competencyId])
 }
 
+model QualifiedPool {
+  id                     String           @id @default(uuid())
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  userId                 String
+  classificationId       String
+  jobTitle               String
+  selectionProcessNumber String
+  jobPosterLink          String
+  user                   User             @relation(fields: [userId])
+  classification         OpClassification @relation("qualifiedPools", fields: [classificationId], references: [id])
+}
+
 model SecondLangProf {
-  id                 String           @default(uuid()) @id
+  id                 String           @id @default(uuid())
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
   userId             String
@@ -414,7 +442,7 @@ model SecondLangProf {
 }
 
 model Organization {
-  id               String             @default(uuid()) @id
+  id               String             @id @default(uuid())
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   userId           String
@@ -423,7 +451,7 @@ model Organization {
 }
 
 model OrganizationTier {
-  id             String              @default(uuid()) @id
+  id             String              @id @default(uuid())
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
   tier           Int
@@ -433,7 +461,7 @@ model OrganizationTier {
 }
 
 model TransOrganization {
-  id                 String            @default(uuid()) @id
+  id                 String            @id @default(uuid())
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
   language           Language
@@ -443,7 +471,7 @@ model TransOrganization {
 }
 
 model Education {
-  id              String           @default(uuid()) @id
+  id              String           @id @default(uuid())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   userId          String
@@ -462,7 +490,7 @@ model Education {
 }
 
 model TransExperience {
-  id           String      @default(uuid()) @id
+  id           String      @id @default(uuid())
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   language     Language
@@ -474,7 +502,7 @@ model TransExperience {
 }
 
 model Experience {
-  id              String            @default(uuid()) @id
+  id              String            @id @default(uuid())
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   translations    TransExperience[]
@@ -488,7 +516,7 @@ model Experience {
 }
 
 model RelocationLocation {
-  id                   String               @default(uuid()) @id
+  id                   String               @id @default(uuid())
   createdAt            DateTime             @default(now())
   updatedAt            DateTime             @updatedAt
   relocationLocationId String
@@ -500,7 +528,7 @@ model RelocationLocation {
 }
 
 model OpTransAttachmentLinkName {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  Language
@@ -511,7 +539,7 @@ model OpTransAttachmentLinkName {
 }
 
 model OpAttachmentLinkName {
-  id                  String                      @default(uuid()) @id
+  id                  String                      @id @default(uuid())
   createdAt           DateTime                    @default(now())
   updatedAt           DateTime                    @updatedAt
   type                String
@@ -520,7 +548,7 @@ model OpAttachmentLinkName {
 }
 
 model TransAttachmentLink {
-  id        String   @default(uuid()) @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   language  Language
@@ -533,7 +561,7 @@ model TransAttachmentLink {
 }
 
 model AttachmentLink {
-  id           String                @default(uuid()) @id
+  id           String                @id @default(uuid())
   createdAt    DateTime              @default(now())
   updatedAt    DateTime              @updatedAt
   translations TransAttachmentLink[]
@@ -546,8 +574,22 @@ model AttachmentLink {
   userId       String?
 }
 
+model Bug {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  description String
+  status      BugsStatus   @default(UNRESOLVED)
+  location    BugsLocation
+  appVersion  String?
+  githubIssue Int?
+  user        User         @relation(fields: [userId], references: [id])
+  userId      String
+}
+
 model User {
-  id                            String                  @default(uuid()) @id
+  id                            String                  @id @default(uuid())
   createdAt                     DateTime                @default(now())
   updatedAt                     DateTime                @updatedAt
   groupLevelId                  String?
@@ -596,6 +638,7 @@ model User {
   skills                        Skill[]
   developmentalGoals            DevelopmentalGoal[]
   developmentalGoalsAttachments AttachmentLink[]
+  qualifiedPools                QualifiedPool[]
   competencies                  Competency[]
   secondLangProfs               SecondLangProf[]
   organizations                 Organization[]
@@ -603,6 +646,7 @@ model User {
   experiences                   Experience[]
   relocationLocations           RelocationLocation[]
   employmentEquityGroups        EmploymentEquityGroup[]
+  bugsReported                  Bug[]
   connections                   User[]                  @relation("UserToUser")
   user                          User?                   @relation("UserToUser", fields: [userId])
   userId                        String?

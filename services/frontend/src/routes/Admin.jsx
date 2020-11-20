@@ -11,6 +11,7 @@ import {
   AdminCompetency,
   AdminDiploma,
   AdminSchool,
+  AdminBugs,
 } from "../pages/admin";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
@@ -59,6 +60,7 @@ const Admin = () => {
         <Route path="/admin/competencies" render={() => <AdminCompetency />} />
         <Route path="/admin/diplomas" render={() => <AdminDiploma />} />
         <Route path="/admin/schools" render={() => <AdminSchool />} />
+        <Route path="/admin/bugs" render={() => <AdminBugs />} />
         <Route
           path="/admin/"
           render={() => <Redirect to="/admin/dashboard" />}

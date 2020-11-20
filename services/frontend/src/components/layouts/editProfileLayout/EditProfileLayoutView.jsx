@@ -19,11 +19,11 @@ import {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm,
+  CareerManagementForm,
   QualificationsForm,
 } from "../../profileForms";
 import Header from "../../header/Header";
-import "./EditProfileLayoutView.scss";
+import "./EditProfileLayoutView.less";
 
 /*
  *  EditProfileLayoutView(props)
@@ -45,8 +45,8 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         return <LangProficiencyForm formType="edit" />;
       case "talent":
         return <TalentForm formType="edit" />;
-      case "personal-growth":
-        return <PersonalGrowthForm formType="edit" />;
+      case "career-management":
+        return <CareerManagementForm formType="edit" />;
       case "qualifications":
         return <QualificationsForm formType="edit" />;
       default:
@@ -162,7 +162,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
             </li>
           </ul>
         </Menu.Item>
-        <Menu.Item tabIndex="0" key="personal-growth" className="menu-item">
+        <Menu.Item tabIndex="0" key="career-management" className="menu-item">
           <div className="menu-item-header">
             <ProjectOutlined />
             <strong>
@@ -172,6 +172,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <ul className="menu-list">
             <li className="menu-list-item">
               - <FormattedMessage id="profile.learning.development" />
+            </li>
+            <li className="menu-list-item">
+              - <FormattedMessage id="profile.qualified.pools" />
             </li>
             <li className="menu-list-item">
               - <FormattedMessage id="profile.career.interests" />

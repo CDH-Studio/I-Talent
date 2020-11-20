@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const _ = require("lodash");
 const prisma = require("../../database");
 const { manageUsers, isKeycloakUser } = require("../../utils/keycloak");
@@ -25,135 +24,94 @@ function getNameInitials(firstName, lastName) {
 }
 
 async function getUserById(request, response) {
-  try {
-    validationResult(request).throw();
+  const { id } = request.params;
 
-    const { id } = request.params;
+  if (isKeycloakUser(request, id)) {
+    const user = await prisma.user.findOne({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        status: true,
+        avatarColor: true,
+        firstName: true,
+        lastName: true,
+        createdAt: true,
+        updatedAt: true,
+        signupStep: true,
+        preferredLanguage: true,
+      },
+    });
 
-    if (isKeycloakUser(request, id)) {
-      const user = await prisma.user.findOne({
-        where: { id },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          status: true,
-          avatarColor: true,
-          firstName: true,
-          lastName: true,
-          createdAt: true,
-          updatedAt: true,
-          signupStep: true,
-          preferredLanguage: true,
-        },
-      });
-
-      if (user) {
-        user.nameInitials = getNameInitials(user.firstName, user.lastName);
-      }
-
-      response.status(200).json(user);
-      return;
+    if (user) {
+      user.nameInitials = getNameInitials(user.firstName, user.lastName);
     }
 
-    response
-      .status(403)
-      .json({ data: "Access to private account has be denied." });
-  } catch (error) {
-    console.log(error);
-    if (error.errors) {
-      response.status(422).json(error.errors);
-      return;
-    }
-    response.status(500).json("Unable to get profile");
+    response.status(200).json(user);
+  } else {
+    response.sendStatus(403);
   }
 }
 
 async function createUser(request, response) {
-  try {
-    validationResult(request).throw();
+  const { name, firstName, lastName, email } = request.body;
+  const { id } = request.params;
 
-    const { name, firstName, lastName, email } = request.body;
-    const { id } = request.params;
+  if (isKeycloakUser(request, id)) {
+    const user = await prisma.user.create({
+      data: {
+        id,
+        name,
+        email,
+        firstName: _.upperFirst(firstName),
+        lastName: _.upperFirst(lastName),
+        avatarColor: generateAvatarColor(),
+        visibleCards: { create: {} },
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        status: true,
+        avatarColor: true,
+        firstName: true,
+        lastName: true,
+        createdAt: true,
+        updatedAt: true,
+        signupStep: true,
+      },
+    });
 
-    if (isKeycloakUser(request, id)) {
-      const user = await prisma.user.create({
-        data: {
-          id,
-          name,
-          email,
-          firstName: _.upperFirst(firstName),
-          lastName: _.upperFirst(lastName),
-          avatarColor: generateAvatarColor(),
-          visibleCards: { create: {} },
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          status: true,
-          avatarColor: true,
-          firstName: true,
-          lastName: true,
-          createdAt: true,
-          updatedAt: true,
-          signupStep: true,
-        },
-      });
-
-      response.status(200).json({
-        ...user,
-        nameInitials: getNameInitials(firstName, lastName),
-      });
-      return;
-    }
-    response
-      .status(403)
-      .json({ data: "Access to private account has been denied." });
-  } catch (error) {
-    console.log(error);
-    if (error.errors) {
-      response.status(422).json(error.errors);
-      return;
-    }
-    response.status(500).json("Unable to create profiles");
+    response.status(200).json({
+      ...user,
+      nameInitials: getNameInitials(firstName, lastName),
+    });
+  } else {
+    response.sendStatus(403);
   }
 }
 
 async function deleteUser(request, response) {
-  try {
-    validationResult(request).throw();
+  const { id } = request.params;
 
-    const { id } = request.params;
-
-    if (manageUsers(request) || isKeycloakUser(request, id)) {
-      await Promise.all([
-        prisma.competency.deleteMany({ where: { userId: id } }),
-        prisma.mentorshipSkill.deleteMany({ where: { userId: id } }),
-        prisma.skill.deleteMany({ where: { userId: id } }),
-        prisma.developmentalGoal.deleteMany({ where: { userId: id } }),
-        prisma.secondLangProf.deleteMany({ where: { userId: id } }),
-        prisma.organization.deleteMany({ where: { userId: id } }),
-        prisma.education.deleteMany({ where: { userId: id } }),
-        prisma.experience.deleteMany({ where: { userId: id } }),
-        prisma.relocationLocation.deleteMany({ where: { userId: id } }),
-      ]);
-      await prisma.user.delete({ where: { id } });
-    } else {
-      response
-        .status(403)
-        .json({ data: "Access to delete specified account has been denied." });
-      return;
-    }
-
+  if (manageUsers(request) || isKeycloakUser(request, id)) {
+    await prisma.$transaction([
+      prisma.competency.deleteMany({ where: { userId: id } }),
+      prisma.mentorshipSkill.deleteMany({ where: { userId: id } }),
+      prisma.skill.deleteMany({ where: { userId: id } }),
+      prisma.developmentalGoal.deleteMany({ where: { userId: id } }),
+      prisma.secondLangProf.deleteMany({ where: { userId: id } }),
+      prisma.organization.deleteMany({ where: { userId: id } }),
+      prisma.education.deleteMany({ where: { userId: id } }),
+      prisma.qualifiedPool.deleteMany({ where: { userId: id } }),
+      prisma.experience.deleteMany({ where: { userId: id } }),
+      prisma.relocationLocation.deleteMany({ where: { userId: id } }),
+      prisma.user.delete({ where: { id } }),
+    ]);
     response.status(200).send("Successfully deleted the specified account");
-  } catch (error) {
-    console.log(error);
-    if (error.errors) {
-      response.status(422).json(error.errors);
-      return;
-    }
-    response.status(500).json("Unable to create profiles");
+  } else {
+    response.sendStatus(403);
   }
 }
 

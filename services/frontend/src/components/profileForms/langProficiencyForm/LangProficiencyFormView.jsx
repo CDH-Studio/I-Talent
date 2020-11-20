@@ -16,9 +16,7 @@ import {
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import isEqual from "lodash/isEqual";
-import identity from "lodash/identity";
-import pickBy from "lodash/pickBy";
+import { isEqual, identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -36,10 +34,11 @@ import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggl
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./LangProficiencyFormView.scss";
+import FormTitle from "../formTitle/FormTitle";
+import "./LangProficiencyFormView.less";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 /**
  *  LangProficiencyFormView(props)
@@ -578,27 +577,6 @@ const LangProficiencyFormView = ({
     return <div />;
   };
 
-  /* Generate form header based on form type */
-  const getFormHeader = () => {
-    if (formType === "create") {
-      return (
-        <Title level={2} className="lang-formTitle">
-          4. <FormattedMessage id="setup.language.proficiency" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="lang-formTitle">
-        <FormattedMessage id="setup.language.proficiency" />
-        {fieldsChanged && (
-          <Text className="unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   useEffect(() => {
     if (!loadedData && load) {
       /* check if user has a second language */
@@ -635,14 +613,21 @@ const LangProficiencyFormView = ({
       <div className="lang-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -9 }}>
-          {getFormHeader()}
-          <div style={{ marginTop: -5 }}>
-            <CardVisibilityToggle
-              visibleCards={profileInfo.visibleCards}
-              cardName="officialLanguage"
-              type="form"
-            />
-          </div>
+          <FormTitle
+            title={<FormattedMessage id="setup.language.proficiency" />}
+            formType={formType}
+            stepNumber={4}
+            fieldsChanged={fieldsChanged}
+            extra={
+              <div style={{ marginTop: -5 }}>
+                <CardVisibilityToggle
+                  visibleCards={profileInfo.visibleCards}
+                  cardName="officialLanguage"
+                  type="form"
+                />
+              </div>
+            }
+          />
         </Row>
         <Divider className="lang-headerDiv" />
         {/* Create for with initial values */}

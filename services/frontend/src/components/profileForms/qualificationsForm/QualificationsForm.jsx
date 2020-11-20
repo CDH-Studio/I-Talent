@@ -81,7 +81,7 @@ const QualificationsForm = ({ formType }) => {
                       nameId: link.name.id,
                       url: link.url,
                     }))
-                  : [],
+                  : undefined,
               })),
               experiences: profileQuery.data.experiences.map((i) => ({
                 id: i.id,
@@ -97,7 +97,7 @@ const QualificationsForm = ({ formType }) => {
                       nameId: link.name.id,
                       url: link.url,
                     }))
-                  : [],
+                  : undefined,
                 projects: i.projects,
               })),
             });

@@ -28,7 +28,7 @@ import {
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 
-import "./ExperienceFormView.scss";
+import "./ExperienceFormView.less";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;
@@ -58,7 +58,9 @@ const ExperienceFormView = ({
     },
     maxChar1500: {
       max: 1500,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />,
+      message: (
+        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+      ),
     },
   };
 
@@ -97,7 +99,7 @@ const ExperienceFormView = ({
   };
 
   return (
-    <div className="formItem">
+    <div className="experience-formItem">
       <Row gutter={24} className="gutter-row titleRow">
         <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">
@@ -191,9 +193,13 @@ const ExperienceFormView = ({
             }}
           >
             {({ getFieldValue }) => {
-              const disableEndDate = getFieldValue("experiences")[
+              const experienceItem = getFieldValue("experiences")[
                 fieldElement.name
-              ].ongoingDate;
+              ];
+
+              const disableEndDate = experienceItem
+                ? experienceItem.ongoingDate
+                : false;
 
               return (
                 <>
@@ -221,7 +227,10 @@ const ExperienceFormView = ({
 
                   {/* Checkbox if event is on-going */}
                   <Form.Item
-                    style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
+                    style={{
+                      marginTop: disableEndDate ? "-45px" : "-15px",
+                      marginBottom: disableEndDate ? "35px" : "15px",
+                    }}
                     name={[fieldElement.name, "ongoingDate"]}
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
                     initialValue={false}

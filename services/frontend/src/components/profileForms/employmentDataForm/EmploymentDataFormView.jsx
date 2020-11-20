@@ -18,9 +18,7 @@ import PropTypes from "prop-types";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import isEqual from "lodash/isEqual";
-import identity from "lodash/identity";
-import pickBy from "lodash/pickBy";
+import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import { Link } from "react-router-dom";
@@ -37,10 +35,13 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./EmploymentDataFormView.scss";
+import FormTitle from "../formTitle/FormTitle";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+
+import "./EmploymentDataFormView.less";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 /**
  *  EmploymentDataFormView(props)
@@ -417,27 +418,6 @@ const EmploymentDataFormView = ({
     return <div />;
   };
 
-  /* Generate form header based on form type */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Title level={2} className="employment-formTitle">
-          3. <FormattedMessage id="profile.employee.status" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="employment-formTitle">
-        <FormattedMessage id="profile.employee.status" />
-        {fieldsChanged && (
-          <Text className="unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   useEffect(() => {
     if (!loadedData && load) {
       /* check if user has acting information in db to expand acting form */
@@ -486,14 +466,21 @@ const EmploymentDataFormView = ({
       <div className="employment-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
-          {getFormHeader(formType)}
-          <div style={{ marginTop: -5 }}>
-            <CardVisibilityToggle
-              visibleCards={profileInfo.visibleCards}
-              cardName="info"
-              type="form"
-            />
-          </div>
+          <FormTitle
+            title={<FormattedMessage id="profile.employee.status" />}
+            formType={formType}
+            stepNumber={3}
+            fieldsChanged={fieldsChanged}
+            extra={
+              <div style={{ marginTop: -5 }}>
+                <CardVisibilityToggle
+                  visibleCards={profileInfo.visibleCards}
+                  cardName="info"
+                  type="form"
+                />
+              </div>
+            }
+          />
         </Row>
         <Divider className="employment-headerDiv" />
         {/* Create for with initial values */}
@@ -608,20 +595,25 @@ const EmploymentDataFormView = ({
           </Row>
 
           <Divider className="employment-headerDiv" />
-          <Row
-            justify="space-between"
-            className="employment-sectionHeader"
-            align="middle"
-          >
-            <Title level={3} className="employment-formTitle">
-              <FormattedMessage id="profile.description" />
-            </Title>
-            <CardVisibilityToggle
-              visibleCards={profileInfo.visibleCards}
-              cardName="description"
-              type="form"
-            />
-          </Row>
+
+          <FormSubTitle
+            title={<FormattedMessage id="profile.description" />}
+            popoverMessage={
+              <>
+                <FormattedMessage id="tooltip.extra.info.help" />
+                <Link to="/about/help">
+                  <FormattedMessage id="footer.contact.link" />
+                </Link>
+              </>
+            }
+            extra={
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="description"
+                type="form"
+              />
+            }
+          />
 
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>

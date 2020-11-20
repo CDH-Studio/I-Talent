@@ -66,6 +66,7 @@ async function updateProfile(request, userId, language) {
     competencies,
     developmentalGoals,
     developmentalGoalsAttachments,
+    qualifiedPools,
     educations,
     relocationLocations,
     experiences,
@@ -271,6 +272,10 @@ async function updateProfile(request, userId, language) {
     deleteAll.push(prisma.education.deleteMany({ where: { userId } }));
   }
 
+  if (qualifiedPools) {
+    deleteAll.push(prisma.qualifiedPool.deleteMany({ where: { userId } }));
+  }
+
   await Promise.all(deleteAll);
 
   if (organizations) {
@@ -410,6 +415,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       mentorshipSkills: mentorshipSkills
         ? {
             deleteMany: {
@@ -435,6 +441,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       competencies: competencies
         ? {
             deleteMany: {
@@ -460,6 +467,7 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
+
       developmentalGoals: developmentalGoals
         ? {
             deleteMany: {
@@ -473,23 +481,27 @@ async function updateProfile(request, userId, language) {
             upsert: upsertDevelopmentalGoals,
           }
         : undefined,
-      developmentalGoalsAttachments: developmentalGoalsAttachments
-        ? {
-            create: developmentalGoalsAttachments.map((link) => ({
-              translations: {
-                create: {
-                  language,
-                  name: {
-                    connect: {
-                      id: link.nameId,
+
+      developmentalGoalsAttachments:
+        developmentalGoalsAttachments &&
+        developmentalGoalsAttachments.length > 0
+          ? {
+              create: developmentalGoalsAttachments.map((link) => ({
+                translations: {
+                  create: {
+                    language,
+                    name: {
+                      connect: {
+                        id: link.nameId,
+                      },
                     },
+                    url: link.url,
                   },
-                  url: link.url,
                 },
-              },
-            })),
-          }
-        : undefined,
+              })),
+            }
+          : undefined,
+
       relocationLocations: relocationLocations
         ? {
             deleteMany: {
@@ -515,82 +527,107 @@ async function updateProfile(request, userId, language) {
             })),
           }
         : undefined,
-      educations: educations
-        ? {
-            create: educations.map((educationItem) => ({
-              startDate: normalizeDate(educationItem.startDate, "month"),
-              endDate: normalizeDate(educationItem.endDate, "month"),
-              ongoingDate: educationItem.ongoingDate,
-              description: educationItem.description,
-              diploma: {
-                connect: {
-                  id: educationItem.diplomaId,
+
+      qualifiedPools:
+        qualifiedPools && qualifiedPools.length > 0
+          ? {
+              create: qualifiedPools.map((qualifiedPoolItem) => ({
+                jobTitle: qualifiedPoolItem.jobTitle,
+                selectionProcessNumber:
+                  qualifiedPoolItem.selectionProcessNumber,
+                jobPosterLink: qualifiedPoolItem.jobPosterLink,
+                classification: {
+                  connect: {
+                    id: qualifiedPoolItem.classificationId,
+                  },
                 },
-              },
-              school: {
-                connect: {
-                  id: educationItem.schoolId,
+              })),
+            }
+          : undefined,
+
+      educations:
+        educations && educations.length > 0
+          ? {
+              create: educations.map((educationItem) => ({
+                startDate: normalizeDate(educationItem.startDate, "month"),
+                endDate: normalizeDate(educationItem.endDate, "month"),
+                ongoingDate: educationItem.ongoingDate,
+                description: educationItem.description,
+                diploma: {
+                  connect: {
+                    id: educationItem.diplomaId,
+                  },
                 },
-              },
-              attachmentLinks: educationItem.attachmentLinks
-                ? {
-                    create: educationItem.attachmentLinks.map((link) => ({
-                      translations: {
-                        create: {
-                          language,
-                          name: {
-                            connect: {
-                              id: link.nameId,
+                school: {
+                  connect: {
+                    id: educationItem.schoolId,
+                  },
+                },
+                attachmentLinks:
+                  educationItem.attachmentLinks &&
+                  educationItem.attachmentLinks.length > 0
+                    ? {
+                        create: educationItem.attachmentLinks.map((link) => ({
+                          translations: {
+                            create: {
+                              language,
+                              name: {
+                                connect: {
+                                  id: link.nameId,
+                                },
+                              },
+                              url: link.url,
                             },
                           },
-                          url: link.url,
-                        },
-                      },
-                    })),
-                  }
-                : undefined,
-            })),
-          }
-        : undefined,
-      experiences: experiences
-        ? {
-            create: experiences.map((expItem) => ({
-              startDate: normalizeDate(expItem.startDate, "month"),
-              endDate: normalizeDate(expItem.endDate, "month"),
-              ongoingDate: expItem.ongoingDate,
-              projects: expItem.projects
-                ? {
-                    set: expItem.projects,
-                  }
-                : undefined,
-              translations: {
-                create: {
-                  language,
-                  jobTitle: expItem.jobTitle,
-                  organization: expItem.organization,
-                  description: expItem.description,
+                        })),
+                      }
+                    : undefined,
+              })),
+            }
+          : undefined,
+
+      experiences:
+        experiences && experiences.length > 0
+          ? {
+              create: experiences.map((expItem) => ({
+                startDate: normalizeDate(expItem.startDate, "month"),
+                endDate: normalizeDate(expItem.endDate, "month"),
+                ongoingDate: expItem.ongoingDate,
+                projects: expItem.projects
+                  ? {
+                      set: expItem.projects,
+                    }
+                  : undefined,
+                translations: {
+                  create: {
+                    language,
+                    jobTitle: expItem.jobTitle,
+                    organization: expItem.organization,
+                    description: expItem.description,
+                  },
                 },
-              },
-              attachmentLinks: expItem.attachmentLinks
-                ? {
-                    create: expItem.attachmentLinks.map((link) => ({
-                      translations: {
-                        create: {
-                          language,
-                          name: {
-                            connect: {
-                              id: link.nameId,
+                attachmentLinks:
+                  expItem.attachmentLinks && expItem.attachmentLinks.length > 0
+                    ? {
+                        create: expItem.attachmentLinks.map((link) => ({
+                          translations: {
+                            create: {
+                              language,
+                              name: {
+                                connect: {
+                                  id: link.nameId,
+                                },
+                              },
+                              url: link.url,
                             },
                           },
-                          url: link.url,
-                        },
-                      },
-                    })),
-                  }
-                : undefined,
-            })),
-          }
-        : undefined,
+                        })),
+                      }
+                    : undefined,
+              })),
+            }
+          : undefined,
+
       secondLangProfs: secondLangProfs
         ? {
             deleteMany: {
@@ -693,6 +730,7 @@ async function updateProfile(request, userId, language) {
               developmentalGoals: visibleCards.developmentalGoals,
               description: visibleCards.description,
               officialLanguage: visibleCards.officialLanguage,
+              qualifiedPools: visibleCards.qualifiedPools,
               education: visibleCards.education,
               experience: visibleCards.experience,
               careerInterests: visibleCards.careerInterests,

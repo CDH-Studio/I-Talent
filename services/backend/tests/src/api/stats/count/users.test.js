@@ -38,7 +38,7 @@ describe(`Test ${path}`, () => {
       const res = await request(mockedApp).get(path);
 
       expect(res.statusCode).toBe(500);
-      expect(res.text).toBe("Error getting user count");
+      expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.count).toHaveBeenCalled();
 

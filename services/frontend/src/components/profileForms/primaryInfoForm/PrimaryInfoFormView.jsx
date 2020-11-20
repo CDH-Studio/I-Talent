@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Select,
@@ -18,13 +17,12 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import isEqual from "lodash/isEqual";
-import pickBy from "lodash/pickBy";
-import identity from "lodash/identity";
+import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import isMobilePhone from "validator/es/lib/isMobilePhone";
+import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
+import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
 import {
   IdDescriptionPropType,
@@ -38,11 +36,13 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
+import FormTitle from "../formTitle/FormTitle";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import login from "../../../utils/login";
 
-import "./PrimaryInfoFormView.scss";
+import "./PrimaryInfoFormView.less";
 
 const { Option } = Select;
-const { Title, Text } = Typography;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -55,6 +55,7 @@ const PrimaryInfoFormView = ({
   email,
   employmentEquityOptions,
 }) => {
+  const { keycloak } = useKeycloak();
   const axios = useAxios();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
@@ -219,6 +220,7 @@ const PrimaryInfoFormView = ({
 
     delete dbValues.jobTitle;
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+    await login(keycloak, axios);
   };
 
   /**
@@ -349,81 +351,6 @@ const PrimaryInfoFormView = ({
     </Popover>
   );
 
-  /**
-   * Generate form header based on form type
-   * @param {string('create'|'edit')} formType - allowed form types
-   */
-  const getFormHeader = ({ formHeaderType }) => {
-    if (formHeaderType === "create") {
-      return (
-        <Title level={2} className="prim-formTitle">
-          2. <FormattedMessage id="setup.primary.information" />
-          <div className="prim-gedsInfoLink">
-            <Popover
-              trigger={["focus", "hover"]}
-              content={
-                <div className="prim-popoverStyle">
-                  <FormattedMessage id="profile.geds.edit.info1" />
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                  >
-                    <FormattedMessage id="profile.geds.edit.info.link" />
-                  </a>
-                  <FormattedMessage id="profile.geds.edit.info2" />
-                </div>
-              }
-            >
-              <InfoCircleOutlined tabIndex={0} />
-            </Popover>
-          </div>
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="prim-formTitle">
-        <FormattedMessage id="setup.primary.information" />
-        <div className="prim-gedsInfoLink">
-          <Button
-            onClick={() => {
-              setGedsModalVisible(true);
-            }}
-            className="prim-rightSpacedButton"
-          >
-            <SyncOutlined />
-            <span>
-              <FormattedMessage id="profile.geds.sync.button" />
-            </span>
-          </Button>
-          <Popover
-            trigger={["focus", "hover"]}
-            content={
-              <div className="prim-popoverStyle">
-                <FormattedMessage id="profile.geds.edit.info1" />
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                >
-                  <FormattedMessage id="profile.geds.edit.info.link" />
-                </a>
-                <FormattedMessage id="profile.geds.edit.info2" />
-              </div>
-            }
-          >
-            <InfoCircleOutlined tabIndex={0} />
-          </Popover>
-        </div>
-        {fieldsChanged && (
-          <Text className="unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -445,7 +372,50 @@ const PrimaryInfoFormView = ({
       <div className="prim-content">
         <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
         {/* get form title */}
-        {getFormHeader({ formHeaderType: formType })}
+        <Row justify="space-between" style={{ marginBottom: -5 }}>
+          <FormTitle
+            title={<FormattedMessage id="setup.primary.information" />}
+            formType={formType}
+            stepNumber={2}
+            fieldsChanged={fieldsChanged}
+            extra={
+              <>
+                {formType === "edit" && (
+                  <Button
+                    onClick={() => {
+                      setGedsModalVisible(true);
+                    }}
+                    className="prim-rightSpacedButton"
+                  >
+                    <SyncOutlined />
+                    <span>
+                      <FormattedMessage id="profile.geds.sync.button" />
+                    </span>
+                  </Button>
+                )}
+                <Popover
+                  trigger={["focus", "hover"]}
+                  content={
+                    <div className="prim-popoverStyle">
+                      <FormattedMessage id="profile.geds.edit.info1" />
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://userprofile.prod.prv/icpup.asp?lang=E"
+                      >
+                        <FormattedMessage id="profile.geds.edit.info.link" />
+                      </a>
+                      <FormattedMessage id="profile.geds.edit.info2" />
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined tabIndex={0} />
+                </Popover>
+              </>
+            }
+          />
+        </Row>
+
         <Divider className="prim-headerDiv" />
         {/* Create for with initial values */}
         <Form
@@ -633,20 +603,18 @@ const PrimaryInfoFormView = ({
             </Col>
           </Row>
           <Divider className="prim-headerDiv" />
-          <Row
-            justify="space-between"
-            className="prim-sectionHeader"
-            align="middle"
-          >
-            <Title level={3} className="prim-formTitle">
-              <FormattedMessage id="profile.employment.equity.groups" />
-            </Title>
-            <CardVisibilityToggle
-              visibleCards={profileInfo.visibleCards}
-              cardName="employmentEquityGroup"
-              type="form"
-            />
-          </Row>
+
+          <FormSubTitle
+            title={<FormattedMessage id="profile.employment.equity.groups" />}
+            extra={
+              <CardVisibilityToggle
+                visibleCards={profileInfo.visibleCards}
+                cardName="employmentEquityGroup"
+                type="form"
+              />
+            }
+          />
+
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">

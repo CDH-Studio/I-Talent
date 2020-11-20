@@ -11,13 +11,13 @@ import {
   LangProficiencyForm,
   PrimaryInfoForm,
   TalentForm,
-  PersonalGrowthForm,
+  CareerManagementForm,
   QualificationsForm,
   DoneSetup,
 } from "../../profileForms";
 import Header from "../../header/Header";
 
-import "./CreateProfileLayoutView.scss";
+import "./CreateProfileLayoutView.less";
 
 const { Step } = Steps;
 
@@ -73,7 +73,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       case 6:
         return <QualificationsForm formType="create" />;
       case 7:
-        return <PersonalGrowthForm formType="create" />;
+        return <CareerManagementForm formType="create" />;
       case 8:
         return <DoneSetup formType="create" />;
       default:
@@ -119,42 +119,116 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
-          {createProfileStep("setup.welcome", [])}
-          {createProfileStep("setup.primary.information", [
-            "setup.step.2.description",
-            "profile.employment.equity.groups",
-          ])}
-          {createProfileStep(
-            "setup.language.proficiency",
-            ["setup.step.3.description", "profile.description"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "profile.employee.status",
-            ["setup.first.language", "setup.second.language"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "setup.talent",
-            ["setup.skills", "profile.mentorship.skills", "setup.competencies"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "profile.employee.qualifications",
-            ["setup.education", "setup.experience"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "profile.employee.growth.interests",
-            [
-              "profile.developmental.goals",
-              "profile.career.interests",
-              "profile.talent.management",
-              "profile.ex.feeder.title",
-            ],
-            highestStep < 3
-          )}
-          {createProfileStep("setup.done", [], highestStep < 3)}
+          <Step title={<FormattedMessage id="setup.welcome" />} />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="setup.primary.information" />}
+            description={
+              <ul className="stepList">
+                <li>
+                  <FormattedMessage id="setup.step.2.description" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.employment.equity.groups" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="profile.employee.status" />}
+            disabled={highestStep < 3}
+            description={
+              <ul className="stepList">
+                <li>
+                  <FormattedMessage id="setup.step.3.description" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.description" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="setup.language.proficiency" />}
+            disabled={highestStep < 3}
+            description={
+              <ul className="stepList">
+                <li>
+                  <FormattedMessage id="setup.first.language" />
+                </li>
+                <li>
+                  <FormattedMessage id="setup.second.language" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="setup.talent" />}
+            disabled={highestStep < 3}
+            description={
+              <ul className="stepList">
+                <li>
+                  <FormattedMessage id="setup.skills" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.mentorship.skills" />
+                </li>
+                <li>
+                  <FormattedMessage id="setup.competencies" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="profile.employee.qualifications" />}
+            disabled={highestStep < 3}
+            description={
+              <ul className="stepList">
+                <li>
+                  <FormattedMessage id="setup.education" />
+                </li>
+                <li>
+                  <FormattedMessage id="setup.experience" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="profile.employee.growth.interests" />}
+            disabled={highestStep < 3}
+            description={
+              <ul className="stepList">
+                <li>
+                  <FormattedMessage id="profile.developmental.goals" />
+                </li>
+                <li>
+                  - <FormattedMessage id="profile.qualified.pools" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.qualified.pools" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.career.interests" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.talent.management" />
+                </li>
+                <li>
+                  <FormattedMessage id="profile.ex.feeder.title" />
+                </li>
+              </ul>
+            }
+          />
+          <Step
+            tabIndex={0}
+            title={<FormattedMessage id="setup.done" />}
+            disabled={highestStep < 3}
+          />
         </Steps>
       </div>
     );

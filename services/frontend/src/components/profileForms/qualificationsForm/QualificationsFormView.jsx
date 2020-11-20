@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Button,
@@ -13,30 +12,27 @@ import {
 
 import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import isEqual from "lodash/isEqual";
-import pickBy from "lodash/pickBy";
-import size from "lodash/size";
-import filter from "lodash/filter";
-import identity from "lodash/identity";
+import { pickBy, size, identity, isEqual, filter } from "lodash";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import handleError from "../../../functions/handleError";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import EducationForm from "./educationForm/EducationForm";
-
+import FormTitle from "../formTitle/FormTitle";
+import FormSubTitle from "../formSubTitle/FormSubTitleView";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
   ProfileInfoPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
-import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./QualificationsFormView.scss";
 
-const { Title, Text } = Typography;
+import "./QualificationsFormView.less";
+
 const { TabPane } = Tabs;
 
 const QualificationsFormView = ({
@@ -298,44 +294,6 @@ const QualificationsFormView = ({
     return message;
   };
 
-  /*
-   * Get form header
-   *
-   * Generates the form header (title)
-   */
-  const getFormHeader = (_formType) => {
-    if (_formType === "create") {
-      return (
-        <Title level={2} className="qual-formTitle">
-          6. <FormattedMessage id="profile.employee.qualifications" />
-        </Title>
-      );
-    }
-    return (
-      <Title level={2} className="qual-formTitle">
-        <FormattedMessage id="profile.employee.qualifications" />
-        {fieldsChanged && (
-          <Text className="qual-unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
-          </Text>
-        )}
-      </Title>
-    );
-  };
-
-  const getSectionHeader = (titleId, cardName) => (
-    <Row justify="space-between" className="qual-sectionHeader" align="middle">
-      <Title level={3} className="qual-formTitle">
-        <FormattedMessage id={titleId} />
-      </Title>
-      <CardVisibilityToggle
-        visibleCards={profileInfo.visibleCards}
-        cardName={cardName}
-        type="form"
-      />
-    </Row>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -355,9 +313,14 @@ const QualificationsFormView = ({
       />
       <div className="qual-content">
         {/* get form title */}
-        {getFormHeader(formType)}
-        <Divider className="qual-headerDiv" />
+        <FormTitle
+          title={<FormattedMessage id="profile.employee.qualifications" />}
+          formType={formType}
+          stepNumber={6}
+          fieldsChanged={fieldsChanged}
+        />
 
+        <Divider className="qual-headerDiv" />
         {/* Create form with initial values */}
         <Form
           name="QualificationForm"
@@ -375,7 +338,16 @@ const QualificationsFormView = ({
               })}
               key="education"
             >
-              {getSectionHeader("setup.education", "education")}
+              <FormSubTitle
+                title={<FormattedMessage id="setup.education" />}
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="education"
+                    type="form"
+                  />
+                }
+              />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
@@ -387,7 +359,7 @@ const QualificationsFormView = ({
                   <Form.List name="educations">
                     {(fields, { add, remove }) => {
                       return (
-                        <div>
+                        <>
                           {fields.map((field) => (
                             <EducationForm
                               key={field.fieldKey}
@@ -405,14 +377,14 @@ const QualificationsFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={add}
+                              onClick={() => add()}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
                               <FormattedMessage id="setup.add.item" />
                             </Button>
                           </Form.Item>
-                        </div>
+                        </>
                       );
                     }}
                   </Form.List>
@@ -426,7 +398,16 @@ const QualificationsFormView = ({
               })}
               key="experience"
             >
-              {getSectionHeader("setup.experience", "experience")}
+              <FormSubTitle
+                title={<FormattedMessage id="setup.experience" />}
+                extra={
+                  <CardVisibilityToggle
+                    visibleCards={profileInfo.visibleCards}
+                    cardName="experience"
+                    type="form"
+                  />
+                }
+              />
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col
@@ -459,7 +440,7 @@ const QualificationsFormView = ({
                             <Button
                               type="dashed"
                               disabled={fields.length === 3}
-                              onClick={add}
+                              onClick={() => add()}
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
@@ -491,7 +472,7 @@ const QualificationsFormView = ({
 
 QualificationsFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
-  initialValues: {
+  initialValues: PropTypes.shape({
     educations: PropTypes.arrayOf(
       PropTypes.shape({
         diploma: PropTypes.string,
@@ -509,18 +490,18 @@ QualificationsFormView.propTypes = {
         subheader: PropTypes.string,
       })
     ),
-  },
+  }),
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
-  options: {
+  options: PropTypes.shape({
     diplomas: KeyTitleOptionsPropType,
     schools: KeyTitleOptionsPropType,
     attachmentNamesEdu: KeyNameOptionsPropType,
     attachmentNamesExp: KeyNameOptionsPropType,
-  },
+  }),
   saveDataToDB: PropTypes.func.isRequired,
 };
 

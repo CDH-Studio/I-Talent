@@ -26,12 +26,12 @@ import Highlighter from "react-highlight-words";
 import { useIntl, FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import uniq from "lodash/uniq";
+import { uniq } from "lodash";
 
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 import config from "../../../utils/runtimeConfig";
-import "./UserTableView.scss";
+import "./UserTableView.less";
 
 const { Text } = Typography;
 

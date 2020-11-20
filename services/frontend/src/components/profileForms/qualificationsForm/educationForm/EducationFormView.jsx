@@ -10,7 +10,6 @@ import {
   DatePicker,
   Tooltip,
 } from "antd";
-
 import {
   FormOutlined,
   PlusOutlined,
@@ -29,9 +28,8 @@ import {
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import filterOption from "../../../../functions/filterSelectInput";
-
-import "./EducationFormView.scss";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
+import "./EducationFormView.less";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -100,7 +98,7 @@ const EducationFormView = ({
   };
 
   return (
-    <div className="formItem">
+    <div className="education-formItem">
       <Row gutter={24} className="gutter-row titleRow">
         <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
           <Title level={4} className="entryTitle">
@@ -144,9 +142,9 @@ const EducationFormView = ({
               allowClear
               filterOption={filterOption}
             >
-              {diplomaOptions.map((value) => {
-                return <Option key={value.id}>{value.description}</Option>;
-              })}
+              {diplomaOptions.map((value) => (
+                <Option key={value.id}>{value.description}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -165,9 +163,9 @@ const EducationFormView = ({
               allowClear
               filterOption={filterOption}
             >
-              {schoolOptions.map((value) => {
-                return <Option key={value.id}>{value.name}</Option>;
-              })}
+              {schoolOptions.map((value) => (
+                <Option key={value.id}>{value.name}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -211,9 +209,13 @@ const EducationFormView = ({
             }}
           >
             {({ getFieldValue }) => {
-              const disableEndDate = getFieldValue("educations")[
+              const educationItem = getFieldValue("educations")[
                 fieldElement.name
-              ].ongoingDate;
+              ];
+
+              const disableEndDate = educationItem
+                ? educationItem.ongoingDate
+                : false;
 
               return (
                 <>
@@ -240,7 +242,10 @@ const EducationFormView = ({
 
                   {/* Checkbox if event is on-going */}
                   <Form.Item
-                    style={{ marginTop: disableEndDate ? "-45px" : "-15px" }}
+                    style={{
+                      marginTop: disableEndDate ? "-45px" : "-15px",
+                      marginBottom: disableEndDate ? "35px" : "15px",
+                    }}
                     name={[fieldElement.name, "ongoingDate"]}
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
                     initialValue={false}
@@ -292,7 +297,7 @@ const EducationFormView = ({
                   <Form.Item>
                     <Button
                       type="dashed"
-                      onClick={add}
+                      onClick={() => add()}
                       disabled={fields.length === 3}
                       style={{ width: "100%" }}
                     >
@@ -337,9 +342,9 @@ EducationFormView.propTypes = {
 };
 
 EducationFormView.defaultProps = {
-  schoolOptions: [],
-  diplomaOptions: [],
-  savedEducation: [],
+  schoolOptions: undefined,
+  diplomaOptions: undefined,
+  savedEducation: undefined,
   intl: undefined,
 };
 

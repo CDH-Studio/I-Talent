@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl";
 import { SettingTwoTone } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
-import "./AboutLayoutView.scss";
+import "./AboutLayoutView.less";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
