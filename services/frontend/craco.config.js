@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require */
+/* eslint-disable import/no-extraneous-dependencies, global-require, no-param-reassign */
 const { when } = require("@craco/craco");
 const CracoLessPlugin = require("craco-less");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
@@ -67,6 +67,29 @@ module.exports = {
             modifyVars: antdTheme,
             javascriptEnabled: true,
           },
+        },
+      },
+    },
+    // The following can be removed when craco fixes support for react-scripts v4
+    {
+      plugin: {
+        overrideCracoConfig: ({ cracoConfig }) => {
+          if (typeof cracoConfig.eslint.enable !== "undefined") {
+            cracoConfig.disableEslint = !cracoConfig.eslint.enable;
+          }
+          delete cracoConfig.eslint;
+          return cracoConfig;
+        },
+        overrideWebpackConfig: ({ webpackConfig, cracoConfig }) => {
+          if (
+            typeof cracoConfig.disableEslint !== "undefined" &&
+            cracoConfig.disableEslint === true
+          ) {
+            webpackConfig.plugins = webpackConfig.plugins.filter(
+              (instance) => instance.constructor.name !== "ESLintWebpackPlugin"
+            );
+          }
+          return webpackConfig;
         },
       },
     },
