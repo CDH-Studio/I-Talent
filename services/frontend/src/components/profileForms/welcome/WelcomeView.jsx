@@ -1,4 +1,3 @@
-import React from "react";
 import { Typography, Button, Modal, Col, Row } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";

@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";

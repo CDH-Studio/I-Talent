@@ -1,4 +1,3 @@
-import React from "react";
 import Error404 from "../components/errorResult/error404";
 
 const NotFound = () => {

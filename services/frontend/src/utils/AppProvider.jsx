@@ -1,7 +1,7 @@
 import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { IntlProvider } from "react-intl";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import localeData from "dayjs/plugin/localeData";

@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Row, Button } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";

@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Modal } from "antd";
 import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
