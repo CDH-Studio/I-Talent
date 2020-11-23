@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, Col, Form, Select, Button, Tooltip, Input } from "antd";
 
 import { DeleteOutlined } from "@ant-design/icons";

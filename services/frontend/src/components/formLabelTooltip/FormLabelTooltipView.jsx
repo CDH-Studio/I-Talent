@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";

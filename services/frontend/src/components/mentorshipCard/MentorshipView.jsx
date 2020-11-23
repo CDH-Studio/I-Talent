@@ -1,4 +1,3 @@
-import React from "react";
 import { Tag, Collapse, Empty } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";

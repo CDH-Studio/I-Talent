@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, List, Col, Row } from "antd";
 import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";

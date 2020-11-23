@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Typography, Tabs, Row, Result, Button } from "antd";
 import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
