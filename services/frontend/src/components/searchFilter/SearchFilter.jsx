@@ -68,13 +68,41 @@ const SearchFilter = () => {
 
   const getBackendInfo = useCallback(async () => {
     try {
-      return await Promise.all([
+      const [
+        branch,
+        location,
+        classification,
+        categoriesResult,
+        skillsResults,
+      ] = await Promise.all([
         axios.get(`api/option/branches?language=${locale}`),
         axios.get(`api/option/locations?language=${locale}`),
         axios.get(`api/option/classifications`),
         axios.get(`api/option/categories?language=${locale}`),
         axios.get(`api/option/skills?language=${locale}`),
       ]);
+      setBranchOptions(branch.data);
+      setLocationOptions(location.data);
+      setClassOptions(classification.data);
+      // Loop through all skill categories
+      const dataTree = categoriesResult.data.map((category) => {
+        const children = [];
+        skillsResults.data.forEach((skill) => {
+          if (skill.categoryId === category.id) {
+            children.push({
+              title: `${category.name}: ${skill.name}`,
+              value: skill.id,
+              key: skill.id,
+            });
+          }
+        });
+        return {
+          title: category.name,
+          value: category.id,
+          children,
+        };
+      });
+      setSkillOptions(dataTree);
     } catch (error) {
       handleError(error, "redirect", history);
       throw error;
@@ -82,45 +110,9 @@ const SearchFilter = () => {
   }, [axios, history, locale]);
 
   useEffect(() => {
-    const updateState = async () => {
-      getBackendInfo().then(
-        ([
-          branch,
-          location,
-          classification,
-          categoriesResult,
-          skillsResults,
-        ]) => {
-          setBranchOptions(branch.data);
-          setLocationOptions(location.data);
-          setClassOptions(classification.data);
-          // Loop through all skill categories
-          const dataTree = categoriesResult.data.map((category) => {
-            const children = [];
-
-            skillsResults.data.forEach((skill) => {
-              if (skill.categoryId === category.id) {
-                children.push({
-                  title: `${category.name}: ${skill.name}`,
-                  value: skill.id,
-                  key: skill.id,
-                });
-              }
-            });
-
-            return {
-              title: category.name,
-              value: category.id,
-              children,
-            };
-          });
-          setSkillOptions(dataTree);
-        }
-      );
-    };
     getSearchFieldValues();
-    updateState();
-  }, [axios, getSearchFieldValues, locale, history, getBackendInfo]);
+    getBackendInfo();
+  }, [axios, locale, history, getBackendInfo, getSearchFieldValues]);
 
   // page with query
   const handleSearch = (values) => {

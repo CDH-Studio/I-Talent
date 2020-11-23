@@ -20,31 +20,32 @@ const Stats = () => {
 
   const getBackendInfo = useCallback(async () => {
     try {
-      return await Promise.all([
+      dispatch(setTopFiveCompetencies([]));
+      dispatch(setTopFiveSkills([]));
+      dispatch(setTopFiveDevelopmentalGoals([]));
+      const [
+        topFiveCompetencies,
+        topFiveSkills,
+        topFiveDevelopmentalGoals,
+      ] = await Promise.all([
         axios.get(`api/stats/topFiveCompetencies?language=${locale}`),
         axios.get(`api/stats/topFiveSkills?language=${locale}`),
         axios.get(`api/stats/topFiveDevelopmentalGoals?language=${locale}`),
       ]);
+      dispatch(setTopFiveCompetencies(topFiveCompetencies.data));
+      dispatch(setTopFiveSkills(topFiveSkills.data));
+      dispatch(setTopFiveDevelopmentalGoals(topFiveDevelopmentalGoals.data));
     } catch (error) {
       handleError(error, "redirect", history);
       throw error;
     }
-  }, [axios, history, locale]);
+  }, [axios, dispatch, history, locale]);
 
   useEffect(() => {
-    dispatch(setTopFiveCompetencies([]));
-    dispatch(setTopFiveSkills([]));
-    dispatch(setTopFiveDevelopmentalGoals([]));
     document.title = `${intl.formatMessage({
       id: "stats.title",
     })} | I-Talent`;
-    getBackendInfo().then(
-      ([topFiveCompetencies, topFiveSkills, topFiveDevelopmentalGoals]) => {
-        dispatch(setTopFiveCompetencies(topFiveCompetencies.data));
-        dispatch(setTopFiveSkills(topFiveSkills.data));
-        dispatch(setTopFiveDevelopmentalGoals(topFiveDevelopmentalGoals.data));
-      }
-    );
+    getBackendInfo();
   }, [dispatch, getBackendInfo, intl]);
 
   return <StatsLayout displaySideBar />;
