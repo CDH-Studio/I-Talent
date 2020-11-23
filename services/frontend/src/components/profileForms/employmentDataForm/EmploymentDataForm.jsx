@@ -33,20 +33,12 @@ const EmploymentDataForm = ({ formType }) => {
 
   const getBackendInfo = useCallback(async () => {
     try {
-      return await Promise.all([
+      const [tenures, classifications, clearance, profile] = await Promise.all([
         axios.get(`api/option/tenures?language=${locale}`),
         axios.get(`api/option/classifications?language=${locale}`),
         axios.get(`api/option/securityClearances?language=${locale}`),
         axios.get(`api/profile/private/${id}?language=${locale}`),
       ]);
-    } catch (error) {
-      handleError(error, "redirect", history);
-      throw error;
-    }
-  }, [axios, history, id, locale]);
-
-  useEffect(() => {
-    getBackendInfo().then(([tenures, classifications, clearance, profile]) => {
       setSubstantiveOptions(tenures.data);
       setClassificationOptions(classifications.data);
       setSecurityOptions(clearance.data);
@@ -54,7 +46,14 @@ const EmploymentDataForm = ({ formType }) => {
       if (profile.data.description)
         setCharsLeft(1000 - profile.data.description.length);
       setLoad(true);
-    });
+    } catch (error) {
+      handleError(error, "redirect", history);
+      throw error;
+    }
+  }, [axios, history, id, locale]);
+
+  useEffect(() => {
+    getBackendInfo();
   }, [getBackendInfo, history]);
 
   return (

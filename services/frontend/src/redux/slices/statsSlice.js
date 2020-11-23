@@ -18,33 +18,39 @@ const statsSlice = createSlice({
   name: "stats",
   initialState,
   reducers: {
-    setCountUsers(state, action) {
-      state.count.users = action.payload;
+    setInitialAdminData(state, action) {
+      const {
+        countUsers,
+        countHiddenUsers,
+        countInactiveUsers,
+        countExFeederUsers,
+        growthRateByMonth,
+        growthRateByWeek,
+        topFiveCompetencies,
+        topFiveDevelopmentalGoals,
+        topFiveSkills,
+      } = action.payload;
+
+      return {
+        ...state,
+        count: {
+          users: countUsers,
+          hiddenUsers: countHiddenUsers,
+          inactiveUsers: countInactiveUsers,
+          exFeederUsers: countExFeederUsers,
+        },
+        topFive: {
+          competencies: topFiveCompetencies,
+          skills: topFiveSkills,
+          developmentalGoals: topFiveDevelopmentalGoals,
+        },
+        growthRate: {
+          month: growthRateByMonth,
+          week: growthRateByWeek,
+        },
+      };
     },
-    setCountHiddenUsers(state, action) {
-      state.count.hiddenUsers = action.payload;
-    },
-    setCountInactiveUsers(state, action) {
-      state.count.inactiveUsers = action.payload;
-    },
-    setCountExFeederUsers(state, action) {
-      state.count.exFeederUsers = action.payload;
-    },
-    setTopFiveCompetencies(state, action) {
-      state.topFive.competencies = action.payload;
-    },
-    setTopFiveSkills(state, action) {
-      state.topFive.skills = action.payload;
-    },
-    setTopFiveDevelopmentalGoals(state, action) {
-      state.topFive.developmentalGoals = action.payload;
-    },
-    setGrowthRateByMonth(state, action) {
-      state.growthRate.month = action.payload;
-    },
-    setGrowthRateByWeek(state, action) {
-      state.growthRate.week = action.payload;
-    },
+
     clearStats() {
       return initialState;
     },
@@ -52,16 +58,11 @@ const statsSlice = createSlice({
 });
 
 export const {
-  setCountUsers,
-  setCountHiddenUsers,
-  setCountInactiveUsers,
-  setCountExFeederUsers,
   setTopFiveCompetencies,
   setTopFiveSkills,
   setTopFiveDevelopmentalGoals,
-  setGrowthRateByMonth,
-  setGrowthRateByWeek,
   clearStats,
+  setInitialAdminData,
 } = statsSlice.actions;
 
 export default statsSlice.reducer;

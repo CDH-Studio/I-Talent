@@ -3,9 +3,10 @@ import { Button } from "antd";
 import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { HomeOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import ErrorResultView from "./errorResultView";
 
-const ErrorPage = (error) => {
+const ErrorNumber = ({ error }) => {
   const [back, setBack] = useState(false);
   const handleClick = () => {
     setBack(true);
@@ -32,4 +33,12 @@ const ErrorPage = (error) => {
   );
 };
 
-export default ErrorPage;
+ErrorNumber.propTypes = {
+  error: PropTypes.string,
+};
+
+ErrorNumber.defaultProps = {
+  error: "",
+};
+
+export default ErrorNumber;

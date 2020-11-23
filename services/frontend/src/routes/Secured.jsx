@@ -11,7 +11,7 @@ import {
   Stats,
   Settings,
 } from "../pages";
-import ErrorPage from "../components/errorResult/errorPage";
+import ErrorNumber from "../components/errorResult/errorNumber";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
 import useAxios from "../utils/useAxios";
@@ -114,7 +114,7 @@ const Secured = ({ location }) => {
           render={() => <Redirect to="/statistics" />}
         />
         <Route path="/settings" render={() => <Redirect to="/settings" />} />
-        <Route render={() => <ErrorPage error="404" />} />
+        <Route render={() => <ErrorNumber error="404" />} />
       </Switch>
     </>
   );

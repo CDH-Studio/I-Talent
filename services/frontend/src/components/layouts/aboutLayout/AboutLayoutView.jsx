@@ -27,11 +27,11 @@ const AboutLayoutView = ({ type }) => {
     return <Redirect to="/" />;
   }
 
-  const tabPaneSetting = (key, name) => {
+  const tabPaneSetting = (key, nameId) => {
     return (
-      <TabPane tab={<FormattedMessage id={name} />} key={key}>
+      <TabPane tab={<FormattedMessage id={nameId} />} key={key}>
         <Title className="titles">
-          <FormattedMessage id={name} />
+          <FormattedMessage id={nameId} />
         </Title>
         <Result
           icon={<SettingTwoTone twoToneColor="#1C807B" />}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { LandingPage, UnexpectedError, About, Logout } from "../pages";
-import ErrorPage from "../components/errorResult/errorPage";
+import ErrorNumber from "../components/errorResult/errorNumber";
 import Admin from "./Admin";
 import Secured from "./Secured";
 import ScrollToTop from "./ScrollToTop";
@@ -24,7 +24,7 @@ const Routes = () => {
         <Route path="/terms" render={() => <About type="terms" />} />
         <Route path="/privacy" render={() => <About type="privacy" />} />
         <Route path="/error" render={() => <UnexpectedError />} />
-        <Route path="/forbidden" render={() => <ErrorPage error="403" />} />
+        <Route path="/forbidden" render={() => <ErrorNumber error="403" />} />
         <Route
           path="/"
           render={({ location }) => <Secured location={location} />}

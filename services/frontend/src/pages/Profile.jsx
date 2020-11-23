@@ -103,8 +103,8 @@ const Profile = ({ history, match }) => {
   if (userDoesNotExist) {
     return (
       <ErrorProfilePage
-        title="profile.not.found"
-        subtitle="profile.not.found.description"
+        titleId="profile.not.found"
+        subtitleId="profile.not.found.description"
       />
     );
   }
@@ -112,8 +112,8 @@ const Profile = ({ history, match }) => {
   if (userIsHidden) {
     return (
       <ErrorProfilePage
-        title="profile.hidden"
-        subtitle="profile.hidden.description"
+        titleId="profile.hidden"
+        subtitleId="profile.hidden.description"
       />
     );
   }

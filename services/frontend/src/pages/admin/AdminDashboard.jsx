@@ -9,17 +9,7 @@ import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import { IntlPropType } from "../../utils/customPropTypes";
 import handleError from "../../functions/handleError";
-import {
-  setCountUsers,
-  setCountHiddenUsers,
-  setCountInactiveUsers,
-  setCountExFeederUsers,
-  setGrowthRateByMonth,
-  setGrowthRateByWeek,
-  setTopFiveCompetencies,
-  setTopFiveSkills,
-  setTopFiveDevelopmentalGoals,
-} from "../../redux/slices/statsSlice";
+import { setInitialAdminData } from "../../redux/slices/statsSlice";
 import Header from "../../components/header/Header";
 
 /**
@@ -50,7 +40,17 @@ const AdminDashboard = ({ intl }) => {
 
   const getBackendInfo = useCallback(async () => {
     try {
-      return await Promise.all([
+      const [
+        users,
+        hiddenUsers,
+        inactiveUsers,
+        exFeederUsers,
+        growthRateByMonth,
+        growthRateByWeek,
+        topFiveCompetencies,
+        topFiveDevelopmentalGoals,
+        topFiveSkills,
+      ] = await Promise.all([
         axios.get(`api/stats/count/users`),
         axios.get(`api/stats/count/hiddenUsers`),
         axios.get(`api/stats/count/inactiveUsers`),
@@ -61,42 +61,29 @@ const AdminDashboard = ({ intl }) => {
         axios.get(`api/stats/topFiveDevelopmentalGoals?language=${locale}`),
         axios.get(`api/stats/topFiveSkills?language=${locale}`),
       ]);
+      dispatch(
+        setInitialAdminData({
+          countUsers: users.data,
+          countHiddenUsers: hiddenUsers.data,
+          countInactiveUser: inactiveUsers.data,
+          countExFeederUser: exFeederUsers.data,
+          growthRateByMonth: growthRateByMonth.data,
+          growthRateByWeek: growthRateByWeek.data,
+          topFiveCompetencies: topFiveCompetencies.data,
+          topFiveDevelopmentalGoals: topFiveDevelopmentalGoals.data,
+          topFiveSkills: topFiveSkills.data,
+        })
+      );
     } catch (error) {
       handleError(error, "redirect", history);
       throw error;
     }
-  }, [axios, history, locale]);
+  }, [axios, dispatch, history, locale]);
 
   // useEffect to run once component is mounted
   useEffect(() => {
     document.title = `${getDisplayType(false)} - Admin | I-Talent`;
-    dispatch(setTopFiveCompetencies([]));
-    dispatch(setTopFiveSkills([]));
-    dispatch(setTopFiveDevelopmentalGoals([]));
-
-    getBackendInfo().then(
-      ([
-        userCount,
-        hiddenUserCount,
-        inactiveUserCount,
-        exFeederUserCount,
-        growthRateByMonth,
-        growthRateByWeek,
-        topFiveCompetencies,
-        topFiveSkills,
-        topFiveDevelopmentalGoals,
-      ]) => {
-        dispatch(setCountUsers(userCount.data));
-        dispatch(setCountHiddenUsers(hiddenUserCount.data));
-        dispatch(setCountInactiveUsers(inactiveUserCount.data));
-        dispatch(setCountExFeederUsers(exFeederUserCount.data));
-        dispatch(setGrowthRateByMonth(growthRateByMonth.data));
-        dispatch(setGrowthRateByWeek(growthRateByWeek.data));
-        dispatch(setTopFiveCompetencies(topFiveCompetencies.data));
-        dispatch(setTopFiveSkills(topFiveSkills.data));
-        dispatch(setTopFiveDevelopmentalGoals(topFiveDevelopmentalGoals.data));
-      }
-    );
+    getBackendInfo();
   }, [dispatch, getBackendInfo, getDisplayType]);
 
   return (

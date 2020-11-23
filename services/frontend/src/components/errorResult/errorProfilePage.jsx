@@ -4,9 +4,10 @@ import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import ErrorResultView from "./errorResultView";
 
-const ErrorProfilePage = (title, subtitle) => {
+const ErrorProfilePage = ({ titleId, subtitleId }) => {
   const [back, setBack] = useState(false);
   const [profile, setProfile] = useState(false);
   const { id } = useSelector((state) => state.user);
@@ -26,8 +27,8 @@ const ErrorProfilePage = (title, subtitle) => {
   return (
     <ErrorResultView
       status="404"
-      title={<FormattedMessage id={title} />}
-      subTitle={<FormattedMessage id={subtitle} />}
+      title={<FormattedMessage id={titleId} />}
+      subTitle={<FormattedMessage id={subtitleId} />}
       extra={
         <>
           <Button onClick={handleClick} type="primary">
@@ -47,5 +48,16 @@ const ErrorProfilePage = (title, subtitle) => {
     />
   );
 };
+
+ErrorProfilePage.propTypes = {
+  titleId: PropTypes.string,
+  subtitleId: PropTypes.string,
+};
+
+ErrorProfilePage.defaultProps = {
+  titleId: "",
+  subtitleId: "",
+};
+
 
 export default ErrorProfilePage;
