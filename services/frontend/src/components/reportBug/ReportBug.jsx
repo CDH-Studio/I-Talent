@@ -1,5 +1,3 @@
-import React from "react";
-
 import useAxios from "../../utils/useAxios";
 import ReportBugView from "./ReportBugView";
 

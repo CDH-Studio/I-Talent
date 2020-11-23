@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Row } from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import SearchBar from "../components/searchBar/SearchBar";

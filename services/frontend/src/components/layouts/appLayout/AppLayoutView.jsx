@@ -1,4 +1,3 @@
-import React from "react";
 import { Helmet } from "react-helmet";
 import { Layout, Skeleton, Card } from "antd";
 import { useSelector } from "react-redux";

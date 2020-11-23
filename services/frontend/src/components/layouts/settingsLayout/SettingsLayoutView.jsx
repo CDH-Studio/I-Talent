@@ -1,4 +1,3 @@
-import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Card, List, Button, Modal, Switch, Tooltip } from "antd";
 import {

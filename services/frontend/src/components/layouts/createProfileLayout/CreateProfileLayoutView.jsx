@@ -1,4 +1,3 @@
-import React from "react";
 import { Steps, Card } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";

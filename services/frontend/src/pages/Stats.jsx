@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";

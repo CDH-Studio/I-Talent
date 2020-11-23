@@ -1,4 +1,3 @@
-import React from "react";
 import random from "lodash/random";
 import LandingLayoutView from "./LandingLayoutView";
 import backgroundOptionOne from "../../../assets/landing-1.svg";

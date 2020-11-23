@@ -1,4 +1,3 @@
-import React from "react";
 import { Menu, Card } from "antd";
 import {
   TagsOutlined,

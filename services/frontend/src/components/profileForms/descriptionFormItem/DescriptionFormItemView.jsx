@@ -1,4 +1,3 @@
-import React from "react";
 import { Input, Form } from "antd";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";

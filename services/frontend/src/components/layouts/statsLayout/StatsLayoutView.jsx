@@ -1,4 +1,3 @@
-import React from "react";
 import { FormattedMessage } from "react-intl";
 import { AreaChartOutlined } from "@ant-design/icons";
 import AppLayout from "../appLayout/AppLayout";

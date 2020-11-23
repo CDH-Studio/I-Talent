@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { LandingPage, UnexpectedError, About, Logout } from "../pages";
 import ErrorNumber from "../components/errorResult/errorNumber";

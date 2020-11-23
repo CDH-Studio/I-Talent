@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col, Row, Typography, Tooltip } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";

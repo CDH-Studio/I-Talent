@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Typography, Button } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
