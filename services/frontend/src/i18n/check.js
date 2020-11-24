@@ -16,8 +16,26 @@ const frValues = sortBy(Object.values(fr));
 
 enDuplicateValues = findDuplicates(enValues);
 frDuplicateValues = findDuplicates(frValues);
-console.error(`Duplicates values in en_CA.json are:`, enDuplicateValues);
-console.error(`Duplicates values in fr_CA.json are:`, frDuplicateValues);
+
+if (enDuplicateValues.length == 0 && frDuplicateValues.length == 0) {
+  console.error("There a no duplicate values in the en_CA and fr_CA files!");
+  process.exit();
+} else {
+  if (enDuplicateValues.length > 0) {
+    console.error(
+      `${enDuplicateValues.length} duplicate values are in en_CA:`,
+      enDuplicateValues
+    );
+  } 
+  if (frDuplicateValues.length > 0) {
+    console.error(
+      `${frDuplicateValues.length} duplicate values are in fr_CA:`,
+      frDuplicateValues
+      );
+  }
+  process.exit(1);
+}
+
 
 /**
  * Check for missing keys in en_CA.json and fr_CA.json
