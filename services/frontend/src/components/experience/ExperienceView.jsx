@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";

@@ -1,5 +1,4 @@
 /* eslint-disable no-shadow */
-import React from "react";
 import PropTypes from "prop-types";
 import { Tag, Collapse, Empty } from "antd";
 import { TagTwoTone } from "@ant-design/icons";

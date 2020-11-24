@@ -1,4 +1,3 @@
-import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Row, Col, List } from "antd";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";

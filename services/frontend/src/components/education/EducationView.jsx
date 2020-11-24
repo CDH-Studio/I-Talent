@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, Col, Avatar, List, Empty, Tag } from "antd";
 import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";

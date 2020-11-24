@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import CareerInterestsView from "./CareerInterestsView";
 import ProfileCards from "../profileCards/ProfileCards";
