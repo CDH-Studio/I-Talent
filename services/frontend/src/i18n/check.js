@@ -5,6 +5,23 @@ const { sortBy, difference, isEqual } = require("lodash");
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
 
+/**
+ * Check for duplicated values in en_CA.json and fr_CA.json
+ */
+let findDuplicates = arr => arr.filter((s => v => s.has(v) || !s.add(v))(new Set))
+
+const enValues = sortBy(Object.values(en));
+const frValues = sortBy(Object.values(fr));
+
+
+enDuplicateValues = findDuplicates(enValues);
+frDuplicateValues = findDuplicates(frValues);
+console.error(`Duplicates values in en_CA.json are:`, enDuplicateValues);
+console.error(`Duplicates values in fr_CA.json are:`, frDuplicateValues);
+
+/**
+ * Check for missing keys in en_CA.json and fr_CA.json
+ */
 const enKeys = sortBy(Object.keys(en));
 const frKeys = sortBy(Object.keys(fr));
 
