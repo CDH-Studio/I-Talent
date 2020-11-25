@@ -1,3 +1,22 @@
 .app-sider {
   height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 998 !important;
+
+  &-content {
+    padding-top: 64px;
+    overflow: auto;
+    height: 100vh;
+    top: 0;
+    left: 0;
+  }
+}
+
+.ant-layout-sider-zero-width-trigger {
+  top: auto;
+  height: 50px;
+  padding-top: 4px;
+  bottom: 64px !important;
 }
