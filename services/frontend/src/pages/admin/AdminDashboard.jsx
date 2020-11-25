@@ -65,8 +65,8 @@ const AdminDashboard = ({ intl }) => {
         setInitialAdminData({
           countUsers: users.data,
           countHiddenUsers: hiddenUsers.data,
-          countInactiveUser: inactiveUsers.data,
-          countExFeederUser: exFeederUsers.data,
+          countInactiveUsers: inactiveUsers.data,
+          countExFeederUsers: exFeederUsers.data,
           growthRateByMonth: growthRateByMonth.data,
           growthRateByWeek: growthRateByWeek.data,
           topFiveCompetencies: topFiveCompetencies.data,

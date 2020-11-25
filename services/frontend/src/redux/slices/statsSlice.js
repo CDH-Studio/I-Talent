@@ -51,6 +51,13 @@ const statsSlice = createSlice({
       };
     },
 
+    setTopFive(state, action) {
+      const { competencies, skills, developmentalGoals } = action.payload;
+      state.topFive.competencies = competencies;
+      state.topFive.skills = skills;
+      state.topFive.developmentalGoals = developmentalGoals;
+    },
+
     clearStats() {
       return initialState;
     },
@@ -58,9 +65,7 @@ const statsSlice = createSlice({
 });
 
 export const {
-  setTopFiveCompetencies,
-  setTopFiveSkills,
-  setTopFiveDevelopmentalGoals,
+  setTopFive,
   clearStats,
   setInitialAdminData,
 } = statsSlice.actions;
