@@ -26,6 +26,8 @@
     "chart.js": "2.9.4",
     "craco-less": "1.17.0",
     "dayjs": "1.9.6",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-config-prettier": "6.15.0",
     "history": "5.0.0",
     "keycloak-js": "11.0.3",
     "lodash": "4.17.20",
@@ -50,8 +52,6 @@
   },
   "devDependencies": {
     "eslint": "7.13.0",
-    "eslint-config-airbnb": "18.2.1",
-    "eslint-config-prettier": "6.15.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-node": "11.1.0",
