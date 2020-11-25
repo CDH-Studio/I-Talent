@@ -21,6 +21,7 @@ const ResultsCard = () => {
   const history = useHistory();
 
   const search = useCallback(async () => {
+    setResults(undefined);
     const urlSections = window.location.toString().split("?");
 
     if (urlSections.length === 2) {
@@ -50,6 +51,14 @@ const ResultsCard = () => {
       handleError(e, "redirect", history)
     );
   }, [getConnections, search, history]);
+
+  useEffect(
+    () =>
+      history.listen(async () => {
+        search().catch((e) => handleError(e, "redirect", history));
+      }),
+    [history, search]
+  );
 
   const addConnection = async (urlID) => {
     await axios
