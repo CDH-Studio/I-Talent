@@ -1,4 +1,4 @@
-import ResultLayoutView from "./StatsLayoutView";
+import StatsLayoutView from "./StatsLayoutView";
 
 const StatsLayout = () => {
   return <StatsLayoutView />;
