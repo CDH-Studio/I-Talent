@@ -119,7 +119,6 @@ const SearchFilter = () => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/results?${query}`;
     history.push(url);
-    window.location.reload();
   };
 
   return (
