@@ -29,7 +29,6 @@ const SearchFilter = () => {
    * to be used as initial values in the form for SearchFilterView
    */
   const getSearchFieldValues = useCallback(() => {
-    setUrlSearchFieldValues(null);
     // Gets the query string search values in an object
     const querySearchData = queryString.parse(history.location.search);
 
