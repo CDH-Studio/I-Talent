@@ -29,6 +29,7 @@ const SearchFilter = () => {
    * to be used as initial values in the form for SearchFilterView
    */
   const getSearchFieldValues = useCallback(() => {
+    setUrlSearchFieldValues(null);
     // Gets the query string search values in an object
     const querySearchData = queryString.parse(history.location.search);
 
@@ -109,10 +110,8 @@ const SearchFilter = () => {
     }
   }, [axios, history, locale]);
 
-  useEffect(() => {
-    getSearchFieldValues();
-    getBackendInfo();
-  }, [axios, locale, history, getBackendInfo, getSearchFieldValues]);
+  useEffect(getBackendInfo, [getBackendInfo]);
+  useEffect(getSearchFieldValues, [getSearchFieldValues]);
 
   // page with query
   const handleSearch = (values) => {
