@@ -27,14 +27,11 @@ RUN mkdir -p /.yarn
 RUN chgrp -R 0 /.yarn && \ 
   chmod -R g=u /.yarn
 
+RUN chgrp -R 0 /italent-backend/node_modules && \ 
+  chmod -R g=u /italent-backend/node_modules
+
 # Copy app
 COPY . .
-
-RUN chgrp -R 0 /italent-backend/node_modules/@prisma && \ 
-  chmod -R g=u /italent-backend/node_modules/@prisma
-
-RUN chgrp -R 0 /italent-backend/src/database && \ 
-  chmod -R g=u /italent-backend/src/database
 
 EXPOSE 3000
 
