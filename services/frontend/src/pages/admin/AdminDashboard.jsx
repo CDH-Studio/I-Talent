@@ -9,17 +9,7 @@ import StatCards from "../../components/admin/statCards/StatCards";
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import { IntlPropType } from "../../utils/customPropTypes";
 import handleError from "../../functions/handleError";
-import {
-  setCountUsers,
-  setCountHiddenUsers,
-  setCountInactiveUsers,
-  setCountExFeederUsers,
-  setGrowthRateByMonth,
-  setGrowthRateByWeek,
-  setTopFiveCompetencies,
-  setTopFiveSkills,
-  setTopFiveDevelopmentalGoals,
-} from "../../redux/slices/statsSlice";
+import { setInitialAdminData } from "../../redux/slices/statsSlice";
 import Header from "../../components/header/Header";
 
 /**
@@ -32,109 +22,6 @@ const AdminDashboard = ({ intl }) => {
   const dispatch = useDispatch();
   const axios = useAxios();
   const history = useHistory();
-
-  // Get dashboard data for statistic cards
-  const getUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/users`);
-
-      dispatch(setCountUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getHiddenUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/hiddenUsers`);
-
-      dispatch(setCountHiddenUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getInactiveUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/inactiveUsers`);
-
-      dispatch(setCountInactiveUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getExfeederUserCount = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/count/exFeederUsers`);
-
-      dispatch(setCountExFeederUsers(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getGrowthRateByMonth = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/growthRateByMonth`);
-
-      dispatch(setGrowthRateByMonth(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getGrowthRateByWeek = useCallback(async () => {
-    try {
-      const results = await axios.get(`api/stats/growthRateByWeek`);
-
-      dispatch(setGrowthRateByWeek(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  const getTopFiveCompetencies = useCallback(async () => {
-    try {
-      dispatch(setTopFiveCompetencies([]));
-
-      const results = await axios.get(
-        `api/stats/topFiveCompetencies?language=${locale}`
-      );
-
-      dispatch(setTopFiveCompetencies(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, locale, history]);
-
-  const getTopFiveSkills = useCallback(async () => {
-    try {
-      dispatch(setTopFiveSkills([]));
-
-      const results = await axios.get(
-        `api/stats/topFiveSkills?language=${locale}`
-      );
-
-      dispatch(setTopFiveSkills(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, locale, history]);
-
-  const getTopFiveDevelopmentalGoals = useCallback(async () => {
-    try {
-      dispatch(setTopFiveDevelopmentalGoals([]));
-
-      const results = await axios.get(
-        `api/stats/topFiveDevelopmentalGoals?language=${locale}`
-      );
-
-      dispatch(setTopFiveDevelopmentalGoals(results.data));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, locale, history]);
 
   // Get part of the title for the page
   const getDisplayType = useCallback(
@@ -151,34 +38,53 @@ const AdminDashboard = ({ intl }) => {
     [intl]
   );
 
+  const getBackendInfo = useCallback(async () => {
+    try {
+      const [
+        users,
+        hiddenUsers,
+        inactiveUsers,
+        exFeederUsers,
+        growthRateByMonth,
+        growthRateByWeek,
+        topFiveCompetencies,
+        topFiveDevelopmentalGoals,
+        topFiveSkills,
+      ] = await Promise.all([
+        axios.get(`api/stats/count/users`),
+        axios.get(`api/stats/count/hiddenUsers`),
+        axios.get(`api/stats/count/inactiveUsers`),
+        axios.get(`api/stats/count/exFeederUsers`),
+        axios.get(`api/stats/growthRateByMonth`),
+        axios.get(`api/stats/growthRateByWeek`),
+        axios.get(`api/stats/topFiveCompetencies?language=${locale}`),
+        axios.get(`api/stats/topFiveDevelopmentalGoals?language=${locale}`),
+        axios.get(`api/stats/topFiveSkills?language=${locale}`),
+      ]);
+      dispatch(
+        setInitialAdminData({
+          countUsers: users.data,
+          countHiddenUsers: hiddenUsers.data,
+          countInactiveUsers: inactiveUsers.data,
+          countExFeederUsers: exFeederUsers.data,
+          growthRateByMonth: growthRateByMonth.data,
+          growthRateByWeek: growthRateByWeek.data,
+          topFiveCompetencies: topFiveCompetencies.data,
+          topFiveDevelopmentalGoals: topFiveDevelopmentalGoals.data,
+          topFiveSkills: topFiveSkills.data,
+        })
+      );
+    } catch (error) {
+      handleError(error, "redirect", history);
+      throw error;
+    }
+  }, [axios, dispatch, history, locale]);
+
   // useEffect to run once component is mounted
   useEffect(() => {
-    Promise.all([
-      getUserCount(),
-      getHiddenUserCount(),
-      getInactiveUserCount(),
-      getExfeederUserCount(),
-      getGrowthRateByMonth(),
-      getGrowthRateByWeek(),
-      getTopFiveCompetencies(),
-      getTopFiveSkills(),
-      getTopFiveDevelopmentalGoals(),
-    ]);
-  }, [
-    getExfeederUserCount,
-    getGrowthRateByMonth,
-    getGrowthRateByWeek,
-    getHiddenUserCount,
-    getInactiveUserCount,
-    getTopFiveCompetencies,
-    getTopFiveDevelopmentalGoals,
-    getTopFiveSkills,
-    getUserCount,
-  ]);
-
-  useEffect(() => {
     document.title = `${getDisplayType(false)} - Admin | I-Talent`;
-  }, [getDisplayType]);
+    getBackendInfo();
+  }, [dispatch, getBackendInfo, getDisplayType]);
 
   return (
     <AdminLayout displaySideBar type="dashboard">
