@@ -27,78 +27,32 @@ const AboutLayoutView = ({ type }) => {
     return <Redirect to="/" />;
   }
 
+  const tabPaneSetting = (key, nameId) => {
+    return (
+      <TabPane tab={<FormattedMessage id={nameId} />} key={key}>
+        <Title className="titles">
+          <FormattedMessage id={nameId} />
+        </Title>
+        <Result
+          icon={<SettingTwoTone twoToneColor="#1C807B" />}
+          title={<FormattedMessage id="more.content.soon" />}
+          extra={
+            <Button onClick={handleClick} type="primary">
+              <FormattedMessage id="error.button" />
+            </Button>
+          }
+        />
+      </TabPane>
+    );
+  };
+
   return (
     <AppLayout displaySideBar={false}>
       <Row justify="center" className="outerRow">
         <Tabs className="outerTabs" defaultActiveKey={tabType}>
-          <TabPane
-            tab={<FormattedMessage id="footer.about.link" />}
-            key="about"
-          >
-            <Title className="titles">
-              <FormattedMessage id="footer.about" />
-            </Title>
-            <Result
-              icon={<SettingTwoTone twoToneColor="#1C807B" />}
-              title={<FormattedMessage id="more.content.soon" />}
-              extra={
-                <Button onClick={handleClick} type="primary">
-                  <FormattedMessage id="error.button" />
-                </Button>
-              }
-            />
-          </TabPane>
-          <TabPane
-            tab={<FormattedMessage id="footer.contact.link" />}
-            key="help"
-          >
-            <Title className="titles">
-              <FormattedMessage id="footer.contact.link" />
-            </Title>
-            <Result
-              icon={<SettingTwoTone twoToneColor="#1C807B" />}
-              title={<FormattedMessage id="more.content.soon" />}
-              extra={
-                <Button onClick={handleClick} type="primary">
-                  <FormattedMessage id="error.button" />
-                </Button>
-              }
-            />
-          </TabPane>
-          <TabPane
-            tab={<FormattedMessage id="footer.terms.and.conditions.link" />}
-            key="terms"
-          >
-            <Title className="titles">
-              <FormattedMessage id="footer.terms.and.conditions.link" />
-            </Title>
-            <Result
-              icon={<SettingTwoTone twoToneColor="#1C807B" />}
-              title={<FormattedMessage id="more.content.soon" />}
-              extra={
-                <Button onClick={handleClick} type="primary">
-                  <FormattedMessage id="error.button" />
-                </Button>
-              }
-            />
-          </TabPane>
-          <TabPane
-            tab={<FormattedMessage id="footer.privacy.link" />}
-            key="privacy"
-          >
-            <Title className="titles">
-              <FormattedMessage id="footer.privacy.link" />
-            </Title>
-            <Result
-              icon={<SettingTwoTone twoToneColor="#1C807B" />}
-              title={<FormattedMessage id="more.content.soon" />}
-              extra={
-                <Button onClick={handleClick} type="primary">
-                  <FormattedMessage id="error.button" />
-                </Button>
-              }
-            />
-          </TabPane>
+          {tabPaneSetting("help", "footer.contact.link")}
+          {tabPaneSetting("terms", "footer.terms.and.conditions.link")}
+          {tabPaneSetting("privacy", "footer.privacy.link")}
         </Tabs>
       </Row>
     </AppLayout>

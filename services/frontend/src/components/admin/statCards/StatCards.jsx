@@ -8,7 +8,6 @@ import StatCardsView from "./StatCardsView";
  */
 const StatCards = () => {
   const { count, growthRate } = useSelector((state) => state.stats);
-
   return (
     <StatCardsView
       countUsers={count.users}
