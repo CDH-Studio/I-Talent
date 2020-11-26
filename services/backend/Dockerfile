@@ -33,6 +33,9 @@ RUN chgrp -R 0 /italent-backend/node_modules/@prisma && \
 # Copy app
 COPY . .
 
+RUN chgrp -R 0 /italent-backend/src/database && \ 
+  chmod -R g=u /italent-backend/src/database
+
 EXPOSE 3000
 
 # Runs start script
