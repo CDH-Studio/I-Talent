@@ -62,7 +62,7 @@ const SearchFilterView = ({
     <FormattedMessage id="advanced.search.form.skills" />,
     <FormattedMessage id="advanced.search.form.mentorship.skills" />,
     null,
-    <FormattedMessage id="advanced.search.form.ex.feeder" />,
+    <FormattedMessage id="ex.feeder" />,
   ];
   return (
     <div className="search-searchSideBar">

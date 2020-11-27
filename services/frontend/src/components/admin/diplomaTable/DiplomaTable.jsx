@@ -121,7 +121,7 @@ const DiplomaTable = ({ intl }) => {
         });
 
       return intl.formatMessage({
-        id: `admin.diploma.singular`,
+        id: `admin.diploma`,
       });
     };
 

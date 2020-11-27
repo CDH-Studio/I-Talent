@@ -263,7 +263,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* exFeeder field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+              label={<FormattedMessage id="ex.feeder" />}
               name="exFeeder"
               valuePropName="checked"
             >

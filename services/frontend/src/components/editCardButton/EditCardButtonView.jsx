@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import "./EditCardButtonView.less";
 
 const EditCardButtonView = ({ redirectToEdit }) => (
-  <Tooltip placement="top" title={<FormattedMessage id="profile.edit" />}>
+  <Tooltip placement="top" title={<FormattedMessage id="edit" />}>
     <Button
       className="editCardButton"
       aria-label="edit card"
