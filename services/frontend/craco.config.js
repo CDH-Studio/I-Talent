@@ -40,7 +40,7 @@ module.exports = {
   },
   webpack: {
     plugins: [
-      new LodashModuleReplacementPlugin(),
+      new LodashModuleReplacementPlugin({ shorthands: true }),
       ...when(
         process.env.ANALYZE_BUILD === "true",
         () => {
