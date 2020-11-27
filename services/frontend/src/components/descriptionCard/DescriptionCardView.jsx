@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
-
-import DescriptionText from "../descriptionText/DescriptionText";
+import { Descriptions } from "antd";
 
 const DescriptionCardView = ({ data }) => {
-  return <DescriptionText text={data} />;
+  return <Descriptions.Item>{data}</Descriptions.Item>;
 };
 
 DescriptionCardView.propTypes = {
