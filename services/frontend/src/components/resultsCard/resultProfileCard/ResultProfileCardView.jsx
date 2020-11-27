@@ -23,6 +23,7 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
+import "./ResultProfileCardView.less";
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -47,7 +48,7 @@ const ResultProfileCardView = ({
     let tooltipMessage;
 
     if (user.isConnection) {
-      badgeIcon = <TeamOutlined className="res-badge-icon" />;
+      badgeIcon = <TeamOutlined className="result-card-badge-icon" />;
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
@@ -56,7 +57,7 @@ const ResultProfileCardView = ({
         />
       );
     } else if (user.status === "INACTIVE") {
-      badgeIcon = <LockOutlined className="res-badge-icon" />;
+      badgeIcon = <LockOutlined className="result-card-badge-icon" />;
       badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
@@ -93,7 +94,7 @@ const ResultProfileCardView = ({
               backgroundColor: user.avatarColor,
             }}
           >
-            <Text className="res-avatar-text">{user.nameInitials}</Text>
+            <Text className="result-card-avatar-text">{user.nameInitials}</Text>
           </Avatar>
         </Badge>
       </Tooltip>
@@ -123,13 +124,6 @@ const ResultProfileCardView = ({
    * @param {Object} user - The profile being rendered on card.
    */
   const getActionRibbonBtn = ({ user }) => {
-    const ribbonStyle = {
-      padding: "0px",
-      color: "#ffffff",
-      margin: "1px",
-      display: "inline-block",
-    };
-
     // get action in ribbon
     if (user.id !== loggedInUserId) {
       return (
@@ -137,12 +131,11 @@ const ResultProfileCardView = ({
           tabIndex={0}
           type="link"
           block
-          style={ribbonStyle}
           icon={
             isConnection ? (
-              <UserDeleteOutlined className="res-button-icon" />
+              <UserDeleteOutlined className="result-card-button-icon" />
             ) : (
-              <UserAddOutlined className="res-button-icon" />
+              <UserAddOutlined className="result-card-button-icon" />
             )
           }
           onClick={(e) => {
@@ -154,7 +147,7 @@ const ResultProfileCardView = ({
               addConnection(user.id);
             }
           }}
-          className="res-button"
+          className="result-card-button"
         >
           {isConnection ? (
             <FormattedMessage id="search.results.cards.remove.connection" />
@@ -169,13 +162,12 @@ const ResultProfileCardView = ({
         tabIndex={0}
         type="link"
         block
-        style={ribbonStyle}
-        icon={<EditOutlined className="res-button-icon" />}
+        icon={<EditOutlined className="result-card-button-icon" />}
         onClick={(e) => {
           e.stopPropagation();
           history.push("/profile/edit/primary-info");
         }}
-        className="res-button"
+        className="result-card-button"
       >
         <FormattedMessage id="edit.profile" />
       </Button>
@@ -189,7 +181,7 @@ const ResultProfileCardView = ({
   const getCardFooter = ({ user }) => {
     return [
       <div>
-        <BranchesOutlined className="res-card-footer-icon" />
+        <BranchesOutlined className="result-card-footer-icon" />
         {user.branch ? (
           <Text>{user.branch}</Text>
         ) : (
@@ -199,7 +191,7 @@ const ResultProfileCardView = ({
         )}
       </div>,
       <div>
-        <EnvironmentOutlined className="res-card-footer-icon" />
+        <EnvironmentOutlined className="result-card-footer-icon" />
         {user.branch ? (
           <Text>
             {profile.officeLocation.streetNumber}{" "}
@@ -246,7 +238,7 @@ const ResultProfileCardView = ({
       >
         <Card
           tabIndex={0}
-          className="res-card"
+          className="result-card"
           hoverable
           bordered
           onClick={() => history.push(`/profile/${profile.id}`)}
@@ -258,11 +250,11 @@ const ResultProfileCardView = ({
             <Col span={24}>
               <Row style={{ paddingTop: "15px" }}>
                 <Meta
-                  className="res-meta"
+                  className="result-card-meta"
                   avatar={getUserAvatar({ user: profile })}
                   title={getCardTitle({ user: profile })}
                   description={
-                    <p className="res-small-p">
+                    <p className="result-card-small-p">
                       {getUserSubtitle({ user: profile })}
                     </p>
                   }
@@ -274,16 +266,16 @@ const ResultProfileCardView = ({
               {profile.resultSkills.length > 0 ? (
                 <span>
                   {profile.resultSkills.map(({ id, name }) => (
-                    <Tag className="res-tag" key={id}>
+                    <Tag className="result-card-tag" key={id}>
                       {name}
                     </Tag>
                   ))}
-                  <Tag className="res-tag">
+                  <Tag className="result-card-tag">
                     +{profile.totalResultSkills - 4}
                   </Tag>
                 </span>
               ) : (
-                <Tag className="res-tag">
+                <Tag className="result-card-tag">
                   <FormattedMessage id="search.results.cards.skills.not.found" />
                 </Tag>
               )}

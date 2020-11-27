@@ -103,6 +103,7 @@ const ResultsCard = () => {
       </>
     );
   }
+
   return (
     <ResultsCardView
       results={results}

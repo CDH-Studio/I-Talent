@@ -14,7 +14,7 @@ const ResultsCardView = ({
   results,
   locale,
   loading,
-  userId,
+  loggedInUserId,
   connections,
   addConnection,
   removeConnection,
@@ -55,7 +55,7 @@ const ResultsCardView = ({
           profile={person}
           key={person.id}
           isConnection={isConnection}
-          loggedInUserId={userId}
+          loggedInUserId={loggedInUserId}
           addConnection={addConnection}
           removeConnection={removeConnection}
         />
@@ -119,7 +119,7 @@ ResultsCardView.propTypes = {
   results: PropTypes.arrayOf(ProfileInfoPropType),
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
   loading: PropTypes.bool.isRequired,
-  userId: PropTypes.string.isRequired,
+  loggedInUserId: PropTypes.string.isRequired,
   connections: PropTypes.arrayOf(PropTypes.string).isRequired,
   addConnection: PropTypes.func.isRequired,
   removeConnection: PropTypes.func.isRequired,
