@@ -56,9 +56,9 @@ const SearchFilterView = ({
   ];
   const labelArr = [
     <FormattedMessage id="advanced.search.form.name" />,
-    <FormattedMessage id="advanced.search.form.classification" />,
+    <FormattedMessage id="classification" />,
     <FormattedMessage id="advanced.search.form.location" />,
-    <FormattedMessage id="advanced.search.form.branch" />,
+    <FormattedMessage id="branch" />,
     <FormattedMessage id="advanced.search.form.skills" />,
     <FormattedMessage id="advanced.search.form.mentorship.skills" />,
     null,

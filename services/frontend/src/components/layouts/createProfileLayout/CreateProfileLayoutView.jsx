@@ -145,7 +145,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           )}
           {createProfileStep(
             "setup.talent",
-            ["setup.skills", "profile.mentorship.skills", "setup.competencies"],
+            ["setup.skills", "profile.mentorship.skills", "competencies"],
             highestStep < 3
           )}
           {createProfileStep(

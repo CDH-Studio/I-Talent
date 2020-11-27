@@ -272,7 +272,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-competency"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.competencies" />
+                    <FormattedMessage id="competencies" />
                   </Text>
                 }
               />

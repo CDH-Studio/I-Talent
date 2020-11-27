@@ -30,7 +30,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
             <Descriptions.Item
               label={
                 <Text strong>
-                  <FormattedMessage id="profile.classification" />
+                  <FormattedMessage id="classification" />
                 </Text>
               }
             >

@@ -146,7 +146,7 @@ const SearchBarView = ({
             {/* classification field */}
             <Form.Item
               label={
-                <FormattedMessage id="advanced.search.form.classification" />
+                <FormattedMessage id="classification" />
               }
               name="classifications"
             >
@@ -190,7 +190,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* branch field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.branch" />}
+              label={<FormattedMessage id="branch" />}
               name="branches"
             >
               <Select
@@ -344,7 +344,7 @@ const SearchBarView = ({
                   <>
                     <DoubleRightOutlined rotate="90" />
                     <span>
-                      <FormattedMessage id="button.advanced.search" />
+                      <FormattedMessage id="advanced.search.button.text" />
                     </span>
                   </>
                 )}

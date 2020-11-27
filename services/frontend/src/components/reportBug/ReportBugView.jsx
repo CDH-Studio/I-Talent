@@ -155,7 +155,7 @@ const ReportBugView = ({ saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="description"
-            label={<FormattedMessage id="bugs.description" />}
+            label={<FormattedMessage id="description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />

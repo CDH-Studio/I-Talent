@@ -248,7 +248,7 @@ const ExperienceFormView = ({
         <Col className="gutter-row descriptionRow" span={24}>
           {/* Descriptions */}
           <DescriptionFormItem
-            label={<FormattedMessage id="profile.qualification.description" />}
+            label={<FormattedMessage id="description" />}
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
             maxLength={Rules.maxChar1500.max}

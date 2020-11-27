@@ -28,11 +28,11 @@ const AdminDashboard = ({ intl }) => {
     (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `admin.dashboard.plural`,
+          id: `admin.dashboard`,
         });
 
       return intl.formatMessage({
-        id: `admin.dashboard.singular`,
+        id: `admin.dashboard`,
       });
     },
     [intl]

@@ -59,7 +59,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
       </Menu.Item>
       <Menu.Item key="competencies" tabIndex={0}>
         <FlagOutlined />
-        <FormattedMessage id="admin.competency.plural" />
+        <FormattedMessage id="competencies" />
       </Menu.Item>
       <Menu.Item key="diplomas" tabIndex={0}>
         <TrophyOutlined />

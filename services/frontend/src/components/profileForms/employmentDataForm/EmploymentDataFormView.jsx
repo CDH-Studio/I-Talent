@@ -514,7 +514,7 @@ const EmploymentDataFormView = ({
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="groupLevelId"
-                label={<FormattedMessage id="profile.classification" />}
+                label={<FormattedMessage id="classification" />}
               >
                 <Select
                   showSearch

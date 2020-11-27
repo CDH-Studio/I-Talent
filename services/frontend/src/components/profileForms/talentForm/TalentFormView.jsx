@@ -205,7 +205,7 @@ const TalentFormView = ({
       messages.push(intl.formatMessage({ id: "profile.skills" }));
     }
     if (formsWithErrorsList.competencies) {
-      messages.push(intl.formatMessage({ id: "profile.competencies" }));
+      messages.push(intl.formatMessage({ id: "competencies" }));
     }
     return (
       <div>
@@ -644,7 +644,7 @@ const TalentFormView = ({
             </TabPane>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.competencies" />,
+                message: <FormattedMessage id="competencies" />,
                 errorBool: tabErrorsBool.competencies,
               })}
               key="competencies"
@@ -653,7 +653,7 @@ const TalentFormView = ({
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <FormSubTitle
-                    title={<FormattedMessage id="setup.competencies" />}
+                    title={<FormattedMessage id="competencies" />}
                     popoverMessage={
                       <>
                         <FormattedMessage id="tooltip.extra.info.help" />

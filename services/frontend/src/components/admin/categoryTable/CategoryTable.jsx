@@ -121,7 +121,7 @@ const CategoryTable = ({ intl }) => {
         });
 
       return intl.formatMessage({
-        id: `admin.category.singular`,
+        id: `admin.category`,
       });
     };
 

@@ -42,7 +42,7 @@ const DescriptionTextView = ({
           >
             {expanded ? <UpOutlined /> : <DownOutlined />}
             <span className="expandDescriptionToggleTagText">
-              <FormattedMessage id="profile.career.content.name" />
+              <FormattedMessage id="description" />
             </span>
           </Button>
         </Row>

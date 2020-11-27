@@ -64,7 +64,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "6",
-    rowName: <FormattedMessage id="profile.branch" />,
+    rowName: <FormattedMessage id="branch" />,
     savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",

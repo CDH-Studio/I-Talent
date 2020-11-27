@@ -289,7 +289,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
           expandedRowRender: (record) => (
             <p style={{ margin: 0 }}>
               <strong>
-                <FormattedMessage id="admin.bugs.description" />
+                <FormattedMessage id="description" />
               </strong>
               {record.description}
             </p>
@@ -334,7 +334,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="description"
-            label={<FormattedMessage id="bugs.description" />}
+            label={<FormattedMessage id="description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />

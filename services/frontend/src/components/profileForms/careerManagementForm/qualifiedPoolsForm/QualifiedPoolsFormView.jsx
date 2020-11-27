@@ -84,7 +84,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "classificationId"]}
             fieldKey={[fieldElement.fieldKey, "classificationId"]}
-            label={<FormattedMessage id="profile.classification" />}
+            label={<FormattedMessage id="classification" />}
             rules={[Rules.required]}
           >
             <Select
