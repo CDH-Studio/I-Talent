@@ -31,6 +31,7 @@ import {
 } from "../../utils/customPropTypes";
 import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
+import EmptyImage from "./online_team_meeting_.svg";
 import "./ResultsCardView.less";
 
 const { Meta } = Card;
@@ -40,6 +41,7 @@ const ResultsCardView = ({
   history,
   results,
   locale,
+  emptyQuery,
   loading,
   userId,
   connections,
@@ -330,12 +332,26 @@ const ResultsCardView = ({
    * @param {Object} dataSource - The list of user results.
    */
   const renderResultCards = (dataSource) => {
+    if (emptyQuery) {
+      return (
+        <>
+          <Row align="middle" justify="center" style={{ marginTop: 40 }}>
+            <img src={EmptyImage} height={250} alt="Empty results page" />
+          </Row>
+          <Row align="middle" justify="center" style={{ marginTop: 20 }}>
+            <p style={{ textAlign: "center", maxWidth: 250 }}>
+              <FormattedMessage id="search.empty.query" />
+            </p>
+          </Row>
+        </>
+      );
+    }
+
     if (!loading && dataSource.length === 0) {
       return (
         <Empty description={<FormattedMessage id="search.no.results" />} />
       );
     }
-
     const preparedResults = prepareInfo(dataSource, locale);
 
     return preparedResults.map((person, key) => renderCard({ person, key }));
@@ -397,6 +413,7 @@ ResultsCardView.propTypes = {
   history: HistoryPropType.isRequired,
   results: PropTypes.arrayOf(ProfileInfoPropType),
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  emptyQuery: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
   connections: PropTypes.arrayOf(PropTypes.string).isRequired,

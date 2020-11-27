@@ -78,6 +78,7 @@ const ResultsCard = () => {
       history={history}
       results={results}
       locale={locale}
+      emptyQuery={emptyQuery}
       loading={!results && !emptyQuery}
       userId={id}
       connections={connections}
