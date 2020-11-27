@@ -4,7 +4,9 @@
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/no-array-index-key": "warn"
+    "react/no-array-index-key": "warn",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "env": {
     "browser": true

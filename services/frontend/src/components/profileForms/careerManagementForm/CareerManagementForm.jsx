@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { sortBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -100,60 +100,6 @@ const CareerManagementForm = ({ formType }) => {
     };
     if (profileInfo.qualifiedPools) setSavedQualifiedPools(ll.qualifiedPools);
   };
-
-  /**
-   * Get User Profile
-   */
-  const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
-    );
-
-    setProfileInfo(result.data);
-  }, [axios, id, locale]);
-
-  /**
-   * Get Developmental Goal Options
-   *
-   * get a list of developmental goal options for treeSelect dropdown
-   */
-  const getDevelopmentalGoalOptions = useCallback(async () => {
-    const [categoriesResult, devGoalsResults] = await Promise.all([
-      axios.get(`api/option/categories?language=${locale}`),
-      axios.get(`api/option/developmentalGoals?language=${locale}`),
-    ]);
-
-    // To handle the competencies category
-    categoriesResult.data.push({
-      id: undefined,
-      name: intl.formatMessage({ id: "setup.competencies" }),
-    });
-
-    // Loop through all skill categories
-    const dataTree = categoriesResult.data.map((category) => {
-      const children = [];
-
-      devGoalsResults.data.forEach((devGoal) => {
-        if (devGoal.categoryId === category.id) {
-          children.push({
-            title: `${category.name}: ${devGoal.name}`,
-            value: devGoal.id,
-            key: devGoal.id,
-          });
-        }
-      });
-
-      return {
-        title: category.name,
-        value: category.id || category.name,
-        children,
-      };
-    });
-
-    setDevelopmentalGoalOptions(sortBy(dataTree, "title"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [axios, locale]);
-
   /**
    * Get Interested In Remote Options
    *
@@ -175,79 +121,72 @@ const CareerManagementForm = ({ formType }) => {
     ];
     setInterestedInRemoteOptions(options);
   }, [locale]);
+  const getBackendInfo = useCallback(async () => {
+    try {
+      const [
+        profile,
+        categoriesResult,
+        devGoalsResults,
+        relocation,
+        getAttachmentOptions,
+        getNewJobOptions,
+        getMobilityOptions,
+        getMatrixResultOptions,
+        getClassificationOptions,
+      ] = await Promise.all([
+        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`api/option/categories?language=${locale}`),
+        axios.get(`api/option/developmentalGoals?language=${locale}`),
+        axios.get(`api/option/cityLocations?language=${locale}`),
+        axios.get(`api/option/attachmentNames?language=${locale}&type=Dev`),
+        axios.get(`api/option/lookingJobs?language=${locale}`),
+        axios.get(`api/option/careerMobilities?language=${locale}`),
+        axios.get(`api/option/talentMatrixResults?language=${locale}`),
+        axios.get(`api/option/classifications?language=${locale}`),
+      ]);
 
-  /**
-   * Get Relocation Options
-   *
-   * get a list of Relocation Options for dropdown treeSelect
-   */
-  const getRelocationOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/cityLocations?language=${locale}`
-    );
-    setRelocationOptions(result.data);
-  }, [axios, locale]);
+      setProfileInfo(profile.data);
+      setRelocationOptions(relocation.data);
+      setAttachmentOptions(getAttachmentOptions.data);
+      setLookingForNewJobOptions(getNewJobOptions.data);
+      setCareerMobilityOptions(getMobilityOptions.data);
+      setTalentMatrixResultOptions(getMatrixResultOptions.data);
+      setClassificationOptions(getClassificationOptions.data);
 
-  /**
-   * Get Attachment Options
-   *
-   * get a list of Attachment Options for dropdown treeSelect
-   */
-  const getAddAttachmentOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/attachmentNames?language=${locale}&type=Dev`
-    );
-    setAttachmentOptions(result.data);
-  }, [axios, locale]);
+      // To handle the competencies category
+      categoriesResult.data.push({
+        id: undefined,
+        name: intl.formatMessage({ id: "setup.competencies" }),
+      });
 
-  /**
-   * Get Saved Looking For New Job
-   *
-   * get Saved Looking For New Job from user profile
-   */
-  const getLookingForNewJobOptions = useCallback(async () => {
-    const result = await axios.get(`api/option/lookingJobs?language=${locale}`);
-    setLookingForNewJobOptions(result.data);
-  }, [axios, locale]);
+      // Loop through all skill categories
+      const dataTree = categoriesResult.data.map((category) => {
+        const children = [];
 
-  /**
-   * Get Career Mobility Options
-   *
-   * get all dropdown options for Career Mobility
-   */
-  const getCareerMobilityOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/careerMobilities?language=${locale}`
-    );
+        devGoalsResults.data.forEach((devGoal) => {
+          if (devGoal.categoryId === category.id) {
+            children.push({
+              title: `${category.name}: ${devGoal.name}`,
+              value: devGoal.id,
+              key: devGoal.id,
+            });
+          }
+        });
 
-    setCareerMobilityOptions(result.data);
-  }, [axios, locale]);
+        return {
+          title: category.name,
+          value: category.id || category.name,
+          children,
+        };
+      });
+      setDevelopmentalGoalOptions(sortBy(dataTree, "title"));
 
-  /**
-   * Get Talent Matrix Result Options
-   *
-   * get all dropdown options for Talent Matrix Results
-   */
-  const getTalentMatrixResultOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/talentMatrixResults?language=${locale}`
-    );
-
-    setTalentMatrixResultOptions(result.data);
-  }, [axios, locale]);
-
-  /**
-   * Get Classification Options
-   *
-   * get all dropdown options for Classifications
-   */
-  const getClassificationOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/classifications?language=${locale}`
-    );
-
-    setClassificationOptions(result.data);
-  }, [axios, locale]);
+      setLoad(true);
+    } catch (error) {
+      setLoad(false);
+      handleError(error, "redirect", history);
+    }
+  }, [axios, history, id, intl, locale]);
 
   /**
    * Get default form tab
@@ -290,37 +229,8 @@ const CareerManagementForm = ({ formType }) => {
   // useEffect when locale changes
   useEffect(() => {
     getInterestedInRemoteOptions();
-
-    // Get all required data component
-    Promise.all([
-      getProfileInfo(),
-      getDevelopmentalGoalOptions(),
-      getRelocationOptions(),
-      getLookingForNewJobOptions(),
-      getCareerMobilityOptions(),
-      getTalentMatrixResultOptions(),
-      getAddAttachmentOptions(),
-      getClassificationOptions(),
-    ])
-      .then(() => {
-        setLoad(true);
-      })
-      .catch((error) => {
-        setLoad(false);
-        handleError(error, "redirect", history);
-      });
-  }, [
-    getAddAttachmentOptions,
-    getCareerMobilityOptions,
-    getDevelopmentalGoalOptions,
-    getInterestedInRemoteOptions,
-    getLookingForNewJobOptions,
-    getProfileInfo,
-    getRelocationOptions,
-    getTalentMatrixResultOptions,
-    history,
-    getClassificationOptions,
-  ]);
+    getBackendInfo();
+  }, [getBackendInfo, getInterestedInRemoteOptions]);
 
   return (
     <CareerManagementFormView

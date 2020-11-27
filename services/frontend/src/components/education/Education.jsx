@@ -1,4 +1,3 @@
-import React from "react";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
@@ -9,15 +8,15 @@ import ProfileCards from "../profileCards/ProfileCards";
 const Education = ({ data, editableCardBool }) => {
   const intl = useIntl();
   const getEducationDuration = (startDate, endDate, ongoingDate) => {
-    const formatedStartDate = dayjs(startDate).format("MMMM YYYY");
-    const formatedEndDate = dayjs(endDate).format("MMMM YYYY");
+    const formattedStartDate = dayjs(startDate).format("MMMM YYYY");
+    const formattedEndDate = dayjs(endDate).format("MMMM YYYY");
 
     if (startDate && endDate) {
-      return `${formatedStartDate} - ${formatedEndDate}`;
+      return `${formattedStartDate} - ${formattedEndDate}`;
     }
 
     if (ongoingDate && startDate) {
-      return `${formatedStartDate} - ${intl.formatMessage({
+      return `${formattedStartDate} - ${intl.formatMessage({
         id: "date.present",
       })}`;
     }
@@ -27,11 +26,11 @@ const Education = ({ data, editableCardBool }) => {
     }
 
     if (startDate && !endDate) {
-      return formatedStartDate;
+      return formattedStartDate;
     }
 
     if (!startDate && endDate) {
-      return formatedEndDate;
+      return formattedEndDate;
     }
 
     return "-";
@@ -57,10 +56,10 @@ const Education = ({ data, editableCardBool }) => {
         description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
-              id: a.id,
-              name: a.name.name,
-              url: a.url,
-            }))
+            id: a.id,
+            name: a.name.name,
+            url: a.url,
+          }))
           : [],
       })
     );

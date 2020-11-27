@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -54,12 +54,9 @@ const CategoryTable = ({ intl }) => {
         ids: selectedRowKeys,
       },
     });
-
-    if (result.data === false) {
-      return true;
+    if (result.data !== false) {
+      getCategories();
     }
-
-    getCategories();
     return true;
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
@@ -8,10 +8,10 @@ import {
   Profile,
   ProfileEdit,
   ProfileCreate,
-  NotFound,
   Stats,
   Settings,
 } from "../pages";
+import ErrorNumber from "../components/errorResult/errorNumber";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
 import useAxios from "../utils/useAxios";
@@ -114,7 +114,7 @@ const Secured = ({ location }) => {
           render={() => <Redirect to="/statistics" />}
         />
         <Route path="/settings" render={() => <Redirect to="/settings" />} />
-        <Route render={() => <NotFound />} />
+        <Route render={() => <ErrorNumber error="404" />} />
       </Switch>
     </>
   );

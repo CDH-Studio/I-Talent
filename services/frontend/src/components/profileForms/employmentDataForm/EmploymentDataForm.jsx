@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -31,66 +31,30 @@ const EmploymentDataForm = ({ formType }) => {
   const { locale } = useSelector((state) => state.settings);
   const { id } = useSelector((state) => state.user);
 
-  // Get substantive level options
-  const getSubstantiveOptions = useCallback(async () => {
-    const result = await axios.get(`api/option/tenures?language=${locale}`);
-
-    setSubstantiveOptions(result.data);
-  }, [axios, locale]);
-
-  // Get classification options
-  const getClassificationOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/classifications?language=${locale}`
-    );
-
-    setClassificationOptions(result.data);
-  }, [axios, locale]);
-
-  // Get security options
-  const getSecurityOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/securityClearances?language=${locale}`
-    );
-
-    setSecurityOptions(result.data);
-  }, [axios, locale]);
-
-  // Get user profile for form drop down
-  const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
-    );
-
-    setProfileInfo(result.data);
-
-    if (result.data.description) {
-      setCharsLeft(1000 - result.data.description.length);
+  const getBackendInfo = useCallback(async () => {
+    try {
+      const [tenures, classifications, clearance, profile] = await Promise.all([
+        axios.get(`api/option/tenures?language=${locale}`),
+        axios.get(`api/option/classifications?language=${locale}`),
+        axios.get(`api/option/securityClearances?language=${locale}`),
+        axios.get(`api/profile/private/${id}?language=${locale}`),
+      ]);
+      setSubstantiveOptions(tenures.data);
+      setClassificationOptions(classifications.data);
+      setSecurityOptions(clearance.data);
+      setProfileInfo(profile.data);
+      if (profile.data.description)
+        setCharsLeft(1000 - profile.data.description.length);
+      setLoad(true);
+    } catch (error) {
+      handleError(error, "redirect", history);
+      throw error;
     }
-  }, [axios, id, locale]);
+  }, [axios, history, id, locale]);
 
   useEffect(() => {
-    // Get all required data component
-    Promise.all([
-      getClassificationOptions(),
-      getSubstantiveOptions(),
-      getSecurityOptions(),
-      getProfileInfo(),
-    ])
-      .then(() => {
-        setLoad(true);
-      })
-      .catch((error) => {
-        setLoad(false);
-        handleError(error, "redirect", history);
-      });
-  }, [
-    getClassificationOptions,
-    getProfileInfo,
-    getSecurityOptions,
-    getSubstantiveOptions,
-    history,
-  ]);
+    getBackendInfo();
+  }, [getBackendInfo, history]);
 
   return (
     <EmploymentDataFormView

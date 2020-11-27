@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "antd";
 import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { HomeOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import ErrorResultView from "./errorResultView";
 
-const Error403 = () => {
+const ErrorNumber = ({ error }) => {
   const [back, setBack] = useState(false);
-
   const handleClick = () => {
     setBack(true);
   };
@@ -18,19 +18,27 @@ const Error403 = () => {
 
   return (
     <ErrorResultView
-      status="403"
-      title="403"
-      subTitle={<FormattedMessage id="error.403.subtitle" />}
-      extra={(
+      status={error}
+      title={error}
+      subTitle={<FormattedMessage id={`error.${error}.subtitle`} />}
+      extra={
         <Button onClick={handleClick} type="primary">
           <HomeOutlined />
           <span>
             <FormattedMessage id="error.button" />
           </span>
         </Button>
-      )}
+      }
     />
   );
 };
 
-export default Error403;
+ErrorNumber.propTypes = {
+  error: PropTypes.string,
+};
+
+ErrorNumber.defaultProps = {
+  error: "",
+};
+
+export default ErrorNumber;

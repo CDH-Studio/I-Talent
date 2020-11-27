@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
@@ -76,19 +76,19 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
     rowName: <FormattedMessage id="profile.org.tree" />,
     savedLabel: savedProfile.organizations[0]
       ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
-          .title
+        .title
       : "-",
     savedValue: savedProfile.organizations[0]
       ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
-          .title
+        .title
       : "-",
     gedsLabel: savedProfile.organizations
       ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
-          .title[locale]
+        .title[locale]
       : "-",
     gedsValue: savedProfile.organizations
       ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
-          .title[locale]
+        .title[locale]
       : "-",
     paramName: "organization",
   },
@@ -145,7 +145,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const syncGedsButtonAction = async ({ paramName }) => {
     setTableLoading(true);
 
-    let updatedProfile = {};
+    const updatedProfile = {};
 
     switch (paramName) {
       case "firstName":
@@ -171,17 +171,17 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       case "jobTitle":
         updatedProfile.jobTitle = newGedsValues.jobTitle
           ? {
-              ENGLISH: newGedsValues.jobTitle.ENGLISH,
-              FRENCH: newGedsValues.jobTitle.FRENCH,
-            }
+            ENGLISH: newGedsValues.jobTitle.ENGLISH,
+            FRENCH: newGedsValues.jobTitle.FRENCH,
+          }
           : null;
         break;
       case "branch":
         updatedProfile.branch = newGedsValues.branch
           ? {
-              ENGLISH: newGedsValues.branch.ENGLISH,
-              FRENCH: newGedsValues.branch.FRENCH,
-            }
+            ENGLISH: newGedsValues.branch.ENGLISH,
+            FRENCH: newGedsValues.branch.FRENCH,
+          }
           : null;
         break;
       case "organization":
@@ -190,7 +190,6 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
           : null;
         break;
       default:
-        updatedProfile = null;
         throw new Error("sync request category not recognized");
     }
     await saveDataToDB(updatedProfile);
@@ -236,8 +235,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             isEqual(record.savedValue, record.gedsValue) ? (
               <CheckOutlined />
             ) : (
-              <SyncOutlined />
-            )
+                <SyncOutlined />
+              )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
@@ -245,8 +244,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             {isEqual(record.savedValue, record.gedsValue) ? (
               <FormattedMessage id="profile.geds.update.synced" />
             ) : (
-              <FormattedMessage id="profile.geds.update.sync" />
-            )}
+                <FormattedMessage id="profile.geds.update.sync" />
+              )}
           </span>
         </Button>
       ),
@@ -291,14 +290,14 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
           title={<FormattedMessage id="profile.geds.update.error.message" />}
         />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-          size="small"
-          loading={!tableData || tableLoading}
-        />
-      )}
+          <Table
+            columns={columns}
+            dataSource={tableData}
+            pagination={false}
+            size="small"
+            loading={!tableData || tableLoading}
+          />
+        )}
     </Modal>
   );
 };

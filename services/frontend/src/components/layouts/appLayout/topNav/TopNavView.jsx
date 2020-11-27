@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   DownOutlined,
   EditOutlined,
@@ -129,13 +129,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   const search = () => {
     if (searchValue && searchValue.length > 0) {
-      const needsToReload = window.location.pathname.includes("/results");
-
       history.push(`/results?searchValue=${searchValue}`);
-
-      if (needsToReload) {
-        window.location.reload();
-      }
     }
   };
 

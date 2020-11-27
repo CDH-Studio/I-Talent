@@ -1,4 +1,3 @@
-import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
@@ -47,7 +46,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
                 ? intl.formatMessage({ id: "profile.expired.date" })
                 : intl.formatMessage({ id: "profile.expires.date" })
             } ${dayjs(info.date).format("ll")})`;
-          } else if (!(info.expired === false)) {
+          } else if (info.expired !== false) {
             nextData.expiryInfo = `(${
               info.expired
                 ? intl.formatMessage({ id: "profile.expired" })

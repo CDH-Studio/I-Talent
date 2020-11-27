@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
 import { useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";

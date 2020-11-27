@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Row } from "antd";
-import { map } from "lodash";
+import { map, property } from "lodash";
 import useAxios from "../../utils/useAxios";
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
@@ -21,6 +21,7 @@ const ResultsCard = () => {
   const history = useHistory();
 
   const search = useCallback(async () => {
+    setResults(undefined);
     const urlSections = window.location.toString().split("?");
 
     if (urlSections.length === 2) {
@@ -42,7 +43,7 @@ const ResultsCard = () => {
       `api/profile/private/${id}?language=${locale}`
     );
 
-    setConnections(map(result.data.connections, "id"));
+    setConnections(map(result.data.connections, property("id")));
   }, [axios, id, locale]);
 
   useEffect(() => {
@@ -50,6 +51,14 @@ const ResultsCard = () => {
       handleError(e, "redirect", history)
     );
   }, [getConnections, search, history]);
+
+  useEffect(
+    () =>
+      history.listen(async () => {
+        search().catch((e) => handleError(e, "redirect", history));
+      }),
+    [history, search]
+  );
 
   const addConnection = async (urlID) => {
     await axios

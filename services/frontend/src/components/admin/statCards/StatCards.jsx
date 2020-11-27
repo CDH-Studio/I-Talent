@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import StatCardsView from "./StatCardsView";
 
@@ -9,7 +8,6 @@ import StatCardsView from "./StatCardsView";
  */
 const StatCards = () => {
   const { count, growthRate } = useSelector((state) => state.stats);
-
   return (
     <StatCardsView
       countUsers={count.users}

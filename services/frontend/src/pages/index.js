@@ -4,11 +4,9 @@ import Results from "./Results";
 import Profile from "./Profile";
 import ProfileEdit from "./ProfileEdit";
 import ProfileCreate from "./ProfileCreate";
-import NotFound from "./NotFound";
 import Logout from "./Logout";
 import UnexpectedError from "./UnexpectedError";
 import About from "./About";
-import Forbidden from "./Forbidden";
 import Stats from "./Stats";
 import Settings from "./Settings";
 
@@ -20,10 +18,8 @@ export {
   Profile,
   ProfileEdit,
   ProfileCreate,
-  NotFound,
   UnexpectedError,
   About,
-  Forbidden,
   Stats,
   Settings,
 };

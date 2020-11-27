@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
   Anchor,
@@ -44,7 +44,7 @@ import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import ErrorProfileNotFound from "../../errorResult/errorProfileNotFound";
+import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import "./ProfileLayoutView.less";
 
@@ -437,7 +437,14 @@ const ProfileLayoutView = ({
           </Tooltip>
         }
       />
-      {data ? displayAllProfileCards() : <ErrorProfileNotFound />}
+      {data ? (
+        displayAllProfileCards()
+      ) : (
+          <ErrorProfilePage
+            titleId="profile.not.found"
+            subtitleId="profile.not.found.description"
+          />
+        )}
     </AppLayout>
   );
 };

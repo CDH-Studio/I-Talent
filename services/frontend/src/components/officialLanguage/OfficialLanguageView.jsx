@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
 import { FormattedMessage } from "react-intl";
