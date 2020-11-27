@@ -3,7 +3,7 @@ const Fuse = require("fuse.js");
 async function fuzzySearch(profiles, searchValue) {
   const options = {
     shouldSort: true,
-    threshold: 0.3,
+    threshold: 0.5,
     keys: [
       "actingLevel.name",
       "branch",

@@ -109,10 +109,8 @@ const SearchFilter = () => {
     }
   }, [axios, history, locale]);
 
-  useEffect(() => {
-    getSearchFieldValues();
-    getBackendInfo();
-  }, [axios, locale, history, getBackendInfo, getSearchFieldValues]);
+  useEffect(getBackendInfo, [getBackendInfo]);
+  useEffect(getSearchFieldValues, [getSearchFieldValues]);
 
   // page with query
   const handleSearch = (values) => {
