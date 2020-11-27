@@ -20,7 +20,7 @@ const AppLayoutView = ({
   const { locale } = useSelector((state) => state.settings);
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout className="app-outer-layout">
       <Helmet>
         <html lang={locale === "ENGLISH" ? "en" : "fr"} />
       </Helmet>
@@ -35,7 +35,7 @@ const AppLayoutView = ({
           displaySideBar={displaySideBar}
           loading={loading}
         />
-        <Layout>
+        <Layout className="app-layout">
           <Content className="app-content">
             {loading ? (
               <Card>
