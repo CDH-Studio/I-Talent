@@ -56,7 +56,7 @@ const tableColumns = (handleEdit) => [
     title: <FormattedMessage id="bugs.location" />,
     filters: [
       {
-        text: <FormattedMessage id="bugs.location.home" />,
+        text: <FormattedMessage id="home" />,
         value: "HOME",
       },
       {
@@ -76,7 +76,7 @@ const tableColumns = (handleEdit) => [
     render: (record) => (
       <>
         <Tag visible={record.location === "HOME"} color="magenta">
-          <FormattedMessage id="bugs.location.home" />
+          <FormattedMessage id="home" />
         </Tag>
         <Tag visible={record.location === "SEARCH"} color="geekblue">
           <FormattedMessage id="bugs.location.search" />
@@ -190,7 +190,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
 
   const locationOptions = [
     {
-      label: intl.formatMessage({ id: "bugs.location.home" }),
+      label: intl.formatMessage({ id: "home" }),
       value: "HOME",
     },
     {

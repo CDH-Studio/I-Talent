@@ -32,7 +32,7 @@ const ReportBugView = ({ saveDataToDB }) => {
 
   const radioOptions = [
     {
-      label: intl.formatMessage({ id: "bugs.location.home" }),
+      label: intl.formatMessage({ id: "home" }),
       value: "HOME",
     },
     {

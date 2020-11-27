@@ -444,7 +444,7 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="secondaryReadingDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
                 <DatePicker
@@ -495,7 +495,7 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="secondaryWritingDate"
-                label={<FormattedMessage id="profile.secondary.writing.date" />}
+                label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
                 <DatePicker
@@ -546,7 +546,7 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="secondaryOralDate"
-                label={<FormattedMessage id="profile.secondary.oral.date" />}
+                label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
                 <DatePicker

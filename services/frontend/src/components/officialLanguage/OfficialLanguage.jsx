@@ -43,7 +43,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
           if (info.date) {
             nextData.expiryInfo = ` (${
               info.expired
-                ? intl.formatMessage({ id: "profile.expired.date" })
+                ? intl.formatMessage({ id: "profile.expired" })
                 : intl.formatMessage({ id: "profile.expires.date" })
             } ${dayjs(info.date).format("ll")})`;
           } else if (info.expired !== false) {
