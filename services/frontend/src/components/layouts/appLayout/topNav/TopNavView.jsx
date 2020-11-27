@@ -182,7 +182,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
     return (
       <Button type="primary" href="/" onClick={() => keycloak.login()}>
-        <FormattedMessage id="landing.login.button" />
+        <FormattedMessage id="sign.in" />
       </Button>
     );
   };

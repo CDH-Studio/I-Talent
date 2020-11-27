@@ -22,7 +22,7 @@ import handleError from "../../../functions/handleError";
 
 const tableColumns = (handleEdit) => [
   {
-    title: <FormattedMessage id="admin.name" />,
+    title: <FormattedMessage id="name" />,
     key: "user",
     render: (record) => {
       return <Link to={`/profile/${record.userId}`}>{record.userName}</Link>;
@@ -64,7 +64,7 @@ const tableColumns = (handleEdit) => [
         value: "SEARCH",
       },
       {
-        text: <FormattedMessage id="bugs.location.profile" />,
+        text: <FormattedMessage id="profile" />,
         value: "PROFILE",
       },
       {
@@ -82,7 +82,7 @@ const tableColumns = (handleEdit) => [
           <FormattedMessage id="bugs.location.search" />
         </Tag>
         <Tag visible={record.location === "PROFILE"} color="green">
-          <FormattedMessage id="bugs.location.profile" />
+          <FormattedMessage id="profile" />
         </Tag>
         <Tag visible={record.location === "FORMS"} color="orange">
           <FormattedMessage id="bugs.location.forms" />
@@ -194,7 +194,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
       value: "HOME",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.profile" }),
+      label: intl.formatMessage({ id: "profile" }),
       value: "PROFILE",
     },
     {

@@ -427,7 +427,7 @@ const ProfileLayoutView = ({
           <>
             <SolutionOutlined />
             <FormattedMessage
-              id={privateProfile ? "my.profile" : "other.profile"}
+              id={privateProfile ? "my.profile" : "profile"}
             />
           </>
         }

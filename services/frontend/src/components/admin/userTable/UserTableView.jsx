@@ -223,7 +223,7 @@ const UserTableView = ({
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => [
     {
-      title: <FormattedMessage id="admin.name" />,
+      title: <FormattedMessage id="name" />,
       dataIndex: "fullName",
       key: "name",
       sorter: (a, b) => {
@@ -233,7 +233,7 @@ const UserTableView = ({
       ...getColumnSearchProps(
         "fullName",
         intl.formatMessage({
-          id: "admin.name",
+          id: "name",
         }),
         "profileLink"
       ),

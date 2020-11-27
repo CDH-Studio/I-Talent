@@ -55,7 +55,7 @@ const SearchFilterView = ({
     "exFeeder",
   ];
   const labelArr = [
-    <FormattedMessage id="advanced.search.form.name" />,
+    <FormattedMessage id="name" />,
     <FormattedMessage id="classification" />,
     <FormattedMessage id="advanced.search.form.location" />,
     <FormattedMessage id="branch" />,

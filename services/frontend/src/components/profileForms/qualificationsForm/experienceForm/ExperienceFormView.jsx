@@ -272,7 +272,7 @@ const ExperienceFormView = ({
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder={<FormattedMessage id="setup.projects.placeholder" />}
+              placeholder={<FormattedMessage id="press.enter.to.add" />}
             />
           </Form.Item>
         </Col>

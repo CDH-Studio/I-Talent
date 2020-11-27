@@ -137,7 +137,7 @@ const SearchBarView = ({
           <Col span={12}>
             {/* name field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.name" />}
+              label={<FormattedMessage id="name" />}
               name="name"
             >
               <Input style={{ width: "100%" }} placeholder={searchLabel} />

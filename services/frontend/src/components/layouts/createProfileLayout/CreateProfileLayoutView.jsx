@@ -128,7 +128,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
-          {createProfileStep("setup.welcome", [])}
+          {createProfileStep("welcome", [])}
           {createProfileStep("setup.primary.information", [
             "setup.step.2.description",
             "profile.employment.equity.groups",

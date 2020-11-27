@@ -36,7 +36,7 @@ const ReportBugView = ({ saveDataToDB }) => {
       value: "HOME",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.profile" }),
+      label: intl.formatMessage({ id: "profile" }),
       value: "PROFILE",
     },
     {

@@ -495,7 +495,7 @@ const PrimaryInfoFormView = ({
                   mode="tags"
                   style={{ width: "100%" }}
                   notFoundContent={
-                    <FormattedMessage id="setup.teams.placeholder" />
+                    <FormattedMessage id="press.enter.to.add" />
                   }
                 />
               </Form.Item>
