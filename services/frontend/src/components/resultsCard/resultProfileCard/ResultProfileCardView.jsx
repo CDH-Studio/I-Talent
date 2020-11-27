@@ -21,7 +21,6 @@ import {
   EyeInvisibleOutlined,
   BranchesOutlined,
   EnvironmentOutlined,
-  FileSearchOutlined,
 } from "@ant-design/icons";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
@@ -131,8 +130,6 @@ const ResultProfileCardView = ({
       display: "inline-block",
     };
 
-    console.log(user);
-
     // get action in ribbon
     if (user.id !== loggedInUserId) {
       return (
@@ -229,19 +226,16 @@ const ResultProfileCardView = ({
     );
   };
 
-  /*
-   * Handle Key Press
-   *
+  /**
    * handle how to process when enter key is hit when focusing on a results card
+   * @param {Object} userId - ID of the profile being rendered on card.
    */
-  const handleKeyPress = (e, person) => {
+  const handleKeyPress = (e, userId) => {
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
-      history.push(`/profile/${person.id}`);
+      history.push(`/profile/${userId}`);
     }
   };
-
-  console.log("ResultProfileCardView", profile);
 
   return (
     <Col span={24} xxl={12} key={key}>
@@ -256,19 +250,10 @@ const ResultProfileCardView = ({
           hoverable
           bordered
           onClick={() => history.push(`/profile/${profile.id}`)}
-          onKeyPress={(e) => handleKeyPress(e, profile)}
+          onKeyPress={(e) => handleKeyPress(e, profile.id)}
           actions={getCardFooter({ user: profile })}
           bodyStyle={{ padding: "23px", flex: 1, flexBasis: "auto" }}
         >
-          {profile.matches && (
-            <Button
-              shape="circle"
-              icon={<FileSearchOutlined />}
-              size="medium"
-              style={{ position: "absolute", top: 10, right: 190 }}
-            />
-          )}
-
           <Row>
             <Col span={24}>
               <Row style={{ paddingTop: "15px" }}>
