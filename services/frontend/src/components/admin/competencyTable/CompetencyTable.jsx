@@ -114,7 +114,7 @@ const CompetencyTable = ({ intl }) => {
         });
 
       return intl.formatMessage({
-        id: `admin.competency.singular`,
+        id: `competency`,
       });
     };
 

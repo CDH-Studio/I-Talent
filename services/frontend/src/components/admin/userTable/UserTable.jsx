@@ -111,17 +111,17 @@ const UserTable = () => {
     switch (status) {
       case "INACTIVE":
         return intl.formatMessage({
-          id: "admin.inactive",
+          id: "inactive",
         });
 
       case "HIDDEN":
         return intl.formatMessage({
-          id: "admin.flagged",
+          id: "flagged",
         });
 
       default:
         return intl.formatMessage({
-          id: "admin.active",
+          id: "active",
         });
     }
   };

@@ -456,7 +456,7 @@ const PrimaryInfoFormView = ({
                 name="jobTitle"
                 label={
                   <>
-                    <FormattedMessage id="profile.career.header.name" />
+                    <FormattedMessage id="job.title" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
                         trigger={["focus", "hover"]}

@@ -75,39 +75,39 @@ const CompetencyTableView = ({
       clearFilters,
       /* eslint-enable react/prop-types */
     }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={(node) => {
-            searchInput = node;
-          }}
-          placeholder={`${intl.formatMessage({
-            id: "admin.search",
-          })} ${title}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
-        />
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          <FormattedMessage id="admin.search.button" />
-        </Button>
-        <Button
-          onClick={() => handleReset(clearFilters)}
-          size="small"
-          style={{ width: 90 }}
-        >
-          <FormattedMessage id="admin.reset.button" />
-        </Button>
-      </div>
-    ),
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={(node) => {
+              searchInput = node;
+            }}
+            placeholder={`${intl.formatMessage({
+              id: "admin.search",
+            })} ${title}`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: "block" }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            <FormattedMessage id="admin.search.button" />
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <FormattedMessage id="admin.reset.button" />
+          </Button>
+        </div>
+      ),
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
@@ -127,8 +127,8 @@ const CompetencyTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      ),
+          text
+        ),
   });
 
   /* Renders the success message on top of page */
@@ -144,7 +144,7 @@ const CompetencyTableView = ({
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -154,9 +154,9 @@ const CompetencyTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={<FormattedMessage id="admin.delete.competency" />}
-        okText={<FormattedMessage id="admin.delete" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="delete.competency" />}
+        okText={<FormattedMessage id="delete" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -171,7 +171,7 @@ const CompetencyTableView = ({
         <Button disabled={selectedRowKeys.length === 0} danger>
           <DeleteOutlined />
           <span>
-            <FormattedMessage id="admin.delete" />
+            <FormattedMessage id="delete" />
           </span>
         </Button>
       </Popconfirm>
@@ -221,9 +221,9 @@ const CompetencyTableView = ({
     return (
       <Modal
         visible={addVisible}
-        title={<FormattedMessage id="admin.add.competency" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="add.competency" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={async () => {
           addForm
             .validateFields()
@@ -273,7 +273,7 @@ const CompetencyTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.competency.descriptionFr",
+                id: "add.competency.descriptionFr",
               })}
               allowClear
             />
@@ -288,9 +288,9 @@ const CompetencyTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={<FormattedMessage id="admin.edit.competency" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="edit.competency" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={async () => {
           editForm
             .validateFields()
@@ -335,7 +335,7 @@ const CompetencyTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.competency.descriptionFr",
+                id: "add.competency.descriptionFr",
               })}
             />
           </Form.Item>
@@ -410,7 +410,7 @@ const CompetencyTableView = ({
         title={
           <>
             <DatabaseOutlined />
-            <FormattedMessage id="admin.competency.table" />
+            <FormattedMessage id="competencies.table" />
           </>
         }
         extra={
@@ -419,7 +419,7 @@ const CompetencyTableView = ({
             <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined />
               <span>
-                <FormattedMessage id="admin.add" />
+                <FormattedMessage id="add" />
               </span>
             </Button>
           </>

@@ -109,7 +109,7 @@ const EducationFormView = ({
               </Col>
               <Tooltip
                 placement="top"
-                title={<FormattedMessage id="admin.delete" />}
+                title={<FormattedMessage id="delete" />}
               >
                 <Button
                   type="link"
@@ -201,7 +201,7 @@ const EducationFormView = ({
 
               return (
                 fieldPrevValues.ongoingDate !==
-                  fieldCurrentValues.ongoingDate ||
+                fieldCurrentValues.ongoingDate ||
                 (fieldPrevValues.endDate &&
                   fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
               );

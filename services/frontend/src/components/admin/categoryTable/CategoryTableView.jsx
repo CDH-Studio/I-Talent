@@ -145,7 +145,7 @@ const CategoryTableView = ({
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -200,9 +200,9 @@ const CategoryTableView = ({
     return (
       <Modal
         visible={addVisible}
-        title={<FormattedMessage id="admin.add.category" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="add.category" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           addForm
             .validateFields()
@@ -235,7 +235,7 @@ const CategoryTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.category.descriptionEn",
+                id: "add.category.descriptionEn",
               })}
               allowClear
             />
@@ -252,7 +252,7 @@ const CategoryTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.category.descriptionFr",
+                id: "add.category.descriptionFr",
               })}
               allowClear
             />
@@ -267,9 +267,9 @@ const CategoryTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={<FormattedMessage id="admin.edit.category" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="edit.category" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           editForm
             .validateFields()
@@ -304,7 +304,7 @@ const CategoryTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.category.descriptionEn",
+                id: "add.category.descriptionEn",
               })}
             />
           </Form.Item>
@@ -314,7 +314,7 @@ const CategoryTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.category.descriptionFr",
+                id: "add.category.descriptionFr",
               })}
             />
           </Form.Item>
@@ -328,9 +328,9 @@ const CategoryTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={<FormattedMessage id="admin.delete.category" />}
-        okText={<FormattedMessage id="admin.delete" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="delete.category" />}
+        okText={<FormattedMessage id="delete" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onConfirm={() => {
           checkDelete().catch((error) =>
             handleError(error, "message", history)
@@ -343,7 +343,7 @@ const CategoryTableView = ({
         <Button disabled={selectedRowKeys.length === 0} danger>
           <DeleteOutlined />
           <span>
-            <FormattedMessage id="admin.delete" />
+            <FormattedMessage id="delete" />
           </span>
         </Button>
       </Popconfirm>
@@ -416,7 +416,7 @@ const CategoryTableView = ({
         title={
           <>
             <DatabaseOutlined />
-            <FormattedMessage id="admin.category.table" />
+            <FormattedMessage id="skill.categories.table" />
           </>
         }
         extra={
@@ -425,7 +425,7 @@ const CategoryTableView = ({
             <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined />
               <span>
-                <FormattedMessage id="admin.add" />
+                <FormattedMessage id="add" />
               </span>
             </Button>
           </>

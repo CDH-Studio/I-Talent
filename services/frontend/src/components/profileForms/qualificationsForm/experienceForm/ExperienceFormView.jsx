@@ -110,7 +110,7 @@ const ExperienceFormView = ({
               </Col>
               <Tooltip
                 placement="top"
-                title={<FormattedMessage id="admin.delete" />}
+                title={<FormattedMessage id="delete" />}
               >
                 <Button
                   type="link"
@@ -133,7 +133,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
-            label={<FormattedMessage id="admin.job.title" />}
+            label={<FormattedMessage id="job.title" />}
             rules={[Rules.required, Rules.maxChar60]}
           >
             <Input />
@@ -185,7 +185,7 @@ const ExperienceFormView = ({
 
               return (
                 fieldPrevValues.ongoingDate !==
-                  fieldCurrentValues.ongoingDate ||
+                fieldCurrentValues.ongoingDate ||
                 (fieldPrevValues.endDate &&
                   fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
               );

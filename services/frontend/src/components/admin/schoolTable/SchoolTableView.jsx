@@ -79,39 +79,39 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       confirm,
       clearFilters,
     }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={(node) => {
-            searchInput = node;
-          }}
-          placeholder={`${intl.formatMessage({
-            id: "admin.search",
-          })} ${title}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
-        />
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          <FormattedMessage id="admin.search.button" />
-        </Button>
-        <Button
-          onClick={() => handleReset(clearFilters)}
-          size="small"
-          style={{ width: 90 }}
-        >
-          <FormattedMessage id="admin.reset.button" />
-        </Button>
-      </div>
-    );
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={(node) => {
+              searchInput = node;
+            }}
+            placeholder={`${intl.formatMessage({
+              id: "admin.search",
+            })} ${title}`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: "block" }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            <FormattedMessage id="admin.search.button" />
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <FormattedMessage id="admin.reset.button" />
+          </Button>
+        </div>
+      );
 
     filterDropdown.propTypes = {
       clearFilters: PropTypes.func.isRequired,
@@ -175,7 +175,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -185,9 +185,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     return (
       <Popconfirm
         placement="left"
-        title={<FormattedMessage id="admin.delete.school" />}
-        okText={<FormattedMessage id="admin.delete" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="delete.school" />}
+        okText={<FormattedMessage id="delete" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -202,7 +202,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         <Button disabled={selectedRowKeys.length === 0} danger>
           <DeleteOutlined />
           <span>
-            <FormattedMessage id="admin.delete" />
+            <FormattedMessage id="delete" />
           </span>
         </Button>
       </Popconfirm>
@@ -252,9 +252,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     return (
       <Modal
         visible={addVisible}
-        title={<FormattedMessage id="admin.add.school" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="add.school" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           addForm
             .validateFields()
@@ -287,7 +287,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.name",
+                id: "add.school.name",
               })}
               allowClear
             />
@@ -304,7 +304,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.name",
+                id: "add.school.name",
               })}
               allowClear
             />
@@ -326,7 +326,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.state",
+                id: "add.school.state",
               })}
               maxLength={2}
               allowClear
@@ -334,7 +334,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           </Form.Item>
           <Form.Item
             name="addSchoolCountry"
-            label={<FormattedMessage id="admin.country.limit" />}
+            label={<FormattedMessage id="country.limit" />}
             rules={[
               {
                 required: true,
@@ -349,7 +349,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.country",
+                id: "add.school.country",
               })}
               maxLength={3}
               allowClear
@@ -365,9 +365,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     return (
       <Modal
         visible={editVisible}
-        title={<FormattedMessage id="admin.edit.school" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="edit.school" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           editForm
             .validateFields()
@@ -402,7 +402,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.name",
+                id: "add.school.name",
               })}
             />
           </Form.Item>
@@ -412,7 +412,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.name",
+                id: "add.school.name",
               })}
             />
           </Form.Item>
@@ -422,18 +422,18 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.state",
+                id: "add.school.state",
               })}
               maxLength={2}
             />
           </Form.Item>
           <Form.Item
             name="editSchoolCountry"
-            label={<FormattedMessage id="admin.country.limit" />}
+            label={<FormattedMessage id="country.limit" />}
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.school.state",
+                id: "add.school.state",
               })}
               maxLength={3}
             />
@@ -562,7 +562,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined />
               <span>
-                <FormattedMessage id="admin.add" />
+                <FormattedMessage id="add" />
               </span>
             </Button>
           </>

@@ -39,7 +39,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
             <Descriptions.Item
               label={
                 <Text strong>
-                  <FormattedMessage id="profile.qualified.pools.job.title" />
+                  <FormattedMessage id="job.title" />
                 </Text>
               }
             >

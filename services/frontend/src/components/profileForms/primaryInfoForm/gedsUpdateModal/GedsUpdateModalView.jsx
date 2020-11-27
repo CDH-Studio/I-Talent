@@ -55,7 +55,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "5",
-    rowName: <FormattedMessage id="profile.career.header.name" />,
+    rowName: <FormattedMessage id="job.title" />,
     savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",

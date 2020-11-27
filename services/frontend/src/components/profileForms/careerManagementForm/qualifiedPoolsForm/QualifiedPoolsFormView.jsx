@@ -61,7 +61,7 @@ const QualifiedPoolsFormView = ({
               </Col>
               <Tooltip
                 placement="top"
-                title={<FormattedMessage id="admin.delete" />}
+                title={<FormattedMessage id="delete" />}
               >
                 <Button
                   type="link"
@@ -104,7 +104,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
-            label={<FormattedMessage id="profile.qualified.pools.job.title" />}
+            label={<FormattedMessage id="job.title" />}
             rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&

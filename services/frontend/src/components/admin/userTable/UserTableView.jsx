@@ -71,39 +71,39 @@ const UserTableView = ({
       clearFilters,
       /* eslint-enable react/prop-types */
     }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={(node) => {
-            searchInput = node;
-          }}
-          placeholder={`${intl.formatMessage({
-            id: "admin.search",
-          })} ${title}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
-        />
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          <FormattedMessage id="admin.search.button" />
-        </Button>
-        <Button
-          onClick={() => handleReset(clearFilters)}
-          size="small"
-          style={{ width: 90 }}
-        >
-          <FormattedMessage id="admin.reset.button" />
-        </Button>
-      </div>
-    ),
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={(node) => {
+              searchInput = node;
+            }}
+            placeholder={`${intl.formatMessage({
+              id: "admin.search",
+            })} ${title}`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: "block" }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            <FormattedMessage id="admin.search.button" />
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <FormattedMessage id="admin.reset.button" />
+          </Button>
+        </div>
+      ),
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
@@ -124,8 +124,8 @@ const UserTableView = ({
             textToHighlight={text.toString()}
           />
         ) : (
-          text
-        );
+            text
+          );
 
       if (linkKey && record[linkKey]) {
         return <Link to={record[linkKey]}>{view}</Link>;
@@ -149,10 +149,10 @@ const UserTableView = ({
           }}
         >
           <Option key="active" value="ACTIVE">
-            <FormattedMessage id="admin.active" />
+            <FormattedMessage id="active" />
           </Option>
           <Option key="inactive" value="INACTIVE">
-            <FormattedMessage id="admin.inactive" />
+            <FormattedMessage id="inactive" />
           </Option>
         </Select>
       </div>
@@ -163,7 +163,7 @@ const UserTableView = ({
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -184,7 +184,7 @@ const UserTableView = ({
         placement="left"
         title={<FormattedMessage id="admin.update.confirm" />}
         okText={<FormattedMessage id="admin.update" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onConfirm={() => {
           handleApply()
             .then(popUpSuccesss)
@@ -198,7 +198,7 @@ const UserTableView = ({
         <Button type="primary" disabled={!modifiedStatus}>
           <CheckCircleOutlined />
           <span>
-            <FormattedMessage id="admin.apply" />
+            <FormattedMessage id="apply" />
           </span>
         </Button>
       </Popconfirm>
@@ -239,7 +239,7 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="admin.job.title" />,
+      title: <FormattedMessage id="job.title" />,
       dataIndex: "jobTitle",
       key: "jobTitle",
       sorter: (a, b) => {
@@ -248,7 +248,7 @@ const UserTableView = ({
       ...getColumnSearchProps(
         "jobTitle",
         intl.formatMessage({
-          id: "admin.job.title",
+          id: "job.title",
         })
       ),
     },
@@ -327,15 +327,15 @@ const UserTableView = ({
       width: 150,
       filters: [
         {
-          text: <FormattedMessage id="admin.active" />,
+          text: <FormattedMessage id="active" />,
           value: "ACTIVE",
         },
         {
-          text: <FormattedMessage id="admin.inactive" />,
+          text: <FormattedMessage id="inactive" />,
           value: "INACTIVE",
         },
         {
-          text: <FormattedMessage id="admin.flagged" />,
+          text: <FormattedMessage id="flagged" />,
           value: "HIDDEN",
         },
       ],
@@ -345,15 +345,15 @@ const UserTableView = ({
       },
     },
     {
-      title: <FormattedMessage id="admin.delete" />,
+      title: <FormattedMessage id="delete" />,
       fixed: "right",
       width: 80,
       render: (record) => (
         <Popconfirm
           placement="left"
-          title={<FormattedMessage id="admin.delete.user" />}
-          okText={<FormattedMessage id="admin.delete" />}
-          cancelText={<FormattedMessage id="admin.cancel" />}
+          title={<FormattedMessage id="delete.user" />}
+          okText={<FormattedMessage id="delete" />}
+          cancelText={<FormattedMessage id="cancel" />}
           onConfirm={() => {
             handleSubmitDelete(record.key)
               .then(popUpSuccesss)

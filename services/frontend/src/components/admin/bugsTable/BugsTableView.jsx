@@ -29,7 +29,7 @@ const tableColumns = (handleEdit) => [
     },
   },
   {
-    title: <FormattedMessage id="admin.created.at" />,
+    title: <FormattedMessage id="created.at" />,
     dataIndex: "createdAt",
     key: "createdAt",
     sortDirections: ["descend"],
@@ -47,7 +47,7 @@ const tableColumns = (handleEdit) => [
     },
   },
   {
-    title: <FormattedMessage id="admin.bugs.app.version" />,
+    title: <FormattedMessage id="application.version" />,
     dataIndex: "appVersion",
     key: "appVersion",
     render: (value) => value || "-",
@@ -122,7 +122,7 @@ const tableColumns = (handleEdit) => [
     ),
   },
   {
-    title: <FormattedMessage id="admin.bugs.github" />,
+    title: <FormattedMessage id="github.issue.link" />,
     dataIndex: "githubIssue",
     key: "githubIssue",
     render: (value) =>
@@ -135,8 +135,8 @@ const tableColumns = (handleEdit) => [
           #{value}
         </a>
       ) : (
-        "-"
-      ),
+          "-"
+        ),
   },
   {
     title: <FormattedMessage id="edit" />,
@@ -301,7 +301,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         okText={<FormattedMessage id="admin.apply" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
-        title={<FormattedMessage id="admin.bugs.edit" />}
+        title={<FormattedMessage id="edit.bugs" />}
       >
         <Form form={form} layout="vertical">
           <Form.Item
@@ -328,7 +328,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="githubIssue"
-            label={<FormattedMessage id="bugs.github" />}
+            label={<FormattedMessage id="github.issue.number" />}
           >
             <Input type="number" />
           </Form.Item>
