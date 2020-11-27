@@ -1,3 +1,4 @@
+import random from "lodash/random";
 import LandingLayoutView from "./LandingLayoutView";
 import backgroundOptionOne from "../../../assets/landing-1.svg";
 import backgroundOptionTwo from "../../../assets/landing-2.svg";
@@ -5,7 +6,6 @@ import backgroundOptionThree from "../../../assets/landing-3.svg";
 import backgroundOptionFour from "../../../assets/landing-4.svg";
 import backgroundOptionFive from "../../../assets/landing-5.svg";
 import backgroundOptionSix from "../../../assets/landing-6.svg";
-
 /**
  *  LandingLayout(props)
  *
@@ -26,7 +26,7 @@ const LandingLayout = () => {
       backgroundOptionFive,
       backgroundOptionSix,
     ];
-    const randomIndex = Math.floor(Math.random() * imageOptions.length);
+    const randomIndex = random(imageOptions.length - 1);
     return imageOptions[randomIndex];
   };
 

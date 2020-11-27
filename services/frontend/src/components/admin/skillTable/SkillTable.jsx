@@ -24,51 +24,35 @@ const SkillTable = ({ intl }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const history = useHistory();
-
   const dispatch = useDispatch();
 
-  // Fetches the skill information
-  const getSkill = useCallback(async () => {
+  const getBackendInfo = useCallback(async () => {
     try {
       dispatch(setAdminSkillsLoading(true));
-
-      const results = await axios.get(`api/option/skillsAllLang`);
-
-      // Formats data from backend into viewable data for the table
-      const formattedData = results.data.map((category) => ({
-        ...category,
-        key: category.id,
-      }));
-
-      dispatch(setAdminSkills(formattedData));
-    } catch (error) {
-      handleError(error, "redirect", history);
-    }
-  }, [axios, dispatch, history]);
-
-  // Fetches the category information
-  const getCategories = useCallback(async () => {
-    try {
       dispatch(setAdminCategoriesLoading(true));
+      const [skill, categories] = await Promise.all([
+        axios.get(`api/option/skillsAllLang`),
+        axios.get(`api/option/categoriesAllLang`),
+      ]);
 
-      const results = await axios.get(`api/option/categoriesAllLang`);
+      dispatch(
+        setAdminSkills(
+          skill.data.map((category) => ({ ...category, key: category.id }))
+        )
+      );
 
-      // Formats data from backend into viewable data for the table
-      const formattedData = results.data.map((category) => ({
-        ...category,
-        key: category.id,
-      }));
-
-      dispatch(setAdminCategories(formattedData));
+      dispatch(
+        setAdminCategories(
+          categories.data.map((category) => ({
+            ...category,
+            key: category.id,
+          }))
+        )
+      );
     } catch (error) {
       handleError(error, "redirect", history);
     }
   }, [axios, dispatch, history]);
-
-  useEffect(() => {
-    getSkill();
-    getCategories();
-  }, [getCategories, getSkill]);
 
   // Handles the search part of the column search functionality
   // Consult: function taken from Ant Design table components (updated to functional)
@@ -92,8 +76,7 @@ const SkillTable = ({ intl }) => {
       fr: values.addSkillFr,
       categoryId: values.addSkillCategory,
     });
-
-    getSkill();
+    getBackendInfo();
   };
 
   // Handles the update/edit of a skill
@@ -104,8 +87,7 @@ const SkillTable = ({ intl }) => {
       fr: values.editSkillFr,
       categoryId: values.editSkillCategoryId,
     });
-
-    getSkill();
+    getBackendInfo();
   };
 
   // Handles the deletion of a skill
@@ -115,9 +97,8 @@ const SkillTable = ({ intl }) => {
         ids: selectedRowKeys,
       },
     });
-
     setSelectedRowKeys([]);
-    getSkill();
+    getBackendInfo();
   };
 
   // Helper function to rowSelection
@@ -137,6 +118,7 @@ const SkillTable = ({ intl }) => {
   };
 
   useEffect(() => {
+    getBackendInfo();
     // Gets part of the title for the page
     const getDisplayType = (plural) => {
       if (plural)
@@ -148,7 +130,6 @@ const SkillTable = ({ intl }) => {
         id: `admin.skill.singular`,
       });
     };
-
     document.title = `${getDisplayType(true)} - Admin | I-Talent`;
   });
 

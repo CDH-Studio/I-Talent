@@ -129,13 +129,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   const search = () => {
     if (searchValue && searchValue.length > 0) {
-      const needsToReload = window.location.pathname.includes("/results");
-
       history.push(`/results?searchValue=${searchValue}`);
-
-      if (needsToReload) {
-        window.location.reload();
-      }
     }
   };
 
