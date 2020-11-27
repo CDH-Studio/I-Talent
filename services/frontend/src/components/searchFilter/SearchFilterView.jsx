@@ -43,7 +43,7 @@ const SearchFilterView = ({
     }
   }, [form, urlSearchFieldValues]);
 
-  const searchLabel = <FormattedMessage id="button.search" />;
+  const searchLabel = <FormattedMessage id="search" />;
   const searchTitles = [
     "name",
     "classifications",
@@ -57,10 +57,10 @@ const SearchFilterView = ({
   const labelArr = [
     <FormattedMessage id="name" />,
     <FormattedMessage id="classification" />,
-    <FormattedMessage id="advanced.search.form.location" />,
+    <FormattedMessage id="work.location" />,
     <FormattedMessage id="branch" />,
-    <FormattedMessage id="advanced.search.form.skills" />,
-    <FormattedMessage id="advanced.search.form.mentorship.skills" />,
+    <FormattedMessage id="skills" />,
+    <FormattedMessage id="mentorship.skills" />,
     null,
     <FormattedMessage id="ex.feeder" />,
   ];

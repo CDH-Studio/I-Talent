@@ -85,7 +85,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
               searchInput = node;
             }}
             placeholder={`${intl.formatMessage({
-              id: "admin.search",
+              id: "search.for",
             })} ${title}`}
             value={selectedKeys[0]}
             onChange={(e) =>
@@ -101,14 +101,14 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             size="small"
             style={{ width: 90, marginRight: 8 }}
           >
-            <FormattedMessage id="admin.search.button" />
+            <FormattedMessage id="search" />
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
           >
-            <FormattedMessage id="admin.reset.button" />
+            <FormattedMessage id="reset" />
           </Button>
         </div>
       );
@@ -166,7 +166,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   const popUpSuccesss = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "admin.success",
+        id: "successful",
       }),
     });
   };
@@ -281,7 +281,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.name" />,
+                message: <FormattedMessage id="validate.name" />,
               },
             ]}
           >
@@ -298,7 +298,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.name" />,
+                message: <FormattedMessage id="validate.name" />,
               },
             ]}
           >
@@ -311,16 +311,16 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           </Form.Item>
           <Form.Item
             name="addSchoolProvince"
-            label={<FormattedMessage id="admin.state.limit" />}
+            label={<FormattedMessage id="province.state.limit" />}
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.location" />,
+                message: <FormattedMessage id="validate.location" />,
               },
               {
                 min: 2,
                 max: 2,
-                message: <FormattedMessage id="admin.validate.length.2" />,
+                message: <FormattedMessage id="validate.length.2" />,
               },
             ]}
           >
@@ -338,12 +338,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.country" />,
+                message: <FormattedMessage id="validate.country" />,
               },
               {
                 min: 3,
                 max: 3,
-                message: <FormattedMessage id="admin.validate.length.3" />,
+                message: <FormattedMessage id="validate.length.3" />,
               },
             ]}
           >
@@ -418,7 +418,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           </Form.Item>
           <Form.Item
             name="editSchoolProvince"
-            label={<FormattedMessage id="admin.state.limit" />}
+            label={<FormattedMessage id="province.state.limit" />}
           >
             <Input
               placeholder={intl.formatMessage({
@@ -492,7 +492,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="admin.state" />,
+      title: <FormattedMessage id="province.state" />,
       dataIndex: "abbrProvince",
       key: "schoolState",
       sorter: (a, b) => {
@@ -501,7 +501,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ...getColumnSearchProps(
         "abbrProvince",
         intl.formatMessage({
-          id: "admin.state",
+          id: "province.state",
         })
       ),
     },
@@ -553,7 +553,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         title={
           <>
             <DatabaseOutlined />
-            <FormattedMessage id="admin.school.table" />
+            <FormattedMessage id="schools.table" />
           </>
         }
         extra={

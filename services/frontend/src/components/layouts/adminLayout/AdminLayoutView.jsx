@@ -47,7 +47,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
       </Menu.Item>
       <Menu.Item key="users" tabIndex={0}>
         <SolutionOutlined />
-        <FormattedMessage id="admin.user.plural" />
+        <FormattedMessage id="users" />
       </Menu.Item>
       <Menu.Item key="categories" tabIndex={0}>
         <AppstoreAddOutlined />
@@ -55,7 +55,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
       </Menu.Item>
       <Menu.Item key="skills" tabIndex={0}>
         <ToolOutlined />
-        <FormattedMessage id="admin.skill.plural" />
+        <FormattedMessage id="skills" />
       </Menu.Item>
       <Menu.Item key="competencies" tabIndex={0}>
         <FlagOutlined />

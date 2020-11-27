@@ -81,7 +81,7 @@ const CompetencyTableView = ({
               searchInput = node;
             }}
             placeholder={`${intl.formatMessage({
-              id: "admin.search",
+              id: "search.for",
             })} ${title}`}
             value={selectedKeys[0]}
             onChange={(e) =>
@@ -97,14 +97,14 @@ const CompetencyTableView = ({
             size="small"
             style={{ width: 90, marginRight: 8 }}
           >
-            <FormattedMessage id="admin.search.button" />
+            <FormattedMessage id="search" />
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
           >
-            <FormattedMessage id="admin.reset.button" />
+            <FormattedMessage id="reset" />
           </Button>
         </div>
       ),
@@ -135,7 +135,7 @@ const CompetencyTableView = ({
   const popUpSuccesss = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "admin.success",
+        id: "successful",
       }),
     });
   };
@@ -250,7 +250,7 @@ const CompetencyTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.description" />,
               },
             ]}
           >
@@ -267,7 +267,7 @@ const CompetencyTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.description" />,
               },
             ]}
           >

@@ -125,10 +125,10 @@ const ProfileCardsView = ({
             {typeof titleId === "string" ? (
               <FormattedMessage id={titleId} />
             ) : (
-              titleId
-            )}
+                titleId
+              )}
             {lastUpdated && (
-              <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+              <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
                   style={{
                     marginLeft: 10,

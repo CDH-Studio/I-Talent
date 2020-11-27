@@ -102,7 +102,7 @@ const SkillTableView = ({
               searchInput = node;
             }}
             placeholder={`${intl.formatMessage({
-              id: "admin.search",
+              id: "search.for",
             })} ${title}`}
             value={selectedKeys[0]}
             onChange={(e) =>
@@ -118,14 +118,14 @@ const SkillTableView = ({
             size="small"
             style={{ width: 90, marginRight: 8 }}
           >
-            <FormattedMessage id="admin.search.button" />
+            <FormattedMessage id="search" />
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
           >
-            <FormattedMessage id="admin.reset.button" />
+            <FormattedMessage id="reset" />
           </Button>
         </div>
       ),
@@ -156,7 +156,7 @@ const SkillTableView = ({
   const popUpSuccesss = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "admin.success",
+        id: "successful",
       }),
     });
   };
@@ -300,7 +300,7 @@ const SkillTableView = ({
             <Select
               showSearch
               placeholder={`${intl.formatMessage({
-                id: "admin.select",
+                id: "select",
               })} ${intl.formatMessage({
                 id: "category",
               })}`}
@@ -430,7 +430,7 @@ const SkillTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.country" />,
               },
             ]}
           >
@@ -447,7 +447,7 @@ const SkillTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.country" />,
               },
             ]}
           >
@@ -465,7 +465,7 @@ const SkillTableView = ({
               {
                 required: true,
                 message: intl.formatMessage({
-                  id: "admin.validate.description",
+                  id: "validate.country",
                 }),
               },
             ]}
@@ -473,7 +473,7 @@ const SkillTableView = ({
             <Select
               showSearch
               placeholder={`${intl.formatMessage({
-                id: "admin.select",
+                id: "select",
               })} ${intl.formatMessage({
                 id: "category",
               })}`}
@@ -501,7 +501,7 @@ const SkillTableView = ({
         title={
           <>
             <DatabaseOutlined />
-            <FormattedMessage id="admin.skill.table" />
+            <FormattedMessage id="skills.table" />
           </>
         }
         extra={

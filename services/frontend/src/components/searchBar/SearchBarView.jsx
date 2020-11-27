@@ -42,7 +42,7 @@ const SearchBarView = ({
   const [form] = Form.useForm();
 
   const searchLabel = intl.formatMessage({
-    id: "button.search",
+    id: "search",
   });
 
   // Toggle expandable advanced search form
@@ -61,7 +61,7 @@ const SearchBarView = ({
       <Form.Item
         label={
           <span className="searchLabel">
-            <FormattedMessage id="button.basic.search" />
+            <FormattedMessage id="basic.search" />
           </span>
         }
         name="searchValue"
@@ -97,7 +97,7 @@ const SearchBarView = ({
             form.resetFields();
           }}
         >
-          <FormattedMessage id="button.clear" />
+          <FormattedMessage id="clear.changes" />
         </Button>
       </div>
     );
@@ -116,7 +116,7 @@ const SearchBarView = ({
               <SettingOutlined
                 style={{ marginRight: "4px", color: "#3CBAB3" }}
               />
-              <FormattedMessage id="advanced.search.button.text" />
+              <FormattedMessage id="advanced.search" />
             </Title>
             <FormattedMessage id="advanced.search.description" />
           </Col>
@@ -168,7 +168,7 @@ const SearchBarView = ({
           <Col span={12}>
             {/* Location field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.location" />}
+              label={<FormattedMessage id="work.location" />}
               name="locations"
             >
               <Select
@@ -223,7 +223,7 @@ const SearchBarView = ({
           <Col span={24}>
             {/* Skills field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.skills" />}
+              label={<FormattedMessage id="skills" />}
               name="skills"
             >
               <TreeSelect
@@ -231,7 +231,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
+                placeholder={<FormattedMessage id="input.placeholder.select" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -240,7 +240,7 @@ const SearchBarView = ({
             {/* classification field */}
             <Form.Item
               label={
-                <FormattedMessage id="advanced.search.form.mentorship.skills" />
+                <FormattedMessage id="mentorship.skills" />
               }
               name="mentorSkills"
             >
@@ -249,7 +249,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
+                placeholder={<FormattedMessage id="input.placeholder.select" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -295,7 +295,7 @@ const SearchBarView = ({
               form.resetFields();
             }}
           >
-            <FormattedMessage id="button.clear" />
+            <FormattedMessage id="clear.changes" />
           </Button>
         </div>
         <Divider />
@@ -337,17 +337,17 @@ const SearchBarView = ({
                   <>
                     <DoubleRightOutlined rotate="270" />
                     <span>
-                      <FormattedMessage id="button.basic.search" />
+                      <FormattedMessage id="basic.search" />
                     </span>
                   </>
                 ) : (
-                  <>
-                    <DoubleRightOutlined rotate="90" />
-                    <span>
-                      <FormattedMessage id="advanced.search.button.text" />
-                    </span>
-                  </>
-                )}
+                    <>
+                      <DoubleRightOutlined rotate="90" />
+                      <span>
+                        <FormattedMessage id="advanced.search" />
+                      </span>
+                    </>
+                  )}
               </Button>
             </Col>
           </Row>

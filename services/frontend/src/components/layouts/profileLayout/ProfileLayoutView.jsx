@@ -256,7 +256,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-skills"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.skills" />
+                    <FormattedMessage id="skills" />
                   </Text>
                 }
               />
@@ -264,7 +264,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-mentorship-skills"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.mentorship.skills" />
+                    <FormattedMessage id="mentorship.skills" />
                   </Text>
                 }
               />
@@ -432,7 +432,7 @@ const ProfileLayoutView = ({
           </>
         }
         subtitle={
-          <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+          <Tooltip title={<FormattedMessage id="last.modified.date" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
         }

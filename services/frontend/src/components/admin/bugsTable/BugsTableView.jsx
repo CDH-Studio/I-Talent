@@ -39,7 +39,7 @@ const tableColumns = (handleEdit) => [
     },
   },
   {
-    title: <FormattedMessage id="admin.last.updated" />,
+    title: <FormattedMessage id="last.updated" />,
     dataIndex: "updatedAt",
     key: "updatedAt",
     sorter: (a, b) => {
@@ -60,7 +60,7 @@ const tableColumns = (handleEdit) => [
         value: "HOME",
       },
       {
-        text: <FormattedMessage id="bugs.location.search" />,
+        text: <FormattedMessage id="search" />,
         value: "SEARCH",
       },
       {
@@ -79,7 +79,7 @@ const tableColumns = (handleEdit) => [
           <FormattedMessage id="home" />
         </Tag>
         <Tag visible={record.location === "SEARCH"} color="geekblue">
-          <FormattedMessage id="bugs.location.search" />
+          <FormattedMessage id="search" />
         </Tag>
         <Tag visible={record.location === "PROFILE"} color="green">
           <FormattedMessage id="profile" />
@@ -198,7 +198,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
       value: "PROFILE",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.search" }),
+      label: intl.formatMessage({ id: "search" }),
       value: "SEARCH",
     },
     {

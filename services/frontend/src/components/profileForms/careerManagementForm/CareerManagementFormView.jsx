@@ -391,7 +391,7 @@ const CareerManagementFormView = ({
                       treeData={developmentalGoalOptions}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -533,7 +533,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       allowClear
                       filterOption={filterOption}
                     >
@@ -560,7 +560,7 @@ const CareerManagementFormView = ({
                     <Select
                       mode="multiple"
                       style={{ width: "100%" }}
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => {
@@ -586,7 +586,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       allowClear
                       filterOption={filterOption}
                     >
@@ -624,14 +624,14 @@ const CareerManagementFormView = ({
                         <FormattedMessage id="profile.talent.management.link" />
                       </a>
                     ) : (
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                      >
-                        <FormattedMessage id="profile.talent.management.link" />
-                      </a>
-                    )}
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                        >
+                          <FormattedMessage id="profile.talent.management.link" />
+                        </a>
+                      )}
                   </>
                 }
                 extra={
@@ -652,7 +652,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       allowClear
                       filterOption={filterOption}
                     >
@@ -677,7 +677,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       allowClear
                       filterOption={filterOption}
                     >

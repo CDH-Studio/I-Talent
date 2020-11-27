@@ -40,7 +40,7 @@ const ReportBugView = ({ saveDataToDB }) => {
       value: "PROFILE",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.search" }),
+      label: intl.formatMessage({ id: "search" }),
       value: "SEARCH",
     },
     {
@@ -115,7 +115,7 @@ const ReportBugView = ({ saveDataToDB }) => {
         >
           <BugOutlined />
           <span>
-            <FormattedMessage id="bugs.action" />
+            <FormattedMessage id="report.a.bug" />
           </span>
         </Button>
       )}
@@ -132,7 +132,7 @@ const ReportBugView = ({ saveDataToDB }) => {
           </>
         }
         onOk={createBugReport}
-        title={<FormattedMessage id="bugs.action" />}
+        title={<FormattedMessage id="report.a.bug" />}
       >
         <Paragraph>
           <FormattedMessage id="bugs.modal.description" />

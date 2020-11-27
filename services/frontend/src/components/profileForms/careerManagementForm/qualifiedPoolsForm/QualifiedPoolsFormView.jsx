@@ -89,7 +89,7 @@ const QualifiedPoolsFormView = ({
           >
             <Select
               showSearch
-              placeholder={<FormattedMessage id="setup.select" />}
+              placeholder={<FormattedMessage id="input.placeholder.select" />}
               allowClear
               filterOption={filterOption}
             >

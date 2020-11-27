@@ -137,7 +137,7 @@ const EducationFormView = ({
           >
             <Select
               showSearch
-              placeholder={<FormattedMessage id="setup.select" />}
+              placeholder={<FormattedMessage id="input.placeholder.select" />}
               allowClear
               filterOption={filterOption}
             >
@@ -153,12 +153,12 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "schoolId"]}
             fieldKey={[fieldElement.fieldKey, "schoolId"]}
-            label={<FormattedMessage id="profile.school" />}
+            label={<FormattedMessage id="school" />}
             rules={[Rules.required]}
           >
             <Select
               showSearch
-              placeholder={<FormattedMessage id="setup.select" />}
+              placeholder={<FormattedMessage id="input.placeholder.select" />}
               allowClear
               filterOption={filterOption}
             >

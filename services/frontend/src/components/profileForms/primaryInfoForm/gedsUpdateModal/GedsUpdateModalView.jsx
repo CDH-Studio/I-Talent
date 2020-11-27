@@ -42,7 +42,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "4",
-    rowName: <FormattedMessage id="profile.location" />,
+    rowName: <FormattedMessage id="work.location" />,
     savedLabel: savedProfile.officeLocation
       ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
       : "-",

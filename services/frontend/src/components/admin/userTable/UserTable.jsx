@@ -44,8 +44,8 @@ const UserTable = () => {
         key: user.id,
         profileLink: `/profile/${user.id}`,
         fullName: `${user.firstName} ${user.lastName}`,
-        jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
-        tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
+        jobTitle: user.jobTitle || intl.formatMessage({ id: "none.specified" }),
+        tenure: user.tenure || intl.formatMessage({ id: "none.specified" }),
         formatCreatedAt: dayjs(user.createdAt).format("YYYY-MM-DD"),
         formatUpdatedAt: dayjs(user.updatedAt).format("YYYY-MM-DD"),
         status: user.status,
@@ -138,11 +138,11 @@ const UserTable = () => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `admin.user.plural`,
+          id: `users`,
         });
 
       return intl.formatMessage({
-        id: `admin.user.singular`,
+        id: `user`,
       });
     };
 

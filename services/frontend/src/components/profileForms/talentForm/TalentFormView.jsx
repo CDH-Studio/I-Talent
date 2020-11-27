@@ -199,10 +199,10 @@ const TalentFormView = ({
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
     if (formsWithErrorsList.mentorshipSkills) {
-      messages.push(intl.formatMessage({ id: "profile.mentorship.skills" }));
+      messages.push(intl.formatMessage({ id: "mentorship.skills" }));
     }
     if (formsWithErrorsList.skills) {
-      messages.push(intl.formatMessage({ id: "profile.skills" }));
+      messages.push(intl.formatMessage({ id: "skills" }));
     }
     if (formsWithErrorsList.competencies) {
       messages.push(intl.formatMessage({ id: "competencies" }));
@@ -465,11 +465,11 @@ const TalentFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="mentorshipSkills"
-                label={<FormattedMessage id="profile.mentorship.skills" />}
+                label={<FormattedMessage id="mentorship.skills" />}
                 rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0 ? (
-                    <FormattedMessage id="profile.mentorship.skills.empty" />
+                    <FormattedMessage id="mentorship.skills.empty" />
                   ) : undefined
                 }
               >
@@ -478,7 +478,7 @@ const TalentFormView = ({
                   treeData={selectedSkills}
                   treeCheckable
                   showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="setup.select" />}
+                  placeholder={<FormattedMessage id="input.placeholder.select" />}
                   treeNodeFilterProp="title"
                   showSearch
                   maxTagCount={15}
@@ -559,7 +559,7 @@ const TalentFormView = ({
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.skills" />,
+                message: <FormattedMessage id="skills" />,
                 errorBool: tabErrorsBool.skills,
               })}
               key="skills"
@@ -568,7 +568,7 @@ const TalentFormView = ({
               <Row gutter={24}>
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <FormSubTitle
-                    title={<FormattedMessage id="setup.skills" />}
+                    title={<FormattedMessage id="skills" />}
                     popoverMessage={
                       <>
                         <FormattedMessage id="tooltip.extra.info.help" />
@@ -592,7 +592,7 @@ const TalentFormView = ({
                       onChange={onChangeSkills}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -603,7 +603,7 @@ const TalentFormView = ({
             </TabPane>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.mentorship.skills" />,
+                message: <FormattedMessage id="mentorship.skills" />,
                 errorBool: tabErrorsBool.mentorshipSkills,
               })}
               key="mentorship"
@@ -612,7 +612,7 @@ const TalentFormView = ({
               <Row gutter={24}>
                 <Col className="gutter-row" span={24}>
                   <FormSubTitle
-                    title={<FormattedMessage id="profile.mentorship.skills" />}
+                    title={<FormattedMessage id="mentorship.skills" />}
                     popoverMessage={
                       <>
                         <FormattedMessage id="tooltip.extra.info.help" />
@@ -674,7 +674,7 @@ const TalentFormView = ({
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={<FormattedMessage id="input.placeholder.select" />}
                       style={{ width: "100%" }}
                       filterOption={filterOption}
                     >

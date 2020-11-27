@@ -149,7 +149,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         enterButton
         onSearch={search}
         placeholder={intl.formatMessage({
-          id: "button.search",
+          id: "search",
         })}
       />
     );

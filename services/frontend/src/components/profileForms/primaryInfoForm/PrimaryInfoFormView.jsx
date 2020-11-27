@@ -506,12 +506,12 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="locationId"
-                label={<FormattedMessage id="profile.location" />}
+                label={<FormattedMessage id="work.location" />}
                 rules={[Rules.required, Rules.maxChar50]}
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="setup.select" />}
+                  placeholder={<FormattedMessage id="input.placeholder.select" />}
                   allowClear
                   filterOption={filterOption}
                 >
@@ -621,7 +621,7 @@ const PrimaryInfoFormView = ({
                 <Select
                   showSearch
                   mode="multiple"
-                  placeholder={<FormattedMessage id="setup.select" />}
+                  placeholder={<FormattedMessage id="input.placeholder.select" />}
                   allowClear
                   filterOption={filterOption}
                   className="custom-bubble-select-style"

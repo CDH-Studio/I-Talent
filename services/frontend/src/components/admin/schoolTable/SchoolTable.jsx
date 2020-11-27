@@ -125,7 +125,7 @@ const SchoolTable = ({ intl }) => {
         });
 
       return intl.formatMessage({
-        id: `admin.school.singular`,
+        id: `school`,
       });
     };
 
