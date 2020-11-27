@@ -295,7 +295,7 @@ const EducationFormView = ({
                   ))}
                   <Form.Item>
                     <Button
-                      type="dashed"
+                      type="default"
                       onClick={() => add()}
                       disabled={fields.length === 3}
                       style={{ width: "100%" }}

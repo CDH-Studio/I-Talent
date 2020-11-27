@@ -298,7 +298,7 @@ const ExperienceFormView = ({
                   ))}
                   <Form.Item>
                     <Button
-                      type="dashed"
+                      type="default"
                       onClick={() => {
                         add();
                       }}

@@ -36,7 +36,7 @@ const ExperienceView = ({ experienceInfo }) => {
       </Row>
       <Row>
         <Col>
-          <DescriptionText text={item.description} expandable />
+          <DescriptionText text={item.description} />
         </Col>
       </Row>
       <Row>

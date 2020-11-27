@@ -26,35 +26,41 @@ const EducationView = ({ educationInfo }) => {
       </Row>
       <Row>
         <Col>
-          <DescriptionText text={item.description} expandable />
+          <DescriptionText text={item.description} />
         </Col>
       </Row>
-      {getUrl(item)}
+      <Row>
+        <Col>{getUrl(item)}</Col>
+      </Row>
     </>
   );
 
   const generateEducationInfoList = (dataSource) => {
     return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item extra={item.duration}>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  className="avatar"
-                  size="large"
-                  icon={<BankOutlined />}
-                  shape="square"
+      <Row>
+        <Col xs={24} lg={24}>
+          <List
+            itemLayout="vertical"
+            dataSource={dataSource}
+            renderItem={(item) => (
+              <List.Item className="experience-item-list" extra={item.duration}>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      className="avatar"
+                      size="large"
+                      icon={<BankOutlined />}
+                      shape="square"
+                    />
+                  }
+                  title={item.diploma}
+                  description={generateEducationItemDescription(item)}
                 />
-              }
-              title={item.diploma}
-              description={generateEducationItemDescription(item)}
-            />
-          </List.Item>
-        )}
-      />
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
     );
   };
 

@@ -65,9 +65,9 @@ const LinkAttachmentView = ({
       <Form.Item>
         <Tooltip placement="top" title={<FormattedMessage id="admin.delete" />}>
           <Button
-            type="primary"
+            type="link"
             shape="circle"
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined className="deleted" />}
             onClick={() => {
               removeElement(fieldElement.name);
             }}

@@ -1,15 +1,7 @@
-import { Row, Button } from "antd";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import "./DescriptionTextView.less";
 
-const DescriptionTextView = ({
-  text,
-  expandable,
-  expanded,
-  handleExpandButtonClick,
-}) => {
+const DescriptionTextView = ({ text, expandable, expanded }) => {
   const generateDescriptionBody = () => {
     if (expanded || !expandable) {
       if (text) {
@@ -31,40 +23,13 @@ const DescriptionTextView = ({
     return undefined;
   };
 
-  const generateExpandButton = () => {
-    if (text && expandable) {
-      return (
-        <Row>
-          <Button
-            type="link"
-            onClick={handleExpandButtonClick}
-            className="experienceDescriptionToggleTag"
-          >
-            {expanded ? <UpOutlined /> : <DownOutlined />}
-            <span className="expandDescriptionToggleTagText">
-              <FormattedMessage id="profile.career.content.name" />
-            </span>
-          </Button>
-        </Row>
-      );
-    }
-
-    return undefined;
-  };
-
-  return (
-    <>
-      {generateDescriptionBody()}
-      {generateExpandButton()}
-    </>
-  );
+  return <>{generateDescriptionBody()}</>;
 };
 
 DescriptionTextView.propTypes = {
   text: PropTypes.string,
   expandable: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
-  handleExpandButtonClick: PropTypes.func.isRequired,
 };
 
 DescriptionTextView.defaultProps = {
