@@ -366,7 +366,6 @@ const QualificationsFormView = ({
                               form={form}
                               fieldElement={field}
                               removeElement={remove}
-                              savedEducation={initialValues.educations}
                               diplomaOptions={options.diplomas}
                               schoolOptions={options.schools}
                               attachmentNames={options.attachmentNamesEdu}
@@ -428,7 +427,6 @@ const QualificationsFormView = ({
                               form={form}
                               fieldElement={field}
                               removeElement={remove}
-                              savedExperience={initialValues.experiences}
                               attachmentNames={options.attachmentNamesExp}
                               checkIfFormValuesChanged={
                                 checkIfFormValuesChanged

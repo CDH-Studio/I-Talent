@@ -17,7 +17,6 @@ const ExperienceForm = ({
   form,
   fieldElement,
   removeElement,
-  savedExperience,
   checkIfFormValuesChanged,
   attachmentNames,
 }) => {
@@ -26,7 +25,6 @@ const ExperienceForm = ({
       form={form}
       fieldElement={fieldElement}
       removeElement={removeElement}
-      savedExperience={savedExperience}
       checkIfFormValuesChanged={checkIfFormValuesChanged}
       attachmentNames={attachmentNames}
     />
@@ -37,14 +35,6 @@ ExperienceForm.propTypes = {
   form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  savedExperience: PropTypes.arrayOf(
-    PropTypes.shape({
-      diploma: PropTypes.string,
-      endDate: PropTypes.oneOfType([PropTypes.object]),
-      startDate: PropTypes.oneOfType([PropTypes.object]),
-      school: PropTypes.string,
-    })
-  ).isRequired,
   checkIfFormValuesChanged: PropTypes.func.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,
 };
