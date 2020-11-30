@@ -541,7 +541,7 @@ const TalentFormView = ({
       />
       <div className="tal-content">
         <FormTitle
-          title={<FormattedMessage id="setup.talent" />}
+          title={<FormattedMessage id="skills.and.competencies" />}
           formType={formType}
           stepNumber={5}
           fieldsChanged={fieldsChanged}

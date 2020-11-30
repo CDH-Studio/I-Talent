@@ -287,7 +287,7 @@ const LangProficiencyFormView = ({
         </strong>
         <ul>
           <li key="1">
-            {intl.formatMessage({ id: "setup.language.proficiency" })}
+            {intl.formatMessage({ id: "official.languages" })}
           </li>
         </ul>
       </div>
@@ -614,7 +614,7 @@ const LangProficiencyFormView = ({
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -9 }}>
           <FormTitle
-            title={<FormattedMessage id="setup.language.proficiency" />}
+            title={<FormattedMessage id="official.languages" />}
             formType={formType}
             stepNumber={4}
             fieldsChanged={fieldsChanged}
@@ -643,7 +643,7 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
               <Form.Item
                 name="firstLanguage"
-                label={<FormattedMessage id="profile.first.language" />}
+                label={<FormattedMessage id="first.official.language" />}
               >
                 <Select
                   showSearch

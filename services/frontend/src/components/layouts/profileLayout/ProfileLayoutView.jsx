@@ -110,7 +110,7 @@ const ProfileLayoutView = ({
         {/** ********** Skills and competencies *********** */}
         <Title level={2} className="sectionHeader" id="divider-skills-and-comp">
           <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
-          <FormattedMessage id="profile.employee.skills.competencies" />
+          <FormattedMessage id="skills.and.competencies" />
         </Title>
         <Col span={24}>
           <Skills data={data} editableCardBool={privateProfile} />
@@ -238,7 +238,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-official-language"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.official.languages" />
+                    <FormattedMessage id="official.languages" />
                   </Text>
                 }
               />
@@ -248,7 +248,7 @@ const ProfileLayoutView = ({
               href="#divider-skills-and-comp"
               title={
                 <Text strong className="sideBarText">
-                  <FormattedMessage id="profile.employee.skills.competencies" />
+                  <FormattedMessage id="skills.and.competencies" />
                 </Text>
               }
             >
@@ -289,7 +289,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-education"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.education" />
+                    <FormattedMessage id="education" />
                   </Text>
                 }
               />
@@ -297,7 +297,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-experience"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.experience" />
+                    <FormattedMessage id="experience" />
                   </Text>
                 }
               />
@@ -330,7 +330,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-talent-management"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.talent.management" />
+                    <FormattedMessage id="talent.management" />
                   </Text>
                 }
               />
@@ -338,7 +338,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-ex-feeder"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.ex.feeder.title" />
+                    <FormattedMessage id="ex.feeder" />
                   </Text>
                 }
               />
@@ -346,7 +346,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-career-interests"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.career.interests" />
+                    <FormattedMessage id="career.interests" />
                   </Text>
                 }
               />

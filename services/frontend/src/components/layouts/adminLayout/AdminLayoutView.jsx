@@ -67,7 +67,7 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
       </Menu.Item>
       <Menu.Item key="schools" tabIndex={0}>
         <BankFilled />
-        <FormattedMessage id="admin.school.plural" />
+        <FormattedMessage id="schools" />
       </Menu.Item>
       <Menu.Item key="bugs" tabIndex={0}>
         <BugOutlined />

@@ -157,10 +157,10 @@ const QualificationsFormView = ({
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
     if (formsWithErrorsList.experiences) {
-      messages.push(intl.formatMessage({ id: "profile.experience" }));
+      messages.push(intl.formatMessage({ id: "experience" }));
     }
     if (formsWithErrorsList.educations) {
-      messages.push(intl.formatMessage({ id: "profile.education" }));
+      messages.push(intl.formatMessage({ id: "education" }));
     }
     return (
       <div>
@@ -333,13 +333,13 @@ const QualificationsFormView = ({
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.education" />,
+                message: <FormattedMessage id="education" />,
                 errorBool: tabErrorsBool.educations,
               })}
               key="education"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.education" />}
+                title={<FormattedMessage id="education" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
@@ -393,13 +393,13 @@ const QualificationsFormView = ({
             </TabPane>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.experience" />,
+                message: <FormattedMessage id="experience" />,
                 errorBool: tabErrorsBool.experiences,
               })}
               key="experience"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.experience" />}
+                title={<FormattedMessage id="experience" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}

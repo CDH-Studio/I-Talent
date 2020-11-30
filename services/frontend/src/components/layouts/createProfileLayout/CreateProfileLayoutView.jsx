@@ -139,28 +139,28 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             highestStep < 3
           )}
           {createProfileStep(
-            "setup.language.proficiency",
-            ["setup.first.language", "setup.second.language"],
+            "official.languages",
+            ["first.official.language", "setup.second.language"],
             highestStep < 3
           )}
           {createProfileStep(
-            "setup.talent",
+            "skills.and.competencies",
             ["skills", "mentorship.skills", "competencies"],
             highestStep < 3
           )}
           {createProfileStep(
             "profile.employee.qualifications",
-            ["setup.education", "setup.experience"],
+            ["education", "experience"],
             highestStep < 3
           )}
           {createProfileStep(
             "profile.employee.growth.interests",
             [
-              "profile.developmental.goals",
+              "developmental.goals",
               "profile.qualified.pools",
-              "profile.career.interests",
-              "profile.talent.management",
-              "profile.ex.feeder.title",
+              "career.interests",
+              "talent.management",
+              "ex.feeder",
             ],
             highestStep < 3
           )}

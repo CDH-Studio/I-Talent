@@ -105,7 +105,7 @@ const ExperienceFormView = ({
             <Row justify="space-between" align="middle">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="setup.experience" />
+                <FormattedMessage id="experience" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
               <Tooltip

@@ -104,7 +104,7 @@ const EducationFormView = ({
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="setup.education" />
+                <FormattedMessage id="education" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
               <Tooltip

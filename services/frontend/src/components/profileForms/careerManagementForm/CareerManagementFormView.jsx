@@ -363,7 +363,7 @@ const CareerManagementFormView = ({
               key="learning-development"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.developmental.goals" />}
+                title={<FormattedMessage id="developmental.goals" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -501,12 +501,12 @@ const CareerManagementFormView = ({
             {/* ===== Job Mobility Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.career.interests" />,
+                message: <FormattedMessage id="career.interests" />,
               })}
               key="career-interests"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.career.interests" />}
+                title={<FormattedMessage id="career.interests" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -605,23 +605,23 @@ const CareerManagementFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: (
-                  <FormattedMessage id="setup.talent.management.title" />
+                  <FormattedMessage id="skills.and.competencies.management.title" />
                 ),
               })}
               key="talent-management"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.talent.management" />}
+                title={<FormattedMessage id="skills.and.competencies.management" />}
                 popoverMessage={
                   <>
-                    <FormattedMessage id="profile.talent.management.tooltip" />
+                    <FormattedMessage id="talent.management.tooltip" />
                     {locale === "ENGLISH" ? (
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
                         href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
                       >
-                        <FormattedMessage id="profile.talent.management.link" />
+                        <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
                         <a
@@ -629,7 +629,7 @@ const CareerManagementFormView = ({
                           rel="noopener noreferrer"
                           href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
                         >
-                          <FormattedMessage id="profile.talent.management.link" />
+                          <FormattedMessage id="talent.management.link" />
                         </a>
                       )}
                   </>
@@ -695,13 +695,13 @@ const CareerManagementFormView = ({
             {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.ex.feeder.title" />,
+                message: <FormattedMessage id="ex.feeder" />,
               })}
               key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
               <FormSubTitle
-                title={<FormattedMessage id="profile.ex.feeder.title" />}
+                title={<FormattedMessage id="ex.feeder" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
