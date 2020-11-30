@@ -11,7 +11,6 @@ const EducationForm = ({
   form,
   fieldElement,
   removeElement,
-  savedEducation,
   diplomaOptions,
   schoolOptions,
   attachmentNames,
@@ -21,7 +20,6 @@ const EducationForm = ({
       form={form}
       fieldElement={fieldElement}
       removeElement={removeElement}
-      savedEducation={savedEducation}
       diplomaOptions={diplomaOptions}
       schoolOptions={schoolOptions}
       attachmentNames={attachmentNames}
@@ -33,14 +31,6 @@ EducationForm.propTypes = {
   form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  savedEducation: PropTypes.arrayOf(
-    PropTypes.shape({
-      diploma: PropTypes.string,
-      endDate: PropTypes.oneOfType([PropTypes.object]),
-      startDate: PropTypes.oneOfType([PropTypes.object]),
-      school: PropTypes.string,
-    })
-  ).isRequired,
   diplomaOptions: KeyTitleOptionsPropType.isRequired,
   schoolOptions: KeyTitleOptionsPropType.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,
