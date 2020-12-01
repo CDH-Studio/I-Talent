@@ -15,11 +15,11 @@ const { Option } = Select;
 const Rules = {
   required: {
     required: true,
-    message: <FormattedMessage id="rules.required" />,
+    message: <FormattedMessage id="profile.rules.required" />,
   },
   url: {
     type: "url",
-    message: <FormattedMessage id="rules.url" />,
+    message: <FormattedMessage id="profile.rules.url" />,
   },
 };
 
@@ -37,48 +37,37 @@ const LinkAttachmentView = ({
           name={[fieldElement.name, "nameId"]}
           fieldKey={[fieldElement.fieldKey, "nameId"]}
         >
-          {nameOptions.map((value) => {
-            return <Option key={value.id}>{value.name}</Option>;
-          })}
-        </Select>
-      </Form.Item>
-    </Col>
-    <Col className="gutter-row" span={18}>
-      <Form.Item
-        name={[fieldElement.name, "url"]}
-        fieldKey={[fieldElement.fieldKey, "url"]}
-        className="formItem"
-        rules={[Rules.required, Rules.url]}
-      >
-        <Input
-          placeholder={intl.formatMessage({
-            id: "attachment.placeholder",
-          })}
-        />
-      </Form.Item>
-    </Col>
-    <Col className="gutter-row" span={1}>
-      <Form.Item>
-        <Tooltip placement="top" title={<FormattedMessage id="admin.delete" />}>
-          <Button
-            type="link"
-            shape="circle"
-            icon={<DeleteOutlined className="deleted" />}
-            onClick={() => {
-              removeElement(fieldElement.name);
-            }}
-            size="small"
-            className="deleteButton"
+          <Select
+            optionFilterProp="children"
+            placeholder={<FormattedMessage id="admin.select" />}
+          >
+            {nameOptions.map((value) => {
+              return <Option key={value.id}>{value.name}</Option>;
+            })}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" span={18}>
+        <Form.Item
+          name={[fieldElement.name, "url"]}
+          fieldKey={[fieldElement.fieldKey, "url"]}
+          className="formItem"
+          rules={[Rules.required, Rules.url]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "attachment.placeholder",
+            })}
           />
         </Form.Item>
       </Col>
       <Col className="gutter-row" span={1}>
         <Form.Item>
-          <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
+          <Tooltip placement="top" title={<FormattedMessage id="admin.delete" />}>
             <Button
-              type="primary"
+              type="link"
               shape="circle"
-              icon={<DeleteOutlined />}
+              icon={<DeleteOutlined className="deleted" />}
               onClick={() => {
                 removeElement(fieldElement.name);
               }}
