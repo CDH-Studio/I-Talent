@@ -18,8 +18,6 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-
-import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
   FieldPropType,
   FormInstancePropType,
@@ -31,7 +29,6 @@ import "./ExperienceFormView.less";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;
-
 /**
  *  ExperienceFormView(props)
  *  This component renders the experience form.
@@ -42,7 +39,6 @@ const ExperienceFormView = ({
   form,
   fieldElement,
   removeElement,
-  savedExperience,
   attachmentNames,
   intl,
 }) => {
@@ -246,19 +242,13 @@ const ExperienceFormView = ({
         </Col>
 
         <Col className="gutter-row descriptionRow" span={24}>
-          {/* Descriptions */}
-          <DescriptionFormItem
-            label={<FormattedMessage id="description" />}
+          <Form.Item
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
-            maxLength={Rules.maxChar1500.max}
-            maxLengthMessage={Rules.maxChar1500.message}
-            lengthMessage={Rules.maxChar1500.message}
-            value={
-              savedExperience[fieldElement.fieldKey] &&
-              savedExperience[fieldElement.fieldKey].description
-            }
-          />
+            label={<FormattedMessage id="profile.qualification.description" />}
+          >
+            <Input.TextArea showCount maxLength={1500} />
+          </Form.Item>
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -292,13 +282,12 @@ const ExperienceFormView = ({
                       form={form}
                       fieldElement={field}
                       removeElement={remove}
-                      profileInfo={savedExperience}
                       nameOptions={attachmentNames}
                     />
                   ))}
                   <Form.Item>
                     <Button
-                      type="dashed"
+                      type="default"
                       onClick={() => {
                         add();
                       }}
@@ -325,27 +314,10 @@ ExperienceFormView.propTypes = {
   removeElement: PropTypes.func.isRequired,
   intl: IntlPropType,
   attachmentNames: KeyNameOptionsPropType.isRequired,
-  savedExperience: PropTypes.arrayOf(
-    PropTypes.shape({
-      jobTitle: PropTypes.string,
-      endDate: PropTypes.oneOfType([PropTypes.object]),
-      startDate: PropTypes.oneOfType([PropTypes.object]),
-      ongoingDate: PropTypes.bool,
-      organization: PropTypes.string,
-      attachmentLinks: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          nameId: PropTypes.string,
-          url: PropTypes.string,
-        })
-      ),
-    })
-  ),
 };
 
 ExperienceFormView.defaultProps = {
   intl: undefined,
-  savedExperience: [],
 };
 
 export default injectIntl(ExperienceFormView);

@@ -8,6 +8,7 @@ import {
   Checkbox,
   DatePicker,
   Tooltip,
+  Input,
 } from "antd";
 import {
   FormOutlined,
@@ -18,7 +19,6 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
-import DescriptionFormItem from "../../descriptionFormItem/DescriptionFormItem";
 import {
   FieldPropType,
   FormInstancePropType,
@@ -45,7 +45,6 @@ const EducationFormView = ({
   removeElement,
   diplomaOptions,
   schoolOptions,
-  savedEducation,
   intl,
   attachmentNames,
 }) => {
@@ -261,20 +260,13 @@ const EducationFormView = ({
         </Col>
 
         <Col className="gutter-row descriptionRow" span={24}>
-          <DescriptionFormItem
-            label={<FormattedMessage id="description" />}
+          <Form.Item
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
-            maxLength={Rules.maxChar1500.max}
-            maxLengthMessage={Rules.maxChar1500.message}
-            lengthMessage={
-              <FormattedMessage id="rules.max" values={{ max: 1500 }} />
-            }
-            value={
-              savedEducation[fieldElement.fieldKey] &&
-              savedEducation[fieldElement.fieldKey].description
-            }
-          />
+            label={<FormattedMessage id="profile.qualification.description" />}
+          >
+            <Input.TextArea showCount maxLength={1500} />
+          </Form.Item>
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
@@ -295,7 +287,7 @@ const EducationFormView = ({
                   ))}
                   <Form.Item>
                     <Button
-                      type="dashed"
+                      type="default"
                       onClick={() => add()}
                       disabled={fields.length === 3}
                       style={{ width: "100%" }}
@@ -319,22 +311,6 @@ EducationFormView.propTypes = {
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
-  savedEducation: PropTypes.arrayOf(
-    PropTypes.shape({
-      diploma: PropTypes.string,
-      endDate: PropTypes.oneOfType([PropTypes.object]),
-      startDate: PropTypes.oneOfType([PropTypes.object]),
-      ongoingDate: PropTypes.bool,
-      school: PropTypes.string,
-      attachmentLinks: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          nameId: PropTypes.string,
-          url: PropTypes.string,
-        })
-      ),
-    })
-  ),
   diplomaOptions: KeyTitleOptionsPropType,
   intl: IntlPropType,
   attachmentNames: KeyNameOptionsPropType.isRequired,
@@ -343,7 +319,6 @@ EducationFormView.propTypes = {
 EducationFormView.defaultProps = {
   schoolOptions: undefined,
   diplomaOptions: undefined,
-  savedEducation: undefined,
   intl: undefined,
 };
 

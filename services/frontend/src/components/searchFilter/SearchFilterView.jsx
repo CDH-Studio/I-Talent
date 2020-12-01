@@ -39,6 +39,7 @@ const SearchFilterView = ({
   // Sets the default values of the form from the URL search params
   useEffect(() => {
     if (urlSearchFieldValues) {
+      form.resetFields();
       form.setFieldsValue(urlSearchFieldValues);
     }
   }, [form, urlSearchFieldValues]);

@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
-import { Avatar, Row, Col, List, Empty, Tag } from "antd";
+import { Avatar, Row, Col, List, Empty, Tag, Descriptions } from "antd";
 import { FormattedMessage } from "react-intl";
 import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
-import DescriptionText from "../descriptionText/DescriptionText";
 import "./ExperienceView.less";
 
 const ExperienceView = ({ experienceInfo }) => {
@@ -32,21 +31,28 @@ const ExperienceView = ({ experienceInfo }) => {
   const generateOrganizationItemDescription = (item) => (
     <>
       <Row>
-        <Col>{item.organization}</Col>
-      </Row>
-      <Row>
         <Col>
-          <DescriptionText text={item.description} expandable />
+          <Descriptions.Item>{item.description}</Descriptions.Item>
         </Col>
       </Row>
-      <Row>
-        <FormattedMessage id="projects" />:
-      </Row>
-      <Row>{getProjects(item)}</Row>
-      <Row>
-        <FormattedMessage id="attachment.links" />:
-      </Row>
-      <Row>{getUrl(item)}</Row>
+
+      {item.projects && item.projects.length > 0 && (
+        <Row align="middle">
+          <Col>
+            <FormattedMessage id="setup.projects" />:
+          </Col>
+          <Col>{getProjects(item)}</Col>
+        </Row>
+      )}
+
+      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
+        <Row align="middle">
+          <Col>
+            <FormattedMessage id="setup.attachment" />:
+          </Col>
+          <Col>{getUrl(item)}</Col>
+        </Row>
+      )}
     </>
   );
 
@@ -68,7 +74,7 @@ const ExperienceView = ({ experienceInfo }) => {
                       shape="square"
                     />
                   }
-                  title={item.jobTitle}
+                  title={`${item.jobTitle} - (${item.organization})`}
                   description={generateOrganizationItemDescription(item)}
                 />
               </List.Item>
