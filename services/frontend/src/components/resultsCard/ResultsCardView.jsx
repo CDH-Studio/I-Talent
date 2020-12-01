@@ -72,7 +72,7 @@ const ResultsCardView = ({
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip"
+          id="connection.tooltip"
           values={{ name: person.firstName }}
         />
       );
@@ -81,7 +81,7 @@ const ResultsCardView = ({
       badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip.inactive"
+          id="connection.tooltip.inactive"
           values={{ name: person.firstName }}
         />
       );
@@ -90,7 +90,7 @@ const ResultsCardView = ({
       badgeColor = "#000";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip.hidden"
+          id="connection.tooltip.hidden"
           values={{ name: person.firstName }}
         />
       );
@@ -165,8 +165,8 @@ const ResultsCardView = ({
             isConnection ? (
               <UserDeleteOutlined className="res-button-icon" />
             ) : (
-              <UserAddOutlined className="res-button-icon" />
-            )
+                <UserAddOutlined className="res-button-icon" />
+              )
           }
           onClick={(e) => {
             e.stopPropagation();
@@ -180,10 +180,10 @@ const ResultsCardView = ({
           className="res-button"
         >
           {isConnection ? (
-            <FormattedMessage id="search.results.cards.remove.connection" />
+            <FormattedMessage id="remove.connection" />
           ) : (
-            <FormattedMessage id="search.results.cards.add.connection" />
-          )}
+              <FormattedMessage id="add.connection" />
+            )}
         </Button>
       );
     }
@@ -216,10 +216,10 @@ const ResultsCardView = ({
         {person.branch ? (
           <Text>{person.branch}</Text>
         ) : (
-          <Text>
-            <FormattedMessage id="search.results.cards.branch.not.found" />
-          </Text>
-        )}
+            <Text>
+              <FormattedMessage id="unknown.branch" />
+            </Text>
+          )}
       </div>,
       <div>
         <EnvironmentOutlined className="res-card-footer-icon" />
@@ -229,10 +229,10 @@ const ResultsCardView = ({
             {person.officeLocation.streetName}, {person.officeLocation.city}
           </Text>
         ) : (
-          <Text>
-            <FormattedMessage id="search.results.cards.location.not.found" />
-          </Text>
-        )}
+            <Text>
+              <FormattedMessage id="unknown.location" />
+            </Text>
+          )}
       </div>,
     ];
   };
@@ -297,10 +297,10 @@ const ResultsCardView = ({
                     </Tag>
                   </span>
                 ) : (
-                  <Tag className="res-tag">
-                    <FormattedMessage id="search.results.cards.skills.not.found" />
-                  </Tag>
-                )}
+                    <Tag className="res-tag">
+                      <FormattedMessage id="no.matching.skills.found" />
+                    </Tag>
+                  )}
               </Col>
             </Row>
           </Card>
@@ -332,7 +332,7 @@ const ResultsCardView = ({
   const renderResultCards = (dataSource) => {
     if (!loading && dataSource.length === 0) {
       return (
-        <Empty description={<FormattedMessage id="search.no.results" />} />
+        <Empty description={<FormattedMessage id="no.results.found" />} />
       );
     }
 

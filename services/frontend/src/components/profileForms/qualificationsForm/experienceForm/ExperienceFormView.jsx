@@ -266,7 +266,7 @@ const ExperienceFormView = ({
             mode="tags"
             name={[fieldElement.name, "projects"]}
             fieldKey={[fieldElement.fieldKey, "projects"]}
-            label={<FormattedMessage id="setup.projects" />}
+            label={<FormattedMessage id="projects" />}
             className="custom-bubble-select-style"
           >
             <Select
@@ -278,7 +278,7 @@ const ExperienceFormView = ({
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <FormattedMessage id="setup.attachment" />
+          <FormattedMessage id="attachment.links" />
           <Form.List
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
@@ -306,7 +306,7 @@ const ExperienceFormView = ({
                       style={{ width: "100%" }}
                     >
                       <PlusOutlined />
-                      <FormattedMessage id="setup.add.attachment" />
+                      <FormattedMessage id="add.attachment" />
                     </Button>
                   </Form.Item>
                 </div>

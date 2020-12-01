@@ -88,7 +88,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Menu.Item className="dropDownItem">
         <Link to="/settings">
           <SettingOutlined className="menuIcon" />
-          <FormattedMessage id="settings.title" />
+          <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />

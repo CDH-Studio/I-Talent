@@ -40,11 +40,11 @@ const ExperienceView = ({ experienceInfo }) => {
         </Col>
       </Row>
       <Row>
-        <FormattedMessage id="setup.projects" />:
+        <FormattedMessage id="projects" />:
       </Row>
       <Row>{getProjects(item)}</Row>
       <Row>
-        <FormattedMessage id="setup.attachment" />:
+        <FormattedMessage id="attachment.links" />:
       </Row>
       <Row>{getUrl(item)}</Row>
     </>

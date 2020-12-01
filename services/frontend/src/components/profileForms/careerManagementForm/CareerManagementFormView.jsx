@@ -420,7 +420,7 @@ const CareerManagementFormView = ({
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
-                              <FormattedMessage id="setup.add.attachment" />
+                              <FormattedMessage id="add.attachment" />
                             </Button>
                           </Form.Item>
                         </div>
@@ -487,7 +487,7 @@ const CareerManagementFormView = ({
                               style={{ width: "100%" }}
                             >
                               <PlusOutlined />
-                              <FormattedMessage id="setup.add.item" />
+                              <FormattedMessage id="add.item" />
                             </Button>
                           </Form.Item>
                         </>

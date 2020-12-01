@@ -229,7 +229,7 @@ const EmploymentDataFormView = ({
           {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
-          <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
+          <li key="1">{intl.formatMessage({ id: "employment.data" })}</li>
         </ul>
       </div>
     );

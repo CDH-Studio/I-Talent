@@ -202,7 +202,7 @@ const PrimaryInfoFormView = ({
         </strong>
         <ul>
           <li key="1">
-            {intl.formatMessage({ id: "setup.primary.information" })}
+            {intl.formatMessage({ id: "primary.contact.information" })}
           </li>
         </ul>
       </div>
@@ -374,7 +374,7 @@ const PrimaryInfoFormView = ({
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
-            title={<FormattedMessage id="setup.primary.information" />}
+            title={<FormattedMessage id="primary.contact.information" />}
             formType={formType}
             stepNumber={2}
             fieldsChanged={fieldsChanged}

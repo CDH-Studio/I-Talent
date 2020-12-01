@@ -129,18 +129,18 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
           {createProfileStep("welcome", [])}
-          {createProfileStep("setup.primary.information", [
-            "setup.step.2.description",
+          {createProfileStep("primary.contact.information", [
+            "general.profile.info",
             "employment.equity.groups",
           ])}
           {createProfileStep(
             "employment.status",
-            ["setup.step.3.description", "about.me"],
+            ["current.position", "about.me"],
             highestStep < 3
           )}
           {createProfileStep(
             "official.languages",
-            ["first.official.language", "setup.second.language"],
+            ["first.official.language", "second.official.language.results"],
             highestStep < 3
           )}
           {createProfileStep(

@@ -10,7 +10,7 @@ const StatsLayoutView = () => (
       title={
         <>
           <AreaChartOutlined />
-          <FormattedMessage id="stats.title" />
+          <FormattedMessage id="statistics" />
         </>
       }
     />

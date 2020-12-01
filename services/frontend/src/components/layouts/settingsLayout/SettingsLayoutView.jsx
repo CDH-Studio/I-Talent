@@ -19,8 +19,8 @@ const SettingsLayoutView = ({
 
   const listData = [
     {
-      title: <FormattedMessage id="settings.visibility.title" />,
-      description: <FormattedMessage id="settings.visibility.description" />,
+      title: <FormattedMessage id="profile.visibility" />,
+      description: <FormattedMessage id="profile.visibility.description" />,
       extra: (
         <Tooltip
           title={() => {
@@ -46,8 +46,8 @@ const SettingsLayoutView = ({
       ),
     },
     {
-      title: <FormattedMessage id="settings.delete.title" />,
-      description: <FormattedMessage id="settings.delete.description" />,
+      title: <FormattedMessage id="permanently.delete.account" />,
+      description: <FormattedMessage id="delete.account.description" />,
       extra: (
         <Button
           danger
@@ -67,7 +67,7 @@ const SettingsLayoutView = ({
           }}
         >
           <span>
-            <FormattedMessage id="settings.delete.button" />
+            <FormattedMessage id="delete.account" />
           </span>
         </Button>
       ),
@@ -80,7 +80,7 @@ const SettingsLayoutView = ({
         title={
           <>
             <SettingOutlined />
-            <FormattedMessage id="settings.title" />
+            <FormattedMessage id="settings" />
           </>
         }
       />

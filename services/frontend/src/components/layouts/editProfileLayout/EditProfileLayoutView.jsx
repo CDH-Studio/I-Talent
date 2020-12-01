@@ -75,18 +75,18 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <div className="menu-item-header">
             <SolutionOutlined />
             <strong>
-              <FormattedMessage id="setup.primary.information" />
+              <FormattedMessage id="primary.contact.information" />
             </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
-              - <FormattedMessage id="setup.step.2.description" />
+              - <FormattedMessage id="general.profile.info" />
             </li>
             <li className="menu-list-item">
               - <FormattedMessage id="employment.equity.groups" />
             </li>
             <li className="menu-list-item">
-              - <FormattedMessage id="setup.gc.directory" />
+              - <FormattedMessage id="gcdirectory.sync" />
             </li>
           </ul>
         </Menu.Item>
@@ -99,7 +99,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
-              - <FormattedMessage id="setup.step.3.description" />
+              - <FormattedMessage id="current.position" />
             </li>
             <li className="menu-list-item">
               - <FormattedMessage id="about.me" />
@@ -122,7 +122,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
               - <FormattedMessage id="first.official.language" />
             </li>
             <li className="menu-list-item">
-              - <FormattedMessage id="setup.second.language" />
+              - <FormattedMessage id="second.official.language.results" />
             </li>
           </ul>
         </Menu.Item>

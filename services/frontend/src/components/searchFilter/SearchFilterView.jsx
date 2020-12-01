@@ -68,7 +68,7 @@ const SearchFilterView = ({
     <div className="search-searchSideBar">
       <Title level={2} className="search-searchHeader">
         <SettingOutlined className="search-searchHeaderIcon" />
-        <FormattedMessage id="sidebar.search.title" />
+        <FormattedMessage id="search.filters" />
       </Title>
       <Text>
         <FormattedMessage id="sidebar.search.description" />

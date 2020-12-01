@@ -40,7 +40,7 @@ const ErrorProfilePage = ({ titleId, subtitleId }) => {
           <Button onClick={() => setProfile(true)}>
             <UserOutlined />
             <span>
-              <FormattedMessage id="setup.done.view.profile" />
+              <FormattedMessage id="view.profile" />
             </span>
           </Button>
         </>

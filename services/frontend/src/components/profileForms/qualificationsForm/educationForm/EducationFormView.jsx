@@ -301,7 +301,7 @@ const EducationFormView = ({
                       style={{ width: "100%" }}
                     >
                       <PlusOutlined />
-                      <FormattedMessage id="setup.add.attachment" />
+                      <FormattedMessage id="add.attachment" />
                     </Button>
                   </Form.Item>
                 </div>
