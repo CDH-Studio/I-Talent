@@ -157,11 +157,11 @@ const tableColumns = (handleEdit) => [
 const Rules = {
   required: {
     required: true,
-    message: <FormattedMessage id="profile.rules.required" />,
+    message: <FormattedMessage id="rules.required" />,
   },
   maxChar500: {
     max: 500,
-    message: <FormattedMessage id="profile.rules.max" values={{ max: 500 }} />,
+    message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
   },
 };
 

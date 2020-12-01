@@ -173,7 +173,7 @@ const WelcomeView = ({
       content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
       icon: <ExclamationCircleOutlined />,
       onOk: skipProfileCreation,
-      okText: intl.formatMessage({ id: "profile.yes" }),
+      okText: intl.formatMessage({ id: "yes" }),
       cancelText: intl.formatMessage({ id: "no" }),
     });
   };

@@ -15,11 +15,11 @@ const { Option } = Select;
 const Rules = {
   required: {
     required: true,
-    message: <FormattedMessage id="profile.rules.required" />,
+    message: <FormattedMessage id="rules.required" />,
   },
   url: {
     type: "url",
-    message: <FormattedMessage id="profile.rules.url" />,
+    message: <FormattedMessage id="rules.url" />,
   },
 };
 

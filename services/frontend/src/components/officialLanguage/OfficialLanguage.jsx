@@ -33,7 +33,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
       const info = dataSource.secondLangProfs
         ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
         : undefined;
-      nextData.titleId = `profile.secondary.${profType.toLowerCase()}.proficiency`;
+      nextData.titleId = `secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
         if (info.level === "NA") {
@@ -48,7 +48,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
           } else if (info.expired !== false) {
             nextData.expiryInfo = `(${info.expired
               ? intl.formatMessage({ id: "expired" })
-              : intl.formatMessage({ id: "profile.unexpired" })
+              : intl.formatMessage({ id: "unexpired" })
               })`;
           }
         }

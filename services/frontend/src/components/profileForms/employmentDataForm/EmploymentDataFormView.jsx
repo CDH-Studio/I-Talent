@@ -74,16 +74,16 @@ const EmploymentDataFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 50 }} />,
+      message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
     },
     maxChar1000: {
       max: 1000,
       message: (
-        <FormattedMessage id="profile.rules.max" values={{ max: 1000 }} />
+        <FormattedMessage id="rules.max" values={{ max: 1000 }} />
       ),
     },
   };
@@ -568,7 +568,7 @@ const EmploymentDataFormView = ({
             <Col className="gutter-row employment-tempRoleRow" span={24}>
               <Row>
                 <Text>
-                  <FormattedMessage id="profile.temporary.role" />
+                  <FormattedMessage id="presently.acting" />
                 </Text>
                 <Popover
                   trigger={["focus", "hover"]}

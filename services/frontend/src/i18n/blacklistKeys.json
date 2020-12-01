@@ -1,10 +1,10 @@
 [
-  "profile.visibility.form.public",
-  "profile.visibility.form.connections",
-  "profile.visibility.form.private",
-  "profile.visibility.form.show.confirm",
-  "profile.visibility.card.public",
-  "profile.visibility.card.connections",
-  "profile.visibility.card.private",
-  "profile.visibility.card.show.confirm"
+  "visibility.form.public",
+  "visibility.form.connections",
+  "visibility.form.private",
+  "visibility.form.show.confirm",
+  "visibility.card.public",
+  "visibility.card.connections",
+  "visibility.card.private",
+  "visibility.card.show.confirm"
 ]

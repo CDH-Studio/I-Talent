@@ -203,7 +203,7 @@ const CareerManagementFormView = ({
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
     if (formsWithErrorsList.qualifiedPools) {
-      messages.push(intl.formatMessage({ id: "profile.qualified.pools" }));
+      messages.push(intl.formatMessage({ id: "qualified.pools" }));
     }
     return (
       <div>
@@ -434,13 +434,13 @@ const CareerManagementFormView = ({
             {/* ===== Qualified Pools Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.qualified.pools" />,
+                message: <FormattedMessage id="qualified.pools" />,
                 errorBool: tabErrorsBool.qualifiedPools,
               })}
               key="qualified-pools"
             >
               <FormSubTitle
-                title={<FormattedMessage id="profile.qualified.pools" />}
+                title={<FormattedMessage id="qualified.pools" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -672,7 +672,7 @@ const CareerManagementFormView = ({
                   <Form.Item
                     name="talentMatrixResultId"
                     label={
-                      <FormattedMessage id="profile.talent.matrix.result" />
+                      <FormattedMessage id="talent.matrix.result" />
                     }
                   >
                     <Select

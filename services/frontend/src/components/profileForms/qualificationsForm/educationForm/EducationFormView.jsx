@@ -52,12 +52,12 @@ const EducationFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     maxChar1500: {
       max: 1500,
       message: (
-        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+        <FormattedMessage id="rules.max" values={{ max: 1500 }} />
       ),
     },
   };
@@ -181,7 +181,7 @@ const EducationFormView = ({
               disabledDate={disabledDatesAfterEnd}
               className="datePicker"
               placeholder={intl.formatMessage({
-                id: "profile.qualifications.select.month",
+                id: "select.month",
               })}
             />
           </Form.Item>
@@ -233,7 +233,7 @@ const EducationFormView = ({
                         disabled={disableEndDate}
                         className="datePicker"
                         placeholder={intl.formatMessage({
-                          id: "profile.qualifications.select.month",
+                          id: "select.month",
                         })}
                       />
                     )}
@@ -268,7 +268,7 @@ const EducationFormView = ({
             maxLength={Rules.maxChar1500.max}
             maxLengthMessage={Rules.maxChar1500.message}
             lengthMessage={
-              <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+              <FormattedMessage id="rules.max" values={{ max: 1500 }} />
             }
             value={
               savedEducation[fieldElement.fieldKey] &&

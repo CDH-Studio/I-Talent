@@ -49,16 +49,16 @@ const ExperienceFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     maxChar60: {
       max: 60,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 60 }} />,
+      message: <FormattedMessage id="rules.max" values={{ max: 60 }} />,
     },
     maxChar1500: {
       max: 1500,
       message: (
-        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
+        <FormattedMessage id="rules.max" values={{ max: 1500 }} />
       ),
     },
   };
@@ -165,7 +165,7 @@ const ExperienceFormView = ({
               disabledDate={disabledDatesAfterEnd}
               className="datePicker"
               placeholder={intl.formatMessage({
-                id: "profile.qualifications.select.month",
+                id: "select.month",
               })}
             />
           </Form.Item>
@@ -218,7 +218,7 @@ const ExperienceFormView = ({
                         disabled={disableEndDate}
                         className="datePicker"
                         placeholder={intl.formatMessage({
-                          id: "profile.qualifications.select.month",
+                          id: "select.month",
                         })}
                       />
                     )}

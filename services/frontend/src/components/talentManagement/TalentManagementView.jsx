@@ -10,7 +10,7 @@ const TalentManagementView = ({ data }) => {
     };
 
     const talentMatrixResult = {
-      title: <FormattedMessage id="profile.talent.matrix.result" />,
+      title: <FormattedMessage id="talent.matrix.result" />,
       description: data.talentMatrixResult
         ? data.talentMatrixResult.description
         : "-",

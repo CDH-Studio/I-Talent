@@ -322,7 +322,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-qualified-pools"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.qualified.pools" />
+                    <FormattedMessage id="qualified.pools" />
                   </Text>
                 }
               />

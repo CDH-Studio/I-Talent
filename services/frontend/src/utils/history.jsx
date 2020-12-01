@@ -31,7 +31,7 @@ const getUserConfirmation = (_content, callback) => {
     onCancel: () => {
       callback(false);
     },
-    okText: intl.formatMessage({ id: "profile.yes" }),
+    okText: intl.formatMessage({ id: "yes" }),
     cancelText: intl.formatMessage({ id: "no" }),
   });
 };

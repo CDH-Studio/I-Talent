@@ -71,7 +71,7 @@ const LangProficiencyFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
   };
 
@@ -425,7 +425,7 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="readingProficiency"
                 label={
-                  <FormattedMessage id="profile.secondary.reading.proficiency" />
+                  <FormattedMessage id="secondary.reading.proficiency" />
                 }
                 rules={[Rules.required]}
               >
@@ -476,7 +476,7 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="writingProficiency"
                 label={
-                  <FormattedMessage id="profile.secondary.writing.proficiency" />
+                  <FormattedMessage id="secondary.writing.proficiency" />
                 }
                 rules={[Rules.required]}
               >
@@ -527,7 +527,7 @@ const LangProficiencyFormView = ({
               <Form.Item
                 name="oralProficiency"
                 label={
-                  <FormattedMessage id="profile.secondary.oral.proficiency" />
+                  <FormattedMessage id="secondary.oral.proficiency" />
                 }
                 rules={[Rules.required]}
               >

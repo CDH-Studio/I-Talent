@@ -69,22 +69,22 @@ const PrimaryInfoFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     maxChar50: {
       max: 50,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 50 }} />,
+      message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
     },
     maxChar100: {
       max: 100,
       message: (
-        <FormattedMessage id="profile.rules.max" values={{ max: 100 }} />
+        <FormattedMessage id="rules.max" values={{ max: 100 }} />
       ),
     },
     telephoneFormat: [
       {
         pattern: /^\d{3}-\d{3}-\d{4}$/i,
-        message: <FormattedMessage id="profile.rules.phone.number" />,
+        message: <FormattedMessage id="rules.phone.number" />,
       },
       {
         validator(rule, value) {
@@ -93,18 +93,18 @@ const PrimaryInfoFormView = ({
           }
 
           return Promise.reject(
-            intl.formatMessage({ id: "profile.rules.valid.phone.number" })
+            intl.formatMessage({ id: "rules.valid.phone.number" })
           );
         },
       },
     ],
     emailFormat: {
       pattern: /\S+@\S+\.ca/i,
-      message: <FormattedMessage id="profile.rules.email" />,
+      message: <FormattedMessage id="rules.email" />,
     },
     nameFormat: {
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
-      message: <FormattedMessage id="profile.rules.name" />,
+      message: <FormattedMessage id="rules.name" />,
     },
   };
 
@@ -337,7 +337,7 @@ const PrimaryInfoFormView = ({
       content={
         <div style={{ textAlign: "center" }}>
           <FormattedMessage
-            id="profile.username.help"
+            id="employee.username.help"
             values={{
               url,
               b: (chunks) => <b>{chunks}</b>,
@@ -488,7 +488,7 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="teams"
-                label={<FormattedMessage id="profile.teams" />}
+                label={<FormattedMessage id="employee.work.unit" />}
                 className="custom-bubble-select-style"
               >
                 <Select

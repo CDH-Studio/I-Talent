@@ -58,7 +58,7 @@ const SettingsLayoutView = ({
               content: intl.formatMessage({
                 id: "settings.delete.modal.content",
               }),
-              okText: intl.formatMessage({ id: "profile.yes" }),
+              okText: intl.formatMessage({ id: "yes" }),
               okType: "danger",
               cancelText: intl.formatMessage({ id: "no" }),
               autoFocusButton: null,

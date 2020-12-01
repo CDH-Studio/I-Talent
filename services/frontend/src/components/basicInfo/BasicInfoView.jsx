@@ -65,7 +65,7 @@ const BasicInfoView = ({
   const generateTeamInfo = () => {
     const teams = {
       icon: <TeamOutlined />,
-      title: <FormattedMessage id="profile.teams" />,
+      title: <FormattedMessage id="employee.work.unit" />,
       description:
         data.teams && data.teams.length ? (
           <List>
@@ -252,7 +252,7 @@ const BasicInfoView = ({
           </Button>
         </Dropdown>
       ) : (
-          <FormattedMessage id="profile.not.specified" />
+          <FormattedMessage id="not.specified" />
         ),
     };
 

@@ -12,7 +12,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="profile.qualified.empty" />}
+        description={<FormattedMessage id="qualified.empty" />}
       />
     );
   }

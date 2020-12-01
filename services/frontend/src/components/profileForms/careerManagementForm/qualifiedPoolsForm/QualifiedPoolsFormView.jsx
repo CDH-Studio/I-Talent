@@ -40,11 +40,11 @@ const QualifiedPoolsFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     url: {
       type: "url",
-      message: <FormattedMessage id="profile.rules.url" />,
+      message: <FormattedMessage id="rules.url" />,
     },
   };
 
@@ -56,7 +56,7 @@ const QualifiedPoolsFormView = ({
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="profile.qualified.pools" />
+                <FormattedMessage id="qualified.pools" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
               <Tooltip
@@ -119,7 +119,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobPosterLink"]}
             label={
-              <FormattedMessage id="profile.qualified.pools.job.poster.link" />
+              <FormattedMessage id="qualified.pools.job.poster.link" />
             }
             rules={[Rules.required, Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
@@ -136,7 +136,7 @@ const QualifiedPoolsFormView = ({
             name={[fieldElement.name, "selectionProcessNumber"]}
             fieldKey={[fieldElement.fieldKey, "selectionProcessNumber"]}
             label={
-              <FormattedMessage id="profile.qualified.pools.selection.process.number" />
+              <FormattedMessage id="qualified.pools.selection.process.number" />
             }
             rules={[Rules.required]}
             value={

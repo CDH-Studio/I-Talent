@@ -157,7 +157,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             "employee.growth.interests",
             [
               "developmental.goals",
-              "profile.qualified.pools",
+              "qualified.pools",
               "career.interests",
               "talent.management",
               "ex.feeder",
