@@ -83,7 +83,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
               - <FormattedMessage id="setup.step.2.description" />
             </li>
             <li className="menu-list-item">
-              - <FormattedMessage id="profile.employment.equity.groups" />
+              - <FormattedMessage id="employment.equity.groups" />
             </li>
             <li className="menu-list-item">
               - <FormattedMessage id="setup.gc.directory" />
@@ -94,7 +94,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <div className="menu-item-header">
             <CompassOutlined />
             <strong>
-              <FormattedMessage id="profile.employee.status" />
+              <FormattedMessage id="employment.status" />
             </strong>
           </div>
           <ul className="menu-list">
@@ -102,7 +102,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
               - <FormattedMessage id="setup.step.3.description" />
             </li>
             <li className="menu-list-item">
-              - <FormattedMessage id="profile.description" />
+              - <FormattedMessage id="about.me" />
             </li>
           </ul>
         </Menu.Item>
@@ -149,7 +149,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <div className="menu-item-header">
             <TrophyOutlined />
             <strong>
-              <FormattedMessage id="profile.employee.qualifications" />
+              <FormattedMessage id="employee.qualifications" />
             </strong>
           </div>
           <ul className="menu-list">
@@ -165,12 +165,12 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           <div className="menu-item-header">
             <ProjectOutlined />
             <strong>
-              <FormattedMessage id="profile.employee.growth.interests" />
+              <FormattedMessage id="employee.growth.interests" />
             </strong>
           </div>
           <ul className="menu-list">
             <li className="menu-list-item">
-              - <FormattedMessage id="profile.learning.development" />
+              - <FormattedMessage id="learning.development" />
             </li>
             <li className="menu-list-item">
               - <FormattedMessage id="profile.qualified.pools" />

@@ -379,7 +379,7 @@ const UserTableView = ({
             <FormattedMessage id="users.table" />
             {modifiedStatus && (
               <Text className="userTable-unsavedText">
-                <FormattedMessage id="profile.form.unsaved" />
+                <FormattedMessage id="form.unsaved" />
               </Text>
             )}
           </>

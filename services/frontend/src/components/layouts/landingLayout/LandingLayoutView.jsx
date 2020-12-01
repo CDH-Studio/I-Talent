@@ -46,7 +46,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
               <FormattedMessage id="welcome" />
             </Title>
             <Text className="landing-text">
-              <FormattedMessage id="landing.description" />
+              <FormattedMessage id="italent.web.app.description" />
             </Text>
             <Text className="landing-text" strong>
               <FormattedMessage id="landing.call.to.action" />

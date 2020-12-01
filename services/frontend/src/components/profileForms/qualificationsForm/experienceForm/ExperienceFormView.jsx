@@ -145,7 +145,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "organization"]}
             fieldKey={[fieldElement.fieldKey, "organization"]}
-            label={<FormattedMessage id="profile.career.subheader.name" />}
+            label={<FormattedMessage id="company.or.gov.branch.name" />}
             rules={[Rules.required, Rules.maxChar60]}
           >
             <Input />
@@ -157,7 +157,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
-            label={<FormattedMessage id="profile.history.item.start.date" />}
+            label={<FormattedMessage id="item.start.date" />}
             rules={[Rules.required]}
           >
             <DatePicker
@@ -207,7 +207,7 @@ const ExperienceFormView = ({
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={
-                      <FormattedMessage id="profile.history.item.end.date" />
+                      <FormattedMessage id="item.end.date" />
                     }
                     rules={!disableEndDate ? [Rules.required] : undefined}
                   >
@@ -236,7 +236,7 @@ const ExperienceFormView = ({
                     valuePropName="checked"
                   >
                     <Checkbox>
-                      <FormattedMessage id="profile.is.ongoing" />
+                      <FormattedMessage id="item.is.ongoing" />
                     </Checkbox>
                   </Form.Item>
                 </>

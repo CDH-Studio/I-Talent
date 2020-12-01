@@ -132,7 +132,7 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "diplomaId"]}
             fieldKey={[fieldElement.fieldKey, "diplomaId"]}
-            label={<FormattedMessage id="profile.diploma" />}
+            label={<FormattedMessage id="diploma" />}
             rules={[Rules.required]}
           >
             <Select
@@ -174,7 +174,7 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
-            label={<FormattedMessage id="profile.history.item.start.date" />}
+            label={<FormattedMessage id="item.start.date" />}
           >
             <DatePicker
               picker="month"
@@ -223,7 +223,7 @@ const EducationFormView = ({
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={
-                      <FormattedMessage id="profile.history.item.end.date" />
+                      <FormattedMessage id="item.end.date" />
                     }
                   >
                     {!disableEndDate && (
@@ -251,7 +251,7 @@ const EducationFormView = ({
                     valuePropName="checked"
                   >
                     <Checkbox>
-                      <FormattedMessage id="profile.is.ongoing" />
+                      <FormattedMessage id="item.is.ongoing" />
                     </Checkbox>
                   </Form.Item>
                 </>

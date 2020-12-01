@@ -118,32 +118,32 @@ const PrimaryInfoFormView = ({
     switch (type) {
       case "success":
         notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+          message: intl.formatMessage({ id: "edit.save.success" }),
         });
         break;
       case "jobTitleLangEN":
         notification.warning({
           description: intl.formatMessage({
-            id: "profile.edit.save.jobTitle.warning.en",
+            id: "edit.save.jobTitle.warning.en",
           }),
         });
         break;
       case "jobTitleLangFR":
         notification.warning({
           description: intl.formatMessage({
-            id: "profile.edit.save.jobTitle.warning.fr",
+            id: "edit.save.jobTitle.warning.fr",
           }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          message: intl.formatMessage({ id: "edit.save.problem" }),
           description,
         });
         break;
@@ -162,7 +162,7 @@ const PrimaryInfoFormView = ({
         telephone: profile.telephone,
         jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
-        email: profile.email,
+        email: email,
         locationId: profile.officeLocation
           ? profile.officeLocation.id
           : undefined,
@@ -198,7 +198,7 @@ const PrimaryInfoFormView = ({
     return (
       <div>
         <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+          {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
           <li key="1">
@@ -322,7 +322,7 @@ const PrimaryInfoFormView = ({
   const onReset = () => {
     form.resetFields();
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
     checkIfFormValuesChanged();
   };
@@ -367,7 +367,7 @@ const PrimaryInfoFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="prim-content">
         <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
@@ -389,7 +389,7 @@ const PrimaryInfoFormView = ({
                   >
                     <SyncOutlined />
                     <span>
-                      <FormattedMessage id="profile.geds.sync.button" />
+                      <FormattedMessage id="geds.sync.button" />
                     </span>
                   </Button>
                 )}
@@ -397,15 +397,15 @@ const PrimaryInfoFormView = ({
                   trigger={["focus", "hover"]}
                   content={
                     <div className="prim-popoverStyle">
-                      <FormattedMessage id="profile.geds.edit.info1" />
+                      <FormattedMessage id="geds.edit.info1" />
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://userprofile.prod.prv/icpup.asp?lang=E"
                       >
-                        <FormattedMessage id="profile.geds.edit.info.link" />
+                        <FormattedMessage id="geds.edit.info.link" />
                       </a>
-                      <FormattedMessage id="profile.geds.edit.info2" />
+                      <FormattedMessage id="geds.edit.info2" />
                     </div>
                   }
                 >
@@ -432,7 +432,7 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="firstName"
-                label={<FormattedMessage id="profile.first.name" />}
+                label={<FormattedMessage id="first.name" />}
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input />
@@ -442,7 +442,7 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="lastName"
-                label={<FormattedMessage id="profile.last.name" />}
+                label={<FormattedMessage id="last.name" />}
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input />
@@ -462,7 +462,7 @@ const PrimaryInfoFormView = ({
                         trigger={["focus", "hover"]}
                         content={
                           <div className="prim-popoverStyle">
-                            <FormattedMessage id="profile.job.title.tooltip" />
+                            <FormattedMessage id="job.title.tooltip" />
                           </div>
                         }
                       >
@@ -479,7 +479,7 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="email"
-                label={<FormattedMessage id="profile.email" />}
+                label={<FormattedMessage id="email" />}
                 rules={[Rules.emailFormat, Rules.maxChar50]}
               >
                 <Input disabled />
@@ -538,7 +538,7 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="cellphone"
-                label={<FormattedMessage id="profile.cellphone" />}
+                label={<FormattedMessage id="work.cellphone" />}
                 rules={[Rules.telephoneFormat]}
               >
                 <Input />
@@ -564,7 +564,7 @@ const PrimaryInfoFormView = ({
                 name="gcconnex"
                 label={
                   <>
-                    <FormattedMessage id="profile.gcconnex.username" />
+                    <FormattedMessage id="gcconnex.username" />
                     {urlPopover("https://gcconnex.gc.ca/profile/")}
                   </>
                 }
@@ -578,7 +578,7 @@ const PrimaryInfoFormView = ({
                 name="linkedin"
                 label={
                   <>
-                    <FormattedMessage id="profile.linkedin.username" />
+                    <FormattedMessage id="linkedin.username" />
                     {urlPopover("https://linkedin.com/in/")}
                   </>
                 }
@@ -592,7 +592,7 @@ const PrimaryInfoFormView = ({
                 name="github"
                 label={
                   <>
-                    <FormattedMessage id="profile.github.username" />
+                    <FormattedMessage id="github.username" />
                     {urlPopover("https://github.com/")}
                   </>
                 }
@@ -605,7 +605,7 @@ const PrimaryInfoFormView = ({
           <Divider className="prim-headerDiv" />
 
           <FormSubTitle
-            title={<FormattedMessage id="profile.employment.equity.groups" />}
+            title={<FormattedMessage id="employment.equity.groups" />}
             extra={
               <CardVisibilityToggle
                 visibleCards={profileInfo.visibleCards}

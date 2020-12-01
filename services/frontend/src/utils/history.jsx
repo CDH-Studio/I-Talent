@@ -19,10 +19,10 @@ const getUserConfirmation = (_content, callback) => {
 
   Modal.confirm({
     title: intl.formatMessage({
-      id: "profile.form.unsaved.alert.title",
+      id: "form.unsaved.alert.title",
     }),
     content: intl.formatMessage({
-      id: "profile.form.unsaved.alert.content",
+      id: "form.unsaved.alert.content",
     }),
     icon: <ExclamationCircleOutlined />,
     onOk: () => {
@@ -32,7 +32,7 @@ const getUserConfirmation = (_content, callback) => {
       callback(false);
     },
     okText: intl.formatMessage({ id: "profile.yes" }),
-    cancelText: intl.formatMessage({ id: "profile.no" }),
+    cancelText: intl.formatMessage({ id: "no" }),
   });
 };
 

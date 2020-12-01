@@ -153,7 +153,7 @@ const UserTable = () => {
     <>
       <Prompt
         when={modifiedStatus}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <UserTableView
         searchText={searchText}

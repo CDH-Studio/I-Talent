@@ -66,11 +66,11 @@ const ProfileLayoutView = ({
   useEffect(() => {
     if (savedFormContent === false) {
       notification.error({
-        message: intl.formatMessage({ id: "profile.edit.save.error" }),
+        message: intl.formatMessage({ id: "edit.save.error" }),
       });
     } else if (savedFormContent === true) {
       notification.success({
-        message: intl.formatMessage({ id: "profile.edit.save.success" }),
+        message: intl.formatMessage({ id: "edit.save.success" }),
       });
     }
 
@@ -125,7 +125,7 @@ const ProfileLayoutView = ({
         {/** ********** Qualifications *********** */}
         <Title level={2} className="sectionHeader" id="divider-qualifications">
           <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
-          <FormattedMessage id="profile.employee.qualifications" />
+          <FormattedMessage id="employee.qualifications" />
         </Title>
         <Col span={24}>
           <Education data={data} editableCardBool={privateProfile} />
@@ -137,7 +137,7 @@ const ProfileLayoutView = ({
         {/** ********** Personal Growth *********** */}
         <Title level={2} className="sectionHeader" id="divider-employee-growth">
           <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
-          <FormattedMessage id="profile.employee.growth.interests" />
+          <FormattedMessage id="employee.growth.interests" />
         </Title>
         <Col span={24}>
           <LearningDevelopment editableCardBool={privateProfile} data={data} />
@@ -170,7 +170,7 @@ const ProfileLayoutView = ({
                   trigger={["focus", "hover"]}
                   content={
                     <div className="popContent">
-                      <FormattedMessage id="profile.connections.tooltip.header" />
+                      <FormattedMessage id="connections.tooltip.header" />
                       <a href="/about/help">
                         <FormattedMessage id="footer.contact.link" />
                       </a>
@@ -198,7 +198,7 @@ const ProfileLayoutView = ({
               href="#card-profile-basic-info"
               title={
                 <Text strong className="sideBarText">
-                  <FormattedMessage id="profile.basic" />
+                  <FormattedMessage id="basic.employee.information" />
                 </Text>
               }
             >
@@ -214,7 +214,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-employee-summary"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.employee.status" />
+                    <FormattedMessage id="employment.status" />
                   </Text>
                 }
               />
@@ -222,7 +222,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-employment-equity"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.employment.equity.groups" />
+                    <FormattedMessage id="employment.equity.groups" />
                   </Text>
                 }
               />
@@ -230,7 +230,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-description"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.description" />
+                    <FormattedMessage id="about.me" />
                   </Text>
                 }
               />
@@ -281,7 +281,7 @@ const ProfileLayoutView = ({
               href="#divider-qualifications"
               title={
                 <Text strong className="sideBarText">
-                  <FormattedMessage id="profile.employee.qualifications" />
+                  <FormattedMessage id="employee.qualifications" />
                 </Text>
               }
             >
@@ -306,7 +306,7 @@ const ProfileLayoutView = ({
               href="#divider-employee-growth"
               title={
                 <Text strong className="sideBarText">
-                  <FormattedMessage id="profile.employee.growth.interests" />
+                  <FormattedMessage id="employee.growth.interests" />
                 </Text>
               }
             >
@@ -314,7 +314,7 @@ const ProfileLayoutView = ({
                 href="#card-profile-learning-development"
                 title={
                   <Text className="sideBarText">
-                    <FormattedMessage id="profile.learning.development" />
+                    <FormattedMessage id="learning.development" />
                   </Text>
                 }
               />
@@ -364,7 +364,7 @@ const ProfileLayoutView = ({
                   href="#card-profile-connections"
                   title={
                     <Text className="sideBarText">
-                      <FormattedMessage id="profile.connections" />
+                      <FormattedMessage id="connections" />
                     </Text>
                   }
                 />
@@ -392,12 +392,12 @@ const ProfileLayoutView = ({
 
       if (privateProfile) {
         messageId = isHidden
-          ? "profile.hidden.message"
-          : "profile.inactive.message";
+          ? "hidden.profile.message"
+          : "inactive.message";
       } else if (canViewHiddenProfiles) {
         messageId = isHidden
-          ? "profile.hidden.message.other"
-          : "profile.inactive.message.other";
+          ? "hidden.profile.message.other"
+          : "inactive.message.other";
       }
 
       return (

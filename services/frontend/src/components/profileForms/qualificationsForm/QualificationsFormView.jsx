@@ -64,20 +64,20 @@ const QualificationsFormView = ({
       case "success":
         notification.success({
           message: intl.formatMessage({
-            id: "profile.edit.save.success",
+            id: "edit.save.success",
           }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
           message: intl.formatMessage({
-            id: "profile.edit.save.problem",
+            id: "edit.save.problem",
           }),
         });
         break;
@@ -165,7 +165,7 @@ const QualificationsFormView = ({
     return (
       <div>
         <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+          {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
           {messages.map((value) => (
@@ -275,7 +275,7 @@ const QualificationsFormView = ({
   const onReset = () => {
     form.resetFields();
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
     checkIfFormValuesChanged();
     setTabErrorsBool({});
@@ -309,12 +309,12 @@ const QualificationsFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="qual-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="profile.employee.qualifications" />}
+          title={<FormattedMessage id="employee.qualifications" />}
           formType={formType}
           stepNumber={6}
           fieldsChanged={fieldsChanged}

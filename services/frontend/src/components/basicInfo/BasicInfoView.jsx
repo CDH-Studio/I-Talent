@@ -77,8 +77,8 @@ const BasicInfoView = ({
             ))}
           </List>
         ) : (
-          "-"
-        ),
+            "-"
+          ),
     };
 
     return [teams];
@@ -129,48 +129,48 @@ const BasicInfoView = ({
             <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
           </Col>
         ) : (
-          <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
-            <Row type="flex" align="middle">
-              <Popover
-                trigger={["focus", "hover"]}
-                content={
-                  connectionStatus ? (
-                    <div className="popContent">
-                      <FormattedMessage id="profile.connections.tooltip.remove.connection" />
-                      <a href="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </a>
-                    </div>
-                  ) : (
-                    <div className="popContent">
-                      <FormattedMessage id="profile.connections.tooltip.add.connection" />
-                      <a href="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </a>
-                    </div>
-                  )
-                }
-              >
-                <InfoCircleOutlined tabIndex={0} />
-              </Popover>
-              <Button
-                tabIndex={0}
-                type={connectionStatus ? "default" : "primary"}
-                shape="circle"
-                size="large"
-                icon={
-                  connectionStatus ? (
-                    <UserDeleteOutlined style={styles.buttonIcon} />
-                  ) : (
-                    <UserAddOutlined style={styles.buttonIcon} />
-                  )
-                }
-                onClick={changeConnection}
-                style={{ marginLeft: 10 }}
-              />
-            </Row>
-          </Col>
-        )}
+            <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
+              <Row type="flex" align="middle">
+                <Popover
+                  trigger={["focus", "hover"]}
+                  content={
+                    connectionStatus ? (
+                      <div className="popContent">
+                        <FormattedMessage id="connections.tooltip.remove.connection" />
+                        <a href="/about/help">
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      </div>
+                    ) : (
+                        <div className="popContent">
+                          <FormattedMessage id="connections.tooltip.add.connection" />
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        </div>
+                      )
+                  }
+                >
+                  <InfoCircleOutlined tabIndex={0} />
+                </Popover>
+                <Button
+                  tabIndex={0}
+                  type={connectionStatus ? "default" : "primary"}
+                  shape="circle"
+                  size="large"
+                  icon={
+                    connectionStatus ? (
+                      <UserDeleteOutlined style={styles.buttonIcon} />
+                    ) : (
+                        <UserAddOutlined style={styles.buttonIcon} />
+                      )
+                  }
+                  onClick={changeConnection}
+                  style={{ marginLeft: 10 }}
+                />
+              </Row>
+            </Col>
+          )}
       </Row>
     );
   };
@@ -209,7 +209,7 @@ const BasicInfoView = ({
   const getContactInfo = () => {
     const email = {
       icon: <MailOutlined />,
-      title: <FormattedMessage id="profile.email" />,
+      title: <FormattedMessage id="email" />,
       description: data.email ? data.email : "-",
     };
 
@@ -221,7 +221,7 @@ const BasicInfoView = ({
 
     const cel = {
       icon: <MobileOutlined />,
-      title: <FormattedMessage id="profile.cellphone" />,
+      title: <FormattedMessage id="work.cellphone" />,
       description: data.cellphone ? data.cellphone : "-",
     };
 
@@ -252,14 +252,14 @@ const BasicInfoView = ({
           </Button>
         </Dropdown>
       ) : (
-        <FormattedMessage id="profile.not.specified" />
-      ),
+          <FormattedMessage id="profile.not.specified" />
+        ),
     };
 
     const location = data.officeLocation;
     const address = {
       icon: <EnvironmentOutlined />,
-      title: <FormattedMessage id="profile.address" />,
+      title: <FormattedMessage id="working.address" />,
       description: location
         ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
         : "-",
@@ -267,7 +267,7 @@ const BasicInfoView = ({
 
     const manager = {
       icon: <UserOutlined />,
-      title: <FormattedMessage id="profile.manager" />,
+      title: <FormattedMessage id="employee.manager" />,
       description: data.manager ? data.manager : "-",
     };
 

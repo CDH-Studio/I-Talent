@@ -25,7 +25,7 @@ const CompetenciesView = ({ competencies }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.competencies.empty" />}
+      description={<FormattedMessage id="competencies.empty" />}
     />
   );
 };

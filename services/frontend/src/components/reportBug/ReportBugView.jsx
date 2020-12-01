@@ -68,20 +68,20 @@ const ReportBugView = ({ saveDataToDB }) => {
       case "success":
         notification.success({
           message: intl.formatMessage({
-            id: "profile.edit.save.success",
+            id: "edit.save.success",
           }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
           message: intl.formatMessage({
-            id: "profile.edit.save.problem",
+            id: "edit.save.problem",
           }),
         });
         break;

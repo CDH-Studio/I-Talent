@@ -118,18 +118,18 @@ const CareerManagementFormView = ({
     switch (type) {
       case "success":
         notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+          message: intl.formatMessage({ id: "edit.save.success" }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          message: intl.formatMessage({ id: "edit.save.problem" }),
         });
         break;
     }
@@ -208,7 +208,7 @@ const CareerManagementFormView = ({
     return (
       <div>
         <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+          {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
           {messages.map((value) => (
@@ -299,7 +299,7 @@ const CareerManagementFormView = ({
   const onReset = () => {
     form.resetFields();
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
     checkIfFormValuesChanged();
   };
@@ -334,12 +334,12 @@ const CareerManagementFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="pgf-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="profile.employee.growth.interests" />}
+          title={<FormattedMessage id="employee.growth.interests" />}
           formType={formType}
           stepNumber={7}
           fieldsChanged={fieldsChanged}
@@ -358,7 +358,7 @@ const CareerManagementFormView = ({
             {/* ===== Developmental Goals Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.learning.development" />,
+                message: <FormattedMessage id="learning.development" />,
               })}
               key="learning-development"
             >
@@ -528,7 +528,7 @@ const CareerManagementFormView = ({
                   <Form.Item
                     name="interestedInRemote"
                     label={
-                      <FormattedMessage id="profile.edit.interested.in.remote" />
+                      <FormattedMessage id="edit.interested.in.remote" />
                     }
                   >
                     <Select
@@ -554,7 +554,7 @@ const CareerManagementFormView = ({
                     className="custom-bubble-select-style"
                     name="relocationLocations"
                     label={
-                      <FormattedMessage id="profile.edit.willing.to.relocate.to" />
+                      <FormattedMessage id="edit.willing.to.relocate.to" />
                     }
                   >
                     <Select
@@ -581,7 +581,7 @@ const CareerManagementFormView = ({
                   <Form.Item
                     name="lookingForANewJobId"
                     label={
-                      <FormattedMessage id="profile.edit.looking.for.new.job" />
+                      <FormattedMessage id="edit.looking.for.new.job" />
                     }
                   >
                     <Select
@@ -648,7 +648,7 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="careerMobilityId"
-                    label={<FormattedMessage id="profile.career.mobility" />}
+                    label={<FormattedMessage id="career.mobility" />}
                   >
                     <Select
                       showSearch

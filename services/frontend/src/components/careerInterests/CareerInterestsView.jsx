@@ -14,16 +14,16 @@ const CareerInterestsView = ({
     if (interestedInRemote) {
       description = <FormattedMessage id="profile.yes" />;
     } else if (interestedInRemote === false) {
-      description = <FormattedMessage id="profile.no" />;
+      description = <FormattedMessage id="no" />;
     }
 
     items.push(
       {
-        title: <FormattedMessage id="profile.interested.in.remote" />,
+        title: <FormattedMessage id="interested.in.remote" />,
         description,
       },
       {
-        title: <FormattedMessage id="profile.looking.for.new.job" />,
+        title: <FormattedMessage id="looking.for.new.job" />,
         description: (lookingJob && lookingJob.description) || "-",
       }
     );

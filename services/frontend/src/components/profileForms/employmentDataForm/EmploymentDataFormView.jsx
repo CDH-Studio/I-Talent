@@ -157,18 +157,18 @@ const EmploymentDataFormView = ({
     switch (type) {
       case "success":
         notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+          message: intl.formatMessage({ id: "edit.save.success" }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          message: intl.formatMessage({ id: "edit.save.problem" }),
         });
         break;
     }
@@ -226,7 +226,7 @@ const EmploymentDataFormView = ({
     return (
       <div>
         <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+          {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
           <li key="1">{intl.formatMessage({ id: "setup.employment" })}</li>
@@ -341,7 +341,7 @@ const EmploymentDataFormView = ({
     );
 
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
     updateIfFormValuesChanged();
   };
@@ -354,7 +354,7 @@ const EmploymentDataFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
             <Form.Item
               name="actingLevelId"
-              label={<FormattedMessage id="profile.acting" />}
+              label={<FormattedMessage id="acting" />}
               rules={[Rules.required]}
             >
               <Select
@@ -372,7 +372,7 @@ const EmploymentDataFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
             <Form.Item
               name="actingStartDate"
-              label={<FormattedMessage id="profile.acting.period.start.date" />}
+              label={<FormattedMessage id="acting.period.start.date" />}
               rules={[Rules.required]}
             >
               <DatePicker
@@ -387,7 +387,7 @@ const EmploymentDataFormView = ({
           <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
             <Form.Item
               name="actingEndDate"
-              label={<FormattedMessage id="profile.acting.period.end.date" />}
+              label={<FormattedMessage id="acting.period.end.date" />}
               rules={enableEndDate ? [Rules.required] : undefined}
             >
               {enableEndDate && (
@@ -408,7 +408,7 @@ const EmploymentDataFormView = ({
                 onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
               >
-                <FormattedMessage id="profile.acting.has.end.date" />
+                <FormattedMessage id="acting.has.end.date" />
               </Checkbox>
             </div>
           </Col>
@@ -461,13 +461,13 @@ const EmploymentDataFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="employment-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
-            title={<FormattedMessage id="profile.employee.status" />}
+            title={<FormattedMessage id="employment.status" />}
             formType={formType}
             stepNumber={3}
             fieldsChanged={fieldsChanged}
@@ -555,7 +555,7 @@ const EmploymentDataFormView = ({
             <Col className="gutter-row" span={24}>
               <Form.Item
                 name="manager"
-                label={<FormattedMessage id="profile.manager" />}
+                label={<FormattedMessage id="employee.manager" />}
                 rules={[Rules.maxChar50]}
               >
                 <Input />
@@ -597,7 +597,7 @@ const EmploymentDataFormView = ({
           <Divider className="employment-headerDiv" />
 
           <FormSubTitle
-            title={<FormattedMessage id="profile.description" />}
+            title={<FormattedMessage id="about.me" />}
             popoverMessage={
               <>
                 <FormattedMessage id="tooltip.extra.info.help" />

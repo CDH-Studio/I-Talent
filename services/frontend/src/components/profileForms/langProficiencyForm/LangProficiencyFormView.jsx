@@ -184,18 +184,18 @@ const LangProficiencyFormView = ({
     switch (type) {
       case "success":
         notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+          message: intl.formatMessage({ id: "edit.save.success" }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          message: intl.formatMessage({ id: "edit.save.problem" }),
         });
         break;
     }
@@ -283,7 +283,7 @@ const LangProficiencyFormView = ({
     return (
       <div>
         <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
+          {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
           <li key="1">
@@ -393,7 +393,7 @@ const LangProficiencyFormView = ({
   const onReset = () => {
     form.resetFields();
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
 
     const data = savedValues || getInitialValues(profileInfo);
@@ -608,7 +608,7 @@ const LangProficiencyFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="lang-content">
         {/* get form title */}
@@ -663,7 +663,7 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" span={24}>
               <Row>
                 <Text>
-                  <FormattedMessage id="profile.graded.on.second.language" />
+                  <FormattedMessage id="graded.on.second.language" />
                 </Text>
                 <Popover
                   trigger={["focus", "hover"]}

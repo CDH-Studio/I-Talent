@@ -60,7 +60,7 @@ const SettingsLayoutView = ({
               }),
               okText: intl.formatMessage({ id: "profile.yes" }),
               okType: "danger",
-              cancelText: intl.formatMessage({ id: "profile.no" }),
+              cancelText: intl.formatMessage({ id: "no" }),
               autoFocusButton: null,
               onOk: deleteCurrentUser,
             });

@@ -131,11 +131,11 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           {createProfileStep("welcome", [])}
           {createProfileStep("setup.primary.information", [
             "setup.step.2.description",
-            "profile.employment.equity.groups",
+            "employment.equity.groups",
           ])}
           {createProfileStep(
-            "profile.employee.status",
-            ["setup.step.3.description", "profile.description"],
+            "employment.status",
+            ["setup.step.3.description", "about.me"],
             highestStep < 3
           )}
           {createProfileStep(
@@ -149,12 +149,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
             highestStep < 3
           )}
           {createProfileStep(
-            "profile.employee.qualifications",
+            "employee.qualifications",
             ["education", "experience"],
             highestStep < 3
           )}
           {createProfileStep(
-            "profile.employee.growth.interests",
+            "employee.growth.interests",
             [
               "developmental.goals",
               "profile.qualified.pools",

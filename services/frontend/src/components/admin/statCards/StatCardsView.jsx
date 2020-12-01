@@ -50,7 +50,7 @@ const StatCardsView = ({
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countHiddenUsers === "-"}>
           <Statistic
-            title={<FormattedMessage id="dashboard.flagged.profiles" />}
+            title={<FormattedMessage id="flagged.profiles" />}
             value={countHiddenUsers}
             valueStyle={{ color: "#cf1322" }}
             prefix={<EyeInvisibleFilled />}
@@ -60,7 +60,7 @@ const StatCardsView = ({
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countExFeederUsers === "-"}>
           <Statistic
-            title={<FormattedMessage id="dashboard.ex.feeders" />}
+            title={<FormattedMessage id="total.ex.feeders" />}
             value={countExFeederUsers}
             valueStyle={{ color: "#82A7A6" }}
             prefix={<SolutionOutlined />}
@@ -83,7 +83,7 @@ const StatCardsView = ({
         <Card style={{ height: "100%" }} loading={growthRatePrevMonth === "-"}>
           <Statistic
             title={`${intl.formatMessage({
-              id: "dashboard.growth.rate.percentage",
+              id: "growth.rate.percentage",
             })} - ${dayjs().format("MMMM")}`}
             value={growthRatePrevMonth}
             valueStyle={{ color: "#FF934F" }}

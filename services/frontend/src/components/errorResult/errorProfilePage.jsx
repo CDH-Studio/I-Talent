@@ -34,7 +34,7 @@ const ErrorProfilePage = ({ titleId, subtitleId }) => {
           <Button onClick={handleClick} type="primary">
             <HomeOutlined />
             <span>
-              <FormattedMessage id="error.button" />
+              <FormattedMessage id="back.to.home" />
             </span>
           </Button>
           <Button onClick={() => setProfile(true)}>

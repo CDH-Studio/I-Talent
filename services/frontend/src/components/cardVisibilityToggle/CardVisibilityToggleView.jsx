@@ -88,7 +88,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         title={<FormattedMessage id="profile.visibility.card.title" />}
         visible={modalVisibility}
         okText={<FormattedMessage id="profile.yes" />}
-        cancelText={<FormattedMessage id="profile.no" />}
+        cancelText={<FormattedMessage id="no" />}
         onOk={handleVisibilityPublicOk}
         onCancel={handleVisibilityPublicCancel}
       >

@@ -39,7 +39,7 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="profile.mentorship.empty" />}
+        description={<FormattedMessage id="mentorship.empty" />}
       />
     );
   };

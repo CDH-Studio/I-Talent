@@ -129,7 +129,7 @@ const DashboardGraphsView = ({
           <Col span={24} md={12} xl={24}>
             <Card
               title={
-                <FormattedMessage id="dashboard.growth.rate.by.month" />
+                <FormattedMessage id="growth.rate.by.month" />
               }
               loading={monthlyGrowth.length === 0}
               bodyStyle={{ height: graphHeight }}

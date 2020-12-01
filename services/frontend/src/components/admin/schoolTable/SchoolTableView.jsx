@@ -506,7 +506,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="admin.country" />,
+      title: <FormattedMessage id="country" />,
       dataIndex: "abbrCountry",
       key: "schoolCountry",
       sorter: (a, b) => {
@@ -515,7 +515,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ...getColumnSearchProps(
         "abbrCountry",
         intl.formatMessage({
-          id: "admin.country",
+          id: "country",
         })
       ),
     },
