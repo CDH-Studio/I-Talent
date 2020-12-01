@@ -162,7 +162,7 @@ const PrimaryInfoFormView = ({
         telephone: profile.telephone,
         jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
-        email: email,
+        email: profile.email,
         locationId: profile.officeLocation
           ? profile.officeLocation.id
           : undefined,

@@ -256,7 +256,7 @@ const CompetencyTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.competency.descriptionEn",
+                id: "add.competency.descriptionEn",
               })}
               allowClear
             />
@@ -325,7 +325,7 @@ const CompetencyTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.competency.descriptionEn",
+                id: "add.competency.descriptionEn",
               })}
             />
           </Form.Item>
