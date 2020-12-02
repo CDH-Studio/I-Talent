@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
-import { Row } from "antd";
 import { map, property } from "lodash";
 import useAxios from "../../utils/useAxios";
 import ResultsCardView from "./ResultsCardView";
