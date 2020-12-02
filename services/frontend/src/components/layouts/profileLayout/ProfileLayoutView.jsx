@@ -440,11 +440,11 @@ const ProfileLayoutView = ({
       {data ? (
         displayAllProfileCards()
       ) : (
-          <ErrorProfilePage
-            titleId="profile.not.found"
-            subtitleId="profile.not.found.description"
-          />
-        )}
+        <ErrorProfilePage
+          titleId="profile.not.found"
+          subtitleId="profile.not.found.description"
+        />
+      )}
     </AppLayout>
   );
 };

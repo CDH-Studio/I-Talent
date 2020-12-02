@@ -32,7 +32,6 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import DescriptionFormItem from "../descriptionFormItem/DescriptionFormItem";
 import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
@@ -617,13 +616,9 @@ const EmploymentDataFormView = ({
 
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
-              <DescriptionFormItem
-                name="description"
-                maxLength={Rules.maxChar1000.max}
-                maxLengthMessage={Rules.maxChar1000.message}
-                lengthMessage={Rules.maxChar1000.message}
-                value={profileInfo.description}
-              />
+              <Form.Item name="description">
+                <Input.TextArea showCount maxLength={1000} />
+              </Form.Item>
             </Col>
           </Row>
 

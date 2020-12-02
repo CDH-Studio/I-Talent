@@ -1,9 +1,8 @@
-import { Row, Col, Avatar, List, Empty, Tag } from "antd";
+import { Row, Col, Avatar, List, Empty, Tag, Descriptions } from "antd";
 import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import "./EducationView.less";
-import DescriptionText from "../descriptionText/DescriptionText";
 
 const EducationView = ({ educationInfo }) => {
   const getUrl = (item) => {
@@ -22,39 +21,47 @@ const EducationView = ({ educationInfo }) => {
   const generateEducationItemDescription = (item) => (
     <>
       <Row>
-        <Col>{item.school}</Col>
-      </Row>
-      <Row>
         <Col>
-          <DescriptionText text={item.description} expandable />
+          <Descriptions.Item>{item.description}</Descriptions.Item>
         </Col>
       </Row>
-      {getUrl(item)}
+      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
+        <Row align="middle">
+          <Col>
+            <FormattedMessage id="setup.attachment" />:
+          </Col>
+          <Col>{getUrl(item)}</Col>
+        </Row>
+      )}
     </>
   );
 
   const generateEducationInfoList = (dataSource) => {
     return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item extra={item.duration}>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  className="avatar"
-                  size="large"
-                  icon={<BankOutlined />}
-                  shape="square"
+      <Row>
+        <Col xs={24} lg={24}>
+          <List
+            itemLayout="vertical"
+            dataSource={dataSource}
+            renderItem={(item) => (
+              <List.Item className="experience-item-list" extra={item.duration}>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      className="avatar"
+                      size="large"
+                      icon={<BankOutlined />}
+                      shape="square"
+                    />
+                  }
+                  title={`${item.diploma} - (${item.school})`}
+                  description={generateEducationItemDescription(item)}
                 />
-              }
-              title={item.diploma}
-              description={generateEducationItemDescription(item)}
-            />
-          </List.Item>
-        )}
-      />
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
     );
   };
 
