@@ -1,21 +1,12 @@
-const keycloakMock = () => {
-  jest.mock("../../src/auth/keycloak", () => ({
-    keycloak: {
-      protect() {
-        return (_req, _res, next) => {
-          next();
-        };
-      },
-      middleware() {
-        return (_req, _res, next) => {
-          next();
-        };
-      },
-    },
-    sessionInstance(_req, _res, next) {
-      next();
-    },
-  }));
+const KeycloakMock = require("keycloak-mock");
+
+const keycloakMock = async () => {
+  await KeycloakMock.createMockInstance({
+    authServerURL: "https://myserver.com/auth",
+    realm: "individual",
+    clientID: "testId",
+    clientSecret: "randomSecret",
+  });
 };
 
 module.exports = {

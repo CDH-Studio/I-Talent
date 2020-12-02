@@ -1,7 +1,6 @@
 {
   "globals": {
     "app": "readonly",
-    "mockedApp": "readonly",
     "prisma": "readonly"
   }
 }
