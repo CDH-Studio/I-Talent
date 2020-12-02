@@ -17,18 +17,8 @@ const createFakeUser = (hasJob = true, hasTenure = true) => ({
 });
 
 const path = "/api/admin/users";
-const data = [
-  [
-    "ENGLISH",
-    [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
-  ],
-  [
-    "FRENCH",
-    [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
-  ],
-];
 
-describe(`Test ${path}`, () => {
+describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
     test("should not process request - 403", async (done) => {
       const res = await request(app).get(path);
@@ -42,6 +32,17 @@ describe(`Test ${path}`, () => {
   });
 
   describe("when authenticated", () => {
+    const data = [
+      [
+        "ENGLISH",
+        [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
+      ],
+      [
+        "FRENCH",
+        [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
+      ],
+    ];
+
     describe.each(data)("in %s", (language, prismaData) => {
       describe("when doing a normal query", () => {
         let res;
@@ -56,7 +57,7 @@ describe(`Test ${path}`, () => {
           prisma.user.findMany.mockClear();
         });
 
-        test("should process request, have a status 200", () => {
+        test("should process request - 200", () => {
           expect(res.statusCode).toBe(200);
           expect(console.log).not.toHaveBeenCalled();
         });

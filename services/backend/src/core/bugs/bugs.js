@@ -17,10 +17,10 @@ async function createBug(request, response) {
     },
   });
 
-  response.status(200).send("Successfully created a new bug");
+  response.sendStatus(200);
 }
 
-async function getBugs(request, response) {
+async function getBugs(_request, response) {
   const bugs = await prisma.bug.findMany({
     select: {
       id: true,

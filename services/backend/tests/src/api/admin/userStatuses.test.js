@@ -3,7 +3,7 @@ const faker = require("faker");
 
 const path = "/api/admin/userStatuses";
 
-describe(`Test ${path}`, () => {
+describe(`PUT ${path}`, () => {
   beforeEach(() => console.log.mockClear());
 
   describe("when not authenticated", () => {
@@ -40,7 +40,7 @@ describe(`Test ${path}`, () => {
         prisma.user.update.mockClear();
       });
 
-      test("should process request, have a status 200", () => {
+      test("should process request - 200", () => {
         expect(res.statusCode).toBe(200);
         expect(console.log).not.toHaveBeenCalled();
       });
@@ -58,7 +58,7 @@ describe(`Test ${path}`, () => {
         });
       });
 
-      test("should return expected sorted result", () => {
+      test("should return expected result", () => {
         expect(res.text).toStrictEqual(
           "Successfully updated the user statuses"
         );
