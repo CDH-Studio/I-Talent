@@ -59,6 +59,7 @@ describe(`GET ${path}`, () => {
 
       beforeAll(async () => {
         prisma.bug.findMany.mockResolvedValue(data);
+
         res = await request(app)
           .get(path)
           .set("Authorization", getBearerToken(["view-admin-console"]));
