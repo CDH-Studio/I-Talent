@@ -3,28 +3,8 @@ const _ = require("lodash");
 const { getBearerToken } = require("../../../mocks");
 
 const path = "/api/option/branches";
-const data = [
-  [
-    "ENGLISH",
-    [
-      { branch: "Z Data" },
-      { branch: "Human Resources Branch" },
-      { branch: "Chief Information Office" },
-      { branch: "Human Resources Branch" },
-    ],
-  ],
-  [
-    "FRENCH",
-    [
-      { branch: "Y Data" },
-      { branch: "Direction générale des ressources humaines" },
-      { branch: "Bureau principal de l'information" },
-      { branch: "Direction générale des ressources humaines" },
-    ],
-  ],
-];
 
-describe(`Test GET ${path}`, () => {
+describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
 
   describe("when not authenticated", () => {
@@ -33,12 +13,34 @@ describe(`Test GET ${path}`, () => {
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
+      expect(console.log).not.toHaveBeenCalled();
 
       done();
     });
   });
 
   describe("when authenticated", () => {
+    const data = [
+      [
+        "ENGLISH",
+        [
+          { branch: "Z Data" },
+          { branch: "Human Resources Branch" },
+          { branch: "Chief Information Office" },
+          { branch: "Human Resources Branch" },
+        ],
+      ],
+      [
+        "FRENCH",
+        [
+          { branch: "Y Data" },
+          { branch: "Direction générale des ressources humaines" },
+          { branch: "Bureau principal de l'information" },
+          { branch: "Direction générale des ressources humaines" },
+        ],
+      ],
+    ];
+
     describe.each(data)("in %s", (language, prismaData) => {
       let res;
 

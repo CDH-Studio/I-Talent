@@ -19,6 +19,20 @@ describe(`PUT ${path}`, () => {
     });
   });
 
+  describe("when not authorised", () => {
+    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+      const res = await request(app)
+        .put(path)
+        .set("Authorization", getBearerToken(["role"]));
+
+      expect(res.statusCode).toBe(403);
+      expect(res.text).toBe("Access denied");
+      expect(console.log).not.toHaveBeenCalled();
+
+      done();
+    });
+  });
+
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {

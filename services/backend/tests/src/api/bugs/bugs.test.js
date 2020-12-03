@@ -44,6 +44,20 @@ describe(`GET ${path}`, () => {
     });
   });
 
+  describe("when not authorised", () => {
+    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["role"]));
+
+      expect(res.statusCode).toBe(403);
+      expect(res.text).toBe("Access denied");
+      expect(console.log).not.toHaveBeenCalled();
+
+      done();
+    });
+  });
+
   describe("when authenticated", () => {
     const data = [
       createFakeBug(false, false),
@@ -273,11 +287,29 @@ describe(`PUT ${path}/:id`, () => {
     });
   });
 
+  describe("when not authorised", () => {
+    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["role"]));
+
+      expect(res.statusCode).toBe(403);
+      expect(res.text).toBe("Access denied");
+      expect(console.log).not.toHaveBeenCalled();
+
+      done();
+    });
+  });
+
   describe("when authenticated", () => {
+    describe("when doing a normal query", () => {
+      test.todo("should process request - 200");
+    });
+
     test("should throw validation error if param is not a UUID - 422", async (done) => {
       const res = await request(app)
         .put(`${path}/randomstring}`)
-        .set("Authorization", getBearerToken())
+        .set("Authorization", getBearerToken(["manage-options"]))
         .send({});
 
       expect(res.statusCode).toBe(422);
@@ -292,7 +324,7 @@ describe(`PUT ${path}/:id`, () => {
     test("should throw validation error if description is not a string in body - 422", async (done) => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
-        .set("Authorization", getBearerToken())
+        .set("Authorization", getBearerToken(["manage-options"]))
         .send({ description: [] });
 
       expect(res.statusCode).toBe(422);
@@ -307,7 +339,7 @@ describe(`PUT ${path}/:id`, () => {
     test("should throw validation error if invalid value for location in body - 422", async (done) => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
-        .set("Authorization", getBearerToken())
+        .set("Authorization", getBearerToken(["manage-options"]))
         .send({ location: "" });
 
       expect(res.statusCode).toBe(422);
@@ -322,7 +354,7 @@ describe(`PUT ${path}/:id`, () => {
     test("should throw validation error if githubIssue is not an integer in body - 422", async (done) => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
-        .set("Authorization", getBearerToken())
+        .set("Authorization", getBearerToken(["manage-options"]))
         .send({ githubIssue: "randomstring" });
 
       expect(res.statusCode).toBe(422);
@@ -337,7 +369,7 @@ describe(`PUT ${path}/:id`, () => {
     test("should throw validation error if invalid value for status in body - 422", async (done) => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
-        .set("Authorization", getBearerToken())
+        .set("Authorization", getBearerToken(["manage-options"]))
         .send({ status: "" });
 
       expect(res.statusCode).toBe(422);
