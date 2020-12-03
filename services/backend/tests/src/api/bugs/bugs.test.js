@@ -194,6 +194,7 @@ describe(`POST ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async (done) => {
       prisma.bug.create.mockRejectedValue(new Error());
+
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken())
@@ -303,7 +304,69 @@ describe(`PUT ${path}/:id`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      test.todo("should process request - 200");
+      const data = [
+        ["updating no fields", faker.random.uuid(), {}],
+        ["updating some fields", faker.random.uuid(), { description: "Text" }],
+        [
+          "updating all fields",
+          faker.random.uuid(),
+          {
+            description: "Text",
+            location: "HOME",
+            status: "UNRESOLVED",
+            githubIssue: 1025,
+          },
+        ],
+      ];
+
+      describe.each(data)("when %s", (_testLabel, bugId, updateData) => {
+        let res;
+
+        beforeAll(async () => {
+          res = await request(app)
+            .put(`${path}/${bugId}`)
+            .set("Authorization", getBearerToken(["manage-options"]))
+            .send(updateData);
+        });
+
+        afterAll(() => {
+          prisma.bug.update.mockClear();
+        });
+
+        test("should process request - 200", () => {
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toStrictEqual("OK");
+          expect(console.log).not.toHaveBeenCalled();
+        });
+
+        test("should call prisma with specified params", () => {
+          expect(prisma.bug.update).toHaveBeenCalledWith({
+            where: {
+              id: bugId,
+            },
+            data: updateData,
+          });
+        });
+      });
+    });
+
+    test("should trigger error if there's a database problem - 500", async (done) => {
+      prisma.bug.update.mockRejectedValue(new Error());
+
+      const res = await request(app)
+        .put(`${path}/${faker.random.uuid()}`)
+        .set("Authorization", getBearerToken(["manage-options"]))
+        .send({});
+
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Internal Server Error");
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.bug.update).toHaveBeenCalled();
+
+      prisma.bug.update.mockClear();
+      console.log.mockClear();
+
+      done();
     });
 
     test("should throw validation error if param is not a UUID - 422", async (done) => {

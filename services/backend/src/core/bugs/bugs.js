@@ -59,7 +59,7 @@ async function updateBug(request, response) {
     },
   });
 
-  response.status(200).send("Successfully updated specified bug");
+  response.sendStatus(200);
 }
 
 module.exports = {
