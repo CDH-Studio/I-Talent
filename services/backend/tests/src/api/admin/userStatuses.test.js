@@ -77,9 +77,7 @@ describe(`PUT ${path}`, () => {
       });
 
       test("should return expected result", () => {
-        expect(res.text).toStrictEqual(
-          "Successfully updated the user statuses"
-        );
+        expect(res.text).toStrictEqual("OK");
       });
     });
 

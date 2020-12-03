@@ -36,6 +36,10 @@ const prismaMock = () => {
   jest.mock("../../src/database");
 };
 
+const axiosMock = () => {
+  jest.mock("axios");
+};
+
 const redisMock = () => {
   jest.mock("redis", () => require("redis-mock"));
 };
@@ -44,6 +48,7 @@ module.exports = {
   keycloakMock,
   prismaMock,
   redisMock,
+  axiosMock,
   getBearerToken,
   userId,
 };
