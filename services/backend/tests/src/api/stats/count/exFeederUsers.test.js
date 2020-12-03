@@ -6,19 +6,17 @@ const path = "/api/stats/count/exFeederUsers";
 
 describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).get(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
   describe("when not authorised", () => {
-    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+    test("should not process request when user has incorrect keycloak role - 403", async () => {
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken(["role"]));
@@ -26,13 +24,11 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
   describe("when authenticated", () => {
-    test("should process request - 200", async (done) => {
+    test("should process request - 200", async () => {
       const randomNumber = faker.random.number(1000);
 
       prisma.user.count.mockResolvedValue(randomNumber);
@@ -50,11 +46,9 @@ describe(`GET ${path}`, () => {
       });
 
       prisma.user.count.mockClear();
-
-      done();
     });
 
-    test("should trigger error if there's a database problem - 500", async (done) => {
+    test("should trigger error if there's a database problem - 500", async () => {
       prisma.user.count.mockRejectedValue(new Error());
       const res = await request(app)
         .get(path)
@@ -67,8 +61,6 @@ describe(`GET ${path}`, () => {
 
       prisma.user.count.mockClear();
       console.log.mockClear();
-
-      done();
     });
   });
 });

@@ -33,19 +33,17 @@ describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
 
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).get(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
   describe("when not authorised", () => {
-    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+    test("should not process request when user has incorrect keycloak role - 403", async () => {
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken(["role"]));
@@ -53,8 +51,6 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
@@ -114,8 +110,9 @@ describe(`GET ${path}`, () => {
       });
     });
 
-    test("should trigger error if there's a database problem - 500", async (done) => {
+    test("should trigger error if there's a database problem - 500", async () => {
       prisma.bug.findMany.mockRejectedValue(new Error());
+
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken(["view-admin-console"]));
@@ -126,8 +123,6 @@ describe(`GET ${path}`, () => {
       expect(prisma.bug.findMany).toHaveBeenCalled();
 
       prisma.bug.findMany.mockClear();
-
-      done();
     });
   });
 });
@@ -136,14 +131,12 @@ describe(`POST ${path}`, () => {
   beforeEach(() => console.log.mockClear());
 
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).post(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
@@ -192,7 +185,7 @@ describe(`POST ${path}`, () => {
       });
     });
 
-    test("should trigger error if there's a database problem - 500", async (done) => {
+    test("should trigger error if there's a database problem - 500", async () => {
       prisma.bug.create.mockRejectedValue(new Error());
 
       const res = await request(app)
@@ -207,11 +200,9 @@ describe(`POST ${path}`, () => {
 
       prisma.bug.create.mockClear();
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error without description in body - 422", async (done) => {
+    test("should throw validation error without description in body - 422", async () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken())
@@ -222,11 +213,9 @@ describe(`POST ${path}`, () => {
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if description is not a string in body - 422", async (done) => {
+    test("should throw validation error if description is not a string in body - 422", async () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken())
@@ -237,11 +226,9 @@ describe(`POST ${path}`, () => {
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error without location in body - 422", async (done) => {
+    test("should throw validation error without location in body - 422", async () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken())
@@ -252,11 +239,9 @@ describe(`POST ${path}`, () => {
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if invalid value for location in body - 422", async (done) => {
+    test("should throw validation error if invalid value for location in body - 422", async () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken())
@@ -267,8 +252,6 @@ describe(`POST ${path}`, () => {
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
   });
 });
@@ -277,19 +260,17 @@ describe(`PUT ${path}/:id`, () => {
   beforeEach(() => console.log.mockClear());
 
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).put(`${path}/somestring`);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
   describe("when not authorised", () => {
-    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+    test("should not process request when user has incorrect keycloak role - 403", async () => {
       const res = await request(app)
         .put(`${path}/somestring`)
         .set("Authorization", getBearerToken(["role"]));
@@ -297,8 +278,6 @@ describe(`PUT ${path}/:id`, () => {
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
@@ -350,7 +329,7 @@ describe(`PUT ${path}/:id`, () => {
       });
     });
 
-    test("should trigger error if there's a database problem - 500", async (done) => {
+    test("should trigger error if there's a database problem - 500", async () => {
       prisma.bug.update.mockRejectedValue(new Error());
 
       const res = await request(app)
@@ -365,11 +344,9 @@ describe(`PUT ${path}/:id`, () => {
 
       prisma.bug.update.mockClear();
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if param is not a UUID - 422", async (done) => {
+    test("should throw validation error if param is not a UUID - 422", async () => {
       const res = await request(app)
         .put(`${path}/randomstring}`)
         .set("Authorization", getBearerToken(["manage-options"]))
@@ -380,11 +357,9 @@ describe(`PUT ${path}/:id`, () => {
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if description is not a string in body - 422", async (done) => {
+    test("should throw validation error if description is not a string in body - 422", async () => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
@@ -395,11 +370,9 @@ describe(`PUT ${path}/:id`, () => {
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if invalid value for location in body - 422", async (done) => {
+    test("should throw validation error if invalid value for location in body - 422", async () => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
@@ -410,11 +383,9 @@ describe(`PUT ${path}/:id`, () => {
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if githubIssue is not an integer in body - 422", async (done) => {
+    test("should throw validation error if githubIssue is not an integer in body - 422", async () => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
@@ -425,11 +396,9 @@ describe(`PUT ${path}/:id`, () => {
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error if invalid value for status in body - 422", async (done) => {
+    test("should throw validation error if invalid value for status in body - 422", async () => {
       const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
@@ -440,8 +409,6 @@ describe(`PUT ${path}/:id`, () => {
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
   });
 });

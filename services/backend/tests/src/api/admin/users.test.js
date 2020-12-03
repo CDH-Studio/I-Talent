@@ -21,19 +21,17 @@ const path = "/api/admin/users";
 
 describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).get(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
   describe("when not authorised", () => {
-    test("should not process request when user has incorrect keycloak role - 403", async (done) => {
+    test("should not process request when user has incorrect keycloak role - 403", async () => {
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken(["role"]));
@@ -41,8 +39,6 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
@@ -144,7 +140,7 @@ describe(`GET ${path}`, () => {
         });
       });
 
-      test("should trigger error if there's a database problem - 500", async (done) => {
+      test("should trigger error if there's a database problem - 500", async () => {
         prisma.user.findMany.mockRejectedValue(new Error());
         const res = await request(app)
           .get(`${path}?language=${language}`)
@@ -157,12 +153,10 @@ describe(`GET ${path}`, () => {
 
         prisma.user.findMany.mockClear();
         console.log.mockClear();
-
-        done();
       });
     });
 
-    test("should throw validation error without language query param - 422", async (done) => {
+    test("should throw validation error without language query param - 422", async () => {
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken(["view-admin-console"]));
@@ -172,11 +166,9 @@ describe(`GET ${path}`, () => {
       expect(prisma.user.findMany).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error invalid language query param - 422", async (done) => {
+    test("should throw validation error invalid language query param - 422", async () => {
       const res = await request(app)
         .get(`${path}?language=en`)
         .set("Authorization", getBearerToken(["view-admin-console"]));
@@ -186,8 +178,6 @@ describe(`GET ${path}`, () => {
       expect(prisma.user.findMany).not.toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
   });
 });

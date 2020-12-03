@@ -5,21 +5,19 @@ const path = "/api/stats/topFiveSkills";
 
 describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).get(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
-
-      done();
     });
   });
 
   describe("when authenticated", () => {
     test.todo("should process request in English - 200");
     test.todo("should process request in French - 200");
-    // test("should process request in English - 200", async (done) => {
+    // test("should process request in English - 200", async () => {
     //   const res = await request(app)
     //     .get(`${path}?language=ENGLISH`)
     //     .set("Authorization", getBearerToken());
@@ -33,11 +31,9 @@ describe(`GET ${path}`, () => {
     //     { name: "Teaching (Instructor)", count: 1 },
     //   ]);
     //   expect(console.log).not.toHaveBeenCalled();
-
-    //   done();
     // });
 
-    // test("should process request in French - 200", async (done) => {
+    // test("should process request in French - 200", async () => {
     //   const res = await request(app)
     //     .get(`${path}?language=FRENCH`)
     //     .set("Authorization", getBearerToken());
@@ -51,11 +47,9 @@ describe(`GET ${path}`, () => {
     //     { name: "Travail administratif", count: 1 },
     //   ]);
     //   expect(console.log).not.toHaveBeenCalled();
-
-    //   done();
     // });
 
-    test("should throw validation error without language query param - 422", async (done) => {
+    test("should throw validation error without language query param - 422", async () => {
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken());
@@ -64,11 +58,9 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should throw validation error invalid language query param - 422", async (done) => {
+    test("should throw validation error invalid language query param - 422", async () => {
       const res = await request(app)
         .get(`${path}?language=asdasasf`)
         .set("Authorization", getBearerToken());
@@ -77,11 +69,9 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
 
       console.log.mockClear();
-
-      done();
     });
 
-    test("should trigger error if there's a database problem - 500", async (done) => {
+    test("should trigger error if there's a database problem - 500", async () => {
       prisma.skill.findMany.mockRejectedValue(new Error());
 
       const res = await request(app)
@@ -95,8 +85,6 @@ describe(`GET ${path}`, () => {
 
       prisma.skill.findMany.mockClear();
       console.log.mockClear();
-
-      done();
     });
   });
 });
