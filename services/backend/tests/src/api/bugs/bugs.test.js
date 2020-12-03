@@ -278,7 +278,7 @@ describe(`PUT ${path}/:id`, () => {
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async (done) => {
-      const res = await request(app).post(path);
+      const res = await request(app).put(`${path}/somestring`);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
@@ -291,7 +291,7 @@ describe(`PUT ${path}/:id`, () => {
   describe("when not authorised", () => {
     test("should not process request when user has incorrect keycloak role - 403", async (done) => {
       const res = await request(app)
-        .get(path)
+        .put(`${path}/somestring`)
         .set("Authorization", getBearerToken(["role"]));
 
       expect(res.statusCode).toBe(403);
