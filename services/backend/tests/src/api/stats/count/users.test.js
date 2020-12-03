@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../../mocks");
 
 const path = "/api/stats/count/users";
 
-describe(`Test ${path}`, () => {
+describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
     test("should not process request - 403", async (done) => {
       const res = await request(app).get(path);
