@@ -1,5 +1,6 @@
 const request = require("supertest");
 const faker = require("faker");
+const { getBearerToken } = require("../../../mocks");
 
 const path = "/api/admin/userStatuses";
 
@@ -33,7 +34,10 @@ describe(`PUT ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        res = await request(mockedApp).put(path).send(body);
+        res = await request(app)
+          .put(path)
+          .set("Authorization", getBearerToken(["manage-users"]))
+          .send(body);
       });
 
       afterAll(() => {
@@ -67,8 +71,9 @@ describe(`PUT ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async (done) => {
       prisma.user.update.mockRejectedValue(new Error());
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(path)
+        .set("Authorization", getBearerToken(["manage-users"]))
         .send({ [faker.random.uuid()]: "ACTIVE" });
 
       expect(res.statusCode).toBe(500);
@@ -82,7 +87,10 @@ describe(`PUT ${path}`, () => {
     });
 
     test("should throw validation error if keys of body is not a UUID - 422", async (done) => {
-      const res = await request(mockedApp).put(path).send({ notAUuid: "" });
+      const res = await request(app)
+        .put(path)
+        .set("Authorization", getBearerToken(["manage-users"]))
+        .send({ notAUuid: "" });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -92,8 +100,9 @@ describe(`PUT ${path}`, () => {
     });
 
     test("should throw validation error if values of body is not ACTIVE, INACTIVE, HIDDEN - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(path)
+        .set("Authorization", getBearerToken(["manage-users"]))
         .send({ [faker.random.uuid()]: "InvalidContent" });
 
       expect(res.statusCode).toBe(422);

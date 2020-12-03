@@ -1,8 +1,11 @@
 /* eslint-disable global-require */
-const { mock } = require("./mocks");
+const { redisMock, keycloakMock, prismaMock } = require("./mocks");
 
-(async () => {
-  await mock();
-  global.app = require("../src/server");
-  global.prisma = require("../src/database");
-})();
+console.log = jest.fn();
+
+redisMock();
+keycloakMock();
+prismaMock();
+
+global.app = require("../src/server");
+global.prisma = require("../src/database");

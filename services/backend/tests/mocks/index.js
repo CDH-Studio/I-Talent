@@ -1,15 +1,49 @@
-const { keycloakMock } = require("./keycloak");
-const { prismaMock } = require("./prisma");
-const { redisMock } = require("./redis");
+/* eslint-disable global-require */
+const faker = require("faker");
+const KeycloakMock = require("keycloak-mock");
+const config = require("../../src/config");
 
-const mock = async () => {
-  console.log = jest.fn();
+const userId = faker.random.uuid();
 
-  redisMock();
-  await keycloakMock();
-  prismaMock();
+const keycloakMock = async () => {
+  const keycloak = await KeycloakMock.createMockInstance({
+    authServerURL: config.KEYCLOAK_AUTH_SERVER_URL,
+    realm: "individual",
+    clientID: config.KEYCLOAK_CLIENT_ID,
+    clientSecret: config.KEYCLOAK_SECRET,
+  });
+
+  KeycloakMock.activateMock(keycloak);
+
+  keycloak.database.createUser({
+    id: userId,
+    email: faker.internet.email(),
+    username: faker.internet.userName(),
+  });
+};
+
+const getBearerToken = (roles) => {
+  const keycloak = KeycloakMock.getMockInstance(
+    config.KEYCLOAK_AUTH_SERVER_URL
+  );
+
+  const bearerToken = keycloak.createBearerToken(userId, 3600, { roles });
+
+  return `Bearer ${bearerToken}`;
+};
+
+const prismaMock = () => {
+  jest.mock("../../src/database");
+};
+
+const redisMock = () => {
+  jest.mock("redis", () => require("redis-mock"));
 };
 
 module.exports = {
-  mock,
+  keycloakMock,
+  prismaMock,
+  redisMock,
+  getBearerToken,
+  userId,
 };

@@ -1,6 +1,7 @@
 const request = require("supertest");
 const _ = require("lodash");
 const faker = require("faker");
+const { getBearerToken } = require("../../../mocks");
 
 const createFakeUser = (hasJob = true, hasTenure = true) => ({
   id: faker.random.uuid(),
@@ -50,7 +51,9 @@ describe(`GET ${path}`, () => {
         beforeAll(async () => {
           prisma.user.findMany.mockResolvedValue(prismaData);
 
-          res = await request(mockedApp).get(`${path}?language=${language}`);
+          res = await request(app)
+            .get(`${path}?language=${language}`)
+            .set("Authorization", getBearerToken(["view-admin-console"]));
         });
 
         afterAll(() => {
@@ -129,9 +132,9 @@ describe(`GET ${path}`, () => {
 
       test("should trigger error if there's a database problem - 500", async (done) => {
         prisma.user.findMany.mockRejectedValue(new Error());
-        const res = await request(mockedApp).get(
-          `${path}?language=${language}`
-        );
+        const res = await request(app)
+          .get(`${path}?language=${language}`)
+          .set("Authorization", getBearerToken(["view-admin-console"]));
 
         expect(res.statusCode).toBe(500);
         expect(res.text).toBe("Internal Server Error");
@@ -146,7 +149,9 @@ describe(`GET ${path}`, () => {
     });
 
     test("should throw validation error without language query param - 422", async (done) => {
-      const res = await request(mockedApp).get(path);
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -158,7 +163,9 @@ describe(`GET ${path}`, () => {
     });
 
     test("should throw validation error invalid language query param - 422", async (done) => {
-      const res = await request(mockedApp).get(`${path}?language=en`);
+      const res = await request(app)
+        .get(`${path}?language=en`)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();

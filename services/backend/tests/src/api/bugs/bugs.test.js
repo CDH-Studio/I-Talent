@@ -1,9 +1,7 @@
 const request = require("supertest");
 const faker = require("faker");
-const { getKeycloakUserId } = require("../../../../src/utils/keycloak");
+const { getBearerToken, userId } = require("../../../mocks");
 
-jest.mock("../../../../src/utils/keycloak");
-// eslint-disable-next-line global-require
 const createFakeBug = (hasAppVersion, hasGithubIssue) => {
   const bug = {
     id: faker.random.uuid(),
@@ -61,7 +59,9 @@ describe(`GET ${path}`, () => {
 
       beforeAll(async () => {
         prisma.bug.findMany.mockResolvedValue(data);
-        res = await request(mockedApp).get(path);
+        res = await request(app)
+          .get(path)
+          .set("Authorization", getBearerToken(["view-admin-console"]));
       });
 
       afterAll(() => {
@@ -101,7 +101,9 @@ describe(`GET ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async (done) => {
       prisma.bug.findMany.mockRejectedValue(new Error());
-      const res = await request(mockedApp).get(path);
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
@@ -133,24 +135,22 @@ describe(`POST ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const data = {
-        body: {
-          description: faker.lorem.paragraphs(),
-          location: faker.random.arrayElement([
-            "HOME",
-            "PROFILE",
-            "SEARCH",
-            "FORMS",
-          ]),
-        },
-        userId: faker.random.uuid(),
+        description: faker.lorem.paragraphs(),
+        location: faker.random.arrayElement([
+          "HOME",
+          "PROFILE",
+          "SEARCH",
+          "FORMS",
+        ]),
       };
 
       let res;
 
       beforeAll(async () => {
-        getKeycloakUserId.mockReturnValue(data.userId);
-
-        res = await request(mockedApp).post(path).send(data.body);
+        res = await request(app)
+          .post(path)
+          .set("Authorization", getBearerToken())
+          .send(data);
       });
 
       afterAll(() => {
@@ -164,13 +164,12 @@ describe(`POST ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(getKeycloakUserId.mock.calls.length).toBe(1);
         expect(prisma.bug.create).toHaveBeenCalledWith({
           data: {
-            ...data.body,
+            ...data,
             user: {
               connect: {
-                id: data.userId,
+                id: userId,
               },
             },
           },
@@ -180,7 +179,10 @@ describe(`POST ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async (done) => {
       prisma.bug.create.mockRejectedValue(new Error());
-      const res = await request(mockedApp).get(path);
+      const res = await request(app)
+        .post(path)
+        .set("Authorization", getBearerToken())
+        .send({ description: "", location: "HOME" });
 
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
@@ -194,8 +196,9 @@ describe(`POST ${path}`, () => {
     });
 
     test("should throw validation error without description in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .post(path)
+        .set("Authorization", getBearerToken())
         .send({ location: "HOME" });
 
       expect(res.statusCode).toBe(422);
@@ -208,8 +211,9 @@ describe(`POST ${path}`, () => {
     });
 
     test("should throw validation error if description is not a string in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .post(path)
+        .set("Authorization", getBearerToken())
         .send({ description: [], location: "HOME" });
 
       expect(res.statusCode).toBe(422);
@@ -222,7 +226,10 @@ describe(`POST ${path}`, () => {
     });
 
     test("should throw validation error without location in body - 422", async (done) => {
-      const res = await request(mockedApp).post(path).send({ description: "" });
+      const res = await request(app)
+        .post(path)
+        .set("Authorization", getBearerToken())
+        .send({ description: "" });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -234,8 +241,9 @@ describe(`POST ${path}`, () => {
     });
 
     test("should throw validation error if invalid value for location in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .post(path)
+        .set("Authorization", getBearerToken())
         .send({ description: "", location: "" });
 
       expect(res.statusCode).toBe(422);
@@ -266,8 +274,9 @@ describe(`PUT ${path}/:id`, () => {
 
   describe("when authenticated", () => {
     test("should throw validation error if param is not a UUID - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(`${path}/randomstring}`)
+        .set("Authorization", getBearerToken())
         .send({});
 
       expect(res.statusCode).toBe(422);
@@ -280,8 +289,9 @@ describe(`PUT ${path}/:id`, () => {
     });
 
     test("should throw validation error if description is not a string in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
+        .set("Authorization", getBearerToken())
         .send({ description: [] });
 
       expect(res.statusCode).toBe(422);
@@ -294,8 +304,9 @@ describe(`PUT ${path}/:id`, () => {
     });
 
     test("should throw validation error if invalid value for location in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
+        .set("Authorization", getBearerToken())
         .send({ location: "" });
 
       expect(res.statusCode).toBe(422);
@@ -308,8 +319,9 @@ describe(`PUT ${path}/:id`, () => {
     });
 
     test("should throw validation error if githubIssue is not an integer in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
+        .set("Authorization", getBearerToken())
         .send({ githubIssue: "randomstring" });
 
       expect(res.statusCode).toBe(422);
@@ -322,8 +334,9 @@ describe(`PUT ${path}/:id`, () => {
     });
 
     test("should throw validation error if invalid value for status in body - 422", async (done) => {
-      const res = await request(mockedApp)
+      const res = await request(app)
         .put(`${path}/${faker.random.uuid()}`)
+        .set("Authorization", getBearerToken())
         .send({ status: "" });
 
       expect(res.statusCode).toBe(422);

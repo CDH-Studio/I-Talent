@@ -1,5 +1,6 @@
 const request = require("supertest");
 const faker = require("faker");
+const { getBearerToken } = require("../../../../mocks");
 
 const path = "/api/stats/count/users";
 
@@ -21,7 +22,9 @@ describe(`Test ${path}`, () => {
       const randomNumber = faker.random.number(1000);
 
       prisma.user.count.mockResolvedValue(randomNumber);
-      const res = await request(mockedApp).get(path);
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toBe(randomNumber);
@@ -35,7 +38,9 @@ describe(`Test ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async (done) => {
       prisma.user.count.mockRejectedValue(new Error());
-      const res = await request(mockedApp).get(path);
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
