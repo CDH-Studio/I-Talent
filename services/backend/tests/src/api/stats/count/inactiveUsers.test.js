@@ -50,6 +50,7 @@ describe(`GET ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async () => {
       prisma.user.count.mockRejectedValue(new Error());
+
       const res = await request(app)
         .get(path)
         .set("Authorization", getBearerToken(["view-admin-console"]));
