@@ -168,7 +168,7 @@ describe(`POST ${path}`, () => {
             email: data.email,
             firstName: _.upperFirst(data.firstName),
             lastName: _.upperFirst(data.lastName),
-            avatarColor: expect.anything(),
+            avatarColor: expect.any(String),
             visibleCards: { create: {} },
           },
           select: {
