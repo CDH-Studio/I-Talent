@@ -1,18 +1,32 @@
 const axios = require("axios");
+const querystring = require("querystring");
 const prisma = require("../../database");
 const config = require("../../config");
+
+function getUrl(email) {
+  const qs = querystring.stringify({
+    searchValue: email,
+    searchField: 5,
+    searchCriterion: 2,
+    searchScope: "sub",
+    searchFilter: 2,
+    maxEntries: 200,
+    pageNumber: 1,
+    returnOrganizationInformation: "yes",
+  });
+
+  return `${config.GEDSAPIURL}employees?${qs}`;
+}
 
 async function getGedsSetup(request, response) {
   const { id } = request.params;
   const { email } = request.query;
 
   // seach GC directory using email
-  const url = `${config.GEDSAPIURL}employees?searchValue=${email}&searchField=5&searchCriterion=2&searchScope=sub&searchFilter=2&maxEntries=200&pageNumber=1&returnOrganizationInformation=yes`;
-
   const [{ data: dataGEDSArray }, { email: dataDBEmail }] = await Promise.all([
     axios({
       method: "get",
-      url: url,
+      url: getUrl(email),
       headers: {
         "user-key": config.GEDSAPIKEY,
         Accept: "application/json",
