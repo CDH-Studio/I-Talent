@@ -1,6 +1,10 @@
 const _ = require("lodash");
 const prisma = require("../../database");
-const { manageUsers, isKeycloakUser } = require("../../utils/keycloak");
+const {
+  manageUsers,
+  isKeycloakUser,
+  getKeycloakUserId,
+} = require("../../utils/keycloak");
 
 function generateAvatarColor() {
   const colours = [
@@ -20,76 +24,71 @@ function generateAvatarColor() {
 }
 
 function getNameInitials(firstName, lastName) {
-  return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+  return `${firstName[0]}${lastName[0]}`;
 }
 
-async function getUserById(request, response) {
-  const { id } = request.params;
+async function getCurrentUser(request, response) {
+  const id = getKeycloakUserId(request);
 
-  if (isKeycloakUser(request, id)) {
-    const user = await prisma.user.findOne({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        status: true,
-        avatarColor: true,
-        firstName: true,
-        lastName: true,
-        createdAt: true,
-        updatedAt: true,
-        signupStep: true,
-        preferredLanguage: true,
-      },
+  const user = await prisma.user.findOne({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      status: true,
+      avatarColor: true,
+      firstName: true,
+      lastName: true,
+      createdAt: true,
+      updatedAt: true,
+      signupStep: true,
+      preferredLanguage: true,
+    },
+  });
+
+  if (user) {
+    response.status(200).json({
+      ...user,
+      nameInitials: getNameInitials(user.firstName, user.lastName),
     });
-
-    if (user) {
-      user.nameInitials = getNameInitials(user.firstName, user.lastName);
-    }
-
-    response.status(200).json(user);
   } else {
-    response.sendStatus(403);
+    response.sendStatus(404);
   }
 }
 
 async function createUser(request, response) {
   const { name, firstName, lastName, email } = request.body;
-  const { id } = request.params;
+  const id = getKeycloakUserId(request);
 
-  if (isKeycloakUser(request, id)) {
-    const user = await prisma.user.create({
-      data: {
-        id,
-        name,
-        email,
-        firstName: _.upperFirst(firstName),
-        lastName: _.upperFirst(lastName),
-        avatarColor: generateAvatarColor(),
-        visibleCards: { create: {} },
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        status: true,
-        avatarColor: true,
-        firstName: true,
-        lastName: true,
-        createdAt: true,
-        updatedAt: true,
-        signupStep: true,
-      },
-    });
+  const user = await prisma.user.create({
+    data: {
+      id,
+      name,
+      email,
+      firstName: _.upperFirst(firstName),
+      lastName: _.upperFirst(lastName),
+      avatarColor: generateAvatarColor(),
+      visibleCards: { create: {} },
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      status: true,
+      avatarColor: true,
+      firstName: true,
+      lastName: true,
+      createdAt: true,
+      updatedAt: true,
+      signupStep: true,
+    },
+  });
 
-    response.status(200).json({
-      ...user,
-      nameInitials: getNameInitials(firstName, lastName),
-    });
-  } else {
-    response.sendStatus(403);
-  }
+  response.status(200).json({
+    ...user,
+    nameInitials: getNameInitials(user.firstName, user.lastName),
+  });
 }
 
 async function deleteUser(request, response) {
@@ -109,14 +108,14 @@ async function deleteUser(request, response) {
       prisma.relocationLocation.deleteMany({ where: { userId: id } }),
       prisma.user.delete({ where: { id } }),
     ]);
-    response.status(200).send("Successfully deleted the specified account");
+    response.sendStatus(200);
   } else {
     response.sendStatus(403);
   }
 }
 
 module.exports = {
-  getUserById,
+  getCurrentUser,
   createUser,
   deleteUser,
 };

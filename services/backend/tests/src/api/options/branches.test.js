@@ -54,7 +54,7 @@ describe(`GET ${path}`, () => {
         prisma.transEmploymentInfo.findMany.mockClear();
       });
 
-      test("should process request - 200", async () => {
+      test("should process request - 200", () => {
         expect(res.statusCode).toBe(200);
         expect(console.log).not.toHaveBeenCalled();
       });
@@ -74,11 +74,11 @@ describe(`GET ${path}`, () => {
         });
       });
 
-      test("should process request and not return duplicate branches", async () => {
+      test("should process request and not return duplicate branches", () => {
         expect(res.body.length).toBe(new Set(res.body).size);
       });
 
-      test("should process request and return alphabetically", async () => {
+      test("should process request and return alphabetically", () => {
         expect(res.body).toStrictEqual(_.sortBy(res.body));
       });
 

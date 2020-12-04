@@ -284,10 +284,14 @@ describe(`PUT ${path}/:id`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const data = [
-        ["updating no fields", faker.random.uuid(), {}],
-        ["updating some fields", faker.random.uuid(), { description: "Text" }],
+        ["when updating no fields", faker.random.uuid(), {}],
         [
-          "updating all fields",
+          "when updating some fields",
+          faker.random.uuid(),
+          { description: "Text" },
+        ],
+        [
+          "when updating all fields",
           faker.random.uuid(),
           {
             description: "Text",
@@ -298,7 +302,7 @@ describe(`PUT ${path}/:id`, () => {
         ],
       ];
 
-      describe.each(data)("when %s", (_testLabel, bugId, updateData) => {
+      describe.each(data)("%s", (_testLabel, bugId, updateData) => {
         let res;
 
         beforeAll(async () => {
