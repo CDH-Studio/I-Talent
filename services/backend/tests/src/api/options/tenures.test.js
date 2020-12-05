@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/careerMobilities";
+const path = "/api/option/tenures";
 
 describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -22,22 +22,22 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opCareerMobilityId: 1,
-            description: "z",
+            opTenureId: 1,
+            name: "a",
           },
           {
-            opCareerMobilityId: 2,
-            description: "B",
+            opTenureId: 2,
+            name: "b",
           },
         ],
         [
           {
-            id: 2,
-            description: "B",
+            id: 1,
+            name: "a",
           },
           {
-            id: 1,
-            description: "z",
+            id: 2,
+            name: "b",
           },
         ],
       ],
@@ -45,14 +45,22 @@ describe(`GET ${path}`, () => {
         "FRENCH",
         [
           {
-            opCareerMobilityId: 3,
-            description: "b",
+            opTenureId: 4,
+            name: "à",
+          },
+          {
+            opTenureId: 3,
+            name: "b",
           },
         ],
         [
           {
             id: 3,
-            description: "b",
+            name: "b",
+          },
+          {
+            id: 4,
+            name: "à",
           },
         ],
       ],
@@ -62,7 +70,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.opTransCareerMobility.findMany.mockResolvedValue(prismaData);
+        prisma.opTransTenure.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}`)
@@ -70,7 +78,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransCareerMobility.findMany.mockClear();
+        prisma.opTransTenure.findMany.mockClear();
       });
 
       test("should process request - 200", () => {
@@ -79,16 +87,16 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opTransCareerMobility.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransTenure.findMany).toHaveBeenCalledWith({
           where: {
             language,
           },
           select: {
-            opCareerMobilityId: true,
-            description: true,
+            opTenureId: true,
+            name: true,
           },
           orderBy: {
-            description: "asc",
+            name: "asc",
           },
         });
       });
@@ -98,7 +106,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opTransCareerMobility.findMany.mockRejectedValue(new Error());
+        prisma.opTransTenure.findMany.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}`)
@@ -107,9 +115,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opTransCareerMobility.findMany).toHaveBeenCalled();
+        expect(prisma.opTransTenure.findMany).toHaveBeenCalled();
 
-        prisma.opTransCareerMobility.findMany.mockClear();
+        prisma.opTransTenure.findMany.mockClear();
       });
     });
 
@@ -120,7 +128,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransCareerMobility.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransTenure.findMany).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -130,7 +138,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransCareerMobility.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransTenure.findMany).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/careerMobilities";
+const path = "/api/option/talentMatrixResults";
 
 describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -22,11 +22,11 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opCareerMobilityId: 1,
+            opTalentMatrixResultId: 1,
             description: "z",
           },
           {
-            opCareerMobilityId: 2,
+            opTalentMatrixResultId: 2,
             description: "B",
           },
         ],
@@ -45,7 +45,7 @@ describe(`GET ${path}`, () => {
         "FRENCH",
         [
           {
-            opCareerMobilityId: 3,
+            opTalentMatrixResultId: 3,
             description: "b",
           },
         ],
@@ -62,7 +62,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.opTransCareerMobility.findMany.mockResolvedValue(prismaData);
+        prisma.opTransTalentMatrixResult.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}`)
@@ -70,7 +70,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransCareerMobility.findMany.mockClear();
+        prisma.opTransTalentMatrixResult.findMany.mockClear();
       });
 
       test("should process request - 200", () => {
@@ -79,12 +79,12 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opTransCareerMobility.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransTalentMatrixResult.findMany).toHaveBeenCalledWith({
           where: {
             language,
           },
           select: {
-            opCareerMobilityId: true,
+            opTalentMatrixResultId: true,
             description: true,
           },
           orderBy: {
@@ -98,7 +98,9 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opTransCareerMobility.findMany.mockRejectedValue(new Error());
+        prisma.opTransTalentMatrixResult.findMany.mockRejectedValue(
+          new Error()
+        );
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}`)
@@ -107,9 +109,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opTransCareerMobility.findMany).toHaveBeenCalled();
+        expect(prisma.opTransTalentMatrixResult.findMany).toHaveBeenCalled();
 
-        prisma.opTransCareerMobility.findMany.mockClear();
+        prisma.opTransTalentMatrixResult.findMany.mockClear();
       });
     });
 
@@ -120,7 +122,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransCareerMobility.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransTalentMatrixResult.findMany).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -130,7 +132,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransCareerMobility.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransTalentMatrixResult.findMany).not.toHaveBeenCalled();
     });
   });
 });
