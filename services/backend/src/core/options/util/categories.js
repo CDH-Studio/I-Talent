@@ -28,7 +28,7 @@ async function getCategories(request, response) {
   response.status(200).json(categories);
 }
 
-async function getCategoriesAllLang(request, response) {
+async function getCategoriesAllLang(_request, response) {
   const categoriesQuery = await prisma.opCategory.findMany({
     select: {
       id: true,

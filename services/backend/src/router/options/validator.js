@@ -16,10 +16,13 @@ const deleteOneValidator = [
   body("id").trim().isUUID().withMessage("must be a UUID"),
 ];
 
-const createValidator = [body("en").trim(), body("fr").trim()];
+const createValidator = [
+  body("en").isString().trim(),
+  body("fr").isString().trim(),
+];
 const updateValidator = [
   ...createValidator,
-  body("id").trim().isUUID().withMessage("must be a UUID"),
+  body("id").isUUID().withMessage("must be a UUID"),
 ];
 
 const schoolValidator = [
