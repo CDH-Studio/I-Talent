@@ -2,7 +2,7 @@ const request = require("supertest");
 const faker = require("faker");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/category";
+const path = "/api/option/skill";
 
 describe(`POST ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -32,6 +32,7 @@ describe(`POST ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
+        categoryId: faker.random.uuid(),
         en: faker.lorem.sentence(),
         fr: faker.lorem.sentence(),
       };
@@ -46,7 +47,7 @@ describe(`POST ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opCategory.create.mockClear();
+        prisma.opSkill.create.mockClear();
       });
 
       test("should process request - 201", () => {
@@ -56,8 +57,13 @@ describe(`POST ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opCategory.create).toHaveBeenCalledWith({
+        expect(prisma.opSkill.create).toHaveBeenCalledWith({
           data: {
+            category: {
+              connect: {
+                id: body.categoryId,
+              },
+            },
             translations: {
               create: [
                 {
@@ -75,7 +81,7 @@ describe(`POST ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opCategory.create.mockRejectedValue(new Error());
+        prisma.opSkill.create.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .post(path)
@@ -85,9 +91,9 @@ describe(`POST ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opCategory.create).toHaveBeenCalled();
+        expect(prisma.opSkill.create).toHaveBeenCalled();
 
-        prisma.opCategory.create.mockClear();
+        prisma.opSkill.create.mockClear();
       });
     });
 
@@ -95,22 +101,33 @@ describe(`POST ${path}`, () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ fr: "data", en: [] });
+        .send({ categoryId: faker.random.uuid(), fr: "data", en: [] });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCategory.create).not.toHaveBeenCalled();
+      expect(prisma.opSkill.create).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid fr body value - 422", async () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ fr: [], en: "data" });
+        .send({ categoryId: faker.random.uuid(), fr: [], en: "data" });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCategory.create).not.toHaveBeenCalled();
+      expect(prisma.opSkill.create).not.toHaveBeenCalled();
+    });
+
+    test("should throw validation error invalid categoryId body value - 422", async () => {
+      const res = await request(app)
+        .post(path)
+        .set("Authorization", getBearerToken(["manage-options"]))
+        .send({ categoryId: "notAUUID", fr: "data", en: "data" });
+
+      expect(res.statusCode).toBe(422);
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.opSkill.create).not.toHaveBeenCalled();
     });
   });
 });
@@ -144,6 +161,7 @@ describe(`PUT ${path}`, () => {
     describe("when doing a normal query", () => {
       const body = {
         id: faker.random.uuid(),
+        categoryId: faker.random.uuid(),
         fr: "data",
         en: "data",
       };
@@ -158,7 +176,7 @@ describe(`PUT ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opCategory.update.mockClear();
+        prisma.opSkill.update.mockClear();
       });
 
       test("should process request - 204", () => {
@@ -168,11 +186,16 @@ describe(`PUT ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opCategory.update).toHaveBeenCalledWith({
+        expect(prisma.opSkill.update).toHaveBeenCalledWith({
           where: {
             id: body.id,
           },
           data: {
+            category: {
+              connect: {
+                id: body.categoryId,
+              },
+            },
             translations: {
               updateMany: [
                 {
@@ -202,33 +225,64 @@ describe(`PUT ${path}`, () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ id: "notauuid", fr: "data", en: "data" });
+        .send({
+          id: "notauuid",
+          categoryId: faker.random.uuid(),
+          fr: "data",
+          en: "data",
+        });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCategory.update).not.toHaveBeenCalled();
+      expect(prisma.opSkill.update).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid en body value - 422", async () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ id: faker.random.uuid(), fr: "data", en: [] });
+        .send({
+          id: faker.random.uuid(),
+          categoryId: faker.random.uuid(),
+          fr: "data",
+          en: [],
+        });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCategory.update).not.toHaveBeenCalled();
+      expect(prisma.opSkill.update).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid fr body value - 422", async () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ id: faker.random.uuid(), fr: [], en: "data" });
+        .send({
+          id: faker.random.uuid(),
+          categoryId: faker.random.uuid(),
+          fr: [],
+          en: "data",
+        });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCategory.update).not.toHaveBeenCalled();
+      expect(prisma.opSkill.update).not.toHaveBeenCalled();
+    });
+
+    test("should throw validation error invalid categoryId body value - 422", async () => {
+      const res = await request(app)
+        .post(path)
+        .set("Authorization", getBearerToken(["manage-options"]))
+        .send({
+          id: faker.random.uuid(),
+          categoryId: "notAUUID",
+          fr: "data",
+          en: "data",
+        });
+
+      expect(res.statusCode).toBe(422);
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.opSkill.create).not.toHaveBeenCalled();
     });
   });
 });
@@ -260,27 +314,29 @@ describe(`DELETE ${path}`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      const body = {
-        id: faker.random.uuid(),
-      };
+      const id = faker.random.uuid();
 
       let res;
 
       beforeAll(async () => {
-        prisma.opTransCategory.deleteMany.mockReturnValue(
-          "opTransCategory.deleteMany"
-        );
-        prisma.opCategory.delete.mockReturnValue("opCategory.delete");
+        prisma.skill.deleteMany.mockReturnValue(1);
+        prisma.mentorshipSkill.deleteMany.mockReturnValue(2);
+        prisma.developmentalGoal.deleteMany.mockReturnValue(3);
+        prisma.opTransSkill.deleteMany.mockReturnValue(4);
+        prisma.opSkill.delete.mockReturnValue(5);
 
         res = await request(app)
           .delete(path)
           .set("Authorization", getBearerToken(["manage-options"]))
-          .send(body);
+          .send({ id });
       });
 
       afterAll(() => {
-        prisma.opTransCategory.deleteMany.mockClear();
-        prisma.opCategory.delete.mockClear();
+        prisma.skill.deleteMany.mockClear();
+        prisma.mentorshipSkill.deleteMany.mockClear();
+        prisma.developmentalGoal.deleteMany.mockClear();
+        prisma.opTransSkill.deleteMany.mockClear();
+        prisma.opSkill.delete.mockClear();
         prisma.$transaction.mockClear();
       });
 
@@ -291,22 +347,37 @@ describe(`DELETE ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opTransCategory.deleteMany).toHaveBeenCalledWith({
+        expect(prisma.skill.deleteMany).toHaveBeenCalledWith({
           where: {
-            opCategoryId: body.id,
+            skillId: id,
           },
         });
 
-        expect(prisma.opCategory.delete).toHaveBeenCalledWith({
+        expect(prisma.mentorshipSkill.deleteMany).toHaveBeenCalledWith({
           where: {
-            id: body.id,
+            skillId: id,
           },
         });
 
-        expect(prisma.$transaction).toHaveBeenCalledWith([
-          "opTransCategory.deleteMany",
-          "opCategory.delete",
-        ]);
+        expect(prisma.developmentalGoal.deleteMany).toHaveBeenCalledWith({
+          where: {
+            skillId: id,
+          },
+        });
+
+        expect(prisma.opTransSkill.deleteMany).toHaveBeenCalledWith({
+          where: {
+            opSkillId: id,
+          },
+        });
+
+        expect(prisma.opSkill.delete).toHaveBeenCalledWith({
+          where: {
+            id,
+          },
+        });
+
+        expect(prisma.$transaction).toHaveBeenCalledWith([1, 2, 3, 4, 5]);
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
@@ -315,7 +386,7 @@ describe(`DELETE ${path}`, () => {
         const dbRes = await request(app)
           .delete(path)
           .set("Authorization", getBearerToken(["manage-options"]))
-          .send(body);
+          .send({ id });
 
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");

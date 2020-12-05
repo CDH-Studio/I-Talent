@@ -34,7 +34,7 @@ async function getSkills(request, response) {
   response.status(200).json(skills);
 }
 
-async function getSkillsAllLang(request, response) {
+async function getSkillsAllLang(_request, response) {
   const skillsQuery = await prisma.opSkill.findMany({
     select: {
       id: true,
@@ -98,11 +98,9 @@ async function updateSkill(request, response) {
     },
     data: {
       category: {
-        connect: categoryId
-          ? {
-              id: categoryId,
-            }
-          : undefined,
+        connect: {
+          id: categoryId,
+        },
       },
       translations: {
         updateMany: [

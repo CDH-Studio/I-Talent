@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/categoriesAllLang";
+const path = "/api/option/skillsAllLang";
 
 describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -33,20 +33,23 @@ describe(`GET ${path}`, () => {
       const prismaData = [
         {
           id: 1,
+          categoryId: 2,
           translations: [
             { language: "ENGLISH", name: "a" },
             { language: "FRENCH", name: "z" },
           ],
         },
         {
-          id: 2,
+          id: 3,
+          categoryId: 4,
           translations: [
             { language: "ENGLISH", name: "a" },
             { language: "FRENCH", name: "b" },
           ],
         },
         {
-          id: 3,
+          id: 5,
+          categoryId: 6,
           translations: [
             { language: "ENGLISH", name: "c" },
             { language: "FRENCH", name: "c" },
@@ -55,15 +58,15 @@ describe(`GET ${path}`, () => {
       ];
 
       const result = [
-        { id: 2, en: "a", fr: "b" },
-        { id: 1, en: "a", fr: "z" },
-        { id: 3, en: "c", fr: "c" },
+        { id: 3, en: "a", fr: "b", categoryId: 4 },
+        { id: 1, en: "a", fr: "z", categoryId: 2 },
+        { id: 5, en: "c", fr: "c", categoryId: 6 },
       ];
 
       let res;
 
       beforeAll(async () => {
-        prisma.opCategory.findMany.mockResolvedValue(prismaData);
+        prisma.opSkill.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(path)
@@ -71,7 +74,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opCategory.findMany.mockClear();
+        prisma.opSkill.findMany.mockClear();
       });
 
       test("should process request - 200", () => {
@@ -80,9 +83,10 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opCategory.findMany).toHaveBeenCalledWith({
+        expect(prisma.opSkill.findMany).toHaveBeenCalledWith({
           select: {
             id: true,
+            categoryId: true,
             translations: {
               select: {
                 language: true,
@@ -98,7 +102,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opCategory.findMany.mockRejectedValue(new Error());
+        prisma.opSkill.findMany.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .get(path)
@@ -107,9 +111,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opCategory.findMany).toHaveBeenCalled();
+        expect(prisma.opSkill.findMany).toHaveBeenCalled();
 
-        prisma.opCategory.findMany.mockClear();
+        prisma.opSkill.findMany.mockClear();
       });
     });
   });
