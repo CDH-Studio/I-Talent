@@ -3,9 +3,9 @@ const moment = require("moment");
 const faker = require("faker");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/stats/growthRateByMonth";
+const path = "/api/stats/growthRateByWeek";
 
-describe(`GET ${path}`, () => {
+describe(`Test ${path}`, () => {
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
       const res = await request(app).get(path);
@@ -30,57 +30,31 @@ describe(`GET ${path}`, () => {
 
   describe("when authenticated", () => {
     const data = [
+      ["when there are no users", [], {}],
       [
-        "when there's data for a single year",
+        "when there are users",
         [
           {
             id: faker.random.uuid(),
-            createdAt: moment().toISOString(),
+            createdAt: moment().subtract(3, "week"),
           },
           {
             id: faker.random.uuid(),
-            createdAt: moment().toISOString(),
+            createdAt: moment().subtract(1, "week"),
+          },
+          {
+            id: faker.random.uuid(),
+            createdAt: moment(),
+          },
+          {
+            id: faker.random.uuid(),
+            createdAt: moment(),
           },
         ],
         {
-          currentMonthNewUserCount: 2,
-          growthRate: {
-            [moment().get("Y")]: { [moment().get("M")]: 2 },
-          },
-          growthRateFromPreviousMonth: 200,
-        },
-      ],
-      [
-        "when there's data for multiple years",
-        [
-          {
-            id: faker.random.uuid(),
-            createdAt: moment().subtract(1, "year").month(10),
-          },
-          {
-            id: faker.random.uuid(),
-            createdAt: moment().month(0),
-          },
-        ],
-        {
-          currentMonthNewUserCount: 0,
-          growthRate: {
-            [moment().get("Y")]: {
-              ...Array.from({ length: moment().month() }).reduce(
-                (acc, _i, index) => {
-                  acc[index + 1] = 0;
-                  return acc;
-                },
-                {}
-              ),
-              0: 1,
-            },
-            [moment().get("Y") - 1]: {
-              11: 0,
-              10: 1,
-            },
-          },
-          growthRateFromPreviousMonth: 0,
+          0: 2,
+          1: 1,
+          3: 1,
         },
       ],
     ];
@@ -111,9 +85,6 @@ describe(`GET ${path}`, () => {
             id: true,
             createdAt: true,
           },
-          orderBy: {
-            createdAt: "asc",
-          },
         });
       });
 
@@ -124,22 +95,6 @@ describe(`GET ${path}`, () => {
 
     test("should trigger error if there's a database problem - 500", async () => {
       prisma.user.findMany.mockRejectedValue(new Error());
-
-      const res = await request(app)
-        .get(path)
-        .set("Authorization", getBearerToken(["view-admin-console"]));
-
-      expect(res.statusCode).toBe(500);
-      expect(res.text).toBe("Internal Server Error");
-      expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findMany).toHaveBeenCalled();
-
-      prisma.user.findMany.mockClear();
-      console.log.mockClear();
-    });
-
-    test("should trigger error if there's no user in the database - 500", async () => {
-      prisma.user.findMany.mockResolvedValue([]);
 
       const res = await request(app)
         .get(path)
