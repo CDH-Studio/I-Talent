@@ -54,8 +54,8 @@ describe(`PUT ${path}`, () => {
         prisma.user.update.mockClear();
       });
 
-      test("should process request - 200", () => {
-        expect(res.statusCode).toBe(200);
+      test("should process request - 204", () => {
+        expect(res.statusCode).toBe(204);
         expect(console.log).not.toHaveBeenCalled();
       });
 
@@ -73,7 +73,7 @@ describe(`PUT ${path}`, () => {
       });
 
       test("should return expected result", () => {
-        expect(res.text).toStrictEqual("OK");
+        expect(res.text).toStrictEqual("");
       });
     });
 

@@ -79,7 +79,7 @@ const updateUserStatuses = async (request, response) => {
     )
   );
 
-  response.sendStatus(200);
+  response.sendStatus(204);
 };
 
 module.exports = { getUsers, updateUserStatuses };

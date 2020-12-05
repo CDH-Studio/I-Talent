@@ -165,9 +165,9 @@ describe(`POST ${path}`, () => {
         prisma.bug.create.mockClear();
       });
 
-      test("should process request - 200", () => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toStrictEqual("OK");
+      test("should process request - 201", () => {
+        expect(res.statusCode).toBe(201);
+        expect(res.text).toStrictEqual("Created");
         expect(console.log).not.toHaveBeenCalled();
       });
 
@@ -316,9 +316,9 @@ describe(`PUT ${path}/:id`, () => {
           prisma.bug.update.mockClear();
         });
 
-        test("should process request - 200", () => {
-          expect(res.statusCode).toBe(200);
-          expect(res.text).toStrictEqual("OK");
+        test("should process request - 204", () => {
+          expect(res.statusCode).toBe(204);
+          expect(res.text).toStrictEqual("");
           expect(console.log).not.toHaveBeenCalled();
         });
 

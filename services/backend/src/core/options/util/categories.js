@@ -73,7 +73,7 @@ async function createCategory(request, response) {
     },
   });
 
-  response.status(200).send("Successfully created a category option");
+  response.sendStatus(201);
 }
 
 async function updateCategory(request, response) {
@@ -107,9 +107,7 @@ async function updateCategory(request, response) {
     },
   });
 
-  response
-    .status(200)
-    .send("Successfully updated the specified category option");
+  response.sendStatus(204);
 }
 
 async function deleteCategory(request, response) {
@@ -128,9 +126,7 @@ async function deleteCategory(request, response) {
     }),
   ]);
 
-  response
-    .status(200)
-    .send("Successfully deleted the specified category option");
+  response.sendStatus(204);
 }
 
 async function deleteCategories(request, response) {
@@ -153,9 +149,7 @@ async function deleteCategories(request, response) {
     }),
   ]);
 
-  response
-    .status(200)
-    .send("Successfully deleted the specified category options");
+  response.sendStatus(204);
 }
 
 module.exports = {

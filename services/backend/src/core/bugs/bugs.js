@@ -17,7 +17,7 @@ async function createBug(request, response) {
     },
   });
 
-  response.sendStatus(200);
+  response.sendStatus(201);
 }
 
 async function getBugs(_request, response) {
@@ -59,7 +59,7 @@ async function updateBug(request, response) {
     },
   });
 
-  response.sendStatus(200);
+  response.sendStatus(204);
 }
 
 module.exports = {

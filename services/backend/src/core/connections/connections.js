@@ -18,7 +18,7 @@ async function addConnection(request, response) {
     },
   });
 
-  response.sendStatus(200);
+  response.sendStatus(201);
 }
 
 async function removeConnection(request, response) {
@@ -38,7 +38,7 @@ async function removeConnection(request, response) {
     },
   });
 
-  response.sendStatus(200);
+  response.sendStatus(204);
 }
 
 async function getConnectionById(request, response) {

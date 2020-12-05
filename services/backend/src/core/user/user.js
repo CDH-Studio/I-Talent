@@ -108,7 +108,7 @@ async function deleteUser(request, response) {
       prisma.relocationLocation.deleteMany({ where: { userId: id } }),
       prisma.user.delete({ where: { id } }),
     ]);
-    response.sendStatus(200);
+    response.sendStatus(204);
   } else {
     response.sendStatus(403);
   }
