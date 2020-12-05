@@ -1,5 +1,4 @@
 const request = require("supertest");
-const _ = require("lodash");
 const { getBearerToken } = require("../../../mocks");
 
 const path = "/api/option/branches";
@@ -27,6 +26,7 @@ describe(`GET ${path}`, () => {
           { branch: "Chief Information Office" },
           { branch: "Human Resources Branch" },
         ],
+        ["Chief Information Office", "Human Resources Branch", "Z Data"],
       ],
       [
         "FRENCH",
@@ -36,10 +36,15 @@ describe(`GET ${path}`, () => {
           { branch: "Bureau principal de l'information" },
           { branch: "Direction générale des ressources humaines" },
         ],
+        [
+          "Bureau principal de l'information",
+          "Direction générale des ressources humaines",
+          "Y Data",
+        ],
       ],
     ];
 
-    describe.each(data)("in %s", (language, prismaData) => {
+    describe.each(data)("in %s", (language, prismaData, result) => {
       let res;
 
       beforeAll(async () => {
@@ -74,12 +79,8 @@ describe(`GET ${path}`, () => {
         });
       });
 
-      test("should process request and not return duplicate branches", () => {
-        expect(res.body.length).toBe(new Set(res.body).size);
-      });
-
-      test("should process request and return alphabetically", () => {
-        expect(res.body).toStrictEqual(_.sortBy(res.body));
+      test("should return expected result", () => {
+        expect(res.body).toStrictEqual(result);
       });
 
       test("should trigger error if there's a database problem - 500", async () => {

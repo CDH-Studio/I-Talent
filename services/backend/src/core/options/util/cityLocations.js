@@ -19,8 +19,8 @@ async function getCityLocations(request, response) {
   });
 
   const locations = _.orderBy(
-    locationsQuery.map(({ province, city, opRelocationLocationId: id }) => ({
-      id,
+    locationsQuery.map(({ province, city, opRelocationLocationId }) => ({
+      id: opRelocationLocationId,
       city,
       province,
     })),

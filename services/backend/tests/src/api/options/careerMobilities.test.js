@@ -1,6 +1,4 @@
 const request = require("supertest");
-const _ = require("lodash");
-const faker = require("faker");
 const { getBearerToken } = require("../../../mocks");
 
 const path = "/api/option/careerMobilities";
@@ -24,12 +22,22 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opCareerMobilityId: faker.random.uuid(),
-            description: faker.lorem.sentence(),
+            opCareerMobilityId: 1,
+            description: "zndkjn",
           },
           {
-            opCareerMobilityId: faker.random.uuid(),
-            description: faker.lorem.sentence(),
+            opCareerMobilityId: 2,
+            description: "Blahblah",
+          },
+        ],
+        [
+          {
+            id: 2,
+            description: "Blahblah",
+          },
+          {
+            id: 1,
+            description: "zndkjn",
           },
         ],
       ],
@@ -37,16 +45,21 @@ describe(`GET ${path}`, () => {
         "FRENCH",
         [
           {
-            opCareerMobilityId: faker.random.uuid(),
-            description: faker.lorem.sentence(),
+            opCareerMobilityId: 3,
+            description: "Blahblah",
+          },
+        ],
+        [
+          {
+            id: 3,
+            description: "Blahblah",
           },
         ],
       ],
     ];
 
-    describe.each(data)("in %s", (language, prismaData) => {
+    describe.each(data)("in %s", (language, prismaData, result) => {
       let res;
-      let resData;
 
       beforeAll(async () => {
         prisma.opTransCareerMobility.findMany.mockResolvedValue(prismaData);
@@ -54,8 +67,6 @@ describe(`GET ${path}`, () => {
         res = await request(app)
           .get(`${path}?language=${language}`)
           .set("Authorization", getBearerToken());
-
-        resData = _.map(res.body, "description");
       });
 
       afterAll(() => {
@@ -82,16 +93,8 @@ describe(`GET ${path}`, () => {
         });
       });
 
-      test(`should process request and data should have ids`, () => {
-        expect(res.body.every((i) => "id" in i)).toBeTruthy();
-      });
-
-      test(`should process request and data should have descriptions`, () => {
-        expect(res.body.every((i) => "description" in i)).toBeTruthy();
-      });
-
-      test("should process request and return alphabetically", () => {
-        expect(resData).toStrictEqual(_.sortBy(resData));
+      test("should return expected result", () => {
+        expect(res.body).toStrictEqual(result);
       });
 
       test("should trigger error if there's a database problem - 500", async () => {

@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/cityLocations";
+const path = "/api/option/locations";
 
 describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -22,36 +22,86 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opRelocationLocationId: 1,
             province: "Quebec",
-            city: "Gatineau",
+            streetName: "z",
+            opOfficeLocation: {
+              id: 2,
+              streetNumber: 34,
+              city: "Gatineau",
+            },
           },
           {
-            opRelocationLocationId: 2,
             province: "Ontario",
-            city: "Ottawa",
+            streetName: "b",
+            opOfficeLocation: {
+              id: 1,
+              streetNumber: 12,
+              city: "Ottawa",
+            },
           },
           {
-            opRelocationLocationId: 3,
             province: "Ontario",
-            city: "Toronto",
+            streetName: "c",
+            opOfficeLocation: {
+              id: 3,
+              streetNumber: 12,
+              city: "Toroto",
+            },
+          },
+          {
+            province: "Ontario",
+            streetName: "a",
+            opOfficeLocation: {
+              id: 4,
+              streetNumber: 1,
+              city: "Ottawa",
+            },
+          },
+          {
+            province: "Quebec",
+            streetName: "a",
+            opOfficeLocation: {
+              id: 5,
+              streetNumber: 34,
+              city: "Gatineau",
+            },
           },
         ],
         [
           {
-            id: 2,
-            province: "Ontario",
+            id: 4,
+            streetNumber: 1,
+            streetName: "a",
             city: "Ottawa",
-          },
-          {
-            id: 3,
             province: "Ontario",
-            city: "Toronto",
           },
           {
             id: 1,
-            province: "Quebec",
+            streetNumber: 12,
+            streetName: "b",
+            city: "Ottawa",
+            province: "Ontario",
+          },
+          {
+            id: 3,
+            streetNumber: 12,
+            streetName: "c",
+            city: "Toroto",
+            province: "Ontario",
+          },
+          {
+            id: 5,
+            streetNumber: 34,
+            streetName: "a",
             city: "Gatineau",
+            province: "Quebec",
+          },
+          {
+            id: 2,
+            streetNumber: 34,
+            streetName: "z",
+            city: "Gatineau",
+            province: "Quebec",
           },
         ],
       ],
@@ -59,16 +109,22 @@ describe(`GET ${path}`, () => {
         "FRENCH",
         [
           {
-            opRelocationLocationId: 4,
-            province: "Ontario",
-            city: "Ottawa",
+            province: "Quebec",
+            streetName: "a",
+            opOfficeLocation: {
+              id: 1,
+              streetNumber: 34,
+              city: "Gatineau",
+            },
           },
         ],
         [
           {
-            id: 4,
-            province: "Ontario",
-            city: "Ottawa",
+            id: 1,
+            streetNumber: 34,
+            streetName: "a",
+            city: "Gatineau",
+            province: "Quebec",
           },
         ],
       ],
@@ -78,7 +134,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.opTransRelocationLocation.findMany.mockResolvedValue(prismaData);
+        prisma.opTransOfficeLocation.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}`)
@@ -86,7 +142,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransRelocationLocation.findMany.mockClear();
+        prisma.opTransOfficeLocation.findMany.mockClear();
       });
 
       test("should process request - 200", () => {
@@ -95,14 +151,20 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opTransRelocationLocation.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransOfficeLocation.findMany).toHaveBeenCalledWith({
           where: {
             language,
           },
           select: {
-            opRelocationLocationId: true,
+            streetName: true,
             province: true,
-            city: true,
+            opOfficeLocation: {
+              select: {
+                id: true,
+                streetNumber: true,
+                city: true,
+              },
+            },
           },
           orderBy: {
             province: "asc",
@@ -115,9 +177,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opTransRelocationLocation.findMany.mockRejectedValue(
-          new Error()
-        );
+        prisma.opTransOfficeLocation.findMany.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}`)
@@ -126,9 +186,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opTransRelocationLocation.findMany).toHaveBeenCalled();
+        expect(prisma.opTransOfficeLocation.findMany).toHaveBeenCalled();
 
-        prisma.opTransRelocationLocation.findMany.mockClear();
+        prisma.opTransOfficeLocation.findMany.mockClear();
       });
     });
 
@@ -139,7 +199,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransRelocationLocation.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransOfficeLocation.findMany).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -149,7 +209,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransRelocationLocation.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransOfficeLocation.findMany).not.toHaveBeenCalled();
     });
   });
 });
