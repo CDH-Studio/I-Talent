@@ -6,14 +6,16 @@
   "collectCoverageFrom": [
     "./src/**/*.js",
     "!./src/docs/**",
-    "!./src/database/**"
+    "!./src/database/**",
+    "!./src/config.js",
+    "!./src/server.js"
   ],
   "coverageThreshold": {
     "global": {
-      "lines": 39,
-      "statements": 38,
-      "branch": 12,
-      "functions": 17
+      "lines": 41,
+      "statements": 40,
+      "branch": 9,
+      "functions": 19
     }
   },
   "coverageDirectory": "./tests/coverage"
