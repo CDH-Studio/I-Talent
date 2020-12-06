@@ -5,6 +5,8 @@ const { getBearerToken, userId } = require("../../../mocks");
 const path = "/api/connections";
 
 describe(`GET ${path}/:id`, () => {
+  beforeEach(() => console.log.mockReset());
+
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
       const res = await request(app).get(`${path}/somestring`);
@@ -61,7 +63,7 @@ describe(`GET ${path}/:id`, () => {
           });
 
           afterAll(() => {
-            prisma.user.findOne.mockClear();
+            prisma.user.findOne.mockReset();
           });
 
           test("should process request - 200", () => {
@@ -99,25 +101,24 @@ describe(`GET ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findOne).toHaveBeenCalled();
 
-      prisma.user.findOne.mockClear();
-      console.log.mockClear();
+      prisma.user.findOne.mockReset();
     });
 
     test("should throw validation error if param is not a UUID - 422", async () => {
       const res = await request(app)
-        .put(`${path}/randomstring}`)
+        .get(`${path}/randomstring}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findOne).not.toHaveBeenCalled();
-
-      console.log.mockClear();
     });
   });
 });
 
 describe(`POST ${path}/:id`, () => {
+  beforeEach(() => console.log.mockReset());
+
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
       const res = await request(app).post(`${path}/somestring`);
@@ -140,7 +141,7 @@ describe(`POST ${path}/:id`, () => {
       });
 
       afterAll(() => {
-        prisma.user.update.mockClear();
+        prisma.user.update.mockReset();
       });
 
       test("should process request - 201", () => {
@@ -168,22 +169,20 @@ describe(`POST ${path}/:id`, () => {
       });
     });
 
-    test.todo("should trigger error if there's a database problem - 500");
-    // test("should trigger error if there's a database problem - 500", async () => {
-    //   prisma.user.update.mockRejectedValue(new Error());
+    test("should trigger error if there's a database problem - 500", async () => {
+      prisma.user.update.mockRejectedValue(new Error());
 
-    //   const res = await request(app)
-    //     .post(`${path}/${faker.random.uuid()}`)
-    //     .set("Authorization", getBearerToken());
+      const res = await request(app)
+        .post(`${path}/${faker.random.uuid()}`)
+        .set("Authorization", getBearerToken());
 
-    //   expect(res.statusCode).toBe(500);
-    //   expect(res.text).toBe("Internal Server Error");
-    //   expect(console.log).toHaveBeenCalled();
-    //   expect(prisma.user.update).toHaveBeenCalled();
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Internal Server Error");
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.user.update).toHaveBeenCalled();
 
-    //   prisma.user.update.mockClear();
-    //   console.log.mockClear();
-    // });
+      prisma.user.update.mockReset();
+    });
 
     test("should throw validation error if param is not a UUID - 422", async () => {
       const res = await request(app)
@@ -193,13 +192,13 @@ describe(`POST ${path}/:id`, () => {
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.update).not.toHaveBeenCalled();
-
-      console.log.mockClear();
     });
   });
 });
 
 describe(`DELETE ${path}/:id`, () => {
+  beforeEach(() => console.log.mockReset());
+
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
       const res = await request(app).delete(`${path}/somestring`);
@@ -222,7 +221,7 @@ describe(`DELETE ${path}/:id`, () => {
       });
 
       afterAll(() => {
-        prisma.user.update.mockClear();
+        prisma.user.update.mockReset();
       });
 
       test("should process request - 204", () => {
@@ -262,8 +261,7 @@ describe(`DELETE ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.update).toHaveBeenCalled();
 
-      prisma.user.update.mockClear();
-      console.log.mockClear();
+      prisma.user.update.mockReset();
     });
 
     test("should throw validation error if param is not a UUID - 422", async () => {
@@ -274,8 +272,6 @@ describe(`DELETE ${path}/:id`, () => {
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.update).not.toHaveBeenCalled();
-
-      console.log.mockClear();
     });
   });
 });

@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/search/fuzzy";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {

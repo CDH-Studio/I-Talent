@@ -5,7 +5,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/profile";
 
 describe(`GET ${path}/:id`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -52,7 +52,7 @@ describe(`GET ${path}/:id`, () => {
 });
 
 describe(`PUT ${path}/:id`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {

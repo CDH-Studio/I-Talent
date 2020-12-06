@@ -5,7 +5,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/school";
 
 describe(`POST ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -76,7 +76,7 @@ describe(`POST ${path}`, () => {
         });
 
         afterAll(() => {
-          prisma.opSchool.create.mockClear();
+          prisma.opSchool.create.mockReset();
         });
 
         test("should process request - 201", () => {
@@ -115,7 +115,7 @@ describe(`POST ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opSchool.create).toHaveBeenCalled();
 
-        prisma.opSchool.create.mockClear();
+        prisma.opSchool.create.mockReset();
       });
     });
 
@@ -166,7 +166,7 @@ describe(`POST ${path}`, () => {
 });
 
 describe(`PUT ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -319,8 +319,8 @@ describe(`PUT ${path}`, () => {
           });
 
           afterAll(() => {
-            prisma.opSchool.findOne.mockClear();
-            prisma.opSchool.update.mockClear();
+            prisma.opSchool.findOne.mockReset();
+            prisma.opSchool.update.mockReset();
           });
 
           test("should process request - 204", () => {
@@ -378,7 +378,7 @@ describe(`PUT ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opSchool.findOne).toHaveBeenCalled();
 
-        prisma.opSchool.findOne.mockClear();
+        prisma.opSchool.findOne.mockReset();
       });
     });
 
@@ -468,7 +468,7 @@ describe(`PUT ${path}`, () => {
 });
 
 describe(`DELETE ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -509,9 +509,9 @@ describe(`DELETE ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransSchool.deleteMany.mockClear();
-        prisma.opSchool.delete.mockClear();
-        prisma.$transaction.mockClear();
+        prisma.opTransSchool.deleteMany.mockReset();
+        prisma.opSchool.delete.mockReset();
+        prisma.$transaction.mockReset();
       });
 
       test("should process request - 204", () => {
@@ -549,8 +549,8 @@ describe(`DELETE ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.$transaction).toHaveBeenCalled();
 
-        prisma.$transaction.mockClear();
-        console.log.mockClear();
+        prisma.$transaction.mockReset();
+        console.log.mockReset();
       });
     });
 

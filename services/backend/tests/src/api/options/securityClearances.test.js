@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/securityClearances";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -70,7 +70,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransSecurityClearance.findMany.mockClear();
+        prisma.opTransSecurityClearance.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -109,7 +109,7 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opTransSecurityClearance.findMany).toHaveBeenCalled();
 
-        prisma.opTransSecurityClearance.findMany.mockClear();
+        prisma.opTransSecurityClearance.findMany.mockReset();
       });
     });
 

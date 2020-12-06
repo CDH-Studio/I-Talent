@@ -5,7 +5,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/skill";
 
 describe(`POST ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -47,7 +47,7 @@ describe(`POST ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opSkill.create.mockClear();
+        prisma.opSkill.create.mockReset();
       });
 
       test("should process request - 201", () => {
@@ -93,7 +93,7 @@ describe(`POST ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opSkill.create).toHaveBeenCalled();
 
-        prisma.opSkill.create.mockClear();
+        prisma.opSkill.create.mockReset();
       });
     });
 
@@ -133,7 +133,7 @@ describe(`POST ${path}`, () => {
 });
 
 describe(`PUT ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -176,7 +176,7 @@ describe(`PUT ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opSkill.update.mockClear();
+        prisma.opSkill.update.mockReset();
       });
 
       test("should process request - 204", () => {
@@ -288,7 +288,7 @@ describe(`PUT ${path}`, () => {
 });
 
 describe(`DELETE ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -332,12 +332,12 @@ describe(`DELETE ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.skill.deleteMany.mockClear();
-        prisma.mentorshipSkill.deleteMany.mockClear();
-        prisma.developmentalGoal.deleteMany.mockClear();
-        prisma.opTransSkill.deleteMany.mockClear();
-        prisma.opSkill.delete.mockClear();
-        prisma.$transaction.mockClear();
+        prisma.skill.deleteMany.mockReset();
+        prisma.mentorshipSkill.deleteMany.mockReset();
+        prisma.developmentalGoal.deleteMany.mockReset();
+        prisma.opTransSkill.deleteMany.mockReset();
+        prisma.opSkill.delete.mockReset();
+        prisma.$transaction.mockReset();
       });
 
       test("should process request - 204", () => {
@@ -393,8 +393,8 @@ describe(`DELETE ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.$transaction).toHaveBeenCalled();
 
-        prisma.$transaction.mockClear();
-        console.log.mockClear();
+        prisma.$transaction.mockReset();
+        console.log.mockReset();
       });
     });
 

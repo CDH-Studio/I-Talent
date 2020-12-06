@@ -67,7 +67,7 @@ describe(`GET ${path}`, () => {
         });
 
         afterAll(() => {
-          prisma.user.findMany.mockClear();
+          prisma.user.findMany.mockReset();
         });
 
         test("should process request - 200", () => {
@@ -152,8 +152,8 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.user.findMany).toHaveBeenCalled();
 
-        prisma.user.findMany.mockClear();
-        console.log.mockClear();
+        prisma.user.findMany.mockReset();
+        console.log.mockReset();
       });
     });
 
@@ -166,7 +166,7 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findMany).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -178,7 +178,7 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findMany).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
   });
 });

@@ -5,7 +5,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/attachmentNames";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -73,7 +73,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opAttachmentLinkName.findMany.mockClear();
+        prisma.opAttachmentLinkName.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -116,7 +116,7 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opAttachmentLinkName.findMany).toHaveBeenCalled();
 
-        prisma.opAttachmentLinkName.findMany.mockClear();
+        prisma.opAttachmentLinkName.findMany.mockReset();
       });
     });
 

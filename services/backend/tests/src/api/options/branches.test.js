@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/branches";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -56,7 +56,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.transEmploymentInfo.findMany.mockClear();
+        prisma.transEmploymentInfo.findMany.mockReset();
       });
 
       test("should process request - 200", () => {

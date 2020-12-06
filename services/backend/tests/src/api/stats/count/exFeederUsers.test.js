@@ -45,7 +45,7 @@ describe(`GET ${path}`, () => {
         },
       });
 
-      prisma.user.count.mockClear();
+      prisma.user.count.mockReset();
     });
 
     test("should trigger error if there's a database problem - 500", async () => {
@@ -60,8 +60,8 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.count).toHaveBeenCalled();
 
-      prisma.user.count.mockClear();
-      console.log.mockClear();
+      prisma.user.count.mockReset();
+      console.log.mockReset();
     });
   });
 });

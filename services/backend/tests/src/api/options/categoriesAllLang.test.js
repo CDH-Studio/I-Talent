@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/categoriesAllLang";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -71,7 +71,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opCategory.findMany.mockClear();
+        prisma.opCategory.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -109,7 +109,7 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opCategory.findMany).toHaveBeenCalled();
 
-        prisma.opCategory.findMany.mockClear();
+        prisma.opCategory.findMany.mockReset();
       });
     });
   });

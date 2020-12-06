@@ -30,7 +30,7 @@ const createFakeBug = (hasAppVersion, hasGithubIssue) => {
 const path = "/api/bugs";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -76,7 +76,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.bug.findMany.mockClear();
+        prisma.bug.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -122,13 +122,13 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.findMany).toHaveBeenCalled();
 
-      prisma.bug.findMany.mockClear();
+      prisma.bug.findMany.mockReset();
     });
   });
 });
 
 describe(`POST ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -162,7 +162,7 @@ describe(`POST ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.bug.create.mockClear();
+        prisma.bug.create.mockReset();
       });
 
       test("should process request - 201", () => {
@@ -198,8 +198,8 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.create).toHaveBeenCalled();
 
-      prisma.bug.create.mockClear();
-      console.log.mockClear();
+      prisma.bug.create.mockReset();
+      console.log.mockReset();
     });
 
     test("should throw validation error without description in body - 422", async () => {
@@ -212,7 +212,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if description is not a string in body - 422", async () => {
@@ -225,7 +225,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error without location in body - 422", async () => {
@@ -238,7 +238,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if invalid value for location in body - 422", async () => {
@@ -251,13 +251,13 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
   });
 });
 
 describe(`PUT ${path}/:id`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -313,7 +313,7 @@ describe(`PUT ${path}/:id`, () => {
         });
 
         afterAll(() => {
-          prisma.bug.update.mockClear();
+          prisma.bug.update.mockReset();
         });
 
         test("should process request - 204", () => {
@@ -346,8 +346,8 @@ describe(`PUT ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.update).toHaveBeenCalled();
 
-      prisma.bug.update.mockClear();
-      console.log.mockClear();
+      prisma.bug.update.mockReset();
+      console.log.mockReset();
     });
 
     test("should throw validation error if param is not a UUID - 422", async () => {
@@ -360,7 +360,7 @@ describe(`PUT ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if description is not a string in body - 422", async () => {
@@ -373,7 +373,7 @@ describe(`PUT ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if invalid value for location in body - 422", async () => {
@@ -386,7 +386,7 @@ describe(`PUT ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if githubIssue is not an integer in body - 422", async () => {
@@ -399,7 +399,7 @@ describe(`PUT ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if invalid value for status in body - 422", async () => {
@@ -412,7 +412,7 @@ describe(`PUT ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.bug.update).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
   });
 });

@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/tenures";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -78,7 +78,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransTenure.findMany.mockClear();
+        prisma.opTransTenure.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -117,7 +117,7 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opTransTenure.findMany).toHaveBeenCalled();
 
-        prisma.opTransTenure.findMany.mockClear();
+        prisma.opTransTenure.findMany.mockReset();
       });
     });
 

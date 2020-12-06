@@ -4,7 +4,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/option/developmentalGoals";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -111,8 +111,8 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransCompetency.findMany.mockClear();
-        prisma.opTransSkill.findMany.mockClear();
+        prisma.opTransCompetency.findMany.mockReset();
+        prisma.opTransSkill.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -169,7 +169,7 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.opTransCompetency.findMany).toHaveBeenCalled();
 
-        prisma.opTransCompetency.findMany.mockClear();
+        prisma.opTransCompetency.findMany.mockReset();
       });
     });
 

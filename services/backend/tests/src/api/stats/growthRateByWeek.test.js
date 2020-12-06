@@ -71,7 +71,7 @@ describe(`Test ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.user.findMany.mockClear();
+        prisma.user.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -105,8 +105,8 @@ describe(`Test ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findMany).toHaveBeenCalled();
 
-      prisma.user.findMany.mockClear();
-      console.log.mockClear();
+      prisma.user.findMany.mockReset();
+      console.log.mockReset();
     });
   });
 });

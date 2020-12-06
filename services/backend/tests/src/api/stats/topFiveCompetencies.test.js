@@ -98,8 +98,8 @@ describe(`GET ${path}`, () => {
           });
 
           afterAll(() => {
-            prisma.competency.findMany.mockClear();
-            prisma.opTransCompetency.findMany.mockClear();
+            prisma.competency.findMany.mockReset();
+            prisma.opTransCompetency.findMany.mockReset();
           });
 
           test("should process request - 200", () => {
@@ -147,8 +147,8 @@ describe(`GET ${path}`, () => {
         expect(console.log).toHaveBeenCalled();
         expect(prisma.competency.findMany).toHaveBeenCalled();
 
-        prisma.competency.findMany.mockClear();
-        console.log.mockClear();
+        prisma.competency.findMany.mockReset();
+        console.log.mockReset();
       });
     });
   });
@@ -161,7 +161,7 @@ describe(`GET ${path}`, () => {
     expect(res.statusCode).toBe(422);
     expect(console.log).toHaveBeenCalled();
 
-    console.log.mockClear();
+    console.log.mockReset();
   });
 
   test("should throw validation error invalid language query param - 422", async () => {
@@ -172,6 +172,6 @@ describe(`GET ${path}`, () => {
     expect(res.statusCode).toBe(422);
     expect(console.log).toHaveBeenCalled();
 
-    console.log.mockClear();
+    console.log.mockReset();
   });
 });

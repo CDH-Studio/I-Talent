@@ -5,7 +5,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/keycloak/users";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -46,7 +46,7 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
-      axios.mockClear();
+      axios.mockReset();
     });
   });
 });

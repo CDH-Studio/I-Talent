@@ -5,7 +5,7 @@ const { getBearerToken } = require("../../../mocks");
 const path = "/api/admin/userStatuses";
 
 describe(`PUT ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -51,7 +51,7 @@ describe(`PUT ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.user.update.mockClear();
+        prisma.user.update.mockReset();
       });
 
       test("should process request - 204", () => {
@@ -89,7 +89,7 @@ describe(`PUT ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.update).toHaveBeenCalled();
 
-      prisma.user.update.mockClear();
+      prisma.user.update.mockReset();
     });
 
     test("should throw validation error if keys of body is not a UUID - 422", async () => {

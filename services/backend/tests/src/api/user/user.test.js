@@ -6,7 +6,7 @@ const { getBearerToken, userId } = require("../../../mocks");
 const path = "/api/user";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -55,7 +55,7 @@ describe(`GET ${path}`, () => {
         });
 
         afterAll(() => {
-          prisma.user.findOne.mockClear();
+          prisma.user.findOne.mockReset();
         });
 
         test(`should process request - ${statusCode}`, () => {
@@ -102,13 +102,13 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findOne).toHaveBeenCalled();
 
-      prisma.user.findOne.mockClear();
+      prisma.user.findOne.mockReset();
     });
   });
 });
 
 describe(`POST ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -152,7 +152,7 @@ describe(`POST ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.user.create.mockClear();
+        prisma.user.create.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -212,7 +212,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).toHaveBeenCalled();
 
-      prisma.user.create.mockClear();
+      prisma.user.create.mockReset();
     });
 
     test("should throw validation error if name is missing in body - 422", async () => {
@@ -229,7 +229,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if name is not a string in body - 422", async () => {
@@ -247,7 +247,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if firstName is missing in body - 422", async () => {
@@ -264,7 +264,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if firstName is not a string in body - 422", async () => {
@@ -282,7 +282,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if lastName is missing in body - 422", async () => {
@@ -299,7 +299,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if lastName is not a string in body - 422", async () => {
@@ -317,7 +317,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if email is missing in body - 422", async () => {
@@ -334,7 +334,7 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
 
     test("should throw validation error if email is not a valid email in body - 422", async () => {
@@ -352,13 +352,13 @@ describe(`POST ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.create).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
   });
 });
 
 describe(`DELETE ${path}/:id`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -459,7 +459,7 @@ describe(`DELETE ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.$transaction).toHaveBeenCalled();
 
-      prisma.$transaction.mockClear();
+      prisma.$transaction.mockReset();
     });
 
     test("should throw validation error if param is not a UUID - 422", async () => {
@@ -471,7 +471,7 @@ describe(`DELETE ${path}/:id`, () => {
       expect(console.log).toHaveBeenCalled();
       expect(prisma.$transaction).not.toHaveBeenCalled();
 
-      console.log.mockClear();
+      console.log.mockReset();
     });
   });
 });

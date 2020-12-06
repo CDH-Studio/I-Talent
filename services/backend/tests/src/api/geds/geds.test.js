@@ -7,7 +7,7 @@ const config = require("../../../../src/config");
 const path = "/api/profGen";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
@@ -87,9 +87,9 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.user.findOne.mockClear();
-        axios.mockClear();
-        prisma.opOfficeLocation.findMany.mockClear();
+        prisma.user.findOne.mockReset();
+        axios.mockReset();
+        prisma.opOfficeLocation.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -181,8 +181,8 @@ describe(`GET ${path}`, () => {
       expect(prisma.user.findOne).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
-      axios.mockClear();
-      prisma.user.findOne.mockClear();
+      axios.mockReset();
+      prisma.user.findOne.mockReset();
     });
 
     test("should trigger error if GEDS API returns an empty array - 500", async () => {
@@ -199,8 +199,8 @@ describe(`GET ${path}`, () => {
       expect(prisma.user.findOne).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
-      axios.mockClear();
-      prisma.user.findOne.mockClear();
+      axios.mockReset();
+      prisma.user.findOne.mockReset();
     });
 
     test("should trigger error if there's a database problem - 500", async () => {
@@ -217,8 +217,8 @@ describe(`GET ${path}`, () => {
       expect(prisma.user.findOne).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
-      axios.mockClear();
-      prisma.user.findOne.mockClear();
+      axios.mockReset();
+      prisma.user.findOne.mockReset();
     });
 
     test("should trigger error if there's an axios problem - 500", async () => {
@@ -235,8 +235,8 @@ describe(`GET ${path}`, () => {
       expect(prisma.user.findOne).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
-      axios.mockClear();
-      prisma.user.findOne.mockClear();
+      axios.mockReset();
+      prisma.user.findOne.mockReset();
     });
 
     test("should throw validation error if email is not valid - 422", async () => {
