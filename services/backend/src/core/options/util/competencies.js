@@ -107,7 +107,7 @@ async function updateCompetency(request, response) {
     },
   });
 
-  response.status(204);
+  response.sendStatus(204);
 }
 
 async function deleteCompetency(request, response) {
