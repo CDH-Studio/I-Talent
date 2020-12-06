@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/search/fuzzy";
+const path = "/api/search/filters";
 
 describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -23,7 +23,7 @@ describe(`GET ${path}`, () => {
 
     test("should throw validation error without language query param - 422", async () => {
       const res = await request(app)
-        .get(`${path}?searchValue=abc`)
+        .get(path)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);
@@ -32,16 +32,7 @@ describe(`GET ${path}`, () => {
 
     test("should throw validation error invalid language query param - 422", async () => {
       const res = await request(app)
-        .get(`${path}?language=abc`)
-        .set("Authorization", getBearerToken());
-
-      expect(res.statusCode).toBe(422);
-      expect(console.log).toHaveBeenCalled();
-    });
-
-    test("should throw validation error without searchValue query param - 422", async () => {
-      const res = await request(app)
-        .get(`${path}?language=FRENCH`)
+        .get(`${path}?language=ijoij`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);

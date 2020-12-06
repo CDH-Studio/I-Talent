@@ -6,11 +6,9 @@ async function fuzzySearch(request, response) {
 
   const { language, searchValue } = request.query;
 
-  const value = searchValue || "";
-
   const profiles = await utils.getAllProfiles(language, userId, request);
 
-  const results = await utils.fuzzySearch(profiles, value);
+  const results = await utils.fuzzySearch(profiles, searchValue);
 
   const responseData = utils.cleanResults(results);
 
