@@ -2,7 +2,7 @@ const request = require("supertest");
 const faker = require("faker");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/competencies";
+const path = "/api/option/diplomas";
 
 describe(`GET ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -22,22 +22,26 @@ describe(`GET ${path}`, () => {
       [
         "ENGLISH",
         [
-          { opCompetencyId: 1, name: "z" },
-          { opCompetencyId: 2, name: "B" },
+          { opDiplomaId: 1, description: "z" },
+          { opDiplomaId: 2, description: "B" },
         ],
         [
-          { id: 2, name: "B" },
-          { id: 1, name: "z" },
+          { id: 2, description: "B" },
+          { id: 1, description: "z" },
         ],
       ],
-      ["FRENCH", [{ opCompetencyId: 3, name: "b" }], [{ id: 3, name: "b" }]],
+      [
+        "FRENCH",
+        [{ opDiplomaId: 3, description: "b" }],
+        [{ id: 3, description: "b" }],
+      ],
     ];
 
     describe.each(data)("in %s", (language, prismaData, result) => {
       let res;
 
       beforeAll(async () => {
-        prisma.opTransCompetency.findMany.mockResolvedValue(prismaData);
+        prisma.opTransDiploma.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}`)
@@ -45,7 +49,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opTransCompetency.findMany.mockClear();
+        prisma.opTransDiploma.findMany.mockClear();
       });
 
       test("should process request - 200", () => {
@@ -54,16 +58,16 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opTransCompetency.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransDiploma.findMany).toHaveBeenCalledWith({
           where: {
             language,
           },
           select: {
-            opCompetencyId: true,
-            name: true,
+            opDiplomaId: true,
+            description: true,
           },
           orderBy: {
-            name: "asc",
+            description: "asc",
           },
         });
       });
@@ -73,7 +77,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opTransCompetency.findMany.mockRejectedValue(new Error());
+        prisma.opTransDiploma.findMany.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}`)
@@ -82,9 +86,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opTransCompetency.findMany).toHaveBeenCalled();
+        expect(prisma.opTransDiploma.findMany).toHaveBeenCalled();
 
-        prisma.opTransCompetency.findMany.mockClear();
+        prisma.opTransDiploma.findMany.mockClear();
       });
     });
 
@@ -95,7 +99,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransCompetency.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransDiploma.findMany).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -105,7 +109,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opTransCompetency.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransDiploma.findMany).not.toHaveBeenCalled();
     });
   });
 });
@@ -150,10 +154,8 @@ describe(`DELETE ${path}`, () => {
         let res;
 
         beforeAll(async () => {
-          prisma.competency.deleteMany.mockReturnValue(1);
-          prisma.developmentalGoal.deleteMany.mockReturnValue(2);
-          prisma.opTransCompetency.deleteMany.mockReturnValue(3);
-          prisma.opCompetency.deleteMany.mockReturnValue(4);
+          prisma.opTransDiploma.deleteMany.mockReturnValue(1);
+          prisma.opDiploma.deleteMany.mockReturnValue(2);
 
           res = await request(app)
             .delete(path)
@@ -162,10 +164,8 @@ describe(`DELETE ${path}`, () => {
         });
 
         afterAll(() => {
-          prisma.competency.deleteMany.mockClear();
-          prisma.developmentalGoal.deleteMany.mockClear();
-          prisma.opTransCompetency.deleteMany.mockClear();
-          prisma.opCompetency.deleteMany.mockClear();
+          prisma.opTransDiploma.deleteMany.mockClear();
+          prisma.opDiploma.deleteMany.mockClear();
           prisma.$transaction.mockClear();
         });
 
@@ -176,31 +176,15 @@ describe(`DELETE ${path}`, () => {
         });
 
         test("should call prisma with specified params", () => {
-          expect(prisma.competency.deleteMany).toHaveBeenCalledWith({
+          expect(prisma.opTransDiploma.deleteMany).toHaveBeenCalledWith({
             where: {
-              competencyId: {
+              opDiplomaId: {
                 in: ids,
               },
             },
           });
 
-          expect(prisma.developmentalGoal.deleteMany).toHaveBeenCalledWith({
-            where: {
-              competencyId: {
-                in: ids,
-              },
-            },
-          });
-
-          expect(prisma.opTransCompetency.deleteMany).toHaveBeenCalledWith({
-            where: {
-              opCompetencyId: {
-                in: ids,
-              },
-            },
-          });
-
-          expect(prisma.opCompetency.deleteMany).toHaveBeenCalledWith({
+          expect(prisma.opDiploma.deleteMany).toHaveBeenCalledWith({
             where: {
               id: {
                 in: ids,
@@ -208,7 +192,7 @@ describe(`DELETE ${path}`, () => {
             },
           });
 
-          expect(prisma.$transaction).toHaveBeenCalledWith([1, 2, 3, 4]);
+          expect(prisma.$transaction).toHaveBeenCalledWith([1, 2]);
         });
       });
 

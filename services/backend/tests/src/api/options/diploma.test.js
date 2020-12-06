@@ -2,7 +2,7 @@ const request = require("supertest");
 const faker = require("faker");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/option/competency";
+const path = "/api/option/diploma";
 
 describe(`POST ${path}`, () => {
   beforeEach(() => console.log.mockClear());
@@ -46,7 +46,7 @@ describe(`POST ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opCompetency.create.mockClear();
+        prisma.opDiploma.create.mockClear();
       });
 
       test("should process request - 201", () => {
@@ -56,16 +56,16 @@ describe(`POST ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opCompetency.create).toHaveBeenCalledWith({
+        expect(prisma.opDiploma.create).toHaveBeenCalledWith({
           data: {
             translations: {
               create: [
                 {
-                  name: body.en,
+                  description: body.en,
                   language: "ENGLISH",
                 },
                 {
-                  name: body.fr,
+                  description: body.fr,
                   language: "FRENCH",
                 },
               ],
@@ -75,7 +75,7 @@ describe(`POST ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opCompetency.create.mockRejectedValue(new Error());
+        prisma.opDiploma.create.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .post(path)
@@ -85,9 +85,9 @@ describe(`POST ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opCompetency.create).toHaveBeenCalled();
+        expect(prisma.opDiploma.create).toHaveBeenCalled();
 
-        prisma.opCompetency.create.mockClear();
+        prisma.opDiploma.create.mockClear();
       });
     });
 
@@ -99,7 +99,7 @@ describe(`POST ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCompetency.create).not.toHaveBeenCalled();
+      expect(prisma.opDiploma.create).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid fr body value - 422", async () => {
@@ -110,7 +110,7 @@ describe(`POST ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCompetency.create).not.toHaveBeenCalled();
+      expect(prisma.opDiploma.create).not.toHaveBeenCalled();
     });
   });
 });
@@ -158,7 +158,7 @@ describe(`PUT ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opCompetency.update.mockClear();
+        prisma.opDiploma.update.mockClear();
       });
 
       test("should process request - 204", () => {
@@ -168,7 +168,7 @@ describe(`PUT ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opCompetency.update).toHaveBeenCalledWith({
+        expect(prisma.opDiploma.update).toHaveBeenCalledWith({
           where: {
             id: body.id,
           },
@@ -180,7 +180,7 @@ describe(`PUT ${path}`, () => {
                     language: "ENGLISH",
                   },
                   data: {
-                    name: body.en,
+                    description: body.en,
                   },
                 },
                 {
@@ -188,7 +188,7 @@ describe(`PUT ${path}`, () => {
                     language: "FRENCH",
                   },
                   data: {
-                    name: body.fr,
+                    description: body.fr,
                   },
                 },
               ],
@@ -210,7 +210,7 @@ describe(`PUT ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCompetency.update).not.toHaveBeenCalled();
+      expect(prisma.opDiploma.update).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid en body value - 422", async () => {
@@ -225,7 +225,7 @@ describe(`PUT ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCompetency.update).not.toHaveBeenCalled();
+      expect(prisma.opDiploma.update).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid fr body value - 422", async () => {
@@ -240,7 +240,7 @@ describe(`PUT ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opCompetency.update).not.toHaveBeenCalled();
+      expect(prisma.opDiploma.update).not.toHaveBeenCalled();
     });
   });
 });
@@ -277,10 +277,8 @@ describe(`DELETE ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.competency.deleteMany.mockReturnValue(1);
-        prisma.developmentalGoal.deleteMany.mockReturnValue(2);
-        prisma.opTransCompetency.deleteMany.mockReturnValue(3);
-        prisma.opCompetency.delete.mockReturnValue(4);
+        prisma.opTransDiploma.deleteMany.mockReturnValue(1);
+        prisma.opDiploma.delete.mockReturnValue(2);
 
         res = await request(app)
           .delete(path)
@@ -289,10 +287,8 @@ describe(`DELETE ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.competency.deleteMany.mockClear();
-        prisma.developmentalGoal.deleteMany.mockClear();
-        prisma.opTransCompetency.deleteMany.mockClear();
-        prisma.opCompetency.delete.mockClear();
+        prisma.opTransDiploma.deleteMany.mockClear();
+        prisma.opDiploma.delete.mockClear();
         prisma.$transaction.mockClear();
       });
 
@@ -303,31 +299,19 @@ describe(`DELETE ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.competency.deleteMany).toHaveBeenCalledWith({
+        expect(prisma.opTransDiploma.deleteMany).toHaveBeenCalledWith({
           where: {
-            competencyId: id,
+            opDiplomaId: id,
           },
         });
 
-        expect(prisma.developmentalGoal.deleteMany).toHaveBeenCalledWith({
-          where: {
-            competencyId: id,
-          },
-        });
-
-        expect(prisma.opTransCompetency.deleteMany).toHaveBeenCalledWith({
-          where: {
-            opCompetenciesId: id,
-          },
-        });
-
-        expect(prisma.opCompetency.delete).toHaveBeenCalledWith({
+        expect(prisma.opDiploma.delete).toHaveBeenCalledWith({
           where: {
             id,
           },
         });
 
-        expect(prisma.$transaction).toHaveBeenCalledWith([1, 2, 3, 4]);
+        expect(prisma.$transaction).toHaveBeenCalledWith([1, 2]);
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
