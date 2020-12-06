@@ -4672,10 +4672,9 @@ keycloak-connect@^11.0.3:
   optionalDependencies:
     chromedriver latest
 
-keycloak-mock@^1.0.10:
+keycloak-mock@BenJeau/keycloak-mock#feat-build:
   version "1.0.10"
-  resolved "https://registry.yarnpkg.com/keycloak-mock/-/keycloak-mock-1.0.10.tgz#095fe13507731ecef476211b8c0f5b53ca374a86"
-  integrity sha512-BadHaTTD9z06sI/YW1+EQQLApmKSsZnruLwzft548CNZjX7Mysz+cQnc14KKl0wCr9OCnYbyEFnPh+GjEfLRdQ==
+  resolved "https://codeload.github.com/BenJeau/keycloak-mock/tar.gz/8d5952101328519039cdf9faf8a5fa13c510bb9d"
   dependencies:
     "@types/lodash" "^4.14.149"
     jsonwebtoken "^8.5.1"
