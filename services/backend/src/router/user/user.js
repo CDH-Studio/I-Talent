@@ -7,7 +7,6 @@ const { validationMiddlware } = require("../../utils/middlewares");
 
 const userRouter = Router();
 
-// TODO: Update the frontend API calls!!!!
 userRouter
   .route("/:id")
   .delete(
