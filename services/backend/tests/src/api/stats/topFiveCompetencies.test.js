@@ -1,11 +1,9 @@
 const request = require("supertest");
 const { getBearerToken } = require("../../../mocks");
 
-const path = "/api/stats/topFiveSkills";
+const path = "/api/stats/topFiveCompetencies";
 
 describe(`GET ${path}`, () => {
-  beforeEach(() => console.log.mockClear());
-
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
       const res = await request(app).get(path);
@@ -27,6 +25,8 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
+
+      console.log.mockClear();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -36,10 +36,12 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
+
+      console.log.mockClear();
     });
 
     test("should trigger error if there's a database problem - 500", async () => {
-      prisma.skill.findMany.mockRejectedValue(new Error());
+      prisma.competency.findMany.mockRejectedValue(new Error());
 
       const res = await request(app)
         .get(`${path}?language=ENGLISH`)
@@ -48,9 +50,10 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.skill.findMany).toHaveBeenCalled();
+      expect(prisma.competency.findMany).toHaveBeenCalled();
 
-      prisma.skill.findMany.mockClear();
+      prisma.competency.findMany.mockClear();
+      console.log.mockClear();
     });
   });
 });
