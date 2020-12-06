@@ -191,7 +191,196 @@ describe(`PUT ${path}`, () => {
   });
 
   describe("when authenticated", () => {
-    test.todo("when doing a normal query");
+    describe("when doing a normal query", () => {
+      const data = [
+        [
+          "when 'en' is specifed and 'en' exists in db",
+          {
+            id: faker.random.uuid(),
+            abbrCountry: "CAN",
+            abbrProvince: "on",
+            en: "a",
+          },
+          { translations: [{ language: "ENGLISH" }] },
+          [
+            {
+              where: {
+                language: "ENGLISH",
+              },
+              data: {
+                name: "a",
+              },
+            },
+          ],
+          [],
+        ],
+        [
+          "when 'en' is specifed and 'en' does not exist in db",
+          {
+            id: faker.random.uuid(),
+            abbrCountry: "CAN",
+            abbrProvince: "on",
+            en: "a",
+          },
+          { translations: [{ language: "FRENCH" }] },
+          [],
+          [
+            {
+              name: "a",
+              language: "ENGLISH",
+            },
+          ],
+        ],
+        [
+          "when 'fr' is specifed an 'fr' exists in db",
+          {
+            id: faker.random.uuid(),
+            abbrCountry: "CAN",
+            abbrProvince: "on",
+            fr: "a",
+          },
+          { translations: [{ language: "FRENCH" }] },
+          [
+            {
+              where: {
+                language: "FRENCH",
+              },
+              data: {
+                name: "a",
+              },
+            },
+          ],
+          [],
+        ],
+        [
+          "when 'fr' is specifed an 'fr' does not exist in db",
+          {
+            id: faker.random.uuid(),
+            abbrCountry: "CAN",
+            abbrProvince: "on",
+            fr: "a",
+          },
+          { translations: [] },
+          [],
+          [
+            {
+              name: "a",
+              language: "FRENCH",
+            },
+          ],
+        ],
+        [
+          "when 'en' and 'fr' are specifed",
+          {
+            id: faker.random.uuid(),
+            abbrCountry: "CAN",
+            abbrProvince: "on",
+            en: "a",
+            fr: "b",
+          },
+          { translations: [{ language: "ENGLISH" }] },
+          [
+            {
+              where: {
+                language: "ENGLISH",
+              },
+              data: {
+                name: "a",
+              },
+            },
+          ],
+          [
+            {
+              name: "b",
+              language: "FRENCH",
+            },
+          ],
+        ],
+      ];
+
+      describe.each(data)(
+        "%s",
+        (
+          _testLabel,
+          body,
+          prismaFindOne,
+          updateTranslations,
+          createTranslations
+        ) => {
+          let res;
+
+          beforeAll(async () => {
+            prisma.opSchool.findOne.mockResolvedValue(prismaFindOne);
+
+            res = await request(app)
+              .put(path)
+              .set("Authorization", getBearerToken(["manage-options"]))
+              .send(body);
+          });
+
+          afterAll(() => {
+            prisma.opSchool.findOne.mockClear();
+            prisma.opSchool.update.mockClear();
+          });
+
+          test("should process request - 204", () => {
+            expect(res.statusCode).toBe(204);
+            expect(res.text).toStrictEqual("");
+            expect(console.log).not.toHaveBeenCalled();
+          });
+
+          test("should call prisma with specified params", () => {
+            expect(prisma.opSchool.findOne).toHaveBeenCalledWith({
+              where: {
+                id: body.id,
+              },
+              select: {
+                translations: {
+                  select: {
+                    language: true,
+                  },
+                },
+              },
+            });
+
+            expect(prisma.opSchool.update).toHaveBeenCalledWith({
+              where: {
+                id: body.id,
+              },
+              data: {
+                abbrCountry: body.abbrCountry,
+                abbrProvince: body.abbrProvince,
+                translations: {
+                  updateMany: updateTranslations,
+                  create: createTranslations,
+                },
+              },
+            });
+          });
+        }
+      );
+
+      test("should trigger error if there's a database problem - 500", async () => {
+        prisma.opSchool.findOne.mockRejectedValue(new Error());
+
+        const res = await request(app)
+          .put(path)
+          .set("Authorization", getBearerToken(["manage-options"]))
+          .send({
+            id: faker.random.uuid(),
+            abbrCountry: "CAN",
+            abbrProvince: "on",
+            en: "a",
+          });
+
+        expect(res.statusCode).toBe(500);
+        expect(res.text).toBe("Internal Server Error");
+        expect(console.log).toHaveBeenCalled();
+        expect(prisma.opSchool.findOne).toHaveBeenCalled();
+
+        prisma.opSchool.findOne.mockClear();
+      });
+    });
 
     test("should throw validation error invalid id body value - 422", async () => {
       const res = await request(app)
