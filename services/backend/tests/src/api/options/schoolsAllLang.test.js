@@ -62,25 +62,19 @@ describe(`GET ${path}`, () => {
           id: 4,
           abbrProvince: "a",
           abbrCountry: "z",
-          translations: [
-            { language: "ENGLISH", name: "a" },
-            { language: "FRENCH", name: "a" },
-          ],
+          translations: [{ language: "FRENCH", name: "a" }],
         },
         {
           id: 5,
           abbrProvince: "a",
           abbrCountry: "b",
-          translations: [
-            { language: "ENGLISH", name: "a" },
-            { language: "FRENCH", name: "a" },
-          ],
+          translations: [{ language: "ENGLISH", name: "a" }],
         },
       ];
 
       const result = [
-        { id: 5, abbrProvince: "a", abbrCountry: "b", en: "a", fr: "a" },
-        { id: 4, abbrProvince: "a", abbrCountry: "z", en: "a", fr: "a" },
+        { id: 5, abbrProvince: "a", abbrCountry: "b", en: "a" },
+        { id: 4, abbrProvince: "a", abbrCountry: "z", fr: "a" },
         { id: 3, abbrProvince: "b", abbrCountry: "z", en: "a", fr: "a" },
         { id: 2, abbrProvince: "b", abbrCountry: "z", en: "a", fr: "c" },
         { id: 1, abbrProvince: "b", abbrCountry: "z", en: "c", fr: "c" },

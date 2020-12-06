@@ -32,8 +32,23 @@ const schoolValidator = [
     .trim()
     .isLength({ max: 3 }),
 ];
-const createSchoolValidator = [...createValidator, ...schoolValidator];
-const updateSchoolValidator = [...updateValidator, ...schoolValidator];
+const createSchoolValidator = [
+  body()
+    .custom(({ en, fr }) => {
+      return (
+        (en ? typeof en === "string" : true) &&
+        (fr ? typeof fr === "string" : true)
+      );
+    })
+    .withMessage(
+      "Must specify school name, either in english and/or in french"
+    ),
+  ...schoolValidator,
+];
+const updateSchoolValidator = [
+  ...createSchoolValidator,
+  body("id", "must be a UUID").isUUID(),
+];
 
 const skillValidator = body("categoryId", "must be a UUID").trim().isUUID();
 const createSkillValidator = [...createValidator, skillValidator];

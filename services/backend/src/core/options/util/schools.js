@@ -74,13 +74,6 @@ async function getSchoolsAllLang(request, response) {
 async function createSchool(request, response) {
   const { abbrCountry, abbrProvince, en, fr } = request.body;
 
-  if (!en && !fr) {
-    response
-      .status(422)
-      .send("Must specify school name, either in english or in french");
-    return;
-  }
-
   const translations = [];
 
   if (en) {
@@ -112,13 +105,6 @@ async function createSchool(request, response) {
 
 async function updateSchool(request, response) {
   const { id, abbrCountry, abbrProvince, en, fr } = request.body;
-
-  if (!en && !fr) {
-    response
-      .status(422)
-      .send("Must specify school name, either in english or in french");
-    return;
-  }
 
   const savedTranslations = await prisma.opSchool
     .findOne({
