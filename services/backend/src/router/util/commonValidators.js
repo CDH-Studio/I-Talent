@@ -1,13 +1,12 @@
 const { param, query } = require("express-validator");
 
 const langValidator = [
-  query("language")
+  query("language", "must be 'ENGLISH' or 'FRENCH'")
     .trim()
-    .isIn(["ENGLISH", "FRENCH"])
-    .withMessage("must be 'ENGLISH' or 'FRENCH'"),
+    .isIn(["ENGLISH", "FRENCH"]),
 ];
 
-const UUIDValidator = param("id").trim().isUUID().withMessage("must be a UUID");
+const UUIDValidator = param("id", "must be a UUID").trim().isUUID();
 
 module.exports = {
   langValidator,

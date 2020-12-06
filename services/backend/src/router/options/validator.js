@@ -2,19 +2,15 @@ const { body, query } = require("express-validator");
 const { isUUID } = require("validator");
 
 const deleteManyValidator = [
-  body("ids")
-    .custom((array) => {
-      if (Array.isArray(array)) {
-        return array.every((i) => isUUID(i));
-      }
-      return false;
-    })
-    .withMessage("must be an array of UUIDs"),
+  body("ids", "must be an array of UUIDs").custom((array) => {
+    if (Array.isArray(array)) {
+      return array.every((i) => isUUID(i));
+    }
+    return false;
+  }),
 ];
 
-const deleteOneValidator = [
-  body("id").trim().isUUID().withMessage("must be a UUID"),
-];
+const deleteOneValidator = [body("id", "must be a UUID").trim().isUUID()];
 
 const createValidator = [
   body("en").isString().trim(),
@@ -22,35 +18,35 @@ const createValidator = [
 ];
 const updateValidator = [
   ...createValidator,
-  body("id").isUUID().withMessage("must be a UUID"),
+  body("id", "must be a UUID").isUUID(),
 ];
 
 const schoolValidator = [
-  body("abbrCountry")
+  body("abbrCountry", "must be a three letter abbreviation of the country")
     .trim()
-    .isLength({ max: 3 })
-    .withMessage("must be a three letter abbreviation of the country"),
-  body("abbrProvince")
+    .isLength({ max: 3 }),
+  body(
+    "abbrProvince",
+    "must be a two letter abbreviation of the province/state"
+  )
     .trim()
-    .isLength({ max: 3 })
-    .withMessage("must be a two letter abbreviation of the province/state"),
+    .isLength({ max: 3 }),
 ];
 const createSchoolValidator = [...createValidator, ...schoolValidator];
 const updateSchoolValidator = [...updateValidator, ...schoolValidator];
 
-const skillValidator = body("categoryId")
-  .trim()
-  .isUUID()
-  .withMessage("must be a UUID");
+const skillValidator = body("categoryId", "must be a UUID").trim().isUUID();
 const createSkillValidator = [...createValidator, skillValidator];
 const updateSkillValidator = [...updateValidator, skillValidator];
 
 const attachmentNameTypes = ["Edu", "Exp", "Dev"];
 
-const attachmentNameValidator = query("type")
+const attachmentNameValidator = query(
+  "type",
+  `most be in ${attachmentNameTypes}`
+)
   .trim()
-  .isIn(attachmentNameTypes)
-  .withMessage(`most be in ${attachmentNameTypes}`);
+  .isIn(attachmentNameTypes);
 
 module.exports = {
   deleteManyValidator,
