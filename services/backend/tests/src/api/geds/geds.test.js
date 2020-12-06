@@ -1,7 +1,8 @@
 const request = require("supertest");
 const faker = require("faker");
 const axios = require("axios");
-const { getBearerToken } = require("../../../mocks");
+const { getBearerToken, userId } = require("../../../mocks");
+const config = require("../../../../src/config");
 
 const path = "/api/profGen";
 
@@ -10,7 +11,7 @@ describe(`GET ${path}`, () => {
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
-      const res = await request(app).get(`${path}/${faker.random.uuid()}`);
+      const res = await request(app).get(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
@@ -18,87 +19,234 @@ describe(`GET ${path}`, () => {
     });
   });
 
-  test.todo("when everything works well");
+  describe("when authenticated", () => {
+    describe("when doing a normal query", () => {
+      test.todo("COVER EDGE CASES");
 
-  test("should trigger error if user does not exist in db - 500", async () => {
-    axios.mockResolvedValue({ data: [] });
-    prisma.user.findOne.mockResolvedValue(undefined);
+      const prismaUserData = {
+        email: "test@test.com",
+      };
+      const prismaLocationData = [
+        {
+          id: 123,
+          city: "Ottawa",
+        },
+      ];
+      const axiosData = [
+        {
+          givenName: "John",
+          surname: "Doe",
+          contactInformation: {
+            email: "test@test.com",
+            phoneNumber: "6132940534",
+            altPhoneNumber: "6138620511",
+          },
+          organizationInformation: {
+            organization: {
+              id: "id org1",
+              description: { en: "org1EN", fr: "org1FR" },
+              addressInformation: {
+                pc: "ASDASD",
+                country: { en: "Canada" },
+                city: { en: "Ottawa" },
+                address: { en: "123 street" },
+              },
+              organizationInformation: {
+                organization: {
+                  id: "id org2",
+                  description: { en: "org2EN", fr: "org2FR" },
+                  addressInformation: {},
+                  organizationInformation: {
+                    organization: {
+                      id: "id org3",
+                      description: { en: "org3EN", fr: "org3FR" },
+                      addressInformation: {},
+                    },
+                  },
+                },
+              },
+            },
+          },
+          title: {
+            en: "title",
+            fr: "titre",
+          },
+        },
+      ];
 
-    const res = await request(app)
-      .get(`${path}/${faker.random.uuid()}`)
-      .set("Authorization", getBearerToken());
+      let res;
 
-    expect(res.statusCode).toBe(500);
-    expect(res.text).toBe("Internal Server Error");
-    expect(console.log).toHaveBeenCalled();
-    expect(prisma.user.findOne).toHaveBeenCalled();
-    expect(axios).toHaveBeenCalled();
+      beforeAll(async () => {
+        prisma.user.findOne.mockResolvedValue(prismaUserData);
+        axios.mockResolvedValue({ data: axiosData });
+        prisma.opOfficeLocation.findMany.mockResolvedValue(prismaLocationData);
 
-    axios.mockClear();
-    prisma.user.findOne.mockClear();
-  });
+        res = await request(app)
+          .get(`${path}?email=test@test.com`)
+          .set("Authorization", getBearerToken());
+      });
 
-  test("should trigger error if GEDS API returns an empty array - 500", async () => {
-    axios.mockResolvedValue({ data: [] });
-    prisma.user.findOne.mockResolvedValue({ email: "" });
+      afterAll(() => {
+        prisma.user.findOne.mockClear();
+        axios.mockClear();
+        prisma.opOfficeLocation.findMany.mockClear();
+      });
 
-    const res = await request(app)
-      .get(`${path}/${faker.random.uuid()}`)
-      .set("Authorization", getBearerToken());
+      test("should process request - 200", () => {
+        expect(res.statusCode).toBe(200);
+        expect(console.log).not.toHaveBeenCalled();
+      });
 
-    expect(res.statusCode).toBe(500);
-    expect(res.text).toBe("Internal Server Error");
-    expect(console.log).toHaveBeenCalled();
-    expect(prisma.user.findOne).toHaveBeenCalled();
-    expect(axios).toHaveBeenCalled();
+      test("should call prisma with specified params", () => {
+        expect(prisma.user.findOne).toHaveBeenCalledWith({
+          where: { id: userId },
+          select: { email: true },
+        });
 
-    axios.mockClear();
-    prisma.user.findOne.mockClear();
-  });
+        expect(prisma.opOfficeLocation.findMany).toHaveBeenCalledWith({
+          where: {
+            country: "Canada",
+            city: "Ottawa",
+            postalCode: "ASDASD",
+            streetNumber: 123,
+          },
+          select: {
+            id: true,
+            city: true,
+          },
+        });
+      });
 
-  test("should trigger error if there's a database problem - 500", async () => {
-    axios.mockResolvedValue({ data: [] });
-    prisma.user.findOne.mockRejectedValue(new Error());
+      test("should call axios with specified params", () => {
+        expect(axios).toHaveBeenCalledWith({
+          method: "get",
+          url: expect.any(String),
+          headers: {
+            "user-key": config.GEDSAPIKEY,
+            Accept: "application/json",
+          },
+          timeout: 5000,
+        });
+      });
 
-    const res = await request(app)
-      .get(`${path}/${faker.random.uuid()}`)
-      .set("Authorization", getBearerToken());
+      test("should return expected result", () => {
+        expect(res.body).toStrictEqual({
+          firstName: "John",
+          lastName: "Doe",
+          locationId: 123,
+          locationName: "123 street, Ottawa",
+          email: "test@test.com",
+          branch: {
+            ENGLISH: "org1EN",
+            FRENCH: "org1FR",
+          },
+          telephone: "6132940534",
+          cellphone: "6138620511",
+          jobTitle: {
+            ENGLISH: "title",
+            FRENCH: "titre",
+          },
+          organizations: [
+            {
+              title: { ENGLISH: "org3EN", FRENCH: "org3FR" },
+              id: "id org3",
+              tier: 2,
+            },
+            {
+              title: { ENGLISH: "org2EN", FRENCH: "org2FR" },
+              id: "id org2",
+              tier: 1,
+            },
+            {
+              title: { ENGLISH: "org1EN", FRENCH: "org1FR" },
+              id: "id org1",
+              tier: 0,
+            },
+          ],
+        });
+      });
+    });
 
-    expect(res.statusCode).toBe(500);
-    expect(res.text).toBe("Internal Server Error");
-    expect(console.log).toHaveBeenCalled();
-    expect(prisma.user.findOne).toHaveBeenCalled();
-    expect(axios).toHaveBeenCalled();
+    test("should trigger error if user does not exist in db - 500", async () => {
+      axios.mockResolvedValue({ data: [] });
+      prisma.user.findOne.mockResolvedValue(undefined);
 
-    axios.mockClear();
-    prisma.user.findOne.mockClear();
-  });
+      const res = await request(app)
+        .get(`${path}?email=${faker.internet.email()}`)
+        .set("Authorization", getBearerToken());
 
-  test("should trigger error if there's an axios problem - 500", async () => {
-    axios.mockRejectedValue(new Error());
-    prisma.user.findOne.mockResolvedValue({ email: "" });
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Internal Server Error");
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(axios).toHaveBeenCalled();
 
-    const res = await request(app)
-      .get(`${path}/${faker.random.uuid()}`)
-      .set("Authorization", getBearerToken());
+      axios.mockClear();
+      prisma.user.findOne.mockClear();
+    });
 
-    expect(res.statusCode).toBe(500);
-    expect(res.text).toBe("Internal Server Error");
-    expect(console.log).toHaveBeenCalled();
-    expect(prisma.user.findOne).toHaveBeenCalled();
-    expect(axios).toHaveBeenCalled();
+    test("should trigger error if GEDS API returns an empty array - 500", async () => {
+      axios.mockResolvedValue({ data: [] });
+      prisma.user.findOne.mockResolvedValue({ email: "" });
 
-    axios.mockClear();
-    prisma.user.findOne.mockClear();
-  });
+      const res = await request(app)
+        .get(`${path}?email=${faker.internet.email()}`)
+        .set("Authorization", getBearerToken());
 
-  test("should throw validation error if param is not a UUID - 422", async () => {
-    const res = await request(app)
-      .get(`${path}/randomstring}`)
-      .set("Authorization", getBearerToken());
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Internal Server Error");
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(axios).toHaveBeenCalled();
 
-    expect(res.statusCode).toBe(422);
-    expect(console.log).toHaveBeenCalled();
-    expect(prisma.user.findOne).not.toHaveBeenCalled();
+      axios.mockClear();
+      prisma.user.findOne.mockClear();
+    });
+
+    test("should trigger error if there's a database problem - 500", async () => {
+      axios.mockResolvedValue({ data: [] });
+      prisma.user.findOne.mockRejectedValue(new Error());
+
+      const res = await request(app)
+        .get(`${path}?email=${faker.internet.email()}`)
+        .set("Authorization", getBearerToken());
+
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Internal Server Error");
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(axios).toHaveBeenCalled();
+
+      axios.mockClear();
+      prisma.user.findOne.mockClear();
+    });
+
+    test("should trigger error if there's an axios problem - 500", async () => {
+      axios.mockRejectedValue(new Error());
+      prisma.user.findOne.mockResolvedValue({ email: "" });
+
+      const res = await request(app)
+        .get(`${path}?email=${faker.internet.email()}`)
+        .set("Authorization", getBearerToken());
+
+      expect(res.statusCode).toBe(500);
+      expect(res.text).toBe("Internal Server Error");
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(axios).toHaveBeenCalled();
+
+      axios.mockClear();
+      prisma.user.findOne.mockClear();
+    });
+
+    test("should throw validation error if email is not valid - 422", async () => {
+      const res = await request(app)
+        .get(`${path}?email=notarealemail`)
+        .set("Authorization", getBearerToken());
+
+      expect(res.statusCode).toBe(422);
+      expect(console.log).toHaveBeenCalled();
+      expect(prisma.user.findOne).not.toHaveBeenCalled();
+    });
   });
 });

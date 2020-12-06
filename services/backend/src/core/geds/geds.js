@@ -2,6 +2,7 @@ const axios = require("axios");
 const querystring = require("querystring");
 const prisma = require("../../database");
 const config = require("../../config");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
 function getUrl(email) {
   const qs = querystring.stringify({
@@ -19,7 +20,7 @@ function getUrl(email) {
 }
 
 async function getGedsSetup(request, response) {
-  const { id } = request.params;
+  const id = getKeycloakUserId(request);
   const { email } = request.query;
 
   // seach GC directory using email
@@ -70,6 +71,10 @@ async function getGedsSetup(request, response) {
       postalCode: branchOrg.addressInformation.pc,
       streetNumber: parseInt(enAddr.split(" ")[0], 10),
     },
+    select: {
+      id: true,
+      city: true,
+    },
   });
 
   const profile = {
@@ -80,7 +85,7 @@ async function getGedsSetup(request, response) {
     email: dataGEDS.contactInformation.email,
     branch: {
       ENGLISH: branchOrg.description.en,
-      FRENCH: branchOrg.description.en,
+      FRENCH: branchOrg.description.fr,
     },
     telephone: dataGEDS.contactInformation.phoneNumber,
     cellphone: dataGEDS.contactInformation.altPhoneNumber,
@@ -88,16 +93,14 @@ async function getGedsSetup(request, response) {
       ENGLISH: dataGEDS.title.en,
       FRENCH: dataGEDS.title.fr,
     },
-    organizations: [
-      organizations.map((org) => ({
-        title: {
-          ENGLISH: org.description.en,
-          FRENCH: org.description.fr,
-        },
-        id: org.id,
-        tier: org.tier,
-      })),
-    ],
+    organizations: organizations.map((org) => ({
+      title: {
+        ENGLISH: org.description.en,
+        FRENCH: org.description.fr,
+      },
+      id: org.id,
+      tier: org.tier,
+    })),
   };
 
   response.status(200).send(profile);
