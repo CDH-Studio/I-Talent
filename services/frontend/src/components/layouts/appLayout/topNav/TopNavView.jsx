@@ -20,7 +20,7 @@ import { useHistory } from "react-router";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
-import CustomAvatar from "../../../customAvatar/CustomAvatar";
+import CustomAvatar from "./customAvatar/CustomAvatar";
 import Logo from "../../../../assets/I-talent-logo-light.png";
 import { IntlPropType } from "../../../../utils/customPropTypes";
 import "./TopNavView.less";
