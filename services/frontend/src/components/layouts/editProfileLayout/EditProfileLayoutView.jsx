@@ -20,7 +20,7 @@ import {
   TalentForm,
   CareerManagementForm,
   QualificationsForm,
-} from "../../profileForms";
+} from "../../profileEditCards";
 import Header from "../../header/Header";
 import "./EditProfileLayoutView.less";
 

@@ -5,7 +5,7 @@ import { useIntl } from "react-intl";
 import useAxios from "../utils/useAxios";
 import handleError from "../functions/handleError";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-import ErrorProfilePage from "../components/errorResult/errorProfilePage";
+import ErrorProfilePage from "../components/errorPage/errorProfilePage";
 
 const Profile = ({ history, match }) => {
   const intl = useIntl();

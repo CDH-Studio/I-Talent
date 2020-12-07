@@ -26,26 +26,30 @@ import dayjs from "dayjs";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
-
-import BasicInfo from "../../basicInfo/BasicInfo";
-import Skills from "../../skillsCard/Skills";
-import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
-import Mentorship from "../../mentorshipCard/Mentorship";
-import Competencies from "../../competenciesCard/Competencies";
-import DescriptionCard from "../../descriptionCard/DescriptionCard";
-import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
-import TalentManagement from "../../talentManagement/TalentManagement";
-import ExFeeder from "../../exFeeder/ExFeeder";
-import CareerInterests from "../../careerInterests/CareerInterests";
-import QualifiedPools from "../../qualifiedPools/QualifiedPools";
-import Experience from "../../experience/Experience";
-import Education from "../../education/Education";
-import Connections from "../../connections/Connections";
-import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import ErrorProfilePage from "../../errorResult/errorProfilePage";
-import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import ErrorProfilePage from "../../errorPage/errorProfilePage";
+
+import {
+  BasicInfo,
+  Skills,
+  OfficialLanguage,
+  Mentorship,
+  Competencies,
+  DescriptionCard,
+  LearningDevelopment,
+  TalentManagement,
+  ExFeeder,
+  CareerInterests,
+  QualifiedPools,
+  Experience,
+  Education,
+  Connections,
+  EmployeeSummary,
+} from "../../profileViewCards";
+
+import Header from "../../header/Header";
+
+import EmploymentEquity from "../../profileViewCards/employmentEquity/EmploymentEquity";
 import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;

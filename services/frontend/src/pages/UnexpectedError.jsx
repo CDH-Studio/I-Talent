@@ -8,7 +8,7 @@ import {
   ReloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import ErrorResultView from "../components/errorResult/errorResultView";
+import ErrorResultView from "../components/errorPage/errorResultView";
 
 const styles = {
   list: { width: "100%", marginTop: "1em", textAlign: "left", maxWidth: 700 },
@@ -25,7 +25,7 @@ const UnexpectedError = () => {
       status="500"
       title={<FormattedMessage id="error.redirect.title" />}
       subTitle={<FormattedMessage id="error.redirect.subtitle" />}
-      extra={(
+      extra={
         <Col>
           <Row justify="center" gutter={[10, 10]}>
             <Col>
@@ -56,23 +56,25 @@ const UnexpectedError = () => {
             </Col>
           </Row>
           <Row justify="center">
-            {showError && <List
-              dataSource={errors}
-              style={styles.list}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={item.title}
-                    description={item.description.map((val) => (
-                      <p style={styles.errorDescription}>{val}</p>
-                    ))}
-                  />
-                </List.Item>
-              )}
-            />}
+            {showError && (
+              <List
+                dataSource={errors}
+                style={styles.list}
+                renderItem={(item) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={item.title}
+                      description={item.description.map((val) => (
+                        <p style={styles.errorDescription}>{val}</p>
+                      ))}
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
           </Row>
         </Col>
-      )}
+      }
     />
   );
 };

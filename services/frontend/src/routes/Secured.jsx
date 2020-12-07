@@ -11,7 +11,7 @@ import {
   Stats,
   Settings,
 } from "../pages";
-import ErrorNumber from "../components/errorResult/errorNumber";
+import ErrorNumber from "../components/errorPage/errorNumber";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
 import useAxios from "../utils/useAxios";

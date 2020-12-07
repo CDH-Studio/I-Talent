@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import { LandingPage, UnexpectedError, About, Logout } from "../pages";
-import ErrorNumber from "../components/errorResult/errorNumber";
+import ErrorNumber from "../components/errorPage/errorNumber";
 import Admin from "./Admin";
 import Secured from "./Secured";
 import ScrollToTop from "./ScrollToTop";

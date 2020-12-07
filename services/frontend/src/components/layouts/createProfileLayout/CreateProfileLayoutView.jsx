@@ -13,7 +13,7 @@ import {
   CareerManagementForm,
   QualificationsForm,
   DoneSetup,
-} from "../../profileForms";
+} from "../../profileEditCards";
 import Header from "../../header/Header";
 
 import "./CreateProfileLayoutView.less";
