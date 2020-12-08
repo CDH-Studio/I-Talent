@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
@@ -11,6 +12,8 @@ import {
   Badge,
   Tooltip,
   Button,
+  Modal,
+  List,
 } from "antd";
 import {
   UserAddOutlined,
@@ -21,8 +24,10 @@ import {
   EyeInvisibleOutlined,
   BranchesOutlined,
   EnvironmentOutlined,
+  FileSearchOutlined,
 } from "@ant-design/icons";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
+import FuzzyMatchItem from "./fuzzyMatchItem/FuzzyMatchItem";
 import "./ResultProfileCardView.less";
 
 const { Meta } = Card;
@@ -37,6 +42,7 @@ const ResultProfileCardView = ({
   loggedInUserId,
 }) => {
   const history = useHistory();
+  const [searchMatchVisibility, setSearchMatchVisibility] = useState(false);
 
   /**
    * Render User Avatar for each card
@@ -229,61 +235,125 @@ const ResultProfileCardView = ({
     }
   };
 
-  return (
-    <Col span={24} xxl={12} key={key}>
-      <Badge.Ribbon
-        style={{ padding: 0 }}
-        text={getActionRibbonBtn({ user: profile })}
-        color={isConnection ? "#192E2F" : "#1D807B"}
-      >
-        <Card
-          tabIndex={0}
-          className="result-card"
-          hoverable
-          bordered
-          onClick={() => history.push(`/profile/${profile.id}`)}
-          onKeyPress={(e) => handleKeyPress(e, profile.id)}
-          actions={getCardFooter({ user: profile })}
-          bodyStyle={{ padding: "23px", flex: 1, flexBasis: "auto" }}
-        >
-          <Row>
-            <Col span={24}>
-              <Row style={{ paddingTop: "15px" }}>
-                <Meta
-                  className="result-card-meta"
-                  avatar={getUserAvatar({ user: profile })}
-                  title={getCardTitle({ user: profile })}
-                  description={
-                    <p className="result-card-small-p">
-                      {getUserSubtitle({ user: profile })}
-                    </p>
-                  }
-                />
-              </Row>
-            </Col>
+  /**
+   * Open modal visibility
+   * @param {e} event - event used to stop click propagation to parent
+   */
+  const showModal = (e) => {
+    e.stopPropagation();
+    setSearchMatchVisibility(true);
+  };
 
-            <Col span={24} style={{ marginTop: "12px" }}>
-              {profile.resultSkills.length > 0 ? (
-                <span>
-                  {profile.resultSkills.map(({ id, name }) => (
-                    <Tag className="result-card-tag" key={id}>
-                      {name}
+  /**
+   * Close modal
+   */
+  const handleCancel = () => {
+    setSearchMatchVisibility(false);
+  };
+
+  return (
+    <>
+      <Col span={24} xxl={12} key={key}>
+        <Badge.Ribbon
+          style={{ padding: 0 }}
+          text={getActionRibbonBtn({ user: profile })}
+          color={isConnection ? "#192E2F" : "#1D807B"}
+        >
+          <Card
+            tabIndex={0}
+            className="result-card"
+            hoverable
+            bordered
+            onClick={() => history.push(`/profile/${profile.id}`)}
+            onKeyPress={(e) => handleKeyPress(e, profile.id)}
+            actions={getCardFooter({ user: profile })}
+            bodyStyle={{ padding: "23px", flex: 1, flexBasis: "auto" }}
+          >
+            <Row>
+              <Col span={24}>
+                <Row>
+                  <Meta
+                    className="result-card-meta"
+                    avatar={getUserAvatar({ user: profile })}
+                    title={getCardTitle({ user: profile })}
+                    description={
+                      <p className="result-card-small-p">
+                        {getUserSubtitle({ user: profile })}
+                      </p>
+                    }
+                  />
+                </Row>
+              </Col>
+
+              <Col span={24}>
+                {profile.resultSkills.length > 0 ? (
+                  <span>
+                    {profile.resultSkills.map(({ id, name }) => (
+                      <Tag className="result-card-tag" key={id}>
+                        {name}
+                      </Tag>
+                    ))}
+                    <Tag className="result-card-tag">
+                      +{profile.totalResultSkills - 4}
                     </Tag>
-                  ))}
+                  </span>
+                ) : (
                   <Tag className="result-card-tag">
-                    +{profile.totalResultSkills - 4}
+                    <FormattedMessage id="search.results.cards.skills.not.found" />
                   </Tag>
-                </span>
-              ) : (
-                <Tag className="result-card-tag">
-                  <FormattedMessage id="search.results.cards.skills.not.found" />
-                </Tag>
-              )}
-            </Col>
-          </Row>
-        </Card>
-      </Badge.Ribbon>
-    </Col>
+                )}
+              </Col>
+            </Row>
+
+            {profile.matches && (
+              <Button
+                shape="circle"
+                icon={<FileSearchOutlined />}
+                size="medium"
+                className="fuzzy-match-modal-btn"
+                onClick={showModal}
+              />
+            )}
+          </Card>
+        </Badge.Ribbon>
+      </Col>
+
+      {/* render fuzzy search match modal */}
+      <Modal
+        title={<FormattedMessage id="search.fuzzy.results" />}
+        width={700}
+        visible={searchMatchVisibility}
+        onCancel={handleCancel}
+        footer={[
+          <Button type="primary" onClick={handleCancel}>
+            Ok
+          </Button>,
+        ]}
+      >
+        <Text strong className="match-modal-description">
+          <FileSearchOutlined />
+          <FormattedMessage
+            id="search.fuzzy.description"
+            values={{
+              name: getCardTitle({ user: profile }),
+            }}
+          />
+        </Text>
+        <List
+          size="small"
+          className="match-term-list"
+          dataSource={profile.matches}
+          renderItem={(item) => (
+            <List.Item>
+              <FuzzyMatchItem
+                matchItemName={item.key}
+                matchItemString={item.value}
+              />
+            </List.Item>
+          )}
+        />
+      </Modal>
+    </>
   );
 };
 
