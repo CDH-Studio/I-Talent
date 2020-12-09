@@ -353,6 +353,8 @@
   "search.results.cards.remove.connection": "Remove connection",
   "search.results.cards.skills.not.found": "No matching skills found",
   "search.results.found": "found",
+  "search.fuzzy.results": "General search matches",
+  "search.fuzzy.description": "Here are all the matches for your search term on profile: {name}",
   "select.any.mentors": "Any mentors",
   "settings.delete.button": "Delete account",
   "settings.delete.description": "This will delete everything related to your account. Performing this action is irreversable!",
