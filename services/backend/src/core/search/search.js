@@ -32,11 +32,6 @@ async function filterSearch(request, response) {
     anyMentorSkills,
   } = request.query;
 
-  let skillSearchValue = "";
-  if (skills) {
-    skillSearchValue = await utils.getSkillNames(skills);
-  }
-
   let results = await utils.getAllProfiles(language, userId, request);
 
   if (skills) {
