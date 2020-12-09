@@ -6,7 +6,7 @@ const { viewPrivateProfile } = require("../../../utils/keycloak");
 
 const NUMBER_OF_SKILL_RESULT = 4;
 
-async function getAllUsers(searchValue, language, userId, request) {
+async function getAllUsers(language, userId, request) {
   let data = await prisma.user.findMany({
     select: {
       id: true,
@@ -395,20 +395,6 @@ async function getAllUsers(searchValue, language, userId, request) {
         ? info.tenure.translations[0].name
         : undefined;
     }
-
-    const fuse = new Fuse(allSkills, {
-      shouldSort: true,
-      threshold: 0.2,
-      keys: ["name"],
-    });
-
-    const resultSkills = fuse
-      .search(searchValue)
-      .slice(0, NUMBER_OF_SKILL_RESULT)
-      .map(({ item }) => item);
-
-    info.resultSkills = resultSkills;
-    info.totalResultSkills = fuse.search(searchValue).length;
 
     return info;
   });

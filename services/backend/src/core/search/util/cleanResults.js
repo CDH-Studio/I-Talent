@@ -1,3 +1,5 @@
+const skillSearch = require("./skillSearch");
+
 function cleanResults(profiles) {
   return profiles.map(
     ({
@@ -9,8 +11,8 @@ function cleanResults(profiles) {
       jobTitle,
       branch,
       officeLocation,
-      resultSkills,
-      totalResultSkills,
+      skills,
+      matchedSkills,
       groupLevel,
       nameInitials,
       status,
@@ -24,8 +26,8 @@ function cleanResults(profiles) {
       jobTitle,
       branch,
       officeLocation,
-      resultSkills,
-      totalResultSkills,
+      skills: skills ? skills.slice(0, 3) : [],
+      totalSkillsCount: skills ? skills.length : 0,
       groupLevel,
       nameInitials,
       status,
