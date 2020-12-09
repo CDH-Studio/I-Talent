@@ -14,6 +14,7 @@ function cleanResults(profiles) {
       groupLevel,
       nameInitials,
       status,
+      matches,
     }) => ({
       id,
       avatarColor,
@@ -28,6 +29,7 @@ function cleanResults(profiles) {
       groupLevel,
       nameInitials,
       status,
+      matches,
     })
   );
 }

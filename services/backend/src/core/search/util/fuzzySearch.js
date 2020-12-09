@@ -4,6 +4,7 @@ async function fuzzySearch(profiles, searchValue) {
   const options = {
     shouldSort: true,
     threshold: 0.5,
+    includeMatches: true,
     keys: [
       "actingLevel.name",
       "branch",
@@ -37,7 +38,9 @@ async function fuzzySearch(profiles, searchValue) {
   };
 
   const fuse = new Fuse(profiles, options);
-  const results = fuse.search(searchValue).map(({ item }) => item);
+  const results = fuse
+    .search(searchValue)
+    .map(({ item, matches }) => ({ ...item, matches: matches }));
   return results;
 }
 

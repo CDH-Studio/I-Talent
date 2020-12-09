@@ -361,6 +361,8 @@
   "search.results.cards.remove.connection": "Déconnecter",
   "search.results.cards.skills.not.found": "Aucunes habiltés correspondantes trouvées",
   "search.results.found": "trouvés",
+  "search.fuzzy.results": "Correspondances de recherche générale",
+  "search.fuzzy.description": "Voici tous les résultats de votre recherche sur le profil: {name}",
   "select.any.mentors": "Tous les mentors",
   "settings.delete.button": "Supprimer le compte",
   "settings.delete.description": "Toute information reliée à votre compte sera supprimé. Cette action est irréversible!",
