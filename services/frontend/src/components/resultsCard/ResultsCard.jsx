@@ -1,13 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
-import { Row } from "antd";
 import { map, property } from "lodash";
 import useAxios from "../../utils/useAxios";
 import ResultsCardView from "./ResultsCardView";
 import handleError from "../../functions/handleError";
-import EmptyImage from "./online_team_meeting_.svg";
 
 const ResultsCard = () => {
   const [results, setResults] = useState(undefined);
@@ -88,21 +85,6 @@ const ResultsCard = () => {
       .catch((error) => handleError(error, "message", history));
     getConnections();
   };
-
-  if (emptyQuery) {
-    return (
-      <>
-        <Row align="middle" justify="center" style={{ marginTop: 40 }}>
-          <img src={EmptyImage} height={250} alt="Empty results page" />
-        </Row>
-        <Row align="middle" justify="center" style={{ marginTop: 20 }}>
-          <p style={{ textAlign: "center", maxWidth: 250 }}>
-            <FormattedMessage id="search.empty.query" />
-          </p>
-        </Row>
-      </>
-    );
-  }
 
   return (
     <ResultsCardView
