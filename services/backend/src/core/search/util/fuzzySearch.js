@@ -5,6 +5,7 @@ async function fuzzySearch(profiles, searchValue) {
     shouldSort: true,
     threshold: 0.5,
     includeMatches: true,
+    useExtendedSearch: true,
     keys: [
       "actingLevel.name",
       "branch",
