@@ -286,7 +286,6 @@ const ResultProfileCardView = ({
               </Col>
 
               <Col span={24}>
-                {console.log(profile)}
                 {profile.totalSkillsCount > 0 ? (
                   <span>
                     {profile.skills.map(({ id, name }) => (
