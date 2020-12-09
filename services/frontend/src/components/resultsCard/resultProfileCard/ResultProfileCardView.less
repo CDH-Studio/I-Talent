@@ -4,6 +4,14 @@
   width: 180px;
 }
 
+.match-term-list {
+  margin-top: 10px;
+}
+
+.match-modal-description svg {
+  margin-right: 6px;
+}
+
 .result-card {
   height: 100%;
   overflow-x: hidden;
@@ -28,6 +36,13 @@
   &-meta {
     margin: 0px;
     margin-right: 20px;
+    margin-top: 15px !important;
+    margin-bottom: 12px !important;
+  }
+  @media (max-width: 500px) {
+    &-meta {
+      margin-top: 45px !important;
+    }
   }
   &-avatar-text {
     font-size: 20px;
@@ -50,5 +65,10 @@
   }
   &-footer-icon {
     margin-right: 3px;
+  }
+  .fuzzy-match-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 190px;
   }
 }
