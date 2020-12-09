@@ -22,7 +22,7 @@ function cleanResults(profiles) {
       lastName,
       isConnection,
       jobTitle,
-      branch,
+      branch: branch && branch.name,
       officeLocation,
       resultSkills,
       totalResultSkills,
