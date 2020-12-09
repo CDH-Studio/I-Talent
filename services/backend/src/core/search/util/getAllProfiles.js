@@ -308,6 +308,7 @@ async function getAllUsers(searchValue, language, userId, request) {
       info.officeLocation.streetName = location
         ? location.streetName
         : undefined;
+      info.officeLocation.fullName = `${info.officeLocation.streetNumber} ${info.officeLocation.streetName}`;
       delete info.officeLocation.translations;
     }
 
