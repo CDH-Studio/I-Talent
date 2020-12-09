@@ -1,5 +1,3 @@
-const skillSearch = require("./skillSearch");
-
 function cleanResults(profiles) {
   return profiles.map(
     ({
@@ -12,7 +10,6 @@ function cleanResults(profiles) {
       branch,
       officeLocation,
       skills,
-      matchedSkills,
       groupLevel,
       nameInitials,
       status,

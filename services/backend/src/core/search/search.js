@@ -32,8 +32,6 @@ async function filterSearch(request, response) {
     anyMentorSkills,
   } = request.query;
 
-  console.log(language);
-
   let skillSearchValue = "";
   if (skills) {
     skillSearchValue = await utils.getSkillNames(skills);

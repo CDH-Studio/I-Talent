@@ -1,10 +1,6 @@
-const Fuse = require("fuse.js");
-
 const _ = require("lodash");
 const prisma = require("../../../database");
 const { viewPrivateProfile } = require("../../../utils/keycloak");
-
-const NUMBER_OF_SKILL_RESULT = 4;
 
 async function getAllUsers(language, userId, request) {
   let data = await prisma.user.findMany({
@@ -396,7 +392,7 @@ async function getAllUsers(language, userId, request) {
         : undefined;
     }
 
-    return info;
+    return { ...info, skills: allSkills };
   });
 
   return cleanedUsers;
