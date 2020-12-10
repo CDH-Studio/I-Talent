@@ -1,12 +1,8 @@
-const Fuse = require("fuse.js");
-
 const _ = require("lodash");
 const prisma = require("../../../database");
 const { viewPrivateProfile } = require("../../../utils/keycloak");
 
-const NUMBER_OF_SKILL_RESULT = 4;
-
-async function getAllUsers(searchValue, language, userId, request) {
+async function getAllUsers(language, userId, request) {
   let data = await prisma.user.findMany({
     select: {
       id: true,
@@ -315,6 +311,7 @@ async function getAllUsers(searchValue, language, userId, request) {
       info.officeLocation.streetName = location
         ? location.streetName
         : undefined;
+      info.officeLocation.fullName = `${info.officeLocation.streetNumber} ${info.officeLocation.streetName}`;
       delete info.officeLocation.translations;
     }
 
@@ -403,21 +400,7 @@ async function getAllUsers(searchValue, language, userId, request) {
         : undefined;
     }
 
-    const fuse = new Fuse(allSkills, {
-      shouldSort: true,
-      threshold: 0.2,
-      keys: ["name"],
-    });
-
-    const resultSkills = fuse
-      .search(searchValue)
-      .slice(0, NUMBER_OF_SKILL_RESULT)
-      .map(({ item }) => item);
-
-    info.resultSkills = resultSkills;
-    info.totalResultSkills = fuse.search(searchValue).length;
-
-    return info;
+    return { ...info, skills: allSkills };
   });
 
   return cleanedUsers;
