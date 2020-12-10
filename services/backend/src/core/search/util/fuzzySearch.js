@@ -28,6 +28,7 @@ async function fuzzySearch(profiles, searchValue) {
       "officeLocation.streetNumber",
       "officeLocation.province",
       "officeLocation.streetName",
+      "officeLocation.fullName",
       "manager",
       "cellphone",
       "organizations.description",
