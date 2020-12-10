@@ -73,7 +73,7 @@ async function createDiploma(request, response) {
     },
   });
 
-  response.status(200).send("Successfully created a diploma option");
+  response.sendStatus(201);
 }
 
 async function updateDiploma(request, response) {
@@ -107,9 +107,7 @@ async function updateDiploma(request, response) {
     },
   });
 
-  response
-    .status(200)
-    .send("Successfully updated the specified diploma option");
+  response.sendStatus(204);
 }
 
 async function deleteDiploma(request, response) {
@@ -128,9 +126,7 @@ async function deleteDiploma(request, response) {
     }),
   ]);
 
-  response
-    .status(200)
-    .send("Successfully deleted the specified diploma option");
+  response.sendStatus(204);
 }
 
 async function deleteDiplomas(request, response) {
@@ -153,9 +149,7 @@ async function deleteDiplomas(request, response) {
     }),
   ]);
 
-  response
-    .status(200)
-    .send("Successfully deleted the specified diploma options");
+  response.sendStatus(204);
 }
 
 module.exports = {
