@@ -155,13 +155,11 @@ async function getTopFiveDevelopmentalGoals(request, response) {
     getTopFiveCompetenciesHelper(competencyIds, language),
   ]);
 
-  const topFiveDevelopmentalGoals = [...topFive[0], ...topFive[1]].slice(0, 5);
-
   const sortedTopFiveDevelopmentalGoals = _.orderBy(
-    topFiveDevelopmentalGoals,
+    [...topFive[0], ...topFive[1]],
     ["count", "name"],
     ["desc", "asc"]
-  );
+  ).slice(0, 5);
 
   response.status(200).json(sortedTopFiveDevelopmentalGoals);
 }

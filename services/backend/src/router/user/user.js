@@ -9,13 +9,17 @@ const userRouter = Router();
 
 userRouter
   .route("/:id")
-  .all(keycloak.protect())
-  .get([UUIDValidator], validationMiddlware, user.getUserById)
-  .post(
-    [UUIDValidator, createUserValidator],
+  .delete(
+    keycloak.protect(),
+    [UUIDValidator],
     validationMiddlware,
-    user.createUser
-  )
-  .delete([UUIDValidator], validationMiddlware, user.deleteUser);
+    user.deleteUser
+  );
+
+userRouter
+  .route("/")
+  .all(keycloak.protect())
+  .get(user.getCurrentUser)
+  .post([createUserValidator], validationMiddlware, user.createUser);
 
 module.exports = userRouter;
