@@ -1,6 +1,7 @@
 const request = require("supertest");
 const _ = require("lodash");
 const faker = require("faker");
+const { getBearerToken } = require("../../../mocks");
 
 const createFakeUser = (hasJob = true, hasTenure = true) => ({
   id: faker.random.uuid(),
@@ -17,31 +18,42 @@ const createFakeUser = (hasJob = true, hasTenure = true) => ({
 });
 
 const path = "/api/admin/users";
-const data = [
-  [
-    "ENGLISH",
-    [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
-  ],
-  [
-    "FRENCH",
-    [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
-  ],
-];
 
-describe(`Test ${path}`, () => {
+describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
-    test("should not process request - 403", async (done) => {
+    test("should not process request - 403", async () => {
       const res = await request(app).get(path);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
+    });
+  });
 
-      done();
+  describe("when not authorised", () => {
+    test("should not process request when user has incorrect keycloak role - 403", async () => {
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["role"]));
+
+      expect(res.statusCode).toBe(403);
+      expect(res.text).toBe("Access denied");
+      expect(console.log).not.toHaveBeenCalled();
     });
   });
 
   describe("when authenticated", () => {
+    const data = [
+      [
+        "ENGLISH",
+        [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
+      ],
+      [
+        "FRENCH",
+        [createFakeUser(), createFakeUser(false), createFakeUser(false, false)],
+      ],
+    ];
+
     describe.each(data)("in %s", (language, prismaData) => {
       describe("when doing a normal query", () => {
         let res;
@@ -49,14 +61,16 @@ describe(`Test ${path}`, () => {
         beforeAll(async () => {
           prisma.user.findMany.mockResolvedValue(prismaData);
 
-          res = await request(mockedApp).get(`${path}?language=${language}`);
+          res = await request(app)
+            .get(`${path}?language=${language}`)
+            .set("Authorization", getBearerToken(["view-admin-console"]));
         });
 
         afterAll(() => {
-          prisma.user.findMany.mockClear();
+          prisma.user.findMany.mockReset();
         });
 
-        test("should process request, have a status 200", () => {
+        test("should process request - 200", () => {
           expect(res.statusCode).toBe(200);
           expect(console.log).not.toHaveBeenCalled();
         });
@@ -126,46 +140,45 @@ describe(`Test ${path}`, () => {
         });
       });
 
-      test("should trigger error if there's a database problem - 500", async (done) => {
+      test("should trigger error if there's a database problem - 500", async () => {
         prisma.user.findMany.mockRejectedValue(new Error());
-        const res = await request(mockedApp).get(
-          `${path}?language=${language}`
-        );
+
+        const res = await request(app)
+          .get(`${path}?language=${language}`)
+          .set("Authorization", getBearerToken(["view-admin-console"]));
 
         expect(res.statusCode).toBe(500);
         expect(res.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
         expect(prisma.user.findMany).toHaveBeenCalled();
 
-        prisma.user.findMany.mockClear();
-        console.log.mockClear();
-
-        done();
+        prisma.user.findMany.mockReset();
+        console.log.mockReset();
       });
     });
 
-    test("should throw validation error without language query param - 422", async (done) => {
-      const res = await request(mockedApp).get(path);
+    test("should throw validation error without language query param - 422", async () => {
+      const res = await request(app)
+        .get(path)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findMany).not.toHaveBeenCalled();
 
-      console.log.mockClear();
-
-      done();
+      console.log.mockReset();
     });
 
-    test("should throw validation error invalid language query param - 422", async (done) => {
-      const res = await request(mockedApp).get(`${path}?language=en`);
+    test("should throw validation error invalid language query param - 422", async () => {
+      const res = await request(app)
+        .get(`${path}?language=en`)
+        .set("Authorization", getBearerToken(["view-admin-console"]));
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
       expect(prisma.user.findMany).not.toHaveBeenCalled();
 
-      console.log.mockClear();
-
-      done();
+      console.log.mockReset();
     });
   });
 });

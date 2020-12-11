@@ -79,7 +79,7 @@ const updateUserStatuses = async (request, response) => {
     )
   );
 
-  response.status(200).send("Successfully updated the user statuses");
+  response.sendStatus(204);
 };
 
 module.exports = { getUsers, updateUserStatuses };
