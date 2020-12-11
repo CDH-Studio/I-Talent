@@ -47,6 +47,8 @@ const SearchBar = () => {
         title: category.name,
         value: category.id,
         children,
+        selectable: false,
+        checkable: false,
       };
     });
 

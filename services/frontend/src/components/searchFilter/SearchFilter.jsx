@@ -100,6 +100,8 @@ const SearchFilter = () => {
           title: category.name,
           value: category.id,
           children,
+          selectable: false,
+          checkable: false,
         };
       });
       setSkillOptions(dataTree);

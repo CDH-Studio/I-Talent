@@ -237,7 +237,7 @@ const SearchBarView = ({
                 maxTagCount={15}
               />
             </Form.Item>
-            {/* classification field */}
+            {/* Mentorship Skills field */}
             <Form.Item
               label={
                 <FormattedMessage id="advanced.search.form.mentorship.skills" />
@@ -341,13 +341,13 @@ const SearchBarView = ({
                     </span>
                   </>
                 ) : (
-                  <>
-                    <DoubleRightOutlined rotate="90" />
-                    <span>
-                      <FormattedMessage id="button.advanced.search" />
-                    </span>
-                  </>
-                )}
+                    <>
+                      <DoubleRightOutlined rotate="90" />
+                      <span>
+                        <FormattedMessage id="button.advanced.search" />
+                      </span>
+                    </>
+                  )}
               </Button>
             </Col>
           </Row>
