@@ -74,13 +74,6 @@ async function getSchoolsAllLang(request, response) {
 async function createSchool(request, response) {
   const { abbrCountry, abbrProvince, en, fr } = request.body;
 
-  if (!en && !fr) {
-    response
-      .status(422)
-      .send("Must specify school name, either in english or in french");
-    return;
-  }
-
   const translations = [];
 
   if (en) {
@@ -107,18 +100,11 @@ async function createSchool(request, response) {
     },
   });
 
-  response.status(200).send("Successfully created a school entry");
+  response.sendStatus(201);
 }
 
 async function updateSchool(request, response) {
   const { id, abbrCountry, abbrProvince, en, fr } = request.body;
-
-  if (!en && !fr) {
-    response
-      .status(500)
-      .send("Must specify school name, either in english or in french");
-    return;
-  }
 
   const savedTranslations = await prisma.opSchool
     .findOne({
@@ -188,7 +174,7 @@ async function updateSchool(request, response) {
     },
   });
 
-  response.status(200).send("Successfully updated the specified school entry");
+  response.sendStatus(204);
 }
 
 async function deleteSchool(request, response) {
@@ -207,7 +193,7 @@ async function deleteSchool(request, response) {
     }),
   ]);
 
-  response.status(200).send("Successfully deleted the specified school option");
+  response.sendStatus(204);
 }
 
 async function deleteSchools(request, response) {
@@ -230,7 +216,7 @@ async function deleteSchools(request, response) {
     }),
   ]);
 
-  response.status(200).send("Successfully deleted the specified school option");
+  response.sendStatus(204);
 }
 
 module.exports = {

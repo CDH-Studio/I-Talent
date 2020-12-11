@@ -85,6 +85,8 @@ pipeline {
         }
 
         stage('build') {
+            when { branch 'development' }
+            
             parallel {
                 stage('build-backend') {
                     steps {
