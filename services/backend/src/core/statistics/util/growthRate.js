@@ -39,7 +39,7 @@ async function growthRateByMonth(request, response) {
   });
 
   if (users.length === 0) {
-    response.status(500).send("No users in the database");
+    response.sendStatus(500);
   }
 
   // Structure: { year: { month: # of Occurrences } }
