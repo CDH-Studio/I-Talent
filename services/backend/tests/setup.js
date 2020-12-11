@@ -1,12 +1,12 @@
-const { keycloakMock, prismaMock } = require("./mocks");
+/* eslint-disable global-require */
+const { redisMock, keycloakMock, prismaMock, axiosMock } = require("./mocks");
 
 console.log = jest.fn();
 
-global.app = require("../src/server");
-
-jest.resetModules();
-jest.mock("redis", () => require("redis-mock"));
+redisMock();
 keycloakMock();
 prismaMock();
+axiosMock();
+
+global.app = require("../src/server");
 global.prisma = require("../src/database");
-global.mockedApp = require("../src/server");
