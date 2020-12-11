@@ -298,7 +298,7 @@ async function getAllUsers(language, userId, request) {
       info.branch.acronym = employment
         ? employment.branch
             .split(" ")
-            .map((word) => word.charAt(0))
+            .map((word) => word[0])
             .join("")
         : undefined;
       info.jobTitle = employment ? employment.jobTitle : undefined;
