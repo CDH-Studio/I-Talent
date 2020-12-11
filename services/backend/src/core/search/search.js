@@ -11,7 +11,7 @@ async function fuzzySearch(request, response) {
   const results = await utils.fuzzySearch(profiles, searchValue);
 
   const responseData = utils.cleanResults(results);
-
+  console.log(responseData);
   response.status(200).json(responseData);
 }
 

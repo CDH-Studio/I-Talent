@@ -47,5 +47,14 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
     });
+
+    test("should respond with object of search results - 200", async () => {
+      const res = await request(app)
+        .get(`${path}?searchValue=a&language=ENGLISH`)
+        .set("Authorization", getBearerToken());
+      console.error("res", res);
+      expect(res.statusCode).toBe(200);
+      expect(console.log).toHaveBeenCalled();
+    });
   });
 });
